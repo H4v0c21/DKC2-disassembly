@@ -1,7 +1,15 @@
-hirom
+!exhi = 1
+!bypass_anti_piracy = 1
+
+if !exhi == 1
+	exhirom
+else
+	hirom
+endif
+
 optimize dp always
 optimize address mirrors
-!version = 1
+;!version = 1
 !override_pirate_panic = 0
 !pirate_panic_replacement = $23
 
@@ -16,11 +24,17 @@ org $008000			;dummy org so functions work
 	incsrc mmio.asm
 	incsrc audio_constants.asm
 
-check bankcross off
+check bankcross half
 org $C00000
 	incsrc bank_C0.asm
-org $808000
+if !exhi == 1
+	org $008000
+else
+	org $808000
+endif
 	incsrc bank_80.asm
+
+check bankcross off
 org $C10000
 	incsrc bank_C1.asm
 ;org $C20000
@@ -83,14 +97,12 @@ org $C10000
 	incsrc bank_DE.asm
 
 check bankcross full
-
 ;org $DEA932
 	incsrc graphics_part_1.asm
-
-
 org $EE0000
 	incsrc sound.asm	;sound
 
+check bankcross half
 org $F30000
 	incsrc bank_F3.asm	;graphics_part_2
 org $B38000
@@ -107,16 +119,24 @@ org $F60000
 	incsrc bank_F6.asm	;graphics_part_5
 org $B68000
 	incsrc bank_B6.asm	;bosses
+
+check bankcross full
 org $F70000
 	incsrc bank_F7.asm	;text
+
 org $F80000
+check bankcross half
 	incsrc bank_F8.asm	;graphics_part_6
 org $B88000
 	incsrc bank_B8.asm
+
+check bankcross full
 org $F90000
 	incsrc bank_F9.asm	;animation/secret ending layer 2
 org $B9D000
 	incsrc bank_B9.asm
+
+check bankcross half
 org $FA0000
 	incsrc bank_FA.asm	;graphics_part_7
 org $BA8000
@@ -129,6 +149,8 @@ org $FC0000
 	incsrc bank_FC.asm
 org $BC8000
 	incsrc bank_BC.asm
+
+check bankcross full
 org $FD0000
 	incsrc bank_FD.asm
 org $FE0000
@@ -137,5 +159,143 @@ org $BEB800
 	incsrc bank_BE.asm
 org $FF0000
 	incsrc bank_FF.asm
-org $FFFFFF
-	db $00
+
+
+;6,112 KB
+if !exhi == 1
+check bankcross full
+	org $400000
+		incsrc "exhi/bank_40.asm"
+	org $410000
+		incsrc "exhi/bank_41.asm"
+	org $420000
+		incsrc "exhi/bank_42.asm"
+	org $430000
+		incsrc "exhi/bank_43.asm"
+	org $440000
+		incsrc "exhi/bank_44.asm"
+	org $450000
+		incsrc "exhi/bank_45.asm"
+	org $460000
+		incsrc "exhi/bank_46.asm"
+	org $470000
+		incsrc "exhi/bank_47.asm"
+	org $480000
+		incsrc "exhi/bank_48.asm"
+	org $490000
+		incsrc "exhi/bank_49.asm"
+	org $4A0000
+		incsrc "exhi/bank_4A.asm"
+	org $4B0000
+		incsrc "exhi/bank_4B.asm"
+	org $4C0000
+		incsrc "exhi/bank_4C.asm"
+	org $4D0000
+		incsrc "exhi/bank_4D.asm"
+	org $4E0000
+		incsrc "exhi/bank_4E.asm"
+	org $4F0000
+		incsrc "exhi/bank_4F.asm"
+	org $500000
+		incsrc "exhi/bank_50.asm"
+	org $510000
+		incsrc "exhi/bank_51.asm"
+	org $520000
+		incsrc "exhi/bank_52.asm"
+	org $530000
+		incsrc "exhi/bank_53.asm"
+	org $540000
+		incsrc "exhi/bank_54.asm"
+	org $550000
+		incsrc "exhi/bank_55.asm"
+	org $560000
+		incsrc "exhi/bank_56.asm"
+	org $570000
+		incsrc "exhi/bank_57.asm"
+	org $580000
+		incsrc "exhi/bank_58.asm"
+	org $590000
+		incsrc "exhi/bank_59.asm"
+	org $5A0000
+		incsrc "exhi/bank_5A.asm"
+	org $5B0000
+		incsrc "exhi/bank_5B.asm"
+	org $5C0000
+		incsrc "exhi/bank_5C.asm"
+	org $5D0000
+		incsrc "exhi/bank_5D.asm"
+	org $5E0000
+		incsrc "exhi/bank_5E.asm"
+	org $5F0000
+		incsrc "exhi/bank_5F.asm"
+
+;7,968 KB
+check bankcross full
+	org $600000
+		incsrc "exhi/bank_60.asm"
+	org $610000
+		incsrc "exhi/bank_61.asm"
+	org $620000
+		incsrc "exhi/bank_62.asm"
+	org $630000
+		incsrc "exhi/bank_63.asm"
+	org $640000
+		incsrc "exhi/bank_64.asm"
+	org $650000
+		incsrc "exhi/bank_65.asm"
+	org $660000
+		incsrc "exhi/bank_66.asm"
+	org $670000
+		incsrc "exhi/bank_67.asm"
+	org $680000
+		incsrc "exhi/bank_68.asm"
+	org $690000
+		incsrc "exhi/bank_69.asm"
+	org $6A0000
+		incsrc "exhi/bank_6A.asm"
+	org $6B0000
+		incsrc "exhi/bank_6B.asm"
+	org $6C0000
+		incsrc "exhi/bank_6C.asm"
+	org $6D0000
+		incsrc "exhi/bank_6D.asm"
+	org $6E0000
+		incsrc "exhi/bank_6E.asm"
+	org $6F0000
+		incsrc "exhi/bank_6F.asm"
+	org $700000
+		incsrc "exhi/bank_70.asm"
+	org $710000
+		incsrc "exhi/bank_71.asm"
+	org $720000
+		incsrc "exhi/bank_72.asm"
+	org $730000
+		incsrc "exhi/bank_73.asm"
+	org $740000
+		incsrc "exhi/bank_74.asm"
+	org $750000
+		incsrc "exhi/bank_75.asm"
+	org $760000
+		incsrc "exhi/bank_76.asm"
+	org $770000
+		incsrc "exhi/bank_77.asm"
+	org $780000
+		incsrc "exhi/bank_78.asm"
+	org $790000
+		incsrc "exhi/bank_79.asm"
+	org $7A0000
+		incsrc "exhi/bank_7A.asm"
+	org $7B0000
+		incsrc "exhi/bank_7B.asm"
+	org $7C0000
+		incsrc "exhi/bank_7C.asm"
+	org $7D0000
+		incsrc "exhi/bank_7D.asm"
+
+;8,032 KB
+check bankcross half
+	org $3E8000
+		incsrc "exhi/bank_3E.asm"
+	org $3F8000
+		incsrc "exhi/bank_3F.asm"
+endif
