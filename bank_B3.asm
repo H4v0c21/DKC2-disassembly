@@ -9042,12 +9042,20 @@ endif						;	   | |
 	TYA					;$B3C309   |
 	CLC					;$B3C30A   |
 .next_byte					;	   |\ Checksum data from $80848B to $8084C2
+if !exhi == 1
+	ADC $848B,y				;$B3C30B   | $000000 + $848B = $00848B
+else
 	ADC $040B,y				;$B3C30B   | | $808080 + $040B = $80848B (this is our actual address to run the checksum on)
+endif
 	INY					;$B3C30E   | |
 	DEX					;$B3C30F   | |
 	BPL .next_byte				;$B3C310   |/ Move onto next byte if we haven't reached the end of the data
 	PLB					;$B3C312   |
+if !exhi == 1
+	CMP #$A04B				;$B3C313   | Revised checksum for exhi
+else
 	CMP #$20CB				;$B3C313   |\ This is the checksum to check against
+endif
 	BNE CODE_B3C33B				;$B3C316   |/ If checksum doesn't match the anti-piracy routine was tampered. Delete water trigger sprite
 	LDX current_sprite			;$B3C318   |
 	LDA $4E,x				;$B3C31A   |
@@ -12849,7 +12857,11 @@ endif						;	   | |
 	DEY					;$B3DF79   |/
 	BPL .next_word				;$B3DF7A   |> Move onto next word if we haven't reached the end of the data
 	XBA					;$B3DF7C   |\ Swap endian of our XOR result
-	EOR #$CCAB				;$B3DF7D   | | If our result after XORing against this value +1 is 0 we passed the XOR test
+if !exhi == 1
+	EOR #$CCAF				;$B3DF7D   | Revised checkxor for exhi
+else
+	EOR #$CCAB				;$B3DF7D   | If our result after XORing against this value +1 is 0 we passed the XOR test
+endif
 	INC A					;$B3DF80   | |
 	BEQ CODE_B3DF88				;$B3DF81   |/ If anti-piracy routine wasn't tampered continue as normal
 	LDA #$FFFF				;$B3DF83   |\ Else destroy exit number of bonus wall (sends player to map screen)

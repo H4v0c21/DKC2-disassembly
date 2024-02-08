@@ -11138,7 +11138,11 @@ CODE_B5ED70:
 	ROR $90					;$B5ED88   |> Make anti piracy routine address negative to indicate we're finished with the checksum
 	CLC					;$B5ED8A   |\
 	ADC #$2315				;$B5ED8B   |/ Add this to our checksum to get the true checksum. Probably to hide the actual checksum
-	CMP #$9BEA				;$B5ED8E   |\
+if !exhi == 1
+	CMP #$1B6A				;$B5ED8E   | Revise checksum for exhi
+else
+	CMP #$9BEA				;$B5ED8E   |
+endif
 	BEQ .continue				;$B5ED91   |/ If our checksum matches continue as normal
 	DEC $FD					;$B5ED93   | Else anti piracy routine was tampered, decrease level camera count by 1
 .continue					;	   |
