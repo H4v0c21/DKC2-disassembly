@@ -11864,14 +11864,18 @@ CODE_B5ED70:
 	CLC					;$B5ED7E   |
 	ADC $B2					;$B5ED7F   |
 	STA $B2					;$B5ED81   |
-	CPX #$021F				;$B5ED83   |
+	CPX #$021F				;$B5ED83   |> Number of bytes to checksum
 	BCC CODE_B5ED95				;$B5ED86   |
 	ROR $90					;$B5ED88   |
 	CLC					;$B5ED8A   |
 	ADC #$2315				;$B5ED8B   |
+if !exhi == 1
+	CMP #$1B6A				;$B5ED8E   | Revise checksum for exhi
+else
 	CMP #$9BEA				;$B5ED8E   |
+endif
 	BEQ CODE_B5ED95				;$B5ED91   |
-	DEC $FD					;$B5ED93   | if anti-piracy routine was tampered decrease level camera count by 1
+	DEC $FD					;$B5ED93   | If anti-piracy routine was tampered decrease level camera count by 1
 CODE_B5ED95:					;	   |
 	STZ $92					;$B5ED95   |
 	LDA $0A36				;$B5ED97   |

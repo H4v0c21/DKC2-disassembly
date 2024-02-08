@@ -9013,21 +9013,29 @@ CODE_B3C301:					;	   |
 if !exhi == 1
 	LDY #$0000				;$B3C301   |
 else
-	LDY #$8080				;$B3C301   |
+	LDY #$8080				;$B3C301   |\ Use Y as an address
 endif
-	PHY					;$B3C304   |
-	PLB					;$B3C305   |
-	LDX #$0035				;$B3C306   |
+	PHY					;$B3C304   | |
+	PLB					;$B3C305   |/ Use Y as the bank too so the address is $808080
+	LDX #$0035				;$B3C306   |> Number of bytes to checksum
 	TYA					;$B3C309   |
 	CLC					;$B3C30A   |
-CODE_B3C30B:					;	   |
-	ADC $040B,y				;$B3C30B   |
-	INY					;$B3C30E   |
-	DEX					;$B3C30F   |
-	BPL CODE_B3C30B				;$B3C310   |
+.next_byte					;	   |
+if !exhi == 1
+	ADC $848B,y				;$B3C30B   | $000000 + $848B = $00848B
+else
+	ADC $040B,y				;$B3C30B   |\ $808080 + $040B = $80848B (this is our actual base address to run the checksum on)
+endif
+	INY					;$B3C30E   | |
+	DEX					;$B3C30F   | |
+	BPL .next_byte				;$B3C310   |/
 	PLB					;$B3C312   |
-	CMP #$20CB				;$B3C313   |
-	BNE CODE_B3C33B				;$B3C316   | if anti-piracy routine was tampered delete water trigger sprite
+if !exhi == 1
+	CMP #$A04B				;$B3C313   | Revised checksum for exhi
+else
+	CMP #$20CB				;$B3C313   |\ This is the checksum to check against
+endif
+	BNE CODE_B3C33B				;$B3C316   |/ If anti-piracy routine was tampered delete water trigger sprite
 	LDX current_sprite			;$B3C318   |
 	LDA $4E,x				;$B3C31A   |
 	STA $0D52				;$B3C31C   |
@@ -12815,7 +12823,7 @@ else
 endif
 	%pea_use_dbr(RESET_start)		;$B3DF6A   |
 	PLB					;$B3DF6D   |
-	LDY #$01E6				;$B3DF6E   |
+	LDY #$01E6				;$B3DF6E   |> Number of bytes to checkxor
 	LDA #$0000				;$B3DF71   |
 	CLC					;$B3DF74   |
 CODE_B3DF75:					;	   |
@@ -12825,10 +12833,14 @@ CODE_B3DF75:					;	   |
 	DEY					;$B3DF79   |
 	BPL CODE_B3DF75				;$B3DF7A   |
 	XBA					;$B3DF7C   |
-	EOR #$CCAB				;$B3DF7D   |
+if !exhi == 1
+	EOR #$CCAF				;$B3DF7D   | Revised checkxor for exhi
+else
+	EOR #$CCAB				;$B3DF7D   | 
+endif
 	INC A					;$B3DF80   |
-	BEQ CODE_B3DF88				;$B3DF81   | if anti-piracy routine was tampered
-	LDA #$FFFF				;$B3DF83   | destroy exit number of bonus wall (sends player to map screen)
+	BEQ CODE_B3DF88				;$B3DF81   | If anti-piracy routine was tampered
+	LDA #$FFFF				;$B3DF83   | Destroy exit number of bonus wall (sends player to map screen)
 	STA $42,x				;$B3DF86   |
 CODE_B3DF88:					;	   |
 	PLB					;$B3DF88   |
