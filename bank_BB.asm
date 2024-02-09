@@ -7664,7 +7664,11 @@ endif
 	JML CODE_B5CDFD				;$BBBDFD  /
 
 CODE_BBBE01:
+if !exhi == 1
+	LDA #$004B
+else
 	LDA #$00CB				;$BBBE01  \\ Piracy check
+endif
 	SEC					;$BBBE04   |\
 	SBC #$000B				;$BBBE05   | | $00CB - $000B = $C0 (sneaky way to load the bank of the reset vector)
 	STA $28					;$BBBE08   |/
