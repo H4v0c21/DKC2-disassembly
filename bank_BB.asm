@@ -7669,20 +7669,24 @@ endif
 	JML CODE_B5CDFD				;$BBBDFD  /
 
 CODE_BBBE01:
-	LDA #$00CB				;$BBBE01  \
-	SEC					;$BBBE04   |
-	SBC #$000B				;$BBBE05   |
-	STA $28					;$BBBE08   |
-	LDA #$2139				;$BBBE0A   |
-	STA $26					;$BBBE0D   |
-	LDY #$DEC3				;$BBBE0F   |
-	LDA [$26],y				;$BBBE12   |
-	SEC					;$BBBE14   |
-	SBC #$1248				;$BBBE15   |
-	CMP #$71AF				;$BBBE18   |
-	BEQ CODE_BBBE24				;$BBBE1B   |
-	LDA.l DATA_BBBE43			;$BBBE1D   |
-	STA $059D				;$BBBE21   |
+if !exhi == 1
+	LDA #$004B
+else
+	LDA #$00CB				;$BBBE01  \\
+endif
+	SEC					;$BBBE04   |\
+	SBC #$000B				;$BBBE05   | | $00CB - $000B = $C0 (sneaky way to load the bank)
+	STA $28					;$BBBE08   |/
+	LDA #$2139				;$BBBE0A   |\ $FFFC - $DEC3 = $2139 (trying to hide the address of the reset vector)
+	STA $26					;$BBBE0D   |/
+	LDY #$DEC3				;$BBBE0F   |\ $2139 + $DEC3 = $FFFC (loads the reset vector at $C0FFFC)
+	LDA [$26],y				;$BBBE12   |/
+	SEC					;$BBBE14   |\ $83F7 - $1248 = $71AF subtract this random number from reset vector
+	SBC #$1248				;$BBBE15   |/ So the actual vector value never shows up in ROM)
+	CMP #$71AF				;$BBBE18   |\
+	BEQ CODE_BBBE24				;$BBBE1B   |/ If the reset vector matches the one specified - 71AF continue as normal
+	LDA.l DATA_BBBE43			;$BBBE1D   |\ Else piracy/cracktro was detected set exit number to FFFF
+	STA $059D				;$BBBE21   |/ Making bonus exits send you to the map screen
 CODE_BBBE24:					;	   |
 	JSR CODE_BBBE28				;$BBBE24   |
 	RTL					;$BBBE27  /
