@@ -1,5 +1,6 @@
 !exhi = 1
-!bypass_anti_piracy = 1
+!ex_patch = 1
+!ex_patch_version = 0
 
 if !exhi == 1
 	exhirom
