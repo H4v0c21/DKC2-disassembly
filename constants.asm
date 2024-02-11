@@ -279,3 +279,11 @@
 !music_rigging		= $001D
 !music_credits		= $001E
 !music_krool		= $001F
+
+
+
+if !ex_patch == 1
+	!level_logic_done = post_logic_hook
+else
+	!level_logic_done = CODE_808CA2
+endif

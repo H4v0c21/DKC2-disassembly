@@ -669,6 +669,25 @@ CODE_80880A:
 	JMP CODE_808C9E				;$808816  /
 
 CODE_808819:
+if !ex_patch == 1
+	JSR pre_nmi_hook
+	
+	LDA nmi_submode
+	ASL A
+	TAX
+	JSR (DATA_80B6C1,x)
+	
+	JSR post_nmi_hook
+	
+	LDA gamemode_submode
+	ASL A
+	TAX
+	JMP (DATA_80D411,x)
+
+warnpc $008837
+org $008837
+
+else
 	LDA nmi_submode				;$808819  \
 	ASL A					;$80881B   |
 	TAX					;$80881C   |
@@ -684,6 +703,7 @@ CODE_808830:					;	   |
 	ASL A					;$808832   |
 	TAX					;$808833   |
 	JMP (DATA_80D411,x)			;$808834  /
+endif
 
 CODE_808837:
 	JSR CODE_80883B				;$808837  \
@@ -5805,42 +5825,42 @@ run_nintendo_copyright:				;	  \
 	BRA .wait_for_next_frame		;$80B6BF  / you are messing with dark magic. I sympathize.
 
 DATA_80B6C1:
-	dw CODE_80B705				;00
-	dw CODE_80B746				;01
-	dw CODE_80B779				;02
-	dw CODE_80B7A6				;03
-	dw CODE_80B95F				;04
-	dw CODE_80B720				;05
-	dw CODE_80B977				;06
-	dw CODE_80B9C6				;07
-	dw CODE_80BB77				;08
-	dw CODE_80BBD5				;09
-	dw CODE_80BC3D				;0A
-	dw CODE_80BC6D				;0B
-	dw CODE_80BC85				;0C
-	dw CODE_80BDAA				;0D
-	dw CODE_80BE9C				;0E
-	dw CODE_80BED2				;0F
-	dw CODE_80BF08				;10
-	dw CODE_80BF82				;11
-	dw CODE_80BFDE				;12
-	dw CODE_80C05A				;13
-	dw CODE_80C074				;14
-	dw CODE_80C180				;15
-	dw CODE_80C26B				;16
-	dw CODE_80C466				;17
-	dw CODE_80C4A5				;18
-	dw CODE_80C584				;19
-	dw CODE_80C5DE				;1A
-	dw CODE_80C65B				;1B
-	dw CODE_80C750				;1C
-	dw CODE_80C7C6				;1D
-	dw CODE_80C821				;1E
-	dw CODE_80C847				;1F
-	dw CODE_80C8AA				;20
-	dw CODE_80C8FF				;21
+	dw level_nmi_00				;00
+	dw level_nmi_01				;01
+	dw level_nmi_02				;02
+	dw level_nmi_03				;03
+	dw level_nmi_04				;04
+	dw level_nmi_05				;05
+	dw level_nmi_06				;06
+	dw level_nmi_07				;07
+	dw level_nmi_08				;08
+	dw level_nmi_09				;09
+	dw level_nmi_0A				;0A
+	dw level_nmi_0B				;0B
+	dw level_nmi_0C				;0C
+	dw level_nmi_0D				;0D
+	dw level_nmi_0E				;0E
+	dw level_nmi_0F				;0F
+	dw level_nmi_10				;10
+	dw level_nmi_11				;11
+	dw level_nmi_12				;12
+	dw level_nmi_13				;13
+	dw level_nmi_14				;14
+	dw level_nmi_15				;15
+	dw level_nmi_16				;16
+	dw level_nmi_17				;17
+	dw level_nmi_18				;18
+	dw level_nmi_19				;19
+	dw level_nmi_1A				;1A
+	dw level_nmi_1B				;1B
+	dw level_nmi_1C				;1C
+	dw level_nmi_1D				;1D
+	dw level_nmi_1E				;1E
+	dw level_nmi_1F				;1F
+	dw level_nmi_20				;20
+	dw level_nmi_21				;21
 
-CODE_80B705:
+level_nmi_00:
 	LDA pending_dma_hdma_channels		;$80B705  \
 	STA CPU.enable_dma			;$80B708   |
 	JSL CODE_B5A919				;$80B70B   |
@@ -5852,7 +5872,7 @@ CODE_80B705:
 	JSR CODE_808988				;$80B71C   |
 	RTS					;$80B71F  /
 
-CODE_80B720:
+level_nmi_05:
 	LDA pending_dma_hdma_channels		;$80B720  \
 	STA CPU.enable_dma			;$80B723   |
 	SEP #$20				;$80B726   |
@@ -5869,7 +5889,7 @@ CODE_80B731:
 	JSL CODE_B5B00B				;$80B73F   |
 	JMP CODE_80F324				;$80B743  /
 
-CODE_80B746:
+level_nmi_01:
 	JSR CODE_80B731				;$80B746  \
 	LDA $17BA				;$80B749   |
 	LSR A					;$80B74C   |
@@ -5890,7 +5910,7 @@ CODE_80B746:
 	REP #$20				;$80B776   |
 	RTS					;$80B778  /
 
-CODE_80B779:
+level_nmi_02:
 	LDA pending_dma_hdma_channels		;$80B779  \
 	STA CPU.enable_dma			;$80B77C   |
 	JSR CODE_80B89C				;$80B77F   |
@@ -5914,7 +5934,7 @@ CODE_80B79C:
 	PLA					;$80B7A4   |
 	RTS					;$80B7A5  /
 
-CODE_80B7A6:
+level_nmi_03:
 	JSR CODE_80B731				;$80B7A6  \
 	JSR CODE_80CCF8				;$80B7A9   |
 	SEP #$20				;$80B7AC   |
@@ -6119,7 +6139,7 @@ CODE_80B938:					;	   |
 	STA $C4					;$80B95C   |
 	RTS					;$80B95E  /
 
-CODE_80B95F:
+level_nmi_04:
 	LDA pending_dma_hdma_channels		;$80B95F  \
 	STA CPU.enable_dma			;$80B962   |
 	JSL CODE_B5A919				;$80B965   |
@@ -6130,7 +6150,7 @@ CODE_80B95F:
 	REP #$20				;$80B974   |
 	RTS					;$80B976  /
 
-CODE_80B977:
+level_nmi_06:
 	LDA pending_dma_hdma_channels		;$80B977  \
 	STA CPU.enable_dma			;$80B97A   |
 	JSL CODE_B5A919				;$80B97D   |
@@ -6160,7 +6180,7 @@ CODE_80B977:
 	REP #$20				;$80B9C3   |
 	RTS					;$80B9C5  /
 
-CODE_80B9C6:
+level_nmi_07:
 	JSR CODE_80B731				;$80B9C6  \
 	JSR CODE_80CDAE				;$80B9C9   |
 	JSR CODE_80BA44				;$80B9CC   |
@@ -6358,7 +6378,7 @@ CODE_80BB49:					;	   |
 	REP #$20				;$80BB74   |
 	RTS					;$80BB76  /
 
-CODE_80BB77:
+level_nmi_08:
 	JSR CODE_80B731				;$80BB77  \
 	JSR CODE_80CF58				;$80BB7A   |
 	LDA global_frame_counter		;$80BB7D   |
@@ -6400,7 +6420,7 @@ CODE_80BB77:
 	REP #$20				;$80BBD2   |
 	RTS					;$80BBD4  /
 
-CODE_80BBD5:
+level_nmi_09:
 	JSR CODE_80B731				;$80BBD5  \
 	LDA $0929				;$80BBD8   |
 	BEQ CODE_80BBF7				;$80BBDB   |
@@ -6449,7 +6469,7 @@ CODE_80BC0A:					;	   |
 	REP #$20				;$80BC3A   |
 	RTS					;$80BC3C  /
 
-CODE_80BC3D:
+level_nmi_0A:
 	LDA pending_dma_hdma_channels		;$80BC3D  \
 	STA CPU.enable_dma			;$80BC40   |
 	JSL CODE_B5A919				;$80BC43   |
@@ -6470,7 +6490,7 @@ CODE_80BC3D:
 	REP #$20				;$80BC6A   |
 	RTS					;$80BC6C  /
 
-CODE_80BC6D:
+level_nmi_0B:
 	LDA pending_dma_hdma_channels		;$80BC6D  \
 	STA CPU.enable_dma			;$80BC70   |
 	JSL CODE_B5A919				;$80BC73   |
@@ -6481,7 +6501,7 @@ CODE_80BC6D:
 	REP #$20				;$80BC82   |
 	RTS					;$80BC84  /
 
-CODE_80BC85:
+level_nmi_0C:
 	JSR CODE_80B731				;$80BC85  \
 	LDA $17BA				;$80BC88   |
 	LSR A					;$80BC8B   |
@@ -6591,7 +6611,7 @@ CODE_80BD2F:					;	   |
 	REP #$20				;$80BDA7   |
 	RTS					;$80BDA9  /
 
-CODE_80BDAA:
+level_nmi_0D:
 	JSR CODE_80B731				;$80BDAA  \
 	LDA level_number			;$80BDAD   |
 	CMP #$0009				;$80BDAF   |
@@ -6689,7 +6709,7 @@ CODE_80BE93:					;	   |
 	REP #$20				;$80BE99   |
 	RTS					;$80BE9B  /
 
-CODE_80BE9C:
+level_nmi_0E:
 	JSR CODE_80B731				;$80BE9C  \
 	JSR CODE_80CFDC				;$80BE9F   |
 	LDA $17BA				;$80BEA2   |
@@ -6711,7 +6731,7 @@ CODE_80BE9C:
 	REP #$20				;$80BECF   |
 	RTS					;$80BED1  /
 
-CODE_80BED2:
+level_nmi_0F:
 	JSR CODE_80B731				;$80BED2  \
 	JSR CODE_80CC36				;$80BED5   |
 	LDA $17BA				;$80BED8   |
@@ -6733,7 +6753,7 @@ CODE_80BED2:
 	REP #$20				;$80BF05   |
 	RTS					;$80BF07  /
 
-CODE_80BF08:
+level_nmi_10:
 	JSR CODE_80B731				;$80BF08  \
 	LDA $17C0				;$80BF0B   |
 	CLC					;$80BF0E   |
@@ -6787,7 +6807,7 @@ CODE_80BF2E:					;	   |
 	REP #$20				;$80BF7F   |
 	RTS					;$80BF81  /
 
-CODE_80BF82:
+level_nmi_11:
 	JSR CODE_80B731				;$80BF82  \
 	LDA $17BA				;$80BF85   |
 	CLC					;$80BF88   |
@@ -6828,7 +6848,7 @@ CODE_80BF82:
 	REP #$20				;$80BFDB   |
 	RTS					;$80BFDD  /
 
-CODE_80BFDE:
+level_nmi_12:
 	LDA pending_dma_hdma_channels		;$80BFDE  \
 	STA CPU.enable_dma			;$80BFE1   |
 	LDA #$FE01				;$80BFE4   |
@@ -6888,7 +6908,7 @@ CODE_80C03D:					;	   |
 	REP #$20				;$80C057   |
 	RTS					;$80C059  /
 
-CODE_80C05A:
+level_nmi_13:
 	JSR CODE_80B731				;$80C05A  \
 	JSR CODE_80CDAE				;$80C05D   |
 	SEP #$20				;$80C060   |
@@ -6900,7 +6920,7 @@ CODE_80C05A:
 	JSR CODE_80BAB1				;$80C070   |
 	RTS					;$80C073  /
 
-CODE_80C074:
+level_nmi_14:
 	JSR CODE_80B731				;$80C074  \
 	LDA.l $0006A5				;$80C077   |
 	BIT #$0200				;$80C07B   |
@@ -7033,7 +7053,7 @@ CODE_80C17A:
 CODE_80C17F:					;	   |
 	RTS					;$80C17F  /
 
-CODE_80C180:
+level_nmi_15:
 	LDA pending_dma_hdma_channels		;$80C180  \
 	STA CPU.enable_dma			;$80C183   |
 	JSR CODE_80B89C				;$80C186   |
@@ -7153,7 +7173,7 @@ DATA_80C25F:
 	dw DATA_F5564A
 	dw DATA_F559CA
 
-CODE_80C26B:
+level_nmi_16:
 	JSR CODE_80B731				;$80C26B  \
 	JSR CODE_80C321				;$80C26E   |
 	LDA #$0100				;$80C271   |
@@ -7402,7 +7422,7 @@ DATA_80C446:
 	dw DATA_F41852
 
 
-CODE_80C466:
+level_nmi_17:
 	LDA pending_dma_hdma_channels		;$80C466  \
 	STA CPU.enable_dma			;$80C469   |
 	JSR CODE_80B83D				;$80C46C   |
@@ -7426,7 +7446,7 @@ CODE_80C466:
 	REP #$20				;$80C4A2   |
 	RTS					;$80C4A4  /
 
-CODE_80C4A5:
+level_nmi_18:
 	LDA pending_dma_hdma_channels		;$80C4A5  \
 	STA CPU.enable_dma			;$80C4A8   |
 	JSR CODE_80B89C				;$80C4AB   |
@@ -7536,7 +7556,7 @@ CODE_80C57E:
 CODE_80C583:					;	   |
 	RTS					;$80C583  /
 
-CODE_80C584:
+level_nmi_19:
 	LDA pending_dma_hdma_channels		;$80C584  \
 	STA CPU.enable_dma			;$80C587   |
 	JSL CODE_B5A919				;$80C58A   |
@@ -7574,7 +7594,7 @@ CODE_80C584:
 	REP #$20				;$80C5DB   |
 	RTS					;$80C5DD  /
 
-CODE_80C5DE:
+level_nmi_1A:
 	LDA pending_dma_hdma_channels		;$80C5DE  \
 	STA CPU.enable_dma			;$80C5E1   |
 	JSL CODE_B5A919				;$80C5E4   |
@@ -7622,7 +7642,7 @@ CODE_80C629:					;	   |
 	REP #$20				;$80C658   |
 	RTS					;$80C65A  /
 
-CODE_80C65B:
+level_nmi_1B:
 	LDA pending_dma_hdma_channels		;$80C65B  \
 	STA CPU.enable_dma			;$80C65E   |
 	JSR CODE_80B86E				;$80C661   |
@@ -7738,7 +7758,7 @@ CODE_80C72E:
 	REP #$20				;$80C74D   |
 	RTS					;$80C74F  /
 
-CODE_80C750:
+level_nmi_1C:
 	LDA pending_dma_hdma_channels		;$80C750  \
 	STA CPU.enable_dma			;$80C753   |
 	JSL CODE_B5A919				;$80C756   |
@@ -7789,7 +7809,7 @@ CODE_80C750:
 	REP #$20				;$80C7C3   |
 	RTS					;$80C7C5  /
 
-CODE_80C7C6:
+level_nmi_1D:
 	LDA pending_dma_hdma_channels		;$80C7C6  \
 	STA CPU.enable_dma			;$80C7C9   |
 	JSL CODE_B5A919				;$80C7CC   |
@@ -7826,7 +7846,7 @@ CODE_80C7C6:
 	REP #$20				;$80C81E   |
 	RTS					;$80C820  /
 
-CODE_80C821:
+level_nmi_1E:
 	LDA pending_dma_hdma_channels		;$80C821  \
 	STA CPU.enable_dma			;$80C824   |
 	JSR CODE_80B89C				;$80C827   |
@@ -7841,7 +7861,7 @@ CODE_80C821:
 	REP #$20				;$80C844   |
 	RTS					;$80C846  /
 
-CODE_80C847:
+level_nmi_1F:
 	LDA pending_dma_hdma_channels		;$80C847  \
 	STA CPU.enable_dma			;$80C84A   |
 	JSL CODE_B5A919				;$80C84D   |
@@ -7882,7 +7902,7 @@ CODE_80C847:
 	REP #$20				;$80C8A7   |
 	RTS					;$80C8A9  /
 
-CODE_80C8AA:
+level_nmi_20:
 	LDA pending_dma_hdma_channels		;$80C8AA  \
 	STA CPU.enable_dma			;$80C8AD   |
 	JSL CODE_B5A919				;$80C8B0   |
@@ -7916,7 +7936,7 @@ CODE_80C8AA:
 	REP #$20				;$80C8FC   |
 	RTS					;$80C8FE  /
 
-CODE_80C8FF:
+level_nmi_21:
 	LDA pending_dma_hdma_channels		;$80C8FF  \
 	STA CPU.enable_dma			;$80C902   |
 	JSL CODE_B5A919				;$80C905   |
@@ -9009,52 +9029,52 @@ DATA_80D3ED:
 	dl DATA_80D1D1 : db $00
 
 DATA_80D411:
-	dw CODE_80D45A
-	dw CODE_80D462
-	dw CODE_80D486
-	dw CODE_80D557
-	dw CODE_80D58C
-	dw CODE_80D451
-	dw CODE_80D595
-	dw CODE_80D5C3
-	dw CODE_80D5E7
-	dw CODE_80D61B
-	dw CODE_80D642
-	dw CODE_80D665
-	dw CODE_80D66E
-	dw CODE_80D784
-	dw CODE_80D7AB
-	dw CODE_80D830
-	dw CODE_80D854
-	dw CODE_80D886
-	dw CODE_80D8B7
-	dw CODE_80D8DE
-	dw CODE_80D902
-	dw CODE_80DA21
-	dw CODE_80DA45
-	dw CODE_80DA76
-	dw CODE_80DA9A
-	dw CODE_80DACB
-	dw CODE_80DB12
-	dw CODE_80DB36
-	dw CODE_80DB6B
-	dw CODE_80DB99
-	dw CODE_80DBCE
-	dw CODE_80DD3C
+	dw level_logic_00			;00
+	dw level_logic_01			;01
+	dw level_logic_02			;02
+	dw level_logic_03			;03
+	dw level_logic_04			;04
+	dw level_logic_05			;05
+	dw level_logic_06			;06
+	dw level_logic_07			;07
+	dw level_logic_08			;08
+	dw level_logic_09			;09
+	dw level_logic_0A			;0A
+	dw level_logic_0B			;0B
+	dw level_logic_0C			;0C
+	dw level_logic_0D			;0D
+	dw level_logic_0E			;0E
+	dw level_logic_0F			;0F
+	dw level_logic_10			;10
+	dw level_logic_11			;11
+	dw level_logic_12			;12
+	dw level_logic_13			;13
+	dw level_logic_14			;14
+	dw level_logic_15			;15
+	dw level_logic_16			;16
+	dw level_logic_17			;17
+	dw level_logic_18			;18
+	dw level_logic_19			;19
+	dw level_logic_1A			;1A
+	dw level_logic_1B			;1B
+	dw level_logic_1C			;1C
+	dw level_logic_1D			;1D
+	dw level_logic_1E			;1E
+	dw level_logic_1F			;1F
 
-CODE_80D451:
+level_logic_05:
 	JSR CODE_808988				;$80D451  \
 	JSR fade_screen				;$80D454   |
-	JMP CODE_808CA2				;$80D457  /
+	JMP !level_logic_done			;$80D457  /
 
-CODE_80D45A:
-	JMP CODE_808CA2				;$80D45A  /
+level_logic_00:
+	JMP !level_logic_done			;$80D45A  /
 
 CODE_80D45D:
 	DEC global_frame_counter		;$80D45D  \
-	JMP CODE_808CA2				;$80D45F  /
+	JMP !level_logic_done			;$80D45F  /
 
-CODE_80D462:
+level_logic_01:
 	JSR CODE_808988				;$80D462  \
 	BNE CODE_80D483				;$80D465   |
 	JSL sprite_loader			;$80D467   |
@@ -9064,12 +9084,12 @@ CODE_80D462:
 	JSR render_sprites			;$80D477   |
 	JSR set_unused_oam_offscreen		;$80D47A   |
 	JSR fade_screen				;$80D47D   |
-	JMP CODE_808CA2				;$80D480  /
+	JMP !level_logic_done			;$80D480  /
 
 CODE_80D483:
 	JMP CODE_80D45D				;$80D483  /
 
-CODE_80D486:
+level_logic_02:
 	JSR CODE_80E646				;$80D486  \
 	JSR CODE_808988				;$80D489   |
 	BNE CODE_80D4B4				;$80D48C   |
@@ -9083,7 +9103,7 @@ CODE_80D486:
 	JSR set_unused_oam_offscreen		;$80D4A8   |
 	JSR CODE_80D4B7				;$80D4AB   |
 	JSR fade_screen				;$80D4AE   |
-	JMP CODE_808CA2				;$80D4B1  /
+	JMP !level_logic_done			;$80D4B1  /
 
 CODE_80D4B4:
 	JMP CODE_80D45D				;$80D4B4  /
@@ -9159,7 +9179,7 @@ CODE_80D547:					;	   |
 CODE_80D556:					;	   |
 	RTS					;$80D556  /
 
-CODE_80D557:
+level_logic_03:
 	JSR CODE_808988				;$80D557  \
 	BNE CODE_80D589				;$80D55A   |
 	JSL sprite_loader			;$80D55C   |
@@ -9178,17 +9198,17 @@ CODE_80D57D:					;	   |
 	JSR render_sprites			;$80D57D   |
 	JSR set_unused_oam_offscreen		;$80D580   |
 	JSR fade_screen				;$80D583   |
-	JMP CODE_808CA2				;$80D586  /
+	JMP !level_logic_done			;$80D586  /
 
 CODE_80D589:
 	JMP CODE_80D45D				;$80D589  /
 
-CODE_80D58C:
+level_logic_04:
 	JSR CODE_808988				;$80D58C  \
 	JSR fade_screen				;$80D58F   |
-	JMP CODE_808CA2				;$80D592  /
+	JMP !level_logic_done			;$80D592  /
 
-CODE_80D595:
+level_logic_06:
 	JSR CODE_808988				;$80D595  \
 	BNE CODE_80D5C0				;$80D598   |
 	JSL sprite_loader			;$80D59A   |
@@ -9201,12 +9221,12 @@ CODE_80D595:
 	JSR set_unused_oam_offscreen		;$80D5B4   |
 	JSR CODE_80E580				;$80D5B7   |
 	JSR fade_screen				;$80D5BA   |
-	JMP CODE_808CA2				;$80D5BD  /
+	JMP !level_logic_done			;$80D5BD  /
 
 CODE_80D5C0:
 	JMP CODE_80D45D				;$80D5C0  /
 
-CODE_80D5C3:
+level_logic_07:
 	JSR CODE_808988				;$80D5C3  \
 	BNE CODE_80D5E4				;$80D5C6   |
 	JSL sprite_loader			;$80D5C8   |
@@ -9216,12 +9236,12 @@ CODE_80D5C3:
 	JSR render_sprites			;$80D5D8   |
 	JSR set_unused_oam_offscreen		;$80D5DB   |
 	JSR fade_screen				;$80D5DE   |
-	JMP CODE_808CA2				;$80D5E1  /
+	JMP !level_logic_done			;$80D5E1  /
 
 CODE_80D5E4:
 	JMP CODE_80D45D				;$80D5E4  /
 
-CODE_80D5E7:
+level_logic_08:
 	JSR CODE_808988				;$80D5E7  \
 	BNE CODE_80D618				;$80D5EA   |
 	LDX #$002C				;$80D5EC   |
@@ -9239,12 +9259,12 @@ CODE_80D5FA:					;	   |
 	JSR render_sprites			;$80D60C   |
 	JSR set_unused_oam_offscreen		;$80D60F   |
 	JSR fade_screen				;$80D612   |
-	JMP CODE_808CA2				;$80D615  /
+	JMP !level_logic_done			;$80D615  /
 
 CODE_80D618:
 	JMP CODE_80D45D				;$80D618  /
 
-CODE_80D61B:
+level_logic_09:
 	JSR CODE_808988				;$80D61B  \
 	BNE CODE_80D63F				;$80D61E   |
 	JSL sprite_loader			;$80D620   |
@@ -9255,12 +9275,12 @@ CODE_80D61B:
 	JSR render_sprites			;$80D633   |
 	JSR set_unused_oam_offscreen		;$80D636   |
 	JSR fade_screen				;$80D639   |
-	JMP CODE_808CA2				;$80D63C  /
+	JMP !level_logic_done			;$80D63C  /
 
 CODE_80D63F:
 	JMP CODE_80D45D				;$80D63F  /
 
-CODE_80D642:
+level_logic_0A:
 	JSR CODE_808988				;$80D642  \
 	BNE CODE_80D662				;$80D645   |
 	JSL sprite_loader			;$80D647   |
@@ -9270,17 +9290,17 @@ CODE_80D642:
 	JSR set_unused_oam_offscreen		;$80D656   |
 	JSR CODE_80E580				;$80D659   |
 	JSR fade_screen				;$80D65C   |
-	JMP CODE_808CA2				;$80D65F  /
+	JMP !level_logic_done			;$80D65F  /
 
 CODE_80D662:
 	JMP CODE_80D45D				;$80D662  /
 
-CODE_80D665:
+level_logic_0B:
 	JSR CODE_808988				;$80D665  \
 	JSR fade_screen				;$80D668   |
-	JMP CODE_808CA2				;$80D66B  /
+	JMP !level_logic_done			;$80D66B  /
 
-CODE_80D66E:
+level_logic_0C:
 	JSR CODE_808988				;$80D66E  \
 	BNE CODE_80D692				;$80D671   |
 	JSL sprite_loader			;$80D673   |
@@ -9291,7 +9311,7 @@ CODE_80D66E:
 	JSR render_sprites			;$80D686   |
 	JSR set_unused_oam_offscreen		;$80D689   |
 	JSR fade_screen				;$80D68C   |
-	JMP CODE_808CA2				;$80D68F  /
+	JMP !level_logic_done			;$80D68F  /
 
 CODE_80D692:
 	JMP CODE_80D45D				;$80D692  /
@@ -9421,7 +9441,7 @@ CODE_80D77A:
 	ADC $38					;$80D781   |
 	RTS					;$80D783  /
 
-CODE_80D784:
+level_logic_0D:
 	JSR CODE_808988				;$80D784  \
 	BNE CODE_80D7A8				;$80D787   |
 	JSL sprite_loader			;$80D789   |
@@ -9432,12 +9452,12 @@ CODE_80D784:
 	JSR set_unused_oam_offscreen		;$80D79C   |
 	JSR CODE_80F157				;$80D79F   |
 	JSR fade_screen				;$80D7A2   |
-	JMP CODE_808CA2				;$80D7A5  /
+	JMP !level_logic_done			;$80D7A5  /
 
 CODE_80D7A8:
 	JMP CODE_80D45D				;$80D7A8  /
 
-CODE_80D7AB:
+level_logic_0E:
 	JSR CODE_808988				;$80D7AB  \
 	BNE CODE_80D7CF				;$80D7AE   |
 	JSL sprite_loader			;$80D7B0   |
@@ -9448,7 +9468,7 @@ CODE_80D7AB:
 	JSR render_sprites			;$80D7C3   |
 	JSR set_unused_oam_offscreen		;$80D7C6   |
 	JSR fade_screen				;$80D7C9   |
-	JMP CODE_808CA2				;$80D7CC  /
+	JMP !level_logic_done			;$80D7CC  /
 
 CODE_80D7CF:
 	JMP CODE_80D45D				;$80D7CF  /
@@ -9510,7 +9530,7 @@ CODE_80D82A:
 	STA $2C,x				;$80D82D   |
 	RTS					;$80D82F  /
 
-CODE_80D830:
+level_logic_0F:
 	JSR CODE_808988				;$80D830  \
 	BNE CODE_80D851				;$80D833   |
 	JSL sprite_loader			;$80D835   |
@@ -9520,12 +9540,12 @@ CODE_80D830:
 	JSR render_sprites			;$80D845   |
 	JSR set_unused_oam_offscreen		;$80D848   |
 	JSR fade_screen				;$80D84B   |
-	JMP CODE_808CA2				;$80D84E  /
+	JMP !level_logic_done			;$80D84E  /
 
 CODE_80D851:
 	JMP CODE_80D45D				;$80D851  /
 
-CODE_80D854:
+level_logic_10:
 	JSR CODE_808988				;$80D854  \
 	BNE CODE_80D883				;$80D857   |
 	JSL sprite_loader			;$80D859   |
@@ -9543,12 +9563,12 @@ CODE_80D877:					;	   |
 	JSR render_sprites			;$80D877   |
 	JSR set_unused_oam_offscreen		;$80D87A   |
 	JSR fade_screen				;$80D87D   |
-	JMP CODE_808CA2				;$80D880  /
+	JMP !level_logic_done			;$80D880  /
 
 CODE_80D883:
 	JMP CODE_80D45D				;$80D883  /
 
-CODE_80D886:
+level_logic_11:
 	JSR CODE_80E64E				;$80D886  \
 	JSR CODE_808988				;$80D889   |
 	BNE CODE_80D8B4				;$80D88C   |
@@ -9562,12 +9582,12 @@ CODE_80D886:
 	JSL CODE_BEC9C0				;$80D8A7   |
 	JSR set_unused_oam_offscreen		;$80D8AB   |
 	JSR fade_screen				;$80D8AE   |
-	JMP CODE_808CA2				;$80D8B1  /
+	JMP !level_logic_done			;$80D8B1  /
 
 CODE_80D8B4:
 	JMP CODE_80D45D				;$80D8B4  /
 
-CODE_80D8B7:
+level_logic_12:
 	JSR CODE_808988				;$80D8B7  \
 	BNE CODE_80D8DB				;$80D8BA   |
 	JSL sprite_loader			;$80D8BC   |
@@ -9578,12 +9598,12 @@ CODE_80D8B7:
 	JSR set_unused_oam_offscreen		;$80D8CF   |
 	JSR CODE_80DE01				;$80D8D2   |
 	JSR fade_screen				;$80D8D5   |
-	JMP CODE_808CA2				;$80D8D8  /
+	JMP !level_logic_done			;$80D8D8  /
 
 CODE_80D8DB:
 	JMP CODE_80D45D				;$80D8DB  /
 
-CODE_80D8DE:
+level_logic_13:
 	JSR CODE_808988				;$80D8DE  \
 	BNE CODE_80D8DB				;$80D8E1   |
 	JSL sprite_loader			;$80D8E3   |
@@ -9593,11 +9613,11 @@ CODE_80D8DE:
 	JSR render_sprites			;$80D8F3   |
 	JSR set_unused_oam_offscreen		;$80D8F6   |
 	JSR fade_screen				;$80D8F9   |
-	JMP CODE_808CA2				;$80D8FC  /
+	JMP !level_logic_done			;$80D8FC  /
 
 	JMP CODE_80D45D				;$80D8FF  /
 
-CODE_80D902:
+level_logic_14:
 	JSR CODE_80E64E				;$80D902  \
 	JSR CODE_808988				;$80D905   |
 	BNE CODE_80D93E				;$80D908   |
@@ -9619,7 +9639,7 @@ CODE_80D92E:					;	   |
 	JSR render_sprites			;$80D932   |
 	JSR set_unused_oam_offscreen		;$80D935   |
 	JSR fade_screen				;$80D938   |
-	JMP CODE_808CA2				;$80D93B  /
+	JMP !level_logic_done			;$80D93B  /
 
 CODE_80D93E:
 	JMP CODE_80D45D				;$80D93E  /
@@ -9738,7 +9758,7 @@ CODE_80DA0B:					;	   |
 	STA $0AFE				;$80DA1D   |
 	RTS					;$80DA20  /
 
-CODE_80DA21:
+level_logic_15:
 	JSR CODE_808988				;$80DA21  \
 	BNE CODE_80DA42				;$80DA24   |
 	JSL sprite_loader			;$80DA26   |
@@ -9748,12 +9768,12 @@ CODE_80DA21:
 	JSR render_sprites			;$80DA36   |
 	JSR set_unused_oam_offscreen		;$80DA39   |
 	JSR fade_screen				;$80DA3C   |
-	JMP CODE_808CA2				;$80DA3F  /
+	JMP !level_logic_done			;$80DA3F  /
 
 CODE_80DA42:
 	JMP CODE_80D45D				;$80DA42  /
 
-CODE_80DA45:
+level_logic_16:
 	JSR CODE_80E63D				;$80DA45  \
 	JSR CODE_808988				;$80DA48   |
 	BNE CODE_80DA73				;$80DA4B   |
@@ -9767,12 +9787,12 @@ CODE_80DA45:
 	JSR set_unused_oam_offscreen		;$80DA67   |
 	JSR CODE_80D4B7				;$80DA6A   |
 	JSR fade_screen				;$80DA6D   |
-	JMP CODE_808CA2				;$80DA70  /
+	JMP !level_logic_done			;$80DA70  /
 
 CODE_80DA73:
 	JMP CODE_80D45D				;$80DA73  /
 
-CODE_80DA76:
+level_logic_17:
 	JSR CODE_808988				;$80DA76  \
 	BNE CODE_80DA97				;$80DA79   |
 	JSL sprite_loader			;$80DA7B   |
@@ -9782,12 +9802,12 @@ CODE_80DA76:
 	JSR render_sprites			;$80DA8B   |
 	JSR set_unused_oam_offscreen		;$80DA8E   |
 	JSR fade_screen				;$80DA91   |
-	JMP CODE_808CA2				;$80DA94  /
+	JMP !level_logic_done			;$80DA94  /
 
 CODE_80DA97:
 	JMP CODE_80D45D				;$80DA97  /
 
-CODE_80DA9A:
+level_logic_18:
 	JSR CODE_808988				;$80DA9A  \
 	BNE CODE_80DAC8				;$80DA9D   |
 	JSL sprite_loader			;$80DA9F   |
@@ -9801,12 +9821,12 @@ CODE_80DA9A:
 	JSR CODE_80E580				;$80DABC   |
 	JSR CODE_80DD67				;$80DABF   |
 	JSR fade_screen				;$80DAC2   |
-	JMP CODE_808CA2				;$80DAC5  /
+	JMP !level_logic_done			;$80DAC5  /
 
 CODE_80DAC8:
 	JMP CODE_80D45D				;$80DAC8  /
 
-CODE_80DACB:
+level_logic_19:
 	JSR CODE_80E63D				;$80DACB  \
 	JSR CODE_808988				;$80DACE   |
 	BNE CODE_80DAC8				;$80DAD1   |
@@ -9832,11 +9852,11 @@ CODE_80DAF7:					;	   |
 	JSR CODE_80D4B7				;$80DB06   |
 CODE_80DB09:					;	   |
 	JSR fade_screen				;$80DB09   |
-	JMP CODE_808CA2				;$80DB0C  /
+	JMP !level_logic_done			;$80DB0C  /
 
 	JMP CODE_80D45D				;$80DB0F  /
 
-CODE_80DB12:
+level_logic_1A:
 	JSR CODE_808988				;$80DB12  \
 	BNE CODE_80DB33				;$80DB15   |
 	JSL sprite_loader			;$80DB17   |
@@ -9846,12 +9866,12 @@ CODE_80DB12:
 	JSR render_sprites			;$80DB27   |
 	JSR set_unused_oam_offscreen		;$80DB2A   |
 	JSR fade_screen				;$80DB2D   |
-	JMP CODE_808CA2				;$80DB30  /
+	JMP !level_logic_done			;$80DB30  /
 
 CODE_80DB33:
 	JMP CODE_80D45D				;$80DB33  /
 
-CODE_80DB36:
+level_logic_1B:
 	JSR CODE_808988				;$80DB36  \
 	BNE CODE_80DAC8				;$80DB39   |
 	JSL sprite_loader			;$80DB3B   |
@@ -9870,11 +9890,11 @@ CODE_80DB5C:					;	   |
 	JSR render_sprites			;$80DB5C   |
 	JSR set_unused_oam_offscreen		;$80DB5F   |
 	JSR fade_screen				;$80DB62   |
-	JMP CODE_808CA2				;$80DB65  /
+	JMP !level_logic_done			;$80DB65  /
 
 	JMP CODE_80D45D				;$80DB68  /
 
-CODE_80DB6B:
+level_logic_1C:
 	JSR CODE_80E646				;$80DB6B  \
 	JSR CODE_808988				;$80DB6E   |
 	BNE CODE_80DB96				;$80DB71   |
@@ -9887,12 +9907,12 @@ CODE_80DB6B:
 	JSL CODE_BEC9C0				;$80DB89   |
 	JSR set_unused_oam_offscreen		;$80DB8D   |
 	JSR fade_screen				;$80DB90   |
-	JMP CODE_808CA2				;$80DB93  /
+	JMP !level_logic_done			;$80DB93  /
 
 CODE_80DB96:
 	JMP CODE_80D45D				;$80DB96  /
 
-CODE_80DB99:
+level_logic_1D:
 	JSR CODE_808988				;$80DB99  \
 	BNE CODE_80DBCB				;$80DB9C   |
 	JSL sprite_loader			;$80DB9E   |
@@ -9911,12 +9931,12 @@ CODE_80DBBF:					;	   |
 	JSR render_sprites			;$80DBBF   |
 	JSR set_unused_oam_offscreen		;$80DBC2   |
 	JSR fade_screen				;$80DBC5   |
-	JMP CODE_808CA2				;$80DBC8  /
+	JMP !level_logic_done			;$80DBC8  /
 
 CODE_80DBCB:
 	JMP CODE_80D45D				;$80DBCB  /
 
-CODE_80DBCE:
+level_logic_1E:
 	JSR CODE_808988				;$80DBCE  \
 	BNE CODE_80DBEF				;$80DBD1   |
 	JSL sprite_loader			;$80DBD3   |
@@ -9926,7 +9946,7 @@ CODE_80DBCE:
 	JSR render_sprites			;$80DBE3   |
 	JSR set_unused_oam_offscreen		;$80DBE6   |
 	JSR fade_screen				;$80DBE9   |
-	JMP CODE_808CA2				;$80DBEC  /
+	JMP !level_logic_done			;$80DBEC  /
 
 CODE_80DBEF:
 	JMP CODE_80D45D				;$80DBEF  /
@@ -10115,7 +10135,7 @@ CODE_80DD32:
 	PLA					;$80DD3A   |
 	RTS					;$80DD3B  /
 
-CODE_80DD3C:
+level_logic_1F:
 	JSR CODE_808988				;$80DD3C  \
 	BNE CODE_80DD60				;$80DD3F   |
 	JSL sprite_loader			;$80DD41   |
@@ -10126,7 +10146,7 @@ CODE_80DD3C:
 	JSR render_sprites			;$80DD54   |
 	JSR set_unused_oam_offscreen		;$80DD57   |
 	JSR fade_screen				;$80DD5A   |
-	JMP CODE_808CA2				;$80DD5D  /
+	JMP !level_logic_done			;$80DD5D  /
 
 CODE_80DD60:
 	JMP CODE_80D45D				;$80DD60  /
@@ -13466,280 +13486,305 @@ CODE_80FB9E:
 	JML CODE_BBBEA0				;$80FB9E  /
 
 DATA_80FBA2:
-if !version == 0
-	db $0A, $28, $11, $2C, $44, $F2, $18, $FB
-	db $41, $11, $18, $9B, $48, $E7, $1A, $07
-	db $12, $8B, $3D, $4B, $B8, $B7, $7B, $39
-	db $5B, $10, $7B, $20, $53, $11, $5F, $8F
-	db $D7, $1C, $07, $15, $27, $1C, $1A, $08
-	db $71, $A6, $4F, $4F, $48, $F2, $1B, $8B
-	db $39, $FD, $44, $B2, $B6, $FB, $48, $4D
-	db $B1, $0A, $91, $53, $71, $8F, $A2, $81
-	db $1A, $C4, $41, $C2, $71, $7D, $71, $7E
-	db $A2, $0D, $18, $9F, $BB, $66, $7D, $B2
-	db $D2, $5B, $8B, $77, $1A, $CB, $4C, $B5
-	db $A3, $E0, $18, $5A, $0A, $71, $C3, $71
-	db $54, $71, $C4, $B1, $05, $34, $F4, $0B
-	db $19, $0F, $1A, $E4, $F4, $01, $A2, $FD
-	db $B3, $9F, $D4, $41, $9C, $B4, $18, $DF
-	db $F1, $1D, $B2, $0A, $91, $55, $B4, $17
-	db $11, $2B, $44, $1C, $57, $17, $F7, $1C
-	db $6A, $0B, $11, $3C, $B1, $15, $BB, $40
-	db $C9, $13, $27, $18, $FB, $20, $4F, $10
-	db $3B, $6B, $77, $B3, $0E, $91, $02, $B6
-	db $5A, $9B, $53, $BF, $B0, $3F, $1B, $85
-	db $57, $B2, $80, $94, $2B, $20, $13, $BA
-	db $81, $11, $BE, $A2, $1D, $1A, $1B, $00
-	db $C9, $10, $DB, $49, $FD, $F2, $1B, $14
-	db $01, $83, $71, $5B, $B1, $20, $DB, $65
-	db $5F, $11, $3B, $51, $71, $44, $1C, $77
-	db $18, $07, $18, $1B, $49, $0D, $B0, $22
-	db $1B, $4E, $3B, $B3, $2B, $71, $82, $A1
-	db $7C, $B4, $28, $DB, $11, $77, $12, $CB
-	db $03, $71, $16, $9A, $24, $51, $B2, $B8
-	db $64, $BB, $55, $57, $B3, $10, $71, $19
-	db $B4, $47, $1A, $0D, $DB, $A8, $11, $11
-	db $FA, $41, $B1, $14, $B2, $30, $D1, $48
-	db $71, $77, $B1, $57, $F4, $0B, $5F, $51
-	db $A0, $7D, $A2, $49, $15, $67, $15, $77
-	db $1C, $8B, $11, $71, $40, $B3, $10, $91
-	db $85, $B5, $2E, $14, $81, $91, $B3, $8C
-	db $9B, $6B, $77, $10, $2B, $21, $77, $12
-	db $DB, $26, $33, $18, $6B, $67, $47, $B1
-	db $38, $51, $14, $B3, $55, $7A, $64, $F1
-	db $07, $71, $23, $B6, $6D, $31, $C9, $B8
-	db $81, $11, $10, $B4, $7C, $51, $97, $F4
-	db $71, $15, $A4, $8D, $10, $64, $01, $9D
-	db $A1, $5C, $B4, $03, $3B, $16, $67, $15
-	db $8C, $21, $1A, $21, $15, $71, $73, $B4
-	db $64, $1F, $F1, $1D, $B2, $00, $F1, $14
-	db $4C, $B3, $61, $31, $CA, $B4, $AE, $91
-	db $2C, $4A, $19, $97, $1C, $B7, $1C, $CA
-	db $04, $B1, $0D, $B2, $01, $7B, $10, $13
-	db $11, $9A, $45, $1B, $17, $13, $10, $3B
-	db $62, $FD, $F1, $15, $3B, $4F, $E3, $A1
-	db $80, $A0, $4D, $C4, $11, $44, $10, $6C
-	db $41, $14, $E1, $3C, $42, $B5, $47, $1C
-	db $21, $15, $2A, $4D, $71, $32, $B6, $55
-	db $7A, $19, $81, $3C, $B1, $8E, $D4, $C1
-	db $9D, $B4, $4F, $FA, $0D, $54, $E1, $9C
-	db $B6, $64, $9C, $31, $21, $01, $8F, $C6
-	db $12, $60, $B1, $05, $F1, $82, $B6, $2F
-	db $DB, $11, $EB, $11, $9A, $10, $A4, $F4
-	db $6B, $7C, $0F, $12, $8F, $AB, $42, $25
-	db $11, $EA, $2B, $DB, $00, $17, $40, $19
-	db $9B, $21, $93, $B0, $8E, $D4, $F4, $F4
-	db $6A, $5E, $C1, $21, $B2, $14, $B1, $59
-	db $71, $5A, $B4, $88, $7B, $21, $6F, $40
-	db $A3, $1A, $A0, $DD, $C2, $13, $6A, $11
-	db $FB, $17, $79, $4F, $42, $B3, $6F, $5B
-	db $01, $DB, $42, $18, $9B, $21, $EF, $18
-	db $8A, $2E, $3B, $00, $17, $40, $B3, $00
-	db $91, $02, $64, $CB, $07, $CD, $B5, $35
-	db $94, $EA, $7E, $A8, $C8, $14, $00, $A0
-	db $4D, $B4, $6A, $51, $8E, $CC, $13, $6A
-	db $11, $0A, $18, $04, $F4, $2B, $36, $F5
-	db $B0, $1D, $B4, $21, $91, $A2, $89, $B0
-	db $0F, $94, $AB, $1E, $BB, $10, $34, $C1
-	db $89, $B8, $35, $91, $CD, $71, $CE, $4A
-	db $C5, $11, $56, $11, $AC, $A1, $40, $0F
-	db $31, $88, $C8, $13, $FC, $11, $FC, $A1
-	db $36, $A1, $28, $FA, $4F, $B2, $37, $D1
-	db $CF, $71, $1F, $40, $18, $D6, $44, $B5
-	db $BA, $31, $AE, $71, $9B, $B4, $71, $B1
-	db $AC, $B4, $3A, $B1, $B3, $48, $19, $27
-	db $18, $5A, $24, $F1, $15, $B8, $29, $9A
-	db $03, $14, $0B, $3F, $FB, $18, $8B, $33
-	db $0D, $CA, $14, $00, $B3, $26, $91, $B4
-	db $CF, $15, $38, $B3, $2E, $D4, $FB, $60
-	db $5B, $B1, $4F, $91, $03, $44, $B7, $BA
-	db $31, $A2, $B6, $4A, $71, $A4, $A2, $47
-	db $11, $EB, $14, $2F, $40, $A1, $B4, $1A
-	db $0B, $20, $EF, $11, $4B, $47, $FF, $B3
-	db $29, $9B, $00, $25, $40, $B3, $FF, $B1
-	db $1E, $B2, $0C, $B1, $15, $CA, $13, $A4
-	db $B3, $26, $91, $CF, $6C, $E1, $53, $81
-	db $BF, $F8, $F4, $B1, $00, $74, $6B, $25
-	db $5D, $B4, $37, $D1, $03, $B2, $76, $71
-	db $02, $42, $19, $2B, $84, $55, $1A, $4B
-	db $64, $A7, $B1, $DC, $B1, $3F, $B3, $42
-	db $F4, $01, $A2, $B4, $69, $DB, $16, $A9
-	db $B0, $0C, $5B, $69, $43, $A0, $CB, $40
-	db $19, $1B, $24, $FB, $10, $3B, $45, $E7
-	db $F1, $15, $3B, $49, $6F, $18, $FB, $43
-	db $53, $12, $67, $11, $FC, $C1, $4F, $AB
-	db $33, $63, $C2, $13, $1E, $40, $B3, $C9
-	db $31, $39, $B1, $23, $9B, $40, $29, $B3
-	db $F7, $91, $2C, $42, $B7, $F3, $D1, $A6
-	db $B4, $E1, $1B, $11, $31, $19, $FF, $7B
-	db $53, $6D, $40, $B5, $60, $FA, $37, $61
-	db $14, $C4, $15, $D4, $B2, $8A, $F4, $2B
-	db $0B, $5D, $B4, $5E, $71, $8F, $B1, $33
-	db $FB, $45, $69, $13, $CB, $63, $53, $11
-	db $0C, $C1, $4F, $AA, $12, $01, $2D, $B3
-	db $E1, $94, $0B, $45, $2D, $B8, $A4, $3C
-	db $31, $70, $21, $03, $42, $B1, $70, $11
-	db $99, $B4, $69, $DB, $0C, $9B, $B4, $43
-	db $B1, $9D, $C4, $12, $5E, $A0, $31, $42
-	db $C3, $12, $86, $A1, $54, $FE, $18, $D7
-	db $1D, $07, $15, $D4, $8B, $2B, $5D, $C6
-	db $14, $86, $A0, $01, $48, $B4, $55, $74
-	db $6B, $95, $67, $A2, $05, $40, $19, $D7
-	db $12, $EC, $61, $60, $8B, $2B, $69, $B4
-	db $C6, $F1, $71, $42, $B1, $F3, $D1, $D1
-	db $B4, $69, $D1, $9C, $FC, $B3, $83, $54
-	db $41, $99, $B1, $63, $14, $0B, $51, $01
-	db $A2, $4D, $B4, $0E, $BB, $03, $BD, $44
-	db $A2, $C7, $B6, $5C, $B1, $C8, $F5, $4A
-	db $B1, $05, $91, $19, $48, $18, $37, $17
-	db $4B, $20, $CB, $10, $7F, $87, $1A, $64
-	db $F4, $01, $91, $B4, $C6, $F1, $4D, $42
-	db $19, $FA, $37, $04, $F4, $0B, $20, $D5
-	db $40, $18, $9A, $2D, $BB, $11, $13, $18
-	db $5F, $4B, $42, $39, $FF, $11, $D4, $8C
-	db $51, $8C, $81, $14, $A1, $00, $48, $B3
-	db $05, $91, $07, $48, $C7, $18, $52, $FF
-	db $11, $D4, $F4, $21, $86, $B2, $04, $31
-	db $13, $42, $B0, $0D, $1A, $27, $9F, $21
-	db $B1, $46, $B0, $32, $FB, $4C, $0D, $B0
-	db $25, $14, $0B, $11, $A1, $18, $6B, $21
-	db $13, $11, $EF, $B7, $56, $3F, $2C, $01
-	db $05, $E3, $67, $AB, $09, $37
+if !ex_patch == 1
+;executed via JSR before vanilla level NMI
+pre_nmi_hook:
+	PHB
+	JSL custom_pre_nmi_handler
+	PLB
+	RTS
+
+;executed via JSR after vanilla level NMI but before vanilla level logic
+post_nmi_hook:
+	PHB
+	JSL custom_post_nmi_handler
+	PLB
+	RTS
+
+;executed via JMP after vanilla level logic
+post_logic_hook:
+	PHB
+	JSL custom_post_logic_handler
+	PLB
+	JMP CODE_808CA2
+
+
+
 else
-	db $1A, $C4, $41, $C2, $71, $7D, $71, $7E
-	db $A2, $0D, $18, $9F, $BB, $66, $7D, $B2
-	db $D2, $5B, $8B, $77, $1A, $CB, $4C, $B5
-	db $A3, $E0, $18, $5A, $0A, $71, $C3, $71
-	db $54, $71, $C4, $B1, $05, $34, $F4, $0B
-	db $19, $0F, $1A, $E4, $F4, $01, $A2, $FD
-	db $B3, $9F, $D4, $41, $9C, $B4, $18, $DF
-	db $F1, $1D, $B2, $0A, $91, $55, $B4, $17
-	db $11, $2B, $44, $1C, $57, $17, $F7, $1C
-	db $6A, $0B, $11, $3C, $B1, $15, $BB, $40
-	db $C9, $13, $27, $18, $FB, $20, $4F, $10
-	db $3B, $6B, $77, $B3, $0E, $91, $02, $B6
-	db $5A, $9B, $53, $BF, $B0, $3F, $1B, $85
-	db $57, $B2, $80, $94, $2B, $20, $13, $BA
-	db $81, $11, $BE, $A2, $1D, $1A, $1B, $00
-	db $C9, $10, $DB, $49, $FD, $F2, $1B, $14
-	db $01, $83, $71, $5B, $B1, $20, $DB, $65
-	db $5F, $11, $3B, $51, $71, $44, $1C, $77
-	db $18, $07, $18, $1B, $49, $0D, $B0, $22
-	db $1B, $4E, $3B, $B3, $2B, $71, $82, $A1
-	db $7C, $B4, $28, $DB, $11, $77, $12, $CB
-	db $03, $71, $16, $9A, $24, $51, $B2, $B8
-	db $64, $BB, $55, $57, $B3, $10, $71, $19
-	db $B4, $47, $1A, $0D, $DB, $A8, $11, $11
-	db $FA, $41, $B1, $14, $B2, $30, $D1, $48
-	db $71, $77, $B1, $57, $F4, $0B, $5F, $51
-	db $A0, $7D, $A2, $49, $15, $67, $15, $77
-	db $1C, $8B, $11, $71, $40, $B3, $10, $91
-	db $85, $B5, $2E, $14, $81, $91, $B3, $8C
-	db $9B, $6B, $77, $10, $2B, $21, $77, $12
-	db $DB, $26, $33, $18, $6B, $67, $47, $B1
-	db $38, $51, $14, $B3, $55, $7A, $64, $F1
-	db $07, $71, $23, $B6, $6D, $31, $C9, $B8
-	db $81, $11, $10, $B4, $7C, $51, $97, $F4
-	db $71, $15, $A4, $8D, $10, $64, $01, $9D
-	db $A1, $5C, $B4, $03, $3B, $16, $67, $15
-	db $8C, $21, $1A, $21, $15, $71, $73, $B4
-	db $64, $1F, $F1, $1D, $B2, $00, $F1, $14
-	db $4C, $B3, $61, $31, $CA, $B4, $AE, $91
-	db $2C, $4A, $19, $97, $1C, $B7, $1C, $CA
-	db $04, $B1, $0D, $B2, $01, $7B, $10, $13
-	db $11, $9A, $45, $1B, $17, $13, $10, $3B
-	db $62, $FD, $F1, $15, $3B, $4F, $E3, $A1
-	db $80, $A0, $4D, $C4, $11, $44, $10, $6C
-	db $41, $14, $E1, $3C, $42, $B5, $47, $1C
-	db $21, $15, $2A, $4D, $71, $32, $B6, $55
-	db $7A, $19, $81, $3C, $B1, $8E, $D4, $C1
-	db $9D, $B4, $4F, $FA, $0D, $54, $E1, $9C
-	db $B6, $64, $9C, $31, $21, $01, $8F, $C6
-	db $12, $60, $B1, $05, $F1, $82, $B6, $2F
-	db $DB, $11, $EB, $11, $9A, $10, $A4, $F4
-	db $6B, $7C, $0F, $12, $8F, $AB, $42, $25
-	db $11, $EA, $2B, $DB, $00, $17, $40, $19
-	db $9B, $21, $93, $B0, $8E, $D4, $F4, $F4
-	db $6A, $5E, $C1, $21, $B2, $14, $B1, $59
-	db $71, $5A, $B4, $88, $7B, $21, $6F, $40
-	db $A3, $1A, $A0, $DD, $C2, $13, $6A, $11
-	db $FB, $17, $79, $4F, $42, $B3, $6F, $5B
-	db $01, $DB, $42, $18, $9B, $21, $EF, $18
-	db $8A, $2E, $3B, $00, $17, $40, $B3, $00
-	db $91, $02, $64, $CB, $07, $CD, $B5, $35
-	db $94, $EA, $7E, $A8, $C8, $14, $00, $A0
-	db $4D, $B4, $6A, $51, $8E, $CC, $13, $6A
-	db $11, $0A, $18, $04, $F4, $2B, $36, $F5
-	db $B0, $1D, $B4, $21, $91, $A2, $89, $B0
-	db $0F, $94, $AB, $1E, $BB, $10, $34, $C1
-	db $89, $B8, $35, $91, $CD, $71, $CE, $4A
-	db $C5, $11, $56, $11, $AC, $A1, $40, $0F
-	db $31, $88, $C8, $13, $FC, $11, $FC, $A1
-	db $36, $A1, $28, $FA, $4F, $B2, $37, $D1
-	db $CF, $71, $1F, $40, $18, $D6, $44, $B5
-	db $BA, $31, $AE, $71, $9B, $B4, $71, $B1
-	db $AC, $B4, $3A, $B1, $B3, $48, $19, $27
-	db $18, $5A, $24, $F1, $15, $B8, $29, $9A
-	db $03, $14, $0B, $3F, $FB, $18, $8B, $33
-	db $0D, $CA, $14, $00, $B3, $26, $91, $B4
-	db $CF, $15, $38, $B3, $2E, $D4, $FB, $60
-	db $5B, $B1, $4F, $91, $03, $44, $B7, $BA
-	db $31, $A2, $B6, $4A, $71, $A4, $A2, $47
-	db $11, $EB, $14, $2F, $40, $A1, $B4, $1A
-	db $0B, $20, $EF, $11, $4B, $47, $FF, $B3
-	db $29, $9B, $00, $25, $40, $B3, $FF, $B1
-	db $1E, $B2, $0C, $B1, $15, $CA, $13, $A4
-	db $B3, $26, $91, $CF, $6C, $E1, $53, $81
-	db $BF, $F8, $F4, $B1, $00, $74, $6B, $25
-	db $5D, $B4, $37, $D1, $03, $B2, $76, $71
-	db $02, $42, $19, $2B, $84, $55, $1A, $4B
-	db $64, $A7, $B1, $DC, $B1, $3F, $B3, $42
-	db $F4, $01, $A2, $B4, $69, $DB, $16, $A9
-	db $B0, $0C, $5B, $69, $43, $A0, $CB, $40
-	db $19, $1B, $24, $FB, $10, $3B, $45, $E7
-	db $F1, $15, $3B, $49, $6F, $18, $FB, $43
-	db $53, $12, $67, $11, $FC, $C1, $4F, $AB
-	db $33, $63, $C2, $13, $1E, $40, $B3, $C9
-	db $31, $39, $B1, $23, $9B, $40, $29, $B3
-	db $F7, $91, $2C, $42, $B7, $F3, $D1, $A6
-	db $B4, $E1, $1B, $11, $31, $19, $FF, $7B
-	db $53, $6D, $40, $B5, $60, $FA, $37, $61
-	db $14, $C4, $15, $D4, $B2, $8A, $F4, $2B
-	db $0B, $5D, $B4, $5E, $71, $8F, $B1, $33
-	db $FB, $45, $69, $13, $CB, $63, $53, $11
-	db $0C, $C1, $4F, $AA, $12, $01, $2D, $B3
-	db $E1, $94, $0B, $45, $2D, $B8, $A4, $3C
-	db $31, $70, $21, $03, $42, $B1, $70, $11
-	db $99, $B4, $69, $DB, $0C, $9B, $B4, $43
-	db $B1, $9D, $C4, $12, $5E, $A0, $31, $42
-	db $C3, $12, $86, $A1, $54, $FE, $18, $D7
-	db $1D, $07, $15, $D4, $8B, $2B, $5D, $C6
-	db $14, $86, $A0, $01, $48, $B4, $55, $74
-	db $6B, $95, $67, $A2, $05, $40, $19, $D7
-	db $12, $EC, $61, $60, $8B, $2B, $69, $B4
-	db $C6, $F1, $71, $42, $B1, $F3, $D1, $D1
-	db $B4, $69, $D1, $9C, $FC, $B3, $83, $54
-	db $41, $99, $B1, $63, $14, $0B, $51, $01
-	db $A2, $4D, $B4, $0E, $BB, $03, $BD, $44
-	db $A2, $C7, $B6, $5C, $B1, $C8, $F5, $4A
-	db $B1, $05, $91, $19, $48, $18, $37, $17
-	db $4B, $20, $CB, $10, $7F, $87, $1A, $64
-	db $F4, $01, $91, $B4, $C6, $F1, $4D, $42
-	db $19, $FA, $37, $04, $F4, $0B, $20, $D5
-	db $40, $18, $9A, $2D, $BB, $11, $13, $18
-	db $5F, $4B, $42, $39, $FF, $11, $D4, $8C
-	db $51, $8C, $81, $14, $A1, $00, $48, $B3
-	db $05, $91, $07, $48, $C7, $18, $52, $FF
-	db $11, $D4, $F4, $21, $86, $B2, $04, $31
-	db $13, $42, $B0, $0D, $1A, $27, $9F, $21
-	db $B1, $46, $B0, $32, $FB, $4C, $0D, $B0
-	db $25, $14, $0B, $11, $A1, $18, $6B, $21
-	db $13, $11, $EF, $B7, $56, $3F, $2C, $01
-	db $05, $E3, $67, $AB, $09, $37
+	if !version == 0
+		db $0A, $28, $11, $2C, $44, $F2, $18, $FB
+		db $41, $11, $18, $9B, $48, $E7, $1A, $07
+		db $12, $8B, $3D, $4B, $B8, $B7, $7B, $39
+		db $5B, $10, $7B, $20, $53, $11, $5F, $8F
+		db $D7, $1C, $07, $15, $27, $1C, $1A, $08
+		db $71, $A6, $4F, $4F, $48, $F2, $1B, $8B
+		db $39, $FD, $44, $B2, $B6, $FB, $48, $4D
+		db $B1, $0A, $91, $53, $71, $8F, $A2, $81
+		db $1A, $C4, $41, $C2, $71, $7D, $71, $7E
+		db $A2, $0D, $18, $9F, $BB, $66, $7D, $B2
+		db $D2, $5B, $8B, $77, $1A, $CB, $4C, $B5
+		db $A3, $E0, $18, $5A, $0A, $71, $C3, $71
+		db $54, $71, $C4, $B1, $05, $34, $F4, $0B
+		db $19, $0F, $1A, $E4, $F4, $01, $A2, $FD
+		db $B3, $9F, $D4, $41, $9C, $B4, $18, $DF
+		db $F1, $1D, $B2, $0A, $91, $55, $B4, $17
+		db $11, $2B, $44, $1C, $57, $17, $F7, $1C
+		db $6A, $0B, $11, $3C, $B1, $15, $BB, $40
+		db $C9, $13, $27, $18, $FB, $20, $4F, $10
+		db $3B, $6B, $77, $B3, $0E, $91, $02, $B6
+		db $5A, $9B, $53, $BF, $B0, $3F, $1B, $85
+		db $57, $B2, $80, $94, $2B, $20, $13, $BA
+		db $81, $11, $BE, $A2, $1D, $1A, $1B, $00
+		db $C9, $10, $DB, $49, $FD, $F2, $1B, $14
+		db $01, $83, $71, $5B, $B1, $20, $DB, $65
+		db $5F, $11, $3B, $51, $71, $44, $1C, $77
+		db $18, $07, $18, $1B, $49, $0D, $B0, $22
+		db $1B, $4E, $3B, $B3, $2B, $71, $82, $A1
+		db $7C, $B4, $28, $DB, $11, $77, $12, $CB
+		db $03, $71, $16, $9A, $24, $51, $B2, $B8
+		db $64, $BB, $55, $57, $B3, $10, $71, $19
+		db $B4, $47, $1A, $0D, $DB, $A8, $11, $11
+		db $FA, $41, $B1, $14, $B2, $30, $D1, $48
+		db $71, $77, $B1, $57, $F4, $0B, $5F, $51
+		db $A0, $7D, $A2, $49, $15, $67, $15, $77
+		db $1C, $8B, $11, $71, $40, $B3, $10, $91
+		db $85, $B5, $2E, $14, $81, $91, $B3, $8C
+		db $9B, $6B, $77, $10, $2B, $21, $77, $12
+		db $DB, $26, $33, $18, $6B, $67, $47, $B1
+		db $38, $51, $14, $B3, $55, $7A, $64, $F1
+		db $07, $71, $23, $B6, $6D, $31, $C9, $B8
+		db $81, $11, $10, $B4, $7C, $51, $97, $F4
+		db $71, $15, $A4, $8D, $10, $64, $01, $9D
+		db $A1, $5C, $B4, $03, $3B, $16, $67, $15
+		db $8C, $21, $1A, $21, $15, $71, $73, $B4
+		db $64, $1F, $F1, $1D, $B2, $00, $F1, $14
+		db $4C, $B3, $61, $31, $CA, $B4, $AE, $91
+		db $2C, $4A, $19, $97, $1C, $B7, $1C, $CA
+		db $04, $B1, $0D, $B2, $01, $7B, $10, $13
+		db $11, $9A, $45, $1B, $17, $13, $10, $3B
+		db $62, $FD, $F1, $15, $3B, $4F, $E3, $A1
+		db $80, $A0, $4D, $C4, $11, $44, $10, $6C
+		db $41, $14, $E1, $3C, $42, $B5, $47, $1C
+		db $21, $15, $2A, $4D, $71, $32, $B6, $55
+		db $7A, $19, $81, $3C, $B1, $8E, $D4, $C1
+		db $9D, $B4, $4F, $FA, $0D, $54, $E1, $9C
+		db $B6, $64, $9C, $31, $21, $01, $8F, $C6
+		db $12, $60, $B1, $05, $F1, $82, $B6, $2F
+		db $DB, $11, $EB, $11, $9A, $10, $A4, $F4
+		db $6B, $7C, $0F, $12, $8F, $AB, $42, $25
+		db $11, $EA, $2B, $DB, $00, $17, $40, $19
+		db $9B, $21, $93, $B0, $8E, $D4, $F4, $F4
+		db $6A, $5E, $C1, $21, $B2, $14, $B1, $59
+		db $71, $5A, $B4, $88, $7B, $21, $6F, $40
+		db $A3, $1A, $A0, $DD, $C2, $13, $6A, $11
+		db $FB, $17, $79, $4F, $42, $B3, $6F, $5B
+		db $01, $DB, $42, $18, $9B, $21, $EF, $18
+		db $8A, $2E, $3B, $00, $17, $40, $B3, $00
+		db $91, $02, $64, $CB, $07, $CD, $B5, $35
+		db $94, $EA, $7E, $A8, $C8, $14, $00, $A0
+		db $4D, $B4, $6A, $51, $8E, $CC, $13, $6A
+		db $11, $0A, $18, $04, $F4, $2B, $36, $F5
+		db $B0, $1D, $B4, $21, $91, $A2, $89, $B0
+		db $0F, $94, $AB, $1E, $BB, $10, $34, $C1
+		db $89, $B8, $35, $91, $CD, $71, $CE, $4A
+		db $C5, $11, $56, $11, $AC, $A1, $40, $0F
+		db $31, $88, $C8, $13, $FC, $11, $FC, $A1
+		db $36, $A1, $28, $FA, $4F, $B2, $37, $D1
+		db $CF, $71, $1F, $40, $18, $D6, $44, $B5
+		db $BA, $31, $AE, $71, $9B, $B4, $71, $B1
+		db $AC, $B4, $3A, $B1, $B3, $48, $19, $27
+		db $18, $5A, $24, $F1, $15, $B8, $29, $9A
+		db $03, $14, $0B, $3F, $FB, $18, $8B, $33
+		db $0D, $CA, $14, $00, $B3, $26, $91, $B4
+		db $CF, $15, $38, $B3, $2E, $D4, $FB, $60
+		db $5B, $B1, $4F, $91, $03, $44, $B7, $BA
+		db $31, $A2, $B6, $4A, $71, $A4, $A2, $47
+		db $11, $EB, $14, $2F, $40, $A1, $B4, $1A
+		db $0B, $20, $EF, $11, $4B, $47, $FF, $B3
+		db $29, $9B, $00, $25, $40, $B3, $FF, $B1
+		db $1E, $B2, $0C, $B1, $15, $CA, $13, $A4
+		db $B3, $26, $91, $CF, $6C, $E1, $53, $81
+		db $BF, $F8, $F4, $B1, $00, $74, $6B, $25
+		db $5D, $B4, $37, $D1, $03, $B2, $76, $71
+		db $02, $42, $19, $2B, $84, $55, $1A, $4B
+		db $64, $A7, $B1, $DC, $B1, $3F, $B3, $42
+		db $F4, $01, $A2, $B4, $69, $DB, $16, $A9
+		db $B0, $0C, $5B, $69, $43, $A0, $CB, $40
+		db $19, $1B, $24, $FB, $10, $3B, $45, $E7
+		db $F1, $15, $3B, $49, $6F, $18, $FB, $43
+		db $53, $12, $67, $11, $FC, $C1, $4F, $AB
+		db $33, $63, $C2, $13, $1E, $40, $B3, $C9
+		db $31, $39, $B1, $23, $9B, $40, $29, $B3
+		db $F7, $91, $2C, $42, $B7, $F3, $D1, $A6
+		db $B4, $E1, $1B, $11, $31, $19, $FF, $7B
+		db $53, $6D, $40, $B5, $60, $FA, $37, $61
+		db $14, $C4, $15, $D4, $B2, $8A, $F4, $2B
+		db $0B, $5D, $B4, $5E, $71, $8F, $B1, $33
+		db $FB, $45, $69, $13, $CB, $63, $53, $11
+		db $0C, $C1, $4F, $AA, $12, $01, $2D, $B3
+		db $E1, $94, $0B, $45, $2D, $B8, $A4, $3C
+		db $31, $70, $21, $03, $42, $B1, $70, $11
+		db $99, $B4, $69, $DB, $0C, $9B, $B4, $43
+		db $B1, $9D, $C4, $12, $5E, $A0, $31, $42
+		db $C3, $12, $86, $A1, $54, $FE, $18, $D7
+		db $1D, $07, $15, $D4, $8B, $2B, $5D, $C6
+		db $14, $86, $A0, $01, $48, $B4, $55, $74
+		db $6B, $95, $67, $A2, $05, $40, $19, $D7
+		db $12, $EC, $61, $60, $8B, $2B, $69, $B4
+		db $C6, $F1, $71, $42, $B1, $F3, $D1, $D1
+		db $B4, $69, $D1, $9C, $FC, $B3, $83, $54
+		db $41, $99, $B1, $63, $14, $0B, $51, $01
+		db $A2, $4D, $B4, $0E, $BB, $03, $BD, $44
+		db $A2, $C7, $B6, $5C, $B1, $C8, $F5, $4A
+		db $B1, $05, $91, $19, $48, $18, $37, $17
+		db $4B, $20, $CB, $10, $7F, $87, $1A, $64
+		db $F4, $01, $91, $B4, $C6, $F1, $4D, $42
+		db $19, $FA, $37, $04, $F4, $0B, $20, $D5
+		db $40, $18, $9A, $2D, $BB, $11, $13, $18
+		db $5F, $4B, $42, $39, $FF, $11, $D4, $8C
+		db $51, $8C, $81, $14, $A1, $00, $48, $B3
+		db $05, $91, $07, $48, $C7, $18, $52, $FF
+		db $11, $D4, $F4, $21, $86, $B2, $04, $31
+		db $13, $42, $B0, $0D, $1A, $27, $9F, $21
+		db $B1, $46, $B0, $32, $FB, $4C, $0D, $B0
+		db $25, $14, $0B, $11, $A1, $18, $6B, $21
+		db $13, $11, $EF, $B7, $56, $3F, $2C, $01
+		db $05, $E3, $67, $AB, $09, $37
+	else
+		db $1A, $C4, $41, $C2, $71, $7D, $71, $7E
+		db $A2, $0D, $18, $9F, $BB, $66, $7D, $B2
+		db $D2, $5B, $8B, $77, $1A, $CB, $4C, $B5
+		db $A3, $E0, $18, $5A, $0A, $71, $C3, $71
+		db $54, $71, $C4, $B1, $05, $34, $F4, $0B
+		db $19, $0F, $1A, $E4, $F4, $01, $A2, $FD
+		db $B3, $9F, $D4, $41, $9C, $B4, $18, $DF
+		db $F1, $1D, $B2, $0A, $91, $55, $B4, $17
+		db $11, $2B, $44, $1C, $57, $17, $F7, $1C
+		db $6A, $0B, $11, $3C, $B1, $15, $BB, $40
+		db $C9, $13, $27, $18, $FB, $20, $4F, $10
+		db $3B, $6B, $77, $B3, $0E, $91, $02, $B6
+		db $5A, $9B, $53, $BF, $B0, $3F, $1B, $85
+		db $57, $B2, $80, $94, $2B, $20, $13, $BA
+		db $81, $11, $BE, $A2, $1D, $1A, $1B, $00
+		db $C9, $10, $DB, $49, $FD, $F2, $1B, $14
+		db $01, $83, $71, $5B, $B1, $20, $DB, $65
+		db $5F, $11, $3B, $51, $71, $44, $1C, $77
+		db $18, $07, $18, $1B, $49, $0D, $B0, $22
+		db $1B, $4E, $3B, $B3, $2B, $71, $82, $A1
+		db $7C, $B4, $28, $DB, $11, $77, $12, $CB
+		db $03, $71, $16, $9A, $24, $51, $B2, $B8
+		db $64, $BB, $55, $57, $B3, $10, $71, $19
+		db $B4, $47, $1A, $0D, $DB, $A8, $11, $11
+		db $FA, $41, $B1, $14, $B2, $30, $D1, $48
+		db $71, $77, $B1, $57, $F4, $0B, $5F, $51
+		db $A0, $7D, $A2, $49, $15, $67, $15, $77
+		db $1C, $8B, $11, $71, $40, $B3, $10, $91
+		db $85, $B5, $2E, $14, $81, $91, $B3, $8C
+		db $9B, $6B, $77, $10, $2B, $21, $77, $12
+		db $DB, $26, $33, $18, $6B, $67, $47, $B1
+		db $38, $51, $14, $B3, $55, $7A, $64, $F1
+		db $07, $71, $23, $B6, $6D, $31, $C9, $B8
+		db $81, $11, $10, $B4, $7C, $51, $97, $F4
+		db $71, $15, $A4, $8D, $10, $64, $01, $9D
+		db $A1, $5C, $B4, $03, $3B, $16, $67, $15
+		db $8C, $21, $1A, $21, $15, $71, $73, $B4
+		db $64, $1F, $F1, $1D, $B2, $00, $F1, $14
+		db $4C, $B3, $61, $31, $CA, $B4, $AE, $91
+		db $2C, $4A, $19, $97, $1C, $B7, $1C, $CA
+		db $04, $B1, $0D, $B2, $01, $7B, $10, $13
+		db $11, $9A, $45, $1B, $17, $13, $10, $3B
+		db $62, $FD, $F1, $15, $3B, $4F, $E3, $A1
+		db $80, $A0, $4D, $C4, $11, $44, $10, $6C
+		db $41, $14, $E1, $3C, $42, $B5, $47, $1C
+		db $21, $15, $2A, $4D, $71, $32, $B6, $55
+		db $7A, $19, $81, $3C, $B1, $8E, $D4, $C1
+		db $9D, $B4, $4F, $FA, $0D, $54, $E1, $9C
+		db $B6, $64, $9C, $31, $21, $01, $8F, $C6
+		db $12, $60, $B1, $05, $F1, $82, $B6, $2F
+		db $DB, $11, $EB, $11, $9A, $10, $A4, $F4
+		db $6B, $7C, $0F, $12, $8F, $AB, $42, $25
+		db $11, $EA, $2B, $DB, $00, $17, $40, $19
+		db $9B, $21, $93, $B0, $8E, $D4, $F4, $F4
+		db $6A, $5E, $C1, $21, $B2, $14, $B1, $59
+		db $71, $5A, $B4, $88, $7B, $21, $6F, $40
+		db $A3, $1A, $A0, $DD, $C2, $13, $6A, $11
+		db $FB, $17, $79, $4F, $42, $B3, $6F, $5B
+		db $01, $DB, $42, $18, $9B, $21, $EF, $18
+		db $8A, $2E, $3B, $00, $17, $40, $B3, $00
+		db $91, $02, $64, $CB, $07, $CD, $B5, $35
+		db $94, $EA, $7E, $A8, $C8, $14, $00, $A0
+		db $4D, $B4, $6A, $51, $8E, $CC, $13, $6A
+		db $11, $0A, $18, $04, $F4, $2B, $36, $F5
+		db $B0, $1D, $B4, $21, $91, $A2, $89, $B0
+		db $0F, $94, $AB, $1E, $BB, $10, $34, $C1
+		db $89, $B8, $35, $91, $CD, $71, $CE, $4A
+		db $C5, $11, $56, $11, $AC, $A1, $40, $0F
+		db $31, $88, $C8, $13, $FC, $11, $FC, $A1
+		db $36, $A1, $28, $FA, $4F, $B2, $37, $D1
+		db $CF, $71, $1F, $40, $18, $D6, $44, $B5
+		db $BA, $31, $AE, $71, $9B, $B4, $71, $B1
+		db $AC, $B4, $3A, $B1, $B3, $48, $19, $27
+		db $18, $5A, $24, $F1, $15, $B8, $29, $9A
+		db $03, $14, $0B, $3F, $FB, $18, $8B, $33
+		db $0D, $CA, $14, $00, $B3, $26, $91, $B4
+		db $CF, $15, $38, $B3, $2E, $D4, $FB, $60
+		db $5B, $B1, $4F, $91, $03, $44, $B7, $BA
+		db $31, $A2, $B6, $4A, $71, $A4, $A2, $47
+		db $11, $EB, $14, $2F, $40, $A1, $B4, $1A
+		db $0B, $20, $EF, $11, $4B, $47, $FF, $B3
+		db $29, $9B, $00, $25, $40, $B3, $FF, $B1
+		db $1E, $B2, $0C, $B1, $15, $CA, $13, $A4
+		db $B3, $26, $91, $CF, $6C, $E1, $53, $81
+		db $BF, $F8, $F4, $B1, $00, $74, $6B, $25
+		db $5D, $B4, $37, $D1, $03, $B2, $76, $71
+		db $02, $42, $19, $2B, $84, $55, $1A, $4B
+		db $64, $A7, $B1, $DC, $B1, $3F, $B3, $42
+		db $F4, $01, $A2, $B4, $69, $DB, $16, $A9
+		db $B0, $0C, $5B, $69, $43, $A0, $CB, $40
+		db $19, $1B, $24, $FB, $10, $3B, $45, $E7
+		db $F1, $15, $3B, $49, $6F, $18, $FB, $43
+		db $53, $12, $67, $11, $FC, $C1, $4F, $AB
+		db $33, $63, $C2, $13, $1E, $40, $B3, $C9
+		db $31, $39, $B1, $23, $9B, $40, $29, $B3
+		db $F7, $91, $2C, $42, $B7, $F3, $D1, $A6
+		db $B4, $E1, $1B, $11, $31, $19, $FF, $7B
+		db $53, $6D, $40, $B5, $60, $FA, $37, $61
+		db $14, $C4, $15, $D4, $B2, $8A, $F4, $2B
+		db $0B, $5D, $B4, $5E, $71, $8F, $B1, $33
+		db $FB, $45, $69, $13, $CB, $63, $53, $11
+		db $0C, $C1, $4F, $AA, $12, $01, $2D, $B3
+		db $E1, $94, $0B, $45, $2D, $B8, $A4, $3C
+		db $31, $70, $21, $03, $42, $B1, $70, $11
+		db $99, $B4, $69, $DB, $0C, $9B, $B4, $43
+		db $B1, $9D, $C4, $12, $5E, $A0, $31, $42
+		db $C3, $12, $86, $A1, $54, $FE, $18, $D7
+		db $1D, $07, $15, $D4, $8B, $2B, $5D, $C6
+		db $14, $86, $A0, $01, $48, $B4, $55, $74
+		db $6B, $95, $67, $A2, $05, $40, $19, $D7
+		db $12, $EC, $61, $60, $8B, $2B, $69, $B4
+		db $C6, $F1, $71, $42, $B1, $F3, $D1, $D1
+		db $B4, $69, $D1, $9C, $FC, $B3, $83, $54
+		db $41, $99, $B1, $63, $14, $0B, $51, $01
+		db $A2, $4D, $B4, $0E, $BB, $03, $BD, $44
+		db $A2, $C7, $B6, $5C, $B1, $C8, $F5, $4A
+		db $B1, $05, $91, $19, $48, $18, $37, $17
+		db $4B, $20, $CB, $10, $7F, $87, $1A, $64
+		db $F4, $01, $91, $B4, $C6, $F1, $4D, $42
+		db $19, $FA, $37, $04, $F4, $0B, $20, $D5
+		db $40, $18, $9A, $2D, $BB, $11, $13, $18
+		db $5F, $4B, $42, $39, $FF, $11, $D4, $8C
+		db $51, $8C, $81, $14, $A1, $00, $48, $B3
+		db $05, $91, $07, $48, $C7, $18, $52, $FF
+		db $11, $D4, $F4, $21, $86, $B2, $04, $31
+		db $13, $42, $B0, $0D, $1A, $27, $9F, $21
+		db $B1, $46, $B0, $32, $FB, $4C, $0D, $B0
+		db $25, $14, $0B, $11, $A1, $18, $6B, $21
+		db $13, $11, $EF, $B7, $56, $3F, $2C, $01
+		db $05, $E3, $67, $AB, $09, $37
+	endif
 
 warnpc $80FFB0
 org $80FFB0
-
 endif
 
 if !exhi == 0
