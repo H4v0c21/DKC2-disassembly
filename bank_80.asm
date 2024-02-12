@@ -684,8 +684,8 @@ if !ex_patch == 1
 	TAX
 	JMP (DATA_80D411,x)
 
-warnpc $008837
-org $008837
+warnpc $808837
+org $808837
 
 else
 	LDA nmi_submode				;$808819  \

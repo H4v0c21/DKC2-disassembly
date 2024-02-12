@@ -1,4 +1,5 @@
 !exhi = 1
+!bypass_anti_piracy = 1
 !ex_patch = 1
 !ex_patch_version = 0
 
@@ -171,8 +172,14 @@ if !exhi == 1
 check bankcross full
 	org $400000
 		incsrc "exhi/bank_40.asm"
+
+check bankcross half
 	org $410000
 		incsrc "exhi/bank_41.asm"
+	org $018000
+		incsrc "exhi/bank_01.asm"
+
+check bankcross full
 	org $420000
 		incsrc "exhi/bank_42.asm"
 	org $430000
