@@ -2910,7 +2910,11 @@ CODE_BB9310:
 CODE_BB9313:					;	   |
 	LDX #$0008				;$BB9313   |
 	JSR ($0515,x)				;$BB9316   |
+if !ex_patch == 1
+	JSL custom_level_load_handler		;$BB9319   |
+else
 	JSL CODE_B5B9ED				;$BB9319   |
+endif
 	JSR CODE_BB93C0				;$BB931D   |
 	JSL CODE_B5F109				;$BB9320   |
 	LDA $0515				;$BB9324   |
