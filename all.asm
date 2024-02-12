@@ -27,12 +27,16 @@ org $008000			;dummy org so functions work
 check bankcross half
 org $C00000
 	incsrc bank_C0.asm
+
+org $808000
+	incsrc bank_80.asm
+
 if !exhi == 1
 	org $008000
-else
-	org $808000
+		incsrc "exhi/bank_00.asm"
+	org $00FFB0
+		incsrc "exhi/rom_header.asm"
 endif
-	incsrc bank_80.asm
 
 check bankcross off
 org $C10000

@@ -1812,20 +1812,20 @@ CODE_BEC508:
 	JSR CODE_BEC5A4				;$BEC508  \
 	JSL CODE_BBBD6B				;$BEC50B   |
 	LDX current_sprite			;$BEC50F   |
-	LDA #$01A0				;$BEC511   |\ Lower byte (A0) goes to lowest byte of address in $32 ($????A0)
-	STA $32					;$BEC514   | | #$01A0 shifted right by 1 bit is $D0 which is our high byte for address in $32 ($??D0A0)
+	LDA #$01A0				;$BEC511   |\ Piracy check
+	STA $32					;$BEC514   | | Lower byte (A0) goes into lowest byte of $32 ($????A0)
 	SEC					;$BEC516   | | Set carry so when we ROR the highest bit will be set giving us our bank 80
-	ROR A					;$BEC517   | | This halves #$01A0 giving us the high address byte whilst also making a wild bank 80 appear...
-	STA $33					;$BEC518   |/ ...In the upper part of A! ($80D0A0) Write rest of address and bank to $32
-	LDY #$2F5C				;$BEC51A   |\ $80D0A0 + $2F5C = $80FFFC
+	ROR A					;$BEC517   | | This halves #$01A0 giving us the high address byte (D0) also making a wild bank 80 appear...
+	STA $33					;$BEC518   |/ ...In the upper part of A! ($80D0A0) Write rest of address and bank to $33
+	LDY #$2F5C				;$BEC51A   |\ $80D0A0 + $2F5C = $80FFFC ($32 is now a pointer to the reset vector at $80FFFC)
 	ADC [$32],y				;$BEC51D   | | A + reset vector value - $04C7 should == 0 (A = $80D0 here)
 	SBC #$04C7				;$BEC51F   | |
-if !exhi == 1
-	BRA CODE_BEC526				;$BEC522   |/ Always branch regardless of reset vector
+if !bypass_anti_piracy == 1
+	BRA CODE_BEC526				;$BEC522   |/ Bypass anti piracy
 else
 	BEQ CODE_BEC526				;$BEC522   |/ If reset vector is correct continue as normal
 endif
-	STZ $58,x				;$BEC524   | Else piracy/cracktro detected, prevent animal crates from opening
+	STZ $58,x				;$BEC524   | Else reset vector was tampered. Prevent animal crates from breaking
 CODE_BEC526:					;	   |
 	LDY $6A					;$BEC526   |
 	SEC					;$BEC528   |
