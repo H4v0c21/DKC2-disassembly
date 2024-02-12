@@ -1824,8 +1824,8 @@ CODE_BEC508:
 	LDY #$2F5C				;$BEC51A   |\ $80D0A0 + $2F5C = $80FFFC ($32 is now a pointer to the reset vector at $80FFFC)
 	ADC [$32],y				;$BEC51D   | | A + reset vector value - $04C7 should == 0 (A = $80D0 here)
 	SBC #$04C7				;$BEC51F   | |
-if !exhi == 1
-	BRA CODE_BEC526				;$BEC522   |/ Always branch regardless of reset vector
+if !bypass_anti_piracy == 1
+	BRA CODE_BEC526				;$BEC522   |/ Bypass anti piracy
 else
 	BEQ CODE_BEC526				;$BEC522   |/ If reset vector is correct continue as normal
 endif

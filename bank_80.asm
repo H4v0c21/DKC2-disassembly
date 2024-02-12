@@ -11918,7 +11918,7 @@ CODE_80ED24:
 	STA $8836				;$80ED61   |
 	LDA #$01				;$80ED64   |
 	STA $8838				;$80ED66   |
-	LDA #$80				;$80ED69   | maybe exhi
+	LDA #$80				;$80ED69   |
 	STA $8839				;$80ED6B   |
 	STA $8852				;$80ED6E   |
 	INC A					;$80ED71   |
@@ -12570,11 +12570,7 @@ CODE_80F29A:					;	   |
 	LDX $38					;$80F2AB   |
 	PHB					;$80F2AD   |
 	SEP #$20				;$80F2AE   |
-if !exhi == 1
-	LDA #$00				;$80F2B0   |
-else
 	LDA #$80				;$80F2B0   |
-endif
 	PHA					;$80F2B2   |
 	REP #$20				;$80F2B3   |
 	PLB					;$80F2B5   |
@@ -13471,14 +13467,12 @@ CODE_80FB9E:
 	JML CODE_BBBEA0				;$80FB9E  /
 bank_80_end:
 
-if !exhi = 1
-	warnpc $00FFB0
-	org $00FFB0
-else
-	warnpc $80FFB0
-	org $80FFB0
-endif
 
+warnpc $80FFB0
+org $80FFB0
+
+
+if !exhi == 0
 DATA_80FFB0:
 	db $30, $31
 
@@ -13501,21 +13495,13 @@ DATA_80FFC0:
 	db "DIDDY'S KONG QUEST   "
 
 DATA_80FFD5:
-if !exhi == 1
-	db $35
-else
 	db $31
-endif
 
 DATA_80FFD6:
 	db $02
 
 DATA_80FFD7:
-if !exhi == 1
-	db $0D
-else
 	db $0C
-endif
 
 DATA_80FFD8:
 	db $01
@@ -13547,6 +13533,7 @@ DATA_80FFE6:
 DATA_80FFE8:
 	db $00, $00
 
+
 DATA_80FFEA:
 	dw NMI_start
 
@@ -13576,3 +13563,5 @@ DATA_80FFFC:
 
 DATA_80FFFE:
 	db $00, $70
+
+endif

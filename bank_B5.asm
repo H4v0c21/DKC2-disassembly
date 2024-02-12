@@ -11125,7 +11125,11 @@ CODE_B5ED61:					;	   |
 
 CODE_B5ED70:
 	LDX $90					;$B5ED70  \> Piracy check. Load address of anti piracy routine checksum ($A00 + $90 = $A90)
+if !bypass_anti_piracy == 1
+	BRA .continue				;$B5ED72   |> Bypass anti piracy
+else
 	BMI .continue				;$B5ED72   |> If address is negative the checksum is complete. The checksum is calculated 1 byte per frame
+endif
 	LDA #<:rare_string			;$B5ED74   |\
 	STA $92					;$B5ED77   | | Store address of anti piracy routine at $A90
 	LDY #rare_string			;$B5ED79   | |
@@ -11141,7 +11145,7 @@ CODE_B5ED70:
 if !exhi == 1
 	CMP #$1B6A				;$B5ED8E   | Revise checksum for exhi
 else
-	CMP #$9BEA				;$B5ED8E   |
+	CMP #$9BEA				;$B5ED8E   |\
 endif
 	BEQ .continue				;$B5ED91   |/ If our checksum matches continue as normal
 	DEC $FD					;$B5ED93   | Else anti piracy routine was tampered, decrease level camera count by 1

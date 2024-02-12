@@ -9051,12 +9051,13 @@ endif
 	DEX					;$B3C30F   | |
 	BPL .next_byte				;$B3C310   |/ Move onto next byte if we haven't reached the end of the data
 	PLB					;$B3C312   |
-if !exhi == 1
-	CMP #$A04B				;$B3C313   | Revised checksum for exhi
-else
 	CMP #$20CB				;$B3C313   |\ This is the checksum to check against
-endif
+if !bypass_anti_piracy == 1
+	NOP					;$B3C316   | Bypass anti piracy
+	NOP					;$B3C317   |
+else
 	BNE CODE_B3C33B				;$B3C316   |/ If checksum doesn't match the anti-piracy routine was tampered. Delete water trigger sprite
+endif
 	LDX current_sprite			;$B3C318   |
 	LDA $4E,x				;$B3C31A   |
 	STA $0D52				;$B3C31C   |
@@ -12863,7 +12864,11 @@ else
 	EOR #$CCAB				;$B3DF7D   | If our result after XORing against this value +1 is 0 we passed the XOR test
 endif
 	INC A					;$B3DF80   | |
+if !bypass_anti_piracy == 1
+	BRA CODE_B3DF88				;$B3DF81   |/ Bypass anti piracy
+else
 	BEQ CODE_B3DF88				;$B3DF81   |/ If anti-piracy routine wasn't tampered continue as normal
+endif
 	LDA #$FFFF				;$B3DF83   |\ Else destroy exit number of bonus wall (sends player to map screen)
 	STA $42,x				;$B3DF86   |/
 CODE_B3DF88:					;	   |

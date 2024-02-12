@@ -4860,11 +4860,7 @@ CODE_BBA817:					;	   |
 	STX HDMA[2].source			;$BBA881   |
 	LDA #$7E				;$BBA884   |
 	STA HDMA[2].source_bank			;$BBA886   |
-if !exhi == 1
-	LDA #$00				;$BBA889   |
-else
 	LDA #$80				;$BBA889   |
-endif
 	STA HDMA[2].indirect_source_bank	;$BBA88B   |
 	LDX #$2103				;$BBA88E   |
 	STX HDMA[3].settings			;$BBA891   |
@@ -7679,7 +7675,11 @@ endif
 	SEC					;$BBBE14   |\ $83F7 - $1248 = $71AF subtract this random number from reset routine address
 	SBC #$1248				;$BBBE15   |/ So the actual vector value never shows up in ROM)
 	CMP #$71AF				;$BBBE18   |\
+if !bypass_anti_piracy == 1
+	BRA CODE_BBBE24				;$BBBE1B   |/ Bypass anti piracy
+else
 	BEQ CODE_BBBE24				;$BBBE1B   |/ If the reset vector matches the one specified continue as normal
+endif
 	LDA.l DATA_BBBE43			;$BBBE1D   |\ Else reset vector was tampered. Destroy exit number
 	STA $059D				;$BBBE21   |/ Making all exits send the player to the map screen
 CODE_BBBE24:					;	   |

@@ -34,6 +34,12 @@ if !version == 1
 	db $19, $3F, $AA, $C3
 else
 	db $AA, $C3, $3F, $19
+
+if !exhi == 1
+	org $008000
+		incsrc "exhi/bank_00.asm"
+	org $00FFB0
+		incsrc "exhi/rom_header.asm"
 endif
 
 ;weird copy of ship hold tilemap that fills the end of bank 80
