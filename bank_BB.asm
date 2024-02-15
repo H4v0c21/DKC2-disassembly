@@ -6673,7 +6673,7 @@ CODE_BBB70C:
 	STA $3A					;$BBB71D   |
 	LDA ($F9),y				;$BBB71F   |
 	TAX					;$BBB721   |
-	LDA.l DATA_FBE800,x			;$BBB722   |
+	LDA.l DATA_FBE800,x			;$BBB722   | thing 1
 	TAX					;$BBB726   |
 	LDA.l DATA_FF0000,x			;$BBB727   |
 	%pea_shift_dbr(DATA_FF0000)		;$BBB72B   |
@@ -6801,7 +6801,7 @@ CODE_BBB7DD:					;	   |
 	STZ $10,x				;$BBB80E   |
 	LDA ($F9),y				;$BBB810   |
 	TAX					;$BBB812   |
-	LDA.l DATA_FBE800,x			;$BBB813   |
+	LDA.l DATA_FBE800,x			;$BBB813   | thing 2
 	CLC					;$BBB817   |
 	ADC #$000A				;$BBB818   |
 	TAY					;$BBB81B   |
@@ -6856,11 +6856,17 @@ CODE_BBB847:
 	LDA ($F3),y				;$BBB879   |
 	STA $58,x				;$BBB87B   |
 	LDA ($F9),y				;$BBB87D   |
+if !ex_patch == 1
+	JSL ex_spawn_script_check
+	padbyte $EA : pad $BBB88B
+	warnpc $BBB88B
+else
 	TAX					;$BBB87F   |
 	LDA.l DATA_FBE800,x			;$BBB880   |
 	TAY					;$BBB884   |
 	LDX alternate_sprite			;$BBB885   |
 	JSL CODE_BB8474				;$BBB887   |
+endif
 	LDX alternate_sprite			;$BBB88B   |
 	LDA.l $0000FB				;$BBB88D   |
 	STA $56,x				;$BBB891   |
@@ -6925,11 +6931,17 @@ CODE_BBB8D6:					;	   |
 	LDA ($F3),y				;$BBB8F8   |
 	STA $58,x				;$BBB8FA   |
 	LDA ($F9),y				;$BBB8FC   |
+if !ex_patch == 1
+	JSL ex_spawn_script_check
+	padbyte $EA : pad $BBB90A
+	warnpc $BBB90A
+else
 	TAX					;$BBB8FE   |
 	LDA.l DATA_FBE800,x			;$BBB8FF   |
 	TAY					;$BBB903   |
 	LDX alternate_sprite			;$BBB904   |
 	JSL CODE_BB8474				;$BBB906   |
+endif
 	LDX alternate_sprite			;$BBB90A   |
 	LDA.l $0000FB				;$BBB90C   |
 	STA $56,x				;$BBB910   |

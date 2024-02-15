@@ -13,25 +13,24 @@ sprite_handler:
 	STZ $19AC				;$B3801B   |
 	STZ $19AF				;$B3801E   |
 	REP #$20				;$B38021   |
-	LDA #$00B3				;$B38023   |\ Write bank of sprite return address (always B3)
-	STA $05AB				;$B38026   |/
-	LDA #$00FF				;$B38029   |\ Write bank of sprite constants for current sprite (always FF)
-	STA $90					;$B3802C   |/
+	LDA #$00B3				;$B38023   |
+	STA $05AB				;$B38026   |
+	LDA #$00FF				;$B38029   |
+	STA $90					;$B3802C   |
 	JSL CODE_BCFA78				;$B3802E   |
-	LDA $0A36				;$B38032   |\
-	AND #$0080				;$B38035   | |
-	BNE CODE_B3806D				;$B38038   |/
-	LDA $0A36				;$B3803A   |\ If time is currently stopped
-	BNE CODE_B38087				;$B3803D   |/
+	LDA $0A36				;$B38032   |
+	AND #$0080				;$B38035   |
+	BNE CODE_B3806D				;$B38038   |
+	LDA $0A36				;$B3803A   |
+	BNE CODE_B38087				;$B3803D   |
 	LDA #.sprite_return			;$B3803F   |\ Set sprite return pointer
 	STA $05A9				;$B38042   |/
 	LDX #main_sprite_table			;$B38045   | Load sprite base pointer
 .next_slot					;	   |
 	LDA $00,x				;$B38048   |\ If the sprite doesn't exist
 	BEQ .get_next_slot			;$B3804A   |/ Get the next sprite
-	STX current_sprite			;$B3804C   |\ If the sprite was found, preserve the index
-	TAX					;$B3804E   | |
-	JMP (DATA_B38348,x)			;$B3804F  /_/ Then jump to the sprite code
+	JSR ex_sprite_main_handler		;check if ex sprite id was used
+	JMP (DATA_B38348,x)			;if not come back here and don't act suspicious...
 
 .sprite_return
 	LDX current_sprite			;$B38052  \ Reload current sprite pointer
@@ -15796,3 +15795,39 @@ DATA_B3F4D8:
 	db $4A, $00, $44, $00, $3E, $00, $38, $00
 	db $32, $00, $2C, $00, $25, $00, $1F, $00
 	db $19, $00, $13, $00, $0D, $00, $06, $00
+
+!ex_sprite_id_start = $0320
+
+ex_sprite_main_handler:
+	STX current_sprite		;If the sprite was found, preserve the index
+	CMP #!ex_sprite_id_start
+	BCS .ex_sprite_main
+;normal_sprite_main
+	TAX
+	RTS
+	
+.ex_sprite_main
+	SEC
+	SBC #!ex_sprite_id_start
+	TAX
+	PLA				;remove last call from stack (we're not coming back for a while)
+	JML ex_sprite_main_trampoline
+
+;native function wrappers here
+
+CODE_B3A369_wrapper:			;sprite action handler
+	JSR CODE_B3A369
+	RTL
+
+CODE_B3A627_wrapper:			;used to play the sprite's death animation
+	JSR CODE_B3A627
+	RTL
+
+CODE_B3A652_wrapper:			;unclear, also death related
+	JSR CODE_B3A652
+	RTL
+
+
+
+
+

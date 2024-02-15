@@ -178,10 +178,11 @@ check bankcross half
 		incsrc "exhi/bank_41.asm"
 	org $018000
 		incsrc "exhi/bank_01.asm"
-
-check bankcross full
 	org $420000
 		incsrc "exhi/bank_42.asm"
+	org $028000
+		incsrc "exhi/bank_02.asm"
+check bankcross full
 	org $430000
 		incsrc "exhi/bank_43.asm"
 	org $440000
