@@ -6858,8 +6858,11 @@ CODE_BBB847:
 	LDA ($F9),y				;$BBB87D   |
 if !ex_patch == 1
 	JSL ex_spawn_script_check
-	padbyte $EA : pad $BBB88B
-	warnpc $BBB88B
+	if !version == 1
+		padbyte $EA : pad $BBB88B : warnpc $BBB88B
+	else
+		padbyte $EA : pad $BBB87E : warnpc $BBB87E
+	endif
 else
 	TAX					;$BBB87F   |
 	LDA.l DATA_FBE800,x			;$BBB880   |
@@ -6933,8 +6936,11 @@ CODE_BBB8D6:					;	   |
 	LDA ($F9),y				;$BBB8FC   |
 if !ex_patch == 1
 	JSL ex_spawn_script_check
-	padbyte $EA : pad $BBB90A
-	warnpc $BBB90A
+	if !version == 1
+		padbyte $EA : pad $BBB90A : warnpc $BBB90A
+	else
+		padbyte $EA : pad $BBB8FD : warnpc $BBB8FD
+	endif
 else
 	TAX					;$BBB8FE   |
 	LDA.l DATA_FBE800,x			;$BBB8FF   |

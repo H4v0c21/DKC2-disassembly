@@ -288,9 +288,12 @@ else
 	!level_logic_done = CODE_808CA2
 endif
 
-
-if !version == 1
-	!ex_spawn_id_start = $1046
-else
-	!ex_spawn_id_start = $1044
+if !ex_patch == 1
+	!ex_sprite_id_start = $0320
+	
+	if !version == 1
+		!ex_spawn_id_start = $1046
+	else
+		!ex_spawn_id_start = $1044
+	endif
 endif
