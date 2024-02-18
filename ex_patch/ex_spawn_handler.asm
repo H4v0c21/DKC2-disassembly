@@ -12,7 +12,7 @@ ex_spawn_script_check:
 	
 .ex_spawn_script
 	TAX
-	LDA.l DATA_FBE800,x
+	LDA.l ex_spawn_scripts,x
 	TAY
 	LDX alternate_sprite
 	JSL .set_ex_spawn_bank
@@ -46,7 +46,7 @@ ex_sprite_constants_handler:
 	RTL
 
 ex_spawn_scripts:
-	dw !null_pointer		;id: 1044/1046 ex id: 0000
+	dw test_ex_sprite_spawn_script	;id: 1044/1046 ex id: 0000
 	dw !null_pointer		;id: 1046/1048 ex id: 0002
 	dw !null_pointer		;id: 1048/104A ex id: 0004
 	dw !null_pointer		;id: 104A/104C ex id: 0006
@@ -2095,4 +2095,17 @@ ex_spawn_scripts:
 	dw !null_pointer		;id: 2040/2042 ex id: 0FFC
 	dw !null_pointer		;id: 2042/2044 ex id: 0FFE
 
+
+test_ex_sprite_spawn_script:
+	dw sprite.number, $0320
+	dw sprite.render_order, $00D4
+	dw sprite.action, $0000
+	dw sprite.unknown_42, $0000
+        dw sprite.unknown_54, ex_sprite_constants
+	dw !initcommand_set_oam, $2000          ;faces left, maybe right, idk lmao
+	dw !initcommand_set_alt_palette, $005A  ;epic blue color
+	dw !initcommand_set_animation, $0160    ;klomp walk
+	dw !initcommand_success
+
 ex_sprite_constants:
+	dw $077C

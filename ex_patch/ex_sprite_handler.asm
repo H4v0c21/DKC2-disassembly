@@ -16,7 +16,7 @@ ex_sprite_main_handler:
 	JMP (ex_sprite_main_table,x)
 
 ex_sprite_main_table:
-	dw !null_pointer, $0000		;id: 0320 ex id: 0000
+	dw test_ex_sprite_main, $0000	;id: 0320 ex id: 0000
 	dw !null_pointer, $0000		;id: 0324 ex id: 0004
 	dw !null_pointer, $0000		;id: 0328 ex id: 0008
 	dw !null_pointer, $0000		;id: 032C ex id: 000C
@@ -1040,3 +1040,39 @@ ex_sprite_main_table:
 	dw !null_pointer, $0000		;id: 1314 ex id: 0FF4
 	dw !null_pointer, $0000		;id: 1318 ex id: 0FF8
 	dw !null_pointer, $0000		;id: 131C ex id: 0FFC
+
+
+test_ex_sprite_main:
+        JSL CODE_B3A369_wrapper
+
+test_ex_sprite_behavior_table:
+        dw idle
+        dw do_things
+
+idle:
+        JSL CODE_B9D100         ;process animations      
+        JSL CODE_BCFB58
+        JSR test_sprite_collision
+        JML [$05A9]
+
+do_things:
+        JSL CODE_B9D100         ;process animations
+        LDY #$0000
+        LDA [$8E],y       			
+	JSL queue_sound_effect
+        INC $42,x
+        STZ $2E,x
+        JML [$05A9]
+
+test_sprite_collision:
+        LDA $42,x
+        BNE .return
+        JSL CODE_BEBE6D         ;check collision with kong
+	BCS .collision_happened
+.return:
+	CLC
+	RTS	
+
+.collision_happened:
+        INC $2E,x
+        RTS

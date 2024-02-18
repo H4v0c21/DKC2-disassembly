@@ -1,3 +1,10 @@
+;START OF PATCH (add test ex sprite)
+if !version == 1
+	%sprite($0001, $01AE, $01D1, $1048)
+else
+	%sprite($0001, $01AE, $01D1, $1046)
+endif
+;END OF PATCH
 	%sprite($0001, $0120, $013C, $0300)
 	%sprite($000E, $0234, $0214, $08AC)
 	%sprite($0009, $0234, $0214, $0DB8)
