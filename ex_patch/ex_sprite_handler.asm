@@ -13,6 +13,7 @@ ex_sprite_main_handler:
 	SBC #!ex_sprite_id_start
 	TAX
 	PLA				;remove last call from stack (we're not coming back for a while)
+	PLB
 	JMP (ex_sprite_main_table,x)
 
 ex_sprite_main_table:
@@ -1043,7 +1044,13 @@ ex_sprite_main_table:
 
 
 test_ex_sprite_main:
-        JSL CODE_B3A369_wrapper
+        LDX current_sprite
+	LDA $54,x
+	STA $8E
+	LDA $2E,x
+	ASL 
+	TAX 
+	JMP (test_ex_sprite_behavior_table,x)
 
 test_ex_sprite_behavior_table:
         dw idle
@@ -1060,6 +1067,7 @@ do_things:
         LDY #$0000
         LDA [$8E],y       			
 	JSL queue_sound_effect
+	LDX current_sprite
         INC $42,x
         STZ $2E,x
         JML [$05A9]

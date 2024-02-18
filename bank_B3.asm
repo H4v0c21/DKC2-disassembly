@@ -15818,9 +15818,10 @@ if !ex_patch == 1
 
 ;native function wrappers here
 
-CODE_B3A369_wrapper:			;sprite action handler
-	JSR CODE_B3A369
-	RTL
+;won't be using this one for now
+; CODE_B3A369_wrapper:			;sprite action handler
+; 	JSR CODE_B3A369
+; 	RTL
 
 CODE_B3A627_wrapper:			;used to play the sprite's death animation
 	JSR CODE_B3A627

@@ -11,6 +11,8 @@ ex_spawn_script_check:
 	RTL
 	
 .ex_spawn_script
+	SEC
+	SBC #!ex_spawn_id_start+2
 	TAX
 	LDA.l ex_spawn_scripts,x
 	TAY
@@ -2108,4 +2110,4 @@ test_ex_sprite_spawn_script:
 	dw !initcommand_success
 
 ex_sprite_constants:
-	dw $077C
+	dw $0109
