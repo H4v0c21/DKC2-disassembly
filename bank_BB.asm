@@ -6554,9 +6554,9 @@ CODE_BBB656:
 	TAX					;$BBB65C   |
 	PHX					;$BBB65D   |
 	JSR (DATA_BBB9AC,x)			;$BBB65E   |
-	PLX					;$BBB661   |
-	BCS CODE_BBB665				;$BBB662   |
-	RTS					;$BBB664  /
+	PLX					;$BBB661   |> Retrieve X
+	BCS CODE_BBB665				;$BBB662   |> If anti-piracy routine XOR passed continue as normal
+	RTS					;$BBB664  /> Else skip spawning sprite
 
 CODE_BBB665:
 	JMP (DATA_BBBA0C,x)			;$BBB665  /
@@ -7000,22 +7000,22 @@ DATA_BBB942:
 	db $50, $01
 
 DATA_BBB9AC:
-	dw CODE_BBBA2C
-	dw CODE_BBBA7F
-	dw CODE_BBBA7F
-	dw CODE_BBBA2C
-	dw CODE_BBBA2C
-	dw CODE_BBBA2C
-	dw CODE_BBBA2C
-	dw CODE_BBBA7F
-	dw CODE_BBBA90
-	dw CODE_BBBA7F
-	dw CODE_BBBA5E
-	dw CODE_BBBA69
-	dw CODE_BBBA74
-	dw CODE_BBBA53
-	dw CODE_BBBA2E
-	dw CODE_BBBA7F
+	dw CODE_BBBA2C				;00
+	dw CODE_BBBA7F				;01
+	dw CODE_BBBA7F				;02
+	dw CODE_BBBA2C				;03
+	dw CODE_BBBA2C				;04
+	dw CODE_BBBA2C				;05
+	dw CODE_BBBA2C				;06
+	dw CODE_BBBA7F				;07
+	dw CODE_BBBA90				;08
+	dw CODE_BBBA7F				;09
+	dw CODE_BBBA5E				;0A
+	dw CODE_BBBA69				;0B
+	dw CODE_BBBA74				;0C
+	dw CODE_BBBA53				;0D
+	dw CODE_BBBA2E				;0E
+	dw CODE_BBBA7F				;0F
 
 DATA_BBB9CC:
 	dw CODE_BBBA2C
@@ -7078,27 +7078,33 @@ CODE_BBBA2C:
 CODE_BBBA2E:
 	JSR CODE_BBBA7F				;$BBBA2E  \
 	BCC CODE_BBBA52				;$BBBA31   |
-	PHB					;$BBBA33   |
-	%pea_engine_dbr()			;$BBBA34   |
-	PLB					;$BBBA37   |
-	PLB					;$BBBA38   |
-	PHY					;$BBBA39   |
-	LDY #$0009				;$BBBA3A   |
-	LDA #$081A				;$BBBA3D   |
-	ROR A					;$BBBA40   |
-	TAX					;$BBBA41   |
-	LDA $00,x				;$BBBA42   |
-CODE_BBBA44:					;	   |
-	EOR $01,x				;$BBBA44   |
-	INC A					;$BBBA46   |
-	DEY					;$BBBA47   |
-	BPL CODE_BBBA44				;$BBBA48   |
-	EOR #$9684				;$BBBA4A   |
-	CMP #$FFFF				;$BBBA4D   |
-	PLY					;$BBBA50   |
-	PLB					;$BBBA51   |
+	PHB					;$BBBA33   |> Piracy check, preserve bank
+	%pea_engine_dbr()			;$BBBA34   |\
+	PLB					;$BBBA37   | | Get bank of anti piracy routine (80)
+	PLB					;$BBBA38   |/
+	PHY					;$BBBA39   |> Preserve Y
+	LDY #$0009				;$BBBA3A   |> Number of times to XOR word
+	LDA #$081A				;$BBBA3D   |> (#$081A >> 1) + ($8000 from carry bit) = $840D (anti-piracy routine data)
+	ROR A					;$BBBA40   |\ Halves #$081A and moves carry into the highest bit giving us $840D
+	TAX					;$BBBA41   |/
+	LDA $00,x				;$BBBA42   |> Get bytes 1 and 2 for XOR check
+.xor_again					;	   |
+	EOR $01,x				;$BBBA44   |\ XOR the 2nd and 3rd byte against A 9 times
+	INC A					;$BBBA46   | |
+	DEY					;$BBBA47   | |
+	BPL .xor_again				;$BBBA48   |/ If more XORs need to be done keep going
+	EOR #$9684				;$BBBA4A   |\ Check our XOR results against correct answer
+if !bypass_anti_piracy == 1
+	SEC
+	NOP
+	NOP
+else
+	CMP #$FFFF				;$BBBA4D   |/ Our answer should be FFFF, if so carry will be set
+endif
+	PLY					;$BBBA50   |> Retrieve Y
+	PLB					;$BBBA51   |> Retrieve bank
 CODE_BBBA52:					;	   |
-	RTS					;$BBBA52  /
+	RTS					;$BBBA52  /> Return to $BBB661, a check for carry will happen after to make sure the XOR was correct
 
 CODE_BBBA53:
 	LDA.l $000923				;$BBBA53  \
