@@ -7071,7 +7071,13 @@ CODE_BBBA2E:
 	DEY					;$BBBA47   | |
 	BPL .xor_again				;$BBBA48   |/ If more XORs need to be done keep going
 	EOR #$9684				;$BBBA4A   |\ Check our XOR results against correct answer
+if !bypass_anti_piracy == 1
+	SEC
+	NOP
+	NOP
+else
 	CMP #$FFFF				;$BBBA4D   |/ Our answer should be FFFF, if so carry will be set
+endif
 	PLY					;$BBBA50   |> Retrieve Y
 	PLB					;$BBBA51   |> Retrieve bank
 CODE_BBBA52:					;	   |
