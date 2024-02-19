@@ -16,6 +16,33 @@ ex_sprite_main_handler:
 	PLB
 	JMP (ex_sprite_main_table,x)
 
+
+ex_sprite_extra_word_handler:
+	CPX #!ex_sprite_id_start
+	BCS .is_ex_sprite
+;normal sprite
+	LDA.l DATA_B3834A,x
+	RTL
+
+.is_ex_sprite:
+	LDA.l ex_sprite_main_table+2,x
+	RTL
+
+
+ex_sprite_handler_2:
+	CPX #!ex_sprite_id_start
+	BCS .ex_sprite_main
+;normal_sprite_main
+	JML (DATA_B38348,x)
+	
+.ex_sprite_main:
+	TXA
+	SEC
+	SBC #!ex_sprite_id_start
+	TAX
+	JMP (ex_sprite_main_table,x)	
+
+
 ex_sprite_main_table:
 	dw test_ex_sprite_main, $0000	;id: 0320 ex id: 0000
 	dw !null_pointer, $0000		;id: 0324 ex id: 0004

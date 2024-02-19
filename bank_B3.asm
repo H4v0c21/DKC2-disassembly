@@ -117,11 +117,19 @@ CODE_B380C1:
 	LDA $0A36				;$B380C1  \
 	AND #$0004				;$B380C4   |
 	BEQ CODE_B380D2				;$B380C7   |
+if !ex_patch == 1
+	JSL ex_sprite_extra_word_handler
+else
 	LDA.l DATA_B3834A,x			;$B380C9   |
+endif
 	AND #$0001				;$B380CD   |
 	BEQ CODE_B380D5				;$B380D0   |
 CODE_B380D2:					;	   |
+if !ex_patch == 1
+	JMP ex_sprite_handler_2_wrapper
+else
 	JMP (DATA_B38348,x)			;$B380D2  /
+endif
 
 CODE_B380D5:
 	LDX current_sprite			;$B380D5  \
@@ -15830,5 +15838,8 @@ CODE_B3A627_wrapper:			;used to play the sprite's death animation
 CODE_B3A652_wrapper:			;unclear, also death related
 	JSR CODE_B3A652
 	RTL
+
+ex_sprite_handler_2_wrapper:
+	JML ex_sprite_handler_2
 
 endif
