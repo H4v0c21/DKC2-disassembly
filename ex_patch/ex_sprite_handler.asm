@@ -12,8 +12,8 @@ ex_sprite_main_handler:
 	SEC
 	SBC #!ex_sprite_id_start
 	TAX
-	PLA				;remove last call from stack (we're not coming back for a while)
-	PLB
+	PLA				;remove last call from stack (we're never going back to B3)
+	PLB				;this might be dangerous (probably not though since this never runs for vanilla sprites)
 	JMP (ex_sprite_main_table,x)
 
 
@@ -33,9 +33,11 @@ ex_sprite_handler_2:
 	CPX #!ex_sprite_id_start
 	BCS .ex_sprite_main
 ;normal_sprite_main
-	JML (DATA_B38348,x)
+	RTL
 	
 .ex_sprite_main:
+	PLA				;remove last call from stack (we're never going back to B3)
+	PLB				;this might be dangerous (probably not though since this never runs for vanilla sprites)
 	TXA
 	SEC
 	SBC #!ex_sprite_id_start
@@ -1071,7 +1073,7 @@ ex_sprite_main_table:
 
 
 test_ex_sprite_main:
-        LDX current_sprite
+	LDX current_sprite
 	LDA $54,x
 	STA $8E
 	LDA $2E,x
@@ -1080,34 +1082,34 @@ test_ex_sprite_main:
 	JMP (test_ex_sprite_behavior_table,x)
 
 test_ex_sprite_behavior_table:
-        dw idle
-        dw do_things
+	dw idle
+	dw do_things
 
 idle:
-        JSL CODE_B9D100         ;process animations      
-        JSL CODE_BCFB58
-        JSR test_sprite_collision
-        JML [$05A9]
+	JSL CODE_B9D100		;process animations	 
+	JSL CODE_BCFB58
+	JSR test_sprite_collision
+	JML [$05A9]
 
 do_things:
-        JSL CODE_B9D100         ;process animations
-        LDY #$0000
-        LDA [$8E],y       			
+	JSL CODE_B9D100		;process animations
+	LDY #$0000
+	LDA [$8E],y				
 	JSL queue_sound_effect
 	LDX current_sprite
-        INC $42,x
-        STZ $2E,x
-        JML [$05A9]
+	INC $42,x
+	STZ $2E,x
+	JML [$05A9]
 
 test_sprite_collision:
-        LDA $42,x
-        BNE .return
-        JSL CODE_BEBE6D         ;check collision with kong
+	LDA $42,x
+	BNE .return
+	JSL CODE_BEBE6D		;check collision with kong
 	BCS .collision_happened
 .return:
 	CLC
 	RTS	
 
 .collision_happened:
-        INC $2E,x
-        RTS
+	INC $2E,x
+	RTS

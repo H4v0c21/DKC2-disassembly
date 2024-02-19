@@ -15840,6 +15840,6 @@ CODE_B3A652_wrapper:			;unclear, also death related
 	RTL
 
 ex_sprite_handler_2_wrapper:
-	JML ex_sprite_handler_2
-
+	JSL ex_sprite_handler_2		;check if sprite is ex, if it is don't come back here
+	JMP (DATA_B38348,x)		;if we came back from the JSL do vanilla sprite main
 endif
