@@ -21606,5 +21606,4 @@ DATA_FFFF4C:
 DATA_FFFF6A:
 endif
 
-padbyte $00
-pad $FFFFFF
+padbyte $00 : pad $FFFFFF : db $00

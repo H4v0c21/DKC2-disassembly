@@ -1,4 +1,3 @@
-dw !ex_patch_version, custom_pre_nmi_table, custom_post_nmi_table, custom_post_logic_table, custom_level_load_table
 
 null_custom_code:
 	RTS

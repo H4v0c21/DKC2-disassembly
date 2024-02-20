@@ -1,7 +1,7 @@
 !exhi = 1
 !bypass_anti_piracy = 1
 !ex_patch = 1
-!ex_patch_version = 0
+!ex_patch_version = 1
 
 if !exhi == 1
 	exhirom
@@ -29,16 +29,8 @@ org $008000			;dummy org so functions work
 check bankcross half
 org $C00000
 	incsrc bank_C0.asm
-
 org $808000
 	incsrc bank_80.asm
-
-if !exhi == 1
-	org $008000
-		incsrc "exhi/bank_00.asm"
-	org $00FFB0
-		incsrc "exhi/rom_header.asm"
-endif
 
 check bankcross off
 org $C10000
@@ -166,14 +158,13 @@ org $BEB800
 org $FF0000
 	incsrc bank_FF.asm
 
-
 ;6,112 KB
 if !exhi == 1
-check bankcross full
 	org $400000
-		incsrc "exhi/bank_40.asm"
-
 check bankcross half
+		incsrc "exhi/bank_40.asm"
+	org $008000
+		incsrc "exhi/bank_00.asm"
 	org $410000
 		incsrc "exhi/bank_41.asm"
 	org $018000
@@ -182,13 +173,19 @@ check bankcross half
 		incsrc "exhi/bank_42.asm"
 	org $028000
 		incsrc "exhi/bank_02.asm"
-check bankcross full
 	org $430000
 		incsrc "exhi/bank_43.asm"
+	org $038000
+		incsrc "exhi/bank_03.asm"
+	
+check bankcross full
 	org $440000
-		incsrc "exhi/bank_44.asm"
+		ex_null_spawn_script:
+			dw !initcommand_success
+		ex_spawn_scripts:
+			padbyte $00 : pad $450000
 	org $450000
-		incsrc "exhi/bank_45.asm"
+		ex_sprite_constants: : padbyte $00 : pad $460000
 	org $460000
 		incsrc "exhi/bank_46.asm"
 	org $470000

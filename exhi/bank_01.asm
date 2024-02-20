@@ -1,4 +1,5 @@
-incsrc "ex_patch/custom_level_code_handlers.asm"
+if !ex_patch == 1
+	incsrc "ex_patch/custom_level_code_handlers.asm"
+endif
 
-padbyte $00
-pad $020000
+padbyte $00 : pad $020000
