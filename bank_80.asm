@@ -1304,6 +1304,7 @@ CODE_808CED:
 CODE_808CF1:
 	JML CODE_B5D334				;$808CF1  /
 
+;npc nmi
 CODE_808CF5:
 	LDX #stack				;$808CF5  \
 	TXS					;$808CF8   |
@@ -1311,6 +1312,7 @@ CODE_808CF5:
 	JSL CODE_B491D7				;$808CFB   |
 	BRL CODE_808D1C				;$808CFF  /
 
+;npc screen nmi
 CODE_808D02:
 	LDX #stack				;$808D02  \
 	TXS					;$808D05   |
@@ -1318,6 +1320,7 @@ CODE_808D02:
 	JSL CODE_B48B15				;$808D08   |
 	BRA CODE_808D1C				;$808D0C  /
 
+;npc nmi
 CODE_808D0E:
 	LDX #stack				;$808D0E  \
 	TXS					;$808D11   |
@@ -1328,6 +1331,7 @@ CODE_808D1C:					;	   |
 	WAI					;$808D1C   |
 	BRA CODE_808D1C				;$808D1D  /
 
+;npc nmi
 CODE_808D1F:
 	LDX #stack				;$808D1F  \
 	TXS					;$808D22   |
@@ -1381,6 +1385,7 @@ CODE_808D7D:
 	JSL CODE_B49B63				;$808D83   |
 	BRL CODE_808D1C				;$808D87  /
 
+;npc screen setup
 CODE_808D8A:
 	LDA #$8000				;$808D8A  \
 	ORA $08C2				;$808D8D   |

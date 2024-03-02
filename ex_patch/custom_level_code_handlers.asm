@@ -1,48 +1,76 @@
 
 null_custom_code:
-	RTS
+	RTS					; Dummy code that does nothing and returns (used as default for custom level code)
 	
 custom_pre_nmi_handler:
-	PHK
-	PLB
-	LDA level_number
-	ASL
-	TAX
-	JSR (custom_pre_nmi_table,x)
-	RTL
+	PHK					;\ Set DB to this bank
+	PLB					;/
+	LDA custom_global_pre_nmi_pointer	;\ Write global pointer to scratch
+	STA $32					; |
+	LDA custom_global_pre_nmi_pointer+2	; |
+	STA $34					;/
+	%return(.global_return)			;> Push return address to stack so we can get back here with a RTL
+	JML [$0032]				;> Execute custom global code for level (before vanilla nmi code)
+.global_return
+	LDA level_number			;\
+	ASL					; |
+	TAX					; |
+	JSR (custom_pre_nmi_table,x)		;/ Execute level specific code (before vanilla nmi code)
+	RTL					;> Return to vanilla code
 	
 custom_post_nmi_handler:
-	PHK
-	PLB
-	LDA level_number
-	ASL
-	TAX
-	JSR (custom_post_nmi_table,x)
-	RTL
+	PHK					;\ Set DB to this bank
+	PLB					;/
+	LDA custom_global_post_nmi_pointer	;\ Write global pointer to scratch
+	STA $32					; |
+	LDA custom_global_post_nmi_pointer+2	; |
+	STA $34					;/
+	%return(.global_return)			;> Push return address to stack so we can get back here with a RTL
+	JML [$0032]				;> Execute custom global code for level (after vanilla nmi)
+.global_return
+	LDA level_number			;\
+	ASL					; |
+	TAX					; |
+	JSR (custom_post_nmi_table,x)		;/ Execute level specific code (after vanilla nmi code)
+	RTL					;> Return to vanilla code
 	
 custom_post_logic_handler:
-	PHK
-	PLB
-	LDA level_number
-	ASL
-	TAX
-	JSR (custom_post_logic_table,x)
-	RTL
+	PHK					;\ Set DB to this bank
+	PLB					;/
+	LDA custom_global_post_logic_pointer	;\ Write global pointer to scratch
+	STA $32					; |
+	LDA custom_global_post_logic_pointer+2	; |
+	STA $34					;/
+	%return(.global_return)			;> Push return address to stack so we can get back here with a RTL
+	JML [$0032]				;> Execute custom global code for level (after vanilla logic code)
+.global_return
+	LDA level_number			;\
+	ASL					; |
+	TAX					; |
+	JSR (custom_post_logic_table,x)		;/ Execute level specific code (after vanilla logic code)
+	RTL					;> Return to vanilla code
 
 custom_level_load_handler:
-	PHB
-	PHK
-	PLB
-	LDA level_number
-	ASL
-	TAX
-	JSR (custom_level_load_table,x)
-	PLB
-	JSL CODE_B5B9ED
-	RTL
+	PHB					; Preserve DB
+	PHK					;\ Set DB to this bank
+	PLB					;/
+	LDA custom_global_level_load_pointer	;\
+	STA $32					; |
+	LDA custom_global_level_load_pointer+2	; |
+	STA $34					;/
+	%return(.global_return)			;> Push return address to stack so we can get back here with a RTL
+	JML [$0032]				;> Execute custom global code for level (after vanilla level load code)
+.global_return
+	LDA level_number			;\
+	ASL					; |
+	TAX					; |
+	JSR (custom_level_load_table,x)		;/ Execute level specific code (after vanilla level load code)
+	PLB					; Retrieve DB
+	JSL CODE_B5B9ED				; Execute overwritten vanilla code
+	RTL					;> Return to vanilla code
 
 
-
+;This table contains pointer for every level, points to code that will run BEFORE vanilla nmi and logic code
 custom_pre_nmi_table:
 	dw null_custom_code	;00
 	dw null_custom_code	;01
@@ -302,7 +330,7 @@ custom_pre_nmi_table:
         dw null_custom_code	;FF
 
 
-
+;This table contains pointer for every level, points to code that will run AFTER vanilla nmi code and BEFORE vanilla logic code
 custom_post_nmi_table:
 	dw null_custom_code	;00
 	dw null_custom_code	;01
@@ -562,7 +590,7 @@ custom_post_nmi_table:
         dw null_custom_code	;FF
 
 
-
+;This table contains pointer for every level, points to code that will run AFTER vanilla logic code
 custom_post_logic_table:
 	dw null_custom_code	;00
 	dw null_custom_code	;01
@@ -822,7 +850,7 @@ custom_post_logic_table:
         dw null_custom_code	;FF
 
 
-
+;This table contains pointer for every level, points to code that will run AFTER vanilla level load code
 custom_level_load_table:
 	dw null_custom_code	;00
 	dw null_custom_code	;01
@@ -1080,3 +1108,17 @@ custom_level_load_table:
         dw null_custom_code	;FD
         dw null_custom_code	;FE
         dw null_custom_code	;FF
+
+
+
+custom_global_pre_nmi_pointer:
+	dd null_custom_code
+
+custom_global_post_nmi_pointer:
+	dd null_custom_code
+
+custom_global_post_logic_pointer:
+	dd null_custom_code
+
+custom_global_level_load_pointer:
+	dd null_custom_code
