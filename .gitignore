@@ -22,3 +22,6 @@ verify.bat
 verify.py
 asar.exe
 *.sym
+ex_build.bat
+flips.exe
+*.ips
