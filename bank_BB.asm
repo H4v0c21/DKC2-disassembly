@@ -7288,9 +7288,9 @@ CODE_BBBB93:
 	RTL					;$BBBB98  /
 
 CODE_BBBB99:
-	LDX current_sprite			;$BBBB99  \
-	LDA $56,x				;$BBBB9B   |
-	BNE CODE_BBBBC6				;$BBBB9D   |
+	LDX current_sprite			;$BBBB99  \ \
+	LDA $56,x				;$BBBB9B   | |
+	BNE CODE_BBBBC6				;$BBBB9D   |/ If the current sprite was spawned by the level
 	TXY					;$BBBB9F   |
 	LDA $58,x				;$BBBBA0   |
 	AND #$000F				;$BBBBA2   |
@@ -7321,13 +7321,13 @@ CODE_BBBBC0:
 
 CODE_BBBBC6:
 	TXY					;$BBBBC6  \
-	LDA $58,x				;$BBBBC7   |
-	AND #$1F00				;$BBBBC9   |
-	BNE CODE_BBBBFA				;$BBBBCC   |
+	LDA $58,x				;$BBBBC7   |\
+	AND #$1F00				;$BBBBC9   | |
+	BNE CODE_BBBBFA				;$BBBBCC   |/ If sprite is in a spawn group
 CODE_BBBBCE:					;	   |
-	LDA $05BB				;$BBBBCE   |
-	BIT #$0040				;$BBBBD1   |
-	BNE CODE_BBBBEC				;$BBBBD4   |
+	LDA $05BB				;$BBBBCE   |\
+	BIT #$0040				;$BBBBD1   | |
+	BNE CODE_BBBBEC				;$BBBBD4   |/ If sprite processing is disabled dont process sprites
 CODE_BBBBD6:					;	   |
 	LDA $58,x				;$BBBBD6   |
 	AND #$000F				;$BBBBD8   |

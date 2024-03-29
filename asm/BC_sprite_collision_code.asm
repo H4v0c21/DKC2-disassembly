@@ -191,6 +191,7 @@ CODE_BCFBCA:					;	   |
 	PLD					;$BCFBCA   |
 	RTL					;$BCFBCB  /
 
+;mirror clipping
 CODE_BCFBCC:
 	LDA $00					;$BCFBCC  \
 	STA $10					;$BCFBCE   |
@@ -202,6 +203,7 @@ CODE_BCFBCC:
 	STA $12					;$BCFBDA   |
 	RTS					;$BCFBDC  /
 
+;mirror clipping
 CODE_BCFBDD:
 	LDA $00					;$BCFBDD  \
 	STA $08					;$BCFBDF   |
@@ -429,7 +431,7 @@ no_contact_return:
 	RTS					;$BCFD60  /
 
 check_for_collision:
-	STZ $09F5				;$BCFD61  \
+	STZ $09F5				;$BCFD61  \ Clear previous collision event
 	LDA $EB					;$BCFD64   |
 	AND $30,x				;$BCFD66   |
 	BEQ no_contact_return			;$BCFD68   |
@@ -445,11 +447,11 @@ check_for_collision:
 	LDA $09B9,y				;$BCFD82   | Compare the bottom of the kong
 	CMP $09E5				;$BCFD85   | with the top of the sprite
 	BCC no_contact_return			;$BCFD88   |
-	LDA $09AF,y				;$BCFD8A   |
-	BEQ CODE_BCFDB2				;$BCFD8D   |
-	CMP $09D3				;$BCFD8F   |
+	LDA $09AF,y				;$BCFD8A   | Compare the right of inactive kong
+	BEQ CODE_BCFDB2				;$BCFD8D   | If inactive kong clipping doesn't exists skip follower clipping check
+	CMP $09D3				;$BCFD8F   | with the left of the sprite
 	BCC CODE_BCFDB2				;$BCFD92   |
-	LDA $09D7				;$BCFD94   |
+	LDA $09D7				;$BCFD94   | Compare the right of the sprite
 	CMP $09AB,y				;$BCFD97   |
 	BCC CODE_BCFDB2				;$BCFD9A   |
 	LDA $09D9				;$BCFD9C   |
@@ -458,8 +460,8 @@ check_for_collision:
 	LDA $09B1,y				;$BCFDA4   |
 	CMP $09D5				;$BCFDA7   |
 	BCC CODE_BCFDB2				;$BCFDAA   |
-	LDA #$0001				;$BCFDAC   |
-	TSB $09F5				;$BCFDAF   |
+	LDA #$0001				;$BCFDAC   |\ Follower kong collided
+	TSB $09F5				;$BCFDAF   |/
 CODE_BCFDB2:					;	   |
 	LDA $09DF				;$BCFDB2   |
 	BEQ CODE_BCFDDA				;$BCFDB5   |
@@ -477,20 +479,20 @@ CODE_BCFDB2:					;	   |
 	LDA #$0002				;$BCFDD4   |
 	TSB $09F5				;$BCFDD7   |
 CODE_BCFDDA:					;	   |
-	LDA $09A7,y				;$BCFDDA   |
-	CMP $09D3				;$BCFDDD   |
+	LDA $09A7,y				;$BCFDDA   | Compare the right of the kong
+	CMP $09D3				;$BCFDDD   | with the left of the sprite
 	BCC CODE_BCFE00				;$BCFDE0   |
-	LDA $09D7				;$BCFDE2   |
-	CMP $09A3,y				;$BCFDE5   |
+	LDA $09D7				;$BCFDE2   | Compare the right of the sprite
+	CMP $09A3,y				;$BCFDE5   | with the left of the kong
 	BCC CODE_BCFE00				;$BCFDE8   |
-	LDA $09D9				;$BCFDEA   |
-	CMP $09A5,y				;$BCFDED   |
+	LDA $09D9				;$BCFDEA   | Compare the bottom of the sprite
+	CMP $09A5,y				;$BCFDED   | with the top of the kong
 	BCC CODE_BCFE00				;$BCFDF0   |
-	LDA $09A9,y				;$BCFDF2   |
-	CMP $09D5				;$BCFDF5   |
+	LDA $09A9,y				;$BCFDF2   | Compare the bottom of the kong
+	CMP $09D5				;$BCFDF5   | with the top of the sprite
 	BCC CODE_BCFE00				;$BCFDF8   |
-	LDA #$0004				;$BCFDFA   |
-	TSB $09F5				;$BCFDFD   |
+	LDA #$0004				;$BCFDFA   |\ Main kong collided
+	TSB $09F5				;$BCFDFD   |/
 CODE_BCFE00:					;	   |
 	LDA $09F5				;$BCFE00   |
 	CMP #$0001				;$BCFE03   |

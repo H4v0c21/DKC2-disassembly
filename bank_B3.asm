@@ -339,19 +339,19 @@ CODE_B38280:
 	LDA $08C2				;$B38280  \
 	AND #$0001				;$B38283   |
 	BNE CODE_B382C6				;$B38286   |
-	LDY $0595				;$B38288   |
-	STY $66					;$B3828B   |
-	LDA $0000,y				;$B3828D   |
-	STA $0A2E				;$B38290   |
-	LDX active_kong_sprite			;$B38293   |
-	STX current_sprite			;$B38296   |
-	LDA $36,x				;$B38298   |
-	LDA $20,x				;$B3829A   |
-	STA $0A30				;$B3829C   |
-	LDA $26,x				;$B3829F   |
-	STA $0A32				;$B382A1   |
-	LDA $0E,x				;$B382A4   |
-	STA $0A34				;$B382A6   |
+	LDY $0595				;$B38288   |\ Use kong control variables for active kong
+	STY $66					;$B3828B   |/
+	LDA $0000,y				;$B3828D   |\ Get kong animation number
+	STA $0A2E				;$B38290   |/ Set camera animation number
+	LDX active_kong_sprite			;$B38293   |\ Set current sprite to active kong
+	STX current_sprite			;$B38296   |/
+	LDA $36,x				;$B38298   |> Useless code to get kong animation id, A doesn't get used
+	LDA $20,x				;$B3829A   |\ Get kong current x velocity
+	STA $0A30				;$B3829C   |/ Set current x velocity for camera
+	LDA $26,x				;$B3829F   |\ Get kong target x velocity
+	STA $0A32				;$B382A1   |/ Set target x velocity for camera
+	LDA $0E,x				;$B382A4   |\ Get kong distance from ground
+	STA $0A34				;$B382A6   |/ Store camera distance from ground
 	LDA $0A2A				;$B382A9   |
 	CMP $06,x				;$B382AC   |
 	BNE CODE_B382CD				;$B382AE   |
@@ -461,7 +461,7 @@ DATA_B38348:
 	dw kudgel_main,$0001				;0078
 	dw chasing_king_zing_main,$0000			;007C
 	dw king_zing_main,$0000				;0080
-	dw unknown_sprite_0084_main,$0000		;0084
+	dw kremcoin_cheat_handler_main,$0000		;0084
 	dw chest_spawner_main,$0000			;0088
 	dw unknown_sprite_008C_main,$0000		;008C
 	dw unknown_sprite_0090_main,$0000		;0090
@@ -966,7 +966,7 @@ chest_spawner_main:
 	LDA #$001E				;$B388AD  \
 	JML CODE_BEB800				;$B388B0  /
 
-unknown_sprite_0084_main:
+kremcoin_cheat_handler_main:
 	LDA #$0020				;$B388B4  \
 	JML CODE_BEB800				;$B388B7  /
 
@@ -9049,10 +9049,10 @@ bananas_main:
 	JSR CODE_B3A369				;$B3C345  /
 
 DATA_B3C348:
-	dw CODE_B3C350
-	dw CODE_B3C364
-	dw CODE_B3C398
-	dw CODE_B3C3C3
+	dw CODE_B3C350				;00
+	dw CODE_B3C364				;01
+	dw CODE_B3C398				;02
+	dw CODE_B3C3C3				;03
 
 CODE_B3C350:
 	JSL CODE_B9D100				;$B3C350  \

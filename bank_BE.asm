@@ -5,24 +5,24 @@ CODE_BEB800:
 	JMP (DATA_BEB806,x)			;$BEB803  /
 
 DATA_BEB806:
-	dw CODE_BECBA0				;0000
-	dw CODE_BECDE2				;0002
-	dw CODE_BECE8D				;0004
-	dw CODE_BECF73				;0006
-	dw CODE_BEE47F				;0008
-	dw CODE_BEE07E				;000A
-	dw CODE_BEE2D9				;000C
-	dw CODE_BEB850				;000E
-	dw CODE_BEBA99				;0010
-	dw CODE_BEE6EB				;0012
-	dw CODE_BEE8BD				;0014
-	dw CODE_BEEA8D				;0016
-	dw CODE_BEEB4E				;0018
-	dw CODE_BEEC82				;001A
-	dw CODE_BEEE38				;001C
-	dw CODE_BEEF1F				;001E
-	dw CODE_BEEF81				;0020
-	dw CODE_BEEA7F				;0022
+	dw CODE_BECBA0				;0000 haunted_hall_door_main
+	dw CODE_BECDE2				;0002 gate_barrel_main
+	dw CODE_BECE8D				;0004 skull_cart_sparks_main
+	dw CODE_BECF73				;0006 skull_cart_main
+	dw CODE_BEE47F				;0008 klank_main
+	dw CODE_BEE07E				;000A kackle_main
+	dw CODE_BEE2D9				;000C unknown_sprite_0300_main
+	dw CODE_BEB850				;000E coins_main
+	dw CODE_BEBA99				;0010 kong_letter_main
+	dw CODE_BEE6EB				;0012 traffic_light_main
+	dw CODE_BEE8BD				;0014 racing_flag_main
+	dw CODE_BEEA8D				;0016 chasing_king_zing_main
+	dw CODE_BEEB4E				;0018 screech_main
+	dw CODE_BEEC82				;001A giant_tire_main
+	dw CODE_BEEE38				;001C unknown_sprite_00D4_main
+	dw CODE_BEEF1F				;001E chest_spawner_main
+	dw CODE_BEEF81				;0020 kremcoin_cheat_handler_main
+	dw CODE_BEEA7F				;0022 double_zingers_main
 
 
 CODE_BEB82A:
@@ -218,15 +218,15 @@ if !version == 1				;	  \
 	LDA $052D				;$BEB992   |
 	AND #$00FF				;$BEB995   |
 	CMP #$0003				;$BEB998   |
-	BNE CODE_BEB9B2				;$BEB99B   |
+	BNE .no_sound_effect			;$BEB99B   |
 endif						;	   |
-	LDA #$0621				;$BEB99D   |
-	JSL queue_sound_effect			;$BEB9A0   |
-	LDA #$0522				;$BEB9A4   |
-	JSL queue_sound_effect			;$BEB9A7   |
-	LDA #$0735				;$BEB9AB   |
-	JSL queue_sound_effect			;$BEB9AE   |
-CODE_BEB9B2:					;	   |
+	LDA #$0621				;$BEB99D   |\
+	JSL queue_sound_effect			;$BEB9A0   | |
+	LDA #$0522				;$BEB9A4   | |
+	JSL queue_sound_effect			;$BEB9A7   | |
+	LDA #$0735				;$BEB9AB   | |
+	JSL queue_sound_effect			;$BEB9AE   |/
+.no_sound_effect				;	   |
 	JSL CODE_BB8114				;$BEB9B2   |
 	BCC CODE_BEB9D6				;$BEB9B6   |
 	LDX current_sprite			;$BEB9B8   |
@@ -335,6 +335,10 @@ CODE_BEBA7D:
 
 CODE_BEBA96:
 	JML [$05A9]				;$BEBA96  /
+
+;Kong letter sprite variables
+;$4C,x	letter type, 0=K ,1=O ,2=N ,3=G
+
 
 CODE_BEBA99:
 	JSR CODE_BEB82A				;$BEBA99  /
@@ -7561,119 +7565,119 @@ CODE_BEEF7E:					;	   |
 	JML [$05A9]				;$BEEF7E  /
 
 CODE_BEEF81:
-	LDA $08B8				;$BEEF81  \ load number of cheated krem coins
-	BNE CODE_BEEFAD				;$BEEF84   | if player already cheated skip the checks for cheat activation
-	LDY current_sprite			;$BEEF86   | get sprite index
-	LDA $002E,y				;$BEEF88   | get current cheat step
-	ASL A					;$BEEF8B   |
-	TAX					;$BEEF8C   |
-	JMP (DATA_BEEF90,x)			;$BEEF8D  / execute the check
+	LDA $08B8				;$BEEF81  \ Get number of cheated krem coins
+	BNE .delete_cheat_handler_sprite	;$BEEF84   |> If player already cheated stop checking for cheat
+	LDY current_sprite			;$BEEF86   |\ Get current sprite
+	LDA $002E,y				;$BEEF88   | | Get sprite state
+	ASL A					;$BEEF8B   | |
+	TAX					;$BEEF8C   | |
+	JMP (.state_table,x)			;$BEEF8D  / / Execute sprite behavior
 
-;table for all the krem coin cheat checks
-DATA_BEEF90:					
-	dw CODE_BEEF9E				;next cheat check
-	dw CODE_BEEFB7				;wait for player to enter cabin and enable banana count check
-	dw CODE_BEEFD1				;make sure player didnt grab extra life
-	dw CODE_BEEFD9				;wait for banana bunch to be collected
-	dw CODE_BEEFF8				;wait for player to enter cabin and wait for extra life to be collected
-	dw CODE_BEEFD9				;wait for banana bunch to be collected
-	dw CODE_BEF012				;check banana count then enable cheat flag
+;State table for kremcoin cheat handler sprite
+.state_table
+	dw .default_state			;00 Handle behavior state/cheat step
+	dw .wait_for_cabin_entry		;01 Wait for player to enter cabin and enable banana count check
+	dw .fail_if_life_collected		;02 Make sure player didnt grab extra life
+	dw .wait_for_banana_bunch_collected	;03 Wait for banana bunch to be collected
+	dw .wait_for_life_collected		;04 Wait for player to enter cabin and wait for extra life to be collected
+	dw .wait_for_banana_bunch_collected	;05 Wait for banana bunch to be collected
+	dw .fail_if_bananas_collected		;06 Check banana count then enable cheat flag
 
 
-CODE_BEEF9E:
-	LDA $08BB				;$BEEF9E  \ load current cheat step
-	AND #$0007				;$BEEFA1   |
-	INC A					;$BEEFA4   | add 1 to step counter
-	STA $002E,y				;$BEEFA5   | update step counter on cheat sprite
-	ASL A					;$BEEFA8   |
-	TAX					;$BEEFA9   |
-	JMP (DATA_BEEF90,x)			;$BEEFAA  / execute current step check
+.default_state
+	LDA $08BB				;$BEEF9E  \ Get current cheat step
+	AND #$0007				;$BEEFA1   |\ Convert cheat step to state number
+	INC A					;$BEEFA4   | |
+	STA $002E,y				;$BEEFA5   |/
+	ASL A					;$BEEFA8   |\
+	TAX					;$BEEFA9   | |
+	JMP (.state_table,x)			;$BEEFAA  / / Execute sprite behavior
 
-CODE_BEEFAD:
-	LDX current_sprite			;$BEEFAD  \ get sprite index
-	STZ $00,x				;$BEEFAF   | delete cheat sprite
-	STZ $08BA				;$BEEFB1   | set bananas before cheat to 0
-	JML [$05A9]				;$BEEFB4  / return from sprite code
+.delete_cheat_handler_sprite
+	LDX current_sprite			;$BEEFAD  \
+	STZ $00,x				;$BEEFAF   |> Kill cheat sprite
+	STZ $08BA				;$BEEFB1   |> Set bananas before cheat to 0
+	JML [$05A9]				;$BEEFB4  /> Return from sprite code
 
-CODE_BEEFB7:
-	LDA level_number			;$BEEFB7  \ get the current level
-	CMP #!level_pirate_panic_k_rools_cabin	;$BEEFB9   | check if player is in the ship cabin
-	BNE CODE_BEEFAD				;$BEEFBC   | if the player isnt in the ship cabin disable the cheat sprite
-	LDA $08BC				;$BEEFBE   | get current banana count
-	SEP #$20				;$BEEFC1   | turn on 8 bit
-	STA $08BA				;$BEEFC3   | set bananas before cheat to current banana count
-	REP #$20				;$BEEFC6   | back to 16 bit
-	TYX					;$BEEFC8   |
-	INC $2E,x				;$BEEFC9   | increment step counter
-	INC $08BB				;$BEEFCB   |	
-	INC $08BB				;$BEEFCE   |
-CODE_BEEFD1:					;	   |
-	LDA $0971				;$BEEFD1   | load number of lives to give player
-	BNE CODE_BEEFAD				;$BEEFD4   | if the player collected any lives disable the cheat sprite
-	JML [$05A9]				;$BEEFD6  / return from sprite code
+.wait_for_cabin_entry
+	LDA level_number			;$BEEFB7  \ \ Get the current level
+	CMP #!level_pirate_panic_k_rools_cabin	;$BEEFB9   | |
+	BNE .delete_cheat_handler_sprite	;$BEEFBC   |/ If the player isnt in the ship cabin delete the cheat sprite
+	LDA $08BC				;$BEEFBE   |\ Else get current banana count
+	SEP #$20				;$BEEFC1   | |
+	STA $08BA				;$BEEFC3   | | Set bananas before cheat to current banana count
+	REP #$20				;$BEEFC6   |/
+	TYX					;$BEEFC8   |> Move current sprite into X
+	INC $2E,x				;$BEEFC9   |\
+	INC $08BB				;$BEEFCB   | | Move to next cheat step
+	INC $08BB				;$BEEFCE   |/
+.fail_if_life_collected				;	   |
+	LDA $0971				;$BEEFD1   |\ Get number of lives to give player
+	BNE .delete_cheat_handler_sprite	;$BEEFD4   |/ If the player collected any lives delete the cheat sprite
+	JML [$05A9]				;$BEEFD6  /> Return from sprite code
 
-CODE_BEEFD9:
-	LDA level_number			;$BEEFD9  \ get the current level
-	CMP #!level_pirate_panic		;$BEEFDB   | check if player is in pirate panic
-	BNE CODE_BEEFAD				;$BEEFDE   | if the player isnt in pirate panic disable the cheat sprite
-	LDA $08BA				;$BEEFE0   | get banana count before cheat
-	AND #$00FF				;$BEEFE3   |
-	SED					;$BEEFE6   | set decimal flag because banana counter is binary coded decimal
-	SEC					;$BEEFE7   |
-	SBC $08BC				;$BEEFE8   | banana count before cheat - current banana count
-	CLD					;$BEEFEB   |
-	BEQ CODE_BEF00F				;$BEEFEC   | if the banana counts are the same return from sprite code
-	AND #$00FF				;$BEEFEE   |
-	CMP #$0090				;$BEEFF1   | check if the player collected a banana bunch
-	BEQ CODE_BEF025				;$BEEFF4   | if the player collected a banana bunch continue to next check
-	BRA CODE_BEEFAD				;$BEEFF6  / otherwise disable the cheat sprite
+.wait_for_banana_bunch_collected
+	LDA level_number			;$BEEFD9  \ \ Get the current level
+	CMP #!level_pirate_panic		;$BEEFDB   | |
+	BNE .delete_cheat_handler_sprite	;$BEEFDE   |/ If the player isnt in pirate panic delete the cheat sprite
+	LDA $08BA				;$BEEFE0   |\ Else get banana count before cheat
+	AND #$00FF				;$BEEFE3   | |
+	SED					;$BEEFE6   | | Set decimal flag because banana counter is binary coded decimal
+	SEC					;$BEEFE7   | |
+	SBC $08BC				;$BEEFE8   | | Banana count before cheat - current banana count
+	CLD					;$BEEFEB   |/ Done in decimal mode
+	BEQ .cheat_handler_done			;$BEEFEC   |> If the banana counts are the same return from sprite code
+	AND #$00FF				;$BEEFEE   |\
+	CMP #$0090				;$BEEFF1   | |
+	BEQ .cheat_step_passed			;$BEEFF4   |/ If the player collected a banana bunch continue to next check
+	BRA .delete_cheat_handler_sprite	;$BEEFF6  / > Else delete the cheat sprite
 
-CODE_BEEFF8:
-	LDA level_number			;$BEEFF8  \ get the current level
-	CMP #!level_pirate_panic_k_rools_cabin	;$BEEFFA   | check if player is in the ship cabin
-	BNE CODE_BEEFAD				;$BEEFFD   | if the player isnt in the ship cabin disable the cheat sprite
-	LDA $08BA				;$BEEFFF   | get banana count before cheat
-	AND #$00FF				;$BEF002   |
-	CMP $08BC				;$BEF005   | check if the banana count now is the same as it was before the cheat
-	BNE CODE_BEEFAD				;$BEF008   | if not disable the cheat sprite
-	LDA $0971				;$BEF00A   | load number of lives to give player
-	BNE CODE_BEF025				;$BEF00D   | if the player collected any lives continue to next check
-CODE_BEF00F:					;	   |
-	JML [$05A9]				;$BEF00F  / otherwise return from sprite code
+.wait_for_life_collected
+	LDA level_number			;$BEEFF8  \ \ Get the current level
+	CMP #!level_pirate_panic_k_rools_cabin	;$BEEFFA   | |in
+	BNE .delete_cheat_handler_sprite	;$BEEFFD   |/ If the player isnt in the ship cabin delete the cheat sprite
+	LDA $08BA				;$BEEFFF   |\ Get banana count before cheat
+	AND #$00FF				;$BEF002   | |
+	CMP $08BC				;$BEF005   | |
+	BNE .delete_cheat_handler_sprite	;$BEF008   |/ If the banana count is NOT the same as before the cheat, cheat failed
+	LDA $0971				;$BEF00A   |\ Get number of lives to give player
+	BNE .cheat_step_passed			;$BEF00D   |/ If the player collected any lives continue to next check
+.cheat_handler_done				;	   |
+	JML [$05A9]				;$BEF00F  /> Else return from sprite code
 
-CODE_BEF012:
-	LDA $08BA				;$BEF012  \ get banana count before cheat
-	AND #$00FF				;$BEF015   |
-	CMP $08BC				;$BEF018   | check if the banana count now is the same as it was before the cheat
-	BNE CODE_BEEFAD				;$BEF01B   | if not disable the cheat sprite
-	LDA #$0001				;$BEF01D   | enable the cheat
-	TSB $0923				;$BEF020   |
-	BRA CODE_BEEFAD				;$BEF023  / then kill the cheat sprite
+.fail_if_bananas_collected
+	LDA $08BA				;$BEF012  \ \ Get banana count before cheat
+	AND #$00FF				;$BEF015   | |
+	CMP $08BC				;$BEF018   | |
+	BNE .delete_cheat_handler_sprite	;$BEF01B   |/ If the banana count is NOT the same as before the cheat, cheat failed
+	LDA #$0001				;$BEF01D   |\ Else enable the cheat!
+	TSB $0923				;$BEF020   |/
+	BRA .delete_cheat_handler_sprite	;$BEF023  / Then delete the cheat sprite
 
-CODE_BEF025:
-	LDA $08BC				;$BEF025  \ get current banana count
-	SEP #$20				;$BEF028   | turn on 8 bit
-	STA $08BA				;$BEF02A   | set bananas before cheat to current banana count
-	REP #$20				;$BEF02D   | back to 16 bit
-	INC $08BB				;$BEF02F   | increment step counter
-	LDX current_sprite			;$BEF032   | get sprite index
-	STZ $00,x				;$BEF034   | kill sprite
-	JML [$05A9]				;$BEF036  / return from sprite code
+.cheat_step_passed
+	LDA $08BC				;$BEF025  \ \ Get current banana count
+	SEP #$20				;$BEF028   | |
+	STA $08BA				;$BEF02A   | | Set bananas before cheat to current banana count
+	REP #$20				;$BEF02D   |/
+	INC $08BB				;$BEF02F   |> Move to next cheat step
+	LDX current_sprite			;$BEF032   |\
+	STZ $00,x				;$BEF034   |/ Delete the cheat sprite
+	JML [$05A9]				;$BEF036  / Return from sprite code
 
 CODE_BEF039:
-	LDX current_sprite			;$BEF039  \
-	LDA $52,x				;$BEF03B   |
+	LDX current_sprite			;$BEF039  \ \
+	LDA $52,x				;$BEF03B   |/ Get movement type from current sprite
 CODE_BEF03D:					;	   |
-	TAY					;$BEF03D   |
-	AND #$00FF				;$BEF03E   |
-	ASL A					;$BEF041   |
-	TAX					;$BEF042   |
-	TYA					;$BEF043   |
-	XBA					;$BEF044   |
-	AND #$00FF				;$BEF045   |
-	ASL A					;$BEF048   |
-	LDY current_sprite			;$BEF049   |
-	JSR (DATA_BEF051,x)			;$BEF04B   |
+	TAY					;$BEF03D   |\ X = movement routine index
+	AND #$00FF				;$BEF03E   | |
+	ASL A					;$BEF041   | |
+	TAX					;$BEF042   |/
+	TYA					;$BEF043   |\ A = movement init flag
+	XBA					;$BEF044   | |
+	AND #$00FF				;$BEF045   | |
+	ASL A					;$BEF048   |/
+	LDY current_sprite			;$BEF049   |\
+	JSR (DATA_BEF051,x)			;$BEF04B   |/ Execute movement routine
 	LDX current_sprite			;$BEF04E   |
 	RTL					;$BEF050  /
 
