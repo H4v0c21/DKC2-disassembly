@@ -290,6 +290,7 @@ endif
 
 if !ex_patch == 1
 	!ex_sprite_id_start = $0320
+	!ex_graphics_id_start = $3600
 	
 	if !version == 1
 		!ex_spawn_id_start = $1046

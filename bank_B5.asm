@@ -1446,10 +1446,18 @@ CODE_B59C0C:
 	STX $16,y				;$B59C0E   |
 	LDA $0012,y				;$B59C10   |\ copy oam render properties to scratch ram
 	STA $32					;$B59C13   |/
+
+if !ex_patch == 1
+	JSL ex_graphics_handler
+	padbyte $EA
+	pad $B59C21
+	warnpc $B59C21
+else
 	LDA.l DATA_BC8000,x			;$B59C15   |\
 	STA $40					;$B59C19   | | copy sprite graphic address into scratch ram
 	LDA.l DATA_BC8002,x			;$B59C1B   | |
 	STA $42					;$B59C1F   |/
+endif
 	LDY #$0000				;$B59C21   |\
 	LDA [$40],y				;$B59C24   | | copy header into scratch ram
 	STA $36					;$B59C26   | |
@@ -1568,6 +1576,12 @@ CODE_B59CCB:
 	CPX #$02C5				;$B59CE4   |
 	BCS CODE_B59D14				;$B59CE7   |
 	STX $18,y				;$B59CE9   |
+if !ex_patch == 1
+	JSL ex_graphics_handler_2
+	padbyte $EA
+	pad $B59CFC
+	warnpc $B59CFC
+else
 	LDA.l DATA_BC8000,x			;$B59CEB   |
 	STA $40					;$B59CEF   |
 	INC A					;$B59CF1   |
@@ -1575,12 +1589,19 @@ CODE_B59CCB:
 	LDA.l DATA_BC8002,x			;$B59CF4   |
 	STA $42					;$B59CF8   |
 	STA $46					;$B59CFA   |
+endif
 	JMP CODE_B59DAB				;$B59CFC  /
 
 CODE_B59CFF:
 	RTS					;$B59CFF  /
 
 CODE_B59D00:
+if !ex_patch == 1
+	JSL ex_graphics_handler_2
+	padbyte $EA
+	pad $B59D11
+	warnpc $B59D11
+else
 	LDA.l DATA_BC8000,x			;$B59D00  \
 	STA $40					;$B59D04   |
 	INC A					;$B59D06   |
@@ -1588,6 +1609,7 @@ CODE_B59D00:
 	LDA.l DATA_BC8002,x			;$B59D09   |
 	STA $42					;$B59D0D   |
 	STA $46					;$B59D0F   |
+endif
 	JMP CODE_B59DC5				;$B59D11  /
 
 CODE_B59D14:
@@ -1604,6 +1626,12 @@ CODE_B59D14:
 CODE_B59D26:
 	STX $18,y				;$B59D26  \
 	STX $16,y				;$B59D28   |
+if !ex_patch == 1
+	JSL ex_graphics_handler_2
+	padbyte $EA
+	pad $B59D3B
+	warnpc $B59D3B
+else
 	LDA.l DATA_BC8000,x			;$B59D2A   |
 	STA $40					;$B59D2E   |
 	INC A					;$B59D30   |
@@ -1611,6 +1639,7 @@ CODE_B59D26:
 	LDA.l DATA_BC8002,x			;$B59D33   |
 	STA $42					;$B59D37   |
 	STA $46					;$B59D39   |
+endif
 	JSR CODE_B59DC5				;$B59D3B   |
 CODE_B59D3E:					;	   |
 	LDX $1730				;$B59D3E   |
@@ -1970,6 +1999,12 @@ CODE_B59F8D:					;	   |
 	TXA					;$B59F8D   |
 	STA $0018,y				;$B59F8E   |
 	BEQ CODE_B59F76				;$B59F91   |
+if !ex_patch == 1
+	JSL ex_graphics_handler_2
+	padbyte $EA
+	pad $B59FA4
+	warnpc $B59FA4
+else
 	LDA.l DATA_BC8000,x			;$B59F93   |
 	STA $40					;$B59F97   |
 	INC A					;$B59F99   |
@@ -1977,6 +2012,7 @@ CODE_B59F8D:					;	   |
 	LDA.l DATA_BC8002,x			;$B59F9C   |
 	STA $42					;$B59FA0   |
 	STA $46					;$B59FA2   |
+endif
 	XBA					;$B59FA4   |
 	AND #$00FF				;$B59FA5   |
 	CLC					;$B59FA8   |

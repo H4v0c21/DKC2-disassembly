@@ -188,6 +188,8 @@ check bankcross full
 		ex_sprite_constants: : padbyte $00 : pad $460000
 	org $460000
 		incsrc "exhi/bank_46.asm"
+	org $068000
+		incsrc "exhi/bank_06.asm"
 	org $470000
 		incsrc "exhi/bank_47.asm"
 	org $480000
