@@ -22,3 +22,6 @@ padbyte $00 : pad ex_header+$80
 	dl ex_sprite_constants			;008F
 	dw !ex_sprite_id_start			;0092
 	dw !ex_spawn_id_start			;0094
+	dw !ex_animation_id_start		;0096
+	dl ex_animation_table			;0098
+	dl ex_animation_table_end		;009B

@@ -12,7 +12,7 @@ ex_spawn_script_check:
 	
 .ex_spawn_script
 	SEC
-	SBC #!ex_spawn_id_start+2
+	SBC #!ex_spawn_id_start
 	TAX
 	LDA.l ex_spawn_script_table,x
 	TAY

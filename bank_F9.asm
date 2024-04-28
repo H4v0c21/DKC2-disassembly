@@ -1,845 +1,845 @@
 DATA_F90000:
 	%offset(DATA_F90002, 2)
-	dw DATA_F94668 : db $00, $00
-	dw DATA_F90D00 : db $00, $00
-	dw DATA_F91411 : db $00, $00
-	dw DATA_F91B62 : db $00, $00
-	dw DATA_F91C73 : db $00, $00
-	dw DATA_F91D0C : db $03, $00
-	dw DATA_F91D17 : db $00, $30
-	dw DATA_F91D66 : db $00, $30
-	dw DATA_F91DA2 : db $00, $00
-	dw DATA_F91DB9 : db $02, $58
-	dw DATA_F91E1A : db $00, $00
-	dw DATA_F91EB2 : db $00, $00
-	dw DATA_F91AD6 : db $00, $00
-	dw DATA_F91AEA : db $00, $00
-	dw DATA_F91B19 : db $00, $00
-	dw DATA_F91958 : db $04, $00
-	dw DATA_F91A1B : db $00, $00
-	dw DATA_F91A28 : db $00, $00
-	dw DATA_F91A73 : db $00, $00
-	dw DATA_F91988 : db $04, $00
-	dw DATA_F919C3 : db $04, $20
-	dw DATA_F91A8B : db $01, $00
-	dw DATA_F91A98 : db $00, $30
-	dw DATA_F91AB0 : db $00, $30
-	dw DATA_F91AC6 : db $00, $00
-	dw DATA_F91316 : db $00, $30
-	dw DATA_F91D7D : db $00, $30
-	dw DATA_F91D8E : db $00, $30
-	dw DATA_F91351 : db $00, $30
-	dw DATA_F91425 : db $00, $00
-	dw DATA_F91768 : db $00, $00
-	dw DATA_F91790 : db $00, $00
-	dw DATA_F918EA : db $00, $00
-	dw DATA_F91809 : db $01, $00
-	dw DATA_F91818 : db $00, $30
-	dw DATA_F9182A : db $00, $30
-	dw DATA_F91842 : db $00, $00
-	dw DATA_F91854 : db $00, $30
-	dw DATA_F91866 : db $00, $00
-	dw DATA_F9138C : db $00, $98
-	dw DATA_F913BE : db $00, $00
-	dw DATA_F91C59 : db $00, $00
-	dw DATA_F91CDA : db $00, $00
-	dw DATA_F91F18 : db $00, $00
-	dw DATA_F91FA0 : db $00, $00
-	dw DATA_F91F8C : db $00, $00
-	dw DATA_F91FE4 : db $00, $00
-	dw DATA_F92019 : db $00, $00
-	dw DATA_F9204D : db $00, $00
-	dw DATA_F92021 : db $00, $00
-	dw DATA_F92079 : db $00, $00
-	dw DATA_F92093 : db $00, $00
-	dw DATA_F920B9 : db $00, $00
-	dw DATA_F920E2 : db $00, $00
-	dw DATA_F9210B : db $00, $00
-	dw DATA_F92113 : db $00, $00
-	dw DATA_F92133 : db $00, $00
-	dw DATA_F92153 : db $00, $00
-	dw DATA_F921B8 : db $00, $00
-	dw DATA_F91B30 : db $00, $00
-	dw DATA_F91B30 : db $00, $00
-	dw DATA_F91BA9 : db $00, $00
-	dw DATA_F91CA8 : db $00, $00
-	dw DATA_F91D55 : db $00, $00
-	dw DATA_F9138C : db $00, $00
-	dw DATA_F91411 : db $00, $00
-	dw DATA_F921FF : db $00, $00
-	dw DATA_F9224C : db $00, $00
-	dw DATA_F9227E : db $00, $00
-	dw DATA_F91054 : db $00, $00
-	dw DATA_F912D7 : db $00, $00
-	dw DATA_F91309 : db $00, $00
-	dw DATA_F9130E : db $00, $00
-	dw DATA_F9466D : db $00, $00
-	dw DATA_F947CA : db $00, $00
-	dw DATA_F91316 : db $00, $00
-	dw DATA_F90FEF : db $00, $00
-	dw DATA_F90FFD : db $00, $00
-	dw DATA_F94D19 : db $00, $00
-	dw DATA_F91EB7 : db $00, $00
-	dw DATA_F91EC2 : db $00, $00
-	dw DATA_F91EF8 : db $00, $00
-	dw DATA_F91ECA : db $00, $00
-	dw DATA_F91ECA : db $00, $00
-	dw DATA_F91ED2 : db $00, $00
-	dw DATA_F91ED2 : db $00, $00
-	dw DATA_F91ED2 : db $00, $00
-	dw DATA_F91ED2 : db $00, $00
-	dw DATA_F91ED2 : db $00, $00
-	dw DATA_F949EB : db $00, $00
-	dw DATA_F949EB : db $00, $00
-	dw DATA_F949EB : db $00, $00
-	dw DATA_F949EB : db $00, $00
-	dw DATA_F949EB : db $00, $00
-	dw DATA_F92292 : db $00, $00
-	dw DATA_F92845 : db $00, $C0
-	dw DATA_F92C08 : db $00, $00
-	dw DATA_F92E59 : db $00, $A0
-	dw DATA_F948E6 : db $00, $00
-	dw DATA_F922B7 : db $00, $00
-	dw DATA_F927DF : db $00, $C0
-	dw DATA_F92C7D : db $00, $00
-	dw DATA_F92EAE : db $00, $00
-	dw DATA_F94948 : db $00, $00
-	dw DATA_F922CB : db $00, $00
-	dw DATA_F92845 : db $00, $C0
-	dw DATA_F92C08 : db $00, $00
-	dw DATA_F92EC2 : db $00, $A8
-	dw DATA_F948E6 : db $00, $00
-	dw DATA_F923F9 : db $01, $00
-	dw DATA_F9298B : db $01, $C0
-	dw DATA_F92C08 : db $00, $00
+	dw DATA_F94668 : db $00, $00		;0000
+	dw DATA_F90D00 : db $00, $00		;0001
+	dw DATA_F91411 : db $00, $00		;0002
+	dw DATA_F91B62 : db $00, $00		;0003
+	dw DATA_F91C73 : db $00, $00		;0004
+	dw DATA_F91D0C : db $03, $00		;0005
+	dw DATA_F91D17 : db $00, $30		;0006
+	dw DATA_F91D66 : db $00, $30		;0007
+	dw DATA_F91DA2 : db $00, $00		;0008
+	dw DATA_F91DB9 : db $02, $58		;0009
+	dw DATA_F91E1A : db $00, $00		;000A
+	dw DATA_F91EB2 : db $00, $00		;000B
+	dw DATA_F91AD6 : db $00, $00		;000C
+	dw DATA_F91AEA : db $00, $00		;000D
+	dw DATA_F91B19 : db $00, $00		;000E
+	dw DATA_F91958 : db $04, $00		;000F
+	dw DATA_F91A1B : db $00, $00		;0010
+	dw DATA_F91A28 : db $00, $00		;0011
+	dw DATA_F91A73 : db $00, $00		;0012
+	dw DATA_F91988 : db $04, $00		;0013
+	dw DATA_F919C3 : db $04, $20		;0014
+	dw DATA_F91A8B : db $01, $00		;0015
+	dw DATA_F91A98 : db $00, $30		;0016
+	dw DATA_F91AB0 : db $00, $30		;0017
+	dw DATA_F91AC6 : db $00, $00		;0018
+	dw DATA_F91316 : db $00, $30		;0019
+	dw DATA_F91D7D : db $00, $30		;001A
+	dw DATA_F91D8E : db $00, $30		;001B
+	dw DATA_F91351 : db $00, $30		;001C
+	dw DATA_F91425 : db $00, $00		;001D
+	dw DATA_F91768 : db $00, $00		;001E
+	dw DATA_F91790 : db $00, $00		;001F
+	dw DATA_F918EA : db $00, $00		;0020
+	dw DATA_F91809 : db $01, $00		;0021
+	dw DATA_F91818 : db $00, $30		;0022
+	dw DATA_F9182A : db $00, $30		;0023
+	dw DATA_F91842 : db $00, $00		;0024
+	dw DATA_F91854 : db $00, $30		;0025
+	dw DATA_F91866 : db $00, $00		;0026
+	dw DATA_F9138C : db $00, $98		;0027
+	dw DATA_F913BE : db $00, $00		;0028
+	dw DATA_F91C59 : db $00, $00		;0029
+	dw DATA_F91CDA : db $00, $00		;002A
+	dw DATA_F91F18 : db $00, $00		;002B
+	dw DATA_F91FA0 : db $00, $00		;002C
+	dw DATA_F91F8C : db $00, $00		;002D
+	dw DATA_F91FE4 : db $00, $00		;002E
+	dw DATA_F92019 : db $00, $00		;002F
+	dw DATA_F9204D : db $00, $00		;0030
+	dw DATA_F92021 : db $00, $00		;0031
+	dw DATA_F92079 : db $00, $00		;0032
+	dw DATA_F92093 : db $00, $00		;0033
+	dw DATA_F920B9 : db $00, $00		;0034
+	dw DATA_F920E2 : db $00, $00		;0035
+	dw DATA_F9210B : db $00, $00		;0036
+	dw DATA_F92113 : db $00, $00		;0037
+	dw DATA_F92133 : db $00, $00		;0038
+	dw DATA_F92153 : db $00, $00		;0039
+	dw DATA_F921B8 : db $00, $00		;003A
+	dw DATA_F91B30 : db $00, $00		;003B
+	dw DATA_F91B30 : db $00, $00		;003C
+	dw DATA_F91BA9 : db $00, $00		;003D
+	dw DATA_F91CA8 : db $00, $00		;003E
+	dw DATA_F91D55 : db $00, $00		;003F
+	dw DATA_F9138C : db $00, $00		;0040
+	dw DATA_F91411 : db $00, $00		;0041
+	dw DATA_F921FF : db $00, $00		;0042
+	dw DATA_F9224C : db $00, $00		;0043
+	dw DATA_F9227E : db $00, $00		;0044
+	dw DATA_F91054 : db $00, $00		;0045
+	dw DATA_F912D7 : db $00, $00		;0046
+	dw DATA_F91309 : db $00, $00		;0047
+	dw DATA_F9130E : db $00, $00		;0048
+	dw DATA_F9466D : db $00, $00		;0049
+	dw DATA_F947CA : db $00, $00		;004A
+	dw DATA_F91316 : db $00, $00		;004B
+	dw DATA_F90FEF : db $00, $00		;004C
+	dw DATA_F90FFD : db $00, $00		;004D
+	dw DATA_F94D19 : db $00, $00		;004E
+	dw DATA_F91EB7 : db $00, $00		;004F
+	dw DATA_F91EC2 : db $00, $00		;0050
+	dw DATA_F91EF8 : db $00, $00		;0051
+	dw DATA_F91ECA : db $00, $00		;0052
+	dw DATA_F91ECA : db $00, $00		;0053
+	dw DATA_F91ED2 : db $00, $00		;0054
+	dw DATA_F91ED2 : db $00, $00		;0055
+	dw DATA_F91ED2 : db $00, $00		;0056
+	dw DATA_F91ED2 : db $00, $00		;0057
+	dw DATA_F91ED2 : db $00, $00		;0058
+	dw DATA_F949EB : db $00, $00		;0059
+	dw DATA_F949EB : db $00, $00		;005A
+	dw DATA_F949EB : db $00, $00		;005B
+	dw DATA_F949EB : db $00, $00		;005C
+	dw DATA_F949EB : db $00, $00		;005D
+	dw DATA_F92292 : db $00, $00		;005E
+	dw DATA_F92845 : db $00, $C0		;005F
+	dw DATA_F92C08 : db $00, $00		;0060
+	dw DATA_F92E59 : db $00, $A0		;0061
+	dw DATA_F948E6 : db $00, $00		;0062
+	dw DATA_F922B7 : db $00, $00		;0063
+	dw DATA_F927DF : db $00, $C0		;0064
+	dw DATA_F92C7D : db $00, $00		;0065
+	dw DATA_F92EAE : db $00, $00		;0066
+	dw DATA_F94948 : db $00, $00		;0067
+	dw DATA_F922CB : db $00, $00		;0068
+	dw DATA_F92845 : db $00, $C0		;0069
+	dw DATA_F92C08 : db $00, $00		;006A
+	dw DATA_F92EC2 : db $00, $A8		;006B
+	dw DATA_F948E6 : db $00, $00		;006C
+	dw DATA_F923F9 : db $01, $00		;006D
+	dw DATA_F9298B : db $01, $C0		;006E
+	dw DATA_F92C08 : db $00, $00		;006F
 if !version == 0
-	dw DATA_F93036 : db $01, $00
+	dw DATA_F93036 : db $01, $00		;0070
 else
-	dw DATA_F93036 : db $01, $C0
+	dw DATA_F93036 : db $01, $C0		;0070
 endif
-	dw DATA_F948E6 : db $00, $00
-	dw DATA_F9240C : db $00, $00
-	dw DATA_F9299D : db $00, $C0
-	dw DATA_F92C08 : db $00, $00
-	dw DATA_F93048 : db $00, $C0
-	dw DATA_F948E6 : db $00, $00
-	dw DATA_F92457 : db $00, $00
-	dw DATA_F927F3 : db $00, $C0
-	dw DATA_F92C08 : db $00, $00
-	dw DATA_F930B4 : db $00, $C8
-	dw DATA_F948E6 : db $00, $00
-	dw DATA_F92449 : db $00, $00
-	dw DATA_F92AF8 : db $00, $00
-	dw DATA_F92C08 : db $00, $00
-	dw DATA_F93092 : db $00, $C8
-	dw DATA_F948E6 : db $00, $00
-	dw DATA_F92471 : db $00, $00
-	dw DATA_F9281F : db $00, $00
-	dw DATA_F92C91 : db $00, $00
-	dw DATA_F92FFC : db $00, $00
-	dw DATA_F9496C : db $00, $00
-	dw DATA_F92CA8 : db $08, $00
-	dw DATA_F94A9C : db $08, $00
-	dw DATA_F92CA8 : db $08, $00
-	dw DATA_F9481B : db $00, $A0
-	dw DATA_F94A08 : db $00, $A0
-	dw DATA_F92D73 : db $08, $00
-	dw DATA_F92D73 : db $08, $00
-	dw DATA_F92D73 : db $08, $00
-	dw DATA_F947D4 : db $01, $A8
-	dw DATA_F94997 : db $00, $00
-	dw DATA_F92484 : db $00, $00
-	dw DATA_F92835 : db $00, $00
-	dw DATA_F92C08 : db $00, $00
-	dw DATA_F9317E : db $00, $A8
-	dw DATA_F948E6 : db $00, $00
-	dw DATA_F94C5A : db $00, $00
-	dw DATA_F94C62 : db $00, $00
-	dw DATA_F94C6A : db $00, $00
-	dw DATA_F94C72 : db $00, $00
-	dw DATA_F94C7A : db $00, $00
-	dw DATA_F92356 : db $00, $00
-	dw DATA_F92848 : db $00, $00
-	dw DATA_F92B75 : db $00, $00
-	dw DATA_F92F53 : db $00, $00
-	dw DATA_F94908 : db $00, $00
-	dw DATA_F91007 : db $00, $00
-	dw DATA_F91C4E : db $00, $00
-	dw DATA_F91BD2 : db $00, $00
-	dw DATA_F90F96 : db $00, $00
-	dw DATA_F91C0D : db $00, $00
-	dw DATA_F93188 : db $00, $00
-	dw DATA_F93BD1 : db $00, $00
-	dw DATA_F9379A : db $00, $00
-	dw DATA_F937D8 : db $00, $00
-	dw DATA_F93977 : db $03, $00
-	dw DATA_F93982 : db $00, $20
-	dw DATA_F93A3D : db $00, $20
-	dw DATA_F93A90 : db $00, $00
-	dw DATA_F9418B : db $02, $40
-	dw DATA_F940F3 : db $00, $00
-	dw DATA_F94215 : db $00, $30
-	dw DATA_F93738 : db $00, $00
-	dw DATA_F9374C : db $00, $00
-	dw DATA_F93757 : db $00, $00
-	dw DATA_F93E14 : db $04, $00
-	dw DATA_F93F4A : db $00, $00
-	dw DATA_F93F92 : db $00, $00
-	dw DATA_F9401D : db $00, $00
-	dw DATA_F93E64 : db $04, $00
-	dw DATA_F93EBF : db $04, $20
-	dw DATA_F94035 : db $01, $00
-	dw DATA_F94042 : db $00, $20
-	dw DATA_F940CA : db $00, $20
-	dw DATA_F940E3 : db $00, $00
-	dw DATA_F93ADF : db $00, $20
-	dw DATA_F93A5B : db $00, $20
-	dw DATA_F93A72 : db $00, $20
-	dw DATA_F93B11 : db $00, $20
-	dw DATA_F93BE5 : db $00, $00
-	dw DATA_F93C0A : db $00, $00
-	dw DATA_F93C32 : db $00, $00
-	dw DATA_F93DF1 : db $00, $00
-	dw DATA_F93C95 : db $01, $00
-	dw DATA_F93CA2 : db $00, $30
-	dw DATA_F93CBA : db $00, $30
-	dw DATA_F93CD0 : db $00, $00
-	dw DATA_F93CE0 : db $00, $30
-	dw DATA_F93D3A : db $00, $00
-	dw DATA_F93B43 : db $00, $98
-	dw DATA_F93B75 : db $00, $00
-	dw DATA_F938DB : db $00, $00
-	dw DATA_F93933 : db $00, $00
-	dw DATA_F942FA : db $00, $00
-	dw DATA_F943E8 : db $00, $00
-	dw DATA_F943D4 : db $00, $00
-	dw DATA_F943F9 : db $00, $00
-	dw DATA_F94446 : db $00, $00
-	dw DATA_F9447A : db $00, $00
-	dw DATA_F9444E : db $00, $00
-	dw DATA_F944A6 : db $00, $00
-	dw DATA_F944C6 : db $00, $00
-	dw DATA_F944E6 : db $00, $00
-	dw DATA_F94509 : db $00, $00
-	dw DATA_F9452C : db $00, $00
-	dw DATA_F94534 : db $00, $00
-	dw DATA_F94554 : db $00, $00
-	dw DATA_F94574 : db $00, $00
-	dw DATA_F94591 : db $00, $00
-	dw DATA_F93768 : db $00, $00
-	dw DATA_F93768 : db $00, $00
-	dw DATA_F93816 : db $00, $00
-	dw DATA_F938F5 : db $00, $00
-	dw DATA_F93A26 : db $00, $00
-	dw DATA_F93B11 : db $00, $00
-	dw DATA_F93BD1 : db $00, $00
-	dw DATA_F945D2 : db $00, $00
-	dw DATA_F9461F : db $00, $00
-	dw DATA_F94654 : db $00, $00
-	dw DATA_F93470 : db $00, $00
-	dw DATA_F936F0 : db $00, $00
-	dw DATA_F9372B : db $00, $00
-	dw DATA_F93730 : db $00, $00
-	dw DATA_F94747 : db $00, $00
-	dw DATA_F947CF : db $00, $00
-	dw DATA_F93AAD : db $00, $00
-	dw DATA_F933DA : db $00, $00
-	dw DATA_F933E8 : db $00, $00
-	dw DATA_F94C82 : db $00, $00
-	dw DATA_F9423E : db $00, $00
-	dw DATA_F94287 : db $00, $00
-	dw DATA_F942E0 : db $00, $00
-	dw DATA_F9428F : db $00, $00
-	dw DATA_F9428F : db $00, $00
-	dw DATA_F94297 : db $00, $00
-	dw DATA_F94297 : db $00, $00
-	dw DATA_F94297 : db $00, $00
-	dw DATA_F94297 : db $00, $00
-	dw DATA_F94297 : db $00, $00
-	dw DATA_F949EB : db $00, $00
-	dw DATA_F949EB : db $00, $00
-	dw DATA_F949EB : db $00, $00
-	dw DATA_F949EB : db $00, $00
-	dw DATA_F949EB : db $00, $00
-	dw DATA_F92292 : db $00, $00
-	dw DATA_F9248E : db $00, $C0
-	dw DATA_F92C08 : db $00, $00
-	dw DATA_F92E59 : db $00, $A0
-	dw DATA_F948E6 : db $00, $00
-	dw DATA_F922B7 : db $00, $00
-	dw DATA_F927DF : db $00, $C0
-	dw DATA_F92C7D : db $00, $00
-	dw DATA_F92EAE : db $00, $00
-	dw DATA_F94948 : db $00, $00
-	dw DATA_F922CB : db $00, $00
-	dw DATA_F9248E : db $00, $C0
-	dw DATA_F92C08 : db $00, $00
-	dw DATA_F92EC2 : db $00, $A8
-	dw DATA_F948E6 : db $00, $00
-	dw DATA_F923F9 : db $01, $00
-	dw DATA_F925D7 : db $01, $C0
-	dw DATA_F92C08 : db $00, $00
+	dw DATA_F948E6 : db $00, $00		;0071
+	dw DATA_F9240C : db $00, $00		;0072
+	dw DATA_F9299D : db $00, $C0		;0073
+	dw DATA_F92C08 : db $00, $00		;0074
+	dw DATA_F93048 : db $00, $C0		;0075
+	dw DATA_F948E6 : db $00, $00		;0076
+	dw DATA_F92457 : db $00, $00		;0077
+	dw DATA_F927F3 : db $00, $C0		;0078
+	dw DATA_F92C08 : db $00, $00		;0079
+	dw DATA_F930B4 : db $00, $C8		;007A
+	dw DATA_F948E6 : db $00, $00		;007B
+	dw DATA_F92449 : db $00, $00		;007C
+	dw DATA_F92AF8 : db $00, $00		;007D
+	dw DATA_F92C08 : db $00, $00		;007E
+	dw DATA_F93092 : db $00, $C8		;007F
+	dw DATA_F948E6 : db $00, $00		;0080
+	dw DATA_F92471 : db $00, $00		;0081
+	dw DATA_F9281F : db $00, $00		;0082
+	dw DATA_F92C91 : db $00, $00		;0083
+	dw DATA_F92FFC : db $00, $00		;0084
+	dw DATA_F9496C : db $00, $00		;0085
+	dw DATA_F92CA8 : db $08, $00		;0086
+	dw DATA_F94A9C : db $08, $00		;0087
+	dw DATA_F92CA8 : db $08, $00		;0088
+	dw DATA_F9481B : db $00, $A0		;0089
+	dw DATA_F94A08 : db $00, $A0		;008A
+	dw DATA_F92D73 : db $08, $00		;008B
+	dw DATA_F92D73 : db $08, $00		;008C
+	dw DATA_F92D73 : db $08, $00		;008D
+	dw DATA_F947D4 : db $01, $A8		;008E
+	dw DATA_F94997 : db $00, $00		;008F
+	dw DATA_F92484 : db $00, $00		;0090
+	dw DATA_F92835 : db $00, $00		;0091
+	dw DATA_F92C08 : db $00, $00		;0092
+	dw DATA_F9317E : db $00, $A8		;0093
+	dw DATA_F948E6 : db $00, $00		;0094
+	dw DATA_F94C5A : db $00, $00		;0095
+	dw DATA_F94C62 : db $00, $00		;0096
+	dw DATA_F94C6A : db $00, $00		;0097
+	dw DATA_F94C72 : db $00, $00		;0098
+	dw DATA_F94C7A : db $00, $00		;0099
+	dw DATA_F92356 : db $00, $00		;009A
+	dw DATA_F92848 : db $00, $00		;009B
+	dw DATA_F92B75 : db $00, $00		;009C
+	dw DATA_F92F53 : db $00, $00		;009D
+	dw DATA_F94908 : db $00, $00		;009E
+	dw DATA_F91007 : db $00, $00		;009F
+	dw DATA_F91C4E : db $00, $00		;00A0
+	dw DATA_F91BD2 : db $00, $00		;00A1
+	dw DATA_F90F96 : db $00, $00		;00A2
+	dw DATA_F91C0D : db $00, $00		;00A3
+	dw DATA_F93188 : db $00, $00		;00A4
+	dw DATA_F93BD1 : db $00, $00		;00A5
+	dw DATA_F9379A : db $00, $00		;00A6
+	dw DATA_F937D8 : db $00, $00		;00A7
+	dw DATA_F93977 : db $03, $00		;00A8
+	dw DATA_F93982 : db $00, $20		;00A9
+	dw DATA_F93A3D : db $00, $20		;00AA
+	dw DATA_F93A90 : db $00, $00		;00AB
+	dw DATA_F9418B : db $02, $40		;00AC
+	dw DATA_F940F3 : db $00, $00		;00AD
+	dw DATA_F94215 : db $00, $30		;00AE
+	dw DATA_F93738 : db $00, $00		;00AF
+	dw DATA_F9374C : db $00, $00		;00B0
+	dw DATA_F93757 : db $00, $00		;00B1
+	dw DATA_F93E14 : db $04, $00		;00B2
+	dw DATA_F93F4A : db $00, $00		;00B3
+	dw DATA_F93F92 : db $00, $00		;00B4
+	dw DATA_F9401D : db $00, $00		;00B5
+	dw DATA_F93E64 : db $04, $00		;00B6
+	dw DATA_F93EBF : db $04, $20		;00B7
+	dw DATA_F94035 : db $01, $00		;00B8
+	dw DATA_F94042 : db $00, $20		;00B9
+	dw DATA_F940CA : db $00, $20		;00BA
+	dw DATA_F940E3 : db $00, $00		;00BB
+	dw DATA_F93ADF : db $00, $20		;00BC
+	dw DATA_F93A5B : db $00, $20		;00BD
+	dw DATA_F93A72 : db $00, $20		;00BE
+	dw DATA_F93B11 : db $00, $20		;00BF
+	dw DATA_F93BE5 : db $00, $00		;00C0
+	dw DATA_F93C0A : db $00, $00		;00C1
+	dw DATA_F93C32 : db $00, $00		;00C2
+	dw DATA_F93DF1 : db $00, $00		;00C3
+	dw DATA_F93C95 : db $01, $00		;00C4
+	dw DATA_F93CA2 : db $00, $30		;00C5
+	dw DATA_F93CBA : db $00, $30		;00C6
+	dw DATA_F93CD0 : db $00, $00		;00C7
+	dw DATA_F93CE0 : db $00, $30		;00C8
+	dw DATA_F93D3A : db $00, $00		;00C9
+	dw DATA_F93B43 : db $00, $98		;00CA
+	dw DATA_F93B75 : db $00, $00		;00CB
+	dw DATA_F938DB : db $00, $00		;00CC
+	dw DATA_F93933 : db $00, $00		;00CD
+	dw DATA_F942FA : db $00, $00		;00CE
+	dw DATA_F943E8 : db $00, $00		;00CF
+	dw DATA_F943D4 : db $00, $00		;00D0
+	dw DATA_F943F9 : db $00, $00		;00D1
+	dw DATA_F94446 : db $00, $00		;00D2
+	dw DATA_F9447A : db $00, $00		;00D3
+	dw DATA_F9444E : db $00, $00		;00D4
+	dw DATA_F944A6 : db $00, $00		;00D5
+	dw DATA_F944C6 : db $00, $00		;00D6
+	dw DATA_F944E6 : db $00, $00		;00D7
+	dw DATA_F94509 : db $00, $00		;00D8
+	dw DATA_F9452C : db $00, $00		;00D9
+	dw DATA_F94534 : db $00, $00		;00DA
+	dw DATA_F94554 : db $00, $00		;00DB
+	dw DATA_F94574 : db $00, $00		;00DC
+	dw DATA_F94591 : db $00, $00		;00DD
+	dw DATA_F93768 : db $00, $00		;00DE
+	dw DATA_F93768 : db $00, $00		;00DF
+	dw DATA_F93816 : db $00, $00		;00E0
+	dw DATA_F938F5 : db $00, $00		;00E1
+	dw DATA_F93A26 : db $00, $00		;00E2
+	dw DATA_F93B11 : db $00, $00		;00E3
+	dw DATA_F93BD1 : db $00, $00		;00E4
+	dw DATA_F945D2 : db $00, $00		;00E5
+	dw DATA_F9461F : db $00, $00		;00E6
+	dw DATA_F94654 : db $00, $00		;00E7
+	dw DATA_F93470 : db $00, $00		;00E8
+	dw DATA_F936F0 : db $00, $00		;00E9
+	dw DATA_F9372B : db $00, $00		;00EA
+	dw DATA_F93730 : db $00, $00		;00EB
+	dw DATA_F94747 : db $00, $00		;00EC
+	dw DATA_F947CF : db $00, $00		;00ED
+	dw DATA_F93AAD : db $00, $00		;00EE
+	dw DATA_F933DA : db $00, $00		;00EF
+	dw DATA_F933E8 : db $00, $00		;00F0
+	dw DATA_F94C82 : db $00, $00		;00F1
+	dw DATA_F9423E : db $00, $00		;00F2
+	dw DATA_F94287 : db $00, $00		;00F3
+	dw DATA_F942E0 : db $00, $00		;00F4
+	dw DATA_F9428F : db $00, $00		;00F5
+	dw DATA_F9428F : db $00, $00		;00F6
+	dw DATA_F94297 : db $00, $00		;00F7
+	dw DATA_F94297 : db $00, $00		;00F8
+	dw DATA_F94297 : db $00, $00		;00F9
+	dw DATA_F94297 : db $00, $00		;00FA
+	dw DATA_F94297 : db $00, $00		;00FB
+	dw DATA_F949EB : db $00, $00		;00FC
+	dw DATA_F949EB : db $00, $00		;00FD
+	dw DATA_F949EB : db $00, $00		;00FE
+	dw DATA_F949EB : db $00, $00		;00FF
+	dw DATA_F949EB : db $00, $00		;0100
+	dw DATA_F92292 : db $00, $00		;0101
+	dw DATA_F9248E : db $00, $C0		;0102
+	dw DATA_F92C08 : db $00, $00		;0103
+	dw DATA_F92E59 : db $00, $A0		;0104
+	dw DATA_F948E6 : db $00, $00		;0105
+	dw DATA_F922B7 : db $00, $00		;0106
+	dw DATA_F927DF : db $00, $C0		;0107
+	dw DATA_F92C7D : db $00, $00		;0108
+	dw DATA_F92EAE : db $00, $00		;0109
+	dw DATA_F94948 : db $00, $00		;010A
+	dw DATA_F922CB : db $00, $00		;010B
+	dw DATA_F9248E : db $00, $C0		;010C
+	dw DATA_F92C08 : db $00, $00		;010D
+	dw DATA_F92EC2 : db $00, $A8		;010E
+	dw DATA_F948E6 : db $00, $00		;010F
+	dw DATA_F923F9 : db $01, $00		;0110
+	dw DATA_F925D7 : db $01, $C0		;0111
+	dw DATA_F92C08 : db $00, $00		;0112
 if !version == 0
-	dw DATA_F930F4 : db $01, $00
+	dw DATA_F930F4 : db $01, $00		;0113
 else
-	dw DATA_F930F4 : db $01, $C0
+	dw DATA_F930F4 : db $01, $C0		;0113
 endif
-	dw DATA_F948E6 : db $00, $00
-	dw DATA_F9240C : db $00, $00
-	dw DATA_F925E9 : db $00, $C0
-	dw DATA_F92C08 : db $00, $00
-	dw DATA_F93104 : db $00, $C8
-	dw DATA_F948E6 : db $00, $00
-	dw DATA_F92457 : db $00, $00
-	dw DATA_F927F3 : db $00, $C0
-	dw DATA_F92C08 : db $00, $00
-	dw DATA_F9315D : db $00, $C8
-	dw DATA_F948E6 : db $00, $00
-	dw DATA_F92449 : db $00, $00
-	dw DATA_F92762 : db $00, $00
-	dw DATA_F92C08 : db $00, $00
-	dw DATA_F93142 : db $00, $C8
-	dw DATA_F948E6 : db $00, $00
-	dw DATA_F92471 : db $00, $00
-	dw DATA_F9281F : db $00, $00
-	dw DATA_F92C91 : db $00, $00
-	dw DATA_F93171 : db $00, $00
-	dw DATA_F9495C : db $00, $00
-	dw DATA_F92CA8 : db $08, $00
-	dw DATA_F94B80 : db $08, $00
-	dw DATA_F92CA8 : db $08, $00
-	dw DATA_F9481B : db $00, $A0
-	dw DATA_F94A08 : db $00, $00
-	dw DATA_F92D73 : db $08, $00
-	dw DATA_F92D73 : db $08, $00
-	dw DATA_F92D73 : db $08, $00
-	dw DATA_F947D4 : db $01, $A8
-	dw DATA_F94997 : db $00, $00
-	dw DATA_F92484 : db $00, $00
-	dw DATA_F92835 : db $00, $00
-	dw DATA_F92C08 : db $00, $00
-	dw DATA_F9317E : db $00, $A8
-	dw DATA_F948E6 : db $00, $00
-	dw DATA_F94C5A : db $00, $00
-	dw DATA_F94C62 : db $00, $00
-	dw DATA_F94C6A : db $00, $00
-	dw DATA_F94C72 : db $00, $00
-	dw DATA_F94C7A : db $00, $00
-	dw DATA_F92356 : db $00, $00
-	dw DATA_F92491 : db $00, $00
-	dw DATA_F92B75 : db $00, $00
-	dw DATA_F92F53 : db $00, $00
-	dw DATA_F94908 : db $00, $00
-	dw DATA_F93402 : db $00, $00
-	dw DATA_F938D0 : db $00, $00
-	dw DATA_F93848 : db $00, $00
-	dw DATA_F93379 : db $00, $00
-	dw DATA_F9388C : db $00, $00
-	dw DATA_F96784 : db $00, $00
-	dw DATA_F96805 : db $00, $00
-	dw DATA_F9690D : db $00, $00
-	dw DATA_F96941 : db $00, $00
-	dw DATA_F970B1 : db $00, $00
-	dw DATA_F967C4 : db $00, $00
-	dw DATA_F968A8 : db $00, $00
-	dw DATA_F96939 : db $00, $00
-	dw DATA_F96A8A : db $00, $00
-	dw DATA_F970CB : db $00, $00
-	dw DATA_F97006 : db $00, $00
-	dw DATA_F96FF5 : db $00, $00
-	dw DATA_F97026 : db $00, $00
-	dw DATA_F966DB : db $00, $00
-	dw DATA_F966F8 : db $00, $00
-	dw DATA_F96712 : db $00, $00
-	dw DATA_F9672C : db $00, $00
-	dw DATA_F96746 : db $00, $00
-	dw DATA_F96760 : db $00, $00
-	dw DATA_F966D9 : db $00, $00
-	dw DATA_F94DE7 : db $00, $00
-	dw DATA_F94DB3 : db $00, $00
-	dw DATA_F94DDC : db $00, $00
-	dw DATA_F9677F : db $00, $00
-	dw DATA_F9677A : db $00, $00
-	dw DATA_F953CE : db $00, $00
-	dw DATA_F953F7 : db $00, $00
-	dw DATA_F95416 : db $00, $00
-	dw DATA_F94F6F : db $00, $00
-	dw DATA_F94FA8 : db $00, $00
-	dw DATA_F94F8F : db $00, $00
-	dw DATA_F94FCA : db $00, $00
-	dw DATA_F94FE4 : db $00, $00
-	dw DATA_F96C9A : db $00, $00
-	dw DATA_F95D3E : db $00, $00
-	dw DATA_F95D61 : db $00, $00
-	dw DATA_F95D77 : db $00, $00
-	dw DATA_F95D8D : db $00, $00
-	dw DATA_F95DAD : db $00, $00
-	dw DATA_F95E33 : db $00, $00
-	dw DATA_F94F1F : db $00, $00
-	dw DATA_F94F3C : db $00, $00
-	dw DATA_F94F58 : db $00, $00
-	dw DATA_F9542D : db $00, $00
-	dw DATA_F95459 : db $00, $00
-	dw DATA_F95472 : db $00, $00
-	dw DATA_F9548F : db $00, $00
-	dw DATA_F954FC : db $00, $00
-	dw DATA_F95706 : db $00, $00
-	dw DATA_F9572F : db $00, $00
-	dw DATA_F9574B : db $00, $00
-	dw DATA_F957F7 : db $00, $00
-	dw DATA_F95802 : db $00, $00
-	dw DATA_F95849 : db $00, $00
-	dw DATA_F95C54 : db $00, $00
-	dw DATA_F95C8F : db $00, $00
-	dw DATA_F95C3D : db $00, $00
-	dw DATA_F958FB : db $00, $00
-	dw DATA_F95915 : db $00, $00
-	dw DATA_F95947 : db $00, $00
-	dw DATA_F95F40 : db $00, $00
-	dw DATA_F95F69 : db $00, $00
-	dw DATA_F95F82 : db $00, $00
-	dw DATA_F95FBC : db $00, $00
-	dw DATA_F95FE8 : db $00, $00
-	dw DATA_F96010 : db $00, $00
-	dw DATA_F96040 : db $00, $00
-	dw DATA_F96054 : db $00, $00
-	dw DATA_F9606E : db $00, $00
-	dw DATA_F96133 : db $00, $00
-	dw DATA_F96113 : db $00, $00
-	dw DATA_F9614F : db $00, $00
-	dw DATA_F96175 : db $00, $00
-	dw DATA_F95952 : db $00, $00
-	dw DATA_F959E3 : db $00, $00
-	dw DATA_F95A4D : db $00, $00
-	dw DATA_F95536 : db $00, $00
-	dw DATA_F9555F : db $00, $00
-	dw DATA_F95594 : db $00, $00
-	dw DATA_F95A81 : db $00, $00
-	dw DATA_F95A67 : db $00, $00
-	dw DATA_F95A9E : db $00, $00
-	dw DATA_F95AB4 : db $00, $00
-	dw DATA_F95B1B : db $00, $00
-	dw DATA_F95B01 : db $00, $00
-	dw DATA_F95B38 : db $00, $00
-	dw DATA_F95B57 : db $00, $00
-	dw DATA_F96DA7 : db $00, $00
-	dw DATA_F955AB : db $00, $00
-	dw DATA_F955D7 : db $00, $00
-	dw DATA_F955F0 : db $00, $00
-	dw DATA_F9560A : db $00, $00
-	dw DATA_F95669 : db $00, $00
-	dw DATA_F9568C : db $00, $00
-	dw DATA_F956A2 : db $00, $00
-	dw DATA_F95B96 : db $00, $00
-	dw DATA_F95C26 : db $00, $00
-	dw DATA_F95B77 : db $00, $00
-	dw DATA_F95896 : db $00, $00
-	dw DATA_F958BF : db $00, $00
-	dw DATA_F958E7 : db $00, $00
-	dw DATA_F96446 : db $00, $00
-	dw DATA_F9649C : db $00, $00
-	dw DATA_F964EC : db $00, $00
-	dw DATA_F96501 : db $00, $00
-	dw DATA_F9655A : db $00, $00
-	dw DATA_F96571 : db $00, $00
-	dw DATA_F965A0 : db $00, $00
-	dw DATA_F965A5 : db $00, $00
-	dw DATA_F965AA : db $00, $00
-	dw DATA_F94EE4 : db $00, $00
-	dw DATA_F96FDE : db $00, $00
-	dw DATA_F970D3 : db $00, $00
-	dw DATA_F97129 : db $00, $00
-	dw DATA_F96AE2 : db $00, $00
-	dw DATA_F96AC8 : db $00, $00
-	dw DATA_F96AFC : db $00, $00
-	dw DATA_F94E95 : db $00, $00
-	dw DATA_F96B9B : db $00, $00
-	dw DATA_F96BE2 : db $00, $00
-	dw DATA_F95CB8 : db $00, $00
-	dw DATA_F95CE4 : db $00, $00
-	dw DATA_F96B19 : db $00, $00
-	dw DATA_F96B33 : db $00, $00
-	dw DATA_F96B4D : db $00, $00
-	dw DATA_F9707E : db $00, $00
-	dw DATA_F97083 : db $00, $00
-	dw DATA_F965EE : db $00, $00
-	dw DATA_F98B38 : db $00, $00
-	dw DATA_F98B4C : db $00, $00
-	dw DATA_F98BBA : db $00, $00
-	dw DATA_F98BE0 : db $00, $00
-	dw DATA_F98C0F : db $00, $00
-	dw DATA_F98C3E : db $00, $00
-	dw DATA_F98C52 : db $00, $00
-	dw DATA_F98C6C : db $00, $00
-	dw DATA_F98C83 : db $00, $00
-	dw DATA_F98C97 : db $00, $00
-	dw DATA_F98CB1 : db $00, $00
-	dw DATA_F98CC8 : db $00, $00
-	dw DATA_F98D3C : db $00, $00
-	dw DATA_F98D59 : db $00, $00
-	dw DATA_F98D76 : db $00, $00
-	dw DATA_F98D87 : db $00, $00
-	dw DATA_F98D92 : db $00, $00
-	dw DATA_F98B30 : db $00, $00
-	dw DATA_F98DCD : db $00, $00
-	dw DATA_F98E11 : db $00, $00
-	dw DATA_F98E25 : db $00, $00
-	dw DATA_F98E4E : db $00, $00
-	dw DATA_F98E5F : db $00, $00
-	dw DATA_F98E88 : db $00, $00
-	dw DATA_F98E93 : db $00, $00
-	dw DATA_F98EBC : db $00, $00
-	dw DATA_F98F00 : db $00, $00
-	dw DATA_F98F14 : db $00, $00
-	dw DATA_F98F3D : db $00, $00
-	dw DATA_F98F4E : db $00, $00
-	dw DATA_F98F77 : db $00, $00
-	dw DATA_F98F82 : db $00, $00
-	dw DATA_F972DC : db $00, $00
-	dw DATA_F9730D : db $00, $00
-	dw DATA_F98B07 : db $00, $00
-	dw DATA_F98B0F : db $00, $00
-	dw DATA_F98B17 : db $00, $00
-	dw DATA_F98B25 : db $00, $00
-	dw DATA_F95E4A : db $00, $00
-	dw DATA_F95E58 : db $00, $00
-	dw DATA_F95E87 : db $00, $00
-	dw DATA_F95E9D : db $00, $00
-	dw DATA_F95EB3 : db $00, $00
-	dw DATA_F95F06 : db $00, $00
-	dw DATA_F95F20 : db $00, $00
-	dw DATA_F950B2 : db $00, $00
-	dw DATA_F95302 : db $00, $00
-	dw DATA_F95195 : db $00, $00
-	dw DATA_F951EC : db $00, $00
-	dw DATA_F94ECA : db $00, $00
-	dw DATA_F95CF5 : db $00, $00
-	dw DATA_F986D6 : db $00, $00
-	dw DATA_F972AF : db $00, $00
-	dw DATA_F989E6 : db $00, $00
-	dw DATA_F98741 : db $00, $00
-	dw DATA_F9864F : db $00, $00
-	dw DATA_F98684 : db $00, $00
-	dw DATA_F98709 : db $00, $00
-	dw DATA_F9875E : db $00, $00
-	dw DATA_F98778 : db $00, $00
-	dw DATA_F98798 : db $00, $00
-	dw DATA_F987C1 : db $00, $00
-	dw DATA_F987C9 : db $00, $00
-	dw DATA_F987F9 : db $00, $00
-	dw DATA_F986EF : db $00, $00
-	dw DATA_F986BA : db $00, $00
-	dw DATA_F987D9 : db $00, $00
-	dw DATA_F98A18 : db $00, $00
-	dw DATA_F98A56 : db $00, $00
-	dw DATA_F98A6F : db $00, $00
-	dw DATA_F98A8E : db $00, $00
-	dw DATA_F98AC6 : db $00, $00
-	dw DATA_F982C8 : db $00, $00
-	dw DATA_F98416 : db $00, $00
-	dw DATA_F983FC : db $00, $00
-	dw DATA_F9831D : db $00, $00
-	dw DATA_F98399 : db $00, $00
-	dw DATA_F983E2 : db $00, $00
-	dw DATA_F9841E : db $00, $00
-	dw DATA_F98441 : db $00, $00
-	dw DATA_F98468 : db $00, $00
-	dw DATA_F98303 : db $00, $00
-	dw DATA_F98457 : db $00, $00
-	dw DATA_F984BA : db $00, $00
-	dw DATA_F9850D : db $00, $00
-	dw DATA_F98521 : db $00, $00
-	dw DATA_F98601 : db $00, $00
-	dw DATA_F98535 : db $00, $00
-	dw DATA_F98567 : db $00, $00
-	dw DATA_F98599 : db $00, $00
-	dw DATA_F985B3 : db $00, $00
-	dw DATA_F985CD : db $00, $00
-	dw DATA_F985E7 : db $00, $00
-	dw DATA_F975D4 : db $00, $00
-	dw DATA_F975DC : db $00, $00
-	dw DATA_F975E6 : db $00, $00
-	dw DATA_F975F0 : db $00, $00
-	dw DATA_F975FA : db $00, $00
-	dw DATA_F97604 : db $00, $00
-	dw DATA_F971ED : db $00, $00
-	dw DATA_F97213 : db $00, $00
-	dw DATA_F9725A : db $00, $00
-	dw DATA_F97292 : db $00, $00
-	dw DATA_F9861B : db $00, $00
-	dw DATA_F98635 : db $00, $00
-	dw DATA_F980B7 : db $00, $00
-	dw DATA_F980D1 : db $00, $00
-	dw DATA_F980E7 : db $00, $00
-	dw DATA_F98101 : db $00, $00
-	dw DATA_F98111 : db $00, $00
-	dw DATA_F9814E : db $00, $00
-	dw DATA_F981B8 : db $00, $00
-	dw DATA_F981C0 : db $00, $00
-	dw DATA_F981C8 : db $00, $00
-	dw DATA_F981D0 : db $00, $00
-	dw DATA_F981D8 : db $00, $00
-	dw DATA_F981E0 : db $00, $00
-	dw DATA_F981E8 : db $00, $00
-	dw DATA_F981F0 : db $00, $00
-	dw DATA_F981F8 : db $00, $00
-	dw DATA_F9822D : db $00, $00
-	dw DATA_F98188 : db $00, $00
-	dw DATA_F981A2 : db $00, $00
-	dw DATA_F98259 : db $00, $00
-	dw DATA_F977AB : db $00, $00
-	dw DATA_F977D6 : db $00, $00
-	dw DATA_F977EA : db $00, $00
-	dw DATA_F97818 : db $00, $00
-	dw DATA_F97843 : db $00, $00
-	dw DATA_F978F9 : db $00, $00
-	dw DATA_F979A9 : db $00, $00
-	dw DATA_F979BA : db $00, $00
-	dw DATA_F97725 : db $00, $00
-	dw DATA_F97748 : db $00, $00
-	dw DATA_F97768 : db $00, $00
-	dw DATA_F9778B : db $00, $00
-	dw DATA_F97A22 : db $00, $00
-	dw DATA_F979FC : db $00, $00
-	dw DATA_F97A0F : db $00, $00
-	dw DATA_F976EA : db $00, $00
-	dw DATA_F97709 : db $00, $00
-	dw DATA_F979EC : db $00, $00
-	dw DATA_F979F4 : db $00, $00
-	dw DATA_F98FAB : db $00, $00
-	dw DATA_F97627 : db $00, $00
-	dw DATA_F9767A : db $00, $00
-	dw DATA_F976BE : db $00, $00
-	dw DATA_F97550 : db $00, $00
-	dw DATA_F97597 : db $00, $00
-	dw DATA_F975CC : db $00, $00
-	dw DATA_F986A1 : db $00, $00
-	dw DATA_F97A2A : db $00, $00
-	dw DATA_F97A38 : db $00, $00
-	dw DATA_F97A5A : db $00, $00
-	dw DATA_F97A7A : db $00, $00
-	dw DATA_F97A91 : db $00, $00
-	dw DATA_F97AB0 : db $00, $00
-	dw DATA_F97AD2 : db $00, $00
-	dw DATA_F97AE5 : db $00, $00
-	dw DATA_F97AF8 : db $00, $00
-	dw DATA_F97B11 : db $00, $00
-	dw DATA_F97B2A : db $00, $00
-	dw DATA_F97B7A : db $00, $00
-	dw DATA_F97B94 : db $00, $00
-	dw DATA_F97B9C : db $00, $00
-	dw DATA_F97BA4 : db $00, $00
-	dw DATA_F97BBE : db $00, $00
-	dw DATA_F97BF0 : db $00, $00
-	dw DATA_F97C16 : db $00, $00
-	dw DATA_F97C42 : db $00, $00
-	dw DATA_F97C83 : db $00, $00
-	dw DATA_F97D34 : db $00, $00
-	dw DATA_F97D66 : db $00, $00
-	dw DATA_F97DA7 : db $00, $00
-	dw DATA_F97DB2 : db $00, $00
-	dw DATA_F97DE7 : db $00, $00
-	dw DATA_F97B5A : db $00, $00
-	dw DATA_F97E19 : db $00, $00
-	dw DATA_F97E48 : db $00, $00
-	dw DATA_F97E6B : db $00, $00
-	dw DATA_F97E91 : db $00, $00
-	dw DATA_F97A46 : db $00, $00
-	dw DATA_F98069 : db $00, $00
-	dw DATA_F9809D : db $00, $00
-	dw DATA_F98285 : db $00, $00
-	dw DATA_F9805B : db $00, $00
-	dw DATA_F98083 : db $00, $00
-	dw DATA_F97B49 : db $00, $00
-	dw DATA_F97CA6 : db $00, $00
-	dw DATA_F97CFC : db $00, $00
-	dw DATA_F97EAE : db $00, $00
-	dw DATA_F97EE3 : db $00, $00
-	dw DATA_F97F64 : db $00, $00
-	dw DATA_F97FE4 : db $00, $00
-	dw DATA_F97B41 : db $00, $00
-	dw DATA_F97F0C : db $00, $00
-	dw DATA_F97F3E : db $00, $00
-	dw DATA_F972BD : db $00, $00
-	dw DATA_F972CE : db $00, $00
-	dw DATA_F9734E : db $00, $00
-	dw DATA_F97356 : db $00, $00
-	dw DATA_F9735E : db $00, $00
-	dw DATA_F9736B : db $00, $00
-	dw DATA_F97338 : db $00, $00
-	dw DATA_F97343 : db $00, $00
-	dw DATA_F97378 : db $00, $00
-	dw DATA_F973AD : db $00, $00
-	dw DATA_F973D6 : db $00, $00
-	dw DATA_F973ED : db $00, $00
-	dw DATA_F97401 : db $00, $00
-	dw DATA_F9744E : db $00, $00
-	dw DATA_F97495 : db $00, $00
-	dw DATA_F974A0 : db $00, $00
-	dw DATA_F974AB : db $00, $00
-	dw DATA_F974B3 : db $00, $00
-	dw DATA_F974BB : db $00, $00
-	dw DATA_F974F0 : db $00, $00
-	dw DATA_F9751C : db $00, $00
-	dw DATA_F982B1 : db $00, $00
-	dw DATA_F97536 : db $00, $00
-	dw DATA_F989CC : db $00, $00
-	dw DATA_F96B67 : db $00, $00
-	dw DATA_F96B81 : db $00, $00
-	dw DATA_F96C6F : db $00, $00
-	dw DATA_F96C20 : db $00, $00
-	dw DATA_F96C28 : db $00, $00
-	dw DATA_F96C77 : db $00, $00
-	dw DATA_F96CB1 : db $00, $00
-	dw DATA_F96CB6 : db $00, $00
-	dw DATA_F96CFF : db $00, $00
-	dw DATA_F96CFA : db $00, $00
-	dw DATA_F96CF0 : db $00, $00
-	dw DATA_F96CEB : db $00, $00
-	dw DATA_F96CF5 : db $00, $00
-	dw DATA_F96E70 : db $00, $00
-	dw DATA_F96D04 : db $00, $00
-	dw DATA_F96D24 : db $00, $00
-	dw DATA_F96D29 : db $00, $00
-	dw DATA_F96D37 : db $00, $00
-	dw DATA_F96D51 : db $00, $00
-	dw DATA_F96D56 : db $00, $00
-	dw DATA_F96D5B : db $00, $00
-	dw DATA_F96D60 : db $00, $00
-	dw DATA_F96D65 : db $00, $00
-	dw DATA_F9660E : db $00, $00
-	dw DATA_F9663C : db $00, $00
-	dw DATA_F9666A : db $00, $00
-	dw DATA_F96698 : db $00, $00
-	dw DATA_F96E53 : db $00, $00
-	dw DATA_F95D1E : db $00, $00
-	dw DATA_F96D9D : db $00, $00
-	dw DATA_F96DA2 : db $00, $00
-	dw DATA_F96D98 : db $00, $00
-	dw DATA_F96CBB : db $00, $00
-	dw DATA_F96CE1 : db $00, $00
-	dw DATA_F96300 : db $00, $00
-	dw DATA_F96345 : db $00, $00
-	dw DATA_F9636D : db $00, $00
-	dw DATA_F96395 : db $00, $00
-	dw DATA_F963C4 : db $00, $00
-	dw DATA_F9640B : db $00, $00
-	dw DATA_F96CE6 : db $00, $00
-	dw DATA_F96DBB : db $00, $00
-	dw DATA_F96DC0 : db $00, $00
-	dw DATA_F96DF5 : db $00, $00
-	dw DATA_F9618F : db $00, $00
-	dw DATA_F961B8 : db $00, $00
-	dw DATA_F961CE : db $00, $00
-	dw DATA_F96211 : db $00, $00
-	dw DATA_F9622B : db $00, $00
-	dw DATA_F96E84 : db $00, $00
-	dw DATA_F96E9E : db $00, $00
-	dw DATA_F96F43 : db $00, $00
-	dw DATA_F97076 : db $00, $00
-	dw DATA_F97088 : db $00, $00
-	dw DATA_F964F1 : db $00, $00
-	dw DATA_F95ACE : db $00, $00
-	dw DATA_F95AEB : db $00, $00
-	dw DATA_F965AF : db $00, $00
-	dw DATA_F965D8 : db $00, $00
-	dw DATA_F971D3 : db $00, $00
-	dw DATA_F94E25 : db $00, $00
-	dw DATA_F96E12 : db $00, $00
-	dw DATA_F95033 : db $00, $00
-	dw DATA_F966C6 : db $00, $00
-	dw DATA_F9888C : db $00, $00
-	dw DATA_F94E66 : db $00, $00
-	dw DATA_F96D6A : db $00, $00
-	dw DATA_F96D93 : db $00, $00
-	dw DATA_F98851 : db $00, $00
-	dw DATA_F98819 : db $00, $00
-	dw DATA_F94E2A : db $00, $00
-	dw DATA_F94E2A : db $00, $00
-	dw DATA_F95046 : db $00, $00
-	dw DATA_F966C6 : db $00, $00
-	dw DATA_F9888C : db $00, $00
-	dw DATA_F94E6B : db $00, $00
-	dw DATA_F96D6F : db $00, $00
-	dw DATA_F96D93 : db $00, $00
-	dw DATA_F94E3B : db $00, $00
-	dw DATA_F96E12 : db $00, $00
-	dw DATA_F9506B : db $00, $00
-	dw DATA_F966C6 : db $00, $00
-	dw DATA_F9888C : db $00, $00
-	dw DATA_F94E7C : db $00, $00
-	dw DATA_F96D80 : db $00, $00
-	dw DATA_F96D93 : db $00, $00
-	dw DATA_F94E49 : db $00, $00
-	dw DATA_F94E49 : db $00, $00
-	dw DATA_F9508A : db $00, $00
-	dw DATA_F966CB : db $00, $00
-	dw DATA_F98894 : db $00, $00
-	dw DATA_F94E8D : db $00, $00
-	dw DATA_F96D8E : db $00, $00
-	dw DATA_F96D93 : db $00, $00
-	dw DATA_F988FE : db $00, $00
-	dw DATA_F988CC : db $00, $00
-	dw DATA_F98936 : db $00, $00
-	dw DATA_F9899A : db $00, $00
-	dw DATA_F98968 : db $00, $00
-	dw DATA_F956BC : db $00, $00
-	dw DATA_F96792 : db $00, $00
-	dw DATA_F9685B : db $00, $00
-	dw DATA_F952DF : db $00, $00
-	dw DATA_F977C2 : db $00, $00
-	dw !null_pointer : db $00, $00
-	dw !null_pointer : db $00, $00
-	dw !null_pointer : db $00, $00
-	dw !null_pointer : db $00, $00
-	dw !null_pointer : db $00, $00
-	dw !null_pointer : db $00, $00
-	dw !null_pointer : db $00, $00
-	dw !null_pointer : db $00, $00
-	dw !null_pointer : db $00, $00
-	dw !null_pointer : db $00, $00
-	dw !null_pointer : db $00, $00
-	dw !null_pointer : db $00, $00
-	dw !null_pointer : db $00, $00
-	dw !null_pointer : db $00, $00
-	dw !null_pointer : db $00, $00
-	dw !null_pointer : db $00, $00
-	dw !null_pointer : db $00, $00
-	dw !null_pointer : db $00, $00
-	dw !null_pointer : db $00, $00
-	dw !null_pointer : db $00, $00
-	dw !null_pointer : db $00, $00
-	dw !null_pointer : db $00, $00
-	dw !null_pointer : db $00, $00
-	dw !null_pointer : db $00, $00
-	dw !null_pointer : db $00, $00
-	dw !null_pointer : db $00, $00
-	dw !null_pointer : db $00, $00
-	dw !null_pointer : db $00, $00
-	dw !null_pointer : db $00, $00
-	dw !null_pointer : db $00, $00
-	dw !null_pointer : db $00, $00
-	dw !null_pointer : db $00, $00
-	dw !null_pointer : db $00, $00
-	dw !null_pointer : db $00, $00
-	dw !null_pointer : db $00, $00
-	dw !null_pointer : db $00, $00
-	dw !null_pointer : db $00, $00
-	dw !null_pointer : db $00, $00
-	dw !null_pointer : db $00, $00
-	dw !null_pointer : db $00, $00
-	dw !null_pointer : db $00, $00
-	dw !null_pointer : db $00, $00
-	dw !null_pointer : db $00, $00
-	dw !null_pointer : db $00, $00
-	dw !null_pointer : db $00, $00
-	dw !null_pointer : db $00, $00
-	dw !null_pointer : db $00, $00
-	dw !null_pointer : db $00, $00
-	dw !null_pointer : db $00, $00
-	dw !null_pointer : db $00, $00
-	dw !null_pointer : db $00, $00
-	dw !null_pointer : db $00, $00
+	dw DATA_F948E6 : db $00, $00		;0114
+	dw DATA_F9240C : db $00, $00		;0115
+	dw DATA_F925E9 : db $00, $C0		;0116
+	dw DATA_F92C08 : db $00, $00		;0117
+	dw DATA_F93104 : db $00, $C8		;0118
+	dw DATA_F948E6 : db $00, $00		;0119
+	dw DATA_F92457 : db $00, $00		;011A
+	dw DATA_F927F3 : db $00, $C0		;011B
+	dw DATA_F92C08 : db $00, $00		;011C
+	dw DATA_F9315D : db $00, $C8		;011D
+	dw DATA_F948E6 : db $00, $00		;011E
+	dw DATA_F92449 : db $00, $00		;011F
+	dw DATA_F92762 : db $00, $00		;0120
+	dw DATA_F92C08 : db $00, $00		;0121
+	dw DATA_F93142 : db $00, $C8		;0122
+	dw DATA_F948E6 : db $00, $00		;0123
+	dw DATA_F92471 : db $00, $00		;0124
+	dw DATA_F9281F : db $00, $00		;0125
+	dw DATA_F92C91 : db $00, $00		;0126
+	dw DATA_F93171 : db $00, $00		;0127
+	dw DATA_F9495C : db $00, $00		;0128
+	dw DATA_F92CA8 : db $08, $00		;0129
+	dw DATA_F94B80 : db $08, $00		;012A
+	dw DATA_F92CA8 : db $08, $00		;012B
+	dw DATA_F9481B : db $00, $A0		;012C
+	dw DATA_F94A08 : db $00, $00		;012D
+	dw DATA_F92D73 : db $08, $00		;012E
+	dw DATA_F92D73 : db $08, $00		;012F
+	dw DATA_F92D73 : db $08, $00		;0130
+	dw DATA_F947D4 : db $01, $A8		;0131
+	dw DATA_F94997 : db $00, $00		;0132
+	dw DATA_F92484 : db $00, $00		;0133
+	dw DATA_F92835 : db $00, $00		;0134
+	dw DATA_F92C08 : db $00, $00		;0135
+	dw DATA_F9317E : db $00, $A8		;0136
+	dw DATA_F948E6 : db $00, $00		;0137
+	dw DATA_F94C5A : db $00, $00		;0138
+	dw DATA_F94C62 : db $00, $00		;0139
+	dw DATA_F94C6A : db $00, $00		;013A
+	dw DATA_F94C72 : db $00, $00		;013B
+	dw DATA_F94C7A : db $00, $00		;013C
+	dw DATA_F92356 : db $00, $00		;013D
+	dw DATA_F92491 : db $00, $00		;013E
+	dw DATA_F92B75 : db $00, $00		;013F
+	dw DATA_F92F53 : db $00, $00		;0140
+	dw DATA_F94908 : db $00, $00		;0141
+	dw DATA_F93402 : db $00, $00		;0142
+	dw DATA_F938D0 : db $00, $00		;0143
+	dw DATA_F93848 : db $00, $00		;0144
+	dw DATA_F93379 : db $00, $00		;0145
+	dw DATA_F9388C : db $00, $00		;0146
+	dw DATA_F96784 : db $00, $00		;0147
+	dw DATA_F96805 : db $00, $00		;0148
+	dw DATA_F9690D : db $00, $00		;0149
+	dw DATA_F96941 : db $00, $00		;014A
+	dw DATA_F970B1 : db $00, $00		;014B
+	dw DATA_F967C4 : db $00, $00		;014C
+	dw DATA_F968A8 : db $00, $00		;014D
+	dw DATA_F96939 : db $00, $00		;014E
+	dw DATA_F96A8A : db $00, $00		;014F
+	dw DATA_F970CB : db $00, $00		;0150
+	dw DATA_F97006 : db $00, $00		;0151
+	dw DATA_F96FF5 : db $00, $00		;0152
+	dw DATA_F97026 : db $00, $00		;0153
+	dw DATA_F966DB : db $00, $00		;0154
+	dw DATA_F966F8 : db $00, $00		;0155
+	dw DATA_F96712 : db $00, $00		;0156
+	dw DATA_F9672C : db $00, $00		;0157
+	dw DATA_F96746 : db $00, $00		;0158
+	dw DATA_F96760 : db $00, $00		;0159
+	dw DATA_F966D9 : db $00, $00		;015A
+	dw DATA_F94DE7 : db $00, $00		;015B
+	dw DATA_F94DB3 : db $00, $00		;015C
+	dw DATA_F94DDC : db $00, $00		;015D
+	dw DATA_F9677F : db $00, $00		;015E
+	dw DATA_F9677A : db $00, $00		;015F
+	dw DATA_F953CE : db $00, $00		;0160
+	dw DATA_F953F7 : db $00, $00		;0161
+	dw DATA_F95416 : db $00, $00		;0162
+	dw DATA_F94F6F : db $00, $00		;0163
+	dw DATA_F94FA8 : db $00, $00		;0164
+	dw DATA_F94F8F : db $00, $00		;0165
+	dw DATA_F94FCA : db $00, $00		;0166
+	dw DATA_F94FE4 : db $00, $00		;0167
+	dw DATA_F96C9A : db $00, $00		;0168
+	dw DATA_F95D3E : db $00, $00		;0169
+	dw DATA_F95D61 : db $00, $00		;016A
+	dw DATA_F95D77 : db $00, $00		;016B
+	dw DATA_F95D8D : db $00, $00		;016C
+	dw DATA_F95DAD : db $00, $00		;016D
+	dw DATA_F95E33 : db $00, $00		;016E
+	dw DATA_F94F1F : db $00, $00		;016F
+	dw DATA_F94F3C : db $00, $00		;0170
+	dw DATA_F94F58 : db $00, $00		;0171
+	dw DATA_F9542D : db $00, $00		;0172
+	dw DATA_F95459 : db $00, $00		;0173
+	dw DATA_F95472 : db $00, $00		;0174
+	dw DATA_F9548F : db $00, $00		;0175
+	dw DATA_F954FC : db $00, $00		;0176
+	dw DATA_F95706 : db $00, $00		;0177
+	dw DATA_F9572F : db $00, $00		;0178
+	dw DATA_F9574B : db $00, $00		;0179
+	dw DATA_F957F7 : db $00, $00		;017A
+	dw DATA_F95802 : db $00, $00		;017B
+	dw DATA_F95849 : db $00, $00		;017C
+	dw DATA_F95C54 : db $00, $00		;017D
+	dw DATA_F95C8F : db $00, $00		;017E
+	dw DATA_F95C3D : db $00, $00		;017F
+	dw DATA_F958FB : db $00, $00		;0180
+	dw DATA_F95915 : db $00, $00		;0181
+	dw DATA_F95947 : db $00, $00		;0182
+	dw DATA_F95F40 : db $00, $00		;0183
+	dw DATA_F95F69 : db $00, $00		;0184
+	dw DATA_F95F82 : db $00, $00		;0185
+	dw DATA_F95FBC : db $00, $00		;0186
+	dw DATA_F95FE8 : db $00, $00		;0187
+	dw DATA_F96010 : db $00, $00		;0188
+	dw DATA_F96040 : db $00, $00		;0189
+	dw DATA_F96054 : db $00, $00		;018A
+	dw DATA_F9606E : db $00, $00		;018B
+	dw DATA_F96133 : db $00, $00		;018C
+	dw DATA_F96113 : db $00, $00		;018D
+	dw DATA_F9614F : db $00, $00		;018E
+	dw DATA_F96175 : db $00, $00		;018F
+	dw DATA_F95952 : db $00, $00		;0190
+	dw DATA_F959E3 : db $00, $00		;0191
+	dw DATA_F95A4D : db $00, $00		;0192
+	dw DATA_F95536 : db $00, $00		;0193
+	dw DATA_F9555F : db $00, $00		;0194
+	dw DATA_F95594 : db $00, $00		;0195
+	dw DATA_F95A81 : db $00, $00		;0196
+	dw DATA_F95A67 : db $00, $00		;0197
+	dw DATA_F95A9E : db $00, $00		;0198
+	dw DATA_F95AB4 : db $00, $00		;0199
+	dw DATA_F95B1B : db $00, $00		;019A
+	dw DATA_F95B01 : db $00, $00		;019B
+	dw DATA_F95B38 : db $00, $00		;019C
+	dw DATA_F95B57 : db $00, $00		;019D
+	dw DATA_F96DA7 : db $00, $00		;019E
+	dw DATA_F955AB : db $00, $00		;019F
+	dw DATA_F955D7 : db $00, $00		;01A0
+	dw DATA_F955F0 : db $00, $00		;01A1
+	dw DATA_F9560A : db $00, $00		;01A2
+	dw DATA_F95669 : db $00, $00		;01A3
+	dw DATA_F9568C : db $00, $00		;01A4
+	dw DATA_F956A2 : db $00, $00		;01A5
+	dw DATA_F95B96 : db $00, $00		;01A6
+	dw DATA_F95C26 : db $00, $00		;01A7
+	dw DATA_F95B77 : db $00, $00		;01A8
+	dw DATA_F95896 : db $00, $00		;01A9
+	dw DATA_F958BF : db $00, $00		;01AA
+	dw DATA_F958E7 : db $00, $00		;01AB
+	dw DATA_F96446 : db $00, $00		;01AC
+	dw DATA_F9649C : db $00, $00		;01AD
+	dw DATA_F964EC : db $00, $00		;01AE
+	dw DATA_F96501 : db $00, $00		;01AF
+	dw DATA_F9655A : db $00, $00		;01B0
+	dw DATA_F96571 : db $00, $00		;01B1
+	dw DATA_F965A0 : db $00, $00		;01B2
+	dw DATA_F965A5 : db $00, $00		;01B3
+	dw DATA_F965AA : db $00, $00		;01B4
+	dw DATA_F94EE4 : db $00, $00		;01B5
+	dw DATA_F96FDE : db $00, $00		;01B6
+	dw DATA_F970D3 : db $00, $00		;01B7
+	dw DATA_F97129 : db $00, $00		;01B8
+	dw DATA_F96AE2 : db $00, $00		;01B9
+	dw DATA_F96AC8 : db $00, $00		;01BA
+	dw DATA_F96AFC : db $00, $00		;01BB
+	dw DATA_F94E95 : db $00, $00		;01BC
+	dw DATA_F96B9B : db $00, $00		;01BD
+	dw DATA_F96BE2 : db $00, $00		;01BE
+	dw DATA_F95CB8 : db $00, $00		;01BF
+	dw DATA_F95CE4 : db $00, $00		;01C0
+	dw DATA_F96B19 : db $00, $00		;01C1
+	dw DATA_F96B33 : db $00, $00		;01C2
+	dw DATA_F96B4D : db $00, $00		;01C3
+	dw DATA_F9707E : db $00, $00		;01C4
+	dw DATA_F97083 : db $00, $00		;01C5
+	dw DATA_F965EE : db $00, $00		;01C6
+	dw DATA_F98B38 : db $00, $00		;01C7
+	dw DATA_F98B4C : db $00, $00		;01C8
+	dw DATA_F98BBA : db $00, $00		;01C9
+	dw DATA_F98BE0 : db $00, $00		;01CA
+	dw DATA_F98C0F : db $00, $00		;01CB
+	dw DATA_F98C3E : db $00, $00		;01CC
+	dw DATA_F98C52 : db $00, $00		;01CD
+	dw DATA_F98C6C : db $00, $00		;01CE
+	dw DATA_F98C83 : db $00, $00		;01CF
+	dw DATA_F98C97 : db $00, $00		;01D0
+	dw DATA_F98CB1 : db $00, $00		;01D1
+	dw DATA_F98CC8 : db $00, $00		;01D2
+	dw DATA_F98D3C : db $00, $00		;01D3
+	dw DATA_F98D59 : db $00, $00		;01D4
+	dw DATA_F98D76 : db $00, $00		;01D5
+	dw DATA_F98D87 : db $00, $00		;01D6
+	dw DATA_F98D92 : db $00, $00		;01D7
+	dw DATA_F98B30 : db $00, $00		;01D8
+	dw DATA_F98DCD : db $00, $00		;01D9
+	dw DATA_F98E11 : db $00, $00		;01DA
+	dw DATA_F98E25 : db $00, $00		;01DB
+	dw DATA_F98E4E : db $00, $00		;01DC
+	dw DATA_F98E5F : db $00, $00		;01DD
+	dw DATA_F98E88 : db $00, $00		;01DE
+	dw DATA_F98E93 : db $00, $00		;01DF
+	dw DATA_F98EBC : db $00, $00		;01E0
+	dw DATA_F98F00 : db $00, $00		;01E1
+	dw DATA_F98F14 : db $00, $00		;01E2
+	dw DATA_F98F3D : db $00, $00		;01E3
+	dw DATA_F98F4E : db $00, $00		;01E4
+	dw DATA_F98F77 : db $00, $00		;01E5
+	dw DATA_F98F82 : db $00, $00		;01E6
+	dw DATA_F972DC : db $00, $00		;01E7
+	dw DATA_F9730D : db $00, $00		;01E8
+	dw DATA_F98B07 : db $00, $00		;01E9
+	dw DATA_F98B0F : db $00, $00		;01EA
+	dw DATA_F98B17 : db $00, $00		;01EB
+	dw DATA_F98B25 : db $00, $00		;01EC
+	dw DATA_F95E4A : db $00, $00		;01ED
+	dw DATA_F95E58 : db $00, $00		;01EE
+	dw DATA_F95E87 : db $00, $00		;01EF
+	dw DATA_F95E9D : db $00, $00		;01F0
+	dw DATA_F95EB3 : db $00, $00		;01F1
+	dw DATA_F95F06 : db $00, $00		;01F2
+	dw DATA_F95F20 : db $00, $00		;01F3
+	dw DATA_F950B2 : db $00, $00		;01F4
+	dw DATA_F95302 : db $00, $00		;01F5
+	dw DATA_F95195 : db $00, $00		;01F6
+	dw DATA_F951EC : db $00, $00		;01F7
+	dw DATA_F94ECA : db $00, $00		;01F8
+	dw DATA_F95CF5 : db $00, $00		;01F9
+	dw DATA_F986D6 : db $00, $00		;01FA
+	dw DATA_F972AF : db $00, $00		;01FB
+	dw DATA_F989E6 : db $00, $00		;01FC
+	dw DATA_F98741 : db $00, $00		;01FD
+	dw DATA_F9864F : db $00, $00		;01FE
+	dw DATA_F98684 : db $00, $00		;01FF
+	dw DATA_F98709 : db $00, $00		;0200
+	dw DATA_F9875E : db $00, $00		;0201
+	dw DATA_F98778 : db $00, $00		;0202
+	dw DATA_F98798 : db $00, $00		;0203
+	dw DATA_F987C1 : db $00, $00		;0204
+	dw DATA_F987C9 : db $00, $00		;0205
+	dw DATA_F987F9 : db $00, $00		;0206
+	dw DATA_F986EF : db $00, $00		;0207
+	dw DATA_F986BA : db $00, $00		;0208
+	dw DATA_F987D9 : db $00, $00		;0209
+	dw DATA_F98A18 : db $00, $00		;020A
+	dw DATA_F98A56 : db $00, $00		;020B
+	dw DATA_F98A6F : db $00, $00		;020C
+	dw DATA_F98A8E : db $00, $00		;020D
+	dw DATA_F98AC6 : db $00, $00		;020E
+	dw DATA_F982C8 : db $00, $00		;020F
+	dw DATA_F98416 : db $00, $00		;0210
+	dw DATA_F983FC : db $00, $00		;0211
+	dw DATA_F9831D : db $00, $00		;0212
+	dw DATA_F98399 : db $00, $00		;0213
+	dw DATA_F983E2 : db $00, $00		;0214
+	dw DATA_F9841E : db $00, $00		;0215
+	dw DATA_F98441 : db $00, $00		;0216
+	dw DATA_F98468 : db $00, $00		;0217
+	dw DATA_F98303 : db $00, $00		;0218
+	dw DATA_F98457 : db $00, $00		;0219
+	dw DATA_F984BA : db $00, $00		;021A
+	dw DATA_F9850D : db $00, $00		;021B
+	dw DATA_F98521 : db $00, $00		;021C
+	dw DATA_F98601 : db $00, $00		;021D
+	dw DATA_F98535 : db $00, $00		;021E
+	dw DATA_F98567 : db $00, $00		;021F
+	dw DATA_F98599 : db $00, $00		;0220
+	dw DATA_F985B3 : db $00, $00		;0221
+	dw DATA_F985CD : db $00, $00		;0222
+	dw DATA_F985E7 : db $00, $00		;0223
+	dw DATA_F975D4 : db $00, $00		;0224
+	dw DATA_F975DC : db $00, $00		;0225
+	dw DATA_F975E6 : db $00, $00		;0226
+	dw DATA_F975F0 : db $00, $00		;0227
+	dw DATA_F975FA : db $00, $00		;0228
+	dw DATA_F97604 : db $00, $00		;0229
+	dw DATA_F971ED : db $00, $00		;022A
+	dw DATA_F97213 : db $00, $00		;022B
+	dw DATA_F9725A : db $00, $00		;022C
+	dw DATA_F97292 : db $00, $00		;022D
+	dw DATA_F9861B : db $00, $00		;022E
+	dw DATA_F98635 : db $00, $00		;022F
+	dw DATA_F980B7 : db $00, $00		;0230
+	dw DATA_F980D1 : db $00, $00		;0231
+	dw DATA_F980E7 : db $00, $00		;0232
+	dw DATA_F98101 : db $00, $00		;0233
+	dw DATA_F98111 : db $00, $00		;0234
+	dw DATA_F9814E : db $00, $00		;0235
+	dw DATA_F981B8 : db $00, $00		;0236
+	dw DATA_F981C0 : db $00, $00		;0237
+	dw DATA_F981C8 : db $00, $00		;0238
+	dw DATA_F981D0 : db $00, $00		;0239
+	dw DATA_F981D8 : db $00, $00		;023A
+	dw DATA_F981E0 : db $00, $00		;023B
+	dw DATA_F981E8 : db $00, $00		;023C
+	dw DATA_F981F0 : db $00, $00		;023D
+	dw DATA_F981F8 : db $00, $00		;023E
+	dw DATA_F9822D : db $00, $00		;023F
+	dw DATA_F98188 : db $00, $00		;0240
+	dw DATA_F981A2 : db $00, $00		;0241
+	dw DATA_F98259 : db $00, $00		;0242
+	dw DATA_F977AB : db $00, $00		;0243
+	dw DATA_F977D6 : db $00, $00		;0244
+	dw DATA_F977EA : db $00, $00		;0245
+	dw DATA_F97818 : db $00, $00		;0246
+	dw DATA_F97843 : db $00, $00		;0247
+	dw DATA_F978F9 : db $00, $00		;0248
+	dw DATA_F979A9 : db $00, $00		;0249
+	dw DATA_F979BA : db $00, $00		;024A
+	dw DATA_F97725 : db $00, $00		;024B
+	dw DATA_F97748 : db $00, $00		;024C
+	dw DATA_F97768 : db $00, $00		;024D
+	dw DATA_F9778B : db $00, $00		;024E
+	dw DATA_F97A22 : db $00, $00		;024F
+	dw DATA_F979FC : db $00, $00		;0250
+	dw DATA_F97A0F : db $00, $00		;0251
+	dw DATA_F976EA : db $00, $00		;0252
+	dw DATA_F97709 : db $00, $00		;0253
+	dw DATA_F979EC : db $00, $00		;0254
+	dw DATA_F979F4 : db $00, $00		;0255
+	dw DATA_F98FAB : db $00, $00		;0256
+	dw DATA_F97627 : db $00, $00		;0257
+	dw DATA_F9767A : db $00, $00		;0258
+	dw DATA_F976BE : db $00, $00		;0259
+	dw DATA_F97550 : db $00, $00		;025A
+	dw DATA_F97597 : db $00, $00		;025B
+	dw DATA_F975CC : db $00, $00		;025C
+	dw DATA_F986A1 : db $00, $00		;025D
+	dw DATA_F97A2A : db $00, $00		;025E
+	dw DATA_F97A38 : db $00, $00		;025F
+	dw DATA_F97A5A : db $00, $00		;0260
+	dw DATA_F97A7A : db $00, $00		;0261
+	dw DATA_F97A91 : db $00, $00		;0262
+	dw DATA_F97AB0 : db $00, $00		;0263
+	dw DATA_F97AD2 : db $00, $00		;0264
+	dw DATA_F97AE5 : db $00, $00		;0265
+	dw DATA_F97AF8 : db $00, $00		;0266
+	dw DATA_F97B11 : db $00, $00		;0267
+	dw DATA_F97B2A : db $00, $00		;0268
+	dw DATA_F97B7A : db $00, $00		;0269
+	dw DATA_F97B94 : db $00, $00		;026A
+	dw DATA_F97B9C : db $00, $00		;026B
+	dw DATA_F97BA4 : db $00, $00		;026C
+	dw DATA_F97BBE : db $00, $00		;026D
+	dw DATA_F97BF0 : db $00, $00		;026E
+	dw DATA_F97C16 : db $00, $00		;026F
+	dw DATA_F97C42 : db $00, $00		;0270
+	dw DATA_F97C83 : db $00, $00		;0271
+	dw DATA_F97D34 : db $00, $00		;0272
+	dw DATA_F97D66 : db $00, $00		;0273
+	dw DATA_F97DA7 : db $00, $00		;0274
+	dw DATA_F97DB2 : db $00, $00		;0275
+	dw DATA_F97DE7 : db $00, $00		;0276
+	dw DATA_F97B5A : db $00, $00		;0277
+	dw DATA_F97E19 : db $00, $00		;0278
+	dw DATA_F97E48 : db $00, $00		;0279
+	dw DATA_F97E6B : db $00, $00		;027A
+	dw DATA_F97E91 : db $00, $00		;027B
+	dw DATA_F97A46 : db $00, $00		;027C
+	dw DATA_F98069 : db $00, $00		;027D
+	dw DATA_F9809D : db $00, $00		;027E
+	dw DATA_F98285 : db $00, $00		;027F
+	dw DATA_F9805B : db $00, $00		;0280
+	dw DATA_F98083 : db $00, $00		;0281
+	dw DATA_F97B49 : db $00, $00		;0282
+	dw DATA_F97CA6 : db $00, $00		;0283
+	dw DATA_F97CFC : db $00, $00		;0284
+	dw DATA_F97EAE : db $00, $00		;0285
+	dw DATA_F97EE3 : db $00, $00		;0286
+	dw DATA_F97F64 : db $00, $00		;0287
+	dw DATA_F97FE4 : db $00, $00		;0288
+	dw DATA_F97B41 : db $00, $00		;0289
+	dw DATA_F97F0C : db $00, $00		;028A
+	dw DATA_F97F3E : db $00, $00		;028B
+	dw DATA_F972BD : db $00, $00		;028C
+	dw DATA_F972CE : db $00, $00		;028D
+	dw DATA_F9734E : db $00, $00		;028E
+	dw DATA_F97356 : db $00, $00		;028F
+	dw DATA_F9735E : db $00, $00		;0290
+	dw DATA_F9736B : db $00, $00		;0291
+	dw DATA_F97338 : db $00, $00		;0292
+	dw DATA_F97343 : db $00, $00		;0293
+	dw DATA_F97378 : db $00, $00		;0294
+	dw DATA_F973AD : db $00, $00		;0295
+	dw DATA_F973D6 : db $00, $00		;0296
+	dw DATA_F973ED : db $00, $00		;0297
+	dw DATA_F97401 : db $00, $00		;0298
+	dw DATA_F9744E : db $00, $00		;0299
+	dw DATA_F97495 : db $00, $00		;029A
+	dw DATA_F974A0 : db $00, $00		;029B
+	dw DATA_F974AB : db $00, $00		;029C
+	dw DATA_F974B3 : db $00, $00		;029D
+	dw DATA_F974BB : db $00, $00		;029E
+	dw DATA_F974F0 : db $00, $00		;029F
+	dw DATA_F9751C : db $00, $00		;02A0
+	dw DATA_F982B1 : db $00, $00		;02A1
+	dw DATA_F97536 : db $00, $00		;02A2
+	dw DATA_F989CC : db $00, $00		;02A3
+	dw DATA_F96B67 : db $00, $00		;02A4
+	dw DATA_F96B81 : db $00, $00		;02A5
+	dw DATA_F96C6F : db $00, $00		;02A6
+	dw DATA_F96C20 : db $00, $00		;02A7
+	dw DATA_F96C28 : db $00, $00		;02A8
+	dw DATA_F96C77 : db $00, $00		;02A9
+	dw DATA_F96CB1 : db $00, $00		;02AA
+	dw DATA_F96CB6 : db $00, $00		;02AB
+	dw DATA_F96CFF : db $00, $00		;02AC
+	dw DATA_F96CFA : db $00, $00		;02AD
+	dw DATA_F96CF0 : db $00, $00		;02AE
+	dw DATA_F96CEB : db $00, $00		;02AF
+	dw DATA_F96CF5 : db $00, $00		;02B0
+	dw DATA_F96E70 : db $00, $00		;02B1
+	dw DATA_F96D04 : db $00, $00		;02B2
+	dw DATA_F96D24 : db $00, $00		;02B3
+	dw DATA_F96D29 : db $00, $00		;02B4
+	dw DATA_F96D37 : db $00, $00		;02B5
+	dw DATA_F96D51 : db $00, $00		;02B6
+	dw DATA_F96D56 : db $00, $00		;02B7
+	dw DATA_F96D5B : db $00, $00		;02B8
+	dw DATA_F96D60 : db $00, $00		;02B9
+	dw DATA_F96D65 : db $00, $00		;02BA
+	dw DATA_F9660E : db $00, $00		;02BB
+	dw DATA_F9663C : db $00, $00		;02BC
+	dw DATA_F9666A : db $00, $00		;02BD
+	dw DATA_F96698 : db $00, $00		;02BE
+	dw DATA_F96E53 : db $00, $00		;02BF
+	dw DATA_F95D1E : db $00, $00		;02C0
+	dw DATA_F96D9D : db $00, $00		;02C1
+	dw DATA_F96DA2 : db $00, $00		;02C2
+	dw DATA_F96D98 : db $00, $00		;02C3
+	dw DATA_F96CBB : db $00, $00		;02C4
+	dw DATA_F96CE1 : db $00, $00		;02C5
+	dw DATA_F96300 : db $00, $00		;02C6
+	dw DATA_F96345 : db $00, $00		;02C7
+	dw DATA_F9636D : db $00, $00		;02C8
+	dw DATA_F96395 : db $00, $00		;02C9
+	dw DATA_F963C4 : db $00, $00		;02CA
+	dw DATA_F9640B : db $00, $00		;02CB
+	dw DATA_F96CE6 : db $00, $00		;02CC
+	dw DATA_F96DBB : db $00, $00		;02CD
+	dw DATA_F96DC0 : db $00, $00		;02CE
+	dw DATA_F96DF5 : db $00, $00		;02CF
+	dw DATA_F9618F : db $00, $00		;02D0
+	dw DATA_F961B8 : db $00, $00		;02D1
+	dw DATA_F961CE : db $00, $00		;02D2
+	dw DATA_F96211 : db $00, $00		;02D3
+	dw DATA_F9622B : db $00, $00		;02D4
+	dw DATA_F96E84 : db $00, $00		;02D5
+	dw DATA_F96E9E : db $00, $00		;02D6
+	dw DATA_F96F43 : db $00, $00		;02D7
+	dw DATA_F97076 : db $00, $00		;02D8
+	dw DATA_F97088 : db $00, $00		;02D9
+	dw DATA_F964F1 : db $00, $00		;02DA
+	dw DATA_F95ACE : db $00, $00		;02DB
+	dw DATA_F95AEB : db $00, $00		;02DC
+	dw DATA_F965AF : db $00, $00		;02DD
+	dw DATA_F965D8 : db $00, $00		;02DE
+	dw DATA_F971D3 : db $00, $00		;02DF
+	dw DATA_F94E25 : db $00, $00		;02E0
+	dw DATA_F96E12 : db $00, $00		;02E1
+	dw DATA_F95033 : db $00, $00		;02E2
+	dw DATA_F966C6 : db $00, $00		;02E3
+	dw DATA_F9888C : db $00, $00		;02E4
+	dw DATA_F94E66 : db $00, $00		;02E5
+	dw DATA_F96D6A : db $00, $00		;02E6
+	dw DATA_F96D93 : db $00, $00		;02E7
+	dw DATA_F98851 : db $00, $00		;02E8
+	dw DATA_F98819 : db $00, $00		;02E9
+	dw DATA_F94E2A : db $00, $00		;02EA
+	dw DATA_F94E2A : db $00, $00		;02EB
+	dw DATA_F95046 : db $00, $00		;02EC
+	dw DATA_F966C6 : db $00, $00		;02ED
+	dw DATA_F9888C : db $00, $00		;02EE
+	dw DATA_F94E6B : db $00, $00		;02EF
+	dw DATA_F96D6F : db $00, $00		;02F0
+	dw DATA_F96D93 : db $00, $00		;02F1
+	dw DATA_F94E3B : db $00, $00		;02F2
+	dw DATA_F96E12 : db $00, $00		;02F3
+	dw DATA_F9506B : db $00, $00		;02F4
+	dw DATA_F966C6 : db $00, $00		;02F5
+	dw DATA_F9888C : db $00, $00		;02F6
+	dw DATA_F94E7C : db $00, $00		;02F7
+	dw DATA_F96D80 : db $00, $00		;02F8
+	dw DATA_F96D93 : db $00, $00		;02F9
+	dw DATA_F94E49 : db $00, $00		;02FA
+	dw DATA_F94E49 : db $00, $00		;02FB
+	dw DATA_F9508A : db $00, $00		;02FC
+	dw DATA_F966CB : db $00, $00		;02FD
+	dw DATA_F98894 : db $00, $00		;02FE
+	dw DATA_F94E8D : db $00, $00		;02FF
+	dw DATA_F96D8E : db $00, $00		;0300
+	dw DATA_F96D93 : db $00, $00		;0301
+	dw DATA_F988FE : db $00, $00		;0302
+	dw DATA_F988CC : db $00, $00		;0303
+	dw DATA_F98936 : db $00, $00		;0304
+	dw DATA_F9899A : db $00, $00		;0305
+	dw DATA_F98968 : db $00, $00		;0306
+	dw DATA_F956BC : db $00, $00		;0307
+	dw DATA_F96792 : db $00, $00		;0308
+	dw DATA_F9685B : db $00, $00		;0309
+	dw DATA_F952DF : db $00, $00		;030A
+	dw DATA_F977C2 : db $00, $00		;030B
+	dw !null_pointer : db $00, $00		;030C
+	dw !null_pointer : db $00, $00		;030D
+	dw !null_pointer : db $00, $00		;030E
+	dw !null_pointer : db $00, $00		;030F
+	dw !null_pointer : db $00, $00		;0310
+	dw !null_pointer : db $00, $00		;0311
+	dw !null_pointer : db $00, $00		;0312
+	dw !null_pointer : db $00, $00		;0313
+	dw !null_pointer : db $00, $00		;0314
+	dw !null_pointer : db $00, $00		;0315
+	dw !null_pointer : db $00, $00		;0316
+	dw !null_pointer : db $00, $00		;0317
+	dw !null_pointer : db $00, $00		;0318
+	dw !null_pointer : db $00, $00		;0319
+	dw !null_pointer : db $00, $00		;031A
+	dw !null_pointer : db $00, $00		;031B
+	dw !null_pointer : db $00, $00		;031C
+	dw !null_pointer : db $00, $00		;031D
+	dw !null_pointer : db $00, $00		;031E
+	dw !null_pointer : db $00, $00		;031F
+	dw !null_pointer : db $00, $00		;0320
+	dw !null_pointer : db $00, $00		;0321
+	dw !null_pointer : db $00, $00		;0322
+	dw !null_pointer : db $00, $00		;0323
+	dw !null_pointer : db $00, $00		;0324
+	dw !null_pointer : db $00, $00		;0325
+	dw !null_pointer : db $00, $00		;0326
+	dw !null_pointer : db $00, $00		;0327
+	dw !null_pointer : db $00, $00		;0328
+	dw !null_pointer : db $00, $00		;0329
+	dw !null_pointer : db $00, $00		;032A
+	dw !null_pointer : db $00, $00		;032B
+	dw !null_pointer : db $00, $00		;032C
+	dw !null_pointer : db $00, $00		;032D
+	dw !null_pointer : db $00, $00		;032E
+	dw !null_pointer : db $00, $00		;032F
+	dw !null_pointer : db $00, $00		;0330
+	dw !null_pointer : db $00, $00		;0331
+	dw !null_pointer : db $00, $00		;0332
+	dw !null_pointer : db $00, $00		;0333
+	dw !null_pointer : db $00, $00		;0334
+	dw !null_pointer : db $00, $00		;0335
+	dw !null_pointer : db $00, $00		;0336
+	dw !null_pointer : db $00, $00		;0337
+	dw !null_pointer : db $00, $00		;0338
+	dw !null_pointer : db $00, $00		;0339
+	dw !null_pointer : db $00, $00		;033A
+	dw !null_pointer : db $00, $00		;033B
+	dw !null_pointer : db $00, $00		;033C
+	dw !null_pointer : db $00, $00		;033D
+	dw !null_pointer : db $00, $00		;033E
+	dw !null_pointer : db $00, $00		;033F
 
 DATA_F90D00:
 	db !animation_command_84 : dw CODE_B9E0A8

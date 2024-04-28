@@ -129,10 +129,17 @@ CODE_B9D0B8:
 	CLC					;$B9D0C2   |
 	ADC #$00A3				;$B9D0C3   |
 set_sprite_animation:				;	   |
+if !ex_patch == 1
+	;PHB					;$B9D0C6   |\
+	;%pea_shift_dbr(DATA_F90000)		;$B9D0C7   | | 
+	;PLB					;$B9D0CA   | |
+	;PLB					;$B9D0CB   |/
+else
 	PHB					;$B9D0C6   |\
 	%pea_shift_dbr(DATA_F90000)		;$B9D0C7   | | 
 	PLB					;$B9D0CA   | |
 	PLB					;$B9D0CB   |/
+endif
 	LDX current_sprite			;$B9D0CC   |
 	STA $36,x				;$B9D0CE   |\ set animation id then preserve it in Y
 	TAY					;$B9D0D0   |/
@@ -141,6 +148,11 @@ set_sprite_animation:				;	   |
 	STZ $38,x				;$B9D0D6   | | clear graphic display time
 	STZ $3E,x				;$B9D0D8   | | clear animation routine call pointer
 	TYA					;$B9D0DA   |/ retrieve animation id from Y
+if !ex_patch == 1
+	JML ex_animation_handler
+ex_animation_handler_return:
+	padbyte $EA : pad $B9D0EA : warnpc $B9D0EA : org $B9D0EA
+else
 	ASL A					;$B9D0DB   |
 	ASL A					;$B9D0DC   |
 	TXY					;$B9D0DD   |
@@ -149,6 +161,7 @@ set_sprite_animation:				;	   |
 	STA $26					;$B9D0E3   |
 	LDA.l DATA_F90000,x			;$B9D0E5   |\
 	TYX					;$B9D0E9   | | update animation script address
+endif
 	STA $3C,x				;$B9D0EA   |/
 	TAY					;$B9D0EC   |> preserve script address in Y
 	LDA $26					;$B9D0ED   |
@@ -173,10 +186,16 @@ CODE_B9D100:
 	BEQ .CODE_B9D10D			;$B9D109   |
 	BPL CODE_B9D13E				;$B9D10B   |
 .CODE_B9D10D					;	   |
+if !ex_patch == 1
+	JML ex_animation_bank_handler
+ex_animation_bank_handler_return:
+	padbyte $EA : pad $B9D113 : warnpc $B9D113 : org $B9D113
+else
 	PHB					;$B9D10D   |
 	%pea_shift_dbr(DATA_F90000)		;$B9D10E   |
 	PLB					;$B9D111   |
 	PLB					;$B9D112   |
+endif
 	LDY $3C,x				;$B9D113   |
 process_anim_script:				;	   |
 	DEY					;$B9D115   |\
@@ -241,12 +260,17 @@ animation_command_handler:
 CODE_B9D160:
 	LDX current_sprite			;$B9D160  \
 	LDA $36,x				;$B9D162   |
+if !ex_patch == 1
+	JSL ex_animation_handler_2
+	padbyte $EA : pad $B9D16D : warnpc $B9D16D : org $B9D16D
+else
 	ASL A					;$B9D164   |
 	ASL A					;$B9D165   |
 	TXY					;$B9D166   |
 	TAX					;$B9D167   |
 	LDA.l DATA_F90000,x			;$B9D168   |
 	TYX					;$B9D16C   |
+endif
 	STA $3C,x				;$B9D16D   |
 	TAY					;$B9D16F   |
 	BRA process_anim_script			;$B9D170  /
@@ -325,7 +349,7 @@ CODE_B9D1D5:
 	LDX current_sprite			;$B9D1D5  \
 	INY					;$B9D1D7   |
 	LDA $0000,y				;$B9D1D8   |
-	%pea_mirror_dbr()			;$B9D1DB   |
+	%pea_mirror_dbr()			;$B9D1DB   | MIGHT CAUSE PROBLEMS
 	PLB					;$B9D1DE   |
 	PHY					;$B9D1DF   |
 	PHA					;$B9D1E0   |

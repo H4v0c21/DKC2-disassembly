@@ -1,5 +1,5 @@
 example_sprite_spawn_script:
-	dw sprite.number, $0320
+	dw sprite.number, !last_used_sprite_id
 	dw sprite.render_order, $00D4
 	dw sprite.action, $0000
 	dw sprite.unknown_42, $0000

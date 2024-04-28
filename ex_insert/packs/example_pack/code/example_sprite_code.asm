@@ -18,9 +18,11 @@ example_sprite_main:
 	JML [$05A9]
 
 .do_things
+	LDA #!last_used_animation_id
+	JSL $B9D0C6		;play custom ex animation
 	JSL $B9D100		;process animations
 	LDY #$0000
-	LDA [$8E],y				
+	LDA [$8E],y
 	JSL $B58003		;queue sound effect
 	LDX $64
 	INC $42,x
@@ -30,7 +32,8 @@ example_sprite_main:
 .handle_sprite_collision
 	LDA $42,x
 	BNE .return
-	JSL $BEBE6D		;check collision with kong
+	;JSL $BEBE6D		;check collision with kong
+	JSL $BEBE62		;check collision with kong
 	BCS .collision_happened
 .return
 	CLC

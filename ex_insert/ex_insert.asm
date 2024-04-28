@@ -2,7 +2,6 @@ exhirom
 org $008000
 
 
-
 ;sprite spawn script command constants
 !initcommand_success = $8000
 !initcommand_set_animation = $8100
@@ -20,6 +19,29 @@ org $008000
 !initcommand_set_alt_palette = $8D00
 !initcommand_setup_static2 = $8E00
 
+
+;sprite animation command constants
+!animation_command_80 = $80
+!animation_command_81 = $81
+!animation_command_82 = $82
+!animation_command_83 = $83
+!animation_command_84 = $84
+!animation_command_85 = $85
+!animation_command_86 = $86
+!animation_command_87 = $87
+!animation_command_88 = $88
+!animation_command_89 = $89
+!animation_command_8A = $8A
+!animation_command_8B = $8B
+!animation_command_8C = $8C
+!animation_command_8D = $8D
+!animation_command_8E = $8E
+!animation_command_8F = $8F
+!animation_command_90 = $90
+!animation_command_91 = $91
+!animation_command_92 = $92
+!animation_command_93 = $93
+!animation_command_94 = $94
 
 
 ;sprite object
@@ -75,7 +97,6 @@ struct sprite $0000
 endstruct
 
 
-
 ;EX PATCH METADATA
 !ex_header_address = $408000
 !ex_patch_version = read2(!ex_header_address)
@@ -85,6 +106,10 @@ endstruct
 !ex_level_post_nmi_table_address_start = read3(!ex_header_address+$43)
 !ex_level_post_logic_table_address_start = read3(!ex_header_address+$46)
 !ex_level_load_table_address_start = read3(!ex_header_address+$49)
+
+;EX SPRITE PACK PATHS
+!packs_path = "packs/"
+!pack_file = "/pack.asm"
 
 ;EX SPRITE METADATA
 !ex_sprite_main_table_address = read3(!ex_header_address+$80)
@@ -99,27 +124,29 @@ endstruct
 !ex_sprite_id_start = read2(!ex_header_address+$92)
 !ex_spawn_id_start = read2(!ex_header_address+$94)
 
+!ex_animation_id_start = read2(!ex_header_address+$96)
+!ex_animation_table_insertion_address = read3(!ex_header_address+$98)
+!ex_animation_insertion_address = read3(!ex_header_address+$9B)
+
 !ex_spawn_script_table_insertion_address = !ex_spawn_script_table_address
 !ex_sprite_main_table_insertion_address = !ex_sprite_main_table_address
 
 !ex_sprite_main_insertion_address = !ex_sprite_main_table_address_end
 
-
-
-;TODO:
-;add function that returns the id of the last sprite main inserted (so spawn scripts can get the value automatically)
-;add function that returns the address of the last constants inserted (so spawn scripts can get the value automatically)
+!last_used_sprite_id #= read2(!ex_header_address+$92)-4
+!last_used_spawn_id #= read2(!ex_header_address+$94)-2
+!last_used_animation_id #= read2(!ex_header_address+$96)-1
 
 
 ;creates a spawn script for a custom sprite
 !sprite_constants_counter = 0
 macro insert_sprite_constants(constants_path)
-        org !ex_sprite_constants_insertion_address
-        ?constants:
-                incsrc <constants_path>                                                         ;import constants
-        constants_end_!sprite_constants_counter:
-        
-        !ex_sprite_constants_insertion_address := constants_end_!sprite_constants_counter
+	org !ex_sprite_constants_insertion_address
+	?constants:
+		incsrc <constants_path>                                                         ;import constants
+	constants_end_!sprite_constants_counter:
+	
+	!ex_sprite_constants_insertion_address := constants_end_!sprite_constants_counter
 	!sprite_constants_counter #= !sprite_constants_counter+1
 endmacro
 
@@ -139,6 +166,7 @@ macro insert_sprite_spawn_script(spawn_script_path)
 	org !ex_spawn_script_table_insertion_address						;go to next free slot in spawn script table
 		dw ?spawn_script								;write spawn script pointer
 	
+	!last_used_spawn_id #= !last_used_spawn_id+2
 	!ex_spawn_script_table_insertion_address := !ex_spawn_script_table_insertion_address+2	;update next free slot in spawn script table
 endmacro
 
@@ -157,8 +185,37 @@ macro insert_sprite_code(sprite_main_path, execution_conditions)
 	org !ex_sprite_main_table_insertion_address						;set pc to next free slot in sprite main table
 		dw ?sprite_main									;write sprite main pointer
 		dw <execution_conditions>							;write sexecution conditions
-
+	
+	!last_used_sprite_id #= !last_used_sprite_id+4
 	!ex_sprite_main_table_insertion_address := !ex_sprite_main_table_insertion_address+4	;update next free slot in sprite main table
 endmacro
 
-incsrc "sprites.asm"
+
+;creates an animation for a custom sprite
+!animation_counter = 0
+macro insert_sprite_animation(animation_path, params)
+	org !ex_animation_insertion_address							;go to next free insertion address
+	?animation:										;create a label for the animation
+		incsrc <animation_path>								;import animation
+	animation_end_!animation_counter:							;mark the end of the animation
+	
+	!ex_animation_insertion_address := animation_end_!animation_counter			;update animation insertion address
+	!animation_counter #= !animation_counter+1
+	
+	org !ex_animation_table_insertion_address						;set pc to next free slot in sprite main table
+		dw ?animation									;write animation pointer
+		dw <params>									;write execution conditions
+
+	!last_used_animation_id #= !last_used_animation_id+1
+	!ex_animation_table_insertion_address := !ex_animation_table_insertion_address+4	;update next free slot in animation table
+endmacro
+
+
+;inserts sprite packs into ROM
+macro include_pack(pack_name)
+	!pack_name = <pack_name>
+	incsrc !packs_path!pack_name!pack_file
+endmacro
+
+
+incsrc "ex_packs.asm"

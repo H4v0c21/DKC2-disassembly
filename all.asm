@@ -11,7 +11,7 @@ endif
 
 optimize dp always
 optimize address mirrors
-!version = 1
+;!version = 1
 !override_pirate_panic = 0
 !pirate_panic_replacement = $23
 
@@ -168,32 +168,51 @@ check bankcross half
 	org $410000
 		incsrc "exhi/bank_41.asm"
 	org $018000
-		incsrc "exhi/bank_01.asm"
+		if !ex_patch == 1
+			incsrc "ex_patch/custom_level_code_handlers.asm" : padbyte $00 : pad $020000
+		endif
+	
 	org $420000
 		incsrc "exhi/bank_42.asm"
 	org $028000
-		incsrc "exhi/bank_02.asm"
+		if !ex_patch == 1
+			incsrc "ex_patch/ex_sprite_handler.asm" : padbyte $00 : pad $030000
+		endif
+
 	org $430000
 		incsrc "exhi/bank_43.asm"
 	org $038000
-		incsrc "exhi/bank_03.asm"
+		if !ex_patch == 1
+			incsrc "ex_patch/ex_spawn_handler.asm" : padbyte $00 : pad $040000
+		endif
 	
 check bankcross full
 	org $440000
-		ex_null_spawn_script:
-			dw !initcommand_success
-		ex_spawn_scripts:
-			padbyte $00 : pad $450000
+		if !ex_patch == 1
+			ex_null_spawn_script:
+				dw !initcommand_success
+			ex_spawn_scripts: : padbyte $00 : pad $450000
+		endif
 	org $450000
-		ex_sprite_constants: : padbyte $00 : pad $460000
+		if !ex_patch == 1
+			ex_sprite_constants: : padbyte $00 : pad $460000
+		endif
 	org $460000
-		incsrc "exhi/bank_46.asm"
-	org $068000
-		incsrc "exhi/bank_06.asm"
-	org $470000
+		if !ex_patch == 1
+			incsrc "ex_patch/ex_animation_data.asm" : padbyte $00 : pad $06D000
+		endif
+	org $06D000
+		if !ex_patch == 1
+			incsrc "ex_patch/ex_animation_handler.asm" : padbyte $00 : pad $070000
+		endif
+	org $470000	;RESERVED FOR EX HITBOXES
 		incsrc "exhi/bank_47.asm"
 	org $480000
 		incsrc "exhi/bank_48.asm"
+	org $088000
+		if !ex_patch == 1
+			incsrc "ex_patch/ex_graphics_handler.asm" : padbyte $00 : pad $090000
+		endif
 	org $490000
 		incsrc "exhi/bank_49.asm"
 	org $4A0000
