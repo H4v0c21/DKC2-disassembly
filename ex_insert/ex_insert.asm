@@ -128,6 +128,10 @@ endstruct
 !ex_animation_table_insertion_address = read3(!ex_header_address+$98)
 !ex_animation_insertion_address = read3(!ex_header_address+$9B)
 
+!ex_graphics_table_insertion_address #= read3(!ex_header_address+$9E)
+!ex_graphics_insertion_address #= read3(!ex_header_address+$A1)
+!ex_graphics_id_start #= read2(!ex_header_address+$A4)
+
 !ex_spawn_script_table_insertion_address = !ex_spawn_script_table_address
 !ex_sprite_main_table_insertion_address = !ex_sprite_main_table_address
 
@@ -136,6 +140,7 @@ endstruct
 !last_used_sprite_id #= read2(!ex_header_address+$92)-4
 !last_used_spawn_id #= read2(!ex_header_address+$94)-2
 !last_used_animation_id #= read2(!ex_header_address+$96)-1
+!last_used_graphic_id #= read2(!ex_header_address+$A4)-4
 
 
 ;creates a spawn script for a custom sprite
@@ -144,9 +149,9 @@ macro insert_sprite_constants(constants_path)
 	org !ex_sprite_constants_insertion_address
 	?constants:
 		incsrc <constants_path>                                                         ;import constants
-	constants_end_!sprite_constants_counter:
+	?constants_end_!sprite_constants_counter:
 	
-	!ex_sprite_constants_insertion_address := constants_end_!sprite_constants_counter
+	!ex_sprite_constants_insertion_address := ?constants_end_!sprite_constants_counter
 	!sprite_constants_counter #= !sprite_constants_counter+1
 endmacro
 
@@ -158,9 +163,9 @@ macro insert_sprite_spawn_script(spawn_script_path)
 	
 	?spawn_script:										;create a label for the spawn script
 		incsrc <spawn_script_path>							;import spawn script
-	spawn_script_end_!sprite_spawn_script_counter:						;mark the end of the spawn script
+	?spawn_script_end_!sprite_spawn_script_counter:						;mark the end of the spawn script
 	
-	!ex_spawn_script_insertion_address := spawn_script_end_!sprite_spawn_script_counter	;update spawn script insertion address
+	!ex_spawn_script_insertion_address := ?spawn_script_end_!sprite_spawn_script_counter	;update spawn script insertion address
 	!sprite_spawn_script_counter #= !sprite_spawn_script_counter+1
 	
 	org !ex_spawn_script_table_insertion_address						;go to next free slot in spawn script table
@@ -177,9 +182,9 @@ macro insert_sprite_code(sprite_main_path, execution_conditions)
 	org !ex_sprite_main_insertion_address							;go to next free insertion address
 	?sprite_main:										;create a label for the sprite main
 		incsrc <sprite_main_path>							;import sprite main
-	sprite_main_end_!sprite_code_counter:							;mark the end of the sprite main
+	?sprite_main_end_!sprite_code_counter:							;mark the end of the sprite main
 	
-	!ex_sprite_main_insertion_address := sprite_main_end_!sprite_code_counter		;update sprite main insertion address
+	!ex_sprite_main_insertion_address := ?sprite_main_end_!sprite_code_counter		;update sprite main insertion address
 	!sprite_code_counter #= !sprite_code_counter+1
 	
 	org !ex_sprite_main_table_insertion_address						;set pc to next free slot in sprite main table
@@ -197,9 +202,9 @@ macro insert_sprite_animation(animation_path, params)
 	org !ex_animation_insertion_address							;go to next free insertion address
 	?animation:										;create a label for the animation
 		incsrc <animation_path>								;import animation
-	animation_end_!animation_counter:							;mark the end of the animation
+	?animation_end_!animation_counter:							;mark the end of the animation
 	
-	!ex_animation_insertion_address := animation_end_!animation_counter			;update animation insertion address
+	!ex_animation_insertion_address := ?animation_end_!animation_counter			;update animation insertion address
 	!animation_counter #= !animation_counter+1
 	
 	org !ex_animation_table_insertion_address						;set pc to next free slot in sprite main table
@@ -208,6 +213,35 @@ macro insert_sprite_animation(animation_path, params)
 
 	!last_used_animation_id #= !last_used_animation_id+1
 	!ex_animation_table_insertion_address := !ex_animation_table_insertion_address+4	;update next free slot in animation table
+endmacro
+
+
+;creates a graphic for a custom sprite
+!graphic_counter = 0
+!graphic_size = 0
+macro insert_sprite_graphic(graphic_path)
+	
+	;get graphic size and next bank address
+	!graphic_size #= filesize("<graphic_path>")
+	!next_bank #= (!ex_graphics_insertion_address&$FF0000)+$010000
+	
+	;if we crossed a bank border insert graphic at the beginning of next bank
+	if !graphic_size+!ex_graphics_insertion_address >= !next_bank
+		!ex_graphics_insertion_address #= !next_bank
+	endif
+	
+	org !ex_graphics_insertion_address							;go to next free insertion address
+	?graphic:										;create a label for the graphic
+		incbin <graphic_path>								;import graphic
+	;?graphic_end_!graphic_counter:								;mark the end of the graphic
+
+	org !ex_graphics_table_insertion_address						;set pc to next free slot in sprite main table
+		dd ?graphic									;write graphic pointer
+	
+	!graphic_counter #= !graphic_counter+1
+	!last_used_graphic_id #= !last_used_graphic_id+4
+	!ex_graphics_insertion_address #= !ex_graphics_insertion_address+!graphic_size		;update graphics insertion address
+	!ex_graphics_table_insertion_address #= !ex_graphics_table_insertion_address+4		;update next free slot in graphics table
 endmacro
 
 

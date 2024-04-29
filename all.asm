@@ -206,17 +206,17 @@ check bankcross full
 			incsrc "ex_patch/ex_animation_handler.asm" : padbyte $00 : pad $070000
 		endif
 	org $470000	;RESERVED FOR EX HITBOXES
-		incsrc "exhi/bank_47.asm"
-	org $480000
-		incsrc "exhi/bank_48.asm"
-	org $088000
+		padbyte $00 : pad $080000
+	org $480000	;RESERVED FOR EX PALETTES
+		padbyte $00 : pad $090000
+	org $490000
+		padbyte $00 : pad $098000
+	org $098000
 		if !ex_patch == 1
 			incsrc "ex_patch/ex_graphics_handler.asm" : padbyte $00 : pad $090000
 		endif
-	org $490000
-		incsrc "exhi/bank_49.asm"
 	org $4A0000
-		incsrc "exhi/bank_4A.asm"
+		ex_graphics:
 	org $4B0000
 		incsrc "exhi/bank_4B.asm"
 	org $4C0000
