@@ -10,6 +10,7 @@ ex_graphics_handler:
 	RTL
 
 .is_ex_graphic
+	PHA
 	SEC
 	SBC #!ex_graphics_id_start
 	TAX
@@ -17,6 +18,7 @@ ex_graphics_handler:
 	STA $40
 	LDA.l ex_graphics_bank_table,x
 	STA $42
+	PLX
 	RTL
 
 
@@ -24,7 +26,6 @@ ex_graphics_handler_2:
 	TXA
 	CMP #!ex_graphics_id_start
 	BCS .is_ex_graphic
-	TAX
 	LDA.l DATA_BC8000,x
 	STA $40
 	INC A
@@ -35,6 +36,7 @@ ex_graphics_handler_2:
 	RTL
 
 .is_ex_graphic
+	PHA
 	SEC
 	SBC #!ex_graphics_id_start
 	TAX
@@ -45,6 +47,7 @@ ex_graphics_handler_2:
 	LDA.l ex_graphics_bank_table,x
 	STA $42
 	STA $46
+	PLX
 	RTL
 
 
