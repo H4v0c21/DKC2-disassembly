@@ -6,5 +6,5 @@ example_sprite_spawn_script:
 	dw sprite.unknown_54, example_sprite_constants
 	dw !initcommand_set_oam, $2000		;faces left, maybe right, idk lmao
 	dw !initcommand_set_alt_palette, $005A	;epic blue color
-	dw !initcommand_set_animation, $0160	;klomp walk
+	dw !initcommand_set_animation, !last_used_animation_id
 	dw !initcommand_success

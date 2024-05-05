@@ -9037,8 +9037,12 @@ CODE_BCFC40:
 	ASL A					;$BCFC40  \
 	ASL A					;$BCFC41   |
 	ASL A					;$BCFC42   |
+if !ex_patch == 1
+	BRL BRA_BCFC59_handle_ex_bank
+else
 	ADC #DATA_BCFA00			;$BCFC43   |
 	BRA CODE_BCFC59				;$BCFC46  /
+endif
 
 CODE_BCFC48:
 	PHY					;$BCFC48  \
@@ -9049,6 +9053,12 @@ CODE_BCFC48:
 get_sprite_clipping:
 	LDA $1A,x				;$BCFC4D  \ Get clipping ID
 	BEQ CODE_BCFC48				;$BCFC4F   |
+if !ex_patch == 1
+	PHB
+	JSL ex_hitbox_handler
+	padbyte $EA : pad $BCFC5C : warnpc $BCFC5C
+CODE_BCFC59:
+else
 	LSR A					;$BCFC51   |
 	PHX					;$BCFC52   |
 	TAX					;$BCFC53   |
@@ -9058,6 +9068,7 @@ CODE_BCFC59:					;	   |
 	PHB					;$BCFC59   |
 	PHK					;$BCFC5A   |
 	PLB					;$BCFC5B   |
+endif
 	PHY					;$BCFC5C   |
 	TAY					;$BCFC5D   |
 	PLD					;$BCFC5E   |
@@ -9480,3 +9491,12 @@ CODE_BCFF6E:
 	PLB					;$BCFF6E  \
 	CLC					;$BCFF6F   |
 	RTL					;$BCFF70  /
+
+if !ex_patch == 1
+BRA_BCFC59_handle_ex_bank:
+	ADC #DATA_BCFA00
+	PHB
+	PHK
+	PLB
+	BRL CODE_BCFC59
+endif

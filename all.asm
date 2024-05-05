@@ -201,24 +201,26 @@ check bankcross full
 		if !ex_patch == 1
 			incsrc "ex_patch/ex_animation_data.asm" : padbyte $00 : pad $06D000
 		endif
-	org $06D000
+	org $078000
 		if !ex_patch == 1
-			incsrc "ex_patch/ex_animation_handler.asm" : padbyte $00 : pad $070000
+			incsrc "ex_patch/ex_hitbox_handler.asm" : padbyte $00 : pad $080000
 		endif
-	org $470000	;RESERVED FOR EX HITBOXES
-		padbyte $00 : pad $080000
 	org $480000	;RESERVED FOR EX PALETTES
 		padbyte $00 : pad $090000
 	org $490000
 		padbyte $00 : pad $098000
 	org $098000
 		if !ex_patch == 1
-			incsrc "ex_patch/ex_graphics_handler.asm" : padbyte $00 : pad $090000
+			incsrc "ex_patch/ex_animation_handler.asm" : padbyte $00 : pad $090000
 		endif
-	org $4A0000
-		ex_graphics:
+	org $0A8000
+		if !ex_patch == 1
+			incsrc "ex_patch/ex_graphics_handler.asm"
+		endif
 	org $4B0000
-		incsrc "exhi/bank_4B.asm"
+		if !ex_patch == 1
+			ex_graphics:
+		endif
 	org $4C0000
 		incsrc "exhi/bank_4C.asm"
 	org $4D0000

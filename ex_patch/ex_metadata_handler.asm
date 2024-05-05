@@ -28,3 +28,5 @@ padbyte $00 : pad ex_header+$80
 	dl ex_graphics_address_table		;009E
 	dl ex_graphics				;00A1
 	dw !ex_graphics_id_start		;00A4
+	dl ex_hitbox_table			;00A6
+	dl ex_hitbox_table_end			;00A9

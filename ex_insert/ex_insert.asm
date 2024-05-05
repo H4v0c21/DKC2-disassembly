@@ -1,6 +1,9 @@
 exhirom
-org $008000
 
+!version #= read1($00FFDB)
+incsrc "ex_hooks.asm"
+
+org $008000
 
 ;sprite spawn script command constants
 !initcommand_success = $8000
@@ -132,6 +135,9 @@ endstruct
 !ex_graphics_insertion_address #= read3(!ex_header_address+$A1)
 !ex_graphics_id_start #= read2(!ex_header_address+$A4)
 
+!ex_hitbox_table_base_address #= read3(!ex_header_address+$A6)
+!ex_hitbox_insertion_address #= read3(!ex_header_address+$A9)
+
 !ex_spawn_script_table_insertion_address = !ex_spawn_script_table_address
 !ex_sprite_main_table_insertion_address = !ex_sprite_main_table_address
 
@@ -172,7 +178,7 @@ macro insert_sprite_spawn_script(spawn_script_path)
 		dw ?spawn_script								;write spawn script pointer
 	
 	!last_used_spawn_id #= !last_used_spawn_id+2
-	!ex_spawn_script_table_insertion_address := !ex_spawn_script_table_insertion_address+2	;update next free slot in spawn script table
+	!ex_spawn_script_table_insertion_address #= !ex_spawn_script_table_insertion_address+2	;update next free slot in spawn script table
 endmacro
 
 
@@ -192,7 +198,7 @@ macro insert_sprite_code(sprite_main_path, execution_conditions)
 		dw <execution_conditions>							;write sexecution conditions
 	
 	!last_used_sprite_id #= !last_used_sprite_id+4
-	!ex_sprite_main_table_insertion_address := !ex_sprite_main_table_insertion_address+4	;update next free slot in sprite main table
+	!ex_sprite_main_table_insertion_address #= !ex_sprite_main_table_insertion_address+4	;update next free slot in sprite main table
 endmacro
 
 
@@ -209,17 +215,17 @@ macro insert_sprite_animation(animation_path, params)
 	
 	org !ex_animation_table_insertion_address						;set pc to next free slot in sprite main table
 		dw ?animation									;write animation pointer
-		dw <params>									;write execution conditions
+		dw <params>									;write params
 
 	!last_used_animation_id #= !last_used_animation_id+1
-	!ex_animation_table_insertion_address := !ex_animation_table_insertion_address+4	;update next free slot in animation table
+	!ex_animation_table_insertion_address #= !ex_animation_table_insertion_address+4	;update next free slot in animation table
 endmacro
 
 
 ;creates a graphic for a custom sprite
 !graphic_counter = 0
 !graphic_size = 0
-macro insert_sprite_graphic(graphic_path)
+macro insert_sprite_graphic(graphic_path, hitbox_pointer)
 	
 	;get graphic size and next bank address
 	!graphic_size #= filesize("<graphic_path>")
@@ -236,12 +242,29 @@ macro insert_sprite_graphic(graphic_path)
 	;?graphic_end_!graphic_counter:								;mark the end of the graphic
 
 	org !ex_graphics_table_insertion_address						;set pc to next free slot in sprite main table
-		dd ?graphic									;write graphic pointer
+		dl ?graphic									;write graphic pointer
+		db $00
+	
+	org !ex_hitbox_table_base_address+((!last_used_graphic_id-!ex_graphics_id_start)/2)+2
+		dw <hitbox_pointer>
 	
 	!graphic_counter #= !graphic_counter+1
 	!last_used_graphic_id #= !last_used_graphic_id+4
 	!ex_graphics_insertion_address #= !ex_graphics_insertion_address+!graphic_size		;update graphics insertion address
 	!ex_graphics_table_insertion_address #= !ex_graphics_table_insertion_address+4		;update next free slot in graphics table
+endmacro
+
+
+;creates hitboxes for a custom sprite
+!hitbox_counter = 0
+macro insert_sprite_hitboxes(hitbox_path)
+	org !ex_hitbox_insertion_address							;go to next free insertion address
+	?hitbox:										;create a label for the hitboxes
+		incsrc <hitbox_path>								;import hitboxes
+	?hitbox_end_!hitbox_counter:								;mark the end of the hitboxes
+	
+	!ex_hitbox_insertion_address := ?hitbox_end_!hitbox_counter				;update hitbox insertion address
+	!hitbox_counter #= !hitbox_counter+1
 endmacro
 
 

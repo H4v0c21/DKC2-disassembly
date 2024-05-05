@@ -1,17 +1,18 @@
-example_sprite_main:
+gnawty_main:
 	LDX $64
 	LDA $54,x
 	STA $8E
 	LDA $2E,x
 	ASL 
 	TAX 
-	JMP (.example_sprite_behavior_table,x)
+	JMP (.behavior_table,x)
 
-.example_sprite_behavior_table
-	dw .idle
+.behavior_table
+	dw .walk
 
-.idle
+.walk
 	JSL process_animations 
+	JSL process_current_movement
 	JSL prepare_sprite_collision
 	JSL check_for_player_collision
 	BCC .no_collision
