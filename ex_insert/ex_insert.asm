@@ -150,32 +150,32 @@ endstruct
 
 
 ;creates a spawn script for a custom sprite
-!sprite_constants_counter = 0
+!constants_counter = 0
 macro insert_sprite_constants(constants_path)
 	org !ex_sprite_constants_insertion_address
-	?constants:
+	constants_!constants_counter:
 		incsrc <constants_path>                                                         ;import constants
-	?constants_end_!sprite_constants_counter:
+	constants_end_!constants_counter:
 	
-	!ex_sprite_constants_insertion_address := ?constants_end_!sprite_constants_counter
-	!sprite_constants_counter #= !sprite_constants_counter+1
+	!ex_sprite_constants_insertion_address := constants_end_!constants_counter
+	!constants_counter #= !constants_counter+1
 endmacro
 
 
 ;creates a spawn script for a custom sprite
-!sprite_spawn_script_counter = 0
+!spawn_script_counter = 0
 macro insert_sprite_spawn_script(spawn_script_path)
 	org !ex_spawn_script_insertion_address							;go to next free insertion address
 	
-	?spawn_script:										;create a label for the spawn script
+	spawn_script_!spawn_script_counter:							;create a label for the spawn script
 		incsrc <spawn_script_path>							;import spawn script
-	?spawn_script_end_!sprite_spawn_script_counter:						;mark the end of the spawn script
-	
-	!ex_spawn_script_insertion_address := ?spawn_script_end_!sprite_spawn_script_counter	;update spawn script insertion address
-	!sprite_spawn_script_counter #= !sprite_spawn_script_counter+1
-	
+	spawn_script_end_!spawn_script_counter:							;mark the end of the spawn script
+
 	org !ex_spawn_script_table_insertion_address						;go to next free slot in spawn script table
-		dw ?spawn_script								;write spawn script pointer
+		dw spawn_script_!spawn_script_counter						;write spawn script pointer
+		
+	!ex_spawn_script_insertion_address := spawn_script_end_!spawn_script_counter		;update spawn script insertion address
+	!spawn_script_counter #= !spawn_script_counter+1
 	
 	!last_used_spawn_id #= !last_used_spawn_id+2
 	!ex_spawn_script_table_insertion_address #= !ex_spawn_script_table_insertion_address+2	;update next free slot in spawn script table
@@ -183,42 +183,22 @@ endmacro
 
 
 ;creates a main routine for a custom sprite
-!sprite_code_counter = 0
+!sprite_main_counter = 0
 macro insert_sprite_code(sprite_main_path, execution_conditions)
 	org !ex_sprite_main_insertion_address							;go to next free insertion address
-	?sprite_main:										;create a label for the sprite main
+	sprite_main_!sprite_main_counter:							;create a label for the sprite main
 		incsrc <sprite_main_path>							;import sprite main
-	?sprite_main_end_!sprite_code_counter:							;mark the end of the sprite main
-	
-	!ex_sprite_main_insertion_address := ?sprite_main_end_!sprite_code_counter		;update sprite main insertion address
-	!sprite_code_counter #= !sprite_code_counter+1
+	sprite_main_end_!sprite_main_counter:							;mark the end of the sprite main
 	
 	org !ex_sprite_main_table_insertion_address						;set pc to next free slot in sprite main table
-		dw ?sprite_main									;write sprite main pointer
+		dw sprite_main_!sprite_main_counter						;write sprite main pointer
 		dw <execution_conditions>							;write sexecution conditions
+	
+	!ex_sprite_main_insertion_address := sprite_main_end_!sprite_main_counter		;update sprite main insertion address
+	!sprite_main_counter #= !sprite_main_counter+1
 	
 	!last_used_sprite_id #= !last_used_sprite_id+4
 	!ex_sprite_main_table_insertion_address #= !ex_sprite_main_table_insertion_address+4	;update next free slot in sprite main table
-endmacro
-
-
-;creates an animation for a custom sprite
-!animation_counter = 0
-macro insert_sprite_animation(animation_path, params)
-	org !ex_animation_insertion_address							;go to next free insertion address
-	?animation:										;create a label for the animation
-		incsrc <animation_path>								;import animation
-	?animation_end_!animation_counter:							;mark the end of the animation
-	
-	!ex_animation_insertion_address := ?animation_end_!animation_counter			;update animation insertion address
-	!animation_counter #= !animation_counter+1
-	
-	org !ex_animation_table_insertion_address						;set pc to next free slot in sprite main table
-		dw ?animation									;write animation pointer
-		dw <params>									;write params
-
-	!last_used_animation_id #= !last_used_animation_id+1
-	!ex_animation_table_insertion_address #= !ex_animation_table_insertion_address+4	;update next free slot in animation table
 endmacro
 
 
@@ -255,15 +235,35 @@ macro insert_sprite_graphic(graphic_path, hitbox_pointer)
 endmacro
 
 
+;creates an animation for a custom sprite
+!animation_counter = 0
+macro insert_sprite_animation(animation_path, params)
+	org !ex_animation_insertion_address							;go to next free insertion address
+	animation_!animation_counter:								;create a label for the animation
+		incsrc <animation_path>								;import animation
+	animation_end_!animation_counter:							;mark the end of the animation
+	
+	org !ex_animation_table_insertion_address						;set pc to next free slot in sprite main table
+		dw animation_!animation_counter							;write animation pointer
+		dw <params>									;write params
+	
+	!ex_animation_insertion_address := animation_end_!animation_counter			;update animation insertion address
+	!animation_counter #= !animation_counter+1
+	
+	!last_used_animation_id #= !last_used_animation_id+1
+	!ex_animation_table_insertion_address #= !ex_animation_table_insertion_address+4	;update next free slot in animation table
+endmacro
+
+
 ;creates hitboxes for a custom sprite
 !hitbox_counter = 0
 macro insert_sprite_hitboxes(hitbox_path)
 	org !ex_hitbox_insertion_address							;go to next free insertion address
-	?hitbox:										;create a label for the hitboxes
+	hitbox_!hitbox_counter:									;create a label for the hitboxes
 		incsrc <hitbox_path>								;import hitboxes
-	?hitbox_end_!hitbox_counter:								;mark the end of the hitboxes
+	hitbox_end_!hitbox_counter:								;mark the end of the hitboxes
 	
-	!ex_hitbox_insertion_address := ?hitbox_end_!hitbox_counter				;update hitbox insertion address
+	!ex_hitbox_insertion_address := hitbox_end_!hitbox_counter				;update hitbox insertion address
 	!hitbox_counter #= !hitbox_counter+1
 endmacro
 

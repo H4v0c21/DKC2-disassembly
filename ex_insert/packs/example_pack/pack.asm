@@ -1,4 +1,4 @@
-namespace example_pack
+;namespace example_pack
 
 %insert_sprite_hitboxes("packs/example_pack/hitboxes/example_sprite_hitboxes.asm")
 
@@ -15,4 +15,4 @@ namespace example_pack
 
 print "Example Sprite inserted with spawn id: $",hex(!last_used_spawn_id)
 
-namespace off
+;namespace off
