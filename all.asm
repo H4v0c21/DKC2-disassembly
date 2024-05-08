@@ -160,107 +160,49 @@ org $FF0000
 
 ;6,112 KB
 if !exhi == 1
-	org $400000
-check bankcross half
-		incsrc "exhi/bank_40.asm"
-	org $008000
-		incsrc "exhi/bank_00.asm"
-	org $410000
-		incsrc "exhi/bank_41.asm"
-	org $018000
-		if !ex_patch == 1
+	if !ex_patch == 1
+		org $400000
+	check bankcross half
+		org $008000
+			incsrc "exhi/bank_00.asm"
+		org $018000
 			incsrc "ex_patch/custom_level_code_handlers.asm" : padbyte $00 : pad $020000
-		endif
-	
-	org $420000
-		incsrc "exhi/bank_42.asm"
-	org $028000
-		if !ex_patch == 1
+		org $028000
 			incsrc "ex_patch/ex_sprite_handler.asm" : padbyte $00 : pad $030000
-		endif
-
-	org $430000
-		incsrc "exhi/bank_43.asm"
-	org $038000
-		if !ex_patch == 1
+		org $038000
 			incsrc "ex_patch/ex_spawn_handler.asm" : padbyte $00 : pad $040000
-		endif
-	
-check bankcross full
-	org $440000
-		if !ex_patch == 1
+		
+	check bankcross full
+		org $440000
 			ex_null_spawn_script:
 				dw !initcommand_success
 			ex_spawn_scripts: : padbyte $00 : pad $450000
-		endif
-	org $450000
-		if !ex_patch == 1
+		org $450000
 			ex_sprite_constants: : padbyte $00 : pad $460000
-		endif
-	org $460000
-		if !ex_patch == 1
-			incsrc "ex_patch/ex_animation_data.asm" : padbyte $00 : pad $06D000
-		endif
-	org $078000
-		if !ex_patch == 1
-			incsrc "ex_patch/ex_hitbox_handler.asm" : padbyte $00 : pad $080000
-		endif
-	org $480000	;RESERVED FOR EX PALETTES
-		padbyte $00 : pad $090000
-	org $490000
-		padbyte $00 : pad $098000
-	org $098000
-		if !ex_patch == 1
-			incsrc "ex_patch/ex_animation_handler.asm" : padbyte $00 : pad $090000
-		endif
-	org $0A8000
-		if !ex_patch == 1
+		org $460000
+			incsrc "ex_patch/ex_animation_data.asm" : padbyte $00 : pad $070000
+	
+	;check bankcross half
+		org $078000
+			incsrc "ex_patch/ex_animation_handler.asm"
+			ex_animation_code: : padbyte $00 : pad $0A0000
+		org $088000
+			incsrc "ex_patch/ex_hitbox_handler.asm" : padbyte $00 : pad $090000
+	
+	;check bankcross full
+		org $490000	;RESERVED FOR EX PALETTES
+			ex_palette_table:
+			ex_palette_table_end:
+			padbyte $00 : pad $4A0000
+		
+	;check bankcross half
+		org $0A8000
 			incsrc "ex_patch/ex_graphics_handler.asm"
-		endif
-	org $4B0000
-		if !ex_patch == 1
+		org $4B0000
 			ex_graphics:
-		endif
-	org $4C0000
-		incsrc "exhi/bank_4C.asm"
-	org $4D0000
-		incsrc "exhi/bank_4D.asm"
-	org $4E0000
-		incsrc "exhi/bank_4E.asm"
-	org $4F0000
-		incsrc "exhi/bank_4F.asm"
-	org $500000
-		incsrc "exhi/bank_50.asm"
-	org $510000
-		incsrc "exhi/bank_51.asm"
-	org $520000
-		incsrc "exhi/bank_52.asm"
-	org $530000
-		incsrc "exhi/bank_53.asm"
-	org $540000
-		incsrc "exhi/bank_54.asm"
-	org $550000
-		incsrc "exhi/bank_55.asm"
-	org $560000
-		incsrc "exhi/bank_56.asm"
-	org $570000
-		incsrc "exhi/bank_57.asm"
-	org $580000
-		incsrc "exhi/bank_58.asm"
-	org $590000
-		incsrc "exhi/bank_59.asm"
-	org $5A0000
-		incsrc "exhi/bank_5A.asm"
-	org $5B0000
-		incsrc "exhi/bank_5B.asm"
-	org $5C0000
-		incsrc "exhi/bank_5C.asm"
-	org $5D0000
-		incsrc "exhi/bank_5D.asm"
-	org $5E0000
-		incsrc "exhi/bank_5E.asm"
-	org $5F0000
-		incsrc "exhi/bank_5F.asm"
+		org $5FFFFF
+			db $00
+	endif
 
 ;7,968 KB
 ;check bankcross full

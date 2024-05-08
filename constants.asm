@@ -289,13 +289,15 @@ else
 endif
 
 if !ex_patch == 1
-	!ex_sprite_id_start = $0320
-	!ex_graphics_id_start = $3600
-	!ex_animation_id_start = $0340
-	
 	if !version == 1
 		!ex_spawn_id_start = $1046
 	else
 		!ex_spawn_id_start = $1044
 	endif
+	
+	!ex_sprite_id_start = $0320
+	!ex_animation_id_start = $0340
+	!ex_graphics_id_start = $3600
+	!ex_palette_id_start = $0000
+
 endif

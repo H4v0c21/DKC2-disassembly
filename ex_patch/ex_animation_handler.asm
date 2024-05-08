@@ -80,3 +80,16 @@ ex_animation_bank_handler:
 	PLB
 	PLB
 	JML ex_animation_bank_handler_return
+
+ex_anim_code_handler:
+	%return(.return_handler)
+	JMP ($0026)
+
+.return_handler
+	PLX
+	SEP #$20
+	LDA #$B9
+	PHA
+	REP #$20
+	PHX
+	RTL

@@ -1,3 +1,4 @@
+;DKC 2 HOOKS
 if !version == 1
 	check_sprite_underwater = $B8B6A3
 	update_position_from_velocity = $B8CF7F
@@ -7,9 +8,10 @@ if !version == 1
 	process_terrain_collision = $B8D5E0
 	check_for_sprite_collision = $BEBD8E
 	check_for_player_collision = $BEBE6D
-	check_for_player_collision_with_flags = $BEBE80
+	check_for_player_collision_with_flags = $BEBE8B
 	process_current_movement = $BEF039
 	process_alternate_movement = $BEF03D
+	flip_sprite_direction = $B9E019
 else
 	check_sprite_underwater = $B8B5B6
 	update_position_from_velocity = $B8CE97
@@ -19,9 +21,10 @@ else
 	process_terrain_collision = $B8D4F8
 	check_for_sprite_collision = $BEBD83
 	check_for_player_collision = $BEBE62
-	check_for_player_collision_with_flags = $BEBE8B
+	check_for_player_collision_with_flags = $BEBE80
 	process_current_movement = $BEF05C
 	process_alternate_movement = $BEF060
+	flip_sprite_direction = $B9E01B
 endif
 
 	sprite_return_with_despawn = $B38000
@@ -41,3 +44,10 @@ endif
 	spawn_sprite_from_index = $BB8412
 	spawn_sprite_from_pointer = $BB8418
 	prepare_sprite_collision = $BCFB58
+
+;EX HOOKS
+	turn_sprite_if_needed = $B9F0FD
+	flip_sprite_direction_global = $B9F101
+	rts_return = $B9F105
+	rtl_returb = $B9F106
+	

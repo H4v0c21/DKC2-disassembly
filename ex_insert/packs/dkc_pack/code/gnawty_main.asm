@@ -14,10 +14,12 @@ gnawty_main:
 	JSL process_animations 
 	JSL process_current_movement
 	JSL prepare_sprite_collision
-	JSL check_for_player_collision
+	LDA #$000F
+	JSL check_for_player_collision_with_flags
 	BCC .no_collision
-	LDY #$0000
-	LDA [$8E],y
+	LDA #$0507
 	JSL queue_sound_effect
+	JSL kill_sprite
+	
 .no_collision
 	JML [$05A9]

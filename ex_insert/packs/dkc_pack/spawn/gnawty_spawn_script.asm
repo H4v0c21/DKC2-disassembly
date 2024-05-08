@@ -9,6 +9,6 @@ gnawty_spawn_script:
 	dw sprite.unknown_30, $0120
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_set_alt_palette, $001C
-	dw !initcommand_set_animation, !last_used_animation_id
+	dw !initcommand_set_animation, !last_used_animation_id-1
 	dw sprite.unknown_52, $0022
 	dw !initcommand_success

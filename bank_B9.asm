@@ -255,7 +255,11 @@ animation_command_handler:
 	SBC #$0080				;$B9D158   |
 	ASL A					;$B9D15B   |
 	TAX					;$B9D15C   |
+if !ex_patch == 1
+	JMP (animation_command_table,x)
+else
 	JMP (DATA_B9D4C5,x)			;$B9D15D  /
+endif
 
 CODE_B9D160:
 	LDX current_sprite			;$B9D160  \
@@ -275,89 +279,95 @@ endif
 	TAY					;$B9D16F   |
 	BRA process_anim_script			;$B9D170  /
 
+;animation command 81
 CODE_B9D172:
-	LDX current_sprite			;$B9D172  \
-	INY					;$B9D174   |
-	LDA $0000,y				;$B9D175   |
-	STA $26					;$B9D178   |
-	INY					;$B9D17A   |
-	INY					;$B9D17B   |
-	TYA					;$B9D17C   |
-	PHA					;$B9D17D   |
-	STA $3C,x				;$B9D17E   |
-	PHB					;$B9D180   |
-	PHK					;$B9D181   |
-	PLB					;$B9D182   |
-	%return(CODE_B9D189)			;$B9D183   |
-	JMP ($0026)				;$B9D186  /
+	LDX current_sprite			;$B9D172  \> Get current sprite
+	INY					;$B9D174   |\
+	LDA $0000,y				;$B9D175   | | Get command param 1 (animation code execution pointer)
+	STA $26					;$B9D178   |/
+	INY					;$B9D17A   |\ Move to next command
+	INY					;$B9D17B   |/
+	TYA					;$B9D17C   |\
+	PHA					;$B9D17D   |/ Preserve current animation script pointer on stack
+	STA $3C,x				;$B9D17E   |> Update animation script pointer for current sprite
+	PHB					;$B9D180   |> Preserve data bank
+	PHK					;$B9D181   |\
+	PLB					;$B9D182   |/ Set data bank to this bank
+	%return(return_B9D189)			;$B9D183   |> Set return address for when RTS is executed
+	JMP ($0026)				;$B9D186  /> Execute animation code
 
-CODE_B9D189:
-	PLB					;$B9D189  \
-	PLA					;$B9D18A   |
-	STA $52					;$B9D18B   |
-	LDX current_sprite			;$B9D18D   |
-	LDY $3C,x				;$B9D18F   |
-	TYA					;$B9D191   |
-	CMP $52					;$B9D192   |
-	BNE CODE_B9D199				;$B9D194   |
-	JMP process_anim_script			;$B9D196  /
+return_B9D189:
+	PLB					;$B9D189  \> Retrieve data bank from stack
+	PLA					;$B9D18A   |\ Retrieve last animation script pointer from stack and save it
+	STA $52					;$B9D18B   |/
+	LDX current_sprite			;$B9D18D   |\
+	LDY $3C,x				;$B9D18F   | | Get animation script pointer from current sprite
+	TYA					;$B9D191   |/
+	CMP $52					;$B9D192   |\ If animation script pointer for this sprite was changed stop processing the script
+	BNE .stop_processing_script		;$B9D194   |/
+	JMP process_anim_script			;$B9D196  /> Continue processing animation script
 
-CODE_B9D199:
+.stop_processing_script
 	PLB					;$B9D199  \
 	RTL					;$B9D19A  /
 
+;animation command 82 (animation jump)
 CODE_B9D19B:
-	LDX current_sprite			;$B9D19B  \
-	INY					;$B9D19D   |
-	LDA $0000,y				;$B9D19E   |
-	TAY					;$B9D1A1   |
-	JMP process_anim_script			;$B9D1A2  /
+	LDX current_sprite			;$B9D19B  \> Get current sprite
+	INY					;$B9D19D   |\
+	LDA $0000,y				;$B9D19E   |/ Get command param 1 (animation script pointer)
+	TAY					;$B9D1A1   |> Move animation script pointer to new animation jump address
+	JMP process_anim_script			;$B9D1A2  /> Continue processing animation script from new address
 
+;animation command 83 (execute code)
 CODE_B9D1A5:
-	LDX current_sprite			;$B9D1A5  \
-	TYA					;$B9D1A7   |
-	STA $3C,x				;$B9D1A8   |
-	INY					;$B9D1AA   |
-	LDA $0000,y				;$B9D1AB   |
-	STA $26					;$B9D1AE   |
-	INY					;$B9D1B0   |
-	INY					;$B9D1B1   |
-	JMP ($0026)				;$B9D1B2  /
+	LDX current_sprite			;$B9D1A5  \> Get current sprite
+	TYA					;$B9D1A7   |\
+	STA $3C,x				;$B9D1A8   |/ Update animation script pointer for current sprite
+	INY					;$B9D1AA   |\
+	LDA $0000,y				;$B9D1AB   | | Get command param 1 (animation code execution pointer)
+	STA $26					;$B9D1AE   |/
+	INY					;$B9D1B0   |\ Move to next command
+	INY					;$B9D1B1   |/
+	JMP ($0026)				;$B9D1B2  /> Execute animation code
 
+;animation command 84 (execute code later)
 CODE_B9D1B5:
-	LDX current_sprite			;$B9D1B5  \
-	INY					;$B9D1B7   |
-	LDA $0000,y				;$B9D1B8   |
-	STA $3E,x				;$B9D1BB   |
-	INY					;$B9D1BD   |
-	INY					;$B9D1BE   |
-	JMP process_anim_script			;$B9D1BF  /
+	LDX current_sprite			;$B9D1B5  \> Get current sprite
+	INY					;$B9D1B7   |\
+	LDA $0000,y				;$B9D1B8   |/ Get command param 1 (animation code execution pointer)
+	STA $3E,x				;$B9D1BB   |> Store animation code pointer in sprite for execution later
+	INY					;$B9D1BD   |\ Move to next command
+	INY					;$B9D1BE   |/
+	JMP process_anim_script			;$B9D1BF  /> Continue processing animation script
 
+;animation command 8E (play sound effect)
 CODE_B9D1C2:
-	LDX current_sprite			;$B9D1C2  \
-	INY					;$B9D1C4   |
-	LDA $0000,y				;$B9D1C5   |
-	PHY					;$B9D1C8   |
-	JSL queue_sound_effect			;$B9D1C9   |
-	PLY					;$B9D1CD   |
-	INY					;$B9D1CE   |
-	INY					;$B9D1CF   |
-	LDX current_sprite			;$B9D1D0   |
-	JMP process_anim_script			;$B9D1D2  /
+	LDX current_sprite			;$B9D1C2  \> Get current sprite
+	INY					;$B9D1C4   |\
+	LDA $0000,y				;$B9D1C5   |/ Get command param 1 (sound effect)
+	PHY					;$B9D1C8   |\ Preserve animation script pointer
+	JSL queue_sound_effect			;$B9D1C9   | | And queue sound effect
+	PLY					;$B9D1CD   |/ Then retrieve animation script pointer
+	INY					;$B9D1CE   |\ Move to next command
+	INY					;$B9D1CF   |/
+	LDX current_sprite			;$B9D1D0   |> Get current sprite
+	JMP process_anim_script			;$B9D1D2  /> Continue processing animation script
 
+;animation command 93 (play sound effect unknown)
 CODE_B9D1D5:
 	LDX current_sprite			;$B9D1D5  \
 	INY					;$B9D1D7   |
 	LDA $0000,y				;$B9D1D8   |
-	%pea_mirror_dbr()			;$B9D1DB   | MIGHT CAUSE PROBLEMS
+	%pea_mirror_dbr()			;$B9D1DB   |
 	PLB					;$B9D1DE   |
 	PHY					;$B9D1DF   |
 	PHA					;$B9D1E0   |
 	JSL CODE_BBBB69				;$B9D1E1   |
 	PLA					;$B9D1E5   |
-	BCS CODE_B9D1EC				;$B9D1E6   |
+	BCS .CODE_B9D1EC			;$B9D1E6   |
 	JSL queue_sound_effect			;$B9D1E8   |
-CODE_B9D1EC:					;	   |
+.CODE_B9D1EC					;	   |
 	PLY					;$B9D1EC   |
 	PLB					;$B9D1ED   |
 	INY					;$B9D1EE   |
@@ -365,92 +375,97 @@ CODE_B9D1EC:					;	   |
 	LDX current_sprite			;$B9D1F0   |
 	JMP process_anim_script			;$B9D1F2  /
 
+;animation command 8F (animation jump if true)
 CODE_B9D1F5:
-	LDX current_sprite			;$B9D1F5  \
-	INY					;$B9D1F7   |
-	LDA $0000,y				;$B9D1F8   |
-	STA $26					;$B9D1FB   |
-	INY					;$B9D1FD   |
-	INY					;$B9D1FE   |
-	TYA					;$B9D1FF   |
-	STA $3C,x				;$B9D200   |
-	PHB					;$B9D202   |
-	PHK					;$B9D203   |
-	PLB					;$B9D204   |
-	%return(CODE_B9D20B)			;$B9D205   |
-	JMP ($0026)				;$B9D208  /
+	LDX current_sprite			;$B9D1F5  \> Get current sprite
+	INY					;$B9D1F7   |\
+	LDA $0000,y				;$B9D1F8   | | Get command param 1 (animation code execution pointer)
+	STA $26					;$B9D1FB   |/
+	INY					;$B9D1FD   |\ Move to next parameter
+	INY					;$B9D1FE   |/
+	TYA					;$B9D1FF   |\
+	STA $3C,x				;$B9D200   |/ Update animation script pointer for current sprite
+	PHB					;$B9D202   |> Preserve data bank
+	PHK					;$B9D203   |\ Set data bank to this bank
+	PLB					;$B9D204   |/
+	%return(.animation_code_return)		;$B9D205   |> Set return address for when RTS is executed
+	JMP ($0026)				;$B9D208  /> Execute animation code
 
-CODE_B9D20B:
-	PLB					;$B9D20B  \
-	LDX current_sprite			;$B9D20C   |
-	LDY $3C,x				;$B9D20E   |
-	LDA $0000,y				;$B9D210   |
-	BCS CODE_B9D21A				;$B9D213   |
-	INY					;$B9D215   |
-	INY					;$B9D216   |
-	JMP process_anim_script			;$B9D217  /
+.animation_code_return
+	PLB					;$B9D20B  \> Retrieve data bank from stack
+	LDX current_sprite			;$B9D20C   |\
+	LDY $3C,x				;$B9D20E   |/ Get animation script pointer from current sprite
+	LDA $0000,y				;$B9D210   |> Get animation jump address
+	BCS .jump				;$B9D213   |> If the condition was met jump to new animation address
+	INY					;$B9D215   |\ Move to next command
+	INY					;$B9D216   |/
+	JMP process_anim_script			;$B9D217  /> Condition wasn't met, Continue processing animation script
 
-CODE_B9D21A:
-	TAY					;$B9D21A  \
-	JMP process_anim_script			;$B9D21B  /
+.jump
+	TAY					;$B9D21A  \> Jump to new animation script address
+	JMP process_anim_script			;$B9D21B  /> Continue processing animation script
 
+;animation command 90 (execute code then set new animation id)
 CODE_B9D21E:
-	LDX current_sprite			;$B9D21E  \
-	INY					;$B9D220   |
-	LDA $0000,y				;$B9D221   |
-	STA $26					;$B9D224   |
-	INY					;$B9D226   |
-	INY					;$B9D227   |
-	TYA					;$B9D228   |
-	STA $3C,x				;$B9D229   |
-	PHB					;$B9D22B   |
-	PHK					;$B9D22C   |
-	PLB					;$B9D22D   |
-	%return(CODE_B9D234)			;$B9D22E   |
-	JMP ($0026)				;$B9D231  /
+	LDX current_sprite			;$B9D21E  \> Get current sprite
+	INY					;$B9D220   |\
+	LDA $0000,y				;$B9D221   | | Get command param 1 (animation code execution pointer)
+	STA $26					;$B9D224   |/
+	INY					;$B9D226   |\ Move to next parameter
+	INY					;$B9D227   |/
+	TYA					;$B9D228   |\
+	STA $3C,x				;$B9D229   |/ Update animation script pointer for current sprite
+	PHB					;$B9D22B   |> Preserve data bank
+	PHK					;$B9D22C   |\ Set data bank to this bank
+	PLB					;$B9D22D   |/
+	%return(.animation_code_return)		;$B9D22E   |> Set return address for when RTS is executed
+	JMP ($0026)				;$B9D231  /> Execute animation code
 
-CODE_B9D234:
-	PLB					;$B9D234  \
-	LDX current_sprite			;$B9D235   |
-	LDY $3C,x				;$B9D237   |
-	LDA $0000,y				;$B9D239   |
+.animation_code_return
+	PLB					;$B9D234  \> Retrieve data bank from stack
+	LDX current_sprite			;$B9D235   |\
+	LDY $3C,x				;$B9D237   |/ Get animation script pointer from current sprite
+	LDA $0000,y				;$B9D239   |> Get new animation id
 	PLB					;$B9D23C   |
-	JMP set_sprite_animation		;$B9D23D  /
+	JMP set_sprite_animation		;$B9D23D  /> Set new sprite animation
 
+;animation command 91 (call animation script subroutine)
 CODE_B9D240:
-	INY					;$B9D240  \
-	LDA $0000,y				;$B9D241   |
-	AND #$00FF				;$B9D244   |
-	CLC					;$B9D247   |
-	ADC current_sprite			;$B9D248   |
-	TAX					;$B9D24A   |
-	INY					;$B9D24B   |
-	LDA $0000,y				;$B9D24C   |
-	INY					;$B9D24F   |
-	INY					;$B9D250   |
-	STY $00,x				;$B9D251   |
-	TAY					;$B9D253   |
-	LDX current_sprite			;$B9D254   |
-	JMP process_anim_script			;$B9D256  /
+	INY					;$B9D240  \ \
+	LDA $0000,y				;$B9D241   | | Get command param 1 (variable to use for animation script return)
+	AND #$00FF				;$B9D244   |/
+	CLC					;$B9D247   |\
+	ADC current_sprite			;$B9D248   | | Add offset to current sprite pointer to get actual address in RAM
+	TAX					;$B9D24A   |/
+	INY					;$B9D24B   |\
+	LDA $0000,y				;$B9D24C   |/ Get command param 2 (animation script call address)
+	INY					;$B9D24F   |\ Move to next parameter
+	INY					;$B9D250   |/
+	STY $00,x				;$B9D251   |> Store current animation script address in return variable of sprite
+	TAY					;$B9D253   |> Jump to new animation script address
+	LDX current_sprite			;$B9D254   |> Get current sprite
+	JMP process_anim_script			;$B9D256  /> Continue processing animation script
 
+;animation command 92 (return from animation script subroutine)
 CODE_B9D259:
-	INY					;$B9D259  \
-	LDA $0000,y				;$B9D25A   |
-	AND #$00FF				;$B9D25D   |
-	CLC					;$B9D260   |
-	ADC current_sprite			;$B9D261   |
-	TAX					;$B9D263   |
-	LDY $00,x				;$B9D264   |
-	LDX current_sprite			;$B9D266   |
-	JMP process_anim_script			;$B9D268  /
+	INY					;$B9D259  \ \
+	LDA $0000,y				;$B9D25A   | | Get command param 1 (variable to use for animation script return)
+	AND #$00FF				;$B9D25D   |/
+	CLC					;$B9D260   |\
+	ADC current_sprite			;$B9D261   | | Add offset to current sprite pointer to get actual address in RAM
+	TAX					;$B9D263   |/
+	LDY $00,x				;$B9D264   |> Get animation return address from sprite variable and jump back to it
+	LDX current_sprite			;$B9D266   |> Get current sprite
+	JMP process_anim_script			;$B9D268  /> Continue processing animation script
 
+;animation command 85 ()
 CODE_B9D26B:
-	LDX current_sprite			;$B9D26B  \
-	LDA $0000,y				;$B9D26D   |
-	AND #$FF00				;$B9D270   |
-	CLC					;$B9D273   |
-	ADC $38,x				;$B9D274   |
-	STA $38,x				;$B9D276   |
+	LDX current_sprite			;$B9D26B  \ \
+	LDA $0000,y				;$B9D26D   | | Get command param 1 (draw time)
+	AND #$FF00				;$B9D270   |/
+	CLC					;$B9D273   |\
+	ADC $38,x				;$B9D274   | | Add draw time to sprite graphic
+	STA $38,x				;$B9D276   |/
 	BPL CODE_B9D283				;$B9D278   |
 	INY					;$B9D27A   |
 	INY					;$B9D27B   |
@@ -5242,3 +5257,62 @@ DATA_B9F0C5:
 	db $CC, $0F, $28, $11, $84, $09, $5C, $09
 	db $44, $19, $44, $19, $44, $19, $44, $19
 	db $44, $19, $08, $33, $CC, $0F, $CC, $0F
+
+if !ex_patch == 1
+
+org $B9F0FD
+turn_sprite_if_needed_global:
+	JSR turn_sprite_if_needed
+	RTL
+
+flip_sprite_direction_global:
+	JSR CODE_B9E019
+	RTL
+
+rts_return:
+	RTS
+
+rtl_return:
+	RTL
+
+animation_command_table:
+	dw CODE_B9D160				;80
+	dw CODE_B9D172				;81
+	dw CODE_B9D19B				;82
+	dw CODE_B9D1A5				;83
+	dw CODE_B9D1B5				;84
+	dw CODE_B9D26B				;85
+	dw CODE_B9D2AA				;86
+	dw CODE_B9D305				;87
+	dw CODE_B9D356				;88
+	dw CODE_B9D387				;89
+	dw CODE_B9D3CA				;8A
+	dw CODE_B9D41D				;8B
+	dw CODE_B9D464				;8C
+	dw CODE_B9D48B				;8D
+	dw CODE_B9D1C2				;8E
+	dw CODE_B9D1F5				;8F
+	dw CODE_B9D21E				;90
+	dw CODE_B9D240				;91
+	dw CODE_B9D259				;92
+	dw CODE_B9D1D5				;93
+	dw CODE_B9D160				;94
+	dw execute_ex_anim_code			;95
+
+execute_ex_anim_code:
+	LDX current_sprite			;  \> Get current sprite
+	INY					;   |\
+	LDA $0000,y				;   | | Get command param 1 (animation code execution pointer)
+	STA $26					;   |/
+	INY					;   |\ Move to next command
+	INY					;   |/
+	TYA					;   |\
+	PHA					;   |/ Preserve current animation script pointer on stack
+	STA $3C,x				;   |> Update animation script pointer for current sprite
+	PHB					;   |> Preserve data bank
+	PHK					;   |\
+	PLB					;   |/ Set data bank to this bank
+	%return(return_B9D189)			;   |> Set return address for when RTS is executed
+	JML ex_anim_code_handler		;  /> Execute animation code
+
+endif

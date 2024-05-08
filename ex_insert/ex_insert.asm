@@ -45,6 +45,7 @@ org $008000
 !animation_command_92 = $92
 !animation_command_93 = $93
 !animation_command_94 = $94
+!execute_ex_anim_code = $95
 
 
 ;sprite object
@@ -115,38 +116,38 @@ endstruct
 !pack_file = "/pack.asm"
 
 ;EX SPRITE METADATA
-!ex_sprite_main_table_address = read3(!ex_header_address+$80)
-!ex_sprite_main_table_address_end = read3(!ex_header_address+$83)
+!ex_sprite_main_table_insertion_address #= read3(!ex_header_address+$80)
+!ex_sprite_main_insertion_address #= read3(!ex_header_address+$83)
 
-!ex_spawn_script_table_address = read3(!ex_header_address+$86)
-!ex_spawn_script_table_address_end = read3(!ex_header_address+$89)
-!ex_spawn_script_insertion_address = read3(!ex_header_address+$8C)
+!ex_spawn_script_table_insertion_address #= read3(!ex_header_address+$86)
+!ex_spawn_script_insertion_address #= read3(!ex_header_address+$89)
 
-!ex_sprite_constants_insertion_address = read3(!ex_header_address+$8F)
+!ex_sprite_constants_insertion_address #= read3(!ex_header_address+$8C)
 
-!ex_sprite_id_start = read2(!ex_header_address+$92)
-!ex_spawn_id_start = read2(!ex_header_address+$94)
+!ex_animation_table_insertion_address #= read3(!ex_header_address+$8F)
+!ex_animation_insertion_address #= read3(!ex_header_address+$92)
+!ex_animation_code_insertion_address #= read3(!ex_header_address+$95)
 
-!ex_animation_id_start = read2(!ex_header_address+$96)
-!ex_animation_table_insertion_address = read3(!ex_header_address+$98)
-!ex_animation_insertion_address = read3(!ex_header_address+$9B)
+!ex_graphics_table_insertion_address #= read3(!ex_header_address+$98)
+!ex_graphics_insertion_address #= read3(!ex_header_address+$9B)
 
-!ex_graphics_table_insertion_address #= read3(!ex_header_address+$9E)
-!ex_graphics_insertion_address #= read3(!ex_header_address+$A1)
-!ex_graphics_id_start #= read2(!ex_header_address+$A4)
+!ex_hitbox_table_base_address #= read3(!ex_header_address+$9E)
+!ex_hitbox_insertion_address #= read3(!ex_header_address+$A1)
 
-!ex_hitbox_table_base_address #= read3(!ex_header_address+$A6)
-!ex_hitbox_insertion_address #= read3(!ex_header_address+$A9)
+!ex_palette_table_insertion_address #= read3(!ex_header_address+$A4)
+!ex_palette_insertion_address #= read3(!ex_header_address+$A7)
 
-!ex_spawn_script_table_insertion_address = !ex_spawn_script_table_address
-!ex_sprite_main_table_insertion_address = !ex_sprite_main_table_address
+!ex_sprite_id_start #= read2(!ex_header_address+$AA)
+!ex_spawn_id_start #= read2(!ex_header_address+$AC)
+!ex_animation_id_start #= read2(!ex_header_address+$AE)
+!ex_graphics_id_start #= read2(!ex_header_address+$B0)
+!ex_palette_id_start #= read2(!ex_header_address+$B2)
 
-!ex_sprite_main_insertion_address = !ex_sprite_main_table_address_end
-
-!last_used_sprite_id #= read2(!ex_header_address+$92)-4
-!last_used_spawn_id #= read2(!ex_header_address+$94)-2
-!last_used_animation_id #= read2(!ex_header_address+$96)-1
-!last_used_graphic_id #= read2(!ex_header_address+$A4)-4
+!last_used_sprite_id #= !ex_sprite_id_start-4
+!last_used_spawn_id #= !ex_spawn_id_start-2
+!last_used_animation_id #= !ex_animation_id_start-1
+!last_used_graphic_id #= !ex_graphics_id_start-4
+!last_used_palette_id #= !ex_palette_id_start-2
 
 
 ;creates a spawn script for a custom sprite
@@ -157,8 +158,8 @@ macro insert_sprite_constants(constants_path)
 		incsrc <constants_path>                                                         ;import constants
 	constants_end_!constants_counter:
 	
-	!ex_sprite_constants_insertion_address := constants_end_!constants_counter
-	!constants_counter #= !constants_counter+1
+	!ex_sprite_constants_insertion_address := constants_end_!constants_counter		;update data insertion address
+	!constants_counter #= !constants_counter+1						;update label counter to prevent label redefines
 endmacro
 
 
@@ -174,11 +175,11 @@ macro insert_sprite_spawn_script(spawn_script_path)
 	org !ex_spawn_script_table_insertion_address						;go to next free slot in spawn script table
 		dw spawn_script_!spawn_script_counter						;write spawn script pointer
 		
-	!ex_spawn_script_insertion_address := spawn_script_end_!spawn_script_counter		;update spawn script insertion address
-	!spawn_script_counter #= !spawn_script_counter+1
+	!ex_spawn_script_insertion_address := spawn_script_end_!spawn_script_counter		;update data insertion address
+	!spawn_script_counter #= !spawn_script_counter+1					;update label counter to prevent label redefines
 	
-	!last_used_spawn_id #= !last_used_spawn_id+2
-	!ex_spawn_script_table_insertion_address #= !ex_spawn_script_table_insertion_address+2	;update next free slot in spawn script table
+	!last_used_spawn_id #= !last_used_spawn_id+2						;update last used id
+	!ex_spawn_script_table_insertion_address #= !ex_spawn_script_table_insertion_address+2	;update table insertion address
 endmacro
 
 
@@ -194,11 +195,11 @@ macro insert_sprite_code(sprite_main_path, execution_conditions)
 		dw sprite_main_!sprite_main_counter						;write sprite main pointer
 		dw <execution_conditions>							;write sexecution conditions
 	
-	!ex_sprite_main_insertion_address := sprite_main_end_!sprite_main_counter		;update sprite main insertion address
-	!sprite_main_counter #= !sprite_main_counter+1
+	!ex_sprite_main_insertion_address := sprite_main_end_!sprite_main_counter		;update data insertion address
+	!sprite_main_counter #= !sprite_main_counter+1						;update label counter to prevent label redefines
 	
-	!last_used_sprite_id #= !last_used_sprite_id+4
-	!ex_sprite_main_table_insertion_address #= !ex_sprite_main_table_insertion_address+4	;update next free slot in sprite main table
+	!last_used_sprite_id #= !last_used_sprite_id+4						;update last used id
+	!ex_sprite_main_table_insertion_address #= !ex_sprite_main_table_insertion_address+4	;update table insertion address
 endmacro
 
 
@@ -228,10 +229,10 @@ macro insert_sprite_graphic(graphic_path, hitbox_pointer)
 	org !ex_hitbox_table_base_address+((!last_used_graphic_id-!ex_graphics_id_start)/2)+2
 		dw <hitbox_pointer>
 	
-	!graphic_counter #= !graphic_counter+1
-	!last_used_graphic_id #= !last_used_graphic_id+4
-	!ex_graphics_insertion_address #= !ex_graphics_insertion_address+!graphic_size		;update graphics insertion address
-	!ex_graphics_table_insertion_address #= !ex_graphics_table_insertion_address+4		;update next free slot in graphics table
+	!graphic_counter #= !graphic_counter+1							;update label counter to prevent label redefines
+	!last_used_graphic_id #= !last_used_graphic_id+4					;update last used id
+	!ex_graphics_insertion_address #= !ex_graphics_insertion_address+!graphic_size		;update data insertion address
+	!ex_graphics_table_insertion_address #= !ex_graphics_table_insertion_address+4		;update table insertion address
 endmacro
 
 
@@ -247,11 +248,11 @@ macro insert_sprite_animation(animation_path, params)
 		dw animation_!animation_counter							;write animation pointer
 		dw <params>									;write params
 	
-	!ex_animation_insertion_address := animation_end_!animation_counter			;update animation insertion address
-	!animation_counter #= !animation_counter+1
+	!ex_animation_insertion_address := animation_end_!animation_counter			;update data insertion address
+	!animation_counter #= !animation_counter+1						;update label counter to prevent label redefines
 	
-	!last_used_animation_id #= !last_used_animation_id+1
-	!ex_animation_table_insertion_address #= !ex_animation_table_insertion_address+4	;update next free slot in animation table
+	!last_used_animation_id #= !last_used_animation_id+1					;update last used id
+	!ex_animation_table_insertion_address #= !ex_animation_table_insertion_address+4	;update table insertion address
 endmacro
 
 
@@ -263,8 +264,41 @@ macro insert_sprite_hitboxes(hitbox_path)
 		incsrc <hitbox_path>								;import hitboxes
 	hitbox_end_!hitbox_counter:								;mark the end of the hitboxes
 	
-	!ex_hitbox_insertion_address := hitbox_end_!hitbox_counter				;update hitbox insertion address
-	!hitbox_counter #= !hitbox_counter+1
+	!ex_hitbox_insertion_address := hitbox_end_!hitbox_counter				;update data insertion address
+	!hitbox_counter #= !hitbox_counter+1							;update label counter to prevent label redefines
+endmacro
+
+
+;inserts animation code for custom sprite
+!animation_code_counter = 0
+macro insert_sprite_animation_code(code_path)
+	org !ex_animation_code_insertion_address						;org to next free data address
+	animation_code_!animation_code_counter:							;create label for custom data
+		incsrc <code_path>								;import custom data
+	animation_code_end_!animation_code_counter:						;mark end of custom data
+	
+	!ex_animation_code_insertion_address := animation_code_end_!animation_code_counter	;update data insertion address
+	!animation_code_counter #= !animation_code_counter+1					;update label counter to prevent label redefines
+endmacro
+
+
+;inserts a palette for custom sprite
+!palette_counter = 0
+macro insert_sprite_palette(palette_path)
+	org !ex_palette_insertion_address							;org to next free data address
+	
+	palette_!palette_counter:								;create label for custom data
+		incsrc <palette_path>								;import custom data
+	palette_end_!palette_counter:								;mark end of custom data
+
+	org !ex_palette_table_insertion_address							;org to next free table slot
+		dw palette_!palette_counter							;write pointer to table
+		
+	!ex_palette_insertion_address := palette_end_!palette_counter				;update data insertion address
+	!palette_counter #= !palette_counter+1							;update label counter to prevent label redefines
+	
+	!last_used_palette_id #= !last_used_palette_id+2					;update last used id
+	!ex_palette_table_insertion_address #= !ex_palette_table_insertion_address+2		;update table insertion address
 endmacro
 
 
