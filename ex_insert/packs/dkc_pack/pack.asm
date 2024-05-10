@@ -28,8 +28,6 @@
 
 %insert_sprite_animation("packs/dkc_pack/animations/gnawty_defeat.asm", $0000)
 
-
-
 %insert_sprite_constants("packs/dkc_pack/constants/gnawty_constants.asm")
 %insert_sprite_code("packs/dkc_pack/code/gnawty_main.asm", $0000)
 

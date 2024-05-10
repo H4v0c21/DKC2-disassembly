@@ -763,7 +763,11 @@ initscript_next_no_operand:			;	   |
 	INY					;$BB8487   |
 	INY					;$BB8488   |
 parse_initscript_entry:				;	   |
+if !ex_patch == 1
+	LDA.w $0000,y
+else
 	LDA.w DATA_FF0000,y			;$BB8489   |
+endif
 	BPL set_sprite_config			;$BB848C   |
 	AND #$FF00				;$BB848E   |
 	XBA					;$BB8491   |
@@ -1591,9 +1595,9 @@ CODE_BB8A65:
 	RTL					;$BB8A68  /
 
 CODE_BB8A69:
-	ASL A					;$BB8A69  \
-	TAX					;$BB8A6A   |
-	LDA.l DATA_FD5FEE,x			;$BB8A6B   |
+	ASL A					;$BB8A69  \ \
+	TAX					;$BB8A6A   | |
+	LDA.l DATA_FD5FEE,x			;$BB8A6B   |/ Load sprite palette address from table
 CODE_BB8A6F:					;	   |
 	STA $05A7				;$BB8A6F   |
 	LDX #$0000				;$BB8A72   |
@@ -9028,6 +9032,36 @@ CODE_BBC8EF:					;	   |
 	BNE CODE_BBC8EF				;$BBC8FA   |
 	REP #$20				;$BBC8FC   |
 	RTS					;$BBC8FE  /
+
+if !ex_patch == 1
+org $BBC900
+spawn_ex_sprite_direct:
+	PHY
+	JSR CODE_BB8297
+	PLY
+	BCS .return
+	STZ $56,x
+	LDA #$000F
+	STA $58,x
+	STZ $1C,x
+	BRL .spawn_sprite
+
+.return
+	RTL
+
+.spawn_sprite
+	LDX alternate_sprite
+	STZ $1E,x
+	STZ $30,x
+	STZ $2C,x
+	STZ $56,x
+	STZ $32,x
+	PHB
+	%pea_shift_dbr(ex_spawn_scripts)
+	PLB
+	PLB
+	JML parse_initscript_entry
+endif
 
 padbyte $00 : pad $BBE800
 

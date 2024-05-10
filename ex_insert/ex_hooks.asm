@@ -49,5 +49,6 @@ endif
 	turn_sprite_if_needed = $B9F0FD
 	flip_sprite_direction_global = $B9F101
 	rts_return = $B9F105
-	rtl_returb = $B9F106
+	rtl_return = $B9F106
+	spawn_ex_sprite_direct = $BBC900
 	
