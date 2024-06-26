@@ -27,6 +27,15 @@ if !version == 1
 else
 	db $AA, $C3, $3F, $19
 endif
+
+;weird copy of ship hold tilemap that fills the end of bank 80
+org $80F4B0
+	incbin "data/levels/32x32_tilemaps/ship_hold_32x32_tilemap.bin":0000-0AF6
+
+;some random looking bytes
+	db $56, $3F, $2C, $01, $05, $E3, $67, $AB
+	db $09, $37
+
 org $808000
 	incsrc "bank_80.asm"
 org $C10000

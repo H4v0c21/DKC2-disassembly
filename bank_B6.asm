@@ -937,74 +937,69 @@ CODE_B68ACF:					;	   |
 CODE_B68AFA:					;	   |
 	RTS					;$B68AFA  /
 
+
+;particle sprite spawning data for Krocodile Kore when K. Rool is defeated
+
+;0000	current x velocity
+;0002	target x velocity
+;0004	current y velocity
+;0006	target y velocity
+;0008	duration
+;000A	sprite
+
 DATA_B68AFB:
-	db $A0, $FF, $00, $00, $E0, $FF, $00, $FF
-	db $05, $00, $74, $01
+	dw $FFA0, $0000, $FFE0, $FF00, $0005, $0174
 
 DATA_B68B07:
-	db $00, $00, $00, $00, $00, $00, $00, $FF
-	db $05, $00, $76, $01
+	dw $0000, $0000, $0000, $FF00, $0005, $0176
 
 DATA_B68B13:
-	db $60, $00, $00, $00, $00, $00, $40, $FF
-	db $04, $00, $72, $01
+	dw $0060, $0000, $0000, $FF40, $0004, $0172
 
 DATA_B68B1F:
-	db $E0, $FF, $E0, $FF, $00, $00, $00, $FF
-	db $20, $4E, $78, $01
+	dw $FFE0, $FFE0, $0000, $FF00, $4E20, $0178
 
 DATA_B68B2B:
-	db $40, $00, $00, $00, $C0, $FF, $80, $00
-	db $03, $00, $70, $01
+	dw $0040, $0000, $FFC0, $0080, $0003, $0170
 
 DATA_B68B37:
-	db $C0, $FF, $00, $00, $00, $00, $80, $00
-	db $04, $00, $70, $01
+	dw $FFC0, $0000, $0000, $0080, $0004, $0170
 
 DATA_B68B43:
-	db $E0, $FF, $00, $00, $00, $00, $80, $00
-	db $02, $00, $70, $01
+	dw $FFE0, $0000, $0000, $0080, $0002, $0170
 
 DATA_B68B4F:
-	db $20, $00, $00, $00, $00, $00, $80, $00
-	db $03, $00, $70, $01
+	dw $0020, $0000, $0000, $0080, $0003, $0170
 
 DATA_B68B5B:
-	db $00, $00, $00, $00, $80, $00, $80, $00
-	db $02, $00, $70, $01
+	dw $0000, $0000, $0080, $0080, $0002, $0170
 
 DATA_B68B67:
-	db $C0, $FF, $E0, $FF, $80, $00, $80, $00
-	db $03, $00, $70, $01
+	dw $FFC0, $FFE0, $0080, $0080, $0003, $0170
 
 DATA_B68B73:
-	db $C0, $FF, $00, $00, $C0, $FF, $80, $00
-	db $03, $00, $70, $01
+	dw $FFC0, $0000, $FFC0, $0080, $0003, $0170
 
 DATA_B68B7F:
-	db $40, $00, $00, $00, $00, $00, $80, $00
-	db $04, $00, $70, $01
+	dw $0040, $0000, $0000, $0080, $0004, $0170
 
 DATA_B68B8B:
-	db $20, $00, $00, $00, $00, $00, $80, $00
-	db $03, $00, $70, $01
+	dw $0020, $0000, $0000, $0080, $0003, $0170
 
 DATA_B68B97:
-	db $E0, $FF, $00, $00, $00, $00, $80, $00
-	db $04, $00, $70, $01
+	dw $FFE0, $0000, $0000, $0080, $0004, $0170
 
 DATA_B68BA3:
-	db $00, $00, $00, $00, $80, $00, $80, $00
-	db $03, $00, $70, $01
+	dw $0000, $0000, $0080, $0080, $0003, $0170
 
 DATA_B68BAF:
-	db $40, $00, $20, $00, $80, $00, $80, $00
-	db $10, $27, $70, $01
+	dw $0040, $0020, $0080, $0080, $2710, $0170
+
 
 CODE_B68BBB:
 	LDA #$0004				;$B68BBB  \
-	JSL CODE_B8CFD4				;$B68BBE   |
-	JSL CODE_B8CF7F				;$B68BC2   |
+	JSL interpolate_y_velocity_global	;$B68BBE   |
+	JSL apply_position_from_velocity_global	;$B68BC2   |
 	JSR CODE_B68AAB				;$B68BC6   |
 	LDX current_sprite			;$B68BC9   |
 	LDA $0A,x				;$B68BCB   |
@@ -1043,7 +1038,7 @@ CODE_B68C23:					;	   |
 	RTS					;$B68C26  /
 
 CODE_B68C27:
-	JSL CODE_B8CF7F				;$B68C27  \
+	JSL apply_position_from_velocity_global	;$B68C27  \
 	JSR CODE_B68AAB				;$B68C2B   |
 	LDX current_sprite			;$B68C2E   |
 	LDA $0A,x				;$B68C30   |
@@ -1082,9 +1077,9 @@ CODE_B68C81:					;	   |
 
 CODE_B68C82:
 	LDA #$0006				;$B68C82  \
-	JSL CODE_B8D010				;$B68C85   |
+	JSL interpolate_x_velocity_global	;$B68C85   |
 	LDA #$0004				;$B68C89   |
-	JSL CODE_B8CFD4				;$B68C8C   |
+	JSL interpolate_y_velocity_global	;$B68C8C   |
 	JSL CODE_B8D5E0				;$B68C90   |
 	LDX current_sprite			;$B68C94   |
 	LDA $2E,x				;$B68C96   |
@@ -2472,11 +2467,11 @@ CODE_B699E7:					;	   |
 CODE_B699EB:
 	LDX current_sprite			;$B699EB  \
 	LDA $42,x				;$B699ED   |
-	JSL CODE_B8D010				;$B699EF   |
+	JSL interpolate_x_velocity_global	;$B699EF   |
 	LDX current_sprite			;$B699F3   |
 	LDA $44,x				;$B699F5   |
-	JSL CODE_B8CFD4				;$B699F7   |
-	JSL CODE_B8CF7F				;$B699FB   |
+	JSL interpolate_y_velocity_global	;$B699F7   |
+	JSL apply_position_from_velocity_global	;$B699FB   |
 	LDX current_sprite			;$B699FF   |
 	LDA $46,x				;$B69A01   |
 	BNE CODE_B69A4F				;$B69A03   |
@@ -2709,16 +2704,16 @@ CODE_B69BC5:					;	   |
 
 CODE_B69BD4:
 	LDA $42,x				;$B69BD4  \
-	JSL CODE_B8D010				;$B69BD6   |
+	JSL interpolate_x_velocity_global	;$B69BD6   |
 	LDX current_sprite			;$B69BDA   |
 	LDA $44,x				;$B69BDC   |
-	JSL CODE_B8CFD4				;$B69BDE   |
+	JSL interpolate_y_velocity_global	;$B69BDE   |
 CODE_B69BE2:					;	   |
 	LDX current_sprite			;$B69BE2   |
 	LDA $2E,x				;$B69BE4   |
 	BIT #$0100				;$B69BE6   |
 	BEQ CODE_B69BF7				;$B69BE9   |
-	JSL CODE_B8CF7F				;$B69BEB   |
+	JSL apply_position_from_velocity_global	;$B69BEB   |
 	JSR CODE_B69C87				;$B69BEF   |
 	BCC CODE_B69BFB				;$B69BF2   |
 	BRL CODE_B69C37				;$B69BF4  /
@@ -2786,11 +2781,11 @@ CODE_B69C6A:
 
 CODE_B69C70:
 	LDA $42,x				;$B69C70  \
-	JSL CODE_B8D010				;$B69C72   |
+	JSL interpolate_x_velocity_global	;$B69C72   |
 	LDX current_sprite			;$B69C76   |
 	LDA $44,x				;$B69C78   |
-	JSL CODE_B8CFD4				;$B69C7A   |
-	JSL CODE_B8CF7F				;$B69C7E   |
+	JSL interpolate_y_velocity_global	;$B69C7A   |
+	JSL apply_position_from_velocity_global	;$B69C7E   |
 	JSL CODE_BBBB8D				;$B69C82   |
 	RTS					;$B69C86  /
 
@@ -2942,8 +2937,8 @@ CODE_B69D96:
 
 CODE_B69DC2:
 	LDA #$0004				;$B69DC2  \
-	JSL CODE_B8CFD4				;$B69DC5   |
-	JSL CODE_B8CF7F				;$B69DC9   |
+	JSL interpolate_y_velocity_global	;$B69DC5   |
+	JSL apply_position_from_velocity_global	;$B69DC9   |
 	JSR CODE_B68AAB				;$B69DCD   |
 	LDX current_sprite			;$B69DD0   |
 	LDA $0A,x				;$B69DD2   |
@@ -2985,7 +2980,7 @@ CODE_B69E2F:					;	   |
 	RTS					;$B69E32  /
 
 CODE_B69E33:
-	JSL CODE_B8CF7F				;$B69E33  \
+	JSL apply_position_from_velocity_global	;$B69E33  \
 	JSR CODE_B68AAB				;$B69E37   |
 	LDX current_sprite			;$B69E3A   |
 	LDA $0A,x				;$B69E3C   |
@@ -3385,16 +3380,16 @@ CODE_B6A130:					;	   |
 
 CODE_B6A13F:
 	LDA $42,x				;$B6A13F  \
-	JSL CODE_B8D010				;$B6A141   |
+	JSL interpolate_x_velocity_global	;$B6A141   |
 	LDX current_sprite			;$B6A145   |
 	LDA $44,x				;$B6A147   |
-	JSL CODE_B8CFD4				;$B6A149   |
+	JSL interpolate_y_velocity_global	;$B6A149   |
 CODE_B6A14D:					;	   |
 	LDX current_sprite			;$B6A14D   |
 	LDA $2E,x				;$B6A14F   |
 	BIT #$0100				;$B6A151   |
 	BEQ CODE_B6A162				;$B6A154   |
-	JSL CODE_B8CF7F				;$B6A156   |
+	JSL apply_position_from_velocity_global	;$B6A156   |
 	JSR CODE_B69C87				;$B6A15A   |
 	BCC CODE_B6A166				;$B6A15D   |
 	BRL CODE_B6A18F				;$B6A15F  /
@@ -3544,11 +3539,11 @@ CODE_B6A27A:
 
 CODE_B6A280:
 	LDA $42,x				;$B6A280  \
-	JSL CODE_B8D010				;$B6A282   |
+	JSL interpolate_x_velocity_global	;$B6A282   |
 	LDX current_sprite			;$B6A286   |
 	LDA $44,x				;$B6A288   |
-	JSL CODE_B8CFD4				;$B6A28A   |
-	JSL CODE_B8CF7F				;$B6A28E   |
+	JSL interpolate_y_velocity_global	;$B6A28A   |
+	JSL apply_position_from_velocity_global	;$B6A28E   |
 	JSR CODE_B69C87				;$B6A292   |
 	BCC CODE_B6A2A2				;$B6A295   |
 	LDA current_sprite			;$B6A297   |
@@ -3571,11 +3566,11 @@ CODE_B6A2A5:
 	STA $2A,x				;$B6A2BB   |
 CODE_B6A2BD:					;	   |
 	LDA $42,x				;$B6A2BD   |
-	JSL CODE_B8D010				;$B6A2BF   |
+	JSL interpolate_x_velocity_global	;$B6A2BF   |
 	LDX current_sprite			;$B6A2C3   |
 	LDA $44,x				;$B6A2C5   |
-	JSL CODE_B8CFD4				;$B6A2C7   |
-	JSL CODE_B8CF7F				;$B6A2CB   |
+	JSL interpolate_y_velocity_global	;$B6A2C7   |
+	JSL apply_position_from_velocity_global	;$B6A2CB   |
 	JSR CODE_B69C87				;$B6A2CF   |
 	BCC CODE_B6A2DF				;$B6A2D2   |
 	LDA current_sprite			;$B6A2D4   |
@@ -3592,13 +3587,13 @@ CODE_B6A2E2:
 	STA $0A,x				;$B6A2E8   |
 	LDA $4A,x				;$B6A2EA   |
 	AND #$00FF				;$B6A2EC   |
-	JSL CODE_B8D010				;$B6A2EF   |
+	JSL interpolate_x_velocity_global	;$B6A2EF   |
 	LDX current_sprite			;$B6A2F3   |
 	LDA $4A,x				;$B6A2F5   |
 	XBA					;$B6A2F7   |
 	AND #$00FF				;$B6A2F8   |
-	JSL CODE_B8CFD4				;$B6A2FB   |
-	JSL CODE_B8CF7F				;$B6A2FF   |
+	JSL interpolate_y_velocity_global	;$B6A2FB   |
+	JSL apply_position_from_velocity_global	;$B6A2FF   |
 	LDX current_sprite			;$B6A303   |
 	LDA $06,x				;$B6A305   |
 	CMP #$02C0				;$B6A307   |
@@ -3767,21 +3762,21 @@ endif						;	  /
 
 CODE_B6A378:
 	LDA $42,x				;$B6A378  \
-	JSL CODE_B8D010				;$B6A37A   |
+	JSL interpolate_x_velocity_global	;$B6A37A   |
 	LDX current_sprite			;$B6A37E   |
 	LDA $44,x				;$B6A380   |
-	JSL CODE_B8CFD4				;$B6A382   |
-	JSL CODE_B8CF7F				;$B6A386   |
+	JSL interpolate_y_velocity_global	;$B6A382   |
+	JSL apply_position_from_velocity_global	;$B6A386   |
 	JSR CODE_B69C87				;$B6A38A   |
 if !version == 0				;	   |
 	BRL CODE_B6A178				;$B6A38D   |
 CODE_B6A390:
 	LDA $42,x				;$B6A390   |
-	JSL CODE_B8D010				;$B6A392   |
+	JSL interpolate_x_velocity_global	;$B6A392   |
 	LDX current_sprite			;$B6A396   |
 	LDA $44,x				;$B6A398   |
-	JSL CODE_B8CFD4				;$B6A39A   |
-	JSL CODE_B8CF7F				;$B6A39E   |
+	JSL interpolate_y_velocity_global	;$B6A39A   |
+	JSL apply_position_from_velocity_global	;$B6A39E   |
 	JSR CODE_B69C87				;$B6A3A2   |
 endif						;	   |
 	BCC CODE_B6A39A				;$B6A38D   |
@@ -4002,7 +3997,7 @@ CODE_B6A536:
 	SEC					;$B6A53A   |
 	SBC #$0020				;$B6A53B   |
 	STA $24,x				;$B6A53E   |
-	JSL CODE_B8CF7F				;$B6A540   |
+	JSL apply_position_from_velocity_global	;$B6A540   |
 	LDX current_sprite			;$B6A544   |
 	LDA $0A,x				;$B6A546   |
 	CMP #$0100				;$B6A548   |
@@ -4032,8 +4027,8 @@ CODE_B6A572:
 	INC $2E,x				;$B6A57A   |
 CODE_B6A57C:					;	   |
 	LDA #$0003				;$B6A57C   |
-	JSL CODE_B8CFD4				;$B6A57F   |
-	JSL CODE_B8CF7F				;$B6A583   |
+	JSL interpolate_y_velocity_global	;$B6A57F   |
+	JSL apply_position_from_velocity_global	;$B6A583   |
 	LDX current_sprite			;$B6A587   |
 	LDA $0A,x				;$B6A589   |
 	CMP #$0195				;$B6A58B   |
@@ -4097,8 +4092,8 @@ CODE_B6A60A:					;	   |
 
 CODE_B6A60D:
 	LDA #$0003				;$B6A60D  \
-	JSL CODE_B8CFD4				;$B6A610   |
-	JSL CODE_B8CF7F				;$B6A614   |
+	JSL interpolate_y_velocity_global	;$B6A610   |
+	JSL apply_position_from_velocity_global	;$B6A614   |
 	LDX current_sprite			;$B6A618   |
 if !version == 1				;	   |
 	LDA #$0145				;$B6A61A   |
@@ -4189,8 +4184,8 @@ CODE_B6A6CB:					;	   |
 
 CODE_B6A6CE:
 	LDA #$0004				;$B6A6CE  \
-	JSL CODE_B8CFD4				;$B6A6D1   |
-	JSL CODE_B8CF7F				;$B6A6D5   |
+	JSL interpolate_y_velocity_global	;$B6A6D1   |
+	JSL apply_position_from_velocity_global	;$B6A6D5   |
 	LDX current_sprite			;$B6A6D9   |
 	LDA $0A,x				;$B6A6DB   |
 	CMP #$01BD				;$B6A6DD   |
@@ -4247,7 +4242,7 @@ DATA_B6A733:
 
 
 CODE_B6A739:
-	JSL CODE_B8CF7F				;$B6A739  \
+	JSL apply_position_from_velocity_global	;$B6A739  \
 	LDX $0654				;$B6A73D   |
 	LDA $0A,x				;$B6A740   |
 	CMP #$0100				;$B6A742   |
@@ -4373,11 +4368,11 @@ CODE_B6A853:					;	   |
 CODE_B6A877:
 	LDX current_sprite			;$B6A877  \
 	LDA $42,x				;$B6A879   |
-	JSL CODE_B8D010				;$B6A87B   |
+	JSL interpolate_x_velocity_global	;$B6A87B   |
 	LDX current_sprite			;$B6A87F   |
 	LDA $44,x				;$B6A881   |
-	JSL CODE_B8CFD4				;$B6A883   |
-	JSL CODE_B8CF7F				;$B6A887   |
+	JSL interpolate_y_velocity_global	;$B6A883   |
+	JSL apply_position_from_velocity_global	;$B6A887   |
 	JSL CODE_B9D100				;$B6A88B   |
 	JML [$05A9]				;$B6A88F  /
 
@@ -5065,9 +5060,9 @@ CODE_B6AE55:					;	   |
 	STZ $20,x				;$B6AE5F   |
 	STZ $24,x				;$B6AE61   |
 	LDA #$0005				;$B6AE63   |
-	JSL CODE_B8D010				;$B6AE66   |
+	JSL interpolate_x_velocity_global	;$B6AE66   |
 	LDA #$0005				;$B6AE6A   |
-	JSL CODE_B8CFD4				;$B6AE6D   |
+	JSL interpolate_y_velocity_global	;$B6AE6D   |
 	PLB					;$B6AE71   |
 	RTL					;$B6AE72  /
 
@@ -5908,7 +5903,7 @@ CODE_B6BA3F:
 	BNE CODE_B6BA93				;$B6BA48   |
 CODE_B6BA4A:					;	   |
 	LDA.l $000749				;$B6BA4A   |
-	JSL CODE_B8CFD4				;$B6BA4E   |
+	JSL interpolate_y_velocity_global	;$B6BA4E   |
 	JSL CODE_B8D5E0				;$B6BA52   |
 	LDX current_sprite			;$B6BA56   |
 	LDA $0A,x				;$B6BA58   |
@@ -6027,7 +6022,7 @@ CODE_B6BB2B:
 	BNE CODE_B6BB68				;$B6BB34   |
 CODE_B6BB36:					;	   |
 	LDA.l $000749				;$B6BB36   |
-	JSL CODE_B8CFD4				;$B6BB3A   |
+	JSL interpolate_y_velocity_global	;$B6BB3A   |
 	JSL CODE_B8D5E0				;$B6BB3E   |
 	LDX current_sprite			;$B6BB42   |
 	LDA $0A,x				;$B6BB44   |
@@ -6155,8 +6150,8 @@ CODE_B6BC3E:
 	BNE CODE_B6BC77				;$B6BC47   |
 CODE_B6BC49:					;	   |
 	LDA.l $000749				;$B6BC49   |
-	JSL CODE_B8CFD4				;$B6BC4D   |
-	JSL CODE_B8CF7F				;$B6BC51   |
+	JSL interpolate_y_velocity_global	;$B6BC4D   |
+	JSL apply_position_from_velocity_global	;$B6BC51   |
 	LDX current_sprite			;$B6BC55   |
 	LDA $0A,x				;$B6BC57   |
 	CMP $00074B				;$B6BC59   |
@@ -6233,7 +6228,7 @@ CODE_B6BCDD:
 	JSL queue_sound_effect			;$B6BCE5   |
 CODE_B6BCE9:					;	   |
 	LDA.l $000749				;$B6BCE9   |
-	JSL CODE_B8CFD4				;$B6BCED   |
+	JSL interpolate_y_velocity_global	;$B6BCED   |
 	JSL CODE_B8D5E0				;$B6BCF1   |
 	LDX current_sprite			;$B6BCF5   |
 	LDA $0A,x				;$B6BCF7   |
@@ -7027,8 +7022,8 @@ CODE_B6C386:
 
 CODE_B6C389:
 	LDA.l $000723				;$B6C389  \
-	JSL CODE_B8D010				;$B6C38D   |
-	JSL CODE_B8CF7F				;$B6C391   |
+	JSL interpolate_x_velocity_global	;$B6C38D   |
+	JSL apply_position_from_velocity_global	;$B6C391   |
 	LDX current_sprite			;$B6C395   |
 	LDY $06,x				;$B6C397   |
 	LDA $20,x				;$B6C399   |
@@ -9015,9 +9010,9 @@ CODE_B6D1B4:
 	LDA #$006E				;$B6D237   |
 	STA $4E,x				;$B6D23A   |
 	LDA #$0005				;$B6D23C   |
-	JSL CODE_B8D010				;$B6D23F   |
+	JSL interpolate_x_velocity_global	;$B6D23F   |
 	LDA #$0005				;$B6D243   |
-	JSL CODE_B8CFD4				;$B6D246   |
+	JSL interpolate_y_velocity_global	;$B6D246   |
 	LDX current_sprite			;$B6D24A   |
 	STZ $06A1				;$B6D24C   |
 	STZ $06A3				;$B6D24F   |
@@ -9103,11 +9098,11 @@ CODE_B6D302:
 	LDA.l $0006E7				;$B6D311   |
 	STA $2A,x				;$B6D315   |
 	LDA $22,x				;$B6D317   |
-	JSL CODE_B8D010				;$B6D319   |
+	JSL interpolate_x_velocity_global	;$B6D319   |
 	LDX current_sprite			;$B6D31D   |
 	LDA $22,x				;$B6D31F   |
-	JSL CODE_B8CFD4				;$B6D321   |
-	JSL CODE_B8CF7F				;$B6D325   |
+	JSL interpolate_y_velocity_global	;$B6D321   |
+	JSL apply_position_from_velocity_global	;$B6D325   |
 CODE_B6D329:					;	   |
 	LDA $2E,x				;$B6D329   |
 	ORA #$4000				;$B6D32B   |
@@ -9449,11 +9444,11 @@ CODE_B6D5D4:					;	   |
 	LDA #$0007				;$B6D5D8   |
 	STA $22,x				;$B6D5DB   |
 	LDA $22,x				;$B6D5DD   |
-	JSL CODE_B8D010				;$B6D5DF   |
+	JSL interpolate_x_velocity_global	;$B6D5DF   |
 	LDX current_sprite			;$B6D5E3   |
 	LDA $22,x				;$B6D5E5   |
-	JSL CODE_B8CFD4				;$B6D5E7   |
-	JSL CODE_B8CF7F				;$B6D5EB   |
+	JSL interpolate_y_velocity_global	;$B6D5E7   |
+	JSL apply_position_from_velocity_global	;$B6D5EB   |
 	LDX current_sprite			;$B6D5EF   |
 	BRL CODE_B6D7D2				;$B6D5F1  /
 
@@ -9640,15 +9635,15 @@ CODE_B6D72B:					;	   |
 	ADC $0006E7				;$B6D73A   |
 	STA $2A,x				;$B6D73E   |
 	LDA $22,x				;$B6D740   |
-	JSL CODE_B8D010				;$B6D742   |
+	JSL interpolate_x_velocity_global	;$B6D742   |
 	LDX current_sprite			;$B6D746   |
 	LDA $22,x				;$B6D748   |
-	JSL CODE_B8CFD4				;$B6D74A   |
+	JSL interpolate_y_velocity_global	;$B6D74A   |
 	BRA CODE_B6D79B				;$B6D74E  /
 
 CODE_B6D750:
 	LDA $22,x				;$B6D750  \
-	JSL CODE_B8D010				;$B6D752   |
+	JSL interpolate_x_velocity_global	;$B6D752   |
 	LDX current_sprite			;$B6D756   |
 	STZ $2A,x				;$B6D758   |
 	STZ $24,x				;$B6D75A   |
@@ -9683,7 +9678,7 @@ CODE_B6D77E:					;	   |
 CODE_B6D798:					;	   |
 	STA $0044,y				;$B6D798   |
 CODE_B6D79B:					;	   |
-	JSL CODE_B8CF7F				;$B6D79B   |
+	JSL apply_position_from_velocity_global	;$B6D79B   |
 	LDX current_sprite			;$B6D79F   |
 	LDA $2E,x				;$B6D7A1   |
 	BIT #$0004				;$B6D7A3   |
@@ -9994,11 +9989,11 @@ CODE_B6DA47:
 
 CODE_B6DA4C:
 	LDA $22,x				;$B6DA4C  \
-	JSL CODE_B8D010				;$B6DA4E   |
+	JSL interpolate_x_velocity_global	;$B6DA4E   |
 	LDX current_sprite			;$B6DA52   |
 	LDA $22,x				;$B6DA54   |
-	JSL CODE_B8CFD4				;$B6DA56   |
-	JSL CODE_B8CF7F				;$B6DA5A   |
+	JSL interpolate_y_velocity_global	;$B6DA56   |
+	JSL apply_position_from_velocity_global	;$B6DA5A   |
 CODE_B6DA5E:					;	   |
 	RTS					;$B6DA5E  /
 
@@ -10020,11 +10015,11 @@ CODE_B6DA5F:
 
 CODE_B6DA7F:
 	LDA #$000B				;$B6DA7F  \
-	JSL CODE_B8D010				;$B6DA82   |
+	JSL interpolate_x_velocity_global	;$B6DA82   |
 	LDX current_sprite			;$B6DA86   |
 	LDA $22,x				;$B6DA88   |
-	JSL CODE_B8CFD4				;$B6DA8A   |
-	JSL CODE_B8CF7F				;$B6DA8E   |
+	JSL interpolate_y_velocity_global	;$B6DA8A   |
+	JSL apply_position_from_velocity_global	;$B6DA8E   |
 CODE_B6DA92:					;	   |
 	RTS					;$B6DA92  /
 
@@ -10035,11 +10030,11 @@ CODE_B6DA93:
 	STZ $52,x				;$B6DA9A   |
 CODE_B6DA9C:					;	   |
 	LDA $22,x				;$B6DA9C   |
-	JSL CODE_B8D010				;$B6DA9E   |
+	JSL interpolate_x_velocity_global	;$B6DA9E   |
 	LDX current_sprite			;$B6DAA2   |
 	LDA $22,x				;$B6DAA4   |
-	JSL CODE_B8CFD4				;$B6DAA6   |
-	JSL CODE_B8CF7F				;$B6DAAA   |
+	JSL interpolate_y_velocity_global	;$B6DAA6   |
+	JSL apply_position_from_velocity_global	;$B6DAAA   |
 	RTS					;$B6DAAE  /
 
 CODE_B6DAAF:
@@ -10991,8 +10986,8 @@ CODE_B6E149:
 	STA $0006A3				;$B6E174   |
 CODE_B6E178:					;	   |
 	LDA #$0003				;$B6E178   |
-	JSL CODE_B8CFD4				;$B6E17B   |
-	JSL CODE_B8CF7F				;$B6E17F   |
+	JSL interpolate_y_velocity_global	;$B6E17B   |
+	JSL apply_position_from_velocity_global	;$B6E17F   |
 	LDA.l $0006A3				;$B6E183   |
 	BIT #$0004				;$B6E187   |
 	BEQ CODE_B6E195				;$B6E18A   |
@@ -11016,8 +11011,8 @@ CODE_B6E198:
 
 CODE_B6E1AC:
 	LDA #$0005				;$B6E1AC  \
-	JSL CODE_B8CFD4				;$B6E1AF   |
-	JSL CODE_B8CF7F				;$B6E1B3   |
+	JSL interpolate_y_velocity_global	;$B6E1AF   |
+	JSL apply_position_from_velocity_global	;$B6E1B3   |
 CODE_B6E1B7:					;	   |
 	LDA.l $0006A3				;$B6E1B7   |
 	BIT #$0004				;$B6E1BB   |
@@ -11051,8 +11046,8 @@ CODE_B6E1F2:					;	   |
 	CMP #$02E5				;$B6E1F6   |
 	BCS CODE_B6E216				;$B6E1F9   |
 	LDA #$0003				;$B6E1FB   |
-	JSL CODE_B8CFD4				;$B6E1FE   |
-	JSL CODE_B8CF7F				;$B6E202   |
+	JSL interpolate_y_velocity_global	;$B6E1FE   |
+	JSL apply_position_from_velocity_global	;$B6E202   |
 	LDA.l $0006A3				;$B6E206   |
 	BIT #$0004				;$B6E20A   |
 	BEQ CODE_B6E213				;$B6E20D   |
@@ -11391,10 +11386,10 @@ CODE_B6E4C4:
 
 CODE_B6E4CF:
 	LDA #$0002				;$B6E4CF  \
-	JSL CODE_B8D010				;$B6E4D2   |
+	JSL interpolate_x_velocity_global	;$B6E4D2   |
 	LDA #$0004				;$B6E4D6   |
-	JSL CODE_B8CFD4				;$B6E4D9   |
-	JSL CODE_B8CF7F				;$B6E4DD   |
+	JSL interpolate_y_velocity_global	;$B6E4D9   |
+	JSL apply_position_from_velocity_global	;$B6E4DD   |
 	JSL CODE_B9D100				;$B6E4E1   |
 	LDX current_sprite			;$B6E4E5   |
 	LDA $0A,x				;$B6E4E7   |
@@ -12025,11 +12020,11 @@ CODE_B6EA11:					;	   |
 	PHK					;$B6EA11   |
 	PLB					;$B6EA12   |
 	LDA $46,x				;$B6EA13   |
-	JSL CODE_B8D010				;$B6EA15   |
+	JSL interpolate_x_velocity_global	;$B6EA15   |
 	LDX current_sprite			;$B6EA19   |
 	LDA $48,x				;$B6EA1B   |
-	JSL CODE_B8CFD4				;$B6EA1D   |
-	JSL CODE_B8CF7F				;$B6EA21   |
+	JSL interpolate_y_velocity_global	;$B6EA1D   |
+	JSL apply_position_from_velocity_global	;$B6EA21   |
 	LDX current_sprite			;$B6EA25   |
 	LDY $0656				;$B6EA27   |
 	LDA $06,x				;$B6EA2A   |
@@ -12198,11 +12193,11 @@ CODE_B6EB73:					;	   |
 	STA $2A,x				;$B6EB7D   |
 CODE_B6EB7F:					;	   |
 	LDA $42,x				;$B6EB7F   |
-	JSL CODE_B8D010				;$B6EB81   |
+	JSL interpolate_x_velocity_global	;$B6EB81   |
 	LDX current_sprite			;$B6EB85   |
 	LDA $44,x				;$B6EB87   |
-	JSL CODE_B8CFD4				;$B6EB89   |
-	JSL CODE_B8CF7F				;$B6EB8D   |
+	JSL interpolate_y_velocity_global	;$B6EB89   |
+	JSL apply_position_from_velocity_global	;$B6EB8D   |
 	JSL CODE_B9D100				;$B6EB91   |
 	LDX current_sprite			;$B6EB95   |
 	LDA $24,x				;$B6EB97   |

@@ -143,7 +143,7 @@ DMA_palette:					;	   |
 	LDA #$2200				;$BB8093   |\ DMA to CGRAM, write once to one register
 	STA DMA[0].settings			;$BB8096   |/
 	SEP #$20				;$BB8099   |
-	LDA #$FD				;$BB809B   |\ Set DMA source bank to FD
+	LDA #!bank_FD				;$BB809B   |\ Set DMA source bank to FD
 	STA DMA[0].source_bank			;$BB809D   |/
 	TYA					;$BB80A0   |\ Set CGRAM destination
 	STA PPU.cgram_address			;$BB80A1   |/
@@ -1691,7 +1691,7 @@ CODE_BB8AF6:
 	CLC					;$BB8B0E   |
 	ADC #$0081				;$BB8B0F   |
 	XBA					;$BB8B12   |
-	ORA #$00FD				;$BB8B13   |
+	ORA.w #!bank_FD				;$BB8B13   |
 	STA $0B26,x				;$BB8B16   |
 	LDA $F1					;$BB8B19   |
 	INC A					;$BB8B1B   |
@@ -3678,7 +3678,7 @@ CODE_BB9A23:
 CODE_BB9A59:					;	   |
 	PHA					;$BB9A59   |
 	JSR CODE_BB9A73				;$BB9A5A   |
-	JSL CODE_B5ADD8				;$BB9A5D   |
+	JSL update_level_x_scroll		;$BB9A5D   |
 	LDA #$0008				;$BB9A61   |
 	STA $17D6				;$BB9A64   |
 	CLC					;$BB9A67   |
@@ -4022,7 +4022,7 @@ CODE_BB9E18:					;	   |
 	LDA #$0201				;$BB9E3C   |
 	STA pending_dma_hdma_channels		;$BB9E3F   |
 	LDA level_number			;$BB9E42   |
-	CMP #!level_web_woods_bonus_2		;$BB9E44   |
+	CMP #!level_windy_well_bonus_1		;$BB9E44   |
 	BEQ CODE_BB9E51				;$BB9E47   |
 	LDY #$00DA				;$BB9E49   |
 	JSL CODE_BB83EF				;$BB9E4C   |

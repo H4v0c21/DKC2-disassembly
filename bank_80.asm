@@ -672,7 +672,7 @@ CODE_808819:
 	LDA nmi_submode				;$808819  \
 	ASL A					;$80881B   |
 	TAX					;$80881C   |
-	JSR (DATA_80B6C1,x)			;$80881D   |
+	JSR (nmi_routine_table,x)		;$80881D   |
 	SEP #$20				;$808820   |
 	LDA CPU.ppu_status			;$808822   |
 	REP #$20				;$808825   |
@@ -1634,7 +1634,7 @@ CODE_808FDC:
 	LDA #$0080				;$808FE3   |
 	CMP #$0080				;$808FE6   |
 	BNE CODE_808FF3				;$808FE9   |
-	LDA #DATA_80FBA2			;$808FEB   |
+	LDA #bank_80_end			;$808FEB   |
 	CMP #$FFB0				;$808FEE   |
 	BMI CODE_808FFA				;$808FF1   |
 CODE_808FF3:					;	   |
@@ -1777,7 +1777,7 @@ init_rareware_logo:
 	STA CPU.enable_interrupts		;$8090FF   |/
 	LDA #$8F				;$809102   |\ Enable F-Blank
 	STA PPU.screen				;$809104   |/
-	STZ PPU.sprite_select			;$809107   | User 8x8 sprites with sprite tile data at $0000
+	STZ PPU.sprite_select			;$809107   | Use 8x8 sprites with sprite tile data at $0000
 	STZ PPU.video_mode			;$80910A   | Turn off special video modes
 	REP #$30				;$80910D   |
 	LDA #$0003				;$80910F   |\ Set background mode to 3
@@ -2162,7 +2162,7 @@ namespace off					;	   |
 	DEX					;$8094FF   | |
 	BPL .copy_palette			;$809500   |/
 .skip_palette_copy				;	   |
-	LDA global_frame_counter		;$809502   |\ If we are between 121 and 17C franes
+	LDA global_frame_counter		;$809502   |\ If we are between 0x0121 and 0x017C frames
 	SEC					;$809504   | |
 	SBC #$0121				;$809505   | |
 	CMP #$005B				;$809508   | |
@@ -2332,7 +2332,7 @@ CODE_809636:					;	   |
 	ASL A					;$80963C   |
 	ASL A					;$80963D   |
 	ORA $32					;$80963E   |
-	STA $7E8968,x				;$809640   | Palette for glowing Ninteno text
+	STA $7E8968,x				;$809640   | Palette for glowing Nintendo text
 	INX					;$809644   |
 	INX					;$809645   |
 	CPX #$0060				;$809646   |
@@ -3589,7 +3589,7 @@ CODE_80A2CF:
 	LDX #$0004				;$80A2EE   |
 	LDA #secret_ending_isle_sprite_palette	;$80A2F1   |
 	JSL DMA_palette				;$80A2F4   |
-	JSL CODE_B5A919				;$80A2F8   |
+	JSL update_sprite_graphics		;$80A2F8   |
 	LDA $17C0				;$80A2FC   |
 	SEP #$20				;$80A2FF   |
 	STA PPU.layer_2_scroll_y		;$80A301   |
@@ -5804,47 +5804,47 @@ run_nintendo_copyright:				;	  \
 	WAI					;$80B6BE   | If you find a way to actually trigger this loop
 	BRA .wait_for_next_frame		;$80B6BF  / you are messing with dark magic. I sympathize.
 
-DATA_80B6C1:
+nmi_routine_table:
 	dw CODE_80B705				;00
 	dw CODE_80B746				;01
-	dw CODE_80B779				;02
-	dw CODE_80B7A6				;03
-	dw CODE_80B95F				;04
+	dw CODE_80B779				;02 ship hold
+	dw CODE_80B7A6				;03 hive
+	dw CODE_80B95F				;04 island map (not called from this table?)
 	dw CODE_80B720				;05
-	dw CODE_80B977				;06
-	dw CODE_80B9C6				;07
-	dw CODE_80BB77				;08
-	dw CODE_80BBD5				;09
+	dw CODE_80B977				;06 ship deck
+	dw CODE_80B9C6				;07 lava
+	dw CODE_80BB77				;08 ship mast rain
+	dw CODE_80BBD5				;09 carnival
 	dw CODE_80BC3D				;0A
-	dw CODE_80BC6D				;0B
-	dw CODE_80BC85				;0C
-	dw CODE_80BDAA				;0D
-	dw CODE_80BE9C				;0E
-	dw CODE_80BED2				;0F
-	dw CODE_80BF08				;10
-	dw CODE_80BF82				;11
-	dw CODE_80BFDE				;12
-	dw CODE_80C05A				;13
-	dw CODE_80C074				;14
-	dw CODE_80C180				;15
-	dw CODE_80C26B				;16
-	dw CODE_80C466				;17
-	dw CODE_80C4A5				;18
-	dw CODE_80C584				;19
-	dw CODE_80C5DE				;1A
-	dw CODE_80C65B				;1B
-	dw CODE_80C750				;1C
-	dw CODE_80C7C6				;1D
-	dw CODE_80C821				;1E
-	dw CODE_80C847				;1F
-	dw CODE_80C8AA				;20
-	dw CODE_80C8FF				;21
+	dw CODE_80BC6D				;0B world map (not called from this table?)
+	dw CODE_80BC85				;0C mine
+	dw CODE_80BDAA				;0D ship mast clouds
+	dw CODE_80BE9C				;0E forest light shafts
+	dw CODE_80BED2				;0F forest leaves
+	dw CODE_80BF08				;10 swamp
+	dw CODE_80BF82				;11 brambles
+	dw CODE_80BFDE				;12 ship hold dark
+	dw CODE_80C05A				;13 lava hot air
+	dw CODE_80C074				;14 krocodile kore
+	dw CODE_80C180				;15 castle
+	dw CODE_80C26B				;16 haunted hall
+	dw CODE_80C466				;17 ship mast water
+	dw CODE_80C4A5				;18 ship hold lava
+	dw CODE_80C584				;19 k.rool duel
+	dw CODE_80C5DE				;1A ship deck sunset
+	dw CODE_80C65B				;1B ice water
+	dw CODE_80C750				;1C jungle
+	dw CODE_80C7C6				;1D ice transparent
+	dw CODE_80C821				;1E castle toxic
+	dw CODE_80C847				;1F brambles leaves
+	dw CODE_80C8AA				;20 mine debris
+	dw CODE_80C8FF				;21 forest fog
 
 CODE_80B705:
 	LDA pending_dma_hdma_channels		;$80B705  \
 	STA CPU.enable_dma			;$80B708   |
-	JSL CODE_B5A919				;$80B70B   |
-	JSR CODE_80F324				;$80B70F   |
+	JSL update_sprite_graphics		;$80B70B   |
+	JSR update_sprite_palettes		;$80B70F   |
 	SEP #$20				;$80B712   |
 	LDA screen_brightness			;$80B714   |
 	STA PPU.screen				;$80B717   |
@@ -5861,16 +5861,16 @@ CODE_80B720:
 	REP #$20				;$80B72E   |
 	RTS					;$80B730  /
 
-CODE_80B731:
+update_level_and_sprite_graphics:
 	LDA pending_dma_hdma_channels		;$80B731  \
 	STA CPU.enable_dma			;$80B734   |
-	JSL CODE_B5A919				;$80B737   |
-	JSL CODE_B5ADD8				;$80B73B   |
-	JSL CODE_B5B00B				;$80B73F   |
-	JMP CODE_80F324				;$80B743  /
+	JSL update_sprite_graphics		;$80B737   |
+	JSL update_level_x_scroll		;$80B73B   |
+	JSL update_level_y_scroll		;$80B73F   |
+	JMP update_sprite_palettes		;$80B743  /
 
 CODE_80B746:
-	JSR CODE_80B731				;$80B746  \
+	JSR update_level_and_sprite_graphics	;$80B746  \
 	LDA $17BA				;$80B749   |
 	LSR A					;$80B74C   |
 	SEP #$20				;$80B74D   |
@@ -5894,10 +5894,10 @@ CODE_80B779:
 	LDA pending_dma_hdma_channels		;$80B779  \
 	STA CPU.enable_dma			;$80B77C   |
 	JSR CODE_80B89C				;$80B77F   |
-	JSL CODE_B5A919				;$80B782   |
-	JSL CODE_B5ADD8				;$80B786   |
-	JSL CODE_B5B00B				;$80B78A   |
-	JSR CODE_80F324				;$80B78E   |
+	JSL update_sprite_graphics		;$80B782   |
+	JSL update_level_x_scroll		;$80B786   |
+	JSL update_level_y_scroll		;$80B78A   |
+	JSR update_sprite_palettes		;$80B78E   |
 	SEP #$20				;$80B791   |
 	LDA screen_brightness			;$80B793   |
 	STA PPU.screen				;$80B796   |
@@ -5915,7 +5915,7 @@ CODE_80B79C:
 	RTS					;$80B7A5  /
 
 CODE_80B7A6:
-	JSR CODE_80B731				;$80B7A6  \
+	JSR update_level_and_sprite_graphics	;$80B7A6  \
 	JSR CODE_80CCF8				;$80B7A9   |
 	SEP #$20				;$80B7AC   |
 	LDA $17C0				;$80B7AE   |
@@ -6122,7 +6122,7 @@ CODE_80B938:					;	   |
 CODE_80B95F:
 	LDA pending_dma_hdma_channels		;$80B95F  \
 	STA CPU.enable_dma			;$80B962   |
-	JSL CODE_B5A919				;$80B965   |
+	JSL update_sprite_graphics		;$80B965   |
 	STA PPU.layer_1_scroll_y		;$80B969   |
 	SEP #$20				;$80B96C   |
 	LDA screen_brightness			;$80B96E   |
@@ -6133,12 +6133,12 @@ CODE_80B95F:
 CODE_80B977:
 	LDA pending_dma_hdma_channels		;$80B977  \
 	STA CPU.enable_dma			;$80B97A   |
-	JSL CODE_B5A919				;$80B97D   |
+	JSL update_sprite_graphics		;$80B97D   |
 	JSL CODE_B5AA88				;$80B981   |
 	JSL CODE_B5AC25				;$80B985   |
-	JSL CODE_B5ADD8				;$80B989   |
-	JSL CODE_B5B00B				;$80B98D   |
-	JSR CODE_80F324				;$80B991   |
+	JSL update_level_x_scroll		;$80B989   |
+	JSL update_level_y_scroll		;$80B98D   |
+	JSR update_sprite_palettes		;$80B991   |
 	LDA $17BA				;$80B994   |
 	SEP #$20				;$80B997   |
 	STA PPU.layer_1_scroll_x		;$80B999   |
@@ -6161,10 +6161,10 @@ CODE_80B977:
 	RTS					;$80B9C5  /
 
 CODE_80B9C6:
-	JSR CODE_80B731				;$80B9C6  \
-	JSR CODE_80CDAE				;$80B9C9   |
-	JSR CODE_80BA44				;$80B9CC   |
-	JSR CODE_80B9FF				;$80B9CF   |
+	JSR update_level_and_sprite_graphics	;$80B9C6  \
+	JSR update_lava_bubble_graphics		;$80B9C9   |
+	JSR update_lava_fall_effect		;$80B9CC   |
+	JSR update_lava_palette_glow_effect	;$80B9CF   |
 	JSR CODE_80BAB1				;$80B9D2   |
 	LDA $17BA				;$80B9D5   |
 	LSR A					;$80B9D8   |
@@ -6188,7 +6188,7 @@ CODE_80B9F2:					;	   |
 	REP #$20				;$80B9FC   |
 	RTS					;$80B9FE  /
 
-CODE_80B9FF:
+update_lava_palette_glow_effect:
 	LDA global_frame_counter		;$80B9FF  \
 	LSR A					;$80BA01   |
 	LSR A					;$80BA02   |
@@ -6228,7 +6228,7 @@ CODE_80BA28:					;	   |
 	REP #$20				;$80BA41   |
 	RTS					;$80BA43  /
 
-CODE_80BA44:
+update_lava_fall_effect:
 	SEP #$30				;$80BA44  \
 	LDA #$05				;$80BA46   |
 	STA PPU.cgram_address			;$80BA48   |
@@ -6359,8 +6359,8 @@ CODE_80BB49:					;	   |
 	RTS					;$80BB76  /
 
 CODE_80BB77:
-	JSR CODE_80B731				;$80BB77  \
-	JSR CODE_80CF58				;$80BB7A   |
+	JSR update_level_and_sprite_graphics	;$80BB77  \
+	JSR update_rigging_graphics		;$80BB7A   |
 	LDA global_frame_counter		;$80BB7D   |
 	LSR A					;$80BB7F   |
 	CLC					;$80BB80   |
@@ -6401,7 +6401,7 @@ CODE_80BB77:
 	RTS					;$80BBD4  /
 
 CODE_80BBD5:
-	JSR CODE_80B731				;$80BBD5  \
+	JSR update_level_and_sprite_graphics	;$80BBD5  \
 	LDA $0929				;$80BBD8   |
 	BEQ CODE_80BBF7				;$80BBDB   |
 	TAY					;$80BBDD   |
@@ -6452,8 +6452,8 @@ CODE_80BC0A:					;	   |
 CODE_80BC3D:
 	LDA pending_dma_hdma_channels		;$80BC3D  \
 	STA CPU.enable_dma			;$80BC40   |
-	JSL CODE_B5A919				;$80BC43   |
-	JSR CODE_80F324				;$80BC47   |
+	JSL update_sprite_graphics		;$80BC43   |
+	JSR update_sprite_palettes		;$80BC47   |
 	LDA $17BA				;$80BC4A   |
 	SEP #$20				;$80BC4D   |
 	STA PPU.layer_1_scroll_x		;$80BC4F   |
@@ -6473,7 +6473,7 @@ CODE_80BC3D:
 CODE_80BC6D:
 	LDA pending_dma_hdma_channels		;$80BC6D  \
 	STA CPU.enable_dma			;$80BC70   |
-	JSL CODE_B5A919				;$80BC73   |
+	JSL update_sprite_graphics		;$80BC73   |
 	STA PPU.layer_1_scroll_y		;$80BC77   |
 	SEP #$20				;$80BC7A   |
 	LDA screen_brightness			;$80BC7C   |
@@ -6482,7 +6482,7 @@ CODE_80BC6D:
 	RTS					;$80BC84  /
 
 CODE_80BC85:
-	JSR CODE_80B731				;$80BC85  \
+	JSR update_level_and_sprite_graphics	;$80BC85  \
 	LDA $17BA				;$80BC88   |
 	LSR A					;$80BC8B   |
 	LSR A					;$80BC8C   |
@@ -6498,7 +6498,7 @@ CODE_80BC85:
 	LDA $17C3				;$80BCA7   |
 	STA PPU.layer_1_scroll_y		;$80BCAA   |
 	REP #$20				;$80BCAD   |
-	JSR CODE_80BD08				;$80BCAF   |
+	JSR update_mine_sparkle_effect		;$80BCAF   |
 	LDA $17C2				;$80BCB2   |
 	LSR A					;$80BCB5   |
 	LSR A					;$80BCB6   |
@@ -6522,7 +6522,7 @@ DATA_80BCC8:
 	db $5F, $B7, $6A, $9F, $7D, $B7, $68, $CD
 	db $AC, $C4, $C3, $BE, $47, $DE, $3F, $67
 
-CODE_80BD08:
+update_mine_sparkle_effect:
 	LDA global_frame_counter		;$80BD08  \
 	CLC					;$80BD0A   |
 	ADC #$0010				;$80BD0B   |
@@ -6592,12 +6592,12 @@ CODE_80BD2F:					;	   |
 	RTS					;$80BDA9  /
 
 CODE_80BDAA:
-	JSR CODE_80B731				;$80BDAA  \
+	JSR update_level_and_sprite_graphics	;$80BDAA  \
 	LDA level_number			;$80BDAD   |
 	CMP #!level_krows_nest			;$80BDAF   |
-	BEQ CODE_80BDB7				;$80BDB2   |
-	JSR CODE_80CF21				;$80BDB4   |
-CODE_80BDB7:					;	   |
+	BEQ .mast_flag_update_done		;$80BDB2   |
+	JSR update_ship_mast_flag_graphics	;$80BDB4   |
+.mast_flag_update_done				;	   |
 	LDA $08C2				;$80BDB7   |
 	AND #$0140				;$80BDBA   |
 	BEQ CODE_80BDC2				;$80BDBD   |
@@ -6690,8 +6690,8 @@ CODE_80BE93:					;	   |
 	RTS					;$80BE9B  /
 
 CODE_80BE9C:
-	JSR CODE_80B731				;$80BE9C  \
-	JSR CODE_80CFDC				;$80BE9F   |
+	JSR update_level_and_sprite_graphics	;$80BE9C  \
+	JSR update_forest_light_shaft_effect	;$80BE9F   |
 	LDA $17BA				;$80BEA2   |
 	LSR A					;$80BEA5   |
 	SEP #$20				;$80BEA6   |
@@ -6712,8 +6712,8 @@ CODE_80BE9C:
 	RTS					;$80BED1  /
 
 CODE_80BED2:
-	JSR CODE_80B731				;$80BED2  \
-	JSR CODE_80CC36				;$80BED5   |
+	JSR update_level_and_sprite_graphics	;$80BED2  \
+	JSR update_forest_leaves_effect		;$80BED5   |
 	LDA $17BA				;$80BED8   |
 	LSR A					;$80BEDB   |
 	SEP #$20				;$80BEDC   |
@@ -6734,7 +6734,7 @@ CODE_80BED2:
 	RTS					;$80BF07  /
 
 CODE_80BF08:
-	JSR CODE_80B731				;$80BF08  \
+	JSR update_level_and_sprite_graphics	;$80BF08  \
 	LDA $17C0				;$80BF0B   |
 	CLC					;$80BF0E   |
 	ADC $19CA				;$80BF0F   |
@@ -6788,7 +6788,7 @@ CODE_80BF2E:					;	   |
 	RTS					;$80BF81  /
 
 CODE_80BF82:
-	JSR CODE_80B731				;$80BF82  \
+	JSR update_level_and_sprite_graphics	;$80BF82  \
 	LDA $17BA				;$80BF85   |
 	CLC					;$80BF88   |
 	ADC global_frame_counter		;$80BF89   |
@@ -6878,10 +6878,10 @@ CODE_80C02A:					;	   |
 	STA HDMA[2].source			;$80C03A   |
 CODE_80C03D:					;	   |
 	JSR CODE_80B89C				;$80C03D   |
-	JSL CODE_B5A919				;$80C040   |
-	JSL CODE_B5ADD8				;$80C044   |
-	JSL CODE_B5B00B				;$80C048   |
-	JSR CODE_80F324				;$80C04C   |
+	JSL update_sprite_graphics		;$80C040   |
+	JSL update_level_x_scroll		;$80C044   |
+	JSL update_level_y_scroll		;$80C048   |
+	JSR update_sprite_palettes		;$80C04C   |
 	SEP #$20				;$80C04F   |
 	LDA screen_brightness			;$80C051   |
 	STA PPU.screen				;$80C054   |
@@ -6889,19 +6889,19 @@ CODE_80C03D:					;	   |
 	RTS					;$80C059  /
 
 CODE_80C05A:
-	JSR CODE_80B731				;$80C05A  \
-	JSR CODE_80CDAE				;$80C05D   |
+	JSR update_level_and_sprite_graphics	;$80C05A  \
+	JSR update_lava_bubble_graphics		;$80C05D   |
 	SEP #$20				;$80C060   |
 	LDA $17C2				;$80C062   |
 	STA PPU.layer_3_scroll_y		;$80C065   |
 	STZ PPU.layer_3_scroll_y		;$80C068   |
 	REP #$20				;$80C06B   |
-	JSR CODE_80CAFD				;$80C06D   |
+	JSR update_lava_hot_air_effect		;$80C06D   |
 	JSR CODE_80BAB1				;$80C070   |
 	RTS					;$80C073  /
 
 CODE_80C074:
-	JSR CODE_80B731				;$80C074  \
+	JSR update_level_and_sprite_graphics	;$80C074  \
 	LDA.l $0006A5				;$80C077   |
 	BIT #$0200				;$80C07B   |
 	BNE CODE_80C083				;$80C07E   |
@@ -7037,10 +7037,10 @@ CODE_80C180:
 	LDA pending_dma_hdma_channels		;$80C180  \
 	STA CPU.enable_dma			;$80C183   |
 	JSR CODE_80B89C				;$80C186   |
-	JSL CODE_B5A919				;$80C189   |
-	JSL CODE_B5ADD8				;$80C18D   |
-	JSL CODE_B5B00B				;$80C191   |
-	JSR CODE_80F324				;$80C195   |
+	JSL update_sprite_graphics		;$80C189   |
+	JSL update_level_x_scroll		;$80C18D   |
+	JSL update_level_y_scroll		;$80C191   |
+	JSR update_sprite_palettes		;$80C195   |
 	JSR CODE_80CA1B				;$80C198   |
 	JSR CODE_80C1A9				;$80C19B   |
 	SEP #$20				;$80C19E   |
@@ -7154,8 +7154,8 @@ DATA_80C25F:
 	dw DATA_F559CA
 
 CODE_80C26B:
-	JSR CODE_80B731				;$80C26B  \
-	JSR CODE_80C321				;$80C26E   |
+	JSR update_level_and_sprite_graphics	;$80C26B  \
+	JSR update_kackle_graphics		;$80C26E   |
 	LDA #$0100				;$80C271   |
 	LDX $0D5A				;$80C274   |
 	BEQ CODE_80C288				;$80C277   |
@@ -7237,11 +7237,11 @@ CODE_80C2D4:					;	   |
 	REP #$20				;$80C31A   |
 	RTS					;$80C31C  /
 
-CODE_80C31D:
-	JSR CODE_80C321				;$80C31D  \
+update_kackle_graphics_global:
+	JSR update_kackle_graphics		;$80C31D  \
 	RTL					;$80C320  /
 
-CODE_80C321:
+update_kackle_graphics:
 	LDA global_frame_counter		;$80C321  \
 	AND #$0001				;$80C323   |
 	BEQ CODE_80C329				;$80C326   |
@@ -7406,11 +7406,11 @@ CODE_80C466:
 	LDA pending_dma_hdma_channels		;$80C466  \
 	STA CPU.enable_dma			;$80C469   |
 	JSR CODE_80B83D				;$80C46C   |
-	JSL CODE_B5A919				;$80C46F   |
-	JSL CODE_B5ADD8				;$80C473   |
-	JSL CODE_B5B00B				;$80C477   |
-	JSR CODE_80F324				;$80C47B   |
-	JSR CODE_80CF21				;$80C47E   |
+	JSL update_sprite_graphics		;$80C46F   |
+	JSL update_level_x_scroll		;$80C473   |
+	JSL update_level_y_scroll		;$80C477   |
+	JSR update_sprite_palettes		;$80C47B   |
+	JSR update_ship_mast_flag_graphics	;$80C47E   |
 	LDA $17C2				;$80C481   |
 	LSR A					;$80C484   |
 	SEP #$20				;$80C485   |
@@ -7430,10 +7430,10 @@ CODE_80C4A5:
 	LDA pending_dma_hdma_channels		;$80C4A5  \
 	STA CPU.enable_dma			;$80C4A8   |
 	JSR CODE_80B89C				;$80C4AB   |
-	JSL CODE_B5A919				;$80C4AE   |
-	JSL CODE_B5ADD8				;$80C4B2   |
-	JSL CODE_B5B00B				;$80C4B6   |
-	JSR CODE_80F324				;$80C4BA   |
+	JSL update_sprite_graphics		;$80C4AE   |
+	JSL update_level_x_scroll		;$80C4B2   |
+	JSL update_level_y_scroll		;$80C4B6   |
+	JSR update_sprite_palettes		;$80C4BA   |
 	LDA $08C2				;$80C4BD   |
 	BIT #$0140				;$80C4C0   |
 	BNE CODE_80C4F8				;$80C4C3   |
@@ -7539,10 +7539,10 @@ CODE_80C583:					;	   |
 CODE_80C584:
 	LDA pending_dma_hdma_channels		;$80C584  \
 	STA CPU.enable_dma			;$80C587   |
-	JSL CODE_B5A919				;$80C58A   |
-	JSL CODE_B5ADD8				;$80C58E   |
-	JSL CODE_B5B00B				;$80C592   |
-	JSR CODE_80F324				;$80C596   |
+	JSL update_sprite_graphics		;$80C58A   |
+	JSL update_level_x_scroll		;$80C58E   |
+	JSL update_level_y_scroll		;$80C592   |
+	JSR update_sprite_palettes		;$80C596   |
 	LDA $17BA				;$80C599   |
 	SEP #$20				;$80C59C   |
 	STA PPU.layer_1_scroll_x		;$80C59E   |
@@ -7577,12 +7577,12 @@ CODE_80C584:
 CODE_80C5DE:
 	LDA pending_dma_hdma_channels		;$80C5DE  \
 	STA CPU.enable_dma			;$80C5E1   |
-	JSL CODE_B5A919				;$80C5E4   |
+	JSL update_sprite_graphics		;$80C5E4   |
 	JSL CODE_B5AA88				;$80C5E8   |
 	JSL CODE_B5AC25				;$80C5EC   |
-	JSL CODE_B5ADD8				;$80C5F0   |
-	JSL CODE_B5B00B				;$80C5F4   |
-	JSR CODE_80F324				;$80C5F8   |
+	JSL update_level_x_scroll		;$80C5F0   |
+	JSL update_level_y_scroll		;$80C5F4   |
+	JSR update_sprite_palettes		;$80C5F8   |
 	LDA $0913				;$80C5FB   |
 	BEQ CODE_80C629				;$80C5FE   |
 	LDA #primary_palette			;$80C600   |
@@ -7626,10 +7626,10 @@ CODE_80C65B:
 	LDA pending_dma_hdma_channels		;$80C65B  \
 	STA CPU.enable_dma			;$80C65E   |
 	JSR CODE_80B86E				;$80C661   |
-	JSL CODE_B5A919				;$80C664   |
-	JSL CODE_B5ADD8				;$80C668   |
-	JSL CODE_B5B00B				;$80C66C   |
-	JSR CODE_80F324				;$80C670   |
+	JSL update_sprite_graphics		;$80C664   |
+	JSL update_level_x_scroll		;$80C668   |
+	JSL update_level_y_scroll		;$80C66C   |
+	JSR update_sprite_palettes		;$80C670   |
 	LDA $17BA				;$80C673   |
 	LSR A					;$80C676   |
 	SEP #$20				;$80C677   |
@@ -7741,10 +7741,10 @@ CODE_80C72E:
 CODE_80C750:
 	LDA pending_dma_hdma_channels		;$80C750  \
 	STA CPU.enable_dma			;$80C753   |
-	JSL CODE_B5A919				;$80C756   |
-	JSL CODE_B5ADD8				;$80C75A   |
-	JSL CODE_B5B00B				;$80C75E   |
-	JSR CODE_80F324				;$80C762   |
+	JSL update_sprite_graphics		;$80C756   |
+	JSL update_level_x_scroll		;$80C75A   |
+	JSL update_level_y_scroll		;$80C75E   |
+	JSR update_sprite_palettes		;$80C762   |
 	LDA $17BA				;$80C765   |
 	SEP #$20				;$80C768   |
 	STA PPU.layer_1_scroll_x		;$80C76A   |
@@ -7792,11 +7792,11 @@ CODE_80C750:
 CODE_80C7C6:
 	LDA pending_dma_hdma_channels		;$80C7C6  \
 	STA CPU.enable_dma			;$80C7C9   |
-	JSL CODE_B5A919				;$80C7CC   |
-	JSL CODE_B5ADD8				;$80C7D0   |
-	JSL CODE_B5B00B				;$80C7D4   |
-	JSR CODE_80F324				;$80C7D8   |
-	JSR CODE_80CA7E				;$80C7DB   |
+	JSL update_sprite_graphics		;$80C7CC   |
+	JSL update_level_x_scroll		;$80C7D0   |
+	JSL update_level_y_scroll		;$80C7D4   |
+	JSR update_sprite_palettes		;$80C7D8   |
+	JSR update_ice_distortion_effect	;$80C7DB   |
 	LDA $17BA				;$80C7DE   |
 	SEP #$20				;$80C7E1   |
 	STA PPU.layer_1_scroll_x		;$80C7E3   |
@@ -7830,10 +7830,10 @@ CODE_80C821:
 	LDA pending_dma_hdma_channels		;$80C821  \
 	STA CPU.enable_dma			;$80C824   |
 	JSR CODE_80B89C				;$80C827   |
-	JSL CODE_B5A919				;$80C82A   |
-	JSL CODE_B5ADD8				;$80C82E   |
-	JSL CODE_B5B00B				;$80C832   |
-	JSR CODE_80F324				;$80C836   |
+	JSL update_sprite_graphics		;$80C82A   |
+	JSL update_level_x_scroll		;$80C82E   |
+	JSL update_level_y_scroll		;$80C832   |
+	JSR update_sprite_palettes		;$80C836   |
 	JSR CODE_80C1A9				;$80C839   |
 	SEP #$20				;$80C83C   |
 	LDA screen_brightness			;$80C83E   |
@@ -7844,11 +7844,11 @@ CODE_80C821:
 CODE_80C847:
 	LDA pending_dma_hdma_channels		;$80C847  \
 	STA CPU.enable_dma			;$80C84A   |
-	JSL CODE_B5A919				;$80C84D   |
-	JSL CODE_B5ADD8				;$80C851   |
-	JSL CODE_B5B00B				;$80C855   |
-	JSR CODE_80F324				;$80C859   |
-	JSR CODE_80CC36				;$80C85C   |
+	JSL update_sprite_graphics		;$80C84D   |
+	JSL update_level_x_scroll		;$80C851   |
+	JSL update_level_y_scroll		;$80C855   |
+	JSR update_sprite_palettes		;$80C859   |
+	JSR update_forest_leaves_effect		;$80C85C   |
 	LDA $17BA				;$80C85F   |
 	CLC					;$80C862   |
 	ADC global_frame_counter		;$80C863   |
@@ -7885,11 +7885,11 @@ CODE_80C847:
 CODE_80C8AA:
 	LDA pending_dma_hdma_channels		;$80C8AA  \
 	STA CPU.enable_dma			;$80C8AD   |
-	JSL CODE_B5A919				;$80C8B0   |
-	JSL CODE_B5ADD8				;$80C8B4   |
-	JSL CODE_B5B00B				;$80C8B8   |
-	JSR CODE_80F324				;$80C8BC   |
-	JSR CODE_80C973				;$80C8BF   |
+	JSL update_sprite_graphics		;$80C8B0   |
+	JSL update_level_x_scroll		;$80C8B4   |
+	JSL update_level_y_scroll		;$80C8B8   |
+	JSR update_sprite_palettes		;$80C8BC   |
+	JSR update_mine_debris_effect		;$80C8BF   |
 	LDA $17BA				;$80C8C2   |
 	LSR A					;$80C8C5   |
 	LSR A					;$80C8C6   |
@@ -7919,10 +7919,10 @@ CODE_80C8AA:
 CODE_80C8FF:
 	LDA pending_dma_hdma_channels		;$80C8FF  \
 	STA CPU.enable_dma			;$80C902   |
-	JSL CODE_B5A919				;$80C905   |
-	JSL CODE_B5ADD8				;$80C909   |
-	JSL CODE_B5B00B				;$80C90D   |
-	JSR CODE_80F324				;$80C911   |
+	JSL update_sprite_graphics		;$80C905   |
+	JSL update_level_x_scroll		;$80C909   |
+	JSL update_level_y_scroll		;$80C90D   |
+	JSR update_sprite_palettes		;$80C911   |
 	LDX #$80F2				;$80C914   |
 	STX HDMA[1].source			;$80C917   |
 	LDX #$8012				;$80C91A   |
@@ -7964,7 +7964,7 @@ DATA_80C963:
 	dw DATA_F3151B
 	dw DATA_F3162B
 
-CODE_80C973:
+update_mine_debris_effect:
 	LDA $08C2				;$80C973  \
 	BIT #$0140				;$80C976   |
 	BEQ CODE_80C97C				;$80C979   |
@@ -8093,7 +8093,7 @@ CODE_80CA2A:					;	   |
 	STA $7E8852				;$80CA79   |
 	RTS					;$80CA7D  /
 
-CODE_80CA7E:
+update_ice_distortion_effect:
 	LDA $17BA				;$80CA7E  \
 	LSR A					;$80CA81   |
 	LSR A					;$80CA82   |
@@ -8162,7 +8162,7 @@ CODE_80CAF5:
 	TAX					;$80CAFB   |
 	RTS					;$80CAFC  /
 
-CODE_80CAFD:
+update_lava_hot_air_effect:
 	LDA #$022A				;$80CAFD  \
 	SEC					;$80CB00   |
 	SBC $17C0				;$80CB01   |
@@ -8304,7 +8304,7 @@ CODE_80CBD7:					;	   |
 	PLX					;$80CC34   |
 	RTS					;$80CC35  /
 
-CODE_80CC36:
+update_forest_leaves_effect:
 	LDA $08C2				;$80CC36  \
 	BIT #$0140				;$80CC39   |
 	BEQ CODE_80CC3F				;$80CC3C   |
@@ -8500,7 +8500,7 @@ DATA_80CD6E:
 	dw DATA_F51CC7
 	dw DATA_F51CC7
 
-CODE_80CDAE:
+update_lava_bubble_graphics:
 	LDA global_frame_counter		;$80CDAE  \
 	AND #$0003				;$80CDB0   |
 	BNE CODE_80CDC7				;$80CDB3   |
@@ -8686,7 +8686,7 @@ DATA_80CF11:
 	dw DATA_FA7A01
 
 
-CODE_80CF21:
+update_ship_mast_flag_graphics:
 	LDA global_frame_counter		;$80CF21  \
 	BIT #$0007				;$80CF23   |
 	BNE CODE_80CF57				;$80CF26   |
@@ -8712,12 +8712,12 @@ CODE_80CF21:
 CODE_80CF57:					;	   |
 	RTS					;$80CF57  /
 
-CODE_80CF58:
+update_rigging_graphics:
 	LDA level_number			;$80CF58  \
 	CMP #!level_krows_nest			;$80CF5A   |
-	BEQ CODE_80CF62				;$80CF5D   |
-	JSR CODE_80CF21				;$80CF5F   |
-CODE_80CF62:					;	   |
+	BEQ .rigging_flag_update_done		;$80CF5D   |
+	JSR update_ship_mast_flag_graphics	;$80CF5F   |
+.rigging_flag_update_done			;	   |
 	LDA $052B				;$80CF62   |
 	AND #$1000				;$80CF65   |
 	BNE CODE_80CF9F				;$80CF68   |
@@ -8770,7 +8770,7 @@ CODE_80CF9F:
 CODE_80CFDB:					;	   |
 	RTS					;$80CFDB  /
 
-CODE_80CFDC:
+update_forest_light_shaft_effect:
 	LDA global_frame_counter		;$80CFDC  \
 	LSR A					;$80CFDE   |
 	LSR A					;$80CFDF   |
@@ -9009,38 +9009,38 @@ DATA_80D3ED:
 	dl DATA_80D1D1 : db $00
 
 DATA_80D411:
-	dw CODE_80D45A
-	dw CODE_80D462
-	dw CODE_80D486
-	dw CODE_80D557
-	dw CODE_80D58C
-	dw CODE_80D451
-	dw CODE_80D595
-	dw CODE_80D5C3
-	dw CODE_80D5E7
-	dw CODE_80D61B
-	dw CODE_80D642
-	dw CODE_80D665
-	dw CODE_80D66E
-	dw CODE_80D784
-	dw CODE_80D7AB
-	dw CODE_80D830
-	dw CODE_80D854
-	dw CODE_80D886
-	dw CODE_80D8B7
-	dw CODE_80D8DE
-	dw CODE_80D902
-	dw CODE_80DA21
-	dw CODE_80DA45
-	dw CODE_80DA76
-	dw CODE_80DA9A
-	dw CODE_80DACB
-	dw CODE_80DB12
-	dw CODE_80DB36
-	dw CODE_80DB6B
-	dw CODE_80DB99
-	dw CODE_80DBCE
-	dw CODE_80DD3C
+	dw CODE_80D45A				;00
+	dw CODE_80D462				;01
+	dw CODE_80D486				;02
+	dw CODE_80D557				;03
+	dw CODE_80D58C				;04
+	dw CODE_80D451				;05
+	dw CODE_80D595				;06
+	dw CODE_80D5C3				;07 lava
+	dw CODE_80D5E7				;08
+	dw CODE_80D61B				;09
+	dw CODE_80D642				;0A
+	dw CODE_80D665				;0B
+	dw CODE_80D66E				;0C
+	dw CODE_80D784				;0D
+	dw CODE_80D7AB				;0E
+	dw CODE_80D830				;0F
+	dw CODE_80D854				;10 brambles
+	dw CODE_80D886				;11
+	dw CODE_80D8B7				;12
+	dw CODE_80D8DE				;13
+	dw CODE_80D902				;14 castle
+	dw CODE_80DA21				;15
+	dw CODE_80DA45				;16 ship mast water
+	dw CODE_80DA76				;17
+	dw CODE_80DA9A				;18
+	dw CODE_80DACB				;19
+	dw CODE_80DB12				;1A
+	dw CODE_80DB36				;1B
+	dw CODE_80DB6B				;1C
+	dw CODE_80DB99				;1D
+	dw CODE_80DBCE				;1E
+	dw CODE_80DD3C				;1F
 
 CODE_80D451:
 	JSR CODE_808988				;$80D451  \
@@ -9059,8 +9059,8 @@ CODE_80D462:
 	BNE CODE_80D483				;$80D465   |
 	JSL sprite_loader			;$80D467   |
 	JSL sprite_handler			;$80D46B   |
-	JSL CODE_B5E50D				;$80D46F   |
-	JSL CODE_B5B9B0				;$80D473   |
+	JSL camera_handler			;$80D46F   |
+	JSL horizontal_level_scroll_handler	;$80D473   |
 	JSR render_sprites			;$80D477   |
 	JSR set_unused_oam_offscreen		;$80D47A   |
 	JSR fade_screen				;$80D47D   |
@@ -9076,8 +9076,8 @@ CODE_80D486:
 	JSR CODE_80D4FA				;$80D48E   |
 	JSL sprite_loader			;$80D491   |
 	JSL sprite_handler			;$80D495   |
-	JSL CODE_B5E50D				;$80D499   |
-	JSL CODE_B5B54A				;$80D49D   |
+	JSL camera_handler			;$80D499   |
+	JSL square_level_scroll_handler		;$80D49D   |
 	JSR render_sprites			;$80D4A1   |
 	JSL CODE_BEC9C0				;$80D4A4   |
 	JSR set_unused_oam_offscreen		;$80D4A8   |
@@ -9130,7 +9130,7 @@ CODE_80D4FA:
 	LDA #$0D26				;$80D512   |
 	STA current_sprite			;$80D515   |
 	LDA #$0007				;$80D517   |
-	JSL CODE_B8CFD4				;$80D51A   |
+	JSL interpolate_y_velocity_global	;$80D51A   |
 	LDX #$0000				;$80D51E   |
 	LDA $0D4A				;$80D521   |
 	BPL CODE_80D527				;$80D524   |
@@ -9164,12 +9164,12 @@ CODE_80D557:
 	BNE CODE_80D589				;$80D55A   |
 	JSL sprite_loader			;$80D55C   |
 	JSL sprite_handler			;$80D560   |
-	JSL CODE_B5E50D				;$80D564   |
+	JSL camera_handler			;$80D564   |
 	LDA $0AB4				;$80D568   |
 	AND #$000F				;$80D56B   |
 	CMP #$0005				;$80D56E   |
 	BEQ CODE_80D579				;$80D571   |
-	JSL CODE_B5B54A				;$80D573   |
+	JSL square_level_scroll_handler		;$80D573   |
 	BRA CODE_80D57D				;$80D577  /
 
 CODE_80D579:
@@ -9193,10 +9193,10 @@ CODE_80D595:
 	BNE CODE_80D5C0				;$80D598   |
 	JSL sprite_loader			;$80D59A   |
 	JSL sprite_handler			;$80D59E   |
-	JSL CODE_B5E50D				;$80D5A2   |
+	JSL camera_handler			;$80D5A2   |
 	JSR CODE_80E52B				;$80D5A6   |
 	JSL CODE_B5B9BB				;$80D5A9   |
-	JSL CODE_B5B9B0				;$80D5AD   |
+	JSL horizontal_level_scroll_handler	;$80D5AD   |
 	JSR render_sprites			;$80D5B1   |
 	JSR set_unused_oam_offscreen		;$80D5B4   |
 	JSR CODE_80E580				;$80D5B7   |
@@ -9211,8 +9211,8 @@ CODE_80D5C3:
 	BNE CODE_80D5E4				;$80D5C6   |
 	JSL sprite_loader			;$80D5C8   |
 	JSL sprite_handler			;$80D5CC   |
-	JSL CODE_B5E50D				;$80D5D0   |
-	JSL CODE_B5B9B0				;$80D5D4   |
+	JSL camera_handler			;$80D5D0   |
+	JSL horizontal_level_scroll_handler	;$80D5D4   |
 	JSR render_sprites			;$80D5D8   |
 	JSR set_unused_oam_offscreen		;$80D5DB   |
 	JSR fade_screen				;$80D5DE   |
@@ -9234,8 +9234,8 @@ CODE_80D5FA:					;	   |
 	STX $78					;$80D5FA   |
 	JSL sprite_loader			;$80D5FC   |
 	JSL sprite_handler			;$80D600   |
-	JSL CODE_B5E50D				;$80D604   |
-	JSL CODE_B5B9A5				;$80D608   |
+	JSL camera_handler			;$80D604   |
+	JSL vertical_level_scroll_handler	;$80D608   |
 	JSR render_sprites			;$80D60C   |
 	JSR set_unused_oam_offscreen		;$80D60F   |
 	JSR fade_screen				;$80D612   |
@@ -9249,9 +9249,9 @@ CODE_80D61B:
 	BNE CODE_80D63F				;$80D61E   |
 	JSL sprite_loader			;$80D620   |
 	JSL sprite_handler			;$80D624   |
-	JSL CODE_B5E50D				;$80D628   |
+	JSL camera_handler			;$80D628   |
 	JSR CODE_80E472				;$80D62C   |
-	JSL CODE_B5B9B0				;$80D62F   |
+	JSL horizontal_level_scroll_handler	;$80D62F   |
 	JSR render_sprites			;$80D633   |
 	JSR set_unused_oam_offscreen		;$80D636   |
 	JSR fade_screen				;$80D639   |
@@ -9265,7 +9265,7 @@ CODE_80D642:
 	BNE CODE_80D662				;$80D645   |
 	JSL sprite_loader			;$80D647   |
 	JSL sprite_handler			;$80D64B   |
-	JSL CODE_B5E50D				;$80D64F   |
+	JSL camera_handler			;$80D64F   |
 	JSR render_sprites			;$80D653   |
 	JSR set_unused_oam_offscreen		;$80D656   |
 	JSR CODE_80E580				;$80D659   |
@@ -9285,9 +9285,9 @@ CODE_80D66E:
 	BNE CODE_80D692				;$80D671   |
 	JSL sprite_loader			;$80D673   |
 	JSL sprite_handler			;$80D677   |
-	JSL CODE_B5E50D				;$80D67B   |
+	JSL camera_handler			;$80D67B   |
 	JSR CODE_80D695				;$80D67F   |
-	JSL CODE_B5B9A5				;$80D682   |
+	JSL vertical_level_scroll_handler	;$80D682   |
 	JSR render_sprites			;$80D686   |
 	JSR set_unused_oam_offscreen		;$80D689   |
 	JSR fade_screen				;$80D68C   |
@@ -9426,8 +9426,8 @@ CODE_80D784:
 	BNE CODE_80D7A8				;$80D787   |
 	JSL sprite_loader			;$80D789   |
 	JSL sprite_handler			;$80D78D   |
-	JSL CODE_B5E50D				;$80D791   |
-	JSL CODE_B5B9B0				;$80D795   |
+	JSL camera_handler			;$80D791   |
+	JSL horizontal_level_scroll_handler	;$80D795   |
 	JSR render_sprites			;$80D799   |
 	JSR set_unused_oam_offscreen		;$80D79C   |
 	JSR CODE_80F157				;$80D79F   |
@@ -9443,8 +9443,8 @@ CODE_80D7AB:
 	JSL sprite_loader			;$80D7B0   |
 	JSR CODE_80D7E6				;$80D7B4   |
 	JSL sprite_handler			;$80D7B7   |
-	JSL CODE_B5E50D				;$80D7BB   |
-	JSL CODE_B5B9B0				;$80D7BF   |
+	JSL camera_handler			;$80D7BB   |
+	JSL horizontal_level_scroll_handler	;$80D7BF   |
 	JSR render_sprites			;$80D7C3   |
 	JSR set_unused_oam_offscreen		;$80D7C6   |
 	JSR fade_screen				;$80D7C9   |
@@ -9515,8 +9515,8 @@ CODE_80D830:
 	BNE CODE_80D851				;$80D833   |
 	JSL sprite_loader			;$80D835   |
 	JSL sprite_handler			;$80D839   |
-	JSL CODE_B5E50D				;$80D83D   |
-	JSL CODE_B5B9B0				;$80D841   |
+	JSL camera_handler			;$80D83D   |
+	JSL horizontal_level_scroll_handler	;$80D841   |
 	JSR render_sprites			;$80D845   |
 	JSR set_unused_oam_offscreen		;$80D848   |
 	JSR fade_screen				;$80D84B   |
@@ -9530,7 +9530,7 @@ CODE_80D854:
 	BNE CODE_80D883				;$80D857   |
 	JSL sprite_loader			;$80D859   |
 	JSL sprite_handler			;$80D85D   |
-	JSL CODE_B5E50D				;$80D861   |
+	JSL camera_handler			;$80D861   |
 	LDA $0AB4				;$80D865   |
 	CMP #$0006				;$80D868   |
 	BNE CODE_80D873				;$80D86B   |
@@ -9538,7 +9538,7 @@ CODE_80D854:
 	BRA CODE_80D877				;$80D871  /
 
 CODE_80D873:
-	JSL CODE_B5B54A				;$80D873  \
+	JSL square_level_scroll_handler		;$80D873  \
 CODE_80D877:					;	   |
 	JSR render_sprites			;$80D877   |
 	JSR set_unused_oam_offscreen		;$80D87A   |
@@ -9555,9 +9555,9 @@ CODE_80D886:
 	JSR CODE_80D4FA				;$80D88E   |
 	JSL sprite_loader			;$80D891   |
 	JSL sprite_handler			;$80D895   |
-	JSL CODE_B5E50D				;$80D899   |
+	JSL camera_handler			;$80D899   |
 	JSR CODE_80DF94				;$80D89D   |
-	JSL CODE_B5B54A				;$80D8A0   |
+	JSL square_level_scroll_handler		;$80D8A0   |
 	JSR render_sprites			;$80D8A4   |
 	JSL CODE_BEC9C0				;$80D8A7   |
 	JSR set_unused_oam_offscreen		;$80D8AB   |
@@ -9572,8 +9572,8 @@ CODE_80D8B7:
 	BNE CODE_80D8DB				;$80D8BA   |
 	JSL sprite_loader			;$80D8BC   |
 	JSL sprite_handler			;$80D8C0   |
-	JSL CODE_B5E50D				;$80D8C4   |
-	JSL CODE_B5B9B0				;$80D8C8   |
+	JSL camera_handler			;$80D8C4   |
+	JSL horizontal_level_scroll_handler	;$80D8C8   |
 	JSR render_sprites			;$80D8CC   |
 	JSR set_unused_oam_offscreen		;$80D8CF   |
 	JSR CODE_80DE01				;$80D8D2   |
@@ -9588,7 +9588,7 @@ CODE_80D8DE:
 	BNE CODE_80D8DB				;$80D8E1   |
 	JSL sprite_loader			;$80D8E3   |
 	JSL sprite_handler			;$80D8E7   |
-	JSL CODE_B5E50D				;$80D8EB   |
+	JSL camera_handler			;$80D8EB   |
 	JSL CODE_B5B317				;$80D8EF   |
 	JSR render_sprites			;$80D8F3   |
 	JSR set_unused_oam_offscreen		;$80D8F6   |
@@ -9603,7 +9603,7 @@ CODE_80D902:
 	BNE CODE_80D93E				;$80D908   |
 	JSL sprite_loader			;$80D90A   |
 	JSR CODE_80D941				;$80D90E   |
-	JSL CODE_B5E50D				;$80D911   |
+	JSL camera_handler			;$80D911   |
 	JSL sprite_handler			;$80D915   |
 	BIT $08C2				;$80D919   |
 	BVC CODE_80D92E				;$80D91C   |
@@ -9664,7 +9664,7 @@ CODE_80D992:					;	   |
 	LDA #$0D26				;$80D992   |
 	STA current_sprite			;$80D995   |
 	LDA #$0007				;$80D997   |
-	JSL CODE_B8CFD4				;$80D99A   |
+	JSL interpolate_y_velocity_global	;$80D99A   |
 	LDA $0D4A				;$80D99E   |
 	JSR CODE_80D9FB				;$80D9A1   |
 	LDA $0D52				;$80D9A4   |
@@ -9743,8 +9743,8 @@ CODE_80DA21:
 	BNE CODE_80DA42				;$80DA24   |
 	JSL sprite_loader			;$80DA26   |
 	JSL sprite_handler			;$80DA2A   |
-	JSL CODE_B5E50D				;$80DA2E   |
-	JSL CODE_B5B9B0				;$80DA32   |
+	JSL camera_handler			;$80DA2E   |
+	JSL horizontal_level_scroll_handler	;$80DA32   |
 	JSR render_sprites			;$80DA36   |
 	JSR set_unused_oam_offscreen		;$80DA39   |
 	JSR fade_screen				;$80DA3C   |
@@ -9760,8 +9760,8 @@ CODE_80DA45:
 	JSR CODE_80D4FA				;$80DA4D   |
 	JSL sprite_loader			;$80DA50   |
 	JSL sprite_handler			;$80DA54   |
-	JSL CODE_B5E50D				;$80DA58   |
-	JSL CODE_B5B9A5				;$80DA5C   |
+	JSL camera_handler			;$80DA58   |
+	JSL vertical_level_scroll_handler	;$80DA5C   |
 	JSR render_sprites			;$80DA60   |
 	JSL CODE_BEC9C0				;$80DA63   |
 	JSR set_unused_oam_offscreen		;$80DA67   |
@@ -9777,7 +9777,7 @@ CODE_80DA76:
 	BNE CODE_80DA97				;$80DA79   |
 	JSL sprite_loader			;$80DA7B   |
 	JSL sprite_handler			;$80DA7F   |
-	JSL CODE_B5E50D				;$80DA83   |
+	JSL camera_handler			;$80DA83   |
 	JSL CODE_B5B317				;$80DA87   |
 	JSR render_sprites			;$80DA8B   |
 	JSR set_unused_oam_offscreen		;$80DA8E   |
@@ -9792,10 +9792,10 @@ CODE_80DA9A:
 	BNE CODE_80DAC8				;$80DA9D   |
 	JSL sprite_loader			;$80DA9F   |
 	JSL sprite_handler			;$80DAA3   |
-	JSL CODE_B5E50D				;$80DAA7   |
+	JSL camera_handler			;$80DAA7   |
 	JSR CODE_80E52B				;$80DAAB   |
 	JSL CODE_B5B9BB				;$80DAAE   |
-	JSL CODE_B5B9B0				;$80DAB2   |
+	JSL horizontal_level_scroll_handler	;$80DAB2   |
 	JSR render_sprites			;$80DAB6   |
 	JSR set_unused_oam_offscreen		;$80DAB9   |
 	JSR CODE_80E580				;$80DABC   |
@@ -9813,12 +9813,12 @@ CODE_80DACB:
 	JSR CODE_80D4FA				;$80DAD3   |
 	JSL sprite_loader			;$80DAD6   |
 	JSL sprite_handler			;$80DADA   |
-	JSL CODE_B5E50D				;$80DADE   |
+	JSL camera_handler			;$80DADE   |
 	LDA $0AB4				;$80DAE2   |
 	AND #$000F				;$80DAE5   |
 	CMP #$0005				;$80DAE8   |
 	BEQ CODE_80DAF3				;$80DAEB   |
-	JSL CODE_B5B54A				;$80DAED   |
+	JSL square_level_scroll_handler		;$80DAED   |
 	BRA CODE_80DAF7				;$80DAF1  /
 
 CODE_80DAF3:
@@ -9841,8 +9841,8 @@ CODE_80DB12:
 	BNE CODE_80DB33				;$80DB15   |
 	JSL sprite_loader			;$80DB17   |
 	JSL sprite_handler			;$80DB1B   |
-	JSL CODE_B5E50D				;$80DB1F   |
-	JSL CODE_B5B9B0				;$80DB23   |
+	JSL camera_handler			;$80DB1F   |
+	JSL horizontal_level_scroll_handler	;$80DB23   |
 	JSR render_sprites			;$80DB27   |
 	JSR set_unused_oam_offscreen		;$80DB2A   |
 	JSR fade_screen				;$80DB2D   |
@@ -9856,12 +9856,12 @@ CODE_80DB36:
 	BNE CODE_80DAC8				;$80DB39   |
 	JSL sprite_loader			;$80DB3B   |
 	JSL sprite_handler			;$80DB3F   |
-	JSL CODE_B5E50D				;$80DB43   |
+	JSL camera_handler			;$80DB43   |
 	LDA $0AB4				;$80DB47   |
 	AND #$000F				;$80DB4A   |
 	CMP #$0005				;$80DB4D   |
 	BEQ CODE_80DB58				;$80DB50   |
-	JSL CODE_B5B54A				;$80DB52   |
+	JSL square_level_scroll_handler		;$80DB52   |
 	BRA CODE_80DB5C				;$80DB56  /
 
 CODE_80DB58:
@@ -9881,7 +9881,7 @@ CODE_80DB6B:
 	JSR CODE_80D4FA				;$80DB73   |
 	JSL sprite_loader			;$80DB76   |
 	JSL sprite_handler			;$80DB7A   |
-	JSL CODE_B5E50D				;$80DB7E   |
+	JSL camera_handler			;$80DB7E   |
 	JSL CODE_B5B317				;$80DB82   |
 	JSR render_sprites			;$80DB86   |
 	JSL CODE_BEC9C0				;$80DB89   |
@@ -9898,7 +9898,7 @@ CODE_80DB99:
 	JSL sprite_loader			;$80DB9E   |
 	JSR CODE_80D7E6				;$80DBA2   |
 	JSL sprite_handler			;$80DBA5   |
-	JSL CODE_B5E50D				;$80DBA9   |
+	JSL camera_handler			;$80DBA9   |
 	LDA $0AB4				;$80DBAD   |
 	CMP #$0006				;$80DBB0   |
 	BNE CODE_80DBBB				;$80DBB3   |
@@ -9906,7 +9906,7 @@ CODE_80DB99:
 	BRA CODE_80DBBF				;$80DBB9  /
 
 CODE_80DBBB:
-	JSL CODE_B5B54A				;$80DBBB  \
+	JSL square_level_scroll_handler		;$80DBBB  \
 CODE_80DBBF:					;	   |
 	JSR render_sprites			;$80DBBF   |
 	JSR set_unused_oam_offscreen		;$80DBC2   |
@@ -9921,8 +9921,8 @@ CODE_80DBCE:
 	BNE CODE_80DBEF				;$80DBD1   |
 	JSL sprite_loader			;$80DBD3   |
 	JSL sprite_handler			;$80DBD7   |
-	JSL CODE_B5E50D				;$80DBDB   |
-	JSL CODE_B5B9A5				;$80DBDF   |
+	JSL camera_handler			;$80DBDB   |
+	JSL vertical_level_scroll_handler	;$80DBDF   |
 	JSR render_sprites			;$80DBE3   |
 	JSR set_unused_oam_offscreen		;$80DBE6   |
 	JSR fade_screen				;$80DBE9   |
@@ -10120,9 +10120,9 @@ CODE_80DD3C:
 	BNE CODE_80DD60				;$80DD3F   |
 	JSL sprite_loader			;$80DD41   |
 	JSL sprite_handler			;$80DD45   |
-	JSL CODE_B5E50D				;$80DD49   |
+	JSL camera_handler			;$80DD49   |
 	JSR CODE_80DBF2				;$80DD4D   |
-	JSL CODE_B5B9B0				;$80DD50   |
+	JSL horizontal_level_scroll_handler	;$80DD50   |
 	JSR render_sprites			;$80DD54   |
 	JSR set_unused_oam_offscreen		;$80DD57   |
 	JSR fade_screen				;$80DD5A   |
@@ -12619,11 +12619,11 @@ DATA_80F300:
 	db $07, $19, $8B, $25, $2E, $32, $62, $08
 	db $A4, $10, $07, $19, $8B, $25, $2E, $32
 
-CODE_80F320:
-	JSR CODE_80F324				;$80F320  \
+update_sprite_palettes_global:
+	JSR update_sprite_palettes		;$80F320  \
 	RTL					;$80F323  /
 
-CODE_80F324:
+update_sprite_palettes:
 	LDA $EF					;$80F324  \
 	CMP $F1					;$80F326   |
 	BEQ CODE_80F35A				;$80F328   |
@@ -12777,9 +12777,9 @@ CODE_80F3FB:
 CODE_80F482:
 	LDA pending_dma_hdma_channels		;$80F482  \
 	STA CPU.enable_dma			;$80F485   |
-	JSL CODE_B5A919				;$80F488   |
-	JSR CODE_80F324				;$80F48C   |
-	JSL CODE_80C31D				;$80F48F   |
+	JSL update_sprite_graphics		;$80F488   |
+	JSR update_sprite_palettes		;$80F48C   |
+	JSL update_kackle_graphics_global	;$80F48F   |
 	LDA $17B8				;$80F493   |
 	SEP #$20				;$80F496   |
 	STZ PPU.sprite_select			;$80F498   |
@@ -13464,279 +13464,7 @@ CODE_80FB93:					;	   |
 
 CODE_80FB9E:
 	JML CODE_BBBEA0				;$80FB9E  /
-
-DATA_80FBA2:
-if !version == 0
-	db $0A, $28, $11, $2C, $44, $F2, $18, $FB
-	db $41, $11, $18, $9B, $48, $E7, $1A, $07
-	db $12, $8B, $3D, $4B, $B8, $B7, $7B, $39
-	db $5B, $10, $7B, $20, $53, $11, $5F, $8F
-	db $D7, $1C, $07, $15, $27, $1C, $1A, $08
-	db $71, $A6, $4F, $4F, $48, $F2, $1B, $8B
-	db $39, $FD, $44, $B2, $B6, $FB, $48, $4D
-	db $B1, $0A, $91, $53, $71, $8F, $A2, $81
-	db $1A, $C4, $41, $C2, $71, $7D, $71, $7E
-	db $A2, $0D, $18, $9F, $BB, $66, $7D, $B2
-	db $D2, $5B, $8B, $77, $1A, $CB, $4C, $B5
-	db $A3, $E0, $18, $5A, $0A, $71, $C3, $71
-	db $54, $71, $C4, $B1, $05, $34, $F4, $0B
-	db $19, $0F, $1A, $E4, $F4, $01, $A2, $FD
-	db $B3, $9F, $D4, $41, $9C, $B4, $18, $DF
-	db $F1, $1D, $B2, $0A, $91, $55, $B4, $17
-	db $11, $2B, $44, $1C, $57, $17, $F7, $1C
-	db $6A, $0B, $11, $3C, $B1, $15, $BB, $40
-	db $C9, $13, $27, $18, $FB, $20, $4F, $10
-	db $3B, $6B, $77, $B3, $0E, $91, $02, $B6
-	db $5A, $9B, $53, $BF, $B0, $3F, $1B, $85
-	db $57, $B2, $80, $94, $2B, $20, $13, $BA
-	db $81, $11, $BE, $A2, $1D, $1A, $1B, $00
-	db $C9, $10, $DB, $49, $FD, $F2, $1B, $14
-	db $01, $83, $71, $5B, $B1, $20, $DB, $65
-	db $5F, $11, $3B, $51, $71, $44, $1C, $77
-	db $18, $07, $18, $1B, $49, $0D, $B0, $22
-	db $1B, $4E, $3B, $B3, $2B, $71, $82, $A1
-	db $7C, $B4, $28, $DB, $11, $77, $12, $CB
-	db $03, $71, $16, $9A, $24, $51, $B2, $B8
-	db $64, $BB, $55, $57, $B3, $10, $71, $19
-	db $B4, $47, $1A, $0D, $DB, $A8, $11, $11
-	db $FA, $41, $B1, $14, $B2, $30, $D1, $48
-	db $71, $77, $B1, $57, $F4, $0B, $5F, $51
-	db $A0, $7D, $A2, $49, $15, $67, $15, $77
-	db $1C, $8B, $11, $71, $40, $B3, $10, $91
-	db $85, $B5, $2E, $14, $81, $91, $B3, $8C
-	db $9B, $6B, $77, $10, $2B, $21, $77, $12
-	db $DB, $26, $33, $18, $6B, $67, $47, $B1
-	db $38, $51, $14, $B3, $55, $7A, $64, $F1
-	db $07, $71, $23, $B6, $6D, $31, $C9, $B8
-	db $81, $11, $10, $B4, $7C, $51, $97, $F4
-	db $71, $15, $A4, $8D, $10, $64, $01, $9D
-	db $A1, $5C, $B4, $03, $3B, $16, $67, $15
-	db $8C, $21, $1A, $21, $15, $71, $73, $B4
-	db $64, $1F, $F1, $1D, $B2, $00, $F1, $14
-	db $4C, $B3, $61, $31, $CA, $B4, $AE, $91
-	db $2C, $4A, $19, $97, $1C, $B7, $1C, $CA
-	db $04, $B1, $0D, $B2, $01, $7B, $10, $13
-	db $11, $9A, $45, $1B, $17, $13, $10, $3B
-	db $62, $FD, $F1, $15, $3B, $4F, $E3, $A1
-	db $80, $A0, $4D, $C4, $11, $44, $10, $6C
-	db $41, $14, $E1, $3C, $42, $B5, $47, $1C
-	db $21, $15, $2A, $4D, $71, $32, $B6, $55
-	db $7A, $19, $81, $3C, $B1, $8E, $D4, $C1
-	db $9D, $B4, $4F, $FA, $0D, $54, $E1, $9C
-	db $B6, $64, $9C, $31, $21, $01, $8F, $C6
-	db $12, $60, $B1, $05, $F1, $82, $B6, $2F
-	db $DB, $11, $EB, $11, $9A, $10, $A4, $F4
-	db $6B, $7C, $0F, $12, $8F, $AB, $42, $25
-	db $11, $EA, $2B, $DB, $00, $17, $40, $19
-	db $9B, $21, $93, $B0, $8E, $D4, $F4, $F4
-	db $6A, $5E, $C1, $21, $B2, $14, $B1, $59
-	db $71, $5A, $B4, $88, $7B, $21, $6F, $40
-	db $A3, $1A, $A0, $DD, $C2, $13, $6A, $11
-	db $FB, $17, $79, $4F, $42, $B3, $6F, $5B
-	db $01, $DB, $42, $18, $9B, $21, $EF, $18
-	db $8A, $2E, $3B, $00, $17, $40, $B3, $00
-	db $91, $02, $64, $CB, $07, $CD, $B5, $35
-	db $94, $EA, $7E, $A8, $C8, $14, $00, $A0
-	db $4D, $B4, $6A, $51, $8E, $CC, $13, $6A
-	db $11, $0A, $18, $04, $F4, $2B, $36, $F5
-	db $B0, $1D, $B4, $21, $91, $A2, $89, $B0
-	db $0F, $94, $AB, $1E, $BB, $10, $34, $C1
-	db $89, $B8, $35, $91, $CD, $71, $CE, $4A
-	db $C5, $11, $56, $11, $AC, $A1, $40, $0F
-	db $31, $88, $C8, $13, $FC, $11, $FC, $A1
-	db $36, $A1, $28, $FA, $4F, $B2, $37, $D1
-	db $CF, $71, $1F, $40, $18, $D6, $44, $B5
-	db $BA, $31, $AE, $71, $9B, $B4, $71, $B1
-	db $AC, $B4, $3A, $B1, $B3, $48, $19, $27
-	db $18, $5A, $24, $F1, $15, $B8, $29, $9A
-	db $03, $14, $0B, $3F, $FB, $18, $8B, $33
-	db $0D, $CA, $14, $00, $B3, $26, $91, $B4
-	db $CF, $15, $38, $B3, $2E, $D4, $FB, $60
-	db $5B, $B1, $4F, $91, $03, $44, $B7, $BA
-	db $31, $A2, $B6, $4A, $71, $A4, $A2, $47
-	db $11, $EB, $14, $2F, $40, $A1, $B4, $1A
-	db $0B, $20, $EF, $11, $4B, $47, $FF, $B3
-	db $29, $9B, $00, $25, $40, $B3, $FF, $B1
-	db $1E, $B2, $0C, $B1, $15, $CA, $13, $A4
-	db $B3, $26, $91, $CF, $6C, $E1, $53, $81
-	db $BF, $F8, $F4, $B1, $00, $74, $6B, $25
-	db $5D, $B4, $37, $D1, $03, $B2, $76, $71
-	db $02, $42, $19, $2B, $84, $55, $1A, $4B
-	db $64, $A7, $B1, $DC, $B1, $3F, $B3, $42
-	db $F4, $01, $A2, $B4, $69, $DB, $16, $A9
-	db $B0, $0C, $5B, $69, $43, $A0, $CB, $40
-	db $19, $1B, $24, $FB, $10, $3B, $45, $E7
-	db $F1, $15, $3B, $49, $6F, $18, $FB, $43
-	db $53, $12, $67, $11, $FC, $C1, $4F, $AB
-	db $33, $63, $C2, $13, $1E, $40, $B3, $C9
-	db $31, $39, $B1, $23, $9B, $40, $29, $B3
-	db $F7, $91, $2C, $42, $B7, $F3, $D1, $A6
-	db $B4, $E1, $1B, $11, $31, $19, $FF, $7B
-	db $53, $6D, $40, $B5, $60, $FA, $37, $61
-	db $14, $C4, $15, $D4, $B2, $8A, $F4, $2B
-	db $0B, $5D, $B4, $5E, $71, $8F, $B1, $33
-	db $FB, $45, $69, $13, $CB, $63, $53, $11
-	db $0C, $C1, $4F, $AA, $12, $01, $2D, $B3
-	db $E1, $94, $0B, $45, $2D, $B8, $A4, $3C
-	db $31, $70, $21, $03, $42, $B1, $70, $11
-	db $99, $B4, $69, $DB, $0C, $9B, $B4, $43
-	db $B1, $9D, $C4, $12, $5E, $A0, $31, $42
-	db $C3, $12, $86, $A1, $54, $FE, $18, $D7
-	db $1D, $07, $15, $D4, $8B, $2B, $5D, $C6
-	db $14, $86, $A0, $01, $48, $B4, $55, $74
-	db $6B, $95, $67, $A2, $05, $40, $19, $D7
-	db $12, $EC, $61, $60, $8B, $2B, $69, $B4
-	db $C6, $F1, $71, $42, $B1, $F3, $D1, $D1
-	db $B4, $69, $D1, $9C, $FC, $B3, $83, $54
-	db $41, $99, $B1, $63, $14, $0B, $51, $01
-	db $A2, $4D, $B4, $0E, $BB, $03, $BD, $44
-	db $A2, $C7, $B6, $5C, $B1, $C8, $F5, $4A
-	db $B1, $05, $91, $19, $48, $18, $37, $17
-	db $4B, $20, $CB, $10, $7F, $87, $1A, $64
-	db $F4, $01, $91, $B4, $C6, $F1, $4D, $42
-	db $19, $FA, $37, $04, $F4, $0B, $20, $D5
-	db $40, $18, $9A, $2D, $BB, $11, $13, $18
-	db $5F, $4B, $42, $39, $FF, $11, $D4, $8C
-	db $51, $8C, $81, $14, $A1, $00, $48, $B3
-	db $05, $91, $07, $48, $C7, $18, $52, $FF
-	db $11, $D4, $F4, $21, $86, $B2, $04, $31
-	db $13, $42, $B0, $0D, $1A, $27, $9F, $21
-	db $B1, $46, $B0, $32, $FB, $4C, $0D, $B0
-	db $25, $14, $0B, $11, $A1, $18, $6B, $21
-	db $13, $11, $EF, $B7, $56, $3F, $2C, $01
-	db $05, $E3, $67, $AB, $09, $37
-else
-	db $1A, $C4, $41, $C2, $71, $7D, $71, $7E
-	db $A2, $0D, $18, $9F, $BB, $66, $7D, $B2
-	db $D2, $5B, $8B, $77, $1A, $CB, $4C, $B5
-	db $A3, $E0, $18, $5A, $0A, $71, $C3, $71
-	db $54, $71, $C4, $B1, $05, $34, $F4, $0B
-	db $19, $0F, $1A, $E4, $F4, $01, $A2, $FD
-	db $B3, $9F, $D4, $41, $9C, $B4, $18, $DF
-	db $F1, $1D, $B2, $0A, $91, $55, $B4, $17
-	db $11, $2B, $44, $1C, $57, $17, $F7, $1C
-	db $6A, $0B, $11, $3C, $B1, $15, $BB, $40
-	db $C9, $13, $27, $18, $FB, $20, $4F, $10
-	db $3B, $6B, $77, $B3, $0E, $91, $02, $B6
-	db $5A, $9B, $53, $BF, $B0, $3F, $1B, $85
-	db $57, $B2, $80, $94, $2B, $20, $13, $BA
-	db $81, $11, $BE, $A2, $1D, $1A, $1B, $00
-	db $C9, $10, $DB, $49, $FD, $F2, $1B, $14
-	db $01, $83, $71, $5B, $B1, $20, $DB, $65
-	db $5F, $11, $3B, $51, $71, $44, $1C, $77
-	db $18, $07, $18, $1B, $49, $0D, $B0, $22
-	db $1B, $4E, $3B, $B3, $2B, $71, $82, $A1
-	db $7C, $B4, $28, $DB, $11, $77, $12, $CB
-	db $03, $71, $16, $9A, $24, $51, $B2, $B8
-	db $64, $BB, $55, $57, $B3, $10, $71, $19
-	db $B4, $47, $1A, $0D, $DB, $A8, $11, $11
-	db $FA, $41, $B1, $14, $B2, $30, $D1, $48
-	db $71, $77, $B1, $57, $F4, $0B, $5F, $51
-	db $A0, $7D, $A2, $49, $15, $67, $15, $77
-	db $1C, $8B, $11, $71, $40, $B3, $10, $91
-	db $85, $B5, $2E, $14, $81, $91, $B3, $8C
-	db $9B, $6B, $77, $10, $2B, $21, $77, $12
-	db $DB, $26, $33, $18, $6B, $67, $47, $B1
-	db $38, $51, $14, $B3, $55, $7A, $64, $F1
-	db $07, $71, $23, $B6, $6D, $31, $C9, $B8
-	db $81, $11, $10, $B4, $7C, $51, $97, $F4
-	db $71, $15, $A4, $8D, $10, $64, $01, $9D
-	db $A1, $5C, $B4, $03, $3B, $16, $67, $15
-	db $8C, $21, $1A, $21, $15, $71, $73, $B4
-	db $64, $1F, $F1, $1D, $B2, $00, $F1, $14
-	db $4C, $B3, $61, $31, $CA, $B4, $AE, $91
-	db $2C, $4A, $19, $97, $1C, $B7, $1C, $CA
-	db $04, $B1, $0D, $B2, $01, $7B, $10, $13
-	db $11, $9A, $45, $1B, $17, $13, $10, $3B
-	db $62, $FD, $F1, $15, $3B, $4F, $E3, $A1
-	db $80, $A0, $4D, $C4, $11, $44, $10, $6C
-	db $41, $14, $E1, $3C, $42, $B5, $47, $1C
-	db $21, $15, $2A, $4D, $71, $32, $B6, $55
-	db $7A, $19, $81, $3C, $B1, $8E, $D4, $C1
-	db $9D, $B4, $4F, $FA, $0D, $54, $E1, $9C
-	db $B6, $64, $9C, $31, $21, $01, $8F, $C6
-	db $12, $60, $B1, $05, $F1, $82, $B6, $2F
-	db $DB, $11, $EB, $11, $9A, $10, $A4, $F4
-	db $6B, $7C, $0F, $12, $8F, $AB, $42, $25
-	db $11, $EA, $2B, $DB, $00, $17, $40, $19
-	db $9B, $21, $93, $B0, $8E, $D4, $F4, $F4
-	db $6A, $5E, $C1, $21, $B2, $14, $B1, $59
-	db $71, $5A, $B4, $88, $7B, $21, $6F, $40
-	db $A3, $1A, $A0, $DD, $C2, $13, $6A, $11
-	db $FB, $17, $79, $4F, $42, $B3, $6F, $5B
-	db $01, $DB, $42, $18, $9B, $21, $EF, $18
-	db $8A, $2E, $3B, $00, $17, $40, $B3, $00
-	db $91, $02, $64, $CB, $07, $CD, $B5, $35
-	db $94, $EA, $7E, $A8, $C8, $14, $00, $A0
-	db $4D, $B4, $6A, $51, $8E, $CC, $13, $6A
-	db $11, $0A, $18, $04, $F4, $2B, $36, $F5
-	db $B0, $1D, $B4, $21, $91, $A2, $89, $B0
-	db $0F, $94, $AB, $1E, $BB, $10, $34, $C1
-	db $89, $B8, $35, $91, $CD, $71, $CE, $4A
-	db $C5, $11, $56, $11, $AC, $A1, $40, $0F
-	db $31, $88, $C8, $13, $FC, $11, $FC, $A1
-	db $36, $A1, $28, $FA, $4F, $B2, $37, $D1
-	db $CF, $71, $1F, $40, $18, $D6, $44, $B5
-	db $BA, $31, $AE, $71, $9B, $B4, $71, $B1
-	db $AC, $B4, $3A, $B1, $B3, $48, $19, $27
-	db $18, $5A, $24, $F1, $15, $B8, $29, $9A
-	db $03, $14, $0B, $3F, $FB, $18, $8B, $33
-	db $0D, $CA, $14, $00, $B3, $26, $91, $B4
-	db $CF, $15, $38, $B3, $2E, $D4, $FB, $60
-	db $5B, $B1, $4F, $91, $03, $44, $B7, $BA
-	db $31, $A2, $B6, $4A, $71, $A4, $A2, $47
-	db $11, $EB, $14, $2F, $40, $A1, $B4, $1A
-	db $0B, $20, $EF, $11, $4B, $47, $FF, $B3
-	db $29, $9B, $00, $25, $40, $B3, $FF, $B1
-	db $1E, $B2, $0C, $B1, $15, $CA, $13, $A4
-	db $B3, $26, $91, $CF, $6C, $E1, $53, $81
-	db $BF, $F8, $F4, $B1, $00, $74, $6B, $25
-	db $5D, $B4, $37, $D1, $03, $B2, $76, $71
-	db $02, $42, $19, $2B, $84, $55, $1A, $4B
-	db $64, $A7, $B1, $DC, $B1, $3F, $B3, $42
-	db $F4, $01, $A2, $B4, $69, $DB, $16, $A9
-	db $B0, $0C, $5B, $69, $43, $A0, $CB, $40
-	db $19, $1B, $24, $FB, $10, $3B, $45, $E7
-	db $F1, $15, $3B, $49, $6F, $18, $FB, $43
-	db $53, $12, $67, $11, $FC, $C1, $4F, $AB
-	db $33, $63, $C2, $13, $1E, $40, $B3, $C9
-	db $31, $39, $B1, $23, $9B, $40, $29, $B3
-	db $F7, $91, $2C, $42, $B7, $F3, $D1, $A6
-	db $B4, $E1, $1B, $11, $31, $19, $FF, $7B
-	db $53, $6D, $40, $B5, $60, $FA, $37, $61
-	db $14, $C4, $15, $D4, $B2, $8A, $F4, $2B
-	db $0B, $5D, $B4, $5E, $71, $8F, $B1, $33
-	db $FB, $45, $69, $13, $CB, $63, $53, $11
-	db $0C, $C1, $4F, $AA, $12, $01, $2D, $B3
-	db $E1, $94, $0B, $45, $2D, $B8, $A4, $3C
-	db $31, $70, $21, $03, $42, $B1, $70, $11
-	db $99, $B4, $69, $DB, $0C, $9B, $B4, $43
-	db $B1, $9D, $C4, $12, $5E, $A0, $31, $42
-	db $C3, $12, $86, $A1, $54, $FE, $18, $D7
-	db $1D, $07, $15, $D4, $8B, $2B, $5D, $C6
-	db $14, $86, $A0, $01, $48, $B4, $55, $74
-	db $6B, $95, $67, $A2, $05, $40, $19, $D7
-	db $12, $EC, $61, $60, $8B, $2B, $69, $B4
-	db $C6, $F1, $71, $42, $B1, $F3, $D1, $D1
-	db $B4, $69, $D1, $9C, $FC, $B3, $83, $54
-	db $41, $99, $B1, $63, $14, $0B, $51, $01
-	db $A2, $4D, $B4, $0E, $BB, $03, $BD, $44
-	db $A2, $C7, $B6, $5C, $B1, $C8, $F5, $4A
-	db $B1, $05, $91, $19, $48, $18, $37, $17
-	db $4B, $20, $CB, $10, $7F, $87, $1A, $64
-	db $F4, $01, $91, $B4, $C6, $F1, $4D, $42
-	db $19, $FA, $37, $04, $F4, $0B, $20, $D5
-	db $40, $18, $9A, $2D, $BB, $11, $13, $18
-	db $5F, $4B, $42, $39, $FF, $11, $D4, $8C
-	db $51, $8C, $81, $14, $A1, $00, $48, $B3
-	db $05, $91, $07, $48, $C7, $18, $52, $FF
-	db $11, $D4, $F4, $21, $86, $B2, $04, $31
-	db $13, $42, $B0, $0D, $1A, $27, $9F, $21
-	db $B1, $46, $B0, $32, $FB, $4C, $0D, $B0
-	db $25, $14, $0B, $11, $A1, $18, $6B, $21
-	db $13, $11, $EF, $B7, $56, $3F, $2C, $01
-	db $05, $E3, $67, $AB, $09, $37
-endif
+bank_80_end:
 
 warnpc $80FFB0
 org $80FFB0

@@ -271,46 +271,46 @@ DATA_FF0476:
 
 
 DATA_FF047E:
-	dw DATA_FF0C7E
-	dw DATA_FF0C88
-	dw DATA_FF0CBA
-	dw DATA_FF0CD2
-	dw DATA_FF0E76
-	dw DATA_FF0E8E
-	dw DATA_FF0EAE
-	dw DATA_FF0EC2
-	dw DATA_FF0EE4
-	dw DATA_FF0F06
-	dw DATA_FF0F18
-	dw DATA_FF0F2C
-	dw DATA_FF0F48
-	dw DATA_FF0F5C
-	dw DATA_FF0F70
-	dw DATA_FF0F84
-	dw DATA_FF0F98
-	dw DATA_FF0FAC
-	dw DATA_FF0FD2
-	dw DATA_FF0FDE
-	dw DATA_FF1004
-	dw DATA_FF1004
-	dw DATA_FF1004
-	dw DATA_FF1B72
-	dw DATA_FF1BA0
-	dw DATA_FF1BCE
-	dw DATA_FF103A
-	dw DATA_FF104E
-	dw DATA_FF108A
-	dw DATA_FF1094
-	dw DATA_FF109E
-	dw DATA_FF10A8
-	dw DATA_FF10B2
-	dw DATA_FF10F4
-	dw DATA_FF1122
-	dw DATA_FF1142
-	dw DATA_FF1210
-	dw DATA_FF122C
-	dw DATA_FF124C
-	dw DATA_FF1278
+	dw DATA_FF0C7E	; 0000 unknown_sprite_00E0_main
+	dw DATA_FF0C88	; 0002 sun
+	dw DATA_FF0CBA	; 0004 diddy boom box
+	dw DATA_FF0CD2	; 0006 dixie guitar
+	dw DATA_FF0E76	; 0008 large smoke puff
+	dw DATA_FF0E8E	; 000A krook hook
+	dw DATA_FF0EAE	; 000C lava splash
+	dw DATA_FF0EC2	; 000E diddy
+	dw DATA_FF0EE4	; 0010 dixie
+	dw DATA_FF0F06	; 0012 unknown_sprite_00EC_main
+	dw DATA_FF0F18	; 0014 dixie hurt tears
+	dw DATA_FF0F2C	; 0016 diddy hurt stars
+	dw DATA_FF0F48	; 0018 water surface splash (with upward Y offset)
+	dw DATA_FF0F5C	; 001A water surface splash
+	dw DATA_FF0F70	; 001C unused rain cloud (loop animation)
+	dw DATA_FF0F84	; 001E unused rain cloud (spawn animation)
+	dw DATA_FF0F98	; 0020 unused dixie hurt tears (same sprite id as rain cloud)
+	dw DATA_FF0FAC	; 0022 unknown_sprite_008C_main
+	dw DATA_FF0FD2	; 0024 water bubbles
+	dw DATA_FF0FDE	; 0026 unused rock
+	dw DATA_FF1004	; 0028 squawks egg projectile
+	dw DATA_FF1004	; 002A squawks egg projectile
+	dw DATA_FF1004	; 002C squawks egg projectile
+	dw DATA_FF1B72	; 002E cannon ball piece
+	dw DATA_FF1BA0	; 0030 cannon ball pieces/egg piece
+	dw DATA_FF1BCE	; 0032 egg piece
+	dw DATA_FF103A	; 0034 collision burst effect (with set position)
+	dw DATA_FF104E	; 0036 collision burst effect (with position offset of 0)
+	dw DATA_FF108A	; 0038 klobber (green)
+	dw DATA_FF1094	; 003A klobber (red)
+	dw DATA_FF109E	; 003C klobber (yellow)
+	dw DATA_FF10A8	; 003E klobber (black)
+	dw DATA_FF10B2	; 0040 life balloon
+	dw DATA_FF10F4	; 0042 banana bunch
+	dw DATA_FF1122	; 0044 barrel icon (barrel palette)
+	dw DATA_FF1142	; 0046 barrel icon (global palette)
+	dw DATA_FF1210	; 0048 smoke
+	dw DATA_FF122C	; 004A smoke (faster animation speed)
+	dw DATA_FF124C	; 004C water splash
+	dw DATA_FF1278	; 004E 
 	dw DATA_FF1290
 	dw DATA_FF12A8
 	dw DATA_FF12C0

@@ -7959,11 +7959,11 @@ CODE_BEF20F:					;	   |
 CODE_BEF218:					;	   |
 	PHA					;$BEF218   |
 	AND #$00FF				;$BEF219   |
-	JSL CODE_B8D010				;$BEF21C   |
+	JSL interpolate_x_velocity_global	;$BEF21C   |
 	PLA					;$BEF220   |
 	XBA					;$BEF221   |
 	AND #$00FF				;$BEF222   |
-	JSL CODE_B8CFD4				;$BEF225   |
+	JSL interpolate_y_velocity_global	;$BEF225   |
 	LDX current_sprite			;$BEF229   |
 	LDA $4C,x				;$BEF22B   |
 	BEQ CODE_BEF258				;$BEF22D   |
@@ -8323,7 +8323,7 @@ CODE_BEF434:					;	   |
 	STA $26,x				;$BEF43A   |
 CODE_BEF43C:					;	   |
 	LDA #$000A				;$BEF43C   |
-	JSL CODE_B8D010				;$BEF43F   |
+	JSL interpolate_x_velocity_global	;$BEF43F   |
 	LDX current_sprite			;$BEF443   |
 	JSR CODE_BEF449				;$BEF445   |
 	RTS					;$BEF448  /
@@ -9338,13 +9338,13 @@ CODE_BEFB22:
 CODE_BEFB3B:
 	LDY #$0004				;$BEFB3B  \
 	LDA [$8E],y				;$BEFB3E   |
-	JSL CODE_B8CFD4				;$BEFB40   |
+	JSL interpolate_y_velocity_global	;$BEFB40   |
 	RTS					;$BEFB44  /
 
 CODE_BEFB45:
 	LDY #$0004				;$BEFB45  \
 	LDA [$8E],y				;$BEFB48   |
-	JSL CODE_B8D010				;$BEFB4A   |
+	JSL interpolate_x_velocity_global	;$BEFB4A   |
 	RTS					;$BEFB4E  /
 
 CODE_BEFB4F:

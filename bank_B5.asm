@@ -3,25 +3,40 @@
 	padbyte $00
 	pad $B59C00
 
-CODE_B59C00:
-	LDY current_sprite			;$B59C00  \ load current sprite into y
-	LDX $1A,y				;$B59C02   | load sprite graphic number into x
-	LDA $1730				;$B59C04   |
-	CMP $78					;$B59C07   |
-	BCC CODE_B59C0C				;$B59C09   |
-	RTL					;$B59C0B  /
 
-CODE_B59C0C:
-	STX $18,y				;$B59C0C  \
-	STX $16,y				;$B59C0E   |
-	LDA $0012,y				;$B59C10   |\ copy oam render properties to scratch ram
+;$32	(byte)	OAM render properties
+;$34	(word)	unused?
+;$36	(byte)	number of 16x16 tiles
+;$37	(byte)	number of 8x8 tiles (group a)
+;$38	(byte)	vram tile offset of 8x8 tiles (group a)
+;$39	(byte)	number of 8x8 tiles (group b)
+;$3A	(byte)	vram tile offset of 8x8 tiles (group b)
+;$3B	(byte)	number of tiles to DMA in first DMA payload
+;$3C	(byte)	vram tile offset of second DMA payload
+;$3D	(byte)	number of tiles to DMA in second DMA payload (if second payload needed)
+;$3E	(word)	unused?
+;$40	(word)	sprite graphic address
+;$42	(word)	sprite graphic bank
+
+CODE_B59C00:
+	LDY current_sprite			;$B59C00  \ Y = current sprite
+	LDX $1A,y				;$B59C02   | X = current sprite graphic number
+	LDA $1730				;$B59C04   |\ Get next free slot in sprite DMA buffer
+	CMP $78					;$B59C07   | | Compare to DMA buffer cap
+	BCC .free_slot_in_buffer		;$B59C09   |/ If there are more slots in the DMA buffer then continue
+	RTL					;$B59C0B  /> Else return and dont queue sprite graphic for DMA 
+
+.free_slot_in_buffer
+	STX $18,y				;$B59C0C  \ \ Store delayed mirrors of sprite graphics number
+	STX $16,y				;$B59C0E   |/ These are likely used to determine if a graphic already exists in VRAM
+	LDA $0012,y				;$B59C10   |\ Copy OAM render properties to scratch ram
 	STA $32					;$B59C13   |/
 	LDA.l DATA_BC8000,x			;$B59C15   |\
-	STA $40					;$B59C19   | | copy sprite graphic address into scratch ram
+	STA $40					;$B59C19   | | Copy sprite graphic address into scratch ram
 	LDA.l DATA_BC8002,x			;$B59C1B   | |
 	STA $42					;$B59C1F   |/
 	LDY #$0000				;$B59C21   |\
-	LDA [$40],y				;$B59C24   | | copy header into scratch ram
+	LDA [$40],y				;$B59C24   | | Copy sprite graphic header into scratch ram
 	STA $36					;$B59C26   | |
 	LDY #$0002				;$B59C28   | |
 	LDA [$40],y				;$B59C2B   | |
@@ -32,15 +47,15 @@ CODE_B59C0C:
 	LDY #$0006				;$B59C36   | |
 	LDA [$40],y				;$B59C39   | |
 	STA $3C					;$B59C3B   |/
-	LDA #$0004				;$B59C3D   |
-	CLC					;$B59C40   |
-	SEP #$20				;$B59C41   |
-	ADC $36					;$B59C43   |
-	ADC $37					;$B59C45   |
-	ADC $39					;$B59C47   |
-	REP #$20				;$B59C49   |
-	ASL A					;$B59C4B   |
-	TAY					;$B59C4C   |
+	LDA #$0004				;$B59C3D   |\ Calculate the size of the header so actual graphics address can be found
+	CLC					;$B59C40   | |
+	SEP #$20				;$B59C41   | |
+	ADC $36					;$B59C43   | | A + number of 16x16 tiles
+	ADC $37					;$B59C45   | | A + number of 8x8 tiles in group A
+	ADC $39					;$B59C47   | | A + number of 8x8 tiles in group B
+	REP #$20				;$B59C49   | |
+	ASL A					;$B59C4B   | | A * 2
+	TAY					;$B59C4C   |/ Y = graphic header size
 	JSR CODE_B59D3E				;$B59C4D   |
 	CLC					;$B59C50   |
 	RTL					;$B59C51  /
@@ -183,63 +198,63 @@ CODE_B59D26:
 	STA $46					;$B59D39   |
 	JSR CODE_B59DC5				;$B59D3B   |
 CODE_B59D3E:					;	   |
-	LDX $1730				;$B59D3E   |
-	TYA					;$B59D41   |
-	CLC					;$B59D42   |
-	ADC $40					;$B59D43   |
-	STA $1736,x				;$B59D45   |
-	LDA $3B					;$B59D48   |
-	AND #$00FF				;$B59D4A   |
-	ASL A					;$B59D4D   |
-	ASL A					;$B59D4E   |
-	ASL A					;$B59D4F   |
-	ASL A					;$B59D50   |
-	ASL A					;$B59D51   |
-	STA $1732,x				;$B59D52   |
-	ADC $1736,x				;$B59D55   |
-	TAY					;$B59D58   |
-	LDA $32					;$B59D59   |
-	AND #$01FF				;$B59D5B   |
-	ASL A					;$B59D5E   |
-	ASL A					;$B59D5F   |
-	ASL A					;$B59D60   |
-	ASL A					;$B59D61   |
-	STA $1734,x				;$B59D62   |
-	LDA $42					;$B59D65   |
-	ORA #$FF00				;$B59D67   |
-	STA $1738,x				;$B59D6A   |
-	LDA $3D					;$B59D6D   |
-	AND #$000F				;$B59D6F   |
-	BNE CODE_B59D7F				;$B59D72   |
-	TXA					;$B59D74   |
-	ADC #$0008				;$B59D75   |
-	STA $1730				;$B59D78   |
-	STZ $1740,x				;$B59D7B   |
+	LDX $1730				;$B59D3E   |> Get next free slot in sprite graphic DMA buffer
+	TYA					;$B59D41   |\
+	CLC					;$B59D42   | |
+	ADC $40					;$B59D43   |/ Offset graphic address by header size so we can find the actual tile data
+	STA $1736,x				;$B59D45   |> Save DMA transfer source address of group A to sprite DMA buffer
+	LDA $3B					;$B59D48   |\ Get number of tiles in DMA group A
+	AND #$00FF				;$B59D4A   |/
+	ASL A					;$B59D4D   |\ Then multiply it by 32 to get the actual size of the DMA
+	ASL A					;$B59D4E   | |
+	ASL A					;$B59D4F   | |
+	ASL A					;$B59D50   | |
+	ASL A					;$B59D51   |/
+	STA $1732,x				;$B59D52   |> Save DMA transfer size of DMA group A to sprite DMA buffer
+	ADC $1736,x				;$B59D55   |\ Calculate end address of group A tile data/address of group B tile data
+	TAY					;$B59D58   |/ And store it in Y
+	LDA $32					;$B59D59   |\ Get VRAM destination address from sprites OAM render properties
+	AND #$01FF				;$B59D5B   |/
+	ASL A					;$B59D5E   |\ * 16
+	ASL A					;$B59D5F   | |
+	ASL A					;$B59D60   | |
+	ASL A					;$B59D61   |/
+	STA $1734,x				;$B59D62   |> Save VRAM destination address of DMA group A to sprite DMA buffer
+	LDA $42					;$B59D65   |\ Get DMA transfer source bank of group A
+	ORA #$FF00				;$B59D67   | | Add FF to high byte
+	STA $1738,x				;$B59D6A   |/ Save DMA transfer source bank of group A to sprite DMA buffer
+	LDA $3D					;$B59D6D   |\ Get number of tiles in DMA group B
+	AND #$000F				;$B59D6F   | | If the tiles wont perfectly fill the row in VRAM
+	BNE .handle_dma_group_b			;$B59D72   |/ Which doesnt really make sense...
+	TXA					;$B59D74   |\
+	ADC #$0008				;$B59D75   | |
+	STA $1730				;$B59D78   | | Update next free slot of sprite DMA buffer
+	STZ $1740,x				;$B59D7B   |/
 	RTS					;$B59D7E  /
 
-CODE_B59D7F:
-	ASL A					;$B59D7F  \
-	ASL A					;$B59D80   |
-	ASL A					;$B59D81   |
-	ASL A					;$B59D82   |
-	ASL A					;$B59D83   |
-	STA $173A,x				;$B59D84   |
-	TXA					;$B59D87   |
-	ADC #$0010				;$B59D88   |
-	STA $1730				;$B59D8B   |
+.handle_dma_group_b
+	ASL A					;$B59D7F  \ \ number of tiles in DMA group B * 32
+	ASL A					;$B59D80   | |
+	ASL A					;$B59D81   | |
+	ASL A					;$B59D82   | |
+	ASL A					;$B59D83   |/
+	STA $173A,x				;$B59D84   |> Save DMA transfer size of DMA group B to sprite DMA buffer
+	TXA					;$B59D87   |\
+	ADC #$0010				;$B59D88   | |
+	STA $1730				;$B59D8B   |/ Update next free slot of sprite DMA buffer
 	STZ $1748,x				;$B59D8E   |
-	LDA $3C					;$B59D91   |
-	AND #$00FF				;$B59D93   |
-	ASL A					;$B59D96   |
-	ASL A					;$B59D97   |
-	ASL A					;$B59D98   |
-	ASL A					;$B59D99   |
-	ADC $1734,x				;$B59D9A   |
-	STA $173C,x				;$B59D9D   |
-	TYA					;$B59DA0   |
-	STA $173E,x				;$B59DA1   |
-	LDA $1738,x				;$B59DA4   |
-	STA $1740,x				;$B59DA7   |
+	LDA $3C					;$B59D91   |\ Get VRAM offset of DMA group B
+	AND #$00FF				;$B59D93   |/
+	ASL A					;$B59D96   |\ * 16
+	ASL A					;$B59D97   | |
+	ASL A					;$B59D98   | |
+	ASL A					;$B59D99   |/
+	ADC $1734,x				;$B59D9A   |\ Add VRAM offset from DMA group A to get true VRAM offset of DMA group B
+	STA $173C,x				;$B59D9D   |/ Save VRAM destination address of DMA group B to sprite DMA buffer
+	TYA					;$B59DA0   |\
+	STA $173E,x				;$B59DA1   |/ Save DMA transfer source address of group B to sprite DMA buffer
+	LDA $1738,x				;$B59DA4   |\ Copy DMA transfer source bank from group A to group B
+	STA $1740,x				;$B59DA7   |/ Save DMA transfer source bank of group B to sprite DMA buffer
 	RTS					;$B59DAA  /
 
 CODE_B59DAB:
@@ -1100,17 +1115,17 @@ CODE_B5A3B3:
 	JMP CODE_B5A3ED				;$B5A3CB  /
 
 
-
-;$36		number of 16x16 tiles
-;$37		number of 8x8 tiles (group a)
-;$38		vram tile offset of 8x8 tiles (group a)
-;$39		number of 8x8 tiles (group b)
-;$3A		vram tile offset of 8x8 tiles (group b)
-;$3B		number of tiles to DMA in first DMA payload
-;$3C		vram tile offset of second DMA payload
-;$3D		number of tiles to DMA in second DMA payload (if second payload needed)
-;$3E
-;$3F
+;$32	(byte)	OAM render properties
+;$34	(word)	unused?
+;$36	(byte)	number of 16x16 tiles
+;$37	(byte)	number of 8x8 tiles (group a)
+;$38	(byte)	vram tile offset of 8x8 tiles (group a)
+;$39	(byte)	number of 8x8 tiles (group b)
+;$3A	(byte)	vram tile offset of 8x8 tiles (group b)
+;$3B	(byte)	number of tiles to DMA in first DMA payload
+;$3C	(byte)	vram tile offset of second DMA payload
+;$3D	(byte)	number of tiles to DMA in second DMA payload (if second payload needed)
+;$3E	(word)	unused?
 ;$40	(word)	sprite graphic address
 ;$42	(word)	sprite graphic bank
 
@@ -1925,7 +1940,7 @@ CODE_B5A911:					;	   |
 	BNE CODE_B5A900				;$B5A916   |
 	RTL					;$B5A918  /
 
-CODE_B5A919:
+update_sprite_graphics:
 	LDA #$1801				;$B5A919  \
 	STA DMA[0].settings			;$B5A91C   |
 	SEP #$10				;$B5A91F   |
@@ -2449,51 +2464,51 @@ CODE_B5ACB7:					;	   |
 	LDA $9A					;$B5ACEC   |
 	PHA					;$B5ACEE   |
 	PLB					;$B5ACEF   |
-	LDX #$195A				;$B5ACF0   |> load 8x8 column buffer index into x
+	LDX #$195A				;$B5ACF0   |> Load 8x8 column buffer index into x
 .next_8x8_column				;	   |
-	LDA ($32)				;$B5ACF3   |\ get 32x32 tile and handle if tile is flipped
+	LDA ($32)				;$B5ACF3   |\ Get 32x32 tile and handle if tile is flipped
 	BMI .v_flipped_32x32			;$B5ACF5   | |
 	BIT #$4000				;$B5ACF7   | |
 	BNE .h_flipped_32x32			;$B5ACFA   |/
-	ASL A					;$B5ACFC   |\ calculate 8x8 tile offset
+	ASL A					;$B5ACFC   |\ Calculate 8x8 tile offset
 	ASL A					;$B5ACFD   | |
 	ASL A					;$B5ACFE   | |
 	ASL A					;$B5ACFF   | |
 	ASL A					;$B5AD00   | |
 	ADC $34					;$B5AD01   | |
 	TAY					;$B5AD03   |/ 32x32 tile number * 32 + 8x8 tilemap base offset
-	LDA $0000,y				;$B5AD04   |\ get 8x8 tile
-	STA $00,x				;$B5AD07   | | copy tile to column buffer
-	LDA $0008,y				;$B5AD09   | | repeat for all tiles in current column
+	LDA $0000,y				;$B5AD04   |\ Get 8x8 tile
+	STA $00,x				;$B5AD07   | | Copy tile to column buffer
+	LDA $0008,y				;$B5AD09   | | Repeat for all tiles in current column
 	STA $02,x				;$B5AD0C   | |
 	LDA $0010,y				;$B5AD0E   | |
 	STA $04,x				;$B5AD11   | |
 	LDA $0018,y				;$B5AD13   | |
 .next_32x32_tile				;	   | |
 	STA $06,x				;$B5AD16   |/
-	INC $32					;$B5AD18   |\ update 32x32 index
+	INC $32					;$B5AD18   |\ Update 32x32 index
 	INC $32					;$B5AD1A   |/
 	TXA					;$B5AD1C   |\
 	CLC					;$B5AD1D   | |
-	ADC #$0008				;$B5AD1E   | | update 8x8 buffer index
+	ADC #$0008				;$B5AD1E   | | Update 8x8 buffer index
 	TAX					;$B5AD21   |/
-	CMP #$19A2				;$B5AD22   |\ check if we reached the end of the buffer
-	BNE .next_8x8_column			;$B5AD25   |/ if not process the next 8x8 column
+	CMP #$19A2				;$B5AD22   |\ Check if we reached the end of the buffer
+	BNE .next_8x8_column			;$B5AD25   |/ If not process the next 8x8 column
 	PLB					;$B5AD27   |
 	JMP CODE_B5ADA9				;$B5AD28  /
 
 .h_flipped_32x32
-	ASL A					;$B5AD2B  \ \ calculate 8x8 tile offset
+	ASL A					;$B5AD2B  \ \ Calculate 8x8 tile offset
 	ASL A					;$B5AD2C   | |
 	ASL A					;$B5AD2D   | |
 	ASL A					;$B5AD2E   | |
 	ASL A					;$B5AD2F   | |
 	ADC $36					;$B5AD30   | |
 	TAY					;$B5AD32   |/ 32x32 tile number * 32 + 8x8 tilemap base offset
-	LDA $0000,y				;$B5AD33   |\ get 8x8 tile
-	EOR #$4000				;$B5AD36   | | unflip x of 8x8 tile
-	STA $00,x				;$B5AD39   | | copy tile to column buffer
-	LDA $0008,y				;$B5AD3B   | | repeat for all tiles in current column
+	LDA $0000,y				;$B5AD33   |\ Get 8x8 tile
+	EOR #$4000				;$B5AD36   | | Unflip x of 8x8 tile
+	STA $00,x				;$B5AD39   | | Copy tile to column buffer
+	LDA $0008,y				;$B5AD3B   | | Repeat for all tiles in current column
 	EOR #$4000				;$B5AD3E   | |
 	STA $02,x				;$B5AD41   | |
 	LDA $0010,y				;$B5AD43   | |
@@ -2507,17 +2522,17 @@ CODE_B5ACB7:					;	   |
 .v_flipped_32x32
 	BIT #$4000				;$B5AD53  \
 	BNE .h_v_flipped_32x32			;$B5AD56   |
-	ASL A					;$B5AD58   |\ calculate 8x8 tile offset
+	ASL A					;$B5AD58   |\ Calculate 8x8 tile offset
 	ASL A					;$B5AD59   | |
 	ASL A					;$B5AD5A   | |
 	ASL A					;$B5AD5B   | |
 	ASL A					;$B5AD5C   | |
 	ADC $34					;$B5AD5D   | |
 	TAY					;$B5AD5F   |/ 32x32 tile number * 32 + 8x8 tilemap base offset
-	LDA $0018,y				;$B5AD60   |\ get 8x8 tile
-	EOR #$8000				;$B5AD63   | | unflip y of 8x8 tile
-	STA $00,x				;$B5AD66   | | copy tile to column buffer
-	LDA $0010,y				;$B5AD68   | | repeat for all tiles in current column
+	LDA $0018,y				;$B5AD60   |\ Get 8x8 tile
+	EOR #$8000				;$B5AD63   | | Unflip y of 8x8 tile
+	STA $00,x				;$B5AD66   | | Copy tile to column buffer
+	LDA $0010,y				;$B5AD68   | | Repeat for all tiles in current column
 	EOR #$8000				;$B5AD6B   | |
 	STA $02,x				;$B5AD6E   | |
 	LDA $0008,y				;$B5AD70   | |
@@ -2528,17 +2543,17 @@ CODE_B5ACB7:					;	   |
 	BRA .next_32x32_tile			;$B5AD7E  /
 
 .h_v_flipped_32x32
-	ASL A					;$B5AD80  \ \ calculate 8x8 tile offset
+	ASL A					;$B5AD80  \ \ Calculate 8x8 tile offset
 	ASL A					;$B5AD81   | |
 	ASL A					;$B5AD82   | |
 	ASL A					;$B5AD83   | |
 	ASL A					;$B5AD84   | |
 	ADC $36					;$B5AD85   | |
 	TAY					;$B5AD87   |/ 32x32 tile number * 32 + 8x8 tilemap base offset
-	LDA $0018,y				;$B5AD88   |\ get 8x8 tile
-	EOR #$C000				;$B5AD8B   | | unflip x and y of 8x8 tile
-	STA $00,x				;$B5AD8E   | | copy tile to column buffer
-	LDA $0010,y				;$B5AD90   | | repeat for all tiles in current column
+	LDA $0018,y				;$B5AD88   |\ Get 8x8 tile
+	EOR #$C000				;$B5AD8B   | | Unflip x and y of 8x8 tile
+	STA $00,x				;$B5AD8E   | | Copy tile to column buffer
+	LDA $0010,y				;$B5AD90   | | Repeat for all tiles in current column
 	EOR #$C000				;$B5AD93   | |
 	STA $02,x				;$B5AD96   | |
 	LDA $0008,y				;$B5AD98   | |
@@ -2575,14 +2590,14 @@ CODE_B5ADBF:					;	   |
 	BNE CODE_B5ADBF				;$B5ADD5   |
 	RTL					;$B5ADD7  /
 
-CODE_B5ADD8:
-	LDA $17BA				;$B5ADD8  \
-	AND #$FFF8				;$B5ADDB   |
-	CMP $17CA				;$B5ADDE   |
-	BNE CODE_B5ADE4				;$B5ADE1   |
-	RTL					;$B5ADE3  /
+update_level_x_scroll:
+	LDA $17BA				;$B5ADD8  \ \ Get current level x scroll
+	AND #$FFF8				;$B5ADDB   |/ Round to nearest 8x8 tile position
+	CMP $17CA				;$B5ADDE   |\ If the level x scrolled more than 8 pixels
+	BNE .update_x_scroll			;$B5ADE1   | | Then we need send new level tilemap columns to VRAM
+	RTL					;$B5ADE3  / / Else no level tilemap columns need to be uploaded
 
-CODE_B5ADE4:
+.update_x_scroll
 	STA $17CA				;$B5ADE4  \
 	SEP #$20				;$B5ADE7   |
 	LDA #$81				;$B5ADE9   |
@@ -2872,7 +2887,7 @@ CODE_B5AFF5:					;	   |
 	BNE CODE_B5AFF5				;$B5B008   |
 	RTL					;$B5B00A  /
 
-CODE_B5B00B:
+update_level_y_scroll:
 	LDA $17C0				;$B5B00B  \
 	AND #$00F8				;$B5B00E   |
 	CMP $17CE				;$B5B011   |
@@ -3574,7 +3589,7 @@ CODE_B5B521:
 	EOR #$C000				;$B5B544   |
 	JMP CODE_B5B4B7				;$B5B547  /
 
-CODE_B5B54A:
+square_level_scroll_handler:
 	STZ $17C8				;$B5B54A  \
 	JSL CODE_B5B322				;$B5B54D   |
 	JML CODE_B5B43A				;$B5B551  /
@@ -4173,12 +4188,12 @@ CODE_B5B97C:
 	EOR #$C000				;$B5B99F   |
 	JMP CODE_B5B912				;$B5B9A2  /
 
-CODE_B5B9A5:
+vertical_level_scroll_handler:
 	STZ $17C8				;$B5B9A5  \
 	JSL CODE_B5B788				;$B5B9A8   |
 	JML CODE_B5B89A				;$B5B9AC  /
 
-CODE_B5B9B0:
+horizontal_level_scroll_handler:
 	STZ $17C8				;$B5B9B0  \
 	JSL CODE_B5AC9C				;$B5B9B3   |
 	JML CODE_B5AEA7				;$B5B9B7  /
@@ -4213,7 +4228,7 @@ CODE_B5B9F1:
 	LDA #$FFFF				;$B5B9F5   |
 	STA $10					;$B5B9F8   |
 	STA $12					;$B5B9FA   |
-	JSL CODE_B5E50D				;$B5B9FC   |
+	JSL camera_handler			;$B5B9FC   |
 	LDA $0AE2				;$B5BA00   |
 	STA $0ADA				;$B5BA03   |
 	LDA $0AE4				;$B5BA06   |
@@ -4318,7 +4333,7 @@ CODE_B5BADE:
 	BEQ CODE_B5BAEA				;$B5BAE4   |
 	JSL CODE_B5AA88				;$B5BAE6   |
 CODE_B5BAEA:					;	   |
-	JSL CODE_B5ADD8				;$B5BAEA   |
+	JSL update_level_x_scroll		;$B5BAEA   |
 	RTS					;$B5BAEE  /
 
 DATA_B5BAEF:
@@ -5419,13 +5434,13 @@ CODE_B5C6FF:
 	JMP CODE_B5C684				;$B5C709  /
 
 CODE_B5C70C:
-	LDA $32					;$B5C70C  \
-	AND #$001F				;$B5C70E   |
-	STA $A6					;$B5C711   |
+	LDA $32					;$B5C70C  \ \ Get sprite x position
+	AND #$001F				;$B5C70E   | | Get x offset the sprite on current level tile
+	STA $A6					;$B5C711   |/
 	STZ $AC					;$B5C713   |
-	LDA $34					;$B5C715   |
-	SEC					;$B5C717   |
-	SBC #$0100				;$B5C718   |
+	LDA $34					;$B5C715   |\
+	SEC					;$B5C717   | |
+	SBC #$0100				;$B5C718   | 
 	EOR #$FFFF				;$B5C71B   |
 	INC A					;$B5C71E   |
 	AND #$FFE0				;$B5C71F   |
@@ -5754,11 +5769,11 @@ CODE_B5C94D:
 	TYX					;$B5C953   | | look up and save what 32x32 tile sprite is currently on
 	STA $A8					;$B5C954   |/
 	BEQ CODE_B5C9B1				;$B5C956   |
-	BIT #$4000				;$B5C958   |
-	BEQ CODE_B5C966				;$B5C95B   |
-	LDA $A6					;$B5C95D   |
-	EOR #$001F				;$B5C95F   |
-	STA $A2					;$B5C962   |
+	BIT #$4000				;$B5C958   |\ Check if level tile is flipped
+	BEQ CODE_B5C966				;$B5C95B   |/
+	LDA $A6					;$B5C95D   |\
+	EOR #$001F				;$B5C95F   | |
+	STA $A2					;$B5C962   |/
 	LDA $A8					;$B5C964   |
 CODE_B5C966:					;	   |
 	AND #$3FFF				;$B5C966   |\
@@ -5806,6 +5821,7 @@ CODE_B5C9B1:
 	LDA #$FFFF				;$B5C9B1  \
 	RTS					;$B5C9B4  /
 
+;used for terrain collision
 DATA_B5C9B5:
 	db $00, $00, $00, $00, $00, $00, $00, $00
 	db $00, $00, $00, $00, $00, $00, $00, $00
@@ -6839,7 +6855,7 @@ CODE_B5D13B:
 	STZ PPU.oam_address			;$B5D141   |
 	LDA #$1E01				;$B5D144   |
 	STA CPU.enable_dma			;$B5D147   |
-	JSL CODE_B5A919				;$B5D14A   |
+	JSL update_sprite_graphics		;$B5D14A   |
 	LDA $17C0				;$B5D14E   |
 	STA $7E8051				;$B5D151   |
 	STA $7E8056				;$B5D155   |
@@ -7136,7 +7152,7 @@ CODE_B5D3D9:
 	LDA #$0001				;$B5D3D9  \
 CODE_B5D3DC:					;	   |
 	STA CPU.enable_dma			;$B5D3DC   |
-	JSL CODE_B5A919				;$B5D3DF   |
+	JSL update_sprite_graphics		;$B5D3DF   |
 	JSL CODE_B48368				;$B5D3E3   |
 	LDA.l $0006A3				;$B5D3E7   |
 	BIT #$0020				;$B5D3EB   |
@@ -7227,7 +7243,7 @@ CODE_B5D4A7:
 	STZ PPU.oam_address			;$B5D4AD   |
 	LDA #$1E01				;$B5D4B0   |
 	STA CPU.enable_dma			;$B5D4B3   |
-	JSL CODE_B5A919				;$B5D4B6   |
+	JSL update_sprite_graphics		;$B5D4B6   |
 	LDA $17C0				;$B5D4BA   |
 	STA $7E8051				;$B5D4BD   |
 	STA $7E8056				;$B5D4C1   |
@@ -8217,13 +8233,13 @@ CODE_B5DD99:					;	   |
 	BNE CODE_B5DD59				;$B5DDA0   |
 	LDX #$147E				;$B5DDA2   |
 	STX current_sprite			;$B5DDA5   |
-	JSL CODE_B8CF7F				;$B5DDA7   |
+	JSL apply_position_from_velocity_global	;$B5DDA7   |
 	LDX #$14DC				;$B5DDAB   |
 	STX current_sprite			;$B5DDAE   |
-	JSL CODE_B8CF7F				;$B5DDB0   |
+	JSL apply_position_from_velocity_global	;$B5DDB0   |
 	LDX #$153A				;$B5DDB4   |
 	STX current_sprite			;$B5DDB7   |
-	JSL CODE_B8CF7F				;$B5DDB9   |
+	JSL apply_position_from_velocity_global	;$B5DDB9   |
 	LDX #$13C2				;$B5DDBD   |
 	LDA $44,x				;$B5DDC0   |
 	BNE CODE_B5DDC7				;$B5DDC2   |
@@ -8332,7 +8348,7 @@ CODE_B5DE8D:					;	   |
 	LDA $24,x				;$B5DE92   |
 	ADC #$001C				;$B5DE94   |
 	STA $24,x				;$B5DE97   |
-	JSL CODE_B8CF7F				;$B5DE99   |
+	JSL apply_position_from_velocity_global	;$B5DE99   |
 CODE_B5DE9D:					;	   |
 	LDX #$13C2				;$B5DE9D   |
 	LDA $44,x				;$B5DEA0   |
@@ -9133,7 +9149,7 @@ CODE_B5E4E6:					;	   |
 	STX $0ABC				;$B5E509   |
 	RTS					;$B5E50C  /
 
-CODE_B5E50D:					;	  \
+camera_handler:					;	  \
 if !version == 0				;	   |
 	LDA $0ABE				;$B5E50D   |
 	STA $0A9A				;$B5E510   |
@@ -9163,10 +9179,10 @@ else						;	   |
 	LDA $0AE4				;$B5E525   |
 	STA $0AA6				;$B5E528   |
 endif						;	   |
-	LDY $0AE8				;$B5E52B   |
-	BNE CODE_B5E533				;$B5E52E   |
-	LDY active_kong_sprite			;$B5E530   |
-CODE_B5E533:					;	   |
+	LDY $0AE8				;$B5E52B   |\
+	BNE .follow_sprite			;$B5E52E   | | If the camera isnt following a sprite
+	LDY active_kong_sprite			;$B5E530   |/ Then follow the active kong
+.follow_sprite					;	   |
 	JSR CODE_B5E560				;$B5E533   |
 	PHD					;$B5E536   |
 	LDA #$0A00				;$B5E537   |
@@ -9224,14 +9240,14 @@ CODE_B5E5AA:					;	   |
 	RTS					;$B5E5AD  /
 
 DATA_B5E5AE:
-	dw CODE_B5E5BA
-	dw CODE_B5E5FA
-	dw CODE_B5E5BA
+	dw CODE_B5E5BA				;00
+	dw CODE_B5E5FA				;01
+	dw CODE_B5E5BA				;02
 
 DATA_B5E5B4:
-	dw CODE_B5E660
-	dw CODE_B5E749
-	dw CODE_B5E7B9
+	dw CODE_B5E660				;00
+	dw CODE_B5E749				;01
+	dw CODE_B5E7B9				;02
 
 
 CODE_B5E5BA:
@@ -9307,18 +9323,20 @@ DATA_B5E620:
 	db $00, $07, $00, $06, $00, $05, $00, $04
 	db $00, $03, $00, $02, $00, $01, $00, $00
 
+;Y = sprite for camera to follow
+
 CODE_B5E660:
-	LDA $0D4E				;$B5E660  \
-	BMI CODE_B5E66D				;$B5E663   |
-	ADC #$0010				;$B5E665   |
-	CMP $000A,y				;$B5E668   |
-	BCC CODE_B5E689				;$B5E66B   |
-CODE_B5E66D:					;	   |
-	LDA.l $00006E				;$B5E66D   |
-	CMP #$0198				;$B5E671   |
-	BEQ CODE_B5E689				;$B5E674   |
-	LDA $000E,y				;$B5E676   |
-	BNE CODE_B5E682				;$B5E679   |
+	LDA $0D4E				;$B5E660  \ \
+	BMI .no_water				;$B5E663   |/ If the level has no water
+	ADC #$0010				;$B5E665   |\
+	CMP $000A,y				;$B5E668   | |
+	BCC CODE_B5E689				;$B5E66B   |/
+.no_water					;	   |
+	LDA.l $00006E				;$B5E66D   |\
+	CMP #$0198				;$B5E671   | |
+	BEQ CODE_B5E689				;$B5E674   |/ If player has squawks
+	LDA $000E,y				;$B5E676   |\
+	BNE CODE_B5E682				;$B5E679   |/ If not on ground
 	LDA #$2000				;$B5E67B   |
 	TRB $B8					;$B5E67E   |
 	BRA CODE_B5E68C				;$B5E680  /
@@ -11471,10 +11489,11 @@ CODE_B5F36F:
 
 DATA_B5F38D:
 	%offset(DATA_B5F38B, -2)
-	db $01, $00, $02, $00, $04, $00, $08, $00
-	db $10, $00, $20, $00, $40, $00, $80, $00
-	db $00, $01, $00, $02, $00, $04, $00, $08
-	db $00, $10, $00, $20, $00, $40, $00, $80
+	dw $0001, $0002, $0004, $0008
+	dw $0010, $0020, $0040, $0080
+	dw $0100, $0200, $0400, $0800
+	dw $1000, $2000, $4000, $8000
+
 
 DATA_B5F3AD:
 	%offset(DATA_B5F3AF, 2)

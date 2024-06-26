@@ -1692,8 +1692,8 @@ CODE_B48E49:					;	   |
 CODE_B48E6C:
 	PHK					;$B48E6C  \
 	PLB					;$B48E6D   |
-	JSL CODE_B5A919				;$B48E6E   |
-	JSL CODE_80F320				;$B48E72   |
+	JSL update_sprite_graphics		;$B48E6E   |
+	JSL update_sprite_palettes_global	;$B48E72   |
 	DEC $064E				;$B48E76   |
 	BEQ CODE_B48E7E				;$B48E79   |
 	BRL CODE_B48F07				;$B48E7B  /
@@ -2064,8 +2064,8 @@ CODE_B491D7:
 	PHK					;$B491D7  \
 	PLB					;$B491D8   |
 	JSR CODE_B4A11F				;$B491D9   |
-	JSL CODE_B5A919				;$B491DC   |
-	JSL CODE_80F320				;$B491E0   |
+	JSL update_sprite_graphics		;$B491DC   |
+	JSL update_sprite_palettes_global	;$B491E0   |
 	JSR CODE_B4996E				;$B491E4   |
 	LDA screen_brightness			;$B491E7   |
 	CMP #$000F				;$B491EA   |
@@ -2249,8 +2249,8 @@ CODE_B4935D:					;	   |
 CODE_B4935E:
 	PHK					;$B4935E  \
 	PLB					;$B4935F   |
-	JSL CODE_B5A919				;$B49360   |
-	JSL CODE_80F320				;$B49364   |
+	JSL update_sprite_graphics		;$B49360   |
+	JSL update_sprite_palettes_global	;$B49364   |
 	JSR CODE_B4996E				;$B49368   |
 	DEC $064E				;$B4936B   |
 	BEQ CODE_B49373				;$B4936E   |
@@ -2837,8 +2837,8 @@ CODE_B49886:
 	PHB					;$B49886  \
 	PHK					;$B49887   |
 	PLB					;$B49888   |
-	JSL CODE_B5A919				;$B49889   |
-	JSL CODE_80F320				;$B4988D   |
+	JSL update_sprite_graphics		;$B49889   |
+	JSL update_sprite_palettes_global	;$B4988D   |
 	JSR CODE_B4996E				;$B49891   |
 	LDA $06A1				;$B49894   |
 	BIT #$0400				;$B49897   |
@@ -2894,8 +2894,8 @@ CODE_B4990F:
 	PHB					;$B4990F  \
 	PHK					;$B49910   |
 	PLB					;$B49911   |
-	JSL CODE_B5A919				;$B49912   |
-	JSL CODE_80F320				;$B49916   |
+	JSL update_sprite_graphics		;$B49912   |
+	JSL update_sprite_palettes_global	;$B49916   |
 	JSR CODE_B4996E				;$B4991A   |
 	LDA $06A1				;$B4991D   |
 	BIT #$1000				;$B49920   |
@@ -2938,8 +2938,8 @@ CODE_B4996E:
 CODE_B49978:
 	PHK					;$B49978  \
 	PLB					;$B49979   |
-	JSL CODE_B5A919				;$B4997A   |
-	JSL CODE_80F320				;$B4997E   |
+	JSL update_sprite_graphics		;$B4997A   |
+	JSL update_sprite_palettes_global	;$B4997E   |
 	JSR CODE_B4996E				;$B49982   |
 	LDA $067A				;$B49985   |
 	BEQ CODE_B4998D				;$B49988   |
@@ -3161,8 +3161,8 @@ CODE_B49B55:
 CODE_B49B63:
 	PHK					;$B49B63  \
 	PLB					;$B49B64   |
-	JSL CODE_B5A919				;$B49B65   |
-	JSL CODE_80F320				;$B49B69   |
+	JSL update_sprite_graphics		;$B49B65   |
+	JSL update_sprite_palettes_global	;$B49B69   |
 	JSR CODE_B4996E				;$B49B6D   |
 	LDA screen_brightness			;$B49B70   |
 	BEQ CODE_B49BBB				;$B49B73   |
@@ -3612,8 +3612,8 @@ CODE_B49EBF:					;	   |
 CODE_B49ED7:
 	PHK					;$B49ED7  \
 	PLB					;$B49ED8   |
-	JSL CODE_B5A919				;$B49ED9   |
-	JSL CODE_80F320				;$B49EDD   |
+	JSL update_sprite_graphics		;$B49ED9   |
+	JSL update_sprite_palettes_global	;$B49EDD   |
 	JSR CODE_B4996E				;$B49EE1   |
 	JSR CODE_B49EF1				;$B49EE4   |
 	LDX #$079C				;$B49EE7   |
@@ -3643,8 +3643,8 @@ CODE_B49EF1:
 CODE_B49F1D:
 	PHK					;$B49F1D  \
 	PLB					;$B49F1E   |
-	JSL CODE_B5A919				;$B49F1F   |
-	JSL CODE_80F320				;$B49F23   |
+	JSL update_sprite_graphics		;$B49F1F   |
+	JSL update_sprite_palettes_global	;$B49F23   |
 	JSR CODE_B4996E				;$B49F27   |
 	JSR CODE_B49EF1				;$B49F2A   |
 	LDA $0689				;$B49F2D   |
@@ -5054,8 +5054,8 @@ CODE_B4AB6D:					;	   |
 CODE_B4AB6E:
 	PHK					;$B4AB6E  \
 	PLB					;$B4AB6F   |
-	JSL CODE_B5A919				;$B4AB70   |
-	JSL CODE_80F320				;$B4AB74   |
+	JSL update_sprite_graphics		;$B4AB70   |
+	JSL update_sprite_palettes_global	;$B4AB74   |
 	JSR CODE_B4996E				;$B4AB78   |
 	DEC $064E				;$B4AB7B   |
 	BEQ CODE_B4AB83				;$B4AB7E   |
@@ -6619,8 +6619,8 @@ CODE_B4B85F:					;	   |
 	STA $0A,x				;$B4B877   |
 CODE_B4B879:					;	   |
 	LDA #$0004				;$B4B879   |
-	JSL CODE_B8CFD4				;$B4B87C   |
-	JSL CODE_B8CF7F				;$B4B880   |
+	JSL interpolate_y_velocity_global	;$B4B87C   |
+	JSL apply_position_from_velocity_global	;$B4B880   |
 	LDX $0798				;$B4B884   |
 	LDY inactive_kong_sprite		;$B4B887   |
 	PLA					;$B4B88A   |

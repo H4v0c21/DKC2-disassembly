@@ -21,3 +21,4 @@ multibuild.bat
 verify.bat
 verify.py
 asar.exe
+*.exe

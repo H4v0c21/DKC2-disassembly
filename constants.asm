@@ -1,5 +1,11 @@
 !null_pointer = $000000
 
+!bank_7E = $7E
+!bank_B3 = $B3
+!bank_B4 = $B4
+!bank_FD = $FD
+
+
 ;sprite init command constants
 !initcommand_success = $8000
 !initcommand_set_animation = $8100
@@ -553,8 +559,8 @@
 !level_castle_crush_bonus_2		= $00B8
 !level_stronghold_showdown		= $00B9
 !level_squawks_shaft_bonus_2		= $00BA
-!level_web_woods_bonus_2		= $00BB
-!level_windy_well_bonus_1		= $00BC
+!level_windy_well_bonus_1		= $00BB
+!level_web_woods_bonus_2		= $00BC
 !level_haunted_hall_bonus_1		= $00BD
 !level_rickety_race_exit		= $00BE
 !level_haunted_hall_exit		= $00BF

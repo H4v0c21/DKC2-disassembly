@@ -485,11 +485,11 @@ CODE_BA9400:					;	   |
 	ADC $0006E7				;$BA9410   |
 	STA $2A,x				;$BA9414   |
 	LDA $22,x				;$BA9416   |
-	JSL CODE_B8D010				;$BA9418   |
+	JSL interpolate_x_velocity_global	;$BA9418   |
 	LDX current_sprite			;$BA941C   |
 	LDA $22,x				;$BA941E   |
-	JSL CODE_B8CFD4				;$BA9420   |
-	JSL CODE_B8CF7F				;$BA9424   |
+	JSL interpolate_y_velocity_global	;$BA9420   |
+	JSL apply_position_from_velocity_global	;$BA9424   |
 	LDX current_sprite			;$BA9428   |
 	LDY $0656				;$BA942A   |
 	BEQ CODE_BA9439				;$BA942D   |
@@ -576,10 +576,10 @@ CODE_BA94CD:					;	   |
 
 CODE_BA94CF:
 	LDA #$000F				;$BA94CF  \
-	JSL CODE_B8D010				;$BA94D2   |
+	JSL interpolate_x_velocity_global	;$BA94D2   |
 	LDA #$0001				;$BA94D6   |
-	JSL CODE_B8CFD4				;$BA94D9   |
-	JSL CODE_B8CF7F				;$BA94DD   |
+	JSL interpolate_y_velocity_global	;$BA94D9   |
+	JSL apply_position_from_velocity_global	;$BA94DD   |
 	LDX current_sprite			;$BA94E1   |
 	LDA $26,x				;$BA94E3   |
 	CMP $20,x				;$BA94E5   |
@@ -1062,11 +1062,11 @@ CODE_BA9964:					;	   |
 	STA $0A,x				;$BA9977   |
 CODE_BA9979:					;	   |
 	LDA $44,x				;$BA9979   |
-	JSL CODE_B8D010				;$BA997B   |
+	JSL interpolate_x_velocity_global	;$BA997B   |
 	LDX current_sprite			;$BA997F   |
 	LDA $46,x				;$BA9981   |
-	JSL CODE_B8CFD4				;$BA9983   |
-	JSL CODE_B8CF7F				;$BA9987   |
+	JSL interpolate_y_velocity_global	;$BA9983   |
+	JSL apply_position_from_velocity_global	;$BA9987   |
 	LDX current_sprite			;$BA998B   |
 	LDY $48,x				;$BA998D   |
 	BEQ CODE_BA99A2				;$BA998F   |
@@ -1194,10 +1194,10 @@ CODE_BA9A96:					;	   |
 CODE_BA9A9E:
 	LDX current_sprite			;$BA9A9E  \
 	LDA $42,x				;$BA9AA0   |
-	JSL CODE_B8D010				;$BA9AA2   |
+	JSL interpolate_x_velocity_global	;$BA9AA2   |
 	LDX current_sprite			;$BA9AA6   |
 	LDA $44,x				;$BA9AA8   |
-	JSL CODE_B8CFD4				;$BA9AAA   |
+	JSL interpolate_y_velocity_global	;$BA9AAA   |
 	LDX $0654				;$BA9AAE   |
 	LDA $2E,x				;$BA9AB1   |
 	BIT #$2000				;$BA9AB3   |
@@ -1205,7 +1205,7 @@ CODE_BA9A9E:
 	JSL CODE_BCFB58				;$BA9AB8   |
 	LDA #$0000				;$BA9ABC   |
 	JSL CODE_B6CF65				;$BA9ABF   |
-	JSL CODE_B8CF7F				;$BA9AC3   |
+	JSL apply_position_from_velocity_global	;$BA9AC3   |
 	BRA CODE_BA9ACD				;$BA9AC7  /
 
 CODE_BA9AC9:
@@ -1405,11 +1405,11 @@ endif						;	   |
 
 CODE_BA9C47:
 	LDA $42,x				;$BA9C47  \
-	JSL CODE_B8D010				;$BA9C49   |
+	JSL interpolate_x_velocity_global	;$BA9C49   |
 	LDX current_sprite			;$BA9C4D   |
 	LDA $44,x				;$BA9C4F   |
-	JSL CODE_B8CFD4				;$BA9C51   |
-	JSL CODE_B8CF7F				;$BA9C55   |
+	JSL interpolate_y_velocity_global	;$BA9C51   |
+	JSL apply_position_from_velocity_global	;$BA9C55   |
 	JSL CODE_BBBB8D				;$BA9C59   |
 	JSL CODE_B9D100				;$BA9C5D   |
 CODE_BA9C61:					;	   |
@@ -2887,7 +2887,7 @@ CODE_BAB129:					;	   |
 	JML [$05A9]				;$BAB129  /
 
 CODE_BAB12C:
-	JSL CODE_B8CF7F				;$BAB12C  \
+	JSL apply_position_from_velocity_global	;$BAB12C  \
 	JSL CODE_B9D100				;$BAB130   |
 	JSL CODE_BBBB8D				;$BAB134   |
 	JML [$05A9]				;$BAB138  /
@@ -3876,7 +3876,7 @@ CODE_BAC113:
 	CLC					;$BAC117   |
 	ADC #$0020				;$BAC118   |
 	STA $24,x				;$BAC11B   |
-	JSL CODE_B8CF7F				;$BAC11D   |
+	JSL apply_position_from_velocity_global	;$BAC11D   |
 	LDX current_sprite			;$BAC121   |
 	LDA $0A,x				;$BAC123   |
 	CMP #$01C0				;$BAC125   |
@@ -3956,11 +3956,11 @@ CODE_BAC1B4:
 CODE_BAC1C2:
 	LDX current_sprite			;$BAC1C2  \
 	LDA $42,x				;$BAC1C4   |
-	JSL CODE_B8D010				;$BAC1C6   |
+	JSL interpolate_x_velocity_global	;$BAC1C6   |
 	LDX current_sprite			;$BAC1CA   |
 	LDA $44,x				;$BAC1CC   |
-	JSL CODE_B8CFD4				;$BAC1CE   |
-	JSL CODE_B8CF7F				;$BAC1D2   |
+	JSL interpolate_y_velocity_global	;$BAC1CE   |
+	JSL apply_position_from_velocity_global	;$BAC1D2   |
 	LDX current_sprite			;$BAC1D6   |
 	RTS					;$BAC1D8  /
 
@@ -4155,10 +4155,10 @@ CODE_BAC318:					;	   |
 CODE_BAC328:					;	   |
 	LDA $44,x				;$BAC328   |
 	PHA					;$BAC32A   |
-	JSL CODE_B8D010				;$BAC32B   |
+	JSL interpolate_x_velocity_global	;$BAC32B   |
 	PLA					;$BAC32F   |
-	JSL CODE_B8CFD4				;$BAC330   |
-	JSL CODE_B8CF7F				;$BAC334   |
+	JSL interpolate_y_velocity_global	;$BAC330   |
+	JSL apply_position_from_velocity_global	;$BAC334   |
 	JSL CODE_B9D100				;$BAC338   |
 	LDA level_number			;$BAC33C   |
 	CMP #!level_pirate_panic_k_rools_cabin	;$BAC33E   |

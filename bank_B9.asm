@@ -2133,7 +2133,7 @@ CODE_B9DD3A:
 CODE_B9DD4C:
 	LDA #$0001				;$B9DD4C  \
 	STA $2E,x				;$B9DD4F   |
-	JSL CODE_B8CEB6				;$B9DD51   |
+	JSL set_player_terminal_velocity_global	;$B9DD51   |
 	LDA #$0007				;$B9DD55   |
 	JSL CODE_B9D0B8				;$B9DD58   |
 	RTS					;$B9DD5C  /
@@ -2523,7 +2523,7 @@ CODE_B9DFD3:
 	RTS					;$B9DFE0  /
 
 CODE_B9DFE1:
-	JSL CODE_B8CEB6				;$B9DFE1  \
+	JSL set_player_terminal_velocity_global	;$B9DFE1  \
 CODE_B9DFE5:					;	   |
 	LDX current_sprite			;$B9DFE5   |
 	CPX inactive_kong_sprite		;$B9DFE7   |

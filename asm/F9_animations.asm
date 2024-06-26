@@ -8756,7 +8756,6 @@ DATA_F97006:
 	db $05 : dw $2A84
 	db $05 : dw $2A88
 	db !animation_command_81 : dw CODE_B9EEEB
-
 DATA_F9701B:
 	db $05 : dw $2A84
 	db $05 : dw $2A88
