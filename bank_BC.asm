@@ -9310,10 +9310,18 @@ CODE_BCFE28:					;	   |
 	AND $EB					;$BCFE40   |
 	BEQ CODE_BCFE28				;$BCFE42   |
 	LDA $1A,x				;$BCFE44   |
+
+;check for CODE_BEBE8B	
+if !ex_patch == 1
+	JSL ex_hitbox_handler_2
+	padbyte $EA : pad $BCFE4C : warnpc $BCFE4C
+else
 	LSR A					;$BCFE46   |
 	TAY					;$BCFE47   |
 	LDA DATA_BCB600,y			;$BCFE48   |
 	TAY					;$BCFE4B   |
+endif
+
 	LDA $0A,x				;$BCFE4C   |
 	BIT $12,x				;$BCFE4E   |
 	BPL CODE_BCFE69				;$BCFE50   |

@@ -32,6 +32,43 @@ ex_hitbox_handler:
 	RTL
 
 
+ex_hitbox_handler_2:
+	CMP #!ex_graphics_id_start
+	BCS .is_ex_hitbox
+;normal_hitbox
+	LSR A
+	PHX
+	TAX
+	LDA.l DATA_BCB600,x
+	PLX
+	TAY
+	PHA
+	LDA #<:DATA_BCB600<<8
+	PHA
+	PLB
+	PLB
+	PLA
+	RTL	
+
+
+.is_ex_hitbox
+	SEC
+	SBC #!ex_graphics_id_start
+	LSR A
+	PHX
+	TAX
+	LDA.l ex_hitbox_table,x
+	PLX
+	TAY
+	PHA
+	LDA #<:ex_hitbox_table<<8
+	PHA
+	PLB
+	PLB
+	PLA
+	RTL	
+
+
 ex_hitbox_table:
 	dw !null_pointer
 	dw !null_pointer
