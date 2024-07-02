@@ -889,91 +889,91 @@ DATA_FE92DE:
 	incsrc "data/levels/objects/rickety_race_bonus_1_objects.asm"
 
 DATA_FE9350:
-	db $00, $00
+	dw $0000
 
 DATA_FE9352:
-	db $00, $00
+	dw $0000
 
 DATA_FE9354:
-	db $00, $00
+	dw $0000
 
 DATA_FE9356:
-	db $00, $00
+	dw $0000
 
 DATA_FE9358:
-	db $00, $00
+	dw $0000
 
 DATA_FE935A:
-	db $00, $00
+	dw $0000
 
 DATA_FE935C:
-	db $00, $00
+	dw $0000
 
 DATA_FE935E:
-	db $00, $00
+	dw $0000
 
 DATA_FE9360:
-	db $00, $00
+	dw $0000
 
 DATA_FE9362:
-	db $00, $00
+	dw $0000
 
 DATA_FE9364:
-	db $00, $00
+	dw $0000
 
 DATA_FE9366:
-	db $00, $00
+	dw $0000
 
 DATA_FE9368:
-	db $00, $00
+	dw $0000
 
 DATA_FE936A:
-	db $00, $00
+	dw $0000
 
 DATA_FE936C:
-	db $00, $00
+	dw $0000
 
 DATA_FE936E:
-	db $00, $00
+	dw $0000
 
 DATA_FE9370:
-	db $00, $00
+	dw $0000
 
 DATA_FE9372:
-	db $00, $00
+	dw $0000
 
 DATA_FE9374:
-	db $00, $00
+	dw $0000
 
 DATA_FE9376:
-	db $00, $00
+	dw $0000
 
 DATA_FE9378:
-	db $00, $00
+	dw $0000
 
 DATA_FE937A:
-	db $00, $00
+	dw $0000
 
 DATA_FE937C:
-	db $00, $00
+	dw $0000
 
 DATA_FE937E:
-	db $00, $00
+	dw $0000
 
 DATA_FE9380:
-	db $00, $00
+	dw $0000
 
 DATA_FE9382:
-	db $00, $00
+	dw $0000
 
 DATA_FE9384:
-	db $00, $00
+	dw $0000
 
 DATA_FE9386:
-	db $00, $00
+	dw $0000
 
 DATA_FE9388:
-	db $00, $00
+	dw $0000
 
 DATA_FE938A:
 	db $00, $00, $00, $00, $00, $00, $00, $00

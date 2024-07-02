@@ -276,8 +276,8 @@ unknown_sprite_008C_main:
 	JSL CODE_BBBCA3				;$B38201  \
 	JML [$05A9]				;$B38205  /
 
-unknown_sprite_00FC_main:
-unknown_sprite_010C_main:
+dixie_hurt_tears_main:
+water_surface_splash_main:
 	JSL CODE_B9D100				;$B38208  \
 	JML [$05A9]				;$B3820C  /
 
@@ -321,7 +321,7 @@ CODE_B38251:
 	STZ $19CE				;$B38262   |
 	JML [$05A9]				;$B38265  /
 
-unknown_sprite_0100_main:
+diddy_hurt_stars_main:
 	JSL CODE_B9D100				;$B38268  \
 	LDX current_sprite			;$B3826C   |
 	LDA $42,x				;$B3826E   |
@@ -431,7 +431,7 @@ DATA_B38348:
 	dw null_sprite_main,$0000			;0000
 	dw unknown_sprite_0004_main,$0000		;0004
 	dw map_player_main,$0000			;0008
-	dw unknown_sprite_000C_main,$0000		;000C
+	dw rock_main,$0000				;000C
 	dw squawks_egg_main,$0000			;0010
 	dw unknown_sprite_0014_main,$0001		;0014
 	dw canball_pieces1_main,$0000			;0018
@@ -491,11 +491,11 @@ DATA_B38348:
 	dw unknown_sprite_00F0_main,$0000		;00F0
 	dw unknown_sprite_00F4_main,$0000		;00F4
 	dw unknown_sprite_00F8_main,$0000		;00F8
-	dw unknown_sprite_00FC_main,$0001		;00FC
-	dw unknown_sprite_0100_main,$0001		;0100
+	dw dixie_hurt_tears_main,$0001			;00FC
+	dw diddy_hurt_stars_main,$0001			;0100
 	dw unknown_sprite_0104_main,$0001		;0104
 	dw web_shot_main,$0000				;0108
-	dw unknown_sprite_010C_main,$0000		;010C
+	dw water_surface_splash_main,$0000		;010C
 	dw rain_cloud_main,$0000			;0110
 	dw unknown_sprite_0114_main,$0000		;0114
 	dw web_platform_main,$0000			;0118
@@ -543,14 +543,14 @@ DATA_B38348:
 	dw chest_main,$0000				;01C0
 	dw kreepy_krows_eggs_main,$0000			;01C4
 	dw unknown_sprite_01C8_main,$0000		;01C8
-	dw unknown_sprite_01CC_main,$0001		;01CC
+	dw kong_celebrate_prop_main,$0001		;01CC
 	dw shot_canball_or_barrel_main,$0000		;01D0
 	dw large_smoke_puff_main,$0000			;01D4
 	dw kruncha_main,$0001				;01D8
 	dw click_clack_main,$0000			;01DC
 	dw kutlass_main,$0000				;01E0
 	dw neek_main,$0000				;01E4
-	dw unknown_sprite_01E8_main,$0000		;01E8
+	dw klobber_body_main,$0000			;01E8
 	dw klomp_main,$0000				;01EC
 	dw klampon_main,$0001				;01F0
 	dw unknown_sprite_01F4_main,$0000		;01F4
@@ -1175,7 +1175,7 @@ CODE_B38A29:					;	   |
 	STA $24,x				;$B38A29   |
 	RTS					;$B38A2B  /
 
-unknown_sprite_01CC_main:
+kong_celebrate_prop_main:
 	LDA $0D7A				;$B38A2C  \
 	BNE CODE_B38A35				;$B38A2F   |
 	JSL CODE_BB82B8				;$B38A31   |
@@ -2428,7 +2428,7 @@ sun_main:
 	STA $06,x				;$B392D9   |
 	JML [$05A9]				;$B392DB  /
 
-unknown_sprite_000C_main:
+rock_main:
 	JSL CODE_B9D100				;$B392DE  \
 	JML [$05A9]				;$B392E2  /
 
@@ -5801,7 +5801,7 @@ CODE_B3AC11:
 	ORA #$FF00				;$B3AC11  \
 	RTS					;$B3AC14  /
 
-unknown_sprite_01E8_main:
+klobber_body_main:
 	JSR CODE_B3A369				;$B3AC15  /
 
 DATA_B3AC18:

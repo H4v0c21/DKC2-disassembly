@@ -4208,7 +4208,7 @@ DATA_FD6044:
 	dw green_flotsam_sprite_palette			;004F
 	dw spiny_sprite_palette				;0050
 	dw kleever_1_sprite_palette			;0051
-	dw DATA_FD6E02					;0052
+	dw lava_splash_sprite_palette			;0052
 	dw klampon_sprite_palette			;0053
 	dw quawks_sprite_palette			;0054
 	dw krook_sprite_palette				;0055
@@ -4236,7 +4236,7 @@ DATA_FD6044:
 	dw k_rool_burnt_sprite_palette			;006B
 	dw guitar_sprite_palette			;006C
 	dw klank_blue_sprite_palette			;006D
-	dw DATA_FD6242					;006E
+	dw rain_cloud_palette				;006E
 	dw clapper_sprite_palette			;006F
 	dw k_rool_vacuum_sprite_palette			;0070
 	dw k_rool_blue_gas_sprite_palette		;0071
@@ -4385,7 +4385,7 @@ DATA_FD61C2:
 	db $FF, $7F, $A0, $00, $22, $09, $A4, $11
 	db $26, $1A, $C8, $22, $74, $53, $FF, $7F
 
-DATA_FD6242:
+rain_cloud_palette:
 	db $63, $0C, $A5, $14, $E7, $1C, $29, $25
 	db $6B, $2D, $AD, $35, $EF, $3D, $31, $46
 	db $73, $4E, $B5, $56, $F7, $5E, $39, $67
@@ -4970,7 +4970,7 @@ kleever_hurt_3_sprite_palette:
 	db $5F, $46, $3F, $63, $FF, $7F, $A9, $08
 	db $10, $10, $1F, $00, $7E, $0C
 
-DATA_FD6E02:
+lava_splash_sprite_palette:
 	db $A5, $14, $C6, $18, $E7, $1C, $08, $21
 	db $4A, $29, $6B, $2D, $8C, $31, $AD, $35
 	db $EF, $3D, $10, $42, $31, $46, $52, $4A
