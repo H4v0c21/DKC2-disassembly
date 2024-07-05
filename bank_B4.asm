@@ -7938,26 +7938,26 @@ DATA_B4C18B:
 	db $6F					;CD
 	db $61					;CE
 	db $65					;CF
-	db $69
-	db $6D
-	db $71
+	db $69					;D0
+	db $6D					;D1
+	db $71					;D2
 
 DATA_B4C25E:
-	dw DATA_B4C27C
-	dw DATA_B4C298
-	dw DATA_B4C2BC
-	dw DATA_B4C2E2
-	dw DATA_B4C30A
-	dw DATA_B4C32A
-	dw DATA_B4C350
-	dw DATA_B4C378
-	dw DATA_B4C390
-	dw DATA_B4C3B6
-	dw DATA_B4C3D4
-	dw DATA_B4C3EC
-	dw DATA_B4C404
-	dw DATA_B4C41C
-	dw DATA_B4C434
+	dw DATA_B4C27C				;00
+	dw DATA_B4C298				;01
+	dw DATA_B4C2BC				;02
+	dw DATA_B4C2E2				;03
+	dw DATA_B4C30A				;04
+	dw DATA_B4C32A				;05
+	dw DATA_B4C350				;06
+	dw DATA_B4C378				;07
+	dw DATA_B4C390				;08
+	dw DATA_B4C3B6				;09
+	dw DATA_B4C3D4				;0A
+	dw DATA_B4C3EC				;0B
+	dw DATA_B4C404				;0C
+	dw DATA_B4C41C				;0D
+	dw DATA_B4C434				;0E
 
 DATA_B4C27C:
 	db $80, $00, $80, $00, $70, $00, $6F, $01
@@ -9484,830 +9484,1022 @@ DATA_B4CF4B:
 	db $06 : dw DATA_B4E6A6
 
 DATA_B4D0B3:
-	db $14, $00, $68, $01, $32, $04, $00 : dw DATA_B4D0C2
-	db $00, $00, $01, $00, $00, $00
-DATA_B4D0C2:
+	db $14, $00, $68, $01, $32, $04, $00 : dw .text
+	dw !null_pointer
+	dw $0001, $0000
+.text
 	db $11, ">GANGPLANK GALLEON"
 	db $13, ">GALION DE LA GAL&RE"
 
 DATA_B4D0EA:
-	db $3A, $00, $A7, $01, $32, $03, $02 : dw DATA_B4D0FD
-	db $00, $00, $02, $00, $01, $00, $00, $00, $00, $00
-DATA_B4D0FD:
+	db $3A, $00, $A7, $01, $32, $03, $02 : dw .text
+	dw !null_pointer
+	dw $0002, $0001
+	dw $0000, $0000
+.text
 	db $12, ">CROCODILE CAULDRON"
 	db $15, ">CHAUDRON DU CROCODILE"
 
 DATA_B4D128:
-	db $B4, $00, $AB, $01, $32, $0A, $02 : dw DATA_B4D13B
-	db $00, $00, $01, $00, $01, $00, $03, $00, $02, $00
-DATA_B4D13B:
+	db $B4, $00, $AB, $01, $32, $0A, $02 : dw .text
+	dw !null_pointer
+	dw $0001, $0001
+	dw $0003, $0002
+.text
 	db $09, ">KREM QUAY"
 	db $09, ">QUAI KREM"
 
 DATA_B4D151:
-	db $96, $00, $3D, $01, $32, $03, $01 : dw DATA_B4D164
-	db $00, $00, $02, $00, $02, $00, $04, $00, $03, $00
-DATA_B4D164:
+	db $96, $00, $3D, $01, $32, $03, $01 : dw .text
+	dw !null_pointer
+	dw $0002, $0002
+	dw $0004, $0003
+.text
 	db $0E, ">KRAZY KREMLAND"
 	db $0E, ">KREMLAND DINGO"
 
 DATA_B4D184:
-	db $81, $00, $FA, $00, $32, $0A, $02 : dw DATA_B4D197
-	db $00, $00, $03, $00, $03, $00, $05, $00, $04, $00
-DATA_B4D197:
+	db $81, $00, $FA, $00, $32, $0A, $02 : dw .text
+	dw !null_pointer
+	dw $0003, $0003
+	dw $0005, $0004
+.text
 	db $0C, ">GLOOMY GULCH"
 	db $0A, ">RAVIN RAVI"
 
 DATA_B4D1B1:
-	db $81, $00, $92, $00, $32, $0C, $04 : dw DATA_B4D1C4
-	db $00, $00, $04, $00, $04, $00, $06, $00, $3C, $00
-DATA_B4D1C4:
+	db $81, $00, $92, $00, $32, $0C, $04 : dw .text
+	dw !null_pointer
+	dw $0004, $0004
+	dw $0006, $003C
+.text
 	db $0E, ">K. ROOL'S KEEP"
 	db $10, ">CASTEL DE K.ROOL"
 
 DATA_B4D1E6:
-	db $8C, $00, $1E, $00, $32, $04, $04 : dw DATA_B4D1F5
-	db $00, $00, $05, $00, $3C, $00
-DATA_B4D1F5:
+	db $8C, $00, $1E, $00, $32, $04, $04 : dw .text
+	dw !null_pointer
+	dw $0005, $003C
+.text
 	db $10, ">THE FLYING KROCK"
 	db $0F, ">LE CROCO VOLANT"
 
 DATA_B4D218:
-	db $64, $00, $2D, $00, $32, $00, $00 : dw DATA_B4D223
-	db $0C, $00
-DATA_B4D223:
+	db $64, $00, $2D, $00, $32, $00, $00 : dw .text
+	dw !level_mainbrace_mayhem	
+.text
 	db $0A, ">LOST WORLD"
 	db $0B, ">MONDE PERDU"
 
 DATA_B4D23C:
-	db $64, $00, $0A, $00, $32, $00, $00 : dw DATA_B4D247
-	db $00, $00
-DATA_B4D247:
+	db $64, $00, $0A, $00, $32, $00, $00 : dw .text
+	dw !null_pointer
+.text
 	db $01, ">A"
 	db $01, ">A"
 
 DATA_B4D24D:
-	db $5A, $00, $84, $00, $32, $0A, $08 : dw DATA_B4D260
-	db $04, $00, $0A, $00, $08, $00, $42, $00, $07, $00
-DATA_B4D260:
+	db $5A, $00, $84, $00, $32, $0A, $08 : dw .text
+	dw !level_gangplank_galley
+	dw $000A, $0008
+	dw $0042, $0007
+.text
 	db $10, ">GANGPLANK GALLEY"
 	db $17, ">PASSERELLE DE LA GAL&RE"
 
 DATA_B4D28B:
-	db $0F, $00, $BE, $00, $32, $09, $08 : dw DATA_B4D29E
-	db $00, $00, $0B, $00, $09, $00, $09, $00, $08, $00
-DATA_B4D29E:
+	db $0F, $00, $BE, $00, $32, $09, $08 : dw .text
+	dw !null_pointer
+	dw $000B, $0009
+	dw $0009, $0008
+.text
 	db $0C, ">KONG KOLLEGE"
 	db $0C, ">KOLL&GE KONG"
 
 DATA_B4D2BA:
-	db $8F, $00, $B7, $00, $32, $0A, $02 : dw DATA_B4D2CD
-	db $15, $00, $0A, $00, $09, $00, $0F, $00, $0A, $00
-DATA_B4D2CD:
+	db $8F, $00, $B7, $00, $32, $0A, $02 : dw .text
+	dw !level_lockjaws_locker
+	dw $000A, $0009
+	dw $000F, $000A
+.text
 	db $10, ">LOCKJAW'S LOCKER"
 	db $11, ">CASIER DE LOCKJAW"
 
 DATA_B4D2F2:
-	db $AF, $00, $5C, $00, $32, $0C, $04 : dw DATA_B4D305
-	db $0B, $00, $0F, $00, $0B, $00, $0D, $00, $0C, $00
-DATA_B4D305:
+	db $AF, $00, $5C, $00, $32, $0C, $04 : dw .text
+	dw !level_topsail_trouble
+	dw $000F, $000B
+	dw $000D, $000C
+.text
 	db $0F, ">TOPSAIL TROUBLE"
 	db $15, ">MICMAC DANS LA M$TURE"
 
 DATA_B4D32D:
-	db $D9, $00, $3C, $00, $32, $0C, $04 : dw DATA_B4D340
-	db $00, $00, $0C, $00, $0C, $00, $0E, $00, $0D, $00
-DATA_B4D340:
+	db $D9, $00, $3C, $00, $32, $0C, $04 : dw .text
+	dw !null_pointer
+	dw $000C, $000C
+	dw $000E, $000D
+.text
 	db $12, ">FUNKY'S FLIGHTS II"
 	db $0D, ">VOLS FUNKY II"
 
 DATA_B4D363:
-	db $AF, $00, $14, $00, $32, $04, $04 : dw DATA_B4D372
-	db $09, $00, $0D, $00, $0D, $00
-DATA_B4D372:
+	db $AF, $00, $14, $00, $32, $04, $04 : dw .text
+	dw !level_krows_nest
+	dw $000D, $000D
+.text
 	db $0B, ">KROW'S NEST"
 	db $0B, ">NID DE KROW"
 
 DATA_B4D38C:
-	db $90, $00, $82, $00, $32, $0C, $04 : dw DATA_B4D39F
-	db $00, $00, $0B, $00, $0A, $00, $0C, $00, $0B, $00
-DATA_B4D39F:
+	db $90, $00, $82, $00, $32, $0C, $04 : dw .text
+	dw !null_pointer
+	dw $000B, $000A
+	dw $000C, $000B
+.text
 	db $16, ">SWANKY'S BONUS BONANZA"
 	db $16, ">BONUS % GOGO DE SWANKY"
 
 DATA_B4D3CF:
-	db $73, $00, $B6, $00, $32, $09, $00 : dw DATA_B4D3E2
-	db $07, $00, $11, $00, $0E, $00, $12, $00, $0F, $00
-DATA_B4D3E2:
+	db $73, $00, $B6, $00, $32, $09, $00 : dw .text
+	dw !level_hot_head_hop
+	dw $0011, $000E
+	dw $0012, $000F
+.text
 	db $0C, ">HOT-HEAD HOP"
 	db $1A, ">PARCOURS DES T(TES BR;L?ES"
 
 DATA_B4D40C:
-	db $C4, $00, $BC, $00, $32, $03, $02 : dw DATA_B4D41F
-	db $00, $00, $13, $00, $10, $00, $10, $00, $0E, $00
-DATA_B4D41F:
+	db $C4, $00, $BC, $00, $32, $03, $02 : dw .text
+	dw !null_pointer
+	dw $0013, $0010
+	dw $0010, $000E
+.text
 	db $16, ">SWANKY'S BONUS BONANZA"
 	db $16, ">BONUS % GOGO DE SWANKY"
 
 DATA_B4D44F:
-	db $64, $00, $87, $00, $32, $04, $04 : dw DATA_B4D45E
-	db $00, $00, $10, $00, $0F, $00
-DATA_B4D45E:
+	db $64, $00, $87, $00, $32, $04, $04 : dw .text
+	dw !null_pointer
+	dw $0010, $000F
+.text
 	db $0E, ">KLUBBA'S KIOSK"
 	db $11, ">KIOSQUE DE KLUBBA"
 
 DATA_B4D481:
-	db $C8, $00, $6B, $00, $32, $0B, $01 : dw DATA_B4D498
-	db $25, $00, $11, $00, $10, $00, $15, $00, $11, $00, $14, $00, $12, $00
-DATA_B4D498:
+	db $C8, $00, $6B, $00, $32, $0B, $01 : dw .text
+	dw !level_kannons_klaim
+	dw $0011, $0010
+	dw $0015, $0011
+	dw $0014, $0012
+.text
 	db $0E, ">KANNON'S KLAIM"
 	db $14, ">COMPLAINTE DE KANNON"
 
 DATA_B4D4BE:
-	db $EB, $00, $41, $00, $32, $04, $04 : dw DATA_B4D4CD
-	db $00, $00, $13, $00, $12, $00
-DATA_B4D4CD:
+	db $EB, $00, $41, $00, $32, $04, $04 : dw .text
+	dw !null_pointer
+	dw $0013, $0012
+.text
 	db $12, ">FUNKY'S FLIGHTS II"
 	db $0D, ">VOLS FUNKY II"
 
 DATA_B4D4F0:
-	db $78, $00, $64, $00, $32, $0B, $01 : dw DATA_B4D507
-	db $14, $00, $13, $00, $11, $00, $17, $00, $13, $00, $16, $00, $17, $00
-DATA_B4D507:
+	db $78, $00, $64, $00, $32, $0B, $01 : dw .text
+	dw !level_lava_lagoon
+	dw $0013, $0011
+	dw $0017, $0013
+	dw $0016, $0017
+.text
 	db $0B, ">LAVA LAGOON"
 	db $0D, ">LAGON DE LAVE"
 
 DATA_B4D523:
-	db $96, $00, $3F, $00, $32, $04, $04 : dw DATA_B4D532
-	db $00, $00, $15, $00, $17, $00
-DATA_B4D532:
+	db $96, $00, $3F, $00, $32, $04, $04 : dw .text
+	dw !null_pointer
+	dw $0015, $0017
+.text
 	db $0C, ">KONG KOLLEGE"
 	db $0C, ">KOLL&GE KONG"
 
 DATA_B4D54E:
-	db $28, $00, $64, $00, $32, $0B, $01 : dw DATA_B4D565
-	db $08, $00, $15, $00, $13, $00, $18, $00, $14, $00, $19, $00, $15, $00
-DATA_B4D565:
+	db $28, $00, $64, $00, $32, $0B, $01 : dw .text
+	dw !level_red_hot_ride
+	dw $0015, $0013
+	dw $0018, $0014
+	dw $0019, $0015
+.text
 	db $0C, ">RED-HOT RIDE"
 	db $12, ">TRAVERS?E EMBRAS?E"
 
 DATA_B4D587:
-	db $04, $00, $73, $00, $32, $01, $01 : dw DATA_B4D596
-	db $00, $00, $17, $00, $14, $00
-DATA_B4D596:
+	db $04, $00, $73, $00, $32, $01, $01 : dw .text
+	dw !null_pointer
+	dw $0017, $0014
+.text
 	db $0D, ">MONKEY MUSEUM"
 	db $0E, ">MUS?E DU SINGE"
 
 DATA_B4D5B5:
-	db $67, $00, $2A, $00, $32, $0C, $04 : dw DATA_B4D5C8
-	db $24, $00, $17, $00, $15, $00, $1A, $00, $16, $00
-DATA_B4D5C8:
+	db $67, $00, $2A, $00, $32, $0C, $04 : dw .text
+	dw !level_squawks_shaft
+	dw $0017, $0015
+	dw $001A, $0016
+.text
 	db $0F, ">SQUAWKS'S SHAFT"
 	db $12, ">PERCHOIR DE SQUAWK"
 
 DATA_B4D5ED:
-	db $7B, $00, $08, $00, $32, $04, $04 : dw DATA_B4D5FC
-	db $21, $00, $19, $00, $16, $00
-DATA_B4D5FC:
+	db $7B, $00, $08, $00, $32, $04, $04 : dw .text
+	dw !level_kleevers_kiln
+	dw $0019, $0016
+.text
 	db $0E, ">KLEEVER'S KILN"
 	db $12, ">FOURNIL DE KLEEVER"
 
 DATA_B4D620:
-	db $2E, $00, $B7, $00, $32, $01, $00 : dw DATA_B4D62F
-	db $28, $00, $1C, $00, $18, $00
-DATA_B4D62F:
+	db $2E, $00, $B7, $00, $32, $01, $00 : dw .text
+	dw !level_barrel_bayou
+	dw $001C, $0018
+.text
 	db $0C, ">BARREL BAYOU"
 	db $0E, ">BAYOU DU BARIL"
 
 DATA_B4D64D:
-	db $9C, $00, $AA, $00, $32, $0B, $02 : dw DATA_B4D664
-	db $01, $00, $1D, $00, $1C, $00, $1B, $00, $18, $00, $23, $00, $19, $00
-DATA_B4D664:
+	db $9C, $00, $AA, $00, $32, $0B, $02 : dw .text
+	dw !level_glimmers_galleon
+	dw $001D, $001C
+	dw $001B, $0018
+	dw $0023, $0019
+.text
 	db $11, ">GLIMMER'S GALLEON"
 	db $11, ">GALION DE GLIMMER"
 
 DATA_B4D68A:
-	db $0E, $01, $B4, $00, $32, $0B, $0A : dw DATA_B4D6A1
-	db $29, $00, $1E, $00, $1E, $00, $1C, $00, $1C, $00, $25, $00, $1D, $00
-DATA_B4D6A1:
+	db $0E, $01, $B4, $00, $32, $0B, $0A : dw .text
+	dw !level_krockhead_klamber
+	dw $001E, $001E
+	dw $001C, $001C
+	dw $0025, $001D
+.text
 	db $11, ">KROCKHEAD KLAMBER"
 	db $17, ">CRAPAHUTE DES CROQUEURS"
 
 DATA_B4D6CD:
-	db $60, $01, $9B, $00, $32, $0E, $02 : dw DATA_B4D6E4
-	db $05, $00, $1D, $00, $1E, $00, $1F, $00, $22, $00, $20, $00, $1F, $00
-DATA_B4D6E4:
+	db $60, $01, $9B, $00, $32, $0E, $02 : dw .text
+	dw !level_rattle_battle
+	dw $001D, $001E
+	dw $001F, $0022
+	dw $0020, $001F
+.text
 	db $0D, ">RATTLE BATTLE"
 	db $11, ">BATAILLE CANAILLE"
 
 DATA_B4D706:
-	db $B8, $01, $C6, $00, $32, $02, $02 : dw DATA_B4D715
-	db $00, $00, $1E, $00, $22, $00
-DATA_B4D715:
+	db $B8, $01, $C6, $00, $32, $02, $02 : dw .text
+	dw !null_pointer
+	dw $001E, $0022
+.text
 	db $0E, ">KLUBBA'S KIOSK"
 	db $11, ">KIOSQUE DE KLUBBA"
 
 DATA_B4D738:
-	db $6F, $01, $5A, $00, $32, $0E, $04 : dw DATA_B4D74F
-	db $0A, $00, $26, $00, $23, $00, $1E, $00, $1F, $00, $21, $00, $20, $00
-DATA_B4D74F:
+	db $6F, $01, $5A, $00, $32, $0E, $04 : dw .text
+	dw !level_slime_climb
+	dw $0026, $0023
+	dw $001E, $001F
+	dw $0021, $0020
+.text
 	db $0B, ">SLIME CLIMB"
 	db $13, ">ASCENSION VISQUEUSE"
 
 DATA_B4D771:
-	db $90, $01, $21, $00, $32, $06, $02 : dw DATA_B4D784
-	db $2D, $00, $20, $00, $20, $00, $22, $00, $21, $00
-DATA_B4D784:
+	db $90, $01, $21, $00, $32, $06, $02 : dw .text
+	dw !level_bramble_blast
+	dw $0020, $0020
+	dw $0022, $0021
+.text
 	db $0D, ">BRAMBLE BLAST"
 	db $0E, ">CHARDON ARDENT"
 
 DATA_B4D7A3:
-	db $C2, $01, $70, $00, $32, $02, $02 : dw DATA_B4D7B2
-	db $63, $00, $21, $00, $21, $00
-DATA_B4D7B2:
+	db $C2, $01, $70, $00, $32, $02, $02 : dw .text
+	dw !level_kudgels_kontest
+	dw $0021, $0021
+.text
 	db $10, ">KUDGEL'S KONTEST"
 	db $10, ">KOMBAT DE KUDGEL"
 
 DATA_B4D7D6:
-	db $6E, $00, $58, $00, $32, $0C, $04 : dw DATA_B4D7E9
-	db $00, $00, $1C, $00, $19, $00, $24, $00, $1A, $00
-DATA_B4D7E9:
+	db $6E, $00, $58, $00, $32, $0C, $04 : dw .text
+	dw !null_pointer
+	dw $001C, $0019
+	dw $0024, $001A
+.text
 	db $0C, ">KONG KOLLEGE"
 	db $0C, ">KOLL&GE KONG"
 
 DATA_B4D805:
-	db $A5, $00, $28, $00, $32, $06, $02 : dw DATA_B4D818
-	db $00, $00, $23, $00, $1A, $00, $25, $00, $1B, $00
-DATA_B4D818:
+	db $A5, $00, $28, $00, $32, $06, $02 : dw .text
+	dw !null_pointer
+	dw $0023, $001A
+	dw $0025, $001B
+.text
 	db $12, ">FUNKY'S FLIGHTS II"
 	db $0D, ">VOLS FUNKY II"
 
 DATA_B4D83B:
-	db $0F, $01, $8A, $00, $32, $06, $02 : dw DATA_B4D84E
-	db $00, $00, $24, $00, $1B, $00, $1D, $00, $1D, $00
-DATA_B4D84E:
+	db $0F, $01, $8A, $00, $32, $06, $02 : dw .text
+	dw !null_pointer
+	dw $0024, $001B
+	dw $001D, $001D
+.text
 	db $0D, ">MONKEY MUSEUM"
 	db $0E, ">MUS?E DU SINGE"
 
 DATA_B4D86D:
-	db $4A, $01, $50, $00, $32, $01, $01 : dw DATA_B4D87C
-	db $00, $00, $20, $00, $23, $00
-DATA_B4D87C:
+	db $4A, $01, $50, $00, $32, $01, $01 : dw .text
+	dw !null_pointer
+	dw $0020, $0023
+.text
 	db $16, ">SWANKY'S BONUS BONANZA"
 	db $16, ">BONUS % GOGO DE SWANKY"
 
 DATA_B4D8AC:
-	db $07, $00, $B1, $00, $02, $00, $00 : dw DATA_B4D8BB
-	db $05, $00, $10, $00, $24, $00
-DATA_B4D8BB:
+	db $07, $00, $B1, $00, $02, $00, $00 : dw .text
+	dw $0005
+	dw $0010, $0024
+.text
 	db $01, ">A"
 	db $01, ">A"
 
 DATA_B4D8C1:
-	db $1C, $00, $84, $00, $32, $01, $00 : dw DATA_B4D8D0
-	db $19, $00, $29, $00, $25, $00
-DATA_B4D8D0:
+	db $1C, $00, $84, $00, $32, $01, $00 : dw .text
+	dw !level_ghostly_grove
+	dw $0029, $0025
+.text
 	db $0D, ">GHOSTLY GROVE"
 	db $0E, ">FUNESTE FUTAIE"
 
 DATA_B4D8EF:
-	db $41, $00, $BE, $00, $32, $0A, $02 : dw DATA_B4D902
-	db $3C, $00, $28, $00, $25, $00, $2A, $00, $26, $00
-DATA_B4D902:
+	db $41, $00, $BE, $00, $32, $0A, $02 : dw .text
+	dw !level_3C
+	dw $0028, $0025
+	dw $002A, $0026
+.text
 	db $0D, ">MONKEY MUSEUM"
 	db $0E, ">MUS?E DU SINGE"
 
 DATA_B4D921:
-	db $64, $00, $9B, $00, $32, $05, $04 : dw DATA_B4D934
-	db $10, $00, $2C, $00, $27, $00, $29, $00, $26, $00
-DATA_B4D934:
+	db $64, $00, $9B, $00, $32, $05, $04 : dw .text
+	dw !level_haunted_hall
+	dw $002C, $0027
+	dw $0029, $0026
+.text
 	db $0C, ">HAUNTED HALL"
 	db $0B, ">ANTRE HANT?"
 
 DATA_B4D94F:
-	db $EB, $00, $A6, $00, $32, $02, $02 : dw DATA_B4D95E
-	db $4C, $00, $2C, $00, $28, $00
-DATA_B4D95E:
+	db $EB, $00, $A6, $00, $32, $02, $02 : dw .text
+	dw !level_4C
+	dw $002C, $0028
+.text
 	db $0C, ">KONG KOLLEGE"
 	db $0C, ">KOLL&GE KONG"
 
 DATA_B4D97A:
-	db $B9, $00, $B2, $00, $32, $0B, $02 : dw DATA_B4D991
-	db $18, $00, $2B, $00, $28, $00, $2A, $00, $27, $00, $2E, $00, $29, $00
-DATA_B4D991:
+	db $B9, $00, $B2, $00, $32, $0B, $02 : dw .text
+	dw !level_gusty_glade
+	dw $002B, $0028
+	dw $002A, $0027
+	dw $002E, $0029
+.text
 	db $0B, ">GUSTY GLADE"
 	db $0D, ">FATALE RAFALE"
 
 DATA_B4D9AD:
-	db $E9, $00, $73, $00, $32, $02, $02 : dw DATA_B4D9BC
-	db $44, $00, $2E, $00, $2A, $00
-DATA_B4D9BC:
+	db $E9, $00, $73, $00, $32, $02, $02 : dw .text
+	dw !level_44
+	dw $002E, $002A
+.text
 	db $16, ">SWANKY'S BONUS BONANZA"
 	db $16, ">BONUS % GOGO DE SWANKY"
 
 DATA_B4D9EC:
-	db $C7, $00, $59, $00, $32, $0F, $04 : dw DATA_B4DA07
-	db $13, $00, $2D, $00, $2A, $00, $2F, $00, $2B, $00, $2C, $00, $29, $00, $31, $00, $2C, $00
-DATA_B4DA07:
+	db $C7, $00, $59, $00, $32, $0F, $04 : dw .text
+	dw !level_parrot_chute_panic
+	dw $002D, $002A
+	dw $002F, $002B
+	dw $002C, $0029
+	dw $0031, $002C
+.text
 	db $12, ">PARROT CHUTE PANIC"
 	db $11, ">PERROQUET PANIQU?"
 
 DATA_B4DA2E:
-	db $9E, $00, $64, $00, $32, $01, $01 : dw DATA_B4DA3D
-	db $5C, $00, $2E, $00, $2B, $00
-DATA_B4DA3D:
+	db $9E, $00, $64, $00, $32, $01, $01 : dw .text
+	dw !level_5C
+	dw $002E, $002B
+.text
 	db $0E, ">KLUBBA'S KIOSK"
 	db $11, ">KIOSQUE DE KLUBBA"
 
 DATA_B4DA60:
-	db $7F, $00, $0C, $00, $32, $05, $01 : dw DATA_B4DA73
-	db $54, $00, $2E, $00, $2C, $00, $32, $00, $2E, $00
-DATA_B4DA73:
+	db $7F, $00, $0C, $00, $32, $05, $01 : dw .text
+	dw !level_54
+	dw $002E, $002C
+	dw $0032, $002E
+.text
 	db $12, ">FUNKY'S FLIGHTS II"
 	db $0D, ">VOLS FUNKY II"
 
 DATA_B4DA96:
-	db $6E, $00, $44, $00, $32, $0A, $08 : dw DATA_B4DAA9
-	db $17, $00, $33, $00, $2F, $00, $31, $00, $2E, $00
-DATA_B4DAA9:
+	db $6E, $00, $44, $00, $32, $0A, $08 : dw .text
+	dw !level_web_woods
+	dw $0033, $002F
+	dw $0031, $002E
+.text
 	db $09, ">WEB WOODS"
 	db $0E, ">TOILE DES BOIS"
 
 DATA_B4DAC4:
-	db $2B, $00, $26, $00, $32, $01, $01 : dw DATA_B4DAD3
-	db $0D, $00, $32, $00, $2F, $00
-DATA_B4DAD3:
+	db $2B, $00, $26, $00, $32, $01, $01 : dw .text
+	dw !level_kreepy_krow
+	dw $0032, $002F
+.text
 	db $0B, ">KREEPY KROW"
 	db $10, ">KROW L'INKI?TANT"
 
 DATA_B4DAF2:
-	db $9E, $00, $81, $01, $32, $0D, $00 : dw DATA_B4DB09
-	db $6C, $00, $35, $00, $31, $00, $38, $00, $34, $00, $36, $00, $30, $00
-DATA_B4DB09:
+	db $9E, $00, $81, $01, $32, $0D, $00 : dw .text
+	dw !level_arctic_abyss
+	dw $0035, $0031
+	dw $0038, $0034
+	dw $0036, $0030
+.text
 	db $0C, ">ARCTIC ABYSS"
 	db $11, ">ABYSSES ARCTIQUES"
 
 DATA_B4DB2A:
-	db $E1, $00, $8A, $01, $32, $02, $02 : dw DATA_B4DB39
-	db $3D, $00, $34, $00, $31, $00
-DATA_B4DB39:
+	db $E1, $00, $8A, $01, $32, $02, $02 : dw .text
+	dw !level_3D
+	dw $0034, $0031
+.text
 	db $0D, ">MONKEY MUSEUM"
 	db $0E, ">MUS?E DU SINGE"
 
 DATA_B4DB58:
-	db $9E, $00, $47, $01, $32, $06, $04 : dw DATA_B4DB6B
-	db $23, $00, $37, $00, $32, $00, $34, $00, $30, $00
-DATA_B4DB6B:
+	db $9E, $00, $47, $01, $32, $06, $04 : dw .text
+	dw !level_windy_well
+	dw $0037, $0032
+	dw $0034, $0030
+.text
 	db $0A, ">WINDY WELL"
 	db $0F, ">GOUFFRE GLACIAL"
 
 DATA_B4DB88:
-	db $5A, $00, $56, $01, $32, $09, $01 : dw DATA_B4DB9B
-	db $45, $00, $36, $00, $32, $00, $39, $00, $33, $00
-DATA_B4DB9B:
+	db $5A, $00, $56, $01, $32, $09, $01 : dw .text
+	dw !level_45
+	dw $0036, $0032
+	dw $0039, $0033
+.text
 	db $0C, ">KONG KOLLEGE"
 	db $0C, ">KOLL&GE KONG"
 
 DATA_B4DBB7:
-	db $16, $00, $45, $01, $32, $04, $04 : dw DATA_B4DBC6
-	db $5D, $00, $34, $00, $34, $00
-DATA_B4DBC6:
+	db $16, $00, $45, $01, $32, $04, $04 : dw .text
+	dw !level_5D
+	dw $0034, $0034
+.text
 	db $0E, ">KLUBBA'S KIOSK"
 	db $11, ">KIOSQUE DE KLUBBA"
 
 DATA_B4DBE9:
-	db $A2, $00, $09, $01, $32, $0C, $04 : dw DATA_B4DBFC
-	db $62, $00, $37, $00, $33, $00, $3A, $00, $35, $00
-DATA_B4DBFC:
+	db $A2, $00, $09, $01, $32, $0C, $04 : dw .text
+	dw !level_castle_crush
+	dw $0037, $0033
+	dw $003A, $0035
+.text
 	db $0C, ">CASTLE CRUSH"
 	db $0F, ">BASTION BROYEUR"
 
 DATA_B4DC1B:
-	db $9B, $00, $C3, $00, $32, $0C, $04 : dw DATA_B4DC2E
-	db $8F, $00, $39, $00, $35, $00, $3B, $00, $36, $00
-DATA_B4DC2E:
+	db $9B, $00, $C3, $00, $32, $0C, $04 : dw .text
+	dw !level_clappers_cavern
+	dw $0039, $0035
+	dw $003B, $0036
+.text
 	db $10, ">CLAPPER'S CAVERN"
 	db $12, ">CAVERNE DE CLAPPER"
 
 DATA_B4DC54:
-	db $97, $00, $86, $00, $32, $0D, $04 : dw DATA_B4DC6B
-	db $6D, $00, $3C, $00, $37, $00, $3A, $00, $36, $00, $3D, $00, $38, $00
-DATA_B4DC6B:
+	db $97, $00, $86, $00, $32, $0D, $04 : dw .text
+	dw !level_chain_link_chamber
+	dw $003C, $0037
+	dw $003A, $0036
+	dw $003D, $0038
+.text
 	db $12, ">CHAIN LINK CHAMBER"
 	db $10, ">SALON DU MAILLON"
 
 DATA_B4DC91:
-	db $DC, $00, $8C, $00, $32, $02, $02 : dw DATA_B4DCA0
-	db $55, $00, $3B, $00, $37, $00
-DATA_B4DCA0:
+	db $DC, $00, $8C, $00, $32, $02, $02 : dw .text
+	dw !level_55
+	dw $003B, $0037
+.text
 	db $12, ">FUNKY'S FLIGHTS II"
 	db $0D, ">VOLS FUNKY II"
 
 DATA_B4DCC3:
-	db $56, $00, $52, $00, $32, $09, $01 : dw DATA_B4DCD6
-	db $00, $00, $3B, $00, $38, $00, $3F, $00, $3A, $00
-DATA_B4DCD6:
+	db $56, $00, $52, $00, $32, $09, $01 : dw .text
+	dw !null_pointer
+	dw $003B, $0038
+	dw $003F, $003A
+.text
 	db $16, ">SWANKY'S BONUS BONANZA"
 	db $16, ">BONUS % GOGO DE SWANKY"
 
 DATA_B4DD06:
-	db $97, $00, $37, $00, $32, $0A, $02 : dw DATA_B4DD19
-	db $6E, $00, $3D, $00, $3A, $00, $40, $00, $3B, $00
-DATA_B4DD19:
+	db $97, $00, $37, $00, $32, $0A, $02 : dw .text
+	dw !level_toxic_tower
+	dw $003D, $003A
+	dw $0040, $003B
+.text
 	db $0B, ">TOXIC TOWER"
 	db $0C, ">TOUR TOXIQUE"
 
 DATA_B4DD34:
-	db $97, $00, $16, $00, $32, $04, $04 : dw DATA_B4DD43
-	db $B9, $00, $3F, $00, $3B, $00
-DATA_B4DD43:
+	db $97, $00, $16, $00, $32, $04, $04 : dw .text
+	dw !level_stronghold_showdown
+	dw $003F, $003B
+.text
 	db $13, ">STRONGHOLD SHOWDOWN"
 	db $15, ">CONFRONTATION AU FORT"
 
 if !override_pirate_panic == 1
 DATA_B4DD6F:
-	db $1D, $00, $44, $00, $32, $01, $00 : dw DATA_B4DD7E
-	db !pirate_panic_replacement, $00, $42, $00, $05, $00
-DATA_B4DD7E:
+	db $1D, $00, $44, $00, $32, $01, $00 : dw .text
+	dw !pirate_panic_replacement
+	dw $0042, $0005
+.text
 	db $0C, ">PIRATE PANIC"
 	db $0E, ">PANIQUE % BORD"
 else
 DATA_B4DD6F:
-	db $1D, $00, $44, $00, $32, $01, $00 : dw DATA_B4DD7E
-	db $03, $00, $42, $00, $05, $00
-DATA_B4DD7E:
+	db $1D, $00, $44, $00, $32, $01, $00 : dw .text
+	dw !level_pirate_panic
+	dw $0042, $0005
+.text
 	db $0C, ">PIRATE PANIC"
 	db $0E, ">PANIQUE % BORD"
 endif
 
 DATA_B4DD9C:
-	db $64, $00, $2D, $00, $32, $0E, $02 : dw DATA_B4DDB3
-	db $0C, $00, $41, $00, $05, $00, $09, $00, $07, $00, $43, $00, $06, $00
-DATA_B4DDB3:
+	db $64, $00, $2D, $00, $32, $0E, $02 : dw .text
+	dw !level_mainbrace_mayhem
+	dw $0041, $0005
+	dw $0009, $0007
+	dw $0043, $0006
+.text
 	db $10, ">MAINBRACE MAYHEM"
 	db $17, ">M?LI-M?LO DANS LES M$TS"
 
 DATA_B4DDDE:
-	db $64, $00, $0A, $00, $32, $04, $04 : dw DATA_B4DDED
-	db $00, $00, $42, $00, $06, $00
-DATA_B4DDED:
+	db $64, $00, $0A, $00, $32, $04, $04 : dw .text
+	dw !null_pointer
+	dw $0042, $0006
+.text
 	db $0D, ">MONKEY MUSEUM"
 	db $0E, ">MUS?E DU SINGE"
 
 DATA_B4DE0C:
-	db $64, $00, $4B, $00, $02, $04, $00 : dw DATA_B4DE1B
-	db $00, $00, $45, $00, $3F, $00
-DATA_B4DE1B:
+	db $64, $00, $4B, $00, $02, $04, $00 : dw .text
+	dw !null_pointer
+	dw $0045, $003F
+.text
 	db $01, ">A"
 	db $01, ">A"
 
 DATA_B4DE21:
-	db $6E, $00, $9A, $00, $32, $0B, $02 : dw DATA_B4DE38
-	db $2C, $00, $47, $00, $48, $00, $44, $00, $3F, $00, $46, $00, $40, $00
-DATA_B4DE38:
+	db $6E, $00, $9A, $00, $32, $0B, $02 : dw .text
+	dw !level_mudhole_marsh
+	dw $0047, $0048
+	dw $0044, $003F
+	dw $0046, $0040
+.text
 	db $0D, ">MUDHOLE MARSH"
 	db $0E, ">MARAIS MARRANT"
 
 DATA_B4DE57:
-	db $8F, $00, $71, $00, $32, $05, $04 : dw DATA_B4DE6A
-	db $02, $00, $48, $00, $41, $00, $45, $00, $40, $00
-DATA_B4DE6A:
+	db $8F, $00, $71, $00, $32, $05, $04 : dw .text
+	dw !level_rambi_rumble
+	dw $0048, $0041
+	dw $0045, $0040
+.text
 	db $0C, ">RAMBI RUMBLE"
 	db $0F, ">RAMBI CHAMBARDE"
 
 DATA_B4DE89:
-	db $9D, $00, $A0, $00, $32, $02, $02 : dw DATA_B4DE98
-	db $5B, $00, $45, $00, $48, $00
-DATA_B4DE98:
+	db $9D, $00, $A0, $00, $32, $02, $02 : dw .text
+	dw !level_5B
+	dw $0045, $0048
+.text
 	db $0E, ">KLUBBA'S KIOSK"
 	db $11, ">KIOSQUE DE KLUBBA"
 
 DATA_B4DEBB:
-	db $C3, $00, $90, $00, $32, $02, $02 : dw DATA_B4DECA
-	db $60, $00, $46, $00, $41, $00
-DATA_B4DECA:
+	db $C3, $00, $90, $00, $32, $02, $02 : dw .text
+	dw !level_king_zing_sting
+	dw $0046, $0041
+.text
 	db $0F, ">KING ZING STING"
 	db $0E, ">ROI ZING STING"
 
 DATA_B4DEEB:
-	db $22, $00, $7A, $00, $32, $0C, $04 : dw DATA_B4DEFE
-	db $0E, $00, $4F, $00, $42, $00, $4A, $00, $43, $00
-DATA_B4DEFE:
+	db $22, $00, $7A, $00, $32, $0C, $04 : dw .text
+	dw !level_target_terror
+	dw $004F, $0042
+	dw $004A, $0043
+.text
 	db $0D, ">TARGET TERROR"
 	db $12, ">OBJECTIF EPOUVANTE"
 
 DATA_B4DF21:
-	db $3A, $00, $20, $00, $32, $07, $04 : dw DATA_B4DF38
-	db $2E, $00, $4B, $00, $44, $00, $53, $00, $49, $00, $49, $00, $43, $00
-DATA_B4DF38:
+	db $3A, $00, $20, $00, $32, $07, $04 : dw .text
+	dw !level_bramble_scramble
+	dw $004B, $0044
+	dw $0053, $0049
+	dw $0049, $0043
+.text
 	db $10, ">BRAMBLE SCRAMBLE"
 	db $13, ">EMBROUILLAMINI JOLI"
 
 DATA_B4DF5F:
-	db $96, $00, $14, $00, $32, $06, $02 : dw DATA_B4DF72
-	db $0F, $00, $4A, $00, $44, $00, $4C, $00, $45, $00
-DATA_B4DF72:
+	db $96, $00, $14, $00, $32, $06, $02 : dw .text
+	dw !level_rickety_race
+	dw $004A, $0044
+	dw $004C, $0045
+.text
 	db $0C, ">RICKETY RACE"
 	db $11, ">A BOUT DE SOUFFLE"
 
 DATA_B4DF93:
-	db $98, $00, $BC, $00, $32, $0B, $08 : dw DATA_B4DFAA
-	db $00, $00, $4E, $00, $46, $00, $4D, $00, $47, $00, $4B, $00, $45, $00
-DATA_B4DFAA:
+	db $98, $00, $BC, $00, $32, $0B, $08 : dw .text
+	dw !null_pointer
+	dw $004E, $0046
+	dw $004D, $0047
+	dw $004B, $0045
+.text
 	db $0D, ">MONKEY MUSEUM"
 	db $0E, ">MUS?E DU SINGE"
 
 DATA_B4DFC9:
-	db $59, $00, $AF, $00, $32, $01, $01 : dw DATA_B4DFD8
-	db $00, $00, $4C, $00, $47, $00
-DATA_B4DFD8:
+	db $59, $00, $AF, $00, $32, $01, $01 : dw .text
+	dw !null_pointer
+	dw $004C, $0047
+.text
 	db $16, ">SWANKY'S BONUS BONANZA"
 	db $16, ">BONUS % GOGO DE SWANKY"
 
 DATA_B4E008:
-	db $EB, $00, $C8, $00, $02, $00, $00 : dw DATA_B4E017
-	db $00, $00, $4C, $00, $56, $00
-DATA_B4E017:
+	db $EB, $00, $C8, $00, $02, $00, $00 : dw .text
+	dw !null_pointer
+	dw $004C, $0056
+.text
 	db $01, ">A"
 	db $01, ">A"
 
 DATA_B4E01D:
-	db $05, $00, $B4, $00, $02, $08, $00 : dw DATA_B4E02C
-	db $00, $00, $49, $00, $42, $00
-DATA_B4E02C:
+	db $05, $00, $B4, $00, $02, $08, $00 : dw .text
+	dw !null_pointer
+	dw $0049, $0042
+.text
 	db $01, ">A"
 	db $01, ">A"
 
 DATA_B4E032:
-	db $11, $00, $7F, $00, $32, $09, $00 : dw DATA_B4E045
-	db $11, $00, $51, $00, $3D, $00, $52, $00, $3E, $00
-DATA_B4E045:
+	db $11, $00, $7F, $00, $32, $09, $00 : dw .text
+	dw !level_hornet_hole
+	dw $0051, $003D
+	dw $0052, $003E
+.text
 	db $0B, ">HORNET HOLE"
 	db $13, ">FRELONS FR?MISSANTS"
 
 DATA_B4E067:
-	db $44, $00, $A6, $00, $32, $0A, $02 : dw DATA_B4E07A
-	db $4B, $00, $50, $00, $3D, $00, $52, $00, $4A, $00
-DATA_B4E07A:
+	db $44, $00, $A6, $00, $32, $0A, $02 : dw .text
+	dw !level_4B
+	dw $0050, $003D
+	dw $0052, $004A
+.text
 	db $0C, ">KONG KOLLEGE"
 	db $0C, ">KOLL&GE KONG"
 
 DATA_B4E096:
-	db $47, $00, $42, $00, $02, $00, $00 : dw DATA_B4E0A5
-	db $00, $00, $50, $00, $54, $00
-DATA_B4E0A5:
+	db $47, $00, $42, $00, $02, $00, $00 : dw .text
+	dw !null_pointer
+	dw $0050, $0054
+.text
 	db $01, ">A"
 	db $01, ">A"
 
 DATA_B4E0AB:
-	db $14, $00, $14, $00, $32, $01, $01 : dw DATA_B4E0BA
-	db $00, $00, $4A, $00, $49, $00
-DATA_B4E0BA:
+	db $14, $00, $14, $00, $32, $01, $01 : dw .text
+	dw !null_pointer
+	dw $004A, $0049
+.text
 	db $12, ">FUNKY'S FLIGHTS II"
 	db $0D, ">VOLS FUNKY II"
 
 DATA_B4E0DD:
-	db $03, $00, $89, $00, $02, $00, $00 : dw DATA_B4E0EC
-	db $00, $00, $1B, $00, $4B, $00
-DATA_B4E0EC:
+	db $03, $00, $89, $00, $02, $00, $00 : dw .text
+	dw !null_pointer
+	dw $001B, $004B
+.text
 	db $01, ">A"
 	db $01, ">A"
 
 DATA_B4E0F2:
-	db $01, $00, $84, $00, $02, $00, $00 : dw DATA_B4E101
-	db $00, $00, $50, $00, $4C, $00
-DATA_B4E101:
+	db $01, $00, $84, $00, $02, $00, $00 : dw .text
+	dw !null_pointer
+	dw $0050, $004C
+.text
 	db $01, ">A"
 	db $01, ">A"
 
 DATA_B4E107:
-	db $03, $00, $7D, $00, $02, $00, $00 : dw DATA_B4E116
-	db $00, $00, $28, $00, $4D, $00
-DATA_B4E116:
+	db $03, $00, $7D, $00, $02, $00, $00 : dw .text
+	dw !null_pointer
+	dw $0028, $004D
+.text
 	db $01, ">A"
 	db $01, ">A"
 
 DATA_B4E11C:
-	db $AF, $00, $AE, $01, $02, $00, $00 : dw DATA_B4E12B
-	db $00, $00, $34, $00, $4E, $00
-DATA_B4E12B:
+	db $AF, $00, $AE, $01, $02, $00, $00 : dw .text
+	dw !null_pointer
+	dw $0034, $004E
+.text
 	db $01, ">A"
 	db $01, ">A"
 
 DATA_B4E131:
-	db $1C, $00, $44, $00, $32, $00, $00 : dw DATA_B4E140
-	db $00, $00, $41, $00, $4F, $00
-DATA_B4E140:
+	db $1C, $00, $44, $00, $32, $00, $00 : dw .text
+	dw !null_pointer
+	dw $0041, $004F
+.text
 	db $01, ">A"
 	db $01, ">A"
 
 DATA_B4E146:
-	db $2C, $00, $82, $00, $02, $00, $00 : dw DATA_B4E155
-	db $00, $00, $5B, $00, $50, $00
-DATA_B4E155:
+	db $2C, $00, $82, $00, $02, $00, $00 : dw .text
+	dw !null_pointer
+	dw $005B, $0050
+.text
 	db $01, ">A"
 	db $01, ">A"
 
 DATA_B4E15B:
-	db $96, $00, $C3, $00, $32, $0B, $00 : dw DATA_B4E172
-	db $2F, $00, $5C, $00, $52, $00, $77, $00, $6B, $00, $5D, $00, $53, $00
-DATA_B4E172:
+	db $96, $00, $C3, $00, $32, $0B, $00 : dw .text
+	dw !level_screechs_sprint
+	dw $005C, $0052
+	dw $0077, $006B
+	dw $005D, $0053
+.text
 	db $10, ">SCREECH'S SPRINT"
 	db $11, ">SPRINT DE SCREECH"
 
 DATA_B4E197:
-	db $D2, $00, $C3, $00, $32, $02, $02 : dw DATA_B4E1A6
-	db $00, $00, $5B, $00, $52, $00
-DATA_B4E1A6:
+	db $D2, $00, $C3, $00, $32, $02, $02 : dw .text
+	dw !null_pointer
+	dw $005B, $0052
+.text
 	db $0C, ">KONG KOLLEGE"
 	db $0C, ">KOLL&GE KONG"
 
 DATA_B4E1C2:
-	db $B4, $00, $70, $00, $32, $04, $04 : dw DATA_B4E1D1
-	db $61, $00, $5B, $00, $53, $00
-DATA_B4E1D1:
+	db $B4, $00, $70, $00, $32, $04, $04 : dw .text
+	dw !level_k_rool_duel
+	dw $005B, $0053
+.text
 	db $0B, ">K.ROOL DUEL"
 	db $10, ">DUEL AVEC K.ROOL"
 
 DATA_B4E1F0:
-	db $50, $00, $B1, $00, $32, $03, $00 : dw DATA_B4E203
-	db $00, $00, $5F, $00, $57, $00, $60, $00, $58, $00
-DATA_B4E203:
+	db $50, $00, $B1, $00, $32, $03, $00 : dw .text
+	dw !null_pointer
+	dw $005F, $0057
+	dw $0060, $0058
+.text
 	db $1C, ">RETURN TO CROCODILE CAULDRON"
 	db $1B, ">RETOUR AU CHAUDRON DU CROCO"
 
 DATA_B4E23E:
-	db $74, $00, $CB, $00, $32, $02, $02 : dw DATA_B4E24D
-	db $00, $00, $5E, $00, $57, $00
-DATA_B4E24D:
+	db $74, $00, $CB, $00, $32, $02, $02 : dw .text
+	dw !null_pointer
+	dw $005E, $0057
+.text
 	db $0D, ">MONKEY MUSEUM"
 	db $0E, ">MUS?E DU SINGE"
 
 DATA_B4E26C:
-	db $11, $00, $82, $00, $32, $09, $01 : dw DATA_B4E27F
-	db $99, $00, $5E, $00, $58, $00, $61, $00, $59, $00
-DATA_B4E27F:
+	db $11, $00, $82, $00, $32, $09, $01 : dw .text
+	dw !level_jungle_jinx
+	dw $005E, $0058
+	dw $0061, $0059
+.text
 	db $0B, ">JUNGLE JINX"
 	db $11, ">JUNGLE ENSORCEL?E"
 
 DATA_B4E29F:
-	db $8E, $00, $62, $00, $32, $04, $04 : dw DATA_B4E2AE
-	db $6B, $00, $60, $00, $59, $00
-DATA_B4E2AE:
+	db $8E, $00, $62, $00, $32, $04, $04 : dw .text
+	dw !level_krocodile_kore
+	dw $0060, $0059
+.text
 	db $0E, ">KROCODILE KORE"
 	db $0F, ">KANINE DU KROCO"
 
 DATA_B4E2CF:
-	db $50, $00, $B1, $00, $32, $09, $00 : dw DATA_B4E2E2
-	db $00, $00, $63, $00, $5A, $00, $64, $00, $5B, $00
-DATA_B4E2E2:
+	db $50, $00, $B1, $00, $32, $09, $00 : dw .text
+	dw !null_pointer
+	dw $0063, $005A
+	dw $0064, $005B
+.text
 	db $13, ">RETURN TO KREM QUAY"
 	db $13, ">RETOUR AU QUAI KREM"
 
 DATA_B4E30C:
-	db $74, $00, $CB, $00, $32, $02, $02 : dw DATA_B4E31B
-	db $00, $00, $62, $00, $5A, $00
-DATA_B4E31B:
+	db $74, $00, $CB, $00, $32, $02, $02 : dw .text
+	dw !null_pointer
+	dw $0062, $005A
+.text
 	db $0D, ">MONKEY MUSEUM"
 	db $0E, ">MUS?E DU SINGE"
 
 DATA_B4E33A:
-	db $2C, $00, $82, $00, $32, $0C, $04 : dw DATA_B4E34D
-	db $96, $00, $62, $00, $5B, $00, $65, $00, $5C, $00
-DATA_B4E34D:
+	db $2C, $00, $82, $00, $32, $0C, $04 : dw .text
+	dw !level_black_ice_battle
+	dw $0062, $005B
+	dw $0065, $005C
+.text
 	db $10, ">BLACK ICE BATTLE"
 	db $1A, ">BATAILLE DE LA GLACE NOIRE"
 
 DATA_B4E37B:
-	db $8E, $00, $62, $00, $32, $04, $04 : dw DATA_B4E38A
-	db $6B, $00, $64, $00, $5C, $00
-DATA_B4E38A:
+	db $8E, $00, $62, $00, $32, $04, $04 : dw .text
+	dw !level_krocodile_kore
+	dw $0064, $005C
+.text
 	db $0E, ">KROCODILE KORE"
 	db $0F, ">KANINE DU KROCO"
 
 DATA_B4E3AB:
-	db $50, $00, $B1, $00, $32, $09, $00 : dw DATA_B4E3BE
-	db $00, $00, $67, $00, $5D, $00, $68, $00, $5E, $00
-DATA_B4E3BE:
+	db $50, $00, $B1, $00, $32, $09, $00 : dw .text
+	dw !null_pointer
+	dw $0067, $005D
+	dw $0068, $005E
+.text
 	db $18, ">RETURN TO KRAZY KREMLAND"
 	db $17, ">RETOUR % KREMLAND DINGO"
 
 DATA_B4E3F1:
-	db $74, $00, $CB, $00, $32, $02, $02 : dw DATA_B4E400
-	db $00, $00, $66, $00, $5D, $00
-DATA_B4E400:
+	db $74, $00, $CB, $00, $32, $02, $02 : dw .text
+	dw !null_pointer
+	dw $0066, $005D
+.text
 	db $0D, ">MONKEY MUSEUM"
 	db $0E, ">MUS?E DU SINGE"
 
 DATA_B4E41F:
-	db $5E, $00, $96, $00, $32, $0C, $04 : dw DATA_B4E432
-	db $80, $00, $66, $00, $5E, $00, $69, $00, $5F, $00
-DATA_B4E432:
+	db $5E, $00, $96, $00, $32, $0C, $04 : dw .text
+	dw !level_klobber_karnage
+	dw $0066, $005E
+	dw $0069, $005F
+.text
 	db $0F, ">KLOBBER KARNAGE"
 	db $15, ">CH$TAIGNES ET MARRONS"
 
 DATA_B4E45A:
-	db $8E, $00, $62, $00, $32, $04, $04 : dw DATA_B4E469
-	db $6B, $00, $68, $00, $5F, $00
-DATA_B4E469:
+	db $8E, $00, $62, $00, $32, $04, $04 : dw .text
+	dw !level_krocodile_kore
+	dw $0068, $005F
+.text
 	db $0E, ">KROCODILE KORE"
 	db $0F, ">KANINE DU KROCO"
 
 DATA_B4E48A:
-	db $50, $00, $B1, $00, $32, $09, $00 : dw DATA_B4E49D
-	db $00, $00, $6B, $00, $60, $00, $6C, $00, $61, $00
-DATA_B4E49D:
+	db $50, $00, $B1, $00, $32, $09, $00 : dw .text
+	dw !null_pointer
+	dw $006B, $0060
+	dw $006C, $0061
+.text
 	db $16, ">RETURN TO GLOOMY GULCH"
 	db $14, ">RETOUR AU RAVIN RAVI"
 
 DATA_B4E4CB:
-	db $74, $00, $CB, $00, $32, $02, $02 : dw DATA_B4E4DA
-	db $00, $00, $6A, $00, $60, $00
-DATA_B4E4DA:
+	db $74, $00, $CB, $00, $32, $02, $02 : dw .text
+	dw !null_pointer
+	dw $006A, $0060
+.text
 	db $0D, ">MONKEY MUSEUM"
 	db $0E, ">MUS?E DU SINGE"
 
 DATA_B4E4F9:
-	db $96, $00, $8A, $00, $32, $0A, $02 : dw DATA_B4E50C
-	db $16, $00, $6A, $00, $61, $00, $6D, $00, $62, $00
-DATA_B4E50C:
+	db $96, $00, $8A, $00, $32, $0A, $02 : dw .text
+	dw !level_fiery_furnace
+	dw $006A, $0061
+	dw $006D, $0062
+.text
 	db $0D, ">FIERY FURNACE"
 	db $12, ">FOURNAISE FURIEUSE"
 
 DATA_B4E52F:
-	db $8E, $00, $62, $00, $32, $04, $04 : dw DATA_B4E53E
-	db $6B, $00, $6C, $00, $62, $00
-DATA_B4E53E:
+	db $8E, $00, $62, $00, $32, $04, $04 : dw .text
+	dw !level_krocodile_kore
+	dw $006C, $0062
+.text
 	db $0E, ">KROCODILE KORE"
 	db $0F, ">KANINE DU KROCO"
 
 DATA_B4E55F:
-	db $50, $00, $B1, $00, $32, $05, $00 : dw DATA_B4E572
-	db $00, $00, $70, $00, $64, $00, $6F, $00, $63, $00
-DATA_B4E572:
+	db $50, $00, $B1, $00, $32, $05, $00 : dw .text
+	dw !null_pointer
+	dw $0070, $0064
+	dw $006F, $0063
+.text
 	db $17, ">RETURN TO K.ROOL'S KEEP"
 	db $1A, ">RETOUR AU CASTEL DE K.ROOL"
 
 DATA_B4E5A7:
-	db $74, $00, $CB, $00, $32, $02, $02 : dw DATA_B4E5B6
-	db $00, $00, $6E, $00, $63, $00
-DATA_B4E5B6:
+	db $74, $00, $CB, $00, $32, $02, $02 : dw .text
+	dw !null_pointer
+	dw $006E, $0063
+.text
 	db $0D, ">MONKEY MUSEUM"
 	db $0E, ">MUS?E DU SINGE"
 
 DATA_B4E5D5:
-	db $D4, $00, $A2, $00, $32, $0A, $02 : dw DATA_B4E5E8
-	db $9A, $00, $6E, $00, $64, $00, $71, $00, $65, $00
-DATA_B4E5E8:
+	db $D4, $00, $A2, $00, $32, $0A, $02 : dw .text
+	dw !level_animal_antics_rambi_area
+	dw $006E, $0064
+	dw $0071, $0065
+.text
 	db $0D, ">ANIMAL ANTICS"
 	db $14, ">FAC?TIES ANIMALI&RES"
 
 DATA_B4E60D:
-	db $8E, $00, $62, $00, $32, $04, $04 : dw DATA_B4E61C
-	db $6B, $00, $70, $00, $65, $00
-DATA_B4E61C:
+	db $8E, $00, $62, $00, $32, $04, $04 : dw .text
+	dw !level_krocodile_kore
+	dw $0070, $0065
+.text
 	db $0E, ">KROCODILE KORE"
 	db $0F, ">KANINE DU KROCO"
 
 DATA_B4E63D:
-	db $64, $00, $88, $00, $02, $00, $00 : dw DATA_B4E64C
-	db $00, $00, $12, $00, $66, $00
-DATA_B4E64C:
+	db $64, $00, $88, $00, $02, $00, $00 : dw .text
+	dw !null_pointer
+	dw $0012, $0066
+.text
 	db $01, ">A"
 	db $01, ">A"
 
 DATA_B4E652:
-	db $B8, $01, $C7, $00, $02, $00, $00 : dw DATA_B4E661
-	db $00, $00, $1F, $00, $67, $00
-DATA_B4E661:
+	db $B8, $01, $C7, $00, $02, $00, $00 : dw .text
+	dw !null_pointer
+	dw $001F, $0067
+.text
 	db $01, ">A"
 	db $01, ">A"
 
 DATA_B4E667:
-	db $9D, $00, $A1, $00, $02, $00, $00 : dw DATA_B4E676
-	db $00, $00, $47, $00, $68, $00
-DATA_B4E676:
+	db $9D, $00, $A1, $00, $02, $00, $00 : dw .text
+	dw !null_pointer
+	dw $0047, $0068
+.text
 	db $01, ">A"
 	db $01, ">A"
 
 DATA_B4E67C:
-	db $9E, $00, $65, $00, $02, $00, $00 : dw DATA_B4E68B
-	db $00, $00, $2F, $00, $69, $00
-DATA_B4E68B:
+	db $9E, $00, $65, $00, $02, $00, $00 : dw .text
+	dw !null_pointer
+	dw $002F, $0069
+.text
 	db $01, ">A"
 	db $01, ">A"
 
 DATA_B4E691:
-	db $16, $00, $46, $01, $02, $00, $00 : dw DATA_B4E6A0
-	db $00, $00, $38, $00, $6A, $00
-DATA_B4E6A0:
+	db $16, $00, $46, $01, $02, $00, $00 : dw .text
+	dw !null_pointer
+	dw $0038, $006A
+.text
 	db $01, ">A"
 	db $01, ">A"
 
 DATA_B4E6A6:
-	db $64, $00, $A0, $00, $32, $01, $01 : dw DATA_B4E6B5
-	db $00, $00, $5B, $00, $6B, $00
-DATA_B4E6B5:
+	db $64, $00, $A0, $00, $32, $01, $01 : dw .text
+	dw !null_pointer
+	dw $005B, $006B
+.text
 	db $12, ">FUNKY'S FLIGHTS II"
 	db $0D, ">VOLS FUNKY II"
 
