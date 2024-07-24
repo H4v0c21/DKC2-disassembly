@@ -1,5 +1,7 @@
 ;namespace dkc_pack
 
+%insert_sprite_palette("packs/dkc_pack/palettes/gnawty_palette.bin")
+
 %insert_sprite_hitboxes("packs/dkc_pack/hitboxes/gnawty_hitboxes.asm")
 
 %insert_sprite_animation_code("packs/dkc_pack/animations/animation_code.asm")

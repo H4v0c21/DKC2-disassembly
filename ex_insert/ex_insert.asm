@@ -288,7 +288,7 @@ macro insert_sprite_palette(palette_path)
 	org !ex_palette_insertion_address							;org to next free data address
 	
 	palette_!palette_counter:								;create label for custom data
-		incsrc <palette_path>								;import custom data
+		incbin <palette_path>								;import custom data
 	palette_end_!palette_counter:								;mark end of custom data
 
 	org !ex_palette_table_insertion_address							;org to next free table slot

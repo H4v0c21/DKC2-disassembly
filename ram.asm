@@ -5,6 +5,15 @@
 ;Temporaries are named after the address they point to rather than a sequence.
 ;Temporaries used for any significant context should have local reassignment
 ;Temporaries are generally any addres used in multi contexts.
+
+if !ex_patch == 1
+	requested_palette_address = $05A7
+	requested_palette_bank = $05F7
+	loaded_palette_addresses = $0B64
+	loaded_palette_banks = $1A00
+	loaded_palette_ref_counts = $0B74
+endif
+
 spc_transaction = $00
 
 current_song = $1C

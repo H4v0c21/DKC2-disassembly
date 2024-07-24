@@ -190,14 +190,15 @@ if !exhi == 1
 			incsrc "ex_patch/ex_hitbox_handler.asm" : padbyte $00 : pad $090000
 	
 	;check bankcross full
-		org $490000	;RESERVED FOR EX PALETTES
-			ex_palette_table:
-			ex_palette_table_end:
+		org $490000
+			incsrc "ex_patch/ex_palette_data.asm"
 			padbyte $00 : pad $4A0000
 		
 	;check bankcross half
 		org $0A8000
+			incsrc "ex_patch/ex_palette_handler.asm"
 			incsrc "ex_patch/ex_graphics_handler.asm"
+			
 		org $4B0000
 			ex_graphics:
 		org $5FFFFF

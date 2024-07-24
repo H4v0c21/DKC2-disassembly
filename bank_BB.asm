@@ -1595,64 +1595,70 @@ CODE_BB8A65:
 	RTL					;$BB8A68  /
 
 CODE_BB8A69:
+if !ex_patch == 1
+	JSL ex_palette_handler
+	RTS
+	NOP
+else
 	ASL A					;$BB8A69  \ \
 	TAX					;$BB8A6A   | |
 	LDA.l DATA_FD5FEE,x			;$BB8A6B   |/ Load sprite palette address from table
+endif
 CODE_BB8A6F:					;	   |
-	STA $05A7				;$BB8A6F   |
-	LDX #$0000				;$BB8A72   |
-CODE_BB8A75:					;	   |
-	LDA $0B64,x				;$BB8A75   |
-	BEQ CODE_BB8AA8				;$BB8A78   |
-	CMP $05A7				;$BB8A7A   |
-	BEQ CODE_BB8AA1				;$BB8A7D   |
-CODE_BB8A7F:					;	   |
-	INX					;$BB8A7F   |
-	INX					;$BB8A80   |
-	CPX #$0010				;$BB8A81   |
-	BNE CODE_BB8A75				;$BB8A84   |
-	LDA #$0002				;$BB8A86   |
-	JSL throw_exception			;$BB8A89   |
-	LDA $05A7				;$BB8A8D   |
-	STA $05F7				;$BB8A90   |
-	LDX #$0000				;$BB8A93   |
-	INC $0B74,x				;$BB8A96   |
-	TXA					;$BB8A99   |
-	XBA					;$BB8A9A   |
-	CLC					;$BB8A9B   |
-	LDA #$0000				;$BB8A9C   |
-	SEC					;$BB8A9F   |
-	RTS					;$BB8AA0  /
+	STA $05A7				;$BB8A6F   |> Preserve requested palette address
+	LDX #$0000				;$BB8A72   |> Initialize palette slot index
+.next_slot					;	   |
+	LDA $0B64,x				;$BB8A75   |\
+	BEQ .free_slot_found			;$BB8A78   |/ If current slot is free
+	CMP $05A7				;$BB8A7A   |\ Else
+	BEQ .existing_palette_found		;$BB8A7D   |/ If current slot is requested palette
+.slot_not_free					;	   |
+	INX					;$BB8A7F   |\ Slot isn't useable, move to next slot
+	INX					;$BB8A80   |/
+	CPX #$0010				;$BB8A81   |\
+	BNE .next_slot				;$BB8A84   |/ If not end of slots check next slot
+	LDA #$0002				;$BB8A86   |\ Else throw exeception
+	JSL throw_exception			;$BB8A89   |/
+	LDA $05A7				;$BB8A8D   |\
+	STA $05F7				;$BB8A90   |/ Save palette that caused the overflow
+	LDX #$0000				;$BB8A93   |> Use the palette in slot 0 instead
+	INC $0B74,x				;$BB8A96   |> Update reference count
+	TXA					;$BB8A99   |\
+	XBA					;$BB8A9A   | |
+	CLC					;$BB8A9B   | |
+	LDA #$0000				;$BB8A9C   |/ Extremely useless way of returning 0
+	SEC					;$BB8A9F   |\ Tell the caller the palette failed to load
+	RTS					;$BB8AA0  / /
 
-CODE_BB8AA1:
-	LDA $0B74,x				;$BB8AA1  \
-	BMI CODE_BB8A7F				;$BB8AA4   |
+.existing_palette_found
+	LDA $0B74,x				;$BB8AA1  \ \
+	BMI .slot_not_free			;$BB8AA4   |/ If slot isn't allowed to share
 	BRA CODE_BB8AC2				;$BB8AA6  /
 
-CODE_BB8AA8:
-	STX $5E					;$BB8AA8  \
-	BRA CODE_BB8AB4				;$BB8AAA  /
+.free_slot_found
+	STX $5E					;$BB8AA8  \> Preserve potential free slot
+	BRA .scan_ahead_for_existing_palette	;$BB8AAA  /
 
-CODE_BB8AAC:
+.next_slot_after_free
 	LDA $0B64,x				;$BB8AAC  \
 	CMP $05A7				;$BB8AAF   |
-	BEQ CODE_BB8ABD				;$BB8AB2   |
-CODE_BB8AB4:					;	   |
+	BEQ .existing_palette_found_after_free	;$BB8AB2   |
+.scan_ahead_for_existing_palette		;	   |
 	INX					;$BB8AB4   |
 	INX					;$BB8AB5   |
 	CPX #$0010				;$BB8AB6   |
-	BNE CODE_BB8AAC				;$BB8AB9   |
-	BRA CODE_BB8AF6				;$BB8ABB  /
+	BNE .next_slot_after_free		;$BB8AB9   |
+	BRA CODE_BB8AF6				;$BB8ABB  /> No matches found, create a new palette in free slot
 
-CODE_BB8ABD:
+.existing_palette_found_after_free
 	LDA $0B74,x				;$BB8ABD  \
-	BMI CODE_BB8AB4				;$BB8AC0   |
+	BMI .scan_ahead_for_existing_palette	;$BB8AC0   |
 CODE_BB8AC2:					;	   |
-	INC $0B74,x				;$BB8AC2   |
-	TXA					;$BB8AC5   |
-	XBA					;$BB8AC6   |
-	CLC					;$BB8AC7   |
-	RTS					;$BB8AC8  /
+	INC $0B74,x				;$BB8AC2   |> Add reference to existing palette slot
+	TXA					;$BB8AC5   |\
+	XBA					;$BB8AC6   |/ Return palette slot
+	CLC					;$BB8AC7   |\ Return palette load success
+	RTS					;$BB8AC8  / /
 
 	STA $05A7				;$BB8AC9   |
 	LDA $12,x				;$BB8ACC   |
@@ -1695,7 +1701,11 @@ CODE_BB8AF6:
 	CLC					;$BB8B0E   |
 	ADC #$0081				;$BB8B0F   |
 	XBA					;$BB8B12   |
+if !ex_patch == 1
+	ORA requested_palette_bank
+else
 	ORA #$00FD				;$BB8B13   |
+endif
 	STA $0B26,x				;$BB8B16   |
 	LDA $F1					;$BB8B19   |
 	INC A					;$BB8B1B   |
@@ -1703,8 +1713,15 @@ CODE_BB8AF6:
 	STA $F1					;$BB8B1F   |
 	LDX $5E					;$BB8B21   |
 	INC $0B74,x				;$BB8B23   |
+if !ex_patch == 1
+	JSR add_requested_palette_to_loaded
+	NOP
+	NOP
+	NOP
+else
 	LDA $05A7				;$BB8B26   |
 	STA $0B64,x				;$BB8B29   |
+endif
 	TXA					;$BB8B2C   |
 	XBA					;$BB8B2D   |
 	CLC					;$BB8B2E   |
@@ -1753,12 +1770,18 @@ CODE_BB8B66:
 	LDA #$003C				;$BB8B77   |
 	STA $60					;$BB8B7A   |
 CODE_BB8B7C:					;	   |
+if !ex_patch == 1
+	JMP return_if_not_kong_palette
+
+	padbyte $EA : pad $BB8B8A : warnpc $BB8B8A
+else
 	LDA $05A7				;$BB8B7C   |
 	CMP #$6484				;$BB8B7F   |
 	BEQ CODE_BB8B8A				;$BB8B82   |
 	CMP #$6574				;$BB8B84   |
 	BEQ CODE_BB8BAA				;$BB8B87   |
 	RTS					;$BB8B89  /
+endif
 
 CODE_BB8B8A:
 	LDA $08A4				;$BB8B8A  \
@@ -1858,7 +1881,11 @@ CODE_BB8C06:
 	RTS					;$BB8C13  /
 
 CODE_BB8C14:
+if !ex_patch == 1
+	BRL clear_sprite_palette_slot
+else
 	STZ $0B64,x				;$BB8C14  \
+endif
 	CLC					;$BB8C17   |
 	RTS					;$BB8C18  /
 
@@ -9061,6 +9088,40 @@ spawn_ex_sprite_direct:
 	PLB
 	PLB
 	JML parse_initscript_entry
+	
+clear_sprite_palette_slot:
+	STZ loaded_palette_addresses,x
+	STZ loaded_palette_banks,x
+	CLC
+	RTS
+	
+	
+add_requested_palette_to_loaded:
+	LDA requested_palette_address
+	STA loaded_palette_addresses,x
+	LDA requested_palette_bank
+	STA loaded_palette_banks,x
+	RTS
+
+
+return_if_not_kong_palette:
+	LDA requested_palette_bank
+	BEQ .return
+	CMP #$00FD
+	BNE .return
+	LDA requested_palette_address
+	CMP #$6484
+	BNE .check_dixie
+	JMP CODE_BB8B8A
+.check_dixie
+	CMP #$6574
+	BNE .return
+	JMP CODE_BB8BAA
+
+.return
+	LDA requested_palette_address
+	RTS
+
 endif
 
 padbyte $00 : pad $BBE800

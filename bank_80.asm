@@ -824,6 +824,35 @@ clear_wram_tables:
 	RTL					;$8088F0  /
 
 .wram_tables
+if !ex_patch == 1
+	dw $16B2, $0026
+	dw $16D8, $0026
+	dw $0D7A, $0002
+	dw $0BA0, $0002
+	dw $0BA2, $0002
+	dw $0A36, $0002
+	dw $0A38, $0002
+	dw $0B04, $0020
+	dw $0B24, $0040
+	dw $00EF, $0002
+	dw $00F1, $0002
+	dw loaded_palette_addresses, $0020
+	dw loaded_palette_banks, $0010
+	dw $0A42, $0040
+	dw $0929, $0002
+	dw $092B, $0002
+	dw $092D, $0002
+	dw $0923, $0002
+	dw $0515, $003E
+	dw $095B, $0008
+	dw $0963, $0008
+	dw $0D4A, $0002
+	dw $0989, $0002
+	dw $091B, $0002
+	dw $0919, $0002
+	dw $0B02, $0002
+	dw $FFFF
+else
 	dw aux_sprite_table, $092E
 	dw $16B2, $0026
 	dw $16D8, $0026
@@ -852,6 +881,7 @@ clear_wram_tables:
 	dw $0919, $0002
 	dw $0B02, $0002
 	dw $FFFF
+endif
 
 
 DMA_to_VRAM:
