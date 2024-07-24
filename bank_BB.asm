@@ -1605,7 +1605,11 @@ else
 	LDA.l DATA_FD5FEE,x			;$BB8A6B   |/ Load sprite palette address from table
 endif
 CODE_BB8A6F:					;	   |
+if !ex_patch == 1
+	JSR request_vanilla_palette_direct
+else
 	STA $05A7				;$BB8A6F   |> Preserve requested palette address
+endif
 	LDX #$0000				;$BB8A72   |> Initialize palette slot index
 .next_slot					;	   |
 	LDA $0B64,x				;$BB8A75   |\
@@ -1620,7 +1624,13 @@ CODE_BB8A6F:					;	   |
 	LDA #$0002				;$BB8A86   |\ Else throw exeception
 	JSL throw_exception			;$BB8A89   |/
 	LDA $05A7				;$BB8A8D   |\
+if !ex_patch == 1
+	NOP
+	NOP
+	NOP
+else
 	STA $05F7				;$BB8A90   |/ Save palette that caused the overflow
+endif
 	LDX #$0000				;$BB8A93   |> Use the palette in slot 0 instead
 	INC $0B74,x				;$BB8A96   |> Update reference count
 	TXA					;$BB8A99   |\
@@ -9122,6 +9132,11 @@ return_if_not_kong_palette:
 	LDA requested_palette_address
 	RTS
 
+request_vanilla_palette_direct:
+	STA requested_palette_address
+	LDA #$00FD
+	STA requested_palette_bank
+	RTS
 endif
 
 padbyte $00 : pad $BBE800
