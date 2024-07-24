@@ -825,6 +825,7 @@ clear_wram_tables:
 
 .wram_tables
 if !ex_patch == 1
+	dw aux_sprite_table, $092E
 	dw $16B2, $0026
 	dw $16D8, $0026
 	dw $0D7A, $0002
