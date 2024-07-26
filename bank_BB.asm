@@ -1743,8 +1743,14 @@ CODE_BB8B30:
 	ASL A					;$BB8B33   |
 	TAX					;$BB8B34   |
 	JSR CODE_BB8B66				;$BB8B35   |
+
+if !ex_patch == 1
+	JSR offset_palette_address_if_needed
+	NOP
+else
 	CLC					;$BB8B38   |
 	ADC #$3374				;$BB8B39   |
+endif
 	STA $0B24,x				;$BB8B3C   |
 	LDA $5E					;$BB8B3F   |
 	ASL A					;$BB8B41   |
@@ -9172,6 +9178,21 @@ request_vanilla_palette_direct:
 +:
 	STA requested_palette_bank
 	RTS
+
+offset_palette_address_if_needed:
+	PHA
+	LDA requested_palette_bank
+	CMP #<:ex_palette_table
+	BEQ .is_ex_palette
+	PLA
+	CLC
+	ADC #$3374
+	RTS
+
+.is_ex_palette:
+	PLA
+	RTS
+
 endif
 
 padbyte $00 : pad $BBE800
