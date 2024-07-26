@@ -6,7 +6,14 @@ ex_palette_handler:
 	TAX					; | |
 	LDA.l DATA_FD5FEE,x			; | | Get requested palette address from id
 	STA requested_palette_address		; |/ Save requested palette address
+	LDA $052B				; |\
+	AND #$0010 				; | | Check if level is using the darkness effect
+	BEQ .no_darkness			; |/
+	LDA #$007F  				; | If yes, use 7F as palette bank for inverted copies
+	BRA +
+.no_darkness				
 	LDA #$00FD				; |\ Use vanilla palette bank
++:						; | |
 	STA requested_palette_bank		; |/ Save requested palette bank
 	BRA handle_palette_loading		;/
 
@@ -40,7 +47,7 @@ handle_palette_loading:
 	INC loaded_palette_ref_counts,x		; |> Update reference count
 	TXA					; |
 	SEC					; |\ Tell the caller the palette failed to load
-	RTS					;/ /
+	RTL					;/ /
 
 
 .existing_palette_found

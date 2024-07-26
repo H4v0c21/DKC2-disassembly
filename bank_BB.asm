@@ -1753,7 +1753,11 @@ CODE_BB8B30:
 	CLC					;$BB8B44   |
 	ADC #$0081				;$BB8B45   |
 	XBA					;$BB8B48   |
+if !ex_patch == 1
+	ORA requested_palette_bank
+else
 	ORA #$007F				;$BB8B49   |
+endif
 	STA $0B26,x				;$BB8B4C   |
 	LDA $F1					;$BB8B4F   |
 	INC A					;$BB8B51   |
@@ -1761,8 +1765,15 @@ CODE_BB8B30:
 	STA $F1					;$BB8B55   |
 	LDX $5E					;$BB8B57   |
 	INC $0B74,x				;$BB8B59   |
+if !ex_patch == 1
+	JSR add_requested_palette_to_loaded
+	NOP
+	NOP
+	NOP
+else
 	LDA $05A7				;$BB8B5C   |
 	STA $0B64,x				;$BB8B5F   |
+endif
 	TXA					;$BB8B62   |
 	XBA					;$BB8B63   |
 	CLC					;$BB8B64   |
@@ -9074,13 +9085,12 @@ if !ex_patch == 1
 org $BBC900
 spawn_ex_sprite_direct:
 	PHY
-	JSR CODE_BB8297
+	JSR CODE_BB826F
 	PLY
 	BCS .return
 	STZ $56,x
 	LDA #$000F
 	STA $58,x
-	STZ $1C,x
 	BRL .spawn_sprite
 
 .return
@@ -9098,7 +9108,25 @@ spawn_ex_sprite_direct:
 	PLB
 	PLB
 	JML parse_initscript_entry
-	
+
+#spawn_big_ex_sprite_direct:
+	LDA #$0002
+.setup_big_sprite:
+	PHY
+	JSR CODE_BB8282
+	PLY
+	BCS .return
+	STZ $56,x
+	LDA #$000F
+	STA $58,x
+	STZ $1C,x
+	BRL .spawn_sprite
+
+#spawn_bigger_ex_sprite_direct:
+	LDA #$0003
+	BRA .setup_big_sprite
+
+
 clear_sprite_palette_slot:
 	STZ loaded_palette_addresses,x
 	STZ loaded_palette_banks,x
@@ -9134,7 +9162,14 @@ return_if_not_kong_palette:
 
 request_vanilla_palette_direct:
 	STA requested_palette_address
+	LDA $052B
+	AND #$0010
+	BEQ .no_darkness
+	LDA #$007F
+	BRA +
+.no_darkness:
 	LDA #$00FD
++:
 	STA requested_palette_bank
 	RTS
 endif

@@ -147,7 +147,7 @@ endstruct
 !last_used_spawn_id #= !ex_spawn_id_start-2
 !last_used_animation_id #= !ex_animation_id_start-1
 !last_used_graphic_id #= !ex_graphics_id_start-4
-!last_used_palette_id #= !ex_palette_id_start-2
+!last_used_palette_id #= !ex_palette_id_start-1
 
 
 ;creates a spawn script for a custom sprite
@@ -297,7 +297,7 @@ macro insert_sprite_palette(palette_path)
 	!ex_palette_insertion_address := palette_end_!palette_counter				;update data insertion address
 	!palette_counter #= !palette_counter+1							;update label counter to prevent label redefines
 	
-	!last_used_palette_id #= !last_used_palette_id+2					;update last used id
+	!last_used_palette_id #= !last_used_palette_id+1					;update last used id
 	!ex_palette_table_insertion_address #= !ex_palette_table_insertion_address+2		;update table insertion address
 endmacro
 
