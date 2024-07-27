@@ -1,7 +1,7 @@
 hirom
 optimize dp always
 optimize address mirrors
-;!version = 1
+!version = 1
 !override_pirate_panic = 0
 !pirate_panic_replacement = $23
 
