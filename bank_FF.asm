@@ -18445,7 +18445,7 @@ DATA_FFD740:
 	dw sprite.unknown_4A, $0030
 	dw !initcommand_success
 
-DATA_FFD752:
+clapper_water_into_ice_base_init:
 	dw sprite.number, $0304
 	dw sprite.render_order, $00D4
 	dw sprite.unknown_30, $0020
@@ -18455,7 +18455,7 @@ DATA_FFD752:
 	dw !initcommand_set_animation, $01B7
 	dw !initcommand_success
 
-DATA_FFD770:
+clapper_lava_into_water_base_init:
 	dw sprite.number, $0304
 	dw sprite.render_order, $00D4
 	dw sprite.unknown_30, $0020
@@ -18466,91 +18466,91 @@ DATA_FFD770:
 	dw !initcommand_success
 
 DATA_FFD78E:
-	dw !initcommand_load_subconfig, DATA_FFD752
+	dw !initcommand_load_subconfig, clapper_water_into_ice_base_init
 	dw sprite.unknown_42, $4000
 	dw sprite.unknown_44, $0294
 	dw !initcommand_success
 
 DATA_FFD79C:
-	dw !initcommand_load_subconfig, DATA_FFD752
+	dw !initcommand_load_subconfig, clapper_water_into_ice_base_init
 	dw sprite.unknown_42, $0000
 	dw sprite.unknown_44, $01E0
 	dw !initcommand_success
 
 DATA_FFD7AA:
-	dw !initcommand_load_subconfig, DATA_FFD752
+	dw !initcommand_load_subconfig, clapper_water_into_ice_base_init
 	dw sprite.unknown_42, $4000
 	dw sprite.unknown_44, $01A4
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FFD7BC:
-	dw !initcommand_load_subconfig, DATA_FFD752
+	dw !initcommand_load_subconfig, clapper_water_into_ice_base_init
 	dw sprite.unknown_42, $4000
 	dw sprite.unknown_44, $0258
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FFD7CE:
-	dw !initcommand_load_subconfig, DATA_FFD752
+	dw !initcommand_load_subconfig, clapper_water_into_ice_base_init
 	dw sprite.unknown_42, $0000
 	dw sprite.unknown_44, $0258
 	dw !initcommand_success
 
 DATA_FFD7DC:
-	dw !initcommand_load_subconfig, DATA_FFD752
+	dw !initcommand_load_subconfig, clapper_water_into_ice_base_init
 	dw sprite.unknown_42, $0000
 	dw sprite.unknown_44, $021C
 	dw !initcommand_success
 
 DATA_FFD7EA:
-	dw !initcommand_load_subconfig, DATA_FFD770
+	dw !initcommand_load_subconfig, clapper_lava_into_water_base_init
 	dw sprite.unknown_42, $4000
 	dw sprite.unknown_44, $030C
 	dw !initcommand_success
 
 DATA_FFD7F8:
-	dw !initcommand_load_subconfig, DATA_FFD770
+	dw !initcommand_load_subconfig, clapper_lava_into_water_base_init
 	dw sprite.unknown_42, $0000
 	dw sprite.unknown_44, $0348
 	dw !initcommand_success
 
 DATA_FFD806:
-	dw !initcommand_load_subconfig, DATA_FFD770
+	dw !initcommand_load_subconfig, clapper_lava_into_water_base_init
 	dw sprite.unknown_42, $4000
 	dw sprite.unknown_44, $0384
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FFD818:
-	dw !initcommand_load_subconfig, DATA_FFD770
+	dw !initcommand_load_subconfig, clapper_lava_into_water_base_init
 	dw sprite.unknown_42, $4000
 	dw sprite.unknown_44, $0528
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FFD82A:
-	dw !initcommand_load_subconfig, DATA_FFD770
+	dw !initcommand_load_subconfig, clapper_lava_into_water_base_init
 	dw sprite.unknown_42, $4000
 	dw sprite.unknown_44, $0438
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FFD83C:
-	dw !initcommand_load_subconfig, DATA_FFD770
+	dw !initcommand_load_subconfig, clapper_lava_into_water_base_init
 	dw sprite.unknown_42, $4000
 	dw sprite.unknown_44, $05DC
 	dw !initcommand_success
 
 DATA_FFD84A:
-	dw !initcommand_load_subconfig, DATA_FFD770
+	dw !initcommand_load_subconfig, clapper_lava_into_water_base_init
 	dw sprite.unknown_42, $4000
 	dw sprite.unknown_44, $0528
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FFD85C:
-	dw !initcommand_load_subconfig, DATA_FFD770
+	dw !initcommand_load_subconfig, clapper_lava_into_water_base_init
 	dw sprite.unknown_42, $4000
 	dw sprite.unknown_44, $01E0
 	dw !initcommand_success
