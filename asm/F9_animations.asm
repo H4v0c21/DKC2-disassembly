@@ -447,8 +447,8 @@ endif
 	dw DATA_F965AA : db $00, $00
 	dw DATA_F94EE4 : db $00, $00
 	dw DATA_F96FDE : db $00, $00
-	dw DATA_F970D3 : db $00, $00
-	dw DATA_F97129 : db $00, $00
+	dw clapper_idle : db $00, $00
+	dw clapper_interact : db $00, $00
 	dw DATA_F96AE2 : db $00, $00
 	dw DATA_F96AC8 : db $00, $00
 	dw DATA_F96AFC : db $00, $00
@@ -8836,7 +8836,7 @@ DATA_F970CB:
 	db !animation_command_81 : dw CODE_B9EEF8
 	db !animation_command_80, $00
 
-DATA_F970D3:
+clapper_idle:
 	db $04 : dw $2BD0
 	db $04 : dw $2BD4
 	db $04 : dw $2BD8
@@ -8867,7 +8867,7 @@ DATA_F970D3:
 	db $18 : dw $2BD0
 	db !animation_command_80, $00
 
-DATA_F97129:
+clapper_interact:
 	db $02 : dw $2C3C
 	db !animation_command_8E, $63, $06
 	db $01 : dw $2C40
@@ -8879,20 +8879,20 @@ DATA_F97129:
 	db $01 : dw $2C58
 	db $08 : dw $2C5C
 	db $03 : dw $2C60
-	db !animation_command_81 : dw CODE_B9EF12
-	db !animation_command_81 : dw CODE_B9EF00
+	db !animation_command_81 : dw spawn_clapper_breath
+	db !animation_command_81 : dw set_clapper_water_timer
 	db $03 : dw $2C64
 	db $03 : dw $2C68
-	db !animation_command_81 : dw CODE_B9EF12
+	db !animation_command_81 : dw spawn_clapper_breath
 	db $03 : dw $2C6C
 	db $03 : dw $2C70
-	db !animation_command_81 : dw CODE_B9EF12
+	db !animation_command_81 : dw spawn_clapper_breath
 	db $03 : dw $2C74
 	db $03 : dw $2C74
-	db !animation_command_81 : dw CODE_B9EF12
+	db !animation_command_81 : dw spawn_clapper_breath
 	db $03 : dw $2C74
 	db $03 : dw $2C74
-	db !animation_command_81 : dw CODE_B9EF12
+	db !animation_command_81 : dw spawn_clapper_breath
 	db $03 : dw $2C74
 	db $04 : dw $2BB0
 	db $04 : dw $2BB4
@@ -8923,7 +8923,7 @@ DATA_F97129:
 	db $04 : dw $2BB8
 	db $04 : dw $2BB4
 	db $04 : dw $2BB0
-	db !animation_command_81 : dw CODE_B9EF1A
+	db !animation_command_81 : dw set_clapper_idle_animation
 	db !animation_command_80, $00
 
 DATA_F971D3:

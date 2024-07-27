@@ -11940,7 +11940,7 @@ CODE_B3D91D:
 	JMP (DATA_B3D923,x)			;$B3D920  /
 
 DATA_B3D923:
-	dw CODE_B3D939				;00
+	dw clapper_sprite_code			;00
 	dw CODE_B3D9CD				;02
 	dw CODE_B3DAD6				;04
 	dw CODE_B3DC21				;06
@@ -11953,78 +11953,78 @@ DATA_B3D923:
 	dw CODE_B3E768				;14
 
 
-CODE_B3D939:
+clapper_sprite_code:
 	LDY current_sprite			;$B3D939  \
 	LDA $002E,y				;$B3D93B   |
 	ASL					;$B3D93E   |
 	TAX					;$B3D93F   |
-	JMP (DATA_B3D943,x)			;$B3D940  /
+	JMP (.clapper_action_table,x)		;$B3D940  /
 
-DATA_B3D943:
-	dw CODE_B3D947
-	dw CODE_B3D973
+.clapper_action_table:
+	dw .lava_into_water
+	dw .water_into_ice
 
+;Animation code spawns his breath and sets the timer for the water ($44,x).
+.lava_into_water:
+	LDA $000A,y				;$B3D947  \ Get clapper Y position
+	SEC					;$B3D94A  /
+	SBC #$0010				;$B3D94B  \ Subtract from it
+	CMP $0D4E				;$B3D94E   | Check if he's underwater
+	BCC .water_into_ice			;$B3D951  / If yes ↓
+	LDA #$00C0				;$B3D953  \
+	STA $003A,y				;$B3D956  / Set how much to subtract from animation frame display time
+	LDA $0036,y				;$B3D959  \ 
+	CMP #$01B8				;$B3D95C  / Check if in the clapping animation
+	BEQ .return				;$B3D95F  | If not ↓ 
+	JSL CODE_BCFB58				;$B3D961  \ Prepare hitbox for collision...
+	JSL CODE_BEBE6D				;$B3D965  / and check collision with player
+	BCC .return				;$B3D969  | If collision happened ↓
+	LDA #$FE00				;$B3D96B  \
+	STA $0024,y				;$B3D96E   | Apply Y velocity to the kong
+	BRA .set_clapping_animation		;$B3D971  / Set clapping animation and return 
 
-CODE_B3D947:
-	LDA $000A,y				;$B3D947  \
-	SEC					;$B3D94A   |
-	SBC #$0010				;$B3D94B   |
-	CMP $0D4E				;$B3D94E   |
-	BCC CODE_B3D973				;$B3D951   |
-	LDA #$00C0				;$B3D953   |
-	STA $003A,y				;$B3D956   |
-	LDA $0036,y				;$B3D959   |
-	CMP #$01B8				;$B3D95C   |
-	BEQ CODE_B3D996				;$B3D95F   |
-	JSL CODE_BCFB58				;$B3D961   |
-	JSL CODE_BEBE6D				;$B3D965   |
-	BCC CODE_B3D996				;$B3D969   |
-	LDA #$FE00				;$B3D96B   |
-	STA $0024,y				;$B3D96E   |
-	BRA CODE_B3D9C3				;$B3D971  /
-
-CODE_B3D973:
+.water_into_ice:
 	LDA #$0100				;$B3D973  \
-	STA $003A,y				;$B3D976   |
-	LDA $0036,y				;$B3D979   |
-	CMP #$01B8				;$B3D97C   |
-	BEQ CODE_B3D996				;$B3D97F   |
-	JSL CODE_BCFB58				;$B3D981   |
-	LDX current_sprite			;$B3D985   |
-	LDA $12,x				;$B3D987   |
-	STA $46,x				;$B3D989   |
-	LDA #$0CDC				;$B3D98B   |
-	JSL CODE_BEBE8B				;$B3D98E   |
-	STA $32					;$B3D992   |
-	BCS CODE_B3D99D				;$B3D994   |
-CODE_B3D996:					;	   |
-	JSL CODE_B9D100				;$B3D996   |
-	JMP CODE_B3D916				;$B3D99A  /
+	STA $003A,y				;$B3D976  / Set how much to subtract from animation frame display time
+	LDA $0036,y				;$B3D979  \
+	CMP #$01B8				;$B3D97C  / Check if in the clapping animation
+	BEQ .return				;$B3D97F  | If not ↓
+	JSL CODE_BCFB58				;$B3D981  | Prepare hitbox for collision
+	LDX current_sprite			;$B3D985  |
+	LDA $12,x				;$B3D987  \ Get its OAM properties...
+	STA $46,x				;$B3D989  / and preserve them (to retain facing direction when collision happens)
+	LDA #$0CDC				;$B3D98B  \
+	JSL CODE_BEBE8B				;$B3D98E  / Check for player collision with flags (Apply knockback if collided)
+	STA $32					;$B3D992  | Store whatever value the above routine gives us into scratch ram
+	BCS .collision_happened			;$B3D994  | If collision didn't't happen ↓
+.return:					;	  |
+	JSL CODE_B9D100				;$B3D996  | Process animations
+	JMP CODE_B3D916				;$B3D99A / Return
 
-CODE_B3D99D:
+.collision_happened:
 	LDX current_sprite			;$B3D99D  \
-	LDA $46,x				;$B3D99F   |
-	STA $12,x				;$B3D9A1   |
-	LDA #$001E				;$B3D9A3   |
-	CMP $0A82				;$B3D9A6   |
-	BEQ CODE_B3D9B3				;$B3D9A9   |
-	BRA CODE_B3D9C3				;$B3D9AB  /
+	LDA $46,x				;$B3D99F   | Restore the previously copied OAM properties
+	STA $12,x				;$B3D9A1  / 
+	LDA #$001E				;$B3D9A3  \
+	CMP $0A82				;$B3D9A6  / Check if the kong is being knocked back
+	BEQ .kong_knocked_back			;$B3D9A9  | If not ↓ 
+	BRA .set_clapping_animation		;$B3D9AB  / Play clapping animation
 
-	JSL CODE_B8D8BA				;$B3D9AD   |
-	BCS CODE_B3D9C3				;$B3D9B1   |
-CODE_B3D9B3:					;	   |
-	LDX current_sprite			;$B3D9B3   |
-	LDA #$0300				;$B3D9B5   |
-	BIT $42,x				;$B3D9B8   |
-	BVC CODE_B3D9C0				;$B3D9BA   |
-	EOR #$FFFF				;$B3D9BC   |
-	INC A					;$B3D9BF   |
-CODE_B3D9C0:					;	   |
-	STA $0A86				;$B3D9C0   |
-CODE_B3D9C3:					;	   |
-	LDA #$01B8				;$B3D9C3   |
-	JSL set_sprite_animation		;$B3D9C6   |
-	JML [$05A9]				;$B3D9CA  /
+	JSL CODE_B8D8BA				;$B3D9AD  \ Dead code  
+	BCS .set_clapping_animation		;$B3D9B1  / Dead code
+.kong_knocked_back:				;	  |
+	LDX current_sprite			;$B3D9B3  |
+	LDA #$0300				;$B3D9B5  \
+	BIT $42,x				;$B3D9B8   | Check bits to tell if kong gets knocked left or right
+	BVC .no_invert				;$B3D9BA   | If bit 6 is set ↓
+	EOR #$FFFF				;$B3D9BC  / #$0300 becomes #$FD00 and kong gets knocked to the right
+	INC A					;$B3D9BF  |
+.no_invert:					;	  |
+	STA $0A86				;$B3D9C0  | Set knockback direction
+.set_clapping_animation:			;	  |
+	LDA #$01B8				;$B3D9C3  \
+	JSL set_sprite_animation		;$B3D9C6   | Play clapping animation
+	JML [$05A9]				;$B3D9CA  / Return
 
 CODE_B3D9CD:
 	LDX current_sprite			;$B3D9CD  \

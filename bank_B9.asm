@@ -4903,24 +4903,24 @@ CODE_B9EEF8:
 	JSL set_sprite_animation		;$B9EEFB   |
 	RTS					;$B9EEFF  /
 
-CODE_B9EF00:
+set_clapper_water_timer:
 	LDA $44,x				;$B9EF00  \
 if !version == 1				;	   |
 	CMP $0915				;$B9EF02   |
-	BCC CODE_B9EF0A				;$B9EF05   |
+	BCC .play_clapper_breath_sound		;$B9EF05   |
 endif						;	   |
 	STA $0915				;$B9EF07   |
-CODE_B9EF0A:					;	   |
+.play_clapper_breath_sound:			;	   |
 	LDA #$066E				;$B9EF0A   |
 	JSL queue_sound_effect			;$B9EF0D   |
 	RTS					;$B9EF11  /
 
-CODE_B9EF12:
+spawn_clapper_breath:
 	LDY #$00DE				;$B9EF12  \
 	JSL CODE_BB8412				;$B9EF15   |
 	RTS					;$B9EF19  /
 
-CODE_B9EF1A:
+set_clapper_idle_animation:
 	LDA #$01B7				;$B9EF1A  \
 	JSL set_sprite_animation		;$B9EF1D   |
 	RTS					;$B9EF21  /
