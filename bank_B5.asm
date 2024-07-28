@@ -7316,7 +7316,7 @@ CODE_B5D52C:					;	   |
 	ADC $17C0				;$B5D551   |
 	STA $17C0				;$B5D554   |
 	JSL CODE_B5A8DA				;$B5D557   |
-	JSL CODE_B380EC				;$B5D55B   |
+	JSL process_looping_sounds_global	;$B5D55B   |
 	JSR CODE_B5D48E				;$B5D55F   |
 	JSL fade_screen_global			;$B5D562   |
 	JSL prepare_oam_dma_channel_global	;$B5D566   |

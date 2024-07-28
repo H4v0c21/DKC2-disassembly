@@ -1591,64 +1591,64 @@ CODE_BB8A65:
 	RTL					;$BB8A68  /
 
 CODE_BB8A69:
-	ASL A					;$BB8A69  \
-	TAX					;$BB8A6A   |
-	LDA.l DATA_FD5FEE,x			;$BB8A6B   |
+	ASL A					;$BB8A69  \ \
+	TAX					;$BB8A6A   | |
+	LDA.l DATA_FD5FEE,x			;$BB8A6B   |/ Load sprite palette address from table
 CODE_BB8A6F:					;	   |
-	STA $05A7				;$BB8A6F   |
-	LDX #$0000				;$BB8A72   |
-CODE_BB8A75:					;	   |
-	LDA $0B64,x				;$BB8A75   |
-	BEQ CODE_BB8AA8				;$BB8A78   |
-	CMP $05A7				;$BB8A7A   |
-	BEQ CODE_BB8AA1				;$BB8A7D   |
-CODE_BB8A7F:					;	   |
-	INX					;$BB8A7F   |
-	INX					;$BB8A80   |
-	CPX #$0010				;$BB8A81   |
-	BNE CODE_BB8A75				;$BB8A84   |
-	LDA #$0002				;$BB8A86   |
-	JSL throw_exception			;$BB8A89   |
-	LDA $05A7				;$BB8A8D   |
-	STA $05F7				;$BB8A90   |
-	LDX #$0000				;$BB8A93   |
-	INC $0B74,x				;$BB8A96   |
-	TXA					;$BB8A99   |
-	XBA					;$BB8A9A   |
-	CLC					;$BB8A9B   |
-	LDA #$0000				;$BB8A9C   |
-	SEC					;$BB8A9F   |
-	RTS					;$BB8AA0  /
+	STA $05A7				;$BB8A6F   |> Preserve requested palette address
+	LDX #$0000				;$BB8A72   |> Start with palette slot 0
+.next_slot					;	   |
+	LDA $0B64,x				;$BB8A75   |\
+	BEQ .free_slot_found			;$BB8A78   |/ If current slot is free
+	CMP $05A7				;$BB8A7A   |\ Else
+	BEQ .existing_palette_found		;$BB8A7D   |/ If current slot is requested palette
+.slot_not_free					;	   |
+	INX					;$BB8A7F   |\ Slot isnt useable, move to next slot
+	INX					;$BB8A80   |/
+	CPX #$0010				;$BB8A81   |\
+	BNE .next_slot				;$BB8A84   |/ If not end of slots check next slot
+	LDA #$0002				;$BB8A86   |\ Else throw exeception
+	JSL throw_exception			;$BB8A89   |/
+	LDA $05A7				;$BB8A8D   |\
+	STA $05F7				;$BB8A90   |/ Save palette that caused the overflow
+	LDX #$0000				;$BB8A93   |> Use the palette in slot 0 instead
+	INC $0B74,x				;$BB8A96   |> Update reference count
+	TXA					;$BB8A99   |\
+	XBA					;$BB8A9A   | |
+	CLC					;$BB8A9B   | |
+	LDA #$0000				;$BB8A9C   |/ Extremely useless way of returning 0
+	SEC					;$BB8A9F   |\ Tell the caller the palette failed to load
+	RTS					;$BB8AA0  /_/
 
-CODE_BB8AA1:
-	LDA $0B74,x				;$BB8AA1  \
-	BMI CODE_BB8A7F				;$BB8AA4   |
-	BRA CODE_BB8AC2				;$BB8AA6  /
+.existing_palette_found
+	LDA $0B74,x				;$BB8AA1  \ \ If palette slot isnt allowed to share
+	BMI .slot_not_free			;$BB8AA4   |/ Then find a new slot
+	BRA .slot_found				;$BB8AA6  /
 
-CODE_BB8AA8:
-	STX $5E					;$BB8AA8  \
-	BRA CODE_BB8AB4				;$BB8AAA  /
+.free_slot_found
+	STX $5E					;$BB8AA8  \> Preserve potential free slot
+	BRA .scan_ahead_for_existing_palette	;$BB8AAA  /
 
-CODE_BB8AAC:
-	LDA $0B64,x				;$BB8AAC  \
-	CMP $05A7				;$BB8AAF   |
-	BEQ CODE_BB8ABD				;$BB8AB2   |
-CODE_BB8AB4:					;	   |
-	INX					;$BB8AB4   |
-	INX					;$BB8AB5   |
-	CPX #$0010				;$BB8AB6   |
-	BNE CODE_BB8AAC				;$BB8AB9   |
-	BRA CODE_BB8AF6				;$BB8ABB  /
+.next_slot_after
+	LDA $0B64,x				;$BB8AAC  \ \
+	CMP $05A7				;$BB8AAF   | | If requested address matches address in slot
+	BEQ .palette_found_after_free_slot	;$BB8AB2   |/ Then palette is already in the slot
+.scan_ahead_for_existing_palette		;	   |
+	INX					;$BB8AB4   |\ Slot isnt useable, move to next slot
+	INX					;$BB8AB5   |/
+	CPX #$0010				;$BB8AB6   |\
+	BNE .next_slot_after			;$BB8AB9   |/ If not end of slots check next slot
+	BRA CODE_BB8AF6				;$BB8ABB  /> No matches found, create a new palette in free slot
 
-CODE_BB8ABD:
-	LDA $0B74,x				;$BB8ABD  \
-	BMI CODE_BB8AB4				;$BB8AC0   |
-CODE_BB8AC2:					;	   |
-	INC $0B74,x				;$BB8AC2   |
-	TXA					;$BB8AC5   |
-	XBA					;$BB8AC6   |
-	CLC					;$BB8AC7   |
-	RTS					;$BB8AC8  /
+.palette_found_after_free_slot
+	LDA $0B74,x				;$BB8ABD  \ \ If palette slot isnt allowed to share
+	BMI .scan_ahead_for_existing_palette	;$BB8AC0   |/ Then find a new slot
+.slot_found					;	   |
+	INC $0B74,x				;$BB8AC2   |> Add reference to existing palette slot
+	TXA					;$BB8AC5   |\
+	XBA					;$BB8AC6   |/ Convert palette slot to OAM bits
+	CLC					;$BB8AC7   |\ Return palette load success
+	RTS					;$BB8AC8  /_/
 
 	STA $05A7				;$BB8AC9   |
 	LDA $12,x				;$BB8ACC   |
@@ -1741,35 +1741,35 @@ CODE_BB8B66:
 	STZ $60					;$BB8B66  \
 	LDA $060D				;$BB8B68   |
 	CMP #$0002				;$BB8B6B   |
-	BNE CODE_BB8B7C				;$BB8B6E   |
+	BNE .CODE_BB8B7C			;$BB8B6E   |
 	SEC					;$BB8B70   |
 	SBC $060F				;$BB8B71   |
 	DEC A					;$BB8B74   |
-	BNE CODE_BB8B7C				;$BB8B75   |
+	BNE .CODE_BB8B7C			;$BB8B75   |
 	LDA #$003C				;$BB8B77   |
 	STA $60					;$BB8B7A   |
-CODE_BB8B7C:					;	   |
+.CODE_BB8B7C					;	   |
 	LDA $05A7				;$BB8B7C   |
-	CMP #$6484				;$BB8B7F   |
-	BEQ CODE_BB8B8A				;$BB8B82   |
-	CMP #$6574				;$BB8B84   |
-	BEQ CODE_BB8BAA				;$BB8B87   |
+	CMP #diddy_active_sprite_palette	;$BB8B7F   |
+	BEQ .diddy_palette			;$BB8B82   |
+	CMP #dixie_active_sprite_palette	;$BB8B84   |
+	BEQ .dixie_palette			;$BB8B87   |
 	RTS					;$BB8B89  /
 
-CODE_BB8B8A:
+.diddy_palette
 	LDA $08A4				;$BB8B8A  \
-	BEQ CODE_BB8BAF				;$BB8B8D   |
-CODE_BB8B8F:					;	   |
+	BEQ .CODE_BB8BAF			;$BB8B8D   |
+.CODE_BB8B8F					;	   |
 	LDA $091C				;$BB8B8F   |
 	AND #$0003				;$BB8B92   |
-	BEQ CODE_BB8B9F				;$BB8B95   |
+	BEQ .no_gas_effect			;$BB8B95   |
 	DEC A					;$BB8B97   |
-	BEQ CODE_BB8BD1				;$BB8B98   |
+	BEQ .blue_gas_effect			;$BB8B98   |
 	DEC A					;$BB8B9A   |
-	BEQ CODE_BB8BD9				;$BB8B9B   |
-	BRA CODE_BB8BC2				;$BB8B9D  /
+	BEQ .red_gas_effect			;$BB8B9B   |
+	BRA .purple_gas_effect			;$BB8B9D  /
 
-CODE_BB8B9F:
+.no_gas_effect
 	LDA #$001E				;$BB8B9F  \
 	CLC					;$BB8BA2   |
 	ADC $05A7				;$BB8BA3   |
@@ -1777,44 +1777,44 @@ CODE_BB8B9F:
 	ADC $60					;$BB8BA7   |
 	RTS					;$BB8BA9  /
 
-CODE_BB8BAA:
+.dixie_palette
 	LDA $08A4				;$BB8BAA  \
-	BEQ CODE_BB8B8F				;$BB8BAD   |
-CODE_BB8BAF:					;	   |
+	BEQ .CODE_BB8B8F			;$BB8BAD   |
+.CODE_BB8BAF					;	   |
 	LDA $091A				;$BB8BAF   |
-	BMI CODE_BB8BE1				;$BB8BB2   |
+	BMI .invincibility_effect		;$BB8BB2   |
 	LDA $091C				;$BB8BB4   |
 	AND #$0003				;$BB8BB7   |
-	BEQ CODE_BB8BCA				;$BB8BBA   |
+	BEQ .CODE_BB8BCA			;$BB8BBA   |
 	DEC A					;$BB8BBC   |
-	BEQ CODE_BB8BD1				;$BB8BBD   |
+	BEQ .blue_gas_effect			;$BB8BBD   |
 	DEC A					;$BB8BBF   |
-	BEQ CODE_BB8BD9				;$BB8BC0   |
-CODE_BB8BC2:					;	   |
+	BEQ .red_gas_effect			;$BB8BC0   |
+.purple_gas_effect				;	   |
 	LDA #$00B4				;$BB8BC2   |
 	CLC					;$BB8BC5   |
 	ADC $05A7				;$BB8BC6   |
 	RTS					;$BB8BC9  /
 
-CODE_BB8BCA:
+.CODE_BB8BCA
 	LDA $05A7				;$BB8BCA  \
 	CLC					;$BB8BCD   |
 	ADC $60					;$BB8BCE   |
 	RTS					;$BB8BD0  /
 
-CODE_BB8BD1:
+.blue_gas_effect
 	LDA #$0078				;$BB8BD1  \
 	CLC					;$BB8BD4   |
 	ADC $05A7				;$BB8BD5   |
 	RTS					;$BB8BD8  /
 
-CODE_BB8BD9:
+.red_gas_effect
 	LDA #$0096				;$BB8BD9  \
 	CLC					;$BB8BDC   |
 	ADC $05A7				;$BB8BDD   |
 	RTS					;$BB8BE0  /
 
-CODE_BB8BE1:
+.invincibility_effect
 	LDA #$00D2				;$BB8BE1  \
 	CLC					;$BB8BE4   |
 	ADC $05A7				;$BB8BE5   |
@@ -1900,7 +1900,7 @@ CODE_BB8C50:					;	   |
 	AND #$000E				;$BB8C57   |
 	TAX					;$BB8C5A   |
 	LDA $0B64,x				;$BB8C5B   |
-	CMP #$6682				;$BB8C5E   |
+	CMP #global_sprite_palette		;$BB8C5E   |
 	BNE CODE_BB8C68				;$BB8C61   |
 	DEC $0B74,x				;$BB8C63   |
 	BRA CODE_BB8C6E				;$BB8C66  /
@@ -5274,7 +5274,7 @@ CODE_BBAD2C:
 	RTS					;$BBAD33  /
 
 CODE_BBAD34:
-	LDA #$6682				;$BBAD34  \
+	LDA #global_sprite_palette		;$BBAD34  \
 	JSL CODE_BB8A65				;$BBAD37   |
 	LDA #main_sprite_table_end		;$BBAD3B   |
 	STA $66					;$BBAD3E   |
@@ -6585,15 +6585,16 @@ CODE_BBB68A:
 	BCC CODE_BBB695				;$BBB692   |
 	RTS					;$BBB694  /
 
+
 CODE_BBB695:
-	LDY #$0022				;$BBB695  \
-	JSL CODE_BB8462				;$BBB698   |
-	LDA.l $0005BB				;$BBB69C   |
-	AND #$0040				;$BBB6A0   |
-	BEQ CODE_BBB6AC				;$BBB6A3   |
-	LDX alternate_sprite			;$BBB6A5   |
-	LDA #$00F8				;$BBB6A7   |
-	STA $00,x				;$BBB6AA   |
+	LDY #$0022				;$BBB695  \ \ Spawn group manager sprite
+	JSL CODE_BB8462				;$BBB698   |/
+	LDA.l $0005BB				;$BBB69C   |\
+	AND #$0040				;$BBB6A0   | | If debug sprite freeze isnt active continue
+	BEQ CODE_BBB6AC				;$BBB6A3   |/
+	LDX alternate_sprite			;$BBB6A5   |\
+	LDA #$00F8				;$BBB6A7   | | Else Mutate group manager into sprite 00F8
+	STA $00,x				;$BBB6AA   |/
 CODE_BBB6AC:					;	   |
 	LDX alternate_sprite			;$BBB6AC   |
 	LDA.l $000B9E				;$BBB6AE   |
@@ -6873,7 +6874,7 @@ CODE_BBB847:
 	AND #$0040				;$BBB8AD   |
 	BEQ CODE_BBB8B9				;$BBB8B0   |
 	LDX alternate_sprite			;$BBB8B2   |
-	LDA #$0090				;$BBB8B4   |
+	LDA #$0090				;$BBB8B4   | unknown_sprite_0090_main
 	STA $00,x				;$BBB8B7   |
 CODE_BBB8B9:					;	   |
 	CLC					;$BBB8B9   |
@@ -6938,12 +6939,12 @@ CODE_BBB8D6:					;	   |
 	AND #$1FFF				;$BBB91D   |
 	EOR $7E7A12,x				;$BBB920   |
 	STA $7E7A12,x				;$BBB924   |
-	LDA.l $0005BB				;$BBB928   |
-	AND #$0040				;$BBB92C   |
-	BEQ CODE_BBB938				;$BBB92F   |
-	LDX alternate_sprite			;$BBB931   |
-	LDA #$00F4				;$BBB933   |
-	STA $00,x				;$BBB936   |
+	LDA.l $0005BB				;$BBB928   |\
+	AND #$0040				;$BBB92C   | | If debug sprite freeze is disabled then continue
+	BEQ CODE_BBB938				;$BBB92F   |/
+	LDX alternate_sprite			;$BBB931   |\ Else replace sprite with frozen dummy sprite
+	LDA #$00F4				;$BBB933   | |
+	STA $00,x				;$BBB936   |/
 CODE_BBB938:					;	   |
 	CLC					;$BBB938   |
 	RTS					;$BBB939  /
@@ -7060,7 +7061,7 @@ CODE_BBBA2E:
 	ROR A					;$BBBA40   |\ Halves #$081A and moves carry into the highest bit giving us $840D
 	TAX					;$BBBA41   |/
 	LDA $00,x				;$BBBA42   |> Get bytes 1 and 2 for XOR check
-.xor_again:					;	   |
+.xor_again					;	   |
 	EOR $01,x				;$BBBA44   |\ XOR the 2nd and 3rd byte against A 9 times
 	INC A					;$BBBA46   | |
 	DEY					;$BBBA47   | |
@@ -7070,7 +7071,7 @@ CODE_BBBA2E:
 	PLY					;$BBBA50   |> Retrieve Y
 	PLB					;$BBBA51   |> Retrieve bank
 CODE_BBBA52:					;	   |
-	RTS					;$BBBA52  /> Return to $BBB661, a check for carry will happen after to make sure the XOR was correct
+	RTS					;$BBBA52  /> Return, a carry check will happen after to make sure the XOR was correct
 
 CODE_BBBA53:
 	LDA.l $000923				;$BBBA53  \
@@ -7326,8 +7327,8 @@ CODE_BBBBC6:
 	BNE CODE_BBBBFA				;$BBBBCC   |/ If sprite is in a spawn group
 CODE_BBBBCE:					;	   |
 	LDA $05BB				;$BBBBCE   |\
-	BIT #$0040				;$BBBBD1   | |
-	BNE CODE_BBBBEC				;$BBBBD4   |/ If sprite processing is disabled dont process sprites
+	BIT #$0040				;$BBBBD1   | | If debug sprite freeze is enabled
+	BNE CODE_BBBBEC				;$BBBBD4   |/
 CODE_BBBBD6:					;	   |
 	LDA $58,x				;$BBBBD6   |
 	AND #$000F				;$BBBBD8   |
@@ -7466,17 +7467,17 @@ CODE_BBBCA3:
 	LDA.l $7E0000,x				;$BBBCAF   |
 	TAX					;$BBBCB3   |
 	STA $0B9C				;$BBBCB4   |
-	LDA $05BB				;$BBBCB7   |
-	AND #$0040				;$BBBCBA   |
-	BNE CODE_BBBCC1				;$BBBCBD   |
+	LDA $05BB				;$BBBCB7   |\
+	AND #$0040				;$BBBCBA   | | If debug freeze sprites is active handle group managers
+	BNE CODE_BBBCC1				;$BBBCBD   |/
 CODE_BBBCBF:					;	   |
 	BRA CODE_BBBCEE				;$BBBCBF  /
 
 CODE_BBBCC1:
-	LDY current_sprite			;$BBBCC1  \
-	LDA $0000,y				;$BBBCC3   |
-	CMP #$00F8				;$BBBCC6   |
-	BNE CODE_BBBD21				;$BBBCC9   |
+	LDY current_sprite			;$BBBCC1  \ \
+	LDA $0000,y				;$BBBCC3   | |
+	CMP #$00F8				;$BBBCC6   | | If this sprite isnt a debug frozen group manager continue
+	BNE CODE_BBBD21				;$BBBCC9   |/
 	BRA CODE_BBBCBF				;$BBBCCB  /
 
 CODE_BBBCCD:
@@ -7580,21 +7581,21 @@ CODE_BBBD69:
 
 CODE_BBBD6B:
 	DEC $19BA				;$BBBD6B  \
-	LDX current_sprite			;$BBBD6E   |
-	LDA $58,x				;$BBBD70   |
-	AND #$1F00				;$BBBD72   |
-	BEQ CODE_BBBD8D				;$BBBD75   |
-	EOR $58,x				;$BBBD77   |
-	STA $58,x				;$BBBD79   |
-	LDA $56,x				;$BBBD7B   |
-	BEQ CODE_BBBD8D				;$BBBD7D   |
-	DEC A					;$BBBD7F   |
-	ASL A					;$BBBD80   |
-	TAX					;$BBBD81   |
-	LDA.l $7E7A12,x				;$BBBD82   |
-	ORA #$8000				;$BBBD86   |
-	STA $7E7A12,x				;$BBBD89   |
-CODE_BBBD8D:					;	   |
+	LDX current_sprite			;$BBBD6E   |> Get current sprite
+	LDA $58,x				;$BBBD70   |\
+	AND #$1F00				;$BBBD72   | | Get sprite group id
+	BEQ .return				;$BBBD75   |/ If sprite isnt in a group then return
+	EOR $58,x				;$BBBD77   |\ Else remove sprite from the group
+	STA $58,x				;$BBBD79   |/
+	LDA $56,x				;$BBBD7B   |> Get sprite index in level data
+	BEQ .return				;$BBBD7D   |> If sprite isnt from level data then return
+	DEC A					;$BBBD7F   |\
+	ASL A					;$BBBD80   | |
+	TAX					;$BBBD81   | |
+	LDA.l $7E7A12,x				;$BBBD82   |/ Get this sprite in level data
+	ORA #$8000				;$BBBD86   |\ Flag sprite as defeated
+	STA $7E7A12,x				;$BBBD89   |/
+.return						;	   |
 	RTL					;$BBBD8D  /
 
 CODE_BBBD8E:

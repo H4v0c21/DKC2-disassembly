@@ -3647,7 +3647,7 @@ CODE_B6A358:					;	   |
 	STA $44,x				;$B6A364   |
 	LDA $46,x				;$B6A366   |
 	PHA					;$B6A368   |
-	JSL CODE_BEF039				;$B6A369   |
+	JSL process_current_movement		;$B6A369   |
 	LDX current_sprite			;$B6A36D   |
 	PLA					;$B6A36F   |
 	CLC					;$B6A370   |
@@ -4346,11 +4346,11 @@ CODE_B6A838:
 	LDY $075F				;$B6A83B   |
 	LDA #$0001				;$B6A83E   |
 	STA $002E,y				;$B6A841   |
-	LDX #$A512				;$B6A844   |
+	LDX #DATA_BAA512			;$B6A844   |
 	LDA.l $000763				;$B6A847   |
 	CMP #$0003				;$B6A84B   |
 	BNE CODE_B6A853				;$B6A84E   |
-	LDX #$A5EF				;$B6A850   |
+	LDX #DATA_BAA5EF			;$B6A850   |
 CODE_B6A853:					;	   |
 	STX $42,y				;$B6A853   |
 	LDA #$0002				;$B6A855   |
@@ -4423,7 +4423,7 @@ CODE_B6A8E0:
 
 CODE_B6A8F0:
 	JSR CODE_B6AA27				;$B6A8F0  \
-	LDA #$7166				;$B6A8F3   |
+	LDA #DATA_FD7166			;$B6A8F3   |
 	JSR CODE_B6AA78				;$B6A8F6   |
 	LDA $000A,y				;$B6A8F9   |
 	SEC					;$B6A8FC   |
@@ -4440,7 +4440,7 @@ CODE_B6A8F0:
 	ORA #$8000				;$B6A91B   |
 	STA $0012,y				;$B6A91E   |
 	JSR CODE_B6AA27				;$B6A921   |
-	LDA #$7166				;$B6A924   |
+	LDA #DATA_FD7166			;$B6A924   |
 	JSR CODE_B6AA78				;$B6A927   |
 	LDA #$FE80				;$B6A92A   |
 	STA $0020,y				;$B6A92D   |
@@ -4452,7 +4452,7 @@ CODE_B6A8F0:
 	JSR CODE_B6AA27				;$B6A93F   |
 	LDA #$01BF				;$B6A942   |
 	JSL CODE_B9D09B				;$B6A945   |
-	LDA #$6682				;$B6A949   |
+	LDA #global_sprite_palette		;$B6A949   |
 	JSR CODE_B6AA78				;$B6A94C   |
 	LDA $000A,y				;$B6A94F   |
 	SEC					;$B6A952   |
@@ -4466,7 +4466,7 @@ CODE_B6A8F0:
 
 CODE_B6A968:
 	JSR CODE_B6AA49				;$B6A968  \
-	LDA #$7166				;$B6A96B   |
+	LDA #DATA_FD7166			;$B6A96B   |
 	JSR CODE_B6AA78				;$B6A96E   |
 	LDA $000A,y				;$B6A971   |
 	SEC					;$B6A974   |
@@ -4483,7 +4483,7 @@ CODE_B6A968:
 	ORA #$8000				;$B6A993   |
 	STA $0012,y				;$B6A996   |
 	JSR CODE_B6AA49				;$B6A999   |
-	LDA #$7166				;$B6A99C   |
+	LDA #DATA_FD7166			;$B6A99C   |
 	JSR CODE_B6AA78				;$B6A99F   |
 	LDA #$0180				;$B6A9A2   |
 	STA $0020,y				;$B6A9A5   |
@@ -4495,7 +4495,7 @@ CODE_B6A968:
 	JSR CODE_B6AA49				;$B6A9B7   |
 	LDA #$01BF				;$B6A9BA   |
 	JSL CODE_B9D09B				;$B6A9BD   |
-	LDA #$6682				;$B6A9C1   |
+	LDA #global_sprite_palette		;$B6A9C1   |
 	JSR CODE_B6AA78				;$B6A9C4   |
 	LDA $000A,y				;$B6A9C7   |
 	SEC					;$B6A9CA   |
@@ -4697,7 +4697,7 @@ CODE_B6AB79:					;	   |
 	CLC					;$B6AB7E   |
 	ADC $000658				;$B6AB7F   |
 	STA $000A,y				;$B6AB83   |
-	LDA #$6682				;$B6AB86   |
+	LDA #global_sprite_palette		;$B6AB86   |
 	JSR CODE_B6AA78				;$B6AB89   |
 	LDA #$01BF				;$B6AB8C   |
 	JSL CODE_B9D09B				;$B6AB8F   |
@@ -8780,27 +8780,27 @@ CODE_B6D02E:
 	PHB					;$B6D02E  \
 	PHK					;$B6D02F   |
 	PLB					;$B6D030   |
-	LDX current_sprite			;$B6D031   | get klubba sprite
-	LDA $42,x				;$B6D033   | check if club sprite exists
-	BNE CODE_B6D044				;$B6D035   | if not
-	LDY #$010C				;$B6D037   | spawn the club sprite
-	JSL CODE_BB842C				;$B6D03A   |
-	LDA alternate_sprite			;$B6D03E   |
-	LDX current_sprite			;$B6D040   |
-	STA $42,x				;$B6D042   | tell klubba what slot club is in
-CODE_B6D044:					;	   |
-	LDA.l $0006A3				;$B6D044   |
-	BIT #$0200				;$B6D048   | check for "fight him" pressed
-	BEQ CODE_B6D066				;$B6D04B   | if "fight him" was selected
-	AND #$FDFF				;$B6D04D   | reset fight him flag
-	STA $0006A3				;$B6D050   |
-	LDA #$01E7				;$B6D054   |
-	JSL set_sprite_animation		;$B6D057   | play klubba attack animation
-	LDA $42,x				;$B6D05B   |
-	STA alternate_sprite			;$B6D05D   |
-	LDA #$01E8				;$B6D05F   | play klubba club attack animation
-	JSL CODE_B9D09B				;$B6D062   |
-CODE_B6D066:					;	   |
+	LDX current_sprite			;$B6D031   |> Get klubba sprite
+	LDA $42,x				;$B6D033   |\ If club sprite exists
+	BNE .already_initialized		;$B6D035   |/ Then klubba was already initialized
+	LDY #$010C				;$B6D037   |\ Else spawn the club sprite
+	JSL CODE_BB842C				;$B6D03A   |/
+	LDA alternate_sprite			;$B6D03E   |\
+	LDX current_sprite			;$B6D040   | |
+	STA $42,x				;$B6D042   |/ Tell klubba what slot his club is in
+.already_initialized				;	   |
+	LDA.l $0006A3				;$B6D044   |\
+	BIT #$0200				;$B6D048   | | If "fight him" wasnt selected
+	BEQ .dont_attack			;$B6D04B   |/ Then process animation and continue
+	AND #$FDFF				;$B6D04D   |\ Else reset "fight him" flag
+	STA $0006A3				;$B6D050   |/
+	LDA #$01E7				;$B6D054   |\
+	JSL set_sprite_animation		;$B6D057   |/ Play klubba attack animation
+	LDA $42,x				;$B6D05B   |\ Get club sprite
+	STA alternate_sprite			;$B6D05D   |/
+	LDA #$01E8				;$B6D05F   |\ Play klubbas club attack animation
+	JSL CODE_B9D09B				;$B6D062   |/
+.dont_attack					;	   |
 	JSL CODE_B9D100				;$B6D066   |
 	PLB					;$B6D06A   |
 	JML [$05A9]				;$B6D06B  /
@@ -8810,7 +8810,7 @@ CODE_B6D06E:
 	PHB					;$B6D06E  \
 	PHK					;$B6D06F   |
 	PLB					;$B6D070   |
-	JSL CODE_B9D100				;$B6D071   | process animation
+	JSL CODE_B9D100				;$B6D071   |> Process animation
 	PLB					;$B6D075   |
 	JML [$05A9]				;$B6D076  /
 
@@ -9045,7 +9045,7 @@ CODE_B6D1B4:
 	LDA #DATA_BAA6BC			;$B6D298   |
 	STA $0044,y				;$B6D29B   |
 	STA $0046,y				;$B6D29E   |
-	LDA #$A6D0				;$B6D2A1   |
+	LDA #DATA_BAA6D0			;$B6D2A1   |
 	STA $0048,y				;$B6D2A4   |
 	TXY					;$B6D2A7   |
 	LDX $42,y				;$B6D2A8   |
@@ -11957,7 +11957,7 @@ DATA_B6E98E:
 
 
 CODE_B6E994:
-	JSL CODE_BEF039				;$B6E994  \
+	JSL process_current_movement		;$B6E994  \
 	LDX current_sprite			;$B6E998   |
 	LDA $1E,x				;$B6E99A   |
 	BIT #$0001				;$B6E99C   |
@@ -11972,7 +11972,7 @@ CODE_B6E9AF:					;	   |
 	JML [$05A9]				;$B6E9B3  /
 
 CODE_B6E9B6:
-	JSL CODE_BEF039				;$B6E9B6  \
+	JSL process_current_movement		;$B6E9B6  \
 	LDX current_sprite			;$B6E9BA   |
 	LDA $1E,x				;$B6E9BC   |
 	BIT #$0001				;$B6E9BE   |

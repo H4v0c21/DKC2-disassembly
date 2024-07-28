@@ -1757,8 +1757,8 @@ endif
 	dw DATA_FFDA90				;0DAE
 	dw DATA_FFDAA2				;0DB0
 	dw DATA_FFDAB4				;0DB2
-if !version == 1				;	important note: every index after this if statement is offset by -2 in 1.0
-	dw DATA_FFDAC6				;0DB4	this is because we're adding an extra entry in 1.1 (see sprite macro in macros.asm)
+if !version == 1				;	note: every index after this condition is offset by -2 in 1.0
+	dw DATA_FFDAC6				;0DB4	because an entry was added in 1.1 (see sprite macro in macros.asm)
 endif
 	dw DATA_FFDAD8				;0DB6
 	dw DATA_FFDADE				;0DB8

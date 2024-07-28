@@ -288,7 +288,7 @@ DATA_FF047E:
 	dw DATA_FF0F70	; 001C unused rain cloud (loop animation)
 	dw DATA_FF0F84	; 001E unused rain cloud (spawn animation)
 	dw DATA_FF0F98	; 0020 unused dixie hurt tears (same sprite id as rain cloud)
-	dw DATA_FF0FAC	; 0022 unknown_sprite_008C_main
+	dw DATA_FF0FAC	; 0022 spawn group manager
 	dw DATA_FF0FD2	; 0024 water bubbles
 	dw DATA_FF0FDE	; 0026 unused rock
 	dw DATA_FF1004	; 0028 squawks egg projectile
@@ -2141,24 +2141,25 @@ DATA_FF189A:
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_success
 
+;chest contents
 DATA_FF18CE:
-	dw DATA_FF1906
-	dw DATA_FF1914
-	dw DATA_FF1922
-	dw DATA_FF1930
-	dw DATA_FF193E
-	dw DATA_FF194C
-	dw DATA_FF195A
-	dw DATA_FF1968
-	dw DATA_FF1976
-	dw DATA_FF1984
-	dw DATA_FF1992
-	dw DATA_FF19A0
-	dw DATA_FF19AE
-	dw DATA_FF19BC
-	dw DATA_FF19CA
-	dw DATA_FF19D8
-	dw DATA_FF19E6
+	dw DATA_FF1906			;00
+	dw DATA_FF1914			;01
+	dw DATA_FF1922			;02
+	dw DATA_FF1930			;03
+	dw DATA_FF193E			;04
+	dw DATA_FF194C			;05
+	dw DATA_FF195A			;06
+	dw DATA_FF1968			;07
+	dw DATA_FF1976			;08
+	dw DATA_FF1984			;09
+	dw DATA_FF1992			;0A
+	dw DATA_FF19A0			;0B
+	dw DATA_FF19AE			;0C
+	dw DATA_FF19BC			;0D
+	dw DATA_FF19CA			;0E
+	dw DATA_FF19D8			;0F
+	dw DATA_FF19E6			;10
 
 DATA_FF18F0:
 	dw DATA_FF19F4
@@ -14103,6 +14104,7 @@ DATA_FFAB90:
 	dw sprite.action, $0006
 	dw !initcommand_success
 
+;unused?
 DATA_FFAB9A:
 	dw sprite.number, $00A4
 	dw sprite.action, $0000

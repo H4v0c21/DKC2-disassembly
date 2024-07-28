@@ -46,7 +46,7 @@ player_interaction_table:
 	dw CODE_B88421				;002C: 5A
 	dw CODE_B8841C				;002D: Leaving level
 
-CODE_B8805E:
+process_interactions_with_player:
 	LDA $08C2				;$B8805E  \
 	AND #$0002				;$B88061   |
 	BNE CODE_B8806A				;$B88064   |
@@ -69,8 +69,9 @@ CODE_B8807D:
 	LDA $0A82				;$B8807F   |
 	BNE .process_interaction		;$B88082   |
 	RTS					;$B88084   |
-.process_interaction				;	   |
-	STZ $0A82				;$B88085   |
+
+.process_interaction
+	STZ $0A82				;$B88085  \
 	DEC A					;$B88088   |
 	ASL A					;$B88089   |
 	TAX					;$B8808A   |
