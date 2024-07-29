@@ -582,7 +582,7 @@ CODE_80875E:					;	   |
 CODE_80876E:
 	ASL A					;$80876E  \
 	TAX					;$80876F   |
-	LDA.l DATA_FE958E,x			;$808770   |
+	LDA.l demo_level_scripts_table,x	;$808770   |
 	STA $000601				;$808774   |
 	INC $0605				;$808778   |
 	LDA.l $000601				;$80877B   |
