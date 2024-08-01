@@ -20686,7 +20686,7 @@ DATA_FFF4B1:
 	dw sprite.unknown_4C, DATA_FFCCD0
 	dw !initcommand_success
 
-DATA_FFF4D3:
+skull_kart_base_init:
 	dw sprite.number, $0158
 	dw sprite.render_order, $00D0
 	dw sprite.unknown_54, DATA_FF046E
@@ -20698,7 +20698,7 @@ DATA_FFF4D3:
 	dw !initcommand_success
 
 DATA_FFF4F5:
-	dw !initcommand_load_subconfig, DATA_FFF4D3
+	dw !initcommand_load_subconfig, skull_kart_base_init
 	dw sprite.unknown_46, $0003
 	dw sprite.unknown_22, $0300
 	dw sprite.unknown_28, $0500
@@ -20834,7 +20834,7 @@ DATA_FFF6B9:
 	dw $FFFF
 
 DATA_FFF6BB:
-	dw !initcommand_load_subconfig, DATA_FFF4D3
+	dw !initcommand_load_subconfig, skull_kart_base_init
 	dw sprite.unknown_46, $0002
 	dw sprite.max_y_speed, $0100
 	dw sprite.unknown_22, $FC00
@@ -20859,7 +20859,7 @@ DATA_FFF6DF:
 	dw $FFFF
 
 DATA_FFF70D:
-	dw !initcommand_load_subconfig, DATA_FFF4D3
+	dw !initcommand_load_subconfig, skull_kart_base_init
 	dw sprite.action, $0000
 	dw sprite.unknown_46, $0001
 	dw sprite.unknown_22, $0280
@@ -21060,7 +21060,7 @@ DATA_FFF935:
 	dw $FFFF
 
 DATA_FFF937:
-	dw !initcommand_load_subconfig, DATA_FFF4D3
+	dw !initcommand_load_subconfig, skull_kart_base_init
 	dw sprite.unknown_3E, $0000
 	dw sprite.unknown_5C, DATA_FFF9A1
 	dw sprite.action, $0200
@@ -21071,7 +21071,7 @@ DATA_FFF937:
 	dw !initcommand_success
 
 DATA_FFF959:
-	dw !initcommand_load_subconfig, DATA_FFF4D3
+	dw !initcommand_load_subconfig, skull_kart_base_init
 	dw sprite.unknown_3E, $0000
 	dw sprite.unknown_5C, DATA_FFF9C1
 	dw sprite.action, $0200
@@ -21082,7 +21082,7 @@ DATA_FFF959:
 	dw !initcommand_success
 
 DATA_FFF97B:
-	dw !initcommand_load_subconfig, DATA_FFF4D3
+	dw !initcommand_load_subconfig, skull_kart_base_init
 	dw sprite.unknown_3E, $1000
 	dw !initcommand_set_oam, $6000
 	dw sprite.unknown_5C, DATA_FFF9FF
@@ -21113,7 +21113,7 @@ DATA_FFF9C1:
 DATA_FFF9FF:
 	db $FF, $FF
 
-DATA_FFFA01:
+race_handler_init:
 	dw sprite.number, $00DC
 	dw sprite.action, $0000
 	dw sprite.unknown_42, $0000
@@ -21122,7 +21122,7 @@ DATA_FFFA01:
 	dw !initcommand_success
 
 DATA_FFFA17:
-	dw !initcommand_load_subconfig, DATA_FFF4D3
+	dw !initcommand_load_subconfig, skull_kart_base_init
 	dw sprite.unknown_3E, $0000
 	dw sprite.action, $0300
 	dw sprite.unknown_46, $0004

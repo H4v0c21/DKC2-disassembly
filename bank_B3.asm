@@ -483,7 +483,7 @@ DATA_B38348:
 	dw giant_tire_main,$0000		;00D0
 	dw camera_unlock_trigger_main,$0000	;00D4
 	dw unknown_sprite_00D8_main,$0000	;00D8
-	dw traffic_light_main,$0000		;00DC
+	dw race_handler_main,$0000		;00DC
 	dw unknown_sprite_00E0_main,$0001	;00E0
 	dw diddy_kong_main,$0001		;00E4
 	dw dixie_kong_main,$0001		;00E8
@@ -938,7 +938,7 @@ kong_letter_main:
 	LDA #$0010				;$B3887C  \
 	JML CODE_BEB800				;$B3887F  /
 
-traffic_light_main:
+race_handler_main:
 	LDA #$0012				;$B38883  \
 	JML CODE_BEB800				;$B38886  /
 
@@ -5262,7 +5262,7 @@ CODE_B3A790:					;	   |
 	LDA #$FA00				;$B3A796   |
 	STA $24,x				;$B3A799   |
 	LDA #$001E				;$B3A79B   |
-if !version == 1					;	   |
+if !version == 1				;	   |
 	LDA #$FF00				;$B3A79E   |
 else						;	   |
 	LDY #$FF00				;$B3A79E   |

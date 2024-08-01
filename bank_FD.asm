@@ -8952,30 +8952,30 @@ DATA_FDCF65:
 	db $00, $00, $00, $00, $00, $00, $00, $00
 	db $00, $00, $00, $00, $00, $00, $00, $00
 
-;klank race data table
+;klank kart race data table
 ;spawn location data, trigger data, min speed, max speed
-DATA_FDD364:
-	dw DATA_FDD4E4, DATA_FDDAD0, $0480, $0680
-	dw DATA_FDD4D6, DATA_FDDA70, $0480, $0680
+klank_race_kart_data_table:
+	dw DATA_FDD4E4, DATA_FDDAD0, $0480, $0680 	;1st place klank
+	dw DATA_FDD4D6, DATA_FDDA70, $0480, $0680 	;2nd place klank
 if !version == 1
-	dw DATA_FDD4C2, DATA_FDD99A, $0400, $05C0
-	dw DATA_FDD4A8, DATA_FDD96A, $0400, $0540
-	dw DATA_FDD476, DATA_FDD812, $0480, $0500
+	dw DATA_FDD4C2, DATA_FDD99A, $0400, $05C0 	;3rd place klank
+	dw DATA_FDD4A8, DATA_FDD96A, $0400, $0540 	;4th place klank
+	dw DATA_FDD476, DATA_FDD812, $0480, $0500 	;5th place klank
 else
-	dw DATA_FDD4C2, DATA_FDD99A, $0400, $0640
-	dw DATA_FDD4A8, DATA_FDD96A, $0400, $05C0
-	dw DATA_FDD476, DATA_FDD812, $0480, $0540
+	dw DATA_FDD4C2, DATA_FDD99A, $0400, $0640 	;3rd place klank
+	dw DATA_FDD4A8, DATA_FDD96A, $0400, $05C0 	;4th place klank
+	dw DATA_FDD476, DATA_FDD812, $0480, $0540 	;5th place klank
 endif
-	dw DATA_FDD438, DATA_FDD7D8, $0480, $0480
-	dw DATA_FDD3FA, DATA_FDD610, $0300, $0480
-	dw DATA_FDD3BC, DATA_FDD5F2, $0300, $0480
-	dw DATA_FDD3B6, DATA_FDD4EC, $0120, $0380
+	dw DATA_FDD438, DATA_FDD7D8, $0480, $0480  	;6th place klank
+	dw DATA_FDD3FA, DATA_FDD610, $0300, $0480  	;7th place klank
+	dw DATA_FDD3BC, DATA_FDD5F2, $0300, $0480  	;8th place klank
+	dw DATA_FDD3B6, DATA_FDD4EC, $0120, $0380  	;9th place klank
 
 %offset(DATA_FDD3AC, -1)
 	db $11, $0F, $03, $00, $00, $00, $19, $19
 	db $19
 
-;spawn location data
+;spawn location data (x position, y position, spawn time limit)
 DATA_FDD3B6:
 	dw $0460, $02CD, $FD20
 DATA_FDD3BC:
@@ -9050,7 +9050,15 @@ DATA_FDD4E4:
 	dw $4EF0, $020D, $A8C0
 	dw $FFFF
 
-;trigger data
+
+;klank trigger data
+;X position of trigger, action klank is performing, initial target X speed to apply, unused?
+;possible actions: 
+		;0040: moving straight ahead
+		;0100: looking behind
+		;0400: small jump
+		;0600: big jump
+		;0800: moving up/down slope
 DATA_FDD4EC:
 	dw $0460, $0040, $0080, $0004
 	dw $0488, $0800, $0004
