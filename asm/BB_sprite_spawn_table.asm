@@ -2048,7 +2048,7 @@ endif
 	dw DATA_FFF937				;0FF0
 	dw DATA_FFF959				;0FF2
 	dw DATA_FFF97B				;0FF4
-	dw DATA_FFFA01				;0FF6
+	dw race_handler_init			;0FF6
 	dw DATA_FFFB23				;0FF8
 	dw DATA_FFFB2D				;0FFA
 	dw DATA_FFFB37				;0FFC
