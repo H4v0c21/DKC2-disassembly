@@ -3503,7 +3503,7 @@ CODE_B6A211:
 	JSR CODE_B69C9F				;$B6A23C   |
 	BCS CODE_B6A24E				;$B6A23F   |
 CODE_B6A241:					;	   |
-	JSL CODE_B3A003				;$B6A241   |
+	JSL update_held_sprite_position_global	;$B6A241   |
 	LDX current_sprite			;$B6A245   |
 	LDA $2E,x				;$B6A247   |
 	AND #$FFEF				;$B6A249   |
@@ -11448,7 +11448,7 @@ CODE_B6E53C:
 CODE_B6E54C:					;	   |
 	JSR CODE_B6E591				;$B6E54C   |
 	BCS CODE_B6E559				;$B6E54F   |
-	JSL CODE_B3A003				;$B6E551   |
+	JSL update_held_sprite_position_global	;$B6E551   |
 	JSL CODE_B9D100				;$B6E555   |
 CODE_B6E559:					;	   |
 	PLB					;$B6E559   |
@@ -12993,7 +12993,7 @@ CODE_B6F18D:
 	BRL CODE_B6F1BF				;$B6F199  /
 
 CODE_B6F19C:
-	JSL CODE_B3A003				;$B6F19C  \
+	JSL update_held_sprite_position_global	;$B6F19C  \
 	LDX current_sprite			;$B6F1A0   |
 	LDA $32,x				;$B6F1A2   |
 	BNE CODE_B6F1A9				;$B6F1A4   |

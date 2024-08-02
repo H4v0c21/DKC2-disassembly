@@ -1521,21 +1521,21 @@ CODE_B9D965:
 	STA $2E,x				;$B9D968   |
 	LDY $0D7A				;$B9D96A   |
 	BEQ CODE_B9D9AE				;$B9D96D   |
-	LDX $66					;$B9D96F   |
-	LDA $04,x				;$B9D971   |
-	AND #$0800				;$B9D973   |
-	BEQ CODE_B9D9AF				;$B9D976   |
-	LDX current_sprite			;$B9D978   |
-	LDA #$0006				;$B9D97A   |
-	STA $0032,y				;$B9D97D   |
+	LDX $66					;$B9D96F   |> Get kong control variables for current kong
+	LDA $04,x				;$B9D971   |\
+	AND #$0800				;$B9D973   | |
+	BEQ CODE_B9D9AF				;$B9D976   |/ If UP isnt pressed then throwing sprite sideways
+	LDX current_sprite			;$B9D978   |> Else get current sprite
+	LDA #$0006				;$B9D97A   |\
+	STA $0032,y				;$B9D97D   |/ Set sprite carry interaction to thrown upwards
 	LDY #$0038				;$B9D980   |
 	LDA [$8E],y				;$B9D983   |
 	LDY $0D7A				;$B9D985   |
 	BIT $12,x				;$B9D988   |
-	BVC CODE_B9D990				;$B9D98A   |
+	BVC .no_flip				;$B9D98A   |
 	EOR #$FFFF				;$B9D98C   |
 	INC A					;$B9D98F   |
-CODE_B9D990:					;	   |
+.no_flip					;	   |
 	STA $0020,y				;$B9D990   |
 	STA $0026,y				;$B9D993   |
 	PHY					;$B9D996   |
@@ -1553,8 +1553,8 @@ CODE_B9D9AE:					;	   |
 
 CODE_B9D9AF:
 	LDX current_sprite			;$B9D9AF  \
-	LDA #$0004				;$B9D9B1   |
-	STA $0032,y				;$B9D9B4   |
+	LDA #$0004				;$B9D9B1   |\
+	STA $0032,y				;$B9D9B4   |/ Set sprite carry interaction to thrown sideways
 	LDY #$0034				;$B9D9B7   |
 	LDA [$8E],y				;$B9D9BA   |
 	LDY $0D7A				;$B9D9BC   |

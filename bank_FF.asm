@@ -136,26 +136,31 @@ DATA_FF0274:
 	db $70, $00, $00, $08, $02, $00, $60, $03
 	db $0F, $02
 
+;neek
 DATA_FF027E:
 	db $70, $00, $00, $08, $08, $00, $40, $00
 	db $28, $55, $71, $01, $01, $02, $00, $00
 	db $00, $00, $00, $00, $00, $00
 
+;klomp
 DATA_FF0294:
 	db $70, $00, $00, $08, $08, $00, $40, $00
 	db $28, $55, $62, $01, $01, $01, $00, $00
 	db $00, $00, $00, $00, $00, $00
 
+;klampon
 DATA_FF02AA:
 	db $70, $00, $00, $08, $08, $00, $40, $00
 	db $08, $54, $A1, $01, $01, $01, $A2, $01
 	db $00, $00, $00, $00, $00, $00
 
+;spiny
 DATA_FF02C0:
 	db $70, $00, $00, $08, $08, $00, $40, $00
 	db $80, $54, $A5, $01, $01, $01, $00, $00
 	db $00, $00, $00, $00, $00, $00
 
+;klinger
 DATA_FF02D6:
 	db $70, $00, $00, $08, $08, $00, $40, $00
 	db $28, $54, $A7, $01, $01, $01, $00, $00
@@ -3679,6 +3684,7 @@ DATA_FF2ADA:
 	dw !initcommand_set_animation, $0210
 	dw !initcommand_success
 
+;klomp
 DATA_FF2B00:
 	dw sprite.number, $01EC
 	dw sprite.unknown_54, DATA_FF0294
@@ -4288,6 +4294,7 @@ DATA_FF30DA:
 	dw sprite.unknown_46, $D000
 	dw !initcommand_success
 
+;neek
 DATA_FF30EC:
 	dw sprite.number, $01E4
 	dw sprite.render_order, $00D4
@@ -4796,6 +4803,7 @@ DATA_FF35CE:
 	dw $0080, $001F, $0030, $0030, $0304, $0400, $0000
 	dw !initcommand_success
 
+;click-clack
 DATA_FF35F0:
 	dw sprite.number, $0140
 	dw sprite.render_order, $00EC
@@ -4816,6 +4824,7 @@ DATA_FF3618:
 	dw !initcommand_set_alt_palette, $0000
 	dw !initcommand_success
 
+;click_clack
 DATA_FF3622:
 	dw sprite.number, $0140
 	dw sprite.render_order, $00EC
@@ -11383,6 +11392,7 @@ DATA_FF8FDE:
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_success
 
+;klampon
 DATA_FF9000:
 	dw sprite.number, $01F0
 	dw sprite.render_order, $00D4
@@ -12947,6 +12957,7 @@ DATA_FF9FAC:
 	dw sprite.max_y_speed, $0000
 	dw !initcommand_success
 
+;spiny
 DATA_FF9FC2:
 	dw sprite.number, $01FC
 	dw sprite.render_order, $00D4
@@ -13252,6 +13263,7 @@ DATA_FFA298:
 	dw sprite.max_x_speed, $FE00
 	dw !initcommand_success
 
+;klinger
 DATA_FFA2A6:
 	dw sprite.number, $0200
 	dw sprite.render_order, $00D4

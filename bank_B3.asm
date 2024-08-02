@@ -2580,7 +2580,7 @@ CODE_B393C7:
 CODE_B393D9:
 	JSR CODE_B39F56				;$B393D9  \
 	BCS CODE_B39393				;$B393DC   |
-	JSR CODE_B3A007				;$B393DE   |
+	JSR update_held_sprite_position		;$B393DE   |
 	JSL CODE_B9D100				;$B393E1   |
 	JSR CODE_B39E8D				;$B393E5   |
 	BCS CODE_B39434				;$B393E8   |
@@ -2589,7 +2589,7 @@ CODE_B393D9:
 CODE_B393ED:
 	JSR CODE_B39F56				;$B393ED  \
 	BCS CODE_B39393				;$B393F0   |
-	JSR CODE_B3A007				;$B393F2   |
+	JSR update_held_sprite_position		;$B393F2   |
 	JSL CODE_B9D100				;$B393F5   |
 	JSR CODE_B39E9C				;$B393F9   |
 	BCS CODE_B39434				;$B393FC   |
@@ -2719,7 +2719,7 @@ CODE_B394E6:					;	   |
 CODE_B39505:
 	JSR CODE_B39F56				;$B39505  \
 	BCS CODE_B394E3				;$B39508   |
-	JSR CODE_B3A007				;$B3950A   |
+	JSR update_held_sprite_position		;$B3950A   |
 	JSL CODE_B9D100				;$B3950D   |
 	JSR CODE_B39EAB				;$B39511   |
 	BCS CODE_B3953A				;$B39514   |
@@ -2800,7 +2800,7 @@ CODE_B39598:
 CODE_B395AE:
 	JSR CODE_B39F56				;$B395AE  \
 	BCS CODE_B39595				;$B395B1   |
-	JSR CODE_B3A007				;$B395B3   |
+	JSR update_held_sprite_position		;$B395B3   |
 	JSL CODE_B9D100				;$B395B6   |
 	JSR CODE_B39E9C				;$B395BA   |
 	BCS CODE_B395E3				;$B395BD   |
@@ -3483,7 +3483,7 @@ CODE_B39ADB:
 CODE_B39AFC:
 	JSR CODE_B39F56				;$B39AFC  \
 	BCS CODE_B39AD8				;$B39AFF   |
-	JSR CODE_B3A007				;$B39B01   |
+	JSR update_held_sprite_position		;$B39B01   |
 	JSL CODE_B9D100				;$B39B04   |
 	JSR CODE_B39BA5				;$B39B08   |
 	BCS CODE_B39B5F				;$B39B0B   |
@@ -3738,7 +3738,7 @@ CODE_B39CE7:
 CODE_B39CEA:
 	JSR CODE_B39F56				;$B39CEA  \
 	BCS CODE_B39CAF				;$B39CED   |
-	JSR CODE_B3A007				;$B39CEF   |
+	JSR update_held_sprite_position		;$B39CEF   |
 	JSL CODE_B9D100				;$B39CF2   |
 	JSR CODE_B39E9C				;$B39CF6   |
 	BCS CODE_B39D3F				;$B39CF9   |
@@ -3881,7 +3881,7 @@ CODE_B39DF9:
 CODE_B39DFC:
 	JSR CODE_B39F56				;$B39DFC  \
 	BCS CODE_B39DD7				;$B39DFF   |
-	JSR CODE_B3A007				;$B39E01   |
+	JSR update_held_sprite_position		;$B39E01   |
 	JSL CODE_B9D100				;$B39E04   |
 	JSR CODE_B39E8D				;$B39E08   |
 	BCS CODE_B39E71				;$B39E0B   |
@@ -3890,7 +3890,7 @@ CODE_B39DFC:
 CODE_B39E10:
 	JSR CODE_B39F56				;$B39E10  \
 	BCS CODE_B39DD7				;$B39E13   |
-	JSR CODE_B3A007				;$B39E15   |
+	JSR update_held_sprite_position		;$B39E15   |
 	JSL CODE_B9D100				;$B39E18   |
 	JSR CODE_B39E9C				;$B39E1C   |
 	BCS CODE_B39E71				;$B39E1F   |
@@ -4156,36 +4156,36 @@ CODE_B39FEE:					;	   |
 	SEC					;$B3A001   |
 	RTS					;$B3A002  /
 
-CODE_B3A003:
-	JSR CODE_B3A007				;$B3A003  \
+update_held_sprite_position_global:
+	JSR update_held_sprite_position		;$B3A003  \
 	RTL					;$B3A006  /
 
-CODE_B3A007:
+update_held_sprite_position:
 	LDX active_kong_sprite			;$B3A007  \
 	LDY current_sprite			;$B3A00A   |
-	BIT $12,x				;$B3A00C   |
-	BVS CODE_B3A01B				;$B3A00E   |
-	LDA $06,x				;$B3A010   |
-	CLC					;$B3A012   |
-	ADC $0D7C				;$B3A013   |
-	STA $0006,y				;$B3A016   |
-	BRA CODE_B3A024				;$B3A019  /
+	BIT $12,x				;$B3A00C   |\
+	BVS .facing_left			;$B3A00E   |/ If kong is facing left then use negative X position offset
+	LDA $06,x				;$B3A010   |\ Else Get kong X position
+	CLC					;$B3A012   | |
+	ADC $0D7C				;$B3A013   | | Offset X position by held X offset
+	STA $0006,y				;$B3A016   |/ Apply X position to held sprite
+	BRA .apply_y_offset			;$B3A019  /> Do the same but for Y position
 
-CODE_B3A01B:
-	LDA $06,x				;$B3A01B  \
-	SEC					;$B3A01D   |
-	SBC $0D7C				;$B3A01E   |
-	STA $0006,y				;$B3A021   |
-CODE_B3A024:					;	   |
-	LDA $0A,x				;$B3A024   |
-	CLC					;$B3A026   |
-	ADC $0D7E				;$B3A027   |
-	STA $000A,y				;$B3A02A   |
-	LDA $02,x				;$B3A02D   |
-	CLC					;$B3A02F   |
-	ADC $0D80				;$B3A030   |
-	STA $0002,y				;$B3A033   |
-	RTS					;$B3A036  /
+.facing_left
+	LDA $06,x				;$B3A01B  \ \ Get kong X position
+	SEC					;$B3A01D   | |
+	SBC $0D7C				;$B3A01E   | | Offset X position by held X offset
+	STA $0006,y				;$B3A021   |/ Apply X position to held sprite
+.apply_y_offset					;	   |
+	LDA $0A,x				;$B3A024   |\ Get kong Y position
+	CLC					;$B3A026   | |
+	ADC $0D7E				;$B3A027   | | Offset Y position by held Y offset
+	STA $000A,y				;$B3A02A   |/ Apply Y position to held sprite
+	LDA $02,x				;$B3A02D   |\ Get kong render priority
+	CLC					;$B3A02F   | |
+	ADC $0D80				;$B3A030   | | Add priority to held sprite over kong
+	STA $0002,y				;$B3A033   |/ Update render priority of held sprite
+	RTS					;$B3A036  /> Return
 
 unknown_sprite_0308_main:
 	JSL CODE_B9D100				;$B3A037  \
@@ -4670,24 +4670,24 @@ CODE_B3A364:
 	RTS					;$B3A368  /
 
 CODE_B3A369:
-	PHK					;$B3A369  \
-	PLB					;$B3A36A   |
-	LDY current_sprite			;$B3A36B   |
-	LDA $0054,y				;$B3A36D   |
-	STA $8E					;$B3A370   |
+	PHK					;$B3A369  \ \ Set databank register to here
+	PLB					;$B3A36A   |/
+	LDY current_sprite			;$B3A36B   |> Get current sprite
+	LDA $0054,y				;$B3A36D   |\
+	STA $8E					;$B3A370   |/ Use current sprites constants
 	LDA $002D,y				;$B3A372   |
 	BMI CODE_B3A38B				;$B3A375   |
-	XBA					;$B3A377   |
-	AND #$007F				;$B3A378   |
-	ASL A					;$B3A37B   |
-	SEC					;$B3A37C   |
-	ADC $01,s				;$B3A37D   |
-	TAX					;$B3A37F   |
-	PLA					;$B3A380   |
-	LDA $002F,y				;$B3A381   |
-	AND #$00FF				;$B3A384   |
-	ASL A					;$B3A387   |
-	JMP ($0000,x)				;$B3A388  /
+	XBA					;$B3A377   |\ Get sprite state ($002E,y)
+	AND #$007F				;$B3A378   |/
+	ASL A					;$B3A37B   |\ *2 to index 16 bit state table
+	SEC					;$B3A37C   | |
+	ADC $01,s				;$B3A37D   | | Add return address from stack (address of state table)
+	TAX					;$B3A37F   |/ Use sprite state as index into state jump table
+	PLA					;$B3A380   |> Remove return address from stack
+	LDA $002F,y				;$B3A381   |\ Get sub state
+	AND #$00FF				;$B3A384   | |
+	ASL A					;$B3A387   |/ Pass sub state index to sprite main using A
+	JMP ($0000,x)				;$B3A388  /> Jump to sprite state
 
 CODE_B3A38B:
 	JMP CODE_B3D249				;$B3A38B  /
@@ -4863,11 +4863,11 @@ zinger_main:
 .movement_and_crush_update:
 	JSL process_current_movement		;$B3A4B3  \> Handle movement behavior
 	JSR CODE_B3A3A3				;$B3A4B7   |\ Check if sprite is being crushed by castle crush floor
-	BCC .kill_sprite			;$B3A4BA   |/ If sprite is being crushed then kill it
+	BCC .defeat_sprite			;$B3A4BA   |/ If sprite is being crushed then kill it
 	JMP CODE_B38000				;$B3A4BC  /> Done processing sprite
 
 .sprite_collided
-	BEQ .kill_sprite			;$B3A4BF  \> If sprite can be defeated then kill it
+	BEQ .defeat_sprite			;$B3A4BF  \> If sprite can be defeated then kill it
 	CMP #$0002				;$B3A4C1   |\
 	BCC .failed_defeat			;$B3A4C4   |/ If return status was 0001 then we couldnt defeat the enemy
 	LDY #$0012				;$B3A4C6   |\ Else an alternate event occurred from collision (like knockback)
@@ -4885,7 +4885,7 @@ zinger_main:
 	JSL process_current_movement		;$B3A4DF  \> Handle movement behavior
 	JMP CODE_B38000				;$B3A4E3  /> Done processing sprite
 
-.kill_sprite
+.defeat_sprite
 	LDY #$000A				;$B3A4E6  \ \
 	LDA [$8E],y				;$B3A4E9   |/ Get defeated animation from constants
 	BEQ .animation_and_movement_update	;$B3A4EB   |> If no animation is defined then dont apply an animation
@@ -4922,14 +4922,14 @@ zinger_main:
 	JMP (.defeated_sub_state_table,x)	;$B3A526  /
 
 .defeated_sub_state_table
-	dw .passive_state
-	dw .fall_offscreen_alive_state
-	dw .fall_offscreen_dead_state
+	dw .passive_state			;00
+	dw .fall_offscreen_alive_state		;01
+	dw .fall_offscreen_dead_state		;02
 
 .passive_state
 	JSL process_current_movement		;$B3A52F  \> Handle movement behavior
 	JSR process_animation_handle_submerged	;$B3A533   |
-	JMP CODE_B3A652				;$B3A536  /
+	JMP make_sprite_fall_off_screen		;$B3A536  /
 
 .fall_offscreen_alive_state
 	LDX $6A					;$B3A539  \> Get sprite that is killing our sprite
@@ -5000,50 +5000,53 @@ zinger_main:
 	STZ $2E,x				;$B3A5B4   |
 	JMP CODE_B38000				;$B3A5B6  /
 
-CODE_B3A5B9:
-	JSR CODE_B3A5BF				;$B3A5B9  \
-	JMP CODE_B3A5F5				;$B3A5BC  /
 
-CODE_B3A5BF:
-	LDY current_sprite			;$B3A5BF  \
-	CPY $0D7A				;$B3A5C1   |
-	BNE CODE_B3A5D9				;$B3A5C4   |
-	LDX active_kong_sprite			;$B3A5C6   |
-	LDA $0012,y				;$B3A5C9   |
-	AND #$BFFF				;$B3A5CC   |
-	EOR $12,x				;$B3A5CF   |
-	AND #$BFFF				;$B3A5D1   |
-	EOR $12,x				;$B3A5D4   |
-	STA $0012,y				;$B3A5D6   |
-CODE_B3A5D9:					;	   |
+
+update_held_position_no_return:
+	JSR .copy_kong_facing_to_held_sprite	;$B3A5B9  \
+	JMP .update_held_position_if_held	;$B3A5BC  /
+
+.copy_kong_facing_to_held_sprite
+	LDY current_sprite			;$B3A5BF  \ \
+	CPY $0D7A				;$B3A5C1   | |
+	BNE .return				;$B3A5C4   |/ If the current sprite isnt held then return
+	LDX active_kong_sprite			;$B3A5C6   |> Else get active kong facing direction
+	LDA $0012,y				;$B3A5C9   |\
+	AND #$BFFF				;$B3A5CC   | |
+	EOR $12,x				;$B3A5CF   | |
+	AND #$BFFF				;$B3A5D1   | |
+	EOR $12,x				;$B3A5D4   | |
+	STA $0012,y				;$B3A5D6   |/ Apply the kong facing direction to held sprite
+.return						;	   |
 	RTS					;$B3A5D9  /
 
-CODE_B3A5DA:
-	JSR CODE_B3A5BF				;$B3A5DA  \
-	JSR CODE_B3A5F5				;$B3A5DD   |
+;these routines are exact copies but are both used
+#update_held_position_return_1:
+	JSR .copy_kong_facing_to_held_sprite	;$B3A5DA  \
+	JSR .update_held_position_if_held	;$B3A5DD   |
 	RTS					;$B3A5E0  /
 
-CODE_B3A5E1:
-	JSR CODE_B3A5BF				;$B3A5E1  \
-	JSR CODE_B3A5F5				;$B3A5E4   |
+#update_held_position_return_2:
+	JSR .copy_kong_facing_to_held_sprite	;$B3A5E1  \
+	JSR .update_held_position_if_held	;$B3A5E4   |
 	RTS					;$B3A5E7  /
 
-CODE_B3A5E8:
+#apply_thrown_x_velocity:
 	LDX current_sprite			;$B3A5E8  \
 	BIT $26,x				;$B3A5EA   |
-	BPL CODE_B3A5F2				;$B3A5EC   |
+	BPL .no_flip				;$B3A5EC   |
 	EOR #$FFFF				;$B3A5EE   |
 	INC A					;$B3A5F1   |
-CODE_B3A5F2:					;	   |
+.no_flip					;	   |
 	STA $26,x				;$B3A5F2   |
 	RTS					;$B3A5F4  /
 
-CODE_B3A5F5:
+.update_held_position_if_held
 	LDX current_sprite			;$B3A5F5  \
 	CPX $0D7A				;$B3A5F7   |
-	BNE CODE_B3A5FF				;$B3A5FA   |
-	JSR CODE_B3A007				;$B3A5FC   |
-CODE_B3A5FF:					;	   |
+	BNE ..return				;$B3A5FA   |
+	JSR update_held_sprite_position		;$B3A5FC   |
+..return					;	   |
 	RTS					;$B3A5FF  /
 
 CODE_B3A600:
@@ -5051,26 +5054,26 @@ CODE_B3A600:
 	RTL					;$B3A603  /
 
 CODE_B3A604:
-	CMP $0A82				;$B3A604  \
-	BEQ CODE_B3A611				;$B3A607   |
-	PHY					;$B3A609   |
-	JSL CODE_B8D8BA				;$B3A60A   |
-	PLY					;$B3A60E   |
-	BCS CODE_B3A622				;$B3A60F   |
-CODE_B3A611:					;	   |
-	TYA					;$B3A611   |
+	CMP $0A82				;$B3A604  \ \
+	BEQ .update_interaction_variable	;$B3A607   |/ If the interaction is already happening then dont apply it again
+	PHY					;$B3A609   |> Preserve extra interaction variable (most likely X velocity)
+	JSL CODE_B8D8BA				;$B3A60A   |> Apply interaction
+	PLY					;$B3A60E   |> Recover extra interaction variable
+	BCS .return				;$B3A60F   |> If interaction wasnt applied then dont apply knockback velocity
+.update_interaction_variable			;	   |
+	TYA					;$B3A611   |> Transfer interaction variable to A
 	PHX					;$B3A612   |
-	LDX $6A					;$B3A613   |
+	LDX $6A					;$B3A613   |> Get sprite we collided with
 	BIT $12,x				;$B3A615   |
-	PLX					;$B3A617   |
-	BVC CODE_B3A61E				;$B3A618   |
-	EOR #$FFFF				;$B3A61A   |
-	INC A					;$B3A61D   |
-CODE_B3A61E:					;	   |
-	STA $0A86				;$B3A61E   |
-	CLC					;$B3A621   |
-CODE_B3A622:					;	   |
-	RTS					;$B3A622  /
+	PLX					;$B3A617   |> Recover sprite that triggered knockback
+	BVC .no_flip				;$B3A618   |> If collided sprite was facing right then dont invert the velocity
+	EOR #$FFFF				;$B3A61A   |\ Invert X velocity
+	INC A					;$B3A61D   |/
+.no_flip					;	   |
+	STA $0A86				;$B3A61E   |> Pass X velocity to interaction variable
+	CLC					;$B3A621   |> Clear carry to indicate success
+.return						;	   |
+	RTS					;$B3A622  /> Return
 
 defeat_sprite_using_anim_global:
 	JSR defeat_sprite_using_animation	;$B3A623  \
@@ -5096,12 +5099,12 @@ defeat_sprite_using_animation:
 	STZ $30,x				;$B3A64F   |> Clear interaction flags
 	RTS					;$B3A651  /
 
-CODE_B3A652:
+make_sprite_fall_off_screen:
 	LDX current_sprite			;$B3A652  \> Get current sprite
 	LDA #DATA_FF0224			;$B3A654   |\
 	STA $54,x				;$B3A657   |/ Use generic constants
 	JSL CODE_BBBB69				;$B3A659   |\
-	BCC .done_processing			;$B3A65D   |/ If sprite is offscreen then skip de
+	BCC .done_processing			;$B3A65D   |/ If sprite is offscreen then skip splashing
 	LDA $052B				;$B3A65F   |\
 	AND #$0008				;$B3A662   | |
 	BNE .handle_splashing			;$B3A665   |/ If sprite splash level effect is enabled then handle splashing
@@ -5211,421 +5214,427 @@ CODE_B3A734:
 	JSL queue_sound_effect			;$B3A734  \
 	RTS					;$B3A738  /
 
+
+
+;click-clack variables:
+;$48,x = walk speed
+
+;$4E,x = stun timer
+
 click_clack_main:
 	JSR CODE_B3A369				;$B3A739  /
 
-DATA_B3A73C:
-	dw CODE_B3A74E
-	dw CODE_B3A755
-	dw CODE_B3A7B6
-	dw CODE_B3A7DD
-	dw CODE_B3A84A
-	dw CODE_B3A8F8
-	dw CODE_B3A95C
-	dw CODE_B3A9CE
-	dw CODE_B3AA33
+.state_table
+	dw .init_state				;00
+	dw .idle_state				;01
+	dw .stunned_airborne_state		;02
+	dw .stunned_on_ground_state		;03
+	dw .carried_state			;04
+	dw .thrown_state			;05
+	dw .thrown_airborne_state		;06
+	dw .stun_recover_state			;07
+	dw .defeated_state			;08
 
-
-CODE_B3A74E:
+.init_state
 	TYX					;$B3A74E  \
-	LDA $26,x				;$B3A74F   |
-	STA $48,x				;$B3A751   |
-	INC $2E,x				;$B3A753   |
-CODE_B3A755:					;	   |
-	LDA #$0118				;$B3A755   |
-	JSL CODE_BEBE14				;$B3A758   |
-	BCS CODE_B3A776				;$B3A75C   |
-	JSL CODE_BCFB58				;$B3A75E   |
-	LDA #$5438				;$B3A762   |
-	JSL CODE_BEBE8B				;$B3A765   |
-	BCS CODE_B3A776				;$B3A769   |
-CODE_B3A76B:					;	   |
-	JSL process_current_movement		;$B3A76B   |
-	JSL CODE_B9D100				;$B3A76F   |
-	JMP CODE_B38000				;$B3A773  /
+	LDA $26,x				;$B3A74F   |\
+	STA $48,x				;$B3A751   |/ Set walking speed
+	INC $2E,x				;$B3A753   |> Set idle state
+.idle_state					;	   |
+	LDA #$0118				;$B3A755   |\
+	JSL CODE_BEBE14				;$B3A758   |/ Check throwable collision
+	BCS ..sprite_collided			;$B3A75C   |
+	JSL CODE_BCFB58				;$B3A75E   |> Populate kong and sprite hitboxes
+	LDA #$5438				;$B3A762   |\
+	JSL CODE_BEBE8B				;$B3A765   |/ Check kong collision with flags
+	BCS ..sprite_collided			;$B3A769   |> If collided with kong then handle stunning
+..animation_and_movement_update			;	   |
+	JSL process_current_movement		;$B3A76B   |> Process movement
+	JSL CODE_B9D100				;$B3A76F   |> Process animation
+	JMP CODE_B38000				;$B3A773  /> Done processing sprite
 
-CODE_B3A776:
-	BEQ CODE_B3A7AD				;$B3A776  \
-	CMP #$0001				;$B3A778   |
-	BEQ CODE_B3A76B				;$B3A77B   |
-	LDA #$0510				;$B3A77D   |
-	JSL queue_sound_effect			;$B3A780   |
-	LDX $6A					;$B3A784   |
-	LDA #$0100				;$B3A786   |
-	BIT $12,x				;$B3A789   |
-	BVC CODE_B3A790				;$B3A78B   |
-	LDA #$FF00				;$B3A78D   |
-CODE_B3A790:					;	   |
-	LDX current_sprite			;$B3A790   |
-	STZ $26,x				;$B3A792   |
-	STA $20,x				;$B3A794   |
-	LDA #$FA00				;$B3A796   |
-	STA $24,x				;$B3A799   |
-	LDA #$001E				;$B3A79B   |
+..sprite_collided
+	BEQ ..defeat_click_clack		;$B3A776  \> If click-clack is being defeated then apply velocities and kill it
+	CMP #$0001				;$B3A778   |\
+	BEQ ..animation_and_movement_update	;$B3A77B   |/ If the collision hurt the attacking sprite, continue normal logic
+	LDA #$0510				;$B3A77D   |\ Else stun click-clack
+	JSL queue_sound_effect			;$B3A780   |/ Play squish sound
+	LDX $6A					;$B3A784   |> Get attacking sprite
+	LDA #$0100				;$B3A786   |> Prepare a X velocity to apply to click-clack
+	BIT $12,x				;$B3A789   |\
+	BVC ..no_flip				;$B3A78B   |/ If attacking sprite is facing right then dont invert x velocity
+	LDA #$FF00				;$B3A78D   |> Else invert X velocity
+..no_flip					;	   |
+	LDX current_sprite			;$B3A790   |> Get click-clack sprite
+	STZ $26,x				;$B3A792   |> Clear target X velocity
+	STA $20,x				;$B3A794   |> Apply current X velocity
+	LDA #$FA00				;$B3A796   |\ Prepare a Y velocity to apply to click-clack
+	STA $24,x				;$B3A799   |/ Apply current Y velocity
+	LDA #$001E				;$B3A79B   |> Knockback interaction (fails to actually apply in v0 and v1)
 if !version == 1				;	   |
-	LDA #$FF00				;$B3A79E   |
+	LDA #$FF00				;$B3A79E   |> Was probably intended to be a knockback velocity
 else						;	   |
-	LDY #$FF00				;$B3A79E   |
+	LDY #$FF00				;$B3A79E   |> Was probably intended to be a knockback velocity
 endif						;	   |
-	JSR CODE_B3A604				;$B3A7A1   |
-	LDY #$0164				;$B3A7A4   |
-	LDA #$0002				;$B3A7A7   |
-	JMP CODE_B3AA58				;$B3A7AA  /
+	JSR CODE_B3A604				;$B3A7A1   |> Apply knockback to attacking sprite (already done in collision)
+	LDY #$0164				;$B3A7A4   |> Click-clack hurt animation
+	LDA #$0002				;$B3A7A7   |> Stunned in air
+	JMP set_state_and_animation		;$B3A7AA  /> Apply state and animation to click-clack
 
-CODE_B3A7AD:
-	LDA #$0100				;$B3A7AD  \
-	LDY #$F800				;$B3A7B0   |
-	JMP CODE_B3AA64				;$B3A7B3  /
+..defeat_click_clack
+	LDA #$0100				;$B3A7AD  \ \ Prepare a X velocity to apply to click-clack
+	LDY #$F800				;$B3A7B0   | | Prepare a Y velocity to apply to click-clack
+	JMP defeat_click_clack_with_velocity	;$B3A7B3  /_/ Apply defeated velocity
 
-CODE_B3A7B6:
-	LDA #$0022				;$B3A7B6  \
-	JSL process_alternate_movement		;$B3A7B9   |
-	JSL CODE_B9D100				;$B3A7BD   |
-	LDX current_sprite			;$B3A7C1   |
-	LDA $36,x				;$B3A7C3   |
-	CMP #$0164				;$B3A7C5   |
-	BEQ CODE_B3A7DA				;$B3A7C8   |
-	INC $2E,x				;$B3A7CA   |
-	LDA #$0001				;$B3A7CC   |
-	ORA $30,x				;$B3A7CF   |
-	STA $30,x				;$B3A7D1   |
-	LDY #$0008				;$B3A7D3   |
-	LDA [$8E],y				;$B3A7D6   |
-	STA $4E,x				;$B3A7D8   |
-CODE_B3A7DA:					;	   |
-	JMP CODE_B38000				;$B3A7DA  /
+.stunned_airborne_state
+	LDA #$0022				;$B3A7B6  \ \
+	JSL process_alternate_movement		;$B3A7B9   |/ Use alternate movement type whilst in the air
+	JSL CODE_B9D100				;$B3A7BD   |> Process animation
+	LDX current_sprite			;$B3A7C1   |> Get click-clack sprite
+	LDA $36,x				;$B3A7C3   |\
+	CMP #$0164				;$B3A7C5   | | Stunned in air
+	BEQ ..done_processing_sprite		;$B3A7C8   |/ If still using stunned in air animation then done processing
+	INC $2E,x				;$B3A7CA   |> Update state to stunned on ground
+	LDA #$0001				;$B3A7CC   |\
+	ORA $30,x				;$B3A7CF   | | Make it so click-clack can be picked up by kong
+	STA $30,x				;$B3A7D1   |/
+	LDY #$0008				;$B3A7D3   |\
+	LDA [$8E],y				;$B3A7D6   |/ Get stun time from constants
+	STA $4E,x				;$B3A7D8   |> Apply stun timer
+..done_processing_sprite			;	   |
+	JMP CODE_B38000				;$B3A7DA  /> Done processing sprite
 
-CODE_B3A7DD:
+.stunned_on_ground_state
 	TYX					;$B3A7DD  \
-	LDA $32,x				;$B3A7DE   |
-	BEQ CODE_B3A7FC				;$B3A7E0   |
+	LDA $32,x				;$B3A7DE   |\
+	BEQ ..not_picked_up			;$B3A7E0   |/ If no carry interaction then continue normal logic
 	STZ $32,x				;$B3A7E2   |
-	BIT #$0001				;$B3A7E4   |
-	BEQ CODE_B3A7FC				;$B3A7E7   |
-	LDA #$0004				;$B3A7E9   |
-	STA $2E,x				;$B3A7EC   |
-	LDA #$FFFC				;$B3A7EE   |
-	AND $30,x				;$B3A7F1   |
-	STA $30,x				;$B3A7F3   |
-	LDY #$000A				;$B3A7F5   |
-	LDA [$8E],y				;$B3A7F8   |
-	STA $4E,x				;$B3A7FA   |
-CODE_B3A7FC:					;	   |
-	LDA #$0118				;$B3A7FC   |
-	JSL CODE_BEBE14				;$B3A7FF   |
-	BCS CODE_B3A841				;$B3A803   |
-	JSL CODE_BCFB58				;$B3A805   |
-	LDA #$542C				;$B3A809   |
-	JSL CODE_BEBE8B				;$B3A80C   |
-	BCS CODE_B3A841				;$B3A810   |
-	DEC $4E,x				;$B3A812   |
-	BMI CODE_B3A824				;$B3A814   |
-	JSL CODE_B9D100				;$B3A816   |
-	LDA #$0022				;$B3A81A   |
-	JSL process_alternate_movement		;$B3A81D   |
-	JMP CODE_B38000				;$B3A821  /
+	BIT #$0001				;$B3A7E4   |\
+	BEQ ..not_picked_up			;$B3A7E7   |/ If wasnt just put down then continue normal logic
+	LDA #$0004				;$B3A7E9   |\
+	STA $2E,x				;$B3A7EC   |/ Set carried state
+	LDA #$FFFC				;$B3A7EE   |\ Disable being picked up by kong and use of platform sprites
+	AND $30,x				;$B3A7F1   | |
+	STA $30,x				;$B3A7F3   |/
+	LDY #$000A				;$B3A7F5   |\
+	LDA [$8E],y				;$B3A7F8   |/ Get carried stun time from constants
+	STA $4E,x				;$B3A7FA   |> Apply time until click-clack breaks free from carry
+..not_picked_up					;	   |
+	LDA #$0118				;$B3A7FC   |\
+	JSL CODE_BEBE14				;$B3A7FF   |/ Check throwable collision
+	BCS ..defeat_click_clack		;$B3A803   |> If collision was detected then defeat click-clack
+	JSL CODE_BCFB58				;$B3A805   |> Populate kong and sprite hitboxes
+	LDA #$542C				;$B3A809   |\
+	JSL CODE_BEBE8B				;$B3A80C   |/ Check kong collision with flags
+	BCS ..defeat_click_clack		;$B3A810   |> If collision was detected then defeat click-clack
+	DEC $4E,x				;$B3A812   |> Else, decrement stun timer
+	BMI ..recover_from_stun			;$B3A814   |> If timer was 0 then recover from stun
+	JSL CODE_B9D100				;$B3A816   |> Process animation
+	LDA #$0022				;$B3A81A   |\
+	JSL process_alternate_movement		;$B3A81D   |/ Use alternate movement type whilst stunned
+	JMP CODE_B38000				;$B3A821  /> Done processing sprite
 
-CODE_B3A824:
-	LDX current_sprite			;$B3A824  \
-	LDA $30,x				;$B3A826   |
-	AND #$FFFE				;$B3A828   |
-	ORA #$0002				;$B3A82B   |
-	STA $30,x				;$B3A82E   |
-	LDA #$000F				;$B3A830   |
-	STA $4E,x				;$B3A833   |
-	JSR CODE_B3AA3E				;$B3A835   |
-	LDY #$0167				;$B3A838   |
-	LDA #$0007				;$B3A83B   |
-	JMP CODE_B3AA58				;$B3A83E  /
+..recover_from_stun
+	LDX current_sprite			;$B3A824  \ \ Get click-clack sprite
+	LDA $30,x				;$B3A826   | | Get interaction flags
+	AND #$FFFE				;$B3A828   | | Disable being picked up by kong
+	ORA #$0002				;$B3A82B   | | Enable the use of platform sprites
+	STA $30,x				;$B3A82E   |/ Update interaction flags
+	LDA #$000F				;$B3A830   |\
+	STA $4E,x				;$B3A833   |/ Set a small delay
+	JSR .increase_walk_speed		;$B3A835   |> Increase walking speed of click-clack
+	LDY #$0167				;$B3A838   |\ Click-clack recover animation
+	LDA #$0007				;$B3A83B   |/ Click-clack recover action
+	JMP set_state_and_animation		;$B3A83E  /> Apply state and animation to click-clack
 
-CODE_B3A841:
-	LDA #$0100				;$B3A841  \
-	LDY #$F800				;$B3A844   |
-	JMP CODE_B3AA64				;$B3A847  /
+..defeat_click_clack
+	LDA #$0100				;$B3A841  \ \ Prepare a X velocity to apply to click-clack
+	LDY #$F800				;$B3A844   | | Prepare a Y velocity to apply to click-clack
+	JMP defeat_click_clack_with_velocity	;$B3A847  /_/ Apply defeated velocity
 
-CODE_B3A84A:
+.carried_state
 	TYX					;$B3A84A  \
-	DEC $4E,x				;$B3A84B   |
-	BNE CODE_B3A858				;$B3A84D   |
-	LDA #$0167				;$B3A84F   |
-	JSL set_sprite_animation		;$B3A852   |
-	BRA CODE_B3A881				;$B3A856  /
+	DEC $4E,x				;$B3A84B   |> Decrement stun timer
+	BNE ..still_stunned			;$B3A84D   |> If stun timer isnt 0 then continue normal logic
+	LDA #$0167				;$B3A84F   |\ Else
+	JSL set_sprite_animation		;$B3A852   |/ Set recover from stun animation
+	BRA ..not_stunned			;$B3A856  /
 
-CODE_B3A858:
-	LDA #$0167				;$B3A858  \
-	CMP $36,x				;$B3A85B   |
-	BNE CODE_B3A881				;$B3A85D   |
-	LDA $24,x				;$B3A85F   |
-	BPL CODE_B3A881				;$B3A861   |
-	CMP #$FC00				;$B3A863   |
-	BCS CODE_B3A881				;$B3A866   |
-	STZ $0D7A				;$B3A868   |
-	LDA #$000F				;$B3A86B   |
-	STA $4E,x				;$B3A86E   |
-	LDA #$0007				;$B3A870   |
-	STA $2E,x				;$B3A873   |
-	LDA #$001E				;$B3A875   |
-if !version == 1					;	   |
-	LDA #$FE80				;$B3A878   |
-else						;	   |
-	LDY #$FE80				;$B3A878   |
-endif						;	   |
-	JSR CODE_B3A604				;$B3A87B   |
-	JMP CODE_B38000				;$B3A87E  /
-
-CODE_B3A881:
-	LDX current_sprite			;$B3A881  \
-	LDA $32,x				;$B3A883   |
-	STZ $32,x				;$B3A885   |
-	CMP #$0001				;$B3A887   |
-	BEQ CODE_B3A896				;$B3A88A   |
-	CMP #$0002				;$B3A88C   |
-	BEQ CODE_B3A8AE				;$B3A88F   |
-	CMP #$0005				;$B3A891   |
-	BNE CODE_B3A8BA				;$B3A894   |
-CODE_B3A896:					;	   |
-	STZ $0D7A				;$B3A896   |
-	LDA #$000F				;$B3A899   |
-	STA $4E,x				;$B3A89C   |
-	STZ $20,x				;$B3A89E   |
-	STZ $26,x				;$B3A8A0   |
-	JSR CODE_B3A5DA				;$B3A8A2   |
-	LDA #$0003				;$B3A8A5   |
-	LDY #$0166				;$B3A8A8   |
-	JMP CODE_B3AA58				;$B3A8AB  /
-
-CODE_B3A8AE:
-	JSR CODE_B3A5B9				;$B3A8AE  \
-	LDA #$0005				;$B3A8B1   |
-	LDY #$0166				;$B3A8B4   |
-	JMP CODE_B3AA58				;$B3A8B7  /
-
-CODE_B3A8BA:
-	JSR CODE_B3A5B9				;$B3A8BA  \
-	JSL CODE_BCFB58				;$B3A8BD   |
-	LDY active_kong_sprite			;$B3A8C1   |
-	LDA $0000,y				;$B3A8C4   |
-	CMP #$00E8				;$B3A8C7   |
-	BNE CODE_B3A8D9				;$B3A8CA   |
-	LDA $09D9				;$B3A8CC   |
-	SEC					;$B3A8CF   |
-	SBC #$0008				;$B3A8D0   |
-	STA $09D9				;$B3A8D3   |
-	STA $09E9				;$B3A8D6   |
-CODE_B3A8D9:					;	   |
-	LDA #$1020				;$B3A8D9   |
-	LDY #$0010				;$B3A8DC   |
-	JSL CODE_BEBD8E				;$B3A8DF   |
-	BCC CODE_B3A8F1				;$B3A8E3   |
-	STZ $0D7A				;$B3A8E5   |
-	LDA #$0000				;$B3A8E8   |
+..still_stunned
+	LDA #$0167				;$B3A858  \ \
+	CMP $36,x				;$B3A85B   | |
+	BNE ..not_stunned			;$B3A85D   |/ If stun recover animation isnt playing continue normal logic
+	LDA $24,x				;$B3A85F   |\
+	BPL ..not_stunned			;$B3A861   |/ If Y velocity is downward continue normal logic
+	CMP #$FC00				;$B3A863   |\
+	BCS ..not_stunned			;$B3A866   |/ If click-clack isnt moving upward fast enough then normal logic
+	STZ $0D7A				;$B3A868   |> Else free click-clack, clear held sprite
+	LDA #$000F				;$B3A86B   |\
+	STA $4E,x				;$B3A86E   |/ Set a small stun timer
+	LDA #$0007				;$B3A870   |\
+	STA $2E,x				;$B3A873   |/ Set stun recover state
+	LDA #$001E				;$B3A875   |> Knockback interaction (fails to actually apply in v0 and v1)
 if !version == 1				;	   |
-	LDA #$FB00				;$B3A8EB   |
+	LDA #$FE80				;$B3A878   |> Was probably intended to be a knockback velocity
 else						;	   |
-	LDY #$FB00				;$B3A8EB   |
+	LDY #$FE80				;$B3A878   |> Was probably intended to be a knockback velocity
 endif						;	   |
-	JMP CODE_B3AA64				;$B3A8EE  /
+	JSR CODE_B3A604				;$B3A87B   |> Apply knockback to attacking sprite (already done in collision)
+	JMP CODE_B38000				;$B3A87E  /> Done processing sprite
 
-CODE_B3A8F1:
-	JSL CODE_B9D100				;$B3A8F1  \
-	JMP CODE_B38000				;$B3A8F5  /
+..not_stunned
+	LDX current_sprite			;$B3A881  \> Get click-clack sprite
+	LDA $32,x				;$B3A883   |\ Get carry interaction
+	STZ $32,x				;$B3A885   |/ Clear carry interaction
+	CMP #$0001				;$B3A887   |\
+	BEQ ..put_down				;$B3A88A   |/ If click-clack was just put down then 
+	CMP #$0002				;$B3A88C   |\
+	BEQ ..thrown				;$B3A88F   |/ If click-clack was just thrown then 
+	CMP #$0005				;$B3A891   |\
+	BNE ..still_held			;$B3A894   |/ If kong wasnt hit whilst holding click-clack,
+..put_down					;	   |
+	STZ $0D7A				;$B3A896   |> Clear held sprite
+	LDA #$000F				;$B3A899   |\
+	STA $4E,x				;$B3A89C   |/ Apply a small delay
+	STZ $20,x				;$B3A89E   |\
+	STZ $26,x				;$B3A8A0   |/ Clear X velocity
+	JSR update_held_position_return_1	;$B3A8A2   |> Update click-clack held position and return here
+	LDA #$0003				;$B3A8A5   |\ Stunned on ground state
+	LDY #$0166				;$B3A8A8   | | Stunned animation
+	JMP set_state_and_animation		;$B3A8AB  /_/ Apply state and animation
 
-CODE_B3A8F8:
-	JSL CODE_B9D100				;$B3A8F8  \
-	LDX current_sprite			;$B3A8FC   |
-	LDA $32,x				;$B3A8FE   |
-	STZ $32,x				;$B3A900   |
-	CMP #$0005				;$B3A902   |
-	BEQ CODE_B3A91D				;$B3A905   |
-	BIT #$0006				;$B3A907   |
-	BEQ CODE_B3A934				;$B3A90A   |
-	LDA #$0006				;$B3A90C   |
-	STA $2E,x				;$B3A90F   |
-	JSR CODE_B3A5E1				;$B3A911   |
-	LDA #$0200				;$B3A914   |
-	JSR CODE_B3A5E8				;$B3A917   |
-	JMP CODE_B38000				;$B3A91A  /
+..thrown
+	JSR update_held_position_no_return	;$B3A8AE  \> Face click-clack same direction as kong and update position
+	LDA #$0005				;$B3A8B1   |\ Thrown state
+	LDY #$0166				;$B3A8B4   | | Stunned animation
+	JMP set_state_and_animation		;$B3A8B7  /_/ Apply state and animation
 
-CODE_B3A91D:
-	STZ $0D7A				;$B3A91D  \
-	LDA #$000F				;$B3A920   |
-	STA $4E,x				;$B3A923   |
-	STZ $20,x				;$B3A925   |
-	STZ $26,x				;$B3A927   |
-	LDA #$0003				;$B3A929   |
-	STA $2E,x				;$B3A92C   |
-	JSR CODE_B3A5B9				;$B3A92E   |
-	JMP CODE_B38000				;$B3A931  /
+..still_held
+	JSR update_held_position_no_return	;$B3A8BA  \> Face click-clack same direction as kong and update position
+	JSL CODE_BCFB58				;$B3A8BD   |> Populate kong and sprite hitboxes
+	LDY active_kong_sprite			;$B3A8C1   |\
+	LDA $0000,y				;$B3A8C4   | |
+	CMP #$00E8				;$B3A8C7   | | Check if sprite id is dixie
+	BNE ..kong_is_diddy			;$B3A8CA   |/ If not dixie then continue
+	LDA $09D9				;$B3A8CC   |\ Get bottom clipping position of held click-clack
+	SEC					;$B3A8CF   | |
+	SBC #$0008				;$B3A8D0   | | Make hitbox thinner on the Y axis by raising the bottom clipping
+	STA $09D9				;$B3A8D3   | | Apply new clipping position
+	STA $09E9				;$B3A8D6   |/
+..kong_is_diddy					;	   |
+	LDA #$1020				;$B3A8D9   |\
+	LDY #$0010				;$B3A8DC   | |
+	JSL CODE_BEBD8E				;$B3A8DF   |/ Check if held click-clack collided with an enemy
+	BCC ..no_collision			;$B3A8E3   |> If not then update animation and return
+	STZ $0D7A				;$B3A8E5   |> Clear held sprite
+	LDA #$0000				;$B3A8E8   |\ Prepare a X velocity to apply to click-clack
+if !version == 1				;	   | |
+	LDA #$FB00				;$B3A8EB   | | Prepare a X velocity to apply to click-clack
+else						;	   | |
+	LDY #$FB00				;$B3A8EB   | | Prepare a Y velocity to apply to click-clack
+endif						;	   | |
+	JMP defeat_click_clack_with_velocity	;$B3A8EE  /_/ Apply defeated velocity
 
-CODE_B3A934:
-	LDA #$0118				;$B3A934  \
-	JSL CODE_BEBE14				;$B3A937   |
-	BCS CODE_B3A953				;$B3A93B   |
-	JSL CODE_BCFB58				;$B3A93D   |
-	LDA #$1020				;$B3A941   |
-	LDY #$0010				;$B3A944   |
-	JSL CODE_BEBD8E				;$B3A947   |
-	BCS CODE_B3A953				;$B3A94B   |
-	JSR CODE_B3A5B9				;$B3A94D   |
-	JMP CODE_B38000				;$B3A950  /
+..no_collision
+	JSL CODE_B9D100				;$B3A8F1  \ \ Process animation
+	JMP CODE_B38000				;$B3A8F5  / / Done processing sprite
 
-CODE_B3A953:
-	LDA #$0040				;$B3A953  \
-	LDY #$FB00				;$B3A956   |
-	JMP CODE_B3AA64				;$B3A959  /
+.thrown_state
+	JSL CODE_B9D100				;$B3A8F8  \> Process animation
+	LDX current_sprite			;$B3A8FC   |> Get click-clack sprite
+	LDA $32,x				;$B3A8FE   |\ Get carry interaction
+	STZ $32,x				;$B3A900   |/ Clear carry interaction
+	CMP #$0005				;$B3A902   |\
+	BEQ ..dropped				;$B3A905   |/ If kong was hit whilst holding click-clack,
+	BIT #$0006				;$B3A907   |\
+	BEQ ..thrown_upward			;$B3A90A   |/ If click-clack was thrown upward
+	LDA #$0006				;$B3A90C   |\ Else click-clack was thrown forward
+	STA $2E,x				;$B3A90F   |/ Apply thrown airborne state
+	JSR update_held_position_return_2	;$B3A911   |> Update held click-clack position and return
+	LDA #$0200				;$B3A914   |\ Apply target X velocity to thrown click-clack
+	JSR apply_thrown_x_velocity		;$B3A917   |/
+	JMP CODE_B38000				;$B3A91A  /> Done processing sprite
 
-CODE_B3A95C:
-	LDA #$0118				;$B3A95C  \
-	JSL CODE_BEBE14				;$B3A95F   |
-	BCS CODE_B3A98D				;$B3A963   |
-	JSL CODE_BCFB58				;$B3A965   |
-	LDA #$1020				;$B3A969   |
-	LDY #$0008				;$B3A96C   |
-	JSL CODE_BEBD8E				;$B3A96F   |
-	BCS CODE_B3A98D				;$B3A973   |
-	LDA #$0022				;$B3A975   |
-	JSL process_alternate_movement		;$B3A978   |
-	LDA $1E,x				;$B3A97C   |
-	BIT #$0003				;$B3A97E   |
-	BNE CODE_B3A99F				;$B3A981   |
-	JSL CODE_B9D100				;$B3A983   |
+..dropped
+	STZ $0D7A				;$B3A91D  \> Clear carried sprite
+	LDA #$000F				;$B3A920   |\
+	STA $4E,x				;$B3A923   |/ Set a small delay
+	STZ $20,x				;$B3A925   |\ Clear X velocity
+	STZ $26,x				;$B3A927   |/
+	LDA #$0003				;$B3A929   |\ Set stunned on ground state
+	STA $2E,x				;$B3A92C   |/
+	JSR update_held_position_no_return	;$B3A92E   |> Update held click-clack position
+	JMP CODE_B38000				;$B3A931  /> Done processing sprite
+
+..thrown_upward
+	LDA #$0118				;$B3A934  \ \
+	JSL CODE_BEBE14				;$B3A937   |/ Check throwable collision
+	BCS ..collided				;$B3A93B   |> If thrown click-clack collided then defeat it
+	JSL CODE_BCFB58				;$B3A93D   |> Populate kong and sprite hitboxes
+	LDA #$1020				;$B3A941   |\
+	LDY #$0010				;$B3A944   | |
+	JSL CODE_BEBD8E				;$B3A947   |/ Check if held click-clack collided with an enemy
+	BCS ..collided				;$B3A94B   |> If click-clack collided then defeat it
+	JSR update_held_position_no_return	;$B3A94D   |> Update held click-clack position
+	JMP CODE_B38000				;$B3A950  /> Done processing sprite
+
+..collided
+	LDA #$0040				;$B3A953  \ \ Prepare a X velocity to apply to click-clack
+	LDY #$FB00				;$B3A956   | | Prepare a Y velocity to apply to click-clack
+	JMP defeat_click_clack_with_velocity	;$B3A959  /_/ Apply defeated velocity
+
+.thrown_airborne_state
+	LDA #$0118				;$B3A95C  \ \
+	JSL CODE_BEBE14				;$B3A95F   |/ Check throwable collision
+	BCS ..collided				;$B3A963   |> If thrown click-clack collided then defeat it
+	JSL CODE_BCFB58				;$B3A965   |> Populate kong and sprite hitboxes
+	LDA #$1020				;$B3A969   |\
+	LDY #$0008				;$B3A96C   | |
+	JSL CODE_BEBD8E				;$B3A96F   |/ Check if held click-clack collided with an enemy
+	BCS ..collided				;$B3A973   |> If click-clack collided then defeat it
+	LDA #$0022				;$B3A975   |\
+	JSL process_alternate_movement		;$B3A978   |/ Process alternate movement type
+	LDA $1E,x				;$B3A97C   |\
+	BIT #$0003				;$B3A97E   | |
+	BNE ..hit_ground			;$B3A981   |/ If click-clack hit the ground then wake it up
+	JSL CODE_B9D100				;$B3A983   |> Process animation
 	JSR CODE_B3A3EB				;$B3A987   |
-	JML [$05A9]				;$B3A98A  /
+	JML [$05A9]				;$B3A98A  /> Done processing sprite
 
-CODE_B3A98D:
-	LDX current_sprite			;$B3A98D  \
-	LDA $20,x				;$B3A98F   |
-	CMP #$8000				;$B3A991   |
-	ROR A					;$B3A994   |
-	CMP #$8000				;$B3A995   |
-	ROR A					;$B3A998   |
-	LDY #$FB00				;$B3A999   |
-	JMP CODE_B3AA6E				;$B3A99C  /
+..collided
+	LDX current_sprite			;$B3A98D  \ \ Get click-clack sprite
+	LDA $20,x				;$B3A98F   | | Get current X velocity
+	CMP #$8000				;$B3A991   | | Prepare a X velocity to apply to click-clack
+	ROR A					;$B3A994   | | Slow down X velocity
+	CMP #$8000				;$B3A995   | |
+	ROR A					;$B3A998   |/
+	LDY #$FB00				;$B3A999   |> Prepare a Y velocity to apply to click-clack
+	JMP defeat_click_clack_no_flip_velocity	;$B3A99C  /> Defeat click-clack with velocity
 
-CODE_B3A99F:
-	LDA $06,x				;$B3A99F  \
-	STA $0A3E				;$B3A9A1   |
-	LDA $0A,x				;$B3A9A4   |
-	SBC #$0008				;$B3A9A6   |
-	STA $0A40				;$B3A9A9   |
-	LDY #$0034				;$B3A9AC   |
-	JSL CODE_BB842C				;$B3A9AF   |
-	LDX current_sprite			;$B3A9B3   |
-	STZ $20,x				;$B3A9B5   |
-	STZ $26,x				;$B3A9B7   |
-	STZ $4E,x				;$B3A9B9   |
-	JSR CODE_B3AA3E				;$B3A9BB   |
-	LDA #$0510				;$B3A9BE   |
-	JSL queue_sound_effect			;$B3A9C1   |
-	LDY #$0167				;$B3A9C5   |
-	LDA #$0007				;$B3A9C8   |
-	JMP CODE_B3AA58				;$B3A9CB  /
+..hit_ground
+	LDA $06,x				;$B3A99F  \ \ Get X position of click-clack
+	STA $0A3E				;$B3A9A1   | | Set X position of hit star
+	LDA $0A,x				;$B3A9A4   | | Get Y position of click-clack
+	SBC #$0008				;$B3A9A6   | | Offset Y position by -8
+	STA $0A40				;$B3A9A9   |/ Set Y position of hit star
+	LDY #$0034				;$B3A9AC   |\
+	JSL CODE_BB842C				;$B3A9AF   |/ Spawn hit star
+	LDX current_sprite			;$B3A9B3   |> Get click-clack sprite
+	STZ $20,x				;$B3A9B5   |\ Clear X velocity
+	STZ $26,x				;$B3A9B7   |/
+	STZ $4E,x				;$B3A9B9   |> Clear stun timer
+	JSR .increase_walk_speed		;$B3A9BB   |> Increase walk speed of click-clack
+	LDA #$0510				;$B3A9BE   |\ Play click-clack recover from stun sound
+	JSL queue_sound_effect			;$B3A9C1   |/
+	LDY #$0167				;$B3A9C5   |\ Recover from stun animation
+	LDA #$0007				;$B3A9C8   | | Recover from stun state
+	JMP set_state_and_animation		;$B3A9CB  /_/ Apply state and animation
 
-CODE_B3A9CE:
+.stun_recover_state
 	TYX					;$B3A9CE  \
-	LDA $4E,x				;$B3A9CF   |
-	DEC A					;$B3A9D1   |
-	BMI CODE_B3A9D8				;$B3A9D2   |
-	STA $4E,x				;$B3A9D4   |
-	BRA CODE_B3AA0B				;$B3A9D6  /
+	LDA $4E,x				;$B3A9CF   |\
+	DEC A					;$B3A9D1   |/ Decrement stun timer
+	BMI ..start_recover			;$B3A9D2   |> If stun timer was 0 then start stun recovery
+	STA $4E,x				;$B3A9D4   |> Update stun timer
+	BRA ..recover				;$B3A9D6  /> Recover from stun
 
-CODE_B3A9D8:
-	LDA #$0118				;$B3A9D8  \
-	JSL CODE_BEBE14				;$B3A9DB   |
-	BCS CODE_B3A9EE				;$B3A9DF   |
-	JSL CODE_BCFB58				;$B3A9E1   |
-	LDA #$542B				;$B3A9E5   |
-	JSL CODE_BEBE8B				;$B3A9E8   |
-	BCC CODE_B3AA0B				;$B3A9EC   |
-CODE_B3A9EE:					;	   |
-	BEQ CODE_B3AA02				;$B3A9EE   |
-	LDX current_sprite			;$B3A9F0   |
-	LDA #$003C				;$B3A9F2   |
-	STA $4E,x				;$B3A9F5   |
-	LDA #$001E				;$B3A9F7   |
+..start_recover
+	LDA #$0118				;$B3A9D8  \ \
+	JSL CODE_BEBE14				;$B3A9DB   |/ Check throwable collision
+	BCS ..collided				;$B3A9DF   |
+	JSL CODE_BCFB58				;$B3A9E1   |> Populate kong and sprite hitboxes
+	LDA #$542B				;$B3A9E5   |\
+	JSL CODE_BEBE8B				;$B3A9E8   |/ Check kong collision with flags
+	BCC ..recover				;$B3A9EC   |> If no collision was detected then start recovering
+..collided					;	   |
+	BEQ ..defeated				;$B3A9EE   |> Else if click-clack was defeated then kill it
+	LDX current_sprite			;$B3A9F0   |> Get click-clack sprite
+	LDA #$003C				;$B3A9F2   |\
+	STA $4E,x				;$B3A9F5   |/ Set stun timer
+	LDA #$001E				;$B3A9F7   |> Knockback interaction (fails to actually apply in v0 and v1)
 if !version == 1				;	   |
-	LDA #$FF00				;$B3A9FA   |
+	LDA #$FF00				;$B3A9FA   |> Was probably intended to be a knockback velocity
 else						;	   |
-	LDY #$FF00				;$B3A9FA   |
+	LDY #$FF00				;$B3A9FA   |> Was probably intended to be a knockback velocity
 endif						;	   |
-	JSR CODE_B3A604				;$B3A9FD   |
-	BRA CODE_B3AA0B				;$B3AA00  /
+	JSR CODE_B3A604				;$B3A9FD   |> Apply knockback to attacking sprite (already done in collision)
+	BRA ..recover				;$B3AA00  /
 
-CODE_B3AA02:
-	LDA #$0040				;$B3AA02  \
-	LDY #$FB00				;$B3AA05   |
-	JMP CODE_B3AA64				;$B3AA08  /
+..defeated
+	LDA #$0040				;$B3AA02  \ \ Prepare a X velocity to apply to click-clack
+	LDY #$FB00				;$B3AA05   | | Prepare a Y velocity to apply to click-clack
+	JMP defeat_click_clack_with_velocity	;$B3AA08  /_/ Apply defeated velocity
 
-CODE_B3AA0B:
-	LDA #$0022				;$B3AA0B  \
-	JSL process_alternate_movement		;$B3AA0E   |
-	JSL CODE_B9D100				;$B3AA12   |
-	LDX current_sprite			;$B3AA16   |
-	LDA $36,x				;$B3AA18   |
-	CMP #$0163				;$B3AA1A   |
-	BNE CODE_B3AA30				;$B3AA1D   |
-	LDA $48,x				;$B3AA1F   |
-	BIT $12,x				;$B3AA21   |
-	BVC CODE_B3AA29				;$B3AA23   |
-	EOR #$FFFF				;$B3AA25   |
-	INC A					;$B3AA28   |
-CODE_B3AA29:					;	   |
-	STA $26,x				;$B3AA29   |
-	LDA #$0001				;$B3AA2B   |
-	STA $2E,x				;$B3AA2E   |
-CODE_B3AA30:					;	   |
-	JMP CODE_B38000				;$B3AA30  /
+..recover
+	LDA #$0022				;$B3AA0B  \ \
+	JSL process_alternate_movement		;$B3AA0E   |/ Process alternate movement type
+	JSL CODE_B9D100				;$B3AA12   |> Process animation
+	LDX current_sprite			;$B3AA16   |> Get click-clack sprite
+	LDA $36,x				;$B3AA18   |\
+	CMP #$0163				;$B3AA1A   | | Check if click-clack walking animation is playing
+	BNE ..done_processing			;$B3AA1D   |/ If not then done processing
+	LDA $48,x				;$B3AA1F   |> Get walking speed
+	BIT $12,x				;$B3AA21   |\
+	BVC ..no_flip				;$B3AA23   |/ If click-clack is facing right then dont invert walking speed
+	EOR #$FFFF				;$B3AA25   |\ Else invert walking speed
+	INC A					;$B3AA28   |/
+..no_flip					;	   |
+	STA $26,x				;$B3AA29   |> Apply walking speed to target X velocity
+	LDA #$0001				;$B3AA2B   |\
+	STA $2E,x				;$B3AA2E   |/ Set click-clack state to idle
+..done_processing				;	   |
+	JMP CODE_B38000				;$B3AA30  /> Done processing sprite
 
-CODE_B3AA33:
-	JSL process_current_movement		;$B3AA33  \
-	JSL CODE_B9D100				;$B3AA37   |
-	JMP CODE_B3A652				;$B3AA3B  /
+.defeated_state
+	JSL process_current_movement		;$B3AA33  \ \ Process movement
+	JSL CODE_B9D100				;$B3AA37   |/ Process animation
+	JMP make_sprite_fall_off_screen		;$B3AA3B  /
 
-CODE_B3AA3E:
-	LDX current_sprite			;$B3AA3E  \
-	LDA $48,x				;$B3AA40   |
-	BPL CODE_B3AA4A				;$B3AA42   |
-	EOR #$FFFF				;$B3AA44   |
-	INC A					;$B3AA47   |
-	STA $48,x				;$B3AA48   |
-CODE_B3AA4A:					;	   |
-	CLC					;$B3AA4A   |
-	ADC $48,x				;$B3AA4B   |
-	CMP #$0600				;$B3AA4D   |
-	BCC CODE_B3AA55				;$B3AA50   |
-	LDA #$0600				;$B3AA52   |
-CODE_B3AA55:					;	   |
-	STA $48,x				;$B3AA55   |
-	RTS					;$B3AA57  /
+.increase_walk_speed
+	LDX current_sprite			;$B3AA3E  \> Get click-clack sprite
+	LDA $48,x				;$B3AA40   |\
+	BPL ..positive_walk_speed		;$B3AA42   |/ If walking speed is positive no need to invert it
+	EOR #$FFFF				;$B3AA44   |\ Else invert walk speed to make it positive
+	INC A					;$B3AA47   | |
+	STA $48,x				;$B3AA48   |/
+..positive_walk_speed				;	   |
+	CLC					;$B3AA4A   |\
+	ADC $48,x				;$B3AA4B   |/ Double walking speed
+	CMP #$0600				;$B3AA4D   |\
+	BCC ..apply_walk_speed			;$B3AA50   |/ If walk speed is too fast then cap it
+	LDA #$0600				;$B3AA52   |> Cap walk speed
+..apply_walk_speed				;	   |
+	STA $48,x				;$B3AA55   |> Apply new walk speed
+	RTS					;$B3AA57  /> Return
 
-CODE_B3AA58:
+set_state_and_animation:
 	LDX current_sprite			;$B3AA58  \
 	STA $2E,x				;$B3AA5A   |
 	TYA					;$B3AA5C   |
 	JSL set_sprite_animation		;$B3AA5D   |
 	JMP CODE_B38000				;$B3AA61  /
 
-CODE_B3AA64:
-	LDX $6A					;$B3AA64  \
-	BIT $12,x				;$B3AA66   |
-	BVC CODE_B3AA6E				;$B3AA68   |
-	EOR #$FFFF				;$B3AA6A   |
-	INC A					;$B3AA6D   |
-CODE_B3AA6E:					;	   |
-	LDX current_sprite			;$B3AA6E   |
-	STA $26,x				;$B3AA70   |
-	STZ $20,x				;$B3AA72   |
-	STY $24,x				;$B3AA74   |
-	LDA #$0004				;$B3AA76   |
-	STA $52,x				;$B3AA79   |
-	STZ $30,x				;$B3AA7B   |
-	LDA #$0008				;$B3AA7D   |
-	STA $2E,x				;$B3AA80   |
-	LDA #$0164				;$B3AA82   |
-	JSR defeat_sprite_using_animation	;$B3AA85   |
-	LDA #$0510				;$B3AA88   |
-	JSL queue_sound_effect			;$B3AA8B   |
-	JMP CODE_B38000				;$B3AA8F  /
+defeat_click_clack_with_velocity:
+	LDX $6A					;$B3AA64  \ \ Get attacking sprite
+	BIT $12,x				;$B3AA66   | |
+	BVC defeat_click_clack_no_flip_velocity	;$B3AA68   |/ If attacking sprite is facing right then dont invert X velocity
+	EOR #$FFFF				;$B3AA6A   |\ Else invert X velocity
+	INC A					;$B3AA6D   |/
+defeat_click_clack_no_flip_velocity:		;	   |
+	LDX current_sprite			;$B3AA6E   |> Get click-clack
+	STA $26,x				;$B3AA70   |\ Apply target X velocity
+	STZ $20,x				;$B3AA72   | | Clear current X velocity
+	STY $24,x				;$B3AA74   |/ Apply current Y velocity
+	LDA #$0004				;$B3AA76   |\ Apply movement behavior 4
+	STA $52,x				;$B3AA79   |/
+	STZ $30,x				;$B3AA7B   |> Clear interaction flags
+	LDA #$0008				;$B3AA7D   |\
+	STA $2E,x				;$B3AA80   |/ Set click-clack defeated state
+	LDA #$0164				;$B3AA82   |\
+	JSR defeat_sprite_using_animation	;$B3AA85   |/ Set click-clack defeated animation
+	LDA #$0510				;$B3AA88   |\
+	JSL queue_sound_effect			;$B3AA8B   |/ Play click-clack squish sound
+	JMP CODE_B38000				;$B3AA8F  /> Done processing sprite
 
 klobber_main:
 	JSR CODE_B3A369				;$B3AA92  /
@@ -6565,7 +6574,7 @@ CODE_B3B16B:					;	   |
 CODE_B3B16E:
 	JSL process_current_movement		;$B3B16E  \
 	JSL CODE_B9D100				;$B3B172   |
-	JMP CODE_B3A652				;$B3B176  /
+	JMP make_sprite_fall_off_screen		;$B3B176  /
 
 CODE_B3B179:
 	LDA $1C,x				;$B3B179  \
@@ -7359,7 +7368,7 @@ CODE_B3B71F:
 CODE_B3B73A:
 	JSL process_current_movement		;$B3B73A  \
 	JSL CODE_B9D100				;$B3B73E   |
-	JMP CODE_B3A652				;$B3B742  /
+	JMP make_sprite_fall_off_screen		;$B3B742  /
 
 CODE_B3B745:
 	LDA #$0003				;$B3B745  \
@@ -7679,7 +7688,7 @@ CODE_B3B937:
 CODE_B3B944:
 	JSL process_current_movement		;$B3B944  \
 	JSL CODE_B9D100				;$B3B948   |
-	JMP CODE_B3A652				;$B3B94C  /
+	JMP make_sprite_fall_off_screen		;$B3B94C  /
 
 shuri_main:
 	JSR CODE_B3A369				;$B3B94F  /
@@ -7844,7 +7853,7 @@ CODE_B3BA85:					;	   |
 CODE_B3BA88:
 	JSL process_current_movement		;$B3BA88  \
 	JSL CODE_B9D100				;$B3BA8C   |
-	JMP CODE_B3A652				;$B3BA90  /
+	JMP make_sprite_fall_off_screen		;$B3BA90  /
 
 CODE_B3BA93:
 	LDA #$0002				;$B3BA93  \
@@ -7992,7 +8001,7 @@ CODE_B3BB7A:					;	   |
 CODE_B3BB7B:
 	JSL process_current_movement		;$B3BB7B  \
 	JSR process_animation_handle_submerged	;$B3BB7F   |
-	JMP CODE_B3A652				;$B3BB82  /
+	JMP make_sprite_fall_off_screen		;$B3BB82  /
 
 CODE_B3BB85:
 	LDX $6A					;$B3BB85  \
@@ -8220,7 +8229,7 @@ CODE_B3BCFE:					;	   |
 CODE_B3BD01:
 	JSL process_current_movement		;$B3BD01  \
 	JSL CODE_B9D100				;$B3BD05   |
-	JMP CODE_B3A652				;$B3BD09  /
+	JMP make_sprite_fall_off_screen		;$B3BD09  /
 
 CODE_B3BD0C:
 	JSR CODE_B3BDC7				;$B3BD0C  \
@@ -8436,7 +8445,7 @@ CODE_B3BE7C:
 CODE_B3BE87:
 	JSL process_current_movement		;$B3BE87  \
 	JSL CODE_B9D100				;$B3BE8B   |
-	JMP CODE_B3A652				;$B3BE8F  /
+	JMP make_sprite_fall_off_screen		;$B3BE8F  /
 
 CODE_B3BE92:
 	LDA #$0118				;$B3BE92  \
@@ -8701,7 +8710,7 @@ CODE_B3C07D:
 	JML [$05A9]				;$B3C08E  /
 
 CODE_B3C091:
-	JMP CODE_B3A652				;$B3C091  /
+	JMP make_sprite_fall_off_screen		;$B3C091  /
 
 CODE_B3C094:
 	TAX					;$B3C094  \
@@ -8865,7 +8874,7 @@ CODE_B3C1D0:					;	   |
 CODE_B3C1D2:
 	JSL process_current_movement		;$B3C1D2  \
 	JSL CODE_B9D100				;$B3C1D6   |
-	JMP CODE_B3A652				;$B3C1DA  /
+	JMP make_sprite_fall_off_screen		;$B3C1DA  /
 
 CODE_B3C1DD:
 	LDX current_sprite			;$B3C1DD  \
@@ -9423,7 +9432,7 @@ CODE_B3C61A:
 CODE_B3C61F:
 	JSL process_current_movement		;$B3C61F  \
 	JSL CODE_B9D100				;$B3C623   |
-	JMP CODE_B3A652				;$B3C627  /
+	JMP make_sprite_fall_off_screen		;$B3C627  /
 
 CODE_B3C62A:
 	STA $0DC6				;$B3C62A  \
@@ -9652,7 +9661,7 @@ CODE_B3C7B5:					;	   |
 CODE_B3C7BC:
 	JSL process_current_movement		;$B3C7BC  \
 	JSL CODE_B9D100				;$B3C7C0   |
-	JMP CODE_B3A652				;$B3C7C4  /
+	JMP make_sprite_fall_off_screen		;$B3C7C4  /
 
 CODE_B3C7C7:
 	TYX					;$B3C7C7  \
@@ -10019,7 +10028,7 @@ CODE_B3CA5D:
 CODE_B3CA7A:
 	JSL process_current_movement		;$B3CA7A  \
 	JSL CODE_B9D100				;$B3CA7E   |
-	JMP CODE_B3A652				;$B3CA82  /
+	JMP make_sprite_fall_off_screen		;$B3CA82  /
 
 CODE_B3CA85:
 	PHK					;$B3CA85  \
@@ -10576,7 +10585,7 @@ CODE_B3CE65:					;	   |
 CODE_B3CE6E:
 	JSL process_current_movement		;$B3CE6E  \
 	JSL CODE_B9D100				;$B3CE72   |
-	JMP CODE_B3A652				;$B3CE76  /
+	JMP make_sprite_fall_off_screen		;$B3CE76  /
 
 CODE_B3CE79:
 	LDX current_sprite			;$B3CE79  \
@@ -10883,7 +10892,7 @@ CODE_B3D0DF:
 	JSL CODE_B9D100				;$B3D0E3   |
 	LDA $1E,x				;$B3D0E7   |
 	BNE CODE_B3D0EE				;$B3D0E9   |
-	JMP CODE_B3A652				;$B3D0EB  /
+	JMP make_sprite_fall_off_screen		;$B3D0EB  /
 
 CODE_B3D0EE:
 	JML [$05A9]				;$B3D0EE  /
@@ -11044,14 +11053,17 @@ CODE_B3D220:					;	   |
 	RTS					;$B3D220  /
 
 DATA_B3D221:
-	db $A0, $00
-
-DATA_B3D223:
-	db $84, $00, $A1, $00, $83, $00, $A2, $00
-	db $81, $00, $A1, $00, $7F, $00, $A0, $00
-	db $7F, $00, $A0, $00, $86, $00, $9E, $00
-	db $97, $00, $97, $00, $A2, $00, $84, $00
-	db $A7, $00, $84, $00, $A7, $00
+	%offset(DATA_B3D223, 2)
+	dw $00A0, $0084
+	dw $00A1, $0083
+	dw $00A2, $0081
+	dw $00A1, $007F
+	dw $00A0, $007F
+	dw $00A0, $0086
+	dw $009E, $0097
+	dw $0097, $00A2
+	dw $0084, $00A7
+	dw $0084, $00A7
 
 CODE_B3D249:
 	LDA $0040,y				;$B3D249  \
