@@ -9152,7 +9152,10 @@ return_if_not_kong_palette:
 	LDA requested_palette_bank
 	BEQ .return
 	CMP #$00FD
+	BEQ .check_kong
+	CMP #$007F
 	BNE .return
+.check_kong
 	LDA requested_palette_address
 	CMP #$6484
 	BNE .check_dixie
