@@ -58,7 +58,11 @@ endif
 	TAX					;$B38059   |/
 	CPX #main_sprite_table_end		;$B3805A   |\ If not at the last sprite
 	BNE .next_slot				;$B3805D   |/ then test if the sprite exists
+if !ex_patch == 1
+	JSL ex_sprite_constants_handler_3
+else
 	JSL CODE_B8805E				;$B3805F   |
+endif
 	JSR CODE_B38342				;$B38063   |
 	JSR CODE_B38280				;$B38066   |
 	JSR CODE_B380F0				;$B38069   |
@@ -90,8 +94,13 @@ CODE_B38090:					;	   |
 	LDA $00,x				;$B38090   |
 	BEQ CODE_B380D7				;$B38092   |
 	STX current_sprite			;$B38094   |
+if !ex_patch == 1
+	JSL ex_sprite_constants_handler_2
+else
+	
 	TAX					;$B38096   |
 	LDA $0A36				;$B38097   |
+endif
 	AND #$001C				;$B3809A   |
 	BNE CODE_B380A1				;$B3809D   |
 	BRA CODE_B380D2				;$B3809F  /

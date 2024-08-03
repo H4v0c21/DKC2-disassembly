@@ -32,7 +32,9 @@ ex_sprite_extra_word_handler:
 
 
 ex_sprite_handler_2:
-	CPX #!ex_sprite_id_start
+	TXA
+	JSL ex_sprite_constants_handler
+	CMP #!ex_sprite_id_start
 	BCS .ex_sprite_main
 ;normal_sprite_main
 	RTL

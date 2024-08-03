@@ -47,6 +47,32 @@ ex_sprite_constants_handler:
 	PLA
 	RTL
 
+ex_sprite_constants_handler_2:
+	TAX
+	CMP #!ex_sprite_id_start	;\ If sprite id is in ex range use alternate bank for constants	
+	BCS .use_ex_constants		;/
+	LDA #$00B3			;\ Sprite main bank
+	STA $05AB			;/
+	LDA #$00FF			;\ Sprite constants bank
+	STA $90				;/
+	LDA $0A36
+	RTL
+
+.use_ex_constants
+	LDA #$00B3			;\ Sprite main bank
+	STA $05AB			;/
+	LDA #<:ex_sprite_constants	;\ Sprite constants bank
+	STA $90				;/
+	LDA $0A36
+	RTL
+
+ex_sprite_constants_handler_3:
+	LDA #$00FF
+	STA $90
+	JSL CODE_B8805E			;> Process interactions
+	RTL
+
+
 ex_spawn_script_table:
 	dw ex_null_spawn_script		;id: 1044/1046 ex id: 0000
 	dw ex_null_spawn_script		;id: 1046/1048 ex id: 0002
