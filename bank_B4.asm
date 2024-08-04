@@ -1394,7 +1394,7 @@ CODE_B48B78:
 	LDX #$0001				;$B48B78  \
 CODE_B48B7B:					;	   |
 	STX $0658				;$B48B7B   |
-	JSR CODE_B4A1D4				;$B48B7E   |
+	JSR get_player_coin_count_npc		;$B48B7E   |
 	LDX #$07A5				;$B48B81   |
 	JSR CODE_B4BD57				;$B48B84   |
 	LDX $0689				;$B48B87   |
@@ -1446,7 +1446,7 @@ CODE_B48BEE:					;	   |
 	JML CODE_808C84				;$B48C03  /
 
 CODE_B48C07:
-	JSR CODE_B4A1D4				;$B48C07  \
+	JSR get_player_coin_count_npc		;$B48C07  \
 	LDX #$07A5				;$B48C0A   |
 	JSR CODE_B4BD57				;$B48C0D   |
 	LDX $0689				;$B48C10   |
@@ -2713,76 +2713,76 @@ CODE_B49744:					;	   |
 	RTS					;$B4974E  /
 
 CODE_B4974F:
-	LDA $0689				;$B4974F  \
-	BNE CODE_B49764				;$B49752   |
-	LDY #DATA_B4C4F7			;$B49754   |
-	LDX language_select			;$B49757   |
-	BEQ CODE_B4975F				;$B4975A   |
-	LDY #DATA_B4C80D			;$B4975C   |
+	LDA $0689				;$B4974F  \  get npc screen type
+	BNE CODE_B49764				;$B49752   | if not 0, its not cranky, move to next check
+	LDY #DATA_B4C4F7			;$B49754   | load text pointer table for available cranky selections
+	LDX language_select			;$B49757   | get current language in use
+	BEQ CODE_B4975F				;$B4975A   | if 0, we're in english, continue with it
+	LDY #DATA_B4C80D			;$B4975C   | else load pointer table for french text
 CODE_B4975F:					;	   |
-	JSR CODE_B49875				;$B4975F   |
+	JSR CODE_B49875				;$B4975F   | use world number to index into the table and load the appropriate data
 	BRA CODE_B4979C				;$B49762  /
 
 CODE_B49764:
-	CMP #$0006				;$B49764  \
-	BNE CODE_B49779				;$B49767   |
-	LDY #DATA_B4C513			;$B49769   |
-	LDX language_select			;$B4976C   |
-	BEQ CODE_B4975F				;$B4976F   |
-	LDY #DATA_B4C829			;$B49771   |
-	JSR CODE_B49875				;$B49774   |
+	CMP #$0006				;$B49764  \  check if wrinkly
+	BNE CODE_B49779				;$B49767   | if not, move to next check
+	LDY #DATA_B4C513			;$B49769   | else load text pointer table for available wrinkly selections
+	LDX language_select			;$B4976C   | get current language in use
+	BEQ CODE_B4975F				;$B4976F   | if 0, we're in english, continue with it
+	LDY #DATA_B4C829			;$B49771   | else load pointer table for french text
+	JSR CODE_B49875				;$B49774   | use world number to index into the table and load the appropriate data
 	BRA CODE_B4979C				;$B49777  /
 
 CODE_B49779:
-	CMP #$0004				;$B49779  \
-	BNE CODE_B4978E				;$B4977C   |
-	LDY #DATA_B4C521			;$B4977E   |
-	LDX language_select			;$B49781   |
-	BEQ CODE_B49789				;$B49784   |
-	LDY #DATA_B4C837			;$B49786   |
+	CMP #$0004				;$B49779  \  check if swanky 
+	BNE CODE_B4978E				;$B4977C   | if not, we must be in the funky or klubba screen
+	LDY #DATA_B4C521			;$B4977E   | else load text pointer table for available swanky selections
+	LDX language_select			;$B49781   | get current language in use
+	BEQ CODE_B49789				;$B49784   | if 0, we're in english, continue with it
+	LDY #DATA_B4C837			;$B49786   | else load pointer table for french text
 CODE_B49789:					;	   |
-	JSR CODE_B49875				;$B49789   |
+	JSR CODE_B49875				;$B49789   | use world number to index into the table and load the appropriate data
 	BRA CODE_B4979C				;$B4978C  /
 
 CODE_B4978E:
-	TAX					;$B4978E  \
-	LDA language_select			;$B4978F   |
-	BEQ CODE_B49799				;$B49792   |
-	LDA DATA_B4C803,x			;$B49794   |
+	TAX					;$B4978E  \  transfer npc screen type to X
+	LDA language_select			;$B4978F   | get current language in use
+	BEQ CODE_B49799				;$B49792   | if 0, we're in english, load pointer table for english text
+	LDA DATA_B4C803,x			;$B49794   | else load pointer table for french text
 	BRA CODE_B4979C				;$B49797  /
 
 CODE_B49799:
-	LDA DATA_B4C4ED,x			;$B49799  \
+	LDA DATA_B4C4ED,x			;$B49799  \  load text pointer table for available funky or klubba selections
 CODE_B4979C:					;	   |
 	TAX					;$B4979C   |
-	JSR CODE_B4ADE5				;$B4979D   |
-	LDA $0000,x				;$B497A0   |
-	LSR A					;$B497A3   |
+	JSR CODE_B4ADE5				;$B4979D   | set return address to 
+	LDA $0000,x				;$B497A0   | read first word of text table to get selection limit
+	LSR A					;$B497A3   | divide it by two
 	PHK					;$B497A4   |
-	PLB					;$B497A5   |
-	STA $0652				;$B497A6   |
+	PLB					;$B497A5   | set data bank back to B4
+	STA $0652				;$B497A6   | set selection limit
 	DEC A					;$B497A9   |
-	DEC A					;$B497AA   |
-	STA $065A				;$B497AB   |
-	JSR CODE_B4ADE5				;$B497AE   |
-	LDA $0000,x				;$B497B1   |
+	DEC A					;$B497AA   | decrease A by 2
+	STA $065A				;$B497AB   | set which option no longer scrolls down the text when hovered on
+	JSR CODE_B4ADE5				;$B497AE   | 
+	LDA $0000,x				;$B497B1   | read first word of text table
 	PHK					;$B497B4   |
-	PLB					;$B497B5   |
-	CMP #$0006				;$B497B6   |
-	BCS CODE_B497BE				;$B497B9   |
-	LDA #$0006				;$B497BB   |
+	PLB					;$B497B5   | set data bank back to B4
+	CMP #$0006				;$B497B6   | 
+	BCS CODE_B497BE				;$B497B9   | if higher than 6, don't cap
+	LDA #$0006				;$B497BB   | else cap to 6
 CODE_B497BE:					;	   |
-	TAY					;$B497BE   |
+	TAY					;$B497BE   | transfer it to Y
 	XBA					;$B497BF   |
 	LSR A					;$B497C0   |
-	LSR A					;$B497C1   |
-	STA $0658				;$B497C2   |
+	LSR A					;$B497C1   | divide by 4
+	STA $0658				;$B497C2   | transfer it back to A
 	TYA					;$B497C5   |
-	INX					;$B497C6   |
+	INX					;$B497C6   | increase index by 2 to read text from next option
 	INX					;$B497C7   |
-	LDY #$0000				;$B497C8   |
+	LDY #$0000				;$B497C8   | initialize interation counter?
 	JSR CODE_B4ADF6				;$B497CB   |
-	LDA $0689				;$B497CE   |
+	LDA $0689				;$B497CE   | get npc screen type
 	BNE CODE_B497D8				;$B497D1   |
 	JSR CODE_B49579				;$B497D3   |
 	BRA CODE_B497F4				;$B497D6  /
@@ -2823,8 +2823,8 @@ endif
 pulltable
 
 CODE_B49875:
-	LDA $06B1				;$B49875  \
-	DEC A					;$B49878   |
+	LDA $06B1				;$B49875  \  get world number
+	DEC A					;$B49878   | 
 	ASL A					;$B49879   |
 	STY $0666				;$B4987A   |
 	CLC					;$B4987D   |
@@ -2948,26 +2948,26 @@ CODE_B49978:
 CODE_B4998D:
 	LDA $06A3				;$B4998D  \
 	BIT #$0400				;$B49990   |
-	BNE CODE_B499C8				;$B49993   |
+	BNE CODE_B499C8				;$B49993   | if bit 10 is set, skip the icon DMA
 	ORA #$0400				;$B49995   |
-	STA $06A3				;$B49998   |
+	STA $06A3				;$B49998   | else set it
 	LDA #$0000				;$B4999B   |
 	STA PPU.vram_address			;$B4999E   |
-	SEP #$20				;$B499A1   |
+	SEP #$20				;$B499A1   | 8-bit A
 	LDA #$01				;$B499A3   |
 	STA DMA[0].settings			;$B499A5   |
 	LDA #$18				;$B499A8   |
 	STA DMA[0].destination			;$B499AA   |
-	LDX #DATA_FC14E0			;$B499AD   |
+	LDX #DATA_FC14E0			;$B499AD   | get map icons tiledata
 	STX DMA[0].source			;$B499B0   |
-	LDA #DATA_FC14E0>>16			;$B499B3   |
+	LDA #DATA_FC14E0>>16			;$B499B3   | get bank of data
 	STA DMA[0].source_bank			;$B499B5   |
 	LDY #$0400				;$B499B8   |
 	STY DMA[0].size				;$B499BB   |
 	STZ DMA[0].unused_1			;$B499BE   |
 	LDA #$01				;$B499C1   |
-	STA CPU.enable_dma			;$B499C3   |
-	REP #$20				;$B499C6   |
+	STA CPU.enable_dma			;$B499C3   | do the dma
+	REP #$20				;$B499C6   | 16-bit A
 CODE_B499C8:					;	   |
 	LDA #$0200				;$B499C8   |
 	STA DMA[0].source			;$B499CB   |
@@ -2987,51 +2987,51 @@ CODE_B499C8:					;	   |
 	REP #$20				;$B499F0   |
 	LDA $06A1				;$B499F2   |
 	BIT #$0800				;$B499F5   |
-	BEQ CODE_B49A76				;$B499F8   |
+	BEQ CODE_B49A76				;$B499F8   | if bit 11 clear, check for player inputs
 CODE_B499FA:					;	   |
-	STZ $065C				;$B499FA   |
-	LDA $06BB				;$B499FD   |
-	BMI CODE_B49A3D				;$B49A00   |
-	LDA $0654				;$B49A02   |
-	CMP $065A				;$B49A05   |
-	BCC CODE_B49A48				;$B49A08   |
+	STZ $065C				;$B499FA   | else clear loaded dialogue address
+	LDA $06BB				;$B499FD   | get how much to move the kong icon Y positon by
+	BMI CODE_B49A3D				;$B49A00   | if negative, decrease cursor selection
+	LDA $0654				;$B49A02   | else get cursor selection
+	CMP $065A				;$B49A05   | check if reached the selection where the options should stop scrolling down
+	BCC CODE_B49A48				;$B49A08   | if not, scroll down the text
 CODE_B49A0A:					;	   |
-	SEP #$20				;$B49A0A   |
-	LDA $06B6				;$B49A0C   |
+	SEP #$20				;$B49A0A   | 8-bit A
+	LDA $06B6				;$B49A0C   | else get cursor Y positon
 	CLC					;$B49A0F   |
-	ADC $06BB				;$B49A10   |
-	STA $06B6				;$B49A13   |
-	REP #$20				;$B49A16   |
-	DEC $0650				;$B49A18   |
-	BEQ CODE_B49A20				;$B49A1B   |
-	BRL CODE_B49ADD				;$B49A1D  /
+	ADC $06BB				;$B49A10   | 
+	STA $06B6				;$B49A13   | update cursor Y positon
+	REP #$20				;$B49A16   | 16-bit A
+	DEC $0650				;$B49A18   | decrease the icon move timer 
+	BEQ CODE_B49A20				;$B49A1B   | if it reached 0, stop moving it and update cursor selection
+	BRL CODE_B49ADD				;$B49A1D  /  else do something
 
 CODE_B49A20:
 	LDA $06A1				;$B49A20  \
 	AND #$F7FF				;$B49A23   |
 	STA $06A1				;$B49A26   |
 	LDA #$0633				;$B49A29   |
-	JSL queue_sound_effect			;$B49A2C   |
+	JSL queue_sound_effect			;$B49A2C   | play menu move sound effect
 	LDA $0654				;$B49A30   |
 	CLC					;$B49A33   |
 	ADC $06BB				;$B49A34   |
-	STA $0654				;$B49A37   |
+	STA $0654				;$B49A37   | update cursor selection
 	BRL CODE_B49ADD				;$B49A3A  /
 
 CODE_B49A3D:
-	LDA $0654				;$B49A3D  \
-	DEC A					;$B49A40   |
-	CMP $065A				;$B49A41   |
-	BCC CODE_B49A48				;$B49A44   |
-	BRA CODE_B49A0A				;$B49A46  /
+	LDA $0654				;$B49A3D  \  get cursor selection
+	DEC A					;$B49A40   | decrease by 1
+	CMP $065A				;$B49A41   | check if reached the selection where the options should stop scrolling down
+	BCC CODE_B49A48				;$B49A44   | if not, scroll down the text
+	BRA CODE_B49A0A				;$B49A46  /  else continue updating cursor position
 
 CODE_B49A48:
-	LDA $06D6				;$B49A48  \
+	LDA $06D6				;$B49A48  \  get text scroll Y offset
 	CLC					;$B49A4B   |
-	ADC $06BB				;$B49A4C   |
-	STA $06D6				;$B49A4F   |
-	DEC $0650				;$B49A52   |
-	BEQ CODE_B49A5A				;$B49A55   |
+	ADC $06BB				;$B49A4C   | add value to add to cursor 
+	STA $06D6				;$B49A4F   | update it
+	DEC $0650				;$B49A52   | decrease cursor move timer
+	BEQ CODE_B49A5A				;$B49A55   | if it reached 0, stop moving it and update cursor selection
 	BRL CODE_B49ADD				;$B49A57  /
 
 CODE_B49A5A:
@@ -3039,57 +3039,57 @@ CODE_B49A5A:
 	AND #$F7FF				;$B49A5D   |
 	STA $06A1				;$B49A60   |
 	LDA #$0633				;$B49A63   |
-	JSL queue_sound_effect			;$B49A66   |
-	LDA $0654				;$B49A6A   |
+	JSL queue_sound_effect			;$B49A66   | play menu move sound effect
+	LDA $0654				;$B49A6A   | get cursor selection
 	CLC					;$B49A6D   |
-	ADC $06BB				;$B49A6E   |
-	STA $0654				;$B49A71   |
+	ADC $06BB				;$B49A6E   | 
+	STA $0654				;$B49A71   | update cursor selection
 	BRA CODE_B49ADD				;$B49A74  /
 
 CODE_B49A76:
 	LDA player_active_held			;$B49A76  \
-	BIT #$0800				;$B49A79   |
-	BEQ CODE_B49A9E				;$B49A7C   |
-	LDA $0654				;$B49A7E   |
-	CMP #$0001				;$B49A81   |
-	BEQ CODE_B49ADD				;$B49A84   |
-	LDA $06A1				;$B49A86   |
+	BIT #$0800				;$B49A79   | check if player is pressing up
+	BEQ CODE_B49A9E				;$B49A7C   | if not, check if pressing down
+	LDA $0654				;$B49A7E   | else get current cursor selection
+	CMP #$0001				;$B49A81   | check if at the first option
+	BEQ CODE_B49ADD				;$B49A84   | if yes, do something
+	LDA $06A1				;$B49A86   | else
 	ORA #$0800				;$B49A89   |
 	STA $06A1				;$B49A8C   |
-	LDA #$FFFF				;$B49A8F   |
+	LDA #$FFFF				;$B49A8F   | set how much to add to cursor Y position when the selection changes
 	STA $06BB				;$B49A92   |
 	LDA #$0010				;$B49A95   |
-	STA $0650				;$B49A98   |
+	STA $0650				;$B49A98   | set cursor move timer
 	BRL CODE_B499FA				;$B49A9B  /
 
 CODE_B49A9E:
-	BIT #$0400				;$B49A9E  \
-	BEQ CODE_B49AC3				;$B49AA1   |
-	LDA $0654				;$B49AA3   |
-	CMP $0652				;$B49AA6   |
-	BEQ CODE_B49ADD				;$B49AA9   |
+	BIT #$0400				;$B49A9E  \  check if player is holding down
+	BEQ CODE_B49AC3				;$B49AA1   | if not, check if player has pressed face buttons or start
+	LDA $0654				;$B49AA3   | else get cursor selection
+	CMP $0652				;$B49AA6   | compare with maximum amount of selectable options
+	BEQ CODE_B49ADD				;$B49AA9   | if we've reached the limit, do something
 	LDA $06A1				;$B49AAB   |
 	ORA #$0800				;$B49AAE   |
 	STA $06A1				;$B49AB1   |
 	LDA #$0001				;$B49AB4   |
-	STA $06BB				;$B49AB7   |
+	STA $06BB				;$B49AB7   | set how much to add to kong icon Y position when the selection changes
 	LDA #$0010				;$B49ABA   |
-	STA $0650				;$B49ABD   |
+	STA $0650				;$B49ABD   | set cursor move timer
 	BRL CODE_B499FA				;$B49AC0  /
 
 CODE_B49AC3:
 	LDA player_active_pressed		;$B49AC3  \
-	BIT #$D0C0				;$B49AC6   |
-	BEQ CODE_B49ADD				;$B49AC9   |
-	LDA $06B5				;$B49ACB   |
-	STA $0670				;$B49ACE   |
-	LDA $06A3				;$B49AD1   |
-	AND #$FBFF				;$B49AD4   |
+	BIT #$D0C0				;$B49AC6   | check if player pressed any face buttons or start
+	BEQ CODE_B49ADD				;$B49AC9   | if not, do something
+	LDA $06B5				;$B49ACB   | else get cursor X/Y position
+	STA $0670				;$B49ACE   | store a mirror of it
+	LDA $06A3				;$B49AD1   | 
+	AND #$FBFF				;$B49AD4   | clear all bits but bit 10
 	STA $06A3				;$B49AD7   |
 	BRL CODE_B49C71				;$B49ADA  /
 
 CODE_B49ADD:
-	JSL CODE_BAC7C0				;$B49ADD  \
+	JSL CODE_BAC7C0				;$B49ADD  \  update oam?
 	LDA #$03FC				;$B49AE1   |
 	STA $C8					;$B49AE4   |
 	LDA $067A				;$B49AE6   |
@@ -3292,33 +3292,33 @@ CODE_B49C4D:
 	RTS					;$B49C70  /
 
 CODE_B49C71:
-	LDX $0689				;$B49C71  \
-	CPX #$0004				;$B49C74   |
-	BEQ CODE_B49CAC				;$B49C77   |
-	CPX #$0006				;$B49C79   |
+	LDX $0689				;$B49C71  \  get npc screen type
+	CPX #$0004				;$B49C74   | check if its swanky
+	BEQ CODE_B49CAC				;$B49C77   | 
+	CPX #$0006				;$B49C79   | else check if its wrinkly
 	BEQ CODE_B49C89				;$B49C7C   |
 CODE_B49C7E:					;	   |
 	JSR (DATA_B49DE0,x)			;$B49C7E   |
 	BCC CODE_B49CB4				;$B49C81   |
-	JSR CODE_B4A1D4				;$B49C83   |
+	JSR get_player_coin_count_npc		;$B49C83   |
 	BRL CODE_B49D4F				;$B49C86  /
 
 CODE_B49C89:
-	LDA $0654				;$B49C89  \
-	DEC A					;$B49C8C   |
-	BNE CODE_B49C7E				;$B49C8D   |
-	JSR (DATA_B49DE0,x)			;$B49C8F   |
+	LDA $0654				;$B49C89  \  
+	DEC A					;$B49C8C   | decrease cursor selection
+	BNE CODE_B49C7E				;$B49C8D   | if not 0,
+	JSR (DATA_B49DE0,x)			;$B49C8F   | else we chose the first option (save game), call some code
 	BCC CODE_B49CB4				;$B49C92   |
-	LDA $06B1				;$B49C94   |
+	LDA $06B1				;$B49C94   | get world number
 	DEC A					;$B49C97   |
 	ASL A					;$B49C98   |
-	TAY					;$B49C99   |
-	LDX DATA_B49665,y			;$B49C9A   |
-	JSR CODE_B4A1D4				;$B49C9D   |
+	TAY					;$B49C99   | transfer to Y as index to get the correct price table
+	LDX DATA_B49665,y			;$B49C9A   | get wrinkly prices table
+	JSR get_player_coin_count_npc		;$B49C9D   | get player coin count
 	SEC					;$B49CA0   |
-	SBC $0003,x				;$B49CA1   |
-	BMI CODE_B49CA9				;$B49CA4   |
-	BRL CODE_B49D4F				;$B49CA6  /
+	SBC $0003,x				;$B49CA1   | subtract coin count from the requested price
+	BMI CODE_B49CA9				;$B49CA4   | if negative, player can't afford it
+	BRL CODE_B49D4F				;$B49CA6  /  else player has enough coins, proceed to checkout
 
 CODE_B49CA9:
 	BRL CODE_B49CF7				;$B49CA9  /
@@ -3329,69 +3329,70 @@ CODE_B49CAC:
 	BRL CODE_B49D40				;$B49CB1  /
 
 CODE_B49CB4:
-	LDA $0689				;$B49CB4  \
-	BNE CODE_B49CC1				;$B49CB7   |
-	LDY #DATA_B4CB23			;$B49CB9   |
-	JSR CODE_B49875				;$B49CBC   |
+	LDA $0689				;$B49CB4  \  get npc screen type
+	BNE CODE_B49CC1				;$B49CB7   | if not 0, its not cranky, move on to next check
+	LDY #DATA_B4CB23			;$B49CB9   | else load cranky price pointer table
+	JSR CODE_B49875				;$B49CBC   | get price table based on world number
 	BRA CODE_B49CE1				;$B49CBF  /
 
 CODE_B49CC1:
-	CMP #$0006				;$B49CC1  \
-	BNE CODE_B49CCE				;$B49CC4   |
-	LDY #DATA_B4CBE5			;$B49CC6   |
-	JSR CODE_B49875				;$B49CC9   |
+	CMP #$0006				;$B49CC1  \  check if its wrinkly
+	BNE CODE_B49CCE				;$B49CC4   | if not, move on to next check
+	LDY #DATA_B4CBE5			;$B49CC6   | else load wrinkly price pointer table
+	JSR CODE_B49875				;$B49CC9   | get price table based on world number
 	BRA CODE_B49CE1				;$B49CCC  /
 
 CODE_B49CCE:
-	CMP #$0004				;$B49CCE  \
-	BNE CODE_B49CDB				;$B49CD1   |
-	LDY #DATA_B4CBA3			;$B49CD3   |
-	JSR CODE_B49875				;$B49CD6   |
+	CMP #$0004				;$B49CCE  \  check if its swanky
+	BNE CODE_B49CDB				;$B49CD1   | if not, it must be funky or klubba
+	LDY #DATA_B4CBA3			;$B49CD3   | else get swanky price pointer table
+	JSR CODE_B49875				;$B49CD6   | get price table based on world number
 	BRA CODE_B49CE1				;$B49CD9  /
 
+
 CODE_B49CDB:
-	LDX $0689				;$B49CDB  \
-	LDA DATA_B4CB19,x			;$B49CDE   |
-CODE_B49CE1:					;	   |
-	STA $0666				;$B49CE1   |
-	LDA $0654				;$B49CE4   |
+	LDX $0689				;$B49CDB  \  get npc screen type
+	LDA DATA_B4CB19,x			;$B49CDE   | use it as index to get address of table with prices
+CODE_B49CE1:					;	   | 
+	STA $0666				;$B49CE1   | store the address of price table
+	LDA $0654				;$B49CE4   | get current cursor position
 	DEC A					;$B49CE7   |
 	ASL A					;$B49CE8   |
 	CLC					;$B49CE9   |
-	ADC $0666				;$B49CEA   |
-	TAX					;$B49CED   |
-	JSR CODE_B4A1D4				;$B49CEE   |
+	ADC $0666				;$B49CEA   | add address of price table to it
+	TAX					;$B49CED   | transfer to X to be used as index to get the right price
+	JSR get_player_coin_count_npc		;$B49CEE   | get player coin count (kremcoins if klubba, banana coins otherwise)
 	SEC					;$B49CF1   |
-	SBC $0000,x				;$B49CF2   |
-	BPL CODE_B49D4F				;$B49CF5   |
+	SBC $0000,x				;$B49CF2   | subtract player coin count from the requested price
+	BPL CODE_B49D4F				;$B49CF5   | if result is positive then player has enough coins, proceed to checkout
 CODE_B49CF7:					;	   |
-	LDA $065C				;$B49CF7   |
+	LDA $065C				;$B49CF7   | else load adress of current dialogue table in use
 if !version == 1				;	   |
 	AND #$00FF				;$B49CFA   |
 endif						;	   |
-	CMP #$0000				;$B49CFD   |
-	BNE CODE_B49D3D				;$B49D00   |
-	LDA #CODE_808D70			;$B49D02   |
+	CMP #$0000				;$B49CFD   | check if it contains anything
+	BNE CODE_B49D3D				;$B49D00   | if yes.. increase it? might be dead code, investigate more
+	LDA #CODE_808D70			;$B49D02   | else update NMI pointer
 	STA NMI_pointer				;$B49D05   |
 	LDA #CODE_808D5F			;$B49D07   |
 	STA $065E				;$B49D0A   |
-	LDA $0689				;$B49D0D   |
-	TAX					;$B49D10   |
-	LDA DATA_B4C547,x			;$B49D11   |
-	LDY language_select			;$B49D14   |
-	BEQ CODE_B49D1C				;$B49D17   |
-	LDA DATA_B4C85D,x			;$B49D19   |
+	LDA $0689				;$B49D0D   | get npc screen type
+	TAX					;$B49D10   | transfer it to X to use as index
+	LDA DATA_B4C547,x			;$B49D11   | get address of english dialogue table
+	LDY language_select			;$B49D14   | get current language in use
+	BEQ CODE_B49D1C				;$B49D17   | if 0, we're using english, continue with it
+	LDA DATA_B4C85D,x			;$B49D19   | else load french dialogue
 CODE_B49D1C:					;	   |
-	STA $065C				;$B49D1C   |
-	JSR CODE_B49AFC				;$B49D1F   |
-	LDA #$065F				;$B49D22   |
+	STA $065C				;$B49D1C   | use previous flag address to store the text table address
+	JSR CODE_B49AFC				;$B49D1F   | display the dialogue
+	LDA #$065F				;$B49D22   | play incorrect answer sound effect
 	JSL queue_sound_effect			;$B49D25   |
 	LDA $06A1				;$B49D29   |
 	AND #$FDFF				;$B49D2C   |
 	STA $06A1				;$B49D2F   |
 	LDA #$0001				;$B49D32   |
 	STA $064E				;$B49D35   |
-	STZ $065C				;$B49D38   |
+	STZ $065C				;$B49D38   | clear address of dialogue table in use
 	BRA CODE_B49D40				;$B49D3B  /
 
 CODE_B49D3D:
@@ -3404,48 +3405,48 @@ CODE_B49D40:					;	   |
 	BRL CODE_B49AEE				;$B49D4C  /
 
 CODE_B49D4F:
-	PHA					;$B49D4F  \
+	PHA					;$B49D4F  \  preserve the player's new coin count
 	LDA #$0634				;$B49D50   |
-	JSL queue_sound_effect			;$B49D53   |
-	PLA					;$B49D57   |
+	JSL queue_sound_effect			;$B49D53   | play correct answer sound effect
+	PLA					;$B49D57   | restore coin count
 	TAY					;$B49D58   |
-	SEP #$10				;$B49D59   |
-	LDA $0689				;$B49D5B   |
-	CMP #$0008				;$B49D5E   |
-	BNE CODE_B49D68				;$B49D61   |
-	STY $08CC				;$B49D63   |
+	SEP #$10				;$B49D59   | 8-bit X/Y
+	LDA $0689				;$B49D5B   | get npc screen type
+	CMP #$0008				;$B49D5E   | check if klubba
+	BNE CODE_B49D68				;$B49D61   | if not, update banana coin count
+	STY $08CC				;$B49D63   | else update kremcoin count
 	BRA CODE_B49D6B				;$B49D66  /
 
 CODE_B49D68:
 	STY $08CA				;$B49D68  \
 CODE_B49D6B:					;	   |
-	REP #$10				;$B49D6B   |
+	REP #$10				;$B49D6B   | 16-bit X/Y
 	LDA #CODE_B49E48			;$B49D6D   |
 	STA $067A				;$B49D70   |
 	LDA #DATA_FC14E0			;$B49D73   |
 	STA $0699				;$B49D76   |
 	LDA #$0001				;$B49D79   |
 	STA $0650				;$B49D7C   |
-	LDA #$065F				;$B49D7F   |
-	LDA $0689				;$B49D82   |
-	BNE CODE_B49D8C				;$B49D85   |
-	LDX #$08D2				;$B49D87   |
+	LDA #$065F				;$B49D7F   | dead code
+	LDA $0689				;$B49D82   | get npc screen type
+	BNE CODE_B49D8C				;$B49D85   | if not 0, its not cranky, move to next check
+	LDX #$08D2				;$B49D87   | else
 	BRA CODE_B49D9E				;$B49D8A  /
 
 CODE_B49D8C:
-	CMP #$0002				;$B49D8C  \
-	BNE CODE_B49D96				;$B49D8F   |
+	CMP #$0002				;$B49D8C  \  check if funky
+	BNE CODE_B49D96				;$B49D8F   | if not, move to next check
 	LDX #$08E7				;$B49D91   |
 	BRA CODE_B49D9E				;$B49D94  /
 
 CODE_B49D96:
-	CMP #$0006				;$B49D96  \
-	BNE CODE_B49DDD				;$B49D99   |
+	CMP #$0006				;$B49D96  \  check if wrinkly
+	BNE CODE_B49DDD				;$B49D99   | if not,
 	LDX #$08E0				;$B49D9B   |
 CODE_B49D9E:					;	   |
 	STX $0666				;$B49D9E   |
-	LDA $06B1				;$B49DA1   |
-	DEC A					;$B49DA4   |
+	LDA $06B1				;$B49DA1   | get world number
+	DEC A					;$B49DA4   | decrease by 1
 	CLC					;$B49DA5   |
 	ADC $0666				;$B49DA6   |
 	TAX					;$B49DA9   |
@@ -3457,9 +3458,9 @@ CODE_B49D9E:					;	   |
 	REP #$20				;$B49DB6   |
 	LDA $0689				;$B49DB8   |
 	BNE CODE_B49DDD				;$B49DBB   |
-	LDA $06B1				;$B49DBD   |
-	CMP #$000A				;$B49DC0   |
-	BCC CODE_B49DDD				;$B49DC3   |
+	LDA $06B1				;$B49DBD   | get world number
+	CMP #$000A				;$B49DC0   | check if its any of the lost world maps
+	BCC CODE_B49DDD				;$B49DC3   | if not, 
 	SEP #$20				;$B49DC5   |
 	LDA $00,x				;$B49DC7   |
 	ORA $0666				;$B49DC9   |
@@ -3952,7 +3953,7 @@ CODE_B4A1A7:
 	JSR CODE_B4A0FD				;$B4A1AA   |
 	PHK					;$B4A1AD   |
 	PLB					;$B4A1AE   |
-	JSR CODE_B4A1D4				;$B4A1AF   |
+	JSR get_player_coin_count_npc		;$B4A1AF   |
 	LDX #$07A5				;$B4A1B2   |
 	JSR CODE_B4BD57				;$B4A1B5   |
 	LDA $06A1				;$B4A1B8   |
@@ -3968,15 +3969,15 @@ CODE_B4A1D0:					;	   |
 CODE_B4A1D3:					;	   |
 	RTS					;$B4A1D3  /
 
-CODE_B4A1D4:
-	LDY $0689				;$B4A1D4  \
-	LDA $08CA				;$B4A1D7   |
-	CPY #$0008				;$B4A1DA   |
-	BNE CODE_B4A1E2				;$B4A1DD   |
-	LDA $08CC				;$B4A1DF   |
+get_player_coin_count_npc:
+	LDY $0689				;$B4A1D4  \  get npc screen type
+	LDA $08CA				;$B4A1D7   | get number of banana coins player has
+	CPY #$0008				;$B4A1DA   | check if npc screen is klubba
+	BNE CODE_B4A1E2				;$B4A1DD   | if not, continue with banana coins
+	LDA $08CC				;$B4A1DF   | else load number of kremcoins instead
 CODE_B4A1E2:					;	   |
-	AND #$00FF				;$B4A1E2   |
-	RTS					;$B4A1E5  /
+	AND #$00FF				;$B4A1E2   | 
+	RTS					;$B4A1E5  /  return
 
 CODE_B4A1E6:
 	LDA $064E				;$B4A1E6  \
@@ -4023,7 +4024,7 @@ CODE_B4A21B:
 	JSR CODE_B4A0FD				;$B4A248   |
 	PHK					;$B4A24B   |
 	PLB					;$B4A24C   |
-	JSR CODE_B4A1D4				;$B4A24D   |
+	JSR get_player_coin_count_npc		;$B4A24D   |
 	LDX #$07A5				;$B4A250   |
 	JSR CODE_B4BD57				;$B4A253   |
 CODE_B4A256:					;	   |
@@ -4205,7 +4206,7 @@ CODE_B4A3B6:					;	   |
 	JSR CODE_B4ADEB				;$B4A3DB   |
 	LDA #$0001				;$B4A3DE   |
 	STA $064E				;$B4A3E1   |
-	JSR CODE_B4A1D4				;$B4A3E4   |
+	JSR get_player_coin_count_npc		;$B4A3E4   |
 	LDX #$07A5				;$B4A3E7   |
 	JSR CODE_B4BD57				;$B4A3EA   |
 	RTS					;$B4A3ED  /
@@ -5123,7 +5124,7 @@ CODE_B4ABEA:
 	REP #$20				;$B4AC15   |
 	PHK					;$B4AC17   |
 	PLB					;$B4AC18   |
-	JSR CODE_B4A1D4				;$B4AC19   |
+	JSR get_player_coin_count_npc		;$B4AC19   |
 	LDX #$07A5				;$B4AC1C   |
 	JSR CODE_B4BD57				;$B4AC1F   |
 	LDA $06A1				;$B4AC22   |
@@ -6989,8 +6990,8 @@ CODE_B4BB61:					;	   |
 
 CODE_B4BB62:
 	REP #$20				;$B4BB62  \
-	LDA $0689				;$B4BB64   |
-	CMP #$0008				;$B4BB67   |
+	LDA $0689				;$B4BB64   | get npc screen type
+	CMP #$0008				;$B4BB67   | check if klubba
 	BNE CODE_B4BB71				;$B4BB6A   |
 	LDY #$1128				;$B4BB6C   |
 	BRA CODE_B4BB74				;$B4BB6F  /
@@ -8988,6 +8989,7 @@ DATA_B4CBD5:
 DATA_B4CBDD:
 	db $01, $00, $02, $00, $03, $00, $00, $00
 
+;wrinkly price tables per world
 DATA_B4CBE5:
 	dw DATA_B4CBF3
 	dw DATA_B4CC03

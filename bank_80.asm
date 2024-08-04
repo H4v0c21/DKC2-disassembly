@@ -1363,47 +1363,48 @@ CODE_808D7D:
 
 CODE_808D8A:
 	LDA #$8000				;$808D8A  \
-	ORA $08C2				;$808D8D   |
+	ORA $08C2				;$808D8D   | set bit 12 (unclear yet, related to cutscenes)
 	STA $08C2				;$808D90   |
-	LDA $08A4				;$808D93   |
-	JSL CODE_808837				;$808D96   |
+	LDA $08A4				;$808D93   | get kong in front
+	JSL CODE_808837				;$808D96   | set kong 
 	LDA #$0020				;$808D9A   |
 	ORA $30,x				;$808D9D   |
-	STA $30,x				;$808D9F   |
-	JSR CODE_808E29				;$808DA1   |
-	LDA #$16D8				;$808DA4   |
-	STA $66					;$808DA7   |
+	STA $30,x				;$808D9F   | set interaction flags
+	JSR CODE_808E29				;$808DA1   | spawn and setup diddy variables
+	LDA #$16D8				;$808DA4   | load address of dixie's control variables
+	STA $66					;$808DA7   | update pointer to control variables of currently processed kong
 	LDY #DATA_FF136E			;$808DA9   |
-	JSL CODE_BB8432				;$808DAC   |
+	JSL CODE_BB8432				;$808DAC   | spawn dixie
 	LDX alternate_sprite			;$808DB0   |
 	STX current_sprite			;$808DB2   |
-	LDA #$0004				;$808DB4   |
-	JSL CODE_B9D0B8				;$808DB7   |
-	LDA.l DATA_FF012A			;$808DBB   |
-	STA $16E0				;$808DBF   |
-	LDA.l DATA_FF012C			;$808DC2   |
-	STA $16E2				;$808DC6   |
-	LDX active_kong_sprite			;$808DC9   |
+	LDA #$0004				;$808DB4   | load run animation
+	JSL CODE_B9D0B8				;$808DB7   | set kong animation
+	LDA.l DATA_FF012A			;$808DBB   | 
+	STA $16E0				;$808DBF   | set dixie's gravity constant
+	LDA.l DATA_FF012C			;$808DC2   | 
+	STA $16E2				;$808DC6   | set dixie's terminal velocity constant
+	LDX active_kong_sprite			;$808DC9   | get active kong
 	LDA #$001D				;$808DCC   |
-	STA $2E,x				;$808DCF   |
+	STA $2E,x				;$808DCF   | set active kong to npc screen state
 	LDA #$00E4				;$808DD1   |
-	STA $02,x				;$808DD4   |
-	JSR CODE_808DFB				;$808DD6   |
-	LDX inactive_kong_sprite		;$808DD9   |
+	STA $02,x				;$808DD4   | set render order
+	JSR CODE_808DFB				;$808DD6   | call dead code
+	LDX inactive_kong_sprite		;$808DD9   | get inactive kong 
 	LDA #$001E				;$808DDC   |
-	STA $2E,x				;$808DDF   |
+	STA $2E,x				;$808DDF   | set inactive kong to npc screen state
 	LDA #$00D8				;$808DE1   |
-	STA $02,x				;$808DE4   |
-	JSR CODE_808DFB				;$808DE6   |
+	STA $02,x				;$808DE4   | set render order
+	JSR CODE_808DFB				;$808DE6   | call dead code
 	LDA $08C2				;$808DE9   |
-	BIT #$4000				;$808DEC   |
-	BNE CODE_808DFA				;$808DEF   |
-	LDY inactive_kong_sprite		;$808DF1   |
+	BIT #$4000				;$808DEC   | check if player has both kongs
+	BNE CODE_808DFA				;$808DEF   | if yes, return
+	LDY inactive_kong_sprite		;$808DF1   | else get inactive kong
 	LDA #$C000				;$808DF4   |
-	STA $001C,y				;$808DF7   |
+	STA $001C,y				;$808DF7   | make them invisible
 CODE_808DFA:					;	   |
-	RTL					;$808DFA  /
+	RTL					;$808DFA  /  return
 
+;Dead code, may have been used to set terrain related variables for kongs in npc screens.
 CODE_808DFB:
 	RTS					;$808DFB  /
 
