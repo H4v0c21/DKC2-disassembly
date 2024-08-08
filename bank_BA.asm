@@ -929,7 +929,7 @@ CODE_BA97F3:
 CODE_BA982C:					;	   |
 	INC $071F				;$BA982C   |
 	LDA #$0118				;$BA982F   |
-	JSL CODE_BEBE14				;$BA9832   |
+	JSL check_throwable_collision_global	;$BA9832   |
 	BCS CODE_BA9845				;$BA9836   |
 	JSL CODE_BCFB58				;$BA9838   |
 	LDA #$5000				;$BA983C   |

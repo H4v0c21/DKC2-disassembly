@@ -823,11 +823,11 @@ CODE_BEBE06:
 	LDX current_sprite			;$BEBE11   |
 	RTS					;$BEBE13  /
 
-CODE_BEBE14:
-	JSR CODE_BEBE18				;$BEBE14  \
+check_throwable_collision_global:
+	JSR check_throwable_collision		;$BEBE14  \
 	RTL					;$BEBE17  /
 
-CODE_BEBE18:
+check_throwable_collision:
 	STA $60					;$BEBE18  \
 	LDX current_sprite			;$BEBE1A   |
 	LDA $32,x				;$BEBE1C   |
@@ -860,18 +860,18 @@ CODE_BEBE4B:
 	RTS					;$BEBE4C  /
 
 CODE_BEBE4D:
-	PHX					;$BEBE4D  \
+	PHX					;$BEBE4D  \> Preserve sprite that is checking collision
 	PHA					;$BEBE4E   |
-	LDX $6A					;$BEBE4F   |
-	CPX active_kong_sprite			;$BEBE51   |
-	BEQ CODE_BEBE5B				;$BEBE54   |
-	CPX inactive_kong_sprite		;$BEBE56   |
-	BNE CODE_BEBE67				;$BEBE59   |
+	LDX $6A					;$BEBE4F   |\
+	CPX active_kong_sprite			;$BEBE51   | |
+	BEQ CODE_BEBE5B				;$BEBE54   |/ If colliding sprite is main kong then dont handle inactive kong
+	CPX inactive_kong_sprite		;$BEBE56   |\
+	BNE CODE_BEBE67				;$BEBE59   |/ if colliding sprite isnt follower kong then this is not a kong
 CODE_BEBE5B:					;	   |
-	LDA $2E,x				;$BEBE5B   |
-	ASL A					;$BEBE5D   |
-	ASL A					;$BEBE5E   |
-	TAX					;$BEBE5F   |
+	LDA $2E,x				;$BEBE5B   |\ Get kong state flags
+	ASL A					;$BEBE5D   | |
+	ASL A					;$BEBE5E   | |
+	TAX					;$BEBE5F   |/
 	PLA					;$BEBE60   |
 	AND.l DATA_B896B7,x			;$BEBE61   |
 	BNE CODE_BEBE6A				;$BEBE65   |
@@ -888,18 +888,18 @@ CODE_BEBE6A:
 CODE_BEBE6D:
 	STA $5E					;$BEBE6D  \
 	LDA #$0010				;$BEBE6F   |
-	PHK					;$BEBE72   |
-	%return(CODE_BEBE79)			;$BEBE73   |
-	JML [$09F9]				;$BEBE76  /
+	PHK					;$BEBE72   |\
+	%return(.return_handler)		;$BEBE73   |/ Set collision return handler
+	JML [$09F9]				;$BEBE76  /> Check for collision
 
-CODE_BEBE79:
-	BCS CODE_BEBE7F				;$BEBE79  \
+.return_handler
+	BCS .collided				;$BEBE79  \
 	LDX current_sprite			;$BEBE7B   |
 	TXY					;$BEBE7D   |
 	RTL					;$BEBE7E  /
 
-CODE_BEBE7F:
-	JSL CODE_BBBD6B				;$BEBE7F  \
+.collided
+	JSL CODE_BBBD6B				;$BEBE7F  \> Kill sprite
 	LDX current_sprite			;$BEBE83   |
 	LDY $6A					;$BEBE85   |
 	LDA #$0000				;$BEBE87   |
@@ -908,7 +908,7 @@ CODE_BEBE7F:
 CODE_BEBE8B:
 	LDY #$0000				;$BEBE8B  \
 CODE_BEBE8E:					;	   |
-	STA $09F7				;$BEBE8E   |
+	STA $09F7				;$BEBE8E   |> Store collision flags
 	STY $60					;$BEBE91   |
 	LDA #$0010				;$BEBE93   |
 	PHK					;$BEBE96   |
@@ -7740,7 +7740,8 @@ DATA_BEF051:
 
 CODE_BEF0A7:
 	RTS					;$BEF0A7  \
-CODE_BEF0A8:					;	   |
+
+CODE_BEF0A8:					;	  \
 	JSR CODE_BEF0C7				;$BEF0A8   |
 CODE_BEF0AB:					;	   |
 	LDX #$0000				;$BEF0AB   |

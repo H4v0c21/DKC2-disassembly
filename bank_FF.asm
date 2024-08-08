@@ -136,35 +136,75 @@ DATA_FF0274:
 	db $70, $00, $00, $08, $02, $00, $60, $03
 	db $0F, $02
 
-;neek
+;neek constants
 DATA_FF027E:
-	db $70, $00, $00, $08, $08, $00, $40, $00
-	db $28, $55, $71, $01, $01, $02, $00, $00
-	db $00, $00, $00, $00, $00, $00
+	dw $0070	;gravity
+	dw $0800	;terminal velocity
+	dw $0008	;acceleration index
+	dw $0040	
+	dw $5528	;collision flags
+	dw $0171	;defeated state
+	dw $0201	;defeated animation
+	dw $0000	;attack animation
+	dw $0000	;attack state
+	dw $0000
+	dw $0000
 
-;klomp
+;klomp constants
 DATA_FF0294:
-	db $70, $00, $00, $08, $08, $00, $40, $00
-	db $28, $55, $62, $01, $01, $01, $00, $00
-	db $00, $00, $00, $00, $00, $00
+	dw $0070	;gravity
+	dw $0800	;terminal velocity
+	dw $0008	;acceleration index
+	dw $0040	
+	dw $5528	;collision flags
+	dw $0162	;defeated state
+	dw $0101	;defeated animation
+	dw $0000	;attack animation
+	dw $0000	;attack state
+	dw $0000
+	dw $0000
 
-;klampon
+;klampon constants
 DATA_FF02AA:
-	db $70, $00, $00, $08, $08, $00, $40, $00
-	db $08, $54, $A1, $01, $01, $01, $A2, $01
-	db $00, $00, $00, $00, $00, $00
+	dw $0070	;gravity
+	dw $0800	;terminal velocity
+	dw $0008	;acceleration index
+	dw $0040	
+	dw $5408	;collision flags
+	dw $01A1	;defeated state
+	dw $0101	;defeated animation
+	dw $01A2	;attack animation
+	dw $0000	;attack state
+	dw $0000
+	dw $0000
 
-;spiny
+;spiny constants
 DATA_FF02C0:
-	db $70, $00, $00, $08, $08, $00, $40, $00
-	db $80, $54, $A5, $01, $01, $01, $00, $00
-	db $00, $00, $00, $00, $00, $00
+	dw $0070	;gravity
+	dw $0800	;terminal velocity
+	dw $0008	;acceleration index
+	dw $0040	
+	dw $5480	;collision flags
+	dw $01A5	;defeated state
+	dw $0101	;defeated animation
+	dw $0000	;attack animation
+	dw $0000	;attack state
+	dw $0000
+	dw $0000
 
-;klinger
+;klinger constants
 DATA_FF02D6:
-	db $70, $00, $00, $08, $08, $00, $40, $00
-	db $28, $54, $A7, $01, $01, $01, $00, $00
-	db $00, $00, $00, $00, $00, $00
+	dw $0070	;gravity
+	dw $0800	;terminal velocity
+	dw $0008	;acceleration index
+	dw $0040	
+	dw $5428	;collision flags
+	dw $01A7	;defeated state
+	dw $0101	;defeated animation
+	dw $0000	;attack animation
+	dw $0000	;attack state
+	dw $0000
+	dw $0000
 
 DATA_FF02EC:
 	db $70, $00, $00, $08, $0F, $00, $40, $00
@@ -565,7 +605,7 @@ DATA_FF06B0:
 
 DATA_FF06BE:
 	dw !initcommand_load_subconfig, DATA_FF0690
-	dw sprite.unknown_1E, $0001
+	dw sprite.terrain_interaction, $0001
 	dw !initcommand_set_alt_palette, $0010
 	dw !initcommand_set_animation, $0163
 	dw !initcommand_success
@@ -710,7 +750,7 @@ DATA_FF0824:
 DATA_FF0836:
 	dw !initcommand_load_subconfig, DATA_FF0690
 	dw sprite.parameter, $0080
-	dw sprite.unknown_2F, $0001
+	dw sprite.sub_state, $0001
 	dw !initcommand_set_alt_palette, $0008
 	dw !initcommand_set_animation, $017D
 	dw !initcommand_success
@@ -723,7 +763,7 @@ DATA_FF084C:
 
 DATA_FF085A:
 	dw !initcommand_load_subconfig, DATA_FF0690
-	dw sprite.unknown_48, $0009
+	dw sprite.general_purpose_48, $0009
 	dw !initcommand_set_alt_palette, $0024
 	dw !initcommand_set_animation, $01AF
 	dw !initcommand_success
@@ -891,8 +931,8 @@ DATA_FF0A20:
 	dw sprite.number, $0318
 	dw sprite.x_position, $00E0
 	dw sprite.y_position, $0180
-	dw sprite.unknown_42, $0000
-	dw sprite.unknown_44, DATA_BAC26F
+	dw sprite.general_purpose_42, $0000
+	dw sprite.general_purpose_44, DATA_BAC26F
 	dw !initcommand_set_alt_palette, $0023
 	dw !initcommand_set_oam, $3000
 	dw !initcommand_set_animation, $01CA
@@ -902,8 +942,8 @@ DATA_FF0A42:
 	dw sprite.number, $0318
 	dw sprite.x_position, $00E0
 	dw sprite.y_position, $0180
-	dw sprite.unknown_42, $0000
-	dw sprite.unknown_44, DATA_BAC28D
+	dw sprite.general_purpose_42, $0000
+	dw sprite.general_purpose_44, DATA_BAC28D
 	dw !initcommand_set_alt_palette, $0004
 	dw !initcommand_set_oam, $3000
 	dw !initcommand_set_animation, $01CB
@@ -913,8 +953,8 @@ DATA_FF0A64:
 	dw sprite.number, $0318
 	dw sprite.x_position, $00E0
 	dw sprite.y_position, $01A0
-	dw sprite.unknown_42, $0000
-	dw sprite.unknown_44, DATA_BAC2C3
+	dw sprite.general_purpose_42, $0000
+	dw sprite.general_purpose_44, DATA_BAC2C3
 	dw !initcommand_set_alt_palette, $00A3
 	dw !initcommand_set_oam, $3000
 	dw !initcommand_set_animation, $01D9
@@ -924,8 +964,8 @@ DATA_FF0A86:
 	dw sprite.number, $0318
 	dw sprite.x_position, $00E0
 	dw sprite.y_position, $01A0
-	dw sprite.unknown_42, $0000
-	dw sprite.unknown_44, DATA_BAC2E3
+	dw sprite.general_purpose_42, $0000
+	dw sprite.general_purpose_44, DATA_BAC2E3
 	dw !initcommand_set_alt_palette, $00A4
 	dw !initcommand_set_oam, $3000
 	dw !initcommand_set_animation, $01D9
@@ -935,8 +975,8 @@ DATA_FF0AA8:
 	dw sprite.number, $0318
 	dw sprite.x_position, $00E0
 	dw sprite.y_position, $01A0
-	dw sprite.unknown_42, $0000
-	dw sprite.unknown_44, DATA_BAC259
+	dw sprite.general_purpose_42, $0000
+	dw sprite.general_purpose_44, DATA_BAC259
 	dw !initcommand_set_alt_palette, $0026
 	dw !initcommand_set_oam, $3000
 	dw !initcommand_set_animation, $01D9
@@ -1022,14 +1062,14 @@ DATA_FF0B98:
 
 DATA_FF0BA4:
 	dw sprite.number, $00C4
-	dw sprite.unknown_54, DATA_FFD5FC
-	dw sprite.action, $0000
+	dw sprite.constants_address, DATA_FFD5FC
+	dw sprite.state, $0000
 	dw !initcommand_success
 
 DATA_FF0BB2:
 	dw sprite.number, $00C4
-	dw sprite.unknown_54, DATA_FFD728
-	dw sprite.action, $0000
+	dw sprite.constants_address, DATA_FFD728
+	dw sprite.state, $0000
 	dw !initcommand_success
 
 DATA_FF0BC0:
@@ -1037,8 +1077,8 @@ DATA_FF0BC0:
 	dw sprite.render_order, $00F8
 	dw sprite.x_position, $1780
 	dw sprite.y_position, $1200
-	dw sprite.action, $0000
-	dw sprite.unknown_30, $0000
+	dw sprite.state, $0000
+	dw sprite.interaction_flags, $0000
 	dw sprite.unknown_1C, $8000
 	dw !initcommand_set_oam, $3000
 	dw !initcommand_set_palette, global_sprite_palette
@@ -1046,39 +1086,39 @@ DATA_FF0BC0:
 
 DATA_FF0BE6:
 	dw sprite.number, $00C4
-	dw sprite.unknown_54, DATA_FFD5FC
-	dw sprite.action, $0000
+	dw sprite.constants_address, DATA_FFD5FC
+	dw sprite.state, $0000
 	dw !initcommand_success
 
 DATA_FF0BF4:
 	dw sprite.number, $00C0
-	dw sprite.unknown_54, DATA_FFD460
-	dw sprite.action, $0000
+	dw sprite.constants_address, DATA_FFD460
+	dw sprite.state, $0000
 	dw !initcommand_success
 
 DATA_FF0C02:
 	dw sprite.number, $00C0
-	dw sprite.unknown_54, DATA_FFD4F4
-	dw sprite.action, $0000
+	dw sprite.constants_address, DATA_FFD4F4
+	dw sprite.state, $0000
 	dw !initcommand_success
 
 DATA_FF0C10:
 	dw sprite.number, $00C0
-	dw sprite.unknown_54, DATA_FFD500
-	dw sprite.action, $0000
+	dw sprite.constants_address, DATA_FFD500
+	dw sprite.state, $0000
 	dw !initcommand_success
 
 DATA_FF0C1E:
 	dw sprite.number, $00C0
-	dw sprite.unknown_54, DATA_FFD50C
-	dw sprite.action, $0000
+	dw sprite.constants_address, DATA_FFD50C
+	dw sprite.state, $0000
 	dw !initcommand_success
 
 DATA_FF0C2C:
 	dw !initcommand_spawn_relative, $0000, $FFF0
 	dw sprite.number, $01D4
-	dw sprite.unknown_54, DATA_FF021C
-	dw sprite.action, $0000
+	dw sprite.constants_address, DATA_FF021C
+	dw sprite.state, $0000
 	dw sprite.x_speed, $0000
 	dw sprite.max_x_speed, $0000
 	dw sprite.y_speed, $0000
@@ -1086,14 +1126,14 @@ DATA_FF0C2C:
 	dw sprite.render_order, $00D6
 	dw !initcommand_set_animation, $01BF
 	dw !initcommand_set_palette, global_sprite_palette
-	dw sprite.unknown_52, $0000
+	dw sprite.movement_state, $0000
 	dw !initcommand_success
 
 DATA_FF0C60:
 	dw sprite.number, $0138
 	dw sprite.render_order, $00F8
-	dw sprite.action, $0002
-	dw sprite.unknown_30, $0000
+	dw sprite.state, $0002
+	dw sprite.interaction_flags, $0000
 	dw sprite.unknown_1C, $8000
 	dw !initcommand_set_oam, $3000
 	dw !initcommand_set_palette, global_sprite_palette
@@ -1101,7 +1141,7 @@ DATA_FF0C60:
 
 DATA_FF0C7E:
 	dw sprite.number, $00E0
-	dw sprite.action, $0000
+	dw sprite.state, $0000
 	dw !initcommand_success
 
 DATA_FF0C88:
@@ -1110,10 +1150,10 @@ DATA_FF0C88:
 	dw sprite.unknown_1C, $E000
 	dw sprite.x_position, $0080
 	dw sprite.y_position, $0050
-	dw sprite.action, $0000
+	dw sprite.state, $0000
 	dw sprite.x_speed, $0000
 	dw sprite.y_speed, $0000
-	dw sprite.unknown_30, $0000
+	dw sprite.interaction_flags, $0000
 	dw !initcommand_set_oam, $1000
 	dw !initcommand_set_palette, global_sprite_palette
 	dw !initcommand_set_animation, $015F
@@ -1139,7 +1179,7 @@ DATA_FF0CEA:
 	dw sprite.number, $0134
 	dw sprite.render_order, $00F8
 	dw sprite.unknown_1C, $8000
-	dw sprite.action, $0000
+	dw sprite.state, $0000
 	dw !initcommand_set_oam, $3000
 	dw !initcommand_success
 
@@ -1152,36 +1192,36 @@ DATA_FF0D00:
 
 DATA_FF0D0A:
 	dw !initcommand_load_subconfig, DATA_FF0CEA
-	dw sprite.unknown_42, $0014
-	dw sprite.unknown_44, $00CD
+	dw sprite.general_purpose_42, $0014
+	dw sprite.general_purpose_44, $00CD
 	dw !initcommand_set_alt_palette, $0005
 	dw !initcommand_success
 
 DATA_FF0D1C:
 	dw !initcommand_load_subconfig, DATA_FF0CEA
-	dw sprite.unknown_42, $0014
-	dw sprite.unknown_44, $00CD
+	dw sprite.general_purpose_42, $0014
+	dw sprite.general_purpose_44, $00CD
 	dw !initcommand_set_alt_palette, $000D
 	dw !initcommand_success
 
 DATA_FF0D2E:
 	dw !initcommand_load_subconfig, DATA_FF0CEA
-	dw sprite.unknown_42, $0014
-	dw sprite.unknown_44, $00CD
+	dw sprite.general_purpose_42, $0014
+	dw sprite.general_purpose_44, $00CD
 	dw !initcommand_set_alt_palette, $000F
 	dw !initcommand_success
 
 DATA_FF0D40:
 	dw !initcommand_load_subconfig, DATA_FF0CEA
-	dw sprite.unknown_42, $0014
-	dw sprite.unknown_44, $00CD
+	dw sprite.general_purpose_42, $0014
+	dw sprite.general_purpose_44, $00CD
 	dw !initcommand_set_alt_palette, $0043
 	dw !initcommand_success
 
 DATA_FF0D52:
 	dw !initcommand_load_subconfig, DATA_FF0CEA
-	dw sprite.unknown_42, $0014
-	dw sprite.unknown_44, $00CD
+	dw sprite.general_purpose_42, $0014
+	dw sprite.general_purpose_44, $00CD
 	dw !initcommand_set_alt_palette, $0060
 	dw !initcommand_success
 
@@ -1197,13 +1237,13 @@ DATA_FF0D6E:
 	dw sprite.number, $0190
 	dw !initcommand_spawn_relative, $0000, $0000
 	dw sprite.render_order, $00D0
-	dw sprite.unknown_54, DATA_FF022C
-	dw sprite.unknown_42, $0000
-	dw sprite.action, $0000
+	dw sprite.constants_address, DATA_FF022C
+	dw sprite.general_purpose_42, $0000
+	dw sprite.state, $0000
 	dw sprite.x_speed, $0000
 	dw sprite.y_speed, $0000
-	dw sprite.unknown_5A, $00FF
-	dw sprite.unknown_30, $0002
+	dw sprite.despawn_time, $00FF
+	dw sprite.interaction_flags, $0002
 	dw !initcommand_set_alt_palette, $0005
 	dw !initcommand_set_animation, $0147
 	dw !initcommand_success
@@ -1212,13 +1252,13 @@ DATA_FF0DA2:
 	dw sprite.number, $0194
 	dw !initcommand_spawn_relative, $0000, $0000
 	dw sprite.render_order, $00D0
-	dw sprite.unknown_54, DATA_FF0234
-	dw sprite.unknown_42, $0000
-	dw sprite.action, $0000
+	dw sprite.constants_address, DATA_FF0234
+	dw sprite.general_purpose_42, $0000
+	dw sprite.state, $0000
 	dw sprite.x_speed, $0000
 	dw sprite.y_speed, $0000
-	dw sprite.unknown_5A, $00FF
-	dw sprite.unknown_30, $0002
+	dw sprite.despawn_time, $00FF
+	dw sprite.interaction_flags, $0002
 	dw !initcommand_set_alt_palette, $000D
 	dw !initcommand_set_animation, $0148
 	dw !initcommand_success
@@ -1227,14 +1267,14 @@ DATA_FF0DD6:
 	dw sprite.number, $0198
 	dw !initcommand_spawn_relative, $0000, $0000
 	dw sprite.render_order, $00D0
-	dw sprite.unknown_54, DATA_FF023C
-	dw sprite.unknown_42, $0000
-	dw sprite.unknown_4A, $0000
-	dw sprite.action, $0000
+	dw sprite.constants_address, DATA_FF023C
+	dw sprite.general_purpose_42, $0000
+	dw sprite.general_purpose_4A, $0000
+	dw sprite.state, $0000
 	dw sprite.x_speed, $0000
 	dw sprite.y_speed, $0000
-	dw sprite.unknown_30, $0000
-	dw sprite.unknown_5A, $00FF
+	dw sprite.interaction_flags, $0000
+	dw sprite.despawn_time, $00FF
 	dw !initcommand_set_alt_palette, $000F
 	dw !initcommand_set_animation, $0149
 	dw !initcommand_success
@@ -1243,13 +1283,13 @@ DATA_FF0E0E:
 	dw sprite.number, $019C
 	dw !initcommand_spawn_relative, $0000, $0000
 	dw sprite.render_order, $00D0
-	dw sprite.unknown_54, DATA_FF024A
-	dw sprite.unknown_42, $0000
-	dw sprite.action, $0000
+	dw sprite.constants_address, DATA_FF024A
+	dw sprite.general_purpose_42, $0000
+	dw sprite.state, $0000
 	dw sprite.x_speed, $0000
 	dw sprite.y_speed, $0000
-	dw sprite.unknown_5A, $00FF
-	dw sprite.unknown_30, $0002
+	dw sprite.despawn_time, $00FF
+	dw sprite.interaction_flags, $0002
 	dw !initcommand_set_alt_palette, $0043
 	dw !initcommand_set_animation, $014A
 	dw !initcommand_success
@@ -1258,15 +1298,15 @@ DATA_FF0E42:
 	dw sprite.number, $01A0
 	dw !initcommand_spawn_relative, $0000, $0000
 	dw sprite.render_order, $00D0
-	dw sprite.unknown_54, DATA_FF0258
-	dw sprite.unknown_42, $0000
-	dw sprite.action, $0004
+	dw sprite.constants_address, DATA_FF0258
+	dw sprite.general_purpose_42, $0000
+	dw sprite.state, $0004
 	dw sprite.x_speed, $0000
 	dw sprite.y_speed, $0000
 if !version == 1
-	dw sprite.unknown_5A, $0088
+	dw sprite.despawn_time, $0088
 endif
-	dw sprite.unknown_30, $0000
+	dw sprite.interaction_flags, $0000
 	dw !initcommand_set_alt_palette, $0060
 	dw !initcommand_set_animation, $014B
 	dw !initcommand_success
@@ -1276,15 +1316,15 @@ DATA_FF0E76:
 	dw !initcommand_load_subconfig, DATA_FF178A
 	dw sprite.render_order, $00D6
 	dw !initcommand_set_animation, $01BB
-	dw sprite.unknown_52, $0000
+	dw sprite.movement_state, $0000
 	dw !initcommand_success
 
 DATA_FF0E8E:
 	dw sprite.number, $0260
-	dw sprite.unknown_54, DATA_FF021C
-	dw sprite.unknown_30, $0020
+	dw sprite.constants_address, DATA_FF021C
+	dw sprite.interaction_flags, $0020
 	dw !initcommand_spawn_relative, $0019, $FFF6
-	dw sprite.action, $0000
+	dw sprite.state, $0000
 	dw !initcommand_set_alt_palette, $0055
 	dw !initcommand_set_animation, $01F3
 	dw !initcommand_success
@@ -1300,22 +1340,22 @@ DATA_FF0EAE:
 DATA_FF0EC2:
 	dw sprite.number, $00E4
 	dw sprite.render_order, $00D8
-	dw sprite.unknown_54, DATA_FF0040
+	dw sprite.constants_address, DATA_FF0040
 	dw sprite.ground_y_position, $FFC0
-	dw sprite.unknown_1E, $0000
-	dw sprite.action, $0000
-	dw sprite.unknown_30, $001C
+	dw sprite.terrain_interaction, $0000
+	dw sprite.state, $0000
+	dw sprite.interaction_flags, $001C
 	dw !initcommand_set_oam_special, $2000
 	dw !initcommand_success
 
 DATA_FF0EE4:
 	dw sprite.number, $00E8
 	dw sprite.render_order, $00E4
-	dw sprite.unknown_54, DATA_FF012A
+	dw sprite.constants_address, DATA_FF012A
 	dw sprite.ground_y_position, $FFC0
-	dw sprite.unknown_1E, $0000
-	dw sprite.action, $0000
-	dw sprite.unknown_30, $001C
+	dw sprite.terrain_interaction, $0000
+	dw sprite.state, $0000
+	dw sprite.interaction_flags, $001C
 	dw !initcommand_set_oam_special, $2000
 	dw !initcommand_success
 
@@ -1336,7 +1376,7 @@ DATA_FF0F18:
 DATA_FF0F2C:
 	dw sprite.number, $0100
 	dw !initcommand_spawn_relative, $FFFB, $FFE2
-	dw sprite.unknown_42, $0400
+	dw sprite.general_purpose_42, $0400
 	dw !initcommand_set_oam, $3000
 	dw !initcommand_set_palette, diddy_active_sprite_palette
 	dw !initcommand_set_animation, $015D
@@ -1383,10 +1423,10 @@ DATA_FF0FAC:
 	dw sprite.y_position, $0000
 	dw sprite.unknown_1A, $0000
 	dw sprite.unknown_16, $0000
-	dw sprite.unknown_44, $0000
-	dw sprite.unknown_46, $0000
-	dw sprite.unknown_56, $FFFF
-	dw sprite.unknown_5A, $0000
+	dw sprite.general_purpose_44, $0000
+	dw sprite.general_purpose_46, $0000
+	dw sprite.placement_number, $FFFF
+	dw sprite.despawn_time, $0000
 	dw !initcommand_success
 
 DATA_FF0FD2:
@@ -1406,8 +1446,8 @@ DATA_FF0FDE:
 DATA_FF1004:
 	dw !initcommand_setup_static2, $0010, $000F : dl DATA_C01F21 : db $20
 	dw !initcommand_spawn_relative, $0008, $FFF0
-	dw sprite.unknown_54, DATA_FF0244
-	dw sprite.action, $0000
+	dw sprite.constants_address, DATA_FF0244
+	dw sprite.state, $0000
 	dw sprite.render_order, $00C8
 	dw !initcommand_set_directional, sprite.x_speed, $0680
 	dw !initcommand_set_directional, sprite.max_x_speed, $0100
@@ -1438,9 +1478,9 @@ DATA_FF1066:
 	dw !initcommand_spawn_relative, $0000, $0000
 	dw sprite.x_speed, $0000
 	dw sprite.y_speed, $0000
-	dw sprite.action, $0000
+	dw sprite.state, $0000
 	dw !initcommand_set_oam, $2000
-	dw sprite.unknown_30, $0020
+	dw sprite.interaction_flags, $0020
 	dw !initcommand_success
 
 DATA_FF108A:
@@ -1465,33 +1505,33 @@ DATA_FF10A8:
 
 DATA_FF10B2:
 	dw !initcommand_set_alt_palette, $0018
-	dw sprite.unknown_42, $0001
+	dw sprite.general_purpose_42, $0001
 	dw sprite.number, $0178
-	dw sprite.unknown_54, DATA_FF021C
+	dw sprite.constants_address, DATA_FF021C
 	dw sprite.render_order, $00D4
 	dw sprite.max_x_speed, $0000
 	dw sprite.x_speed, $0000
 	dw sprite.y_speed, $0000
-	dw sprite.unknown_30, $0000
+	dw sprite.interaction_flags, $0000
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_set_animation, $02C0
 	dw sprite.max_y_speed, $FF40
 	dw sprite.x_sub_position, $001E
-	dw sprite.action, $0003
-	dw sprite.unknown_52, $0110
+	dw sprite.state, $0003
+	dw sprite.movement_state, $0110
 	dw sprite.y_speed, $FA00
 	dw !initcommand_success
 
 DATA_FF10F4:
 	dw sprite.number, $0170
-	dw sprite.unknown_54, DATA_FF021C
+	dw sprite.constants_address, DATA_FF021C
 	dw sprite.render_order, $00C8
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_set_palette, global_sprite_palette
 	dw !initcommand_set_animation, $02B2
-	dw sprite.action, $0002
-	dw sprite.unknown_4E, $0010
-	dw sprite.unknown_52, $0110
+	dw sprite.state, $0002
+	dw sprite.general_purpose_4E, $0010
+	dw sprite.movement_state, $0110
 	dw sprite.y_speed, $FA00
 	dw sprite.parameter, $00B4
 	dw !initcommand_success
@@ -1500,8 +1540,8 @@ DATA_FF1122:
 	dw sprite.number, $0120
 	dw !initcommand_spawn_relative, $0000, $0000
 	dw sprite.render_order, $00ED
-	dw sprite.action, $0000
-	dw sprite.unknown_4E, $2020
+	dw sprite.state, $0000
+	dw sprite.general_purpose_4E, $2020
 	dw !initcommand_set_alt_palette, $0002
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_success
@@ -1510,8 +1550,8 @@ DATA_FF1142:
 	dw sprite.number, $0120
 	dw !initcommand_spawn_relative, $0000, $0000
 	dw sprite.render_order, $00ED
-	dw sprite.action, $0000
-	dw sprite.unknown_4E, $2020
+	dw sprite.state, $0000
+	dw sprite.general_purpose_4E, $2020
 	dw !initcommand_set_alt_palette, $0000
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_success
@@ -1520,8 +1560,8 @@ DATA_FF1162:
 	dw sprite.number, $0120
 	dw !initcommand_spawn_relative, $0000, $0000
 	dw sprite.render_order, $00ED
-	dw sprite.action, $0000
-	dw sprite.unknown_4E, $2020
+	dw sprite.state, $0000
+	dw sprite.general_purpose_4E, $2020
 	dw !initcommand_set_palette, diddy_active_sprite_palette
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_success
@@ -1530,8 +1570,8 @@ DATA_FF1182:
 	dw sprite.number, $0120
 	dw !initcommand_spawn_relative, $0000, $0000
 	dw sprite.render_order, $00ED
-	dw sprite.action, $0000
-	dw sprite.unknown_4E, $2020
+	dw sprite.state, $0000
+	dw sprite.general_purpose_4E, $2020
 	dw !initcommand_set_palette, dixie_active_sprite_palette
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_success
@@ -1540,8 +1580,8 @@ DATA_FF11A2:
 	dw sprite.number, $0120
 	dw !initcommand_spawn_relative, $0000, $0000
 	dw sprite.render_order, $00ED
-	dw sprite.action, $0000
-	dw sprite.unknown_4E, $2020
+	dw sprite.state, $0000
+	dw sprite.general_purpose_4E, $2020
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_success
 
@@ -1576,7 +1616,7 @@ DATA_FF11F0:
 DATA_FF11FA:
 	dw sprite.number, $023C
 	dw sprite.render_order, $00F0
-	dw sprite.unknown_30, $0000
+	dw sprite.interaction_flags, $0000
 	dw !initcommand_set_palette, global_sprite_palette
 	dw !initcommand_set_animation, $01BB
 	dw !initcommand_success
@@ -1610,9 +1650,9 @@ DATA_FF124C:
 
 DATA_FF1260:
 	dw !initcommand_setup_static, $0014, $6682 : dl DATA_C02321 : db $20
-	dw sprite.unknown_54, DATA_FF021C
+	dw sprite.constants_address, DATA_FF021C
 	dw !initcommand_set_animation, $01F8
-	dw sprite.unknown_52, $0001
+	dw sprite.movement_state, $0001
 	dw !initcommand_success
 
 DATA_FF1278:
@@ -1683,12 +1723,12 @@ DATA_FF1330:
 	dw sprite.x_speed, $0000
 	dw sprite.max_x_speed, $0000
 	dw sprite.y_speed, $0000
-	dw sprite.unknown_42, $0000
-	dw sprite.unknown_54, DATA_FF0040
+	dw sprite.general_purpose_42, $0000
+	dw sprite.constants_address, DATA_FF0040
 	dw sprite.ground_y_position, $FFC0
-	dw sprite.unknown_1E, $0000
-	dw sprite.action, $0000
-	dw sprite.unknown_30, $001E
+	dw sprite.terrain_interaction, $0000
+	dw sprite.state, $0000
+	dw sprite.interaction_flags, $001E
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_set_palette, diddy_active_sprite_palette
 	dw !initcommand_success
@@ -1701,12 +1741,12 @@ DATA_FF136E:
 	dw sprite.x_speed, $0000
 	dw sprite.max_x_speed, $0000
 	dw sprite.y_speed, $0000
-	dw sprite.unknown_42, $0000
-	dw sprite.unknown_54, DATA_FF012A
+	dw sprite.general_purpose_42, $0000
+	dw sprite.constants_address, DATA_FF012A
 	dw sprite.ground_y_position, $FFC0
-	dw sprite.unknown_1E, $0000
-	dw sprite.action, $0000
-	dw sprite.unknown_30, $001E
+	dw sprite.terrain_interaction, $0000
+	dw sprite.state, $0000
+	dw sprite.interaction_flags, $001E
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_set_palette, dixie_active_sprite_palette
 	dw !initcommand_success
@@ -1716,16 +1756,16 @@ DATA_FF13AC:
 	dw !initcommand_load_subconfig, DATA_FF178A
 	dw sprite.render_order, $00D6
 	dw !initcommand_set_animation, $01BB
-	dw sprite.unknown_52, $000F
+	dw sprite.movement_state, $000F
 	dw !initcommand_success
 
 DATA_FF13C4:
 	dw sprite.number, $02F0
 	dw sprite.render_order, $00D4
-	dw sprite.unknown_54, DATA_FF0476
-	dw sprite.unknown_30, $0120
-	dw sprite.action, $0000
-	dw sprite.unknown_4A, $0000
+	dw sprite.constants_address, DATA_FF0476
+	dw sprite.interaction_flags, $0120
+	dw sprite.state, $0000
+	dw sprite.general_purpose_4A, $0000
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_set_animation, $01AF
 	dw !initcommand_success
@@ -1763,22 +1803,22 @@ DATA_FF1418:
 	dw sprite.x_position, $0073
 	dw sprite.y_position, $0041
 	dw sprite.unknown_1C, $8000
-	dw sprite.unknown_44, $0078
+	dw sprite.general_purpose_44, $0078
 	dw !initcommand_success
 
 DATA_FF143A:
 	dw !initcommand_load_subconfig, DATA_FF1418
 	dw !initcommand_set_alt_palette, $0035
-	dw sprite.action, $0001
+	dw sprite.state, $0001
 	dw !initcommand_success
 
 DATA_FF1448:
 	dw !initcommand_load_subconfig, DATA_FF1418
-	dw sprite.unknown_46, $0035
-	dw sprite.unknown_4E, $0C43
-	dw sprite.action, $0301
+	dw sprite.general_purpose_46, $0035
+	dw sprite.general_purpose_4E, $0C43
+	dw sprite.state, $0301
 	dw sprite.unknown_1C, $C000
-	dw sprite.unknown_44, $00F0
+	dw sprite.general_purpose_44, $00F0
 	dw !initcommand_success
 
 DATA_FF1462:
@@ -1790,58 +1830,58 @@ DATA_FF1462:
 	dw sprite.x_position, $00E4
 	dw sprite.y_position, $FFF8
 	dw sprite.unknown_1C, $8000
-	dw sprite.action, $0000
-	dw sprite.unknown_42, $1428
-	dw sprite.unknown_44, $0036
-	dw sprite.unknown_46, $0003
+	dw sprite.state, $0000
+	dw sprite.general_purpose_42, $1428
+	dw sprite.general_purpose_44, $0036
+	dw sprite.general_purpose_46, $0003
 	dw !initcommand_success
 
 DATA_FF1494:
 	dw !initcommand_load_subconfig, DATA_FF1462
 	dw sprite.x_position, $0014
-	dw sprite.action, $0500
-	dw sprite.unknown_4E, $0000
+	dw sprite.state, $0500
+	dw sprite.general_purpose_4E, $0000
 	dw !initcommand_success
 
 DATA_FF14A6:
 	dw sprite.number, $00B8
-	dw sprite.action, DATA_FF151E
+	dw sprite.state, DATA_FF151E
 	dw !initcommand_load_subconfig, DATA_FF14BC
 	dw !initcommand_success
 
 DATA_FF14B4:
 	dw sprite.number, $00B4
-	dw sprite.action, DATA_FF1528
+	dw sprite.state, DATA_FF1528
 DATA_FF14BC:
 	dw !initcommand_spawn_relative, $0000, $0000
 	dw sprite.x_speed, $00C0
 	dw sprite.y_speed, $0000
-	dw sprite.unknown_42, $0000
-	dw sprite.unknown_4A, $000A
-	dw sprite.unknown_44, $0000
-	dw sprite.unknown_46, $0004
-	dw sprite.unknown_48, $0004
+	dw sprite.general_purpose_42, $0000
+	dw sprite.general_purpose_4A, $000A
+	dw sprite.general_purpose_44, $0000
+	dw sprite.general_purpose_46, $0004
+	dw sprite.general_purpose_48, $0004
 	dw !initcommand_success
 
 DATA_FF14E0:
 	dw sprite.number, $00B8
-	dw sprite.action, DATA_FF151E
+	dw sprite.state, DATA_FF151E
 	dw !initcommand_load_subconfig, DATA_FF14F6
 	dw !initcommand_success
 
 DATA_FF14EE:
 	dw sprite.number, $00B4
-	dw sprite.action, DATA_FF1528
+	dw sprite.state, DATA_FF1528
 DATA_FF14F6:
 	dw !initcommand_spawn_relative, $0000, $0000
 	dw sprite.number, $00B4
 	dw sprite.x_speed, $FF40
 	dw sprite.y_speed, $0000
-	dw sprite.unknown_42, $0006
-	dw sprite.unknown_4A, $000A
-	dw sprite.unknown_44, $0000
-	dw sprite.unknown_46, $0004
-	dw sprite.unknown_48, $0004
+	dw sprite.general_purpose_42, $0006
+	dw sprite.general_purpose_4A, $000A
+	dw sprite.general_purpose_44, $0000
+	dw sprite.general_purpose_46, $0004
+	dw sprite.general_purpose_48, $0004
 	dw !initcommand_success
 
 DATA_FF151E:
@@ -1855,7 +1895,7 @@ DATA_FF152C:
 	dw !initcommand_spawn_relative, $0000, $0000
 	dw sprite.unknown_1C, $0000
 	dw sprite.render_order, $00F4
-	dw sprite.unknown_30, $0000
+	dw sprite.interaction_flags, $0000
 	dw sprite.x_speed, $0000
 	dw sprite.y_speed, $FF00
 	dw sprite.unknown_1C, $0000
@@ -1866,8 +1906,8 @@ DATA_FF152C:
 DATA_FF1554:
 	dw sprite.number, $0250
 	dw sprite.render_order, $00C0
-	dw sprite.action, $0000
-	dw sprite.unknown_30, $0000
+	dw sprite.state, $0000
+	dw sprite.interaction_flags, $0000
 	dw sprite.x_speed, $0000
 	dw sprite.unknown_1C, $E000
 	dw !initcommand_set_oam, $0000
@@ -1877,8 +1917,8 @@ DATA_FF1554:
 DATA_FF1576:
 	dw !initcommand_setup_static2, $0060, $0002 : dl DATA_FB0800 : db $17
 	dw sprite.render_order, $00F4
-	dw sprite.action, $0000
-	dw sprite.unknown_30, $0000
+	dw sprite.state, $0000
+	dw sprite.interaction_flags, $0000
 	dw !initcommand_set_oam, $3000
 	dw !initcommand_set_animation, $02A4
 	dw !initcommand_success
@@ -1886,8 +1926,8 @@ DATA_FF1576:
 DATA_FF1596:
 	dw !initcommand_setup_static2, $0064, $0002 : dl DATA_FA0660 : db $20
 	dw sprite.render_order, $00F4
-	dw sprite.action, $0000
-	dw sprite.unknown_30, $0000
+	dw sprite.state, $0000
+	dw sprite.interaction_flags, $0000
 	dw !initcommand_set_oam, $3000
 	dw !initcommand_set_animation, $02A5
 	dw !initcommand_success
@@ -1923,8 +1963,8 @@ DATA_FF15F2:
 DATA_FF1606:
 	dw !initcommand_setup_static2, $0064, $0028 : dl DATA_FA0660 : db $20
 	dw sprite.render_order, $00F4
-	dw sprite.action, $0000
-	dw sprite.unknown_30, $0000
+	dw sprite.state, $0000
+	dw sprite.interaction_flags, $0000
 	dw !initcommand_set_oam, $3000
 	dw !initcommand_set_animation, $02A5
 	dw !initcommand_success
@@ -1947,7 +1987,7 @@ DATA_FF164E:
 	dw sprite.number, $011C
 	dw !initcommand_spawn_relative, $0000, $0000
 	dw sprite.render_order, $00CC
-	dw sprite.action, $0000
+	dw sprite.state, $0000
 	dw !initcommand_set_palette, global_sprite_palette
 	dw !initcommand_set_animation, $02BF
 	dw !initcommand_success
@@ -1982,7 +2022,7 @@ DATA_FF16BA:
 	dw !initcommand_load_subconfig, DATA_FF178A
 	dw sprite.render_order, $00D6
 	dw !initcommand_set_animation, $01BF
-	dw sprite.unknown_52, $0000
+	dw sprite.movement_state, $0000
 	dw !initcommand_success
 
 DATA_FF16D2:
@@ -1992,7 +2032,7 @@ DATA_FF16D2:
 	dw !initcommand_set_animation, $01BF
 	dw sprite.y_speed, $01C0
 	dw sprite.max_y_speed, $FFA0
-	dw sprite.unknown_52, $000F
+	dw sprite.movement_state, $000F
 	dw !initcommand_success
 
 DATA_FF16F2:
@@ -2002,53 +2042,53 @@ DATA_FF16F2:
 	dw !initcommand_set_animation, $01BF
 	dw !initcommand_set_directional, sprite.x_speed, $0200
 	dw sprite.y_speed, $FFC0
-	dw sprite.unknown_52, $000F
+	dw sprite.movement_state, $000F
 	dw !initcommand_success
 
 DATA_FF1714:
-	dw sprite.unknown_54, DATA_FF021C
+	dw sprite.constants_address, DATA_FF021C
 DATA_FF1718:
 	dw sprite.number, $01D0
-	dw sprite.unknown_30, $0020
+	dw sprite.interaction_flags, $0020
 	dw !initcommand_set_alt_palette, $0009
 	dw !initcommand_set_animation, $02E3
-	dw sprite.action, $0000
-	dw sprite.unknown_4A, $0000
+	dw sprite.state, $0000
+	dw sprite.general_purpose_4A, $0000
 	dw !initcommand_spawn_relative, $FFE9, $FFF4
 	dw !initcommand_success
 
 DATA_FF1738:
 	dw !initcommand_load_subconfig, DATA_FF1718
-	dw sprite.unknown_54, DATA_FF0448
+	dw sprite.constants_address, DATA_FF0448
 	dw !initcommand_success
 
 DATA_FF1742:
 	dw sprite.number, $01D0
-	dw sprite.unknown_54, DATA_FF021C
-	dw sprite.unknown_30, $0020
+	dw sprite.constants_address, DATA_FF021C
+	dw sprite.interaction_flags, $0020
 	dw !initcommand_set_alt_palette, $0009
 	dw !initcommand_set_animation, $02FD
-	dw sprite.action, $0001
-	dw sprite.unknown_4A, $0000
+	dw sprite.state, $0001
+	dw sprite.general_purpose_4A, $0000
 	dw !initcommand_spawn_relative, $0004, $FFEC
 	dw !initcommand_success
 
 DATA_FF1766:
 	dw sprite.number, $01D0
-	dw sprite.unknown_54, DATA_FF021C
-	dw sprite.unknown_30, $0020
+	dw sprite.constants_address, DATA_FF021C
+	dw sprite.interaction_flags, $0020
 	dw !initcommand_set_alt_palette, $0002
 	dw !initcommand_set_animation, $02FA
-	dw sprite.action, $0002
-	dw sprite.unknown_4A, $4008
+	dw sprite.state, $0002
+	dw sprite.general_purpose_4A, $4008
 	dw !initcommand_spawn_relative, $0004, $FFEC
 	dw !initcommand_success
 
 DATA_FF178A:
 	dw !initcommand_set_palette, global_sprite_palette
 	dw sprite.number, $01D4
-	dw sprite.unknown_54, DATA_FF021C
-	dw sprite.action, $0000
+	dw sprite.constants_address, DATA_FF021C
+	dw sprite.state, $0000
 	dw sprite.x_speed, $0000
 	dw sprite.max_x_speed, $0000
 	dw sprite.y_speed, $0000
@@ -2066,7 +2106,7 @@ DATA_FF17C0:
 	dw !initcommand_spawn_relative, $0015, $FFBE
 	dw sprite.number, $0168
 	dw sprite.render_order, $00C9
-	dw sprite.action, $0000
+	dw sprite.state, $0000
 	dw !initcommand_set_alt_palette, $0002
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_set_animation, $02C1
@@ -2076,7 +2116,7 @@ DATA_FF17E0:
 	dw !initcommand_spawn_relative, $0015, $0000
 	dw sprite.number, $0164
 	dw sprite.render_order, $00CA
-	dw sprite.action, $0000
+	dw sprite.state, $0000
 	dw sprite.x_speed, $0000
 	dw !initcommand_set_alt_palette, $0002
 	dw !initcommand_set_oam, $2000
@@ -2087,7 +2127,7 @@ DATA_FF1804:
 	dw !initcommand_spawn_relative, $0015, $FF92
 	dw sprite.number, $016C
 	dw sprite.render_order, $00CA
-	dw sprite.action, $0000
+	dw sprite.state, $0000
 	dw !initcommand_set_alt_palette, $0000
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_set_animation, $02B2
@@ -2097,7 +2137,7 @@ DATA_FF1824:
 	dw !initcommand_setup_static2, $005C, $0058 : dl DATA_C008E1 : db $12
 	dw sprite.number, $005C
 	dw !initcommand_spawn_relative, $0000, $0000
-	dw sprite.action, $0000
+	dw sprite.state, $0000
 	dw !initcommand_set_oam, $3000
 	dw !initcommand_set_animation, $02CC
 	dw !initcommand_success
@@ -2105,8 +2145,8 @@ DATA_FF1824:
 DATA_FF1846:
 	dw !initcommand_setup_static2, $0058, $0032 : dl DATA_C006E1 : db $10
 	dw !initcommand_spawn_relative, $0000, $0000
-	dw sprite.unknown_54, DATA_FF021C
-	dw sprite.unknown_52, $0001
+	dw sprite.constants_address, DATA_FF021C
+	dw sprite.movement_state, $0001
 	dw sprite.x_speed, $0000
 	dw sprite.max_x_speed, $0000
 	dw sprite.y_speed, $0000
@@ -2115,19 +2155,19 @@ DATA_FF1846:
 
 DATA_FF1870:
 	dw !initcommand_load_subconfig, DATA_FFB29E
-	dw sprite.action, $0000
+	dw sprite.state, $0000
 	dw sprite.x_sub_position, $000A
 	dw !initcommand_success
 
 DATA_FF187E:
 	dw !initcommand_load_subconfig, DATA_FFB27A
-	dw sprite.action, $0000
+	dw sprite.state, $0000
 	dw sprite.x_sub_position, $000A
 	dw !initcommand_success
 
 DATA_FF188C:
 	dw !initcommand_load_subconfig, DATA_FFB28C
-	dw sprite.action, $0000
+	dw sprite.state, $0000
 	dw sprite.x_sub_position, $000A
 	dw !initcommand_success
 
@@ -2135,12 +2175,12 @@ DATA_FF189A:
 	dw !initcommand_spawn_relative, $0000, $0000
 	dw sprite.number, $02DC
 	dw sprite.render_order, $00C4
-	dw sprite.unknown_54, DATA_FF0214
-	dw sprite.unknown_30, $0000
+	dw sprite.constants_address, DATA_FF0214
+	dw sprite.interaction_flags, $0000
 	dw sprite.y_speed, $FA00
 	dw sprite.unknown_1C, $0000
-	dw sprite.unknown_1E, $0000
-	dw sprite.action, $0000
+	dw sprite.terrain_interaction, $0000
+	dw sprite.state, $0000
 	dw sprite.x_speed, $0000
 	dw sprite.max_x_speed, $0000
 	dw !initcommand_set_oam, $2000
@@ -2381,13 +2421,13 @@ DATA_FF1A8E:
 
 DATA_FF1AC6:
 	dw sprite.number, $0170
-	dw sprite.unknown_54, DATA_FF021C
+	dw sprite.constants_address, DATA_FF021C
 	dw sprite.render_order, $00C8
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_set_alt_palette, $0000
 	dw !initcommand_set_animation, $02DF
-	dw sprite.action, $0000
-	dw sprite.unknown_4E, $0001
+	dw sprite.state, $0000
+	dw sprite.general_purpose_4E, $0001
 	dw !initcommand_success
 
 DATA_FF1AE8:
@@ -2396,7 +2436,7 @@ DATA_FF1AE8:
 DATA_FF1AEA:
 	dw sprite.number, $0100
 	dw !initcommand_spawn_relative, $FFFF, $FFDD
-	dw sprite.unknown_42, $002D
+	dw sprite.general_purpose_42, $002D
 	dw !initcommand_set_oam, $3000
 	dw !initcommand_set_palette, diddy_active_sprite_palette
 	dw !initcommand_set_animation, $015D
@@ -2407,7 +2447,7 @@ DATA_FF1B06:
 	dw sprite.render_order, $00D0
 	dw !initcommand_spawn_relative, $000C, $0004
 	dw sprite.y_speed, $0000
-	dw sprite.unknown_48, $0000
+	dw sprite.general_purpose_48, $0000
 	dw sprite.unknown_1C, $0000
 	dw !initcommand_set_palette, global_sprite_palette
 	dw !initcommand_set_animation, $02D5
@@ -2417,11 +2457,11 @@ DATA_FF1B2A:
 	dw sprite.number, $0118
 	dw sprite.render_order, $00D4
 	dw !initcommand_spawn_relative, $000C, $FFFA
-	dw sprite.action, $0000
+	dw sprite.state, $0000
 	dw sprite.y_speed, $0000
-	dw sprite.unknown_42, $0000
-	dw sprite.unknown_44, $0000
-	dw sprite.unknown_48, $0000
+	dw sprite.general_purpose_42, $0000
+	dw sprite.general_purpose_44, $0000
+	dw sprite.general_purpose_48, $0000
 	dw sprite.unknown_1C, $0000
 	dw !initcommand_set_palette, global_sprite_palette
 	dw !initcommand_success
@@ -2432,13 +2472,13 @@ DATA_FF1B56:
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_set_alt_palette, $0027
 	dw !initcommand_set_animation, $01B1
-	dw sprite.action, $0000
+	dw sprite.state, $0000
 	dw !initcommand_success
 
 DATA_FF1B72:
 	dw !initcommand_setup_static2, $0018, $0020 : dl DATA_C01021 : db $20
 	dw !initcommand_spawn_relative, $0000, $0000
-	dw sprite.unknown_54, DATA_FF0252
+	dw sprite.constants_address, DATA_FF0252
 	dw sprite.render_order, $00C8
 	dw sprite.max_x_speed, $0000
 	dw sprite.x_speed, $0000
@@ -2450,7 +2490,7 @@ DATA_FF1B72:
 DATA_FF1BA0:
 	dw !initcommand_setup_static2, $001C, $0020 : dl DATA_C01421 : db $19
 	dw !initcommand_spawn_relative, $0000, $0000
-	dw sprite.unknown_54, DATA_FF0252
+	dw sprite.constants_address, DATA_FF0252
 	dw sprite.render_order, $00C8
 	dw sprite.max_x_speed, $0100
 	dw sprite.x_speed, $0100
@@ -2462,7 +2502,7 @@ DATA_FF1BA0:
 DATA_FF1BCE:
 	dw !initcommand_setup_static2, $0020, $0020 : dl DATA_C01741 : db $1F
 	dw !initcommand_spawn_relative, $0000, $0000
-	dw sprite.unknown_54, DATA_FF0252
+	dw sprite.constants_address, DATA_FF0252
 	dw sprite.render_order, $00C8
 	dw sprite.max_x_speed, $FF00
 	dw sprite.x_speed, $FF80
@@ -2473,7 +2513,7 @@ DATA_FF1BCE:
 
 DATA_FF1BFC:
 	dw sprite.number, $0228
-	dw sprite.unknown_30, $0020
+	dw sprite.interaction_flags, $0020
 	dw !initcommand_spawn_relative, $0000, $0000
 	dw !initcommand_set_oam, $7000
 	dw !initcommand_set_alt_palette, $0021
@@ -2482,7 +2522,7 @@ DATA_FF1BFC:
 
 DATA_FF1C18:
 	dw sprite.number, $0230
-	dw sprite.unknown_30, $0020
+	dw sprite.interaction_flags, $0020
 	dw !initcommand_spawn_relative, $0000, $0000
 	dw !initcommand_set_oam, $1000
 	dw !initcommand_set_alt_palette, $00B8
@@ -2492,7 +2532,7 @@ DATA_FF1C18:
 DATA_FF1C34:
 	dw sprite.number, $02B8
 	dw sprite.unknown_32, $0000
-	dw sprite.unknown_30, $0200
+	dw sprite.interaction_flags, $0200
 	dw !initcommand_spawn_relative, $0000, $0000
 	dw !initcommand_set_oam, $3000
 	dw !initcommand_set_alt_palette, $0038
@@ -2502,10 +2542,10 @@ DATA_FF1C34:
 DATA_FF1C54:
 	dw sprite.number, $01B4
 	dw sprite.render_order, $00C8
-	dw sprite.action, $0000
+	dw sprite.state, $0000
 	dw sprite.y_speed, $0000
-	dw sprite.unknown_30, $0000
-	dw sprite.unknown_1E, $1001
+	dw sprite.interaction_flags, $0000
+	dw sprite.terrain_interaction, $1001
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_set_alt_palette, $0020
 	dw !initcommand_set_animation, $02E4
@@ -2514,9 +2554,9 @@ DATA_FF1C54:
 DATA_FF1C7A:
 	dw sprite.number, $01C4
 	dw sprite.render_order, $00C8
-	dw sprite.action, $0000
-	dw sprite.unknown_30, $0020
-	dw sprite.unknown_58, $0020
+	dw sprite.state, $0000
+	dw sprite.interaction_flags, $0020
+	dw sprite.placement_parameter, $0020
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_set_alt_palette, $0020
 	dw !initcommand_set_animation, $0303
@@ -2525,8 +2565,8 @@ DATA_FF1C7A:
 DATA_FF1C9C:
 	dw sprite.number, $02C8
 	dw sprite.render_order, $00D4
-	dw sprite.unknown_30, $0020
-	dw sprite.action, $0000
+	dw sprite.interaction_flags, $0020
+	dw sprite.state, $0000
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_set_alt_palette, $002B
 	dw !initcommand_set_animation, $0211
@@ -2535,8 +2575,8 @@ DATA_FF1C9C:
 DATA_FF1CBA:
 	dw sprite.number, $02D0
 	dw sprite.render_order, $00F8
-	dw sprite.unknown_30, $0000
-	dw sprite.action, $0000
+	dw sprite.interaction_flags, $0000
+	dw sprite.state, $0000
 	dw sprite.unknown_1C, $C000
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_set_palette, DATA_FD7166
@@ -2546,8 +2586,8 @@ DATA_FF1CBA:
 DATA_FF1CDC:
 	dw sprite.number, $02C4
 	dw sprite.render_order, $00D4
-	dw sprite.unknown_30, $0000
-	dw sprite.action, $0000
+	dw sprite.interaction_flags, $0000
+	dw sprite.state, $0000
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_set_alt_palette, $002B
 	dw !initcommand_set_animation, $020F
@@ -2557,7 +2597,7 @@ DATA_FF1CFA:
 	dw sprite.number, $02B0
 	dw !initcommand_spawn_relative, $0000, $0000
 	dw sprite.render_order, $00FA
-	dw sprite.unknown_48, $0001
+	dw sprite.general_purpose_48, $0001
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_set_alt_palette, $0051
 	dw !initcommand_set_animation, $022E
@@ -2575,8 +2615,8 @@ DATA_FF1D1A:
 DATA_FF1D36:
 	dw sprite.number, $02CC
 	dw sprite.render_order, $00EC
-	dw sprite.unknown_30, $0020
-	dw sprite.action, $0000
+	dw sprite.interaction_flags, $0020
+	dw sprite.state, $0000
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_set_alt_palette, $002B
 	dw !initcommand_set_animation, $0214
@@ -2584,52 +2624,52 @@ DATA_FF1D36:
 
 DATA_FF1D54:
 	dw sprite.number, $0144
-	dw sprite.unknown_54, DATA_FF0214
-	dw sprite.action, $0000
+	dw sprite.constants_address, DATA_FF0214
+	dw sprite.state, $0000
 	dw sprite.x_speed, $0000
 	dw sprite.max_x_speed, $0000
 	dw sprite.y_speed, $0000
-	dw sprite.unknown_30, $0211
+	dw sprite.interaction_flags, $0211
 	dw !initcommand_success
 
 DATA_FF1D72:
 	dw sprite.number, $01B8
-	dw sprite.unknown_30, $0001
-	dw sprite.action, $0000
+	dw sprite.interaction_flags, $0001
+	dw sprite.state, $0000
 	dw !initcommand_success
 
 DATA_FF1D80:
 	dw sprite.number, $01B8
-	dw sprite.unknown_30, $0201
-	dw sprite.action, $0000
+	dw sprite.interaction_flags, $0201
+	dw sprite.state, $0000
 	dw !initcommand_success
 
 DATA_FF1D8E:
 	dw sprite.number, $017C
 	dw sprite.render_order, $00C8
-	dw sprite.unknown_54, DATA_FF0214
-	dw sprite.action, $0000
+	dw sprite.constants_address, DATA_FF0214
+	dw sprite.state, $0000
 	dw sprite.x_speed, $0000
 	dw sprite.max_x_speed, $0000
 	dw sprite.y_speed, $0000
-	dw sprite.unknown_4A, $0000
-	dw sprite.unknown_30, $0000
+	dw sprite.general_purpose_4A, $0000
+	dw sprite.interaction_flags, $0000
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_set_alt_palette, $0009
 	dw !initcommand_set_animation, $02E3
-	dw sprite.unknown_52, $0020
-	dw sprite.unknown_4E, DATA_FF1D54
+	dw sprite.movement_state, $0020
+	dw sprite.general_purpose_4E, DATA_FF1D54
 	dw !initcommand_success
 
 DATA_FF1DC8:
 	dw !initcommand_setup_static2, $0024, $0009 : dl DATA_C00DA1 : db $14
 	dw sprite.render_order, $00D4
 	dw sprite.y_position, $0100
-	dw sprite.unknown_42, $0000
-	dw sprite.unknown_44, $0000
-	dw sprite.unknown_46, $FFFF
-	dw sprite.unknown_4E, $E000
-	dw sprite.action, $0003
+	dw sprite.general_purpose_42, $0000
+	dw sprite.general_purpose_44, $0000
+	dw sprite.general_purpose_46, $FFFF
+	dw sprite.general_purpose_4E, $E000
+	dw sprite.state, $0003
 	dw sprite.max_x_speed, $0000
 	dw sprite.x_speed, $0000
 	dw sprite.max_y_speed, $0500
@@ -2645,7 +2685,7 @@ DATA_FF1E0C:
 	dw sprite.ground_distance, $FF80
 	dw sprite.unknown_22, $0000
 	dw sprite.unknown_28, $FB00
-	dw sprite.action, $0001
+	dw sprite.state, $0001
 	dw sprite.parameter, $003C
 	dw sprite.x_speed, $FF80
 	dw !initcommand_set_oam, $6000
@@ -2657,7 +2697,7 @@ DATA_FF1E32:
 	dw sprite.ground_distance, $0080
 	dw sprite.unknown_22, $0000
 	dw sprite.unknown_28, $0500
-	dw sprite.action, $0001
+	dw sprite.state, $0001
 	dw sprite.parameter, $003C
 	dw sprite.x_speed, $0080
 	dw !initcommand_set_oam, $2000
@@ -2675,13 +2715,13 @@ DATA_FF1E58:
 DATA_FF1E74:
 	dw sprite.number, $01A4
 	dw sprite.render_order, $00C8
-	dw sprite.unknown_54, DATA_FF0214
-	dw sprite.action, $0000
+	dw sprite.constants_address, DATA_FF0214
+	dw sprite.state, $0000
 	dw sprite.x_speed, $0000
 	dw sprite.max_x_speed, $0000
 	dw sprite.y_speed, $0000
-	dw sprite.unknown_30, $0021
-	dw sprite.unknown_58, $0022
+	dw sprite.interaction_flags, $0021
+	dw sprite.placement_parameter, $0022
 	dw sprite.unknown_1C, $0000
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_set_alt_palette, $0002
@@ -2698,15 +2738,15 @@ DATA_FF1EAA:
 
 DATA_FF1EC8:
 	dw sprite.number, $02BC
-	dw sprite.action, $0000
+	dw sprite.state, $0000
 	dw sprite.x_speed, $0000
 	dw sprite.y_speed, $0000
 	dw sprite.max_x_speed, $0000
 	dw sprite.max_y_speed, $0000
-	dw sprite.unknown_42, $0001
-	dw sprite.unknown_44, $0000
-	dw sprite.unknown_46, $0000
-	dw sprite.unknown_48, $0000
+	dw sprite.general_purpose_42, $0001
+	dw sprite.general_purpose_44, $0000
+	dw sprite.general_purpose_46, $0000
+	dw sprite.general_purpose_48, $0000
 	dw !initcommand_set_oam, $2000
 	dw sprite.unknown_1C, $C000
 	dw sprite.render_order, $00F5
@@ -2714,12 +2754,12 @@ DATA_FF1EC8:
 
 DATA_FF1EFE:
 	dw sprite.number, $02C0
-	dw sprite.unknown_54, DATA_FF021C
+	dw sprite.constants_address, DATA_FF021C
 	dw sprite.render_order, $00D4
-	dw sprite.action, $0000
+	dw sprite.state, $0000
 	dw sprite.x_speed, $0000
 	dw sprite.y_speed, $0000
-	dw sprite.unknown_30, $0020
+	dw sprite.interaction_flags, $0020
 	dw sprite.unknown_1C, $C000
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_set_alt_palette, $0038
@@ -2729,7 +2769,7 @@ DATA_FF1EFE:
 DATA_FF1F2C:
 	dw sprite.number, $0268
 	dw sprite.unknown_32, $0000
-	dw sprite.unknown_30, $0020
+	dw sprite.interaction_flags, $0020
 	dw sprite.render_order, $00D4
 	dw sprite.unknown_1C, $0000
 	dw !initcommand_spawn_relative, $0000, $0000
@@ -2739,17 +2779,17 @@ DATA_FF1F2C:
 	dw !initcommand_success
 
 DATA_FF1F54:
-	dw sprite.unknown_54, DATA_FF021C
-	dw sprite.action, $0000
+	dw sprite.constants_address, DATA_FF021C
+	dw sprite.state, $0000
 	dw sprite.render_order, $00D8
 	dw sprite.x_speed, $0000
 	dw sprite.max_x_speed, $0000
 	dw sprite.y_speed, $0000
 	dw sprite.max_y_speed, $0000
-	dw sprite.unknown_42, $0000
-	dw sprite.unknown_44, $0000
-	dw sprite.unknown_30, $0020
-	dw sprite.unknown_58, $0022
+	dw sprite.general_purpose_42, $0000
+	dw sprite.general_purpose_44, $0000
+	dw sprite.interaction_flags, $0020
+	dw sprite.placement_parameter, $0022
 	dw sprite.unknown_1C, $0000
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_success
@@ -2801,8 +2841,8 @@ DATA_FF1FE8:
 DATA_FF1FFE:
 	dw sprite.number, $0274
 	dw sprite.render_order, $00D6
-	dw sprite.unknown_30, $0000
-	dw sprite.action, $0000
+	dw sprite.interaction_flags, $0000
+	dw sprite.state, $0000
 	dw sprite.unknown_1C, $C000
 	dw !initcommand_set_oam, $1000
 	dw !initcommand_set_alt_palette, $002B
@@ -2812,8 +2852,8 @@ DATA_FF1FFE:
 DATA_FF2020:
 	dw sprite.number, $026C
 	dw sprite.render_order, $00D4
-	dw sprite.unknown_30, $0000
-	dw sprite.action, $0000
+	dw sprite.interaction_flags, $0000
+	dw sprite.state, $0000
 	dw !initcommand_set_oam, $2000
 	dw sprite.unknown_1C, $0000
 	dw !initcommand_set_alt_palette, $0070
@@ -2822,13 +2862,13 @@ DATA_FF2020:
 
 DATA_FF2042:
 	dw sprite.number, $0298
-	dw sprite.action, $0000
+	dw sprite.state, $0000
 	dw sprite.x_speed, $0000
 	dw sprite.y_speed, $0000
 	dw sprite.max_x_speed, $0000
 	dw sprite.max_y_speed, $0000
-	dw sprite.unknown_42, $0000
-	dw sprite.unknown_44, $0000
+	dw sprite.general_purpose_42, $0000
+	dw sprite.general_purpose_44, $0000
 	dw sprite.unknown_1C, $0000
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_success
@@ -2851,8 +2891,8 @@ DATA_FF2090:
 	dw !initcommand_load_subconfig, DATA_FF2042
 	dw !initcommand_set_alt_palette, $002B
 	dw sprite.render_order, $00F8
-	dw sprite.unknown_42, $0002
-	dw sprite.unknown_44, $0002
+	dw sprite.general_purpose_42, $0002
+	dw sprite.general_purpose_44, $0002
 	dw !initcommand_spawn_relative, $0000, $FFEC
 	dw !initcommand_set_animation, $02A0
 	dw !initcommand_set_oam, $1000
@@ -2862,8 +2902,8 @@ DATA_FF20B4:
 	dw !initcommand_load_subconfig, DATA_FF2042
 	dw !initcommand_set_alt_palette, $001B
 	dw sprite.render_order, $00F8
-	dw sprite.unknown_42, $0002
-	dw sprite.unknown_44, $0002
+	dw sprite.general_purpose_42, $0002
+	dw sprite.general_purpose_44, $0002
 	dw !initcommand_spawn_relative, $0000, $000A
 	dw !initcommand_set_animation, $029F
 	dw !initcommand_set_oam, $2000
@@ -2873,8 +2913,8 @@ DATA_FF20D8:
 	dw !initcommand_load_subconfig, DATA_FF2042
 	dw !initcommand_set_alt_palette, $001B
 	dw sprite.render_order, $00F8
-	dw sprite.unknown_42, $0002
-	dw sprite.unknown_44, $0002
+	dw sprite.general_purpose_42, $0002
+	dw sprite.general_purpose_44, $0002
 	dw !initcommand_spawn_relative, $0000, $FFEC
 	dw !initcommand_set_animation, $029F
 	dw !initcommand_set_oam, $6000
@@ -2884,8 +2924,8 @@ DATA_FF20FC:
 	dw !initcommand_load_subconfig, DATA_FF2042
 	dw !initcommand_set_alt_palette, $002B
 	dw sprite.render_order, $00F8
-	dw sprite.unknown_42, $0002
-	dw sprite.unknown_44, $0002
+	dw sprite.general_purpose_42, $0002
+	dw sprite.general_purpose_44, $0002
 	dw !initcommand_spawn_relative, $0000, $FFEC
 	dw !initcommand_set_animation, $0275
 	dw !initcommand_set_oam, $2000
@@ -2930,8 +2970,8 @@ DATA_FF217A:
 	dw sprite.y_speed, $0000
 	dw sprite.max_x_speed, $FFA0
 	dw sprite.max_y_speed, $FF60
-	dw sprite.unknown_42, $0006
-	dw sprite.unknown_44, $0002
+	dw sprite.general_purpose_42, $0006
+	dw sprite.general_purpose_44, $0002
 	dw sprite.unknown_1C, $0000
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_set_animation, $02A2
@@ -2945,8 +2985,8 @@ DATA_FF21B4:
 	dw sprite.y_speed, $0000
 	dw sprite.max_x_speed, $0060
 	dw sprite.max_y_speed, $FF60
-	dw sprite.unknown_42, $0006
-	dw sprite.unknown_44, $0002
+	dw sprite.general_purpose_42, $0006
+	dw sprite.general_purpose_44, $0002
 	dw sprite.unknown_1C, $0000
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_set_animation, $02A2
@@ -2955,7 +2995,7 @@ DATA_FF21B4:
 DATA_FF21EE:
 	dw sprite.number, $029C
 	dw sprite.unknown_32, $0000
-	dw sprite.unknown_30, $0000
+	dw sprite.interaction_flags, $0000
 	dw sprite.render_order, $00D6
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_set_alt_palette, $006B
@@ -2967,9 +3007,9 @@ DATA_FF21EE:
 DATA_FF2216:
 	dw sprite.number, $01A8
 	dw sprite.render_order, $00C8
-	dw sprite.unknown_54, DATA_FF0214
-	dw sprite.action, $0004
-	dw sprite.unknown_30, $0000
+	dw sprite.constants_address, DATA_FF0214
+	dw sprite.state, $0004
+	dw sprite.interaction_flags, $0000
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_set_alt_palette, $0002
 	dw !initcommand_set_animation, $02E1
@@ -2978,7 +3018,7 @@ DATA_FF2216:
 DATA_FF2238:
 	dw !initcommand_setup_static2, $0018, $0074 : dl DATA_C01021 : db $20
 	dw !initcommand_spawn_relative, $0000, $0000
-	dw sprite.unknown_54, DATA_FF0252
+	dw sprite.constants_address, DATA_FF0252
 	dw sprite.render_order, $00C8
 	dw sprite.max_x_speed, $0000
 	dw sprite.x_speed, $0000
@@ -2991,7 +3031,7 @@ DATA_FF2238:
 DATA_FF226A:
 	dw !initcommand_setup_static2, $001C, $0074 : dl DATA_C01421 : db $19
 	dw !initcommand_spawn_relative, $0000, $0000
-	dw sprite.unknown_54, DATA_FF0252
+	dw sprite.constants_address, DATA_FF0252
 	dw sprite.render_order, $00C8
 	dw sprite.max_x_speed, $0100
 	dw sprite.x_speed, $0100
@@ -3005,7 +3045,7 @@ DATA_FF229C:
 	dw sprite.number, $0074
 	dw sprite.x_position, $0090
 	dw sprite.y_position, $009A
-	dw sprite.unknown_42, $0000
+	dw sprite.general_purpose_42, $0000
 	dw sprite.render_order, $00D4
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_set_alt_palette, $005F
@@ -3025,11 +3065,11 @@ DATA_FF22BE:
 DATA_FF22DC:
 	dw sprite.number, $027C
 	dw sprite.unknown_32, $0000
-	dw sprite.unknown_30, $0020
+	dw sprite.interaction_flags, $0020
 	dw sprite.render_order, $00D4
 	dw sprite.unknown_1C, $0000
 	dw !initcommand_spawn_relative, $0000, $0000
-	dw sprite.unknown_58, $0022
+	dw sprite.placement_parameter, $0022
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_set_alt_palette, $0097
 	dw !initcommand_set_animation, $028D
@@ -3037,29 +3077,29 @@ DATA_FF22DC:
 
 DATA_FF2308:
 	dw sprite.number, $00B4
-	dw sprite.action, DATA_FF1528
+	dw sprite.state, DATA_FF1528
 	dw !initcommand_spawn_relative, $0000, $0000
 	dw sprite.x_speed, $00C0
 	dw sprite.y_speed, $0000
-	dw sprite.unknown_42, $0000
-	dw sprite.unknown_4A, $000E
-	dw sprite.unknown_44, $0000
-	dw sprite.unknown_46, $0002
-	dw sprite.unknown_48, $0004
+	dw sprite.general_purpose_42, $0000
+	dw sprite.general_purpose_4A, $000E
+	dw sprite.general_purpose_44, $0000
+	dw sprite.general_purpose_46, $0002
+	dw sprite.general_purpose_48, $0004
 	dw !initcommand_success
 
 DATA_FF2334:
 	dw sprite.number, $00B4
-	dw sprite.action, DATA_FF1528
+	dw sprite.state, DATA_FF1528
 	dw !initcommand_spawn_relative, $0000, $0000
 	dw sprite.number, $00B4
 	dw sprite.x_speed, $FF40
 	dw sprite.y_speed, $0000
-	dw sprite.unknown_42, $0006
-	dw sprite.unknown_4A, $000E
-	dw sprite.unknown_44, $0000
-	dw sprite.unknown_46, $0001
-	dw sprite.unknown_48, $0004
+	dw sprite.general_purpose_42, $0006
+	dw sprite.general_purpose_4A, $000E
+	dw sprite.general_purpose_44, $0000
+	dw sprite.general_purpose_46, $0001
+	dw sprite.general_purpose_48, $0004
 	dw !initcommand_success
 
 DATA_FF2364:
@@ -3098,7 +3138,7 @@ DATA_FF23AC:
 DATA_FF23D0:
 	dw !initcommand_setup_static2, $0034, $0051 : dl DATA_FB64E0 : db $17
 	dw sprite.render_order, $00F9
-	dw sprite.unknown_46, $0000
+	dw sprite.general_purpose_46, $0000
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_set_animation, $021E
 	dw !initcommand_success
@@ -3106,7 +3146,7 @@ DATA_FF23D0:
 DATA_FF23EC:
 	dw !initcommand_setup_static2, $0038, $0051 : dl DATA_FB67C0 : db $20
 	dw sprite.render_order, $00F9
-	dw sprite.unknown_46, $0000
+	dw sprite.general_purpose_46, $0000
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_set_animation, $021F
 	dw !initcommand_success
@@ -3114,7 +3154,7 @@ DATA_FF23EC:
 DATA_FF2408:
 	dw !initcommand_setup_static2, $003C, $0051 : dl DATA_FB6BC0 : db $20
 	dw sprite.render_order, $00F9
-	dw sprite.unknown_46, $0000
+	dw sprite.general_purpose_46, $0000
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_set_animation, $0220
 	dw !initcommand_success
@@ -3122,7 +3162,7 @@ DATA_FF2408:
 DATA_FF2424:
 	dw !initcommand_setup_static2, $0044, $0051 : dl DATA_FA0360 : db $18
 	dw sprite.render_order, $00F9
-	dw sprite.unknown_46, $0000
+	dw sprite.general_purpose_46, $0000
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_set_animation, $0221
 	dw !initcommand_success
@@ -3130,7 +3170,7 @@ DATA_FF2424:
 DATA_FF2440:
 	dw !initcommand_setup_static2, $0048, $0051 : dl DATA_FC5680 : db $14
 	dw sprite.render_order, $00F9
-	dw sprite.unknown_46, $0000
+	dw sprite.general_purpose_46, $0000
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_set_animation, $0223
 	dw !initcommand_success
@@ -3138,7 +3178,7 @@ DATA_FF2440:
 DATA_FF245C:
 	dw !initcommand_setup_static2, $002C, $0051 : dl DATA_FA0000 : db $1B
 	dw sprite.render_order, $00F9
-	dw sprite.unknown_46, $0000
+	dw sprite.general_purpose_46, $0000
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_set_animation, $021B
 	dw !initcommand_success
@@ -3148,8 +3188,8 @@ DATA_FF2478:
 	dw sprite.x_position, $00AA
 	dw sprite.y_position, $00A1
 	dw sprite.render_order, $00F0
-	dw sprite.unknown_42, $0000
-	dw sprite.unknown_44, DATA_BAC259
+	dw sprite.general_purpose_42, $0000
+	dw sprite.general_purpose_44, DATA_BAC259
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_set_alt_palette, $0026
 	dw !initcommand_success
@@ -3159,8 +3199,8 @@ DATA_FF249A:
 	dw sprite.x_position, $0080
 	dw sprite.y_position, $0080
 	dw sprite.render_order, $00F0
-	dw sprite.unknown_42, $0000
-	dw sprite.unknown_44, DATA_BAC26F
+	dw sprite.general_purpose_42, $0000
+	dw sprite.general_purpose_44, DATA_BAC26F
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_set_alt_palette, $0023
 	dw !initcommand_success
@@ -3170,8 +3210,8 @@ DATA_FF24BC:
 	dw sprite.x_position, $0080
 	dw sprite.y_position, $0080
 	dw sprite.render_order, $00F0
-	dw sprite.unknown_42, $0000
-	dw sprite.unknown_44, DATA_BAC28D
+	dw sprite.general_purpose_42, $0000
+	dw sprite.general_purpose_44, DATA_BAC28D
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_set_alt_palette, $0004
 	dw !initcommand_success
@@ -3181,8 +3221,8 @@ DATA_FF24DE:
 	dw sprite.x_position, $0080
 	dw sprite.y_position, $00A0
 	dw sprite.render_order, $00F0
-	dw sprite.unknown_42, $0000
-	dw sprite.unknown_44, DATA_BAC2AB
+	dw sprite.general_purpose_42, $0000
+	dw sprite.general_purpose_44, DATA_BAC2AB
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_set_alt_palette, $0037
 	dw !initcommand_success
@@ -3192,8 +3232,8 @@ DATA_FF2500:
 	dw sprite.x_position, $0080
 	dw sprite.y_position, $00A0
 	dw sprite.render_order, $00F8
-	dw sprite.unknown_42, $0000
-	dw sprite.unknown_44, DATA_BAC2BD
+	dw sprite.general_purpose_42, $0000
+	dw sprite.general_purpose_44, DATA_BAC2BD
 	dw sprite.unknown_1C, $C000
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_set_alt_palette, $0037
@@ -3204,8 +3244,8 @@ DATA_FF2526:
 	dw sprite.x_position, $0058
 	dw sprite.y_position, $00B0
 	dw sprite.render_order, $00F0
-	dw sprite.unknown_42, $0000
-	dw sprite.unknown_44, DATA_BAC2C3
+	dw sprite.general_purpose_42, $0000
+	dw sprite.general_purpose_44, DATA_BAC2C3
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_set_alt_palette, $00A3
 	dw !initcommand_success
@@ -3215,8 +3255,8 @@ DATA_FF2548:
 	dw sprite.x_position, $0058
 	dw sprite.y_position, $00B0
 	dw sprite.render_order, $00F0
-	dw sprite.unknown_42, $0000
-	dw sprite.unknown_44, DATA_BAC2E3
+	dw sprite.general_purpose_42, $0000
+	dw sprite.general_purpose_44, DATA_BAC2E3
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_set_alt_palette, $00A4
 	dw !initcommand_success
@@ -3228,12 +3268,12 @@ DATA_FF256A:
 	dw sprite.max_y_speed, $0100
 	dw sprite.x_speed, $0000
 	dw sprite.y_speed, $0000
-	dw sprite.unknown_42, $0000
-	dw sprite.unknown_44, $0004
-	dw sprite.unknown_46, $000F
-	dw sprite.unknown_48, $000D
-	dw sprite.unknown_4A, $001E
-	dw sprite.unknown_4C, $001B
+	dw sprite.general_purpose_42, $0000
+	dw sprite.general_purpose_44, $0004
+	dw sprite.general_purpose_46, $000F
+	dw sprite.general_purpose_48, $000D
+	dw sprite.general_purpose_4A, $001E
+	dw sprite.general_purpose_4C, $001B
 	dw !initcommand_set_animation, $01EA
 	dw !initcommand_success
 
@@ -3270,12 +3310,12 @@ DATA_FF25EA:
 	dw sprite.max_y_speed, $0100
 	dw sprite.x_speed, $0000
 	dw sprite.y_speed, $0000
-	dw sprite.unknown_42, $0000
-	dw sprite.unknown_44, $0004
-	dw sprite.unknown_46, $000F
-	dw sprite.unknown_48, $000D
-	dw sprite.unknown_4A, $001E
-	dw sprite.unknown_4C, $001B
+	dw sprite.general_purpose_42, $0000
+	dw sprite.general_purpose_44, $0004
+	dw sprite.general_purpose_46, $000F
+	dw sprite.general_purpose_48, $000D
+	dw sprite.general_purpose_4A, $001E
+	dw sprite.general_purpose_4C, $001B
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_success
 
@@ -3345,17 +3385,17 @@ DATA_FF26B8:
 	dw !initcommand_success
 
 DATA_FF26CA:
-	dw sprite.action, $0002
+	dw sprite.state, $0002
 	dw sprite.x_speed, $0000
 	dw sprite.y_speed, $0000
 	dw sprite.max_x_speed, $0000
 	dw sprite.max_y_speed, $0000
-	dw sprite.unknown_42, $0000
-	dw sprite.unknown_44, $0238
-	dw sprite.unknown_46, $01C1
+	dw sprite.general_purpose_42, $0000
+	dw sprite.general_purpose_44, $0238
+	dw sprite.general_purpose_46, $01C1
 	dw sprite.x_position, $0238
 	dw sprite.y_position, $0100
-	dw sprite.unknown_30, $0200
+	dw sprite.interaction_flags, $0200
 	dw !initcommand_success
 
 DATA_FF26F8:
@@ -3391,9 +3431,9 @@ DATA_FF2734:
 DATA_FF2752:
 	dw !initcommand_load_subconfig, DATA_FF1F54
 	dw sprite.number, $028C
-	dw sprite.unknown_42, $0003
-	dw sprite.unknown_44, $0007
-	dw sprite.unknown_42, $0000
+	dw sprite.general_purpose_42, $0003
+	dw sprite.general_purpose_44, $0007
+	dw sprite.general_purpose_42, $0000
 	dw sprite.render_order, $00DA
 	dw !initcommand_set_alt_palette, $0009
 	dw !initcommand_set_animation, $02FD
@@ -3414,14 +3454,14 @@ DATA_FF278E:
 	dw sprite.render_order, $00F8
 	dw sprite.x_speed, $0000
 	dw sprite.y_speed, $0000
-	dw sprite.action, $0000
+	dw sprite.state, $0000
 	dw !initcommand_set_oam, $7000
 	dw !initcommand_success
 
 DATA_FF27B4:
 	dw sprite.number, $02AC
 	dw sprite.render_order, $00F8
-	dw sprite.action, $0000
+	dw sprite.state, $0000
 	dw !initcommand_set_oam, $3000
 	dw !initcommand_set_animation, $0259
 	dw !initcommand_set_alt_palette, $00A9
@@ -3458,12 +3498,12 @@ DATA_FF281C:
 	dw sprite.number, $0098
 	dw sprite.x_position, $0200
 	dw sprite.y_position, $0170
-	dw sprite.unknown_42, $0001
-	dw sprite.unknown_46, $0000
-	dw sprite.unknown_48, $0000
-	dw sprite.unknown_4A, $0001
-	dw sprite.unknown_4C, $0000
-	dw sprite.unknown_4E, $0000
+	dw sprite.general_purpose_42, $0001
+	dw sprite.general_purpose_46, $0000
+	dw sprite.general_purpose_48, $0000
+	dw sprite.general_purpose_4A, $0001
+	dw sprite.general_purpose_4C, $0000
+	dw sprite.general_purpose_4E, $0000
 	dw !initcommand_success
 
 DATA_FF2842:
@@ -3484,7 +3524,7 @@ DATA_FF286A:
 	dw sprite.number, $009C
 	dw sprite.x_position, $0180
 	dw sprite.y_position, $0170
-	dw sprite.unknown_42, $0001
+	dw sprite.general_purpose_42, $0001
 	dw !initcommand_success
 
 DATA_FF287C:
@@ -3548,7 +3588,7 @@ DATA_FF2926:
 	dw sprite.x_speed, $FE80
 	dw sprite.y_speed, $FF80
 	dw sprite.max_y_speed, $0080
-	dw sprite.unknown_44, $0003
+	dw sprite.general_purpose_44, $0003
 	dw !initcommand_success
 
 DATA_FF2946:
@@ -3557,10 +3597,10 @@ DATA_FF2946:
 	dw sprite.animation_control, $0080
 	dw sprite.x_speed, $0180
 	dw sprite.max_x_speed, $0080
-	dw sprite.unknown_42, $0003
+	dw sprite.general_purpose_42, $0003
 	dw sprite.y_speed, $FEB0
 	dw sprite.max_y_speed, $0080
-	dw sprite.unknown_44, $0003
+	dw sprite.general_purpose_44, $0003
 	dw !initcommand_success
 
 DATA_FF296E:
@@ -3569,10 +3609,10 @@ DATA_FF296E:
 	dw sprite.animation_control, $00B0
 	dw sprite.x_speed, $0140
 	dw sprite.max_x_speed, $0040
-	dw sprite.unknown_42, $0003
+	dw sprite.general_purpose_42, $0003
 	dw sprite.y_speed, $FF80
 	dw sprite.max_y_speed, $0080
-	dw sprite.unknown_44, $0002
+	dw sprite.general_purpose_44, $0002
 	dw sprite.unknown_1C, $0000
 	dw !initcommand_success
 
@@ -3591,10 +3631,10 @@ DATA_FF29BC:
 	dw sprite.animation_control, $0070
 	dw sprite.x_speed, $FEC0
 	dw sprite.max_x_speed, $FFC0
-	dw sprite.unknown_42, $0003
+	dw sprite.general_purpose_42, $0003
 	dw sprite.y_speed, $FE50
 	dw sprite.max_y_speed, $00B0
-	dw sprite.unknown_44, $0003
+	dw sprite.general_purpose_44, $0003
 	dw sprite.unknown_1C, $0000
 	dw !initcommand_success
 
@@ -3609,12 +3649,12 @@ DATA_FF29E8:
 
 DATA_FF2A08:
 	dw sprite.number, $0088
-	dw sprite.action, $0000
-	dw sprite.unknown_54, DATA_FF2A26
-	dw sprite.unknown_42, DATA_FFB966
-	dw sprite.unknown_44, $0004
-	dw sprite.unknown_46, $0019
-	dw sprite.unknown_48, $0010
+	dw sprite.state, $0000
+	dw sprite.constants_address, DATA_FF2A26
+	dw sprite.general_purpose_42, DATA_FFB966
+	dw sprite.general_purpose_44, $0004
+	dw sprite.general_purpose_46, $0019
+	dw sprite.general_purpose_48, $0010
 	dw !initcommand_success
 
 DATA_FF2A26:
@@ -3628,10 +3668,10 @@ DATA_FF2A38:
 	dw sprite.x_position, $0278
 	dw sprite.y_position, $01C1
 	dw sprite.render_order, $00D4
-	dw sprite.unknown_30, $0020
-	dw sprite.action, $0000
-	dw sprite.unknown_46, DATA_B69097
-	dw sprite.unknown_42, $0000
+	dw sprite.interaction_flags, $0020
+	dw sprite.state, $0000
+	dw sprite.general_purpose_46, DATA_B69097
+	dw sprite.general_purpose_42, $0000
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_set_alt_palette, $0069
 	dw !initcommand_set_animation, $025E
@@ -3643,10 +3683,10 @@ DATA_FF2A66:
 	dw sprite.x_position, $0180
 	dw sprite.y_position, $0150
 	dw sprite.render_order, $00D4
-	dw sprite.unknown_30, $0020
-	dw sprite.action, $0000
-	dw sprite.unknown_46, DATA_B684D4
-	dw sprite.unknown_42, $0000
+	dw sprite.interaction_flags, $0020
+	dw sprite.state, $0000
+	dw sprite.general_purpose_46, DATA_B684D4
+	dw sprite.general_purpose_42, $0000
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_set_alt_palette, $0096
 	dw !initcommand_set_animation, $01FB
@@ -3654,15 +3694,15 @@ DATA_FF2A66:
 
 DATA_FF2A94:
 	dw sprite.number, $0294
-	dw sprite.action, $0003
+	dw sprite.state, $0003
 	dw sprite.x_speed, $0000
 	dw sprite.y_speed, $0000
 	dw sprite.max_x_speed, $0000
 	dw sprite.max_y_speed, $0000
-	dw sprite.unknown_42, $0000
-	dw sprite.unknown_44, $023D
-	dw sprite.unknown_46, $01B1
-	dw sprite.unknown_4E, $0000
+	dw sprite.general_purpose_42, $0000
+	dw sprite.general_purpose_44, $023D
+	dw sprite.general_purpose_46, $01B1
+	dw sprite.general_purpose_4E, $0000
 	dw sprite.x_position, $023D
 	dw sprite.y_position, $01B1
 	dw sprite.unknown_1C, $0000
@@ -3676,9 +3716,9 @@ DATA_FF2ADA:
 	dw sprite.number, $02A4
 	dw sprite.y_position, $0330
 	dw sprite.render_order, $00D4
-	dw sprite.unknown_42, $0000
-	dw sprite.unknown_30, $0020
-	dw sprite.action, $0000
+	dw sprite.general_purpose_42, $0000
+	dw sprite.interaction_flags, $0020
+	dw sprite.state, $0000
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_set_alt_palette, $0051
 	dw !initcommand_set_animation, $0210
@@ -3687,60 +3727,60 @@ DATA_FF2ADA:
 ;klomp
 DATA_FF2B00:
 	dw sprite.number, $01EC
-	dw sprite.unknown_54, DATA_FF0294
+	dw sprite.constants_address, DATA_FF0294
 	dw sprite.render_order, $00D4
-	dw sprite.action, $0000
+	dw sprite.state, $0000
 	dw sprite.x_speed, $0000
 	dw sprite.y_speed, $0000
-	dw sprite.unknown_30, $0120
+	dw sprite.interaction_flags, $0120
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_set_alt_palette, $0007
 	dw !initcommand_set_animation, $0160
-	dw sprite.unknown_52, $0023
+	dw sprite.movement_state, $0023
 	dw !initcommand_success
 
 DATA_FF2B2E:
 	dw !initcommand_load_subconfig, DATA_FF2B00
 	dw sprite.max_x_speed, $0140
-	dw sprite.unknown_46, $4848
+	dw sprite.general_purpose_46, $4848
 	dw !initcommand_success
 
 DATA_FF2B3C:
 	dw !initcommand_load_subconfig, DATA_FF2B00
 	dw sprite.max_x_speed, $0140
-	dw sprite.unknown_46, $00B0
+	dw sprite.general_purpose_46, $00B0
 	dw !initcommand_success
 
 DATA_FF2B4A:
 	dw !initcommand_load_subconfig, DATA_FF2B00
 	dw sprite.max_x_speed, $FEC0
-	dw sprite.unknown_46, $B000
+	dw sprite.general_purpose_46, $B000
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FF2B5C:
 	dw !initcommand_load_subconfig, DATA_FF2B00
 	dw sprite.max_x_speed, $FEC0
-	dw sprite.unknown_46, $6060
+	dw sprite.general_purpose_46, $6060
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FF2B6E:
 	dw !initcommand_load_subconfig, DATA_FF2B00
 	dw sprite.max_x_speed, $0140
-	dw sprite.unknown_46, $3030
+	dw sprite.general_purpose_46, $3030
 	dw !initcommand_success
 
 DATA_FF2B7C:
 	dw !initcommand_load_subconfig, DATA_FF2B00
 	dw sprite.max_x_speed, $0180
-	dw sprite.unknown_46, $0060
+	dw sprite.general_purpose_46, $0060
 	dw !initcommand_success
 
 DATA_FF2B8A:
 	dw !initcommand_load_subconfig, DATA_FF2B00
 	dw sprite.max_x_speed, $FE80
-	dw sprite.unknown_46, $6000
+	dw sprite.general_purpose_46, $6000
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
@@ -3748,202 +3788,202 @@ DATA_FF2B9C:
 	dw !initcommand_load_subconfig, DATA_FF2B00
 	dw sprite.max_x_speed, $FEC0
 	dw !initcommand_set_oam, $6000
-	dw sprite.unknown_46, $3030
+	dw sprite.general_purpose_46, $3030
 	dw !initcommand_success
 
 DATA_FF2BAE:
 	dw !initcommand_load_subconfig, DATA_FF2B00
 	dw sprite.max_x_speed, $0140
-	dw sprite.unknown_46, $4040
+	dw sprite.general_purpose_46, $4040
 	dw !initcommand_success
 
 DATA_FF2BBC:
 	dw !initcommand_load_subconfig, DATA_FF2B00
 	dw sprite.max_x_speed, $0140
-	dw sprite.unknown_46, $2020
+	dw sprite.general_purpose_46, $2020
 	dw !initcommand_success
 
 DATA_FF2BCA:
 	dw !initcommand_load_subconfig, DATA_FF2B00
 	dw sprite.max_x_speed, $0140
-	dw sprite.unknown_46, $1818
+	dw sprite.general_purpose_46, $1818
 	dw !initcommand_success
 
 DATA_FF2BD8:
 	dw !initcommand_load_subconfig, DATA_FF2B00
 	dw sprite.max_x_speed, $FF00
-	dw sprite.unknown_52, $0022
+	dw sprite.movement_state, $0022
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FF2BEA:
 	dw !initcommand_load_subconfig, DATA_FF2B00
 	dw sprite.max_x_speed, $0140
-	dw sprite.unknown_46, $2888
+	dw sprite.general_purpose_46, $2888
 	dw !initcommand_success
 
 DATA_FF2BF8:
 	dw !initcommand_load_subconfig, DATA_FF2B00
 	dw sprite.max_x_speed, $0140
 	dw !initcommand_set_oam, $2000
-	dw sprite.unknown_46, $3030
+	dw sprite.general_purpose_46, $3030
 	dw !initcommand_success
 
 DATA_FF2C0A:
 	dw !initcommand_load_subconfig, DATA_FF2B00
 	dw sprite.max_x_speed, $FE80
-	dw sprite.unknown_46, $6000
+	dw sprite.general_purpose_46, $6000
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FF2C1C:
 	dw !initcommand_load_subconfig, DATA_FF2B00
 	dw sprite.max_x_speed, $0180
-	dw sprite.unknown_46, $2020
+	dw sprite.general_purpose_46, $2020
 	dw !initcommand_success
 
 DATA_FF2C2A:
 	dw !initcommand_load_subconfig, DATA_FF2B00
 	dw sprite.max_x_speed, $0140
-	dw sprite.unknown_46, $4848
+	dw sprite.general_purpose_46, $4848
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_success
 
 DATA_FF2C3C:
 	dw !initcommand_load_subconfig, DATA_FF2B00
 	dw sprite.max_x_speed, $0180
-	dw sprite.unknown_46, $4040
+	dw sprite.general_purpose_46, $4040
 	dw !initcommand_success
 
 DATA_FF2C4A:
 	dw !initcommand_load_subconfig, DATA_FF2B00
 	dw sprite.max_x_speed, $FEA0
-	dw sprite.unknown_46, $7010
+	dw sprite.general_purpose_46, $7010
 	dw !initcommand_success
 
 DATA_FF2C58:
 	dw !initcommand_load_subconfig, DATA_FF2B00
 	dw sprite.max_x_speed, $0180
-	dw sprite.unknown_46, $3010
+	dw sprite.general_purpose_46, $3010
 	dw !initcommand_success
 
 DATA_FF2C66:
 	dw !initcommand_load_subconfig, DATA_FF2B00
 	dw sprite.max_x_speed, $0160
-	dw sprite.unknown_46, $0078
+	dw sprite.general_purpose_46, $0078
 	dw !initcommand_success
 
 DATA_FF2C74:
 	dw !initcommand_load_subconfig, DATA_FF2B00
 	dw sprite.max_x_speed, $FEA0
-	dw sprite.unknown_46, $7800
+	dw sprite.general_purpose_46, $7800
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FF2C86:
 	dw !initcommand_load_subconfig, DATA_FF2B00
 	dw sprite.max_x_speed, $FE80
-	dw sprite.unknown_46, $2828
+	dw sprite.general_purpose_46, $2828
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_success
 
 DATA_FF2C98:
 	dw !initcommand_load_subconfig, DATA_FF2B00
 	dw sprite.max_x_speed, $FE80
-	dw sprite.unknown_46, $1010
+	dw sprite.general_purpose_46, $1010
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FF2CAA:
 	dw !initcommand_load_subconfig, DATA_FF2B00
 	dw sprite.max_x_speed, $FE80
-	dw sprite.unknown_46, $A070
+	dw sprite.general_purpose_46, $A070
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FF2CBC:
 	dw !initcommand_load_subconfig, DATA_FF2B00
 	dw sprite.max_x_speed, $FE80
-	dw sprite.unknown_46, $9050
+	dw sprite.general_purpose_46, $9050
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FF2CCE:
 	dw !initcommand_load_subconfig, DATA_FF2B00
 	dw sprite.max_x_speed, $FE80
-	dw sprite.unknown_46, $6080
+	dw sprite.general_purpose_46, $6080
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FF2CE0:
 	dw !initcommand_load_subconfig, DATA_FF2B00
 	dw sprite.max_x_speed, $FE80
-	dw sprite.unknown_46, $30B0
+	dw sprite.general_purpose_46, $30B0
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FF2CF2:
 	dw !initcommand_load_subconfig, DATA_FF2B00
 	dw sprite.max_x_speed, $FE60
-	dw sprite.unknown_46, $3030
+	dw sprite.general_purpose_46, $3030
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FF2D04:
 	dw !initcommand_load_subconfig, DATA_FF2B00
 	dw sprite.max_x_speed, $FEC0
-	dw sprite.unknown_46, $3010
+	dw sprite.general_purpose_46, $3010
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FF2D16:
 	dw !initcommand_load_subconfig, DATA_FF2B00
 	dw sprite.max_x_speed, $0140
-	dw sprite.unknown_46, $8000
+	dw sprite.general_purpose_46, $8000
 	dw !initcommand_success
 
 DATA_FF2D24:
 	dw !initcommand_load_subconfig, DATA_FF2B00
 	dw sprite.max_x_speed, $FEC0
-	dw sprite.unknown_46, $4848
+	dw sprite.general_purpose_46, $4848
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FF2D36:
 	dw !initcommand_load_subconfig, DATA_FF2B00
 	dw sprite.max_x_speed, $0120
-	dw sprite.unknown_46, $2020
+	dw sprite.general_purpose_46, $2020
 	dw !initcommand_success
 
 DATA_FF2D44:
 	dw !initcommand_load_subconfig, DATA_FF2B00
 	dw sprite.max_x_speed, $0180
-	dw sprite.unknown_46, $00E0
+	dw sprite.general_purpose_46, $00E0
 	dw !initcommand_success
 
 DATA_FF2D52:
 	dw !initcommand_load_subconfig, DATA_FF2B00
 	dw sprite.max_x_speed, $0180
-	dw sprite.unknown_46, $30B0
+	dw sprite.general_purpose_46, $30B0
 	dw !initcommand_success
 
 DATA_FF2D60:
 	dw !initcommand_load_subconfig, DATA_FF2B00
 	dw sprite.max_x_speed, $0180
-	dw sprite.unknown_46, $6080
+	dw sprite.general_purpose_46, $6080
 	dw !initcommand_success
 
 DATA_FF2D6E:
 	dw sprite.number, $01DC
 	dw sprite.render_order, $00D4
-	dw sprite.unknown_54, DATA_FF0352
-	dw sprite.unknown_30, $0120
-	dw sprite.action, $0000
+	dw sprite.constants_address, DATA_FF0352
+	dw sprite.interaction_flags, $0120
+	dw sprite.state, $0000
 	dw sprite.x_speed, $0000
 	dw sprite.y_speed, $0000
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_set_animation, $0163
-	dw sprite.unknown_52, $0022
+	dw sprite.movement_state, $0022
 	dw !initcommand_success
 
 DATA_FF2D98:
@@ -3959,14 +3999,14 @@ DATA_FF2DA2:
 DATA_FF2DAC:
 	dw sprite.number, $01DC
 	dw sprite.render_order, $00D4
-	dw sprite.unknown_54, DATA_FF0352
-	dw sprite.unknown_30, $0120
-	dw sprite.action, $0000
+	dw sprite.constants_address, DATA_FF0352
+	dw sprite.interaction_flags, $0120
+	dw sprite.state, $0000
 	dw sprite.x_speed, $0000
 	dw sprite.y_speed, $0000
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_set_animation, $0163
-	dw sprite.unknown_52, $0023
+	dw sprite.movement_state, $0023
 	dw !initcommand_success
 
 DATA_FF2DD6:
@@ -4004,129 +4044,129 @@ DATA_FF2E10:
 DATA_FF2E1A:
 	dw !initcommand_load_subconfig, DATA_FF2DD6
 	dw sprite.max_x_speed, $0140
-	dw sprite.unknown_46, $2828
+	dw sprite.general_purpose_46, $2828
 	dw !initcommand_success
 
 DATA_FF2E28:
 	dw !initcommand_load_subconfig, DATA_FF2DD6
 	dw sprite.max_x_speed, $0140
-	dw sprite.unknown_46, $3838
+	dw sprite.general_purpose_46, $3838
 	dw !initcommand_success
 
 DATA_FF2E36:
 	dw !initcommand_load_subconfig, DATA_FF2DD6
 	dw sprite.max_x_speed, $0140
-	dw sprite.unknown_46, $0098
+	dw sprite.general_purpose_46, $0098
 	dw !initcommand_success
 
 DATA_FF2E44:
 	dw !initcommand_load_subconfig, DATA_FF2DD6
 	dw sprite.max_x_speed, $0140
-	dw sprite.unknown_46, $9800
+	dw sprite.general_purpose_46, $9800
 	dw !initcommand_success
 
 DATA_FF2E52:
 	dw !initcommand_load_subconfig, DATA_FF2DD6
 	dw sprite.max_x_speed, $0140
-	dw sprite.unknown_46, $0808
+	dw sprite.general_purpose_46, $0808
 	dw !initcommand_success
 
 DATA_FF2E60:
 	dw !initcommand_load_subconfig, DATA_FF2DE0
 	dw sprite.max_x_speed, $FEC0
 	dw !initcommand_set_oam, $6000
-	dw sprite.unknown_46, $8000
+	dw sprite.general_purpose_46, $8000
 	dw !initcommand_success
 
 DATA_FF2E72:
 	dw !initcommand_load_subconfig, DATA_FF2DE0
 	dw sprite.max_x_speed, $FEC0
 	dw !initcommand_set_oam, $6000
-	dw sprite.unknown_46, $A800
+	dw sprite.general_purpose_46, $A800
 	dw !initcommand_success
 
 DATA_FF2E84:
 	dw !initcommand_load_subconfig, DATA_FF2DD6
 	dw sprite.max_x_speed, $0140
-	dw sprite.unknown_46, $0058
+	dw sprite.general_purpose_46, $0058
 	dw !initcommand_success
 
 DATA_FF2E92:
 	dw !initcommand_load_subconfig, DATA_FF2DD6
 	dw sprite.max_x_speed, $0140
-	dw sprite.unknown_46, $2C2C
+	dw sprite.general_purpose_46, $2C2C
 	dw !initcommand_success
 
 DATA_FF2EA0:
 	dw !initcommand_load_subconfig, DATA_FF2DD6
 	dw sprite.max_x_speed, $0140
-	dw sprite.unknown_46, $5800
+	dw sprite.general_purpose_46, $5800
 	dw !initcommand_success
 
 DATA_FF2EAE:
 	dw !initcommand_load_subconfig, DATA_FF2DE0
 	dw sprite.max_x_speed, $FEC0
 	dw !initcommand_set_oam, $6000
-	dw sprite.unknown_46, $9018
+	dw sprite.general_purpose_46, $9018
 	dw !initcommand_success
 
 DATA_FF2EC0:
 	dw !initcommand_load_subconfig, DATA_FF2DE0
 	dw sprite.max_x_speed, $FEC0
 	dw !initcommand_set_oam, $6000
-	dw sprite.unknown_46, $9000
+	dw sprite.general_purpose_46, $9000
 	dw !initcommand_success
 
 DATA_FF2ED2:
 	dw !initcommand_load_subconfig, DATA_FF2DE0
 	dw sprite.max_x_speed, $0100
-	dw sprite.unknown_46, $28C8
+	dw sprite.general_purpose_46, $28C8
 	dw !initcommand_success
 
 DATA_FF2EE0:
 	dw !initcommand_load_subconfig, DATA_FF2DE0
 	dw sprite.max_x_speed, $0100
-	dw sprite.unknown_46, $78C0
+	dw sprite.general_purpose_46, $78C0
 	dw !initcommand_success
 
 DATA_FF2EEE:
 	dw !initcommand_load_subconfig, DATA_FF2DE0
 	dw sprite.max_x_speed, $0100
-	dw sprite.unknown_46, $38FF
+	dw sprite.general_purpose_46, $38FF
 	dw !initcommand_success
 
 DATA_FF2EFC:
 	dw !initcommand_load_subconfig, DATA_FF2DE0
 	dw sprite.max_x_speed, $FEC0
 	dw !initcommand_set_oam, $6000
-	dw sprite.unknown_46, $FF10
+	dw sprite.general_purpose_46, $FF10
 	dw !initcommand_success
 
 DATA_FF2F0E:
 	dw !initcommand_load_subconfig, DATA_FF2DD6
 	dw sprite.max_x_speed, $FE80
 	dw !initcommand_set_oam, $6000
-	dw sprite.unknown_46, $8848
+	dw sprite.general_purpose_46, $8848
 	dw !initcommand_success
 
 DATA_FF2F20:
 	dw !initcommand_load_subconfig, DATA_FF2DD6
 	dw sprite.max_x_speed, $FE80
 	dw !initcommand_set_oam, $6000
-	dw sprite.unknown_46, $70C0
+	dw sprite.general_purpose_46, $70C0
 	dw !initcommand_success
 
 DATA_FF2F32:
 	dw !initcommand_load_subconfig, DATA_FF2DD6
 	dw sprite.max_x_speed, $FE80
 	dw !initcommand_set_oam, $6000
-	dw sprite.unknown_46, $A090
+	dw sprite.general_purpose_46, $A090
 	dw !initcommand_success
 
 DATA_FF2F44:
 	dw !initcommand_load_subconfig, DATA_FF2DD6
 	dw sprite.max_x_speed, $0180
-	dw sprite.unknown_46, $3878
+	dw sprite.general_purpose_46, $3878
 	dw !initcommand_success
 
 DATA_FF2F52:
@@ -4139,134 +4179,134 @@ DATA_FF2F60:
 	dw !initcommand_load_subconfig, DATA_FF2DD6
 	dw sprite.max_x_speed, $FEC0
 	dw !initcommand_set_oam, $6000
-	dw sprite.unknown_46, $B83C
+	dw sprite.general_purpose_46, $B83C
 	dw !initcommand_success
 
 DATA_FF2F72:
 	dw !initcommand_load_subconfig, DATA_FF2DD6
 	dw sprite.max_x_speed, $FEC0
 	dw !initcommand_set_oam, $6000
-	dw sprite.unknown_46, $E818
+	dw sprite.general_purpose_46, $E818
 	dw !initcommand_success
 
 DATA_FF2F84:
 	dw !initcommand_load_subconfig, DATA_FF2DD6
 	dw sprite.max_x_speed, $FE80
 	dw !initcommand_set_oam, $6000
-	dw sprite.unknown_46, $1010
+	dw sprite.general_purpose_46, $1010
 	dw !initcommand_success
 
 DATA_FF2F96:
 	dw !initcommand_load_subconfig, DATA_FF2DD6
 	dw sprite.max_x_speed, $0160
-	dw sprite.unknown_46, $40C0
+	dw sprite.general_purpose_46, $40C0
 	dw !initcommand_success
 
 DATA_FF2FA4:
 	dw !initcommand_load_subconfig, DATA_FF2DD6
 	dw sprite.max_x_speed, $FEA0
-	dw sprite.unknown_46, $10F0
+	dw sprite.general_purpose_46, $10F0
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FF2FB6:
 	dw !initcommand_load_subconfig, DATA_FF2DE0
 	dw sprite.max_x_speed, $0140
-	dw sprite.unknown_46, $1890
+	dw sprite.general_purpose_46, $1890
 	dw !initcommand_success
 
 DATA_FF2FC4:
 	dw !initcommand_load_subconfig, DATA_FF2DD6
 	dw sprite.max_x_speed, $0180
-	dw sprite.unknown_46, $A078
+	dw sprite.general_purpose_46, $A078
 	dw !initcommand_success
 
 DATA_FF2FD2:
 	dw !initcommand_load_subconfig, DATA_FF2DD6
 	dw sprite.max_x_speed, $FE80
-	dw sprite.unknown_46, $70A8
+	dw sprite.general_purpose_46, $70A8
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FF2FE4:
 	dw !initcommand_load_subconfig, DATA_FF2DD6
 	dw sprite.max_x_speed, $0180
-	dw sprite.unknown_46, $0090
+	dw sprite.general_purpose_46, $0090
 	dw !initcommand_success
 
 DATA_FF2FF2:
 	dw !initcommand_load_subconfig, DATA_FF2DD6
 	dw sprite.max_x_speed, $FE80
 	dw !initcommand_set_oam, $6000
-	dw sprite.unknown_46, $A838
+	dw sprite.general_purpose_46, $A838
 	dw !initcommand_success
 
 DATA_FF3004:
 	dw !initcommand_load_subconfig, DATA_FF2DD6
 	dw sprite.max_x_speed, $FE80
 	dw !initcommand_set_oam, $6000
-	dw sprite.unknown_46, $E000
+	dw sprite.general_purpose_46, $E000
 	dw !initcommand_success
 
 DATA_FF3016:
 	dw !initcommand_load_subconfig, DATA_FF2DD6
 	dw sprite.max_x_speed, $FE80
 	dw !initcommand_set_oam, $6000
-	dw sprite.unknown_46, $9800
+	dw sprite.general_purpose_46, $9800
 	dw !initcommand_success
 
 DATA_FF3028:
 	dw !initcommand_load_subconfig, DATA_FF2DD6
 	dw sprite.max_x_speed, $FE80
 	dw !initcommand_set_oam, $6000
-	dw sprite.unknown_46, $B040
+	dw sprite.general_purpose_46, $B040
 	dw !initcommand_success
 
 DATA_FF303A:
 	dw !initcommand_load_subconfig, DATA_FF2DD6
 	dw sprite.max_x_speed, $FE80
 	dw !initcommand_set_oam, $6000
-	dw sprite.unknown_46, $D020
+	dw sprite.general_purpose_46, $D020
 	dw !initcommand_success
 
 DATA_FF304C:
 	dw !initcommand_load_subconfig, DATA_FF2DD6
 	dw sprite.max_x_speed, $FE80
 	dw !initcommand_set_oam, $6000
-	dw sprite.unknown_46, $F000
+	dw sprite.general_purpose_46, $F000
 	dw !initcommand_success
 
 DATA_FF305E:
 	dw !initcommand_load_subconfig, DATA_FF2DD6
 	dw sprite.max_x_speed, $FE80
 	dw !initcommand_set_oam, $6000
-	dw sprite.unknown_46, $9020
+	dw sprite.general_purpose_46, $9020
 	dw !initcommand_success
 
 DATA_FF3070:
 	dw !initcommand_load_subconfig, DATA_FF2DD6
 	dw sprite.max_x_speed, $FE80
 	dw !initcommand_set_oam, $6000
-	dw sprite.unknown_46, $1818
+	dw sprite.general_purpose_46, $1818
 	dw !initcommand_success
 
 DATA_FF3082:
 	dw !initcommand_load_subconfig, DATA_FF2DD6
 	dw sprite.max_x_speed, $FEC0
 	dw !initcommand_set_oam, $6000
-	dw sprite.unknown_46, $E014
+	dw sprite.general_purpose_46, $E014
 	dw !initcommand_success
 
 DATA_FF3094:
 	dw !initcommand_load_subconfig, DATA_FF2DD6
 	dw sprite.max_x_speed, $0140
-	dw sprite.unknown_46, $2020
+	dw sprite.general_purpose_46, $2020
 	dw !initcommand_success
 
 DATA_FF30A2:
 	dw !initcommand_load_subconfig, DATA_FF2DD6
 	dw sprite.max_x_speed, $0120
-	dw sprite.unknown_46, $7070
+	dw sprite.general_purpose_46, $7070
 	dw !initcommand_success
 
 DATA_FF30B0:
@@ -4284,36 +4324,36 @@ DATA_FF30C8:
 	dw !initcommand_load_subconfig, DATA_FF2DD6
 	dw sprite.max_x_speed, $FEA0
 	dw !initcommand_set_oam, $6000
-	dw sprite.unknown_46, $A030
+	dw sprite.general_purpose_46, $A030
 	dw !initcommand_success
 
 DATA_FF30DA:
 	dw !initcommand_load_subconfig, DATA_FF2DD6
 	dw sprite.max_x_speed, $FEA0
 	dw !initcommand_set_oam, $6000
-	dw sprite.unknown_46, $D000
+	dw sprite.general_purpose_46, $D000
 	dw !initcommand_success
 
 ;neek
 DATA_FF30EC:
 	dw sprite.number, $01E4
 	dw sprite.render_order, $00D4
-	dw sprite.unknown_54, DATA_FF027E
-	dw sprite.action, $0000
+	dw sprite.constants_address, DATA_FF027E
+	dw sprite.state, $0000
 	dw sprite.x_speed, $0000
 	dw sprite.max_x_speed, $FF00
 	dw sprite.y_speed, $0000
-	dw sprite.unknown_30, $0120
+	dw sprite.interaction_flags, $0120
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_set_alt_palette, $001C
 	dw !initcommand_set_animation, $016F
-	dw sprite.unknown_52, $0022
+	dw sprite.movement_state, $0022
 	dw !initcommand_success
 
 DATA_FF311E:
 	dw !initcommand_load_subconfig, DATA_FF30EC
-	dw sprite.unknown_52, $0023
-	dw sprite.unknown_46, $8080
+	dw sprite.movement_state, $0023
+	dw sprite.general_purpose_46, $8080
 	dw !initcommand_success
 
 DATA_FF312C:
@@ -4340,8 +4380,8 @@ DATA_FF314E:
 DATA_FF3158:
 	dw !initcommand_load_subconfig, DATA_FF30EC
 	dw sprite.max_x_speed, $0100
-	dw sprite.unknown_52, $0023
-	dw sprite.unknown_46, $0808
+	dw sprite.movement_state, $0023
+	dw sprite.general_purpose_46, $0808
 	dw !initcommand_success
 
 DATA_FF316A:
@@ -4353,40 +4393,40 @@ DATA_FF316A:
 DATA_FF3178:
 	dw !initcommand_load_subconfig, DATA_FF30EC
 	dw sprite.max_x_speed, $FE80
-	dw sprite.unknown_52, $0023
-	dw sprite.unknown_46, $9060
+	dw sprite.movement_state, $0023
+	dw sprite.general_purpose_46, $9060
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FF318E:
 	dw !initcommand_load_subconfig, DATA_FF30EC
 	dw sprite.max_x_speed, $FE80
-	dw sprite.unknown_52, $0023
-	dw sprite.unknown_46, $30C0
+	dw sprite.movement_state, $0023
+	dw sprite.general_purpose_46, $30C0
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FF31A4:
 	dw !initcommand_load_subconfig, DATA_FF30EC
 	dw sprite.max_x_speed, $FE80
-	dw sprite.unknown_52, $0023
-	dw sprite.unknown_46, $9050
+	dw sprite.movement_state, $0023
+	dw sprite.general_purpose_46, $9050
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FF31BA:
 	dw !initcommand_load_subconfig, DATA_FF30EC
 	dw sprite.max_x_speed, $FE80
-	dw sprite.unknown_52, $0023
-	dw sprite.unknown_46, $1818
+	dw sprite.movement_state, $0023
+	dw sprite.general_purpose_46, $1818
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FF31D0:
 	dw !initcommand_load_subconfig, DATA_FF30EC
 	dw sprite.max_x_speed, $0180
-	dw sprite.unknown_52, $0023
-	dw sprite.unknown_46, $1818
+	dw sprite.movement_state, $0023
+	dw sprite.general_purpose_46, $1818
 	dw !initcommand_success
 
 DATA_FF31E2:
@@ -4395,63 +4435,63 @@ DATA_FF31E2:
 	dw !initcommand_success
 
 DATA_FF31EC:
-	dw sprite.unknown_4E, $0003
-	dw sprite.unknown_46, $003E
+	dw sprite.general_purpose_4E, $0003
+	dw sprite.general_purpose_46, $003E
 	dw !initcommand_load_subconfig, DATA_FF321E
 	dw !initcommand_success
 
 DATA_FF31FA:
-	dw sprite.unknown_4E, $0002
-	dw sprite.unknown_46, $003C
+	dw sprite.general_purpose_4E, $0002
+	dw sprite.general_purpose_46, $003C
 	dw !initcommand_load_subconfig, DATA_FF321E
 	dw !initcommand_success
 
 DATA_FF3208:
-	dw sprite.unknown_4E, $0000
-	dw sprite.unknown_46, $003A
+	dw sprite.general_purpose_4E, $0000
+	dw sprite.general_purpose_46, $003A
 	dw !initcommand_load_subconfig, DATA_FF321E
 	dw !initcommand_success
 
 DATA_FF3216:
-	dw sprite.unknown_4E, $0001
-	dw sprite.unknown_46, $0038
+	dw sprite.general_purpose_4E, $0001
+	dw sprite.general_purpose_46, $0038
 DATA_FF321E:
-	dw sprite.unknown_52, $0F0E
+	dw sprite.movement_state, $0F0E
 	dw sprite.x_sub_position, $A060
 	dw !initcommand_load_subconfig, DATA_FF3266
 	dw !initcommand_success
 
 DATA_FF322C:
-	dw sprite.unknown_4E, $0003
-	dw sprite.unknown_46, $003E
+	dw sprite.general_purpose_4E, $0003
+	dw sprite.general_purpose_46, $003E
 	dw !initcommand_load_subconfig, DATA_FF325E
 	dw !initcommand_success
 
 DATA_FF323A:
-	dw sprite.unknown_4E, $0002
-	dw sprite.unknown_46, $003C
+	dw sprite.general_purpose_4E, $0002
+	dw sprite.general_purpose_46, $003C
 	dw !initcommand_load_subconfig, DATA_FF325E
 	dw !initcommand_success
 
 DATA_FF3248:
-	dw sprite.unknown_4E, $0000
-	dw sprite.unknown_46, $003A
+	dw sprite.general_purpose_4E, $0000
+	dw sprite.general_purpose_46, $003A
 	dw !initcommand_load_subconfig, DATA_FF325E
 	dw !initcommand_success
 
 DATA_FF3256:
-	dw sprite.unknown_4E, $0001
-	dw sprite.unknown_46, $0038
+	dw sprite.general_purpose_4E, $0001
+	dw sprite.general_purpose_46, $0038
 DATA_FF325E:
-	dw sprite.unknown_52, $000C
+	dw sprite.movement_state, $000C
 	dw sprite.x_sub_position, $0078
 DATA_FF3266:
-	dw sprite.unknown_54, DATA_FF0260
+	dw sprite.constants_address, DATA_FF0260
 	dw sprite.number, $01AC
 	dw sprite.render_order, $00D4
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_set_alt_palette, $0002
-	dw sprite.action, $0100
+	dw sprite.state, $0100
 	dw sprite.x_speed, $0000
 	dw sprite.y_speed, $0000
 	dw !initcommand_set_animation, $02E2
@@ -4519,7 +4559,7 @@ DATA_FF32FA:
 
 DATA_FF3304:
 	dw !initcommand_load_subconfig, DATA_FF3208
-	dw sprite.unknown_54, DATA_FF0274
+	dw sprite.constants_address, DATA_FF0274
 	dw sprite.x_sub_position, $A060
 	dw !initcommand_success
 
@@ -4535,124 +4575,124 @@ DATA_FF331C:
 
 DATA_FF3326:
 	dw !initcommand_load_subconfig, DATA_FF323A
-	dw sprite.unknown_54, DATA_FF026A
+	dw sprite.constants_address, DATA_FF026A
 	dw sprite.x_sub_position, $000F
 	dw !initcommand_success
 
 DATA_FF3334:
 	dw !initcommand_load_subconfig, DATA_FF31FA
-	dw sprite.unknown_54, DATA_FF026A
+	dw sprite.constants_address, DATA_FF026A
 	dw sprite.x_sub_position, $5050
 	dw !initcommand_success
 
 DATA_FF3342:
 	dw !initcommand_load_subconfig, DATA_FF31FA
-	dw sprite.unknown_54, DATA_FF026A
+	dw sprite.constants_address, DATA_FF026A
 	dw sprite.x_sub_position, $5050
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_success
 
 DATA_FF3354:
 	dw !initcommand_load_subconfig, DATA_FF31FA
-	dw sprite.unknown_54, DATA_FF026A
+	dw sprite.constants_address, DATA_FF026A
 	dw sprite.x_sub_position, $8080
 	dw !initcommand_success
 
 DATA_FF3362:
 	dw !initcommand_load_subconfig, DATA_FF31FA
-	dw sprite.unknown_54, DATA_FF026A
+	dw sprite.constants_address, DATA_FF026A
 	dw sprite.x_sub_position, $8010
 	dw !initcommand_success
 
 DATA_FF3370:
 	dw !initcommand_load_subconfig, DATA_FF31FA
-	dw sprite.unknown_54, DATA_FF026A
+	dw sprite.constants_address, DATA_FF026A
 	dw sprite.x_sub_position, $8070
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_success
 
 DATA_FF3382:
 	dw !initcommand_load_subconfig, DATA_FF31FA
-	dw sprite.unknown_54, DATA_FF026A
+	dw sprite.constants_address, DATA_FF026A
 	dw sprite.x_sub_position, $8070
 	dw !initcommand_success
 
 DATA_FF3390:
 	dw !initcommand_load_subconfig, DATA_FF31FA
-	dw sprite.unknown_54, DATA_FF026A
+	dw sprite.constants_address, DATA_FF026A
 	dw !initcommand_success
 
 DATA_FF339A:
 	dw !initcommand_load_subconfig, DATA_FF31FA
-	dw sprite.unknown_54, DATA_FF026A
+	dw sprite.constants_address, DATA_FF026A
 	dw sprite.x_sub_position, $A0A0
 	dw !initcommand_success
 
 DATA_FF33A8:
 	dw !initcommand_load_subconfig, DATA_FF31FA
-	dw sprite.unknown_54, DATA_FF026A
+	dw sprite.constants_address, DATA_FF026A
 	dw sprite.x_sub_position, $A020
 	dw !initcommand_success
 
 DATA_FF33B6:
 	dw !initcommand_load_subconfig, DATA_FF31FA
-	dw sprite.unknown_54, DATA_FF026A
+	dw sprite.constants_address, DATA_FF026A
 	dw !initcommand_set_oam, $2000
 	dw sprite.x_sub_position, $A020
 	dw !initcommand_success
 
 DATA_FF33C8:
 	dw !initcommand_load_subconfig, DATA_FF31FA
-	dw sprite.unknown_54, DATA_FF026A
+	dw sprite.constants_address, DATA_FF026A
 	dw sprite.x_sub_position, $6050
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_success
 
 DATA_FF33DA:
 	dw !initcommand_load_subconfig, DATA_FF31EC
-	dw sprite.unknown_54, DATA_FF026A
+	dw sprite.constants_address, DATA_FF026A
 	dw !initcommand_success
 
 DATA_FF33E4:
 	dw !initcommand_load_subconfig, DATA_FF31EC
-	dw sprite.unknown_54, DATA_FF026A
+	dw sprite.constants_address, DATA_FF026A
 	dw sprite.x_sub_position, $6050
 	dw !initcommand_success
 
 DATA_FF33F2:
 	dw !initcommand_load_subconfig, DATA_FF31EC
-	dw sprite.unknown_54, DATA_FF026A
+	dw sprite.constants_address, DATA_FF026A
 	dw sprite.x_sub_position, $8080
 	dw !initcommand_success
 
 DATA_FF3400:
 	dw !initcommand_load_subconfig, DATA_FF31EC
-	dw sprite.unknown_54, DATA_FF026A
+	dw sprite.constants_address, DATA_FF026A
 	dw sprite.x_sub_position, $A0A0
 	dw !initcommand_success
 
 DATA_FF340E:
 	dw !initcommand_load_subconfig, DATA_FF31EC
-	dw sprite.unknown_54, DATA_FF026A
+	dw sprite.constants_address, DATA_FF026A
 	dw sprite.x_sub_position, $8080
 	dw sprite.unknown_22, $003C
 	dw !initcommand_success
 
 DATA_FF3420:
 	dw !initcommand_load_subconfig, DATA_FF31EC
-	dw sprite.unknown_54, DATA_FF026A
+	dw sprite.constants_address, DATA_FF026A
 	dw sprite.x_sub_position, $6080
 	dw !initcommand_success
 
 DATA_FF342E:
 	dw !initcommand_load_subconfig, DATA_FF31EC
-	dw sprite.unknown_54, DATA_FF026A
+	dw sprite.constants_address, DATA_FF026A
 	dw sprite.x_sub_position, $A020
 	dw !initcommand_success
 
 DATA_FF343C:
 	dw !initcommand_load_subconfig, DATA_FF31EC
-	dw sprite.unknown_54, DATA_FF026A
+	dw sprite.constants_address, DATA_FF026A
 	dw sprite.x_sub_position, $6050
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_success
@@ -4660,12 +4700,12 @@ DATA_FF343C:
 DATA_FF344E:
 	dw sprite.number, $01A4
 	dw sprite.render_order, $00C8
-	dw sprite.unknown_54, DATA_FF0214
-	dw sprite.action, $0000
+	dw sprite.constants_address, DATA_FF0214
+	dw sprite.state, $0000
 	dw sprite.x_speed, $0000
 	dw sprite.max_x_speed, $0000
 	dw sprite.y_speed, $0000
-	dw sprite.unknown_30, $0001
+	dw sprite.interaction_flags, $0001
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_set_alt_palette, $0002
 	dw !initcommand_set_animation, $02E0
@@ -4678,11 +4718,11 @@ DATA_FF347C:
 DATA_FF3482:
 	dw sprite.number, $013C
 	dw sprite.render_order, $00C8
-	dw sprite.action, $0000
+	dw sprite.state, $0000
 	dw sprite.max_y_speed, $0000
 	dw sprite.unknown_5C, $0000
 	dw sprite.parameter, $0000
-	dw sprite.unknown_30, $0400
+	dw sprite.interaction_flags, $0400
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_set_alt_palette, $000A
 	dw !initcommand_set_animation, $015E
@@ -4691,9 +4731,9 @@ DATA_FF3482:
 DATA_FF34AC:
 	dw sprite.number, $0150
 	dw sprite.render_order, $00C8
-	dw sprite.action, $0000
-	dw sprite.unknown_30, $0000
-	dw sprite.unknown_42, $01E0
+	dw sprite.state, $0000
+	dw sprite.interaction_flags, $0000
+	dw sprite.general_purpose_42, $01E0
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_set_alt_palette, $0002
 	dw !initcommand_set_animation, $02CD
@@ -4705,73 +4745,73 @@ DATA_FF34CE:
 
 DATA_FF34D4:
 	dw !initcommand_load_subconfig, DATA_FF34AC
-	dw sprite.unknown_42, $0384
+	dw sprite.general_purpose_42, $0384
 	dw !initcommand_success
 
 DATA_FF34DE:
 	dw !initcommand_load_subconfig, DATA_FF34AC
-	dw sprite.unknown_42, $02D0
+	dw sprite.general_purpose_42, $02D0
 	dw !initcommand_success
 
 DATA_FF34E8:
 	dw !initcommand_load_subconfig, DATA_FF34AC
-	dw sprite.unknown_42, $04B0
+	dw sprite.general_purpose_42, $04B0
 	dw !initcommand_success
 
 DATA_FF34F2:
 	dw !initcommand_load_subconfig, DATA_FF34AC
-	dw sprite.unknown_42, $0258
+	dw sprite.general_purpose_42, $0258
 	dw !initcommand_success
 
 DATA_FF34FC:
 	dw !initcommand_load_subconfig, DATA_FF34AC
-	dw sprite.unknown_42, $02D0
+	dw sprite.general_purpose_42, $02D0
 	dw !initcommand_success
 
 DATA_FF3506:
 	dw !initcommand_load_subconfig, DATA_FF34AC
-	dw sprite.unknown_42, $02D0
+	dw sprite.general_purpose_42, $02D0
 	dw !initcommand_success
 
 DATA_FF3510:
 	dw !initcommand_load_subconfig, DATA_FF34AC
-	dw sprite.unknown_42, $01A4
+	dw sprite.general_purpose_42, $01A4
 	dw !initcommand_success
 
 DATA_FF351A:
 	dw !initcommand_load_subconfig, DATA_FF34AC
-	dw sprite.unknown_42, $030C
+	dw sprite.general_purpose_42, $030C
 	dw !initcommand_success
 
 DATA_FF3524:
 	dw !initcommand_load_subconfig, DATA_FF34AC
-	dw sprite.unknown_42, $02D0
+	dw sprite.general_purpose_42, $02D0
 	dw !initcommand_success
 
 DATA_FF352E:
 	dw !initcommand_load_subconfig, DATA_FF34AC
-	dw sprite.unknown_42, $01E0
+	dw sprite.general_purpose_42, $01E0
 	dw !initcommand_success
 
 DATA_FF3538:
 	dw !initcommand_load_subconfig, DATA_FF34AC
-	dw sprite.unknown_42, $01E0
+	dw sprite.general_purpose_42, $01E0
 	dw !initcommand_success
 
 DATA_FF3542:
 	dw !initcommand_load_subconfig, DATA_FF34AC
-	dw sprite.unknown_42, $04B0
+	dw sprite.general_purpose_42, $04B0
 	dw !initcommand_success
 
 DATA_FF354C:
 	dw !initcommand_load_subconfig, DATA_FF34AC
-	dw sprite.unknown_42, $02D0
+	dw sprite.general_purpose_42, $02D0
 	dw sprite.unknown_1C, $C000
 	dw !initcommand_success
 
 DATA_FF355A:
 	dw !initcommand_load_subconfig, DATA_FF34AC
-	dw sprite.unknown_42, $0348
+	dw sprite.general_purpose_42, $0348
 	dw sprite.unknown_1C, $C000
 	dw !initcommand_success
 
@@ -4807,7 +4847,7 @@ DATA_FF35CE:
 DATA_FF35F0:
 	dw sprite.number, $0140
 	dw sprite.render_order, $00EC
-	dw sprite.action, $0000
+	dw sprite.state, $0000
 	dw sprite.unknown_5C, $0000
 	dw sprite.parameter, $0000
 	dw !initcommand_set_oam, $2000
@@ -4828,7 +4868,7 @@ DATA_FF3618:
 DATA_FF3622:
 	dw sprite.number, $0140
 	dw sprite.render_order, $00EC
-	dw sprite.action, $000E
+	dw sprite.state, $000E
 	dw sprite.unknown_3E, $0003
 	dw sprite.unknown_5C, $0000
 	dw sprite.parameter, $0000
@@ -7275,9 +7315,9 @@ DATA_FF63E2:
 DATA_FF6404:
 	dw sprite.number, $014C
 	dw sprite.render_order, $00D4
-	dw sprite.unknown_42, $0000
-	dw sprite.unknown_4E, $0000
-	dw sprite.action, $0000
+	dw sprite.general_purpose_42, $0000
+	dw sprite.general_purpose_4E, $0000
+	dw sprite.state, $0000
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_set_animation, $02AA
 	dw !initcommand_success
@@ -7294,227 +7334,227 @@ DATA_FF642C:
 
 DATA_FF6436:
 	dw !initcommand_load_subconfig, DATA_FF6422
-	dw sprite.unknown_4E, $1000
+	dw sprite.general_purpose_4E, $1000
 	dw !initcommand_success
 
 DATA_FF6440:
 	dw !initcommand_load_subconfig, DATA_FF6422
-	dw sprite.unknown_4E, $10F8
+	dw sprite.general_purpose_4E, $10F8
 	dw !initcommand_success
 
 DATA_FF644A:
 	dw !initcommand_load_subconfig, DATA_FF6422
-	dw sprite.unknown_4E, $1018
+	dw sprite.general_purpose_4E, $1018
 	dw !initcommand_success
 
 DATA_FF6454:
 	dw !initcommand_load_subconfig, DATA_FF6422
-	dw sprite.unknown_4E, $1040
+	dw sprite.general_purpose_4E, $1040
 	dw !initcommand_success
 
 DATA_FF645E:
 	dw !initcommand_load_subconfig, DATA_FF6422
-	dw sprite.unknown_4E, $1060
+	dw sprite.general_purpose_4E, $1060
 	dw !initcommand_success
 
 DATA_FF6468:
 	dw !initcommand_load_subconfig, DATA_FF6422
-	dw sprite.unknown_4E, $1050
+	dw sprite.general_purpose_4E, $1050
 	dw !initcommand_success
 
 DATA_FF6472:
 	dw !initcommand_load_subconfig, DATA_FF6422
-	dw sprite.unknown_4E, $1020
+	dw sprite.general_purpose_4E, $1020
 	dw !initcommand_success
 
 DATA_FF647C:
 	dw !initcommand_load_subconfig, DATA_FF6422
-	dw sprite.unknown_4E, $1040
+	dw sprite.general_purpose_4E, $1040
 	dw !initcommand_success
 
 DATA_FF6486:
 	dw !initcommand_load_subconfig, DATA_FF6422
-	dw sprite.unknown_4E, $1000
+	dw sprite.general_purpose_4E, $1000
 	dw !initcommand_success
 
 DATA_FF6490:
 	dw !initcommand_load_subconfig, DATA_FF6422
-	dw sprite.unknown_4E, $3040
+	dw sprite.general_purpose_4E, $3040
 	dw !initcommand_success
 
 DATA_FF649A:
 	dw !initcommand_load_subconfig, DATA_FF6422
-	dw sprite.unknown_4E, $2020
+	dw sprite.general_purpose_4E, $2020
 	dw !initcommand_success
 
 DATA_FF64A4:
 	dw !initcommand_load_subconfig, DATA_FF6422
-	dw sprite.unknown_4E, $0010
+	dw sprite.general_purpose_4E, $0010
 	dw !initcommand_success
 
 DATA_FF64AE:
 	dw !initcommand_load_subconfig, DATA_FF6422
-	dw sprite.unknown_4E, $1030
+	dw sprite.general_purpose_4E, $1030
 	dw !initcommand_success
 
 DATA_FF64B8:
 	dw !initcommand_load_subconfig, DATA_FF6422
-	dw sprite.unknown_4E, $1020
+	dw sprite.general_purpose_4E, $1020
 	dw !initcommand_success
 
 DATA_FF64C2:
 	dw !initcommand_load_subconfig, DATA_FF6422
-	dw sprite.unknown_4E, $1030
+	dw sprite.general_purpose_4E, $1030
 	dw !initcommand_success
 
 DATA_FF64CC:
 	dw !initcommand_load_subconfig, DATA_FF6422
-	dw sprite.unknown_4E, $1000
+	dw sprite.general_purpose_4E, $1000
 	dw !initcommand_success
 
 DATA_FF64D6:
 	dw !initcommand_load_subconfig, DATA_FF6422
-	dw sprite.unknown_4E, $1040
+	dw sprite.general_purpose_4E, $1040
 	dw !initcommand_success
 
 DATA_FF64E0:
 	dw !initcommand_load_subconfig, DATA_FF6422
-	dw sprite.unknown_4E, $E8E8
+	dw sprite.general_purpose_4E, $E8E8
 	dw !initcommand_success
 
 DATA_FF64EA:
 	dw !initcommand_load_subconfig, DATA_FF6422
-	dw sprite.unknown_4E, $00E8
+	dw sprite.general_purpose_4E, $00E8
 	dw !initcommand_success
 
 DATA_FF64F4:
 	dw !initcommand_load_subconfig, DATA_FF6422
-	dw sprite.unknown_4E, $F4E8
+	dw sprite.general_purpose_4E, $F4E8
 	dw !initcommand_success
 
 DATA_FF64FE:
 	dw !initcommand_load_subconfig, DATA_FF6422
-	dw sprite.unknown_4E, $F4D0
+	dw sprite.general_purpose_4E, $F4D0
 	dw !initcommand_success
 
 DATA_FF6508:
 	dw !initcommand_load_subconfig, DATA_FF6422
-	dw sprite.unknown_4E, $F4E0
+	dw sprite.general_purpose_4E, $F4E0
 	dw !initcommand_success
 
 DATA_FF6512:
 	dw !initcommand_load_subconfig, DATA_FF6422
-	dw sprite.unknown_4E, $00D0
+	dw sprite.general_purpose_4E, $00D0
 	dw !initcommand_success
 
 DATA_FF651C:
 	dw !initcommand_load_subconfig, DATA_FF6422
-	dw sprite.unknown_4E, $E8D0
+	dw sprite.general_purpose_4E, $E8D0
 	dw !initcommand_success
 
 DATA_FF6526:
 	dw !initcommand_load_subconfig, DATA_FF6422
-	dw sprite.unknown_4E, $E8D8
+	dw sprite.general_purpose_4E, $E8D8
 	dw !initcommand_success
 
 DATA_FF6530:
 	dw !initcommand_load_subconfig, DATA_FF6422
-	dw sprite.unknown_4E, $F020
+	dw sprite.general_purpose_4E, $F020
 	dw !initcommand_success
 
 DATA_FF653A:
 	dw !initcommand_load_subconfig, DATA_FF6422
-	dw sprite.unknown_4E, $0020
+	dw sprite.general_purpose_4E, $0020
 	dw !initcommand_success
 
 DATA_FF6544:
 	dw !initcommand_load_subconfig, DATA_FF6422
-	dw sprite.unknown_4E, $0000
+	dw sprite.general_purpose_4E, $0000
 	dw !initcommand_success
 
 DATA_FF654E:
 	dw !initcommand_load_subconfig, DATA_FF6422
-	dw sprite.unknown_4E, $0410
+	dw sprite.general_purpose_4E, $0410
 	dw !initcommand_success
 
 DATA_FF6558:
 	dw !initcommand_load_subconfig, DATA_FF6422
-	dw sprite.unknown_4E, $08C0
+	dw sprite.general_purpose_4E, $08C0
 	dw !initcommand_success
 
 DATA_FF6562:
 	dw !initcommand_load_subconfig, DATA_FF6422
-	dw sprite.unknown_4E, $00D8
+	dw sprite.general_purpose_4E, $00D8
 	dw !initcommand_success
 
 DATA_FF656C:
 	dw !initcommand_load_subconfig, DATA_FF642C
-	dw sprite.unknown_4E, $1000
+	dw sprite.general_purpose_4E, $1000
 	dw !initcommand_success
 
 DATA_FF6576:
 	dw !initcommand_load_subconfig, DATA_FF642C
-	dw sprite.unknown_4E, $1018
+	dw sprite.general_purpose_4E, $1018
 	dw !initcommand_success
 
 DATA_FF6580:
 	dw !initcommand_load_subconfig, DATA_FF642C
-	dw sprite.unknown_4E, $1040
+	dw sprite.general_purpose_4E, $1040
 	dw !initcommand_success
 
 DATA_FF658A:
 	dw !initcommand_load_subconfig, DATA_FF642C
-	dw sprite.unknown_4E, $1020
+	dw sprite.general_purpose_4E, $1020
 	dw !initcommand_success
 
 DATA_FF6594:
 	dw !initcommand_load_subconfig, DATA_FF642C
-	dw sprite.unknown_4E, $F020
+	dw sprite.general_purpose_4E, $F020
 	dw !initcommand_success
 
 DATA_FF659E:
 	dw !initcommand_load_subconfig, DATA_FF642C
-	dw sprite.unknown_4E, $10F0
+	dw sprite.general_purpose_4E, $10F0
 	dw !initcommand_success
 
 DATA_FF65A8:
 	dw !initcommand_load_subconfig, DATA_FF642C
-	dw sprite.unknown_4E, $1040
+	dw sprite.general_purpose_4E, $1040
 	dw !initcommand_success
 
 DATA_FF65B2:
 	dw !initcommand_load_subconfig, DATA_FF6422
-	dw sprite.unknown_4E, $00F0
+	dw sprite.general_purpose_4E, $00F0
 	dw sprite.unknown_1C, $C000
 	dw !initcommand_success
 
 DATA_FF65C0:
 	dw !initcommand_load_subconfig, DATA_FF6422
-	dw sprite.unknown_4E, $0050
+	dw sprite.general_purpose_4E, $0050
 	dw sprite.unknown_1C, $C000
 	dw !initcommand_success
 
 DATA_FF65CE:
 	dw !initcommand_load_subconfig, DATA_FF642C
-	dw sprite.unknown_4E, $0050
+	dw sprite.general_purpose_4E, $0050
 	dw sprite.unknown_1C, $C000
 	dw !initcommand_success
 
 DATA_FF65DC:
 	dw !initcommand_load_subconfig, DATA_FF642C
-	dw sprite.unknown_4E, $0A00
+	dw sprite.general_purpose_4E, $0A00
 	dw sprite.unknown_1C, $C000
 	dw !initcommand_success
 
 DATA_FF65EA:
 	dw sprite.number, $01B0
 	dw sprite.render_order, $00C8
-	dw sprite.unknown_54, DATA_FF0214
-	dw sprite.action, $0000
+	dw sprite.constants_address, DATA_FF0214
+	dw sprite.state, $0000
 	dw sprite.x_speed, $0000
 	dw sprite.max_x_speed, $0000
 	dw sprite.y_speed, $0000
-	dw sprite.unknown_30, $0001
+	dw sprite.interaction_flags, $0001
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_set_alt_palette, $0009
 	dw !initcommand_set_animation, $02E3
@@ -7523,14 +7563,14 @@ DATA_FF65EA:
 DATA_FF6618:
 	dw sprite.number, $006C
 	dw sprite.render_order, $00D4
-	dw sprite.unknown_54, DATA_FF021C
-	dw sprite.unknown_30, $0120
-	dw sprite.action, $0000
+	dw sprite.constants_address, DATA_FF021C
+	dw sprite.interaction_flags, $0120
+	dw sprite.state, $0000
 	dw sprite.x_speed, $0000
 	dw sprite.max_x_speed, $0000
 	dw sprite.y_speed, $0000
 	dw sprite.max_y_speed, $0000
-	dw sprite.unknown_4E, $0001
+	dw sprite.general_purpose_4E, $0001
 	dw sprite.parameter, $0000
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_set_alt_palette, $0008
@@ -7539,8 +7579,8 @@ DATA_FF6618:
 DATA_FF664E:
 	dw !initcommand_load_subconfig, DATA_FF6618
 	dw !initcommand_set_animation, $017E
-	dw sprite.unknown_52, $0010
-	dw sprite.unknown_54, DATA_FF043C
+	dw sprite.movement_state, $0010
+	dw sprite.constants_address, DATA_FF043C
 	dw sprite.unknown_22, DATA_FF6AEC
 	dw !initcommand_success
 
@@ -7548,16 +7588,16 @@ DATA_FF6664:
 	dw !initcommand_load_subconfig, DATA_FF6618
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_set_animation, $017D
-	dw sprite.unknown_52, $0011
-	dw sprite.unknown_54, DATA_FF0450
+	dw sprite.movement_state, $0011
+	dw sprite.constants_address, DATA_FF0450
 	dw sprite.unknown_22, DATA_FF6BAA
 	dw !initcommand_success
 
 DATA_FF667E:
 	dw !initcommand_load_subconfig, DATA_FF6618
 	dw !initcommand_set_animation, $017D
-	dw sprite.unknown_52, $0011
-	dw sprite.unknown_54, DATA_FF0450
+	dw sprite.movement_state, $0011
+	dw sprite.constants_address, DATA_FF0450
 	dw sprite.unknown_22, DATA_FF6BB0
 	dw !initcommand_success
 
@@ -7565,8 +7605,8 @@ DATA_FF6694:
 	dw !initcommand_load_subconfig, DATA_FF6618
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_set_animation, $017D
-	dw sprite.unknown_52, $0011
-	dw sprite.unknown_54, DATA_FF0450
+	dw sprite.movement_state, $0011
+	dw sprite.constants_address, DATA_FF0450
 	dw sprite.unknown_22, DATA_FF6C10
 	dw !initcommand_success
 
@@ -7574,8 +7614,8 @@ DATA_FF66AE:
 	dw !initcommand_load_subconfig, DATA_FF6618
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_set_animation, $017D
-	dw sprite.unknown_52, $0011
-	dw sprite.unknown_54, DATA_FF0450
+	dw sprite.movement_state, $0011
+	dw sprite.constants_address, DATA_FF0450
 	dw sprite.unknown_22, DATA_FF6BB0
 	dw !initcommand_success
 
@@ -7583,17 +7623,17 @@ DATA_FF66C8:
 	dw !initcommand_load_subconfig, DATA_FF6618
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_set_animation, $017D
-	dw sprite.unknown_52, $0011
-	dw sprite.unknown_54, DATA_FF0450
+	dw sprite.movement_state, $0011
+	dw sprite.constants_address, DATA_FF0450
 	dw sprite.unknown_22, DATA_FF6BBC
 	dw !initcommand_success
 
 DATA_FF66E2:
 	dw !initcommand_load_subconfig, DATA_FF6618
 	dw !initcommand_set_animation, $017D
-	dw sprite.unknown_52, $0011
+	dw sprite.movement_state, $0011
 	dw sprite.parameter, $000F
-	dw sprite.unknown_54, DATA_FF0450
+	dw sprite.constants_address, DATA_FF0450
 	dw sprite.unknown_22, DATA_FF6BB6
 	dw !initcommand_success
 
@@ -7601,24 +7641,24 @@ DATA_FF66FC:
 	dw !initcommand_load_subconfig, DATA_FF6618
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_set_animation, $017D
-	dw sprite.unknown_52, $0011
-	dw sprite.unknown_54, DATA_FF0450
+	dw sprite.movement_state, $0011
+	dw sprite.constants_address, DATA_FF0450
 	dw sprite.unknown_22, DATA_FF6BC6
 	dw !initcommand_success
 
 DATA_FF6716:
 	dw !initcommand_load_subconfig, DATA_FF6618
 	dw !initcommand_set_animation, $017D
-	dw sprite.unknown_52, $0011
-	dw sprite.unknown_54, DATA_FF0450
+	dw sprite.movement_state, $0011
+	dw sprite.constants_address, DATA_FF0450
 	dw sprite.unknown_22, DATA_FF6BD0
 	dw !initcommand_success
 
 DATA_FF672C:
 	dw !initcommand_load_subconfig, DATA_FF6618
 	dw !initcommand_set_animation, $017E
-	dw sprite.unknown_52, $0010
-	dw sprite.unknown_54, DATA_FF043C
+	dw sprite.movement_state, $0010
+	dw sprite.constants_address, DATA_FF043C
 	dw sprite.unknown_22, DATA_FF6AF2
 	dw !initcommand_success
 
@@ -7626,17 +7666,17 @@ DATA_FF6742:
 	dw !initcommand_load_subconfig, DATA_FF6618
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_set_animation, $017D
-	dw sprite.unknown_52, $0011
+	dw sprite.movement_state, $0011
 	dw sprite.parameter, $001E
-	dw sprite.unknown_54, DATA_FF0450
+	dw sprite.constants_address, DATA_FF0450
 	dw sprite.unknown_22, DATA_FF6C50
 	dw !initcommand_success
 
 DATA_FF6760:
 	dw !initcommand_load_subconfig, DATA_FF6618
 	dw !initcommand_set_animation, $017E
-	dw sprite.unknown_52, $0010
-	dw sprite.unknown_54, DATA_FF043C
+	dw sprite.movement_state, $0010
+	dw sprite.constants_address, DATA_FF043C
 	dw sprite.unknown_22, DATA_FF6AF8
 	dw !initcommand_success
 
@@ -7644,9 +7684,9 @@ DATA_FF6776:
 	dw !initcommand_load_subconfig, DATA_FF6618
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_set_animation, $017D
-	dw sprite.unknown_52, $0011
+	dw sprite.movement_state, $0011
 	dw sprite.parameter, $003C
-	dw sprite.unknown_54, DATA_FF0450
+	dw sprite.constants_address, DATA_FF0450
 	dw sprite.unknown_22, DATA_FF6C44
 	dw !initcommand_success
 
@@ -7654,27 +7694,27 @@ DATA_FF6794:
 	dw !initcommand_load_subconfig, DATA_FF6618
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_set_animation, $017D
-	dw sprite.unknown_52, $0011
-	dw sprite.unknown_54, DATA_FF0450
+	dw sprite.movement_state, $0011
+	dw sprite.constants_address, DATA_FF0450
 	dw sprite.unknown_22, DATA_FF6BF2
-	dw sprite.unknown_4E, $00F0
+	dw sprite.general_purpose_4E, $00F0
 	dw !initcommand_success
 
 DATA_FF67B2:
 	dw !initcommand_load_subconfig, DATA_FF6618
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_set_animation, $017D
-	dw sprite.unknown_52, $0011
+	dw sprite.movement_state, $0011
 	dw sprite.parameter, $005A
-	dw sprite.unknown_54, DATA_FF0450
+	dw sprite.constants_address, DATA_FF0450
 	dw sprite.unknown_22, DATA_FF6C4A
 	dw !initcommand_success
 
 DATA_FF67D0:
 	dw !initcommand_load_subconfig, DATA_FF6618
 	dw !initcommand_set_animation, $017D
-	dw sprite.unknown_52, $0011
-	dw sprite.unknown_54, DATA_FF0450
+	dw sprite.movement_state, $0011
+	dw sprite.constants_address, DATA_FF0450
 	dw sprite.unknown_22, DATA_FF6C44
 	dw !initcommand_success
 
@@ -7682,9 +7722,9 @@ DATA_FF67E6:
 	dw !initcommand_load_subconfig, DATA_FF6618
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_set_animation, $017D
-	dw sprite.unknown_52, $0011
+	dw sprite.movement_state, $0011
 	dw sprite.parameter, $003C
-	dw sprite.unknown_54, DATA_FF0450
+	dw sprite.constants_address, DATA_FF0450
 	dw sprite.unknown_22, DATA_FF6C38
 	dw !initcommand_success
 
@@ -7692,8 +7732,8 @@ DATA_FF6804:
 	dw !initcommand_load_subconfig, DATA_FF6618
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_set_animation, $017D
-	dw sprite.unknown_52, $0011
-	dw sprite.unknown_54, DATA_FF0450
+	dw sprite.movement_state, $0011
+	dw sprite.constants_address, DATA_FF0450
 	dw sprite.unknown_22, DATA_FF6BFE
 	dw !initcommand_success
 
@@ -7701,8 +7741,8 @@ DATA_FF681E:
 	dw !initcommand_load_subconfig, DATA_FF6618
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_set_animation, $017D
-	dw sprite.unknown_52, $0011
-	dw sprite.unknown_54, DATA_FF0450
+	dw sprite.movement_state, $0011
+	dw sprite.constants_address, DATA_FF0450
 	dw sprite.unknown_22, DATA_FF6C04
 	dw !initcommand_success
 
@@ -7710,9 +7750,9 @@ DATA_FF6838:
 	dw !initcommand_load_subconfig, DATA_FF6618
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_set_animation, $017D
-	dw sprite.unknown_52, $0011
+	dw sprite.movement_state, $0011
 	dw sprite.parameter, $005F
-	dw sprite.unknown_54, DATA_FF0450
+	dw sprite.constants_address, DATA_FF0450
 	dw sprite.unknown_22, DATA_FF6C62
 	dw !initcommand_success
 
@@ -7720,24 +7760,24 @@ DATA_FF6856:
 	dw !initcommand_load_subconfig, DATA_FF6618
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_set_animation, $017D
-	dw sprite.unknown_52, $0011
-	dw sprite.unknown_54, DATA_FF0450
+	dw sprite.movement_state, $0011
+	dw sprite.constants_address, DATA_FF0450
 	dw sprite.unknown_22, DATA_FF6C68
 	dw !initcommand_success
 
 DATA_FF6870:
 	dw !initcommand_load_subconfig, DATA_FF6618
 	dw !initcommand_set_animation, $017E
-	dw sprite.unknown_52, $0010
-	dw sprite.unknown_54, DATA_FF043C
+	dw sprite.movement_state, $0010
+	dw sprite.constants_address, DATA_FF043C
 	dw sprite.unknown_22, DATA_FF6ADE
 	dw !initcommand_success
 
 DATA_FF6886:
 	dw !initcommand_load_subconfig, DATA_FF6618
 	dw !initcommand_set_animation, $017E
-	dw sprite.unknown_52, $0010
-	dw sprite.unknown_54, DATA_FF043C
+	dw sprite.movement_state, $0010
+	dw sprite.constants_address, DATA_FF043C
 	dw sprite.unknown_22, DATA_FF6B06
 	dw !initcommand_success
 
@@ -7745,8 +7785,8 @@ DATA_FF689C:
 	dw !initcommand_load_subconfig, DATA_FF6618
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_set_animation, $017D
-	dw sprite.unknown_52, $0011
-	dw sprite.unknown_54, DATA_FF0450
+	dw sprite.movement_state, $0011
+	dw sprite.constants_address, DATA_FF0450
 	dw sprite.unknown_22, DATA_FF6C1A
 	dw !initcommand_success
 
@@ -7754,17 +7794,17 @@ DATA_FF68B6:
 	dw !initcommand_load_subconfig, DATA_FF6618
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_set_animation, $017D
-	dw sprite.unknown_52, $0011
+	dw sprite.movement_state, $0011
 	dw sprite.parameter, $003C
-	dw sprite.unknown_54, DATA_FF0450
+	dw sprite.constants_address, DATA_FF0450
 	dw sprite.unknown_22, DATA_FF6BE6
 	dw !initcommand_success
 
 DATA_FF68D4:
 	dw !initcommand_load_subconfig, DATA_FF6618
 	dw !initcommand_set_animation, $017E
-	dw sprite.unknown_52, $0010
-	dw sprite.unknown_54, DATA_FF043C
+	dw sprite.movement_state, $0010
+	dw sprite.constants_address, DATA_FF043C
 	dw sprite.unknown_22, DATA_FF6B14
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
@@ -7772,25 +7812,25 @@ DATA_FF68D4:
 DATA_FF68EE:
 	dw !initcommand_load_subconfig, DATA_FF6618
 	dw !initcommand_set_animation, $017E
-	dw sprite.unknown_52, $0010
+	dw sprite.movement_state, $0010
 	dw sprite.parameter, $004B
-	dw sprite.unknown_54, DATA_FF043C
+	dw sprite.constants_address, DATA_FF043C
 	dw sprite.unknown_22, DATA_FF6B14
 	dw !initcommand_success
 
 DATA_FF6908:
 	dw !initcommand_load_subconfig, DATA_FF6618
 	dw !initcommand_set_animation, $017D
-	dw sprite.unknown_52, $0011
-	dw sprite.unknown_54, DATA_FF0450
+	dw sprite.movement_state, $0011
+	dw sprite.constants_address, DATA_FF0450
 	dw sprite.unknown_22, DATA_FF6C20
 	dw !initcommand_success
 
 DATA_FF691E:
 	dw !initcommand_load_subconfig, DATA_FF6618
 	dw !initcommand_set_animation, $017D
-	dw sprite.unknown_52, $0011
-	dw sprite.unknown_54, DATA_FF0450
+	dw sprite.movement_state, $0011
+	dw sprite.constants_address, DATA_FF0450
 	dw sprite.unknown_22, DATA_FF6C5C
 	dw !initcommand_success
 
@@ -7798,8 +7838,8 @@ DATA_FF6934:
 	dw !initcommand_load_subconfig, DATA_FF6618
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_set_animation, $017D
-	dw sprite.unknown_52, $0011
-	dw sprite.unknown_54, DATA_FF0450
+	dw sprite.movement_state, $0011
+	dw sprite.constants_address, DATA_FF0450
 	dw sprite.unknown_22, DATA_FF6C26
 	dw !initcommand_success
 
@@ -7807,27 +7847,27 @@ DATA_FF694E:
 	dw !initcommand_load_subconfig, DATA_FF6618
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_set_animation, $017D
-	dw sprite.unknown_52, $0011
+	dw sprite.movement_state, $0011
 	dw sprite.parameter, $003C
-	dw sprite.unknown_54, DATA_FF0450
+	dw sprite.constants_address, DATA_FF0450
 	dw sprite.unknown_22, DATA_FF6C2C
 	dw !initcommand_success
 
 DATA_FF696C:
 	dw !initcommand_load_subconfig, DATA_FF6618
 	dw !initcommand_set_animation, $017D
-	dw sprite.unknown_52, $0011
+	dw sprite.movement_state, $0011
 	dw sprite.parameter, $003C
-	dw sprite.unknown_54, DATA_FF0450
+	dw sprite.constants_address, DATA_FF0450
 	dw sprite.unknown_22, DATA_FF6C32
 	dw !initcommand_success
 
 DATA_FF6986:
 	dw !initcommand_load_subconfig, DATA_FF6618
 	dw !initcommand_set_animation, $017D
-	dw sprite.unknown_52, $0011
+	dw sprite.movement_state, $0011
 	dw sprite.parameter, $0032
-	dw sprite.unknown_54, DATA_FF0450
+	dw sprite.constants_address, DATA_FF0450
 	dw sprite.unknown_22, DATA_FF6BB0
 	dw !initcommand_success
 
@@ -7835,8 +7875,8 @@ DATA_FF69A0:
 	dw !initcommand_load_subconfig, DATA_FF6618
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_set_animation, $017D
-	dw sprite.unknown_52, $0011
-	dw sprite.unknown_54, DATA_FF0450
+	dw sprite.movement_state, $0011
+	dw sprite.constants_address, DATA_FF0450
 	dw sprite.unknown_22, DATA_FF6C76
 	dw !initcommand_success
 
@@ -7844,16 +7884,16 @@ DATA_FF69BA:
 	dw !initcommand_load_subconfig, DATA_FF6618
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_set_animation, $017D
-	dw sprite.unknown_52, $0011
-	dw sprite.unknown_54, DATA_FF0450
+	dw sprite.movement_state, $0011
+	dw sprite.constants_address, DATA_FF0450
 	dw sprite.unknown_22, DATA_FF6C56
 	dw !initcommand_success
 
 DATA_FF69D4:
 	dw !initcommand_load_subconfig, DATA_FF6618
 	dw !initcommand_set_animation, $017E
-	dw sprite.unknown_52, $0010
-	dw sprite.unknown_54, DATA_FF043C
+	dw sprite.movement_state, $0010
+	dw sprite.constants_address, DATA_FF043C
 	dw sprite.unknown_22, DATA_FF6B1A
 	dw !initcommand_success
 
@@ -7861,24 +7901,24 @@ DATA_FF69EA:
 	dw !initcommand_load_subconfig, DATA_FF6618
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_set_animation, $017D
-	dw sprite.unknown_52, $0011
-	dw sprite.unknown_54, DATA_FF0450
+	dw sprite.movement_state, $0011
+	dw sprite.constants_address, DATA_FF0450
 	dw sprite.unknown_22, DATA_FF6C3E
 	dw !initcommand_success
 
 DATA_FF6A04:
 	dw !initcommand_load_subconfig, DATA_FF6618
 	dw !initcommand_set_animation, $017D
-	dw sprite.unknown_52, $0011
-	dw sprite.unknown_54, DATA_FF0450
+	dw sprite.movement_state, $0011
+	dw sprite.constants_address, DATA_FF0450
 	dw sprite.unknown_22, DATA_FF6C7C
 	dw !initcommand_success
 
 DATA_FF6A1A:
 	dw !initcommand_load_subconfig, DATA_FF6618
 	dw !initcommand_set_animation, $017E
-	dw sprite.unknown_52, $0010
-	dw sprite.unknown_54, DATA_FF043C
+	dw sprite.movement_state, $0010
+	dw sprite.constants_address, DATA_FF043C
 	dw sprite.unknown_22, DATA_FF6AF8
 	dw !initcommand_success
 
@@ -7886,16 +7926,16 @@ DATA_FF6A30:
 	dw !initcommand_load_subconfig, DATA_FF6618
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_set_animation, $017D
-	dw sprite.unknown_52, $0011
-	dw sprite.unknown_54, DATA_FF0450
+	dw sprite.movement_state, $0011
+	dw sprite.constants_address, DATA_FF0450
 	dw sprite.unknown_22, DATA_FF6C82
 	dw !initcommand_success
 
 DATA_FF6A4A:
 	dw !initcommand_load_subconfig, DATA_FF6618
 	dw !initcommand_set_animation, $017D
-	dw sprite.unknown_52, $0011
-	dw sprite.unknown_54, DATA_FF0450
+	dw sprite.movement_state, $0011
+	dw sprite.constants_address, DATA_FF0450
 	dw sprite.unknown_22, DATA_FF6BF8
 	dw !initcommand_success
 
@@ -7903,8 +7943,8 @@ DATA_FF6A60:
 	dw !initcommand_load_subconfig, DATA_FF6618
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_set_animation, $017D
-	dw sprite.unknown_52, $0011
-	dw sprite.unknown_54, DATA_FF0450
+	dw sprite.movement_state, $0011
+	dw sprite.constants_address, DATA_FF0450
 	dw sprite.unknown_22, DATA_FF6C20
 	dw !initcommand_success
 
@@ -7912,9 +7952,9 @@ DATA_FF6A7A:
 	dw !initcommand_load_subconfig, DATA_FF6618
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_set_animation, $017D
-	dw sprite.unknown_52, $0011
+	dw sprite.movement_state, $0011
 	dw sprite.parameter, $003C
-	dw sprite.unknown_54, DATA_FF0450
+	dw sprite.constants_address, DATA_FF0450
 	dw sprite.unknown_22, DATA_FF6C88
 	dw !initcommand_success
 
@@ -8133,12 +8173,12 @@ DATA_FF6C88:
 DATA_FF6C8E:
 	dw sprite.number, $01A0
 	dw sprite.render_order, $00D0
-	dw sprite.unknown_54, DATA_FF0258
-	dw sprite.unknown_42, $0000
-	dw sprite.action, $0008
+	dw sprite.constants_address, DATA_FF0258
+	dw sprite.general_purpose_42, $0000
+	dw sprite.state, $0008
 	dw sprite.x_speed, $0000
 	dw sprite.y_speed, $0000
-	dw sprite.unknown_30, $0000
+	dw sprite.interaction_flags, $0000
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_set_alt_palette, $0060
 	dw !initcommand_set_animation, $014B
@@ -8147,12 +8187,12 @@ DATA_FF6C8E:
 DATA_FF6CBC:
 	dw sprite.number, $019C
 	dw sprite.render_order, $00D0
-	dw sprite.unknown_54, DATA_FF024A
-	dw sprite.unknown_42, $0000
-	dw sprite.action, $0008
+	dw sprite.constants_address, DATA_FF024A
+	dw sprite.general_purpose_42, $0000
+	dw sprite.state, $0008
 	dw sprite.x_speed, $0000
 	dw sprite.y_speed, $0000
-	dw sprite.unknown_30, $0000
+	dw sprite.interaction_flags, $0000
 	dw !initcommand_set_alt_palette, $0043
 	dw !initcommand_set_animation, $014A
 	dw !initcommand_success
@@ -8170,12 +8210,12 @@ DATA_FF6CF0:
 DATA_FF6CFA:
 	dw sprite.number, $0194
 	dw sprite.render_order, $00D0
-	dw sprite.unknown_54, DATA_FF0234
-	dw sprite.unknown_42, $0000
-	dw sprite.action, $0008
+	dw sprite.constants_address, DATA_FF0234
+	dw sprite.general_purpose_42, $0000
+	dw sprite.state, $0008
 	dw sprite.x_speed, $0000
 	dw sprite.y_speed, $0000
-	dw sprite.unknown_30, $0000
+	dw sprite.interaction_flags, $0000
 	dw !initcommand_set_alt_palette, $000D
 	dw !initcommand_set_animation, $0148
 	dw !initcommand_success
@@ -8193,12 +8233,12 @@ DATA_FF6D2E:
 DATA_FF6D38:
 	dw sprite.number, $0190
 	dw sprite.render_order, $00D0
-	dw sprite.unknown_54, DATA_FF022C
-	dw sprite.unknown_42, $0000
-	dw sprite.action, $0008
+	dw sprite.constants_address, DATA_FF022C
+	dw sprite.general_purpose_42, $0000
+	dw sprite.state, $0008
 	dw sprite.x_speed, $0000
 	dw sprite.y_speed, $0000
-	dw sprite.unknown_30, $0000
+	dw sprite.interaction_flags, $0000
 	dw !initcommand_set_alt_palette, $0005
 	dw !initcommand_set_animation, $0147
 	dw !initcommand_success
@@ -8216,12 +8256,12 @@ DATA_FF6D6C:
 DATA_FF6D76:
 	dw sprite.number, $0198
 	dw sprite.render_order, $00D0
-	dw sprite.unknown_54, DATA_FF023C
-	dw sprite.unknown_42, $0000
-	dw sprite.action, $0008
+	dw sprite.constants_address, DATA_FF023C
+	dw sprite.general_purpose_42, $0000
+	dw sprite.state, $0008
 	dw sprite.x_speed, $0000
 	dw sprite.y_speed, $0000
-	dw sprite.unknown_30, $0000
+	dw sprite.interaction_flags, $0000
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_set_animation, $0149
 	dw !initcommand_success
@@ -8234,7 +8274,7 @@ DATA_FF6DA0:
 DATA_FF6DAA:
 	dw !initcommand_load_subconfig, DATA_FF6D76
 	dw !initcommand_set_alt_palette, $000F
-	dw sprite.unknown_4A, $0000
+	dw sprite.general_purpose_4A, $0000
 	dw !initcommand_success
 
 DATA_FF6DB8:
@@ -8248,80 +8288,80 @@ DATA_FF6DBE:
 
 DATA_FF6DC8:
 	dw !initcommand_load_subconfig, DATA_FF6DA0
-	dw sprite.unknown_4A, $0001
-	dw sprite.unknown_4C, $0440
+	dw sprite.general_purpose_4A, $0001
+	dw sprite.general_purpose_4C, $0440
 	dw !initcommand_success
 
 DATA_FF6DD6:
 	dw !initcommand_load_subconfig, DATA_FF6DA0
-	dw sprite.unknown_4A, $0001
-	dw sprite.unknown_4C, $0760
+	dw sprite.general_purpose_4A, $0001
+	dw sprite.general_purpose_4C, $0760
 	dw !initcommand_success
 
 DATA_FF6DE4:
 	dw !initcommand_load_subconfig, DATA_FF6DA0
-	dw sprite.unknown_4A, $0001
-	dw sprite.unknown_4C, $0B90
+	dw sprite.general_purpose_4A, $0001
+	dw sprite.general_purpose_4C, $0B90
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FF6DF6:
 	dw !initcommand_load_subconfig, DATA_FF6DA0
-	dw sprite.unknown_4A, $0001
-	dw sprite.unknown_4C, $1140
+	dw sprite.general_purpose_4A, $0001
+	dw sprite.general_purpose_4C, $1140
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FF6E08:
 	dw !initcommand_load_subconfig, DATA_FF6DA0
-	dw sprite.unknown_4A, $0001
-	dw sprite.unknown_4C, $1700
+	dw sprite.general_purpose_4A, $0001
+	dw sprite.general_purpose_4C, $1700
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FF6E1A:
 	dw !initcommand_load_subconfig, DATA_FF6DA0
-	dw sprite.unknown_4A, $0001
-	dw sprite.unknown_4C, $1BD8
+	dw sprite.general_purpose_4A, $0001
+	dw sprite.general_purpose_4C, $1BD8
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FF6E2C:
 	dw !initcommand_load_subconfig, DATA_FF6DA0
-	dw sprite.unknown_4A, $0001
-	dw sprite.unknown_4C, $1DC8
+	dw sprite.general_purpose_4A, $0001
+	dw sprite.general_purpose_4C, $1DC8
 	dw !initcommand_success
 
 DATA_FF6E3A:
 	dw !initcommand_load_subconfig, DATA_FF6DA0
-	dw sprite.unknown_4A, $0001
-	dw sprite.unknown_4C, $2610
+	dw sprite.general_purpose_4A, $0001
+	dw sprite.general_purpose_4C, $2610
 	dw !initcommand_success
 
 DATA_FF6E48:
 	dw !initcommand_load_subconfig, DATA_FF6DA0
-	dw sprite.unknown_4A, $0001
-	dw sprite.unknown_4C, $2BB0
+	dw sprite.general_purpose_4A, $0001
+	dw sprite.general_purpose_4C, $2BB0
 	dw !initcommand_success
 
 DATA_FF6E56:
 	dw !initcommand_load_subconfig, DATA_FF6DA0
-	dw sprite.unknown_4A, $0001
-	dw sprite.unknown_4C, $3270
+	dw sprite.general_purpose_4A, $0001
+	dw sprite.general_purpose_4C, $3270
 	dw !initcommand_success
 
 DATA_FF6E64:
 	dw sprite.number, $020C
 	dw sprite.render_order, $00D4
-	dw sprite.unknown_54, DATA_FF035E
-	dw sprite.action, $0000
+	dw sprite.constants_address, DATA_FF035E
+	dw sprite.state, $0000
 	dw sprite.x_speed, $0000
 	dw sprite.max_x_speed, $FF40
 	dw sprite.max_y_speed, $0040
-	dw sprite.unknown_4A, $0202
-	dw sprite.unknown_52, $0007
+	dw sprite.general_purpose_4A, $0202
+	dw sprite.movement_state, $0007
 	dw sprite.y_speed, $0000
-	dw sprite.unknown_30, $0020
+	dw sprite.interaction_flags, $0020
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_set_alt_palette, $000E
 	dw !initcommand_set_animation, $0177
@@ -8329,156 +8369,156 @@ DATA_FF6E64:
 
 DATA_FF6E9E:
 	dw !initcommand_load_subconfig, DATA_FF6E64
-	dw sprite.unknown_46, $3030
+	dw sprite.general_purpose_46, $3030
 	dw !initcommand_success
 
 DATA_FF6EA8:
 	dw !initcommand_load_subconfig, DATA_FF6E64
-	dw sprite.unknown_46, $5050
+	dw sprite.general_purpose_46, $5050
 	dw !initcommand_success
 
 DATA_FF6EB2:
 	dw !initcommand_load_subconfig, DATA_FF6E64
-	dw sprite.unknown_46, $1818
+	dw sprite.general_purpose_46, $1818
 	dw !initcommand_success
 
 DATA_FF6EBC:
 	dw !initcommand_load_subconfig, DATA_FF6E64
-	dw sprite.unknown_46, $4040
+	dw sprite.general_purpose_46, $4040
 	dw !initcommand_success
 
 DATA_FF6EC6:
 	dw !initcommand_load_subconfig, DATA_FF6E64
-	dw sprite.unknown_46, $3030
+	dw sprite.general_purpose_46, $3030
 	dw sprite.max_x_speed, $00C0
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_success
 
 DATA_FF6ED8:
 	dw !initcommand_load_subconfig, DATA_FF6E64
-	dw sprite.unknown_46, $6060
+	dw sprite.general_purpose_46, $6060
 	dw sprite.max_x_speed, $FEE0
 	dw !initcommand_success
 
 DATA_FF6EE6:
 	dw !initcommand_load_subconfig, DATA_FF6E64
-	dw sprite.unknown_46, $5050
+	dw sprite.general_purpose_46, $5050
 	dw sprite.max_x_speed, $00C0
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_success
 
 DATA_FF6EF8:
 	dw !initcommand_load_subconfig, DATA_FF6E64
-	dw sprite.unknown_46, $5858
+	dw sprite.general_purpose_46, $5858
 	dw sprite.max_x_speed, $FEE0
 	dw !initcommand_success
 
 DATA_FF6F06:
 	dw !initcommand_load_subconfig, DATA_FF6E64
-	dw sprite.unknown_46, $4040
+	dw sprite.general_purpose_46, $4040
 	dw sprite.max_x_speed, $00C0
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_success
 
 DATA_FF6F18:
 	dw !initcommand_load_subconfig, DATA_FF6E64
-	dw sprite.unknown_46, $6060
+	dw sprite.general_purpose_46, $6060
 	dw sprite.max_x_speed, $0100
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_success
 
 DATA_FF6F2A:
 	dw !initcommand_load_subconfig, DATA_FF6E64
-	dw sprite.unknown_46, $6060
+	dw sprite.general_purpose_46, $6060
 	dw sprite.max_x_speed, $FF00
 	dw !initcommand_success
 
 DATA_FF6F38:
 	dw !initcommand_load_subconfig, DATA_FF6E64
-	dw sprite.unknown_54, DATA_FF0382
-	dw sprite.unknown_46, $5050
+	dw sprite.constants_address, DATA_FF0382
+	dw sprite.general_purpose_46, $5050
 	dw !initcommand_success
 
 DATA_FF6F46:
 	dw !initcommand_load_subconfig, DATA_FF6E64
-	dw sprite.unknown_54, DATA_FF0370
-	dw sprite.unknown_46, $1818
+	dw sprite.constants_address, DATA_FF0370
+	dw sprite.general_purpose_46, $1818
 	dw !initcommand_success
 
 DATA_FF6F54:
 	dw !initcommand_load_subconfig, DATA_FF6E64
-	dw sprite.unknown_54, DATA_FF0394
-	dw sprite.unknown_46, $5050
+	dw sprite.constants_address, DATA_FF0394
+	dw sprite.general_purpose_46, $5050
 	dw sprite.max_x_speed, $FF20
 	dw !initcommand_success
 
 DATA_FF6F66:
 	dw !initcommand_load_subconfig, DATA_FF6E64
-	dw sprite.unknown_54, DATA_FF0394
-	dw sprite.unknown_46, $5050
+	dw sprite.constants_address, DATA_FF0394
+	dw sprite.general_purpose_46, $5050
 	dw sprite.max_x_speed, $00E0
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_success
 
 DATA_FF6F7C:
 	dw !initcommand_load_subconfig, DATA_FF6E64
-	dw sprite.unknown_46, $3030
-	dw sprite.unknown_54, DATA_FF03A6
+	dw sprite.general_purpose_46, $3030
+	dw sprite.constants_address, DATA_FF03A6
 	dw !initcommand_success
 
 DATA_FF6F8A:
 	dw !initcommand_load_subconfig, DATA_FF6E64
-	dw sprite.unknown_46, $2020
-	dw sprite.unknown_54, DATA_FF03A6
+	dw sprite.general_purpose_46, $2020
+	dw sprite.constants_address, DATA_FF03A6
 	dw !initcommand_success
 
 DATA_FF6F98:
 	dw !initcommand_load_subconfig, DATA_FF6E64
-	dw sprite.unknown_46, $3030
-	dw sprite.unknown_54, DATA_FF03B8
+	dw sprite.general_purpose_46, $3030
+	dw sprite.constants_address, DATA_FF03B8
 	dw !initcommand_success
 
 DATA_FF6FA6:
 	dw !initcommand_load_subconfig, DATA_FF6E64
-	dw sprite.unknown_46, $4040
-	dw sprite.unknown_54, DATA_FF03B8
+	dw sprite.general_purpose_46, $4040
+	dw sprite.constants_address, DATA_FF03B8
 	dw !initcommand_success
 
 DATA_FF6FB4:
 	dw !initcommand_load_subconfig, DATA_FF6E64
-	dw sprite.unknown_46, $3030
-	dw sprite.unknown_54, DATA_FF03CA
+	dw sprite.general_purpose_46, $3030
+	dw sprite.constants_address, DATA_FF03CA
 	dw !initcommand_success
 
 DATA_FF6FC2:
 	dw !initcommand_load_subconfig, DATA_FF6E64
-	dw sprite.unknown_46, $1818
-	dw sprite.unknown_54, DATA_FF03CA
+	dw sprite.general_purpose_46, $1818
+	dw sprite.constants_address, DATA_FF03CA
 	dw !initcommand_success
 
 DATA_FF6FD0:
 	dw !initcommand_load_subconfig, DATA_FF6E64
-	dw sprite.unknown_46, $4040
-	dw sprite.unknown_54, DATA_FF03CA
+	dw sprite.general_purpose_46, $4040
+	dw sprite.constants_address, DATA_FF03CA
 	dw !initcommand_success
 
 DATA_FF6FDE:
 	dw !initcommand_load_subconfig, DATA_FF6E64
-	dw sprite.unknown_46, $3030
+	dw sprite.general_purpose_46, $3030
 	dw sprite.max_x_speed, $00C0
-	dw sprite.unknown_54, DATA_FF03CA
+	dw sprite.constants_address, DATA_FF03CA
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_success
 
 DATA_FF6FF4:
 	dw sprite.number, $0210
 	dw sprite.render_order, $00EC
-	dw sprite.action, $0004
-	dw sprite.unknown_52, $0007
-	dw sprite.unknown_30, $0000
+	dw sprite.state, $0004
+	dw sprite.movement_state, $0007
+	dw sprite.interaction_flags, $0000
 	dw sprite.y_speed, $0000
 	dw sprite.max_y_speed, $0040
-	dw sprite.unknown_4A, $0202
+	dw sprite.general_purpose_4A, $0202
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_set_alt_palette, $00B2
 	dw !initcommand_set_animation, $0177
@@ -8486,49 +8526,49 @@ DATA_FF6FF4:
 
 DATA_FF7022:
 	dw !initcommand_load_subconfig, DATA_FF6FF4
-	dw sprite.unknown_54, DATA_FF03DC
+	dw sprite.constants_address, DATA_FF03DC
 	dw sprite.unknown_5C, $0000
 	dw !initcommand_success
 
 DATA_FF7030:
 	dw !initcommand_load_subconfig, DATA_FF6FF4
-	dw sprite.unknown_54, DATA_FF03FA
+	dw sprite.constants_address, DATA_FF03FA
 	dw sprite.unknown_5C, $FFFF
 	dw !initcommand_success
 
 DATA_FF703E:
 	dw !initcommand_load_subconfig, DATA_FF6FF4
-	dw sprite.unknown_54, DATA_FF03DC
+	dw sprite.constants_address, DATA_FF03DC
 	dw sprite.unknown_5C, $0202
 	dw !initcommand_success
 
 DATA_FF704C:
 	dw !initcommand_load_subconfig, DATA_FF6FF4
-	dw sprite.unknown_54, DATA_FF0418
+	dw sprite.constants_address, DATA_FF0418
 	dw sprite.unknown_5C, $0000
 	dw !initcommand_success
 
 DATA_FF705A:
 	dw !initcommand_load_subconfig, DATA_FF6FF4
-	dw sprite.unknown_54, DATA_FF0418
+	dw sprite.constants_address, DATA_FF0418
 	dw sprite.unknown_5C, $0102
 	dw !initcommand_success
 
 DATA_FF7068:
 	dw !initcommand_load_subconfig, DATA_FF6FF4
-	dw sprite.unknown_54, DATA_FF0418
+	dw sprite.constants_address, DATA_FF0418
 	dw sprite.unknown_5C, $0303
 	dw !initcommand_success
 
 DATA_FF7076:
 	dw sprite.number, $021C
 	dw sprite.render_order, $00D4
-	dw sprite.unknown_54, DATA_FF0436
-	dw sprite.unknown_30, $0120
+	dw sprite.constants_address, DATA_FF0436
+	dw sprite.interaction_flags, $0120
 	dw sprite.max_x_speed, $0000
 	dw sprite.x_speed, $0000
 	dw sprite.y_speed, $0000
-	dw sprite.unknown_52, $0025
+	dw sprite.movement_state, $0025
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_set_alt_palette, $002F
 	dw !initcommand_set_animation, $0191
@@ -8537,20 +8577,20 @@ DATA_FF7076:
 DATA_FF70A4:
 	dw sprite.number, $021C
 	dw sprite.render_order, $00D4
-	dw sprite.unknown_54, DATA_FF0436
-	dw sprite.unknown_30, $0120
+	dw sprite.constants_address, DATA_FF0436
+	dw sprite.interaction_flags, $0120
 	dw sprite.max_x_speed, $0000
 	dw sprite.x_speed, $0000
 	dw sprite.y_speed, $0000
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_set_alt_palette, $004D
 	dw !initcommand_set_animation, $0190
-	dw sprite.unknown_52, $0025
+	dw sprite.movement_state, $0025
 	dw !initcommand_success
 
 DATA_FF70D2:
 	dw !initcommand_load_subconfig, DATA_FF7076
-	dw sprite.action, $0000
+	dw sprite.state, $0000
 	dw sprite.parameter, $0000
 	dw sprite.max_y_speed, $F940
 	dw sprite.unknown_22, $0044
@@ -8558,7 +8598,7 @@ DATA_FF70D2:
 
 DATA_FF70E8:
 	dw !initcommand_load_subconfig, DATA_FF7076
-	dw sprite.action, $0000
+	dw sprite.state, $0000
 	dw sprite.parameter, $0000
 	dw sprite.max_y_speed, $FAC0
 	dw sprite.unknown_22, $003C
@@ -8566,7 +8606,7 @@ DATA_FF70E8:
 
 DATA_FF70FE:
 	dw !initcommand_load_subconfig, DATA_FF7076
-	dw sprite.action, $0000
+	dw sprite.state, $0000
 	dw sprite.parameter, $0000
 	dw sprite.max_y_speed, $FAC0
 	dw sprite.unknown_22, $003C
@@ -8575,7 +8615,7 @@ DATA_FF70FE:
 
 DATA_FF7118:
 	dw !initcommand_load_subconfig, DATA_FF7076
-	dw sprite.action, $0000
+	dw sprite.state, $0000
 	dw sprite.parameter, $0000
 	dw sprite.max_y_speed, $F940
 	dw sprite.unknown_22, $0044
@@ -8584,7 +8624,7 @@ DATA_FF7118:
 
 DATA_FF7132:
 	dw !initcommand_load_subconfig, DATA_FF7076
-	dw sprite.action, $0000
+	dw sprite.state, $0000
 	dw sprite.parameter, $0000
 	dw sprite.max_y_speed, $F800
 	dw sprite.unknown_22, $0048
@@ -8593,7 +8633,7 @@ DATA_FF7132:
 
 DATA_FF714C:
 	dw !initcommand_load_subconfig, DATA_FF7076
-	dw sprite.action, $0000
+	dw sprite.state, $0000
 	dw sprite.parameter, $0000
 	dw sprite.max_y_speed, $F800
 	dw sprite.unknown_22, $0048
@@ -8601,7 +8641,7 @@ DATA_FF714C:
 
 DATA_FF7162:
 	dw !initcommand_load_subconfig, DATA_FF7076
-	dw sprite.action, $0000
+	dw sprite.state, $0000
 	dw sprite.parameter, $0000
 	dw sprite.max_y_speed, $F700
 	dw sprite.unknown_22, $0048
@@ -8609,7 +8649,7 @@ DATA_FF7162:
 
 DATA_FF7178:
 	dw !initcommand_load_subconfig, DATA_FF7076
-	dw sprite.action, $0000
+	dw sprite.state, $0000
 	dw sprite.parameter, $FF00
 	dw sprite.max_y_speed, $F940
 	dw sprite.unknown_22, $0044
@@ -8618,7 +8658,7 @@ DATA_FF7178:
 
 DATA_FF7192:
 	dw !initcommand_load_subconfig, DATA_FF7076
-	dw sprite.action, $0000
+	dw sprite.state, $0000
 	dw sprite.parameter, $FF00
 	dw sprite.max_y_speed, $F820
 	dw sprite.unknown_22, $0048
@@ -8627,7 +8667,7 @@ DATA_FF7192:
 
 DATA_FF71AC:
 	dw !initcommand_load_subconfig, DATA_FF7076
-	dw sprite.action, $0000
+	dw sprite.state, $0000
 	dw sprite.parameter, $FF00
 	dw sprite.max_y_speed, $F700
 	dw sprite.unknown_22, $004C
@@ -8636,7 +8676,7 @@ DATA_FF71AC:
 
 DATA_FF71C6:
 	dw !initcommand_load_subconfig, DATA_FF7076
-	dw sprite.action, $0000
+	dw sprite.state, $0000
 	dw sprite.parameter, $FEB0
 	dw sprite.max_y_speed, $FB80
 	dw sprite.unknown_22, $0048
@@ -8645,7 +8685,7 @@ DATA_FF71C6:
 
 DATA_FF71E0:
 	dw !initcommand_load_subconfig, DATA_FF7076
-	dw sprite.action, $0000
+	dw sprite.state, $0000
 	dw sprite.parameter, $FEB0
 	dw sprite.max_y_speed, $FAC0
 	dw sprite.unknown_22, $0048
@@ -8654,7 +8694,7 @@ DATA_FF71E0:
 
 DATA_FF71FA:
 	dw !initcommand_load_subconfig, DATA_FF7076
-	dw sprite.action, $0000
+	dw sprite.state, $0000
 	dw sprite.parameter, $0120
 	dw sprite.max_y_speed, $FB80
 	dw sprite.unknown_22, $0048
@@ -8662,7 +8702,7 @@ DATA_FF71FA:
 
 DATA_FF7210:
 	dw !initcommand_load_subconfig, DATA_FF7076
-	dw sprite.action, $0000
+	dw sprite.state, $0000
 	dw sprite.parameter, $0100
 	dw sprite.max_y_speed, $F700
 	dw sprite.unknown_22, $004C
@@ -8670,94 +8710,94 @@ DATA_FF7210:
 
 DATA_FF7226:
 	dw !initcommand_load_subconfig, DATA_FF7076
-	dw sprite.action, $0001
-	dw sprite.unknown_42, $0000
-	dw sprite.unknown_44, $FD00
-	dw sprite.unknown_46, $0038
-	dw sprite.unknown_48, $0000
-	dw sprite.unknown_4A, $F700
-	dw sprite.unknown_4C, $0050
+	dw sprite.state, $0001
+	dw sprite.general_purpose_42, $0000
+	dw sprite.general_purpose_44, $FD00
+	dw sprite.general_purpose_46, $0038
+	dw sprite.general_purpose_48, $0000
+	dw sprite.general_purpose_4A, $F700
+	dw sprite.general_purpose_4C, $0050
 	dw sprite.unknown_1C, $0201
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FF7250:
 	dw !initcommand_load_subconfig, DATA_FF7076
-	dw sprite.action, $0001
-	dw sprite.unknown_42, $0000
-	dw sprite.unknown_44, $F700
-	dw sprite.unknown_46, $0050
-	dw sprite.unknown_48, $0000
-	dw sprite.unknown_4A, $FD00
-	dw sprite.unknown_4C, $0038
+	dw sprite.state, $0001
+	dw sprite.general_purpose_42, $0000
+	dw sprite.general_purpose_44, $F700
+	dw sprite.general_purpose_46, $0050
+	dw sprite.general_purpose_48, $0000
+	dw sprite.general_purpose_4A, $FD00
+	dw sprite.general_purpose_4C, $0038
 	dw sprite.unknown_1C, $0201
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FF727A:
 	dw !initcommand_load_subconfig, DATA_FF7076
-	dw sprite.action, $0001
-	dw sprite.unknown_42, $0000
-	dw sprite.unknown_44, $FD00
-	dw sprite.unknown_46, $0038
-	dw sprite.unknown_48, $0000
-	dw sprite.unknown_4A, $F940
-	dw sprite.unknown_4C, $0044
+	dw sprite.state, $0001
+	dw sprite.general_purpose_42, $0000
+	dw sprite.general_purpose_44, $FD00
+	dw sprite.general_purpose_46, $0038
+	dw sprite.general_purpose_48, $0000
+	dw sprite.general_purpose_4A, $F940
+	dw sprite.general_purpose_4C, $0044
 	dw sprite.unknown_1C, $0101
 	dw !initcommand_success
 
 DATA_FF72A0:
 	dw !initcommand_load_subconfig, DATA_FF7076
-	dw sprite.action, $0001
-	dw sprite.unknown_42, $0000
-	dw sprite.unknown_44, $FD00
-	dw sprite.unknown_46, $0038
-	dw sprite.unknown_48, $0000
-	dw sprite.unknown_4A, $FAC0
-	dw sprite.unknown_4C, $003C
+	dw sprite.state, $0001
+	dw sprite.general_purpose_42, $0000
+	dw sprite.general_purpose_44, $FD00
+	dw sprite.general_purpose_46, $0038
+	dw sprite.general_purpose_48, $0000
+	dw sprite.general_purpose_4A, $FAC0
+	dw sprite.general_purpose_4C, $003C
 	dw sprite.unknown_1C, $0101
 	dw !initcommand_success
 
 DATA_FF72C6:
 	dw !initcommand_load_subconfig, DATA_FF7076
-	dw sprite.action, $0001
-	dw sprite.unknown_42, $0000
-	dw sprite.unknown_44, $FD00
-	dw sprite.unknown_46, $0038
-	dw sprite.unknown_48, $0000
-	dw sprite.unknown_4A, $F800
-	dw sprite.unknown_4C, $0048
+	dw sprite.state, $0001
+	dw sprite.general_purpose_42, $0000
+	dw sprite.general_purpose_44, $FD00
+	dw sprite.general_purpose_46, $0038
+	dw sprite.general_purpose_48, $0000
+	dw sprite.general_purpose_4A, $F800
+	dw sprite.general_purpose_4C, $0048
 	dw sprite.unknown_1C, $0101
 	dw !initcommand_success
 
 DATA_FF72EC:
 	dw !initcommand_load_subconfig, DATA_FF7076
-	dw sprite.action, $0001
-	dw sprite.unknown_42, $FD40
-	dw sprite.unknown_44, $F780
-	dw sprite.unknown_46, $003E
-	dw sprite.unknown_48, $02C0
-	dw sprite.unknown_4A, $F780
-	dw sprite.unknown_4C, $003E
+	dw sprite.state, $0001
+	dw sprite.general_purpose_42, $FD40
+	dw sprite.general_purpose_44, $F780
+	dw sprite.general_purpose_46, $003E
+	dw sprite.general_purpose_48, $02C0
+	dw sprite.general_purpose_4A, $F780
+	dw sprite.general_purpose_4C, $003E
 	dw sprite.unknown_1C, $0101
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FF7316:
 	dw !initcommand_load_subconfig, DATA_FF7076
-	dw sprite.action, $0001
-	dw sprite.unknown_42, $FEC0
-	dw sprite.unknown_44, $FB00
-	dw sprite.unknown_46, $0048
-	dw sprite.unknown_48, $0140
-	dw sprite.unknown_4A, $FB00
-	dw sprite.unknown_4C, $0048
+	dw sprite.state, $0001
+	dw sprite.general_purpose_42, $FEC0
+	dw sprite.general_purpose_44, $FB00
+	dw sprite.general_purpose_46, $0048
+	dw sprite.general_purpose_48, $0140
+	dw sprite.general_purpose_4A, $FB00
+	dw sprite.general_purpose_4C, $0048
 	dw sprite.unknown_1C, $0101
 	dw !initcommand_success
 
 DATA_FF733C:
 	dw !initcommand_load_subconfig, DATA_FF70A4
-	dw sprite.action, $0000
+	dw sprite.state, $0000
 	dw sprite.parameter, $FF00
 	dw sprite.max_y_speed, $F800
 	dw sprite.unknown_22, $0048
@@ -8766,28 +8806,28 @@ DATA_FF733C:
 
 DATA_FF7356:
 	dw !initcommand_load_subconfig, DATA_FF70A4
-	dw sprite.action, $0000
+	dw sprite.state, $0000
 	dw sprite.parameter, $0100
 	dw sprite.max_y_speed, $F800
 	dw sprite.unknown_22, $0048
-	dw sprite.unknown_52, $2518
+	dw sprite.movement_state, $2518
 	dw sprite.x_sub_position, $0008
 	dw !initcommand_success
 
 DATA_FF7374:
 	dw !initcommand_load_subconfig, DATA_FF70A4
-	dw sprite.action, $0000
+	dw sprite.state, $0000
 	dw sprite.parameter, $FF00
 	dw sprite.max_y_speed, $F800
 	dw sprite.unknown_22, $0048
-	dw sprite.unknown_52, $2518
+	dw sprite.movement_state, $2518
 	dw sprite.x_sub_position, $00A0
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FF7396:
 	dw !initcommand_load_subconfig, DATA_FF70A4
-	dw sprite.action, $0000
+	dw sprite.state, $0000
 	dw sprite.parameter, $0200
 	dw sprite.max_y_speed, $FA00
 	dw sprite.unknown_22, $0048
@@ -8795,7 +8835,7 @@ DATA_FF7396:
 
 DATA_FF73AC:
 	dw !initcommand_load_subconfig, DATA_FF70A4
-	dw sprite.action, $0000
+	dw sprite.state, $0000
 	dw sprite.parameter, $0000
 	dw sprite.max_y_speed, $FAC0
 	dw sprite.unknown_22, $003C
@@ -8804,84 +8844,84 @@ DATA_FF73AC:
 
 DATA_FF73C6:
 	dw !initcommand_load_subconfig, DATA_FF7528
-	dw sprite.action, $0006
-	dw sprite.interaction_type, $F000
-	dw sprite.unknown_1E, $7070
+	dw sprite.state, $0006
+	dw sprite.terrain_attributes, $F000
+	dw sprite.terrain_interaction, $7070
 	dw sprite.ground_y_position, $0680
 	dw sprite.unknown_28, $0280
 	dw !initcommand_success
 
 DATA_FF73E0:
 	dw !initcommand_load_subconfig, DATA_FF750A
-	dw sprite.action, $0006
-	dw sprite.interaction_type, $F000
-	dw sprite.unknown_1E, $7070
+	dw sprite.state, $0006
+	dw sprite.terrain_attributes, $F000
+	dw sprite.terrain_interaction, $7070
 	dw sprite.ground_y_position, $0680
 	dw sprite.unknown_28, $FD80
 	dw !initcommand_success
 
 DATA_FF73FA:
 	dw !initcommand_load_subconfig, DATA_FF7528
-	dw sprite.action, $0006
-	dw sprite.interaction_type, $F000
-	dw sprite.unknown_1E, $7070
+	dw sprite.state, $0006
+	dw sprite.terrain_attributes, $F000
+	dw sprite.terrain_interaction, $7070
 	dw sprite.ground_y_position, $0680
 	dw sprite.unknown_28, $0380
 	dw !initcommand_success
 
 DATA_FF7414:
 	dw !initcommand_load_subconfig, DATA_FF750A
-	dw sprite.action, $0006
-	dw sprite.interaction_type, $F000
-	dw sprite.unknown_1E, $7070
+	dw sprite.state, $0006
+	dw sprite.terrain_attributes, $F000
+	dw sprite.terrain_interaction, $7070
 	dw sprite.ground_y_position, $0680
 	dw sprite.unknown_28, $FC80
 	dw !initcommand_success
 
 DATA_FF742E:
 	dw !initcommand_load_subconfig, DATA_FF7528
-	dw sprite.action, $0006
-	dw sprite.interaction_type, $F000
-	dw sprite.unknown_1E, $0080
+	dw sprite.state, $0006
+	dw sprite.terrain_attributes, $F000
+	dw sprite.terrain_interaction, $0080
 	dw !initcommand_success
 
 DATA_FF7440:
 	dw !initcommand_load_subconfig, DATA_FF7528
-	dw sprite.action, $0006
-	dw sprite.interaction_type, $F000
-	dw sprite.unknown_1E, $0060
+	dw sprite.state, $0006
+	dw sprite.terrain_attributes, $F000
+	dw sprite.terrain_interaction, $0060
 	dw !initcommand_success
 
 DATA_FF7452:
 	dw !initcommand_load_subconfig, DATA_FF750A
-	dw sprite.action, $0006
-	dw sprite.interaction_type, $F000
-	dw sprite.unknown_1E, $0080
+	dw sprite.state, $0006
+	dw sprite.terrain_attributes, $F000
+	dw sprite.terrain_interaction, $0080
 	dw !initcommand_success
 
 DATA_FF7464:
 	dw !initcommand_load_subconfig, DATA_FF7528
-	dw sprite.action, $0006
-	dw sprite.interaction_type, $F000
-	dw sprite.unknown_1E, $0080
+	dw sprite.state, $0006
+	dw sprite.terrain_attributes, $F000
+	dw sprite.terrain_interaction, $0080
 	dw sprite.x_speed, $0000
 	dw sprite.ground_y_position, $0700
 	dw !initcommand_success
 
 DATA_FF747E:
 	dw !initcommand_load_subconfig, DATA_FF750A
-	dw sprite.action, $0006
-	dw sprite.interaction_type, $F000
-	dw sprite.unknown_1E, $0080
+	dw sprite.state, $0006
+	dw sprite.terrain_attributes, $F000
+	dw sprite.terrain_interaction, $0080
 	dw sprite.x_speed, $0000
 	dw sprite.ground_y_position, $0700
 	dw !initcommand_success
 
 DATA_FF7498:
 	dw !initcommand_load_subconfig, DATA_FF750A
-	dw sprite.action, $0006
-	dw sprite.interaction_type, $6000
-	dw sprite.unknown_1E, $0080
+	dw sprite.state, $0006
+	dw sprite.terrain_attributes, $6000
+	dw sprite.terrain_interaction, $0080
 	dw sprite.x_speed, $0000
 	dw sprite.ground_y_position, $0B00
 	dw sprite.ground_distance, $FFA0
@@ -8889,28 +8929,28 @@ DATA_FF7498:
 
 DATA_FF74B6:
 	dw !initcommand_load_subconfig, DATA_FF750A
-	dw sprite.action, $0006
-	dw sprite.interaction_type, $9000
-	dw sprite.unknown_1E, $FFFF
+	dw sprite.state, $0006
+	dw sprite.terrain_attributes, $9000
+	dw sprite.terrain_interaction, $FFFF
 	dw sprite.ground_y_position, $0700
 	dw sprite.unknown_28, $FC00
 	dw !initcommand_success
 
 DATA_FF74D0:
 	dw sprite.number, $0214
-	dw sprite.unknown_54, DATA_FF021C
+	dw sprite.constants_address, DATA_FF021C
 	dw !initcommand_set_animation, $0193
 	dw !initcommand_set_alt_palette, $001E
-	dw sprite.unknown_30, $0120
+	dw sprite.interaction_flags, $0120
 	dw sprite.render_order, $00D4
 	dw sprite.y_speed, $0000
-	dw sprite.unknown_52, $0007
-	dw sprite.unknown_4A, $0500
+	dw sprite.movement_state, $0007
+	dw sprite.general_purpose_4A, $0500
 	dw sprite.max_y_speed, $FEA0
-	dw sprite.unknown_46, $0202
+	dw sprite.general_purpose_46, $0202
 	dw sprite.max_x_speed, $0020
-	dw sprite.action, $0000
-	dw sprite.unknown_4E, $0001
+	dw sprite.state, $0000
+	dw sprite.general_purpose_4E, $0001
 	dw !initcommand_success
 
 DATA_FF750A:
@@ -8935,22 +8975,22 @@ DATA_FF7528:
 
 DATA_FF7546:
 	dw !initcommand_load_subconfig, DATA_FF7528
-	dw sprite.unknown_4E, $003C
+	dw sprite.general_purpose_4E, $003C
 	dw !initcommand_success
 
 DATA_FF7550:
 	dw !initcommand_load_subconfig, DATA_FF750A
-	dw sprite.unknown_4E, $001E
+	dw sprite.general_purpose_4E, $001E
 	dw !initcommand_success
 
 DATA_FF755A:
 	dw !initcommand_load_subconfig, DATA_FF750A
-	dw sprite.unknown_4E, $0078
+	dw sprite.general_purpose_4E, $0078
 	dw !initcommand_success
 
 DATA_FF7564:
 	dw !initcommand_load_subconfig, DATA_FF7528
-	dw sprite.unknown_4E, $0078
+	dw sprite.general_purpose_4E, $0078
 	dw !initcommand_success
 
 DATA_FF756E:
@@ -8959,22 +8999,22 @@ DATA_FF756E:
 	dw sprite.ground_distance, $FFA0
 	dw sprite.unknown_22, $0000
 	dw sprite.unknown_28, $FD40
-	dw sprite.unknown_4E, $0078
+	dw sprite.general_purpose_4E, $0078
 	dw !initcommand_success
 
 DATA_FF7588:
 	dw !initcommand_load_subconfig, DATA_FF750A
-	dw sprite.unknown_4E, $003C
+	dw sprite.general_purpose_4E, $003C
 	dw !initcommand_success
 
 DATA_FF7592:
 	dw !initcommand_load_subconfig, DATA_FF750A
-	dw sprite.unknown_4E, $0028
+	dw sprite.general_purpose_4E, $0028
 	dw !initcommand_success
 
 DATA_FF759C:
 	dw !initcommand_load_subconfig, DATA_FF750A
-	dw sprite.unknown_4E, $0004
+	dw sprite.general_purpose_4E, $0004
 	dw !initcommand_success
 
 DATA_FF75A6:
@@ -8983,12 +9023,12 @@ DATA_FF75A6:
 	dw sprite.ground_distance, $FF80
 	dw sprite.unknown_22, $0000
 	dw sprite.unknown_28, $FD00
-	dw sprite.unknown_4E, $003C
+	dw sprite.general_purpose_4E, $003C
 	dw !initcommand_success
 
 DATA_FF75C0:
 	dw !initcommand_load_subconfig, DATA_FF7528
-	dw sprite.unknown_4E, $001E
+	dw sprite.general_purpose_4E, $001E
 	dw !initcommand_success
 
 DATA_FF75CA:
@@ -8997,24 +9037,24 @@ DATA_FF75CA:
 	dw sprite.ground_distance, $FFA0
 	dw sprite.unknown_22, $0000
 	dw sprite.unknown_28, $0300
-	dw sprite.unknown_4E, $002D
+	dw sprite.general_purpose_4E, $002D
 	dw !initcommand_success
 
 DATA_FF75E4:
 	dw !initcommand_load_subconfig, DATA_FF7528
-	dw sprite.unknown_4E, $003C
+	dw sprite.general_purpose_4E, $003C
 	dw sprite.ground_y_position, $0500
 	dw sprite.ground_distance, $FF80
 	dw !initcommand_success
 
 DATA_FF75F6:
 	dw !initcommand_load_subconfig, DATA_FF750A
-	dw sprite.unknown_4E, $002D
+	dw sprite.general_purpose_4E, $002D
 	dw !initcommand_success
 
 DATA_FF7600:
 	dw !initcommand_load_subconfig, DATA_FF750A
-	dw sprite.unknown_4E, $001E
+	dw sprite.general_purpose_4E, $001E
 	dw sprite.unknown_28, $FC00
 	dw !initcommand_success
 
@@ -9022,24 +9062,24 @@ DATA_FF760E:
 	dw !initcommand_load_subconfig, DATA_FF750A
 	dw sprite.ground_y_position, $0500
 	dw sprite.ground_distance, $FF80
-	dw sprite.unknown_4E, $00B4
+	dw sprite.general_purpose_4E, $00B4
 	dw !initcommand_success
 
 DATA_FF7620:
 	dw !initcommand_load_subconfig, DATA_FF750A
-	dw sprite.unknown_4E, $004B
+	dw sprite.general_purpose_4E, $004B
 	dw sprite.unknown_28, $FC80
 	dw !initcommand_success
 
 DATA_FF762E:
 	dw !initcommand_load_subconfig, DATA_FF750A
-	dw sprite.unknown_4E, $002D
+	dw sprite.general_purpose_4E, $002D
 	dw sprite.unknown_28, $FC80
 	dw !initcommand_success
 
 DATA_FF763C:
 	dw !initcommand_load_subconfig, DATA_FF750A
-	dw sprite.unknown_4E, $004B
+	dw sprite.general_purpose_4E, $004B
 	dw sprite.unknown_28, $FC80
 	dw !initcommand_success
 
@@ -9049,7 +9089,7 @@ DATA_FF764A:
 	dw sprite.ground_distance, $FF80
 	dw sprite.unknown_22, $0000
 	dw sprite.unknown_28, $FC40
-	dw sprite.unknown_4E, $003C
+	dw sprite.general_purpose_4E, $003C
 	dw !initcommand_success
 
 DATA_FF7664:
@@ -9058,7 +9098,7 @@ DATA_FF7664:
 	dw sprite.ground_distance, $FF80
 	dw sprite.unknown_22, $0000
 	dw sprite.unknown_28, $FC40
-	dw sprite.unknown_4E, $001E
+	dw sprite.general_purpose_4E, $001E
 	dw !initcommand_success
 
 DATA_FF767E:
@@ -9067,7 +9107,7 @@ DATA_FF767E:
 	dw sprite.ground_distance, $FF80
 	dw sprite.unknown_22, $0000
 	dw sprite.unknown_28, $FBE0
-	dw sprite.unknown_4E, $0004
+	dw sprite.general_purpose_4E, $0004
 	dw !initcommand_success
 
 DATA_FF7698:
@@ -9076,7 +9116,7 @@ DATA_FF7698:
 	dw sprite.ground_distance, $FF80
 	dw sprite.unknown_22, $0000
 	dw sprite.unknown_28, $FBE0
-	dw sprite.unknown_4E, $001E
+	dw sprite.general_purpose_4E, $001E
 	dw !initcommand_success
 
 DATA_FF76B2:
@@ -9085,37 +9125,37 @@ DATA_FF76B2:
 	dw sprite.ground_distance, $FF80
 	dw sprite.unknown_22, $0000
 	dw sprite.unknown_28, $FBE0
-	dw sprite.unknown_4E, $0028
+	dw sprite.general_purpose_4E, $0028
 	dw !initcommand_success
 
 DATA_FF76CC:
 	dw !initcommand_load_subconfig, DATA_FF750A
-	dw sprite.unknown_4E, $005A
+	dw sprite.general_purpose_4E, $005A
 	dw !initcommand_success
 
 DATA_FF76D6:
 	dw !initcommand_load_subconfig, DATA_FF750A
-	dw sprite.unknown_4E, $000F
+	dw sprite.general_purpose_4E, $000F
 	dw !initcommand_success
 
 DATA_FF76E0:
 	dw sprite.number, $0218
 	dw sprite.render_order, $00D4
-	dw sprite.unknown_54, DATA_FF02EC
-	dw sprite.unknown_30, $0120
-	dw sprite.action, $0000
+	dw sprite.constants_address, DATA_FF02EC
+	dw sprite.interaction_flags, $0120
+	dw sprite.state, $0000
 	dw sprite.x_speed, $0000
 	dw sprite.y_speed, $0000
-	dw sprite.unknown_52, $0007
+	dw sprite.movement_state, $0007
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FF7706:
 	dw sprite.number, $0218
 	dw sprite.render_order, $00D4
-	dw sprite.unknown_54, DATA_FF02EC
-	dw sprite.unknown_30, $0120
-	dw sprite.action, $0000
+	dw sprite.constants_address, DATA_FF02EC
+	dw sprite.interaction_flags, $0120
+	dw sprite.state, $0000
 	dw sprite.x_speed, $0000
 	dw sprite.y_speed, $0000
 	dw !initcommand_set_oam, $6000
@@ -9124,19 +9164,19 @@ DATA_FF7706:
 DATA_FF7728:
 	dw sprite.number, $031C
 	dw sprite.render_order, $00D4
-	dw sprite.unknown_54, DATA_FF021C
+	dw sprite.constants_address, DATA_FF021C
 	dw !initcommand_set_alt_palette, $0038
 	dw !initcommand_set_animation, $0197
 	dw !initcommand_set_oam, $2000
 	dw sprite.unknown_22, $2000
-	dw sprite.unknown_30, $0000
-	dw sprite.action, $0000
-	dw sprite.unknown_52, $0007
+	dw sprite.interaction_flags, $0000
+	dw sprite.state, $0000
+	dw sprite.movement_state, $0007
 	dw sprite.x_speed, $0000
 	dw sprite.y_speed, $0000
-	dw sprite.unknown_46, $0202
+	dw sprite.general_purpose_46, $0202
 	dw sprite.max_x_speed, $0040
-	dw sprite.unknown_4A, $0203
+	dw sprite.general_purpose_4A, $0203
 	dw sprite.max_y_speed, $0060
 	dw !initcommand_success
 
@@ -9144,48 +9184,48 @@ DATA_FF776A:
 	dw !initcommand_load_subconfig, DATA_FF7728
 	dw sprite.unknown_5C, $6840
 	dw sprite.parameter, $8060
-	dw sprite.unknown_4E, DATA_FF77B2
+	dw sprite.general_purpose_4E, DATA_FF77B2
 	dw !initcommand_success
 
 DATA_FF777C:
 	dw !initcommand_load_subconfig, DATA_FF7728
 	dw sprite.unknown_5C, $4840
 	dw sprite.parameter, $8060
-	dw sprite.unknown_4E, DATA_FF77BC
+	dw sprite.general_purpose_4E, DATA_FF77BC
 	dw !initcommand_success
 
 DATA_FF778E:
 	dw !initcommand_load_subconfig, DATA_FF7728
 	dw sprite.unknown_5C, $7040
 	dw sprite.parameter, $60F0
-	dw sprite.unknown_4E, DATA_FF77C6
+	dw sprite.general_purpose_4E, DATA_FF77C6
 	dw !initcommand_success
 
 DATA_FF77A0:
 	dw !initcommand_load_subconfig, DATA_FF7728
 	dw sprite.unknown_5C, $5040
 	dw sprite.parameter, $60F0
-	dw sprite.unknown_4E, DATA_FF77D0
+	dw sprite.general_purpose_4E, DATA_FF77D0
 	dw !initcommand_success
 
 DATA_FF77B2:
-	dw sprite.unknown_52, $0009
-	dw sprite.unknown_42, DATA_FF77DA
+	dw sprite.movement_state, $0009
+	dw sprite.general_purpose_42, DATA_FF77DA
 	dw !initcommand_success
 
 DATA_FF77BC:
-	dw sprite.unknown_52, $0009
-	dw sprite.unknown_42, DATA_FF7828
+	dw sprite.movement_state, $0009
+	dw sprite.general_purpose_42, DATA_FF7828
 	dw !initcommand_success
 
 DATA_FF77C6:
-	dw sprite.unknown_52, $0009
-	dw sprite.unknown_42, DATA_FF7876
+	dw sprite.movement_state, $0009
+	dw sprite.general_purpose_42, DATA_FF7876
 	dw !initcommand_success
 
 DATA_FF77D0:
-	dw sprite.unknown_52, $0009
-	dw sprite.unknown_42, DATA_FF78CC
+	dw sprite.movement_state, $0009
+	dw sprite.general_purpose_42, DATA_FF78CC
 	dw !initcommand_success
 
 ;moving zinger scripts (chain link chamber) uses same language as king zing and screech chases
@@ -9276,35 +9316,35 @@ DATA_FF78D6:
 DATA_FF7922:
 	dw sprite.number, $030C
 	dw sprite.render_order, $00D4
-	dw sprite.unknown_54, DATA_FF021C
+	dw sprite.constants_address, DATA_FF021C
 	dw !initcommand_set_alt_palette, $0077
 	dw !initcommand_set_oam, $6000
 	dw sprite.unknown_22, $6000
-	dw sprite.unknown_30, $0000
-	dw sprite.action, $0000
-	dw sprite.unknown_52, $0007
+	dw sprite.interaction_flags, $0000
+	dw sprite.state, $0000
+	dw sprite.movement_state, $0007
 	dw sprite.x_speed, $0000
 	dw sprite.y_speed, $0000
-	dw sprite.unknown_46, $0202
+	dw sprite.general_purpose_46, $0202
 	dw sprite.max_x_speed, $0040
-	dw sprite.unknown_4A, $0203
+	dw sprite.general_purpose_4A, $0203
 	dw sprite.max_y_speed, $0060
 	dw !initcommand_set_animation, $02DD
 	dw sprite.unknown_5C, $2020
 	dw sprite.parameter, $00C0
-	dw sprite.unknown_4E, DATA_FF7970
+	dw sprite.general_purpose_4E, DATA_FF7970
 	dw !initcommand_success
 
 DATA_FF7970:
-	dw sprite.unknown_52, $0009
-	dw sprite.unknown_42, DATA_FF7990
+	dw sprite.movement_state, $0009
+	dw sprite.general_purpose_42, DATA_FF7990
 	dw !initcommand_success
 
 DATA_FF797A:
-	dw sprite.unknown_52, $0007
-	dw sprite.unknown_46, $0202
+	dw sprite.movement_state, $0007
+	dw sprite.general_purpose_46, $0202
 	dw sprite.max_x_speed, $0040
-	dw sprite.unknown_4A, $0203
+	dw sprite.general_purpose_4A, $0203
 	dw sprite.max_y_speed, $0060
 	dw !initcommand_success
 
@@ -9412,35 +9452,35 @@ DATA_FF7990:
 DATA_FF7B7A:
 	dw sprite.number, $007C
 	dw sprite.render_order, $00D4
-	dw sprite.unknown_54, DATA_FF021C
+	dw sprite.constants_address, DATA_FF021C
 	dw !initcommand_set_alt_palette, $0038
 	dw !initcommand_set_animation, $02DB
 	dw !initcommand_set_oam, $2000
 	dw sprite.unknown_22, $2000
-	dw sprite.unknown_30, $0000
-	dw sprite.action, $0000
-	dw sprite.unknown_52, $0007
+	dw sprite.interaction_flags, $0000
+	dw sprite.state, $0000
+	dw sprite.movement_state, $0007
 	dw sprite.x_speed, $0000
 	dw sprite.y_speed, $0000
-	dw sprite.unknown_46, $0202
+	dw sprite.general_purpose_46, $0202
 	dw sprite.max_x_speed, $0040
-	dw sprite.unknown_4A, $0203
+	dw sprite.general_purpose_4A, $0203
 	dw sprite.max_y_speed, $0060
 	dw sprite.unknown_5C, $FF00
 	dw sprite.parameter, $4000
-	dw sprite.unknown_4E, DATA_FF7BC8
+	dw sprite.general_purpose_4E, DATA_FF7BC8
 	dw !initcommand_success
 
 DATA_FF7BC8:
-	dw sprite.unknown_52, $0009
-	dw sprite.unknown_42, DATA_FF7BE8
+	dw sprite.movement_state, $0009
+	dw sprite.general_purpose_42, DATA_FF7BE8
 	dw !initcommand_success
 
 DATA_FF7BD2:
-	dw sprite.unknown_52, $0007
-	dw sprite.unknown_46, $0202
+	dw sprite.movement_state, $0007
+	dw sprite.general_purpose_46, $0202
 	dw sprite.max_x_speed, $0040
-	dw sprite.unknown_4A, $0203
+	dw sprite.general_purpose_4A, $0203
 	dw sprite.max_y_speed, $0060
 	dw !initcommand_success
 
@@ -9490,9 +9530,9 @@ DATA_FF7BE8:
 DATA_FF7C8C:
 	dw !initcommand_load_subconfig, DATA_FF76E0
 	dw !initcommand_set_animation, $0197
-	dw sprite.unknown_46, $0202
+	dw sprite.general_purpose_46, $0202
 	dw sprite.max_x_speed, $0040
-	dw sprite.unknown_4A, $0203
+	dw sprite.general_purpose_4A, $0203
 	dw sprite.max_y_speed, $0060
 	dw !initcommand_set_alt_palette, $0038
 	dw !initcommand_success
@@ -9508,34 +9548,34 @@ DATA_FF7CB0:
 
 DATA_FF7CBA:
 	dw !initcommand_load_subconfig, DATA_FF7C8C
-	dw sprite.unknown_46, $0302
+	dw sprite.general_purpose_46, $0302
 	dw sprite.max_x_speed, $003C
-	dw sprite.unknown_4A, $0304
+	dw sprite.general_purpose_4A, $0304
 	dw sprite.max_y_speed, $0058
 	dw !initcommand_success
 
 DATA_FF7CD0:
 	dw !initcommand_load_subconfig, DATA_FF7C8C
-	dw sprite.unknown_46, $0204
+	dw sprite.general_purpose_46, $0204
 	dw sprite.max_x_speed, $0044
-	dw sprite.unknown_4A, $0102
+	dw sprite.general_purpose_4A, $0102
 	dw sprite.max_y_speed, $0068
 	dw !initcommand_success
 
 DATA_FF7CE6:
 	dw !initcommand_load_subconfig, DATA_FF7C8C
-	dw sprite.unknown_46, $0302
+	dw sprite.general_purpose_46, $0302
 	dw sprite.max_x_speed, $003C
-	dw sprite.unknown_4A, $0304
+	dw sprite.general_purpose_4A, $0304
 	dw sprite.max_y_speed, $0058
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_success
 
 DATA_FF7D00:
 	dw !initcommand_load_subconfig, DATA_FF7C8C
-	dw sprite.unknown_46, $0204
+	dw sprite.general_purpose_46, $0204
 	dw sprite.max_x_speed, $0044
-	dw sprite.unknown_4A, $0102
+	dw sprite.general_purpose_4A, $0102
 	dw sprite.max_y_speed, $0068
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_success
@@ -9543,8 +9583,8 @@ DATA_FF7D00:
 DATA_FF7D1A:
 	dw !initcommand_load_subconfig, DATA_FF76E0
 	dw !initcommand_set_animation, $0197
-	dw sprite.unknown_52, $0008
-	dw sprite.unknown_4A, $0203
+	dw sprite.movement_state, $0008
+	dw sprite.general_purpose_4A, $0203
 	dw sprite.max_y_speed, $0060
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_set_alt_palette, $0038
@@ -9575,391 +9615,391 @@ DATA_FF7D5A:
 DATA_FF7D68:
 	dw !initcommand_load_subconfig, DATA_FF76E0
 	dw !initcommand_set_animation, $0197
-	dw sprite.unknown_46, $0202
+	dw sprite.general_purpose_46, $0202
 	dw sprite.max_x_speed, $0040
 	dw !initcommand_set_alt_palette, $0038
 	dw !initcommand_success
 
 DATA_FF7D7E:
 	dw !initcommand_load_subconfig, DATA_FF7D68
-	dw sprite.unknown_4A, $3030
+	dw sprite.general_purpose_4A, $3030
 	dw sprite.max_y_speed, $0180
 	dw !initcommand_success
 
 DATA_FF7D8C:
 	dw !initcommand_load_subconfig, DATA_FF7D68
-	dw sprite.unknown_4A, $3030
+	dw sprite.general_purpose_4A, $3030
 	dw sprite.max_y_speed, $0200
 	dw !initcommand_success
 
 DATA_FF7D9A:
 	dw !initcommand_load_subconfig, DATA_FF7D68
-	dw sprite.unknown_4A, $5050
+	dw sprite.general_purpose_4A, $5050
 	dw sprite.max_y_speed, $0120
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_success
 
 DATA_FF7DAC:
 	dw !initcommand_load_subconfig, DATA_FF7D68
-	dw sprite.unknown_4A, $3838
+	dw sprite.general_purpose_4A, $3838
 	dw sprite.max_y_speed, $0140
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_success
 
 DATA_FF7DBE:
 	dw !initcommand_load_subconfig, DATA_FF7D68
-	dw sprite.unknown_4A, $3838
+	dw sprite.general_purpose_4A, $3838
 	dw sprite.max_y_speed, $FE80
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_success
 
 DATA_FF7DD0:
 	dw !initcommand_load_subconfig, DATA_FF7D68
-	dw sprite.unknown_4A, $5050
+	dw sprite.general_purpose_4A, $5050
 	dw sprite.max_y_speed, $0160
 	dw !initcommand_success
 
 DATA_FF7DDE:
 	dw !initcommand_load_subconfig, DATA_FF7D68
-	dw sprite.unknown_4A, $2040
+	dw sprite.general_purpose_4A, $2040
 	dw sprite.max_y_speed, $0180
 	dw !initcommand_success
 
 DATA_FF7DEC:
 	dw !initcommand_load_subconfig, DATA_FF7D68
-	dw sprite.unknown_4A, $0060
+	dw sprite.general_purpose_4A, $0060
 	dw sprite.max_y_speed, $01C0
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_success
 
 DATA_FF7DFE:
 	dw !initcommand_load_subconfig, DATA_FF7D68
-	dw sprite.unknown_4A, $2040
+	dw sprite.general_purpose_4A, $2040
 	dw sprite.max_y_speed, $FE00
 	dw !initcommand_success
 
 DATA_FF7E0C:
 	dw !initcommand_load_subconfig, DATA_FF7D68
-	dw sprite.unknown_4A, $3030
+	dw sprite.general_purpose_4A, $3030
 	dw sprite.max_y_speed, $0180
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_success
 
 DATA_FF7E1E:
 	dw !initcommand_load_subconfig, DATA_FF7D68
-	dw sprite.unknown_4A, $5050
+	dw sprite.general_purpose_4A, $5050
 	dw sprite.max_y_speed, $01A0
 	dw !initcommand_success
 
 DATA_FF7E2C:
 	dw !initcommand_load_subconfig, DATA_FF7D68
-	dw sprite.unknown_4A, $0060
+	dw sprite.general_purpose_4A, $0060
 	dw sprite.max_y_speed, $0180
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_success
 
 DATA_FF7E3E:
 	dw !initcommand_load_subconfig, DATA_FF7D68
-	dw sprite.unknown_4A, $6000
+	dw sprite.general_purpose_4A, $6000
 	dw sprite.max_y_speed, $0180
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_success
 
 DATA_FF7E50:
 	dw !initcommand_load_subconfig, DATA_FF7D68
-	dw sprite.unknown_4A, $2050
+	dw sprite.general_purpose_4A, $2050
 	dw sprite.max_y_speed, $FEC0
 	dw !initcommand_success
 
 DATA_FF7E5E:
 	dw !initcommand_load_subconfig, DATA_FF7D68
-	dw sprite.unknown_4A, $1818
+	dw sprite.general_purpose_4A, $1818
 	dw sprite.max_y_speed, $0140
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_success
 
 DATA_FF7E70:
 	dw !initcommand_load_subconfig, DATA_FF7D68
-	dw sprite.unknown_4A, $3030
+	dw sprite.general_purpose_4A, $3030
 	dw sprite.max_y_speed, $01C0
-	dw sprite.unknown_46, $0808
+	dw sprite.general_purpose_46, $0808
 	dw sprite.max_x_speed, $0140
 	dw !initcommand_success
 
 DATA_FF7E86:
 	dw !initcommand_load_subconfig, DATA_FF7D68
-	dw sprite.unknown_4A, $3828
+	dw sprite.general_purpose_4A, $3828
 	dw sprite.max_y_speed, $0140
-	dw sprite.unknown_46, $0204
+	dw sprite.general_purpose_46, $0204
 	dw !initcommand_success
 
 DATA_FF7E98:
 	dw !initcommand_load_subconfig, DATA_FF7D68
-	dw sprite.unknown_4A, $3828
+	dw sprite.general_purpose_4A, $3828
 	dw sprite.max_y_speed, $0140
-	dw sprite.unknown_46, $0302
+	dw sprite.general_purpose_46, $0302
 	dw sprite.max_x_speed, $0044
 	dw !initcommand_success
 
 DATA_FF7EAE:
 	dw !initcommand_load_subconfig, DATA_FF7D68
-	dw sprite.unknown_4A, $3828
+	dw sprite.general_purpose_4A, $3828
 	dw sprite.max_y_speed, $0140
-	dw sprite.unknown_46, $0503
+	dw sprite.general_purpose_46, $0503
 	dw sprite.max_x_speed, $003C
 	dw !initcommand_success
 
 DATA_FF7EC4:
 	dw !initcommand_load_subconfig, DATA_FF7D68
-	dw sprite.unknown_4A, $4040
+	dw sprite.general_purpose_4A, $4040
 	dw sprite.max_y_speed, $0180
 	dw !initcommand_success
 
 DATA_FF7ED2:
 	dw !initcommand_load_subconfig, DATA_FF7D68
-	dw sprite.unknown_4A, $4040
+	dw sprite.general_purpose_4A, $4040
 	dw sprite.max_y_speed, $FE80
 	dw !initcommand_success
 
 DATA_FF7EE0:
 	dw !initcommand_load_subconfig, DATA_FF7D68
-	dw sprite.unknown_4A, $3030
+	dw sprite.general_purpose_4A, $3030
 	dw sprite.max_y_speed, $0180
-	dw sprite.unknown_46, $0503
+	dw sprite.general_purpose_46, $0503
 	dw sprite.max_x_speed, $003C
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_success
 
 DATA_FF7EFA:
 	dw !initcommand_load_subconfig, DATA_FF7D68
-	dw sprite.unknown_4A, $5050
+	dw sprite.general_purpose_4A, $5050
 	dw sprite.max_y_speed, $0180
 	dw !initcommand_success
 
 DATA_FF7F08:
 	dw !initcommand_load_subconfig, DATA_FF7D68
-	dw sprite.unknown_4A, $3030
+	dw sprite.general_purpose_4A, $3030
 	dw sprite.max_y_speed, $0200
-	dw sprite.unknown_46, $0103
+	dw sprite.general_purpose_46, $0103
 	dw sprite.max_x_speed, $0030
 	dw !initcommand_success
 
 DATA_FF7F1E:
 	dw !initcommand_load_subconfig, DATA_FF7D68
-	dw sprite.unknown_4A, $3030
+	dw sprite.general_purpose_4A, $3030
 	dw sprite.max_y_speed, $0200
-	dw sprite.unknown_46, $0303
+	dw sprite.general_purpose_46, $0303
 	dw sprite.max_x_speed, $0050
 	dw !initcommand_success
 
 DATA_FF7F34:
 	dw !initcommand_load_subconfig, DATA_FF7D68
-	dw sprite.unknown_4A, $3060
+	dw sprite.general_purpose_4A, $3060
 	dw sprite.max_y_speed, $0140
 	dw !initcommand_success
 
 DATA_FF7F42:
 	dw !initcommand_load_subconfig, DATA_FF7D68
-	dw sprite.unknown_4A, $00A0
+	dw sprite.general_purpose_4A, $00A0
 	dw sprite.max_y_speed, $FEE0
 	dw !initcommand_success
 
 DATA_FF7F50:
 	dw !initcommand_load_subconfig, DATA_FF7D68
-	dw sprite.unknown_4A, $3030
+	dw sprite.general_purpose_4A, $3030
 	dw sprite.max_y_speed, $FEC0
 	dw !initcommand_success
 
 DATA_FF7F5E:
 	dw !initcommand_load_subconfig, DATA_FF7D68
-	dw sprite.unknown_4A, $4040
+	dw sprite.general_purpose_4A, $4040
 	dw sprite.max_y_speed, $0200
 	dw !initcommand_success
 
 DATA_FF7F6C:
 	dw !initcommand_load_subconfig, DATA_FF7D68
-	dw sprite.unknown_4A, $2828
+	dw sprite.general_purpose_4A, $2828
 	dw sprite.max_y_speed, $0180
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_success
 
 DATA_FF7F7E:
 	dw !initcommand_load_subconfig, DATA_FF7D68
-	dw sprite.unknown_4A, $1818
+	dw sprite.general_purpose_4A, $1818
 	dw sprite.max_y_speed, $0140
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_success
 
 DATA_FF7F90:
 	dw !initcommand_load_subconfig, DATA_FF7D68
-	dw sprite.unknown_4A, $6000
+	dw sprite.general_purpose_4A, $6000
 	dw sprite.max_y_speed, $0140
 	dw !initcommand_success
 
 DATA_FF7F9E:
 	dw !initcommand_load_subconfig, DATA_FF7D68
-	dw sprite.unknown_4A, $0060
+	dw sprite.general_purpose_4A, $0060
 	dw sprite.max_y_speed, $0140
 	dw !initcommand_success
 
 DATA_FF7FAC:
 	dw !initcommand_load_subconfig, DATA_FF7D68
-	dw sprite.unknown_4A, $3030
+	dw sprite.general_purpose_4A, $3030
 	dw sprite.max_y_speed, $FE40
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_success
 
 DATA_FF7FBE:
 	dw !initcommand_load_subconfig, DATA_FF7D68
-	dw sprite.unknown_4A, $5050
+	dw sprite.general_purpose_4A, $5050
 	dw sprite.max_y_speed, $0140
 	dw !initcommand_success
 
 DATA_FF7FCC:
 	dw !initcommand_load_subconfig, DATA_FF7D68
-	dw sprite.unknown_46, $0503
+	dw sprite.general_purpose_46, $0503
 	dw sprite.max_x_speed, $003C
-	dw sprite.unknown_4A, $5050
+	dw sprite.general_purpose_4A, $5050
 	dw sprite.max_y_speed, $0140
 	dw !initcommand_success
 
 DATA_FF7FE2:
 	dw !initcommand_load_subconfig, DATA_FF7D68
-	dw sprite.unknown_4A, $4040
+	dw sprite.general_purpose_4A, $4040
 	dw sprite.max_y_speed, $FE80
 	dw !initcommand_success
 
 DATA_FF7FF0:
 	dw !initcommand_load_subconfig, DATA_FF7D68
-	dw sprite.unknown_4A, $3030
+	dw sprite.general_purpose_4A, $3030
 	dw sprite.max_y_speed, $FE80
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_success
 
 DATA_FF8002:
 	dw !initcommand_load_subconfig, DATA_FF7D68
-	dw sprite.unknown_4A, $3030
+	dw sprite.general_purpose_4A, $3030
 	dw sprite.max_y_speed, $0180
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_success
 
 DATA_FF8014:
 	dw !initcommand_load_subconfig, DATA_FF7D68
-	dw sprite.unknown_4A, $6800
+	dw sprite.general_purpose_4A, $6800
 	dw sprite.max_y_speed, $FE80
 	dw !initcommand_success
 
 DATA_FF8022:
 	dw !initcommand_load_subconfig, DATA_FF7D68
-	dw sprite.unknown_4A, $5010
+	dw sprite.general_purpose_4A, $5010
 	dw sprite.max_y_speed, $0160
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_success
 
 DATA_FF8034:
 	dw !initcommand_load_subconfig, DATA_FF7D68
-	dw sprite.unknown_4A, $2020
+	dw sprite.general_purpose_4A, $2020
 	dw sprite.max_y_speed, $0280
 	dw !initcommand_success
 
 DATA_FF8042:
 	dw !initcommand_load_subconfig, DATA_FF7D68
-	dw sprite.unknown_4A, $5050
+	dw sprite.general_purpose_4A, $5050
 	dw sprite.max_y_speed, $FE60
 	dw !initcommand_success
 
 DATA_FF8050:
 	dw !initcommand_load_subconfig, DATA_FF7D68
-	dw sprite.unknown_4A, $4040
+	dw sprite.general_purpose_4A, $4040
 	dw sprite.max_y_speed, $0180
-	dw sprite.unknown_46, $0503
+	dw sprite.general_purpose_46, $0503
 	dw sprite.max_x_speed, $003C
 	dw !initcommand_success
 
 DATA_FF8066:
 	dw !initcommand_load_subconfig, DATA_FF7D68
-	dw sprite.unknown_4A, $4040
+	dw sprite.general_purpose_4A, $4040
 	dw sprite.max_y_speed, $FE80
-	dw sprite.unknown_46, $0104
+	dw sprite.general_purpose_46, $0104
 	dw sprite.max_x_speed, $0044
 	dw !initcommand_success
 
 DATA_FF807C:
 	dw !initcommand_load_subconfig, DATA_FF7D68
-	dw sprite.unknown_4A, $6040
+	dw sprite.general_purpose_4A, $6040
 	dw sprite.max_y_speed, $01A0
 	dw !initcommand_success
 
 DATA_FF808A:
 	dw !initcommand_load_subconfig, DATA_FF7D68
-	dw sprite.unknown_4A, $6020
+	dw sprite.general_purpose_4A, $6020
 	dw sprite.max_y_speed, $0180
 	dw !initcommand_success
 
 DATA_FF8098:
 	dw !initcommand_load_subconfig, DATA_FF7D68
-	dw sprite.unknown_4A, $6020
+	dw sprite.general_purpose_4A, $6020
 	dw sprite.max_y_speed, $0180
-	dw sprite.unknown_46, $0503
+	dw sprite.general_purpose_46, $0503
 	dw sprite.max_x_speed, $003C
 	dw !initcommand_success
 
 DATA_FF80AE:
 	dw !initcommand_load_subconfig, DATA_FF7D68
-	dw sprite.unknown_4A, $3030
+	dw sprite.general_purpose_4A, $3030
 	dw sprite.max_y_speed, $0100
 	dw !initcommand_success
 
 DATA_FF80BC:
 	dw !initcommand_load_subconfig, DATA_FF7D68
-	dw sprite.unknown_4A, $3030
+	dw sprite.general_purpose_4A, $3030
 	dw sprite.max_y_speed, $FF00
 	dw !initcommand_success
 
 DATA_FF80CA:
 	dw !initcommand_load_subconfig, DATA_FF7D68
-	dw sprite.unknown_4A, $2040
+	dw sprite.general_purpose_4A, $2040
 	dw sprite.max_y_speed, $0140
 	dw !initcommand_success
 
 DATA_FF80D8:
 	dw !initcommand_load_subconfig, DATA_FF7D68
-	dw sprite.unknown_4A, $3050
+	dw sprite.general_purpose_4A, $3050
 	dw sprite.max_y_speed, $0180
 	dw !initcommand_success
 
 DATA_FF80E6:
 	dw !initcommand_load_subconfig, DATA_FF7D68
-	dw sprite.unknown_4A, $3030
+	dw sprite.general_purpose_4A, $3030
 	dw sprite.max_y_speed, $FEE0
 	dw !initcommand_success
 
 DATA_FF80F4:
 	dw !initcommand_load_subconfig, DATA_FF7D68
-	dw sprite.unknown_52, $001B
-	dw sprite.unknown_4A, $5436
+	dw sprite.movement_state, $001B
+	dw sprite.general_purpose_4A, $5436
 	dw sprite.max_y_speed, $0180
 	dw !initcommand_success
 
 DATA_FF8106:
 	dw !initcommand_load_subconfig, DATA_FF7D68
-	dw sprite.unknown_52, $001B
-	dw sprite.unknown_4A, $6444
+	dw sprite.movement_state, $001B
+	dw sprite.general_purpose_4A, $6444
 	dw sprite.max_y_speed, $01C0
 	dw !initcommand_success
 
 DATA_FF8118:
 	dw !initcommand_load_subconfig, DATA_FF7D68
-	dw sprite.unknown_52, $001B
-	dw sprite.unknown_4A, $486A
+	dw sprite.movement_state, $001B
+	dw sprite.general_purpose_4A, $486A
 	dw sprite.max_y_speed, $FE00
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_success
 
 DATA_FF812E:
 	dw !initcommand_load_subconfig, DATA_FF7D68
-	dw sprite.unknown_52, $001B
-	dw sprite.unknown_4A, $BC35
+	dw sprite.movement_state, $001B
+	dw sprite.general_purpose_4A, $BC35
 	dw sprite.max_y_speed, $01E0
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_success
@@ -9967,781 +10007,781 @@ DATA_FF812E:
 DATA_FF8144:
 	dw !initcommand_load_subconfig, DATA_FF76E0
 	dw !initcommand_set_animation, $0196
-	dw sprite.unknown_4A, $0203
+	dw sprite.general_purpose_4A, $0203
 	dw sprite.max_y_speed, $0060
 	dw !initcommand_set_alt_palette, $0038
 	dw !initcommand_success
 
 DATA_FF815A:
 	dw !initcommand_load_subconfig, DATA_FF8144
-	dw sprite.unknown_46, $3030
+	dw sprite.general_purpose_46, $3030
 	dw sprite.max_x_speed, $FE80
 	dw !initcommand_success
 
 DATA_FF8168:
 	dw !initcommand_load_subconfig, DATA_FF8144
-	dw sprite.unknown_46, $4020
+	dw sprite.general_purpose_46, $4020
 	dw sprite.max_x_speed, $FE80
 	dw !initcommand_success
 
 DATA_FF8176:
 	dw !initcommand_load_subconfig, DATA_FF8144
-	dw sprite.unknown_46, $2828
+	dw sprite.general_purpose_46, $2828
 	dw sprite.max_x_speed, $FEC0
 	dw !initcommand_success
 
 DATA_FF8184:
 	dw !initcommand_load_subconfig, DATA_FF8144
-	dw sprite.unknown_46, $5030
+	dw sprite.general_purpose_46, $5030
 	dw sprite.max_x_speed, $FE80
-	dw sprite.unknown_4A, $0A0A
+	dw sprite.general_purpose_4A, $0A0A
 	dw sprite.max_y_speed, $0160
 	dw !initcommand_success
 
 DATA_FF819A:
 	dw !initcommand_load_subconfig, DATA_FF8144
-	dw sprite.unknown_46, $3030
+	dw sprite.general_purpose_46, $3030
 	dw sprite.max_x_speed, $FE00
 	dw !initcommand_success
 
 DATA_FF81A8:
 	dw !initcommand_load_subconfig, DATA_FF8144
-	dw sprite.unknown_46, $4040
+	dw sprite.general_purpose_46, $4040
 	dw sprite.max_x_speed, $01C0
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_success
 
 DATA_FF81BA:
 	dw !initcommand_load_subconfig, DATA_FF8144
-	dw sprite.unknown_46, $5828
+	dw sprite.general_purpose_46, $5828
 	dw sprite.max_x_speed, $01C0
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_success
 
 DATA_FF81CC:
 	dw !initcommand_load_subconfig, DATA_FF8144
-	dw sprite.unknown_46, $4848
+	dw sprite.general_purpose_46, $4848
 	dw sprite.max_x_speed, $FE80
 	dw !initcommand_success
 
 DATA_FF81DA:
 	dw !initcommand_load_subconfig, DATA_FF8144
-	dw sprite.unknown_46, $0060
+	dw sprite.general_purpose_46, $0060
 	dw sprite.max_x_speed, $0180
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_success
 
 DATA_FF81EC:
 	dw !initcommand_load_subconfig, DATA_FF8144
-	dw sprite.unknown_46, $4020
+	dw sprite.general_purpose_46, $4020
 	dw sprite.max_x_speed, $FEA0
 	dw !initcommand_success
 
 DATA_FF81FA:
 	dw !initcommand_load_subconfig, DATA_FF8144
-	dw sprite.unknown_46, $2050
+	dw sprite.general_purpose_46, $2050
 	dw sprite.max_x_speed, $FE80
 	dw !initcommand_success
 
 DATA_FF8208:
 	dw !initcommand_load_subconfig, DATA_FF8144
-	dw sprite.unknown_46, $4848
+	dw sprite.general_purpose_46, $4848
 	dw sprite.max_x_speed, $FEA0
 	dw !initcommand_success
 
 DATA_FF8216:
 	dw !initcommand_load_subconfig, DATA_FF8144
-	dw sprite.unknown_46, $4848
+	dw sprite.general_purpose_46, $4848
 	dw sprite.max_x_speed, $0160
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_success
 
 DATA_FF8228:
 	dw !initcommand_load_subconfig, DATA_FF8144
-	dw sprite.unknown_46, $5828
+	dw sprite.general_purpose_46, $5828
 	dw sprite.max_x_speed, $0280
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_success
 
 DATA_FF823A:
 	dw !initcommand_load_subconfig, DATA_FF8144
-	dw sprite.unknown_46, $5050
+	dw sprite.general_purpose_46, $5050
 	dw sprite.max_x_speed, $FEC0
 	dw !initcommand_success
 
 DATA_FF8248:
 	dw !initcommand_load_subconfig, DATA_FF8144
-	dw sprite.unknown_46, $3C64
+	dw sprite.general_purpose_46, $3C64
 	dw sprite.max_x_speed, $FEC0
 	dw !initcommand_success
 
 DATA_FF8256:
 	dw !initcommand_load_subconfig, DATA_FF8144
-	dw sprite.unknown_46, $643C
+	dw sprite.general_purpose_46, $643C
 	dw sprite.max_x_speed, $FEC0
 	dw !initcommand_success
 
 DATA_FF8264:
 	dw !initcommand_load_subconfig, DATA_FF8144
-	dw sprite.unknown_46, $5050
+	dw sprite.general_purpose_46, $5050
 	dw sprite.max_x_speed, $0140
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_success
 
 DATA_FF8276:
 	dw !initcommand_load_subconfig, DATA_FF8144
-	dw sprite.unknown_46, $2020
+	dw sprite.general_purpose_46, $2020
 	dw sprite.max_x_speed, $FEE0
 	dw !initcommand_success
 
 DATA_FF8284:
 	dw !initcommand_load_subconfig, DATA_FF8144
-	dw sprite.unknown_46, $2020
+	dw sprite.general_purpose_46, $2020
 	dw sprite.max_x_speed, $0120
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_success
 
 DATA_FF8296:
 	dw !initcommand_load_subconfig, DATA_FF8144
-	dw sprite.unknown_46, $3C64
+	dw sprite.general_purpose_46, $3C64
 	dw sprite.max_x_speed, $0180
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_success
 
 DATA_FF82A8:
 	dw !initcommand_load_subconfig, DATA_FF8144
-	dw sprite.unknown_46, $643C
+	dw sprite.general_purpose_46, $643C
 	dw sprite.max_x_speed, $0180
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_success
 
 DATA_FF82BA:
 	dw !initcommand_load_subconfig, DATA_FF8144
-	dw sprite.unknown_46, $3C64
+	dw sprite.general_purpose_46, $3C64
 	dw sprite.max_x_speed, $FE00
 	dw !initcommand_success
 
 DATA_FF82C8:
 	dw !initcommand_load_subconfig, DATA_FF8144
-	dw sprite.unknown_46, $643C
+	dw sprite.general_purpose_46, $643C
 	dw sprite.max_x_speed, $FE00
 	dw !initcommand_success
 
 DATA_FF82D6:
 	dw !initcommand_load_subconfig, DATA_FF8144
-	dw sprite.unknown_46, $3838
+	dw sprite.general_purpose_46, $3838
 	dw sprite.max_x_speed, $FE80
-	dw sprite.unknown_4A, $0808
+	dw sprite.general_purpose_4A, $0808
 	dw sprite.max_y_speed, $0140
 	dw !initcommand_success
 
 DATA_FF82EC:
 	dw !initcommand_load_subconfig, DATA_FF8144
-	dw sprite.unknown_46, $3030
+	dw sprite.general_purpose_46, $3030
 	dw sprite.max_x_speed, $FF00
-	dw sprite.unknown_4A, $0808
+	dw sprite.general_purpose_4A, $0808
 	dw sprite.max_y_speed, $0120
 	dw !initcommand_success
 
 DATA_FF8302:
 	dw !initcommand_load_subconfig, DATA_FF8144
-	dw sprite.unknown_46, $5010
+	dw sprite.general_purpose_46, $5010
 	dw sprite.max_x_speed, $FEC0
 	dw !initcommand_success
 
 DATA_FF8310:
 	dw !initcommand_load_subconfig, DATA_FF8144
-	dw sprite.unknown_46, $2838
+	dw sprite.general_purpose_46, $2838
 	dw sprite.max_x_speed, $00E0
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_success
 
 DATA_FF8322:
 	dw !initcommand_load_subconfig, DATA_FF8144
-	dw sprite.unknown_46, $4070
+	dw sprite.general_purpose_46, $4070
 	dw sprite.max_x_speed, $FD40
 	dw !initcommand_success
 
 DATA_FF8330:
 	dw !initcommand_load_subconfig, DATA_FF8144
-	dw sprite.unknown_46, $3828
+	dw sprite.general_purpose_46, $3828
 	dw sprite.max_x_speed, $FF20
 	dw !initcommand_success
 
 DATA_FF833E:
 	dw !initcommand_load_subconfig, DATA_FF8144
-	dw sprite.unknown_46, $5828
+	dw sprite.general_purpose_46, $5828
 	dw sprite.max_x_speed, $FE80
 	dw !initcommand_success
 
 DATA_FF834C:
 	dw !initcommand_load_subconfig, DATA_FF8144
-	dw sprite.unknown_46, $6000
+	dw sprite.general_purpose_46, $6000
 	dw sprite.max_x_speed, $FE80
 	dw !initcommand_success
 
 DATA_FF835A:
 	dw !initcommand_load_subconfig, DATA_FF8144
-	dw sprite.unknown_46, $2828
+	dw sprite.general_purpose_46, $2828
 	dw sprite.max_x_speed, $FEC0
 	dw !initcommand_success
 
 DATA_FF8368:
 	dw !initcommand_load_subconfig, DATA_FF8144
-	dw sprite.unknown_46, $5050
+	dw sprite.general_purpose_46, $5050
 	dw sprite.max_x_speed, $FE40
 	dw !initcommand_success
 
 DATA_FF8376:
 	dw !initcommand_load_subconfig, DATA_FF8144
-	dw sprite.unknown_46, $00A0
+	dw sprite.general_purpose_46, $00A0
 	dw sprite.max_x_speed, $01C0
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_success
 
 DATA_FF8388:
 	dw !initcommand_load_subconfig, DATA_FF8144
-	dw sprite.unknown_46, $A000
+	dw sprite.general_purpose_46, $A000
 	dw sprite.max_x_speed, $FDC0
 	dw !initcommand_success
 
 DATA_FF8396:
 	dw !initcommand_load_subconfig, DATA_FF8144
-	dw sprite.unknown_46, $3030
+	dw sprite.general_purpose_46, $3030
 	dw sprite.max_x_speed, $FEE0
 	dw !initcommand_success
 
 DATA_FF83A4:
 	dw !initcommand_load_subconfig, DATA_FF8144
-	dw sprite.unknown_46, $2828
+	dw sprite.general_purpose_46, $2828
 	dw sprite.max_x_speed, $FE00
 	dw !initcommand_success
 
 DATA_FF83B2:
 	dw !initcommand_load_subconfig, DATA_FF8144
-	dw sprite.unknown_46, $5050
+	dw sprite.general_purpose_46, $5050
 	dw sprite.max_x_speed, $0240
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_success
 
 DATA_FF83C4:
 	dw !initcommand_load_subconfig, DATA_FF8144
-	dw sprite.unknown_46, $5050
+	dw sprite.general_purpose_46, $5050
 	dw sprite.max_x_speed, $FDC0
 	dw !initcommand_success
 
 DATA_FF83D2:
 	dw !initcommand_load_subconfig, DATA_FF8144
-	dw sprite.unknown_46, $3030
+	dw sprite.general_purpose_46, $3030
 	dw sprite.max_x_speed, $0180
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_success
 
 DATA_FF83E4:
 	dw !initcommand_load_subconfig, DATA_FF8144
-	dw sprite.unknown_46, $3030
+	dw sprite.general_purpose_46, $3030
 	dw sprite.max_x_speed, $FE60
 	dw !initcommand_success
 
 DATA_FF83F2:
 	dw !initcommand_load_subconfig, DATA_FF8144
-	dw sprite.unknown_46, $3030
+	dw sprite.general_purpose_46, $3030
 	dw sprite.max_x_speed, $FE40
 	dw !initcommand_success
 
 DATA_FF8400:
 	dw !initcommand_load_subconfig, DATA_FF8144
-	dw sprite.unknown_46, $3030
+	dw sprite.general_purpose_46, $3030
 	dw sprite.max_x_speed, $0120
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_success
 
 DATA_FF8412:
 	dw !initcommand_load_subconfig, DATA_FF8144
-	dw sprite.unknown_46, $3030
+	dw sprite.general_purpose_46, $3030
 	dw sprite.max_x_speed, $0160
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_success
 
 DATA_FF8424:
 	dw !initcommand_load_subconfig, DATA_FF8144
-	dw sprite.unknown_46, $4070
+	dw sprite.general_purpose_46, $4070
 	dw sprite.max_x_speed, $0120
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_success
 
 DATA_FF8436:
 	dw !initcommand_load_subconfig, DATA_FF8144
-	dw sprite.unknown_46, $3030
+	dw sprite.general_purpose_46, $3030
 	dw sprite.max_x_speed, $0180
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_success
 
 DATA_FF8448:
 	dw !initcommand_load_subconfig, DATA_FF8144
-	dw sprite.unknown_46, $2060
+	dw sprite.general_purpose_46, $2060
 	dw sprite.max_x_speed, $01C0
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_success
 
 DATA_FF845A:
 	dw !initcommand_load_subconfig, DATA_FF8144
-	dw sprite.unknown_46, $4040
+	dw sprite.general_purpose_46, $4040
 	dw sprite.max_x_speed, $01C0
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_success
 
 DATA_FF846C:
 	dw !initcommand_load_subconfig, DATA_FF8144
-	dw sprite.unknown_46, $7010
+	dw sprite.general_purpose_46, $7010
 	dw sprite.max_x_speed, $0180
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_success
 
 DATA_FF847E:
 	dw !initcommand_load_subconfig, DATA_FF8144
-	dw sprite.unknown_46, $3838
+	dw sprite.general_purpose_46, $3838
 	dw sprite.max_x_speed, $FF40
 	dw !initcommand_success
 
 DATA_FF848C:
 	dw !initcommand_load_subconfig, DATA_FF8144
-	dw sprite.unknown_46, $3838
+	dw sprite.general_purpose_46, $3838
 	dw sprite.max_x_speed, $00C0
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_success
 
 DATA_FF849E:
 	dw !initcommand_load_subconfig, DATA_FF8144
-	dw sprite.unknown_46, $6010
+	dw sprite.general_purpose_46, $6010
 	dw sprite.max_x_speed, $FF40
 	dw !initcommand_success
 
 DATA_FF84AC:
 	dw !initcommand_load_subconfig, DATA_FF8144
-	dw sprite.unknown_46, $1060
+	dw sprite.general_purpose_46, $1060
 	dw sprite.max_x_speed, $00C0
 	dw !initcommand_success
 
 DATA_FF84BA:
 	dw !initcommand_load_subconfig, DATA_FF8144
-	dw sprite.unknown_46, $5848
+	dw sprite.general_purpose_46, $5848
 	dw sprite.max_x_speed, $FEE0
 	dw !initcommand_success
 
 DATA_FF84C8:
 	dw !initcommand_load_subconfig, DATA_FF8144
-	dw sprite.unknown_46, $4888
+	dw sprite.general_purpose_46, $4888
 	dw sprite.max_x_speed, $FEC0
 	dw !initcommand_success
 
 DATA_FF84D6:
 	dw !initcommand_load_subconfig, DATA_FF8144
-	dw sprite.unknown_46, $6828
+	dw sprite.general_purpose_46, $6828
 	dw sprite.max_x_speed, $FF00
 	dw !initcommand_success
 
 DATA_FF84E4:
 	dw !initcommand_load_subconfig, DATA_FF8144
-	dw sprite.unknown_46, $7000
+	dw sprite.general_purpose_46, $7000
 	dw sprite.max_x_speed, $FEE0
 	dw !initcommand_success
 
 DATA_FF84F2:
 	dw !initcommand_load_subconfig, DATA_FF8144
-	dw sprite.unknown_46, $2820
+	dw sprite.general_purpose_46, $2820
 	dw sprite.max_x_speed, $FEC0
 	dw !initcommand_success
 
 DATA_FF8500:
 	dw !initcommand_load_subconfig, DATA_FF8144
-	dw sprite.unknown_46, $3830
+	dw sprite.general_purpose_46, $3830
 	dw sprite.max_x_speed, $0160
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_success
 
 DATA_FF8512:
 	dw !initcommand_load_subconfig, DATA_FF8144
-	dw sprite.unknown_46, $2828
+	dw sprite.general_purpose_46, $2828
 	dw sprite.max_x_speed, $FF00
 	dw !initcommand_success
 
 DATA_FF8520:
 	dw !initcommand_load_subconfig, DATA_FF7706
 	dw !initcommand_set_animation, $0196
-	dw sprite.unknown_52, $000A
+	dw sprite.movement_state, $000A
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_set_alt_palette, $0038
 	dw !initcommand_success
 
 DATA_FF8536:
 	dw !initcommand_load_subconfig, DATA_FF8520
-	dw sprite.unknown_46, $8000
-	dw sprite.unknown_48, $5000
+	dw sprite.general_purpose_46, $8000
+	dw sprite.general_purpose_48, $5000
 	dw sprite.max_x_speed, $FEA0
 	dw !initcommand_success
 
 DATA_FF8548:
 	dw !initcommand_load_subconfig, DATA_FF8520
-	dw sprite.unknown_46, $5C00
-	dw sprite.unknown_48, $5000
+	dw sprite.general_purpose_46, $5C00
+	dw sprite.general_purpose_48, $5000
 	dw sprite.max_x_speed, $FEA0
 	dw !initcommand_success
 
 DATA_FF855A:
 	dw !initcommand_load_subconfig, DATA_FF8520
-	dw sprite.unknown_46, $3800
-	dw sprite.unknown_48, $5000
+	dw sprite.general_purpose_46, $3800
+	dw sprite.general_purpose_48, $5000
 	dw sprite.max_x_speed, $FEA0
 	dw !initcommand_success
 
 DATA_FF856C:
 	dw !initcommand_load_subconfig, DATA_FF8520
-	dw sprite.unknown_46, $1400
-	dw sprite.unknown_48, $5000
+	dw sprite.general_purpose_46, $1400
+	dw sprite.general_purpose_48, $5000
 	dw sprite.max_x_speed, $FEA0
 	dw !initcommand_success
 
 DATA_FF857E:
 	dw !initcommand_load_subconfig, DATA_FF8520
-	dw sprite.unknown_46, $F000
-	dw sprite.unknown_48, $5000
+	dw sprite.general_purpose_46, $F000
+	dw sprite.general_purpose_48, $5000
 	dw sprite.max_x_speed, $FEA0
 	dw !initcommand_success
 
 DATA_FF8590:
 	dw !initcommand_load_subconfig, DATA_FF8520
-	dw sprite.unknown_46, $0080
-	dw sprite.unknown_48, $3000
+	dw sprite.general_purpose_46, $0080
+	dw sprite.general_purpose_48, $3000
 	dw sprite.max_x_speed, $FD80
 	dw !initcommand_success
 
 DATA_FF85A2:
 	dw !initcommand_load_subconfig, DATA_FF8520
-	dw sprite.unknown_46, $8000
-	dw sprite.unknown_48, $7000
+	dw sprite.general_purpose_46, $8000
+	dw sprite.general_purpose_48, $7000
 	dw sprite.max_x_speed, $FEE0
 	dw !initcommand_success
 
 DATA_FF85B4:
 	dw !initcommand_load_subconfig, DATA_FF8520
-	dw sprite.unknown_46, $0000
-	dw sprite.unknown_48, $5000
+	dw sprite.general_purpose_46, $0000
+	dw sprite.general_purpose_48, $5000
 	dw sprite.max_x_speed, $0180
 	dw !initcommand_success
 
 DATA_FF85C6:
 	dw !initcommand_load_subconfig, DATA_FF8520
-	dw sprite.unknown_46, $8000
-	dw sprite.unknown_48, $5000
+	dw sprite.general_purpose_46, $8000
+	dw sprite.general_purpose_48, $5000
 	dw sprite.max_x_speed, $0180
 	dw !initcommand_success
 
 DATA_FF85D8:
 	dw !initcommand_load_subconfig, DATA_FF8520
-	dw sprite.unknown_46, $8000
-	dw sprite.unknown_48, $3000
+	dw sprite.general_purpose_46, $8000
+	dw sprite.general_purpose_48, $3000
 	dw sprite.max_x_speed, $0180
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FF85EE:
 	dw !initcommand_load_subconfig, DATA_FF8520
-	dw sprite.unknown_46, $8000
-	dw sprite.unknown_48, $3000
+	dw sprite.general_purpose_46, $8000
+	dw sprite.general_purpose_48, $3000
 	dw sprite.max_x_speed, $0280
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FF8604:
 	dw !initcommand_load_subconfig, DATA_FF8520
-	dw sprite.unknown_46, $0000
-	dw sprite.unknown_48, $3000
+	dw sprite.general_purpose_46, $0000
+	dw sprite.general_purpose_48, $3000
 	dw sprite.max_x_speed, $0280
 	dw !initcommand_success
 
 DATA_FF8616:
 	dw !initcommand_load_subconfig, DATA_FF8D84
-	dw sprite.unknown_46, $5C00
-	dw sprite.unknown_48, $6800
+	dw sprite.general_purpose_46, $5C00
+	dw sprite.general_purpose_48, $6800
 	dw sprite.max_x_speed, $FEC0
 	dw !initcommand_success
 
 DATA_FF8628:
 	dw !initcommand_load_subconfig, DATA_FF8D84
-	dw sprite.unknown_46, $1400
-	dw sprite.unknown_48, $6800
+	dw sprite.general_purpose_46, $1400
+	dw sprite.general_purpose_48, $6800
 	dw sprite.max_x_speed, $FEC0
 	dw !initcommand_success
 
 DATA_FF863A:
 	dw !initcommand_load_subconfig, DATA_FF8520
-	dw sprite.unknown_46, $0000
-	dw sprite.unknown_48, $5800
+	dw sprite.general_purpose_46, $0000
+	dw sprite.general_purpose_48, $5800
 	dw sprite.max_x_speed, $0120
 	dw !initcommand_success
 
 DATA_FF864C:
 	dw !initcommand_load_subconfig, DATA_FF8520
-	dw sprite.unknown_46, $DC00
-	dw sprite.unknown_48, $5800
+	dw sprite.general_purpose_46, $DC00
+	dw sprite.general_purpose_48, $5800
 	dw sprite.max_x_speed, $0120
 	dw !initcommand_success
 
 DATA_FF865E:
 	dw !initcommand_load_subconfig, DATA_FF8520
-	dw sprite.unknown_46, $0000
-	dw sprite.unknown_48, $2800
+	dw sprite.general_purpose_46, $0000
+	dw sprite.general_purpose_48, $2800
 	dw sprite.max_x_speed, $0160
 	dw !initcommand_success
 
 DATA_FF8670:
 	dw !initcommand_load_subconfig, DATA_FF8520
-	dw sprite.unknown_46, $8000
-	dw sprite.unknown_48, $3000
+	dw sprite.general_purpose_46, $8000
+	dw sprite.general_purpose_48, $3000
 	dw sprite.max_x_speed, $0300
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FF8686:
 	dw !initcommand_load_subconfig, DATA_FF8520
-	dw sprite.unknown_46, $8000
-	dw sprite.unknown_48, $4800
+	dw sprite.general_purpose_46, $8000
+	dw sprite.general_purpose_48, $4800
 	dw sprite.max_x_speed, $0200
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FF869C:
 	dw !initcommand_load_subconfig, DATA_FF8520
-	dw sprite.unknown_46, $C000
-	dw sprite.unknown_48, $4800
+	dw sprite.general_purpose_46, $C000
+	dw sprite.general_purpose_48, $4800
 	dw sprite.max_x_speed, $0180
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FF86B2:
 	dw !initcommand_load_subconfig, DATA_FF8520
-	dw sprite.unknown_46, $0000
-	dw sprite.unknown_48, $3000
+	dw sprite.general_purpose_46, $0000
+	dw sprite.general_purpose_48, $3000
 	dw sprite.max_x_speed, $FE00
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FF86C8:
 	dw !initcommand_load_subconfig, DATA_FF8520
-	dw sprite.unknown_46, $0000
-	dw sprite.unknown_48, $3000
+	dw sprite.general_purpose_46, $0000
+	dw sprite.general_purpose_48, $3000
 	dw sprite.max_x_speed, $0280
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FF86DE:
 	dw !initcommand_load_subconfig, DATA_FF8520
-	dw sprite.unknown_46, $8000
-	dw sprite.unknown_48, $4000
+	dw sprite.general_purpose_46, $8000
+	dw sprite.general_purpose_48, $4000
 	dw sprite.max_x_speed, $01C0
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FF86F4:
 	dw !initcommand_load_subconfig, DATA_FF8520
-	dw sprite.unknown_46, $0000
-	dw sprite.unknown_48, $7000
+	dw sprite.general_purpose_46, $0000
+	dw sprite.general_purpose_48, $7000
 	dw sprite.max_x_speed, $00F8
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FF870A:
 	dw !initcommand_load_subconfig, DATA_FF8520
-	dw sprite.unknown_46, $4000
-	dw sprite.unknown_48, $7000
+	dw sprite.general_purpose_46, $4000
+	dw sprite.general_purpose_48, $7000
 	dw sprite.max_x_speed, $00F8
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FF8720:
 	dw !initcommand_load_subconfig, DATA_FF8520
-	dw sprite.unknown_46, $8000
-	dw sprite.unknown_48, $7000
+	dw sprite.general_purpose_46, $8000
+	dw sprite.general_purpose_48, $7000
 	dw sprite.max_x_speed, $00F8
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FF8736:
 	dw !initcommand_load_subconfig, DATA_FF8520
-	dw sprite.unknown_46, $C000
-	dw sprite.unknown_48, $7000
+	dw sprite.general_purpose_46, $C000
+	dw sprite.general_purpose_48, $7000
 	dw sprite.max_x_speed, $00F8
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FF874C:
 	dw !initcommand_load_subconfig, DATA_FF8520
-	dw sprite.unknown_46, $0000
-	dw sprite.unknown_48, $3000
+	dw sprite.general_purpose_46, $0000
+	dw sprite.general_purpose_48, $3000
 	dw sprite.max_x_speed, $0140
 	dw !initcommand_success
 
 DATA_FF875E:
 	dw !initcommand_load_subconfig, DATA_FF8520
-	dw sprite.unknown_46, $8000
-	dw sprite.unknown_48, $2000
+	dw sprite.general_purpose_46, $8000
+	dw sprite.general_purpose_48, $2000
 	dw sprite.max_x_speed, $0380
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FF8774:
 	dw !initcommand_load_subconfig, DATA_FF8520
-	dw sprite.unknown_46, $8000
-	dw sprite.unknown_48, $2000
+	dw sprite.general_purpose_46, $8000
+	dw sprite.general_purpose_48, $2000
 	dw sprite.max_x_speed, $0280
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FF878A:
 	dw !initcommand_load_subconfig, DATA_FF8520
-	dw sprite.unknown_46, $E000
-	dw sprite.unknown_48, $3000
+	dw sprite.general_purpose_46, $E000
+	dw sprite.general_purpose_48, $3000
 	dw sprite.max_x_speed, $0180
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FF87A0:
 	dw !initcommand_load_subconfig, DATA_FF8520
-	dw sprite.unknown_46, $1000
-	dw sprite.unknown_48, $3000
+	dw sprite.general_purpose_46, $1000
+	dw sprite.general_purpose_48, $3000
 	dw sprite.max_x_speed, $0180
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FF87B6:
 	dw !initcommand_load_subconfig, DATA_FF8520
-	dw sprite.unknown_46, $4000
-	dw sprite.unknown_48, $3000
+	dw sprite.general_purpose_46, $4000
+	dw sprite.general_purpose_48, $3000
 	dw sprite.max_x_speed, $0180
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FF87CC:
 	dw !initcommand_load_subconfig, DATA_FF8520
-	dw sprite.unknown_46, $7000
-	dw sprite.unknown_48, $3000
+	dw sprite.general_purpose_46, $7000
+	dw sprite.general_purpose_48, $3000
 	dw sprite.max_x_speed, $0180
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FF87E2:
 	dw !initcommand_load_subconfig, DATA_FF8520
-	dw sprite.unknown_46, $0000
-	dw sprite.unknown_48, $3000
+	dw sprite.general_purpose_46, $0000
+	dw sprite.general_purpose_48, $3000
 	dw sprite.max_x_speed, $0140
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FF87F8:
 	dw !initcommand_load_subconfig, DATA_FF8520
-	dw sprite.unknown_46, $8000
-	dw sprite.unknown_48, $3000
+	dw sprite.general_purpose_46, $8000
+	dw sprite.general_purpose_48, $3000
 	dw sprite.max_x_speed, $0140
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FF880E:
 	dw !initcommand_load_subconfig, DATA_FF8520
-	dw sprite.unknown_46, $4000
-	dw sprite.unknown_48, $3000
+	dw sprite.general_purpose_46, $4000
+	dw sprite.general_purpose_48, $3000
 	dw sprite.max_x_speed, $0280
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FF8824:
 	dw !initcommand_load_subconfig, DATA_FF8520
-	dw sprite.unknown_46, $C000
-	dw sprite.unknown_48, $3000
+	dw sprite.general_purpose_46, $C000
+	dw sprite.general_purpose_48, $3000
 	dw sprite.max_x_speed, $0280
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FF883A:
 	dw !initcommand_load_subconfig, DATA_FF8520
-	dw sprite.unknown_46, $8000
-	dw sprite.unknown_48, $3000
+	dw sprite.general_purpose_46, $8000
+	dw sprite.general_purpose_48, $3000
 	dw sprite.max_x_speed, $FE00
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FF8850:
 	dw !initcommand_load_subconfig, DATA_FF8520
-	dw sprite.unknown_46, $2000
-	dw sprite.unknown_48, $3000
+	dw sprite.general_purpose_46, $2000
+	dw sprite.general_purpose_48, $3000
 	dw sprite.max_x_speed, $0200
 	dw !initcommand_success
 
 DATA_FF8862:
 	dw !initcommand_load_subconfig, DATA_FF8520
-	dw sprite.unknown_46, $8000
-	dw sprite.unknown_48, $2000
+	dw sprite.general_purpose_46, $8000
+	dw sprite.general_purpose_48, $2000
 	dw sprite.max_x_speed, $0280
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FF8878:
 	dw !initcommand_load_subconfig, DATA_FF8520
-	dw sprite.unknown_46, $8000
-	dw sprite.unknown_48, $2800
+	dw sprite.general_purpose_46, $8000
+	dw sprite.general_purpose_48, $2800
 	dw sprite.max_x_speed, $0160
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FF888E:
 	dw !initcommand_load_subconfig, DATA_FF8520
-	dw sprite.unknown_46, $8000
-	dw sprite.unknown_48, $3800
+	dw sprite.general_purpose_46, $8000
+	dw sprite.general_purpose_48, $3800
 	dw sprite.max_x_speed, $0180
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FF88A4:
 	dw !initcommand_load_subconfig, DATA_FF8520
-	dw sprite.unknown_46, $2000
-	dw sprite.unknown_48, $3000
+	dw sprite.general_purpose_46, $2000
+	dw sprite.general_purpose_48, $3000
 	dw sprite.max_x_speed, $0300
 	dw !initcommand_success
 
 DATA_FF88B6:
 	dw !initcommand_load_subconfig, DATA_FF8520
-	dw sprite.unknown_46, $8000
-	dw sprite.unknown_48, $2800
+	dw sprite.general_purpose_46, $8000
+	dw sprite.general_purpose_48, $2800
 	dw sprite.max_x_speed, $FEA0
 	dw !initcommand_success
 
 DATA_FF88C8:
 	dw !initcommand_load_subconfig, DATA_FF8520
-	dw sprite.unknown_46, $8000
-	dw sprite.unknown_48, $4800
+	dw sprite.general_purpose_46, $8000
+	dw sprite.general_purpose_48, $4800
 	dw sprite.max_x_speed, $0100
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FF88DE:
 	dw !initcommand_load_subconfig, DATA_FF8520
-	dw sprite.unknown_46, $2000
-	dw sprite.unknown_48, $2400
+	dw sprite.general_purpose_46, $2000
+	dw sprite.general_purpose_48, $2400
 	dw sprite.max_x_speed, $FE60
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FF88F4:
 	dw !initcommand_load_subconfig, DATA_FF8520
-	dw sprite.unknown_46, $0000
-	dw sprite.unknown_48, $3000
+	dw sprite.general_purpose_46, $0000
+	dw sprite.general_purpose_48, $3000
 	dw sprite.max_x_speed, $0280
 	dw !initcommand_success
 
 DATA_FF8906:
 	dw !initcommand_load_subconfig, DATA_FF8520
-	dw sprite.unknown_46, $1000
-	dw sprite.unknown_48, $3000
+	dw sprite.general_purpose_46, $1000
+	dw sprite.general_purpose_48, $3000
 	dw sprite.max_x_speed, $0280
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
@@ -10749,115 +10789,115 @@ DATA_FF8906:
 DATA_FF891C:
 	dw !initcommand_load_subconfig, DATA_FF7706
 	dw !initcommand_set_animation, $0196
-	dw sprite.unknown_52, $000B
+	dw sprite.movement_state, $000B
 	dw !initcommand_set_alt_palette, $0038
 	dw !initcommand_success
 
 DATA_FF892E:
 	dw !initcommand_load_subconfig, DATA_FF891C
-	dw sprite.unknown_46, $0000
-	dw sprite.unknown_48, $4000
-	dw sprite.unknown_4A, $40C0
+	dw sprite.general_purpose_46, $0000
+	dw sprite.general_purpose_48, $4000
+	dw sprite.general_purpose_4A, $40C0
 	dw sprite.max_x_speed, $FE40
 	dw !initcommand_success
 
 DATA_FF8944:
 	dw !initcommand_load_subconfig, DATA_FF891C
 	dw !initcommand_set_animation, $0197
-	dw sprite.unknown_46, $A000
-	dw sprite.unknown_48, $3000
-	dw sprite.unknown_4A, $0080
+	dw sprite.general_purpose_46, $A000
+	dw sprite.general_purpose_48, $3000
+	dw sprite.general_purpose_4A, $0080
 	dw sprite.max_x_speed, $FE00
 	dw !initcommand_success
 
 DATA_FF895E:
 	dw !initcommand_load_subconfig, DATA_FF891C
 	dw !initcommand_set_animation, $0197
-	dw sprite.unknown_46, $4000
-	dw sprite.unknown_48, $2000
-	dw sprite.unknown_4A, $8000
+	dw sprite.general_purpose_46, $4000
+	dw sprite.general_purpose_48, $2000
+	dw sprite.general_purpose_4A, $8000
 	dw sprite.max_x_speed, $FE00
 	dw !initcommand_success
 
 DATA_FF8978:
 	dw !initcommand_load_subconfig, DATA_FF891C
 	dw !initcommand_set_animation, $0197
-	dw sprite.unknown_46, $A000
-	dw sprite.unknown_48, $3000
-	dw sprite.unknown_4A, $0080
+	dw sprite.general_purpose_46, $A000
+	dw sprite.general_purpose_48, $3000
+	dw sprite.general_purpose_4A, $0080
 	dw sprite.max_x_speed, $FDA0
 	dw !initcommand_success
 
 DATA_FF8992:
 	dw !initcommand_load_subconfig, DATA_FF891C
 	dw !initcommand_set_animation, $0197
-	dw sprite.unknown_46, $8000
-	dw sprite.unknown_48, $3000
-	dw sprite.unknown_4A, $0080
+	dw sprite.general_purpose_46, $8000
+	dw sprite.general_purpose_48, $3000
+	dw sprite.general_purpose_4A, $0080
 	dw sprite.max_x_speed, $02C0
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_success
 
 DATA_FF89B0:
 	dw !initcommand_load_subconfig, DATA_FF891C
-	dw sprite.unknown_46, $0000
-	dw sprite.unknown_48, $3800
-	dw sprite.unknown_4A, $3CC0
+	dw sprite.general_purpose_46, $0000
+	dw sprite.general_purpose_48, $3800
+	dw sprite.general_purpose_4A, $3CC0
 	dw sprite.max_x_speed, $FE60
 	dw !initcommand_success
 
 DATA_FF89C6:
 	dw !initcommand_load_subconfig, DATA_FF891C
-	dw sprite.unknown_46, $0000
-	dw sprite.unknown_48, $4000
-	dw sprite.unknown_4A, $3FC0
+	dw sprite.general_purpose_46, $0000
+	dw sprite.general_purpose_48, $4000
+	dw sprite.general_purpose_4A, $3FC0
 	dw sprite.max_x_speed, $FE80
 	dw !initcommand_success
 
 DATA_FF89DC:
 	dw !initcommand_load_subconfig, DATA_FF891C
-	dw sprite.unknown_46, $4000
-	dw sprite.unknown_48, $3000
-	dw sprite.unknown_4A, $40C0
+	dw sprite.general_purpose_46, $4000
+	dw sprite.general_purpose_48, $3000
+	dw sprite.general_purpose_4A, $40C0
 	dw sprite.max_x_speed, $01C0
 	dw !initcommand_success
 
 DATA_FF89F2:
 	dw !initcommand_load_subconfig, DATA_FF891C
 	dw !initcommand_set_animation, $0197
-	dw sprite.unknown_46, $C000
-	dw sprite.unknown_48, $3000
-	dw sprite.unknown_4A, $8000
+	dw sprite.general_purpose_46, $C000
+	dw sprite.general_purpose_48, $3000
+	dw sprite.general_purpose_4A, $8000
 	dw sprite.max_x_speed, $0200
 	dw !initcommand_success
 
 DATA_FF8A0C:
 	dw !initcommand_load_subconfig, DATA_FF76E0
-	dw sprite.unknown_54, DATA_FF0302
+	dw sprite.constants_address, DATA_FF0302
 	dw !initcommand_set_alt_palette, $0048
 	dw !initcommand_success
 
 DATA_FF8A1A:
 	dw !initcommand_load_subconfig, DATA_FF7706
-	dw sprite.unknown_54, DATA_FF0302
+	dw sprite.constants_address, DATA_FF0302
 	dw !initcommand_set_alt_palette, $0048
 	dw !initcommand_success
 
 DATA_FF8A28:
 	dw !initcommand_load_subconfig, DATA_FF8A0C
 	dw !initcommand_set_animation, $0197
-	dw sprite.unknown_46, $0202
+	dw sprite.general_purpose_46, $0202
 	dw sprite.max_x_speed, $0040
-	dw sprite.unknown_4A, $0203
+	dw sprite.general_purpose_4A, $0203
 	dw sprite.max_y_speed, $0060
 	dw !initcommand_success
 
 DATA_FF8A42:
 	dw !initcommand_load_subconfig, DATA_FF8A0C
 	dw !initcommand_set_animation, $0197
-	dw sprite.unknown_46, $0202
+	dw sprite.general_purpose_46, $0202
 	dw sprite.max_x_speed, $0040
-	dw sprite.unknown_4A, $0203
+	dw sprite.general_purpose_4A, $0203
 	dw sprite.max_y_speed, $0060
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_success
@@ -10865,18 +10905,18 @@ DATA_FF8A42:
 DATA_FF8A60:
 	dw !initcommand_load_subconfig, DATA_FF8A0C
 	dw !initcommand_set_animation, $0197
-	dw sprite.unknown_46, $0204
+	dw sprite.general_purpose_46, $0204
 	dw sprite.max_x_speed, $0048
-	dw sprite.unknown_4A, $0301
+	dw sprite.general_purpose_4A, $0301
 	dw sprite.max_y_speed, $0058
 	dw !initcommand_success
 
 DATA_FF8A7A:
 	dw !initcommand_load_subconfig, DATA_FF8A0C
 	dw !initcommand_set_animation, $0197
-	dw sprite.unknown_46, $0103
+	dw sprite.general_purpose_46, $0103
 	dw sprite.max_x_speed, $0050
-	dw sprite.unknown_4A, $0201
+	dw sprite.general_purpose_4A, $0201
 	dw sprite.max_y_speed, $0068
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_success
@@ -10884,9 +10924,9 @@ DATA_FF8A7A:
 DATA_FF8A98:
 	dw !initcommand_load_subconfig, DATA_FF8A0C
 	dw !initcommand_set_animation, $0197
-	dw sprite.unknown_46, $0201
+	dw sprite.general_purpose_46, $0201
 	dw sprite.max_x_speed, $0038
-	dw sprite.unknown_4A, $0204
+	dw sprite.general_purpose_4A, $0204
 	dw sprite.max_y_speed, $0058
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_success
@@ -10894,8 +10934,8 @@ DATA_FF8A98:
 DATA_FF8AB6:
 	dw !initcommand_load_subconfig, DATA_FF8A0C
 	dw !initcommand_set_animation, $0197
-	dw sprite.unknown_52, $0008
-	dw sprite.unknown_4A, $0203
+	dw sprite.movement_state, $0008
+	dw sprite.general_purpose_4A, $0203
 	dw sprite.max_y_speed, $0060
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_success
@@ -10914,139 +10954,139 @@ DATA_FF8ADA:
 DATA_FF8AE8:
 	dw !initcommand_load_subconfig, DATA_FF8A0C
 	dw !initcommand_set_animation, $0196
-	dw sprite.unknown_4A, $0203
+	dw sprite.general_purpose_4A, $0203
 	dw sprite.max_y_speed, $0060
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_success
 
 DATA_FF8AFE:
 	dw !initcommand_load_subconfig, DATA_FF8AE8
-	dw sprite.unknown_46, $3030
+	dw sprite.general_purpose_46, $3030
 	dw sprite.max_x_speed, $0180
 	dw !initcommand_success
 
 DATA_FF8B0C:
 	dw !initcommand_load_subconfig, DATA_FF8AE8
-	dw sprite.unknown_46, $3030
+	dw sprite.general_purpose_46, $3030
 	dw sprite.max_x_speed, $FE80
 	dw !initcommand_success
 
 DATA_FF8B1A:
 	dw !initcommand_load_subconfig, DATA_FF8AE8
-	dw sprite.unknown_46, $5050
+	dw sprite.general_purpose_46, $5050
 	dw sprite.max_x_speed, $0140
-	dw sprite.unknown_4A, $0301
+	dw sprite.general_purpose_4A, $0301
 	dw sprite.max_y_speed, $0048
 	dw !initcommand_success
 
 DATA_FF8B30:
 	dw !initcommand_load_subconfig, DATA_FF8AE8
-	dw sprite.unknown_46, $70A8
+	dw sprite.general_purpose_46, $70A8
 	dw sprite.max_x_speed, $0240
 	dw !initcommand_success
 
 DATA_FF8B3E:
 	dw !initcommand_load_subconfig, DATA_FF8AE8
-	dw sprite.unknown_46, $5858
+	dw sprite.general_purpose_46, $5858
 	dw sprite.max_x_speed, $0180
 	dw !initcommand_success
 
 DATA_FF8B4C:
 	dw !initcommand_load_subconfig, DATA_FF8AE8
-	dw sprite.unknown_46, $B068
+	dw sprite.general_purpose_46, $B068
 	dw sprite.max_x_speed, $0240
-	dw sprite.unknown_4A, $0403
+	dw sprite.general_purpose_4A, $0403
 	dw sprite.max_y_speed, $0050
 	dw !initcommand_success
 
 DATA_FF8B62:
 	dw !initcommand_load_subconfig, DATA_FF8AE8
-	dw sprite.unknown_46, $3030
+	dw sprite.general_purpose_46, $3030
 	dw sprite.max_x_speed, $FEC0
-	dw sprite.unknown_4A, $0203
+	dw sprite.general_purpose_4A, $0203
 	dw sprite.max_y_speed, $0060
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FF8B7C:
 	dw !initcommand_load_subconfig, DATA_FF8AE8
-	dw sprite.unknown_46, $2828
+	dw sprite.general_purpose_46, $2828
 	dw sprite.max_x_speed, $0100
-	dw sprite.unknown_4A, $0403
+	dw sprite.general_purpose_4A, $0403
 	dw sprite.max_y_speed, $0050
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FF8B96:
 	dw !initcommand_load_subconfig, DATA_FF8AE8
-	dw sprite.unknown_46, $5050
+	dw sprite.general_purpose_46, $5050
 	dw sprite.max_x_speed, $FE80
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FF8BA8:
 	dw !initcommand_load_subconfig, DATA_FF8AE8
-	dw sprite.unknown_46, $4040
+	dw sprite.general_purpose_46, $4040
 	dw sprite.max_x_speed, $FEC0
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FF8BBA:
 	dw !initcommand_load_subconfig, DATA_FF8AE8
-	dw sprite.unknown_46, $4848
+	dw sprite.general_purpose_46, $4848
 	dw sprite.max_x_speed, $FD80
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FF8BCC:
 	dw !initcommand_load_subconfig, DATA_FF8AE8
-	dw sprite.unknown_46, $3030
+	dw sprite.general_purpose_46, $3030
 	dw sprite.max_x_speed, $FE40
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FF8BDE:
 	dw !initcommand_load_subconfig, DATA_FF8AE8
-	dw sprite.unknown_46, $7818
+	dw sprite.general_purpose_46, $7818
 	dw sprite.max_x_speed, $FD80
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FF8BF0:
 	dw !initcommand_load_subconfig, DATA_FF8AE8
-	dw sprite.unknown_46, $3030
+	dw sprite.general_purpose_46, $3030
 	dw sprite.max_x_speed, $FE60
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FF8C02:
 	dw !initcommand_load_subconfig, DATA_FF8AE8
-	dw sprite.unknown_46, $3030
+	dw sprite.general_purpose_46, $3030
 	dw sprite.max_x_speed, $FE40
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FF8C14:
 	dw !initcommand_load_subconfig, DATA_FF8AE8
-	dw sprite.unknown_46, $9898
+	dw sprite.general_purpose_46, $9898
 	dw sprite.max_x_speed, $01C0
 	dw !initcommand_success
 
 DATA_FF8C22:
 	dw !initcommand_load_subconfig, DATA_FF8A0C
 	dw !initcommand_set_animation, $0197
-	dw sprite.unknown_46, $0202
+	dw sprite.general_purpose_46, $0202
 	dw sprite.max_x_speed, $0040
-	dw sprite.unknown_4A, $4040
+	dw sprite.general_purpose_4A, $4040
 	dw sprite.max_y_speed, $0180
 	dw !initcommand_success
 
 DATA_FF8C3C:
 	dw !initcommand_load_subconfig, DATA_FF8A0C
 	dw !initcommand_set_animation, $0197
-	dw sprite.unknown_46, $0202
+	dw sprite.general_purpose_46, $0202
 	dw sprite.max_x_speed, $0040
-	dw sprite.unknown_4A, $3030
+	dw sprite.general_purpose_4A, $3030
 	dw sprite.max_y_speed, $0180
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_success
@@ -11054,9 +11094,9 @@ DATA_FF8C3C:
 DATA_FF8C5A:
 	dw !initcommand_load_subconfig, DATA_FF8A0C
 	dw !initcommand_set_animation, $0197
-	dw sprite.unknown_46, $0202
+	dw sprite.general_purpose_46, $0202
 	dw sprite.max_x_speed, $0040
-	dw sprite.unknown_4A, $3030
+	dw sprite.general_purpose_4A, $3030
 	dw sprite.max_y_speed, $FE80
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_success
@@ -11064,9 +11104,9 @@ DATA_FF8C5A:
 DATA_FF8C78:
 	dw !initcommand_load_subconfig, DATA_FF8A0C
 	dw !initcommand_set_animation, $0197
-	dw sprite.unknown_46, $0202
+	dw sprite.general_purpose_46, $0202
 	dw sprite.max_x_speed, $0040
-	dw sprite.unknown_4A, $1818
+	dw sprite.general_purpose_4A, $1818
 	dw sprite.max_y_speed, $FEE0
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_success
@@ -11074,9 +11114,9 @@ DATA_FF8C78:
 DATA_FF8C96:
 	dw !initcommand_load_subconfig, DATA_FF8A0C
 	dw !initcommand_set_animation, $0197
-	dw sprite.unknown_46, $0202
+	dw sprite.general_purpose_46, $0202
 	dw sprite.max_x_speed, $0040
-	dw sprite.unknown_4A, $5050
+	dw sprite.general_purpose_4A, $5050
 	dw sprite.max_y_speed, $0180
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_success
@@ -11084,310 +11124,310 @@ DATA_FF8C96:
 DATA_FF8CB4:
 	dw !initcommand_load_subconfig, DATA_FF8A0C
 	dw !initcommand_set_animation, $0197
-	dw sprite.unknown_46, $0103
+	dw sprite.general_purpose_46, $0103
 	dw sprite.max_x_speed, $0050
-	dw sprite.unknown_4A, $446C
+	dw sprite.general_purpose_4A, $446C
 	dw sprite.max_y_speed, $0180
 	dw !initcommand_success
 
 DATA_FF8CCE:
 	dw !initcommand_load_subconfig, DATA_FF8A0C
 	dw !initcommand_set_animation, $0197
-	dw sprite.unknown_46, $0202
+	dw sprite.general_purpose_46, $0202
 	dw sprite.max_x_speed, $0040
-	dw sprite.unknown_4A, $6C44
+	dw sprite.general_purpose_4A, $6C44
 	dw sprite.max_y_speed, $0180
 	dw !initcommand_success
 
 DATA_FF8CE8:
 	dw !initcommand_load_subconfig, DATA_FF8A0C
 	dw !initcommand_set_animation, $0197
-	dw sprite.unknown_46, $0301
+	dw sprite.general_purpose_46, $0301
 	dw sprite.max_x_speed, $0050
-	dw sprite.unknown_4A, $5050
+	dw sprite.general_purpose_4A, $5050
 	dw sprite.max_y_speed, $0180
 	dw !initcommand_success
 
 DATA_FF8D02:
 	dw !initcommand_load_subconfig, DATA_FF8A0C
 	dw !initcommand_set_animation, $0197
-	dw sprite.unknown_46, $0202
+	dw sprite.general_purpose_46, $0202
 	dw sprite.max_x_speed, $0040
-	dw sprite.unknown_4A, $2080
+	dw sprite.general_purpose_4A, $2080
 	dw sprite.max_y_speed, $FE60
 	dw !initcommand_success
 
 DATA_FF8D1C:
 	dw !initcommand_load_subconfig, DATA_FF8A0C
 	dw !initcommand_set_animation, $0197
-	dw sprite.unknown_46, $0202
+	dw sprite.general_purpose_46, $0202
 	dw sprite.max_x_speed, $0040
-	dw sprite.unknown_4A, $5050
+	dw sprite.general_purpose_4A, $5050
 	dw sprite.max_y_speed, $FE60
 	dw !initcommand_success
 
 DATA_FF8D36:
 	dw !initcommand_load_subconfig, DATA_FF8A0C
 	dw !initcommand_set_animation, $0197
-	dw sprite.unknown_46, $0202
+	dw sprite.general_purpose_46, $0202
 	dw sprite.max_x_speed, $0040
-	dw sprite.unknown_4A, $6060
+	dw sprite.general_purpose_4A, $6060
 	dw sprite.max_y_speed, $0140
 	dw !initcommand_success
 
 DATA_FF8D50:
 	dw !initcommand_load_subconfig, DATA_FF8A0C
 	dw !initcommand_set_animation, $0197
-	dw sprite.unknown_46, $0202
+	dw sprite.general_purpose_46, $0202
 	dw sprite.max_x_speed, $0040
-	dw sprite.unknown_4A, $3030
+	dw sprite.general_purpose_4A, $3030
 	dw sprite.max_y_speed, $0180
 	dw !initcommand_success
 
 DATA_FF8D6A:
 	dw !initcommand_load_subconfig, DATA_FF8A0C
 	dw !initcommand_set_animation, $0197
-	dw sprite.unknown_46, $0202
+	dw sprite.general_purpose_46, $0202
 	dw sprite.max_x_speed, $0040
-	dw sprite.unknown_4A, $5050
+	dw sprite.general_purpose_4A, $5050
 	dw sprite.max_y_speed, $FE00
 	dw !initcommand_success
 
 DATA_FF8D84:
 	dw !initcommand_load_subconfig, DATA_FF8A1A
 	dw !initcommand_set_animation, $0196
-	dw sprite.unknown_52, $000A
+	dw sprite.movement_state, $000A
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_success
 
 DATA_FF8D96:
 	dw !initcommand_load_subconfig, DATA_FF8D84
-	dw sprite.unknown_46, $8000
-	dw sprite.unknown_48, $3000
+	dw sprite.general_purpose_46, $8000
+	dw sprite.general_purpose_48, $3000
 	dw sprite.max_x_speed, $0180
 	dw !initcommand_success
 
 DATA_FF8DA8:
 	dw !initcommand_load_subconfig, DATA_FF8520
-	dw sprite.unknown_46, $8000
-	dw sprite.unknown_48, $6800
+	dw sprite.general_purpose_46, $8000
+	dw sprite.general_purpose_48, $6800
 	dw sprite.max_x_speed, $FEC0
 	dw !initcommand_success
 
 DATA_FF8DBA:
 	dw !initcommand_load_subconfig, DATA_FF8D84
-	dw sprite.unknown_46, $3800
-	dw sprite.unknown_48, $6800
+	dw sprite.general_purpose_46, $3800
+	dw sprite.general_purpose_48, $6800
 	dw sprite.max_x_speed, $FEC0
 	dw !initcommand_success
 
 DATA_FF8DCC:
 	dw !initcommand_load_subconfig, DATA_FF8520
-	dw sprite.unknown_46, $F000
-	dw sprite.unknown_48, $6800
+	dw sprite.general_purpose_46, $F000
+	dw sprite.general_purpose_48, $6800
 	dw sprite.max_x_speed, $FEC0
 	dw !initcommand_success
 
 DATA_FF8DDE:
 	dw !initcommand_load_subconfig, DATA_FF8D84
-	dw sprite.unknown_46, $5C00
-	dw sprite.unknown_48, $6800
+	dw sprite.general_purpose_46, $5C00
+	dw sprite.general_purpose_48, $6800
 	dw sprite.max_x_speed, $FEC0
 	dw !initcommand_success
 
 DATA_FF8DF0:
 	dw !initcommand_load_subconfig, DATA_FF8D84
-	dw sprite.unknown_46, $1400
-	dw sprite.unknown_48, $6800
+	dw sprite.general_purpose_46, $1400
+	dw sprite.general_purpose_48, $6800
 	dw sprite.max_x_speed, $FEC0
 	dw !initcommand_success
 
 DATA_FF8E02:
 	dw !initcommand_load_subconfig, DATA_FF8D84
-	dw sprite.unknown_46, $8000
-	dw sprite.unknown_48, $7800
+	dw sprite.general_purpose_46, $8000
+	dw sprite.general_purpose_48, $7800
 	dw sprite.max_x_speed, $FF40
 	dw !initcommand_success
 
 DATA_FF8E14:
 	dw !initcommand_load_subconfig, DATA_FF8D84
-	dw sprite.unknown_46, $5C00
-	dw sprite.unknown_48, $7800
+	dw sprite.general_purpose_46, $5C00
+	dw sprite.general_purpose_48, $7800
 	dw sprite.max_x_speed, $FF40
 	dw !initcommand_success
 
 DATA_FF8E26:
 	dw !initcommand_load_subconfig, DATA_FF8D84
-	dw sprite.unknown_46, $3800
-	dw sprite.unknown_48, $7800
+	dw sprite.general_purpose_46, $3800
+	dw sprite.general_purpose_48, $7800
 	dw sprite.max_x_speed, $FF40
 	dw !initcommand_success
 
 DATA_FF8E38:
 	dw !initcommand_load_subconfig, DATA_FF8D84
-	dw sprite.unknown_46, $1400
-	dw sprite.unknown_48, $7800
+	dw sprite.general_purpose_46, $1400
+	dw sprite.general_purpose_48, $7800
 	dw sprite.max_x_speed, $FF40
 	dw !initcommand_success
 
 DATA_FF8E4A:
 	dw !initcommand_load_subconfig, DATA_FF8D84
-	dw sprite.unknown_46, $F000
-	dw sprite.unknown_48, $7800
+	dw sprite.general_purpose_46, $F000
+	dw sprite.general_purpose_48, $7800
 	dw sprite.max_x_speed, $FF40
 	dw !initcommand_success
 
 DATA_FF8E5C:
 	dw !initcommand_load_subconfig, DATA_FF8D84
-	dw sprite.unknown_46, $8000
-	dw sprite.unknown_48, $7800
+	dw sprite.general_purpose_46, $8000
+	dw sprite.general_purpose_48, $7800
 	dw sprite.max_x_speed, $00C0
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FF8E72:
 	dw !initcommand_load_subconfig, DATA_FF8D84
-	dw sprite.unknown_46, $5C00
-	dw sprite.unknown_48, $7800
+	dw sprite.general_purpose_46, $5C00
+	dw sprite.general_purpose_48, $7800
 	dw sprite.max_x_speed, $00C0
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FF8E88:
 	dw !initcommand_load_subconfig, DATA_FF8D84
-	dw sprite.unknown_46, $3800
-	dw sprite.unknown_48, $7800
+	dw sprite.general_purpose_46, $3800
+	dw sprite.general_purpose_48, $7800
 	dw sprite.max_x_speed, $00C0
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FF8E9E:
 	dw !initcommand_load_subconfig, DATA_FF8D84
-	dw sprite.unknown_46, $1400
-	dw sprite.unknown_48, $7800
+	dw sprite.general_purpose_46, $1400
+	dw sprite.general_purpose_48, $7800
 	dw sprite.max_x_speed, $00C0
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FF8EB4:
 	dw !initcommand_load_subconfig, DATA_FF8D84
-	dw sprite.unknown_46, $9000
-	dw sprite.unknown_48, $3000
+	dw sprite.general_purpose_46, $9000
+	dw sprite.general_purpose_48, $3000
 	dw sprite.max_x_speed, $0280
 	dw !initcommand_success
 
 DATA_FF8EC6:
 	dw !initcommand_load_subconfig, DATA_FF8D84
-	dw sprite.unknown_46, $0000
-	dw sprite.unknown_48, $5800
+	dw sprite.general_purpose_46, $0000
+	dw sprite.general_purpose_48, $5800
 	dw sprite.max_x_speed, $0140
 	dw !initcommand_success
 
 DATA_FF8ED8:
 	dw !initcommand_load_subconfig, DATA_FF8D84
-	dw sprite.unknown_46, $DC00
-	dw sprite.unknown_48, $5800
+	dw sprite.general_purpose_46, $DC00
+	dw sprite.general_purpose_48, $5800
 	dw sprite.max_x_speed, $0140
 	dw !initcommand_success
 
 DATA_FF8EEA:
 	dw !initcommand_load_subconfig, DATA_FF8D84
-	dw sprite.unknown_46, $B800
-	dw sprite.unknown_48, $5800
+	dw sprite.general_purpose_46, $B800
+	dw sprite.general_purpose_48, $5800
 	dw sprite.max_x_speed, $0140
 	dw !initcommand_success
 
 DATA_FF8EFC:
 	dw !initcommand_load_subconfig, DATA_FF8D84
-	dw sprite.unknown_46, $9400
-	dw sprite.unknown_48, $5800
+	dw sprite.general_purpose_46, $9400
+	dw sprite.general_purpose_48, $5800
 	dw sprite.max_x_speed, $0140
 	dw !initcommand_success
 
 DATA_FF8F0E:
 	dw !initcommand_load_subconfig, DATA_FF8D84
-	dw sprite.unknown_46, $2400
-	dw sprite.unknown_48, $5800
+	dw sprite.general_purpose_46, $2400
+	dw sprite.general_purpose_48, $5800
 	dw sprite.max_x_speed, $0140
 	dw !initcommand_success
 
 DATA_FF8F20:
 	dw !initcommand_load_subconfig, DATA_FF8D84
-	dw sprite.unknown_46, $0000
-	dw sprite.unknown_48, $7000
+	dw sprite.general_purpose_46, $0000
+	dw sprite.general_purpose_48, $7000
 	dw sprite.max_x_speed, $00F0
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FF8F36:
 	dw !initcommand_load_subconfig, DATA_FF8520
-	dw sprite.unknown_46, $4000
-	dw sprite.unknown_48, $7000
+	dw sprite.general_purpose_46, $4000
+	dw sprite.general_purpose_48, $7000
 	dw sprite.max_x_speed, $00F0
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FF8F4C:
 	dw !initcommand_load_subconfig, DATA_FF8D84
-	dw sprite.unknown_46, $8000
-	dw sprite.unknown_48, $7000
+	dw sprite.general_purpose_46, $8000
+	dw sprite.general_purpose_48, $7000
 	dw sprite.max_x_speed, $00F0
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FF8F62:
 	dw !initcommand_load_subconfig, DATA_FF8520
-	dw sprite.unknown_46, $C000
-	dw sprite.unknown_48, $7000
+	dw sprite.general_purpose_46, $C000
+	dw sprite.general_purpose_48, $7000
 	dw sprite.max_x_speed, $00F0
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FF8F78:
 	dw !initcommand_load_subconfig, DATA_FF8D84
-	dw sprite.unknown_46, $2000
-	dw sprite.unknown_48, $6000
+	dw sprite.general_purpose_46, $2000
+	dw sprite.general_purpose_48, $6000
 	dw sprite.max_x_speed, $FF00
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FF8F8E:
 	dw !initcommand_load_subconfig, DATA_FF8D84
-	dw sprite.unknown_46, $A000
-	dw sprite.unknown_48, $4000
+	dw sprite.general_purpose_46, $A000
+	dw sprite.general_purpose_48, $4000
 	dw sprite.max_x_speed, $0140
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FF8FA4:
 	dw !initcommand_load_subconfig, DATA_FF8D84
-	dw sprite.unknown_46, $A000
-	dw sprite.unknown_48, $4000
+	dw sprite.general_purpose_46, $A000
+	dw sprite.general_purpose_48, $4000
 	dw sprite.max_x_speed, $0180
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FF8FBA:
 	dw !initcommand_load_subconfig, DATA_FF8D84
-	dw sprite.unknown_46, $A000
-	dw sprite.unknown_48, $4800
+	dw sprite.general_purpose_46, $A000
+	dw sprite.general_purpose_48, $4800
 	dw sprite.max_x_speed, $FE80
 	dw !initcommand_success
 
 DATA_FF8FCC:
 	dw !initcommand_load_subconfig, DATA_FF8D84
-	dw sprite.unknown_46, $2000
-	dw sprite.unknown_48, $4800
+	dw sprite.general_purpose_46, $2000
+	dw sprite.general_purpose_48, $4800
 	dw sprite.max_x_speed, $FE80
 	dw !initcommand_success
 
 DATA_FF8FDE:
 	dw !initcommand_load_subconfig, DATA_FF8A1A
 	dw !initcommand_set_animation, $0196
-	dw sprite.unknown_52, $000B
-	dw sprite.unknown_46, $0000
-	dw sprite.unknown_48, $4000
-	dw sprite.unknown_4A, $C040
+	dw sprite.movement_state, $000B
+	dw sprite.general_purpose_46, $0000
+	dw sprite.general_purpose_48, $4000
+	dw sprite.general_purpose_4A, $C040
 	dw sprite.max_x_speed, $0180
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_success
@@ -11396,11 +11436,11 @@ DATA_FF8FDE:
 DATA_FF9000:
 	dw sprite.number, $01F0
 	dw sprite.render_order, $00D4
-	dw sprite.unknown_54, DATA_FF02AA
-	dw sprite.action, $0000
+	dw sprite.constants_address, DATA_FF02AA
+	dw sprite.state, $0000
 	dw sprite.x_speed, $0000
 	dw sprite.y_speed, $0000
-	dw sprite.unknown_30, $0120
+	dw sprite.interaction_flags, $0120
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_set_alt_palette, $0053
 	dw !initcommand_set_animation, $019F
@@ -11408,12 +11448,12 @@ DATA_FF9000:
 
 DATA_FF902A:
 	dw !initcommand_load_subconfig, DATA_FF9000
-	dw sprite.unknown_52, $0022
+	dw sprite.movement_state, $0022
 	dw !initcommand_success
 
 DATA_FF9034:
 	dw !initcommand_load_subconfig, DATA_FF9000
-	dw sprite.unknown_52, $0023
+	dw sprite.movement_state, $0023
 	dw !initcommand_success
 
 DATA_FF903E:
@@ -11441,258 +11481,258 @@ DATA_FF9064:
 
 DATA_FF9072:
 	dw !initcommand_load_subconfig, DATA_FF9034
-	dw sprite.unknown_46, $3030
+	dw sprite.general_purpose_46, $3030
 	dw sprite.max_x_speed, $0180
 	dw !initcommand_success
 
 DATA_FF9080:
 	dw !initcommand_load_subconfig, DATA_FF9034
-	dw sprite.unknown_46, $A800
+	dw sprite.general_purpose_46, $A800
 	dw sprite.max_x_speed, $FE80
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FF9092:
 	dw !initcommand_load_subconfig, DATA_FF9034
-	dw sprite.unknown_46, $1414
+	dw sprite.general_purpose_46, $1414
 	dw sprite.max_x_speed, $FD80
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FF90A4:
 	dw !initcommand_load_subconfig, DATA_FF9034
-	dw sprite.unknown_46, $18A8
+	dw sprite.general_purpose_46, $18A8
 	dw sprite.max_x_speed, $01C0
 	dw !initcommand_success
 
 DATA_FF90B2:
 	dw !initcommand_load_subconfig, DATA_FF9034
-	dw sprite.unknown_46, $3030
+	dw sprite.general_purpose_46, $3030
 	dw sprite.max_x_speed, $FD80
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FF90C4:
 	dw !initcommand_load_subconfig, DATA_FF9034
-	dw sprite.unknown_46, $00A8
+	dw sprite.general_purpose_46, $00A8
 	dw sprite.max_x_speed, $FE80
 	dw !initcommand_success
 
 DATA_FF90D2:
 	dw !initcommand_load_subconfig, DATA_FF9034
-	dw sprite.unknown_46, $0098
+	dw sprite.general_purpose_46, $0098
 	dw sprite.max_x_speed, $FE40
 	dw !initcommand_success
 
 DATA_FF90E0:
 	dw !initcommand_load_subconfig, DATA_FF9034
-	dw sprite.unknown_46, $9800
+	dw sprite.general_purpose_46, $9800
 	dw sprite.max_x_speed, $01C0
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FF90F2:
 	dw !initcommand_load_subconfig, DATA_FF9034
-	dw sprite.unknown_46, $0098
+	dw sprite.general_purpose_46, $0098
 	dw sprite.max_x_speed, $01C0
 	dw !initcommand_success
 
 DATA_FF9100:
 	dw !initcommand_load_subconfig, DATA_FF9034
-	dw sprite.unknown_46, $3040
+	dw sprite.general_purpose_46, $3040
 	dw sprite.max_x_speed, $FE40
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FF9112:
 	dw !initcommand_load_subconfig, DATA_FF9034
-	dw sprite.unknown_46, $4040
+	dw sprite.general_purpose_46, $4040
 	dw sprite.max_x_speed, $FE40
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FF9124:
 	dw !initcommand_load_subconfig, DATA_FF9034
-	dw sprite.unknown_46, $CF30
+	dw sprite.general_purpose_46, $CF30
 	dw sprite.max_x_speed, $FE80
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FF9136:
 	dw !initcommand_load_subconfig, DATA_FF9034
-	dw sprite.unknown_46, $FF00
+	dw sprite.general_purpose_46, $FF00
 	dw sprite.max_x_speed, $FE80
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FF9148:
 	dw !initcommand_load_subconfig, DATA_FF9034
-	dw sprite.unknown_46, $2020
+	dw sprite.general_purpose_46, $2020
 	dw sprite.max_x_speed, $FE40
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FF915A:
 	dw !initcommand_load_subconfig, DATA_FF9034
-	dw sprite.unknown_46, $3030
+	dw sprite.general_purpose_46, $3030
 	dw sprite.max_x_speed, $0280
 	dw !initcommand_success
 
 DATA_FF9168:
 	dw !initcommand_load_subconfig, DATA_FF9034
-	dw sprite.unknown_46, $A800
+	dw sprite.general_purpose_46, $A800
 	dw sprite.max_x_speed, $FE80
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FF917A:
 	dw !initcommand_load_subconfig, DATA_FF9034
-	dw sprite.unknown_46, $1434
+	dw sprite.general_purpose_46, $1434
 	dw sprite.max_x_speed, $0180
 	dw !initcommand_success
 
 DATA_FF9188:
 	dw !initcommand_load_subconfig, DATA_FF9034
-	dw sprite.unknown_46, $3030
+	dw sprite.general_purpose_46, $3030
 	dw sprite.max_x_speed, $FE80
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FF919A:
 	dw !initcommand_load_subconfig, DATA_FF9034
-	dw sprite.unknown_46, $2C2C
+	dw sprite.general_purpose_46, $2C2C
 	dw sprite.max_x_speed, $FF20
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FF91AC:
 	dw !initcommand_load_subconfig, DATA_FF9034
-	dw sprite.unknown_46, $2828
+	dw sprite.general_purpose_46, $2828
 	dw sprite.max_x_speed, $FD80
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FF91BE:
 	dw !initcommand_load_subconfig, DATA_FF9034
-	dw sprite.unknown_46, $2828
+	dw sprite.general_purpose_46, $2828
 	dw sprite.max_x_speed, $0280
 	dw !initcommand_success
 
 DATA_FF91CC:
 	dw !initcommand_load_subconfig, DATA_FF9034
-	dw sprite.unknown_46, $2020
+	dw sprite.general_purpose_46, $2020
 	dw sprite.max_x_speed, $FD00
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FF91DE:
 	dw !initcommand_load_subconfig, DATA_FF9034
-	dw sprite.unknown_46, $1818
+	dw sprite.general_purpose_46, $1818
 	dw sprite.max_x_speed, $0180
 	dw !initcommand_success
 
 DATA_FF91EC:
 	dw !initcommand_load_subconfig, DATA_FF9034
-	dw sprite.unknown_46, $7800
+	dw sprite.general_purpose_46, $7800
 	dw sprite.max_x_speed, $FE80
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FF91FE:
 	dw !initcommand_load_subconfig, DATA_FF9034
-	dw sprite.unknown_46, $CC20
+	dw sprite.general_purpose_46, $CC20
 	dw sprite.max_x_speed, $FEA0
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FF9210:
 	dw !initcommand_load_subconfig, DATA_FF9034
-	dw sprite.unknown_46, $FFD0
+	dw sprite.general_purpose_46, $FFD0
 	dw sprite.max_x_speed, $FE80
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FF9222:
 	dw !initcommand_load_subconfig, DATA_FF9034
-	dw sprite.unknown_46, $1818
+	dw sprite.general_purpose_46, $1818
 	dw sprite.max_x_speed, $FE80
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FF9234:
 	dw !initcommand_load_subconfig, DATA_FF9034
-	dw sprite.unknown_46, $3030
+	dw sprite.general_purpose_46, $3030
 	dw sprite.max_x_speed, $FE00
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FF9246:
 	dw !initcommand_load_subconfig, DATA_FF9034
-	dw sprite.unknown_46, $0808
+	dw sprite.general_purpose_46, $0808
 	dw sprite.max_x_speed, $FEC0
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FF9258:
 	dw !initcommand_load_subconfig, DATA_FF9034
-	dw sprite.unknown_46, $7830
+	dw sprite.general_purpose_46, $7830
 	dw sprite.max_x_speed, $0180
 	dw !initcommand_success
 
 DATA_FF9266:
 	dw !initcommand_load_subconfig, DATA_FF9034
-	dw sprite.unknown_46, $00D0
+	dw sprite.general_purpose_46, $00D0
 	dw sprite.max_x_speed, $01E0
 	dw !initcommand_success
 
 DATA_FF9274:
 	dw !initcommand_load_subconfig, DATA_FF9034
-	dw sprite.unknown_46, $C040
+	dw sprite.general_purpose_46, $C040
 	dw sprite.max_x_speed, $0180
 	dw !initcommand_success
 
 DATA_FF9282:
 	dw !initcommand_load_subconfig, DATA_FF9034
-	dw sprite.unknown_46, $2A2A
+	dw sprite.general_purpose_46, $2A2A
 	dw sprite.max_x_speed, $FE80
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FF9294:
 	dw !initcommand_load_subconfig, DATA_FF9034
-	dw sprite.unknown_46, $EC00
+	dw sprite.general_purpose_46, $EC00
 	dw sprite.max_x_speed, $FEA0
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FF92A6:
 	dw !initcommand_load_subconfig, DATA_FF9034
-	dw sprite.unknown_46, $1414
+	dw sprite.general_purpose_46, $1414
 	dw sprite.max_x_speed, $FE40
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FF92B8:
 	dw !initcommand_load_subconfig, DATA_FF9034
-	dw sprite.unknown_46, $0C0C
+	dw sprite.general_purpose_46, $0C0C
 	dw sprite.max_x_speed, $0160
 	dw !initcommand_success
 
 DATA_FF92C6:
 	dw !initcommand_load_subconfig, DATA_FF9034
-	dw sprite.unknown_46, $3030
+	dw sprite.general_purpose_46, $3030
 	dw sprite.max_x_speed, $0200
 	dw !initcommand_success
 
 DATA_FF92D4:
 	dw sprite.number, $01B4
 	dw sprite.render_order, $00C8
-	dw sprite.unknown_54, DATA_FF0214
-	dw sprite.action, $0000
+	dw sprite.constants_address, DATA_FF0214
+	dw sprite.state, $0000
 	dw sprite.x_speed, $0000
 	dw sprite.max_x_speed, $0000
 	dw sprite.y_speed, $0000
-	dw sprite.unknown_30, $0001
+	dw sprite.interaction_flags, $0001
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_set_alt_palette, $0020
 	dw !initcommand_set_animation, $02E4
@@ -11701,11 +11741,11 @@ DATA_FF92D4:
 DATA_FF9302:
 	dw sprite.number, $0148
 	dw sprite.render_order, $00D4
-	dw sprite.action, $0000
+	dw sprite.state, $0000
 	dw sprite.x_speed, $0000
 	dw sprite.y_speed, $0000
 	dw sprite.unknown_5C, $0000
-	dw sprite.unknown_30, $0120
+	dw sprite.interaction_flags, $0120
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_set_alt_palette, $0002
 	dw !initcommand_success
@@ -11740,13 +11780,13 @@ DATA_FF9358:
 
 DATA_FF9366:
 	dw !initcommand_load_subconfig, DATA_FF9302
-	dw sprite.action, $0003
+	dw sprite.state, $0003
 	dw !initcommand_set_animation, $02B0
 	dw !initcommand_success
 
 DATA_FF9374:
 	dw !initcommand_load_subconfig, DATA_FF9302
-	dw sprite.action, $0003
+	dw sprite.state, $0003
 	dw !initcommand_set_animation, $02B0
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
@@ -11776,7 +11816,7 @@ DATA_FF93A8:
 DATA_FF93B6:
 	dw sprite.number, $0154
 	dw sprite.render_order, $00D4
-	dw sprite.action, $0000
+	dw sprite.state, $0000
 	dw sprite.unknown_5C, $0000
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_set_alt_palette, $0002
@@ -11785,24 +11825,24 @@ DATA_FF93B6:
 
 DATA_FF93D4:
 	dw !initcommand_load_subconfig, DATA_FF93B6
-	dw sprite.unknown_42, $0001
+	dw sprite.general_purpose_42, $0001
 	dw !initcommand_success
 
 DATA_FF93DE:
 	dw !initcommand_load_subconfig, DATA_FF93B6
-	dw sprite.unknown_42, $0001
+	dw sprite.general_purpose_42, $0001
 	dw sprite.unknown_5C, $0015
 	dw !initcommand_success
 
 DATA_FF93EC:
 	dw sprite.number, $01BC
 	dw sprite.render_order, $00C8
-	dw sprite.unknown_54, DATA_FF0214
-	dw sprite.action, $0000
+	dw sprite.constants_address, DATA_FF0214
+	dw sprite.state, $0000
 	dw sprite.x_speed, $0000
 	dw sprite.max_x_speed, $0000
 	dw sprite.y_speed, $0000
-	dw sprite.unknown_30, $0001
+	dw sprite.interaction_flags, $0001
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_set_alt_palette, $0002
 	dw !initcommand_set_animation, $02E6
@@ -11811,7 +11851,7 @@ DATA_FF93EC:
 DATA_FF941A:
 	dw sprite.number, $0254
 	dw sprite.render_order, $00D4
-	dw sprite.unknown_54, DATA_FF9434
+	dw sprite.constants_address, DATA_FF9434
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_set_alt_palette, $002E
 	dw !initcommand_set_animation, $02A6
@@ -11823,218 +11863,218 @@ DATA_FF9434:
 
 DATA_FF943C:
 	dw !initcommand_load_subconfig, DATA_FF941A
-	dw sprite.action, $0000
-	dw sprite.unknown_44, $0020
-	dw sprite.unknown_46, $0020
-	dw sprite.unknown_48, $0080
+	dw sprite.state, $0000
+	dw sprite.general_purpose_44, $0020
+	dw sprite.general_purpose_46, $0020
+	dw sprite.general_purpose_48, $0080
 	dw !initcommand_success
 
 DATA_FF9452:
 	dw !initcommand_load_subconfig, DATA_FF941A
-	dw sprite.action, $0001
-	dw sprite.unknown_44, $0080
-	dw sprite.unknown_46, $0020
-	dw sprite.unknown_48, $0080
+	dw sprite.state, $0001
+	dw sprite.general_purpose_44, $0080
+	dw sprite.general_purpose_46, $0020
+	dw sprite.general_purpose_48, $0080
 	dw !initcommand_success
 
 DATA_FF9468:
 	dw !initcommand_load_subconfig, DATA_FF941A
-	dw sprite.action, $0001
-	dw sprite.unknown_44, $0078
-	dw sprite.unknown_46, $0020
-	dw sprite.unknown_48, $0078
+	dw sprite.state, $0001
+	dw sprite.general_purpose_44, $0078
+	dw sprite.general_purpose_46, $0020
+	dw sprite.general_purpose_48, $0078
 	dw !initcommand_success
 
 DATA_FF947E:
 	dw !initcommand_load_subconfig, DATA_FF941A
-	dw sprite.action, $0001
-	dw sprite.unknown_44, $0078
-	dw sprite.unknown_46, $0020
-	dw sprite.unknown_48, $0078
+	dw sprite.state, $0001
+	dw sprite.general_purpose_44, $0078
+	dw sprite.general_purpose_46, $0020
+	dw sprite.general_purpose_48, $0078
 	dw !initcommand_success
 
 DATA_FF9494:
 	dw !initcommand_load_subconfig, DATA_FF941A
-	dw sprite.action, $0000
-	dw sprite.unknown_44, $0030
-	dw sprite.unknown_46, $0020
-	dw sprite.unknown_48, $0078
+	dw sprite.state, $0000
+	dw sprite.general_purpose_44, $0030
+	dw sprite.general_purpose_46, $0020
+	dw sprite.general_purpose_48, $0078
 	dw !initcommand_success
 
 DATA_FF94AA:
 	dw !initcommand_load_subconfig, DATA_FF941A
-	dw sprite.action, $0001
-	dw sprite.unknown_44, $0040
-	dw sprite.unknown_46, $0020
-	dw sprite.unknown_48, $0010
+	dw sprite.state, $0001
+	dw sprite.general_purpose_44, $0040
+	dw sprite.general_purpose_46, $0020
+	dw sprite.general_purpose_48, $0010
 	dw !initcommand_success
 
 DATA_FF94C0:
 	dw !initcommand_load_subconfig, DATA_FF941A
-	dw sprite.action, $0001
-	dw sprite.unknown_44, $0058
-	dw sprite.unknown_46, $0020
-	dw sprite.unknown_48, $0058
+	dw sprite.state, $0001
+	dw sprite.general_purpose_44, $0058
+	dw sprite.general_purpose_46, $0020
+	dw sprite.general_purpose_48, $0058
 	dw !initcommand_success
 
 DATA_FF94D6:
 	dw !initcommand_load_subconfig, DATA_FF941A
-	dw sprite.action, $0001
-	dw sprite.unknown_44, $0060
-	dw sprite.unknown_46, $0020
-	dw sprite.unknown_48, $0050
+	dw sprite.state, $0001
+	dw sprite.general_purpose_44, $0060
+	dw sprite.general_purpose_46, $0020
+	dw sprite.general_purpose_48, $0050
 	dw !initcommand_success
 
 DATA_FF94EC:
 	dw !initcommand_load_subconfig, DATA_FF941A
-	dw sprite.action, $0001
-	dw sprite.unknown_44, $0068
-	dw sprite.unknown_46, $0020
-	dw sprite.unknown_48, $0078
+	dw sprite.state, $0001
+	dw sprite.general_purpose_44, $0068
+	dw sprite.general_purpose_46, $0020
+	dw sprite.general_purpose_48, $0078
 	dw !initcommand_success
 
 DATA_FF9502:
 	dw !initcommand_load_subconfig, DATA_FF941A
-	dw sprite.action, $0000
-	dw sprite.unknown_44, $0038
-	dw sprite.unknown_46, $0020
-	dw sprite.unknown_48, $0078
+	dw sprite.state, $0000
+	dw sprite.general_purpose_44, $0038
+	dw sprite.general_purpose_46, $0020
+	dw sprite.general_purpose_48, $0078
 	dw !initcommand_success
 
 DATA_FF9518:
 	dw !initcommand_load_subconfig, DATA_FF941A
-	dw sprite.action, $0000
-	dw sprite.unknown_44, $0070
-	dw sprite.unknown_46, $0020
-	dw sprite.unknown_48, $0078
+	dw sprite.state, $0000
+	dw sprite.general_purpose_44, $0070
+	dw sprite.general_purpose_46, $0020
+	dw sprite.general_purpose_48, $0078
 	dw !initcommand_success
 
 DATA_FF952E:
 	dw !initcommand_load_subconfig, DATA_FF941A
-	dw sprite.action, $0001
-	dw sprite.unknown_44, $0010
-	dw sprite.unknown_46, $0030
-	dw sprite.unknown_48, $0010
+	dw sprite.state, $0001
+	dw sprite.general_purpose_44, $0010
+	dw sprite.general_purpose_46, $0030
+	dw sprite.general_purpose_48, $0010
 	dw !initcommand_success
 
 DATA_FF9544:
 	dw !initcommand_load_subconfig, DATA_FF941A
-	dw sprite.action, $0001
-	dw sprite.unknown_44, $000C
-	dw sprite.unknown_46, $0030
-	dw sprite.unknown_48, $0010
+	dw sprite.state, $0001
+	dw sprite.general_purpose_44, $000C
+	dw sprite.general_purpose_46, $0030
+	dw sprite.general_purpose_48, $0010
 	dw !initcommand_success
 
 DATA_FF955A:
 	dw !initcommand_load_subconfig, DATA_FF941A
-	dw sprite.action, $0001
-	dw sprite.unknown_44, $0068
-	dw sprite.unknown_46, $0020
-	dw sprite.unknown_48, $0068
+	dw sprite.state, $0001
+	dw sprite.general_purpose_44, $0068
+	dw sprite.general_purpose_46, $0020
+	dw sprite.general_purpose_48, $0068
 	dw !initcommand_success
 
 DATA_FF9570:
 	dw !initcommand_load_subconfig, DATA_FF941A
-	dw sprite.action, $0000
-	dw sprite.unknown_44, $0040
-	dw sprite.unknown_46, $0020
-	dw sprite.unknown_48, $0068
+	dw sprite.state, $0000
+	dw sprite.general_purpose_44, $0040
+	dw sprite.general_purpose_46, $0020
+	dw sprite.general_purpose_48, $0068
 	dw !initcommand_success
 
 DATA_FF9586:
 	dw !initcommand_load_subconfig, DATA_FF941A
-	dw sprite.action, $0001
-	dw sprite.unknown_44, $0070
-	dw sprite.unknown_46, $0020
-	dw sprite.unknown_48, $0068
+	dw sprite.state, $0001
+	dw sprite.general_purpose_44, $0070
+	dw sprite.general_purpose_46, $0020
+	dw sprite.general_purpose_48, $0068
 	dw !initcommand_success
 
 DATA_FF959C:
 	dw !initcommand_load_subconfig, DATA_FF941A
-	dw sprite.action, $0000
-	dw sprite.unknown_44, $0040
-	dw sprite.unknown_46, $0020
-	dw sprite.unknown_48, $0068
+	dw sprite.state, $0000
+	dw sprite.general_purpose_44, $0040
+	dw sprite.general_purpose_46, $0020
+	dw sprite.general_purpose_48, $0068
 	dw !initcommand_success
 
 DATA_FF95B2:
 	dw !initcommand_load_subconfig, DATA_FF941A
-	dw sprite.action, $0001
-	dw sprite.unknown_44, $0070
-	dw sprite.unknown_46, $0020
-	dw sprite.unknown_48, $0070
+	dw sprite.state, $0001
+	dw sprite.general_purpose_44, $0070
+	dw sprite.general_purpose_46, $0020
+	dw sprite.general_purpose_48, $0070
 	dw !initcommand_success
 
 DATA_FF95C8:
 	dw !initcommand_load_subconfig, DATA_FF941A
-	dw sprite.action, $0000
-	dw sprite.unknown_44, $0038
-	dw sprite.unknown_46, $0020
-	dw sprite.unknown_48, $0070
+	dw sprite.state, $0000
+	dw sprite.general_purpose_44, $0038
+	dw sprite.general_purpose_46, $0020
+	dw sprite.general_purpose_48, $0070
 	dw !initcommand_success
 
 DATA_FF95DE:
 	dw !initcommand_load_subconfig, DATA_FF941A
-	dw sprite.action, $0000
-	dw sprite.unknown_44, $0080
-	dw sprite.unknown_46, $0020
-	dw sprite.unknown_48, $0070
+	dw sprite.state, $0000
+	dw sprite.general_purpose_44, $0080
+	dw sprite.general_purpose_46, $0020
+	dw sprite.general_purpose_48, $0070
 	dw !initcommand_success
 
 DATA_FF95F4:
 	dw !initcommand_load_subconfig, DATA_FF941A
-	dw sprite.action, $0001
-	dw sprite.unknown_44, $0050
-	dw sprite.unknown_46, $0020
-	dw sprite.unknown_48, $0050
+	dw sprite.state, $0001
+	dw sprite.general_purpose_44, $0050
+	dw sprite.general_purpose_46, $0020
+	dw sprite.general_purpose_48, $0050
 	dw !initcommand_success
 
 DATA_FF960A:
 	dw !initcommand_load_subconfig, DATA_FF941A
-	dw sprite.action, $0000
-	dw sprite.unknown_44, $0020
-	dw sprite.unknown_46, $0020
-	dw sprite.unknown_48, $0050
+	dw sprite.state, $0000
+	dw sprite.general_purpose_44, $0020
+	dw sprite.general_purpose_46, $0020
+	dw sprite.general_purpose_48, $0050
 	dw !initcommand_success
 
 DATA_FF9620:
 	dw !initcommand_load_subconfig, DATA_FF941A
-	dw sprite.action, $0000
-	dw sprite.unknown_44, $0060
-	dw sprite.unknown_46, $0020
-	dw sprite.unknown_48, $0050
+	dw sprite.state, $0000
+	dw sprite.general_purpose_44, $0060
+	dw sprite.general_purpose_46, $0020
+	dw sprite.general_purpose_48, $0050
 	dw !initcommand_success
 
 DATA_FF9636:
 	dw !initcommand_load_subconfig, DATA_FF941A
-	dw sprite.action, $0000
-	dw sprite.unknown_44, $0098
-	dw sprite.unknown_46, $0020
-	dw sprite.unknown_48, $0050
+	dw sprite.state, $0000
+	dw sprite.general_purpose_44, $0098
+	dw sprite.general_purpose_46, $0020
+	dw sprite.general_purpose_48, $0050
 	dw !initcommand_success
 
 DATA_FF964C:
 	dw !initcommand_load_subconfig, DATA_FF941A
-	dw sprite.action, $0001
-	dw sprite.unknown_44, $0120
-	dw sprite.unknown_46, $0030
-	dw sprite.unknown_48, $0120
+	dw sprite.state, $0001
+	dw sprite.general_purpose_44, $0120
+	dw sprite.general_purpose_46, $0030
+	dw sprite.general_purpose_48, $0120
 	dw !initcommand_success
 
 DATA_FF9662:
 	dw !initcommand_load_subconfig, DATA_FF941A
-	dw sprite.action, $0000
-	dw sprite.unknown_44, $00A8
-	dw sprite.unknown_46, $0020
-	dw sprite.unknown_48, $0078
+	dw sprite.state, $0000
+	dw sprite.general_purpose_44, $00A8
+	dw sprite.general_purpose_46, $0020
+	dw sprite.general_purpose_48, $0078
 	dw !initcommand_success
 
 DATA_FF9678:
 	dw !initcommand_load_subconfig, DATA_FF941A
-	dw sprite.action, $0001
-	dw sprite.unknown_44, $6000
-	dw sprite.unknown_46, $6000
-	dw sprite.unknown_48, $6000
+	dw sprite.state, $0001
+	dw sprite.general_purpose_44, $6000
+	dw sprite.general_purpose_46, $6000
+	dw sprite.general_purpose_48, $6000
 	dw !initcommand_success
 
 DATA_FF968E:
@@ -12043,13 +12083,13 @@ DATA_FF968E:
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_set_alt_palette, $0014
 	dw !initcommand_set_animation, $01C1
-	dw sprite.action, $0000
+	dw sprite.state, $0000
 	dw sprite.parameter, $F820
-	dw sprite.unknown_48, $0C80
-	dw sprite.unknown_4A, $2070
-	dw sprite.unknown_4C, $08CA
-	dw sprite.unknown_42, $0001
-	dw sprite.unknown_4E, $072D
+	dw sprite.general_purpose_48, $0C80
+	dw sprite.general_purpose_4A, $2070
+	dw sprite.general_purpose_4C, $08CA
+	dw sprite.general_purpose_42, $0001
+	dw sprite.general_purpose_4E, $072D
 	dw sprite.unknown_5C, $0078
 	dw !initcommand_success
 
@@ -12068,13 +12108,13 @@ DATA_FF96D4:
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_set_alt_palette, $0014
 	dw !initcommand_set_animation, $01C2
-	dw sprite.action, $0003
+	dw sprite.state, $0003
 	dw sprite.parameter, $F828
-	dw sprite.unknown_48, $1080
-	dw sprite.unknown_4A, $2870
-	dw sprite.unknown_4C, $08CC
-	dw sprite.unknown_42, $0001
-	dw sprite.unknown_4E, $0736
+	dw sprite.general_purpose_48, $1080
+	dw sprite.general_purpose_4A, $2870
+	dw sprite.general_purpose_4C, $08CC
+	dw sprite.general_purpose_42, $0001
+	dw sprite.general_purpose_4E, $0736
 	dw sprite.unknown_5C, $0078
 	dw !initcommand_success
 
@@ -12084,13 +12124,13 @@ DATA_FF970A:
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_set_alt_palette, $0014
 	dw !initcommand_set_animation, $01C3
-	dw sprite.action, $0003
+	dw sprite.state, $0003
 	dw sprite.parameter, $F828
-	dw sprite.unknown_48, $1080
-	dw sprite.unknown_4A, $2870
-	dw sprite.unknown_4C, $08CE
-	dw sprite.unknown_42, $0001
-	dw sprite.unknown_4E, $0736
+	dw sprite.general_purpose_48, $1080
+	dw sprite.general_purpose_4A, $2870
+	dw sprite.general_purpose_4C, $08CE
+	dw sprite.general_purpose_42, $0001
+	dw sprite.general_purpose_4E, $0736
 	dw sprite.unknown_5C, $0078
 	dw !initcommand_success
 
@@ -12100,13 +12140,13 @@ DATA_FF9740:
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_set_alt_palette, $0014
 	dw !initcommand_set_animation, $01C2
-	dw sprite.action, $000A
+	dw sprite.state, $000A
 	dw sprite.parameter, $F828
-	dw sprite.unknown_48, $1080
-	dw sprite.unknown_4A, $2870
-	dw sprite.unknown_4C, $08CC
-	dw sprite.unknown_42, $004B
-	dw sprite.unknown_4E, $0736
+	dw sprite.general_purpose_48, $1080
+	dw sprite.general_purpose_4A, $2870
+	dw sprite.general_purpose_4C, $08CC
+	dw sprite.general_purpose_42, $004B
+	dw sprite.general_purpose_4E, $0736
 	dw sprite.unknown_5C, $0078
 	dw !initcommand_success
 
@@ -12115,13 +12155,13 @@ DATA_FF9776:
 	dw sprite.render_order, $00C8
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_set_animation, $01C3
-	dw sprite.action, $0008
+	dw sprite.state, $0008
 	dw sprite.parameter, $F82C
-	dw sprite.unknown_48, $1088
-	dw sprite.unknown_4A, $2C74
-	dw sprite.unknown_4C, $08CE
-	dw sprite.unknown_42, $0001
-	dw sprite.unknown_4E, $0756
+	dw sprite.general_purpose_48, $1088
+	dw sprite.general_purpose_4A, $2C74
+	dw sprite.general_purpose_4C, $08CE
+	dw sprite.general_purpose_42, $0001
+	dw sprite.general_purpose_4E, $0756
 	dw sprite.unknown_5C, $0078
 	dw !initcommand_success
 
@@ -12138,31 +12178,31 @@ DATA_FF97B2:
 DATA_FF97BC:
 	dw sprite.number, $0174
 	dw sprite.render_order, $00D4
-	dw sprite.action, $0000
+	dw sprite.state, $0000
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_set_alt_palette, $0000
 	dw sprite.parameter, $F818
-	dw sprite.unknown_42, $F85D
-	dw sprite.unknown_44, $F86F
-	dw sprite.unknown_46, $F881
-	dw sprite.unknown_48, $F893
+	dw sprite.general_purpose_42, $F85D
+	dw sprite.general_purpose_44, $F86F
+	dw sprite.general_purpose_46, $F881
+	dw sprite.general_purpose_48, $F893
 	dw sprite.unknown_5C, $0078
 	dw !initcommand_success
 
 DATA_FF97EA:
 	dw !initcommand_load_subconfig, DATA_FF97BC
 	dw !initcommand_set_animation, $02BB
-	dw sprite.unknown_4A, $0042
-	dw sprite.unknown_4C, $0001
-	dw sprite.unknown_4E, $0727
+	dw sprite.general_purpose_4A, $0042
+	dw sprite.general_purpose_4C, $0001
+	dw sprite.general_purpose_4E, $0727
 	dw !initcommand_success
 
 DATA_FF9800:
 	dw !initcommand_load_subconfig, DATA_FF97BC
 	dw !initcommand_set_animation, $02BC
-	dw sprite.unknown_4A, $0044
-	dw sprite.unknown_4C, $0002
-	dw sprite.unknown_4E, $0628
+	dw sprite.general_purpose_4A, $0044
+	dw sprite.general_purpose_4C, $0002
+	dw sprite.general_purpose_4E, $0628
 	dw !initcommand_success
 
 DATA_FF9816:
@@ -12177,9 +12217,9 @@ DATA_FF981C:
 DATA_FF9826:
 	dw !initcommand_load_subconfig, DATA_FF97BC
 	dw !initcommand_set_animation, $02BD
-	dw sprite.unknown_4A, $0046
-	dw sprite.unknown_4C, $0004
-	dw sprite.unknown_4E, $0529
+	dw sprite.general_purpose_4A, $0046
+	dw sprite.general_purpose_4C, $0004
+	dw sprite.general_purpose_4E, $0529
 	dw !initcommand_success
 
 DATA_FF983C:
@@ -12194,9 +12234,9 @@ DATA_FF9842:
 DATA_FF984C:
 	dw !initcommand_load_subconfig, DATA_FF97BC
 	dw !initcommand_set_animation, $02BE
-	dw sprite.unknown_4A, $0048
-	dw sprite.unknown_4C, $0008
-	dw sprite.unknown_4E, $042A
+	dw sprite.general_purpose_4A, $0048
+	dw sprite.general_purpose_4C, $0008
+	dw sprite.general_purpose_4E, $042A
 	dw !initcommand_success
 
 DATA_FF9862:
@@ -12216,14 +12256,14 @@ DATA_FF9872:
 DATA_FF987C:
 	dw sprite.number, $0258
 	dw sprite.render_order, $00C0
-	dw sprite.unknown_42, $0000
+	dw sprite.general_purpose_42, $0000
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_set_alt_palette, $001B
 	dw !initcommand_success
 
 DATA_FF9892:
 	dw !initcommand_load_subconfig, DATA_FF987C
-	dw sprite.unknown_42, $000C
+	dw sprite.general_purpose_42, $000C
 	dw !initcommand_set_animation, $02B6
 	dw !initcommand_success
 
@@ -12234,19 +12274,19 @@ DATA_FF98A0:
 
 DATA_FF98AA:
 	dw !initcommand_load_subconfig, DATA_FF987C
-	dw sprite.unknown_42, $0011
+	dw sprite.general_purpose_42, $0011
 	dw !initcommand_set_animation, $02B6
 	dw !initcommand_success
 
 DATA_FF98B8:
 	dw !initcommand_load_subconfig, DATA_FF987C
-	dw sprite.unknown_42, $0005
+	dw sprite.general_purpose_42, $0005
 	dw !initcommand_set_animation, $02B6
 	dw !initcommand_success
 
 DATA_FF98C6:
 	dw !initcommand_load_subconfig, DATA_FF987C
-	dw sprite.unknown_42, $0009
+	dw sprite.general_purpose_42, $0009
 	dw !initcommand_set_animation, $02B6
 	dw !initcommand_success
 
@@ -12263,13 +12303,13 @@ DATA_FF98E2:
 
 DATA_FF98EC:
 	dw !initcommand_load_subconfig, DATA_FF987C
-	dw sprite.unknown_42, $0004
+	dw sprite.general_purpose_42, $0004
 	dw !initcommand_set_animation, $02B7
 	dw !initcommand_success
 
 DATA_FF98FA:
 	dw !initcommand_load_subconfig, DATA_FF987C
-	dw sprite.unknown_42, $0006
+	dw sprite.general_purpose_42, $0006
 	dw !initcommand_set_animation, $02B7
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
@@ -12282,19 +12322,19 @@ DATA_FF990C:
 
 DATA_FF991A:
 	dw !initcommand_load_subconfig, DATA_FF987C
-	dw sprite.unknown_42, $0006
+	dw sprite.general_purpose_42, $0006
 	dw !initcommand_set_animation, $02B7
 	dw !initcommand_success
 
 DATA_FF9928:
 	dw !initcommand_load_subconfig, DATA_FF987C
-	dw sprite.unknown_42, $000C
+	dw sprite.general_purpose_42, $000C
 	dw !initcommand_set_animation, $02B7
 	dw !initcommand_success
 
 DATA_FF9936:
 	dw !initcommand_load_subconfig, DATA_FF987C
-	dw sprite.unknown_42, $FFFF
+	dw sprite.general_purpose_42, $FFFF
 	dw !initcommand_set_animation, $02B7
 	dw !initcommand_success
 
@@ -12305,32 +12345,32 @@ DATA_FF9944:
 
 DATA_FF994E:
 	dw !initcommand_load_subconfig, DATA_FF987C
-	dw sprite.unknown_42, $000C
+	dw sprite.general_purpose_42, $000C
 	dw !initcommand_set_animation, $02B9
 	dw !initcommand_success
 
 DATA_FF995C:
 	dw !initcommand_load_subconfig, DATA_FF987C
-	dw sprite.unknown_42, $0008
+	dw sprite.general_purpose_42, $0008
 	dw !initcommand_set_animation, $02B9
 	dw !initcommand_success
 
 DATA_FF996A:
 	dw !initcommand_load_subconfig, DATA_FF987C
-	dw sprite.unknown_42, $0008
+	dw sprite.general_purpose_42, $0008
 	dw !initcommand_set_animation, $02B9
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FF997C:
 	dw !initcommand_load_subconfig, DATA_FF987C
-	dw sprite.unknown_42, $000C
+	dw sprite.general_purpose_42, $000C
 	dw !initcommand_set_animation, $02BA
 	dw !initcommand_success
 
 DATA_FF998A:
 	dw !initcommand_load_subconfig, DATA_FF987C
-	dw sprite.unknown_42, $000A
+	dw sprite.general_purpose_42, $000A
 	dw !initcommand_set_animation, $02BA
 	dw !initcommand_success
 
@@ -12346,52 +12386,52 @@ DATA_FF99A2:
 
 DATA_FF99AC:
 	dw !initcommand_load_subconfig, DATA_FF987C
-	dw sprite.unknown_42, $000C
+	dw sprite.general_purpose_42, $000C
 	dw !initcommand_set_animation, $02B8
 	dw !initcommand_success
 
 DATA_FF99BA:
 	dw !initcommand_load_subconfig, DATA_FF987C
-	dw sprite.unknown_42, $0008
+	dw sprite.general_purpose_42, $0008
 	dw !initcommand_set_animation, $02B8
 	dw !initcommand_success
 
 DATA_FF99C8:
 	dw !initcommand_load_subconfig, DATA_FF987C
-	dw sprite.unknown_42, $000C
+	dw sprite.general_purpose_42, $000C
 	dw !initcommand_set_animation, $02B8
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FF99DA:
 	dw !initcommand_load_subconfig, DATA_FF987C
-	dw sprite.unknown_42, $0008
+	dw sprite.general_purpose_42, $0008
 	dw !initcommand_set_animation, $02B8
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FF99EC:
 	dw !initcommand_load_subconfig, DATA_FF987C
-	dw sprite.unknown_42, $0008
+	dw sprite.general_purpose_42, $0008
 	dw !initcommand_set_animation, $02B8
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FF99FE:
 	dw !initcommand_load_subconfig, DATA_FF987C
-	dw sprite.unknown_42, $0004
+	dw sprite.general_purpose_42, $0004
 	dw !initcommand_set_animation, $02B8
 	dw !initcommand_success
 
 DATA_FF9A0C:
 	dw !initcommand_load_subconfig, DATA_FF987C
-	dw sprite.unknown_42, $FFFF
+	dw sprite.general_purpose_42, $FFFF
 	dw !initcommand_set_animation, $02B8
 	dw !initcommand_success
 
 DATA_FF9A1A:
 	dw !initcommand_load_subconfig, DATA_FF987C
-	dw sprite.unknown_42, $FFFF
+	dw sprite.general_purpose_42, $FFFF
 	dw !initcommand_set_animation, $02B8
 	dw sprite.unknown_1C, $C000
 	dw !initcommand_success
@@ -12399,121 +12439,121 @@ DATA_FF9A1A:
 DATA_FF9A2C:
 	dw sprite.number, $0094
 	dw sprite.render_order, $00C8
-	dw sprite.action, $0000
+	dw sprite.state, $0000
 	dw !initcommand_set_oam, $2000
-	dw sprite.unknown_48, $0000
-	dw sprite.unknown_46, $0001
+	dw sprite.general_purpose_48, $0000
+	dw sprite.general_purpose_46, $0001
 	dw !initcommand_success
 
 DATA_FF9A46:
 	dw sprite.number, $0094
 	dw sprite.render_order, $00C8
-	dw sprite.action, $0000
+	dw sprite.state, $0000
 	dw !initcommand_set_oam, $2000
-	dw sprite.unknown_48, $0000
-	dw sprite.unknown_46, $0000
+	dw sprite.general_purpose_48, $0000
+	dw sprite.general_purpose_46, $0000
 	dw !initcommand_success
 
 DATA_FF9A60:
 	dw !initcommand_load_subconfig, DATA_FF9A2C
-	dw sprite.action, $0002
-	dw sprite.unknown_42, $0000
-	dw sprite.unknown_44, $0000
-	dw sprite.unknown_4A, $0030
+	dw sprite.state, $0002
+	dw sprite.general_purpose_42, $0000
+	dw sprite.general_purpose_44, $0000
+	dw sprite.general_purpose_4A, $0030
 	dw !initcommand_success
 
 DATA_FF9A76:
 	dw !initcommand_load_subconfig, DATA_FF9A2C
-	dw sprite.unknown_42, $0001
-	dw sprite.unknown_44, $0002
-	dw sprite.unknown_4A, $0030
+	dw sprite.general_purpose_42, $0001
+	dw sprite.general_purpose_44, $0002
+	dw sprite.general_purpose_4A, $0030
 	dw !initcommand_success
 
 DATA_FF9A88:
 	dw !initcommand_load_subconfig, DATA_FF9A2C
-	dw sprite.unknown_42, $0002
-	dw sprite.unknown_44, $0003
-	dw sprite.unknown_4A, $0030
+	dw sprite.general_purpose_42, $0002
+	dw sprite.general_purpose_44, $0003
+	dw sprite.general_purpose_4A, $0030
 	dw !initcommand_success
 
 DATA_FF9A9A:
 	dw !initcommand_load_subconfig, DATA_FF9A2C
-	dw sprite.unknown_42, $0003
-	dw sprite.unknown_44, $0004
-	dw sprite.unknown_4A, $0030
+	dw sprite.general_purpose_42, $0003
+	dw sprite.general_purpose_44, $0004
+	dw sprite.general_purpose_4A, $0030
 	dw !initcommand_success
 
 DATA_FF9AAC:
 	dw !initcommand_load_subconfig, DATA_FF9A46
-	dw sprite.unknown_42, $0000
-	dw sprite.unknown_44, $0000
-	dw sprite.unknown_4A, $0030
+	dw sprite.general_purpose_42, $0000
+	dw sprite.general_purpose_44, $0000
+	dw sprite.general_purpose_4A, $0030
 	dw !initcommand_success
 
 DATA_FF9ABE:
 	dw !initcommand_load_subconfig, DATA_FF9A46
-	dw sprite.unknown_42, $0001
-	dw sprite.unknown_44, $0002
-	dw sprite.unknown_4A, $0030
+	dw sprite.general_purpose_42, $0001
+	dw sprite.general_purpose_44, $0002
+	dw sprite.general_purpose_4A, $0030
 	dw !initcommand_success
 
 DATA_FF9AD0:
 	dw !initcommand_load_subconfig, DATA_FF9A46
-	dw sprite.unknown_42, $0002
-	dw sprite.unknown_44, $0003
-	dw sprite.unknown_4A, $0030
+	dw sprite.general_purpose_42, $0002
+	dw sprite.general_purpose_44, $0003
+	dw sprite.general_purpose_4A, $0030
 	dw !initcommand_success
 
 DATA_FF9AE2:
 	dw !initcommand_load_subconfig, DATA_FF9A46
-	dw sprite.unknown_42, $0003
-	dw sprite.unknown_44, $0004
-	dw sprite.unknown_4A, $0030
+	dw sprite.general_purpose_42, $0003
+	dw sprite.general_purpose_44, $0004
+	dw sprite.general_purpose_4A, $0030
 	dw !initcommand_success
 
 DATA_FF9AF4:
 	dw !initcommand_load_subconfig, DATA_FF9A2C
-	dw sprite.unknown_42, $0000
-	dw sprite.unknown_44, $0000
-	dw sprite.unknown_4A, $0030
+	dw sprite.general_purpose_42, $0000
+	dw sprite.general_purpose_44, $0000
+	dw sprite.general_purpose_4A, $0030
 	dw !initcommand_success
 
 DATA_FF9B06:
 	dw !initcommand_load_subconfig, DATA_FF9A2C
-	dw sprite.unknown_42, $0000
-	dw sprite.unknown_44, $0000
-	dw sprite.unknown_4A, $0001
+	dw sprite.general_purpose_42, $0000
+	dw sprite.general_purpose_44, $0000
+	dw sprite.general_purpose_4A, $0001
 	dw !initcommand_success
 
 DATA_FF9B18:
 	dw !initcommand_load_subconfig, DATA_FF9A46
-	dw sprite.unknown_42, $0000
-	dw sprite.unknown_44, $0000
-	dw sprite.unknown_4A, $0030
+	dw sprite.general_purpose_42, $0000
+	dw sprite.general_purpose_44, $0000
+	dw sprite.general_purpose_4A, $0030
 	dw !initcommand_success
 
 DATA_FF9B2A:
-	dw sprite.unknown_54, DATA_FF0340
+	dw sprite.constants_address, DATA_FF0340
 	dw !initcommand_set_alt_palette, $004A
-	dw sprite.unknown_52, $0022
+	dw sprite.movement_state, $0022
 	dw !initcommand_set_oam, $6000
 	dw sprite.max_x_speed, $FEC0
 	dw !initcommand_load_subconfig, DATA_FF9B58
 	dw !initcommand_success
 
 DATA_FF9B44:
-	dw sprite.unknown_54, DATA_FF032E
+	dw sprite.constants_address, DATA_FF032E
 	dw !initcommand_set_alt_palette, $000C
-	dw sprite.unknown_52, $0023
+	dw sprite.movement_state, $0023
 	dw !initcommand_set_oam, $2000
 	dw sprite.max_x_speed, $0140
 DATA_FF9B58:
 	dw sprite.number, $01D8
 	dw sprite.render_order, $00D4
-	dw sprite.action, $0000
+	dw sprite.state, $0000
 	dw sprite.x_speed, $0000
 	dw sprite.y_speed, $0000
-	dw sprite.unknown_30, $0120
+	dw sprite.interaction_flags, $0120
 	dw !initcommand_set_animation, $0172
 	dw !initcommand_success
 
@@ -12535,31 +12575,31 @@ DATA_FF9B8E:
 
 DATA_FF9B98:
 	dw !initcommand_load_subconfig, DATA_FF9B44
-	dw sprite.unknown_46, $5050
+	dw sprite.general_purpose_46, $5050
 	dw !initcommand_success
 
 DATA_FF9BA2:
 	dw !initcommand_load_subconfig, DATA_FF9B44
 	dw !initcommand_set_oam, $6000
-	dw sprite.unknown_46, $F000
+	dw sprite.general_purpose_46, $F000
 	dw sprite.max_x_speed, $FEE0
 	dw sprite.x_speed, $FFFF
 	dw !initcommand_success
 
 DATA_FF9BB8:
 	dw !initcommand_load_subconfig, DATA_FF9B44
-	dw sprite.unknown_46, $2020
+	dw sprite.general_purpose_46, $2020
 	dw !initcommand_success
 
 DATA_FF9BC2:
 	dw !initcommand_load_subconfig, DATA_FF9B44
-	dw sprite.unknown_46, $0C0C
+	dw sprite.general_purpose_46, $0C0C
 	dw !initcommand_success
 
 DATA_FF9BCC:
 	dw !initcommand_load_subconfig, DATA_FF9B44
 	dw !initcommand_set_oam, $6000
-	dw sprite.unknown_46, $F858
+	dw sprite.general_purpose_46, $F858
 	dw sprite.max_x_speed, $FEE0
 	dw sprite.x_speed, $FFFF
 	dw !initcommand_success
@@ -12567,85 +12607,85 @@ DATA_FF9BCC:
 DATA_FF9BE2:
 	dw !initcommand_load_subconfig, DATA_FF9B44
 	dw !initcommand_set_oam, $6000
-	dw sprite.unknown_46, $FFAF
+	dw sprite.general_purpose_46, $FFAF
 	dw sprite.max_x_speed, $FEE0
 	dw sprite.x_speed, $FFFF
 	dw !initcommand_success
 
 DATA_FF9BF8:
 	dw !initcommand_load_subconfig, DATA_FF9B44
-	dw sprite.unknown_46, $3838
+	dw sprite.general_purpose_46, $3838
 	dw sprite.max_x_speed, $0200
 	dw !initcommand_success
 
 DATA_FF9C06:
 	dw !initcommand_load_subconfig, DATA_FF9B44
-	dw sprite.unknown_46, $4040
+	dw sprite.general_purpose_46, $4040
 	dw sprite.max_x_speed, $01A0
 	dw !initcommand_success
 
 DATA_FF9C14:
 	dw !initcommand_load_subconfig, DATA_FF9B44
-	dw sprite.unknown_46, $3030
+	dw sprite.general_purpose_46, $3030
 	dw sprite.max_x_speed, $0160
 	dw !initcommand_success
 
 DATA_FF9C22:
 	dw !initcommand_load_subconfig, DATA_FF9B44
-	dw sprite.unknown_46, $2020
+	dw sprite.general_purpose_46, $2020
 	dw sprite.max_x_speed, $0160
 	dw !initcommand_success
 
 DATA_FF9C30:
 	dw !initcommand_load_subconfig, DATA_FF9B44
-	dw sprite.unknown_46, $4060
+	dw sprite.general_purpose_46, $4060
 	dw sprite.max_x_speed, $0180
 	dw !initcommand_success
 
 DATA_FF9C3E:
 	dw !initcommand_load_subconfig, DATA_FF9B44
 	dw sprite.max_x_speed, $FEA0
-	dw sprite.unknown_46, $2040
+	dw sprite.general_purpose_46, $2040
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FF9C50:
 	dw !initcommand_load_subconfig, DATA_FF9B44
-	dw sprite.unknown_46, $2438
+	dw sprite.general_purpose_46, $2438
 	dw sprite.max_x_speed, $01C0
 	dw !initcommand_success
 
 DATA_FF9C5E:
 	dw !initcommand_load_subconfig, DATA_FF9B44
-	dw sprite.unknown_46, $3440
+	dw sprite.general_purpose_46, $3440
 	dw sprite.max_x_speed, $01C0
 	dw !initcommand_success
 
 DATA_FF9C6C:
 	dw !initcommand_load_subconfig, DATA_FF9B44
 	dw sprite.max_x_speed, $FE80
-	dw sprite.unknown_46, $FF00
+	dw sprite.general_purpose_46, $FF00
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FF9C7E:
 	dw !initcommand_load_subconfig, DATA_FF9B44
 	dw !initcommand_set_oam, $6000
-	dw sprite.unknown_46, $FF58
+	dw sprite.general_purpose_46, $FF58
 	dw sprite.max_x_speed, $FE80
 	dw sprite.x_speed, $FFFF
 	dw !initcommand_success
 
 DATA_FF9C94:
 	dw !initcommand_load_subconfig, DATA_FF9B44
-	dw sprite.unknown_46, $1414
+	dw sprite.general_purpose_46, $1414
 	dw !initcommand_set_oam, $6000
 	dw sprite.max_x_speed, $FEC0
 	dw !initcommand_success
 
 DATA_FF9CA6:
 	dw !initcommand_load_subconfig, DATA_FF9B44
-	dw sprite.unknown_46, $2828
+	dw sprite.general_purpose_46, $2828
 	dw !initcommand_set_oam, $6000
 	dw sprite.max_x_speed, $FEE0
 	dw !initcommand_success
@@ -12653,52 +12693,52 @@ DATA_FF9CA6:
 DATA_FF9CB8:
 	dw !initcommand_load_subconfig, DATA_FF9B44
 	dw sprite.max_x_speed, $0160
-	dw sprite.unknown_46, $4830
+	dw sprite.general_purpose_46, $4830
 	dw !initcommand_success
 
 DATA_FF9CC6:
 	dw !initcommand_load_subconfig, DATA_FF9B44
-	dw sprite.unknown_46, $4040
+	dw sprite.general_purpose_46, $4040
 	dw sprite.max_x_speed, $0200
 	dw !initcommand_success
 
 DATA_FF9CD4:
 	dw !initcommand_load_subconfig, DATA_FF9B44
 	dw sprite.max_x_speed, $FE60
-	dw sprite.unknown_46, $B000
+	dw sprite.general_purpose_46, $B000
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FF9CE6:
 	dw !initcommand_load_subconfig, DATA_FF9B44
 	dw sprite.max_x_speed, $0140
-	dw sprite.unknown_46, $0050
+	dw sprite.general_purpose_46, $0050
 	dw !initcommand_success
 
 DATA_FF9CF4:
 	dw !initcommand_load_subconfig, DATA_FF9B44
 	dw sprite.max_x_speed, $FE80
-	dw sprite.unknown_46, $3838
+	dw sprite.general_purpose_46, $3838
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FF9D06:
 	dw !initcommand_load_subconfig, DATA_FF9B44
-	dw sprite.unknown_46, $9880
+	dw sprite.general_purpose_46, $9880
 	dw sprite.max_x_speed, $0200
 	dw !initcommand_success
 
 DATA_FF9D14:
 	dw !initcommand_load_subconfig, DATA_FF9B44
 	dw sprite.max_x_speed, $FE80
-	dw sprite.unknown_46, $A000
+	dw sprite.general_purpose_46, $A000
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FF9D26:
 	dw !initcommand_load_subconfig, DATA_FF9B44
 	dw !initcommand_set_oam, $6000
-	dw sprite.unknown_46, $4000
+	dw sprite.general_purpose_46, $4000
 	dw sprite.max_x_speed, $FEE0
 	dw sprite.x_speed, $FFFF
 	dw !initcommand_success
@@ -12706,9 +12746,9 @@ DATA_FF9D26:
 DATA_FF9D3C:
 	dw sprite.number, $0220
 	dw sprite.render_order, $00D4
-	dw sprite.unknown_54, DATA_FF0318
-	dw sprite.unknown_30, $0120
-	dw sprite.action, $0000
+	dw sprite.constants_address, DATA_FF0318
+	dw sprite.interaction_flags, $0120
+	dw sprite.state, $0000
 	dw sprite.x_speed, $0000
 	dw sprite.y_speed, $0000
 	dw !initcommand_set_oam, $6000
@@ -12718,9 +12758,9 @@ DATA_FF9D3C:
 DATA_FF9D62:
 	dw sprite.number, $0220
 	dw sprite.render_order, $00D4
-	dw sprite.unknown_54, DATA_FF0318
-	dw sprite.unknown_30, $0120
-	dw sprite.action, $0000
+	dw sprite.constants_address, DATA_FF0318
+	dw sprite.interaction_flags, $0120
+	dw sprite.state, $0000
 	dw sprite.x_speed, $0000
 	dw sprite.y_speed, $0000
 	dw !initcommand_set_oam, $2000
@@ -12730,10 +12770,10 @@ DATA_FF9D62:
 DATA_FF9D88:
 	dw !initcommand_load_subconfig, DATA_FF9D3C
 	dw !initcommand_set_animation, $019B
-	dw sprite.unknown_52, $0007
-	dw sprite.unknown_46, $0202
+	dw sprite.movement_state, $0007
+	dw sprite.general_purpose_46, $0202
 	dw sprite.max_y_speed, $0060
-	dw sprite.unknown_4A, $0203
+	dw sprite.general_purpose_4A, $0203
 	dw !initcommand_success
 
 DATA_FF9DA2:
@@ -12750,8 +12790,8 @@ DATA_FF9DAC:
 DATA_FF9DBA:
 	dw !initcommand_load_subconfig, DATA_FF9D62
 	dw !initcommand_set_animation, $019B
-	dw sprite.unknown_52, $0008
-	dw sprite.unknown_4A, $0404
+	dw sprite.movement_state, $0008
+	dw sprite.general_purpose_4A, $0404
 	dw sprite.max_y_speed, $0040
 	dw !initcommand_success
 
@@ -12799,52 +12839,52 @@ DATA_FF9E20:
 DATA_FF9E2E:
 	dw !initcommand_load_subconfig, DATA_FF9D3C
 	dw !initcommand_set_animation, $019B
-	dw sprite.unknown_52, $0007
-	dw sprite.unknown_46, $0202
+	dw sprite.movement_state, $0007
+	dw sprite.general_purpose_46, $0202
 	dw sprite.max_x_speed, $0040
 	dw !initcommand_success
 
 DATA_FF9E44:
 	dw !initcommand_load_subconfig, DATA_FF9E2E
-	dw sprite.unknown_4A, $3838
+	dw sprite.general_purpose_4A, $3838
 	dw sprite.max_y_speed, $0140
 	dw !initcommand_success
 
 DATA_FF9E52:
 	dw !initcommand_load_subconfig, DATA_FF9E2E
-	dw sprite.unknown_4A, $0C0C
+	dw sprite.general_purpose_4A, $0C0C
 	dw sprite.max_y_speed, $0120
 	dw !initcommand_success
 
 DATA_FF9E60:
 	dw !initcommand_load_subconfig, DATA_FF9E2E
-	dw sprite.unknown_4A, $7000
+	dw sprite.general_purpose_4A, $7000
 	dw sprite.max_y_speed, $FEC0
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_success
 
 DATA_FF9E72:
 	dw !initcommand_load_subconfig, DATA_FF9E2E
-	dw sprite.unknown_46, $0404
-	dw sprite.unknown_4A, $2020
+	dw sprite.general_purpose_46, $0404
+	dw sprite.general_purpose_4A, $2020
 	dw sprite.max_y_speed, $0180
 	dw !initcommand_success
 
 DATA_FF9E84:
 	dw !initcommand_load_subconfig, DATA_FF9E2E
-	dw sprite.unknown_4A, $2848
+	dw sprite.general_purpose_4A, $2848
 	dw sprite.max_y_speed, $0140
 	dw !initcommand_success
 
 DATA_FF9E92:
 	dw !initcommand_load_subconfig, DATA_FF9E2E
-	dw sprite.unknown_4A, $3838
+	dw sprite.general_purpose_4A, $3838
 	dw sprite.max_y_speed, $0180
 	dw !initcommand_success
 
 DATA_FF9EA0:
 	dw !initcommand_load_subconfig, DATA_FF9E2E
-	dw sprite.unknown_4A, $5000
+	dw sprite.general_purpose_4A, $5000
 	dw sprite.max_y_speed, $FEC0
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_success
@@ -12852,62 +12892,62 @@ DATA_FF9EA0:
 DATA_FF9EB2:
 	dw !initcommand_load_subconfig, DATA_FF9D3C
 	dw !initcommand_set_animation, $019A
-	dw sprite.unknown_52, $0007
-	dw sprite.unknown_4A, $0203
+	dw sprite.movement_state, $0007
+	dw sprite.general_purpose_4A, $0203
 	dw sprite.max_y_speed, $0060
 	dw !initcommand_success
 
 DATA_FF9EC8:
 	dw !initcommand_load_subconfig, DATA_FF9EB2
-	dw sprite.unknown_46, $3838
+	dw sprite.general_purpose_46, $3838
 	dw sprite.max_x_speed, $FEC0
 	dw !initcommand_success
 
 DATA_FF9ED6:
 	dw !initcommand_load_subconfig, DATA_FF9EB2
-	dw sprite.unknown_46, $1414
+	dw sprite.general_purpose_46, $1414
 	dw sprite.max_x_speed, $FF20
 	dw !initcommand_success
 
 DATA_FF9EE4:
 	dw !initcommand_load_subconfig, DATA_FF9EB2
-	dw sprite.unknown_46, $1858
+	dw sprite.general_purpose_46, $1858
 	dw sprite.max_x_speed, $FEC0
 	dw !initcommand_success
 
 DATA_FF9EF2:
 	dw !initcommand_load_subconfig, DATA_FF9EB2
-	dw sprite.unknown_46, $3030
+	dw sprite.general_purpose_46, $3030
 	dw sprite.max_x_speed, $FEC0
 	dw !initcommand_success
 
 DATA_FF9F00:
 	dw !initcommand_load_subconfig, DATA_FF9EB2
-	dw sprite.unknown_46, $2020
+	dw sprite.general_purpose_46, $2020
 	dw sprite.max_x_speed, $0140
 	dw !initcommand_success
 
 DATA_FF9F0E:
 	dw !initcommand_load_subconfig, DATA_FF9EB2
-	dw sprite.unknown_46, $2020
+	dw sprite.general_purpose_46, $2020
 	dw sprite.max_x_speed, $FEC0
 	dw !initcommand_success
 
 DATA_FF9F1C:
 	dw !initcommand_load_subconfig, DATA_FF9EB2
-	dw sprite.unknown_46, $2020
+	dw sprite.general_purpose_46, $2020
 	dw sprite.max_x_speed, $FF00
 	dw !initcommand_success
 
 DATA_FF9F2A:
 	dw !initcommand_load_subconfig, DATA_FF9EB2
-	dw sprite.unknown_46, $2020
+	dw sprite.general_purpose_46, $2020
 	dw sprite.max_x_speed, $0120
 	dw !initcommand_success
 
 DATA_FF9F38:
 	dw !initcommand_load_subconfig, DATA_FF9EB2
-	dw sprite.unknown_46, $2020
+	dw sprite.general_purpose_46, $2020
 	dw sprite.max_x_speed, $FF00
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
@@ -12915,44 +12955,44 @@ DATA_FF9F38:
 DATA_FF9F4A:
 	dw !initcommand_load_subconfig, DATA_FF9D62
 	dw !initcommand_set_animation, $019A
-	dw sprite.unknown_52, $000A
+	dw sprite.movement_state, $000A
 	dw !initcommand_success
 
 DATA_FF9F58:
 	dw !initcommand_load_subconfig, DATA_FF9F4A
-	dw sprite.unknown_46, $4000
-	dw sprite.unknown_48, $2800
+	dw sprite.general_purpose_46, $4000
+	dw sprite.general_purpose_48, $2800
 	dw sprite.max_x_speed, $FE40
 	dw !initcommand_success
 
 DATA_FF9F6A:
 	dw !initcommand_load_subconfig, DATA_FF9F4A
-	dw sprite.unknown_46, $4000
-	dw sprite.unknown_48, $2800
+	dw sprite.general_purpose_46, $4000
+	dw sprite.general_purpose_48, $2800
 	dw sprite.max_x_speed, $FE40
 	dw !initcommand_success
 
 DATA_FF9F7C:
 	dw !initcommand_load_subconfig, DATA_FF9F4A
-	dw sprite.unknown_46, $0000
-	dw sprite.unknown_48, $3000
+	dw sprite.general_purpose_46, $0000
+	dw sprite.general_purpose_48, $3000
 	dw sprite.max_x_speed, $0280
 	dw !initcommand_success
 
 DATA_FF9F8E:
 	dw !initcommand_load_subconfig, DATA_FF9D3C
 	dw !initcommand_set_animation, $019A
-	dw sprite.unknown_52, $000B
-	dw sprite.unknown_46, $0000
-	dw sprite.unknown_48, $2800
-	dw sprite.unknown_4A, $C040
+	dw sprite.movement_state, $000B
+	dw sprite.general_purpose_46, $0000
+	dw sprite.general_purpose_48, $2800
+	dw sprite.general_purpose_4A, $C040
 	dw sprite.max_x_speed, $0200
 	dw !initcommand_success
 
 DATA_FF9FAC:
 	dw !initcommand_load_subconfig, DATA_FF9D62
 	dw !initcommand_set_animation, $019B
-	dw sprite.unknown_52, $000F
+	dw sprite.movement_state, $000F
 	dw sprite.max_x_speed, $0080
 	dw sprite.max_y_speed, $0000
 	dw !initcommand_success
@@ -12961,12 +13001,12 @@ DATA_FF9FAC:
 DATA_FF9FC2:
 	dw sprite.number, $01FC
 	dw sprite.render_order, $00D4
-	dw sprite.unknown_54, DATA_FF02C0
-	dw sprite.action, $0000
+	dw sprite.constants_address, DATA_FF02C0
+	dw sprite.state, $0000
 	dw sprite.x_speed, $0000
 	dw sprite.max_x_speed, $FEC0
 	dw sprite.y_speed, $0000
-	dw sprite.unknown_30, $0020
+	dw sprite.interaction_flags, $0020
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_set_alt_palette, $0050
 	dw !initcommand_set_animation, $01A3
@@ -12974,12 +13014,12 @@ DATA_FF9FC2:
 
 DATA_FF9FF0:
 	dw !initcommand_load_subconfig, DATA_FF9FC2
-	dw sprite.unknown_52, $0022
+	dw sprite.movement_state, $0022
 	dw !initcommand_success
 
 DATA_FF9FFA:
 	dw !initcommand_load_subconfig, DATA_FF9FC2
-	dw sprite.unknown_52, $0023
+	dw sprite.movement_state, $0023
 	dw !initcommand_success
 
 DATA_FFA004:
@@ -13010,67 +13050,67 @@ DATA_FFA030:
 
 DATA_FFA03A:
 	dw !initcommand_load_subconfig, DATA_FF9FFA
-	dw sprite.unknown_46, $2828
+	dw sprite.general_purpose_46, $2828
 	dw sprite.max_x_speed, $FE00
 	dw !initcommand_success
 
 DATA_FFA048:
 	dw !initcommand_load_subconfig, DATA_FF9FFA
-	dw sprite.unknown_46, $2020
+	dw sprite.general_purpose_46, $2020
 	dw sprite.max_x_speed, $FE40
 	dw !initcommand_success
 
 DATA_FFA056:
 	dw !initcommand_load_subconfig, DATA_FF9FFA
-	dw sprite.unknown_46, $FF10
+	dw sprite.general_purpose_46, $FF10
 	dw sprite.max_x_speed, $0120
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_success
 
 DATA_FFA068:
 	dw !initcommand_load_subconfig, DATA_FF9FFA
-	dw sprite.unknown_46, $6060
+	dw sprite.general_purpose_46, $6060
 	dw sprite.max_x_speed, $01C0
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_success
 
 DATA_FFA07A:
 	dw !initcommand_load_subconfig, DATA_FF9FFA
-	dw sprite.unknown_46, $3838
+	dw sprite.general_purpose_46, $3838
 	dw sprite.max_x_speed, $0140
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_success
 
 DATA_FFA08C:
 	dw !initcommand_load_subconfig, DATA_FF9FFA
-	dw sprite.unknown_46, $0505
+	dw sprite.general_purpose_46, $0505
 	dw sprite.max_x_speed, $FEE0
 	dw !initcommand_success
 
 DATA_FFA09A:
 	dw !initcommand_load_subconfig, DATA_FF9FFA
-	dw sprite.unknown_46, $0505
+	dw sprite.general_purpose_46, $0505
 	dw sprite.max_x_speed, $0120
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_success
 
 DATA_FFA0AC:
 	dw !initcommand_load_subconfig, DATA_FF9FFA
-	dw sprite.unknown_46, $00D8
+	dw sprite.general_purpose_46, $00D8
 	dw sprite.max_x_speed, $01C0
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_success
 
 DATA_FFA0BE:
 	dw !initcommand_load_subconfig, DATA_FF9FFA
-	dw sprite.unknown_46, $0098
+	dw sprite.general_purpose_46, $0098
 	dw sprite.max_x_speed, $01C0
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_success
 
 DATA_FFA0D0:
 	dw !initcommand_load_subconfig, DATA_FF9FFA
-	dw sprite.unknown_46, $0078
+	dw sprite.general_purpose_46, $0078
 	dw sprite.max_x_speed, $01C0
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_success
@@ -13078,188 +13118,188 @@ DATA_FFA0D0:
 DATA_FFA0E2:
 	dw !initcommand_load_subconfig, DATA_FF9FFA
 	dw sprite.max_x_speed, $FEC0
-	dw sprite.unknown_46, $0058
+	dw sprite.general_purpose_46, $0058
 	dw !initcommand_success
 
 DATA_FFA0F0:
 	dw !initcommand_load_subconfig, DATA_FF9FFA
 	dw sprite.max_x_speed, $FEC0
-	dw sprite.unknown_46, $2C2C
+	dw sprite.general_purpose_46, $2C2C
 	dw !initcommand_success
 
 DATA_FFA0FE:
 	dw !initcommand_load_subconfig, DATA_FF9FFA
 	dw sprite.max_x_speed, $FEC0
-	dw sprite.unknown_46, $5800
+	dw sprite.general_purpose_46, $5800
 	dw !initcommand_success
 
 DATA_FFA10C:
 	dw !initcommand_load_subconfig, DATA_FF9FFA
 	dw sprite.max_x_speed, $FE60
-	dw sprite.unknown_46, $7010
+	dw sprite.general_purpose_46, $7010
 	dw !initcommand_success
 
 DATA_FFA11A:
 	dw !initcommand_load_subconfig, DATA_FF9FFA
 	dw sprite.max_x_speed, $FE60
-	dw sprite.unknown_46, $4040
+	dw sprite.general_purpose_46, $4040
 	dw !initcommand_success
 
 DATA_FFA128:
 	dw !initcommand_load_subconfig, DATA_FF9FFA
 	dw sprite.max_x_speed, $FE60
-	dw sprite.unknown_46, $3030
+	dw sprite.general_purpose_46, $3030
 	dw !initcommand_success
 
 DATA_FFA136:
 	dw !initcommand_load_subconfig, DATA_FF9FFA
-	dw sprite.unknown_46, $A820
+	dw sprite.general_purpose_46, $A820
 	dw sprite.max_x_speed, $FE80
 	dw !initcommand_success
 
 DATA_FFA144:
 	dw !initcommand_load_subconfig, DATA_FF9FFA
-	dw sprite.unknown_46, $C800
+	dw sprite.general_purpose_46, $C800
 	dw sprite.max_x_speed, $FE80
 	dw !initcommand_success
 
 DATA_FFA152:
 	dw !initcommand_load_subconfig, DATA_FF9FFA
-	dw sprite.unknown_46, $1818
+	dw sprite.general_purpose_46, $1818
 	dw sprite.max_x_speed, $FDC0
 	dw !initcommand_success
 
 DATA_FFA160:
 	dw !initcommand_load_subconfig, DATA_FF9FFA
-	dw sprite.unknown_46, $4848
+	dw sprite.general_purpose_46, $4848
 	dw sprite.max_x_speed, $FE40
 	dw !initcommand_success
 
 DATA_FFA16E:
 	dw !initcommand_load_subconfig, DATA_FF9FFA
-	dw sprite.unknown_46, $1010
+	dw sprite.general_purpose_46, $1010
 	dw sprite.max_x_speed, $FDC0
 	dw !initcommand_success
 
 DATA_FFA17C:
 	dw !initcommand_load_subconfig, DATA_FF9FFA
-	dw sprite.unknown_46, $3030
+	dw sprite.general_purpose_46, $3030
 	dw sprite.max_x_speed, $FEC0
 	dw !initcommand_success
 
 DATA_FFA18A:
 	dw !initcommand_load_subconfig, DATA_FF9FFA
-	dw sprite.unknown_46, $3030
+	dw sprite.general_purpose_46, $3030
 	dw sprite.max_x_speed, $0140
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_success
 
 DATA_FFA19C:
 	dw !initcommand_load_subconfig, DATA_FF9FFA
-	dw sprite.unknown_46, $1414
+	dw sprite.general_purpose_46, $1414
 	dw sprite.max_x_speed, $FF00
 	dw !initcommand_success
 
 DATA_FFA1AA:
 	dw !initcommand_load_subconfig, DATA_FF9FFA
-	dw sprite.unknown_46, $3040
+	dw sprite.general_purpose_46, $3040
 	dw sprite.max_x_speed, $FE80
 	dw !initcommand_success
 
 DATA_FFA1B8:
 	dw !initcommand_load_subconfig, DATA_FF9FFA
-	dw sprite.unknown_46, $1818
+	dw sprite.general_purpose_46, $1818
 	dw sprite.max_x_speed, $FE80
 	dw !initcommand_success
 
 DATA_FFA1C6:
 	dw !initcommand_load_subconfig, DATA_FF9FFA
-	dw sprite.unknown_46, $8800
+	dw sprite.general_purpose_46, $8800
 	dw sprite.max_x_speed, $FE40
 	dw !initcommand_success
 
 DATA_FFA1D4:
 	dw !initcommand_load_subconfig, DATA_FF9FFA
-	dw sprite.unknown_46, $4848
+	dw sprite.general_purpose_46, $4848
 	dw sprite.max_x_speed, $FE40
 	dw !initcommand_success
 
 DATA_FFA1E2:
 	dw !initcommand_load_subconfig, DATA_FF9FFA
-	dw sprite.unknown_46, $A000
+	dw sprite.general_purpose_46, $A000
 	dw sprite.max_x_speed, $FE40
 	dw !initcommand_success
 
 DATA_FFA1F0:
 	dw !initcommand_load_subconfig, DATA_FF9FFA
-	dw sprite.unknown_46, $B0B0
+	dw sprite.general_purpose_46, $B0B0
 	dw sprite.max_x_speed, $01C0
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_success
 
 DATA_FFA202:
 	dw !initcommand_load_subconfig, DATA_FF9FFA
-	dw sprite.unknown_46, $3028
+	dw sprite.general_purpose_46, $3028
 	dw sprite.max_x_speed, $0140
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_success
 
 DATA_FFA214:
 	dw !initcommand_load_subconfig, DATA_FF9FFA
-	dw sprite.unknown_46, $2020
+	dw sprite.general_purpose_46, $2020
 	dw sprite.max_x_speed, $01C0
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_success
 
 DATA_FFA226:
 	dw !initcommand_load_subconfig, DATA_FF9FFA
-	dw sprite.unknown_46, $2824
+	dw sprite.general_purpose_46, $2824
 	dw sprite.max_x_speed, $FE40
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FFA238:
 	dw !initcommand_load_subconfig, DATA_FF9FFA
-	dw sprite.unknown_46, $1420
+	dw sprite.general_purpose_46, $1420
 	dw sprite.max_x_speed, $FE40
 	dw !initcommand_success
 
 DATA_FFA246:
 	dw !initcommand_load_subconfig, DATA_FF9FFA
-	dw sprite.unknown_46, $00E0
+	dw sprite.general_purpose_46, $00E0
 	dw sprite.max_x_speed, $0180
 	dw !initcommand_success
 
 DATA_FFA254:
 	dw !initcommand_load_subconfig, DATA_FF9FFA
-	dw sprite.unknown_46, $2C38
+	dw sprite.general_purpose_46, $2C38
 	dw sprite.max_x_speed, $0140
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_success
 
 DATA_FFA266:
 	dw !initcommand_load_subconfig, DATA_FF9FFA
-	dw sprite.unknown_46, $D000
+	dw sprite.general_purpose_46, $D000
 	dw sprite.max_x_speed, $FE80
 	dw !initcommand_success
 
 DATA_FFA274:
 	dw !initcommand_load_subconfig, DATA_FF9FFA
-	dw sprite.unknown_46, $9820
+	dw sprite.general_purpose_46, $9820
 	dw sprite.max_x_speed, $0140
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_success
 
 DATA_FFA286:
 	dw !initcommand_load_subconfig, DATA_FF9FFA
-	dw sprite.unknown_46, $1818
+	dw sprite.general_purpose_46, $1818
 	dw sprite.max_x_speed, $0140
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_success
 
 DATA_FFA298:
 	dw !initcommand_load_subconfig, DATA_FF9FFA
-	dw sprite.unknown_46, $2820
+	dw sprite.general_purpose_46, $2820
 	dw sprite.max_x_speed, $FE00
 	dw !initcommand_success
 
@@ -13267,194 +13307,194 @@ DATA_FFA298:
 DATA_FFA2A6:
 	dw sprite.number, $0200
 	dw sprite.render_order, $00D4
-	dw sprite.unknown_54, DATA_FF02D6
-	dw sprite.action, $0000
+	dw sprite.constants_address, DATA_FF02D6
+	dw sprite.state, $0000
 	dw sprite.x_speed, $0000
 	dw sprite.y_speed, $0000
-	dw sprite.unknown_30, $0120
+	dw sprite.interaction_flags, $0120
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_set_alt_palette, $003A
 	dw !initcommand_set_animation, $01A6
-	dw sprite.unknown_52, $0006
-	dw sprite.unknown_48, $0000
+	dw sprite.movement_state, $0006
+	dw sprite.general_purpose_48, $0000
 	dw !initcommand_success
 
 DATA_FFA2D8:
 	dw !initcommand_load_subconfig, DATA_FFA2A6
-	dw sprite.unknown_4A, $2038
+	dw sprite.general_purpose_4A, $2038
 	dw sprite.max_y_speed, $00C0
-	dw sprite.unknown_4E, $0100
+	dw sprite.general_purpose_4E, $0100
 	dw !initcommand_success
 
 DATA_FFA2EA:
 	dw !initcommand_load_subconfig, DATA_FFA2A6
-	dw sprite.unknown_4A, $7010
+	dw sprite.general_purpose_4A, $7010
 	dw sprite.max_y_speed, $00C0
-	dw sprite.unknown_4E, $0100
+	dw sprite.general_purpose_4E, $0100
 	dw !initcommand_success
 
 DATA_FFA2FC:
 	dw !initcommand_load_subconfig, DATA_FFA2A6
-	dw sprite.unknown_4A, $1070
+	dw sprite.general_purpose_4A, $1070
 	dw sprite.max_y_speed, $FF40
 	dw sprite.animation_control, $0100
-	dw sprite.unknown_4E, $0100
+	dw sprite.general_purpose_4E, $0100
 	dw !initcommand_success
 
 DATA_FFA312:
 	dw !initcommand_load_subconfig, DATA_FFA2A6
-	dw sprite.unknown_4A, $7010
+	dw sprite.general_purpose_4A, $7010
 	dw sprite.max_y_speed, $00C0
-	dw sprite.unknown_4E, $0100
+	dw sprite.general_purpose_4E, $0100
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FFA328:
 	dw !initcommand_load_subconfig, DATA_FFA2A6
-	dw sprite.unknown_4A, $2060
+	dw sprite.general_purpose_4A, $2060
 	dw sprite.max_y_speed, $00C0
-	dw sprite.unknown_4E, $0100
+	dw sprite.general_purpose_4E, $0100
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FFA33E:
 	dw !initcommand_load_subconfig, DATA_FFA2A6
-	dw sprite.unknown_4A, $2038
+	dw sprite.general_purpose_4A, $2038
 	dw sprite.max_y_speed, $00C0
-	dw sprite.unknown_4E, $0100
+	dw sprite.general_purpose_4E, $0100
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FFA354:
 	dw !initcommand_load_subconfig, DATA_FFA2A6
-	dw sprite.unknown_4A, $6010
+	dw sprite.general_purpose_4A, $6010
 	dw sprite.max_y_speed, $00C0
-	dw sprite.unknown_4E, $0110
+	dw sprite.general_purpose_4E, $0110
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FFA36A:
 	dw !initcommand_load_subconfig, DATA_FFA2A6
-	dw sprite.unknown_4A, $1060
+	dw sprite.general_purpose_4A, $1060
 	dw sprite.max_y_speed, $FF40
 	dw sprite.animation_control, $0110
-	dw sprite.unknown_4E, $0110
+	dw sprite.general_purpose_4E, $0110
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FFA384:
 	dw !initcommand_load_subconfig, DATA_FFA2A6
-	dw sprite.unknown_4A, $2050
+	dw sprite.general_purpose_4A, $2050
 	dw sprite.max_y_speed, $00C0
-	dw sprite.unknown_4E, $0110
+	dw sprite.general_purpose_4E, $0110
 	dw !initcommand_success
 
 DATA_FFA396:
 	dw !initcommand_load_subconfig, DATA_FFA2A6
-	dw sprite.unknown_4A, $3820
+	dw sprite.general_purpose_4A, $3820
 	dw sprite.max_y_speed, $00C0
-	dw sprite.unknown_4E, $0100
+	dw sprite.general_purpose_4E, $0100
 	dw !initcommand_success
 
 DATA_FFA3A8:
 	dw !initcommand_load_subconfig, DATA_FFA2A6
-	dw sprite.unknown_4A, $3820
+	dw sprite.general_purpose_4A, $3820
 	dw sprite.max_y_speed, $FF40
-	dw sprite.unknown_4E, $0100
+	dw sprite.general_purpose_4E, $0100
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FFA3BE:
 	dw !initcommand_load_subconfig, DATA_FFA2A6
-	dw sprite.unknown_4A, $5800
+	dw sprite.general_purpose_4A, $5800
 	dw sprite.max_y_speed, $FF60
-	dw sprite.unknown_4E, $0100
+	dw sprite.general_purpose_4E, $0100
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FFA3D4:
 	dw !initcommand_load_subconfig, DATA_FFA2A6
-	dw sprite.unknown_4A, $4048
+	dw sprite.general_purpose_4A, $4048
 	dw sprite.max_y_speed, $FF10
-	dw sprite.unknown_4E, $0100
+	dw sprite.general_purpose_4E, $0100
 	dw !initcommand_success
 
 DATA_FFA3E6:
 	dw !initcommand_load_subconfig, DATA_FFA2A6
-	dw sprite.unknown_4A, $2038
+	dw sprite.general_purpose_4A, $2038
 	dw sprite.max_y_speed, $FF40
-	dw sprite.unknown_4E, $0100
+	dw sprite.general_purpose_4E, $0100
 	dw !initcommand_success
 
 DATA_FFA3F8:
 	dw !initcommand_load_subconfig, DATA_FFA2A6
-	dw sprite.unknown_4A, $A000
+	dw sprite.general_purpose_4A, $A000
 	dw sprite.max_y_speed, $FF00
-	dw sprite.unknown_4E, $0110
+	dw sprite.general_purpose_4E, $0110
 	dw !initcommand_success
 
 DATA_FFA40A:
 	dw !initcommand_load_subconfig, DATA_FFA2A6
-	dw sprite.unknown_4A, $A000
+	dw sprite.general_purpose_4A, $A000
 	dw sprite.max_y_speed, $FF00
-	dw sprite.unknown_4E, $0110
-	dw sprite.unknown_48, $001E
+	dw sprite.general_purpose_4E, $0110
+	dw sprite.general_purpose_48, $001E
 	dw !initcommand_set_animation, $01A8
 	dw !initcommand_success
 
 DATA_FFA424:
 	dw !initcommand_load_subconfig, DATA_FFA2A6
-	dw sprite.unknown_4A, $A000
+	dw sprite.general_purpose_4A, $A000
 	dw sprite.max_y_speed, $FF00
-	dw sprite.unknown_4E, $0110
-	dw sprite.unknown_48, $003C
+	dw sprite.general_purpose_4E, $0110
+	dw sprite.general_purpose_48, $003C
 	dw !initcommand_success
 
 DATA_FFA43A:
 	dw !initcommand_load_subconfig, DATA_FFA2A6
-	dw sprite.unknown_4A, $A000
+	dw sprite.general_purpose_4A, $A000
 	dw sprite.max_y_speed, $FF00
-	dw sprite.unknown_4E, $0110
-	dw sprite.unknown_48, $005A
+	dw sprite.general_purpose_4E, $0110
+	dw sprite.general_purpose_48, $005A
 	dw !initcommand_set_animation, $01A8
 	dw !initcommand_success
 
 DATA_FFA454:
 	dw !initcommand_load_subconfig, DATA_FFA2A6
-	dw sprite.unknown_4A, $1028
+	dw sprite.general_purpose_4A, $1028
 	dw sprite.max_y_speed, $00C0
-	dw sprite.unknown_4E, $0100
+	dw sprite.general_purpose_4E, $0100
 	dw !initcommand_success
 
 DATA_FFA466:
 	dw !initcommand_load_subconfig, DATA_FFA2A6
-	dw sprite.unknown_4A, $2018
+	dw sprite.general_purpose_4A, $2018
 	dw sprite.max_y_speed, $FF40
-	dw sprite.unknown_4E, $0100
+	dw sprite.general_purpose_4E, $0100
 	dw !initcommand_success
 
 DATA_FFA478:
 	dw !initcommand_load_subconfig, DATA_FFA2A6
-	dw sprite.unknown_4A, $0070
+	dw sprite.general_purpose_4A, $0070
 	dw sprite.max_y_speed, $00C0
-	dw sprite.unknown_4E, $0100
+	dw sprite.general_purpose_4E, $0100
 	dw !initcommand_success
 
 DATA_FFA48A:
 	dw !initcommand_load_subconfig, DATA_FFA2A6
-	dw sprite.unknown_4A, $0058
+	dw sprite.general_purpose_4A, $0058
 	dw sprite.max_y_speed, $00C0
-	dw sprite.unknown_4E, $0100
+	dw sprite.general_purpose_4E, $0100
 	dw !initcommand_success
 
 DATA_FFA49C:
 	dw sprite.number, $01F8
 	dw sprite.render_order, $00D4
-	dw sprite.unknown_54, DATA_FF021C
-	dw sprite.action, $0000
+	dw sprite.constants_address, DATA_FF021C
+	dw sprite.state, $0000
 	dw sprite.x_speed, $0000
 	dw sprite.y_speed, $0000
-	dw sprite.unknown_30, $0020
+	dw sprite.interaction_flags, $0020
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_set_animation, $01A9
 	dw sprite.unknown_5C, $0001
@@ -13462,9 +13502,9 @@ DATA_FFA49C:
 
 DATA_FFA4C6:
 	dw !initcommand_load_subconfig, DATA_FFA49C
-	dw sprite.unknown_52, $0008
+	dw sprite.movement_state, $0008
 	dw sprite.max_y_speed, $0060
-	dw sprite.unknown_4A, $0606
+	dw sprite.general_purpose_4A, $0606
 	dw !initcommand_set_alt_palette, $003C
 	dw !initcommand_success
 
@@ -13515,84 +13555,84 @@ DATA_FFA532:
 DATA_FFA53C:
 	dw !initcommand_load_subconfig, DATA_FFA49C
 	dw !initcommand_set_alt_palette, $004F
-	dw sprite.unknown_52, $0007
+	dw sprite.movement_state, $0007
 	dw !initcommand_success
 
 DATA_FFA54A:
 	dw !initcommand_load_subconfig, DATA_FFA53C
 	dw sprite.max_x_speed, $00C0
-	dw sprite.unknown_46, $6060
+	dw sprite.general_purpose_46, $6060
 	dw sprite.max_y_speed, $0060
-	dw sprite.unknown_4A, $0303
+	dw sprite.general_purpose_4A, $0303
 	dw !initcommand_success
 
 DATA_FFA560:
 	dw !initcommand_load_subconfig, DATA_FFA53C
 	dw sprite.max_x_speed, $FEE0
-	dw sprite.unknown_46, $8000
+	dw sprite.general_purpose_46, $8000
 	dw sprite.max_y_speed, $0060
-	dw sprite.unknown_4A, $0303
+	dw sprite.general_purpose_4A, $0303
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FFA57A:
 	dw !initcommand_load_subconfig, DATA_FFA53C
 	dw sprite.max_x_speed, $0120
-	dw sprite.unknown_46, $0080
+	dw sprite.general_purpose_46, $0080
 	dw sprite.max_y_speed, $0060
-	dw sprite.unknown_4A, $0303
+	dw sprite.general_purpose_4A, $0303
 	dw !initcommand_success
 
 DATA_FFA590:
 	dw !initcommand_load_subconfig, DATA_FFA53C
 	dw sprite.max_x_speed, $0120
-	dw sprite.unknown_46, $6060
+	dw sprite.general_purpose_46, $6060
 	dw sprite.max_y_speed, $0060
-	dw sprite.unknown_4A, $0303
+	dw sprite.general_purpose_4A, $0303
 	dw !initcommand_success
 
 DATA_FFA5A6:
 	dw !initcommand_load_subconfig, DATA_FFA53C
 	dw sprite.max_x_speed, $FF40
-	dw sprite.unknown_46, $4040
+	dw sprite.general_purpose_46, $4040
 	dw sprite.max_y_speed, $0060
-	dw sprite.unknown_4A, $0303
+	dw sprite.general_purpose_4A, $0303
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FFA5C0:
 	dw !initcommand_load_subconfig, DATA_FFA53C
 	dw sprite.max_x_speed, $FF00
-	dw sprite.unknown_46, $5050
+	dw sprite.general_purpose_46, $5050
 	dw sprite.max_y_speed, $0060
-	dw sprite.unknown_4A, $0303
+	dw sprite.general_purpose_4A, $0303
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FFA5DA:
 	dw !initcommand_load_subconfig, DATA_FFA53C
 	dw sprite.max_x_speed, $FF40
-	dw sprite.unknown_46, $5050
+	dw sprite.general_purpose_46, $5050
 	dw sprite.max_y_speed, $0060
-	dw sprite.unknown_4A, $0303
+	dw sprite.general_purpose_4A, $0303
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FFA5F4:
 	dw !initcommand_load_subconfig, DATA_FFA53C
 	dw sprite.max_x_speed, $FF40
-	dw sprite.unknown_46, $3030
+	dw sprite.general_purpose_46, $3030
 	dw sprite.max_y_speed, $0060
-	dw sprite.unknown_4A, $0303
+	dw sprite.general_purpose_4A, $0303
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FFA60E:
 	dw !initcommand_load_subconfig, DATA_FFA53C
 	dw sprite.max_x_speed, $FEE0
-	dw sprite.unknown_46, $6060
+	dw sprite.general_purpose_46, $6060
 	dw sprite.max_y_speed, $0060
-	dw sprite.unknown_4A, $0303
+	dw sprite.general_purpose_4A, $0303
 	dw !initcommand_set_oam, $6000
 	dw sprite.unknown_5C, $0000
 	dw !initcommand_success
@@ -13600,105 +13640,105 @@ DATA_FFA60E:
 DATA_FFA62C:
 	dw !initcommand_load_subconfig, DATA_FFA53C
 	dw sprite.max_x_speed, $FEE0
-	dw sprite.unknown_46, $4040
+	dw sprite.general_purpose_46, $4040
 	dw sprite.max_y_speed, $0060
-	dw sprite.unknown_4A, $0303
+	dw sprite.general_purpose_4A, $0303
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FFA646:
 	dw !initcommand_load_subconfig, DATA_FFA53C
 	dw sprite.max_x_speed, $0100
-	dw sprite.unknown_46, $4040
+	dw sprite.general_purpose_46, $4040
 	dw sprite.max_y_speed, $0060
-	dw sprite.unknown_4A, $0303
+	dw sprite.general_purpose_4A, $0303
 	dw !initcommand_success
 
 DATA_FFA65C:
 	dw !initcommand_load_subconfig, DATA_FFA53C
 	dw sprite.max_x_speed, $FF60
-	dw sprite.unknown_46, $D070
+	dw sprite.general_purpose_46, $D070
 	dw sprite.max_y_speed, $0070
-	dw sprite.unknown_4A, $0303
+	dw sprite.general_purpose_4A, $0303
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FFA676:
 	dw !initcommand_load_subconfig, DATA_FFA53C
 	dw sprite.max_x_speed, $FF20
-	dw sprite.unknown_46, $FF00
+	dw sprite.general_purpose_46, $FF00
 	dw sprite.max_y_speed, $0060
-	dw sprite.unknown_4A, $0204
+	dw sprite.general_purpose_4A, $0204
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FFA690:
 	dw !initcommand_load_subconfig, DATA_FFA53C
 	dw sprite.max_x_speed, $FF00
-	dw sprite.unknown_46, $C048
+	dw sprite.general_purpose_46, $C048
 	dw sprite.max_y_speed, $0060
-	dw sprite.unknown_4A, $0203
+	dw sprite.general_purpose_4A, $0203
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FFA6AA:
 	dw !initcommand_load_subconfig, DATA_FFA53C
 	dw sprite.max_x_speed, $FF00
-	dw sprite.unknown_46, $C010
+	dw sprite.general_purpose_46, $C010
 	dw sprite.max_y_speed, $0068
-	dw sprite.unknown_4A, $0303
+	dw sprite.general_purpose_4A, $0303
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FFA6C4:
 	dw !initcommand_load_subconfig, DATA_FFA53C
 	dw sprite.max_x_speed, $0140
-	dw sprite.unknown_46, $10B0
+	dw sprite.general_purpose_46, $10B0
 	dw sprite.max_y_speed, $0060
-	dw sprite.unknown_4A, $0303
+	dw sprite.general_purpose_4A, $0303
 	dw !initcommand_success
 
 DATA_FFA6DA:
 	dw !initcommand_load_subconfig, DATA_FFA53C
 	dw sprite.max_x_speed, $FEC0
-	dw sprite.unknown_46, $B018
+	dw sprite.general_purpose_46, $B018
 	dw sprite.max_y_speed, $0068
-	dw sprite.unknown_4A, $0302
+	dw sprite.general_purpose_4A, $0302
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FFA6F4:
 	dw !initcommand_load_subconfig, DATA_FFA53C
 	dw sprite.max_x_speed, $FEC0
-	dw sprite.unknown_46, $B038
+	dw sprite.general_purpose_46, $B038
 	dw sprite.max_y_speed, $0060
-	dw sprite.unknown_4A, $0204
+	dw sprite.general_purpose_4A, $0204
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FFA70E:
 	dw !initcommand_load_subconfig, DATA_FFA53C
 	dw sprite.max_x_speed, $FE80
-	dw sprite.unknown_46, $4040
+	dw sprite.general_purpose_46, $4040
 	dw sprite.max_y_speed, $0060
-	dw sprite.unknown_4A, $0303
+	dw sprite.general_purpose_4A, $0303
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FFA728:
 	dw !initcommand_load_subconfig, DATA_FFA53C
 	dw sprite.max_x_speed, $0180
-	dw sprite.unknown_46, $4040
+	dw sprite.general_purpose_46, $4040
 	dw sprite.max_y_speed, $0060
-	dw sprite.unknown_4A, $0303
+	dw sprite.general_purpose_4A, $0303
 	dw !initcommand_success
 
 DATA_FFA73E:
 	dw sprite.number, $0234
 	dw sprite.render_order, $00D4
-	dw sprite.unknown_54, DATA_FF021C
-	dw sprite.action, $0000
-	dw sprite.unknown_52, $0029
+	dw sprite.constants_address, DATA_FF021C
+	dw sprite.state, $0000
+	dw sprite.movement_state, $0029
 	dw sprite.unknown_5C, $0000
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_set_alt_palette, $000B
@@ -13798,48 +13838,48 @@ DATA_FFA836:
 
 DATA_FFA844:
 	dw !initcommand_load_subconfig, DATA_FFA73E
-	dw sprite.unknown_52, $0009
+	dw sprite.movement_state, $0009
 	dw sprite.unknown_5C, $0001
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FFA856:
 	dw !initcommand_load_subconfig, DATA_FFA844
-	dw sprite.unknown_42, DATA_FFA8B6
-	dw sprite.unknown_4E, $00FF
+	dw sprite.general_purpose_42, DATA_FFA8B6
+	dw sprite.general_purpose_4E, $00FF
 	dw !initcommand_success
 
 DATA_FFA864:
 	dw !initcommand_load_subconfig, DATA_FFA844
-	dw sprite.unknown_42, DATA_FFA8CE
-	dw sprite.unknown_4E, $00FF
+	dw sprite.general_purpose_42, DATA_FFA8CE
+	dw sprite.general_purpose_4E, $00FF
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_success
 
 DATA_FFA876:
 	dw !initcommand_load_subconfig, DATA_FFA844
-	dw sprite.unknown_42, DATA_FFA8E6
-	dw sprite.unknown_4E, $00FF
+	dw sprite.general_purpose_42, DATA_FFA8E6
+	dw sprite.general_purpose_4E, $00FF
 	dw !initcommand_success
 
 DATA_FFA884:
 	dw !initcommand_load_subconfig, DATA_FFA844
-	dw sprite.unknown_42, DATA_FFA8FE
-	dw sprite.unknown_4E, $00FF
+	dw sprite.general_purpose_42, DATA_FFA8FE
+	dw sprite.general_purpose_4E, $00FF
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_success
 
 DATA_FFA896:
 	dw !initcommand_load_subconfig, DATA_FFA844
-	dw sprite.unknown_42, DATA_FFA916
-	dw sprite.unknown_4E, $00FF
+	dw sprite.general_purpose_42, DATA_FFA916
+	dw sprite.general_purpose_4E, $00FF
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_success
 
 DATA_FFA8A8:
 	dw !initcommand_load_subconfig, DATA_FFA844
-	dw sprite.unknown_42, DATA_FFA92E
-	dw sprite.unknown_4E, $00FF
+	dw sprite.general_purpose_42, DATA_FFA92E
+	dw sprite.general_purpose_4E, $00FF
 	dw !initcommand_success
 
 ;shuri scripts (uses same language as screech/king zing chases)
@@ -13900,19 +13940,19 @@ DATA_FFA932:
 DATA_FFA946:
 	dw sprite.number, $0234
 	dw sprite.render_order, $00D4
-	dw sprite.unknown_54, DATA_FF021C
+	dw sprite.constants_address, DATA_FF021C
 	dw !initcommand_set_alt_palette, $00B0
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_set_animation, $0180
-	dw sprite.action, $0001
-	dw sprite.unknown_52, $0007
-	dw sprite.unknown_46, $0202
+	dw sprite.state, $0001
+	dw sprite.movement_state, $0007
+	dw sprite.general_purpose_46, $0202
 	dw sprite.max_x_speed, $0040
-	dw sprite.unknown_4A, $0203
+	dw sprite.general_purpose_4A, $0203
 	dw sprite.max_y_speed, $0060
 	dw sprite.ground_y_position, $8080
 	dw sprite.ground_distance, $8080
-	dw sprite.unknown_1E, $003C
+	dw sprite.terrain_interaction, $003C
 	dw sprite.unknown_22, $0180
 	dw sprite.unknown_28, $0020
 	dw !initcommand_success
@@ -13953,7 +13993,7 @@ DATA_FFA9C6:
 
 DATA_FFA9D8:
 	dw !initcommand_load_subconfig, DATA_FFA946
-	dw sprite.unknown_1E, $002D
+	dw sprite.terrain_interaction, $002D
 	dw sprite.ground_y_position, $8000
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
@@ -13963,7 +14003,7 @@ DATA_FFA9EA:
 	dw !initcommand_set_oam, $6000
 	dw sprite.ground_distance, $2080
 	dw sprite.ground_y_position, $6080
-	dw sprite.unknown_1E, $001E
+	dw sprite.terrain_interaction, $001E
 	dw !initcommand_success
 
 DATA_FFAA00:
@@ -13971,7 +14011,7 @@ DATA_FFAA00:
 	dw !initcommand_set_oam, $6000
 	dw sprite.ground_distance, $2070
 	dw sprite.ground_y_position, $8040
-	dw sprite.unknown_1E, $001E
+	dw sprite.terrain_interaction, $001E
 	dw !initcommand_success
 
 DATA_FFAA16:
@@ -13979,7 +14019,7 @@ DATA_FFAA16:
 	dw !initcommand_set_oam, $6000
 	dw sprite.ground_distance, $2080
 	dw sprite.ground_y_position, $4080
-	dw sprite.unknown_1E, $001E
+	dw sprite.terrain_interaction, $001E
 	dw !initcommand_success
 
 DATA_FFAA2C:
@@ -13987,7 +14027,7 @@ DATA_FFAA2C:
 	dw !initcommand_set_oam, $6000
 	dw sprite.ground_distance, $2080
 	dw sprite.ground_y_position, $8040
-	dw sprite.unknown_1E, $001E
+	dw sprite.terrain_interaction, $001E
 	dw !initcommand_success
 
 DATA_FFAA42:
@@ -13995,35 +14035,35 @@ DATA_FFAA42:
 	dw !initcommand_set_oam, $6000
 	dw sprite.ground_distance, $4040
 	dw sprite.ground_y_position, $6040
-	dw sprite.unknown_1E, $001E
+	dw sprite.terrain_interaction, $001E
 	dw !initcommand_success
 
 DATA_FFAA58:
 	dw !initcommand_load_subconfig, DATA_FFA946
 	dw sprite.ground_distance, $6060
 	dw sprite.ground_y_position, $6060
-	dw sprite.unknown_1E, $001E
+	dw sprite.terrain_interaction, $001E
 	dw !initcommand_success
 
 DATA_FFAA6A:
 	dw !initcommand_load_subconfig, DATA_FFA946
 	dw sprite.ground_distance, $6060
 	dw sprite.ground_y_position, $4040
-	dw sprite.unknown_1E, $003C
+	dw sprite.terrain_interaction, $003C
 	dw !initcommand_success
 
 DATA_FFAA7C:
 	dw !initcommand_load_subconfig, DATA_FFA946
 	dw sprite.ground_distance, $6060
 	dw sprite.ground_y_position, $7070
-	dw sprite.unknown_1E, $002D
+	dw sprite.terrain_interaction, $002D
 	dw !initcommand_success
 
 DATA_FFAA8E:
 	dw !initcommand_load_subconfig, DATA_FFA946
 	dw sprite.ground_distance, $4040
 	dw sprite.ground_y_position, $4060
-	dw sprite.unknown_1E, $002D
+	dw sprite.terrain_interaction, $002D
 	dw !initcommand_success
 
 DATA_FFAAA0:
@@ -14031,7 +14071,7 @@ DATA_FFAAA0:
 	dw !initcommand_set_oam, $6000
 	dw sprite.ground_distance, $4040
 	dw sprite.ground_y_position, $8000
-	dw sprite.unknown_1E, $001E
+	dw sprite.terrain_interaction, $001E
 	dw !initcommand_success
 
 DATA_FFAAB6:
@@ -14051,18 +14091,18 @@ DATA_FFAAD2:
 	dw !initcommand_set_oam, $6000
 	dw sprite.ground_distance, $4040
 	dw sprite.ground_y_position, $8080
-	dw sprite.unknown_1E, $001E
+	dw sprite.terrain_interaction, $001E
 	dw !initcommand_success
 
 DATA_FFAAE8:
 	dw sprite.number, $01B8
 	dw sprite.render_order, $00C8
-	dw sprite.unknown_54, DATA_FF0214
-	dw sprite.action, $0000
+	dw sprite.constants_address, DATA_FF0214
+	dw sprite.state, $0000
 	dw sprite.x_speed, $0000
 	dw sprite.max_x_speed, $0000
 	dw sprite.y_speed, $0000
-	dw sprite.unknown_30, $0001
+	dw sprite.interaction_flags, $0001
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_set_alt_palette, $0002
 	dw !initcommand_set_animation, $02E5
@@ -14080,12 +14120,12 @@ DATA_FFAB16:
 DATA_FFAB30:
 	dw sprite.number, $01A8
 	dw sprite.render_order, $00C8
-	dw sprite.unknown_54, DATA_FF0214
-	dw sprite.action, $0000
+	dw sprite.constants_address, DATA_FF0214
+	dw sprite.state, $0000
 	dw sprite.x_speed, $0000
 	dw sprite.max_x_speed, $0000
 	dw sprite.y_speed, $0000
-	dw sprite.unknown_30, $0001
+	dw sprite.interaction_flags, $0001
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_set_alt_palette, $0002
 	dw !initcommand_set_animation, $02E1
@@ -14094,9 +14134,9 @@ DATA_FFAB30:
 DATA_FFAB5E:
 	dw sprite.number, $01A8
 	dw sprite.render_order, $00C8
-	dw sprite.unknown_54, DATA_FF0214
-	dw sprite.action, $0004
-	dw sprite.unknown_30, $0000
+	dw sprite.constants_address, DATA_FF0214
+	dw sprite.state, $0004
+	dw sprite.interaction_flags, $0000
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_set_alt_palette, $0002
 	dw !initcommand_set_animation, $02E1
@@ -14113,691 +14153,691 @@ DATA_FFAB86:
 
 DATA_FFAB90:
 	dw !initcommand_load_subconfig, DATA_FFAB5E
-	dw sprite.action, $0006
+	dw sprite.state, $0006
 	dw !initcommand_success
 
 ;unused?
 DATA_FFAB9A:
 	dw sprite.number, $00A4
-	dw sprite.action, $0000
-	dw sprite.unknown_42, $0606
+	dw sprite.state, $0000
+	dw sprite.general_purpose_42, $0606
 	dw !initcommand_success
 
 DATA_FFABA8:
 	dw sprite.number, $00A4
-	dw sprite.action, $0001
-	dw sprite.unknown_44, $003C
-	dw sprite.unknown_42, $0606
+	dw sprite.state, $0001
+	dw sprite.general_purpose_44, $003C
+	dw sprite.general_purpose_42, $0606
 	dw !initcommand_success
 
 DATA_FFABBA:
 	dw sprite.number, $00A4
-	dw sprite.action, $0002
-	dw sprite.unknown_42, $0606
+	dw sprite.state, $0002
+	dw sprite.general_purpose_42, $0606
 	dw !initcommand_success
 
 DATA_FFABC8:
 	dw sprite.number, $00AC
-	dw sprite.action, $0000
+	dw sprite.state, $0000
 	dw sprite.y_speed, $FF00
-	dw sprite.unknown_42, $8080
-	dw sprite.unknown_52, $0000
-	dw sprite.unknown_4C, $0000
+	dw sprite.general_purpose_42, $8080
+	dw sprite.movement_state, $0000
+	dw sprite.general_purpose_4C, $0000
 	dw !initcommand_success
 
 DATA_FFABE2:
 	dw sprite.number, $00AC
-	dw sprite.action, $0001
+	dw sprite.state, $0001
 	dw sprite.y_speed, $FF00
-	dw sprite.unknown_42, $8080
-	dw sprite.unknown_52, $0000
-	dw sprite.unknown_4C, $0000
+	dw sprite.general_purpose_42, $8080
+	dw sprite.movement_state, $0000
+	dw sprite.general_purpose_4C, $0000
 	dw !initcommand_success
 
 DATA_FFABFC:
 	dw sprite.number, $00AC
-	dw sprite.action, $0000
+	dw sprite.state, $0000
 	dw sprite.y_speed, $FF00
-	dw sprite.unknown_42, $8080
-	dw sprite.unknown_52, $0001
-	dw sprite.unknown_4C, $0000
+	dw sprite.general_purpose_42, $8080
+	dw sprite.movement_state, $0001
+	dw sprite.general_purpose_4C, $0000
 	dw !initcommand_success
 
 DATA_FFAC16:
 	dw sprite.number, $00AC
-	dw sprite.action, $0001
+	dw sprite.state, $0001
 	dw sprite.y_speed, $FF00
-	dw sprite.unknown_42, $8080
-	dw sprite.unknown_52, $0001
-	dw sprite.unknown_4C, $0000
+	dw sprite.general_purpose_42, $8080
+	dw sprite.movement_state, $0001
+	dw sprite.general_purpose_4C, $0000
 	dw !initcommand_success
 
 DATA_FFAC30:
 	dw !initcommand_load_subconfig, DATA_FFABE2
-	dw sprite.unknown_4C, $0710
-	dw sprite.unknown_4E, $06F0
+	dw sprite.general_purpose_4C, $0710
+	dw sprite.general_purpose_4E, $06F0
 	dw sprite.y_speed, $FF80
-	dw sprite.unknown_42, $FFFF
+	dw sprite.general_purpose_42, $FFFF
 	dw !initcommand_success
 
 DATA_FFAC46:
 	dw !initcommand_load_subconfig, DATA_FFABE2
-	dw sprite.unknown_4C, $06F0
-	dw sprite.unknown_4E, $0560
+	dw sprite.general_purpose_4C, $06F0
+	dw sprite.general_purpose_4E, $0560
 	dw sprite.y_speed, $FD80
-	dw sprite.unknown_42, $C0C0
+	dw sprite.general_purpose_42, $C0C0
 	dw !initcommand_success
 
 DATA_FFAC5C:
 	dw !initcommand_load_subconfig, DATA_FFABC8
-	dw sprite.unknown_4C, $0560
-	dw sprite.unknown_4E, $0430
+	dw sprite.general_purpose_4C, $0560
+	dw sprite.general_purpose_4E, $0430
 	dw sprite.y_speed, $FD80
 	dw !initcommand_success
 
 DATA_FFAC6E:
 	dw !initcommand_load_subconfig, DATA_FFABE2
-	dw sprite.unknown_4C, $0430
-	dw sprite.unknown_4E, $0470
+	dw sprite.general_purpose_4C, $0430
+	dw sprite.general_purpose_4E, $0470
 	dw sprite.y_speed, $0140
 	dw !initcommand_success
 
 DATA_FFAC80:
 	dw !initcommand_load_subconfig, DATA_FFABC8
-	dw sprite.unknown_4C, $0470
-	dw sprite.unknown_4E, $0388
+	dw sprite.general_purpose_4C, $0470
+	dw sprite.general_purpose_4E, $0388
 	dw sprite.y_speed, $FE00
 	dw !initcommand_success
 
 DATA_FFAC92:
 	dw !initcommand_load_subconfig, DATA_FFABE2
-	dw sprite.unknown_4C, $0388
-	dw sprite.unknown_4E, $0310
+	dw sprite.general_purpose_4C, $0388
+	dw sprite.general_purpose_4E, $0310
 	dw sprite.y_speed, $FE80
-	dw sprite.unknown_42, $C080
+	dw sprite.general_purpose_42, $C080
 	dw !initcommand_success
 
 DATA_FFACA8:
 	dw !initcommand_load_subconfig, DATA_FFABC8
-	dw sprite.unknown_4C, $0310
-	dw sprite.unknown_4E, $0148
+	dw sprite.general_purpose_4C, $0310
+	dw sprite.general_purpose_4E, $0148
 	dw sprite.y_speed, $FC00
 	dw !initcommand_success
 
 DATA_FFACBA:
 	dw !initcommand_load_subconfig, DATA_FFABE2
-	dw sprite.unknown_4C, $0148
-	dw sprite.unknown_4E, $02C0
+	dw sprite.general_purpose_4C, $0148
+	dw sprite.general_purpose_4E, $02C0
 	dw sprite.y_speed, $0200
 	dw !initcommand_success
 
 DATA_FFACCC:
 	dw !initcommand_load_subconfig, DATA_FFABE2
-	dw sprite.unknown_4C, $02C0
-	dw sprite.unknown_4E, $0310
+	dw sprite.general_purpose_4C, $02C0
+	dw sprite.general_purpose_4E, $0310
 	dw sprite.y_speed, $0280
 	dw !initcommand_success
 
 DATA_FFACDE:
 	dw !initcommand_load_subconfig, DATA_FFAC16
-	dw sprite.unknown_4C, $07B8
-	dw sprite.unknown_4E, $0750
+	dw sprite.general_purpose_4C, $07B8
+	dw sprite.general_purpose_4E, $0750
 	dw !initcommand_success
 
 DATA_FFACEC:
 	dw !initcommand_load_subconfig, DATA_FFAC16
-	dw sprite.unknown_4C, $0750
-	dw sprite.unknown_4E, $0560
+	dw sprite.general_purpose_4C, $0750
+	dw sprite.general_purpose_4E, $0560
 	dw sprite.y_speed, $FD80
 	dw !initcommand_success
 
 DATA_FFACFE:
 	dw !initcommand_load_subconfig, DATA_FFAC16
-	dw sprite.unknown_4C, $0560
-	dw sprite.unknown_4E, $0570
+	dw sprite.general_purpose_4C, $0560
+	dw sprite.general_purpose_4E, $0570
 	dw sprite.y_speed, $0100
 	dw !initcommand_success
 
 DATA_FFAD10:
 	dw !initcommand_load_subconfig, DATA_FFAC16
-	dw sprite.unknown_4C, $0570
-	dw sprite.unknown_4E, $0550
+	dw sprite.general_purpose_4C, $0570
+	dw sprite.general_purpose_4E, $0550
 	dw !initcommand_success
 
 DATA_FFAD1E:
 	dw !initcommand_load_subconfig, DATA_FFABFC
-	dw sprite.unknown_4C, $0550
-	dw sprite.unknown_4E, $04E0
+	dw sprite.general_purpose_4C, $0550
+	dw sprite.general_purpose_4E, $04E0
 	dw sprite.y_speed, $FD80
 	dw !initcommand_success
 
 DATA_FFAD30:
 	dw !initcommand_load_subconfig, DATA_FFAC16
-	dw sprite.unknown_4C, $04E0
-	dw sprite.unknown_4E, $01E0
+	dw sprite.general_purpose_4C, $04E0
+	dw sprite.general_purpose_4E, $01E0
 	dw sprite.y_speed, $FD80
 	dw !initcommand_success
 
 DATA_FFAD42:
 	dw !initcommand_load_subconfig, DATA_FFABFC
-	dw sprite.unknown_4C, $01E0
-	dw sprite.unknown_4E, $0150
+	dw sprite.general_purpose_4C, $01E0
+	dw sprite.general_purpose_4E, $0150
 	dw sprite.y_speed, $FD80
 	dw !initcommand_success
 
 DATA_FFAD54:
 	dw !initcommand_load_subconfig, DATA_FFAC16
-	dw sprite.unknown_4C, $0150
-	dw sprite.unknown_4E, $0230
+	dw sprite.general_purpose_4C, $0150
+	dw sprite.general_purpose_4E, $0230
 	dw sprite.y_speed, $0180
 	dw !initcommand_success
 
 DATA_FFAD66:
 	dw !initcommand_load_subconfig, DATA_FFAC16
-	dw sprite.unknown_4C, $0230
-	dw sprite.unknown_4E, $0330
+	dw sprite.general_purpose_4C, $0230
+	dw sprite.general_purpose_4E, $0330
 	dw sprite.y_speed, $0380
 	dw !initcommand_success
 
 DATA_FFAD78:
 	dw !initcommand_load_subconfig, DATA_FFAC16
-	dw sprite.unknown_4C, $0330
-	dw sprite.unknown_4E, $0358
-	dw sprite.unknown_42, $4040
+	dw sprite.general_purpose_4C, $0330
+	dw sprite.general_purpose_4E, $0358
+	dw sprite.general_purpose_42, $4040
 	dw !initcommand_success
 
 DATA_FFAD8A:
 	dw !initcommand_load_subconfig, DATA_FFAC16
-	dw sprite.unknown_4C, $0358
-	dw sprite.unknown_4E, $01F8
+	dw sprite.general_purpose_4C, $0358
+	dw sprite.general_purpose_4E, $01F8
 	dw sprite.y_speed, $FD80
 	dw !initcommand_success
 
 DATA_FFAD9C:
 	dw !initcommand_load_subconfig, DATA_FFABE2
-	dw sprite.unknown_4E, $0878
+	dw sprite.general_purpose_4E, $0878
 	dw sprite.y_speed, $0140
 	dw !initcommand_success
 
 DATA_FFADAA:
 	dw !initcommand_load_subconfig, DATA_FFABE2
-	dw sprite.unknown_4E, $0100
+	dw sprite.general_purpose_4E, $0100
 	dw sprite.y_speed, $FE40
 	dw !initcommand_success
 
 DATA_FFADB8:
 	dw !initcommand_load_subconfig, DATA_FFABE2
-	dw sprite.unknown_4E, $0138
+	dw sprite.general_purpose_4E, $0138
 	dw sprite.y_speed, $FEC0
 	dw !initcommand_success
 
 DATA_FFADC6:
 	dw !initcommand_load_subconfig, DATA_FFABE2
-	dw sprite.unknown_4E, $0210
+	dw sprite.general_purpose_4E, $0210
 	dw sprite.y_speed, $0380
 	dw !initcommand_success
 
 DATA_FFADD4:
 	dw !initcommand_load_subconfig, DATA_FFABE2
-	dw sprite.unknown_4E, $0850
+	dw sprite.general_purpose_4E, $0850
 	dw sprite.y_speed, $FD80
 	dw !initcommand_success
 
 DATA_FFADE2:
 	dw !initcommand_load_subconfig, DATA_FFABE2
-	dw sprite.unknown_4E, $06F0
+	dw sprite.general_purpose_4E, $06F0
 	dw sprite.y_speed, $FF00
 	dw !initcommand_success
 
 DATA_FFADF0:
 	dw !initcommand_load_subconfig, DATA_FFABE2
-	dw sprite.unknown_4E, $0380
+	dw sprite.general_purpose_4E, $0380
 	dw sprite.y_speed, $FD80
 	dw !initcommand_success
 
 DATA_FFADFE:
 	dw !initcommand_load_subconfig, DATA_FFABE2
-	dw sprite.unknown_4E, $01D0
+	dw sprite.general_purpose_4E, $01D0
 	dw sprite.y_speed, $FF00
 	dw !initcommand_success
 
 DATA_FFAE0C:
 	dw !initcommand_load_subconfig, DATA_FFABE2
-	dw sprite.unknown_4C, $05B0
+	dw sprite.general_purpose_4C, $05B0
 if !version == 0
-	dw sprite.unknown_4E, $06F8
+	dw sprite.general_purpose_4E, $06F8
 else
-	dw sprite.unknown_4E, $05E0
+	dw sprite.general_purpose_4E, $05E0
 endif
 	dw sprite.y_speed, $0280
 if !version == 0
-	dw sprite.unknown_42, $A0A0
+	dw sprite.general_purpose_42, $A0A0
 endif
 	dw !initcommand_success
 
 DATA_FFAE1E:
 	dw !initcommand_load_subconfig, DATA_FFABC8
-	dw sprite.unknown_4C, $05B0
-	dw sprite.unknown_4E, $06F8
+	dw sprite.general_purpose_4C, $05B0
+	dw sprite.general_purpose_4E, $06F8
 	dw sprite.y_speed, $0280
 	dw !initcommand_success
 
 
 DATA_FFAE30:
 	dw !initcommand_load_subconfig, DATA_FFABE2
-	dw sprite.unknown_4C, $06F8
-	dw sprite.unknown_4E, $0630
+	dw sprite.general_purpose_4C, $06F8
+	dw sprite.general_purpose_4E, $0630
 	dw sprite.y_speed, $FE80
 	dw !initcommand_success
 
 DATA_FFAE42:
 	dw !initcommand_load_subconfig, DATA_FFABE2
-	dw sprite.unknown_4C, $0630
-	dw sprite.unknown_4E, $04E0
+	dw sprite.general_purpose_4C, $0630
+	dw sprite.general_purpose_4E, $04E0
 	dw sprite.y_speed, $FC00
 	dw !initcommand_success
 
 DATA_FFAE54:
 	dw !initcommand_load_subconfig, DATA_FFABE2
-	dw sprite.unknown_4C, $04E0
-	dw sprite.unknown_4E, $0540
+	dw sprite.general_purpose_4C, $04E0
+	dw sprite.general_purpose_4E, $0540
 	dw sprite.y_speed, $0200
 	dw !initcommand_success
 
 DATA_FFAE66:
 	dw !initcommand_load_subconfig, DATA_FFABE2
-	dw sprite.unknown_4C, $0540
-	dw sprite.unknown_4E, $02B0
+	dw sprite.general_purpose_4C, $0540
+	dw sprite.general_purpose_4E, $02B0
 	dw sprite.y_speed, $FD00
-	dw sprite.unknown_42, $4040
+	dw sprite.general_purpose_42, $4040
 	dw !initcommand_success
 
 DATA_FFAE7C:
 	dw !initcommand_load_subconfig, DATA_FFABE2
-	dw sprite.unknown_4C, $02B0
-	dw sprite.unknown_4E, $0300
+	dw sprite.general_purpose_4C, $02B0
+	dw sprite.general_purpose_4E, $0300
 	dw sprite.y_speed, $0100
 	dw !initcommand_success
 
 DATA_FFAE8E:
 	dw !initcommand_load_subconfig, DATA_FFABE2
-	dw sprite.unknown_4C, $0300
-	dw sprite.unknown_4E, $0350
+	dw sprite.general_purpose_4C, $0300
+	dw sprite.general_purpose_4E, $0350
 	dw sprite.y_speed, $0200
 	dw !initcommand_success
 
 DATA_FFAEA0:
 	dw !initcommand_load_subconfig, DATA_FFABE2
-	dw sprite.unknown_4C, $0350
-	dw sprite.unknown_4E, $0180
+	dw sprite.general_purpose_4C, $0350
+	dw sprite.general_purpose_4E, $0180
 	dw sprite.y_speed, $FC80
 	dw !initcommand_success
 
 DATA_FFAEB2:
 	dw !initcommand_load_subconfig, DATA_FFABE2
-	dw sprite.unknown_4C, $0180
-	dw sprite.unknown_4E, $0208
+	dw sprite.general_purpose_4C, $0180
+	dw sprite.general_purpose_4E, $0208
 	dw sprite.y_speed, $0280
 	dw !initcommand_success
 
 DATA_FFAEC4:
 	dw !initcommand_load_subconfig, DATA_FFABE2
-	dw sprite.unknown_4C, $0208
-	dw sprite.unknown_4E, $0130
+	dw sprite.general_purpose_4C, $0208
+	dw sprite.general_purpose_4E, $0130
 	dw sprite.y_speed, $FB00
-	dw sprite.unknown_42, $4040
+	dw sprite.general_purpose_42, $4040
 	dw !initcommand_success
 
 DATA_FFAEDA:
 	dw !initcommand_load_subconfig, DATA_FFABE2
-	dw sprite.unknown_4C, $0130
-	dw sprite.unknown_4E, $0170
+	dw sprite.general_purpose_4C, $0130
+	dw sprite.general_purpose_4E, $0170
 	dw sprite.y_speed, $0200
 	dw !initcommand_success
 
 DATA_FFAEEC:
 	dw !initcommand_load_subconfig, DATA_FFABE2
-	dw sprite.unknown_4C, $0170
-	dw sprite.unknown_4E, $0224
+	dw sprite.general_purpose_4C, $0170
+	dw sprite.general_purpose_4E, $0224
 	dw sprite.y_speed, $0140
-	dw sprite.unknown_42, $8080
+	dw sprite.general_purpose_42, $8080
 	dw !initcommand_success
 
 DATA_FFAF02:
 	dw !initcommand_load_subconfig, DATA_FFABC8
-	dw sprite.unknown_4C, $0224
-	dw sprite.unknown_4E, $02D0
+	dw sprite.general_purpose_4C, $0224
+	dw sprite.general_purpose_4E, $02D0
 	dw sprite.y_speed, $0200
 	dw !initcommand_success
 
 DATA_FFAF14:
 	dw !initcommand_load_subconfig, DATA_FFABE2
-	dw sprite.unknown_4C, $02D0
-	dw sprite.unknown_4E, $0370
+	dw sprite.general_purpose_4C, $02D0
+	dw sprite.general_purpose_4E, $0370
 	dw sprite.y_speed, $0380
 	dw !initcommand_success
 
 DATA_FFAF26:
 	dw !initcommand_load_subconfig, DATA_FFABC8
-	dw sprite.unknown_4C, $0370
-	dw sprite.unknown_4E, $0448
+	dw sprite.general_purpose_4C, $0370
+	dw sprite.general_purpose_4E, $0448
 	dw sprite.y_speed, $00C0
 	dw !initcommand_success
 
 DATA_FFAF38:
 	dw !initcommand_load_subconfig, DATA_FFABC8
-	dw sprite.unknown_4C, $1700
-	dw sprite.unknown_4E, $14A0
+	dw sprite.general_purpose_4C, $1700
+	dw sprite.general_purpose_4E, $14A0
 	dw sprite.y_speed, $FF00
-	dw sprite.unknown_42, $0080
+	dw sprite.general_purpose_42, $0080
 	dw !initcommand_success
 
 DATA_FFAF4E:
 	dw !initcommand_load_subconfig, DATA_FFABC8
-	dw sprite.unknown_4C, $14A0
-	dw sprite.unknown_4E, $14A0
+	dw sprite.general_purpose_4C, $14A0
+	dw sprite.general_purpose_4E, $14A0
 	dw sprite.y_speed, $FD00
 	dw !initcommand_success
 
 DATA_FFAF60:
 	dw !initcommand_load_subconfig, DATA_FFABE2
-	dw sprite.unknown_4C, $14A0
-	dw sprite.unknown_4E, $1280
+	dw sprite.general_purpose_4C, $14A0
+	dw sprite.general_purpose_4E, $1280
 	dw sprite.y_speed, $FF60
-	dw sprite.unknown_42, $FF00
+	dw sprite.general_purpose_42, $FF00
 	dw !initcommand_success
 
 DATA_FFAF76:
 	dw !initcommand_load_subconfig, DATA_FFABC8
-	dw sprite.unknown_4C, $14A0
-	dw sprite.unknown_4E, $1280
+	dw sprite.general_purpose_4C, $14A0
+	dw sprite.general_purpose_4E, $1280
 	dw sprite.y_speed, $FF60
-	dw sprite.unknown_42, $8000
+	dw sprite.general_purpose_42, $8000
 	dw !initcommand_success
 
 DATA_FFAF8C:
 	dw !initcommand_load_subconfig, DATA_FFABE2
-	dw sprite.unknown_4C, $1280
-	dw sprite.unknown_4E, $1280
+	dw sprite.general_purpose_4C, $1280
+	dw sprite.general_purpose_4E, $1280
 	dw sprite.y_speed, $FD00
-	dw sprite.unknown_42, $8000
+	dw sprite.general_purpose_42, $8000
 	dw !initcommand_success
 
 DATA_FFAFA2:
 	dw !initcommand_load_subconfig, DATA_FFABE2
-	dw sprite.unknown_4C, $1280
-	dw sprite.unknown_4E, $0EE0
+	dw sprite.general_purpose_4C, $1280
+	dw sprite.general_purpose_4E, $0EE0
 	dw sprite.y_speed, $FF60
-	dw sprite.unknown_42, $FF30
+	dw sprite.general_purpose_42, $FF30
 	dw !initcommand_success
 
 DATA_FFAFB8:
 	dw !initcommand_load_subconfig, DATA_FFABC8
-	dw sprite.unknown_4C, $1280
-	dw sprite.unknown_4E, $0EE0
+	dw sprite.general_purpose_4C, $1280
+	dw sprite.general_purpose_4E, $0EE0
 	dw sprite.y_speed, $FF60
-	dw sprite.unknown_42, $FF00
+	dw sprite.general_purpose_42, $FF00
 	dw !initcommand_success
 
 DATA_FFAFCE:
 	dw !initcommand_load_subconfig, DATA_FFABC8
-	dw sprite.unknown_4C, $0EE0
-	dw sprite.unknown_4E, $0EE0
+	dw sprite.general_purpose_4C, $0EE0
+	dw sprite.general_purpose_4E, $0EE0
 	dw sprite.y_speed, $FD00
-	dw sprite.unknown_42, $FFC0
+	dw sprite.general_purpose_42, $FFC0
 	dw !initcommand_success
 
 DATA_FFAFE4:
 	dw !initcommand_load_subconfig, DATA_FFABE2
-	dw sprite.unknown_4C, $1700
-	dw sprite.unknown_4E, $14A0
+	dw sprite.general_purpose_4C, $1700
+	dw sprite.general_purpose_4E, $14A0
 	dw sprite.y_speed, $FF00
-	dw sprite.unknown_42, $C000
+	dw sprite.general_purpose_42, $C000
 	dw !initcommand_success
 
 DATA_FFAFFA:
 	dw !initcommand_load_subconfig, DATA_FFABE2
-	dw sprite.unknown_4C, $0EE0
-	dw sprite.unknown_4E, $0BA8
+	dw sprite.general_purpose_4C, $0EE0
+	dw sprite.general_purpose_4E, $0BA8
 	dw sprite.y_speed, $FF40
-	dw sprite.unknown_42, $FF00
+	dw sprite.general_purpose_42, $FF00
 	dw !initcommand_success
 
 DATA_FFB010:
 	dw !initcommand_load_subconfig, DATA_FFABC8
-	dw sprite.unknown_4C, $0EE0
-	dw sprite.unknown_4E, $0BA8
+	dw sprite.general_purpose_4C, $0EE0
+	dw sprite.general_purpose_4E, $0BA8
 	dw sprite.y_speed, $FF40
-	dw sprite.unknown_42, $0080
+	dw sprite.general_purpose_42, $0080
 	dw !initcommand_success
 
 DATA_FFB026:
 	dw !initcommand_load_subconfig, DATA_FFABC8
-	dw sprite.unknown_4C, $0BA8
-	dw sprite.unknown_4E, $0BA8
+	dw sprite.general_purpose_4C, $0BA8
+	dw sprite.general_purpose_4E, $0BA8
 	dw sprite.y_speed, $FD00
-	dw sprite.unknown_42, $80FF
+	dw sprite.general_purpose_42, $80FF
 	dw !initcommand_success
 
 DATA_FFB03C:
 	dw !initcommand_load_subconfig, DATA_FFABE2
-	dw sprite.unknown_4C, $0BA8
-	dw sprite.unknown_4E, $0728
+	dw sprite.general_purpose_4C, $0BA8
+	dw sprite.general_purpose_4E, $0728
 	dw sprite.y_speed, $FF40
-	dw sprite.unknown_42, $FF80
+	dw sprite.general_purpose_42, $FF80
 	dw !initcommand_success
 
 DATA_FFB052:
 	dw !initcommand_load_subconfig, DATA_FFABC8
-	dw sprite.unknown_4C, $0728
-	dw sprite.unknown_4E, $0728
+	dw sprite.general_purpose_4C, $0728
+	dw sprite.general_purpose_4E, $0728
 	dw sprite.y_speed, $FD00
-	dw sprite.unknown_42, $FFC0
+	dw sprite.general_purpose_42, $FFC0
 	dw !initcommand_success
 
 DATA_FFB068:
 	dw !initcommand_load_subconfig, DATA_FFABE2
-	dw sprite.unknown_4C, $0728
-	dw sprite.unknown_4E, $0460
+	dw sprite.general_purpose_4C, $0728
+	dw sprite.general_purpose_4E, $0460
 	dw sprite.y_speed, $FF40
-	dw sprite.unknown_42, $FF40
+	dw sprite.general_purpose_42, $FF40
 	dw !initcommand_success
 
 DATA_FFB07E:
 	dw !initcommand_load_subconfig, DATA_FFABC8
-	dw sprite.unknown_4C, $0728
-	dw sprite.unknown_4E, $0460
+	dw sprite.general_purpose_4C, $0728
+	dw sprite.general_purpose_4E, $0460
 	dw sprite.y_speed, $FF40
-	dw sprite.unknown_42, $FF00
+	dw sprite.general_purpose_42, $FF00
 	dw !initcommand_success
 
 DATA_FFB094:
 	dw !initcommand_load_subconfig, DATA_FFABC8
-	dw sprite.unknown_4C, $0460
-	dw sprite.unknown_4E, $0460
+	dw sprite.general_purpose_4C, $0460
+	dw sprite.general_purpose_4E, $0460
 	dw sprite.y_speed, $FD00
-	dw sprite.unknown_42, $FF80
+	dw sprite.general_purpose_42, $FF80
 	dw !initcommand_success
 
 DATA_FFB0AA:
 	dw !initcommand_load_subconfig, DATA_FFABE2
-	dw sprite.unknown_4C, $0460
-	dw sprite.unknown_4E, $0280
+	dw sprite.general_purpose_4C, $0460
+	dw sprite.general_purpose_4E, $0280
 	dw sprite.y_speed, $FFB0
-	dw sprite.unknown_42, $FF00
+	dw sprite.general_purpose_42, $FF00
 	dw !initcommand_success
 
 DATA_FFB0C0:
 	dw !initcommand_load_subconfig, DATA_FFABC8
-	dw sprite.unknown_4C, $0460
-	dw sprite.unknown_4E, $0280
+	dw sprite.general_purpose_4C, $0460
+	dw sprite.general_purpose_4E, $0280
 	dw sprite.y_speed, $FFB0
-	dw sprite.unknown_42, $00C0
+	dw sprite.general_purpose_42, $00C0
 	dw !initcommand_success
 
 DATA_FFB0D6:
 	dw !initcommand_load_subconfig, DATA_FFABC8
-	dw sprite.unknown_4C, $0460
-	dw sprite.unknown_4E, $0280
+	dw sprite.general_purpose_4C, $0460
+	dw sprite.general_purpose_4E, $0280
 	dw sprite.y_speed, $FFB0
-	dw sprite.unknown_42, $FFFF
+	dw sprite.general_purpose_42, $FFFF
 	dw !initcommand_success
 
 DATA_FFB0EC:
 	dw !initcommand_load_subconfig, DATA_FFABC8
-	dw sprite.unknown_4C, $0280
-	dw sprite.unknown_4E, $0280
+	dw sprite.general_purpose_4C, $0280
+	dw sprite.general_purpose_4E, $0280
 	dw sprite.y_speed, $FD00
-	dw sprite.unknown_42, $80FF
+	dw sprite.general_purpose_42, $80FF
 	dw !initcommand_success
 
 DATA_FFB102:
 	dw !initcommand_load_subconfig, DATA_FFABC8
-	dw sprite.unknown_4C, $0EE0
-	dw sprite.unknown_4E, $0EE0
+	dw sprite.general_purpose_4C, $0EE0
+	dw sprite.general_purpose_4E, $0EE0
 	dw sprite.y_speed, $FF20
-	dw sprite.unknown_42, $FFFF
+	dw sprite.general_purpose_42, $FFFF
 	dw !initcommand_success
 
 DATA_FFB118:
 	dw !initcommand_load_subconfig, DATA_FFABE2
-	dw sprite.unknown_4E, $26A8
+	dw sprite.general_purpose_4E, $26A8
 	dw sprite.y_speed, $FF80
 	dw !initcommand_success
 
 DATA_FFB126:
 	dw !initcommand_load_subconfig, DATA_FFABC8
-	dw sprite.unknown_4E, $14F0
+	dw sprite.general_purpose_4E, $14F0
 	dw sprite.y_speed, $FF40
 	dw !initcommand_success
 
 DATA_FFB134:
 	dw !initcommand_load_subconfig, DATA_FFABC8
-	dw sprite.unknown_4E, $14F0
+	dw sprite.general_purpose_4E, $14F0
 	dw sprite.y_speed, $FD00
 	dw !initcommand_success
 
 DATA_FFB142:
 	dw !initcommand_load_subconfig, DATA_FFABE2
-	dw sprite.unknown_4E, $0268
+	dw sprite.general_purpose_4E, $0268
 	dw sprite.y_speed, $FF40
 	dw !initcommand_success
 
 DATA_FFB150:
 	dw !initcommand_load_subconfig, DATA_FFABE2
-	dw sprite.unknown_4E, $0268
+	dw sprite.general_purpose_4E, $0268
 	dw sprite.y_speed, $FF00
 	dw !initcommand_success
 
 DATA_FFB15E:
 	dw !initcommand_load_subconfig, DATA_FFABE2
-	dw sprite.unknown_4E, $02C8
+	dw sprite.general_purpose_4E, $02C8
 	dw sprite.y_speed, $0180
-	dw sprite.unknown_42, $FF00
+	dw sprite.general_purpose_42, $FF00
 	dw !initcommand_success
 
 DATA_FFB170:
 	dw !initcommand_load_subconfig, DATA_FFABC8
-	dw sprite.unknown_4E, $0268
+	dw sprite.general_purpose_4E, $0268
 	dw sprite.y_speed, $FD00
-	dw sprite.unknown_42, $4040
+	dw sprite.general_purpose_42, $4040
 	dw !initcommand_success
 
 DATA_FFB182:
 	dw !initcommand_load_subconfig, DATA_FFABE2
-	dw sprite.unknown_4E, $26A8
+	dw sprite.general_purpose_4E, $26A8
 	dw sprite.y_speed, $FEC0
-	dw sprite.unknown_42, $A000
+	dw sprite.general_purpose_42, $A000
 	dw !initcommand_success
 
 DATA_FFB194:
 	dw !initcommand_load_subconfig, DATA_FFABC8
-	dw sprite.unknown_4E, $14F0
+	dw sprite.general_purpose_4E, $14F0
 	dw sprite.y_speed, $FF00
-	dw sprite.unknown_42, $FFFF
+	dw sprite.general_purpose_42, $FFFF
 	dw !initcommand_success
 
 DATA_FFB1A6:
 	dw !initcommand_load_subconfig, DATA_FFAC16
-	dw sprite.unknown_4E, $0230
+	dw sprite.general_purpose_4E, $0230
 	dw sprite.y_speed, $0380
-	dw sprite.unknown_42, $FFFF
+	dw sprite.general_purpose_42, $FFFF
 	dw !initcommand_success
 
 DATA_FFB1B8:
 	dw !initcommand_load_subconfig, DATA_FFABC8
-	dw sprite.unknown_4E, $01D0
+	dw sprite.general_purpose_4E, $01D0
 	dw sprite.y_speed, $FEA0
 	dw !initcommand_success
 
 DATA_FFB1C6:
 	dw !initcommand_load_subconfig, DATA_FFABE2
-	dw sprite.unknown_4E, $01D0
+	dw sprite.general_purpose_4E, $01D0
 	dw sprite.y_speed, $FD00
-	dw sprite.unknown_42, $FF00
+	dw sprite.general_purpose_42, $FF00
 	dw !initcommand_success
 
 DATA_FFB1D8:
 	dw !initcommand_load_subconfig, DATA_FFABC8
-	dw sprite.unknown_4E, $06F0
+	dw sprite.general_purpose_4E, $06F0
 	dw sprite.y_speed, $FD80
 	dw !initcommand_success
 
 DATA_FFB1E6:
 	dw !initcommand_load_subconfig, DATA_FFABE2
-	dw sprite.unknown_4E, $02A8
+	dw sprite.general_purpose_4E, $02A8
 	dw sprite.y_speed, $00E0
-	dw sprite.unknown_42, $FFFF
+	dw sprite.general_purpose_42, $FFFF
 	dw !initcommand_success
 
 DATA_FFB1F8:
 	dw !initcommand_load_subconfig, DATA_FFABE2
-	dw sprite.unknown_4E, $0300
+	dw sprite.general_purpose_4E, $0300
 	dw sprite.y_speed, $00E0
-	dw sprite.unknown_42, $FFFF
+	dw sprite.general_purpose_42, $FFFF
 	dw !initcommand_success
 
 DATA_FFB20A:
 	dw !initcommand_load_subconfig, DATA_FFABE2
-	dw sprite.unknown_4E, $03A8
+	dw sprite.general_purpose_4E, $03A8
 	dw sprite.y_speed, $0120
-	dw sprite.unknown_42, $FFFF
+	dw sprite.general_purpose_42, $FFFF
 	dw !initcommand_success
 
 DATA_FFB21C:
 	dw !initcommand_load_subconfig, DATA_FFABE2
-	dw sprite.unknown_4E, $05F0
+	dw sprite.general_purpose_4E, $05F0
 	dw sprite.y_speed, $0180
 	dw !initcommand_success
 
 DATA_FFB22A:
 	dw !initcommand_load_subconfig, DATA_FFABE2
-	dw sprite.unknown_4E, $0370
+	dw sprite.general_purpose_4E, $0370
 	dw sprite.y_speed, $0280
 	dw !initcommand_success
 
 DATA_FFB238:
 	dw !initcommand_load_subconfig, DATA_FFABE2
-	dw sprite.unknown_4E, $02F0
+	dw sprite.general_purpose_4E, $02F0
 	dw sprite.y_speed, $0280
 	dw !initcommand_success
 
 DATA_FFB246:
 	dw !initcommand_load_subconfig, DATA_FFABE2
-	dw sprite.unknown_4E, $0380
+	dw sprite.general_purpose_4E, $0380
 	dw sprite.y_speed, $0300
 	dw !initcommand_success
 
 DATA_FFB254:
 	dw !initcommand_load_subconfig, DATA_FFABE2
-	dw sprite.unknown_4E, $02F0
+	dw sprite.general_purpose_4E, $02F0
 	dw sprite.y_speed, $0380
 	dw !initcommand_success
 
 DATA_FFB262:
 	dw !initcommand_load_subconfig, DATA_FFABFC
-	dw sprite.unknown_4C, $04E0
-	dw sprite.unknown_4E, $01E0
+	dw sprite.general_purpose_4C, $04E0
+	dw sprite.general_purpose_4E, $01E0
 	dw sprite.y_speed, $FD80
 	dw !initcommand_success
 
@@ -14809,31 +14849,31 @@ DATA_FFB27A:
 	dw !initcommand_load_subconfig, DATA_FFB2A6
 	dw !initcommand_set_alt_palette, $0019
 	dw sprite.max_y_speed, $FF00
-	dw sprite.unknown_42, $0002
+	dw sprite.general_purpose_42, $0002
 	dw !initcommand_success
 
 DATA_FFB28C:
 	dw !initcommand_load_subconfig, DATA_FFB2A6
 	dw !initcommand_set_alt_palette, $001A
 	dw sprite.max_y_speed, $FEC0
-	dw sprite.unknown_42, $0003
+	dw sprite.general_purpose_42, $0003
 	dw !initcommand_success
 
 DATA_FFB29E:
 	dw !initcommand_set_alt_palette, $0018
-	dw sprite.unknown_42, $0001
+	dw sprite.general_purpose_42, $0001
 DATA_FFB2A6:
 	dw sprite.number, $0178
-	dw sprite.unknown_54, DATA_FF021C
+	dw sprite.constants_address, DATA_FF021C
 	dw sprite.render_order, $00D4
-	dw sprite.action, $0000
+	dw sprite.state, $0000
 	dw sprite.max_x_speed, $0000
 	dw sprite.x_speed, $0000
 	dw sprite.y_speed, $0000
-	dw sprite.unknown_30, $0000
+	dw sprite.interaction_flags, $0000
 	dw sprite.max_y_speed, $FF40
 	dw sprite.x_sub_position, $0001
-	dw sprite.unknown_52, $0F0C
+	dw sprite.movement_state, $0F0C
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_set_animation, $02C0
 	dw !initcommand_success
@@ -14890,7 +14930,7 @@ DATA_FFB342:
 	dw !initcommand_load_subconfig, DATA_FFB29E
 	dw sprite.max_y_speed, $0000
 	dw sprite.x_sub_position, $8000
-	dw sprite.action, $0001
+	dw sprite.state, $0001
 	dw !initcommand_success
 
 DATA_FFB354:
@@ -14931,16 +14971,16 @@ DATA_FFB39A:
 DATA_FFB3A4:
 	dw sprite.number, $0208
 	dw sprite.render_order, $00D4
-	dw sprite.unknown_54, DATA_FF021C
-	dw sprite.unknown_30, $0020
-	dw sprite.action, $0000
+	dw sprite.constants_address, DATA_FF021C
+	dw sprite.interaction_flags, $0020
+	dw sprite.state, $0000
 	dw sprite.x_speed, $0000
 	dw sprite.max_x_speed, $0000
 	dw sprite.y_speed, $0000
 	dw sprite.max_y_speed, $0000
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_set_animation, $0183
-	dw sprite.unknown_52, $0000
+	dw sprite.movement_state, $0000
 	dw !initcommand_success
 
 DATA_FFB3D6:
@@ -15589,12 +15629,12 @@ DATA_FFB960:
 DATA_FFB966:
 	dw sprite.number, $01C0
 	dw sprite.render_order, $00C8
-	dw sprite.unknown_54, DATA_FF0214
-	dw sprite.action, $0000
+	dw sprite.constants_address, DATA_FF0214
+	dw sprite.state, $0000
 	dw sprite.x_speed, $0000
 	dw sprite.max_x_speed, $0000
 	dw sprite.y_speed, $0000
-	dw sprite.unknown_30, $0001
+	dw sprite.interaction_flags, $0001
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_set_alt_palette, $0002
 	dw !initcommand_set_animation, $02E7
@@ -15602,153 +15642,153 @@ DATA_FFB966:
 
 DATA_FFB994:
 	dw !initcommand_load_subconfig, DATA_FFB966
-	dw sprite.unknown_42, $0000
+	dw sprite.general_purpose_42, $0000
 	dw !initcommand_success
 
 DATA_FFB99E:
 	dw !initcommand_load_subconfig, DATA_FFB966
-	dw sprite.unknown_42, $0001
+	dw sprite.general_purpose_42, $0001
 	dw !initcommand_success
 
 DATA_FFB9A8:
 	dw !initcommand_load_subconfig, DATA_FFB966
-	dw sprite.unknown_42, $0002
+	dw sprite.general_purpose_42, $0002
 	dw !initcommand_success
 
 DATA_FFB9B2:
 	dw !initcommand_load_subconfig, DATA_FFB966
-	dw sprite.unknown_42, $0003
+	dw sprite.general_purpose_42, $0003
 	dw !initcommand_success
 
 DATA_FFB9BC:
 	dw !initcommand_load_subconfig, DATA_FFB966
-	dw sprite.unknown_42, $0004
+	dw sprite.general_purpose_42, $0004
 	dw !initcommand_success
 
 DATA_FFB9C6:
 	dw !initcommand_load_subconfig, DATA_FFB966
-	dw sprite.unknown_42, $0005
+	dw sprite.general_purpose_42, $0005
 	dw !initcommand_success
 
 DATA_FFB9D0:
 	dw !initcommand_load_subconfig, DATA_FFB966
-	dw sprite.unknown_42, $0006
+	dw sprite.general_purpose_42, $0006
 	dw !initcommand_success
 
 DATA_FFB9DA:
 	dw !initcommand_load_subconfig, DATA_FFB966
-	dw sprite.unknown_42, $0007
+	dw sprite.general_purpose_42, $0007
 	dw !initcommand_success
 
 DATA_FFB9E4:
 	dw !initcommand_load_subconfig, DATA_FFB966
-	dw sprite.unknown_42, $0008
+	dw sprite.general_purpose_42, $0008
 	dw !initcommand_success
 
 DATA_FFB9EE:
 	dw !initcommand_load_subconfig, DATA_FFB966
-	dw sprite.unknown_42, $0009
+	dw sprite.general_purpose_42, $0009
 	dw !initcommand_success
 
 DATA_FFB9F8:
 	dw !initcommand_load_subconfig, DATA_FFB966
-	dw sprite.unknown_42, $000A
+	dw sprite.general_purpose_42, $000A
 	dw !initcommand_success
 
 DATA_FFBA02:
 	dw !initcommand_load_subconfig, DATA_FFB966
-	dw sprite.unknown_42, $000B
+	dw sprite.general_purpose_42, $000B
 	dw !initcommand_success
 
 DATA_FFBA0C:
 	dw !initcommand_load_subconfig, DATA_FFB966
-	dw sprite.unknown_42, $000C
+	dw sprite.general_purpose_42, $000C
 	dw !initcommand_success
 
 DATA_FFBA16:
 	dw !initcommand_load_subconfig, DATA_FFB966
-	dw sprite.unknown_42, $000D
+	dw sprite.general_purpose_42, $000D
 	dw !initcommand_success
 
 DATA_FFBA20:
 	dw !initcommand_load_subconfig, DATA_FFB966
-	dw sprite.unknown_42, $000E
+	dw sprite.general_purpose_42, $000E
 	dw !initcommand_success
 
 DATA_FFBA2A:
 	dw !initcommand_load_subconfig, DATA_FFB966
-	dw sprite.unknown_42, $000F
+	dw sprite.general_purpose_42, $000F
 	dw !initcommand_success
 
 DATA_FFBA34:
 	dw !initcommand_load_subconfig, DATA_FFB966
-	dw sprite.unknown_42, $0010
+	dw sprite.general_purpose_42, $0010
 	dw !initcommand_success
 
 DATA_FFBA3E:
 	dw !initcommand_load_subconfig, DATA_FFB966
-	dw sprite.unknown_42, $0011
+	dw sprite.general_purpose_42, $0011
 	dw !initcommand_success
 
 DATA_FFBA48:
 	dw !initcommand_load_subconfig, DATA_FFB966
-	dw sprite.unknown_42, $0012
+	dw sprite.general_purpose_42, $0012
 	dw !initcommand_success
 
 DATA_FFBA52:
 	dw !initcommand_load_subconfig, DATA_FFB966
-	dw sprite.unknown_42, $0013
+	dw sprite.general_purpose_42, $0013
 	dw !initcommand_success
 
 DATA_FFBA5C:
 	dw !initcommand_load_subconfig, DATA_FFB966
-	dw sprite.unknown_42, $0014
+	dw sprite.general_purpose_42, $0014
 	dw !initcommand_success
 
 DATA_FFBA66:
 	dw !initcommand_load_subconfig, DATA_FFB966
-	dw sprite.unknown_42, $0015
+	dw sprite.general_purpose_42, $0015
 	dw !initcommand_success
 
 DATA_FFBA70:
 	dw !initcommand_load_subconfig, DATA_FFB966
-	dw sprite.unknown_42, $0016
+	dw sprite.general_purpose_42, $0016
 	dw !initcommand_success
 
 DATA_FFBA7A:
 	dw !initcommand_load_subconfig, DATA_FFB966
-	dw sprite.unknown_42, $0017
+	dw sprite.general_purpose_42, $0017
 	dw !initcommand_success
 
 DATA_FFBA84:
 	dw !initcommand_load_subconfig, DATA_FFB966
-	dw sprite.unknown_42, $0018
+	dw sprite.general_purpose_42, $0018
 	dw !initcommand_success
 
 DATA_FFBA8E:
 	dw !initcommand_load_subconfig, DATA_FFB966
-	dw sprite.unknown_42, $0019
+	dw sprite.general_purpose_42, $0019
 	dw !initcommand_success
 
 DATA_FFBA98:
 	dw !initcommand_load_subconfig, DATA_FFB966
-	dw sprite.unknown_42, $0009
+	dw sprite.general_purpose_42, $0009
 	dw !initcommand_set_alt_palette, $005B
 	dw !initcommand_success
 
 DATA_FFBAA6:
 	dw !initcommand_load_subconfig, DATA_FFB966
 	dw sprite.unknown_1C, $C000
-	dw sprite.unknown_42, $0000
+	dw sprite.general_purpose_42, $0000
 	dw !initcommand_success
 
 DATA_FFBAB4:
 	dw sprite.number, $02D8
 	dw sprite.render_order, $00C0
-	dw sprite.unknown_54, DATA_FFBADE
-	dw sprite.unknown_44, $0000
-	dw sprite.unknown_30, $0000
-	dw sprite.action, $0004
+	dw sprite.constants_address, DATA_FFBADE
+	dw sprite.general_purpose_44, $0000
+	dw sprite.interaction_flags, $0000
+	dw sprite.state, $0004
 	dw sprite.unknown_1C, $F000
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_set_alt_palette, $0058
@@ -15760,51 +15800,51 @@ DATA_FFBADE:
 
 DATA_FFBAE6:
 	dw !initcommand_load_subconfig, DATA_FFBAB4
-	dw sprite.unknown_4A, $02B8
+	dw sprite.general_purpose_4A, $02B8
 	dw !initcommand_success
 
 DATA_FFBAF0:
 	dw !initcommand_load_subconfig, DATA_FFBAB4
-	dw sprite.unknown_4A, $0298
+	dw sprite.general_purpose_4A, $0298
 	dw !initcommand_success
 
 DATA_FFBAFA:
 	dw !initcommand_load_subconfig, DATA_FFBAB4
-	dw sprite.unknown_4A, $0278
+	dw sprite.general_purpose_4A, $0278
 	dw !initcommand_success
 
 DATA_FFBB04:
 	dw !initcommand_load_subconfig, DATA_FFBAB4
-	dw sprite.unknown_4A, $0258
+	dw sprite.general_purpose_4A, $0258
 	dw !initcommand_success
 
 DATA_FFBB0E:
 	dw !initcommand_load_subconfig, DATA_FFBAB4
-	dw sprite.unknown_4A, $02BB
+	dw sprite.general_purpose_4A, $02BB
 	dw !initcommand_success
 
 DATA_FFBB18:
 	dw !initcommand_set_animation, $01ED
-	dw sprite.unknown_52, $0000
+	dw sprite.movement_state, $0000
 	dw !initcommand_load_subconfig, DATA_FFBB3C
 	dw !initcommand_success
 
 DATA_FFBB26:
 	dw !initcommand_set_animation, $01EE
-	dw sprite.unknown_52, $0022
+	dw sprite.movement_state, $0022
 	dw !initcommand_load_subconfig, DATA_FFBB3C
 	dw !initcommand_success
 
 DATA_FFBB34:
 	dw !initcommand_set_animation, $01EE
-	dw sprite.unknown_52, $0023
+	dw sprite.movement_state, $0023
 DATA_FFBB3C:
 	dw sprite.number, $025C
-	dw sprite.unknown_30, $0120
+	dw sprite.interaction_flags, $0120
 	dw sprite.render_order, $00D4
-	dw sprite.unknown_54, DATA_FF021C
+	dw sprite.constants_address, DATA_FF021C
 	dw !initcommand_set_alt_palette, $0055
-	dw sprite.action, $0000
+	dw sprite.state, $0000
 	dw sprite.x_speed, $0000
 	dw sprite.parameter, $0000
 	dw !initcommand_set_oam, $6000
@@ -15812,514 +15852,514 @@ DATA_FFBB3C:
 
 DATA_FFBB62:
 	dw !initcommand_load_subconfig, DATA_FFBB18
-	dw sprite.unknown_4C, $A0A0
-	dw sprite.unknown_4E, $2808
+	dw sprite.general_purpose_4C, $A0A0
+	dw sprite.general_purpose_4E, $2808
 	dw sprite.unknown_22, $0400
 	dw sprite.unknown_28, $0040
 	dw sprite.unknown_1C, $0020
-	dw sprite.unknown_4A, $003C
+	dw sprite.general_purpose_4A, $003C
 	dw !initcommand_success
 
 DATA_FFBB80:
 	dw !initcommand_load_subconfig, DATA_FFBB18
-	dw sprite.unknown_4C, $A0A0
-	dw sprite.unknown_4E, $3838
+	dw sprite.general_purpose_4C, $A0A0
+	dw sprite.general_purpose_4E, $3838
 	dw sprite.unknown_22, $0600
 	dw sprite.unknown_28, $0040
 	dw sprite.unknown_1C, $0030
-	dw sprite.unknown_4A, $002D
+	dw sprite.general_purpose_4A, $002D
 	dw !initcommand_success
 
 DATA_FFBB9E:
 	dw !initcommand_load_subconfig, DATA_FFBB18
-	dw sprite.unknown_4C, $A0A0
-	dw sprite.unknown_4E, $2808
+	dw sprite.general_purpose_4C, $A0A0
+	dw sprite.general_purpose_4E, $2808
 	dw sprite.unknown_22, $0800
 	dw sprite.unknown_28, $0040
 	dw sprite.unknown_1C, $0030
-	dw sprite.unknown_4A, $001E
+	dw sprite.general_purpose_4A, $001E
 	dw !initcommand_success
 
 DATA_FFBBBC:
 	dw !initcommand_load_subconfig, DATA_FFBB18
-	dw sprite.unknown_4C, $E0E0
-	dw sprite.unknown_4E, $2808
+	dw sprite.general_purpose_4C, $E0E0
+	dw sprite.general_purpose_4E, $2808
 	dw sprite.unknown_22, $0600
 	dw sprite.unknown_28, $0048
 	dw sprite.unknown_1C, $0028
-	dw sprite.unknown_4A, $0000
+	dw sprite.general_purpose_4A, $0000
 	dw !initcommand_success
 
 DATA_FFBBDA:
 	dw !initcommand_load_subconfig, DATA_FFBB18
-	dw sprite.unknown_4C, $A000
-	dw sprite.unknown_4E, $8080
+	dw sprite.general_purpose_4C, $A000
+	dw sprite.general_purpose_4E, $8080
 	dw sprite.unknown_22, $0800
 	dw sprite.unknown_28, $0010
 	dw sprite.unknown_1C, $0058
-	dw sprite.unknown_4A, $0000
+	dw sprite.general_purpose_4A, $0000
 	dw !initcommand_success
 
 DATA_FFBBF8:
 	dw !initcommand_load_subconfig, DATA_FFBB18
-	dw sprite.unknown_4C, $C000
-	dw sprite.unknown_4E, $8080
+	dw sprite.general_purpose_4C, $C000
+	dw sprite.general_purpose_4E, $8080
 	dw sprite.unknown_22, $0500
 	dw sprite.unknown_28, $0038
 	dw sprite.unknown_1C, $0020
-	dw sprite.unknown_4A, $000F
+	dw sprite.general_purpose_4A, $000F
 	dw !initcommand_success
 
 DATA_FFBC16:
 	dw !initcommand_load_subconfig, DATA_FFBB18
-	dw sprite.unknown_4C, $C000
-	dw sprite.unknown_4E, $8080
+	dw sprite.general_purpose_4C, $C000
+	dw sprite.general_purpose_4E, $8080
 	dw sprite.unknown_22, $0500
 	dw sprite.unknown_28, $0020
 	dw sprite.unknown_1C, $0028
-	dw sprite.unknown_4A, $002D
+	dw sprite.general_purpose_4A, $002D
 	dw !initcommand_success
 
 DATA_FFBC34:
 	dw !initcommand_load_subconfig, DATA_FFBB18
-	dw sprite.unknown_4C, $6060
-	dw sprite.unknown_4E, $4040
+	dw sprite.general_purpose_4C, $6060
+	dw sprite.general_purpose_4E, $4040
 	dw sprite.unknown_22, $0800
 	dw sprite.unknown_28, $0030
 	dw sprite.unknown_1C, $0050
-	dw sprite.unknown_4A, $0000
+	dw sprite.general_purpose_4A, $0000
 	dw !initcommand_success
 
 DATA_FFBC52:
 	dw !initcommand_load_subconfig, DATA_FFBB18
-	dw sprite.unknown_4C, $6060
-	dw sprite.unknown_4E, $2808
+	dw sprite.general_purpose_4C, $6060
+	dw sprite.general_purpose_4E, $2808
 	dw sprite.unknown_22, $0800
 	dw sprite.unknown_28, $0040
 	dw sprite.unknown_1C, $0040
-	dw sprite.unknown_4A, $0000
+	dw sprite.general_purpose_4A, $0000
 	dw !initcommand_success
 
 DATA_FFBC70:
 	dw !initcommand_load_subconfig, DATA_FFBB18
-	dw sprite.unknown_4C, $B0E0
-	dw sprite.unknown_4E, $3838
+	dw sprite.general_purpose_4C, $B0E0
+	dw sprite.general_purpose_4E, $3838
 	dw sprite.unknown_22, $0600
 	dw sprite.unknown_28, $0046
 	dw sprite.unknown_1C, $0030
-	dw sprite.unknown_4A, $0000
+	dw sprite.general_purpose_4A, $0000
 	dw !initcommand_success
 
 DATA_FFBC8E:
 	dw !initcommand_load_subconfig, DATA_FFBB18
-	dw sprite.unknown_4C, $C0C0
-	dw sprite.unknown_4E, $8080
+	dw sprite.general_purpose_4C, $C0C0
+	dw sprite.general_purpose_4E, $8080
 	dw sprite.unknown_22, $0600
 	dw sprite.unknown_28, $0010
 	dw sprite.unknown_1C, $0048
-	dw sprite.unknown_4A, $001E
+	dw sprite.general_purpose_4A, $001E
 	dw !initcommand_success
 
 DATA_FFBCAC:
 	dw !initcommand_load_subconfig, DATA_FFBB18
-	dw sprite.unknown_4C, $C0A0
-	dw sprite.unknown_4E, $3850
+	dw sprite.general_purpose_4C, $C0A0
+	dw sprite.general_purpose_4E, $3850
 	dw sprite.unknown_22, $0600
 	dw sprite.unknown_28, $0048
 	dw sprite.unknown_1C, $0030
-	dw sprite.unknown_4A, $002D
+	dw sprite.general_purpose_4A, $002D
 	dw !initcommand_success
 
 DATA_FFBCCA:
 	dw !initcommand_load_subconfig, DATA_FFBB18
-	dw sprite.unknown_4C, $C0C0
-	dw sprite.unknown_4E, $3838
+	dw sprite.general_purpose_4C, $C0C0
+	dw sprite.general_purpose_4E, $3838
 	dw sprite.unknown_22, $0500
 	dw sprite.unknown_28, $0050
 	dw sprite.unknown_1C, $0028
-	dw sprite.unknown_4A, $002D
+	dw sprite.general_purpose_4A, $002D
 	dw !initcommand_success
 
 DATA_FFBCE8:
 	dw !initcommand_load_subconfig, DATA_FFF3E3
-	dw sprite.unknown_4C, $A0A0
-	dw sprite.unknown_4E, $3838
-	dw sprite.unknown_4E, $0028
-	dw sprite.unknown_4C, $0ED0
+	dw sprite.general_purpose_4C, $A0A0
+	dw sprite.general_purpose_4E, $3838
+	dw sprite.general_purpose_4E, $0028
+	dw sprite.general_purpose_4C, $0ED0
 	dw sprite.unknown_22, $0600
 	dw sprite.unknown_28, $0040
 	dw sprite.unknown_1C, $0030
-	dw sprite.unknown_4A, $002D
+	dw sprite.general_purpose_4A, $002D
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FFBD12:
 	dw !initcommand_load_subconfig, DATA_FFBB18
-	dw sprite.unknown_4C, $D000
-	dw sprite.unknown_4E, $8080
+	dw sprite.general_purpose_4C, $D000
+	dw sprite.general_purpose_4E, $8080
 	dw sprite.unknown_22, $0800
 	dw sprite.unknown_28, $0020
 	dw sprite.unknown_1C, $0048
-	dw sprite.unknown_4A, $001E
+	dw sprite.general_purpose_4A, $001E
 	dw !initcommand_success
 
 DATA_FFBD30:
 	dw !initcommand_load_subconfig, DATA_FFBB18
-	dw sprite.unknown_4C, $C000
-	dw sprite.unknown_4E, $8080
+	dw sprite.general_purpose_4C, $C000
+	dw sprite.general_purpose_4E, $8080
 	dw sprite.unknown_22, $0800
 	dw sprite.unknown_28, $0010
 	dw sprite.unknown_1C, $0060
-	dw sprite.unknown_4A, $000A
+	dw sprite.general_purpose_4A, $000A
 	dw !initcommand_success
 
 DATA_FFBD4E:
 	dw !initcommand_load_subconfig, DATA_FFBB18
-	dw sprite.unknown_4C, $E060
-	dw sprite.unknown_4E, $2820
+	dw sprite.general_purpose_4C, $E060
+	dw sprite.general_purpose_4E, $2820
 	dw sprite.unknown_22, $0600
 	dw sprite.unknown_28, $0048
 	dw sprite.unknown_1C, $0028
-	dw sprite.unknown_4A, $0000
+	dw sprite.general_purpose_4A, $0000
 	dw !initcommand_success
 
 DATA_FFBD6C:
 	dw !initcommand_load_subconfig, DATA_FFBB18
-	dw sprite.unknown_4C, $F000
-	dw sprite.unknown_4E, $8010
+	dw sprite.general_purpose_4C, $F000
+	dw sprite.general_purpose_4E, $8010
 	dw sprite.unknown_22, $0600
 	dw sprite.unknown_28, $0060
 	dw sprite.unknown_1C, $0030
-	dw sprite.unknown_4A, $000F
+	dw sprite.general_purpose_4A, $000F
 	dw !initcommand_success
 
 DATA_FFBD8A:
 	dw !initcommand_load_subconfig, DATA_FFBB18
-	dw sprite.unknown_4C, $F000
-	dw sprite.unknown_4E, $8010
+	dw sprite.general_purpose_4C, $F000
+	dw sprite.general_purpose_4E, $8010
 	dw sprite.unknown_22, $0600
 	dw sprite.unknown_28, $0088
 	dw sprite.unknown_1C, $0030
-	dw sprite.unknown_4A, $0019
+	dw sprite.general_purpose_4A, $0019
 	dw !initcommand_success
 
 DATA_FFBDA8:
 	dw !initcommand_load_subconfig, DATA_FFBB18
-	dw sprite.unknown_4C, $E000
-	dw sprite.unknown_4E, $2860
+	dw sprite.general_purpose_4C, $E000
+	dw sprite.general_purpose_4E, $2860
 	dw sprite.unknown_22, $0300
 	dw sprite.unknown_28, $009C
 	dw sprite.unknown_1C, $0020
-	dw sprite.unknown_4A, $0000
+	dw sprite.general_purpose_4A, $0000
 	dw !initcommand_success
 
 DATA_FFBDC6:
 	dw !initcommand_load_subconfig, DATA_FFBB18
-	dw sprite.unknown_4C, $C000
-	dw sprite.unknown_4E, $2808
+	dw sprite.general_purpose_4C, $C000
+	dw sprite.general_purpose_4E, $2808
 	dw sprite.unknown_22, $0500
 	dw sprite.unknown_28, $0058
 	dw sprite.unknown_1C, $0030
-	dw sprite.unknown_4A, $001E
+	dw sprite.general_purpose_4A, $001E
 	dw !initcommand_success
 
 DATA_FFBDE4:
 	dw !initcommand_load_subconfig, DATA_FFBB18
-	dw sprite.unknown_4C, $C000
-	dw sprite.unknown_4E, $8080
+	dw sprite.general_purpose_4C, $C000
+	dw sprite.general_purpose_4E, $8080
 	dw sprite.unknown_22, $0500
 	dw sprite.unknown_28, $0020
 	dw sprite.unknown_1C, $0028
-	dw sprite.unknown_4A, $004B
+	dw sprite.general_purpose_4A, $004B
 	dw !initcommand_success
 
 DATA_FFBE02:
 	dw !initcommand_load_subconfig, DATA_FFBB18
-	dw sprite.unknown_4C, $A0A0
-	dw sprite.unknown_4E, $2808
+	dw sprite.general_purpose_4C, $A0A0
+	dw sprite.general_purpose_4E, $2808
 	dw sprite.unknown_22, $0400
 	dw sprite.unknown_28, $0040
 	dw sprite.unknown_1C, $0020
-	dw sprite.unknown_4A, $005A
+	dw sprite.general_purpose_4A, $005A
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_success
 
 DATA_FFBE24:
 	dw !initcommand_load_subconfig, DATA_FFBB18
-	dw sprite.unknown_4C, $A0A0
-	dw sprite.unknown_4E, $2808
+	dw sprite.general_purpose_4C, $A0A0
+	dw sprite.general_purpose_4E, $2808
 	dw sprite.unknown_22, $0600
 	dw sprite.unknown_28, $0038
 	dw sprite.unknown_1C, $0020
-	dw sprite.unknown_4A, $003C
+	dw sprite.general_purpose_4A, $003C
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_success
 
 DATA_FFBE46:
 	dw !initcommand_load_subconfig, DATA_FFBB18
-	dw sprite.unknown_4C, $A0A0
-	dw sprite.unknown_4E, $2808
+	dw sprite.general_purpose_4C, $A0A0
+	dw sprite.general_purpose_4E, $2808
 	dw sprite.unknown_22, $0800
 	dw sprite.unknown_28, $0030
 	dw sprite.unknown_1C, $0020
-	dw sprite.unknown_4A, $001E
+	dw sprite.general_purpose_4A, $001E
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_success
 
 DATA_FFBE68:
 	dw !initcommand_load_subconfig, DATA_FFBB18
-	dw sprite.unknown_4C, $A000
-	dw sprite.unknown_4E, $8080
+	dw sprite.general_purpose_4C, $A000
+	dw sprite.general_purpose_4E, $8080
 	dw sprite.unknown_22, $0800
 	dw sprite.unknown_28, $0010
 	dw sprite.unknown_1C, $0058
-	dw sprite.unknown_4A, $0000
+	dw sprite.general_purpose_4A, $0000
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_success
 
 DATA_FFBE8A:
 	dw !initcommand_load_subconfig, DATA_FFBB18
-	dw sprite.unknown_4C, $A000
-	dw sprite.unknown_4E, $8080
+	dw sprite.general_purpose_4C, $A000
+	dw sprite.general_purpose_4E, $8080
 	dw sprite.unknown_22, $0700
 	dw sprite.unknown_28, $0010
 	dw sprite.unknown_1C, $0040
-	dw sprite.unknown_4A, $0000
+	dw sprite.general_purpose_4A, $0000
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_success
 
 DATA_FFBEAC:
 	dw !initcommand_load_subconfig, DATA_FFBB18
-	dw sprite.unknown_4C, $C000
-	dw sprite.unknown_4E, $8080
+	dw sprite.general_purpose_4C, $C000
+	dw sprite.general_purpose_4E, $8080
 	dw sprite.unknown_22, $0500
 	dw sprite.unknown_28, $0038
 	dw sprite.unknown_1C, $0020
-	dw sprite.unknown_4A, $001E
+	dw sprite.general_purpose_4A, $001E
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_success
 
 DATA_FFBECE:
 	dw !initcommand_load_subconfig, DATA_FFBB18
-	dw sprite.unknown_4C, $C000
-	dw sprite.unknown_4E, $8080
+	dw sprite.general_purpose_4C, $C000
+	dw sprite.general_purpose_4E, $8080
 	dw sprite.unknown_22, $0500
 	dw sprite.unknown_28, $0038
 	dw sprite.unknown_1C, $0020
-	dw sprite.unknown_4A, $0000
+	dw sprite.general_purpose_4A, $0000
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_success
 
 DATA_FFBEF0:
 	dw !initcommand_load_subconfig, DATA_FFBB18
-	dw sprite.unknown_4C, $C000
-	dw sprite.unknown_4E, $8080
+	dw sprite.general_purpose_4C, $C000
+	dw sprite.general_purpose_4E, $8080
 	dw sprite.unknown_22, $0500
 	dw sprite.unknown_28, $0020
 	dw sprite.unknown_1C, $0028
-	dw sprite.unknown_4A, $004B
+	dw sprite.general_purpose_4A, $004B
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_success
 
 DATA_FFBF12:
 	dw !initcommand_load_subconfig, DATA_FFBB18
-	dw sprite.unknown_4C, $F000
-	dw sprite.unknown_4E, $8080
+	dw sprite.general_purpose_4C, $F000
+	dw sprite.general_purpose_4E, $8080
 	dw sprite.unknown_22, $0500
 	dw sprite.unknown_28, $005C
 	dw sprite.unknown_1C, $0020
-	dw sprite.unknown_4A, $003C
+	dw sprite.general_purpose_4A, $003C
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_success
 
 DATA_FFBF34:
 	dw !initcommand_load_subconfig, DATA_FFBB18
-	dw sprite.unknown_4C, $C000
-	dw sprite.unknown_4E, $8080
+	dw sprite.general_purpose_4C, $C000
+	dw sprite.general_purpose_4E, $8080
 	dw sprite.unknown_22, $0600
 	dw sprite.unknown_28, $0020
 	dw sprite.unknown_1C, $0028
-	dw sprite.unknown_4A, $0000
+	dw sprite.general_purpose_4A, $0000
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_success
 
 DATA_FFBF56:
 	dw !initcommand_load_subconfig, DATA_FFBB18
-	dw sprite.unknown_4C, $C000
-	dw sprite.unknown_4E, $8080
+	dw sprite.general_purpose_4C, $C000
+	dw sprite.general_purpose_4E, $8080
 	dw sprite.unknown_22, $0800
 	dw sprite.unknown_28, $0010
 	dw sprite.unknown_1C, $0060
-	dw sprite.unknown_4A, $000A
+	dw sprite.general_purpose_4A, $000A
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_success
 
 DATA_FFBF78:
 	dw !initcommand_load_subconfig, DATA_FFBB18
-	dw sprite.unknown_4C, $E000
-	dw sprite.unknown_4E, $2860
+	dw sprite.general_purpose_4C, $E000
+	dw sprite.general_purpose_4E, $2860
 	dw sprite.unknown_22, $0300
 	dw sprite.unknown_28, $009C
 	dw sprite.unknown_1C, $0020
-	dw sprite.unknown_4A, $000F
+	dw sprite.general_purpose_4A, $000F
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_success
 
 DATA_FFBF9A:
 	dw !initcommand_load_subconfig, DATA_FFBB18
-	dw sprite.unknown_4C, $C000
-	dw sprite.unknown_4E, $40C0
+	dw sprite.general_purpose_4C, $C000
+	dw sprite.general_purpose_4E, $40C0
 	dw sprite.unknown_22, $0600
 	dw sprite.unknown_28, $0040
 	dw sprite.unknown_1C, $0028
-	dw sprite.unknown_4A, $0032
+	dw sprite.general_purpose_4A, $0032
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_success
 
 DATA_FFBFBC:
 	dw !initcommand_load_subconfig, DATA_FFBB26
 	dw sprite.max_x_speed, $FEC0
-	dw sprite.unknown_4C, $8080
-	dw sprite.unknown_4E, $1808
+	dw sprite.general_purpose_4C, $8080
+	dw sprite.general_purpose_4E, $1808
 	dw sprite.unknown_22, $0600
 	dw sprite.unknown_28, $0040
 	dw sprite.unknown_1C, $0020
-	dw sprite.unknown_4A, $001E
+	dw sprite.general_purpose_4A, $001E
 	dw !initcommand_success
 
 DATA_FFBFDE:
 	dw !initcommand_load_subconfig, DATA_FFBB34
 	dw sprite.max_x_speed, $FEC0
-	dw sprite.unknown_46, $4040
-	dw sprite.unknown_4C, $8080
-	dw sprite.unknown_4E, $3838
+	dw sprite.general_purpose_46, $4040
+	dw sprite.general_purpose_4C, $8080
+	dw sprite.general_purpose_4E, $3838
 	dw sprite.unknown_22, $0300
 	dw sprite.unknown_28, $0080
 	dw sprite.unknown_1C, $0028
-	dw sprite.unknown_4A, $0078
+	dw sprite.general_purpose_4A, $0078
 	dw !initcommand_success
 
 DATA_FFC004:
 	dw !initcommand_load_subconfig, DATA_FFBB34
 	dw sprite.max_x_speed, $0140
-	dw sprite.unknown_46, $4040
-	dw sprite.unknown_4C, $8080
-	dw sprite.unknown_4E, $3838
+	dw sprite.general_purpose_46, $4040
+	dw sprite.general_purpose_4C, $8080
+	dw sprite.general_purpose_4E, $3838
 	dw sprite.unknown_22, $0500
 	dw sprite.unknown_28, $0050
 	dw sprite.unknown_1C, $0030
-	dw sprite.unknown_4A, $003C
+	dw sprite.general_purpose_4A, $003C
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_success
 
 DATA_FFC02E:
 	dw !initcommand_load_subconfig, DATA_FFBB34
 	dw sprite.max_x_speed, $FEC0
-	dw sprite.unknown_46, $5050
-	dw sprite.unknown_4C, $8080
-	dw sprite.unknown_4E, $3838
+	dw sprite.general_purpose_46, $5050
+	dw sprite.general_purpose_4C, $8080
+	dw sprite.general_purpose_4E, $3838
 	dw sprite.unknown_22, $0500
 	dw sprite.unknown_28, $0060
 	dw sprite.unknown_1C, $0028
-	dw sprite.unknown_4A, $003C
+	dw sprite.general_purpose_4A, $003C
 	dw !initcommand_success
 
 DATA_FFC054:
 	dw !initcommand_load_subconfig, DATA_FFBB34
 	dw sprite.max_x_speed, $FEC0
-	dw sprite.unknown_46, $8430
-	dw sprite.unknown_4C, $8080
-	dw sprite.unknown_4E, $1820
+	dw sprite.general_purpose_46, $8430
+	dw sprite.general_purpose_4C, $8080
+	dw sprite.general_purpose_4E, $1820
 	dw sprite.unknown_22, $0600
 	dw sprite.unknown_28, $0040
 	dw sprite.unknown_1C, $0030
-	dw sprite.unknown_4A, $003C
+	dw sprite.general_purpose_4A, $003C
 	dw !initcommand_success
 
 DATA_FFC07A:
 	dw !initcommand_load_subconfig, DATA_FFBB34
 	dw sprite.max_x_speed, $0140
-	dw sprite.unknown_46, $C0FF
-	dw sprite.unknown_4C, $8080
-	dw sprite.unknown_4E, $1820
+	dw sprite.general_purpose_46, $C0FF
+	dw sprite.general_purpose_4C, $8080
+	dw sprite.general_purpose_4E, $1820
 	dw sprite.unknown_22, $0600
 	dw sprite.unknown_28, $0040
 	dw sprite.unknown_1C, $0030
-	dw sprite.unknown_4A, $001E
+	dw sprite.general_purpose_4A, $001E
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_success
 
 DATA_FFC0A4:
 	dw !initcommand_load_subconfig, DATA_FFBB34
 	dw sprite.max_x_speed, $FEC0
-	dw sprite.unknown_46, $7030
-	dw sprite.unknown_4C, $8080
-	dw sprite.unknown_4E, $3838
+	dw sprite.general_purpose_46, $7030
+	dw sprite.general_purpose_4C, $8080
+	dw sprite.general_purpose_4E, $3838
 	dw sprite.unknown_22, $0400
 	dw sprite.unknown_28, $0070
 	dw sprite.unknown_1C, $0028
-	dw sprite.unknown_4A, $003C
+	dw sprite.general_purpose_4A, $003C
 	dw !initcommand_success
 
 DATA_FFC0CA:
 	dw !initcommand_load_subconfig, DATA_FFBB34
 	dw sprite.max_x_speed, $FEC0
-	dw sprite.unknown_46, $2828
-	dw sprite.unknown_4C, $8080
-	dw sprite.unknown_4E, $3838
+	dw sprite.general_purpose_46, $2828
+	dw sprite.general_purpose_4C, $8080
+	dw sprite.general_purpose_4E, $3838
 	dw sprite.unknown_22, $0500
 	dw sprite.unknown_28, $0060
 	dw sprite.unknown_1C, $0028
-	dw sprite.unknown_4A, $003C
+	dw sprite.general_purpose_4A, $003C
 	dw !initcommand_success
 
 DATA_FFC0F0:
 	dw !initcommand_load_subconfig, DATA_FFBB34
 	dw sprite.max_x_speed, $FEC0
-	dw sprite.unknown_46, $1818
-	dw sprite.unknown_4C, $8080
-	dw sprite.unknown_4E, $0000
+	dw sprite.general_purpose_46, $1818
+	dw sprite.general_purpose_4C, $8080
+	dw sprite.general_purpose_4E, $0000
 	dw sprite.unknown_22, $0600
 	dw sprite.unknown_28, $0040
 	dw sprite.unknown_1C, $0030
-	dw sprite.unknown_4A, $003C
+	dw sprite.general_purpose_4A, $003C
 	dw !initcommand_success
 
 DATA_FFC116:
 	dw sprite.number, $01E0
 	dw sprite.render_order, $00D4
-	dw sprite.unknown_54, DATA_FF021C
-	dw sprite.unknown_30, $0120
-	dw sprite.action, $0000
+	dw sprite.constants_address, DATA_FF021C
+	dw sprite.interaction_flags, $0120
+	dw sprite.state, $0000
 	dw sprite.x_speed, $0000
 	dw sprite.y_speed, $0000
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_set_animation, $0169
-	dw sprite.action, $0000
-	dw sprite.unknown_4C, $6060
-	dw sprite.unknown_4E, $2808
+	dw sprite.state, $0000
+	dw sprite.general_purpose_4C, $6060
+	dw sprite.general_purpose_4E, $2808
 	dw sprite.unknown_1C, $0002
-	dw sprite.unknown_4A, $0000
+	dw sprite.general_purpose_4A, $0000
 if !version == 1
-	dw sprite.unknown_48, $0000
+	dw sprite.general_purpose_48, $0000
 endif
 	dw !initcommand_success
 
 DATA_FFC154:
 	dw !initcommand_load_subconfig, DATA_FFC116
-	dw sprite.unknown_52, $0022
+	dw sprite.movement_state, $0022
 	dw !initcommand_set_alt_palette, $0012
 	dw !initcommand_success
 
 DATA_FFC162:
 	dw !initcommand_load_subconfig, DATA_FFC116
-	dw sprite.unknown_52, $0023
+	dw sprite.movement_state, $0023
 	dw !initcommand_set_alt_palette, $0012
 	dw !initcommand_success
 
 DATA_FFC170:
 	dw !initcommand_load_subconfig, DATA_FFC116
-	dw sprite.unknown_52, $0023
+	dw sprite.movement_state, $0023
 	dw !initcommand_set_alt_palette, $00B4
 	dw !initcommand_success
 
@@ -16337,194 +16377,194 @@ DATA_FFC188:
 DATA_FFC196:
 	dw !initcommand_load_subconfig, DATA_FFC162
 	dw sprite.max_x_speed, $0180
-	dw sprite.unknown_46, $2020
+	dw sprite.general_purpose_46, $2020
 	dw !initcommand_success
 
 DATA_FFC1A4:
 	dw !initcommand_load_subconfig, DATA_FFC162
 	dw sprite.max_x_speed, $0180
-	dw sprite.unknown_46, $1818
-	dw sprite.unknown_4E, $2860
+	dw sprite.general_purpose_46, $1818
+	dw sprite.general_purpose_4E, $2860
 	dw !initcommand_success
 
 DATA_FFC1B6:
 	dw !initcommand_load_subconfig, DATA_FFC170
 	dw !initcommand_set_oam, $6000
 	dw sprite.max_x_speed, $FE80
-	dw sprite.unknown_46, $6060
-	dw sprite.unknown_4C, $8080
-	dw sprite.unknown_4A, $0002
+	dw sprite.general_purpose_46, $6060
+	dw sprite.general_purpose_4C, $8080
+	dw sprite.general_purpose_4A, $0002
 	dw !initcommand_success
 
 DATA_FFC1D0:
 	dw !initcommand_load_subconfig, DATA_FFC170
 	dw sprite.max_x_speed, $0180
-	dw sprite.unknown_46, $3838
-	dw sprite.unknown_4C, $8080
-	dw sprite.unknown_4E, $0808
-	dw sprite.unknown_4A, $0002
+	dw sprite.general_purpose_46, $3838
+	dw sprite.general_purpose_4C, $8080
+	dw sprite.general_purpose_4E, $0808
+	dw sprite.general_purpose_4A, $0002
 	dw !initcommand_success
 
 DATA_FFC1EA:
 	dw !initcommand_load_subconfig, DATA_FFC170
 	dw sprite.max_x_speed, $0180
-	dw sprite.unknown_46, $2830
-	dw sprite.unknown_4C, $8080
-	dw sprite.unknown_4A, $0002
+	dw sprite.general_purpose_46, $2830
+	dw sprite.general_purpose_4C, $8080
+	dw sprite.general_purpose_4A, $0002
 	dw !initcommand_success
 
 DATA_FFC200:
 	dw !initcommand_load_subconfig, DATA_FFC170
 	dw !initcommand_set_oam, $6000
 	dw sprite.max_x_speed, $FE80
-	dw sprite.unknown_46, $9800
-	dw sprite.unknown_4C, $8080
-	dw sprite.unknown_4A, $0002
+	dw sprite.general_purpose_46, $9800
+	dw sprite.general_purpose_4C, $8080
+	dw sprite.general_purpose_4A, $0002
 	dw !initcommand_success
 
 DATA_FFC21A:
 	dw !initcommand_load_subconfig, DATA_FFC170
 	dw sprite.max_x_speed, $0180
-	dw sprite.unknown_46, $3030
-	dw sprite.unknown_4A, $0002
+	dw sprite.general_purpose_46, $3030
+	dw sprite.general_purpose_4A, $0002
 	dw !initcommand_success
 
 DATA_FFC22C:
 	dw !initcommand_load_subconfig, DATA_FFC162
 	dw sprite.max_x_speed, $0180
-	dw sprite.unknown_46, $3838
+	dw sprite.general_purpose_46, $3838
 	dw !initcommand_success
 
 DATA_FFC23A:
 	dw !initcommand_load_subconfig, DATA_FFC170
 	dw sprite.max_x_speed, $0180
-	dw sprite.unknown_46, $A0A0
-	dw sprite.unknown_4C, $8080
-	dw sprite.unknown_4A, $0001
+	dw sprite.general_purpose_46, $A0A0
+	dw sprite.general_purpose_4C, $8080
+	dw sprite.general_purpose_4A, $0001
 	dw !initcommand_success
 
 DATA_FFC250:
 	dw !initcommand_load_subconfig, DATA_FFC170
 	dw sprite.max_x_speed, $0180
-	dw sprite.unknown_46, $1818
-	dw sprite.unknown_4C, $6060
-	dw sprite.unknown_4E, $2880
-	dw sprite.unknown_4A, $0001
+	dw sprite.general_purpose_46, $1818
+	dw sprite.general_purpose_4C, $6060
+	dw sprite.general_purpose_4E, $2880
+	dw sprite.general_purpose_4A, $0001
 	dw !initcommand_success
 
 DATA_FFC26A:
 	dw !initcommand_load_subconfig, DATA_FFC162
 	dw !initcommand_set_oam, $6000
 	dw sprite.max_x_speed, $FE80
-	dw sprite.unknown_46, $C040
-	dw sprite.unknown_4C, $8080
+	dw sprite.general_purpose_46, $C040
+	dw sprite.general_purpose_4C, $8080
 	dw sprite.unknown_1C, $0001
 	dw !initcommand_success
 
 DATA_FFC284:
 	dw !initcommand_load_subconfig, DATA_FFC162
 	dw sprite.max_x_speed, $0140
-	dw sprite.unknown_46, $4040
+	dw sprite.general_purpose_46, $4040
 	dw !initcommand_success
 
 DATA_FFC292:
 	dw !initcommand_load_subconfig, DATA_FFC162
 	dw !initcommand_set_oam, $6000
 	dw sprite.max_x_speed, $FE80
-	dw sprite.unknown_46, $1010
-	dw sprite.unknown_4C, $4040
+	dw sprite.general_purpose_46, $1010
+	dw sprite.general_purpose_4C, $4040
 	dw !initcommand_success
 
 DATA_FFC2A8:
 	dw !initcommand_load_subconfig, DATA_FFC170
 	dw sprite.max_x_speed, $0180
-	dw sprite.unknown_46, $1010
-	dw sprite.unknown_4C, $4040
-	dw sprite.unknown_4A, $0001
+	dw sprite.general_purpose_46, $1010
+	dw sprite.general_purpose_4C, $4040
+	dw sprite.general_purpose_4A, $0001
 	dw !initcommand_success
 
 DATA_FFC2BE:
 	dw !initcommand_load_subconfig, DATA_FFC170
 	dw sprite.max_x_speed, $0200
-	dw sprite.unknown_46, $B8B8
-	dw sprite.unknown_4C, $C0C0
-	dw sprite.unknown_4E, $1010
-	dw sprite.unknown_4A, $0002
+	dw sprite.general_purpose_46, $B8B8
+	dw sprite.general_purpose_4C, $C0C0
+	dw sprite.general_purpose_4E, $1010
+	dw sprite.general_purpose_4A, $0002
 	dw !initcommand_success
 
 DATA_FFC2D8:
 	dw !initcommand_load_subconfig, DATA_FFC170
 	dw sprite.max_x_speed, $0180
-	dw sprite.unknown_46, $3040
-	dw sprite.unknown_4C, $8080
-	dw sprite.unknown_4E, $1860
-	dw sprite.unknown_4A, $0001
+	dw sprite.general_purpose_46, $3040
+	dw sprite.general_purpose_4C, $8080
+	dw sprite.general_purpose_4E, $1860
+	dw sprite.general_purpose_4A, $0001
 	dw !initcommand_success
 
 DATA_FFC2F2:
 	dw !initcommand_load_subconfig, DATA_FFC162
 	dw sprite.max_x_speed, $0180
-	dw sprite.unknown_46, $1818
-	dw sprite.unknown_4E, $2830
+	dw sprite.general_purpose_46, $1818
+	dw sprite.general_purpose_4E, $2830
 	dw sprite.unknown_1C, $0001
 	dw !initcommand_success
 
 DATA_FFC308:
 	dw !initcommand_load_subconfig, DATA_FFC170
 	dw sprite.max_x_speed, $0180
-	dw sprite.unknown_46, $0048
-	dw sprite.unknown_4C, $8080
-	dw sprite.unknown_4E, $2020
-	dw sprite.unknown_4A, $0008
+	dw sprite.general_purpose_46, $0048
+	dw sprite.general_purpose_4C, $8080
+	dw sprite.general_purpose_4E, $2020
+	dw sprite.general_purpose_4A, $0008
 	dw !initcommand_success
 
 DATA_FFC322:
 	dw !initcommand_load_subconfig, DATA_FFC170
 	dw sprite.max_x_speed, $FE80
-	dw sprite.unknown_46, $A000
-	dw sprite.unknown_4C, $8080
-	dw sprite.unknown_4E, $2001
+	dw sprite.general_purpose_46, $A000
+	dw sprite.general_purpose_4C, $8080
+	dw sprite.general_purpose_4E, $2001
 	dw !initcommand_set_oam, $6000
-	dw sprite.unknown_4A, $0001
+	dw sprite.general_purpose_4A, $0001
 	dw !initcommand_success
 
 DATA_FFC340:
 	dw !initcommand_load_subconfig, DATA_FFC170
 	dw sprite.max_x_speed, $0180
-	dw sprite.unknown_46, $00C0
-	dw sprite.unknown_4C, $8080
-	dw sprite.unknown_4E, $2001
-	dw sprite.unknown_4A, $0001
+	dw sprite.general_purpose_46, $00C0
+	dw sprite.general_purpose_4C, $8080
+	dw sprite.general_purpose_4E, $2001
+	dw sprite.general_purpose_4A, $0001
 	dw !initcommand_success
 
 DATA_FFC35A:
 	dw !initcommand_load_subconfig, DATA_FFC170
 	dw sprite.max_x_speed, $0180
-	dw sprite.unknown_46, $00E0
-	dw sprite.unknown_4C, $8080
-	dw sprite.unknown_4E, $2001
-	dw sprite.unknown_4A, $0001
+	dw sprite.general_purpose_46, $00E0
+	dw sprite.general_purpose_4C, $8080
+	dw sprite.general_purpose_4E, $2001
+	dw sprite.general_purpose_4A, $0001
 	dw !initcommand_success
 
 DATA_FFC374:
 	dw !initcommand_load_subconfig, DATA_FFC162
 	dw sprite.max_x_speed, $0140
-	dw sprite.unknown_46, $4040
+	dw sprite.general_purpose_46, $4040
 	dw sprite.unknown_5C, $7FFF
 	dw !initcommand_success
 
 DATA_FFC386:
 	dw !initcommand_load_subconfig, DATA_FFC170
 	dw sprite.max_x_speed, $0180
-	dw sprite.unknown_46, $7820
-	dw sprite.unknown_4C, $8080
-	dw sprite.unknown_4A, $0002
+	dw sprite.general_purpose_46, $7820
+	dw sprite.general_purpose_4C, $8080
+	dw sprite.general_purpose_4A, $0002
 	dw !initcommand_success
 
 DATA_FFC39C:
 	dw sprite.number, $0160
 	dw sprite.render_order, $00C8
-	dw sprite.action, $0000
+	dw sprite.state, $0000
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_set_alt_palette, $0017
 	dw !initcommand_set_animation, $02B3
@@ -16532,117 +16572,117 @@ DATA_FFC39C:
 
 DATA_FFC3B6:
 	dw !initcommand_load_subconfig, DATA_FFC39C
-	dw sprite.unknown_54, DATA_FFC49C
+	dw sprite.constants_address, DATA_FFC49C
 	dw !initcommand_success
 
 DATA_FFC3C0:
 	dw !initcommand_load_subconfig, DATA_FFC39C
-	dw sprite.unknown_54, DATA_FFC49C
+	dw sprite.constants_address, DATA_FFC49C
 	dw !initcommand_success
 
 DATA_FFC3CA:
 	dw !initcommand_load_subconfig, DATA_FFC39C
-	dw sprite.unknown_54, DATA_FFC4A5
+	dw sprite.constants_address, DATA_FFC4A5
 	dw !initcommand_success
 
 DATA_FFC3D4:
 	dw !initcommand_load_subconfig, DATA_FFC39C
-	dw sprite.unknown_54, DATA_FFC4AE
+	dw sprite.constants_address, DATA_FFC4AE
 	dw !initcommand_success
 
 DATA_FFC3DE:
 	dw !initcommand_load_subconfig, DATA_FFC39C
-	dw sprite.unknown_54, DATA_FFC4B7
+	dw sprite.constants_address, DATA_FFC4B7
 	dw !initcommand_success
 
 DATA_FFC3E8:
 	dw !initcommand_load_subconfig, DATA_FFC39C
-	dw sprite.unknown_54, DATA_FFC4C0
+	dw sprite.constants_address, DATA_FFC4C0
 	dw !initcommand_success
 
 DATA_FFC3F2:
 	dw !initcommand_load_subconfig, DATA_FFC39C
-	dw sprite.unknown_54, DATA_FFC4C9
+	dw sprite.constants_address, DATA_FFC4C9
 	dw !initcommand_success
 
 DATA_FFC3FC:
 	dw !initcommand_load_subconfig, DATA_FFC39C
-	dw sprite.unknown_54, DATA_FFC4D2
+	dw sprite.constants_address, DATA_FFC4D2
 	dw !initcommand_success
 
 DATA_FFC406:
 	dw !initcommand_load_subconfig, DATA_FFC39C
-	dw sprite.unknown_54, DATA_FFC4DB
+	dw sprite.constants_address, DATA_FFC4DB
 	dw !initcommand_success
 
 DATA_FFC410:
 	dw !initcommand_load_subconfig, DATA_FFC39C
-	dw sprite.unknown_54, DATA_FFC4E4
+	dw sprite.constants_address, DATA_FFC4E4
 	dw !initcommand_success
 
 DATA_FFC41A:
 	dw !initcommand_load_subconfig, DATA_FFC39C
-	dw sprite.unknown_54, DATA_FFC4ED
+	dw sprite.constants_address, DATA_FFC4ED
 	dw !initcommand_success
 
 DATA_FFC424:
 	dw !initcommand_load_subconfig, DATA_FFC39C
-	dw sprite.unknown_54, DATA_FFC4F6
+	dw sprite.constants_address, DATA_FFC4F6
 	dw !initcommand_success
 
 DATA_FFC42E:
 	dw !initcommand_load_subconfig, DATA_FFC39C
-	dw sprite.unknown_54, DATA_FFC4FF
+	dw sprite.constants_address, DATA_FFC4FF
 	dw !initcommand_success
 
 DATA_FFC438:
 	dw !initcommand_load_subconfig, DATA_FFC39C
-	dw sprite.unknown_54, DATA_FFC508
+	dw sprite.constants_address, DATA_FFC508
 	dw !initcommand_success
 
 DATA_FFC442:
 	dw !initcommand_load_subconfig, DATA_FFC39C
-	dw sprite.unknown_54, DATA_FFC511
+	dw sprite.constants_address, DATA_FFC511
 	dw !initcommand_success
 
 DATA_FFC44C:
 	dw !initcommand_load_subconfig, DATA_FFC39C
-	dw sprite.unknown_54, DATA_FFC51A
+	dw sprite.constants_address, DATA_FFC51A
 	dw !initcommand_success
 
 DATA_FFC456:
 	dw !initcommand_load_subconfig, DATA_FFC39C
-	dw sprite.unknown_54, DATA_FFC523
+	dw sprite.constants_address, DATA_FFC523
 	dw !initcommand_success
 
 DATA_FFC460:
 	dw !initcommand_load_subconfig, DATA_FFC39C
-	dw sprite.unknown_54, DATA_FFC52C
+	dw sprite.constants_address, DATA_FFC52C
 	dw !initcommand_success
 
 DATA_FFC46A:
 	dw !initcommand_load_subconfig, DATA_FFC39C
-	dw sprite.unknown_54, DATA_FFC535
+	dw sprite.constants_address, DATA_FFC535
 	dw !initcommand_success
 
 DATA_FFC474:
 	dw !initcommand_load_subconfig, DATA_FFC39C
-	dw sprite.unknown_54, DATA_FFC53E
+	dw sprite.constants_address, DATA_FFC53E
 	dw !initcommand_success
 
 DATA_FFC47E:
 	dw !initcommand_load_subconfig, DATA_FFC39C
-	dw sprite.unknown_54, DATA_FFC547
+	dw sprite.constants_address, DATA_FFC547
 	dw !initcommand_success
 
 DATA_FFC488:
 	dw !initcommand_load_subconfig, DATA_FFC39C
-	dw sprite.unknown_54, DATA_FFC550
+	dw sprite.constants_address, DATA_FFC550
 	dw !initcommand_success
 
 DATA_FFC492:
 	dw !initcommand_load_subconfig, DATA_FFC39C
-	dw sprite.unknown_54, DATA_FFC559
+	dw sprite.constants_address, DATA_FFC559
 	dw !initcommand_success
 
 DATA_FFC49C:
@@ -16735,13 +16775,13 @@ DATA_FFC559:
 
 DATA_FFC562:
 	dw sprite.number, $0170
-	dw sprite.unknown_54, DATA_FF021C
+	dw sprite.constants_address, DATA_FF021C
 	dw sprite.render_order, $00C8
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_set_alt_palette, $0000
 	dw !initcommand_set_animation, $02B2
-	dw sprite.action, $0000
-	dw sprite.unknown_4E, $000A
+	dw sprite.state, $0000
+	dw sprite.general_purpose_4E, $000A
 	dw !initcommand_success
 
 DATA_FFC584:
@@ -16755,17 +16795,17 @@ DATA_FFC58A:
 
 DATA_FFC594:
 	dw sprite.number, $02E4
-	dw sprite.unknown_30, $0120
+	dw sprite.interaction_flags, $0120
 	dw sprite.render_order, $00D4
-	dw sprite.unknown_54, DATA_FF021C
+	dw sprite.constants_address, DATA_FF021C
 	dw !initcommand_set_alt_palette, $005C
-	dw sprite.interaction_type, $0000
-	dw sprite.action, $0000
+	dw sprite.terrain_attributes, $0000
+	dw sprite.state, $0000
 	dw sprite.max_x_speed, $0000
 	dw sprite.x_speed, $0000
 	dw sprite.y_speed, $0000
 	dw sprite.max_y_speed, $0000
-	dw sprite.unknown_52, $0000
+	dw sprite.movement_state, $0000
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_set_animation, $02D0
 	dw !initcommand_success
@@ -17234,13 +17274,13 @@ DATA_FFC995:
 	dw !initcommand_load_subconfig, DATA_FF9FC2
 	dw !initcommand_set_oam, $2000
 	dw sprite.max_x_speed, $0100
-	dw sprite.unknown_52, $0022
+	dw sprite.movement_state, $0022
 	dw !initcommand_success
 
 DATA_FFC9A7:
 	dw !initcommand_load_subconfig, DATA_FF9FC2
 	dw sprite.max_x_speed, $FE80
-	dw sprite.unknown_52, $0022
+	dw sprite.movement_state, $0022
 	dw !initcommand_success
 
 DATA_FFC9B5:
@@ -17252,16 +17292,16 @@ DATA_FFC9B5:
 DATA_FFC9C3:
 	dw sprite.number, $02E8
 	dw sprite.render_order, $00C8
-	dw sprite.unknown_54, DATA_FF0214
+	dw sprite.constants_address, DATA_FF0214
 	dw !initcommand_set_oam, $6000
-	dw sprite.unknown_30, $0020
+	dw sprite.interaction_flags, $0020
 	dw !initcommand_success
 
 DATA_FFC9D9:
 	dw !initcommand_load_subconfig, DATA_FFC9C3
 	dw !initcommand_set_animation, $02FA
 	dw !initcommand_set_alt_palette, $0002
-	dw sprite.action, $0000
+	dw sprite.state, $0000
 	dw sprite.y_speed, $FC40
 	dw sprite.x_speed, $FE00
 	dw sprite.max_x_speed, $FDC0
@@ -17271,7 +17311,7 @@ DATA_FFC9F7:
 	dw !initcommand_load_subconfig, DATA_FFC9C3
 	dw !initcommand_set_animation, $02FA
 	dw !initcommand_set_alt_palette, $0002
-	dw sprite.action, $0000
+	dw sprite.state, $0000
 	dw sprite.y_speed, $FC40
 	dw sprite.x_speed, $FE00
 	dw sprite.max_x_speed, $FD00
@@ -17281,7 +17321,7 @@ DATA_FFCA15:
 	dw !initcommand_load_subconfig, DATA_FFC9C3
 	dw !initcommand_set_animation, $02FF
 	dw !initcommand_set_alt_palette, $0002
-	dw sprite.action, $0001
+	dw sprite.state, $0001
 	dw sprite.y_speed, $FD00
 	dw sprite.x_speed, $FC00
 	dw sprite.max_x_speed, $FE00
@@ -17291,7 +17331,7 @@ DATA_FFCA33:
 	dw !initcommand_load_subconfig, DATA_FFC9C3
 	dw !initcommand_set_animation, $02E6
 	dw !initcommand_set_alt_palette, $0002
-	dw sprite.action, $0002
+	dw sprite.state, $0002
 	dw sprite.y_speed, $FD00
 	dw sprite.x_speed, $FC00
 	dw sprite.max_x_speed, $FE00
@@ -17301,51 +17341,51 @@ DATA_FFCA51:
 	dw !initcommand_load_subconfig, DATA_FFC9C3
 	dw !initcommand_set_animation, $02E7
 	dw !initcommand_set_alt_palette, $0002
-	dw sprite.action, $0003
+	dw sprite.state, $0003
 	dw sprite.y_speed, $FD00
 	dw sprite.x_speed, $FC00
 	dw sprite.max_x_speed, $FE00
-	dw sprite.unknown_42, $0008
+	dw sprite.general_purpose_42, $0008
 	dw !initcommand_success
 
 DATA_FFCA73:
 	dw !initcommand_load_subconfig, DATA_FFC9C3
 	dw !initcommand_set_animation, $02E7
 	dw !initcommand_set_alt_palette, $0002
-	dw sprite.action, $0003
+	dw sprite.state, $0003
 	dw sprite.y_speed, $FD00
 	dw sprite.x_speed, $FC00
 	dw sprite.max_x_speed, $FE00
-	dw sprite.unknown_42, $0012
+	dw sprite.general_purpose_42, $0012
 	dw !initcommand_success
 
 DATA_FFCA95:
 	dw !initcommand_load_subconfig, DATA_FFC9C3
 	dw !initcommand_set_animation, $02E7
 	dw !initcommand_set_alt_palette, $0002
-	dw sprite.action, $0003
+	dw sprite.state, $0003
 	dw sprite.y_speed, $FD00
 	dw sprite.x_speed, $FC00
 	dw sprite.max_x_speed, $FE00
-	dw sprite.unknown_42, $0003
+	dw sprite.general_purpose_42, $0003
 	dw !initcommand_success
 
 DATA_FFCAB7:
 	dw !initcommand_load_subconfig, DATA_FFC9C3
 	dw !initcommand_set_animation, $02E7
 	dw !initcommand_set_alt_palette, $0002
-	dw sprite.action, $0003
+	dw sprite.state, $0003
 	dw sprite.y_speed, $FD00
 	dw sprite.x_speed, $FC00
 	dw sprite.max_x_speed, $FE00
-	dw sprite.unknown_42, $0009
+	dw sprite.general_purpose_42, $0009
 	dw !initcommand_success
 
 DATA_FFCAD9:
 	dw !initcommand_load_subconfig, DATA_FFC9C3
 	dw !initcommand_set_animation, $02FD
 	dw !initcommand_set_alt_palette, $0009
-	dw sprite.action, $0004
+	dw sprite.state, $0004
 	dw sprite.y_speed, $FD00
 	dw sprite.x_speed, $FC00
 	dw sprite.max_x_speed, $FE00
@@ -17389,123 +17429,123 @@ DATA_FFCB3F:
 DATA_FFCB4C:
 	dw sprite.number, $0128
 	dw sprite.render_order, $00C1
-	dw sprite.unknown_54, DATA_FF045C
-	dw sprite.unknown_30, $0000
-	dw sprite.action, $0000
+	dw sprite.constants_address, DATA_FF045C
+	dw sprite.interaction_flags, $0000
+	dw sprite.state, $0000
 	dw sprite.x_speed, $0000
 	dw sprite.y_speed, $0000
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_set_alt_palette, $005A
 	dw !initcommand_set_animation, $02D4
-	dw sprite.unknown_46, $0203
+	dw sprite.general_purpose_46, $0203
 	dw sprite.max_x_speed, $0020
-	dw sprite.unknown_4A, $0201
+	dw sprite.general_purpose_4A, $0201
 	dw sprite.max_y_speed, $0018
-	dw sprite.unknown_52, $0017
+	dw sprite.movement_state, $0017
 	dw !initcommand_success
 
 DATA_FFCB8A:
 	dw sprite.number, $0204
-	dw sprite.unknown_30, $0120
+	dw sprite.interaction_flags, $0120
 	dw sprite.render_order, $00D4
-	dw sprite.unknown_54, DATA_FF021C
+	dw sprite.constants_address, DATA_FF021C
 	dw !initcommand_set_alt_palette, $001D
-	dw sprite.action, $0000
+	dw sprite.state, $0000
 	dw sprite.max_x_speed, $0000
 	dw sprite.x_speed, $0000
-	dw sprite.unknown_4E, $0000
+	dw sprite.general_purpose_4E, $0000
 	dw sprite.y_speed, $0100
-	dw sprite.unknown_52, $0000
+	dw sprite.movement_state, $0000
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_set_animation, $018B
 	dw !initcommand_success
 
 DATA_FFCBC0:
 	dw !initcommand_load_subconfig, DATA_FFCB8A
-	dw sprite.unknown_42, $A0A0
-	dw sprite.unknown_44, $6008
+	dw sprite.general_purpose_42, $A0A0
+	dw sprite.general_purpose_44, $6008
 	dw sprite.unknown_28, $0038
-	dw sprite.unknown_46, $FC80
-	dw sprite.unknown_48, $00F0
-	dw sprite.unknown_4A, $0078
-	dw sprite.unknown_4C, DATA_FFCCD0
+	dw sprite.general_purpose_46, $FC80
+	dw sprite.general_purpose_48, $00F0
+	dw sprite.general_purpose_4A, $0078
+	dw sprite.general_purpose_4C, DATA_FFCCD0
 	dw !initcommand_success
 
 DATA_FFCBE2:
 	dw !initcommand_load_subconfig, DATA_FFCB8A
-	dw sprite.unknown_42, $A0A0
-	dw sprite.unknown_44, $6008
+	dw sprite.general_purpose_42, $A0A0
+	dw sprite.general_purpose_44, $6008
 	dw sprite.unknown_28, $0038
-	dw sprite.unknown_46, $FC00
-	dw sprite.unknown_48, $00F0
-	dw sprite.unknown_4A, $0078
-	dw sprite.unknown_4C, DATA_FFCCD0
+	dw sprite.general_purpose_46, $FC00
+	dw sprite.general_purpose_48, $00F0
+	dw sprite.general_purpose_4A, $0078
+	dw sprite.general_purpose_4C, DATA_FFCCD0
 	dw !initcommand_success
 
 DATA_FFCC04:
 	dw !initcommand_load_subconfig, DATA_FFCB8A
-	dw sprite.unknown_42, $A0A0
-	dw sprite.unknown_44, $6008
+	dw sprite.general_purpose_42, $A0A0
+	dw sprite.general_purpose_44, $6008
 	dw sprite.unknown_28, $0038
-	dw sprite.unknown_46, $FC80
-	dw sprite.unknown_48, $00F0
-	dw sprite.unknown_4A, $00B4
-	dw sprite.unknown_4C, DATA_FFCCD8
+	dw sprite.general_purpose_46, $FC80
+	dw sprite.general_purpose_48, $00F0
+	dw sprite.general_purpose_4A, $00B4
+	dw sprite.general_purpose_4C, DATA_FFCCD8
 	dw !initcommand_success
 
 DATA_FFCC26:
 	dw !initcommand_load_subconfig, DATA_FFCB8A
-	dw sprite.unknown_42, $6868
-	dw sprite.unknown_44, $6060
+	dw sprite.general_purpose_42, $6868
+	dw sprite.general_purpose_44, $6060
 	dw sprite.unknown_28, $0020
-	dw sprite.unknown_46, $FC80
-	dw sprite.unknown_48, $00F0
-	dw sprite.unknown_4A, $0078
-	dw sprite.unknown_4C, DATA_FFCCE0
+	dw sprite.general_purpose_46, $FC80
+	dw sprite.general_purpose_48, $00F0
+	dw sprite.general_purpose_4A, $0078
+	dw sprite.general_purpose_4C, DATA_FFCCE0
 	dw !initcommand_success
 
 DATA_FFCC48:
 	dw !initcommand_load_subconfig, DATA_FFCB8A
-	dw sprite.unknown_42, $A0A0
-	dw sprite.unknown_44, $6008
+	dw sprite.general_purpose_42, $A0A0
+	dw sprite.general_purpose_44, $6008
 	dw sprite.unknown_28, $0020
-	dw sprite.unknown_46, $FC00
-	dw sprite.unknown_48, $00F0
-	dw sprite.unknown_4A, $0078
-	dw sprite.unknown_4C, DATA_FFCCE0
+	dw sprite.general_purpose_46, $FC00
+	dw sprite.general_purpose_48, $00F0
+	dw sprite.general_purpose_4A, $0078
+	dw sprite.general_purpose_4C, DATA_FFCCE0
 	dw !initcommand_success
 
 DATA_FFCC6A:
 	dw !initcommand_load_subconfig, DATA_FFCB8A
-	dw sprite.unknown_42, $9090
-	dw sprite.unknown_44, $6008
+	dw sprite.general_purpose_42, $9090
+	dw sprite.general_purpose_44, $6008
 	dw sprite.unknown_28, $0038
-	dw sprite.unknown_46, $FC80
-	dw sprite.unknown_48, $00F0
-	dw sprite.unknown_4A, $00B4
-	dw sprite.unknown_4C, DATA_FFCCD8
+	dw sprite.general_purpose_46, $FC80
+	dw sprite.general_purpose_48, $00F0
+	dw sprite.general_purpose_4A, $00B4
+	dw sprite.general_purpose_4C, DATA_FFCCD8
 	dw !initcommand_success
 
 DATA_FFCC8C:
 	dw !initcommand_load_subconfig, DATA_FFCB8A
-	dw sprite.unknown_42, $6060
-	dw sprite.unknown_44, $6008
+	dw sprite.general_purpose_42, $6060
+	dw sprite.general_purpose_44, $6008
 	dw sprite.unknown_28, $0020
-	dw sprite.unknown_46, $FCC0
-	dw sprite.unknown_48, $00F0
-	dw sprite.unknown_4A, $0078
-	dw sprite.unknown_4C, DATA_FFCCE0
+	dw sprite.general_purpose_46, $FCC0
+	dw sprite.general_purpose_48, $00F0
+	dw sprite.general_purpose_4A, $0078
+	dw sprite.general_purpose_4C, DATA_FFCCE0
 	dw !initcommand_success
 
 DATA_FFCCAE:
 	dw !initcommand_load_subconfig, DATA_FFCB8A
-	dw sprite.unknown_42, $6060
-	dw sprite.unknown_44, $6008
+	dw sprite.general_purpose_42, $6060
+	dw sprite.general_purpose_44, $6008
 	dw sprite.unknown_28, $0020
-	dw sprite.unknown_46, $FCC0
-	dw sprite.unknown_48, $00F0
-	dw sprite.unknown_4A, $0078
-	dw sprite.unknown_4C, DATA_FFCCE8
+	dw sprite.general_purpose_46, $FCC0
+	dw sprite.general_purpose_48, $00F0
+	dw sprite.general_purpose_4A, $0078
+	dw sprite.general_purpose_4C, DATA_FFCCE8
 	dw !initcommand_success
 
 DATA_FFCCD0:
@@ -17524,11 +17564,11 @@ DATA_FFCCF0:
 	dw !initcommand_setup_static2, $0024, $0009 : dl DATA_C00DA1 : db $14
 	dw sprite.render_order, $00D4
 	dw sprite.y_position, $0100
-	dw sprite.unknown_42, $0000
-	dw sprite.unknown_44, $0000
-	dw sprite.unknown_46, $FFFF
-	dw sprite.unknown_4E, $E000
-	dw sprite.action, $0003
+	dw sprite.general_purpose_42, $0000
+	dw sprite.general_purpose_44, $0000
+	dw sprite.general_purpose_46, $FFFF
+	dw sprite.general_purpose_4E, $E000
+	dw sprite.state, $0003
 	dw sprite.max_x_speed, $0000
 	dw sprite.x_speed, $0000
 	dw sprite.max_y_speed, $0500
@@ -17544,11 +17584,11 @@ DATA_FFCD34:
 	dw sprite.x_position, $01B0
 	dw sprite.y_position, $01B4
 	dw sprite.render_order, $00D4
-	dw sprite.unknown_30, $0020
-	dw sprite.action, $0000
-	dw sprite.unknown_46, DATA_B6F932
-	dw sprite.unknown_42, $0000
-	dw sprite.unknown_4C, $0000
+	dw sprite.interaction_flags, $0020
+	dw sprite.state, $0000
+	dw sprite.general_purpose_46, DATA_B6F932
+	dw sprite.general_purpose_42, $0000
+	dw sprite.general_purpose_4C, $0000
 	dw !initcommand_set_oam, $7000
 	dw !initcommand_set_alt_palette, $0022
 	dw !initcommand_set_animation, $0200
@@ -17560,10 +17600,10 @@ DATA_FFCD66:
 	dw sprite.x_position, $0224
 	dw sprite.y_position, $0B44
 	dw sprite.render_order, $00D4
-	dw sprite.unknown_30, $0020
-	dw sprite.unknown_46, DATA_B6AFE7
-	dw sprite.unknown_42, $0000
-	dw sprite.unknown_4C, $0000
+	dw sprite.interaction_flags, $0020
+	dw sprite.general_purpose_46, DATA_B6AFE7
+	dw sprite.general_purpose_42, $0000
+	dw sprite.general_purpose_4C, $0000
 	dw !initcommand_set_oam, $1000
 	dw !initcommand_set_alt_palette, $00B9
 	dw !initcommand_set_animation, $0200
@@ -17575,11 +17615,11 @@ DATA_FFCD94:
 	dw sprite.x_position, $01D4
 	dw sprite.y_position, $021F
 	dw sprite.render_order, $00D4
-	dw sprite.unknown_30, $0020
-	dw sprite.action, $0000
-	dw sprite.unknown_46, DATA_B6AE87
-	dw sprite.unknown_42, $0000
-	dw sprite.unknown_4C, $0000
+	dw sprite.interaction_flags, $0020
+	dw sprite.state, $0000
+	dw sprite.general_purpose_46, DATA_B6AE87
+	dw sprite.general_purpose_42, $0000
+	dw sprite.general_purpose_4C, $0000
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_set_alt_palette, $0038
 	dw !initcommand_set_animation, $0230
@@ -17588,12 +17628,12 @@ DATA_FFCD94:
 DATA_FFCDC6:
 	dw sprite.number, $02E0
 	dw sprite.render_order, $00C8
-	dw sprite.action, $0003
+	dw sprite.state, $0003
 	dw sprite.x_speed, $0000
 	dw sprite.max_x_speed, $0000
 	dw sprite.y_speed, $0000
 	dw sprite.max_y_speed, $0000
-	dw sprite.unknown_30, $0000
+	dw sprite.interaction_flags, $0000
 	dw !initcommand_set_alt_palette, $0049
 	dw !initcommand_set_animation, $02CE
 	dw !initcommand_success
@@ -17610,13 +17650,13 @@ DATA_FFCDFA:
 
 DATA_FFCE04:
 	dw sprite.number, $02D4
-	dw sprite.action, $0000
+	dw sprite.state, $0000
 	dw sprite.render_order, $00C8
 if !version == 1
 	dw sprite.y_speed, $0000
 endif
 	dw !initcommand_set_oam, $6000
-	dw sprite.action, $0000
+	dw sprite.state, $0000
 	dw !initcommand_success
 
 DATA_FFCE1E:
@@ -17636,31 +17676,31 @@ DATA_FFCE32:
 
 DATA_FFCE3C:
 	dw !initcommand_load_subconfig, DATA_FFCE1E
-	dw sprite.unknown_4A, DATA_FFCE82
+	dw sprite.general_purpose_4A, DATA_FFCE82
 	dw !initcommand_set_animation, $02CA
 	dw !initcommand_success
 
 DATA_FFCE4A:
 	dw !initcommand_load_subconfig, DATA_FFCE1E
-	dw sprite.unknown_4A, DATA_FFCE8A
+	dw sprite.general_purpose_4A, DATA_FFCE8A
 	dw !initcommand_set_animation, $02CA
 	dw !initcommand_success
 
 DATA_FFCE58:
 	dw !initcommand_load_subconfig, DATA_FFCE1E
-	dw sprite.unknown_4A, DATA_FFCE92
+	dw sprite.general_purpose_4A, DATA_FFCE92
 	dw !initcommand_set_animation, $02CA
 	dw !initcommand_success
 
 DATA_FFCE66:
 	dw !initcommand_load_subconfig, DATA_FFCE1E
-	dw sprite.unknown_4A, DATA_FFCE9A
+	dw sprite.general_purpose_4A, DATA_FFCE9A
 	dw !initcommand_set_animation, $02CA
 	dw !initcommand_success
 
 DATA_FFCE74:
 	dw !initcommand_load_subconfig, DATA_FFCE1E
-	dw sprite.unknown_4A, DATA_FFCEA2
+	dw sprite.general_purpose_4A, DATA_FFCEA2
 	dw !initcommand_set_animation, $02CA
 	dw !initcommand_success
 
@@ -17685,17 +17725,17 @@ DATA_FFCEAA:
 	dw sprite.render_order, $00C8
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_set_alt_palette, $0056
-	dw sprite.action, $0001
-	dw sprite.unknown_44, $0000
-	dw sprite.unknown_46, $0000
-	dw sprite.unknown_48, $0000
-	dw sprite.unknown_4E, DATA_FFCED4
+	dw sprite.state, $0001
+	dw sprite.general_purpose_44, $0000
+	dw sprite.general_purpose_46, $0000
+	dw sprite.general_purpose_48, $0000
+	dw sprite.general_purpose_4E, DATA_FFCED4
 	dw !initcommand_success
 
 DATA_FFCED4:
 	dw !initcommand_spawn_relative, $0000, $0000
 	dw sprite.number, $0180
-	dw sprite.action, $0003
+	dw sprite.state, $0003
 	dw sprite.render_order, $00C7
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_set_alt_palette, $0002
@@ -17703,293 +17743,293 @@ DATA_FFCED4:
 
 DATA_FFCEF0:
 	dw !initcommand_load_subconfig, DATA_FFCEAA
-	dw sprite.unknown_42, $012C
+	dw sprite.general_purpose_42, $012C
 	dw !initcommand_success
 
 DATA_FFCEFA:
 	dw !initcommand_load_subconfig, DATA_FFCEAA
-	dw sprite.unknown_42, $0186
+	dw sprite.general_purpose_42, $0186
 	dw !initcommand_success
 
 DATA_FFCF04:
 	dw !initcommand_load_subconfig, DATA_FFCEAA
-	dw sprite.unknown_42, $032A
+	dw sprite.general_purpose_42, $032A
 	dw !initcommand_success
 
 DATA_FFCF0E:
 	dw !initcommand_load_subconfig, DATA_FFCEAA
-	dw sprite.unknown_42, $0226
+	dw sprite.general_purpose_42, $0226
 	dw !initcommand_success
 
 DATA_FFCF18:
 	dw !initcommand_load_subconfig, DATA_FFCEAA
-	dw sprite.unknown_42, $01C2
+	dw sprite.general_purpose_42, $01C2
 	dw !initcommand_success
 
 DATA_FFCF22:
 	dw !initcommand_load_subconfig, DATA_FFCE1E
 	dw !initcommand_set_animation, $02C8
-	dw sprite.action, $0100
-	dw sprite.unknown_42, $0000
+	dw sprite.state, $0100
+	dw sprite.general_purpose_42, $0000
 	dw !initcommand_success
 
 DATA_FFCF34:
 	dw !initcommand_load_subconfig, DATA_FFCF22
-	dw sprite.unknown_4A, $0000
+	dw sprite.general_purpose_4A, $0000
 	dw !initcommand_success
 
 DATA_FFCF3E:
 	dw !initcommand_load_subconfig, DATA_FFCF22
-	dw sprite.unknown_4A, $00D2
+	dw sprite.general_purpose_4A, $00D2
 	dw !initcommand_success
 
 DATA_FFCF48:
 	dw !initcommand_load_subconfig, DATA_FFCF22
-	dw sprite.unknown_4A, $00AA
+	dw sprite.general_purpose_4A, $00AA
 	dw !initcommand_success
 
 DATA_FFCF52:
 	dw !initcommand_load_subconfig, DATA_FFCF22
-	dw sprite.unknown_4A, $0082
+	dw sprite.general_purpose_4A, $0082
 	dw !initcommand_success
 
 DATA_FFCF5C:
 	dw !initcommand_load_subconfig, DATA_FFCF22
-	dw sprite.unknown_4A, $0276
+	dw sprite.general_purpose_4A, $0276
 	dw !initcommand_success
 
 DATA_FFCF66:
 	dw !initcommand_load_subconfig, DATA_FFCF22
-	dw sprite.unknown_4A, $01E0
+	dw sprite.general_purpose_4A, $01E0
 	dw !initcommand_success
 
 DATA_FFCF70:
 	dw !initcommand_load_subconfig, DATA_FFCF22
-	dw sprite.unknown_4A, $0168
+	dw sprite.general_purpose_4A, $0168
 	dw !initcommand_success
 
 DATA_FFCF7A:
 	dw !initcommand_load_subconfig, DATA_FFCF22
-	dw sprite.unknown_4A, $00F0
+	dw sprite.general_purpose_4A, $00F0
 	dw !initcommand_success
 
 DATA_FFCF84:
 	dw !initcommand_load_subconfig, DATA_FFCF22
-	dw sprite.unknown_4A, $0096
+	dw sprite.general_purpose_4A, $0096
 	dw !initcommand_success
 
 DATA_FFCF8E:
 	dw !initcommand_load_subconfig, DATA_FFCF22
-	dw sprite.unknown_4A, $0168
+	dw sprite.general_purpose_4A, $0168
 	dw !initcommand_success
 
 DATA_FFCF98:
 	dw !initcommand_load_subconfig, DATA_FFCF22
-	dw sprite.unknown_4A, $00F0
+	dw sprite.general_purpose_4A, $00F0
 	dw !initcommand_success
 
 DATA_FFCFA2:
 	dw !initcommand_load_subconfig, DATA_FFCF22
-	dw sprite.unknown_4A, $0078
+	dw sprite.general_purpose_4A, $0078
 	dw !initcommand_success
 
 DATA_FFCFAC:
 	dw !initcommand_load_subconfig, DATA_FFCF22
-	dw sprite.unknown_4A, $0172
+	dw sprite.general_purpose_4A, $0172
 	dw !initcommand_success
 
 DATA_FFCFB6:
 	dw !initcommand_load_subconfig, DATA_FFCF22
-	dw sprite.unknown_4A, $0136
+	dw sprite.general_purpose_4A, $0136
 	dw !initcommand_success
 
 DATA_FFCFC0:
 	dw !initcommand_load_subconfig, DATA_FFCF22
-	dw sprite.unknown_4A, $00FA
+	dw sprite.general_purpose_4A, $00FA
 	dw !initcommand_success
 
 DATA_FFCFCA:
 	dw !initcommand_load_subconfig, DATA_FFCF22
-	dw sprite.unknown_4A, $00BE
+	dw sprite.general_purpose_4A, $00BE
 	dw !initcommand_success
 
 DATA_FFCFD4:
 	dw !initcommand_load_subconfig, DATA_FFCF22
-	dw sprite.unknown_4A, $0078
+	dw sprite.general_purpose_4A, $0078
 	dw !initcommand_success
 
 DATA_FFCFDE:
 	dw !initcommand_load_subconfig, DATA_FFCF22
-	dw sprite.unknown_4A, $0078
+	dw sprite.general_purpose_4A, $0078
 	dw !initcommand_success
 
 DATA_FFCFE8:
 	dw !initcommand_load_subconfig, DATA_FFCF22
-	dw sprite.unknown_4A, $003C
+	dw sprite.general_purpose_4A, $003C
 	dw !initcommand_success
 
 DATA_FFCFF2:
 	dw !initcommand_load_subconfig, DATA_FFCF22
-	dw sprite.unknown_4A, $005A
+	dw sprite.general_purpose_4A, $005A
 	dw !initcommand_success
 
 DATA_FFCFFC:
 	dw !initcommand_load_subconfig, DATA_FFCE28
 	dw !initcommand_set_animation, $02CB
-	dw sprite.unknown_46, $F300
-	dw sprite.unknown_48, $0000
+	dw sprite.general_purpose_46, $F300
+	dw sprite.general_purpose_48, $0000
 	dw !initcommand_success
 
 DATA_FFD00E:
 	dw !initcommand_load_subconfig, DATA_FFCE28
 	dw !initcommand_set_animation, $02CB
-	dw sprite.unknown_46, $F180
-	dw sprite.unknown_48, $0000
+	dw sprite.general_purpose_46, $F180
+	dw sprite.general_purpose_48, $0000
 	dw !initcommand_success
 
 DATA_FFD020:
 	dw !initcommand_load_subconfig, DATA_FFCE28
 	dw !initcommand_set_animation, $02CB
-	dw sprite.unknown_46, $F280
-	dw sprite.unknown_48, $0000
+	dw sprite.general_purpose_46, $F280
+	dw sprite.general_purpose_48, $0000
 	dw !initcommand_success
 
 DATA_FFD032:
 	dw !initcommand_load_subconfig, DATA_FFCE28
 	dw !initcommand_set_animation, $02CB
-	dw sprite.unknown_46, $F380
-	dw sprite.unknown_48, $0000
+	dw sprite.general_purpose_46, $F380
+	dw sprite.general_purpose_48, $0000
 	dw !initcommand_success
 
 DATA_FFD044:
 	dw !initcommand_load_subconfig, DATA_FFCE28
 	dw !initcommand_set_animation, $02CB
-	dw sprite.unknown_46, $F400
-	dw sprite.unknown_48, $0000
+	dw sprite.general_purpose_46, $F400
+	dw sprite.general_purpose_48, $0000
 	dw !initcommand_success
 
 DATA_FFD056:
 	dw !initcommand_load_subconfig, DATA_FFCE28
 	dw !initcommand_set_animation, $02CB
-	dw sprite.unknown_46, $F580
-	dw sprite.unknown_48, $0000
+	dw sprite.general_purpose_46, $F580
+	dw sprite.general_purpose_48, $0000
 	dw !initcommand_success
 
 DATA_FFD068:
 	dw !initcommand_load_subconfig, DATA_FFCE28
 	dw !initcommand_set_animation, $02CB
-	dw sprite.unknown_46, $F500
-	dw sprite.unknown_48, $0000
+	dw sprite.general_purpose_46, $F500
+	dw sprite.general_purpose_48, $0000
 	dw !initcommand_success
 
 DATA_FFD07A:
 	dw !initcommand_load_subconfig, DATA_FFCE28
 	dw !initcommand_set_animation, $02CB
-	dw sprite.unknown_46, $F600
-	dw sprite.unknown_48, $0000
+	dw sprite.general_purpose_46, $F600
+	dw sprite.general_purpose_48, $0000
 	dw !initcommand_success
 
 DATA_FFD08C:
 	dw !initcommand_load_subconfig, DATA_FFCE28
 	dw !initcommand_set_animation, $02CB
-	dw sprite.unknown_46, $F340
-	dw sprite.unknown_48, $0000
+	dw sprite.general_purpose_46, $F340
+	dw sprite.general_purpose_48, $0000
 	dw !initcommand_success
 
 DATA_FFD09E:
 	dw !initcommand_load_subconfig, DATA_FFCE28
 	dw !initcommand_set_animation, $02CB
-	dw sprite.unknown_46, $F480
-	dw sprite.unknown_48, $0000
+	dw sprite.general_purpose_46, $F480
+	dw sprite.general_purpose_48, $0000
 	dw !initcommand_success
 
 DATA_FFD0B0:
 	dw !initcommand_load_subconfig, DATA_FFCE28
 	dw !initcommand_set_animation, $02CB
-	dw sprite.unknown_46, $F470
-	dw sprite.unknown_48, $0000
+	dw sprite.general_purpose_46, $F470
+	dw sprite.general_purpose_48, $0000
 	dw !initcommand_success
 
 DATA_FFD0C2:
 	dw !initcommand_load_subconfig, DATA_FFAB30
-	dw sprite.unknown_30, $0003
+	dw sprite.interaction_flags, $0003
 	dw !initcommand_success
 
 DATA_FFD0CC:
 	dw !initcommand_load_subconfig, DATA_FF9B44
-	dw sprite.unknown_46, $0909
-	dw sprite.unknown_30, $0122
+	dw sprite.general_purpose_46, $0909
+	dw sprite.interaction_flags, $0122
 	dw !initcommand_success
 
 DATA_FFD0DA:
 	dw !initcommand_load_subconfig, DATA_FF30EC
-	dw sprite.unknown_30, $0122
+	dw sprite.interaction_flags, $0122
 	dw sprite.max_x_speed, $FEC0
-	dw sprite.unknown_52, $0023
-	dw sprite.unknown_46, $0707
+	dw sprite.movement_state, $0023
+	dw sprite.general_purpose_46, $0707
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FFD0F4:
 	dw !initcommand_load_subconfig, DATA_FFAAE8
-	dw sprite.unknown_30, $0003
+	dw sprite.interaction_flags, $0003
 	dw !initcommand_success
 
 DATA_FFD0FE:
 	dw !initcommand_load_subconfig, DATA_FFB966
-	dw sprite.unknown_42, $0013
-	dw sprite.unknown_44, $0003
-	dw sprite.unknown_46, $0011
+	dw sprite.general_purpose_42, $0013
+	dw sprite.general_purpose_44, $0003
+	dw sprite.general_purpose_46, $0011
 	dw !initcommand_success
 
 DATA_FFD110:
 	dw !initcommand_load_subconfig, DATA_FFB966
-	dw sprite.unknown_42, $0013
-	dw sprite.unknown_44, $0003
-	dw sprite.unknown_46, $0011
+	dw sprite.general_purpose_42, $0013
+	dw sprite.general_purpose_44, $0003
+	dw sprite.general_purpose_46, $0011
 	dw !initcommand_success
 
 DATA_FFD122:
 	dw !initcommand_load_subconfig, DATA_FFB966
-	dw sprite.unknown_42, $0013
-	dw sprite.unknown_44, $0008
-	dw sprite.unknown_46, $0010
+	dw sprite.general_purpose_42, $0013
+	dw sprite.general_purpose_44, $0008
+	dw sprite.general_purpose_46, $0010
 	dw !initcommand_success
 
 DATA_FFD134:
 	dw !initcommand_load_subconfig, DATA_FFB966
-	dw sprite.unknown_42, $0013
-	dw sprite.unknown_44, $0002
-	dw sprite.unknown_46, $0000
+	dw sprite.general_purpose_42, $0013
+	dw sprite.general_purpose_44, $0002
+	dw sprite.general_purpose_46, $0000
 	dw !initcommand_success
 
 DATA_FFD146:
 	dw sprite.number, $0124
 	dw sprite.render_order, $00C0
-	dw sprite.unknown_30, $1400
-	dw sprite.action, $0005
+	dw sprite.interaction_flags, $1400
+	dw sprite.state, $0005
 	dw !initcommand_set_oam, $2000
-	dw sprite.unknown_48, $FFF9
-	dw sprite.unknown_46, $0000
+	dw sprite.general_purpose_48, $FFF9
+	dw sprite.general_purpose_46, $0000
 	dw sprite.unknown_16, $0000
 	dw !initcommand_success
 
 DATA_FFD168:
 	dw sprite.number, $0124
 	dw sprite.render_order, $00C0
-	dw sprite.unknown_30, $1400
-	dw sprite.action, $0005
+	dw sprite.interaction_flags, $1400
+	dw sprite.state, $0005
 	dw !initcommand_set_oam, $2000
-	dw sprite.unknown_48, $FFF9
-	dw sprite.unknown_46, $0001
+	dw sprite.general_purpose_48, $FFF9
+	dw sprite.general_purpose_46, $0001
 	dw sprite.unknown_16, $0000
 	dw !initcommand_success
 
 DATA_FFD18A:
 	dw !initcommand_load_subconfig, DATA_FFD146
-	dw sprite.unknown_42, $0003
-	dw sprite.unknown_44, $0004
-	dw sprite.unknown_4A, $0030
+	dw sprite.general_purpose_42, $0003
+	dw sprite.general_purpose_44, $0004
+	dw sprite.general_purpose_4A, $0030
 	dw sprite.unknown_1A, $2FD8
 	dw !initcommand_set_alt_palette, $003E
 	dw !initcommand_set_oam, $3000
@@ -17997,142 +18037,142 @@ DATA_FFD18A:
 
 DATA_FFD1A8:
 	dw !initcommand_load_subconfig, DATA_FFD168
-	dw sprite.unknown_42, $0003
-	dw sprite.unknown_44, $0004
-	dw sprite.unknown_4A, $0030
+	dw sprite.general_purpose_42, $0003
+	dw sprite.general_purpose_44, $0004
+	dw sprite.general_purpose_4A, $0030
 	dw sprite.unknown_1A, $2FDC
 	dw !initcommand_set_alt_palette, $003F
-	dw sprite.unknown_48, $0009
+	dw sprite.general_purpose_48, $0009
 	dw !initcommand_set_oam, $3000
 	dw !initcommand_success
 
 DATA_FFD1CA:
 	dw !initcommand_load_subconfig, DATA_FFD146
-	dw sprite.unknown_42, $0002
-	dw sprite.unknown_44, $0003
-	dw sprite.unknown_4A, $0018
+	dw sprite.general_purpose_42, $0002
+	dw sprite.general_purpose_44, $0003
+	dw sprite.general_purpose_4A, $0018
 	dw sprite.unknown_1A, $2FE0
 	dw !initcommand_set_alt_palette, $0040
-	dw sprite.unknown_48, $0001
+	dw sprite.general_purpose_48, $0001
 	dw !initcommand_set_oam, $3000
 	dw !initcommand_success
 
 DATA_FFD1EC:
 	dw !initcommand_load_subconfig, DATA_FFD146
-	dw sprite.unknown_42, $0003
-	dw sprite.unknown_44, $0004
-	dw sprite.unknown_4A, $0018
+	dw sprite.general_purpose_42, $0003
+	dw sprite.general_purpose_44, $0004
+	dw sprite.general_purpose_4A, $0018
 	dw sprite.unknown_1A, $2FE0
 	dw !initcommand_set_alt_palette, $0040
-	dw sprite.unknown_48, $0001
+	dw sprite.general_purpose_48, $0001
 	dw !initcommand_set_oam, $3000
 	dw !initcommand_success
 
 DATA_FFD20E:
 	dw !initcommand_load_subconfig, DATA_FFD168
-	dw sprite.unknown_42, $0001
-	dw sprite.unknown_44, $0002
-	dw sprite.unknown_4A, $0030
+	dw sprite.general_purpose_42, $0001
+	dw sprite.general_purpose_44, $0002
+	dw sprite.general_purpose_4A, $0030
 	dw sprite.unknown_1A, $2FE8
 	dw !initcommand_set_alt_palette, $0039
-	dw sprite.unknown_48, $0001
+	dw sprite.general_purpose_48, $0001
 	dw !initcommand_set_oam, $3000
 	dw !initcommand_success
 
 DATA_FFD230:
 	dw !initcommand_load_subconfig, DATA_FFD168
-	dw sprite.unknown_42, $0001
-	dw sprite.unknown_44, $0002
-	dw sprite.unknown_4A, $0030
+	dw sprite.general_purpose_42, $0001
+	dw sprite.general_purpose_44, $0002
+	dw sprite.general_purpose_4A, $0030
 	dw sprite.unknown_1A, $2FFC
 	dw !initcommand_set_alt_palette, $007B
-	dw sprite.unknown_48, $FFE7
+	dw sprite.general_purpose_48, $FFE7
 	dw !initcommand_success
 
 DATA_FFD24E:
 	dw !initcommand_load_subconfig, DATA_FFD168
-	dw sprite.unknown_42, $0001
-	dw sprite.unknown_44, $0002
-	dw sprite.unknown_4A, $0020
+	dw sprite.general_purpose_42, $0001
+	dw sprite.general_purpose_44, $0002
+	dw sprite.general_purpose_4A, $0020
 	dw sprite.unknown_1A, $3000
 	dw !initcommand_set_alt_palette, $00B3
-	dw sprite.unknown_48, $0024
+	dw sprite.general_purpose_48, $0024
 	dw !initcommand_success
 
 DATA_FFD26C:
 	dw !initcommand_load_subconfig, DATA_FFD146
-	dw sprite.unknown_42, $0001
-	dw sprite.unknown_44, $0002
-	dw sprite.unknown_4A, $0020
+	dw sprite.general_purpose_42, $0001
+	dw sprite.general_purpose_44, $0002
+	dw sprite.general_purpose_4A, $0020
 	dw sprite.unknown_1A, $2FF8
 	dw !initcommand_set_alt_palette, $007C
-	dw sprite.unknown_48, $0012
+	dw sprite.general_purpose_48, $0012
 	dw !initcommand_success
 
 DATA_FFD28A:
 	dw !initcommand_load_subconfig, DATA_FFD146
-	dw sprite.unknown_42, $0002
-	dw sprite.unknown_44, $0003
-	dw sprite.unknown_4A, $0020
+	dw sprite.general_purpose_42, $0002
+	dw sprite.general_purpose_44, $0003
+	dw sprite.general_purpose_4A, $0020
 	dw sprite.unknown_1A, $2FF8
 	dw !initcommand_set_alt_palette, $007C
-	dw sprite.unknown_48, $0012
+	dw sprite.general_purpose_48, $0012
 	dw !initcommand_success
 
 DATA_FFD2A8:
 	dw !initcommand_load_subconfig, DATA_FFD168
-	dw sprite.unknown_42, $0001
-	dw sprite.unknown_44, $0002
-	dw sprite.unknown_4A, $0020
+	dw sprite.general_purpose_42, $0001
+	dw sprite.general_purpose_44, $0002
+	dw sprite.general_purpose_4A, $0020
 	dw sprite.unknown_1A, $2FF8
 	dw !initcommand_set_oam, $7000
 	dw !initcommand_set_alt_palette, $007C
-	dw sprite.unknown_48, $0012
+	dw sprite.general_purpose_48, $0012
 	dw !initcommand_success
 
 DATA_FFD2CA:
 	dw !initcommand_load_subconfig, DATA_FFD168
-	dw sprite.unknown_42, $0002
-	dw sprite.unknown_44, $0003
-	dw sprite.unknown_4A, $0020
+	dw sprite.general_purpose_42, $0002
+	dw sprite.general_purpose_44, $0003
+	dw sprite.general_purpose_4A, $0020
 	dw sprite.unknown_1A, $2FF8
 	dw !initcommand_set_oam, $7000
 	dw !initcommand_set_alt_palette, $007C
-	dw sprite.unknown_48, $0012
+	dw sprite.general_purpose_48, $0012
 	dw !initcommand_success
 
 DATA_FFD2EC:
 	dw !initcommand_load_subconfig, DATA_FFD168
-	dw sprite.unknown_42, $0001
-	dw sprite.unknown_44, $0002
-	dw sprite.unknown_4A, $001E
+	dw sprite.general_purpose_42, $0001
+	dw sprite.general_purpose_44, $0002
+	dw sprite.general_purpose_4A, $001E
 	dw sprite.unknown_1A, $2FF4
 	dw sprite.unknown_1C, $8001
 	dw sprite.parameter, $0008
 	dw !initcommand_set_alt_palette, $007A
-	dw sprite.unknown_48, $001D
+	dw sprite.general_purpose_48, $001D
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_success
 
 DATA_FFD316:
 	dw !initcommand_load_subconfig, DATA_FFD146
-	dw sprite.unknown_42, $0001
-	dw sprite.unknown_44, $0002
-	dw sprite.unknown_4A, $0030
+	dw sprite.general_purpose_42, $0001
+	dw sprite.general_purpose_44, $0002
+	dw sprite.general_purpose_4A, $0030
 	dw sprite.unknown_1A, $2FEC
 	dw !initcommand_set_alt_palette, $0078
-	dw sprite.unknown_48, $0022
+	dw sprite.general_purpose_48, $0022
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_success
 
 DATA_FFD338:
 	dw !initcommand_load_subconfig, DATA_FFD146
-	dw sprite.unknown_42, $0002
-	dw sprite.unknown_44, $0003
-	dw sprite.unknown_4A, $0030
+	dw sprite.general_purpose_42, $0002
+	dw sprite.general_purpose_44, $0003
+	dw sprite.general_purpose_4A, $0030
 	dw sprite.unknown_1A, $2FEC
 	dw !initcommand_set_alt_palette, $0078
-	dw sprite.unknown_48, $0022
+	dw sprite.general_purpose_48, $0022
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_success
 
@@ -18141,10 +18181,10 @@ DATA_FFD35A:
 	dw sprite.render_order, $00F8
 	dw sprite.x_position, $1780
 	dw sprite.y_position, $1200
-	dw sprite.unknown_48, $503C
-	dw sprite.unknown_4C, $0000
-	dw sprite.action, $0006
-	dw sprite.unknown_30, $0000
+	dw sprite.general_purpose_48, $503C
+	dw sprite.general_purpose_4C, $0000
+	dw sprite.state, $0006
+	dw sprite.interaction_flags, $0000
 	dw sprite.unknown_1C, $C000
 	dw !initcommand_set_oam, $3000
 	dw !initcommand_set_palette, global_sprite_palette
@@ -18152,86 +18192,86 @@ DATA_FFD35A:
 
 DATA_FFD388:
 	dw !initcommand_load_subconfig, DATA_FFD35A
-	dw sprite.unknown_42, $0000
-	dw sprite.unknown_44, $0000
-	dw sprite.unknown_46, $000A
+	dw sprite.general_purpose_42, $0000
+	dw sprite.general_purpose_44, $0000
+	dw sprite.general_purpose_46, $000A
 	dw !initcommand_success
 
 DATA_FFD39A:
 	dw !initcommand_load_subconfig, DATA_FFD35A
-	dw sprite.unknown_42, $0000
-	dw sprite.unknown_44, $0000
-	dw sprite.unknown_46, $000B
+	dw sprite.general_purpose_42, $0000
+	dw sprite.general_purpose_44, $0000
+	dw sprite.general_purpose_46, $000B
 	dw !initcommand_success
 
 DATA_FFD3AC:
 	dw !initcommand_load_subconfig, DATA_FFD35A
-	dw sprite.unknown_42, $0000
-	dw sprite.unknown_44, $0000
-	dw sprite.unknown_46, $000D
+	dw sprite.general_purpose_42, $0000
+	dw sprite.general_purpose_44, $0000
+	dw sprite.general_purpose_46, $000D
 	dw !initcommand_success
 
 DATA_FFD3BE:
 	dw !initcommand_load_subconfig, DATA_FFD35A
-	dw sprite.unknown_42, $0001
-	dw sprite.unknown_44, $0008
-	dw sprite.unknown_46, $000F
+	dw sprite.general_purpose_42, $0001
+	dw sprite.general_purpose_44, $0008
+	dw sprite.general_purpose_46, $000F
 	dw !initcommand_success
 
 DATA_FFD3D0:
 	dw !initcommand_load_subconfig, DATA_FFD35A
-	dw sprite.unknown_42, $0001
-	dw sprite.unknown_44, $0006
-	dw sprite.unknown_46, $000F
+	dw sprite.general_purpose_42, $0001
+	dw sprite.general_purpose_44, $0006
+	dw sprite.general_purpose_46, $000F
 	dw !initcommand_success
 
 DATA_FFD3E2:
 	dw !initcommand_load_subconfig, DATA_FFD35A
-	dw sprite.unknown_42, $0001
-	dw sprite.unknown_44, $0008
-	dw sprite.unknown_46, $0023
+	dw sprite.general_purpose_42, $0001
+	dw sprite.general_purpose_44, $0008
+	dw sprite.general_purpose_46, $0023
 	dw !initcommand_success
 
 DATA_FFD3F4:
 	dw !initcommand_load_subconfig, DATA_FFD35A
-	dw sprite.unknown_42, $0001
-	dw sprite.unknown_44, $0009
-	dw sprite.unknown_46, $0014
+	dw sprite.general_purpose_42, $0001
+	dw sprite.general_purpose_44, $0009
+	dw sprite.general_purpose_46, $0014
 	dw !initcommand_success
 
 DATA_FFD406:
 	dw !initcommand_load_subconfig, DATA_FFD35A
-	dw sprite.unknown_42, $0001
-	dw sprite.unknown_44, $0007
-	dw sprite.unknown_46, $0014
+	dw sprite.general_purpose_42, $0001
+	dw sprite.general_purpose_44, $0007
+	dw sprite.general_purpose_46, $0014
 	dw !initcommand_success
 
 DATA_FFD418:
 	dw !initcommand_load_subconfig, DATA_FFD35A
-	dw sprite.unknown_42, $0002
-	dw sprite.unknown_44, $0100
-	dw sprite.unknown_46, $0014
+	dw sprite.general_purpose_42, $0002
+	dw sprite.general_purpose_44, $0100
+	dw sprite.general_purpose_46, $0014
 	dw !initcommand_success
 
 DATA_FFD42A:
 	dw !initcommand_load_subconfig, DATA_FFD35A
-	dw sprite.unknown_42, $0002
-	dw sprite.unknown_44, $0070
-	dw sprite.unknown_46, $0019
+	dw sprite.general_purpose_42, $0002
+	dw sprite.general_purpose_44, $0070
+	dw sprite.general_purpose_46, $0019
 	dw !initcommand_success
 
 DATA_FFD43C:
 	dw !initcommand_load_subconfig, DATA_FFD35A
-	dw sprite.unknown_42, $0002
-	dw sprite.unknown_44, $0040
-	dw sprite.unknown_46, $001E
+	dw sprite.general_purpose_42, $0002
+	dw sprite.general_purpose_44, $0040
+	dw sprite.general_purpose_46, $001E
 	dw !initcommand_success
 
 DATA_FFD44E:
 	dw !initcommand_load_subconfig, DATA_FFD35A
-	dw sprite.unknown_42, $0002
-	dw sprite.unknown_44, $0075
-	dw sprite.unknown_46, $0023
+	dw sprite.general_purpose_42, $0002
+	dw sprite.general_purpose_44, $0075
+	dw sprite.general_purpose_46, $0023
 	dw !initcommand_success
 
 ;wind pattern table
@@ -18454,16 +18494,16 @@ DATA_FFD728:
 
 DATA_FFD740:
 	dw !initcommand_load_subconfig, DATA_FF9A2C
-	dw sprite.unknown_42, $0000
-	dw sprite.unknown_44, $0000
-	dw sprite.unknown_4A, $0030
+	dw sprite.general_purpose_42, $0000
+	dw sprite.general_purpose_44, $0000
+	dw sprite.general_purpose_4A, $0030
 	dw !initcommand_success
 
 clapper_water_into_ice_base_init:
 	dw sprite.number, $0304
 	dw sprite.render_order, $00D4
-	dw sprite.unknown_30, $0020
-	dw sprite.action, $0001
+	dw sprite.interaction_flags, $0020
+	dw sprite.state, $0001
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_set_alt_palette, $006F
 	dw !initcommand_set_animation, $01B7
@@ -18472,8 +18512,8 @@ clapper_water_into_ice_base_init:
 clapper_lava_into_water_base_init:
 	dw sprite.number, $0304
 	dw sprite.render_order, $00D4
-	dw sprite.unknown_30, $0020
-	dw sprite.action, $0000
+	dw sprite.interaction_flags, $0020
+	dw sprite.state, $0000
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_set_alt_palette, $006F
 	dw !initcommand_set_animation, $01B7
@@ -18481,336 +18521,336 @@ clapper_lava_into_water_base_init:
 
 DATA_FFD78E:
 	dw !initcommand_load_subconfig, clapper_water_into_ice_base_init
-	dw sprite.unknown_42, $4000
-	dw sprite.unknown_44, $0294
+	dw sprite.general_purpose_42, $4000
+	dw sprite.general_purpose_44, $0294
 	dw !initcommand_success
 
 DATA_FFD79C:
 	dw !initcommand_load_subconfig, clapper_water_into_ice_base_init
-	dw sprite.unknown_42, $0000
-	dw sprite.unknown_44, $01E0
+	dw sprite.general_purpose_42, $0000
+	dw sprite.general_purpose_44, $01E0
 	dw !initcommand_success
 
 DATA_FFD7AA:
 	dw !initcommand_load_subconfig, clapper_water_into_ice_base_init
-	dw sprite.unknown_42, $4000
-	dw sprite.unknown_44, $01A4
+	dw sprite.general_purpose_42, $4000
+	dw sprite.general_purpose_44, $01A4
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FFD7BC:
 	dw !initcommand_load_subconfig, clapper_water_into_ice_base_init
-	dw sprite.unknown_42, $4000
-	dw sprite.unknown_44, $0258
+	dw sprite.general_purpose_42, $4000
+	dw sprite.general_purpose_44, $0258
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FFD7CE:
 	dw !initcommand_load_subconfig, clapper_water_into_ice_base_init
-	dw sprite.unknown_42, $0000
-	dw sprite.unknown_44, $0258
+	dw sprite.general_purpose_42, $0000
+	dw sprite.general_purpose_44, $0258
 	dw !initcommand_success
 
 DATA_FFD7DC:
 	dw !initcommand_load_subconfig, clapper_water_into_ice_base_init
-	dw sprite.unknown_42, $0000
-	dw sprite.unknown_44, $021C
+	dw sprite.general_purpose_42, $0000
+	dw sprite.general_purpose_44, $021C
 	dw !initcommand_success
 
 DATA_FFD7EA:
 	dw !initcommand_load_subconfig, clapper_lava_into_water_base_init
-	dw sprite.unknown_42, $4000
-	dw sprite.unknown_44, $030C
+	dw sprite.general_purpose_42, $4000
+	dw sprite.general_purpose_44, $030C
 	dw !initcommand_success
 
 DATA_FFD7F8:
 	dw !initcommand_load_subconfig, clapper_lava_into_water_base_init
-	dw sprite.unknown_42, $0000
-	dw sprite.unknown_44, $0348
+	dw sprite.general_purpose_42, $0000
+	dw sprite.general_purpose_44, $0348
 	dw !initcommand_success
 
 DATA_FFD806:
 	dw !initcommand_load_subconfig, clapper_lava_into_water_base_init
-	dw sprite.unknown_42, $4000
-	dw sprite.unknown_44, $0384
+	dw sprite.general_purpose_42, $4000
+	dw sprite.general_purpose_44, $0384
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FFD818:
 	dw !initcommand_load_subconfig, clapper_lava_into_water_base_init
-	dw sprite.unknown_42, $4000
-	dw sprite.unknown_44, $0528
+	dw sprite.general_purpose_42, $4000
+	dw sprite.general_purpose_44, $0528
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FFD82A:
 	dw !initcommand_load_subconfig, clapper_lava_into_water_base_init
-	dw sprite.unknown_42, $4000
-	dw sprite.unknown_44, $0438
+	dw sprite.general_purpose_42, $4000
+	dw sprite.general_purpose_44, $0438
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FFD83C:
 	dw !initcommand_load_subconfig, clapper_lava_into_water_base_init
-	dw sprite.unknown_42, $4000
-	dw sprite.unknown_44, $05DC
+	dw sprite.general_purpose_42, $4000
+	dw sprite.general_purpose_44, $05DC
 	dw !initcommand_success
 
 DATA_FFD84A:
 	dw !initcommand_load_subconfig, clapper_lava_into_water_base_init
-	dw sprite.unknown_42, $4000
-	dw sprite.unknown_44, $0528
+	dw sprite.general_purpose_42, $4000
+	dw sprite.general_purpose_44, $0528
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FFD85C:
 	dw !initcommand_load_subconfig, clapper_lava_into_water_base_init
-	dw sprite.unknown_42, $4000
-	dw sprite.unknown_44, $01E0
+	dw sprite.general_purpose_42, $4000
+	dw sprite.general_purpose_44, $01E0
 	dw !initcommand_success
 
 DATA_FFD86A:
 	dw sprite.number, $00D4
-	dw sprite.action, $0001
-	dw sprite.unknown_42, $0022
-	dw sprite.unknown_44, $001D
+	dw sprite.state, $0001
+	dw sprite.general_purpose_42, $0022
+	dw sprite.general_purpose_44, $001D
 	dw !initcommand_success
 
 DATA_FFD87C:
 	dw sprite.number, $00D4
-	dw sprite.action, $0001
-	dw sprite.unknown_42, $0004
-	dw sprite.unknown_44, $000F
+	dw sprite.state, $0001
+	dw sprite.general_purpose_42, $0004
+	dw sprite.general_purpose_44, $000F
 	dw !initcommand_success
 
 DATA_FFD88E:
 	dw sprite.number, $00D4
-	dw sprite.action, $0001
-	dw sprite.unknown_42, $000C
-	dw sprite.unknown_44, $0009
+	dw sprite.state, $0001
+	dw sprite.general_purpose_42, $000C
+	dw sprite.general_purpose_44, $0009
 	dw !initcommand_success
 
 DATA_FFD8A0:
 	dw sprite.number, $00D4
-	dw sprite.action, $0001
-	dw sprite.unknown_42, $0006
-	dw sprite.unknown_44, $000A
+	dw sprite.state, $0001
+	dw sprite.general_purpose_42, $0006
+	dw sprite.general_purpose_44, $000A
 	dw !initcommand_success
 
 DATA_FFD8B2:
 	dw sprite.number, $00D4
-	dw sprite.action, $0001
-	dw sprite.unknown_42, $0008
-	dw sprite.unknown_44, $0004
+	dw sprite.state, $0001
+	dw sprite.general_purpose_42, $0008
+	dw sprite.general_purpose_44, $0004
 	dw !initcommand_success
 
 DATA_FFD8C4:
 	dw sprite.number, $00D4
-	dw sprite.action, $0001
-	dw sprite.unknown_42, $000C
-	dw sprite.unknown_44, $0017
+	dw sprite.state, $0001
+	dw sprite.general_purpose_42, $000C
+	dw sprite.general_purpose_44, $0017
 	dw !initcommand_success
 
 DATA_FFD8D6:
 	dw sprite.number, $00D4
-	dw sprite.action, $0000
+	dw sprite.state, $0000
 	dw !initcommand_success
 
 DATA_FFD8E0:
 	dw !initcommand_load_subconfig, DATA_FFD8D6
-	dw sprite.unknown_42, $0009
-	dw sprite.unknown_44, $1010
-	dw sprite.unknown_46, $8000
+	dw sprite.general_purpose_42, $0009
+	dw sprite.general_purpose_44, $1010
+	dw sprite.general_purpose_46, $8000
 	dw !initcommand_success
 
 DATA_FFD8F2:
 	dw !initcommand_load_subconfig, DATA_FFD8D6
-	dw sprite.unknown_42, $000B
-	dw sprite.unknown_44, $2020
-	dw sprite.unknown_46, $2020
+	dw sprite.general_purpose_42, $000B
+	dw sprite.general_purpose_44, $2020
+	dw sprite.general_purpose_46, $2020
 	dw !initcommand_success
 
 DATA_FFD904:
 	dw !initcommand_load_subconfig, DATA_FFD8D6
-	dw sprite.unknown_42, $0012
-	dw sprite.unknown_44, $2020
-	dw sprite.unknown_46, $2020
+	dw sprite.general_purpose_42, $0012
+	dw sprite.general_purpose_44, $2020
+	dw sprite.general_purpose_46, $2020
 	dw !initcommand_success
 
 DATA_FFD916:
 	dw !initcommand_load_subconfig, DATA_FFD8D6
-	dw sprite.unknown_42, $0014
-	dw sprite.unknown_44, $4040
-	dw sprite.unknown_46, $2020
+	dw sprite.general_purpose_42, $0014
+	dw sprite.general_purpose_44, $4040
+	dw sprite.general_purpose_46, $2020
 	dw !initcommand_success
 
 DATA_FFD928:
 	dw !initcommand_load_subconfig, DATA_FFD8D6
-	dw sprite.unknown_42, $000F
-	dw sprite.unknown_44, $4040
-	dw sprite.unknown_46, $2020
+	dw sprite.general_purpose_42, $000F
+	dw sprite.general_purpose_44, $4040
+	dw sprite.general_purpose_46, $2020
 	dw !initcommand_success
 
 DATA_FFD93A:
 	dw !initcommand_load_subconfig, DATA_FFD8D6
-	dw sprite.unknown_42, $000B
-	dw sprite.unknown_44, $4040
-	dw sprite.unknown_46, $2020
+	dw sprite.general_purpose_42, $000B
+	dw sprite.general_purpose_44, $4040
+	dw sprite.general_purpose_46, $2020
 	dw !initcommand_success
 
 DATA_FFD94C:
 	dw !initcommand_load_subconfig, DATA_FFD8D6
-	dw sprite.unknown_42, $0006
-	dw sprite.unknown_44, $4040
-	dw sprite.unknown_46, $2020
+	dw sprite.general_purpose_42, $0006
+	dw sprite.general_purpose_44, $4040
+	dw sprite.general_purpose_46, $2020
 	dw !initcommand_success
 
 DATA_FFD95E:
 	dw !initcommand_load_subconfig, DATA_FFD8D6
-	dw sprite.unknown_42, $0002
-	dw sprite.unknown_44, $2020
-	dw sprite.unknown_46, $2020
+	dw sprite.general_purpose_42, $0002
+	dw sprite.general_purpose_44, $2020
+	dw sprite.general_purpose_46, $2020
 	dw !initcommand_success
 
 DATA_FFD970:
 	dw !initcommand_load_subconfig, DATA_FFD8D6
-	dw sprite.unknown_42, $0005
-	dw sprite.unknown_44, $2020
-	dw sprite.unknown_46, $2020
+	dw sprite.general_purpose_42, $0005
+	dw sprite.general_purpose_44, $2020
+	dw sprite.general_purpose_46, $2020
 	dw !initcommand_success
 
 DATA_FFD982:
 	dw !initcommand_load_subconfig, DATA_FFD8D6
-	dw sprite.unknown_42, $0004
-	dw sprite.unknown_44, $2020
-	dw sprite.unknown_46, $2020
+	dw sprite.general_purpose_42, $0004
+	dw sprite.general_purpose_44, $2020
+	dw sprite.general_purpose_46, $2020
 	dw !initcommand_success
 
 DATA_FFD994:
 	dw !initcommand_load_subconfig, DATA_FFD8D6
-	dw sprite.unknown_42, $000E
-	dw sprite.unknown_44, $1818
-	dw sprite.unknown_46, $2020
+	dw sprite.general_purpose_42, $000E
+	dw sprite.general_purpose_44, $1818
+	dw sprite.general_purpose_46, $2020
 	dw !initcommand_success
 
 DATA_FFD9A6:
 	dw !initcommand_load_subconfig, DATA_FFD8D6
-	dw sprite.unknown_42, $000D
-	dw sprite.unknown_44, $3030
-	dw sprite.unknown_46, $2020
+	dw sprite.general_purpose_42, $000D
+	dw sprite.general_purpose_44, $3030
+	dw sprite.general_purpose_46, $2020
 	dw !initcommand_success
 
 DATA_FFD9B8:
 	dw !initcommand_load_subconfig, DATA_FFD8D6
-	dw sprite.unknown_42, $0021
-	dw sprite.unknown_44, $5050
-	dw sprite.unknown_46, $2020
+	dw sprite.general_purpose_42, $0021
+	dw sprite.general_purpose_44, $5050
+	dw sprite.general_purpose_46, $2020
 	dw !initcommand_success
 
 DATA_FFD9CA:
 	dw !initcommand_load_subconfig, DATA_FFD8D6
-	dw sprite.unknown_42, $0007
-	dw sprite.unknown_44, $1818
-	dw sprite.unknown_46, $2020
+	dw sprite.general_purpose_42, $0007
+	dw sprite.general_purpose_44, $1818
+	dw sprite.general_purpose_46, $2020
 	dw !initcommand_success
 
 DATA_FFD9DC:
 	dw !initcommand_load_subconfig, DATA_FFD8D6
-	dw sprite.unknown_42, $0019
-	dw sprite.unknown_44, $5050
-	dw sprite.unknown_46, $2020
+	dw sprite.general_purpose_42, $0019
+	dw sprite.general_purpose_44, $5050
+	dw sprite.general_purpose_46, $2020
 	dw !initcommand_success
 
 DATA_FFD9EE:
 	dw !initcommand_load_subconfig, DATA_FFD8D6
-	dw sprite.unknown_42, $001C
-	dw sprite.unknown_44, $1818
-	dw sprite.unknown_46, $2020
+	dw sprite.general_purpose_42, $001C
+	dw sprite.general_purpose_44, $1818
+	dw sprite.general_purpose_46, $2020
 	dw !initcommand_success
 
 DATA_FFDA00:
 	dw !initcommand_load_subconfig, DATA_FFD8D6
-	dw sprite.unknown_42, $0002
-	dw sprite.unknown_44, $1818
-	dw sprite.unknown_46, $2020
+	dw sprite.general_purpose_42, $0002
+	dw sprite.general_purpose_44, $1818
+	dw sprite.general_purpose_46, $2020
 	dw !initcommand_success
 
 DATA_FFDA12:
 	dw !initcommand_load_subconfig, DATA_FFD8D6
-	dw sprite.unknown_42, $000C
-	dw sprite.unknown_44, $6060
-	dw sprite.unknown_46, $5050
+	dw sprite.general_purpose_42, $000C
+	dw sprite.general_purpose_44, $6060
+	dw sprite.general_purpose_46, $5050
 	dw !initcommand_success
 
 DATA_FFDA24:
 	dw !initcommand_load_subconfig, DATA_FFD8D6
-	dw sprite.unknown_42, $0009
-	dw sprite.unknown_44, $6060
-	dw sprite.unknown_46, $2040
+	dw sprite.general_purpose_42, $0009
+	dw sprite.general_purpose_44, $6060
+	dw sprite.general_purpose_46, $2040
 	dw !initcommand_success
 
 DATA_FFDA36:
 	dw !initcommand_load_subconfig, DATA_FFD8D6
-	dw sprite.unknown_42, $000D
-	dw sprite.unknown_44, $B060
-	dw sprite.unknown_46, $FF00
+	dw sprite.general_purpose_42, $000D
+	dw sprite.general_purpose_44, $B060
+	dw sprite.general_purpose_46, $FF00
 	dw !initcommand_success
 
 DATA_FFDA48:
 	dw !initcommand_load_subconfig, DATA_FFD8D6
-	dw sprite.unknown_42, $0010
-	dw sprite.unknown_44, $B0B0
-	dw sprite.unknown_46, $FF00
+	dw sprite.general_purpose_42, $0010
+	dw sprite.general_purpose_44, $B0B0
+	dw sprite.general_purpose_46, $FF00
 	dw !initcommand_success
 
 DATA_FFDA5A:
 	dw !initcommand_load_subconfig, DATA_FFD8D6
-	dw sprite.unknown_42, $000F
-	dw sprite.unknown_44, $B0B0
-	dw sprite.unknown_46, $FF00
+	dw sprite.general_purpose_42, $000F
+	dw sprite.general_purpose_44, $B0B0
+	dw sprite.general_purpose_46, $FF00
 	dw !initcommand_success
 
 DATA_FFDA6C:
 	dw !initcommand_load_subconfig, DATA_FFD8D6
-	dw sprite.unknown_42, $000E
-	dw sprite.unknown_44, $B0B0
-	dw sprite.unknown_46, $FF00
+	dw sprite.general_purpose_42, $000E
+	dw sprite.general_purpose_44, $B0B0
+	dw sprite.general_purpose_46, $FF00
 	dw !initcommand_success
 
 DATA_FFDA7E:
 	dw !initcommand_load_subconfig, DATA_FFD8D6
-	dw sprite.unknown_42, $0010
-	dw sprite.unknown_44, $B0B0
-	dw sprite.unknown_46, $FF00
+	dw sprite.general_purpose_42, $0010
+	dw sprite.general_purpose_44, $B0B0
+	dw sprite.general_purpose_46, $FF00
 	dw !initcommand_success
 
 DATA_FFDA90:
 	dw !initcommand_load_subconfig, DATA_FFD8D6
-	dw sprite.unknown_42, $0002
-	dw sprite.unknown_44, $B0B0
-	dw sprite.unknown_46, $FF00
+	dw sprite.general_purpose_42, $0002
+	dw sprite.general_purpose_44, $B0B0
+	dw sprite.general_purpose_46, $FF00
 	dw !initcommand_success
 
 DATA_FFDAA2:
 	dw !initcommand_load_subconfig, DATA_FFD8D6
-	dw sprite.unknown_42, $000C
-	dw sprite.unknown_44, $B000
-	dw sprite.unknown_46, $8000
+	dw sprite.general_purpose_42, $000C
+	dw sprite.general_purpose_44, $B000
+	dw sprite.general_purpose_46, $8000
 	dw !initcommand_success
 
 DATA_FFDAB4:
 	dw !initcommand_load_subconfig, DATA_FFD8D6
-	dw sprite.unknown_42, $0008
-	dw sprite.unknown_44, $B0B0
-	dw sprite.unknown_46, $FF00
+	dw sprite.general_purpose_42, $0008
+	dw sprite.general_purpose_44, $B0B0
+	dw sprite.general_purpose_46, $FF00
 	dw !initcommand_success
 
 DATA_FFDAC6:
 if !version == 1
 	dw !initcommand_load_subconfig, DATA_FFD8D6
-	dw sprite.unknown_42, $0004
-	dw sprite.unknown_44, $00C0
-	dw sprite.unknown_46, $FF00
+	dw sprite.general_purpose_42, $0004
+	dw sprite.general_purpose_44, $00C0
+	dw sprite.general_purpose_46, $FF00
 	dw !initcommand_success
 endif
 
@@ -18820,17 +18860,17 @@ DATA_FFDAD8:
 
 DATA_FFDADE:
 	dw sprite.number, $0084
-	dw sprite.action, $0000
+	dw sprite.state, $0000
 	dw !initcommand_success
 
 DATA_FFDAE8:
 	dw sprite.number, $0088
-	dw sprite.action, $0000
-	dw sprite.unknown_42, DATA_FFB966
-	dw sprite.unknown_44, $0004
-	dw sprite.unknown_46, $0019
-	dw sprite.unknown_48, $0010
-	dw sprite.unknown_54, DATA_FFDB06
+	dw sprite.state, $0000
+	dw sprite.general_purpose_42, DATA_FFB966
+	dw sprite.general_purpose_44, $0004
+	dw sprite.general_purpose_46, $0019
+	dw sprite.general_purpose_48, $0010
+	dw sprite.constants_address, DATA_FFDB06
 	dw !initcommand_success
 
 DATA_FFDB06:
@@ -18840,7 +18880,7 @@ DATA_FFDB06:
 DATA_FFDB16:
 	dw sprite.number, $0140
 	dw sprite.render_order, $00EC
-	dw sprite.action, $0000
+	dw sprite.state, $0000
 	dw sprite.parameter, $0014
 	dw !initcommand_set_oam, $3000
 	dw !initcommand_set_alt_palette, $0002
@@ -18870,75 +18910,75 @@ DATA_FFDB78:
 
 DATA_FFDB9A:
 	dw !initcommand_load_subconfig, DATA_FF9A2C
-	dw sprite.action, $0002
-	dw sprite.unknown_42, $0000
-	dw sprite.unknown_44, $0000
-	dw sprite.unknown_4A, $0008
+	dw sprite.state, $0002
+	dw sprite.general_purpose_42, $0000
+	dw sprite.general_purpose_44, $0000
+	dw sprite.general_purpose_4A, $0008
 	dw !initcommand_success
 
 DATA_FFDBB0:
 	dw !initcommand_load_subconfig, DATA_FFB966
-	dw sprite.unknown_42, $0013
-	dw sprite.unknown_44, $0005
-	dw sprite.unknown_46, $0010
+	dw sprite.general_purpose_42, $0013
+	dw sprite.general_purpose_44, $0005
+	dw sprite.general_purpose_46, $0010
 	dw !initcommand_success
 
 DATA_FFDBC2:
 	dw !initcommand_load_subconfig, DATA_FFB966
-	dw sprite.unknown_42, $0013
-	dw sprite.unknown_44, $0004
-	dw sprite.unknown_46, $0010
+	dw sprite.general_purpose_42, $0013
+	dw sprite.general_purpose_44, $0004
+	dw sprite.general_purpose_46, $0010
 	dw !initcommand_success
 
 DATA_FFDBD4:
 	dw !initcommand_load_subconfig, DATA_FFB966
-	dw sprite.unknown_42, $0013
-	dw sprite.unknown_44, $0007
-	dw sprite.unknown_46, $0010
+	dw sprite.general_purpose_42, $0013
+	dw sprite.general_purpose_44, $0007
+	dw sprite.general_purpose_46, $0010
 	dw !initcommand_success
 
 DATA_FFDBE6:
 	dw !initcommand_load_subconfig, DATA_FFA53C
 	dw sprite.max_x_speed, $FF40
-	dw sprite.unknown_46, $F030
+	dw sprite.general_purpose_46, $F030
 	dw sprite.max_y_speed, $0060
-	dw sprite.unknown_4A, $0303
+	dw sprite.general_purpose_4A, $0303
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FFDC00:
 	dw !initcommand_load_subconfig, DATA_FFA53C
 	dw sprite.max_x_speed, $FF40
-	dw sprite.unknown_46, $E800
+	dw sprite.general_purpose_46, $E800
 	dw sprite.max_y_speed, $0060
-	dw sprite.unknown_4A, $0303
+	dw sprite.general_purpose_4A, $0303
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FFDC1A:
 	dw !initcommand_load_subconfig, DATA_FFA53C
 	dw sprite.max_x_speed, $FF40
-	dw sprite.unknown_46, $F058
+	dw sprite.general_purpose_46, $F058
 	dw sprite.max_y_speed, $0060
-	dw sprite.unknown_4A, $0303
+	dw sprite.general_purpose_4A, $0303
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FFDC34:
 	dw !initcommand_load_subconfig, DATA_FFA53C
 	dw sprite.max_x_speed, $00C0
-	dw sprite.unknown_46, $00C8
+	dw sprite.general_purpose_46, $00C8
 	dw sprite.max_y_speed, $0060
-	dw sprite.unknown_4A, $0303
+	dw sprite.general_purpose_4A, $0303
 	dw !initcommand_success
 
 
 DATA_FFDC4A:
 	dw !initcommand_load_subconfig, DATA_FFA53C
 	dw sprite.max_x_speed, $00C0
-	dw sprite.unknown_46, $00E8
+	dw sprite.general_purpose_46, $00E8
 	dw sprite.max_y_speed, $0060
-	dw sprite.unknown_4A, $0303
+	dw sprite.general_purpose_4A, $0303
 	dw !initcommand_success
 
 ;unknown script (likely puftup)
@@ -18960,322 +19000,322 @@ DATA_FFDC71:
 
 DATA_FFDC7F:
 	dw !initcommand_load_subconfig, DATA_FFABC8
-	dw sprite.unknown_4E, $05F0
+	dw sprite.general_purpose_4E, $05F0
 	dw sprite.y_speed, $0200
-	dw sprite.unknown_42, $C0C0
+	dw sprite.general_purpose_42, $C0C0
 	dw !initcommand_success
 
 DATA_FFDC91:
 	dw !initcommand_load_subconfig, DATA_FFABC8
-	dw sprite.unknown_4E, $012C
+	dw sprite.general_purpose_4E, $012C
 	dw sprite.y_speed, $FF70
-	dw sprite.unknown_42, $FFFF
+	dw sprite.general_purpose_42, $FFFF
 	dw !initcommand_success
 
 DATA_FFDCA3:
 	dw !initcommand_load_subconfig, DATA_FFABC8
-	dw sprite.unknown_4E, $012C
+	dw sprite.general_purpose_4E, $012C
 	dw sprite.y_speed, $FF40
-	dw sprite.unknown_42, $FFFF
+	dw sprite.general_purpose_42, $FFFF
 	dw !initcommand_success
 
 DATA_FFDCB5:
 	dw !initcommand_load_subconfig, DATA_FFABC8
-	dw sprite.unknown_4E, $010C
+	dw sprite.general_purpose_4E, $010C
 	dw sprite.y_speed, $FE00
-	dw sprite.unknown_42, $FFFF
+	dw sprite.general_purpose_42, $FFFF
 	dw !initcommand_success
 
 DATA_FFDCC7:
 	dw !initcommand_load_subconfig, DATA_FFABC8
-	dw sprite.unknown_4E, $010C
+	dw sprite.general_purpose_4E, $010C
 	dw sprite.y_speed, $FEA0
-	dw sprite.unknown_42, $FFFF
+	dw sprite.general_purpose_42, $FFFF
 	dw !initcommand_success
 
 DATA_FFDCD9:
 	dw !initcommand_load_subconfig, DATA_FFABC8
-	dw sprite.unknown_4E, $010C
+	dw sprite.general_purpose_4E, $010C
 	dw sprite.y_speed, $FEF0
-	dw sprite.unknown_42, $FFFF
+	dw sprite.general_purpose_42, $FFFF
 	dw !initcommand_success
 
 DATA_FFDCEB:
 	dw !initcommand_load_subconfig, DATA_FFABC8
-	dw sprite.unknown_4E, $012C
+	dw sprite.general_purpose_4E, $012C
 	dw sprite.y_speed, $FFB0
-	dw sprite.unknown_42, $FFFF
+	dw sprite.general_purpose_42, $FFFF
 	dw !initcommand_success
 
 DATA_FFDCFD:
 	dw !initcommand_load_subconfig, DATA_FFD35A
-	dw sprite.unknown_42, $0000
-	dw sprite.unknown_44, $0000
-	dw sprite.unknown_46, $000A
+	dw sprite.general_purpose_42, $0000
+	dw sprite.general_purpose_44, $0000
+	dw sprite.general_purpose_46, $000A
 	dw !initcommand_success
 
 DATA_FFDD0F:
 	dw !initcommand_load_subconfig, DATA_FFD35A
-	dw sprite.unknown_42, $0000
-	dw sprite.unknown_44, $0000
-	dw sprite.unknown_46, $000F
+	dw sprite.general_purpose_42, $0000
+	dw sprite.general_purpose_44, $0000
+	dw sprite.general_purpose_46, $000F
 	dw !initcommand_success
 
 DATA_FFDD21:
 	dw !initcommand_load_subconfig, DATA_FFD35A
-	dw sprite.unknown_42, $0000
-	dw sprite.unknown_44, $0000
-	dw sprite.unknown_46, $0014
+	dw sprite.general_purpose_42, $0000
+	dw sprite.general_purpose_44, $0000
+	dw sprite.general_purpose_46, $0014
 	dw !initcommand_success
 
 DATA_FFDD33:
 	dw !initcommand_load_subconfig, DATA_FFD35A
-	dw sprite.unknown_42, $0000
-	dw sprite.unknown_44, $0000
-	dw sprite.unknown_46, $0019
+	dw sprite.general_purpose_42, $0000
+	dw sprite.general_purpose_44, $0000
+	dw sprite.general_purpose_46, $0019
 	dw !initcommand_success
 
 DATA_FFDD45:
 	dw !initcommand_load_subconfig, DATA_FFD35A
-	dw sprite.unknown_42, $0000
-	dw sprite.unknown_44, $0000
-	dw sprite.unknown_46, $0028
+	dw sprite.general_purpose_42, $0000
+	dw sprite.general_purpose_44, $0000
+	dw sprite.general_purpose_46, $0028
 	dw !initcommand_success
 
 DATA_FFDD57:
 	dw !initcommand_load_subconfig, DATA_FFD35A
-	dw sprite.unknown_42, $0000
-	dw sprite.unknown_44, $0000
-	dw sprite.unknown_46, $0023
+	dw sprite.general_purpose_42, $0000
+	dw sprite.general_purpose_44, $0000
+	dw sprite.general_purpose_46, $0023
 	dw !initcommand_success
 
 DATA_FFDD69:
 	dw !initcommand_load_subconfig, DATA_FFD35A
-	dw sprite.unknown_42, $0000
-	dw sprite.unknown_44, $0000
-	dw sprite.unknown_46, $003C
+	dw sprite.general_purpose_42, $0000
+	dw sprite.general_purpose_44, $0000
+	dw sprite.general_purpose_46, $003C
 	dw !initcommand_success
 
 DATA_FFDD7B:
 	dw !initcommand_load_subconfig, DATA_FFD35A
-	dw sprite.unknown_42, $0000
-	dw sprite.unknown_44, $0000
-	dw sprite.unknown_46, $001E
+	dw sprite.general_purpose_42, $0000
+	dw sprite.general_purpose_44, $0000
+	dw sprite.general_purpose_46, $001E
 	dw !initcommand_success
 
 DATA_FFDD8D:
 	dw !initcommand_load_subconfig, DATA_FFD35A
-	dw sprite.unknown_42, $0001
-	dw sprite.unknown_44, $0008
-	dw sprite.unknown_46, $0014
+	dw sprite.general_purpose_42, $0001
+	dw sprite.general_purpose_44, $0008
+	dw sprite.general_purpose_46, $0014
 	dw !initcommand_success
 
 DATA_FFDD9F:
 	dw !initcommand_load_subconfig, DATA_FFD35A
-	dw sprite.unknown_42, $0001
-	dw sprite.unknown_44, $0005
-	dw sprite.unknown_46, $0023
+	dw sprite.general_purpose_42, $0001
+	dw sprite.general_purpose_44, $0005
+	dw sprite.general_purpose_46, $0023
 	dw !initcommand_success
 
 DATA_FFDDB1:
 	dw !initcommand_load_subconfig, DATA_FFD35A
-	dw sprite.unknown_42, $0001
-	dw sprite.unknown_44, $0007
-	dw sprite.unknown_46, $000F
+	dw sprite.general_purpose_42, $0001
+	dw sprite.general_purpose_44, $0007
+	dw sprite.general_purpose_46, $000F
 	dw !initcommand_success
 
 DATA_FFDDC3:
 	dw !initcommand_load_subconfig, DATA_FFD35A
-	dw sprite.unknown_42, $0001
-	dw sprite.unknown_44, $0008
-	dw sprite.unknown_46, $000F
+	dw sprite.general_purpose_42, $0001
+	dw sprite.general_purpose_44, $0008
+	dw sprite.general_purpose_46, $000F
 	dw !initcommand_success
 
 DATA_FFDDD5:
 	dw !initcommand_load_subconfig, DATA_FFD35A
-	dw sprite.unknown_42, $0001
-	dw sprite.unknown_44, $0008
-	dw sprite.unknown_46, $0019
+	dw sprite.general_purpose_42, $0001
+	dw sprite.general_purpose_44, $0008
+	dw sprite.general_purpose_46, $0019
 	dw !initcommand_success
 
 DATA_FFDDE7:
 	dw !initcommand_load_subconfig, DATA_FFD35A
-	dw sprite.unknown_42, $0001
-	dw sprite.unknown_44, $0003
-	dw sprite.unknown_46, $000F
+	dw sprite.general_purpose_42, $0001
+	dw sprite.general_purpose_44, $0003
+	dw sprite.general_purpose_46, $000F
 	dw !initcommand_success
 
 DATA_FFDDF9:
 	dw !initcommand_load_subconfig, DATA_FFD35A
-	dw sprite.unknown_42, $0001
-	dw sprite.unknown_44, $0004
-	dw sprite.unknown_46, $000F
+	dw sprite.general_purpose_42, $0001
+	dw sprite.general_purpose_44, $0004
+	dw sprite.general_purpose_46, $000F
 	dw !initcommand_success
 
 DATA_FFDE0B:
 	dw !initcommand_load_subconfig, DATA_FFD35A
-	dw sprite.unknown_42, $0001
-	dw sprite.unknown_44, $0005
-	dw sprite.unknown_46, $0019
+	dw sprite.general_purpose_42, $0001
+	dw sprite.general_purpose_44, $0005
+	dw sprite.general_purpose_46, $0019
 	dw !initcommand_success
 
 DATA_FFDE1D:
 	dw !initcommand_load_subconfig, DATA_FFD35A
-	dw sprite.unknown_42, $0001
-	dw sprite.unknown_44, $0009
-	dw sprite.unknown_46, $001E
+	dw sprite.general_purpose_42, $0001
+	dw sprite.general_purpose_44, $0009
+	dw sprite.general_purpose_46, $001E
 	dw !initcommand_success
 
 DATA_FFDE2F:
 	dw !initcommand_load_subconfig, DATA_FFD35A
-	dw sprite.unknown_42, $0001
-	dw sprite.unknown_44, $000A
-	dw sprite.unknown_46, $0023
+	dw sprite.general_purpose_42, $0001
+	dw sprite.general_purpose_44, $000A
+	dw sprite.general_purpose_46, $0023
 	dw !initcommand_success
 
 DATA_FFDE41:
 	dw !initcommand_load_subconfig, DATA_FFD35A
-	dw sprite.unknown_42, $0001
-	dw sprite.unknown_44, $0005
-	dw sprite.unknown_46, $0014
+	dw sprite.general_purpose_42, $0001
+	dw sprite.general_purpose_44, $0005
+	dw sprite.general_purpose_46, $0014
 	dw !initcommand_success
 
 DATA_FFDE53:
 	dw !initcommand_load_subconfig, DATA_FFD35A
-	dw sprite.unknown_42, $0001
-	dw sprite.unknown_44, $000C
-	dw sprite.unknown_46, $0028
+	dw sprite.general_purpose_42, $0001
+	dw sprite.general_purpose_44, $000C
+	dw sprite.general_purpose_46, $0028
 	dw !initcommand_success
 
 DATA_FFDE65:
 	dw !initcommand_load_subconfig, DATA_FFD35A
-	dw sprite.unknown_42, $0001
-	dw sprite.unknown_44, $0008
-	dw sprite.unknown_46, $001E
+	dw sprite.general_purpose_42, $0001
+	dw sprite.general_purpose_44, $0008
+	dw sprite.general_purpose_46, $001E
 	dw !initcommand_success
 
 DATA_FFDE77:
 	dw !initcommand_load_subconfig, DATA_FFD35A
-	dw sprite.unknown_42, $0001
-	dw sprite.unknown_44, $000C
-	dw sprite.unknown_46, $000F
+	dw sprite.general_purpose_42, $0001
+	dw sprite.general_purpose_44, $000C
+	dw sprite.general_purpose_46, $000F
 	dw !initcommand_success
 
 DATA_FFDE89:
 	dw !initcommand_load_subconfig, DATA_FFD35A
-	dw sprite.unknown_42, $0001
-	dw sprite.unknown_44, $0006
-	dw sprite.unknown_46, $000A
+	dw sprite.general_purpose_42, $0001
+	dw sprite.general_purpose_44, $0006
+	dw sprite.general_purpose_46, $000A
 	dw !initcommand_success
 
 DATA_FFDE9B:
 	dw !initcommand_load_subconfig, DATA_FFD35A
-	dw sprite.unknown_42, $0001
-	dw sprite.unknown_44, $0005
-	dw sprite.unknown_46, $000A
+	dw sprite.general_purpose_42, $0001
+	dw sprite.general_purpose_44, $0005
+	dw sprite.general_purpose_46, $000A
 	dw !initcommand_success
 
 DATA_FFDEAD:
 	dw !initcommand_load_subconfig, DATA_FFD35A
-	dw sprite.unknown_42, $0002
-	dw sprite.unknown_44, $0050
-	dw sprite.unknown_46, $0014
+	dw sprite.general_purpose_42, $0002
+	dw sprite.general_purpose_44, $0050
+	dw sprite.general_purpose_46, $0014
 	dw !initcommand_success
 
 DATA_FFDEBF:
 	dw !initcommand_load_subconfig, DATA_FFD35A
-	dw sprite.unknown_42, $0002
-	dw sprite.unknown_44, $0075
-	dw sprite.unknown_46, $0028
+	dw sprite.general_purpose_42, $0002
+	dw sprite.general_purpose_44, $0075
+	dw sprite.general_purpose_46, $0028
 	dw !initcommand_success
 
 DATA_FFDED1:
 	dw !initcommand_load_subconfig, DATA_FFD35A
-	dw sprite.unknown_42, $0002
-	dw sprite.unknown_44, $0065
-	dw sprite.unknown_46, $0028
+	dw sprite.general_purpose_42, $0002
+	dw sprite.general_purpose_44, $0065
+	dw sprite.general_purpose_46, $0028
 	dw !initcommand_success
 
 DATA_FFDEE3:
 	dw !initcommand_load_subconfig, DATA_FFD35A
-	dw sprite.unknown_42, $0002
-	dw sprite.unknown_44, $0100
-	dw sprite.unknown_46, $0014
+	dw sprite.general_purpose_42, $0002
+	dw sprite.general_purpose_44, $0100
+	dw sprite.general_purpose_46, $0014
 	dw !initcommand_success
 
 DATA_FFDEF5:
 	dw !initcommand_load_subconfig, DATA_FFD35A
-	dw sprite.unknown_42, $0002
-	dw sprite.unknown_44, $0040
-	dw sprite.unknown_46, $0028
+	dw sprite.general_purpose_42, $0002
+	dw sprite.general_purpose_44, $0040
+	dw sprite.general_purpose_46, $0028
 	dw !initcommand_success
 
 DATA_FFDF07:
 	dw !initcommand_load_subconfig, DATA_FFD35A
-	dw sprite.unknown_42, $0002
-	dw sprite.unknown_44, $0075
-	dw sprite.unknown_46, $0019
+	dw sprite.general_purpose_42, $0002
+	dw sprite.general_purpose_44, $0075
+	dw sprite.general_purpose_46, $0019
 	dw !initcommand_success
 
 DATA_FFDF19:
 	dw !initcommand_load_subconfig, DATA_FFD35A
-	dw sprite.unknown_42, $0002
-	dw sprite.unknown_44, $0040
-	dw sprite.unknown_46, $001E
+	dw sprite.general_purpose_42, $0002
+	dw sprite.general_purpose_44, $0040
+	dw sprite.general_purpose_46, $001E
 	dw !initcommand_success
 
 DATA_FFDF2B:
 	dw !initcommand_load_subconfig, DATA_FFD35A
-	dw sprite.unknown_42, $0002
-	dw sprite.unknown_44, $0060
-	dw sprite.unknown_46, $0014
+	dw sprite.general_purpose_42, $0002
+	dw sprite.general_purpose_44, $0060
+	dw sprite.general_purpose_46, $0014
 	dw !initcommand_success
 
 DATA_FFDF3D:
 	dw !initcommand_load_subconfig, DATA_FFD35A
-	dw sprite.unknown_42, $0002
-	dw sprite.unknown_44, $0030
-	dw sprite.unknown_46, $0014
+	dw sprite.general_purpose_42, $0002
+	dw sprite.general_purpose_44, $0030
+	dw sprite.general_purpose_46, $0014
 	dw !initcommand_success
 
 DATA_FFDF4F:
 	dw !initcommand_load_subconfig, DATA_FFD35A
-	dw sprite.unknown_42, $0002
-	dw sprite.unknown_44, $0080
-	dw sprite.unknown_46, $000F
+	dw sprite.general_purpose_42, $0002
+	dw sprite.general_purpose_44, $0080
+	dw sprite.general_purpose_46, $000F
 	dw !initcommand_success
 
 DATA_FFDF61:
 	dw !initcommand_load_subconfig, DATA_FFD35A
-	dw sprite.unknown_42, $0002
-	dw sprite.unknown_44, $0120
-	dw sprite.unknown_46, $0011
+	dw sprite.general_purpose_42, $0002
+	dw sprite.general_purpose_44, $0120
+	dw sprite.general_purpose_46, $0011
 	dw !initcommand_success
 
 DATA_FFDF73:
 	dw !initcommand_load_subconfig, DATA_FFD35A
-	dw sprite.unknown_42, $0002
-	dw sprite.unknown_44, $0030
-	dw sprite.unknown_46, $001E
+	dw sprite.general_purpose_42, $0002
+	dw sprite.general_purpose_44, $0030
+	dw sprite.general_purpose_46, $001E
 	dw !initcommand_success
 
 DATA_FFDF85:
 	dw !initcommand_load_subconfig, DATA_FF34AC
-	dw sprite.unknown_42, $0168
+	dw sprite.general_purpose_42, $0168
 	dw !initcommand_success
 
 DATA_FFDF8F:
 	dw !initcommand_load_subconfig, DATA_FF941A
-	dw sprite.action, $0000
-	dw sprite.unknown_44, $0020
-	dw sprite.unknown_46, $0020
-	dw sprite.unknown_48, $0040
+	dw sprite.state, $0000
+	dw sprite.general_purpose_44, $0020
+	dw sprite.general_purpose_46, $0020
+	dw sprite.general_purpose_48, $0040
 	dw !initcommand_success
 
 DATA_FFDFA5:
 	dw !initcommand_load_subconfig, DATA_FF2B00
 	dw sprite.max_x_speed, $FF40
-	dw sprite.unknown_46, $0808
+	dw sprite.general_purpose_46, $0808
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
@@ -19283,21 +19323,21 @@ DATA_FFDFB7:
 	dw !initcommand_load_subconfig, DATA_FF2B00
 	dw sprite.max_x_speed, $FEC0
 	dw !initcommand_set_oam, $6000
-	dw sprite.unknown_46, $7070
+	dw sprite.general_purpose_46, $7070
 	dw !initcommand_success
 
 DATA_FFDFC9:
 	dw !initcommand_load_subconfig, DATA_FF2B00
 	dw sprite.max_x_speed, $FEC0
 	dw !initcommand_set_oam, $6000
-	dw sprite.unknown_46, $B030
+	dw sprite.general_purpose_46, $B030
 	dw !initcommand_success
 
 DATA_FFDFDB:
 	dw !initcommand_load_subconfig, DATA_FF2B00
 	dw sprite.max_x_speed, $FEC0
 	dw !initcommand_set_oam, $6000
-	dw sprite.unknown_46, $4848
+	dw sprite.general_purpose_46, $4848
 	dw !initcommand_success
 
 DATA_FFDFED:
@@ -19312,39 +19352,39 @@ DATA_FFDFED:
 
 DATA_FFE00B:
 	dw !initcommand_load_subconfig, DATA_FF7528
-	dw sprite.unknown_4E, $7FFF
+	dw sprite.general_purpose_4E, $7FFF
 	dw !initcommand_success
 
 DATA_FFE015:
 	dw !initcommand_load_subconfig, DATA_FF750A
-	dw sprite.unknown_4E, $7FFF
+	dw sprite.general_purpose_4E, $7FFF
 	dw !initcommand_success
 
 DATA_FFE01F:
 	dw !initcommand_load_subconfig, DATA_FFDFED
-	dw sprite.unknown_4E, $0078
+	dw sprite.general_purpose_4E, $0078
 	dw !initcommand_success
 
 DATA_FFE029:
 	dw !initcommand_load_subconfig, DATA_FF30EC
 	dw sprite.max_x_speed, $0100
-	dw sprite.unknown_52, $0023
-	dw sprite.unknown_46, $3838
+	dw sprite.movement_state, $0023
+	dw sprite.general_purpose_46, $3838
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_success
 
 DATA_FFE03F:
 	dw !initcommand_load_subconfig, DATA_FF30EC
 	dw sprite.max_x_speed, $00C0
-	dw sprite.unknown_52, $0023
-	dw sprite.unknown_46, $0808
+	dw sprite.movement_state, $0023
+	dw sprite.general_purpose_46, $0808
 	dw !initcommand_success
 
 DATA_FFE051:
 	dw !initcommand_load_subconfig, DATA_FF30EC
 	dw sprite.max_x_speed, $FE80
 	dw !initcommand_set_oam, $6000
-	dw sprite.unknown_52, $220C
+	dw sprite.movement_state, $220C
 	dw sprite.x_sub_position, $0078
 	dw !initcommand_success
 
@@ -19358,20 +19398,20 @@ DATA_FFE075:
 	dw !initcommand_load_subconfig, DATA_FF2DD6
 	dw sprite.max_x_speed, $FEC0
 	dw !initcommand_set_oam, $6000
-	dw sprite.unknown_46, $6868
+	dw sprite.general_purpose_46, $6868
 	dw !initcommand_success
 
 DATA_FFE087:
 	dw !initcommand_load_subconfig, DATA_FF2DD6
 	dw sprite.max_x_speed, $FEC0
 	dw !initcommand_set_oam, $6000
-	dw sprite.unknown_46, $D000
+	dw sprite.general_purpose_46, $D000
 	dw !initcommand_success
 
 DATA_FFE099:
 	dw !initcommand_load_subconfig, DATA_FF2DD6
 	dw sprite.max_x_speed, $0100
-	dw sprite.unknown_46, $2020
+	dw sprite.general_purpose_46, $2020
 	dw !initcommand_success
 
 DATA_FFE0A7:
@@ -19382,144 +19422,144 @@ DATA_FFE0A7:
 
 DATA_FFE0B5:
 	dw !initcommand_load_subconfig, DATA_FFA2A6
-	dw sprite.unknown_4A, $A000
+	dw sprite.general_purpose_4A, $A000
 	dw sprite.max_y_speed, $FF00
-	dw sprite.unknown_4E, $0110
-	dw sprite.unknown_48, $0078
+	dw sprite.general_purpose_4E, $0110
+	dw sprite.general_purpose_48, $0078
 	dw !initcommand_success
 
 DATA_FFE0CB:
 	dw !initcommand_load_subconfig, DATA_FF7D68
-	dw sprite.unknown_4A, $4040
+	dw sprite.general_purpose_4A, $4040
 	dw sprite.max_y_speed, $FF00
 	dw !initcommand_success
 
 DATA_FFE0D9:
 	dw !initcommand_load_subconfig, DATA_FF7D68
-	dw sprite.unknown_4A, $2020
+	dw sprite.general_purpose_4A, $2020
 	dw sprite.max_y_speed, $00A0
 	dw !initcommand_success
 
 DATA_FFE0E7:
 	dw !initcommand_load_subconfig, DATA_FF7D68
-	dw sprite.unknown_4A, $3030
+	dw sprite.general_purpose_4A, $3030
 	dw sprite.max_y_speed, $FEE0
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_success
 
 DATA_FFE0F9:
 	dw !initcommand_load_subconfig, DATA_FF7D68
-	dw sprite.unknown_4A, $4040
+	dw sprite.general_purpose_4A, $4040
 	dw sprite.max_y_speed, $FEC0
 	dw !initcommand_success
 
 DATA_FFE107:
 	dw !initcommand_load_subconfig, DATA_FF7D68
-	dw sprite.unknown_4A, $3030
+	dw sprite.general_purpose_4A, $3030
 	dw sprite.max_y_speed, $0100
 	dw !initcommand_success
 
 DATA_FFE115:
 	dw !initcommand_load_subconfig, DATA_FF7D68
-	dw sprite.unknown_4A, $6000
+	dw sprite.general_purpose_4A, $6000
 	dw sprite.max_y_speed, $0100
 	dw !initcommand_success
 
 DATA_FFE123:
 	dw !initcommand_load_subconfig, DATA_FF7D68
-	dw sprite.unknown_4A, $5050
+	dw sprite.general_purpose_4A, $5050
 	dw sprite.max_y_speed, $FF30
 	dw !initcommand_success
 
 DATA_FFE131:
 	dw !initcommand_load_subconfig, DATA_FF8144
-	dw sprite.unknown_46, $3828
+	dw sprite.general_purpose_46, $3828
 	dw sprite.max_x_speed, $0180
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_success
 
 DATA_FFE143:
 	dw !initcommand_load_subconfig, DATA_FF8144
-	dw sprite.unknown_46, $6060
+	dw sprite.general_purpose_46, $6060
 	dw sprite.max_x_speed, $0180
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_success
 
 DATA_FFE155:
 	dw !initcommand_load_subconfig, DATA_FF8144
-	dw sprite.unknown_46, $20A0
+	dw sprite.general_purpose_46, $20A0
 	dw sprite.max_x_speed, $FE80
 	dw !initcommand_success
 
 DATA_FFE163:
 	dw !initcommand_load_subconfig, DATA_FF8144
-	dw sprite.unknown_46, $3030
+	dw sprite.general_purpose_46, $3030
 	dw sprite.max_x_speed, $FF00
 	dw !initcommand_success
 
 DATA_FFE171:
 	dw !initcommand_load_subconfig, DATA_FF8144
-	dw sprite.unknown_46, $0858
+	dw sprite.general_purpose_46, $0858
 	dw sprite.max_x_speed, $FE80
 	dw !initcommand_success
 
 DATA_FFE17F:
 	dw !initcommand_load_subconfig, DATA_FF891C
 	dw !initcommand_set_animation, $0196
-	dw sprite.unknown_46, $A000
-	dw sprite.unknown_48, $3000
-	dw sprite.unknown_4A, $40A0
+	dw sprite.general_purpose_46, $A000
+	dw sprite.general_purpose_48, $3000
+	dw sprite.general_purpose_4A, $40A0
 	dw sprite.max_x_speed, $0480
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_success
 
 DATA_FFE19D:
 	dw !initcommand_load_subconfig, DATA_FF8520
-	dw sprite.unknown_46, $0080
-	dw sprite.unknown_48, $3000
+	dw sprite.general_purpose_46, $0080
+	dw sprite.general_purpose_48, $3000
 	dw sprite.max_x_speed, $FC80
 	dw !initcommand_success
 
 DATA_FFE1AF:
 	dw !initcommand_load_subconfig, DATA_FF8520
-	dw sprite.unknown_46, $0000
-	dw sprite.unknown_48, $3000
+	dw sprite.general_purpose_46, $0000
+	dw sprite.general_purpose_48, $3000
 	dw sprite.max_x_speed, $0380
 	dw !initcommand_success
 
 DATA_FFE1C1:
 	dw !initcommand_load_subconfig, DATA_FF8520
-	dw sprite.unknown_46, $8000
-	dw sprite.unknown_48, $5000
+	dw sprite.general_purpose_46, $8000
+	dw sprite.general_purpose_48, $5000
 	dw sprite.max_x_speed, $FEC0
 	dw !initcommand_success
 
 DATA_FFE1D3:
 	dw !initcommand_load_subconfig, DATA_FF8520
-	dw sprite.unknown_46, $C000
-	dw sprite.unknown_48, $3000
+	dw sprite.general_purpose_46, $C000
+	dw sprite.general_purpose_48, $3000
 	dw sprite.max_x_speed, $FD80
 	dw !initcommand_success
 
 DATA_FFE1E5:
 	dw !initcommand_load_subconfig, DATA_FF8520
-	dw sprite.unknown_46, $4000
-	dw sprite.unknown_48, $3000
+	dw sprite.general_purpose_46, $4000
+	dw sprite.general_purpose_48, $3000
 	dw sprite.max_x_speed, $0280
 	dw !initcommand_success
 
 DATA_FFE1F7:
 	dw !initcommand_load_subconfig, DATA_FF8D84
-	dw sprite.unknown_46, $8000
-	dw sprite.unknown_48, $4000
+	dw sprite.general_purpose_46, $8000
+	dw sprite.general_purpose_48, $4000
 	dw sprite.max_x_speed, $0120
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FFE20D:
 	dw !initcommand_load_subconfig, DATA_FF8D84
-	dw sprite.unknown_46, $0000
-	dw sprite.unknown_48, $4000
+	dw sprite.general_purpose_46, $0000
+	dw sprite.general_purpose_48, $4000
 	dw sprite.max_x_speed, $0140
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
@@ -19527,125 +19567,125 @@ DATA_FFE20D:
 DATA_FFE223:
 	dw !initcommand_load_subconfig, DATA_FF8A0C
 	dw !initcommand_set_animation, $0197
-	dw sprite.unknown_46, $0202
+	dw sprite.general_purpose_46, $0202
 	dw sprite.max_x_speed, $0040
-	dw sprite.unknown_4A, $1070
+	dw sprite.general_purpose_4A, $1070
 	dw sprite.max_y_speed, $FE60
 	dw !initcommand_success
 
 DATA_FFE23D:
 	dw !initcommand_load_subconfig, DATA_FF8A0C
 	dw !initcommand_set_animation, $0197
-	dw sprite.unknown_46, $0202
+	dw sprite.general_purpose_46, $0202
 	dw sprite.max_x_speed, $0040
-	dw sprite.unknown_4A, $7010
+	dw sprite.general_purpose_4A, $7010
 	dw sprite.max_y_speed, $FE60
 	dw !initcommand_success
 
 DATA_FFE257:
 	dw !initcommand_load_subconfig, DATA_FF8A0C
 	dw !initcommand_set_animation, $0197
-	dw sprite.unknown_46, $0202
+	dw sprite.general_purpose_46, $0202
 	dw sprite.max_x_speed, $0040
-	dw sprite.unknown_4A, $4040
+	dw sprite.general_purpose_4A, $4040
 	dw sprite.max_y_speed, $FE60
 	dw !initcommand_success
 
 DATA_FFE271:
 	dw !initcommand_load_subconfig, DATA_FF8A0C
 	dw !initcommand_set_animation, $0197
-	dw sprite.unknown_46, $0202
+	dw sprite.general_purpose_46, $0202
 	dw sprite.max_x_speed, $0040
-	dw sprite.unknown_4A, $3838
+	dw sprite.general_purpose_4A, $3838
 	dw sprite.max_y_speed, $FF00
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_success
 
 DATA_FFE28F:
 	dw !initcommand_load_subconfig, DATA_FF9B44
-	dw sprite.unknown_46, $6058
+	dw sprite.general_purpose_46, $6058
 	dw sprite.max_x_speed, $FF00
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FFE2A1:
 	dw !initcommand_load_subconfig, DATA_FF9B44
-	dw sprite.unknown_46, $5050
+	dw sprite.general_purpose_46, $5050
 	dw sprite.max_x_speed, $0100
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FFE2B3:
 	dw !initcommand_load_subconfig, DATA_FF9B44
-	dw sprite.unknown_46, $8830
+	dw sprite.general_purpose_46, $8830
 	dw sprite.max_x_speed, $FE80
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FFE2C5:
 	dw !initcommand_load_subconfig, DATA_FF9B44
-	dw sprite.unknown_46, $00B8
+	dw sprite.general_purpose_46, $00B8
 	dw sprite.max_x_speed, $0140
 	dw !initcommand_success
 
 DATA_FFE2D3:
 	dw !initcommand_load_subconfig, DATA_FF9B44
-	dw sprite.unknown_46, $4078
+	dw sprite.general_purpose_46, $4078
 	dw sprite.max_x_speed, $0140
 	dw !initcommand_success
 
 DATA_FFE2E1:
 	dw !initcommand_load_subconfig, DATA_FF9B44
-	dw sprite.unknown_46, $8080
+	dw sprite.general_purpose_46, $8080
 	dw sprite.max_x_speed, $0200
 	dw !initcommand_success
 
 DATA_FFE2EF:
 	dw !initcommand_load_subconfig, DATA_FF9D3C
 	dw !initcommand_set_animation, $019A
-	dw sprite.unknown_52, $0007
-	dw sprite.unknown_46, $2020
+	dw sprite.movement_state, $0007
+	dw sprite.general_purpose_46, $2020
 	dw sprite.max_x_speed, $FEC0
-	dw sprite.unknown_4A, $0203
+	dw sprite.general_purpose_4A, $0203
 	dw sprite.max_y_speed, $0060
 	dw !initcommand_success
 
 DATA_FFE30D:
 	dw !initcommand_load_subconfig, DATA_FF9D3C
 	dw !initcommand_set_animation, $019A
-	dw sprite.unknown_52, $0007
-	dw sprite.unknown_46, $B070
+	dw sprite.movement_state, $0007
+	dw sprite.general_purpose_46, $B070
 	dw sprite.max_x_speed, $FF00
-	dw sprite.unknown_4A, $0203
+	dw sprite.general_purpose_4A, $0203
 	dw sprite.max_y_speed, $0060
 	dw !initcommand_success
 
 DATA_FFE32B:
 	dw !initcommand_load_subconfig, DATA_FF9D3C
 	dw !initcommand_set_animation, $019A
-	dw sprite.unknown_52, $0007
-	dw sprite.unknown_46, $FF21
+	dw sprite.movement_state, $0007
+	dw sprite.general_purpose_46, $FF21
 	dw sprite.max_x_speed, $FF00
-	dw sprite.unknown_4A, $0203
+	dw sprite.general_purpose_4A, $0203
 	dw sprite.max_y_speed, $0060
 	dw !initcommand_success
 
 DATA_FFE349:
 	dw !initcommand_load_subconfig, DATA_FF9EB2
-	dw sprite.unknown_46, $5050
+	dw sprite.general_purpose_46, $5050
 	dw sprite.max_x_speed, $FEC0
 	dw !initcommand_success
 
 DATA_FFE357:
 	dw !initcommand_load_subconfig, DATA_FF9EB2
-	dw sprite.unknown_46, $5050
+	dw sprite.general_purpose_46, $5050
 	dw sprite.max_x_speed, $0140
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_success
 
 DATA_FFE369:
 	dw !initcommand_load_subconfig, DATA_FF9E2E
-	dw sprite.unknown_4A, $1010
+	dw sprite.general_purpose_4A, $1010
 	dw sprite.max_y_speed, $0100
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_success
@@ -19659,20 +19699,20 @@ DATA_FFE37B:
 
 DATA_FFE38D:
 	dw !initcommand_load_subconfig, DATA_FF9FFA
-	dw sprite.unknown_46, $2424
+	dw sprite.general_purpose_46, $2424
 	dw sprite.max_x_speed, $0200
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_success
 
 DATA_FFE39F:
 	dw !initcommand_load_subconfig, DATA_FF9FFA
-	dw sprite.unknown_46, $2070
+	dw sprite.general_purpose_46, $2070
 	dw sprite.max_x_speed, $FEC0
 	dw !initcommand_success
 
 DATA_FFE3AD:
 	dw !initcommand_load_subconfig, DATA_FF9FFA
-	dw sprite.unknown_46, $7020
+	dw sprite.general_purpose_46, $7020
 	dw sprite.max_x_speed, $0140
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_success
@@ -19680,16 +19720,16 @@ DATA_FFE3AD:
 DATA_FFE3BF:
 	dw !initcommand_load_subconfig, DATA_FF9FFA
 if !version == 0
-	dw sprite.unknown_46, $3060
+	dw sprite.general_purpose_46, $3060
 else
-	dw sprite.unknown_46, $3050
+	dw sprite.general_purpose_46, $3050
 endif
 	dw sprite.max_x_speed, $FEC0
 	dw !initcommand_success
 
 DATA_FFE3CD:
 	dw !initcommand_load_subconfig, DATA_FF9FF0
-	dw sprite.unknown_52, $220C
+	dw sprite.movement_state, $220C
 	dw sprite.x_sub_position, $008C
 	dw !initcommand_success
 
@@ -19697,15 +19737,15 @@ DATA_FFE3DB:
 	dw !initcommand_load_subconfig, DATA_FF9FF0
 	dw sprite.max_x_speed, $0140
 	dw !initcommand_set_oam, $2000
-	dw sprite.unknown_52, $220C
+	dw sprite.movement_state, $220C
 	dw sprite.x_sub_position, $008C
 	dw !initcommand_success
 
 DATA_FFE3F1:
 	dw !initcommand_load_subconfig, DATA_FF6618
 	dw !initcommand_set_animation, $017D
-	dw sprite.unknown_52, $0011
-	dw sprite.unknown_54, DATA_FF0450
+	dw sprite.movement_state, $0011
+	dw sprite.constants_address, DATA_FF0450
 	dw sprite.unknown_22, DATA_FF6BAA
 	dw !initcommand_success
 
@@ -20474,20 +20514,20 @@ DATA_FFF25F:
 
 DATA_FFF281:
 	dw !initcommand_load_subconfig, DATA_FF9034
-	dw sprite.unknown_46, $00F0
+	dw sprite.general_purpose_46, $00F0
 	dw sprite.max_x_speed, $0180
 	dw !initcommand_success
 
 DATA_FFF28F:
 	dw !initcommand_load_subconfig, DATA_FF9034
-	dw sprite.unknown_46, $3060
+	dw sprite.general_purpose_46, $3060
 	dw sprite.max_x_speed, $FEC0
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FFF2A1:
 	dw !initcommand_load_subconfig, DATA_FF9034
-	dw sprite.unknown_46, $0090
+	dw sprite.general_purpose_46, $0090
 	dw sprite.max_x_speed, $0140
 	dw !initcommand_success
 
@@ -20496,157 +20536,157 @@ DATA_FFF2AF:
 	dw sprite.y_speed, $0000
 	dw sprite.max_x_speed, $0000
 	dw sprite.x_speed, $0000
-	dw sprite.unknown_52, $0020
+	dw sprite.movement_state, $0020
 	dw !initcommand_success
 
 DATA_FFF2C5:
 	dw !initcommand_load_subconfig, DATA_FFF2AF
-	dw sprite.unknown_4C, $D0D0
-	dw sprite.unknown_4E, $2B3B
+	dw sprite.general_purpose_4C, $D0D0
+	dw sprite.general_purpose_4E, $2B3B
 	dw sprite.unknown_22, $0400
 	dw sprite.unknown_28, $0066
 	dw sprite.unknown_1C, $0020
-	dw sprite.unknown_4A, $001E
+	dw sprite.general_purpose_4A, $001E
 	dw !initcommand_success
 
 DATA_FFF2E3:
 	dw !initcommand_load_subconfig, DATA_FFF3E3
-	dw sprite.unknown_4C, $0900
+	dw sprite.general_purpose_4C, $0900
 	dw sprite.unknown_22, $0600
 	dw sprite.unknown_28, $0058
 	dw sprite.unknown_1C, $0060
 if !version == 0
-	dw sprite.unknown_4A, $0046
-	dw sprite.unknown_4E, $80D2
+	dw sprite.general_purpose_4A, $0046
+	dw sprite.general_purpose_4E, $80D2
 else
-	dw sprite.unknown_4A, $0050
-	dw sprite.unknown_4E, $80C8
+	dw sprite.general_purpose_4A, $0050
+	dw sprite.general_purpose_4E, $80C8
 endif
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_success
 
 DATA_FFF305:
 	dw !initcommand_load_subconfig, DATA_FFBB18
-	dw sprite.unknown_4C, $D0D0
-	dw sprite.unknown_4E, $2B50
+	dw sprite.general_purpose_4C, $D0D0
+	dw sprite.general_purpose_4E, $2B50
 	dw sprite.unknown_22, $0200
 	dw sprite.unknown_28, $0100
 	dw sprite.unknown_1C, $0020
-	dw sprite.unknown_4A, $0064
+	dw sprite.general_purpose_4A, $0064
 	dw !initcommand_success
 
 DATA_FFF323:
 	dw !initcommand_load_subconfig, DATA_FFBB18
-	dw sprite.unknown_4C, $FFD0
-	dw sprite.unknown_4E, $2B80
+	dw sprite.general_purpose_4C, $FFD0
+	dw sprite.general_purpose_4E, $2B80
 	dw sprite.unknown_22, $0380
 	dw sprite.unknown_28, $0068
 	dw sprite.unknown_1C, $0020
-	dw sprite.unknown_4A, $003C
+	dw sprite.general_purpose_4A, $003C
 	dw !initcommand_success
 
 DATA_FFF341:
 	dw !initcommand_load_subconfig, DATA_FFBB18
-	dw sprite.unknown_4C, $FFD0
-	dw sprite.unknown_4E, $2BA0
+	dw sprite.general_purpose_4C, $FFD0
+	dw sprite.general_purpose_4E, $2BA0
 	dw sprite.unknown_22, $0200
 	dw sprite.unknown_28, $00D0
 	dw sprite.unknown_1C, $0020
-	dw sprite.unknown_4A, $0064
+	dw sprite.general_purpose_4A, $0064
 	dw !initcommand_success
 
 DATA_FFF35F:
 	dw !initcommand_load_subconfig, DATA_FFF3E3
-	dw sprite.unknown_4C, $0900
+	dw sprite.general_purpose_4C, $0900
 	dw sprite.unknown_22, $0600
 	dw sprite.unknown_28, $0058
 	dw sprite.unknown_1C, $0060
 if !version == 0
-	dw sprite.unknown_4A, $0046
+	dw sprite.general_purpose_4A, $0046
 else
-	dw sprite.unknown_4A, $0050
+	dw sprite.general_purpose_4A, $0050
 endif
-	dw sprite.unknown_4E, $012C
+	dw sprite.general_purpose_4E, $012C
 	dw !initcommand_success
 
 DATA_FFF37D:
 	dw !initcommand_load_subconfig, DATA_FFBB18
-	dw sprite.unknown_4C, $A800
-	dw sprite.unknown_4E, $8080
+	dw sprite.general_purpose_4C, $A800
+	dw sprite.general_purpose_4E, $8080
 	dw sprite.unknown_22, $0800
 	dw sprite.unknown_28, $0030
 	dw sprite.unknown_1C, $0058
-	dw sprite.unknown_4A, $0014
+	dw sprite.general_purpose_4A, $0014
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_success
 
 DATA_FFF39F:
 	dw !initcommand_load_subconfig, DATA_FFBB18
-	dw sprite.unknown_4C, $FFD0
-	dw sprite.unknown_4E, $2BA0
+	dw sprite.general_purpose_4C, $FFD0
+	dw sprite.general_purpose_4E, $2BA0
 	dw sprite.unknown_22, $0200
 	dw sprite.unknown_28, $00D0
 	dw sprite.unknown_1C, $0020
-	dw sprite.unknown_4A, $0064
+	dw sprite.general_purpose_4A, $0064
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_success
 
 DATA_FFF3C1:
 	dw !initcommand_load_subconfig, DATA_FFF2AF
-	dw sprite.unknown_4C, $D0D0
-	dw sprite.unknown_4E, $6010
+	dw sprite.general_purpose_4C, $D0D0
+	dw sprite.general_purpose_4E, $6010
 	dw sprite.unknown_22, $0600
 	dw sprite.unknown_28, $0070
 	dw sprite.unknown_1C, $0040
-	dw sprite.unknown_4A, $00C8
+	dw sprite.general_purpose_4A, $00C8
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_success
 
 DATA_FFF3E3:
 	dw !initcommand_load_subconfig, DATA_FFF2AF
-	dw sprite.action, $0005
+	dw sprite.state, $0005
 	dw sprite.unknown_22, $0400
 	dw sprite.unknown_28, $0060
 	dw sprite.unknown_1C, $0020
-	dw sprite.unknown_4A, $001E
+	dw sprite.general_purpose_4A, $001E
 	dw !initcommand_set_oam, $2000
-	dw sprite.unknown_4C, $1900
+	dw sprite.general_purpose_4C, $1900
 	dw !initcommand_success
 
 DATA_FFF405:
 	dw !initcommand_load_subconfig, DATA_FFF3E3
 	dw sprite.unknown_28, $0070
-	dw sprite.unknown_4E, $00A0
+	dw sprite.general_purpose_4E, $00A0
 	dw !initcommand_success
 
 DATA_FFF413:
 	dw !initcommand_load_subconfig, DATA_FFF3E3
 	dw sprite.unknown_28, $0070
-	dw sprite.unknown_4E, $0064
+	dw sprite.general_purpose_4E, $0064
 	dw !initcommand_success
 
 DATA_FFF421:
 	dw !initcommand_load_subconfig, DATA_FFF3E3
 	dw sprite.unknown_28, $0070
-	dw sprite.unknown_4E, $0028
+	dw sprite.general_purpose_4E, $0028
 	dw !initcommand_success
 
 DATA_FFF42F:
 	dw !initcommand_load_subconfig, DATA_FFC154
-	dw sprite.unknown_4E, $0101
-	dw sprite.unknown_4C, $0101
+	dw sprite.general_purpose_4E, $0101
+	dw sprite.general_purpose_4C, $0101
 	dw sprite.max_x_speed, $0001
-	dw sprite.unknown_46, $0101
+	dw sprite.general_purpose_46, $0101
 	dw !initcommand_success
 
 DATA_FFF445:
 	dw !initcommand_load_subconfig, DATA_FFC162
 	dw !initcommand_set_oam, $6000
 	dw sprite.max_x_speed, $FE80
-	dw sprite.unknown_46, $5050
-	dw sprite.unknown_4C, $8080
+	dw sprite.general_purpose_46, $5050
+	dw sprite.general_purpose_4C, $8080
 if !version == 0
-	dw sprite.unknown_4A, $0002
+	dw sprite.general_purpose_4A, $0002
 endif
 	dw !initcommand_success
 
@@ -20669,7 +20709,7 @@ DATA_FFF477:
 
 DATA_FFF481:
 	dw !initcommand_load_subconfig, DATA_FF31FA
-	dw sprite.unknown_54, DATA_FF026A
+	dw sprite.constants_address, DATA_FF026A
 	dw sprite.x_sub_position, $E0E0
 if !version == 0
 	dw sprite.unknown_22, $003C
@@ -20678,30 +20718,30 @@ endif
 
 DATA_FFF48F:
 	dw !initcommand_load_subconfig, DATA_FFCB8A
-	dw sprite.unknown_42, $3838
-	dw sprite.unknown_44, $C018
+	dw sprite.general_purpose_42, $3838
+	dw sprite.general_purpose_44, $C018
 	dw sprite.unknown_28, $0020
-	dw sprite.unknown_46, $FD00
-	dw sprite.unknown_48, $01E0
-	dw sprite.unknown_4A, $0064
-	dw sprite.unknown_4C, DATA_FFCCD0
+	dw sprite.general_purpose_46, $FD00
+	dw sprite.general_purpose_48, $01E0
+	dw sprite.general_purpose_4A, $0064
+	dw sprite.general_purpose_4C, DATA_FFCCD0
 	dw !initcommand_success
 
 DATA_FFF4B1:
 	dw !initcommand_load_subconfig, DATA_FFCB8A
-	dw sprite.unknown_42, $4040
-	dw sprite.unknown_44, $6008
+	dw sprite.general_purpose_42, $4040
+	dw sprite.general_purpose_44, $6008
 	dw sprite.unknown_28, $0020
-	dw sprite.unknown_46, $FD00
-	dw sprite.unknown_48, $01E0
-	dw sprite.unknown_4A, $0078
-	dw sprite.unknown_4C, DATA_FFCCD0
+	dw sprite.general_purpose_46, $FD00
+	dw sprite.general_purpose_48, $01E0
+	dw sprite.general_purpose_4A, $0078
+	dw sprite.general_purpose_4C, DATA_FFCCD0
 	dw !initcommand_success
 
 skull_kart_base_init:
 	dw sprite.number, $0158
 	dw sprite.render_order, $00D0
-	dw sprite.unknown_54, DATA_FF046E
+	dw sprite.constants_address, DATA_FF046E
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_set_alt_palette, $0027
 	dw sprite.unknown_3E, $0010
@@ -20711,7 +20751,7 @@ skull_kart_base_init:
 
 DATA_FFF4F5:
 	dw !initcommand_load_subconfig, skull_kart_base_init
-	dw sprite.unknown_46, $0003
+	dw sprite.general_purpose_46, $0003
 	dw sprite.unknown_22, $0300
 	dw sprite.unknown_28, $0500
 	dw sprite.x_force, $0000
@@ -20719,34 +20759,34 @@ DATA_FFF4F5:
 
 DATA_FFF50B:
 	dw !initcommand_load_subconfig, DATA_FFF4F5
-	dw sprite.action, $0000
+	dw sprite.state, $0000
 	dw sprite.max_y_speed, $03C0
 	dw sprite.unknown_5C, DATA_FFF5F1
 	dw !initcommand_success
 
 DATA_FFF51D:
 	dw !initcommand_load_subconfig, DATA_FFF4F5
-	dw sprite.action, $0100
-	dw sprite.unknown_42, $0001
+	dw sprite.state, $0100
+	dw sprite.general_purpose_42, $0001
 	dw sprite.max_y_speed, $0300
 	dw sprite.unknown_5C, DATA_FFF651
 	dw !initcommand_success
 
 DATA_FFF533:
 	dw !initcommand_load_subconfig, DATA_FFF4F5
-	dw sprite.action, $0100
-	dw sprite.unknown_42, $0002
+	dw sprite.state, $0100
+	dw sprite.general_purpose_42, $0002
 	dw sprite.max_y_speed, $0300
 	dw sprite.x_force, $F800
-	dw sprite.unknown_4E, $5040
+	dw sprite.general_purpose_4E, $5040
 	dw sprite.unknown_5C, DATA_FFF6B3
 	dw sprite.unknown_3E, $8600
 	dw !initcommand_success
 
 DATA_FFF555:
 	dw !initcommand_load_subconfig, DATA_FFF4F5
-	dw sprite.action, $0100
-	dw sprite.unknown_42, $0003
+	dw sprite.state, $0100
+	dw sprite.general_purpose_42, $0003
 	dw sprite.max_y_speed, $0300
 	dw sprite.unknown_5C, DATA_FFF627
 	dw sprite.unknown_3E, $0510
@@ -20754,8 +20794,8 @@ DATA_FFF555:
 
 DATA_FFF56F:
 	dw !initcommand_load_subconfig, DATA_FFF4F5
-	dw sprite.action, $0100
-	dw sprite.unknown_42, $0004
+	dw sprite.state, $0100
+	dw sprite.general_purpose_42, $0004
 	dw sprite.max_y_speed, $0380
 	dw sprite.unknown_5C, DATA_FFF687
 	dw sprite.unknown_3E, $0610
@@ -20772,7 +20812,7 @@ DATA_FFF589:
 
 DATA_FFF5A3:
 	dw !initcommand_load_subconfig, DATA_FFF4F5
-	dw sprite.action, $0000
+	dw sprite.state, $0000
 	dw sprite.max_y_speed, $0800
 	dw sprite.unknown_22, $0700
 	dw sprite.unknown_28, $0800
@@ -20781,7 +20821,7 @@ DATA_FFF5A3:
 
 DATA_FFF5BD:
 	dw !initcommand_load_subconfig, DATA_FFF4F5
-	dw sprite.action, $0000
+	dw sprite.state, $0000
 	dw sprite.max_y_speed, $0500
 	dw sprite.unknown_22, $0400
 	dw sprite.unknown_28, $0500
@@ -20790,7 +20830,7 @@ DATA_FFF5BD:
 
 DATA_FFF5D7:
 	dw !initcommand_load_subconfig, DATA_FFF4F5
-	dw sprite.action, $0000
+	dw sprite.state, $0000
 	dw sprite.max_y_speed, $0480
 	dw sprite.unknown_22, $0400
 	dw sprite.unknown_28, $0500
@@ -20847,7 +20887,7 @@ DATA_FFF6B9:
 
 DATA_FFF6BB:
 	dw !initcommand_load_subconfig, skull_kart_base_init
-	dw sprite.unknown_46, $0002
+	dw sprite.general_purpose_46, $0002
 	dw sprite.max_y_speed, $0100
 	dw sprite.unknown_22, $FC00
 	dw sprite.unknown_28, $0600
@@ -20855,7 +20895,7 @@ DATA_FFF6BB:
 
 DATA_FFF6D1:
 	dw !initcommand_load_subconfig, DATA_FFF6BB
-	dw sprite.action, $0000
+	dw sprite.state, $0000
 	dw sprite.unknown_5C, DATA_FFF6DF
 	dw !initcommand_success
 
@@ -20872,8 +20912,8 @@ DATA_FFF6DF:
 
 DATA_FFF70D:
 	dw !initcommand_load_subconfig, skull_kart_base_init
-	dw sprite.action, $0000
-	dw sprite.unknown_46, $0001
+	dw sprite.state, $0000
+	dw sprite.general_purpose_46, $0001
 	dw sprite.unknown_22, $0280
 	dw sprite.unknown_28, $0480
 	dw sprite.unknown_3E, $0010
@@ -20957,8 +20997,8 @@ DATA_FFF7CD:
 DATA_FFF7DB:
 	dw sprite.unknown_5C, DATA_FFF8F1
 	dw !initcommand_load_subconfig, DATA_FFF70D
-	dw sprite.action, $0100
-	dw sprite.unknown_42, $0003
+	dw sprite.state, $0100
+	dw sprite.general_purpose_42, $0003
 	dw sprite.unknown_22, $0280
 	dw sprite.max_y_speed, $0380
 	dw !initcommand_success
@@ -21075,8 +21115,8 @@ DATA_FFF937:
 	dw !initcommand_load_subconfig, skull_kart_base_init
 	dw sprite.unknown_3E, $0000
 	dw sprite.unknown_5C, DATA_FFF9A1
-	dw sprite.action, $0200
-	dw sprite.unknown_46, $0004
+	dw sprite.state, $0200
+	dw sprite.general_purpose_46, $0004
 	dw sprite.max_y_speed, $0220
 	dw sprite.unknown_22, $0200
 	dw sprite.unknown_28, $0600
@@ -21086,8 +21126,8 @@ DATA_FFF959:
 	dw !initcommand_load_subconfig, skull_kart_base_init
 	dw sprite.unknown_3E, $0000
 	dw sprite.unknown_5C, DATA_FFF9C1
-	dw sprite.action, $0200
-	dw sprite.unknown_46, $0004
+	dw sprite.state, $0200
+	dw sprite.general_purpose_46, $0004
 	dw sprite.max_y_speed, $0300
 	dw sprite.unknown_22, $0180
 	dw sprite.unknown_28, $0600
@@ -21098,8 +21138,8 @@ DATA_FFF97B:
 	dw sprite.unknown_3E, $1000
 	dw !initcommand_set_oam, $6000
 	dw sprite.unknown_5C, DATA_FFF9FF
-	dw sprite.action, $0200
-	dw sprite.unknown_46, $0004
+	dw sprite.state, $0200
+	dw sprite.general_purpose_46, $0004
 	dw sprite.max_y_speed, $FEC0
 	dw sprite.unknown_22, $FEC0
 	dw sprite.unknown_28, $FEC0
@@ -21127,17 +21167,17 @@ DATA_FFF9FF:
 
 race_handler_init:
 	dw sprite.number, $00DC
-	dw sprite.action, $0000
-	dw sprite.unknown_42, $0000
-	dw sprite.unknown_44, $000A
+	dw sprite.state, $0000
+	dw sprite.general_purpose_42, $0000
+	dw sprite.general_purpose_44, $000A
 	dw sprite.animation_id, DATA_FFFA17
 	dw !initcommand_success
 
 DATA_FFFA17:
 	dw !initcommand_load_subconfig, skull_kart_base_init
 	dw sprite.unknown_3E, $0000
-	dw sprite.action, $0300
-	dw sprite.unknown_46, $0004
+	dw sprite.state, $0300
+	dw sprite.general_purpose_46, $0004
 	dw !initcommand_success
 
 DATA_FFFA29:
@@ -21166,7 +21206,7 @@ DATA_FFFA6B:
 	dw !initcommand_load_subconfig, DATA_FFC9C3
 	dw !initcommand_set_animation, $02FA
 	dw !initcommand_set_alt_palette, $0002
-	dw sprite.action, $0000
+	dw sprite.state, $0000
 	dw sprite.y_speed, $FD00
 	dw sprite.x_speed, $FC00
 	dw sprite.max_x_speed, $FDC0
@@ -21174,47 +21214,47 @@ DATA_FFFA6B:
 
 DATA_FFFA89:
 	dw sprite.number, $01D0
-	dw sprite.unknown_54, DATA_FF021C
+	dw sprite.constants_address, DATA_FF021C
 	dw sprite.render_order, $00C8
-	dw sprite.unknown_54, DATA_FF0214
+	dw sprite.constants_address, DATA_FF0214
 	dw !initcommand_set_oam, $6000
-	dw sprite.unknown_30, $0020
+	dw sprite.interaction_flags, $0020
 	dw !initcommand_set_alt_palette, $0002
 	dw !initcommand_set_animation, $02FA
-	dw sprite.unknown_4A, $4008
-	dw sprite.action, $0002
+	dw sprite.general_purpose_4A, $4008
+	dw sprite.state, $0002
 	dw sprite.parameter, $0000
 	dw !initcommand_success
 
 DATA_FFFAB7:
 	dw !initcommand_load_subconfig, DATA_FFFC09
-	dw sprite.unknown_54, DATA_FF021C
+	dw sprite.constants_address, DATA_FF021C
 	dw !initcommand_set_animation, $01B3
-	dw sprite.unknown_42, $FD00
-	dw sprite.action, $0001
+	dw sprite.general_purpose_42, $FD00
+	dw sprite.state, $0001
 	dw !initcommand_success
 
 DATA_FFFACD:
 	dw sprite.number, $02EC
 	dw sprite.render_order, $00EC
-	dw sprite.unknown_54, DATA_FF021C
-	dw sprite.action, $0000
+	dw sprite.constants_address, DATA_FF021C
+	dw sprite.state, $0000
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_set_alt_palette, $0030
 	dw !initcommand_set_animation, $01AC
-	dw sprite.unknown_42, $0000
-	dw sprite.unknown_44, DATA_FFFAF7
-	dw sprite.unknown_46, $0000
+	dw sprite.general_purpose_42, $0000
+	dw sprite.general_purpose_44, DATA_FFFAF7
+	dw sprite.general_purpose_46, $0000
 	dw !initcommand_success
 
 DATA_FFFAF7:
 	dw !initcommand_spawn_relative, $0000, $0000
 	dw sprite.number, $02EC
 	dw sprite.render_order, $00C4
-	dw sprite.unknown_54, DATA_FF021C
-	dw sprite.action, $0101
-	dw sprite.unknown_42, $FFFF
-	dw sprite.unknown_46, $0000
+	dw sprite.constants_address, DATA_FF021C
+	dw sprite.state, $0101
+	dw sprite.general_purpose_42, $FFFF
+	dw sprite.general_purpose_46, $0000
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_set_alt_palette, $0030
 	dw !initcommand_set_animation, $01AD
@@ -21222,93 +21262,93 @@ DATA_FFFAF7:
 
 DATA_FFFB23:
 	dw !initcommand_load_subconfig, DATA_FFFACD
-	dw sprite.unknown_4C, $0400
+	dw sprite.general_purpose_4C, $0400
 	dw !initcommand_success
 
 DATA_FFFB2D:
 	dw !initcommand_load_subconfig, DATA_FFFACD
-	dw sprite.unknown_4C, $0500
+	dw sprite.general_purpose_4C, $0500
 	dw !initcommand_success
 
 DATA_FFFB37:
 	dw !initcommand_load_subconfig, DATA_FFFACD
-	dw sprite.unknown_4C, $0400
+	dw sprite.general_purpose_4C, $0400
 	dw !initcommand_success
 
 DATA_FFFB41:
 	dw !initcommand_load_subconfig, DATA_FFFACD
-	dw sprite.unknown_4C, $0400
+	dw sprite.general_purpose_4C, $0400
 	dw !initcommand_success
 
 DATA_FFFB4B:
 	dw !initcommand_load_subconfig, DATA_FFFACD
-	dw sprite.unknown_4C, $0400
+	dw sprite.general_purpose_4C, $0400
 	dw !initcommand_success
 
 DATA_FFFB55:
 	dw !initcommand_load_subconfig, DATA_FFFACD
-	dw sprite.unknown_4C, $0400
+	dw sprite.general_purpose_4C, $0400
 	dw !initcommand_success
 
 DATA_FFFB5F:
 	dw !initcommand_load_subconfig, DATA_FFFACD
-	dw sprite.unknown_4C, $0400
+	dw sprite.general_purpose_4C, $0400
 	dw !initcommand_success
 
 DATA_FFFB69:
 	dw !initcommand_load_subconfig, DATA_FFFACD
-	dw sprite.unknown_4C, $0400
+	dw sprite.general_purpose_4C, $0400
 	dw !initcommand_success
 
 DATA_FFFB73:
-	dw sprite.unknown_42, $0000
-	dw sprite.unknown_44, $0050
+	dw sprite.general_purpose_42, $0000
+	dw sprite.general_purpose_44, $0050
 DATA_FFFB7B:
 	dw sprite.number, $02EC
 	dw sprite.render_order, $00C4
-	dw sprite.unknown_54, DATA_FF021C
+	dw sprite.constants_address, DATA_FF021C
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_set_alt_palette, $002D
 	dw !initcommand_set_animation, $01AE
-	dw sprite.action, $0002
-	dw sprite.unknown_46, $0050
+	dw sprite.state, $0002
+	dw sprite.general_purpose_46, $0050
 	dw !initcommand_success
 
 DATA_FFFB9D:
-	dw sprite.unknown_42, $0001
-	dw sprite.unknown_44, $0000
+	dw sprite.general_purpose_42, $0001
+	dw sprite.general_purpose_44, $0000
 	dw !initcommand_load_subconfig, DATA_FFFB7B
 	dw !initcommand_success
 
 DATA_FFFBAB:
 	dw !initcommand_load_subconfig, DATA_FFFB7B
-	dw sprite.unknown_44, $0050
-	dw sprite.action, $0302
+	dw sprite.general_purpose_44, $0050
+	dw sprite.state, $0302
 	dw !initcommand_success
 
 DATA_FFFBB9:
-	dw sprite.unknown_42, $1812
-	dw sprite.unknown_44, $71FD
-	dw sprite.unknown_46, $1832
-	dw sprite.unknown_48, $71FD
-	dw sprite.unknown_4E, $0000
+	dw sprite.general_purpose_42, $1812
+	dw sprite.general_purpose_44, $71FD
+	dw sprite.general_purpose_46, $1832
+	dw sprite.general_purpose_48, $71FD
+	dw sprite.general_purpose_4E, $0000
 DATA_FFFBCD:
 	dw !initcommand_set_animation, $02DA
 	dw sprite.number, $02FC
 	dw sprite.render_order, $00C8
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_set_alt_palette, $0028
-	dw sprite.action, $0000
-	dw sprite.unknown_4A, $1852
-	dw sprite.unknown_4C, $71FD
+	dw sprite.state, $0000
+	dw sprite.general_purpose_4A, $1852
+	dw sprite.general_purpose_4C, $71FD
 	dw !initcommand_success
 
 DATA_FFFBEF:
-	dw sprite.unknown_42, $1832
-	dw sprite.unknown_44, $71FD
-	dw sprite.unknown_46, $1812
-	dw sprite.unknown_48, $71FD
-	dw sprite.unknown_4E, $0001
+	dw sprite.general_purpose_42, $1832
+	dw sprite.general_purpose_44, $71FD
+	dw sprite.general_purpose_46, $1812
+	dw sprite.general_purpose_48, $71FD
+	dw sprite.general_purpose_4E, $0001
 	dw !initcommand_load_subconfig, DATA_FFFBCD
 	dw !initcommand_success
 
@@ -21317,73 +21357,73 @@ DATA_FFFC09:
 	dw !initcommand_set_alt_palette, $0028
 	dw sprite.render_order, $00C8
 	dw !initcommand_set_oam, $2000
-	dw sprite.unknown_4E, $0000
+	dw sprite.general_purpose_4E, $0000
 	dw !initcommand_success
 
 DATA_FFFC1F:
 	dw !initcommand_load_subconfig, DATA_FFFC09
 	dw !initcommand_set_animation, $01B2
-	dw sprite.unknown_42, $0005
-	dw sprite.action, $0000
+	dw sprite.general_purpose_42, $0005
+	dw sprite.state, $0000
 	dw !initcommand_success
 
 DATA_FFFC31:
 	dw !initcommand_load_subconfig, DATA_FFFC09
 	dw !initcommand_set_animation, $01B2
-	dw sprite.unknown_42, $0001
-	dw sprite.action, $0000
+	dw sprite.general_purpose_42, $0001
+	dw sprite.state, $0000
 	dw !initcommand_success
 
 DATA_FFFC43:
 	dw !initcommand_load_subconfig, DATA_FFFC09
 	dw !initcommand_set_animation, $01B2
-	dw sprite.unknown_42, $0004
-	dw sprite.action, $0000
+	dw sprite.general_purpose_42, $0004
+	dw sprite.state, $0000
 	dw !initcommand_success
 
 DATA_FFFC55:
 	dw !initcommand_load_subconfig, DATA_FFFC09
 	dw !initcommand_set_animation, $01B2
-	dw sprite.unknown_42, $0006
-	dw sprite.action, $0000
+	dw sprite.general_purpose_42, $0006
+	dw sprite.state, $0000
 	dw !initcommand_success
 
 DATA_FFFC67:
 	dw !initcommand_load_subconfig, DATA_FFFC09
 	dw !initcommand_set_animation, $01B3
-	dw sprite.unknown_42, $FFFB
-	dw sprite.action, $0000
+	dw sprite.general_purpose_42, $FFFB
+	dw sprite.state, $0000
 	dw !initcommand_success
 
 DATA_FFFC79:
 	dw !initcommand_load_subconfig, DATA_FFFC09
 	dw !initcommand_set_animation, $01B3
-	dw sprite.unknown_42, $FC00
-	dw sprite.action, $0001
+	dw sprite.general_purpose_42, $FC00
+	dw sprite.state, $0001
 	dw !initcommand_success
 
 DATA_FFFC8B:
 	dw !initcommand_load_subconfig, DATA_FFFC09
 	dw !initcommand_set_animation, $01B4
-	dw sprite.action, $0002
-	dw sprite.unknown_42, $0200
-	dw sprite.unknown_44, $0700
+	dw sprite.state, $0002
+	dw sprite.general_purpose_42, $0200
+	dw sprite.general_purpose_44, $0700
 	dw !initcommand_success
 
 DATA_FFFCA1:
 	dw !initcommand_load_subconfig, DATA_FFFC09
 	dw !initcommand_set_animation, $01B4
-	dw sprite.action, $0002
-	dw sprite.unknown_42, $FB00
-	dw sprite.unknown_44, $0000
-	dw sprite.unknown_4E, $0001
+	dw sprite.state, $0002
+	dw sprite.general_purpose_42, $FB00
+	dw sprite.general_purpose_44, $0000
+	dw sprite.general_purpose_4E, $0001
 	dw !initcommand_success
 
 DATA_FFFCBB:
 	dw sprite.number, $00BC
-	dw sprite.unknown_54, DATA_FF021C
+	dw sprite.constants_address, DATA_FF021C
 	dw sprite.oam_property, $1502
-	dw sprite.action, $0000
+	dw sprite.state, $0000
 	dw !initcommand_success
 
 DATA_FFFCCD:
@@ -21478,72 +21518,72 @@ DATA_FFFD9A:
 	dw !initcommand_spawn_relative, $0000, $FFC0
 DATA_FFFDA0:
 	dw !initcommand_load_subconfig, DATA_FFFDD2
-	dw sprite.unknown_52, $2827
+	dw sprite.movement_state, $2827
 	dw !initcommand_success
 
 DATA_FFFDB0:
 	dw !initcommand_spawn_relative, $0000, $FFC0
 	dw !initcommand_load_subconfig, DATA_FFFDD2
-	dw sprite.unknown_52, $2827
-	dw sprite.unknown_4A, $F100
+	dw sprite.movement_state, $2827
+	dw sprite.general_purpose_4A, $F100
 	dw !initcommand_success
 
 DATA_FFFDBE:
 	dw !initcommand_spawn_relative, $0000, $FFC0
 	dw !initcommand_load_subconfig, DATA_FFFDD2
-	dw sprite.unknown_52, $2827
-	dw sprite.unknown_4A, $F280
+	dw sprite.movement_state, $2827
+	dw sprite.general_purpose_4A, $F280
 	dw !initcommand_success
 
 DATA_FFFDD2:
 	dw sprite.number, $00D0
-	dw sprite.action, $0200
+	dw sprite.state, $0200
 	dw sprite.unknown_1C, $0000
 	dw !initcommand_set_alt_palette, $00B5
 	dw !initcommand_set_animation, $01C6
 	dw !initcommand_set_oam, $2000
-	dw sprite.unknown_54, DATA_FF021C
+	dw sprite.constants_address, DATA_FF021C
 	dw sprite.render_order, $00D4
 	dw sprite.parameter, $0000
-	dw sprite.unknown_30, $0000
+	dw sprite.interaction_flags, $0000
 	dw sprite.x_speed, $0000
 	dw sprite.y_speed, $0000
-	dw sprite.unknown_52, $0028
-	dw sprite.unknown_42, $0020
-	dw sprite.unknown_44, $FE00
-	dw sprite.unknown_48, $0300
-	dw sprite.unknown_4A, $F400
-	dw sprite.unknown_4C, $0070
-	dw sprite.unknown_4E, $0800
+	dw sprite.movement_state, $0028
+	dw sprite.general_purpose_42, $0020
+	dw sprite.general_purpose_44, $FE00
+	dw sprite.general_purpose_48, $0300
+	dw sprite.general_purpose_4A, $F400
+	dw sprite.general_purpose_4C, $0070
+	dw sprite.general_purpose_4E, $0800
 	dw !initcommand_success
 
 DATA_FFFE20:
 	dw !initcommand_load_subconfig, DATA_FFFDD2
 	dw sprite.y_speed, $0000
 	dw sprite.max_x_speed, $FC00
-	dw sprite.unknown_42, $0008
+	dw sprite.general_purpose_42, $0008
 	dw !initcommand_success
 
 DATA_FFFE32:
 	dw !initcommand_load_subconfig, DATA_FFFDD2
 	dw sprite.y_speed, $0000
 	dw sprite.max_x_speed, $FC80
-	dw sprite.unknown_42, $0008
+	dw sprite.general_purpose_42, $0008
 	dw !initcommand_success
 
 DATA_FFFE44:
 	dw sprite.number, $00D0
-	dw sprite.action, $0100
+	dw sprite.state, $0100
 	dw sprite.oam_property, $0000
-	dw sprite.unknown_44, $0000
-	dw sprite.unknown_48, DATA_FFFD9A
-	dw sprite.unknown_4A, $0080
+	dw sprite.general_purpose_44, $0000
+	dw sprite.general_purpose_48, DATA_FFFD9A
+	dw sprite.general_purpose_4A, $0080
 	dw !initcommand_success
 
 DATA_FFFE5E:
 	dw !initcommand_load_subconfig, DATA_FFFE44
-	dw sprite.unknown_42, $0002
-	dw sprite.unknown_46, $0064
+	dw sprite.general_purpose_42, $0002
+	dw sprite.general_purpose_46, $0064
 	dw sprite.y_speed, $0100
 	dw sprite.x_speed, $FF00
 	dw sprite.max_x_speed, $FD00
@@ -21551,8 +21591,8 @@ DATA_FFFE5E:
 
 DATA_FFFE78:
 	dw !initcommand_load_subconfig, DATA_FFFE44
-	dw sprite.unknown_42, $0003
-	dw sprite.unknown_46, $00A5
+	dw sprite.general_purpose_42, $0003
+	dw sprite.general_purpose_46, $00A5
 	dw sprite.y_speed, $0100
 	dw sprite.x_speed, $FF80
 	dw sprite.max_x_speed, $FD00
@@ -21560,8 +21600,8 @@ DATA_FFFE78:
 
 DATA_FFFE92:
 	dw !initcommand_load_subconfig, DATA_FFFE44
-	dw sprite.unknown_42, $0006
-	dw sprite.unknown_46, $0064
+	dw sprite.general_purpose_42, $0006
+	dw sprite.general_purpose_46, $0064
 	dw sprite.y_speed, $0100
 	dw sprite.x_speed, $FF80
 	dw sprite.max_x_speed, $FD00
@@ -21569,19 +21609,19 @@ DATA_FFFE92:
 
 DATA_FFFEAC:
 	dw !initcommand_load_subconfig, DATA_FFFE44
-	dw sprite.unknown_42, $0006
-	dw sprite.unknown_46, $0073
+	dw sprite.general_purpose_42, $0006
+	dw sprite.general_purpose_46, $0073
 	dw sprite.y_speed, $0100
 	dw sprite.x_speed, $FF80
 	dw sprite.max_x_speed, $FD00
-	dw sprite.unknown_48, DATA_FFFDB0
+	dw sprite.general_purpose_48, DATA_FFFDB0
 	dw !initcommand_success
 
 DATA_FFFECA:
 	dw !initcommand_load_subconfig, DATA_FFFE44
-	dw sprite.unknown_42, $0001
-	dw sprite.unknown_44, $006E
-	dw sprite.unknown_46, $07D0
+	dw sprite.general_purpose_42, $0001
+	dw sprite.general_purpose_44, $006E
+	dw sprite.general_purpose_46, $07D0
 	dw sprite.y_speed, $0100
 	dw sprite.x_speed, $FF80
 	dw sprite.max_x_speed, $FD00
@@ -21589,18 +21629,18 @@ DATA_FFFECA:
 
 DATA_FFFEE8:
 	dw !initcommand_load_subconfig, DATA_FFFE44
-	dw sprite.unknown_42, $0006
-	dw sprite.unknown_46, $0064
+	dw sprite.general_purpose_42, $0006
+	dw sprite.general_purpose_46, $0064
 	dw sprite.y_speed, $0100
 	dw sprite.x_speed, $FF80
 	dw sprite.max_x_speed, $FD00
-	dw sprite.unknown_48, DATA_FFFDBE
+	dw sprite.general_purpose_48, DATA_FFFDBE
 	dw !initcommand_success
 
 DATA_FFFF06:
 	dw !initcommand_load_subconfig, DATA_FFFE44
-	dw sprite.unknown_42, $0006
-	dw sprite.unknown_46, $0064
+	dw sprite.general_purpose_42, $0006
+	dw sprite.general_purpose_46, $0064
 	dw sprite.y_speed, $0100
 	dw sprite.x_speed, $FF80
 	dw sprite.max_x_speed, $FD00
@@ -21608,8 +21648,8 @@ DATA_FFFF06:
 
 DATA_FFFF20:
 	dw !initcommand_load_subconfig, DATA_FFFE44
-	dw sprite.unknown_42, $0006
-	dw sprite.unknown_46, $006E
+	dw sprite.general_purpose_42, $0006
+	dw sprite.general_purpose_46, $006E
 	dw sprite.y_speed, $0100
 	dw sprite.x_speed, $FF80
 	dw sprite.max_x_speed, $FD00
@@ -21618,23 +21658,23 @@ DATA_FFFF20:
 if !version == 0
 DATA_FFFF2A:
 	dw !initcommand_load_subconfig, DATA_FFBB18
-	dw sprite.unknown_4C, $A800
-	dw sprite.unknown_4E, $8080
+	dw sprite.general_purpose_4C, $A800
+	dw sprite.general_purpose_4E, $8080
 	dw sprite.unknown_22, $0800
 	dw sprite.unknown_28, $0030
 	dw sprite.unknown_1C, $0058
-	dw sprite.unknown_4A, $0014
+	dw sprite.general_purpose_4A, $0014
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_success
 
 DATA_FFFF4C:
 	dw !initcommand_load_subconfig, DATA_FFBB18
-	dw sprite.unknown_4C, $FFD0
-	dw sprite.unknown_4E, $2B80
+	dw sprite.general_purpose_4C, $FFD0
+	dw sprite.general_purpose_4E, $2B80
 	dw sprite.unknown_22, $0380
 	dw sprite.unknown_28, $0068
 	dw sprite.unknown_1C, $0020
-	dw sprite.unknown_4A, $003C
+	dw sprite.general_purpose_4A, $003C
 	dw !initcommand_success
 DATA_FFFF6A:
 endif

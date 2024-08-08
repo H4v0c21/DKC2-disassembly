@@ -124,12 +124,12 @@ CODE_BCFB41:					;	   |
 	RTL					;$BCFB57  /
 
 CODE_BCFB58:
-	PHD					;$BCFB58  \
-	LDX current_sprite			;$BCFB59   |
-	LDY #$09D3				;$BCFB5B   |
-	JSR get_sprite_clipping			;$BCFB5E   |
+	PHD					;$BCFB58  \> Preserve direct page
+	LDX current_sprite			;$BCFB59   |> Get current sprite
+	LDY #$09D3				;$BCFB5B   |> Use current sprite clipping
+	JSR get_sprite_clipping			;$BCFB5E   |> Populate sprite hitboxes in RAM
 	JSR CODE_BCFBCC				;$BCFB61   |
-	PLD					;$BCFB64   |
+	PLD					;$BCFB64   |> Retrieve direct page
 	STZ $09DF				;$BCFB65   |
 	RTL					;$BCFB68  /
 
@@ -193,26 +193,26 @@ CODE_BCFBCA:					;	   |
 
 ;mirror clipping
 CODE_BCFBCC:
-	LDA $00					;$BCFBCC  \
-	STA $10					;$BCFBCE   |
-	LDA $04					;$BCFBD0   |
-	STA $14					;$BCFBD2   |
-	LDA $06					;$BCFBD4   |
-	STA $16					;$BCFBD6   |
-	LDA $02					;$BCFBD8   |
-	STA $12					;$BCFBDA   |
+	LDA $00					;$BCFBCC  \ \ Copy left clipping
+	STA $10					;$BCFBCE   |/
+	LDA $04					;$BCFBD0   |\ Copy right clipping
+	STA $14					;$BCFBD2   |/
+	LDA $06					;$BCFBD4   |\ Copy bottom clipping
+	STA $16					;$BCFBD6   |/
+	LDA $02					;$BCFBD8   |\ Copy top clipping
+	STA $12					;$BCFBDA   |/
 	RTS					;$BCFBDC  /
 
 ;mirror clipping
 CODE_BCFBDD:
-	LDA $00					;$BCFBDD  \
-	STA $08					;$BCFBDF   |
-	LDA $04					;$BCFBE1   |
-	STA $0C					;$BCFBE3   |
-	LDA $06					;$BCFBE5   |
-	STA $0E					;$BCFBE7   |
-	LDA $02					;$BCFBE9   |
-	STA $0A					;$BCFBEB   |
+	LDA $00					;$BCFBDD  \ \ Copy left clipping
+	STA $08					;$BCFBDF   |/
+	LDA $04					;$BCFBE1   |\ Copy right clipping
+	STA $0C					;$BCFBE3   |/
+	LDA $06					;$BCFBE5   |\ Copy bottom clipping
+	STA $0E					;$BCFBE7   |/
+	LDA $02					;$BCFBE9   |\ Copy top clipping
+	STA $0A					;$BCFBEB   |/
 	RTS					;$BCFBED  /
 
 CODE_BCFBEE:
@@ -282,60 +282,60 @@ CODE_BCFC48:
 	RTS					;$BCFC4C  /
 
 get_sprite_clipping:
-	LDA $1A,x				;$BCFC4D  \ Get clipping ID
-	BEQ CODE_BCFC48				;$BCFC4F   |
-	LSR A					;$BCFC51   |
-	PHX					;$BCFC52   |
-	TAX					;$BCFC53   |
-	LDA.l DATA_BCB600,x			;$BCFC54   | clipping pointer
-	PLX					;$BCFC58   |
+	LDA $1A,x				;$BCFC4D  \ \ Get graphic id
+	BEQ CODE_BCFC48				;$BCFC4F   |/
+	LSR A					;$BCFC51   |\ /2 to get hitbox index (hitbox pointers are 2 bytes not 4)
+	PHX					;$BCFC52   | | Preserve sprite in X
+	TAX					;$BCFC53   | | Put hitbox index in X
+	LDA.l DATA_BCB600,x			;$BCFC54   | | Get hitbox pointer from table
+	PLX					;$BCFC58   |/ Retrieve sprite in X
 CODE_BCFC59:					;	   |
-	PHB					;$BCFC59   |
-	PHK					;$BCFC5A   |
-	PLB					;$BCFC5B   |
-	PHY					;$BCFC5C   |
-	TAY					;$BCFC5D   |
-	PLD					;$BCFC5E   |
-	LDA $0006,x				;$BCFC5F   | Get sprite X position
-	BIT $0012,x				;$BCFC62   |
-	BVS .flip_x_clipping			;$BCFC65   |
-	CLC					;$BCFC67   |
-	ADC $0000,y				;$BCFC68   | Add clipping horizontal offset
-	STA $00					;$BCFC6B   | Store leftmost position
-	CLC					;$BCFC6D   |
-	ADC $0004,y				;$BCFC6E   | Add clipping width
-	STA $04					;$BCFC71   | Store rightmost position
+	PHB					;$BCFC59   |\ Preserve data bank
+	PHK					;$BCFC5A   | | Set data bank to this bank for hitboxes
+	PLB					;$BCFC5B   | |
+	PHY					;$BCFC5C   | | Push clipping ram base
+	TAY					;$BCFC5D   | | Put hitbox address in Y
+	PLD					;$BCFC5E   |/ Use clipping ram base address
+	LDA $0006,x				;$BCFC5F   |\ Get sprite X position
+	BIT $0012,x				;$BCFC62   | |
+	BVS .flip_x_clipping			;$BCFC65   |/ If sprite is x flipped then flip x clipping
+	CLC					;$BCFC67   |\
+	ADC $0000,y				;$BCFC68   | | Add clipping horizontal offset
+	STA $00					;$BCFC6B   |/ Store leftmost position
+	CLC					;$BCFC6D   |\
+	ADC $0004,y				;$BCFC6E   | | Add clipping width
+	STA $04					;$BCFC71   |/ Store rightmost position
 	BRA .vertical_clipping			;$BCFC73  /
 
 .flip_x_clipping
-	SEC					;$BCFC75  \
-	SBC $0000,y				;$BCFC76   | Subtract clipping horizontal offset
-	STA $04					;$BCFC79   | Store rightmost position
-	SEC					;$BCFC7B   |
-	SBC $0004,y				;$BCFC7C   | Subtract clipping width
-	STA $00					;$BCFC7F   | Store leftmost position
+	SEC					;$BCFC75  \ \
+	SBC $0000,y				;$BCFC76   | | Subtract clipping horizontal offset
+	STA $04					;$BCFC79   |/ Store rightmost position
+	SEC					;$BCFC7B   |\
+	SBC $0004,y				;$BCFC7C   | | Subtract clipping width
+	STA $00					;$BCFC7F   |/ Store leftmost position
 .vertical_clipping				;	   |
-	LDA $000A,x				;$BCFC81   | Get sprite Y position
-	BIT $0012,x				;$BCFC84   |
-	BMI .flip_y_clipping			;$BCFC87   |
-	CLC					;$BCFC89   |
-	ADC $0002,y				;$BCFC8A   | Add clipping vertical offset
-	STA $02					;$BCFC8D   | Store top position
-	CLC					;$BCFC8F   |
-	ADC $0006,y				;$BCFC90   | Add clipping height
-	STA $06					;$BCFC93   | Store bottom position
-	PLB					;$BCFC95   |
-	RTS					;$BCFC96  /
+	LDA $000A,x				;$BCFC81   |\ Get sprite Y position
+	BIT $0012,x				;$BCFC84   | |
+	BMI .flip_y_clipping			;$BCFC87   |/ If sprite is y flipped then flip y clipping
+	CLC					;$BCFC89   |\
+	ADC $0002,y				;$BCFC8A   | | Add clipping vertical offset
+	STA $02					;$BCFC8D   |/ Store top position
+	CLC					;$BCFC8F   |\
+	ADC $0006,y				;$BCFC90   | | Add clipping height
+	STA $06					;$BCFC93   |/ Store bottom position
+	PLB					;$BCFC95   |> Retrieve bank
+	RTS					;$BCFC96  /> Return
 
 .flip_y_clipping
-	SEC					;$BCFC97  \
-	SBC $0002,y				;$BCFC98   | Subtract clipping vertical offset
-	STA $06					;$BCFC9B   | Store bottom position
-	SEC					;$BCFC9D   |
-	SBC $0006,y				;$BCFC9E   | Subtract clipping height
-	STA $02					;$BCFCA1   | Store top position
-	PLB					;$BCFCA3   |
-	RTS					;$BCFCA4  /
+	SEC					;$BCFC97  \ \
+	SBC $0002,y				;$BCFC98   | | Subtract clipping vertical offset
+	STA $06					;$BCFC9B   |/ Store bottom position
+	SEC					;$BCFC9D   |\
+	SBC $0006,y				;$BCFC9E   | | Subtract clipping height
+	STA $02					;$BCFCA1   |/ Store top position
+	PLB					;$BCFCA3   |> Retrieve bank
+	RTS					;$BCFCA4  /> Return
 
 CODE_BCFCA5:
 	STA $EB					;$BCFCA5  \
@@ -494,8 +494,8 @@ CODE_BCFDDA:					;	   |
 	LDA #$0004				;$BCFDFA   |\ Main kong collided
 	TSB $09F5				;$BCFDFD   |/
 CODE_BCFE00:					;	   |
-	LDA $09F5				;$BCFE00   |
-	CMP #$0001				;$BCFE03   |
+	LDA $09F5				;$BCFE00   |\
+	CMP #$0001				;$BCFE03   |/ Set carry if any collision event happened
 	RTS					;$BCFE06  /
 
 CODE_BCFE07:

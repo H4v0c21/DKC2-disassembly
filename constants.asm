@@ -596,3 +596,15 @@
 !level_DD				= $00DD
 !level_DE				= $00DE
 !level_DF				= $00DF
+
+!normal_level_type			= $0000
+!bonus_level_type			= $0001
+!small_level_type			= $0002
+!boss_level_type			= $0003
+!npc_level_type				= $0004
+!map_level_type				= $0005
+!sub_level_type				= $0006
+
+!destroy_them_all_bonus_type		= $0001
+!collect_the_stars_bonus_type		= $0002
+!find_the_token_bonus_type		= $0003

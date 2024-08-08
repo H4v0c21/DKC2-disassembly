@@ -11617,7 +11617,7 @@ CODE_B6E684:					;	   |
 	STA $26,x				;$B6E686   |
 CODE_B6E688:					;	   |
 	LDA #$0200				;$B6E688   |
-	JSL CODE_BEBE14				;$B6E68B   |
+	JSL check_throwable_collision_global	;$B6E68B   |
 	BCC CODE_B6E697				;$B6E68F   |
 	JSR CODE_B6E55D				;$B6E691   |
 	BRL CODE_B6E559				;$B6E694  /

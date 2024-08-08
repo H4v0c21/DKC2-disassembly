@@ -2920,1207 +2920,2920 @@ DATA_FD4BCD:
 	db $26, $26, $10, $00, $0F, $00, $09, $08, $10
 
 DATA_FD4BE2:
-	db $00, $00 : dw DATA_FD48C4 : db $00, $00, $00, $00
-	db $00, $0A, $00, $00, $80, $01, $00, $01
-	db $00, $00, $20, $00, $02, $00, $00, $00
-	db $00, $00, $00, $00, $00, $00, $00, $00
-	db $00, $00, $00, $00, $00, $00, $00, $00
-	db $00, $00, $00, $00, $00, $02, $FF, $0A
-	db $00, $0C, $00, $0E, $00, $00, $10, $FF
-	db $FF, $00, $00, $FF, $FF
+	dw !normal_level_type
+	dw DATA_FD48C4
+	db $00
+	db $00
+	db $00
+	db $00
+	db $00
+	db $0A
+	db $00
+	db $00 : dw $0180, $0100
+	db $00 : dw $2000, $0200
+	db $00 : dw $0000, $0000
+	db $00 : dw $0000, $0000
+	db $00 : dw $0000, $0000
+	db $00 : dw $0000, $0000
+	db $00 : dw $0000, $0200
+	db $FF
+	dw !level_slime_climb
+	dw !level_mainbrace_mayhem
+	dw !level_target_terror
+	dw $1000
+	dw $FFFF, $0000
+	dw $FFFF
 
 DATA_FD4C1F:
-	db $00, $00 : dw DATA_FD4942 : db $00, $00, $00, $00
-	db $05, $00, $02, $00, $28, $01, $08, $08
-	db $02, $F0, $05, $10, $05, $02, $C4, $01
-	db $20, $07, $02, $20, $07, $40, $04, $00
-	db $D0, $0A, $70, $01, $FF, $01, $00, $84
-	db $00, $82, $00, $06, $00, $FF, $FF, $00
-	db $00, $FF, $FF
+	dw !normal_level_type
+	dw DATA_FD4942
+	db $00
+	db $00
+	db $00
+	db $00
+	db $05
+	db $00
+	db $02
+	db $00 : dw $0128, $0808
+	db $02 : dw $05F0, $0510
+	db $02 : dw $01C4, $0720
+	db $02 : dw $0720, $0440
+	db $00 : dw $0AD0, $0170
+	db $FF
+	dw !level_glimmers_galleon
+	dw !level_glimmers_galleon_bonus_1
+	dw !level_glimmers_galleon_bonus_2
+	dw !level_glimmers_galleon_exit_room
+	dw $FFFF, $0000
+	dw $FFFF
 
 DATA_FD4C52:
-	db $00, $00 : dw DATA_FD4957 : db $00, $00, $00, $00
-	db $03, $11, $00, $02, $F0, $04, $71, $0A
-	db $00, $40, $04, $F8, $01, $40, $00, $02
-	db $E8, $00, $00, $30, $07, $B1, $02, $40
-	db $B0, $09, $48, $08, $00, $60, $0A, $11
-	db $09, $FF, $60, $00, $B4, $00, $12, $00
-	db $B2, $00, $FF, $FF, $00, $00, $FF, $FF
+	dw !normal_level_type
+	dw DATA_FD4957
+	db $00
+	db $00
+	db $00
+	db $00
+	db $03
+	db $11
+	db $00
+	db $02 : dw $04F0, $0A71
+	db $00 : dw $0440, $01F8
+	db $40 : dw $0200, $00E8
+	db $00 : dw $0730, $02B1
+	db $40 : dw $09B0, $0848
+	db $00 : dw $0A60, $0911
+	db $FF
+	dw !level_king_zing_sting
+	dw !level_rambi_rumble_bonus_1
+	dw !level_rambi_rumble_rambi_room
+	dw !level_rambi_rumble_bonus_2
+	dw $FFFF, $0000
+	dw $FFFF
 
 DATA_FD4C8A:
-	db $00, $00 : dw DATA_FD4996 : db $00, $00, $00, $00
-	db $00, $0A, $01, $00, $30, $01, $D1, $01
-	db $00, $A8, $0C, $C8, $01, $00, $60, $02
-	db $11, $02, $40, $B0, $10, $E8, $00, $40
-	db $88, $15, $90, $01, $40, $B8, $1B, $E8
-	db $00, $00, $30, $1C, $D0, $01, $FF, $0C
-	db $00, $1B, $00, $6F, $00, $70, $00, $1D
-	db $00, $FF, $FF, $00, $00, $FF, $FF
+	dw !normal_level_type
+	dw DATA_FD4996
+	db $00
+	db $00
+	db $00
+	db $00
+	db $00
+	db $0A
+	db $01
+	db $00 : dw $0130, $01D1
+	db $00 : dw $0CA8, $01C8
+	db $00 : dw $0260, $0211
+	db $40 : dw $10B0, $00E8
+	db $40 : dw $1588, $0190
+	db $40 : dw $1BB8, $00E8
+	db $00 : dw $1C30, $01D0
+	db $FF
+	dw !level_mainbrace_mayhem
+	dw !level_pirate_panic_k_rools_cabin
+	dw !level_pirate_panic_bonus_1
+	dw !level_pirate_panic_bonus_2
+	dw !level_pirate_panic_warp_room
+	dw $FFFF, $0000
+	dw $FFFF
 
 DATA_FD4CC9:
-	db $00, $00 : dw DATA_FD49AB : db $01, $00, $00, $00
-	db $00, $01, $01, $00, $30, $01, $35, $02
-	db $00, $80, $10, $E8, $01, $40, $78, $01
-	db $E1, $00, $40, $D8, $1D, $C0, $01, $40
-	db $C8, $1F, $B0, $01, $00, $B0, $20, $91
-	db $02, $FF, $40, $00, $A8, $00, $71, $00
-	db $1D, $00, $FF, $FF, $00, $00, $40, $00
-	db $15, $00, $FF, $FF
+	dw !normal_level_type
+	dw DATA_FD49AB
+	db $01
+	db $00
+	db $00
+	db $00
+	db $00
+	db $01
+	db $01
+	db $00 : dw $0130, $0235
+	db $00 : dw $1080, $01E8
+	db $40 : dw $0178, $00E1
+	db $40 : dw $1DD8, $01C0
+	db $40 : dw $1FC8, $01B0
+	db $00 : dw $20B0, $0291
+	db $FF
+	dw !level_40
+	dw !level_gangplank_galley_bonus_1
+	dw !level_gangplank_galley_bonus_2
+	dw !level_pirate_panic_warp_room
+	dw $FFFF, $0000
+	dw !level_40, !level_lockjaws_locker
+	dw $FFFF
 
 DATA_FD4D05:
-	db $00, $00 : dw DATA_FD49C0 : db $02, $00, $00, $00
-	db $00, $01, $01, $00, $30, $01, $B1, $02
-	db $00, $70, $16, $80, $01, $40, $A0, $01
-	db $08, $01, $00, $D0, $03, $B1, $02, $40
-	db $90, $10, $08, $01, $40, $40, $1D, $E8
-	db $00, $00, $F0, $28, $11, $02, $FF, $0A
-	db $00, $72, $00, $22, $00, $7F, $00, $73
-	db $00, $FF, $FF, $00, $00, $05, $00, $5A
-	db $00, $FF, $FF
+	dw !normal_level_type
+	dw DATA_FD49C0
+	db $02
+	db $00
+	db $00
+	db $00
+	db $00
+	db $01
+	db $01
+	db $00 : dw $0130, $02B1
+	db $00 : dw $1670, $0180
+	db $40 : dw $01A0, $0108
+	db $00 : dw $03D0, $02B1
+	db $40 : dw $1090, $0108
+	db $40 : dw $1D40, $00E8
+	db $00 : dw $28F0, $0211
+	db $FF
+	dw !level_slime_climb
+	dw !level_rattle_battle_bonus_1
+	dw !level_rattle_battle_rattly_room
+	dw !level_rattle_battle_bonus_2
+	dw !level_rattle_battle_bonus_3
+	dw $FFFF, $0000
+	dw !level_rattle_battle, !level_5A
+	dw $FFFF
 
 DATA_FD4D48:
-	db $06, $00 : dw DATA_FD49C0 : db $03, $00, $00, $00
-	db $00, $00, $01, $80, $30, $01, $00, $02
-	db $FF, $29, $00, $FF, $FF, $00, $00, $01
-	db $00, $4A, $00, $4A, $00, $52, $00, $52
-	db $00, $3A, $00, $3A, $00, $29, $00, $FF
+	dw !sub_level_type
+	dw DATA_FD49C0
+	db $03
+	db $00
+	db $00
+	db $00
+	db $00
+	db $00
+	db $01
+	db $80 : dw $0130, $0200
 	db $FF
+	dw !level_krockhead_klamber
+	dw $FFFF, $0000
+	dw !level_glimmers_galleon, !level_4A
+	dw !level_4A, !level_52
+	dw !level_52, !level_3A
+	dw !level_3A, !level_krockhead_klamber
+	dw $FFFF
 
 DATA_FD4D71:
-	db $00, $00 : dw DATA_FD49D5 : db $00, $00, $00, $00
-	db $00, $0A, $00, $00, $60, $01, $95, $02
-	db $00, $10, $12, $20, $02, $40, $10, $21
-	db $18, $01, $40, $00, $12, $C8, $01, $40
-	db $7C, $1D, $01, $01, $40, $30, $23, $D0
-	db $01, $00, $C0, $23, $91, $02, $FF, $41
-	db $00, $74, $00, $75, $00, $1C, $00, $8E
-	db $00, $FF, $FF, $00, $00, $07, $00, $59
-	db $00, $41, $00, $25, $00, $FF, $FF
+	dw !normal_level_type
+	dw DATA_FD49D5
+	db $00
+	db $00
+	db $00
+	db $00
+	db $00
+	db $0A
+	db $00
+	db $00 : dw $0160, $0295
+	db $00 : dw $1210, $0220
+	db $40 : dw $2110, $0118
+	db $40 : dw $1200, $01C8
+	db $40 : dw $1D7C, $0101
+	db $40 : dw $2330, $01D0
+	db $00 : dw $23C0, $0291
+	db $FF
+	dw !level_41
+	dw !level_hot_head_hop_bonus_3
+	dw !level_hot_head_hop_bonus_1
+	dw !level_hot_head_hop_bonus_2
+	dw !level_hot_head_hop_warp_room
+	dw $FFFF, $0000
+	dw !level_hot_head_hop, !level_59
+	dw !level_41, !level_kannons_klaim
+	dw $FFFF
 
 DATA_FD4DB8:
-	db $00, $00 : dw DATA_FD49FF : db $01, $00, $00, $00
-	db $00, $0A, $00, $00, $60, $01, $91, $02
-	db $00, $C0, $16, $D0, $01, $40, $58, $14
-	db $B1, $01, $40, $E8, $16, $90, $01, $40
-	db $60, $28, $A7, $01, $00, $B0, $28, $91
-	db $02, $FF, $24, $00, $76, $00, $77, $00
-	db $8E, $00, $FF, $FF, $00, $00, $08, $00
-	db $39, $00, $FF, $FF
+	dw !normal_level_type
+	dw DATA_FD49FF
+	db $01
+	db $00
+	db $00
+	db $00
+	db $00
+	db $0A
+	db $00
+	db $00 : dw $0160, $0291
+	db $00 : dw $16C0, $01D0
+	db $40 : dw $1458, $01B1
+	db $40 : dw $16E8, $0190
+	db $40 : dw $2860, $01A7
+	db $00 : dw $28B0, $0291
+	db $FF
+	dw !level_squawks_shaft
+	dw !level_red_hot_ride_bonus_1
+	dw !level_red_hot_ride_bonus_2
+	dw !level_hot_head_hop_warp_room
+	dw $FFFF, $0000
+	dw !level_red_hot_ride, !level_39
+	dw $FFFF
 
 DATA_FD4DF4:
-	db $03, $00 : dw DATA_FD4A53 : db $00, $00, $00, $00
-	db $09, $01, $00, $00, $30, $01, $ED, $01
-	db $00, $00, $00, $00, $02, $00, $00, $20
-	db $00, $02, $FF, $0C, $00, $FF, $FF, $00
-	db $00, $30, $00, $31, $00, $FF, $FF
+	dw !boss_level_type
+	dw DATA_FD4A53
+	db $00
+	db $00
+	db $00
+	db $00
+	db $09
+	db $01
+	db $00
+	db $00 : dw $0130, $01ED
+	db $00 : dw $0000, $0200
+	db $00 : dw $2000, $0200
+	db $FF
+	dw !level_mainbrace_mayhem
+	dw $FFFF, $0000
+	dw !level_30, !level_31
+	dw $FFFF
 
 DATA_FD4E1B:
-	db $00, $00 : dw DATA_FD4A14 : db $01, $00, $00, $00
-	db $06, $0B, $00, $00, $30, $01, $ED, $16
-	db $00, $90, $03, $50, $0E, $00, $90, $03
-	db $50, $0E, $40, $18, $01, $58, $01, $00
-	db $00, $04, $4D, $02, $FF, $2D, $00, $7A
-	db $00, $7E, $00, $FF, $FF, $00, $00, $0A
-	db $00, $42, $00, $FF, $FF
+	dw !normal_level_type
+	dw DATA_FD4A14
+	db $01
+	db $00
+	db $00
+	db $00
+	db $06
+	db $0B
+	db $00
+	db $00 : dw $0130, $16ED
+	db $00 : dw $0390, $0E50
+	db $00 : dw $0390, $0E50
+	db $40 : dw $0118, $0158
+	db $00 : dw $0400, $024D
+	db $FF
+	dw !level_bramble_blast
+	dw !level_slime_climb_bonus_1
+	dw !level_slime_climb_bonus_2
+	dw $FFFF, $0000
+	dw !level_slime_climb, !level_42
+	dw $FFFF
 
 DATA_FD4E50:
-	db $00, $00 : dw DATA_FD4A3E : db $02, $00, $00, $00
-	db $06, $07, $00, $02, $D0, $03, $8D, $0F
-	db $00, $10, $02, $B0, $08, $02, $D0, $03
-	db $B5, $0C, $00, $28, $01, $4D, $04, $40
-	db $E8, $01, $D0, $01, $00, $D0, $02, $AD
-	db $02, $FF, $50, $00, $7B, $00, $7C, $00
-	db $1A, $00, $FF, $FF, $00, $00, $50, $00
-	db $09, $00, $FF, $FF
+	dw !normal_level_type
+	dw DATA_FD4A3E
+	db $02
+	db $00
+	db $00
+	db $00
+	db $06
+	db $07
+	db $00
+	db $02 : dw $03D0, $0F8D
+	db $00 : dw $0210, $08B0
+	db $02 : dw $03D0, $0CB5
+	db $00 : dw $0128, $044D
+	db $40 : dw $01E8, $01D0
+	db $00 : dw $02D0, $02AD
+	db $FF
+	dw !level_50
+	dw !level_topsail_trouble_bonus_1
+	dw !level_topsail_trouble_bonus_2
+	dw !level_topsail_trouble_warp_room
+	dw $FFFF, $0000
+	dw !level_50, !level_krows_nest
+	dw $FFFF
 
 DATA_FD4E8C:
-	db $00, $00 : dw DATA_FD4A68 : db $03, $00, $00, $00
-	db $06, $01, $00, $00, $30, $01, $AD, $0B
-	db $02, $B0, $03, $38, $07, $02, $D8, $03
-	db $AD, $0A, $00, $33, $01, $C0, $03, $40
-	db $30, $02, $68, $01, $40, $48, $03, $68
-	db $01, $00, $A0, $03, $0D, $03, $FF, $04
-	db $00, $78, $00, $79, $00, $7D, $00, $20
-	db $00, $FF, $FF, $00, $00, $0C, $00, $38
-	db $00, $C4, $00, $C9, $00, $C5, $00, $CA
-	db $00, $C6, $00, $CB, $00, $C7, $00, $CC
-	db $00, $C8, $00, $CD, $00, $C4, $00, $99
-	db $00, $C5, $00, $96, $00, $C6, $00, $80
-	db $00, $C7, $00, $16, $00, $C8, $00, $9A
-	db $00, $FF, $FF
+	dw !normal_level_type
+	dw DATA_FD4A68
+	db $03
+	db $00
+	db $00
+	db $00
+	db $06
+	db $01
+	db $00
+	db $00 : dw $0130, $0BAD
+	db $02 : dw $03B0, $0738
+	db $02 : dw $03D8, $0AAD
+	db $00 : dw $0133, $03C0
+	db $40 : dw $0230, $0168
+	db $40 : dw $0348, $0168
+	db $00 : dw $03A0, $030D
+	db $FF
+	dw !level_gangplank_galley
+	dw !level_mainbrace_mayhem_bonus_1
+	dw !level_mainbrace_mayhem_bonus_2
+	dw !level_mainbrace_mayhem_bonus_3
+	dw !level_mainbrace_mayhem_warp_room
+	dw $FFFF, $0000
+	dw !level_mainbrace_mayhem, !level_38
+	dw !level_C4, !level_C9
+	dw !level_C5, !level_CA
+	dw !level_C6, !level_CB
+	dw !level_C7, !level_CC
+	dw !level_C8, !level_CD
+	dw !level_C4, !level_jungle_jinx
+	dw !level_C5, !level_black_ice_battle
+	dw !level_C6, !level_klobber_karnage
+	dw !level_C7, !level_fiery_furnace
+	dw !level_C8, !level_animal_antics_rambi_area
+	dw $FFFF
 
 DATA_FD4EF7:
-	db $03, $00 : dw DATA_FD4A7D : db $04, $00, $00, $00
-	db $00, $01, $00, $00, $10, $01, $2D, $0C
-	db $00, $00, $00, $00, $02, $00, $00, $20
-	db $00, $02, $FF, $0C, $00, $FF, $FF, $00
-	db $00, $34, $00, $35, $00, $FF, $FF
+	dw !boss_level_type
+	dw DATA_FD4A7D
+	db $04
+	db $00
+	db $00
+	db $00
+	db $00
+	db $01
+	db $00
+	db $00 : dw $0110, $0C2D
+	db $00 : dw $0000, $0200
+	db $00 : dw $2000, $0200
+	db $FF
+	dw !level_mainbrace_mayhem
+	dw $FFFF, $0000
+	dw !level_34, !level_35
+	dw $FFFF
 
 DATA_FD4F1E:
-	db $00, $00 : dw DATA_FD4A92 : db $00, $00, $00, $00
-	db $0E, $00, $00, $00, $30, $01, $B1, $02
-	db $00, $40, $24, $58, $02, $40, $60, $1F
-	db $E8, $00, $00, $10, $36, $A5, $02, $00
-	db $20, $40, $A0, $02, $FF, $1E, $00, $A1
-	db $00, $C1, $00, $1E, $00, $FF, $FF, $00
-	db $00, $FF, $FF
+	dw !normal_level_type
+	dw DATA_FD4A92
+	db $00
+	db $00
+	db $00
+	db $00
+	db $0E
+	db $00
+	db $00
+	db $00 : dw $0130, $02B1
+	db $00 : dw $2440, $0258
+	db $40 : dw $1F60, $00E8
+	db $00 : dw $3610, $02A5
+	db $00 : dw $4020, $02A0
+	db $FF
+	dw !level_target_terror_exit_room
+	dw !level_target_terror_bonus_1
+	dw !level_target_terror_bonus_2
+	dw !level_target_terror_exit_room
+	dw $FFFF, $0000
+	dw $FFFF
 
 DATA_FD4F51:
-	db $00, $00 : dw DATA_FD4A92 : db $01, $00, $00, $00
-	db $0E, $00, $00, $00, $30, $01, $71, $02
-	db $00, $00, $28, $D6, $01, $00, $98, $02
-	db $71, $01, $00, $A0, $5E, $F0, $01, $FF
-	db $BE, $00, $C3, $00, $BE, $00, $FF, $FF
-	db $00, $00, $FF, $FF
+	dw !normal_level_type
+	dw DATA_FD4A92
+	db $01
+	db $00
+	db $00
+	db $00
+	db $0E
+	db $00
+	db $00
+	db $00 : dw $0130, $0271
+	db $00 : dw $2800, $01D6
+	db $00 : dw $0298, $0171
+	db $00 : dw $5EA0, $01F0
+	db $FF
+	dw !level_rickety_race_exit
+	dw !level_rickety_race_bonus_1
+	dw !level_rickety_race_exit
+	dw $FFFF, $0000
+	dw $FFFF
 
 DATA_FD4F7D:
-	db $00, $00 : dw DATA_FD4ABC : db $00, $00, $00, $00
-	db $0E, $00, $00, $00, $50, $01, $D1, $01
-	db $00, $20, $29, $7C, $01, $00, $A0, $14
-	db $B9, $01, $00, $E0, $14, $05, $02, $00
-	db $10, $3D, $65, $02, $00, $D0, $54, $C0
-	db $01, $FF, $BF, $00, $BD, $00, $C2, $00
-	db $C0, $00, $BF, $00, $FF, $FF, $00, $00
-	db $FF, $FF
+	dw !normal_level_type
+	dw DATA_FD4ABC
+	db $00
+	db $00
+	db $00
+	db $00
+	db $0E
+	db $00
+	db $00
+	db $00 : dw $0150, $01D1
+	db $00 : dw $2920, $017C
+	db $00 : dw $14A0, $01B9
+	db $00 : dw $14E0, $0205
+	db $00 : dw $3D10, $0265
+	db $00 : dw $54D0, $01C0
+	db $FF
+	dw !level_haunted_hall_exit
+	dw !level_haunted_hall_bonus_1
+	dw !level_haunted_hall_bonus_2
+	dw !level_haunted_hall_bonus_3
+	dw !level_haunted_hall_exit
+	dw $FFFF, $0000
+	dw $FFFF
 
 DATA_FD4FB7:
-	db $00, $00 : dw DATA_FD4957 : db $01, $00, $00, $00
-	db $03, $0F, $00, $00, $D0, $01, $71, $0C
-	db $02, $00, $04, $88, $08, $02, $00, $02
-	db $D1, $09, $02, $90, $02, $31, $09, $40
-	db $D0, $09, $68, $01, $00, $80, $03, $B1
-	db $01, $FF, $64, $00, $B3, $00, $AE, $00
-	db $B0, $00, $FF, $FF, $00, $00, $11, $00
-	db $4B, $00, $65, $00, $0E, $00, $FF, $FF
+	dw !normal_level_type
+	dw DATA_FD4957
+	db $01
+	db $00
+	db $00
+	db $00
+	db $03
+	db $0F
+	db $00
+	db $00 : dw $01D0, $0C71
+	db $02 : dw $0400, $0888
+	db $02 : dw $0200, $09D1
+	db $02 : dw $0290, $0931
+	db $40 : dw $09D0, $0168
+	db $00 : dw $0380, $01B1
+	db $FF
+	dw !level_64
+	dw !level_hornet_hole_bonus_2
+	dw !level_hornet_hole_bonus_1
+	dw !level_hornet_hole_bonus_3
+	dw $FFFF, $0000
+	dw !level_hornet_hole, !level_4B
+	dw !level_65, !level_target_terror
+	dw $FFFF
 
 DATA_FD4FF7:
-	db $02, $00 : dw DATA_FD4957 : db $02, $00, $00, $00
-	db $00, $01, $00, $00, $50, $01, $F1, $01
-	db $00, $00, $20, $00, $02, $00, $00, $20
-	db $00, $02, $FF, $0C, $00, $FF, $FF, $00
-	db $00, $FF, $FF
+	dw !small_level_type
+	dw DATA_FD4957
+	db $02
+	db $00
+	db $00
+	db $00
+	db $00
+	db $01
+	db $00
+	db $00 : dw $0150, $01F1
+	db $00 : dw $2000, $0200
+	db $00 : dw $2000, $0200
+	db $FF
+	dw !level_mainbrace_mayhem
+	dw $FFFF, $0000
+	dw $FFFF
 
 DATA_FD501A:
-	db $00, $00 : dw DATA_FD4981 : db $00, $00, $00, $00
-	db $05, $08, $02, $00, $60, $01, $D1, $01
-	db $02, $A1, $01, $90, $19, $00, $3C, $01
-	db $51, $13, $00, $A0, $01, $51, $1F, $00
-	db $80, $02, $51, $09, $00, $30, $02, $B1
-	db $33, $FF, $54, $00, $B1, $00, $AF, $00
-	db $26, $00, $FF, $FF, $00, $00, $13, $00
-	db $5C, $00, $13, $00, $44, $00, $54, $00
-	db $17, $00, $FF, $FF
+	dw !normal_level_type
+	dw DATA_FD4981
+	db $00
+	db $00
+	db $00
+	db $00
+	db $05
+	db $08
+	db $02
+	db $00 : dw $0160, $01D1
+	db $02 : dw $01A1, $1990
+	db $00 : dw $013C, $1351
+	db $00 : dw $01A0, $1F51
+	db $00 : dw $0280, $0951
+	db $00 : dw $0230, $33B1
+	db $FF
+	dw !level_54
+	dw !level_parrot_chute_panic_bonus_1
+	dw !level_parrot_chute_panic_bonus_2
+	dw !level_parrot_chute_panic_warp_room
+	dw $FFFF, $0000
+	dw !level_parrot_chute_panic, !level_5C
+	dw !level_parrot_chute_panic, !level_44
+	dw !level_54, !level_web_woods
+	dw $FFFF
 
 DATA_FD505E:
-	db $00, $00 : dw DATA_FD492D : db $01, $00, $00, $00
-	db $05, $10, $00, $00, $28, $01, $A1, $07
-	db $02, $50, $05, $F0, $04, $00, $08, $06
-	db $01, $02, $40, $30, $0A, $10, $01, $00
-	db $50, $0A, $F0, $01, $FF, $08, $00, $83
-	db $00, $69, $00, $FF, $FF, $00, $00, $14
-	db $00, $49, $00, $FF, $FF
+	dw !normal_level_type
+	dw DATA_FD492D
+	db $01
+	db $00
+	db $00
+	db $00
+	db $05
+	db $10
+	db $00
+	db $00 : dw $0128, $07A1
+	db $02 : dw $0550, $04F0
+	db $00 : dw $0608, $0201
+	db $40 : dw $0A30, $0110
+	db $00 : dw $0A50, $01F0
+	db $FF
+	dw !level_red_hot_ride
+	dw !level_lava_lagoon_bonus_1
+	dw !level_lava_lagoon_warp_room
+	dw $FFFF, $0000
+	dw !level_lava_lagoon, !level_49
+	dw $FFFF
 
 DATA_FD5093:
-	db $00, $00 : dw DATA_FD4918 : db $02, $00, $00, $00
-	db $05, $10, $00, $00, $50, $01, $F8, $00
-	db $02, $80, $07, $08, $05, $02, $34, $09
-	db $D0, $05, $42, $B0, $09, $50, $02, $00
-	db $D0, $0A, $01, $03, $FF, $48, $00, $81
-	db $00, $68, $00, $FF, $FF, $00, $00, $48
-	db $00, $0B, $00, $FF, $FF
+	dw !normal_level_type
+	dw DATA_FD4918
+	db $02
+	db $00
+	db $00
+	db $00
+	db $05
+	db $10
+	db $00
+	db $00 : dw $0150, $00F8
+	db $02 : dw $0780, $0508
+	db $02 : dw $0934, $05D0
+	db $42 : dw $09B0, $0250
+	db $00 : dw $0AD0, $0301
+	db $FF
+	dw !level_48
+	dw !level_lockjaws_locker_bonus_1
+	dw !level_lockjaws_locker_warp_room
+	dw $FFFF, $0000
+	dw !level_48, !level_topsail_trouble
+	dw $FFFF
 
 DATA_FD50C8:
-	db $00, $00 : dw DATA_FD49EA : db $02, $00, $00, $00
-	db $00, $01, $00, $00, $60, $01, $91, $02
-	db $00, $50, $18, $0C, $02, $40, $98, $32
-	db $40, $01, $00, $70, $32, $91, $02, $FF
-	db $C7, $00, $9E, $00, $FF, $FF, $00, $00
-	db $FF, $FF
+	dw !normal_level_type
+	dw DATA_FD49EA
+	db $02
+	db $00
+	db $00
+	db $00
+	db $00
+	db $01
+	db $00
+	db $00 : dw $0160, $0291
+	db $00 : dw $1850, $020C
+	db $40 : dw $3298, $0140
+	db $00 : dw $3270, $0291
+	db $FF
+	dw !level_C7
+	dw !level_fiery_furnace_bonus_1
+	dw $FFFF, $0000
+	dw $FFFF
 
 DATA_FD50F2:
-	db $00, $00 : dw DATA_FD48D9 : db $00, $00, $00, $00
-	db $00, $01, $00, $00, $54, $01, $D1, $02
-	db $00, $A0, $15, $90, $02, $00, $18, $0B
-	db $71, $02, $40, $B0, $24, $D8, $01, $40
-	db $50, $2C, $31, $01, $00, $20, $2F, $71
-	db $02, $FF, $0D, $00, $2A, $00, $A4, $00
-	db $BC, $00, $FF, $FF, $00, $00, $FF, $FF
+	dw !normal_level_type
+	dw DATA_FD48D9
+	db $00
+	db $00
+	db $00
+	db $00
+	db $00
+	db $01
+	db $00
+	db $00 : dw $0154, $02D1
+	db $00 : dw $15A0, $0290
+	db $00 : dw $0B18, $0271
+	db $40 : dw $24B0, $01D8
+	db $40 : dw $2C50, $0131
+	db $00 : dw $2F20, $0271
+	db $FF
+	dw !level_kreepy_krow
+	dw !level_web_woods_squitter_room
+	dw !level_web_woods_bonus_1
+	dw !level_web_woods_bonus_2
+	dw $FFFF, $0000
+	dw $FFFF
 
 DATA_FD512A:
-	db $00, $00 : dw DATA_FD4903 : db $01, $00, $00, $00
-	db $00, $01, $00, $00, $74, $02, $51, $02
-	db $00, $A8, $18, $C8, $01, $00, $50, $01
-	db $51, $02, $40, $50, $17, $28, $01, $40
-	db $98, $20, $98, $01, $00, $E0, $30, $51
-	db $02, $FF, $13, $00, $1A, $00, $86, $00
-	db $87, $00, $FF, $FF, $00, $00, $18, $00
-	db $4C, $00, $FF, $FF
+	dw !normal_level_type
+	dw DATA_FD4903
+	db $01
+	db $00
+	db $00
+	db $00
+	db $00
+	db $01
+	db $00
+	db $00 : dw $0274, $0251
+	db $00 : dw $18A8, $01C8
+	db $00 : dw $0150, $0251
+	db $40 : dw $1750, $0128
+	db $40 : dw $2098, $0198
+	db $00 : dw $30E0, $0251
+	db $FF
+	dw !level_parrot_chute_panic
+	dw !level_topsail_trouble_warp_room
+	dw !level_gusty_glade_bonus_1
+	dw !level_gusty_glade_bonus_2
+	dw $FFFF, $0000
+	dw !level_gusty_glade, !level_4C
+	dw $FFFF
 
 DATA_FD5166:
-	db $00, $00 : dw DATA_FD48EE : db $02, $00, $00, $00
-	db $00, $01, $00, $00, $56, $01, $51, $02
-	db $00, $40, $14, $A0, $01, $40, $40, $14
-	db $38, $01, $40, $B8, $1C, $41, $01, $00
-	db $B0, $28, $31, $02, $FF, $3C, $00, $85
-	db $00, $88, $00, $FF, $FF, $00, $00, $3C
-	db $00, $10, $00, $FF, $FF
+	dw !normal_level_type
+	dw DATA_FD48EE
+	db $02
+	db $00
+	db $00
+	db $00
+	db $00
+	db $01
+	db $00
+	db $00 : dw $0156, $0251
+	db $00 : dw $1440, $01A0
+	db $40 : dw $1440, $0138
+	db $40 : dw $1CB8, $0141
+	db $00 : dw $28B0, $0231
+	db $FF
+	dw !level_3C
+	dw !level_ghostly_grove_bonus_1
+	dw !level_ghostly_grove_bonus_2
+	dw $FFFF, $0000
+	dw !level_3C, !level_haunted_hall
+	dw $FFFF
 
 DATA_FD519B:
-	db $01, $00, $00 : dw DATA_FD4A3E : db $05, $00, $00
-	db $01, $00, $01, $00, $80, $2C, $01, $18
-	db $02, $FF, $09, $00, $FF, $FF, $00, $00
-	db $FF, $FF
+	dw !bonus_level_type
+	db $00
+	dw DATA_FD4A3E
+	db $05
+	db $00
+	db $00
+	db $01
+	db $00
+	db $01
+	db $00
+	db $80 : dw $012C, $0218
+	db $FF
+	dw !level_krows_nest
+	dw $FFFF, $0000
+	dw $FFFF
 
 DATA_FD51B5:
-	db $01, $00, $00 : dw DATA_FD4BB8 : db $00, $00, $00
-	db $00, $00, $01, $00, $02, $D0, $01, $C0
-	db $01, $00, $80, $01, $C0, $01, $00, $80
-	db $01, $00, $01, $FF, $0C, $00, $70, $00
-	db $FF, $FF, $00, $00, $FF, $FF
+	dw !bonus_level_type
+	db $00
+	dw DATA_FD4BB8
+	db $00
+	db $00
+	db $00
+	db $00
+	db $00
+	db $01
+	db $00
+	db $02 : dw $01D0, $01C0
+	db $00 : dw $0180, $01C0
+	db $00 : dw $0180, $0100
+	db $FF
+	dw !level_mainbrace_mayhem
+	dw !level_pirate_panic_bonus_2
+	dw $FFFF, $0000
+	dw $FFFF
 
 DATA_FD51DB:
-	db $01, $00, $03 : dw DATA_FD49D5 : db $03, $00, $00
-	db $00, $00, $01, $00, $00, $30, $01, $91
-	db $02, $FF, $03, $00, $FF, $FF, $00, $00
-	db $FF, $FF
+	dw !bonus_level_type
+	db !find_the_token_bonus_type
+	dw DATA_FD49D5
+	db $03
+	db $00
+	db $00
+	db $00
+	db $00
+	db $01
+	db $00
+	db $00 : dw $0130, $0291
+	db $FF
+	dw !level_pirate_panic
+	dw $FFFF, $0000
+	dw $FFFF
 
 DATA_FD51F5:
-	db $01, $00, $00 : dw DATA_FD4996 : db $04, $00, $00
-	db $01, $00, $01, $01, $00, $40, $01, $D1
-	db $02, $00, $80, $01, $B1, $01, $00, $80
-	db $01, $B1, $01, $FF, $05, $00, $FF, $FF
-	db $00, $00, $FF, $FF
+	dw !bonus_level_type
+	db $00
+	dw DATA_FD4996
+	db $04
+	db $00
+	db $00
+	db $01
+	db $00
+	db $01
+	db $01
+	db $00 : dw $0140, $02D1
+	db $00 : dw $0180, $01B1
+	db $00 : dw $0180, $01B1
+	db $FF
+	dw !level_rattle_battle
+	dw $FFFF, $0000
+	dw $FFFF
 
 DATA_FD5219:
-	db $06, $00 : dw DATA_FD4AA7 : db $01, $00, $00, $00
-	db $0E, $00, $00, $00, $58, $01, $D1, $02
-	db $FF, $2E, $00, $FF, $FF, $00, $00, $FF
+	dw !sub_level_type
+	dw DATA_FD4AA7
+	db $01
+	db $00
+	db $00
+	db $00
+	db $0E
+	db $00
+	db $00
+	db $00 : dw $0158, $02D1
 	db $FF
+	dw !level_bramble_scramble
+	dw $FFFF, $0000
+	dw $FFFF
 
 DATA_FD5232:
-	db $01, $00, $00 : dw DATA_FD48C4 : db $04, $00, $00
-	db $00, $00, $01, $00, $00, $30, $01, $D1
-	db $02, $00, $00, $1F, $00, $01, $00, $80
-	db $01, $00, $01, $FF, $0C, $00, $FF, $FF
-	db $00, $00, $FF, $FF
+	dw !bonus_level_type
+	db $00
+	dw DATA_FD48C4
+	db $04
+	db $00
+	db $00
+	db $00
+	db $00
+	db $01
+	db $00
+	db $00 : dw $0130, $02D1
+	db $00 : dw $1F00, $0100
+	db $00 : dw $0180, $0100
+	db $FF
+	dw !level_mainbrace_mayhem
+	dw $FFFF, $0000
+	dw $FFFF
 
 DATA_FD5256:
-	db $01, $00, $00 : dw DATA_FD4A68 : db $05, $00, $00
-	db $01, $00, $01, $00, $80, $2C, $01, $18
-	db $02, $FF, $09, $00, $FF, $FF, $00, $00
-	db $FF, $FF
+	dw !bonus_level_type
+	db $00
+	dw DATA_FD4A68
+	db $05
+	db $00
+	db $00
+	db $01
+	db $00
+	db $01
+	db $00
+	db $80 : dw $012C, $0218
+	db $FF
+	dw !level_krows_nest
+	dw $FFFF, $0000
+	dw $FFFF
 
 DATA_FD5270:
-	db $03, $00 : dw DATA_FD49D5 : db $05, $00, $00, $00
-	db $09, $01, $00, $00, $84, $03, $91, $02
-	db $FF, $0C, $00, $FF, $FF, $00, $00, $31
-	db $00, $32, $00, $FF, $FF
+	dw !boss_level_type
+	dw DATA_FD49D5
+	db $05
+	db $00
+	db $00
+	db $00
+	db $09
+	db $01
+	db $00
+	db $00 : dw $0384, $0291
+	db $FF
+	dw !level_mainbrace_mayhem
+	dw $FFFF, $0000
+	dw !level_31, !level_32
+	dw $FFFF
 
 DATA_FD528D:
-	db $02, $00 : dw DATA_FD4BB8 : db $00, $00, $00, $00
-	db $00, $01, $00, $00, $2C, $01, $C0, $01
-	db $FF, $0C, $00, $FF, $FF, $00, $00, $FF
+	dw !small_level_type
+	dw DATA_FD4BB8
+	db $00
+	db $00
+	db $00
+	db $00
+	db $00
+	db $01
+	db $00
+	db $00 : dw $012C, $01C0
 	db $FF
+	dw !level_mainbrace_mayhem
+	dw $FFFF, $0000
+	dw $FFFF
 
 DATA_FD52A6:
-	db $00, $00 : dw DATA_FD4AE6 : db $03, $00, $00, $00
-	db $06, $01, $00, $00, $30, $01, $31, $20
-	db $00, $80, $01, $EC, $11, $40, $D0, $03
-	db $98, $13, $00, $30, $01, $B1, $01, $00
-	db $10, $02, $B1, $01, $FF, $45, $00, $BB
-	db $00, $A3, $00, $FF, $FF, $00, $00, $45
-	db $00, $62, $00, $FF, $FF
+	dw !normal_level_type
+	dw DATA_FD4AE6
+	db $03
+	db $00
+	db $00
+	db $00
+	db $06
+	db $01
+	db $00
+	db $00 : dw $0130, $2031
+	db $00 : dw $0180, $11EC
+	db $40 : dw $03D0, $1398
+	db $00 : dw $0130, $01B1
+	db $00 : dw $0210, $01B1
+	db $FF
+	dw !level_45
+	dw !level_windy_well_bonus_1
+	dw !level_windy_well_bonus_2
+	dw $FFFF, $0000
+	dw !level_45, !level_castle_crush
+	dw $FFFF
 
 DATA_FD52DB:
-	db $00, $00 : dw DATA_FD4B10 : db $00, $00, $00, $00
-	db $06, $0C, $00, $00, $30, $01, $B1, $1A
-	db $00, $70, $02, $D0, $10, $00, $28, $01
-	db $31, $18, $00, $60, $02, $D0, $10, $40
-	db $E0, $03, $08, $05, $40, $10, $03, $40
-	db $01, $00, $C8, $03, $31, $02, $FF, $21
-	db $00, $AC, $00, $BA, $00, $A9, $00, $6A
-	db $00, $FF, $FF, $00, $00, $FF, $FF
+	dw !normal_level_type
+	dw DATA_FD4B10
+	db $00
+	db $00
+	db $00
+	db $00
+	db $06
+	db $0C
+	db $00
+	db $00 : dw $0130, $1AB1
+	db $00 : dw $0270, $10D0
+	db $00 : dw $0128, $1831
+	db $00 : dw $0260, $10D0
+	db $40 : dw $03E0, $0508
+	db $40 : dw $0310, $0140
+	db $00 : dw $03C8, $0231
+	db $FF
+	dw !level_kleevers_kiln
+	dw !level_squawks_shaft_bonus_1
+	dw !level_squawks_shaft_bonus_2
+	dw !level_squawks_shaft_bonus_3
+	dw !level_squawks_shaft_warp_room
+	dw $FFFF, $0000
+	dw $FFFF
 
 DATA_FD531A:
-	db $00, $00 : dw DATA_FD4AFB : db $01, $00, $00, $00
-	db $06, $01, $00, $00, $30, $01, $4D, $13
-	db $02, $D0, $03, $28, $0A, $80, $A0, $02
-	db $A0, $13, $00, $68, $02, $4D, $08, $00
-	db $20, $01, $40, $01, $40, $20, $03, $28
-	db $01, $00, $80, $03, $0D, $02, $FF, $14
-	db $00, $AB, $00, $AD, $00, $AA, $00, $27
-	db $00, $FF, $FF, $00, $00, $25, $00, $51
-	db $00, $FF, $FF
+	dw !normal_level_type
+	dw DATA_FD4AFB
+	db $01
+	db $00
+	db $00
+	db $00
+	db $06
+	db $01
+	db $00
+	db $00 : dw $0130, $134D
+	db $02 : dw $03D0, $0A28
+	db $80 : dw $02A0, $13A0
+	db $00 : dw $0268, $084D
+	db $00 : dw $0120, $0140
+	db $40 : dw $0320, $0128
+	db $00 : dw $0380, $020D
+	db $FF
+	dw !level_lava_lagoon
+	dw !level_kannons_klaim_bonus_1
+	dw !level_kannons_klaim_bonus_2
+	dw !level_kannons_klaim_bonus_3
+	dw !level_kannons_klaim_warp_room
+	dw $FFFF, $0000
+	dw !level_kannons_klaim, !level_51
+	dw $FFFF
 
 DATA_FD535D:
-	db $01, $00, $00 : dw DATA_FD4957 : db $03, $00, $00
-	db $00, $00, $01, $00, $00, $50, $01, $F1
-	db $01, $FF, $0C, $00, $FF, $FF, $00, $00
-	db $FF, $FF
+	dw !bonus_level_type
+	db $00
+	dw DATA_FD4957
+	db $03
+	db $00
+	db $00
+	db $00
+	db $00
+	db $01
+	db $00
+	db $00 : dw $0150, $01F1
+	db $FF
+	dw !level_mainbrace_mayhem
+	dw $FFFF, $0000
+	dw $FFFF
 
 DATA_FD5377:
-	db $01, $00, $00 : dw DATA_FD4AFB : db $02, $00, $00
-	db $01, $00, $01, $00, $80, $30, $01, $20
-	db $02, $FF, $0C, $00, $FF, $FF, $00, $00
-	db $FF, $FF
+	dw !bonus_level_type
+	db $00
+	dw DATA_FD4AFB
+	db $02
+	db $00
+	db $00
+	db $01
+	db $00
+	db $01
+	db $00
+	db $80 : dw $0130, $0220
+	db $FF
+	dw !level_mainbrace_mayhem
+	dw $FFFF, $0000
+	dw $FFFF
 
 DATA_FD5391:
-	db $00, $00 : dw DATA_FD4BCD : db $00, $00, $00, $00
-	db $00, $0A, $00, $00, $30, $01, $6D, $02
-	db $00, $E0, $16, $70, $02, $40, $80, $1D
-	db $B0, $01, $40, $10, $2F, $60, $01, $00
-	db $10, $2F, $85, $02, $FF, $01, $00, $89
-	db $00, $8A, $00, $FF, $FF, $00, $00, $FF
+	dw !normal_level_type
+	dw DATA_FD4BCD
+	db $00
+	db $00
+	db $00
+	db $00
+	db $00
+	db $0A
+	db $00
+	db $00 : dw $0130, $026D
+	db $00 : dw $16E0, $0270
+	db $40 : dw $1D80, $01B0
+	db $40 : dw $2F10, $0160
+	db $00 : dw $2F10, $0285
 	db $FF
+	dw !level_glimmers_galleon
+	dw !level_barrel_bayou_bonus_1
+	dw !level_barrel_bayou_bonus_2
+	dw $FFFF, $0000
+	dw $FFFF
 
 DATA_FD53C2:
-	db $00, $00 : dw DATA_FD47C8 : db $01, $00, $00, $00
-	db $00, $01, $00, $00, $D0, $04, $85, $02
-	db $00, $88, $13, $44, $02, $40, $48, $14
-	db $B8, $01, $00, $C0, $29, $85, $02, $FF
-	db $05, $00, $8B, $00, $FF, $FF, $00, $00
-	db $FF, $FF
+	dw !normal_level_type
+	dw DATA_FD47C8
+	db $01
+	db $00
+	db $00
+	db $00
+	db $00
+	db $01
+	db $00
+	db $00 : dw $04D0, $0285
+	db $00 : dw $1388, $0244
+	db $40 : dw $1448, $01B8
+	db $00 : dw $29C0, $0285
+	db $FF
+	dw !level_rattle_battle
+	dw !level_krockhead_klamber_bonus_1
+	dw $FFFF, $0000
+	dw $FFFF
 
 DATA_FD53EC:
-	db $02, $00 : dw DATA_FD48D9 : db $04, $00, $00, $00
-	db $00, $01, $00, $00, $38, $01, $D1, $02
-	db $FF, $0C, $00, $FF, $FF, $00, $00, $FF
+	dw !small_level_type
+	dw DATA_FD48D9
+	db $04
+	db $00
+	db $00
+	db $00
+	db $00
+	db $01
+	db $00
+	db $00 : dw $0138, $02D1
 	db $FF
+	dw !level_mainbrace_mayhem
+	dw $FFFF, $0000
+	dw $FFFF
 
 DATA_FD5405:
-	db $01, $00, $00 : dw DATA_FD4BCD : db $02, $00, $00
-	db $00, $00, $01, $00, $00, $30, $01, $85
-	db $02, $FF, $0C, $00, $FF, $FF, $00, $00
-	db $FF, $FF
+	dw !bonus_level_type
+	db $00
+	dw DATA_FD4BCD
+	db $02
+	db $00
+	db $00
+	db $00
+	db $00
+	db $01
+	db $00
+	db $00 : dw $0130, $0285
+	db $FF
+	dw !level_mainbrace_mayhem
+	dw $FFFF, $0000
+	dw $FFFF
 
 DATA_FD541F:
-	db $00, $00 : dw DATA_FD47DD : db $03, $00, $00, $00
-	db $00, $01, $00, $00, $30, $01, $25, $02
-	db $00, $20, $16, $B8, $01, $40, $20, $16
-	db $71, $01, $40, $28, $23, $78, $01, $00
-	db $00, $33, $25, $02, $FF, $02, $00, $8C
-	db $00, $8D, $00, $FF, $FF, $00, $00, $2C
-	db $00, $5B, $00, $FF, $FF
+	dw !normal_level_type
+	dw DATA_FD47DD
+	db $03
+	db $00
+	db $00
+	db $00
+	db $00
+	db $01
+	db $00
+	db $00 : dw $0130, $0225
+	db $00 : dw $1620, $01B8
+	db $40 : dw $1620, $0171
+	db $40 : dw $2328, $0178
+	db $00 : dw $3300, $0225
+	db $FF
+	dw !level_rambi_rumble
+	dw !level_mudhole_marsh_bonus_1
+	dw !level_mudhole_marsh_bonus_2
+	dw $FFFF, $0000
+	dw !level_mudhole_marsh, !level_5B
+	dw $FFFF
 
 DATA_FD5454:
-	db $00, $00 : dw DATA_FD4B25 : db $00, $00, $00, $00
-	db $00, $0B, $00, $00, $30, $01, $A9, $0B
-	db $00, $20, $06, $C8, $06, $80, $60, $01
-	db $27, $09, $40, $90, $08, $E8, $00, $00
-	db $60, $08, $A9, $03, $FF, $63, $00, $A6
-	db $00, $A0, $00, $FF, $FF, $00, $00, $FF
+	dw !normal_level_type
+	dw DATA_FD4B25
+	db $00
+	db $00
+	db $00
+	db $00
+	db $00
+	db $0B
+	db $00
+	db $00 : dw $0130, $0BA9
+	db $00 : dw $0620, $06C8
+	db $80 : dw $0160, $0927
+	db $40 : dw $0890, $00E8
+	db $00 : dw $0860, $03A9
 	db $FF
+	dw !level_kudgels_kontest
+	dw !level_bramble_blast_bonus_1
+	dw !level_bramble_blast_bonus_2
+	dw $FFFF, $0000
+	dw $FFFF
 
 DATA_FD5485:
-	db $00, $00 : dw DATA_FD4B4F : db $01, $00, $00, $00
-	db $06, $0B, $02, $02, $A0, $0B, $49, $0A
-	db $00, $9E, $03, $90, $07, $02, $20, $0C
-	db $69, $08, $00, $50, $0C, $69, $02, $FF
-	db $0F, $00, $A2, $00, $FF, $FF, $00, $00
-	db $2E, $00, $53, $00, $FF, $FF
+	dw !normal_level_type
+	dw DATA_FD4B4F
+	db $01
+	db $00
+	db $00
+	db $00
+	db $06
+	db $0B
+	db $02
+	db $02 : dw $0BA0, $0A49
+	db $00 : dw $039E, $0790
+	db $02 : dw $0C20, $0869
+	db $00 : dw $0C50, $0269
+	db $FF
+	dw !level_rickety_race
+	dw !level_bramble_scramble_bonus_1
+	dw $FFFF, $0000
+	dw !level_bramble_scramble, !level_53
+	dw $FFFF
 
 DATA_FD54B3:
-	db $00, $00 : dw DATA_FD4B3A : db $02, $00, $00, $00
-	db $06, $0B, $02, $00, $90, $02, $49, $0A
-	db $02, $C0, $08, $10, $08, $40, $E0, $0A
-	db $84, $07, $00, $90, $0C, $E9, $01, $FF
-	db $61, $00, $A7, $00, $FF, $FF, $00, $00
-	db $2F, $00, $4E, $00, $2F, $00, $56, $00
-	db $FF, $FF
+	dw !normal_level_type
+	dw DATA_FD4B3A
+	db $02
+	db $00
+	db $00
+	db $00
+	db $06
+	db $0B
+	db $02
+	db $00 : dw $0290, $0A49
+	db $02 : dw $08C0, $0810
+	db $40 : dw $0AE0, $0784
+	db $00 : dw $0C90, $01E9
+	db $FF
+	dw !level_k_rool_duel
+	dw !level_screechs_sprint_bonus_1
+	dw $FFFF, $0000
+	dw !level_screechs_sprint, !level_4E
+	dw !level_screechs_sprint, !level_56
+	dw $FFFF
 
 DATA_FD54E5:
-	db $05, $00
+	dw !map_level_type
 
 DATA_FD54E7:
-	db $05, $00
+	dw !map_level_type
 
 DATA_FD54E9:
-	db $05, $00
+	dw !map_level_type
 
 DATA_FD54EB:
-	db $05, $00
+	dw !map_level_type
 
 DATA_FD54ED:
-	db $05, $00
+	dw !map_level_type
 
 DATA_FD54EF:
-	db $05, $00
+	dw !map_level_type
 
 DATA_FD54F1:
-	db $05, $00
+	dw !map_level_type
 
 DATA_FD54F3:
-	db $05, $00
+	dw !map_level_type
 
 DATA_FD54F5:
-	db $04, $00
+	dw !npc_level_type
 
 DATA_FD54F7:
-	db $04, $00
+	dw !npc_level_type
 
 DATA_FD54F9:
-	db $04, $00
+	dw !npc_level_type
 
 DATA_FD54FB:
-	db $04, $00
+	dw !npc_level_type
 
 DATA_FD54FD:
-	db $04, $00
+	dw !npc_level_type
 
 DATA_FD54FF:
-	db $04, $00
+	dw !npc_level_type
 
 DATA_FD5501:
-	db $04, $00
+	dw !npc_level_type
 
 DATA_FD5503:
-	db $04, $00
+	dw !npc_level_type
 
 DATA_FD5505:
-	db $04, $00
+	dw !npc_level_type
 
 DATA_FD5507:
-	db $04, $00
+	dw !npc_level_type
 
 DATA_FD5509:
-	db $04, $00
+	dw !npc_level_type
 
 DATA_FD550B:
-	db $04, $00
+	dw !npc_level_type
 
 DATA_FD550D:
-	db $04, $00
+	dw !npc_level_type
 
 DATA_FD550F:
-	db $04, $00
+	dw !npc_level_type
 
 DATA_FD5511:
-	db $04, $00
+	dw !npc_level_type
 
 DATA_FD5513:
-	db $04, $00
+	dw !npc_level_type
 
 DATA_FD5515:
-	db $04, $00
+	dw !npc_level_type
 
 DATA_FD5517:
-	db $04, $00
+	dw !npc_level_type
 
 DATA_FD5519:
-	db $04, $00
+	dw !npc_level_type
 
 DATA_FD551B:
-	db $04, $00
+	dw !npc_level_type
 
 DATA_FD551D:
-	db $04, $00
+	dw !npc_level_type
 
 DATA_FD551F:
-	db $04, $00
+	dw !npc_level_type
 
 DATA_FD5521:
-	db $04, $00
+	dw !npc_level_type
 
 DATA_FD5523:
-	db $04, $00
+	dw !npc_level_type
 
 DATA_FD5525:
-	db $04, $00
+	dw !npc_level_type
 
 DATA_FD5527:
-	db $04, $00
+	dw !npc_level_type
 
 DATA_FD5529:
-	db $04, $00
+	dw !npc_level_type
 
 DATA_FD552B:
-	db $04, $00
+	dw !npc_level_type
 
 DATA_FD552D:
-	db $04, $00
+	dw !npc_level_type
 
 DATA_FD552F:
-	db $04, $00
+	dw !npc_level_type
 
 DATA_FD5531:
-	db $04, $00
+	dw !npc_level_type
 
 DATA_FD5533:
-	db $04, $00
+	dw !npc_level_type
 
 DATA_FD5535:
-	db $04, $00
+	dw !npc_level_type
 
 DATA_FD5537:
-	db $04, $00
+	dw !npc_level_type
 
 DATA_FD5539:
-	db $04, $00
+	dw !npc_level_type
 
 DATA_FD553B:
-	db $04, $00
+	dw !npc_level_type
 
 DATA_FD553D:
-	db $04, $00
+	dw !npc_level_type
 
 DATA_FD553F:
-	db $04, $00
+	dw !npc_level_type
 
 DATA_FD5541:
-	db $04, $00
+	dw !npc_level_type
 
 DATA_FD5543:
-	db $04, $00
+	dw !npc_level_type
 
 DATA_FD5545:
-	db $03, $00 : dw DATA_FD496C : db $01, $00, $00, $00
-	db $00, $0B, $02, $00, $2C, $01, $31, $02
-	db $FF, $0C, $00, $FF, $FF, $00, $00, $33
-	db $00, $34, $00, $FF, $FF
+	dw !boss_level_type
+	dw DATA_FD496C
+	db $01
+	db $00
+	db $00
+	db $00
+	db $00
+	db $0B
+	db $02
+	db $00 : dw $012C, $0231
+	db $FF
+	dw !level_mainbrace_mayhem
+	dw $FFFF, $0000
+	dw !level_33, !level_34
+	dw $FFFF
 
 DATA_FD5562:
-	db $03, $00 : dw DATA_FD489A : db $00, $00, $00, $00
-	db $00, $01, $00, $00, $33, $01, $C1, $01
-	db $FF, $0C, $00, $FF, $FF, $00, $00, $FF
+	dw !boss_level_type
+	dw DATA_FD489A
+	db $00
+	db $00
+	db $00
+	db $00
+	db $00
+	db $01
+	db $00
+	db $00 : dw $0133, $01C1
 	db $FF
+	dw !level_mainbrace_mayhem
+	dw $FFFF, $0000
+	dw $FFFF
 
 DATA_FD557B:
-	db $00, $00 : dw DATA_FD4885 : db $00, $00, $00, $00
-	db $06, $0C, $00, $00, $D0, $01, $95, $30
-	db $00, $50, $02, $9E, $1A, $00, $28, $01
-	db $D8, $20, $00, $38, $01, $55, $13, $00
-	db $AC, $01, $75, $01, $FF, $8F, $00, $B7
-	db $00, $B8, $00, $FF, $FF, $00, $00, $FF
+	dw !normal_level_type
+	dw DATA_FD4885
+	db $00
+	db $00
+	db $00
+	db $00
+	db $06
+	db $0C
+	db $00
+	db $00 : dw $01D0, $3095
+	db $00 : dw $0250, $1A9E
+	db $00 : dw $0128, $20D8
+	db $00 : dw $0138, $1355
+	db $00 : dw $01AC, $0175
 	db $FF
+	dw !level_clappers_cavern
+	dw !level_castle_crush_bonus_1
+	dw !level_castle_crush_bonus_2
+	dw $FFFF, $0000
+	dw $FFFF
 
 DATA_FD55AC:
-	db $03, $00 : dw DATA_FD4BCD : db $0B, $00, $00, $00
-	db $00, $01, $00, $00, $2C, $01, $25, $02
-	db $FF, $0C, $00, $FF, $FF, $00, $00, $32
-	db $00, $33, $00, $FF, $FF
+	dw !boss_level_type
+	dw DATA_FD4BCD
+	db $0B
+	db $00
+	db $00
+	db $00
+	db $00
+	db $01
+	db $00
+	db $00 : dw $012C, $0225
+	db $FF
+	dw !level_mainbrace_mayhem
+	dw $FFFF, $0000
+	dw !level_32, !level_33
+	dw $FFFF
 
 DATA_FD55C9:
-	db $05, $00
+	dw !map_level_type
 
 DATA_FD55CB:
-	db $05, $00
+	dw !map_level_type
 
 DATA_FD55CD:
-	db $05, $00
+	dw !map_level_type
 
 DATA_FD55CF:
-	db $05, $00
+	dw !map_level_type
 
 DATA_FD55D1:
-	db $01, $00, $00 : dw DATA_FD4918 : db $05, $00, $00
-	db $01, $05, $10, $02, $00, $90, $01, $98
-	db $02, $FF, $48, $00, $FF, $FF, $00, $00
-	db $FF, $FF
+	dw !bonus_level_type
+	db $00
+	dw DATA_FD4918
+	db $05
+	db $00
+	db $00
+	db $01
+	db $05
+	db $10
+	db $02
+	db $00 : dw $0190, $0298
+	db $FF
+	dw !level_48
+	dw $FFFF, $0000
+	dw $FFFF
 
 DATA_FD55EB:
-	db $01, $00, $00 : dw DATA_FD492D : db $05, $00, $00
-	db $01, $05, $10, $02, $00, $90, $01, $A1
-	db $02, $FF, $48, $00, $FF, $FF, $00, $00
-	db $FF, $FF
+	dw !bonus_level_type
+	db $00
+	dw DATA_FD492D
+	db $05
+	db $00
+	db $00
+	db $01
+	db $05
+	db $10
+	db $02
+	db $00 : dw $0190, $02A1
+	db $FF
+	dw !level_48
+	dw $FFFF, $0000
+	dw $FFFF
 
 DATA_FD5605:
-	db $01, $00, $00 : dw DATA_FD4B10 : db $02, $00, $00
-	db $01, $00, $01, $00, $80, $30, $01, $20
-	db $02, $FF, $0C, $00, $FF, $FF, $00, $00
-	db $FF, $FF
+	dw !bonus_level_type
+	db $00
+	dw DATA_FD4B10
+	db $02
+	db $00
+	db $00
+	db $01
+	db $00
+	db $01
+	db $00
+	db $80 : dw $0130, $0220
+	db $FF
+	dw !level_mainbrace_mayhem
+	dw $FFFF, $0000
+	dw $FFFF
 
 DATA_FD561F:
-	db $03, $00 : dw DATA_FD48AF : db $00, $00, $00, $00
-	db $00, $01, $00, $00, $30, $01, $C5, $01
-	db $FF, $0C, $00, $FF, $FF, $00, $00, $33
-	db $00, $34, $00, $FF, $FF
+	dw !boss_level_type
+	dw DATA_FD48AF
+	db $00
+	db $00
+	db $00
+	db $00
+	db $00
+	db $01
+	db $00
+	db $00 : dw $0130, $01C5
+	db $FF
+	dw !level_mainbrace_mayhem
+	dw $FFFF, $0000
+	dw !level_33, !level_34
+	dw $FFFF
 
 DATA_FD563C:
-	db $00, $00 : dw DATA_FD4807 : db $00, $00, $00, $00
-	db $05, $10, $00, $00, $68, $01, $6D, $05
-	db $02, $E0, $05, $48, $04, $00, $A0, $08
-	db $20, $07, $00, $10, $03, $50, $03, $00
-	db $00, $04, $30, $04, $FF, $23, $00, $93
-	db $00, $95, $00, $FF, $FF, $00, $00, $6C
-	db $00, $5D, $00, $6C, $00, $3D, $00, $FF
+	dw !normal_level_type
+	dw DATA_FD4807
+	db $00
+	db $00
+	db $00
+	db $00
+	db $05
+	db $10
+	db $00
+	db $00 : dw $0168, $056D
+	db $02 : dw $05E0, $0448
+	db $00 : dw $08A0, $0720
+	db $00 : dw $0310, $0350
+	db $00 : dw $0400, $0430
 	db $FF
+	dw !level_windy_well
+	dw !level_arctic_abyss_bonus_1
+	dw !level_arctic_abyss_bonus_2
+	dw $FFFF, $0000
+	dw !level_arctic_abyss, !level_5D
+	dw !level_arctic_abyss, !level_3D
+	dw $FFFF
 
 DATA_FD5675:
-	db $00, $00 : dw DATA_FD4846 : db $02, $00, $00, $00
-	db $06, $08, $00, $02, $D0, $02, $B5, $26
-	db $00, $28, $01, $B8, $15, $02, $A8, $02
-	db $55, $1E, $00, $74, $02, $B5, $0A, $00
-	db $00, $02, $15, $02, $FF, $4D, $00, $B5
-	db $00, $B6, $00, $FF, $FF, $00, $00, $6D
-	db $00, $55, $00, $4D, $00, $6E, $00, $FF
+	dw !normal_level_type
+	dw DATA_FD4846
+	db $02
+	db $00
+	db $00
+	db $00
+	db $06
+	db $08
+	db $00
+	db $02 : dw $02D0, $26B5
+	db $00 : dw $0128, $15B8
+	db $02 : dw $02A8, $1E55
+	db $00 : dw $0274, $0AB5
+	db $00 : dw $0200, $0215
 	db $FF
+	dw !level_4D
+	dw !level_chain_link_chamber_bonus_1
+	dw !level_chain_link_chamber_bonus_2
+	dw $FFFF, $0000
+	dw !level_chain_link_chamber, !level_55
+	dw !level_4D, !level_toxic_tower
+	dw $FFFF
 
 DATA_FD56AE:
-	db $00, $00 : dw DATA_FD4870 : db $03, $00, $00, $00
-	db $06, $06, $02, $00, $30, $01, $95, $27
-	db $00, $00, $02, $60, $14, $00, $30, $01
-	db $48, $02, $00, $90, $02, $55, $02, $FF
-	db $B9, $00, $A5, $00, $FF, $FF, $00, $00
-	db $FF, $FF
+	dw !normal_level_type
+	dw DATA_FD4870
+	db $03
+	db $00
+	db $00
+	db $00
+	db $06
+	db $06
+	db $02
+	db $00 : dw $0130, $2795
+	db $00 : dw $0200, $1460
+	db $00 : dw $0130, $0248
+	db $00 : dw $0290, $0255
+	db $FF
+	dw !level_stronghold_showdown
+	dw !level_toxic_tower_bonus_1
+	dw $FFFF, $0000
+	dw $FFFF
 
 DATA_FD56D8:
-	db $01, $00, $03 : dw DATA_FD4996 : db $05, $00, $00
-	db $00, $00, $0A, $01, $00, $2C, $01, $D1
-	db $02, $FF, $0C, $00, $FF, $FF, $00, $00
-	db $FF, $FF
+	dw !bonus_level_type
+	db !find_the_token_bonus_type
+	dw DATA_FD4996
+	db $05
+	db $00
+	db $00
+	db $00
+	db $00
+	db $0A
+	db $01
+	db $00 : dw $012C, $02D1
+	db $FF
+	dw !level_mainbrace_mayhem
+	dw $FFFF, $0000
+	dw $FFFF
 
 DATA_FD56F2:
-	db $01, $00, $01 : dw DATA_FD4996 : db $06, $00, $00
-	db $00, $00, $0A, $01, $00, $2C, $01, $D1
-	db $01, $FF, $0C, $00, $FF, $FF, $00, $00
-	db $FF, $FF
+	dw !bonus_level_type
+	db !destroy_them_all_bonus_type
+	dw DATA_FD4996
+	db $06
+	db $00
+	db $00
+	db $00
+	db $00
+	db $0A
+	db $01
+	db $00 : dw $012C, $01D1
+	db $FF
+	dw !level_mainbrace_mayhem
+	dw $FFFF, $0000
+	dw $FFFF
 
 DATA_FD570C:
-	db $01, $00, $03 : dw DATA_FD49AB : db $07, $00, $00
-	db $00, $00, $0A, $01, $02, $D4, $02, $D5
-	db $02, $FF, $0C, $00, $FF, $FF, $00, $00
-	db $FF, $FF
+	dw !bonus_level_type
+	db !find_the_token_bonus_type
+	dw DATA_FD49AB
+	db $07
+	db $00
+	db $00
+	db $00
+	db $00
+	db $0A
+	db $01
+	db $02 : dw $02D4, $02D5
+	db $FF
+	dw !level_mainbrace_mayhem
+	dw $FFFF, $0000
+	dw $FFFF
 
 DATA_FD5726:
-	db $01, $00, $03 : dw DATA_FD49C0 : db $08, $00, $00
-	db $00, $06, $0A, $01, $02, $D4, $03, $F5
-	db $02, $FF, $0C, $00, $FF, $FF, $00, $00
-	db $FF, $FF
+	dw !bonus_level_type
+	db !find_the_token_bonus_type
+	dw DATA_FD49C0
+	db $08
+	db $00
+	db $00
+	db $00
+	db $06
+	db $0A
+	db $01
+	db $02 : dw $03D4, $02F5
+	db $FF
+	dw !level_mainbrace_mayhem
+	dw $FFFF, $0000
+	dw $FFFF
 
 DATA_FD5740:
-	db $01, $00, $02 : dw DATA_FD49C0 : db $09, $00, $00
-	db $00, $06, $0A, $01, $00, $2C, $01, $D5
-	db $02, $FF, $0C, $00, $FF, $FF, $00, $00
-	db $FF, $FF
+	dw !bonus_level_type
+	db !collect_the_stars_bonus_type
+	dw DATA_FD49C0
+	db $09
+	db $00
+	db $00
+	db $00
+	db $06
+	db $0A
+	db $01
+	db $00 : dw $012C, $02D5
+	db $FF
+	dw !level_mainbrace_mayhem
+	dw $FFFF, $0000
+	dw $FFFF
 
 DATA_FD575A:
-	db $01, $00, $03 : dw DATA_FD49D5 : db $06, $00, $00
-	db $00, $00, $0A, $00, $00, $40, $01, $91
-	db $02, $FF, $0C, $00, $FF, $FF, $00, $00
-	db $FF, $FF
+	dw !bonus_level_type
+	db !find_the_token_bonus_type
+	dw DATA_FD49D5
+	db $06
+	db $00
+	db $00
+	db $00
+	db $00
+	db $0A
+	db $00
+	db $00 : dw $0140, $0291
+	db $FF
+	dw !level_mainbrace_mayhem
+	dw $FFFF, $0000
+	dw $FFFF
 
 DATA_FD5774:
-	db $01, $00, $02 : dw DATA_FD49D5 : db $07, $00, $00
-	db $00, $00, $0A, $00, $00, $24, $01, $91
-	db $02, $FF, $0C, $00, $FF, $FF, $00, $00
-	db $FF, $FF
+	dw !bonus_level_type
+	db !collect_the_stars_bonus_type
+	dw DATA_FD49D5
+	db $07
+	db $00
+	db $00
+	db $00
+	db $00
+	db $0A
+	db $00
+	db $00 : dw $0124, $0291
+	db $FF
+	dw !level_mainbrace_mayhem
+	dw $FFFF, $0000
+	dw $FFFF
 
 DATA_FD578E:
-	db $01, $00, $01 : dw DATA_FD49D5 : db $08, $00, $00
-	db $00, $00, $0A, $00, $00, $64, $01, $91
-	db $02, $FF, $0C, $00, $FF, $FF, $00, $00
-	db $FF, $FF
+	dw !bonus_level_type
+	db !destroy_them_all_bonus_type
+	dw DATA_FD49D5
+	db $08
+	db $00
+	db $00
+	db $00
+	db $00
+	db $0A
+	db $00
+	db $00 : dw $0164, $0291
+	db $FF
+	dw !level_mainbrace_mayhem
+	dw $FFFF, $0000
+	dw $FFFF
 
 DATA_FD57A8:
-	db $01, $00, $02 : dw DATA_FD49FF : db $09, $00, $00
-	db $00, $00, $0A, $00, $00, $24, $01, $91
-	db $02, $FF, $0C, $00, $FF, $FF, $00, $00
-	db $FF, $FF
+	dw !bonus_level_type
+	db !collect_the_stars_bonus_type
+	dw DATA_FD49FF
+	db $09
+	db $00
+	db $00
+	db $00
+	db $00
+	db $0A
+	db $00
+	db $00 : dw $0124, $0291
+	db $FF
+	dw !level_mainbrace_mayhem
+	dw $FFFF, $0000
+	dw $FFFF
 
 DATA_FD57C2:
-	db $01, $00, $03 : dw DATA_FD4A68 : db $06, $00, $00
-	db $00, $00, $0A, $00, $00, $2C, $01, $0D
-	db $05, $FF, $0C, $00, $FF, $FF, $00, $00
-	db $FF, $FF
+	dw !bonus_level_type
+	db !find_the_token_bonus_type
+	dw DATA_FD4A68
+	db $06
+	db $00
+	db $00
+	db $00
+	db $00
+	db $0A
+	db $00
+	db $00 : dw $012C, $050D
+	db $FF
+	dw !level_mainbrace_mayhem
+	dw $FFFF, $0000
+	dw $FFFF
 
 DATA_FD57DC:
-	db $01, $00, $01 : dw DATA_FD4A68 : db $07, $00, $00
-	db $00, $00, $0A, $00, $80, $D0, $01, $87
-	db $02, $FF, $0C, $00, $FF, $FF, $00, $00
-	db $FF, $FF
+	dw !bonus_level_type
+	db !destroy_them_all_bonus_type
+	dw DATA_FD4A68
+	db $07
+	db $00
+	db $00
+	db $00
+	db $00
+	db $0A
+	db $00
+	db $80 : dw $01D0, $0287
+	db $FF
+	dw !level_mainbrace_mayhem
+	dw $FFFF, $0000
+	dw $FFFF
 
 DATA_FD57F6:
-	db $01, $00, $02 : dw DATA_FD4A14 : db $08, $00, $00
-	db $00, $00, $0A, $00, $80, $80, $01, $3F
-	db $02, $FF, $0C, $00, $FF, $FF, $00, $00
-	db $FF, $FF
+	dw !bonus_level_type
+	db !collect_the_stars_bonus_type
+	dw DATA_FD4A14
+	db $08
+	db $00
+	db $00
+	db $00
+	db $00
+	db $0A
+	db $00
+	db $80 : dw $0180, $023F
+	db $FF
+	dw !level_mainbrace_mayhem
+	dw $FFFF, $0000
+	dw $FFFF
 
 DATA_FD5810:
-	db $01, $00, $01 : dw DATA_FD4A3E : db $09, $00, $00
-	db $00, $00, $0A, $00, $00, $28, $01, $6D
-	db $02, $FF, $0C, $00, $FF, $FF, $00, $00
-	db $FF, $FF
+	dw !bonus_level_type
+	db !destroy_them_all_bonus_type
+	dw DATA_FD4A3E
+	db $09
+	db $00
+	db $00
+	db $00
+	db $00
+	db $0A
+	db $00
+	db $00 : dw $0128, $026D
+	db $FF
+	dw !level_mainbrace_mayhem
+	dw $FFFF, $0000
+	dw $FFFF
 
 DATA_FD582A:
-	db $01, $00, $03 : dw DATA_FD4A3E : db $0A, $00, $00
-	db $00, $00, $0A, $00, $00, $28, $01, $0D
-	db $04, $FF, $0C, $00, $FF, $FF, $00, $00
-	db $FF, $FF
+	dw !bonus_level_type
+	db !find_the_token_bonus_type
+	dw DATA_FD4A3E
+	db $0A
+	db $00
+	db $00
+	db $00
+	db $00
+	db $0A
+	db $00
+	db $00 : dw $0128, $040D
+	db $FF
+	dw !level_mainbrace_mayhem
+	dw $FFFF, $0000
+	dw $FFFF
 
 DATA_FD5844:
-	db $01, $00, $02 : dw DATA_FD4A68 : db $0A, $00, $00
-	db $00, $00, $0A, $00, $00, $28, $01, $0D
-	db $04, $FF, $0C, $00, $FF, $FF, $00, $00
-	db $FF, $FF
+	dw !bonus_level_type
+	db !collect_the_stars_bonus_type
+	dw DATA_FD4A68
+	db $0A
+	db $00
+	db $00
+	db $00
+	db $00
+	db $0A
+	db $00
+	db $00 : dw $0128, $040D
+	db $FF
+	dw !level_mainbrace_mayhem
+	dw $FFFF, $0000
+	dw $FFFF
 
 DATA_FD585E:
-	db $01, $00, $01 : dw DATA_FD4A14 : db $0C, $00, $00
-	db $00, $00, $0A, $00, $00, $28, $01, $2D
-	db $04, $FF, $0C, $00, $FF, $FF, $00, $00
-	db $FF, $FF
+	dw !bonus_level_type
+	db !destroy_them_all_bonus_type
+	dw DATA_FD4A14
+	db $0C
+	db $00
+	db $00
+	db $00
+	db $00
+	db $0A
+	db $00
+	db $00 : dw $0128, $042D
+	db $FF
+	dw !level_mainbrace_mayhem
+	dw $FFFF, $0000
+	dw $FFFF
 
 DATA_FD5878:
-	db $01, $00, $03 : dw DATA_FD4A14 : db $0D, $00, $00
-	db $00, $00, $0A, $00, $00, $1C, $01, $CD
-	db $02, $FF, $0C, $00, $FF, $FF, $00, $00
-	db $FF, $FF
+	dw !bonus_level_type
+	db !find_the_token_bonus_type
+	dw DATA_FD4A14
+	db $0D
+	db $00
+	db $00
+	db $00
+	db $00
+	db $0A
+	db $00
+	db $00 : dw $011C, $02CD
+	db $FF
+	dw !level_mainbrace_mayhem
+	dw $FFFF, $0000
+	dw $FFFF
 
 DATA_FD5892:
-	db $00, $00 : dw DATA_FD479E : db $00, $00, $00, $00
-	db $00, $0A, $00, $00, $48, $01, $E1, $01
-	db $00, $60, $18, $F0, $01, $40, $40, $35
-	db $31, $01, $00, $40, $35, $21, $02, $FF
-	db $C6, $00, $97, $00, $FF, $FF, $00, $00
-	db $FF, $FF
+	dw !normal_level_type
+	dw DATA_FD479E
+	db $00
+	db $00
+	db $00
+	db $00
+	db $00
+	db $0A
+	db $00
+	db $00 : dw $0148, $01E1
+	db $00 : dw $1860, $01F0
+	db $40 : dw $3540, $0131
+	db $00 : dw $3540, $0221
+	db $FF
+	dw !level_C6
+	dw !level_klobber_karnage_bonus_1
+	dw $FFFF, $0000
+	dw $FFFF
 
 DATA_FD58BC:
-	db $01, $00, $03 : dw DATA_FD4918 : db $03, $00, $00
-	db $00, $05, $10, $02, $00, $28, $01, $41
-	db $04, $FF, $48, $00, $FF, $FF, $00, $00
-	db $FF, $FF
+	dw !bonus_level_type
+	db !find_the_token_bonus_type
+	dw DATA_FD4918
+	db $03
+	db $00
+	db $00
+	db $00
+	db $05
+	db $10
+	db $02
+	db $00 : dw $0128, $0441
+	db $FF
+	dw !level_48
+	dw $FFFF, $0000
+	dw $FFFF
 
 DATA_FD58D6:
-	db $01, $00, $03 : dw DATA_FD4942 : db $04, $00, $00
-	db $00, $05, $01, $02, $00, $28, $01, $41
-	db $03, $FF, $48, $00, $FF, $FF, $00, $00
-	db $FF, $FF
+	dw !bonus_level_type
+	db !find_the_token_bonus_type
+	dw DATA_FD4942
+	db $04
+	db $00
+	db $00
+	db $00
+	db $05
+	db $01
+	db $02
+	db $00 : dw $0128, $0341
+	db $FF
+	dw !level_48
+	dw $FFFF, $0000
+	dw $FFFF
 
 DATA_FD58F0:
-	db $01, $00, $01 : dw DATA_FD4918 : db $05, $00, $00
-	db $01, $05, $10, $02, $00, $28, $01, $A1
-	db $01, $FF, $48, $00, $FF, $FF, $00, $00
-	db $FF, $FF
+	dw !bonus_level_type
+	db !destroy_them_all_bonus_type
+	dw DATA_FD4918
+	db $05
+	db $00
+	db $00
+	db $01
+	db $05
+	db $10
+	db $02
+	db $00 : dw $0128, $01A1
+	db $FF
+	dw !level_48
+	dw $FFFF, $0000
+	dw $FFFF
 
 DATA_FD590A:
-	db $01, $00, $03 : dw DATA_FD4942 : db $06, $00, $00
-	db $00, $05, $01, $02, $00, $2C, $01, $61
-	db $02, $FF, $48, $00, $FF, $FF, $00, $00
-	db $FF, $FF
+	dw !bonus_level_type
+	db !find_the_token_bonus_type
+	dw DATA_FD4942
+	db $06
+	db $00
+	db $00
+	db $00
+	db $05
+	db $01
+	db $02
+	db $00 : dw $012C, $0261
+	db $FF
+	dw !level_48
+	dw $FFFF, $0000
+	dw $FFFF
 
 DATA_FD5924:
-	db $01, $00, $03 : dw DATA_FD48C4 : db $05, $00, $00
-	db $00, $00, $01, $00, $02, $AC, $01, $D1
-	db $01, $FF, $0D, $00, $FF, $FF, $00, $00
-	db $FF, $FF
+	dw !bonus_level_type
+	db !find_the_token_bonus_type
+	dw DATA_FD48C4
+	db $05
+	db $00
+	db $00
+	db $00
+	db $00
+	db $01
+	db $00
+	db $02 : dw $01AC, $01D1
+	db $FF
+	dw !level_kreepy_krow
+	dw $FFFF, $0000
+	dw $FFFF
 
 DATA_FD593E:
-	db $01, $00, $03 : dw DATA_FD4903 : db $08, $00, $00
-	db $00, $00, $01, $00, $00, $54, $01, $51
-	db $02, $FF, $0D, $00, $FF, $FF, $00, $00
-	db $FF, $FF
+	dw !bonus_level_type
+	db !find_the_token_bonus_type
+	dw DATA_FD4903
+	db $08
+	db $00
+	db $00
+	db $00
+	db $00
+	db $01
+	db $00
+	db $00 : dw $0154, $0251
+	db $FF
+	dw !level_kreepy_krow
+	dw $FFFF, $0000
+	dw $FFFF
 
 DATA_FD5958:
-	db $01, $00, $02 : dw DATA_FD4903 : db $07, $00, $00
-	db $00, $00, $01, $00, $00, $54, $01, $51
-	db $02, $FF, $0D, $00, $FF, $FF, $00, $00
-	db $FF, $FF
+	dw !bonus_level_type
+	db !collect_the_stars_bonus_type
+	dw DATA_FD4903
+	db $07
+	db $00
+	db $00
+	db $00
+	db $00
+	db $01
+	db $00
+	db $00 : dw $0154, $0251
+	db $FF
+	dw !level_kreepy_krow
+	dw $FFFF, $0000
+	dw $FFFF
 
 DATA_FD5972:
-	db $01, $00, $03 : dw DATA_FD48C4 : db $08, $00, $00
-	db $00, $00, $01, $00, $00, $54, $01, $51
-	db $02, $FF, $0D, $00, $FF, $FF, $00, $00
-	db $FF, $FF
+	dw !bonus_level_type
+	db !find_the_token_bonus_type
+	dw DATA_FD48C4
+	db $08
+	db $00
+	db $00
+	db $00
+	db $00
+	db $01
+	db $00
+	db $00 : dw $0154, $0251
+	db $FF
+	dw !level_kreepy_krow
+	dw $FFFF, $0000
+	dw $FFFF
 
 DATA_FD598C:
-	db $01, $00, $01 : dw DATA_FD4BCD : db $05, $00, $00
-	db $00, $00, $01, $00, $00, $2C, $01, $25
-	db $02, $FF, $01, $00, $FF, $FF, $00, $00
-	db $FF, $FF
+	dw !bonus_level_type
+	db !destroy_them_all_bonus_type
+	dw DATA_FD4BCD
+	db $05
+	db $00
+	db $00
+	db $00
+	db $00
+	db $01
+	db $00
+	db $00 : dw $012C, $0225
+	db $FF
+	dw !level_glimmers_galleon
+	dw $FFFF, $0000
+	dw $FFFF
 
 DATA_FD59A6:
-	db $01, $00, $03 : dw DATA_FD4BCD : db $06, $00, $00
-	db $00, $00, $01, $00, $00, $2C, $01, $85
-	db $02, $FF, $01, $00, $FF, $FF, $00, $00
-	db $FF, $FF
+	dw !bonus_level_type
+	db !find_the_token_bonus_type
+	dw DATA_FD4BCD
+	db $06
+	db $00
+	db $00
+	db $00
+	db $00
+	db $01
+	db $00
+	db $00 : dw $012C, $0285
+	db $FF
+	dw !level_glimmers_galleon
+	dw $FFFF, $0000
+	dw $FFFF
 
 DATA_FD59C0:
-	db $01, $00, $01 : dw DATA_FD47C8 : db $07, $00, $00
-	db $00, $00, $01, $00, $00, $2C, $01, $45
-	db $02, $FF, $01, $00, $FF, $FF, $00, $00
-	db $FF, $FF
+	dw !bonus_level_type
+	db !destroy_them_all_bonus_type
+	dw DATA_FD47C8
+	db $07
+	db $00
+	db $00
+	db $00
+	db $00
+	db $01
+	db $00
+	db $00 : dw $012C, $0245
+	db $FF
+	dw !level_glimmers_galleon
+	dw $FFFF, $0000
+	dw $FFFF
 
 DATA_FD59DA:
-	db $01, $00, $02 : dw DATA_FD47DD : db $08, $00, $00
-	db $00, $00, $01, $00, $00, $28, $01, $45
-	db $02, $FF, $01, $00, $FF, $FF, $00, $00
-	db $FF, $FF
+	dw !bonus_level_type
+	db !collect_the_stars_bonus_type
+	dw DATA_FD47DD
+	db $08
+	db $00
+	db $00
+	db $00
+	db $00
+	db $01
+	db $00
+	db $00 : dw $0128, $0245
+	db $FF
+	dw !level_glimmers_galleon
+	dw $FFFF, $0000
+	dw $FFFF
 
 DATA_FD59F4:
-	db $01, $00, $01 : dw DATA_FD47DD : db $09, $00, $00
-	db $00, $00, $01, $00, $00, $2C, $01, $45
-	db $02, $FF, $01, $00, $FF, $FF, $00, $00
-	db $FF, $FF
+	dw !bonus_level_type
+	db !destroy_them_all_bonus_type
+	dw DATA_FD47DD
+	db $09
+	db $00
+	db $00
+	db $00
+	db $00
+	db $01
+	db $00
+	db $00 : dw $012C, $0245
+	db $FF
+	dw !level_glimmers_galleon
+	dw $FFFF, $0000
+	dw $FFFF
 
 DATA_FD5A0E:
-	db $01, $00, $00 : dw DATA_FD49D5 : db $03, $00, $00
-	db $01, $00, $01, $00, $00, $30, $01, $91
-	db $02, $FF, $03, $00, $FF, $FF, $00, $00
-	db $FF, $FF
+	dw !bonus_level_type
+	db $00
+	dw DATA_FD49D5
+	db $03
+	db $00
+	db $00
+	db $01
+	db $00
+	db $01
+	db $00
+	db $00 : dw $0130, $0291
+	db $FF
+	dw !level_pirate_panic
+	dw $FFFF, $0000
+	dw $FFFF
 
 DATA_FD5A28:
-	db $00, $00 : dw DATA_FD4807 : db $01, $00, $00, $00
-	db $06, $0A, $00, $00, $40, $01, $3D, $08
-	db $02, $50, $08, $D8, $02, $00, $48, $05
-	db $0D, $07, $00, $3C, $0A, $10, $04, $00
-	db $70, $0A, $AD, $01, $FF, $6D, $00, $91
-	db $00, $92, $00, $FF, $FF, $00, $00, $FF
+	dw !normal_level_type
+	dw DATA_FD4807
+	db $01
+	db $00
+	db $00
+	db $00
+	db $06
+	db $0A
+	db $00
+	db $00 : dw $0140, $083D
+	db $02 : dw $0850, $02D8
+	db $00 : dw $0548, $070D
+	db $00 : dw $0A3C, $0410
+	db $00 : dw $0A70, $01AD
 	db $FF
+	dw !level_chain_link_chamber
+	dw !level_clappers_cavern_bonus_1
+	dw !level_clappers_cavern_bonus_2
+	dw $FFFF, $0000
+	dw $FFFF
 
 DATA_FD5A59:
-	db $06, $00 : dw DATA_FD4807 : db $02, $00, $00, $00
-	db $05, $10, $02, $00, $40, $01, $AD, $02
-	db $FF, $9B, $00, $FF, $FF, $00, $00, $FF
+	dw !sub_level_type
+	dw DATA_FD4807
+	db $02
+	db $00
+	db $00
+	db $00
+	db $05
+	db $10
+	db $02
+	db $00 : dw $0140, $02AD
 	db $FF
+	dw !level_animal_antics_squitter_area
+	dw $FFFF, $0000
+	dw $FFFF
 
 DATA_FD5A72:
-	db $01, $00, $03 : dw DATA_FD481C : db $03, $00, $00
-	db $00, $00, $01, $00, $00, $48, $01, $2D
-	db $03, $FF, $0C, $00, $FF, $FF, $00, $00
-	db $FF, $FF
+	dw !bonus_level_type
+	db !find_the_token_bonus_type
+	dw DATA_FD481C
+	db $03
+	db $00
+	db $00
+	db $00
+	db $00
+	db $01
+	db $00
+	db $00 : dw $0148, $032D
+	db $FF
+	dw !level_mainbrace_mayhem
+	dw $FFFF, $0000
+	dw $FFFF
 
 DATA_FD5A8C:
-	db $01, $00, $03 : dw DATA_FD4807 : db $04, $00, $00
-	db $00, $05, $10, $02, $00, $40, $01, $8D
-	db $01, $FF, $0C, $00, $FF, $FF, $00, $00
-	db $FF, $FF
+	dw !bonus_level_type
+	db !find_the_token_bonus_type
+	dw DATA_FD4807
+	db $04
+	db $00
+	db $00
+	db $00
+	db $05
+	db $10
+	db $02
+	db $00 : dw $0140, $018D
+	db $FF
+	dw !level_mainbrace_mayhem
+	dw $FFFF, $0000
+	dw $FFFF
 
 DATA_FD5AA6:
-	db $01, $00, $02 : dw DATA_FD4807 : db $05, $00, $00
-	db $00, $0D, $10, $02, $00, $40, $01, $8D
-	db $01, $FF, $0C, $00, $FF, $FF, $00, $00
-	db $FF, $FF
+	dw !bonus_level_type
+	db !collect_the_stars_bonus_type
+	dw DATA_FD4807
+	db $05
+	db $00
+	db $00
+	db $00
+	db $0D
+	db $10
+	db $02
+	db $00 : dw $0140, $018D
+	db $FF
+	dw !level_mainbrace_mayhem
+	dw $FFFF, $0000
+	dw $FFFF
 
 DATA_FD5AC0:
-	db $01, $00, $03 : dw DATA_FD481C : db $06, $00, $00
-	db $00, $0D, $01, $00, $02, $98, $02, $71
-	db $01, $FF, $0C, $00, $FF, $FF, $00, $00
-	db $FF, $FF
+	dw !bonus_level_type
+	db !find_the_token_bonus_type
+	dw DATA_FD481C
+	db $06
+	db $00
+	db $00
+	db $00
+	db $0D
+	db $01
+	db $00
+	db $02 : dw $0298, $0171
+	db $FF
+	dw !level_mainbrace_mayhem
+	dw $FFFF, $0000
+	dw $FFFF
 
 DATA_FD5ADA:
-	db $01, $00, $03 : dw DATA_FD481C : db $07, $00, $00
-	db $00, $00, $10, $00, $00, $00, $04, $8D
-	db $01, $FF, $0C, $00, $FF, $FF, $00, $00
-	db $FF, $FF
+	dw !bonus_level_type
+	db !find_the_token_bonus_type
+	dw DATA_FD481C
+	db $07
+	db $00
+	db $00
+	db $00
+	db $00
+	db $10
+	db $00
+	db $00 : dw $0400, $018D
+	db $FF
+	dw !level_mainbrace_mayhem
+	dw $FFFF, $0000
+	dw $FFFF
 
 DATA_FD5AF4:
-	db $00, $00 : dw DATA_FD4831 : db $00, $00, $00, $00
-	db $0D, $01, $00, $02, $B4, $02, $D1, $01
-	db $00, $01, $02, $00, $14, $40, $40, $01
-	db $F8, $1C, $00, $60, $02, $2D, $25, $FF
-	db $C5, $00, $94, $00, $FF, $FF, $00, $00
-	db $FF, $FF
+	dw !normal_level_type
+	dw DATA_FD4831
+	db $00
+	db $00
+	db $00
+	db $00
+	db $0D
+	db $01
+	db $00
+	db $02 : dw $02B4, $01D1
+	db $00 : dw $0201, $1400
+	db $40 : dw $0140, $1CF8
+	db $00 : dw $0260, $252D
+	db $FF
+	dw !level_C5
+	dw !level_black_ice_battle_bonus_1
+	dw $FFFF, $0000
+	dw $FFFF
 
 DATA_FD5B1E:
+	dw !bonus_level_type
+	db !destroy_them_all_bonus_type
 if !version == 0
-	db $01, $00, $01 : dw DATA_FD47B3 : db $03, $00, $00
+	dw DATA_FD47B3
 else
-	db $01, $00, $01 : dw DATA_FD479E : db $03, $00, $00
+	dw DATA_FD479E
 endif
-	db $00, $00, $0A, $00, $00, $40, $01, $81
-	db $01, $FF, $0C, $00, $FF, $FF, $00, $00
-	db $FF, $FF
+	db $03
+	db $00
+	db $00
+	db $00
+	db $00
+	db $0A
+	db $00
+	db $00 : dw $0140, $0181
+	db $FF
+	dw !level_mainbrace_mayhem
+	dw $FFFF, $0000
+	dw $FFFF
 
 DATA_FD5B38:
+	dw !bonus_level_type
+	db !destroy_them_all_bonus_type
 if !version == 0
-	db $01, $00, $01 : dw DATA_FD479E : db $04, $00, $00
+	dw DATA_FD479E
 else
-	db $01, $00, $01 : dw DATA_FD47B3 : db $04, $00, $00
+	dw DATA_FD47B3
 endif
-	db $00, $00, $0A, $00, $00, $40, $01, $E1
-	db $01, $FF, $0C, $00, $FF, $FF, $00, $00
-	db $FF, $FF
+	db $04
+	db $00
+	db $00
+	db $00
+	db $00
+	db $0A
+	db $00
+	db $00 : dw $0140, $01E1
+	db $FF
+	dw !level_mainbrace_mayhem
+	dw $FFFF, $0000
+	dw $FFFF
 
 DATA_FD5B52:
-	db $00, $00 : dw DATA_FD47B3 : db $05, $00, $00, $00
-	db $00, $0A, $00, $00, $40, $01, $09, $02
-	db $00, $20, $17, $08, $02, $40, $20, $17
-	db $90, $01, $00, $10, $2E, $81, $02, $FF
-	db $C4, $00, $98, $00, $FF, $FF, $00, $00
-	db $FF, $FF
+	dw !normal_level_type
+	dw DATA_FD47B3
+	db $05
+	db $00
+	db $00
+	db $00
+	db $00
+	db $0A
+	db $00
+	db $00 : dw $0140, $0209
+	db $00 : dw $1720, $0208
+	db $40 : dw $1720, $0190
+	db $00 : dw $2E10, $0281
+	db $FF
+	dw !level_C4
+	dw !level_jungle_jinx_bonus_1
+	dw $FFFF, $0000
+	dw $FFFF
 
 DATA_FD5B7C:
-	db $06, $00 : dw DATA_FD47F2 : db $02, $00, $00, $00
-	db $00, $0A, $00, $00, $40, $01, $C1, $01
-	db $FF, $90, $00, $FF, $FF, $00, $00, $FF
+	dw !sub_level_type
+	dw DATA_FD47F2
+	db $02
+	db $00
+	db $00
+	db $00
+	db $00
+	db $0A
+	db $00
+	db $00 : dw $0140, $01C1
 	db $FF
+	dw !level_animal_antics_enguarde_area
+	dw $FFFF, $0000
+	dw $FFFF
 
 DATA_FD5B95:
-	db $06, $00 : dw DATA_FD47F2 : db $06, $00, $00, $00
-	db $00, $01, $00, $00, $40, $01, $E1, $01
-	db $00, $50, $02, $70, $01, $40, $58, $0B
-	db $29, $01, $FF, $9F, $00, $9D, $00, $FF
-	db $FF, $00, $00, $FF, $FF
+	dw !sub_level_type
+	dw DATA_FD47F2
+	db $06
+	db $00
+	db $00
+	db $00
+	db $00
+	db $01
+	db $00
+	db $00 : dw $0140, $01E1
+	db $00 : dw $0250, $0170
+	db $40 : dw $0B58, $0129
+	db $FF
+	dw !level_animal_antics_squawks_area
+	dw !level_animal_antics_bonus_1
+	dw $FFFF, $0000
+	dw $FFFF
 
 DATA_FD5BBA:
-	db $06, $00 : dw DATA_FD47F2 : db $07, $00, $00, $00
-	db $00, $0A, $00, $00, $20, $05, $E8, $00
-	db $00, $30, $0C, $E1, $01, $FF, $C8, $00
-	db $FF, $FF, $00, $00, $FF, $FF
+	dw !sub_level_type
+	dw DATA_FD47F2
+	db $07
+	db $00
+	db $00
+	db $00
+	db $00
+	db $0A
+	db $00
+	db $00 : dw $0520, $00E8
+	db $00 : dw $0C30, $01E1
+	db $FF
+	dw !level_C8
+	dw $FFFF, $0000
+	dw $FFFF
 
 DATA_FD5BD8:
-	db $01, $00, $01 : dw DATA_FD4B25 : db $03, $00, $00
-	db $02, $06, $0B, $02, $00, $2C, $01, $69
-	db $06, $FF, $0C, $00, $FF, $FF, $00, $00
-	db $FF, $FF
+	dw !bonus_level_type
+	db !destroy_them_all_bonus_type
+	dw DATA_FD4B25
+	db $03
+	db $00
+	db $00
+	db $02
+	db $06
+	db $0B
+	db $02
+	db $00 : dw $012C, $0669
+	db $FF
+	dw !level_mainbrace_mayhem
+	dw $FFFF, $0000
+	dw $FFFF
 
 DATA_FD5BF2:
-	db $01, $00, $03 : dw DATA_FD4B3A : db $04, $00, $00
-	db $00, $0B, $0B, $02, $80, $50, $01, $A8
-	db $07, $FF, $0C, $00, $FF, $FF, $00, $00
-	db $FF, $FF
+	dw !bonus_level_type
+	db !find_the_token_bonus_type
+	dw DATA_FD4B3A
+	db $04
+	db $00
+	db $00
+	db $00
+	db $0B
+	db $0B
+	db $02
+	db $80 : dw $0150, $07A8
+	db $FF
+	dw !level_mainbrace_mayhem
+	dw $FFFF, $0000
+	dw $FFFF
 
 DATA_FD5C0C:
-	db $06, $00 : dw DATA_FD4B64 : db $00, $00, $00, $00
-	db $06, $0B, $02, $80, $A1, $02, $4C, $04
-	db $FF, $9C, $00, $FF, $FF, $00, $00, $FF
+	dw !sub_level_type
+	dw DATA_FD4B64
+	db $00
+	db $00
+	db $00
+	db $00
+	db $06
+	db $0B
+	db $02
+	db $80 : dw $02A1, $044C
 	db $FF
+	dw !level_animal_antics_rattly_area
+	dw $FFFF, $0000
+	dw $FFFF
 
 DATA_FD5C25:
-	db $01, $00, $03 : dw DATA_FD4B79 : db $01, $00, $00
-	db $01, $06, $0B, $02, $00, $2C, $01, $C9
-	db $01, $FF, $0C, $00, $FF, $FF, $00, $00
-	db $FF, $FF
+	dw !bonus_level_type
+	db !find_the_token_bonus_type
+	dw DATA_FD4B79
+	db $01
+	db $00
+	db $00
+	db $01
+	db $06
+	db $0B
+	db $02
+	db $00 : dw $012C, $01C9
+	db $FF
+	dw !level_mainbrace_mayhem
+	dw $FFFF, $0000
+	dw $FFFF
 
 DATA_FD5C3F:
-	db $01, $00, $01 : dw DATA_FD4B8E : db $02, $00, $00
-	db $01, $06, $0B, $02, $00, $2C, $01, $49
-	db $04, $FF, $0C, $00, $FF, $FF, $00, $00
-	db $FF, $FF
+	dw !bonus_level_type
+	db !destroy_them_all_bonus_type
+	dw DATA_FD4B8E
+	db $02
+	db $00
+	db $00
+	db $01
+	db $06
+	db $0B
+	db $02
+	db $00 : dw $012C, $0449
+	db $FF
+	dw !level_mainbrace_mayhem
+	dw $FFFF, $0000
+	dw $FFFF
 
 DATA_FD5C59:
-	db $01, $00, $02 : dw DATA_FD4B8E : db $03, $00, $00
-	db $01, $06, $0B, $02, $00, $2C, $01, $29
-	db $03, $FF, $0C, $00, $FF, $FF, $00, $00
-	db $FF, $FF
+	dw !bonus_level_type
+	db !collect_the_stars_bonus_type
+	dw DATA_FD4B8E
+	db $03
+	db $00
+	db $00
+	db $01
+	db $06
+	db $0B
+	db $02
+	db $00 : dw $012C, $0329
+	db $FF
+	dw !level_mainbrace_mayhem
+	dw $FFFF, $0000
+	dw $FFFF
 
 DATA_FD5C73:
-	db $01, $00, $02 : dw DATA_FD4B8E : db $04, $00, $00
-	db $00, $00, $01, $00, $00, $2C, $01, $09
-	db $02, $FF, $0C, $00, $FF, $FF, $00, $00
-	db $FF, $FF
+	dw !bonus_level_type
+	db !collect_the_stars_bonus_type
+	dw DATA_FD4B8E
+	db $04
+	db $00
+	db $00
+	db $00
+	db $00
+	db $01
+	db $00
+	db $00 : dw $012C, $0209
+	db $FF
+	dw !level_mainbrace_mayhem
+	dw $FFFF, $0000
+	dw $FFFF
 
 DATA_FD5C8D:
-	db $01, $00, $03 : dw DATA_FD4B8E : db $05, $00, $00
-	db $00, $00, $01, $00, $00, $20, $01, $09
-	db $02, $FF, $0C, $00, $FF, $FF, $00, $00
-	db $FF, $FF
+	dw !bonus_level_type
+	db !find_the_token_bonus_type
+	dw DATA_FD4B8E
+	db $05
+	db $00
+	db $00
+	db $00
+	db $00
+	db $01
+	db $00
+	db $00 : dw $0120, $0209
+	db $FF
+	dw !level_mainbrace_mayhem
+	dw $FFFF, $0000
+	dw $FFFF
 
 DATA_FD5CA7:
-	db $01, $00, $03 : dw DATA_FD4B79 : db $06, $00, $00
-	db $00, $00, $01, $00, $00, $2C, $01, $A9
-	db $04, $FF, $0C, $00, $FF, $FF, $00, $00
-	db $FF, $FF
+	dw !bonus_level_type
+	db !find_the_token_bonus_type
+	dw DATA_FD4B79
+	db $06
+	db $00
+	db $00
+	db $00
+	db $00
+	db $01
+	db $00
+	db $00 : dw $012C, $04A9
+	db $FF
+	dw !level_mainbrace_mayhem
+	dw $FFFF, $0000
+	dw $FFFF
 
 DATA_FD5CC1:
-	db $01, $00, $03 : dw DATA_FD4B79 : db $07, $00, $00
-	db $00, $00, $01, $00, $00, $2C, $01, $09
-	db $03, $FF, $0C, $00, $FF, $FF, $00, $00
-	db $FF, $FF
+	dw !bonus_level_type
+	db !find_the_token_bonus_type
+	dw DATA_FD4B79
+	db $07
+	db $00
+	db $00
+	db $00
+	db $00
+	db $01
+	db $00
+	db $00 : dw $012C, $0309
+	db $FF
+	dw !level_mainbrace_mayhem
+	dw $FFFF, $0000
+	dw $FFFF
 
 DATA_FD5CDB:
-	db $01, $00, $03 : dw DATA_FD4BA3 : db $08, $00, $00
-	db $00, $00, $01, $00, $00, $CC, $01, $A9
-	db $01, $FF, $0C, $00, $FF, $FF, $00, $00
-	db $FF, $FF
+	dw !bonus_level_type
+	db !find_the_token_bonus_type
+	dw DATA_FD4BA3
+	db $08
+	db $00
+	db $00
+	db $00
+	db $00
+	db $01
+	db $00
+	db $00 : dw $01CC, $01A9
+	db $FF
+	dw !level_mainbrace_mayhem
+	dw $FFFF, $0000
+	dw $FFFF
 
 DATA_FD5CF5:
-	db $01, $00, $03 : dw DATA_FD4BB8 : db $00, $00, $00
-	db $00, $00, $01, $00, $00, $28, $01, $C0
-	db $01, $FF, $0C, $00, $FF, $FF, $00, $00
-	db $FF, $FF
+	dw !bonus_level_type
+	db !find_the_token_bonus_type
+	dw DATA_FD4BB8
+	db $00
+	db $00
+	db $00
+	db $00
+	db $00
+	db $01
+	db $00
+	db $00 : dw $0128, $01C0
+	db $FF
+	dw !level_mainbrace_mayhem
+	dw $FFFF, $0000
+	dw $FFFF
 
 DATA_FD5D0F:
-	db $01, $00, $01 : dw DATA_FD4B10 : db $04, $00, $00
-	db $00, $06, $0B, $00, $00, $2C, $01, $B1
-	db $02, $FF, $0C, $00, $FF, $FF, $00, $00
-	db $FF, $FF
+	dw !bonus_level_type
+	db !destroy_them_all_bonus_type
+	dw DATA_FD4B10
+	db $04
+	db $00
+	db $00
+	db $00
+	db $06
+	db $0B
+	db $00
+	db $00 : dw $012C, $02B1
+	db $FF
+	dw !level_mainbrace_mayhem
+	dw $FFFF, $0000
+	dw $FFFF
 
 DATA_FD5D29:
-	db $01, $00, $03 : dw DATA_FD4AFB : db $05, $00, $00
-	db $00, $06, $0C, $00, $00, $2C, $01, $F1
-	db $01, $FF, $0C, $00, $FF, $FF, $00, $00
-	db $FF, $FF
+	dw !bonus_level_type
+	db !find_the_token_bonus_type
+	dw DATA_FD4AFB
+	db $05
+	db $00
+	db $00
+	db $00
+	db $06
+	db $0C
+	db $00
+	db $00 : dw $012C, $01F1
+	db $FF
+	dw !level_mainbrace_mayhem
+	dw $FFFF, $0000
+	dw $FFFF
 
 DATA_FD5D43:
-	db $01, $00, $03 : dw DATA_FD4AFB : db $06, $00, $00
-	db $00, $06, $0C, $00, $00, $2C, $01, $F1
-	db $07, $FF, $0C, $00, $FF, $FF, $00, $00
-	db $FF, $FF
+	dw !bonus_level_type
+	db !find_the_token_bonus_type
+	dw DATA_FD4AFB
+	db $06
+	db $00
+	db $00
+	db $00
+	db $06
+	db $0C
+	db $00
+	db $00 : dw $012C, $07F1
+	db $FF
+	dw !level_mainbrace_mayhem
+	dw $FFFF, $0000
+	dw $FFFF
 
 DATA_FD5D5D:
-	db $01, $00, $03 : dw DATA_FD4B10 : db $07, $00, $00
-	db $00, $06, $0C, $00, $00, $2C, $01, $91
-	db $02, $FF, $0C, $00, $FF, $FF, $00, $00
-	db $FF, $FF
+	dw !bonus_level_type
+	db !find_the_token_bonus_type
+	dw DATA_FD4B10
+	db $07
+	db $00
+	db $00
+	db $00
+	db $06
+	db $0C
+	db $00
+	db $00 : dw $012C, $0291
+	db $FF
+	dw !level_mainbrace_mayhem
+	dw $FFFF, $0000
+	dw $FFFF
 
 DATA_FD5D77:
-	db $01, $00, $03 : dw DATA_FD4AFB : db $08, $00, $00
-	db $00, $06, $0C, $00, $00, $2C, $01, $11
-	db $05, $FF, $0C, $00, $FF, $FF, $00, $00
-	db $FF, $FF
+	dw !bonus_level_type
+	db !find_the_token_bonus_type
+	dw DATA_FD4AFB
+	db $08
+	db $00
+	db $00
+	db $00
+	db $06
+	db $0C
+	db $00
+	db $00 : dw $012C, $0511
+	db $FF
+	dw !level_mainbrace_mayhem
+	dw $FFFF, $0000
+	dw $FFFF
 
 DATA_FD5D91:
-	db $01, $00, $03 : dw DATA_FD4957 : db $04, $00, $00
-	db $00, $00, $01, $00, $00, $4C, $01, $D1
-	db $01, $FF, $0C, $00, $FF, $FF, $00, $00
-	db $FF, $FF
+	dw !bonus_level_type
+	db !find_the_token_bonus_type
+	dw DATA_FD4957
+	db $04
+	db $00
+	db $00
+	db $00
+	db $00
+	db $01
+	db $00
+	db $00 : dw $014C, $01D1
+	db $FF
+	dw !level_mainbrace_mayhem
+	dw $FFFF, $0000
+	dw $FFFF
 
 DATA_FD5DAB:
-	db $01, $00, $01 : dw DATA_FD4957 : db $05, $00, $00
-	db $01, $06, $0B, $02, $00, $4C, $01, $D1
-	db $01, $FF, $0C, $00, $FF, $FF, $00, $00
-	db $FF, $FF
+	dw !bonus_level_type
+	db !destroy_them_all_bonus_type
+	dw DATA_FD4957
+	db $05
+	db $00
+	db $00
+	db $01
+	db $06
+	db $0B
+	db $02
+	db $00 : dw $014C, $01D1
+	db $FF
+	dw !level_mainbrace_mayhem
+	dw $FFFF, $0000
+	dw $FFFF
 
 DATA_FD5DC5:
-	db $01, $00, $03 : dw DATA_FD4957 : db $06, $00, $00
-	db $00, $00, $01, $00, $02, $D8, $01, $C9
-	db $02, $FF, $0C, $00, $FF, $FF, $00, $00
-	db $FF, $FF
+	dw !bonus_level_type
+	db !find_the_token_bonus_type
+	dw DATA_FD4957
+	db $06
+	db $00
+	db $00
+	db $00
+	db $00
+	db $01
+	db $00
+	db $02 : dw $01D8, $02C9
+	db $FF
+	dw !level_mainbrace_mayhem
+	dw $FFFF, $0000
+	dw $FFFF
 
 DATA_FD5DDF:
-	db $01, $00, $03 : dw DATA_FD4957 : db $07, $00, $00
-	db $00, $06, $0B, $02, $02, $F8, $01, $D1
-	db $03, $FF, $0C, $00, $FF, $FF, $00, $00
-	db $FF, $FF
+	dw !bonus_level_type
+	db !find_the_token_bonus_type
+	dw DATA_FD4957
+	db $07
+	db $00
+	db $00
+	db $00
+	db $06
+	db $0B
+	db $02
+	db $02 : dw $01F8, $03D1
+	db $FF
+	dw !level_mainbrace_mayhem
+	dw $FFFF, $0000
+	dw $FFFF
 
 DATA_FD5DF9:
-	db $01, $00, $01 : dw DATA_FD4957 : db $08, $00, $00
-	db $00, $00, $01, $00, $00, $50, $01, $6D
-	db $01, $FF, $0C, $00, $FF, $FF, $00, $00
-	db $FF, $FF
+	dw !bonus_level_type
+	db !destroy_them_all_bonus_type
+	dw DATA_FD4957
+	db $08
+	db $00
+	db $00
+	db $00
+	db $00
+	db $01
+	db $00
+	db $00 : dw $0150, $016D
+	db $FF
+	dw !level_mainbrace_mayhem
+	dw $FFFF, $0000
+	dw $FFFF
 
 DATA_FD5E13:
-	db $01, $00, $03 : dw DATA_FD4981 : db $02, $00, $00
-	db $00, $00, $01, $00, $00, $2C, $01, $31
-	db $03, $FF, $0C, $00, $FF, $FF, $00, $00
-	db $FF, $FF
+	dw !bonus_level_type
+	db !find_the_token_bonus_type
+	dw DATA_FD4981
+	db $02
+	db $00
+	db $00
+	db $00
+	db $00
+	db $01
+	db $00
+	db $00 : dw $012C, $0331
+	db $FF
+	dw !level_mainbrace_mayhem
+	dw $FFFF, $0000
+	dw $FFFF
 
 DATA_FD5E2D:
-	db $01, $00, $03 : dw DATA_FD4981 : db $03, $00, $00
-	db $00, $00, $01, $00, $02, $D8, $01, $D1
-	db $03, $FF, $0C, $00, $FF, $FF, $00, $00
-	db $FF, $FF
+	dw !bonus_level_type
+	db !find_the_token_bonus_type
+	dw DATA_FD4981
+	db $03
+	db $00
+	db $00
+	db $00
+	db $00
+	db $01
+	db $00
+	db $02 : dw $01D8, $03D1
+	db $FF
+	dw !level_mainbrace_mayhem
+	dw $FFFF, $0000
+	dw $FFFF
 
 DATA_FD5E47:
-	db $01, $00, $03 : dw DATA_FD4846 : db $04, $00, $00
-	db $00, $06, $08, $02, $00, $2C, $01, $55
-	db $04, $FF, $0C, $00, $FF, $FF, $00, $00
-	db $FF, $FF
+	dw !bonus_level_type
+	db !find_the_token_bonus_type
+	dw DATA_FD4846
+	db $04
+	db $00
+	db $00
+	db $00
+	db $06
+	db $08
+	db $02
+	db $00 : dw $012C, $0455
+	db $FF
+	dw !level_mainbrace_mayhem
+	dw $FFFF, $0000
+	dw $FFFF
 
 DATA_FD5E61:
-	db $01, $00, $03 : dw DATA_FD4846 : db $05, $00, $00
-	db $00, $06, $08, $02, $00, $30, $01, $D5
-	db $05, $FF, $0C, $00, $FF, $FF, $00, $00
-	db $FF, $FF
+	dw !bonus_level_type
+	db !find_the_token_bonus_type
+	dw DATA_FD4846
+	db $05
+	db $00
+	db $00
+	db $00
+	db $06
+	db $08
+	db $02
+	db $00 : dw $0130, $05D5
+	db $FF
+	dw !level_mainbrace_mayhem
+	dw $FFFF, $0000
+	dw $FFFF
 
 DATA_FD5E7B:
-	db $01, $00, $01 : dw DATA_FD4885 : db $06, $00, $00
-	db $00, $00, $0C, $00, $00, $50, $01, $A0
-	db $03, $FF, $0C, $00, $FF, $FF, $00, $00
-	db $FF, $FF
+	dw !bonus_level_type
+	db !destroy_them_all_bonus_type
+	dw DATA_FD4885
+	db $06
+	db $00
+	db $00
+	db $00
+	db $00
+	db $0C
+	db $00
+	db $00 : dw $0150, $03A0
+	db $FF
+	dw !level_mainbrace_mayhem
+	dw $FFFF, $0000
+	dw $FFFF
 
 DATA_FD5E95:
-	db $01, $00, $03 : dw DATA_FD4885 : db $07, $00, $00
-	db $00, $00, $0C, $00, $00, $50, $01, $00
-	db $0C, $FF, $0C, $00, $FF, $FF, $00, $00
-	db $FF, $FF
+	dw !bonus_level_type
+	db !find_the_token_bonus_type
+	dw DATA_FD4885
+	db $07
+	db $00
+	db $00
+	db $00
+	db $00
+	db $0C
+	db $00
+	db $00 : dw $0150, $0C00
+	db $FF
+	dw !level_mainbrace_mayhem
+	dw $FFFF, $0000
+	dw $FFFF
 
 DATA_FD5EAF:
-	db $03, $00 : dw DATA_FD485B : db $08, $00, $00, $00
-	db $00, $01, $00, $00, $50, $01, $D5, $01
-	db $FF, $0C, $00, $FF, $FF, $00, $00, $35
-	db $00, $36, $00, $FF, $FF
+	dw !boss_level_type
+	dw DATA_FD485B
+	db $08
+	db $00
+	db $00
+	db $00
+	db $00
+	db $01
+	db $00
+	db $00 : dw $0150, $01D5
+	db $FF
+	dw !level_mainbrace_mayhem
+	dw $FFFF, $0000
+	dw !level_35, !level_36
+	dw $FFFF
 
 DATA_FD5ECC:
-	db $01, $00, $03 : dw DATA_FD4B10 : db $08, $00, $00
-	db $00, $06, $0C, $00, $00, $2C, $01, $11
-	db $05, $FF, $0C, $00, $FF, $FF, $00, $00
-	db $FF, $FF
+	dw !bonus_level_type
+	db !find_the_token_bonus_type
+	dw DATA_FD4B10
+	db $08
+	db $00
+	db $00
+	db $00
+	db $06
+	db $0C
+	db $00
+	db $00 : dw $012C, $0511
+	db $FF
+	dw !level_mainbrace_mayhem
+	dw $FFFF, $0000
+	dw $FFFF
 
 DATA_FD5EE6:
-	db $01, $00, $01 : dw DATA_FD4AE6 : db $04, $00, $00
-	db $00, $06, $0C, $00, $00, $2C, $01, $B1
-	db $02, $FF, $0C, $00, $FF, $FF, $00, $00
-	db $FF, $FF
+	dw !bonus_level_type
+	db !destroy_them_all_bonus_type
+	dw DATA_FD4AE6
+	db $04
+	db $00
+	db $00
+	db $00
+	db $06
+	db $0C
+	db $00
+	db $00 : dw $012C, $02B1
+	db $FF
+	dw !level_mainbrace_mayhem
+	dw $FFFF, $0000
+	dw $FFFF
 
 DATA_FD5F00:
-	db $01, $00, $02 : dw DATA_FD48D9 : db $09, $00, $00
-	db $00, $00, $01, $00, $00, $50, $01, $4D
-	db $02, $FF, $0D, $00, $FF, $FF, $00, $00
-	db $FF, $FF
+	dw !bonus_level_type
+	db !collect_the_stars_bonus_type
+	dw DATA_FD48D9
+	db $09
+	db $00
+	db $00
+	db $00
+	db $00
+	db $01
+	db $00
+	db $00 : dw $0150, $024D
+	db $FF
+	dw !level_kreepy_krow
+	dw $FFFF, $0000
+	dw $FFFF
 
 DATA_FD5F1A:
-	db $01, $00, $03 : dw DATA_FD4AD1 : db $02, $00, $00
-	db $00, $0E, $00, $00, $00, $02, $01, $A5
-	db $02, $FF, $0E, $00, $FF, $FF, $00, $00
-	db $FF, $FF
+	dw !bonus_level_type
+	db !find_the_token_bonus_type
+	dw DATA_FD4AD1
+	db $02
+	db $00
+	db $00
+	db $00
+	db $0E
+	db $00
+	db $00
+	db $00 : dw $0102, $02A5
+	db $FF
+	dw !level_target_terror
+	dw $FFFF, $0000
+	dw $FFFF
 
 DATA_FD5F34:
-	db $06, $00 : dw DATA_FD4AA7 : db $01, $00, $00, $00
-	db $0E, $00, $00, $00, $58, $01, $D1, $02
-	db $FF, $3B, $00, $FF, $FF, $00, $00, $3B
-	db $00, $43, $00, $3B, $00, $66, $00, $67
-	db $00, $2C, $00, $FF, $FF
+	dw !sub_level_type
+	dw DATA_FD4AA7
+	db $01
+	db $00
+	db $00
+	db $00
+	db $0E
+	db $00
+	db $00
+	db $00 : dw $0158, $02D1
+	db $FF
+	dw !level_3B
+	dw $FFFF, $0000
+	dw !level_3B, !level_43
+	dw !level_3B, !level_66
+	dw !level_67, !level_mudhole_marsh
+	dw $FFFF
 
 DATA_FD5F59:
-	db $06, $00 : dw DATA_FD4ABC : db $02, $00, $00, $00
-	db $0E, $00, $00, $00, $58, $01, $81, $02
-	db $FF, $18, $00, $FF, $FF, $00, $00, $FF
+	dw !sub_level_type
+	dw DATA_FD4ABC
+	db $02
+	db $00
+	db $00
+	db $00
+	db $0E
+	db $00
+	db $00
+	db $00 : dw $0158, $0281
 	db $FF
+	dw !level_gusty_glade
+	dw $FFFF, $0000
+	dw $FFFF
 
 DATA_FD5F72:
-	db $01, $00, $03 : dw DATA_FD4ABC : db $03, $00, $00
-	db $00, $0E, $00, $00, $00, $40, $01, $D8
-	db $01, $FF, $3B, $00, $FF, $FF, $00, $00
-	db $FF, $FF
+	dw !bonus_level_type
+	db !find_the_token_bonus_type
+	dw DATA_FD4ABC
+	db $03
+	db $00
+	db $00
+	db $00
+	db $0E
+	db $00
+	db $00
+	db $00 : dw $0140, $01D8
+	db $FF
+	dw !level_3B
+	dw $FFFF, $0000
+	dw $FFFF
 
 DATA_FD5F8C:
-	db $01, $00, $03 : dw DATA_FD4AA7 : db $04, $00, $00
-	db $00, $0E, $00, $00, $00, $40, $01, $88
-	db $01, $FF, $3B, $00, $FF, $FF, $00, $00
-	db $FF, $FF
+	dw !bonus_level_type
+	db !find_the_token_bonus_type
+	dw DATA_FD4AA7
+	db $04
+	db $00
+	db $00
+	db $00
+	db $0E
+	db $00
+	db $00
+	db $00 : dw $0140, $0188
+	db $FF
+	dw !level_3B
+	dw $FFFF, $0000
+	dw $FFFF
 
 DATA_FD5FA6:
-	db $01, $00, $02 : dw DATA_FD4ABC : db $05, $00, $00
-	db $00, $0E, $00, $00, $00, $40, $01, $D1
-	db $01, $FF, $3B, $00, $FF, $FF, $00, $00
-	db $FF, $FF
+	dw !bonus_level_type
+	db !collect_the_stars_bonus_type
+	dw DATA_FD4ABC
+	db $05
+	db $00
+	db $00
+	db $00
+	db $0E
+	db $00
+	db $00
+	db $00 : dw $0140, $01D1
+	db $FF
+	dw !level_3B
+	dw $FFFF, $0000
+	dw $FFFF
 
 DATA_FD5FC0:
-	db $01, $00, $01 : dw DATA_FD4AA7 : db $06, $00, $00
-	db $00, $0E, $00, $00, $00, $40, $01, $D1
-	db $01, $FF, $3B, $00, $FF, $FF, $00, $00
-	db $FF, $FF
+	dw !bonus_level_type
+	db !destroy_them_all_bonus_type
+	dw DATA_FD4AA7
+	db $06
+	db $00
+	db $00
+	db $00
+	db $0E
+	db $00
+	db $00
+	db $00 : dw $0140, $01D1
+	db $FF
+	dw !level_3B
+	dw $FFFF, $0000
+	dw $FFFF
 
 DATA_FD5FDA:
-	db $05, $00
+	dw !map_level_type
 
 DATA_FD5FDC:
-	db $05, $00
+	dw !map_level_type
 
 DATA_FD5FDE:
-	db $05, $00
+	dw !map_level_type
 
 DATA_FD5FE0:
-	db $05, $00
+	dw !map_level_type
 
 DATA_FD5FE2:
-	db $05, $00
+	dw !map_level_type
 
 DATA_FD5FE4:
-	db $05, $00
+	dw !map_level_type
 
 DATA_FD5FE6:
-	db $05, $00
+	dw !map_level_type
 
 DATA_FD5FE8:
-	db $05, $00
+	dw !map_level_type
 
 DATA_FD5FEA:
-	db $05, $00
+	dw !map_level_type
 
 DATA_FD5FEC:
-	db $05, $00
+	dw !map_level_type
 
 
 DATA_FD5FEE:

@@ -437,7 +437,7 @@ DATA_B38348:
 	dw canball_pieces1_main,$0000		;0018
 	dw canball_pieces2_main,$0000		;001C
 	dw egg_shell_pieces_main,$0000		;0020
-	dw dropping_hooks_main,$0000		;0024
+	dw kleever_dropping_hooks_main,$0000	;0024
 	dw air_bubble_generator_main,$0000	;0028
 	dw kleever_bone_pieces_main,$0000	;002C
 	dw unknown_sprite_0030_main,$0000	;0030
@@ -600,16 +600,16 @@ DATA_B38348:
 	dw kleever_main,$0000			;02A4
 	dw krool_puddle_main,$0000		;02A8
 	dw krool_fish_main,$0000		;02AC
-	dw broken_kleever_hilt_main,$0000	;02B0
-	dw broken_kleever_fire_main,$0000	;02B4
+	dw kleever_broken_hilt_main,$0000	;02B0
+	dw kleever_broken_fire_main,$0000	;02B4
 	dw king_zing_stinger_main,$0000		;02B8
 	dw unknown_sprite_02BC_main,$0000	;02BC
 	dw king_zing_ring_zinger_main,$0000	;02C0
 	dw kleever_attack_effect_main,$0000	;02C4
 	dw kleever_hand_main,$0000		;02C8
-	dw kleever_fireballs_main,$0000		;02CC
-	dw kleevers_hand_bubbles_main,$0000	;02D0
-	dw krochead_main,$0000			;02D4
+	dw kleever_fireball_main,$0000		;02CC
+	dw kleever_hand_bubbles_main,$0000	;02D0
+	dw krockhead_main,$0000			;02D4
 	dw horsetail_main,$0000			;02D8
 	dw unknown_sprite_02DC_main,$0000	;02DC
 	dw glimmer_main,$0000			;02E0
@@ -714,11 +714,11 @@ kleever_main:
 	LDA #$0000				;$B386F4  \
 	JML CODE_B6D171				;$B386F7  /
 
-kleever_fireballs_main:
+kleever_fireball_main:
 	LDA #$0002				;$B386FB  \
 	JML CODE_B6D171				;$B386FE  /
 
-dropping_hooks_main:
+kleever_dropping_hooks_main:
 	LDA #$0004				;$B38702  \
 	JML CODE_B6D171				;$B38705  /
 
@@ -726,7 +726,7 @@ kleever_canball_main:
 	LDA #$0006				;$B38709  \
 	JML CODE_B6D171				;$B3870C  /
 
-kleevers_hand_bubbles_main:
+kleever_hand_bubbles_main:
 	LDA #$0008				;$B38710  \
 	JML CODE_B6D171				;$B38713  /
 
@@ -742,11 +742,11 @@ kleever_attack_effect_main:
 	LDA #$000E				;$B38725  \
 	JML CODE_B6D171				;$B38728  /
 
-broken_kleever_hilt_main:
+kleever_broken_hilt_main:
 	LDA #$0010				;$B3872C  \
 	JML CODE_B6D171				;$B3872F  /
 
-broken_kleever_fire_main:
+kleever_broken_fire_main:
 	LDA #$0012				;$B38733  \
 	JML CODE_B6D171				;$B38736  /
 
@@ -4503,9 +4503,9 @@ level_goal_main:
 	LDA $2E,x				;$B3A23E   |
 	ASL A					;$B3A240   |
 	TAX					;$B3A241   |
-	JMP (DATA_B3A245,x)			;$B3A242  /
+	JMP (.state_table,x)			;$B3A242  /
 
-DATA_B3A245:
+.state_table
 	dw CODE_B3A24E
 	dw CODE_B3A299
 	dw CODE_B3A313
@@ -4666,7 +4666,7 @@ CODE_B3A35A:					;	   |
 	RTS					;$B3A363  /
 
 CODE_B3A364:
-	JSL CODE_BEBE14				;$B3A364  \
+	JSL check_throwable_collision_global	;$B3A364  \
 	RTS					;$B3A368  /
 
 CODE_B3A369:
@@ -4675,8 +4675,8 @@ CODE_B3A369:
 	LDY current_sprite			;$B3A36B   |> Get current sprite
 	LDA $0054,y				;$B3A36D   |\
 	STA $8E					;$B3A370   |/ Use current sprites constants
-	LDA $002D,y				;$B3A372   |
-	BMI CODE_B3A38B				;$B3A375   |
+	LDA $002D,y				;$B3A372   |\
+	BMI CODE_B3A38B				;$B3A375   |/ Unsure what this is, for sprites thrown by enemy sprites
 	XBA					;$B3A377   |\ Get sprite state ($002E,y)
 	AND #$007F				;$B3A378   |/
 	ASL A					;$B3A37B   |\ *2 to index 16 bit state table
@@ -4700,11 +4700,11 @@ CODE_B3A38B:
 	LDX current_sprite			;$B3A3A0   |
 	RTS					;$B3A3A2  /
 
-CODE_B3A3A3:
+check_for_sprite_crush:
 	SEC					;$B3A3A3  \ \
 	LDA $0D54				;$B3A3A4   | |
 	BMI .return				;$B3A3A7   |/ If there is no castle crush floor then return carry set
-	LDX current_sprite			;$B3A3A9   |\ Get current sprite
+	LDX current_sprite			;$B3A3A9   |\ Else get current sprite
 	LDA $10,x				;$B3A3AB   | | Get sprite terrain tile attributes
 	BIT #$0100				;$B3A3AD   | | If the sprite isnt being crushed
 	BEQ .return				;$B3A3B0   |/ Then return carry set
@@ -4829,47 +4829,47 @@ zinger_main:
 	LDY #$0008				;$B3A465  \ \
 	LDA [$8E],y				;$B3A468   |/ Get sprite collision flags from constants
 	CMP #$6000				;$B3A46A   |> Check if sprite should be invulnerable
-	BNE .throwable_sprite_collision_check	;$B3A46D   |> If not continue to collision checks
+	BNE ..throwable_sprite_collision_check	;$B3A46D   |> If not continue to collision checks
 	LDA $30,x				;$B3A46F   |\ Else this must be a red zinger, get interaction flags
 	ORA #$0080				;$B3A471   | | Make sprite invulnerable
 	STA $30,x				;$B3A474   |/
 	LDA #$0100				;$B3A476   |\
-	JSL CODE_BEBE14				;$B3A479   |/ Check throwable collision
-	BCC .kong_sprite_collision_check	;$B3A47D   |> If no collision occurred go to kong collision check
+	JSL check_throwable_collision_global	;$B3A479   |/ Check throwable collision
+	BCC ..kong_sprite_collision_check	;$B3A47D   |> If no collision occurred go to kong collision check
 	LDA #$050E				;$B3A47F   |\ Else play zinger hurt sound
 	JSL queue_sound_effect			;$B3A482   |/
-	BRA .kong_sprite_collision_check	;$B3A486  /
+	BRA ..kong_sprite_collision_check	;$B3A486  /
 
-.throwable_sprite_collision_check
+..throwable_sprite_collision_check
 	LDA #$0118				;$B3A488  \ \
-	JSL CODE_BEBE14				;$B3A48B   |/ Check throwable collision
-	BCS .sprite_collided			;$B3A48F   |
-.kong_sprite_collision_check			;	   |
+	JSL check_throwable_collision_global	;$B3A48B   |/ Check throwable collision
+	BCS ..sprite_collided			;$B3A48F   |
+..kong_sprite_collision_check			;	   |
 	JSL CODE_BCFB58				;$B3A491   |> Populate kong and sprite hitboxes
 	LDY #$0008				;$B3A495   |\
 	LDA [$8E],y				;$B3A498   |/ Get sprite collision attributes
 	JSL CODE_BEBE8B				;$B3A49A   |> Check kong collision
-	BCS .sprite_collided			;$B3A49E   |
-.animation_and_movement_update			;	   |
+	BCS ..sprite_collided			;$B3A49E   |
+#.animation_and_movement_update			;	   |
 	JSR process_animation_handle_submerged	;$B3A4A0   |> Handle animation updates
 	LDA $00,x				;$B3A4A3   |\
 	CMP #$0200				;$B3A4A5   | | Check if sprite is a klinger
-	BNE .movement_and_crush_update		;$B3A4A8   |/ If not resume normal sprite logic
+	BNE ..movement_and_crush_update		;$B3A4A8   |/ If not resume normal sprite logic
 	LDA $48,x				;$B3A4AA   |\ Get wait timer
-	BEQ .movement_and_crush_update		;$B3A4AC   |/ If klinger isnt waiting resume normal sprite logic
+	BEQ ..movement_and_crush_update		;$B3A4AC   |/ If klinger isnt waiting resume normal sprite logic
 	DEC $48,x				;$B3A4AE   |> Decrement wait timer
 	JMP CODE_B38000				;$B3A4B0  /> Done processing sprite
 
-.movement_and_crush_update:
+..movement_and_crush_update
 	JSL process_current_movement		;$B3A4B3  \> Handle movement behavior
-	JSR CODE_B3A3A3				;$B3A4B7   |\ Check if sprite is being crushed by castle crush floor
-	BCC .defeat_sprite			;$B3A4BA   |/ If sprite is being crushed then kill it
+	JSR check_for_sprite_crush		;$B3A4B7   |\ Check if sprite is being crushed by castle crush floor
+	BCC ..defeat_sprite			;$B3A4BA   |/ If sprite is being crushed then kill it
 	JMP CODE_B38000				;$B3A4BC  /> Done processing sprite
 
-.sprite_collided
-	BEQ .defeat_sprite			;$B3A4BF  \> If sprite can be defeated then kill it
+..sprite_collided
+	BEQ ..defeat_sprite			;$B3A4BF  \> If sprite can be defeated then kill it
 	CMP #$0002				;$B3A4C1   |\
-	BCC .failed_defeat			;$B3A4C4   |/ If return status was 0001 then we couldnt defeat the enemy
+	BCC ..failed_defeat			;$B3A4C4   |/ If return status was 0001 then we couldnt defeat the enemy
 	LDY #$0012				;$B3A4C6   |\ Else an alternate event occurred from collision (like knockback)
 	LDA [$8E],y				;$B3A4C9   | | Get alternate collision animation
 	BEQ .animation_and_movement_update	;$B3A4CB   |/ If no alternate collision animation defined, dont apply an animation
@@ -4877,15 +4877,15 @@ zinger_main:
 	LDX current_sprite			;$B3A4D1   |> Get current sprite
 	LDY #$0014				;$B3A4D3   |\
 	LDA [$8E],y				;$B3A4D6   |/ Get new state from constants
-	BEQ ..no_new_state			;$B3A4D8   |> If no state was defined, dont apply a state
+	BEQ ...no_new_state			;$B3A4D8   |> If no state was defined, dont apply a state
 	STA $2E,x				;$B3A4DA   |> Else apply the new state
 	BRL generic_sprite_main			;$B3A4DC  /> Return to state handler/main
 
-..no_new_state
+...no_new_state
 	JSL process_current_movement		;$B3A4DF  \> Handle movement behavior
 	JMP CODE_B38000				;$B3A4E3  /> Done processing sprite
 
-.defeat_sprite
+..defeat_sprite
 	LDY #$000A				;$B3A4E6  \ \
 	LDA [$8E],y				;$B3A4E9   |/ Get defeated animation from constants
 	BEQ .animation_and_movement_update	;$B3A4EB   |> If no animation is defined then dont apply an animation
@@ -4893,15 +4893,15 @@ zinger_main:
 	LDX current_sprite			;$B3A4F0   |> Get current sprite
 	LDY #$000C				;$B3A4F2   |\
 	LDA [$8E],y				;$B3A4F5   |/ Get new defeated state from constants
-	BEQ ..no_new_state			;$B3A4F7   |> If no state was defined, dont apply a state
+	BEQ ...no_new_state			;$B3A4F7   |> If no state was defined, dont apply a state
 	STA $2E,x				;$B3A4F9   |> Else apply the new state
 	BRL generic_sprite_main			;$B3A4FB  /> Return to state handler/main
 
-..no_new_state
+...no_new_state
 	JSL process_current_movement		;$B3A4FE  \> Handle movement behavior
 	JMP CODE_B38000				;$B3A502  /> Done processing sprite
 
-.failed_defeat
+..failed_defeat
 	LDY #$000E				;$B3A505  \ \
 	LDA [$8E],y				;$B3A508   |/ Get animation from constants
 	BEQ .animation_and_movement_update	;$B3A50A   |> If no animation is defined then dont apply an animation
@@ -4985,9 +4985,9 @@ zinger_main:
 	STA $8E					;$B3A59E   |/
 	LDY #$000A				;$B3A5A0   |\
 	LDA [$8E],y				;$B3A5A3   | | Get death animation from constants
-	BEQ .done_processing			;$B3A5A5   |/ If no death animation is defined then done processing sprite
+	BEQ ..done_processing			;$B3A5A5   |/ If no death animation is defined then done processing sprite
 	JSR defeat_sprite_using_animation	;$B3A5A7   |> Defeat sprite using animation
-.done_processing				;	   |
+..done_processing				;	   |
 	JMP CODE_B38000				;$B3A5AA  /> Done processing sprite
 
 .state_2
@@ -5242,7 +5242,7 @@ click_clack_main:
 	INC $2E,x				;$B3A753   |> Set idle state
 .idle_state					;	   |
 	LDA #$0118				;$B3A755   |\
-	JSL CODE_BEBE14				;$B3A758   |/ Check throwable collision
+	JSL check_throwable_collision_global	;$B3A758   |/ Check throwable collision
 	BCS ..sprite_collided			;$B3A75C   |
 	JSL CODE_BCFB58				;$B3A75E   |> Populate kong and sprite hitboxes
 	LDA #$5438				;$B3A762   |\
@@ -5321,7 +5321,7 @@ endif						;	   |
 	STA $4E,x				;$B3A7FA   |> Apply time until click-clack breaks free from carry
 ..not_picked_up					;	   |
 	LDA #$0118				;$B3A7FC   |\
-	JSL CODE_BEBE14				;$B3A7FF   |/ Check throwable collision
+	JSL check_throwable_collision_global	;$B3A7FF   |/ Check throwable collision
 	BCS ..defeat_click_clack		;$B3A803   |> If collision was detected then defeat click-clack
 	JSL CODE_BCFB58				;$B3A805   |> Populate kong and sprite hitboxes
 	LDA #$542C				;$B3A809   |\
@@ -5468,7 +5468,7 @@ endif						;	   | |
 
 ..thrown_upward
 	LDA #$0118				;$B3A934  \ \
-	JSL CODE_BEBE14				;$B3A937   |/ Check throwable collision
+	JSL check_throwable_collision_global	;$B3A937   |/ Check throwable collision
 	BCS ..collided				;$B3A93B   |> If thrown click-clack collided then defeat it
 	JSL CODE_BCFB58				;$B3A93D   |> Populate kong and sprite hitboxes
 	LDA #$1020				;$B3A941   |\
@@ -5485,7 +5485,7 @@ endif						;	   | |
 
 .thrown_airborne_state
 	LDA #$0118				;$B3A95C  \ \
-	JSL CODE_BEBE14				;$B3A95F   |/ Check throwable collision
+	JSL check_throwable_collision_global	;$B3A95F   |/ Check throwable collision
 	BCS ..collided				;$B3A963   |> If thrown click-clack collided then defeat it
 	JSL CODE_BCFB58				;$B3A965   |> Populate kong and sprite hitboxes
 	LDA #$1020				;$B3A969   |\
@@ -5540,7 +5540,7 @@ endif						;	   | |
 
 ..start_recover
 	LDA #$0118				;$B3A9D8  \ \
-	JSL CODE_BEBE14				;$B3A9DB   |/ Check throwable collision
+	JSL check_throwable_collision_global	;$B3A9DB   |/ Check throwable collision
 	BCS ..collided				;$B3A9DF   |
 	JSL CODE_BCFB58				;$B3A9E1   |> Populate kong and sprite hitboxes
 	LDA #$542B				;$B3A9E5   |\
@@ -5680,7 +5680,7 @@ CODE_B3AAB4:					;	   |
 
 CODE_B3AAD6:
 	LDA #$0118				;$B3AAD6  \
-	JSL CODE_BEBE14				;$B3AAD9   |
+	JSL check_throwable_collision_global	;$B3AAD9   |
 	BCC CODE_B3AAE1				;$B3AADD   |
 	BEQ CODE_B3AB28				;$B3AADF   |
 CODE_B3AAE1:					;	   |
@@ -5701,7 +5701,7 @@ CODE_B3AAE1:					;	   |
 	BCS CODE_B3AB28				;$B3AB08   |
 CODE_B3AB0A:					;	   |
 	JSL process_current_movement		;$B3AB0A   |
-	JSR CODE_B3A3A3				;$B3AB0E   |
+	JSR check_for_sprite_crush		;$B3AB0E   |
 	BCC CODE_B3AB28				;$B3AB11   |
 	LDA $52,x				;$B3AB13   |
 	BEQ CODE_B3AB61				;$B3AB15   |
@@ -6087,7 +6087,7 @@ CODE_B3AE02:					;	   |
 
 CODE_B3AE03:
 	LDA #$0118				;$B3AE03  \
-	JSL CODE_BEBE14				;$B3AE06   |
+	JSL check_throwable_collision_global	;$B3AE06   |
 	BCS CODE_B3AE5C				;$B3AE0A   |
 	LDA $48,x				;$B3AE0C   |
 	BEQ CODE_B3AE16				;$B3AE0E   |
@@ -6274,7 +6274,7 @@ CODE_B3AF6A:					;	   |
 	RTS					;$B3AF77  /
 
 CODE_B3AF78:
-	JSR CODE_B3A3A3				;$B3AF78  \
+	JSR check_for_sprite_crush		;$B3AF78  \
 	BCC CODE_B3AF8E				;$B3AF7B   |
 	LDX current_sprite			;$B3AF7D   |
 	LDA $1E,x				;$B3AF7F   |
@@ -6593,11 +6593,11 @@ CODE_B3B193:					;	   |
 	RTS					;$B3B193  /
 
 CODE_B3B194:
-	JSR CODE_B3A3A3				;$B3B194  \
+	JSR check_for_sprite_crush		;$B3B194  \
 	BCC CODE_B3B1E2				;$B3B197   |
 	LDX current_sprite			;$B3B199   |
 	LDA #$0118				;$B3B19B   |
-	JSL CODE_BEBE14				;$B3B19E   |
+	JSL check_throwable_collision_global	;$B3B19E   |
 	BCS CODE_B3B1C2				;$B3B1A2   |
 	JSL CODE_BCFB58				;$B3B1A4   |
 	LDA #$577B				;$B3B1A8   |
@@ -7114,7 +7114,7 @@ CODE_B3B52F:
 	INC $2E,x				;$B3B534   |
 CODE_B3B536:					;	   |
 	LDA #$0118				;$B3B536   |
-	JSL CODE_BEBE14				;$B3B539   |
+	JSL check_throwable_collision_global	;$B3B539   |
 	BCS CODE_B3B54C				;$B3B53D   |
 	JSL CODE_BCFB58				;$B3B53F   |
 	LDA #$1400				;$B3B543   |
@@ -7168,7 +7168,7 @@ CODE_B3B5A8:					;	   |
 
 CODE_B3B5B4:
 	LDA #$0118				;$B3B5B4  \
-	JSL CODE_BEBE14				;$B3B5B7   |
+	JSL check_throwable_collision_global	;$B3B5B7   |
 	BCS CODE_B3B5CA				;$B3B5BB   |
 	JSL CODE_BCFB58				;$B3B5BD   |
 	LDA #$1400				;$B3B5C1   |
@@ -7666,7 +7666,7 @@ CODE_B3B90D:
 CODE_B3B910:					;	   |
 	INC $19AC				;$B3B910   |
 	LDA #$0118				;$B3B913   |
-	JSL CODE_BEBE14				;$B3B916   |
+	JSL check_throwable_collision_global	;$B3B916   |
 	BCS CODE_B3B937				;$B3B91A   |
 	JSL CODE_BCFB58				;$B3B91C   |
 	LDA #$1400				;$B3B920   |
@@ -7708,7 +7708,7 @@ CODE_B3B958:
 	INC $2F,x				;$B3B960   |
 CODE_B3B962:					;	   |
 	LDA #$0118				;$B3B962   |
-	JSL CODE_BEBE14				;$B3B965   |
+	JSL check_throwable_collision_global	;$B3B965   |
 	BCS CODE_B3B978				;$B3B969   |
 	JSL CODE_BCFB58				;$B3B96B   |
 	LDA #$1400				;$B3B96F   |
@@ -7760,7 +7760,7 @@ CODE_B3B9B3:
 	INC $2F,x				;$B3B9BC   |
 CODE_B3B9BE:					;	   |
 	LDA #$0118				;$B3B9BE   |
-	JSL CODE_BEBE14				;$B3B9C1   |
+	JSL check_throwable_collision_global	;$B3B9C1   |
 	BCS CODE_B3B9D4				;$B3B9C5   |
 	JSL CODE_BCFB58				;$B3B9C7   |
 	LDA #$1400				;$B3B9CB   |
@@ -7791,7 +7791,7 @@ CODE_B3B9F6:					;	   |
 
 CODE_B3BA04:
 	LDA #$0118				;$B3BA04  \
-	JSL CODE_BEBE14				;$B3BA07   |
+	JSL check_throwable_collision_global	;$B3BA07   |
 	BCS CODE_B3BA1A				;$B3BA0B   |
 	JSL CODE_BCFB58				;$B3BA0D   |
 	LDA #$1400				;$B3BA11   |
@@ -7822,7 +7822,7 @@ CODE_B3BA3E:					;	   |
 
 CODE_B3BA48:
 	LDA #$0118				;$B3BA48  \
-	JSL CODE_BEBE14				;$B3BA4B   |
+	JSL check_throwable_collision_global	;$B3BA4B   |
 	BCS CODE_B3BA5E				;$B3BA4F   |
 	JSL CODE_BCFB58				;$B3BA51   |
 	LDA #$1400				;$B3BA55   |
@@ -7960,7 +7960,7 @@ CODE_B3BB1C:
 
 CODE_B3BB31:
 	LDA #$0118				;$B3BB31  \
-	JSL CODE_BEBE14				;$B3BB34   |
+	JSL check_throwable_collision_global	;$B3BB34   |
 	BCC CODE_B3BB3C				;$B3BB38   |
 	BEQ CODE_B3BB49				;$B3BB3A   |
 CODE_B3BB3C:					;	   |
@@ -8334,7 +8334,7 @@ CODE_B3BDB8:					;	   |
 
 CODE_B3BDC7:
 	LDA #$0118				;$B3BDC7  \
-	JSL CODE_BEBE14				;$B3BDCA   |
+	JSL check_throwable_collision_global	;$B3BDCA   |
 	BCS CODE_B3BDDE				;$B3BDCE   |
 	JSL CODE_BCFB58				;$B3BDD0   |
 	LDA #$5428				;$B3BDD4   |
@@ -8449,7 +8449,7 @@ CODE_B3BE87:
 
 CODE_B3BE92:
 	LDA #$0118				;$B3BE92  \
-	JSL CODE_BEBE14				;$B3BE95   |
+	JSL check_throwable_collision_global	;$B3BE95   |
 	BCS CODE_B3BEAA				;$B3BE99   |
 	JSL CODE_BCFB58				;$B3BE9B   |
 	LDA #$5428				;$B3BE9F   |
@@ -8882,7 +8882,7 @@ CODE_B3C1DD:
 	CLC					;$B3C1E1   |
 	BEQ CODE_B3C207				;$B3C1E2   |
 	LDA #$0018				;$B3C1E4   |
-	JSL CODE_BEBE14				;$B3C1E7   |
+	JSL check_throwable_collision_global	;$B3C1E7   |
 	BCS CODE_B3C208				;$B3C1EB   |
 	JSL CODE_BCFB58				;$B3C1ED   |
 	LDA #$0400				;$B3C1F1   |
@@ -9436,11 +9436,11 @@ CODE_B3C61F:
 
 CODE_B3C62A:
 	STA $0DC6				;$B3C62A  \
-	JSR CODE_B3A3A3				;$B3C62D   |
+	JSR check_for_sprite_crush		;$B3C62D   |
 	BCC CODE_B3C686				;$B3C630   |
 	LDX current_sprite			;$B3C632   |
 	LDA #$0118				;$B3C634   |
-	JSL CODE_BEBE14				;$B3C637   |
+	JSL check_throwable_collision_global	;$B3C637   |
 	BCS CODE_B3C65A				;$B3C63B   |
 	JSL CODE_BCFB58				;$B3C63D   |
 	LDA $2E,x				;$B3C641   |
@@ -9758,11 +9758,11 @@ CODE_B3C86F:
 	JMP CODE_B3C7E6				;$B3C875  /
 
 CODE_B3C878:
-	JSR CODE_B3A3A3				;$B3C878  \
+	JSR check_for_sprite_crush		;$B3C878  \
 	BCC CODE_B3C8AE				;$B3C87B   |
 	LDX current_sprite			;$B3C87D   |
 	LDA #$0118				;$B3C87F   |
-	JSL CODE_BEBE14				;$B3C882   |
+	JSL check_throwable_collision_global	;$B3C882   |
 	BCS CODE_B3C897				;$B3C886   |
 	JSL CODE_BCFB58				;$B3C888   |
 	LDA #$5428				;$B3C88C   |
@@ -9919,7 +9919,7 @@ CODE_B3C99C:					;	   |
 
 CODE_B3C9A1:
 	LDA #$0018				;$B3C9A1  \
-	JSL CODE_BEBE14				;$B3C9A4   |
+	JSL check_throwable_collision_global	;$B3C9A4   |
 	BCS CODE_B3C9B7				;$B3C9A8   |
 	JSL CODE_BCFB58				;$B3C9AA   |
 	LDA #$0000				;$B3C9AE   |
@@ -9990,7 +9990,7 @@ DATA_B3CA1D:
 
 CODE_B3CA23:
 	LDA #$0118				;$B3CA23  \
-	JSL CODE_BEBE14				;$B3CA26   |
+	JSL check_throwable_collision_global	;$B3CA26   |
 	BCS CODE_B3CA4D				;$B3CA2A   |
 	JSL CODE_BCFB58				;$B3CA2C   |
 	LDA #$1400				;$B3CA30   |
@@ -10508,7 +10508,7 @@ CODE_B3CDB7:					;	   |
 
 CODE_B3CDC0:
 	LDA #$0118				;$B3CDC0  \
-	JSL CODE_BEBE14				;$B3CDC3   |
+	JSL check_throwable_collision_global	;$B3CDC3   |
 	BCS CODE_B3CDDF				;$B3CDC7   |
 	JSL CODE_BBBB69				;$B3CDC9   |
 	BCS CODE_B3CDEF				;$B3CDCD   |
@@ -10673,7 +10673,7 @@ DATA_B3CF31:
 CODE_B3CF41:
 	STA $0DC6				;$B3CF41  \
 	LDA #$0118				;$B3CF44   |
-	JSL CODE_BEBE14				;$B3CF47   |
+	JSL check_throwable_collision_global	;$B3CF47   |
 	BCS CODE_B3CF7F				;$B3CF4B   |
 	JSR CODE_B3CFE6				;$B3CF4D   |
 	BCC CODE_B3CF5F				;$B3CF50   |
@@ -10686,7 +10686,7 @@ CODE_B3CF5F:					;	   |
 
 CODE_B3CF60:
 	LDA #$0118				;$B3CF60  \
-	JSL CODE_BEBE14				;$B3CF63   |
+	JSL check_throwable_collision_global	;$B3CF63   |
 	BCS CODE_B3CF7F				;$B3CF67   |
 	JSR CODE_B3CFE6				;$B3CF69   |
 	BCC CODE_B3CF7E				;$B3CF6C   |
@@ -10971,7 +10971,7 @@ CODE_B3D17B:					;	   |
 
 CODE_B3D184:
 	LDA #$0118				;$B3D184  \
-	JSL CODE_BEBE14				;$B3D187   |
+	JSL check_throwable_collision_global	;$B3D187   |
 	BCS CODE_B3D19B				;$B3D18B   |
 	JSL CODE_BCFB58				;$B3D18D   |
 	LDA #$5428				;$B3D191   |
@@ -11071,11 +11071,11 @@ CODE_B3D249:
 	ASL A					;$B3D24F   |
 	TAX					;$B3D250   |
 	JSR (DATA_B3D2CE,x)			;$B3D251   |
-	BCS CODE_B3D295				;$B3D254   |
+	BCS CODE_B3D295				;$B3D254   |> Thrown sprite collided
 	LDX current_sprite			;$B3D256   |
-	LDA $51,x				;$B3D258   |
-	BMI CODE_B3D291				;$B3D25A   |
-	AND #$FF00				;$B3D25C   |
+	LDA $51,x				;$B3D258   |\ Get movement state in high byte of A
+	BMI CODE_B3D291				;$B3D25A   |/ If no movement then done processing
+	AND #$FF00				;$B3D25C   |> Get only movement state
 	CMP #$1300				;$B3D25F   |
 	BCC CODE_B3D295				;$B3D262   |
 	CMP #$1601				;$B3D264   |
@@ -11137,8 +11137,8 @@ DATA_B3D2CE:
 
 
 CODE_B3D2D4:
-	LDA $0032,y				;$B3D2D4  \
-	BEQ CODE_B3D2DD				;$B3D2D7   |
+	LDA $0032,y				;$B3D2D4  \ \
+	BEQ CODE_B3D2DD				;$B3D2D7   |/
 	SEC					;$B3D2D9   |
 	RTS					;$B3D2DA  /
 
@@ -11329,7 +11329,7 @@ CODE_B3D435:
 CODE_B3D44A:
 	STA $0DC6				;$B3D44A  \
 	LDA #$0118				;$B3D44D   |
-	JSL CODE_BEBE14				;$B3D450   |
+	JSL check_throwable_collision_global	;$B3D450   |
 	BCS CODE_B3D468				;$B3D454   |
 	LDA $2F,x				;$B3D456   |
 	AND #$00FF				;$B3D458   |
@@ -11663,7 +11663,7 @@ DATA_B3D693:
 	dw $8000
 
 
-krochead_main:
+krockhead_main:
 	JSR CODE_B3A369				;$B3D6DD  \
 	dw CODE_B3D6E4
 	dw CODE_B3D709
@@ -11682,10 +11682,10 @@ CODE_B3D6E4:
 	ASL A					;$B3D6F8   |
 	BEQ CODE_B3D709				;$B3D6F9   |
 	JSR CODE_B3D741				;$B3D6FB   |
-	BEQ krochead_main			;$B3D6FE   |
+	BEQ krockhead_main			;$B3D6FE   |
 	LDA #$02C9				;$B3D700   |
 	JSL set_sprite_animation		;$B3D703   |
-	BRA krochead_main			;$B3D707  /
+	BRA krockhead_main			;$B3D707  /
 
 CODE_B3D709:
 	TAX					;$B3D709  \
