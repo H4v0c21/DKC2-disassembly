@@ -1418,7 +1418,7 @@ CODE_B88B4B:					;	   |
 	LDA #$0004				;$B88B53   |
 CODE_B88B56:					;	   |
 	LDX active_kong_sprite			;$B88B56   |
-	JSL CODE_BB8C44				;$B88B59   |
+	JSL set_sprite_palette_global		;$B88B59   |
 	JSR work_on_active_kong			;$B88B5D   |
 	LDA $08C2				;$B88B60   |
 	AND #$4000				;$B88B63   |

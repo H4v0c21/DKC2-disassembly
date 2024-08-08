@@ -4319,7 +4319,7 @@ CODE_B3A0FF:
 	TAX					;$B3A117   |
 	LDA.l DATA_FD618E,x			;$B3A118   |
 	LDX current_sprite			;$B3A11C   |
-	JSL CODE_BB8C40				;$B3A11E   |
+	JSL set_sprite_palette_direct_global	;$B3A11E   |
 	BRA CODE_B3A0ED				;$B3A122  /
 
 CODE_B3A124:
@@ -6588,7 +6588,7 @@ CODE_B3B179:
 	ADC #$000E				;$B3B189   |
 	TAY					;$B3B18C   |
 	LDA [$8E],y				;$B3B18D   |
-	JSL CODE_BB8C40				;$B3B18F   |
+	JSL set_sprite_palette_direct_global	;$B3B18F   |
 CODE_B3B193:					;	   |
 	RTS					;$B3B193  /
 
@@ -6716,7 +6716,7 @@ CODE_B3B26B:					;	   |
 	STA $1C,x				;$B3B273   |
 	LDY #$0010				;$B3B275   |
 	LDA [$8E],y				;$B3B278   |
-	JSL CODE_BB8C40				;$B3B27A   |
+	JSL set_sprite_palette_direct_global	;$B3B27A   |
 	LDY #$0006				;$B3B27E   |
 	LDA [$8E],y				;$B3B281   |
 	STA $28,x				;$B3B283   |
@@ -13779,7 +13779,7 @@ CODE_B3E65C:
 CODE_B3E678:
 	LDA #$0015				;$B3E678  \
 CODE_B3E67B:					;	   |
-	JSL CODE_BB8C44				;$B3E67B   |
+	JSL set_sprite_palette_global		;$B3E67B   |
 CODE_B3E67F:					;	   |
 	JMP CODE_B3E768				;$B3E67F  /
 
@@ -14294,7 +14294,7 @@ else						;	   |
 	PHX                             	;$B3EA0E   |
 	LDX $0593                       	;$B3EA11   |
 endif						;	   |
-	JSL CODE_BB8C44				;$B3EA14   |
+	JSL set_sprite_palette_global		;$B3EA14   |
 	LDA $08C2				;$B3EA18   |
 	AND #$4000				;$B3EA1B   |
 	BEQ CODE_B3EA24				;$B3EA1E   |

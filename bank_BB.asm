@@ -838,7 +838,7 @@ init_command_set_palette:
 	PHK					;$BB84F6   |
 	PLB					;$BB84F7   |
 	PHY					;$BB84F8   |
-	JSR CODE_BB8A6F				;$BB84F9   |
+	JSR request_palette_direct		;$BB84F9   |
 	PLY					;$BB84FC   |
 	LDX alternate_sprite			;$BB84FD   |
 	EOR $12,x				;$BB84FF   |
@@ -1028,7 +1028,7 @@ CODE_BB865C:					;	   |
 	PHK					;$BB8662   |
 	PLB					;$BB8663   |
 	PHY					;$BB8664   |
-	JSR CODE_BB8A6F				;$BB8665   |
+	JSR request_palette_direct		;$BB8665   |
 	PLY					;$BB8668   |
 	LDX alternate_sprite			;$BB8669   |
 	EOR $12,x				;$BB866B   |
@@ -1046,7 +1046,7 @@ init_command_set_alt_palette:
 	PHK					;$BB8680   |
 	PLB					;$BB8681   |
 	PHY					;$BB8682   |
-	JSR CODE_BB8A69				;$BB8683   |
+	JSR request_sprite_palette		;$BB8683   |
 	PLY					;$BB8686   |
 	LDX alternate_sprite			;$BB8687   |
 	EOR $12,x				;$BB8689   |
@@ -1113,7 +1113,7 @@ CODE_BB86D5:
 	PLB					;$BB86F3   |
 	LDA $34					;$BB86F4   |
 	PHY					;$BB86F6   |
-	JSR CODE_BB8A6F				;$BB86F7   |
+	JSR request_palette_direct		;$BB86F7   |
 	PLY					;$BB86FA   |
 	BCS CODE_BB876C				;$BB86FB   |
 	LDX alternate_sprite			;$BB86FD   |
@@ -1226,7 +1226,7 @@ CODE_BB879E:
 	PLB					;$BB87BC   |
 	LDA $34					;$BB87BD   |
 	PHY					;$BB87BF   |
-	JSR CODE_BB8A69				;$BB87C0   |
+	JSR request_sprite_palette		;$BB87C0   |
 	PLY					;$BB87C3   |
 	BCS CODE_BB8835				;$BB87C4   |
 	LDX alternate_sprite			;$BB87C6   |
@@ -1582,19 +1582,19 @@ CODE_BB8A0B:					;	   |
 	JSR CODE_BB896A				;$BB8A5D   |
 	RTS					;$BB8A60  /
 
-CODE_BB8A61:
-	JSR CODE_BB8A69				;$BB8A61  \
+request_sprite_palette_global:
+	JSR request_sprite_palette		;$BB8A61  \
 	RTL					;$BB8A64  /
 
-CODE_BB8A65:
-	JSR CODE_BB8A6F				;$BB8A65  \
+request_palette_direct_global:
+	JSR request_palette_direct		;$BB8A65  \
 	RTL					;$BB8A68  /
 
-CODE_BB8A69:
+request_sprite_palette:
 	ASL A					;$BB8A69  \ \
 	TAX					;$BB8A6A   | |
 	LDA.l DATA_FD5FEE,x			;$BB8A6B   |/ Load sprite palette address from table
-CODE_BB8A6F:					;	   |
+request_palette_direct:				;	   |
 	STA $05A7				;$BB8A6F   |> Preserve requested palette address
 	LDX #$0000				;$BB8A72   |> Start with palette slot 0
 .next_slot					;	   |
@@ -1866,7 +1866,7 @@ CODE_BB8C19:
 	TAX					;$BB8C22   |
 	LDA $0B64,x				;$BB8C23   |
 	LDX inactive_kong_sprite		;$BB8C26   |
-	JSR CODE_BB8C50				;$BB8C29   |
+	JSR set_sprite_palette_direct		;$BB8C29   |
 CODE_BB8C2C:					;	   |
 	LDX active_kong_sprite			;$BB8C2C   |
 	LDA $12,x				;$BB8C2F   |
@@ -1875,24 +1875,24 @@ CODE_BB8C2C:					;	   |
 	TAX					;$BB8C35   |
 	LDA $0B64,x				;$BB8C36   |
 	LDX active_kong_sprite			;$BB8C39   |
-	JSR CODE_BB8C50				;$BB8C3C   |
+	JSR set_sprite_palette_direct		;$BB8C3C   |
 	RTL					;$BB8C3F  /
 
-CODE_BB8C40:
-	JSR CODE_BB8C50				;$BB8C40  \
+set_sprite_palette_direct_global:
+	JSR set_sprite_palette_direct		;$BB8C40  \
 	RTL					;$BB8C43  /
 
-CODE_BB8C44:
-	JSR CODE_BB8C48				;$BB8C44  \
+set_sprite_palette_global:
+	JSR set_sprite_palette			;$BB8C44  \
 	RTL					;$BB8C47  /
 
-CODE_BB8C48:
+set_sprite_palette:
 	TXY					;$BB8C48  \
 	ASL A					;$BB8C49   |
 	TAX					;$BB8C4A   |
 	LDA.l DATA_FD5FEE,x			;$BB8C4B   |
 	TYX					;$BB8C4F   |
-CODE_BB8C50:					;	   |
+set_sprite_palette_direct:			;	   |
 	TXY					;$BB8C50   |
 	STA $05A7				;$BB8C51   |
 	LDA $12,x				;$BB8C54   |
@@ -1910,7 +1910,7 @@ CODE_BB8C68:
 	JSR CODE_BB8C06				;$BB8C6B   |
 CODE_BB8C6E:					;	   |
 	LDA $05A7				;$BB8C6E   |
-	JSR CODE_BB8A6F				;$BB8C71   |
+	JSR request_palette_direct		;$BB8C71   |
 	TYX					;$BB8C74   |
 	EOR $12,x				;$BB8C75   |
 	AND #$0E00				;$BB8C77   |
@@ -5275,7 +5275,7 @@ CODE_BBAD2C:
 
 CODE_BBAD34:
 	LDA #global_sprite_palette		;$BBAD34  \
-	JSL CODE_BB8A65				;$BBAD37   |
+	JSL request_palette_direct_global	;$BBAD37   |
 	LDA #main_sprite_table_end		;$BBAD3B   |
 	STA $66					;$BBAD3E   |
 	LDY #$000E				;$BBAD40   |
@@ -5472,7 +5472,7 @@ CODE_BBAEC8:					;	   |
 	CMP #$00E4				;$BBAECC   |
 	BNE CODE_BBAEE3				;$BBAECF   |
 	LDA #$0001				;$BBAED1   |
-	JSR CODE_BB8A69				;$BBAED4   |
+	JSR request_sprite_palette		;$BBAED4   |
 CODE_BBAED7:					;	   |
 	LDX current_sprite			;$BBAED7   |
 	EOR $12,x				;$BBAED9   |
@@ -5483,7 +5483,7 @@ CODE_BBAED7:					;	   |
 
 CODE_BBAEE3:
 	LDA #$0004				;$BBAEE3  \
-	JSR CODE_BB8A69				;$BBAEE6   |
+	JSR request_sprite_palette		;$BBAEE6   |
 	BRA CODE_BBAED7				;$BBAEE9  /
 
 CODE_BBAEEB:
@@ -5496,7 +5496,7 @@ CODE_BBAEEB:
 	LSR A					;$BBAEF7   |
 	TAX					;$BBAEF8   |
 	LDA.l DATA_BBAF02,x			;$BBAEF9   |
-	JSR CODE_BB8A69				;$BBAEFD   |
+	JSR request_sprite_palette		;$BBAEFD   |
 	BRA CODE_BBAED7				;$BBAF00  /
 
 DATA_BBAF02:
@@ -6688,7 +6688,7 @@ CODE_BBB70C:
 	PLB					;$BBB745   |
 	LDA $34					;$BBB746   |
 	PHY					;$BBB748   |
-	JSR CODE_BB8A69				;$BBB749   |
+	JSR request_sprite_palette		;$BBB749   |
 	PLY					;$BBB74C   |
 	BCS CODE_BBB790				;$BBB74D   |
 	LDX alternate_sprite			;$BBB74F   |

@@ -242,7 +242,7 @@ CODE_BEB9C9:					;	   |
 	JSL set_sprite_animation		;$BEB9C9   |
 	LDX current_sprite			;$BEB9CD   |
 	LDA #$0003				;$BEB9CF   |
-	JSL CODE_BB8C44				;$BEB9D2   |
+	JSL set_sprite_palette_global		;$BEB9D2   |
 CODE_BEB9D6:					;	   |
 	LDY #$00CE				;$BEB9D6   |
 	JSL CODE_BB842C				;$BEB9D9   |
@@ -2037,7 +2037,7 @@ CODE_BEC694:					;	   |
 
 CODE_BEC695:
 	LDA #diddy_active_sprite_palette	;$BEC695  \
-	JSL CODE_BB8A65				;$BEC698   |
+	JSL request_palette_direct_global	;$BEC698   |
 	DEC $0B74,x				;$BEC69C   |
 	AND #$0E00				;$BEC69F   |
 	ORA #$3000				;$BEC6A2   |
@@ -6742,7 +6742,7 @@ racing_flag_sprite_code:
 	CLC					;$BEE93D   |
 	ADC #$001E				;$BEE93E   | offset address to get the palette for the next light step
 	STA $44,x				;$BEE941   |
-	JSL CODE_BB8C40				;$BEE943   | upload sprite palette
+	JSL set_sprite_palette_direct_global	;$BEE943   | upload sprite palette
 	LDX current_sprite			;$BEE947   | get traffic light sprite
 	LDA $46,x				;$BEE949   | get light step (starts at 3)
 	BEQ ..green_light			;$BEE94B   | if 0, we're at the last step, give us the green light
@@ -6847,7 +6847,7 @@ racing_flag_sprite_code:
 
 .sub_state_3
 	LDA #dixie_active_sprite_palette	;$BEEA03  \  get dixie palette address
-	JSL CODE_BB8A65				;$BEEA06   | use dixie's slot for flag palette
+	JSL request_palette_direct_global	;$BEEA06   | use dixie's slot for flag palette
 	DEC $0B74,x				;$BEEA0A   | decrease reference count to palette
 	LDX current_sprite			;$BEEA0D   | get flag sprite
 	EOR $12,x				;$BEEA0F   |

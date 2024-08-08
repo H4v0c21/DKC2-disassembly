@@ -87,7 +87,7 @@ CODE_BA90A8:
 	DEC $0709				;$BA90B1   |
 	BNE CODE_BA90D1				;$BA90B4   |
 	LDA #$6C04				;$BA90B6   |
-	JSL CODE_BB8C40				;$BA90B9   |
+	JSL set_sprite_palette_direct_global	;$BA90B9   |
 	LDX current_sprite			;$BA90BD   |
 	LDA $2E,x				;$BA90BF   |
 	AND #$FDFF				;$BA90C1   |
@@ -240,7 +240,7 @@ CODE_BA920D:
 	LDA.l $00071F				;$BA9215   |
 	BNE CODE_BA922F				;$BA9219   |
 	LDA #$6C04				;$BA921B   |
-	JSL CODE_BB8C40				;$BA921E   |
+	JSL set_sprite_palette_direct_global	;$BA921E   |
 	LDX current_sprite			;$BA9222   |
 	LDA $32,x				;$BA9224   |
 	BEQ CODE_BA924B				;$BA9226   |
@@ -252,7 +252,7 @@ CODE_BA922F:
 	LDX current_sprite			;$BA922F  \
 	STZ $32,x				;$BA9231   |
 	LDA #$6BE6				;$BA9233   |
-	JSL CODE_BB8C40				;$BA9236   |
+	JSL set_sprite_palette_direct_global	;$BA9236   |
 	BRA CODE_BA924B				;$BA923A  /
 
 CODE_BA923C:
@@ -375,7 +375,7 @@ CODE_BA9334:
 	AND #$FDFE				;$BA9340   |
 	STA $2E,x				;$BA9343   |
 	LDA #$6C04				;$BA9345   |
-	JSL CODE_BB8C40				;$BA9348   |
+	JSL set_sprite_palette_direct_global	;$BA9348   |
 	STZ $070D				;$BA934C   |
 	LDX current_sprite			;$BA934F   |
 	STZ $44,x				;$BA9351   |
@@ -636,7 +636,7 @@ CODE_BA9540:
 	LDA #$023F				;$BA955D   |
 	JSL CODE_B9D09B				;$BA9560   |
 	LDA #$0000				;$BA9564   |
-	JSL CODE_BB8A61				;$BA9567   |
+	JSL request_sprite_palette_global	;$BA9567   |
 	LDY alternate_sprite			;$BA956B   |
 	EOR $0012,y				;$BA956D   |
 	AND #$0E00				;$BA9570   |
@@ -659,7 +659,7 @@ CODE_BA9540:
 	LDA #$023E				;$BA959B   |
 	JSL CODE_B9D09B				;$BA959E   |
 	LDA #$0014				;$BA95A2   |
-	JSL CODE_BB8A61				;$BA95A5   |
+	JSL request_sprite_palette_global	;$BA95A5   |
 	LDY alternate_sprite			;$BA95A9   |
 	EOR $0012,y				;$BA95AB   |
 	AND #$0E00				;$BA95AE   |
@@ -1185,7 +1185,7 @@ CODE_BA9A71:					;	   |
 CODE_BA9A8D:					;	   |
 	STY $0757				;$BA9A8D   |
 	LDX current_sprite			;$BA9A90   |
-	JSL CODE_BB8C44				;$BA9A92   |
+	JSL set_sprite_palette_global		;$BA9A92   |
 CODE_BA9A96:					;	   |
 	JSL CODE_B9D100				;$BA9A96   |
 	PLB					;$BA9A9A   |
@@ -1638,7 +1638,7 @@ CODE_BA9E4D:
 	STA $0012,y				;$BA9E56   |
 	TYX					;$BA9E59   |
 	LDA #$0061				;$BA9E5A   |
-	JSL CODE_BB8C44				;$BA9E5D   |
+	JSL set_sprite_palette_global		;$BA9E5D   |
 	LDA #$0532				;$BA9E61   |
 	JSL queue_sound_effect			;$BA9E64   |
 CODE_BA9E68:					;	   |
@@ -1814,12 +1814,12 @@ CODE_BA9FB0:
 	LDA $0002,y				;$BA9FC0   |
 	BEQ CODE_BA9FE2				;$BA9FC3   |
 	PHY					;$BA9FC5   |
-	JSL CODE_BB8C44				;$BA9FC6   |
+	JSL set_sprite_palette_global		;$BA9FC6   |
 	PLY					;$BA9FCA   |
 	LDX $0656				;$BA9FCB   |
 	LDA $0000,y				;$BA9FCE   |
 	PHY					;$BA9FD1   |
-	JSL CODE_BB8C44				;$BA9FD2   |
+	JSL set_sprite_palette_global		;$BA9FD2   |
 	PLA					;$BA9FD6   |
 	CLC					;$BA9FD7   |
 	ADC #$0004				;$BA9FD8   |

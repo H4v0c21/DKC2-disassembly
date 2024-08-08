@@ -11169,8 +11169,8 @@ CODE_B5F109:
 	PHB					;$B5F109  \
 	PHK					;$B5F10A   |
 	PLB					;$B5F10B   |
-	LDA #$6682				;$B5F10C   |
-	JSL CODE_BB8A65				;$B5F10F   |
+	LDA #global_sprite_palette		;$B5F10C   |
+	JSL request_palette_direct_global	;$B5F10F   |
 	CLC					;$B5F113   |
 	ADC #$01E0				;$B5F114   |
 	ORA #$2000				;$B5F117   |

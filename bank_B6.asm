@@ -1171,7 +1171,7 @@ CODE_B68D37:
 	JSL CODE_B9D09B				;$B68D4B   |
 	LDX alternate_sprite			;$B68D4F   |
 	LDA #$0002				;$B68D51   |
-	JSL CODE_BB8C44				;$B68D54   |
+	JSL set_sprite_palette_global		;$B68D54   |
 	RTS					;$B68D58  /
 
 CODE_B68D59:
@@ -3185,7 +3185,7 @@ CODE_B69FBF:					;	   |
 	JSL set_sprite_animation		;$B69FD0   |
 	LDX current_sprite			;$B69FD4   |
 	LDA #$0009				;$B69FD6   |
-	JSL CODE_BB8C44				;$B69FD9   |
+	JSL set_sprite_palette_global		;$B69FD9   |
 	LDX current_sprite			;$B69FDD   |
 	JSR CODE_B6A3A1				;$B69FDF   |
 	STZ $42,x				;$B69FE2   |
@@ -4274,11 +4274,11 @@ CODE_B6A788:
 	JSR CODE_B6D929				;$B6A788  \
 	LDX alternate_sprite			;$B6A78B   |
 	LDA #$00AC				;$B6A78D   |
-	JSL CODE_BB8C44				;$B6A790   |
+	JSL set_sprite_palette_global		;$B6A790   |
 	JSR CODE_B6D929				;$B6A794   |
 	LDX alternate_sprite			;$B6A797   |
 	LDA #$00AC				;$B6A799   |
-	JSL CODE_BB8C44				;$B6A79C   |
+	JSL set_sprite_palette_global		;$B6A79C   |
 	DEC $0747				;$B6A7A0   |
 	BNE CODE_B6A7C9				;$B6A7A3   |
 	LDA.l $0006A3				;$B6A7A5   |
@@ -4581,7 +4581,7 @@ CODE_B6AA6B:
 	RTS					;$B6AA77  /
 
 CODE_B6AA78:
-	JSL CODE_BB8A65				;$B6AA78  \
+	JSL request_palette_direct_global	;$B6AA78  \
 	LDY alternate_sprite			;$B6AA7C   |
 	EOR $0012,y				;$B6AA7E   |
 	AND #$0E00				;$B6AA81   |
@@ -4614,7 +4614,7 @@ CODE_B6AAA4:
 
 CODE_B6AAAA:
 	LDA #$006B				;$B6AAAA  \
-	JSL CODE_BB8C44				;$B6AAAD   |
+	JSL set_sprite_palette_global		;$B6AAAD   |
 	LDY #$0158				;$B6AAB1   |
 	JSL CODE_BB842C				;$B6AAB4   |
 	LDY alternate_sprite			;$B6AAB8   |
@@ -4747,7 +4747,7 @@ CODE_B6ABDD:					;	   |
 	LDX $0654				;$B6ABDD   |
 	STX current_sprite			;$B6ABE0   |
 	LDA #$0069				;$B6ABE2   |
-	JSL CODE_BB8C44				;$B6ABE5   |
+	JSL set_sprite_palette_global		;$B6ABE5   |
 	LDX current_sprite			;$B6ABE9   |
 	DEC $0652				;$B6ABEB   |
 	LDA.l $000652				;$B6ABEE   |
@@ -5189,7 +5189,7 @@ CODE_B6AFBC:
 	LDA.l $00070B				;$B6AFBC  \
 	BNE CODE_B6AFDA				;$B6AFC0   |
 	LDA #$6BE6				;$B6AFC2   |
-	JSL CODE_BB8C40				;$B6AFC5   |
+	JSL set_sprite_palette_direct_global	;$B6AFC5   |
 	STZ $0709				;$B6AFC9   |
 	LDA $2E,x				;$B6AFCC   |
 	ORA #$0005				;$B6AFCE   |
@@ -6319,11 +6319,11 @@ CODE_B6BDA4:
 CODE_B6BDBF:
 	LDA $0000,y				;$B6BDBF  \
 	LDX current_sprite			;$B6BDC2   |
-	JSL CODE_BB8C44				;$B6BDC4   |
+	JSL set_sprite_palette_global		;$B6BDC4   |
 	LDX $0656				;$B6BDC8   |
 	LDY $073F				;$B6BDCB   |
 	LDA $0002,y				;$B6BDCE   |
-	JSL CODE_BB8C44				;$B6BDD1   |
+	JSL set_sprite_palette_global		;$B6BDD1   |
 	LDA.l $00073F				;$B6BDD5   |
 	CLC					;$B6BDD9   |
 	ADC #$0004				;$B6BDDA   |
@@ -9765,7 +9765,7 @@ CODE_B6D835:					;	   |
 	LDY $06EB				;$B6D842   |
 	LDA $0000,y				;$B6D845   |
 	LDX current_sprite			;$B6D848   |
-	JSL CODE_BB8C40				;$B6D84A   |
+	JSL set_sprite_palette_direct_global	;$B6D84A   |
 	LDA.l $0006EB				;$B6D84E   |
 	INC A					;$B6D852   |
 	INC A					;$B6D853   |
@@ -9787,7 +9787,7 @@ CODE_B6D869:					;	   |
 	LDY $06EB				;$B6D876   |
 	LDA $0000,y				;$B6D879   |
 	LDX current_sprite			;$B6D87C   |
-	JSL CODE_BB8C44				;$B6D87E   |
+	JSL set_sprite_palette_global		;$B6D87E   |
 	LDA.l $0006EB				;$B6D882   |
 	INC A					;$B6D886   |
 	INC A					;$B6D887   |
