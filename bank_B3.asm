@@ -12841,11 +12841,7 @@ CODE_B3DF5F:
 	INC $2E,x				;$B3DF61   |
 	STZ $1A,x				;$B3DF63   |
 	STZ $16,x				;$B3DF65   |
-if !exhi == 1					;	   |
-	PER RESET_start+$800000+$330000		;$B3DF67   |\ Piracy check
-else						;	   | |
-	PER RESET_start+$330000			;$B3DF67   | |
-endif						;	   | |
+	PER RESET_start+$330000			;$B3DF67   |\ Piracy check
 	%pea_use_dbr(RESET_start)		;$B3DF6A   | | Push address of reset routine onto stack ($8083F7)
 	PLB					;$B3DF6D   |/ Set data bank to reset routine (bank $80)
 	LDY #$01E6				;$B3DF6E   |> Y = number of bytes to XOR

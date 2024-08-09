@@ -5111,11 +5111,7 @@ CODE_BBAB05:					;	   |
 	STX HDMA[2].source			;$BBAB6E   |
 	LDA #$7E				;$BBAB71   |
 	STA HDMA[2].source_bank			;$BBAB73   |
-if !exhi == 1					;	   |
-	LDA #$00				;$BBAB76   | Bank of DATA_808000/DATA_8081E0
-else						;	   |
 	LDA #$80				;$BBAB76   | Bank of DATA_808000/DATA_8081E0
-endif						;	   |
 	STA HDMA[2].indirect_source_bank	;$BBAB78   |
 	LDX #$2C00				;$BBAB7B   |
 	STX HDMA[3].settings			;$BBAB7E   |

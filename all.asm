@@ -9,7 +9,7 @@ endif
 
 optimize dp always
 optimize address mirrors
-!version = 1
+;!version = 1
 !override_pirate_panic = 0
 !pirate_panic_replacement = $23
 
@@ -34,12 +34,6 @@ if !version == 1
 	db $19, $3F, $AA, $C3
 else
 	db $AA, $C3, $3F, $19
-
-if !exhi == 1
-	org $008000
-		incsrc "exhi/bank_00.asm"
-	org $00FFB0
-		incsrc "exhi/rom_header.asm"
 endif
 
 ;weird copy of ship hold tilemap that fills the end of bank 80
@@ -129,8 +123,6 @@ org $B9D000
 	incsrc "bank_B9.asm"
 	padbyte $00
 	pad $BA0000
-
-check bankcross half
 org $FA0000
 	incsrc "bank_FA.asm"
 	warnpc $FA9000
@@ -190,6 +182,10 @@ if !exhi == 1
 check bankcross full
 	org $400000
 		incsrc "exhi/bank_40.asm"
+check bankcross half
+	org $008000
+		incsrc "exhi/bank_00.asm"
+check bankcross full
 	org $410000
 		incsrc "exhi/bank_41.asm"
 	org $420000

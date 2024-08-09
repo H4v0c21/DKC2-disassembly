@@ -7,5 +7,4 @@ IRQ_start_force_bank_80:
 RESET_start_force_bank_80:
 	JML RESET_start
 
-warnpc $00FFB0
-org $00FFB0
+warnpc $00FFB0 : org $00FFB0 : incsrc "rom_header.asm"
