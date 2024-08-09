@@ -13932,24 +13932,24 @@ CODE_B3E768:
 	LDA $2E,x				;$B3E76A   |
 	ASL A					;$B3E76C   |
 	TAX					;$B3E76D   |
-	JMP (DATA_B3E771,x)			;$B3E76E  /
+	JMP (.state_table,x)			;$B3E76E  /
 
-DATA_B3E771:
-	dw CODE_B3E78F
-	dw CODE_B3E8DD
-	dw CODE_B3E917
-	dw CODE_B3E979
-	dw CODE_B3E9C5
-	dw CODE_B3EACE
-	dw CODE_B3EAF5
-	dw CODE_B3EB2E
-	dw CODE_B3EB34
-	dw CODE_B3EB84
-	dw CODE_B3EBD8
-	dw CODE_B3EC1A
-	dw CODE_B3EC3C
-	dw CODE_B3EC61
-	dw CODE_B3EC72
+.state_table
+	dw CODE_B3E78F				;00
+	dw CODE_B3E8DD				;01
+	dw CODE_B3E917				;02
+	dw CODE_B3E979				;03
+	dw CODE_B3E9C5				;04
+	dw CODE_B3EACE				;05
+	dw CODE_B3EAF5				;06
+	dw CODE_B3EB2E				;07
+	dw CODE_B3EB34				;08
+	dw CODE_B3EB84				;09
+	dw CODE_B3EBD8				;0A
+	dw CODE_B3EC1A				;0B
+	dw CODE_B3EC3C				;0C
+	dw CODE_B3EC61				;0D
+	dw CODE_B3EC72				;0E
 
 
 CODE_B3E78F:
@@ -14288,18 +14288,18 @@ CODE_B3E9E4:
 if !version == 1				;	   |
 	PHX					;$B3EA0D   |
 	LDX active_kong_sprite			;$B3EA0E   |
-	LDA DATA_B3ED52,y			;$B3EA11   |
+	LDA animal_buddy_palette_numbers,y	;$B3EA11   |
 else						;	   |
-	LDA DATA_B3ED52,y			;$B3EA0D   |
+	LDA animal_buddy_palette_numbers,y	;$B3EA0D   |
 	PHX                             	;$B3EA0E   |
-	LDX $0593                       	;$B3EA11   |
+	LDX active_kong_sprite			;$B3EA11   |
 endif						;	   |
 	JSL set_sprite_palette_global		;$B3EA14   |
-	LDA $08C2				;$B3EA18   |
-	AND #$4000				;$B3EA1B   |
-	BEQ CODE_B3EA24				;$B3EA1E   |
-	JSL CODE_B39118				;$B3EA20   |
-CODE_B3EA24:					;	   |
+	LDA $08C2				;$B3EA18   |\
+	AND #$4000				;$B3EA1B   | |
+	BEQ .no_follower			;$B3EA1E   |/ If player doesnt have follower kong, dont spawn follower icon
+	JSL CODE_B39118				;$B3EA20   |> Else handle spawning follower icon
+.no_follower					;	   |
 	JSL CODE_B5E43E				;$B3EA24   |
 	PLX					;$B3EA28   |
 CODE_B3EA29:					;	   |
@@ -14591,8 +14591,8 @@ CODE_B3EC4A:					;	   |
 
 CODE_B3EC55:
 	STZ $2C,x				;$B3EC55  \
-	LDA #$0555				;$B3EC57   |
-	JSL queue_sound_effect			;$B3EC5A   |
+	LDA #$0555				;$B3EC57   |\
+	JSL queue_sound_effect			;$B3EC5A   |/ Play animal transformation sound (doesnt actually play)
 	BRL CODE_B3E9E4				;$B3EC5E  /
 
 CODE_B3EC61:
@@ -14741,10 +14741,12 @@ CODE_B3ED4E:
 	SEC					;$B3ED50   |
 	RTS					;$B3ED51  /
 
-DATA_B3ED52:
-	db $05, $00, $0D, $00, $0F, $00, $43, $00
-	db $60, $00
-
+animal_buddy_palette_numbers:
+	dw $0005
+	dw $000D
+	dw $000F
+	dw $0043
+	dw $0060
 
 CODE_B3ED5C:
 	BEQ CODE_B3ED6B				;$B3ED5C  \
