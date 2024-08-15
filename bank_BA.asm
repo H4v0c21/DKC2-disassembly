@@ -4490,7 +4490,7 @@ CODE_BAC958:					;	   |
 endif
 
 
-warnpc $BAD000 : padbyte $00 : pad $BAD000
+warnpc $3AD000 : padbyte $00 : pad $3AD000
 
 DATA_BAD000:
 	db $0E, $00

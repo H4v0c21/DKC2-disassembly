@@ -8997,7 +8997,7 @@ CODE_BBC8EF:					;	   |
 	RTS					;$BBC8FE  /
 
 
-warnpc $BBE800 : padbyte $00 : pad $BBE800
+warnpc $3BE800 : padbyte $00 : pad $3BE800
 
 %mirror(DATA_FBE800)
 	dw DATA_FF2A08				;0000

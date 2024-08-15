@@ -8763,7 +8763,7 @@ DATA_BCEDC8:
         dw $FFFB, $FFE4, $000D, $001B, $00D8, $01BF
 
 
-warnpc $BCFA00 : padbyte $00 : pad $BCFA00
+warnpc $3CFA00 : padbyte $00 : pad $3CFA00
 
 ;special hitboxes
 DATA_BCFA00:

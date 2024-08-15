@@ -1,4 +1,4 @@
-hirom
+sa1rom 0,1,2,3
 optimize dp always
 optimize address mirrors
 ;!version = 1
@@ -16,54 +16,37 @@ org $008000			;dummy org so functions work
 	incsrc mmio.asm
 	incsrc audio_constants.asm
 
-org $C00000
+
+
+;RESET_start:
+;	JML RESET_start_hi_hop+$8000
+;NMI_start:
+;	JML NMI_start_hi_hop+$8000
+;IRQ_start:
+;	JML IRQ_start_hi_hop+$8000
+
 check bankcross half
+
+org $C00000
 	incsrc "bank_C0.asm"
-	warnpc $C07FFC
-	padbyte $00
-	pad $C07FFC
-if !version == 1
-	db $19, $3F, $AA, $C3
-else
-	db $AA, $C3, $3F, $19
-endif
-
-;weird copy of ship hold tilemap that fills the end of bank 80
-org $80F4B0
-	incbin "data/levels/32x32_tilemaps/ship_hold_32x32_tilemap.bin":0000-0AF6
-
-;some random looking bytes
-	db $56, $3F, $2C, $01, $05, $E3, $67, $AB
-	db $09, $37
-
-org $808000
+org $008000
 	incsrc "bank_80.asm"
+	warnpc $00FFB0 : padbyte $00 : pad $00FFB0
+	incsrc "rom_header.asm"
 org $C10000
 	check bankcross full
 	incsrc "bank_C1-ED.asm"
-	padbyte $00
-	pad $EE0000
 org $EE0000
 	incsrc "bank_EE-F2.asm"
-	padbyte $00
-	pad $F30000
 org $F30000
 	check bankcross half
 	incsrc "bank_F3.asm"
-	padbyte $00
-	pad $F38000
-org $B38000
+org $338000
 	incsrc "bank_B3.asm"
-	padbyte $00
-	pad $B40000
 org $F40000
 	incsrc "bank_F4.asm"
-	padbyte $00
-	pad $F48000
-org $B48000
+org $348000
 	incsrc "bank_B4.asm"
-	padbyte $00
-	pad $B50000
 org $F50000
 if !version == 0
 	db $32, $02, $93, $12
@@ -71,31 +54,19 @@ else
 	db $02, $12, $93, $32
 endif
 	incsrc "bank_F5.asm"
-	padbyte $00
-	pad $F58000
-org $B58000
+org $358000
 	incsrc "bank_B5.asm"
-	padbyte $00
-	pad $B60000
 org $F60000
 	incsrc "bank_F6.asm"
-	padbyte $00
-	pad $F68000
-org $B68000
+org $368000
 	incsrc "bank_B6.asm"
-	padbyte $00
-	pad $B70000
 org $F70000
 	check bankcross full
 	incsrc "bank_F7.asm"
-	padbyte $00
-	pad $F80000
 org $F80000
 	check bankcross half
 	incsrc "bank_F8.asm"
-	padbyte $00
-	pad $F88000
-org $B88000
+org $388000
 DATA_B88000:
 if !version == 0
 	db $12, $29, $DE, $B3
@@ -103,36 +74,20 @@ else
 	db $B3, $DE, $12, $29
 endif
 	incsrc "bank_B8.asm"
-	padbyte $00
-	pad $B90000
 org $F90000
 	check bankcross full
 	incsrc "bank_F9.asm"
-	warnpc $F9D000
-	padbyte $00
-	pad $F9D000
-org $B9D000
+org $39D000
 	incsrc "bank_B9.asm"
-	padbyte $00
-	pad $BA0000
 org $FA0000
 	incsrc "bank_FA.asm"
-	warnpc $FA9000
-	padbyte $00
-	pad $FA9000
-org $BA9000
+org $3A9000
 	incsrc "bank_BA.asm"
-	padbyte $00
-	pad $BB0000
 org $FB0000
 	check bankcross half
 	incsrc "bank_FB.asm"
-	padbyte $00
-	pad $FB8000
-org $BB8000
+org $3B8000
 	incsrc "bank_BB.asm"
-	padbyte $00
-	pad $BBFFFC
 if !version == 0
 	db $00, $AA, $AC, $3C
 else
@@ -140,29 +95,16 @@ else
 endif
 org $FC0000
 	incsrc "bank_FC.asm"
-	padbyte $00
-	pad $FC8000
-org $BC8000
+org $3C8000
 	incsrc "bank_BC.asm"
-	padbyte $00
-	pad $BD0000
 org $FD0000
 	check bankcross full
 	incsrc "bank_FD.asm"
-	padbyte $00
-	pad $FE0000
 org $FE0000
 	incsrc "bank_FE.asm"
-	warnpc $FEB800
-	padbyte $00
-	pad $FEB800
-org $BEB800
+org $3EB800
 	incsrc "bank_BE.asm"
-	padbyte $00
-	pad $BF0000
 org $FF0000
 	incsrc "bank_FF.asm"
-	padbyte $00
-	pad $FFFFFF
 org $FFFFFF
 	db $00

@@ -145,6 +145,7 @@ display_error_message:
 	JSL set_PPU_registers_global		;$8083F2   |/
 	STP					;$8083F6  /
 
+;RESET_start_hi_hop:
 RESET_start:
 	SEI					;$8083F7  \ Disable interrupts
 	LDA #$80				;$8083F8   |\ Enable F-Blank
@@ -12691,6 +12692,7 @@ CODE_80F3B4:
 	STA CPU.enable_dma			;$80F3B7   |
 	JMP nmi_return				;$80F3BA  /
 
+;NMI_start_hi_hop:
 NMI_start:
 	JML .fast_rom_hop			;$80F3BD  > Jump to fastrom addressing
 
@@ -12726,6 +12728,7 @@ nmi_return:					;	   |
 	PLD					;$80F3F7   |/
 	RTI					;$80F3F8  /
 
+;IRQ_start_hi_hop:
 IRQ_start:
 	SEI					;$80F3F9  \
 	RTI					;$80F3FA  /
@@ -13466,96 +13469,3 @@ CODE_80FB93:					;	   |
 CODE_80FB9E:
 	JML CODE_BBBEA0				;$80FB9E  /
 bank_80_end:
-
-warnpc $80FFB0
-org $80FFB0
-
-DATA_80FFB0:
-	db $30, $31
-
-DATA_80FFB2:
-	db $41, $44, $4E, $45
-
-DATA_80FFB6:
-	db $00, $00, $00, $00, $00, $00, $00
-
-DATA_80FFBD:
-	db $00
-
-DATA_80FFBE:
-	db $00
-
-DATA_80FFBF:
-	db $00
-
-DATA_80FFC0:
-	db "DIDDY'S KONG QUEST   "
-
-DATA_80FFD5:
-	db $31
-
-DATA_80FFD6:
-	db $02
-
-DATA_80FFD7:
-	db $0C
-
-DATA_80FFD8:
-	db $01
-
-DATA_80FFD9:
-	db $01
-
-DATA_80FFDA:
-	db $33
-
-DATA_80FFDB:
-	db !version
-
-DATA_80FFDC:
-	db $E3, $67
-
-DATA_80FFDE:
-	db $1C, $98
-
-DATA_80FFE0:
-	db $44, $49, $44, $44
-
-DATA_80FFE4:
-	db $59, $20
-
-DATA_80FFE6:
-	db $03, $70
-
-DATA_80FFE8:
-	db $00, $00
-
-DATA_80FFEA:
-	dw NMI_start
-
-DATA_80FFEC:
-	db $00, $00
-
-DATA_80FFEE:
-	dw IRQ_start
-
-DATA_80FFF0:
-	db $44, $49, $44, $44
-
-DATA_80FFF4:
-	db $59, $20
-
-DATA_80FFF6:
-	db $4B, $4F
-
-DATA_80FFF8:
-	db $4E, $47
-
-DATA_80FFFA:
-	db $00, $F8
-
-DATA_80FFFC:
-	dw RESET_start
-
-DATA_80FFFE:
-	db $00, $70
