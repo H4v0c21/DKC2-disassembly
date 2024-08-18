@@ -1,6 +1,7 @@
 upload_spc_engine:
 	JMP .upload_spc_engine_wrapper		;$B58000   |
 
+%hook("queue_sound_effect")
 #queue_sound_effect:
 	JMP .queue_sound_effect			;$B58003   |
 

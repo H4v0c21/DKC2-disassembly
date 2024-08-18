@@ -1,5 +1,5 @@
 if !ex_patch == 1
-	incsrc "ex_patch/ex_metadata_handler.asm"
+	incsrc "../ex_patch/ex_metadata_handler.asm"
 endif
 
 NMI_start_force_bank_80:
@@ -11,4 +11,4 @@ IRQ_start_force_bank_80:
 RESET_start_force_bank_80:
 	JML RESET_start
 
-warnpc $00FFB0 : org $00FFB0 : incsrc "exhi/rom_header.asm"
+warnpc $00FFB0 : org $00FFB0 : incsrc "rom_header.asm"

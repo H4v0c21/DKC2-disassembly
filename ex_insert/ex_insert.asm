@@ -1,6 +1,9 @@
 exhirom
 
-!version #= read1($00FFDB)
+optimize dp always
+optimize address mirrors
+
+!game_version #= read1($00FFDB)
 incsrc "ex_hooks.asm"
 
 org $008000
@@ -58,14 +61,14 @@ struct sprite $0000
 	.y_position:		skip 2
 	.ground_y_position:	skip 2
 	.ground_distance:	skip 2
-	.interaction_type:	skip 2
+	.terrain_attributes:	skip 2
 	.oam_property:		skip 2
 	.unknown_14:		skip 2
 	.unknown_16:		skip 2
 	.unknown_18:		skip 2
 	.unknown_1A:		skip 2
 	.unknown_1C:		skip 2
-	.unknown_1E:		skip 2
+	.terrain_interaction:	skip 2
 	.x_speed:		skip 2
 	.unknown_22:		skip 2
 	.y_speed:		skip 2
@@ -73,9 +76,9 @@ struct sprite $0000
 	.unknown_28:		skip 2
 	.max_y_speed:		skip 2
 	.x_force:		skip 2
-	.action:		skip 1 ;\ This is a pair in most cases, but a couple sprites use 2F alone
-	.unknown_2F:		skip 1 ;/
-	.unknown_30:		skip 2
+	.state:			skip 1 ;\ This is a pair in most cases, but a couple sprites use 2F alone
+	.sub_state:		skip 1 ;/
+	.interaction_flags:	skip 2
 	.unknown_32:		skip 2
 	.unknown_34:		skip 2
 	.animation_id:		skip 2
@@ -84,19 +87,20 @@ struct sprite $0000
 	.animation_address:	skip 2
 	.unknown_3E:		skip 2
 	.unknown_40:		skip 2
-	.unknown_42:		skip 2
-	.unknown_44:		skip 2
-	.unknown_46:		skip 2
-	.unknown_48:		skip 2
-	.unknown_4A:		skip 2
-	.unknown_4C:		skip 2
-	.unknown_4E:		skip 2
+	.general_purpose_42:	skip 2
+	.general_purpose_44:	skip 2
+	.general_purpose_46:	skip 2
+	.general_purpose_48:	skip 2
+	.general_purpose_4A:	skip 2
+	.general_purpose_4C:	skip 2
+	.general_purpose_4E:	skip 2
 	.parameter:		skip 2
-	.unknown_52:		skip 2
-	.unknown_54:		skip 2
-	.unknown_56:		skip 2
-	.unknown_58:		skip 2
-	.unknown_5A:		skip 2
+	.movement_state:	skip 1
+	.movement_sub_state:	skip 1
+	.constants_address:	skip 2
+	.placement_number:	skip 2
+	.placement_parameter:	skip 2
+	.despawn_time:		skip 2
 	.unknown_5C:		skip 2
 endstruct
 
@@ -106,10 +110,11 @@ endstruct
 !ex_patch_version = read2(!ex_header_address)
 
 ;EX LEVEL METADATA
-!ex_level_pre_nmi_table_address = read3(!ex_header_address+$40)
-!ex_level_post_nmi_table_address_start = read3(!ex_header_address+$43)
-!ex_level_post_logic_table_address_start = read3(!ex_header_address+$46)
-!ex_level_load_table_address_start = read3(!ex_header_address+$49)
+!ex_level_pre_nmi_table_address #= read3(!ex_header_address+$40)
+!ex_level_post_nmi_table_address #= read3(!ex_header_address+$43)
+!ex_level_post_logic_table_address #= read3(!ex_header_address+$46)
+!ex_level_load_table_address #= read3(!ex_header_address+$49)
+!ex_level_code_insertion_address #= read3(!ex_header_address+$4C)
 
 ;EX SPRITE PACK PATHS
 !packs_path = "packs/"
@@ -149,6 +154,15 @@ endstruct
 !last_used_graphic_id #= !ex_graphics_id_start-4
 !last_used_palette_id #= !ex_palette_id_start-1
 
+;throws an error if the ex patch version doesn't match the one passed to this macro by the pack creator
+macro require_patch_version(required_version)
+	assert !ex_patch_version == <required_version>,"This pack requires a different Ex Patch version!"
+endmacro
+
+;throws an error if the game version doesn't match the one passed to this macro by the pack creator
+macro require_game_version(required_version)
+	assert !game_version == <required_version>,"This pack requires a different DKC 2 version!"
+endmacro
 
 ;creates a spawn script for a custom sprite
 !constants_counter = 0

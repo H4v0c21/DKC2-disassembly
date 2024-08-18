@@ -8890,6 +8890,7 @@ CODE_BCFB41:					;	   |
 	STA $09F9				;$BCFB54   |
 	RTL					;$BCFB57  /
 
+%hook("populate_sprite_clipping")
 CODE_BCFB58:
 	PHD					;$BCFB58  \
 	LDX current_sprite			;$BCFB59   |

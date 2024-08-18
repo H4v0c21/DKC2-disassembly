@@ -442,6 +442,7 @@ CODE_BB82B4:
 	CLC					;$BB82B6   |
 	RTS					;$BB82B7  /
 
+%hook("delete_sprite")
 CODE_BB82B8:
 	LDX current_sprite			;$BB82B8  \
 	LDA $00,x				;$BB82BA   |
@@ -692,10 +693,12 @@ CODE_BB8418:					;	   |
 CODE_BB842B:
 	RTL					;$BB842B  /
 
+%hook("spawn_vanilla_sprite_from_index")
 CODE_BB842C:
 	TYX					;$BB842C  \
 	LDA.l DATA_FF047E,x			;$BB842D   |
 	TAY					;$BB8431   |
+%hook("spawn_vanilla_sprite_from_address")
 CODE_BB8432:					;	   |
 	PHY					;$BB8432   |
 	JSR CODE_BB826F				;$BB8433   |
@@ -1586,10 +1589,12 @@ CODE_BB8A0B:					;	   |
 	JSR CODE_BB896A				;$BB8A5D   |
 	RTS					;$BB8A60  /
 
+%hook("request_sprite_palette_from_index")
 CODE_BB8A61:
 	JSR CODE_BB8A69				;$BB8A61  \
 	RTL					;$BB8A64  /
 
+%hook("request_palette_from_address")
 CODE_BB8A65:
 	JSR CODE_BB8A6F				;$BB8A65  \
 	RTL					;$BB8A68  /
@@ -1936,10 +1941,12 @@ CODE_BB8C2C:					;	   |
 	JSR CODE_BB8C50				;$BB8C3C   |
 	RTL					;$BB8C3F  /
 
+%hook("set_sprite_palette_from_address")
 CODE_BB8C40:
 	JSR CODE_BB8C50				;$BB8C40  \
 	RTL					;$BB8C43  /
 
+%hook("set_sprite_palette_from_index")
 CODE_BB8C44:
 	JSR CODE_BB8C48				;$BB8C44  \
 	RTL					;$BB8C47  /
@@ -7353,6 +7360,7 @@ CODE_BBBB79:
 	SEC					;$BBBB79  \
 	RTS					;$BBBB7A  /
 
+%hook("check_if_off_screen")
 CODE_BBBB7B:
 	JSR CODE_BBBB7F				;$BBBB7B  \
 	RTL					;$BBBB7E  /
@@ -9089,6 +9097,8 @@ CODE_BBC8EF:					;	   |
 
 if !ex_patch == 1
 org $BBC900
+
+%hook("spawn_ex_sprite_direct")
 spawn_ex_sprite_direct:
 	PHY
 	JSR CODE_BB826F
@@ -9115,6 +9125,7 @@ spawn_ex_sprite_direct:
 	PLB
 	JML parse_initscript_entry
 
+%hook("spawn_big_ex_sprite_direct")
 #spawn_big_ex_sprite_direct:
 	LDA #$0002
 .setup_big_sprite:

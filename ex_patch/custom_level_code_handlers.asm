@@ -1122,3 +1122,5 @@ custom_global_post_logic_pointer:
 
 custom_global_level_load_pointer:
 	dd null_custom_code
+
+custom_level_code:

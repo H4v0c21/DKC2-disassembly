@@ -751,6 +751,7 @@ CODE_BEBD5C:
 CODE_BEBD8D:					;	   |
 	RTS					;$BEBD8D  /
 
+%hook("check_sprite_collision")
 CODE_BEBD8E:
 	JSR CODE_BEBD92				;$BEBD8E  \
 	RTL					;$BEBD91  /
@@ -823,6 +824,7 @@ CODE_BEBE14:
 	JSR CODE_BEBE18				;$BEBE14  \
 	RTL					;$BEBE17  /
 
+%hook("check_throwable_collision")
 CODE_BEBE18:
 	STA $60					;$BEBE18  \
 	LDX current_sprite			;$BEBE1A   |
@@ -881,6 +883,7 @@ CODE_BEBE6A:
 	PLX					;$BEBE6B   |
 	RTL					;$BEBE6C  /
 
+%hook("check_simple_player_collision")
 CODE_BEBE6D:
 	STA $5E					;$BEBE6D  \
 	LDA #$0010				;$BEBE6F   |
@@ -901,6 +904,7 @@ CODE_BEBE7F:
 	LDA #$0000				;$BEBE87   |
 	RTL					;$BEBE8A  /
 
+%hook("check_complex_player_collision")
 CODE_BEBE8B:
 	LDY #$0000				;$BEBE8B  \
 CODE_BEBE8E:					;	   |
@@ -7664,9 +7668,11 @@ CODE_BEF025:
 	STZ $00,x				;$BEF034   | kill sprite
 	JML [$05A9]				;$BEF036  / return from sprite code
 
+%hook("process_current_movement")
 CODE_BEF039:
 	LDX current_sprite			;$BEF039  \
 	LDA $52,x				;$BEF03B   |
+%hook("process_alternate_movement")
 CODE_BEF03D:					;	   |
 	TAY					;$BEF03D   |
 	AND #$00FF				;$BEF03E   |

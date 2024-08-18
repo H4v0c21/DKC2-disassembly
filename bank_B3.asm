@@ -1,5 +1,8 @@
+
+%hook("sprite_return_handle_despawn")
 CODE_B38000:					;	   |
 	JSL CODE_BBBB99				;$B38000   |
+%hook("sprite_return_no_despawn")
 	JML [$05A9]				;$B38004  /
 
 sprite_handler:
@@ -3048,10 +3051,12 @@ CODE_B3974B:					;	   |
 	JSL CODE_BBBB8D				;$B39755   |
 	JML [$05A9]				;$B39759  /
 
+%hook("spawn_barrel_debris_with_smoke")
 CODE_B3975C:
 	JSR CODE_B39764				;$B3975C  \
 	RTL					;$B3975F  /
 
+%hook("spawn_barrel_debris")
 CODE_B39760:
 	JSR CODE_B3976B				;$B39760  \
 	RTL					;$B39763  /
@@ -11358,6 +11363,7 @@ CODE_B3D469:
 	DEC $2F,x				;$B3D469  \
 	RTS					;$B3D46B  /
 
+%hook("initialize_platform_sprite")
 CODE_B3D46C:
 	LDY $09FC				;$B3D46C  \
 	STA $09FE,y				;$B3D46F   |
@@ -11371,6 +11377,7 @@ CODE_B3D46C:
 	STA $09FC				;$B3D481   |
 	RTL					;$B3D484  /
 
+%hook("set_platform_hitbox_position")
 CODE_B3D485:
 	LDX current_sprite			;$B3D485  \
 	LDA $06,x				;$B3D487   |
@@ -11393,6 +11400,7 @@ CODE_B3D485:
 	STY $28,x				;$B3D4AB   |
 	RTL					;$B3D4AD  /
 
+%hook("set_platform_hitbox_size")
 CODE_B3D4AE:
 	LDX current_sprite			;$B3D4AE  \
 	STZ $34,x				;$B3D4B0   |
@@ -15835,20 +15843,8 @@ if !ex_patch == 1
 
 ;native function wrappers here
 
-;won't be using this one for now
-; CODE_B3A369_wrapper:			;sprite action handler
-; 	JSR CODE_B3A369
-; 	RTL
-
-CODE_B3A627_wrapper:			;used to play the sprite's death animation
-	JSR CODE_B3A627
-	RTL
-
-CODE_B3A652_wrapper:			;unclear, also death related
-	JSR CODE_B3A652
-	RTL
-
 ex_sprite_handler_2_wrapper:
 	JSL ex_sprite_handler_2		;check if sprite is ex, if it is don't come back here
 	JMP (DATA_B38348,x)		;if we came back from the JSL do vanilla sprite main
+
 endif

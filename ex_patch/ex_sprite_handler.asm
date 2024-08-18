@@ -9,7 +9,7 @@ ex_sprite_main_handler:
 ;normal_sprite_main
 	TAX
 	RTL
-	
+
 .ex_sprite_main
 	SEC
 	SBC #!ex_sprite_id_start
@@ -38,7 +38,7 @@ ex_sprite_handler_2:
 	BCS .ex_sprite_main
 ;normal_sprite_main
 	RTL
-	
+
 .ex_sprite_main:
 	PLA				;remove last call from stack (we're never going back to B3)
 	PLB				;this might be dangerous (probably not though since this never runs for vanilla sprites)
@@ -46,7 +46,76 @@ ex_sprite_handler_2:
 	SEC
 	SBC #!ex_sprite_id_start
 	TAX
-	JMP (ex_sprite_main_table,x)	
+	JMP (ex_sprite_main_table,x)
+
+
+%hook("ex_sprite_state_handler")
+ex_sprite_state_handler:
+	PHK					;\
+	PLB					; |
+	LDY current_sprite			; |
+	LDA $0054,y				; |
+	STA $8E					; |
+	LDA $002E,y				; |
+	AND #$007F				; |
+	ASL A					; |
+	SEC					; |
+	ADC $01,s				; |
+	TAX					; |
+	PLA					; |
+	LDA $002F,y				; |
+	AND #$00FF				; |
+	ASL A					; |
+	JMP ($0000,x)				;/
+
+
+%hook("ex_sprite_state_safe_handler")
+ex_sprite_state_safe_handler:
+	PHK			;Set current data bank
+	PLB			;
+	LDY current_sprite	;Get current sprite being processed
+	LDA $0054,y		;Use current sprites constants
+	STA $8E			;
+	LDA $002E,y		;get sprite state
+	AND #$007F		
+	STA $32			
+	LDA #$0000		
+	SEC			
+	ADC $01,s		
+	TAX			
+	LDA $32			
+	CMP $0000,x		
+	BCS .invalid_state	
+	ASL A			
+	SEC			
+	ADC $01,s		;add address from top of stack to get our index
+	ADC #$0002		
+	TAX			
+	PLA			;pull address out of stack
+	LDA $002F,y		
+	AND #$00FF		
+	ASL A			
+	JMP ($0000,x)		;jump to sprite state code
+
+.invalid_state			
+	LDA #$0000		
+	STA $002E,y		
+	PLA			
+	JML [$05A9]		;return from sprite code
+
+
+%hook("use_vanilla_constants")
+use_vanilla_constants:
+	LDA #$00FF
+	STA $90
+	RTL
+
+%hook("use_ex_constants")
+use_ex_constants:
+	LDA #<:ex_sprite_constants
+	STA $90
+	RTL
+
 
 
 ex_sprite_main_table:

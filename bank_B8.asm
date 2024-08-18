@@ -6916,6 +6916,7 @@ CODE_B8B6A1:
 	CLC					;$B8B6A1  \
 	RTS					;$B8B6A2  /
 
+%hook("check_if_sprite_submerged")
 CODE_B8B6A3:
 	JSR check_sprite_underwater		;$B8B6A3  \
 	RTL					;$B8B6A6  /
@@ -10470,6 +10471,7 @@ set_player_jumping_gravity:
 	STA $0008,y				;$B8CE91   |
 	RTS					;$B8CE94  /
 
+%hook("use_default_player_gravity")
 CODE_B8CE95:
 	JSR set_player_normal_gravity		;$B8CE95  \
 	RTL					;$B8CE98  /
@@ -10493,6 +10495,7 @@ set_player_normal_gravity:
 	STA $0008,y				;$B8CEB2   |/
 	RTS					;$B8CEB5  /
 
+%hook("use_default_player_terminal_velocity")
 CODE_B8CEB6:
 	JSR set_player_terminal_velocity	;$B8CEB6  \
 	RTL					;$B8CEB9  /
@@ -10624,6 +10627,7 @@ apply_player_gravity:
 	STA $24,x				;$B8CF7C   |
 	RTS					;$B8CF7E  /
 
+%hook("apply_position_from_velocity")
 CODE_B8CF7F:
 	JSR CODE_B8CF83				;$B8CF7F  \
 	RTL					;$B8CF82  /
@@ -10676,6 +10680,7 @@ CODE_B8CFCF:					;	   |
 	STA $0C,x				;$B8CFD1   |
 	RTS					;$B8CFD3  /
 
+%hook("interpolate_y_velocity")
 CODE_B8CFD4:
 	JSR interpolate_y_velocity		;$B8CFD4  \
 	RTL					;$B8CFD7  /
@@ -10717,6 +10722,7 @@ CODE_B8D009:
 	STA $0024,y				;$B8D00C   |
 	RTS					;$B8D00F  /
 
+%hook("interpolate_x_velocity")
 CODE_B8D010:
 	JSR interpolate_x_velocity		;$B8D010  \
 	RTL					;$B8D013  /
@@ -11095,6 +11101,7 @@ update_damaged_invincibility:
 .return						;	   |
 	RTS					;$B8D1E3  /
 
+%hook("freeze_time")
 CODE_B8D1E4:
 	JSR enable_bullet_time			;$B8D1E4  \
 	RTL					;$B8D1E7  /
@@ -11105,6 +11112,7 @@ enable_bullet_time:
 	STA $0A38				;$B8D1EC   |
 	RTS					;$B8D1EF  /
 
+%hook("unfreeze_time")
 CODE_B8D1F0:
 	JSR disable_bullet_time			;$B8D1F0  \
 	RTL					;$B8D1F3  /
@@ -11114,6 +11122,7 @@ disable_bullet_time:
 	STZ $0A38				;$B8D1F7   |
 	RTS					;$B8D1FA  /
 
+%hook("disable_kong_damage")
 CODE_B8D1FB:
 	JSR disable_enemy_damage		;$B8D1FB  \
 	RTL					;$B8D1FE  /
@@ -11638,6 +11647,7 @@ CODE_B8D5C2:
 CODE_B8D5DF:					;	   |
 	RTS					;$B8D5DF  /
 
+%hook("process_terrain_collision")
 CODE_B8D5E0:
 	PHB					;$B8D5E0  \
 	JSR CODE_B8D5E6				;$B8D5E1   |
@@ -12053,6 +12063,7 @@ CODE_B8D8A6:
 CODE_B8D8B9:					;	   |
 	RTS					;$B8D8B9  /
 
+%hook("set_sprite_interaction")
 CODE_B8D8BA:
 	JSR set_player_interaction		;$B8D8BA  \
 	RTL					;$B8D8BD  /

@@ -10,6 +10,7 @@ padbyte $00 : pad ex_header+$40
 	dl custom_post_nmi_table		;0043
 	dl custom_post_logic_table		;0046
 	dl custom_level_load_table		;0049
+	dl custom_level_code			;004C
 	
 padbyte $00 : pad ex_header+$80
 	

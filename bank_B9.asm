@@ -1,3 +1,5 @@
+
+%hook("set_inactive_kong_animation_handle_dixie")
 CODE_B9D000:
 	TAX					;$B9D000  \
 	LDA $66					;$B9D001   |
@@ -16,6 +18,7 @@ CODE_B9D000:
 	STA $66					;$B9D01A   |
 	RTL					;$B9D01C  /
 
+%hook("set_inactive_kong_animation")
 CODE_B9D01D:
 	TAX					;$B9D01D  \
 	LDA $66					;$B9D01E   |
@@ -77,6 +80,7 @@ CODE_B9D04B:
 	LDX current_sprite			;$B9D078   |
 	RTL					;$B9D07A  /
 
+%hook("set_animal_animation")
 CODE_B9D07B:
 	STA $32					;$B9D07B  \
 	LDX current_sprite			;$B9D07D   |
@@ -89,6 +93,7 @@ CODE_B9D07B:
 	ADC $32					;$B9D088   |
 	BRA set_sprite_animation		;$B9D08A  /
 
+%hook("set_animal_animation_handle_dixie")
 CODE_B9D08C:
 	STA $26					;$B9D08C  \
 	LDA $6E					;$B9D08E   |
@@ -100,6 +105,7 @@ CODE_B9D08C:
 	ADC $26					;$B9D097   |
 	BRA CODE_B9D0B8				;$B9D099  /
 
+%hook("set_alternate_sprite_animation")
 CODE_B9D09B:
 	TAX					;$B9D09B  \
 	LDA current_sprite			;$B9D09C   |
@@ -121,6 +127,7 @@ CODE_B9D0B0:
 	BNE CODE_B9D0B8				;$B9D0B5   |
 	RTL					;$B9D0B7  /
 
+%hook("set_kong_animation")
 CODE_B9D0B8:
 	LDY $66					;$B9D0B8  \
 	STA $0000,y				;$B9D0BA   |
@@ -128,6 +135,7 @@ CODE_B9D0B8:
 	BEQ set_sprite_animation		;$B9D0C0   |
 	CLC					;$B9D0C2   |
 	ADC #$00A3				;$B9D0C3   |
+%hook("set_sprite_animation")
 set_sprite_animation:				;	   |
 if !ex_patch == 1
 	;PHB					;$B9D0C6   |\
@@ -177,6 +185,7 @@ CODE_B9D0F3:
 	STA $2E,x				;$B9D0FD   |
 	RTL					;$B9D0FF  /
 
+%hook("process_animation")
 CODE_B9D100:
 	LDX current_sprite			;$B9D100  \
 	LDA $38,x				;$B9D102   |
@@ -5261,10 +5270,12 @@ DATA_B9F0C5:
 if !ex_patch == 1
 
 org $B9F0FD
+%hook("turn_sprite_if_needed")
 turn_sprite_if_needed_global:
 	JSR turn_sprite_if_needed
 	RTL
 
+%hook("flip_sprite_direction")
 flip_sprite_direction_global:
 	JSR CODE_B9E019
 	RTL

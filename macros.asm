@@ -120,3 +120,16 @@ macro vram_payload(data_address, vram_address, data_size, compressed)
 	dw <vram_address>|(<compressed><<15)
 	dw <data_size>
 endmacro
+
+;generates an ex hook line
+macro hook(label)
+	print "<label>"," = $",pc
+endmacro
+
+;generates an ex level code chain link
+macro chain_link()
+	NOP
+	NOP
+	NOP
+	BRK
+endmacro
