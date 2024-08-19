@@ -626,8 +626,15 @@ CODE_BB83B4:
 	LSR A					;$BB83BB   |
 	LSR A					;$BB83BC   |
 	TAY					;$BB83BD   |
+if !ex_patch == 1
+	JSR delete_vram_slot
+	NOP
+	NOP
+	NOP
+else
 	LDA #$0000				;$BB83BE   |
 	STA $0B04,y				;$BB83C1   |
+endif
 	RTS					;$BB83C4  /
 
 CODE_BB83C5:
@@ -9205,6 +9212,19 @@ offset_palette_address_if_needed:
 
 .is_ex_palette:
 	PLA
+	RTS
+
+delete_vram_slot:
+	TYX
+	LDA $0B04,x
+	BEQ .slot_empty
+.delete_slot
+	STZ $0B04,x
+	INX
+	INX
+	CMP $0B04,x
+	BEQ .delete_slot
+.slot_empty
 	RTS
 
 endif
