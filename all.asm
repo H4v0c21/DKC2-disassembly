@@ -25,86 +25,143 @@ org $008000			;dummy org so functions work
 ;IRQ_start:
 ;	JML IRQ_start_hi_hop+$8000
 
-check bankcross half
 
-org $C00000
-	incsrc "bank_C0.asm"
+
 org $008000
-	incsrc "bank_80.asm"
-	warnpc $00FFB0 : padbyte $00 : pad $00FFB0
-	incsrc "rom_header.asm"
+	check bankcross half
+	bank_80:
+		incsrc "bank_80.asm"
+		warnpc $00FFB0 : padbyte $80 : pad $00FFB0
+		incsrc "rom_header.asm"
+org $018000
+	check bankcross half
+	bank_B3:
+		incsrc "bank_B3.asm"
+		padbyte $B3 : pad (bank_B3+$8000-1)
 org $C10000
 	check bankcross full
-	incsrc "bank_C1-ED.asm"
-org $EE0000
-	incsrc "bank_EE-F2.asm"
-org $F30000
+	bank_F9:
+		incsrc "bank_F9.asm"
+		padbyte $F9 : pad (bank_F9+$D000-1)
+org $03D000
 	check bankcross half
-	incsrc "bank_F3.asm"
-org $338000
-	incsrc "bank_B3.asm"
-org $F40000
-	incsrc "bank_F4.asm"
-org $348000
-	incsrc "bank_B4.asm"
-org $F50000
-if !version == 0
-	db $32, $02, $93, $12
-else
-	db $02, $12, $93, $32
-endif
-	incsrc "bank_F5.asm"
-org $358000
-	incsrc "bank_B5.asm"
-org $F60000
-	incsrc "bank_F6.asm"
-org $368000
-	incsrc "bank_B6.asm"
+	bank_B9:
+		incsrc "bank_B9.asm"
+		padbyte $B9 : pad (bank_B9+$3000-1)
+org $C20000
+	check bankcross full
+	bank_FA:
+		incsrc "bank_FA.asm"
+		padbyte $FA : pad (bank_FA+$9000-1)
+org $059000
+	check bankcross half
+	bank_BA:
+		incsrc "bank_BA.asm"
+		padbyte $BA : pad (bank_BA+$7000-1)
+org $C30000
+	check bankcross full
+	bank_FE:
+		incsrc "bank_FE.asm"
+		padbyte $FE : pad (bank_FE+$B800-1)
+org $07B800
+	check bankcross half
+	bank_BE:
+		incsrc "bank_BE.asm"
+		padbyte $BE : pad (bank_BE+$4800-1)
+org $088000
+	check bankcross half
+	bank_B4:
+		incsrc "bank_B4.asm"
+		padbyte $B4 : pad (bank_B4+$8000-1)
+org $098000
+	check bankcross half
+	bank_B5:
+		incsrc "bank_B5.asm"
+		padbyte $B5 : pad (bank_B5+$8000-1)
+org $0A8000
+	check bankcross half
+	bank_B6:
+		incsrc "bank_B6.asm"
+		padbyte $B6 : pad (bank_B6+$8000-1)
+org $0B8000
+	check bankcross half
+	bank_B8:
+		incsrc "bank_B8.asm"
+		padbyte $B8 : pad (bank_B8+$8000-1)
+org $0C8000
+	check bankcross half
+	bank_BB:
+		incsrc "bank_BB.asm"
+		padbyte $BB : pad (bank_BB+$8000-1)
+org $0D8000
+	check bankcross half
+	bank_BC:
+		incsrc "bank_BC.asm"
+		padbyte $BC : pad (bank_BC+$8000-1)
+org $C70000
+	check bankcross full
+	bank_F7:
+		incsrc "bank_F7.asm"
+		padbyte $F7 : pad (bank_F7+$10000-1)
+org $C80000
+	check bankcross full
+	bank_FD:
+		incsrc "bank_FD.asm"
+		padbyte $FD : pad (bank_FD+$10000-1)
+org $C90000
+	check bankcross full
+	bank_FF:
+		incsrc "bank_FF.asm"
+		padbyte $FF : pad (bank_FF+$10000-1)
+org $CA0000
+	check bankcross off
+	bank_C1_ED:
+		incsrc "bank_C1-ED.asm"
+		padbyte $C1 : pad (bank_C1_ED+$2D0000-1)
 org $F70000
-	check bankcross full
-	incsrc "bank_F7.asm"
-org $F80000
-	check bankcross half
-	incsrc "bank_F8.asm"
-org $388000
-DATA_B88000:
-if !version == 0
-	db $12, $29, $DE, $B3
-else
-	db $B3, $DE, $12, $29
-endif
-	incsrc "bank_B8.asm"
-org $F90000
-	check bankcross full
-	incsrc "bank_F9.asm"
-org $39D000
-	incsrc "bank_B9.asm"
-org $FA0000
-	incsrc "bank_FA.asm"
-org $3A9000
-	incsrc "bank_BA.asm"
-org $FB0000
-	check bankcross half
-	incsrc "bank_FB.asm"
-org $3B8000
-	incsrc "bank_BB.asm"
-if !version == 0
-	db $00, $AA, $AC, $3C
-else
-	db $3C, $AC, $AA, $00
-endif
+	check bankcross off
+	bank_EE_F2:
+		incsrc "bank_EE-F2.asm"
+		padbyte $EE : pad (bank_EE_F2+$50000-1)
 org $FC0000
-	incsrc "bank_FC.asm"
-org $3C8000
-	incsrc "bank_BC.asm"
+	check bankcross half
+	bank_C0:
+		incsrc "bank_C0.asm"
+		padbyte $C0 : pad (bank_C0+$8000-1)
+org $FC8000
+	check bankcross half
+	bank_F3:
+		incsrc "bank_F3.asm"
+		padbyte $F3 : pad (bank_F3+$8000-1)
 org $FD0000
-	check bankcross full
-	incsrc "bank_FD.asm"
+	check bankcross half
+	bank_F4:
+		incsrc "bank_F4.asm"
+		padbyte $F4 : pad (bank_F4+$8000-1)
+org $FD8000
+	check bankcross half
+	bank_F5:
+		incsrc "bank_F5.asm"
+		padbyte $F5 : pad (bank_F5+$8000-1)
 org $FE0000
-	incsrc "bank_FE.asm"
-org $3EB800
-	incsrc "bank_BE.asm"
+	check bankcross half
+	bank_F6:
+		incsrc "bank_F6.asm"
+		padbyte $F6 : pad (bank_F6+$8000-1)
+org $FE8000
+	check bankcross half
+	bank_F8:
+		incsrc "bank_F8.asm"
+		padbyte $F8 : pad (bank_F8+$8000-1)
 org $FF0000
-	incsrc "bank_FF.asm"
+	check bankcross half
+	bank_FB:
+		incsrc "bank_FB.asm"
+		padbyte $FB : pad (bank_FB+$8000-1)
+org $FF8000
+	check bankcross half
+	bank_FC:
+		incsrc "bank_FC.asm"
+		padbyte $FC : pad (bank_FC+$8000-1)
 org $FFFFFF
 	db $00

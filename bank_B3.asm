@@ -13,9 +13,9 @@ sprite_handler:
 	STZ $19AC				;$B3801B   |
 	STZ $19AF				;$B3801E   |
 	REP #$20				;$B38021   |
-	LDA.w #!bank_B3				;$B38023   |\ Write bank of sprite return address (always B3)
+	LDA.w #bank_B3>>16			;$B38023   |\ Write bank of sprite return address (always B3)
 	STA $05AB				;$B38026   |/
-	LDA #$00FF				;$B38029   |\ Write bank of sprite constants for current sprite (always FF)
+	LDA.w #bank_FF>>16			;$B38029   |\ Write bank of sprite constants for current sprite (always FF)
 	STA $90					;$B3802C   |/
 	JSL CODE_BCFA78				;$B3802E   |
 	LDA $0A36				;$B38032   |\

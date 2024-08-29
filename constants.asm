@@ -1,8 +1,8 @@
 !null_pointer = $000000
 
 !bank_7E = $7E
-!bank_B3 = $B3
-!bank_B4 = $B4
+!bank_B3 = $03
+!bank_B4 = $04
 !bank_FD = $FD
 
 

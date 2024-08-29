@@ -11970,7 +11970,7 @@ DATA_F98FAB:
 	db !animation_command_80, $00
 
 
-warnpc $F99400 : padbyte $00 : pad $F99400
+warnpc (bank_F9+$9400) : padbyte $00 : pad (bank_F9+$9400)
 
 ;$F99400
 DATA_F99400:

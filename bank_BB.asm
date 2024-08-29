@@ -143,7 +143,7 @@ DMA_palette:					;	   |
 	LDA #$2200				;$BB8093   |\ DMA to CGRAM, write once to one register
 	STA DMA[0].settings			;$BB8096   |/
 	SEP #$20				;$BB8099   |
-	LDA #!bank_FD				;$BB809B   |\ Set DMA source bank to FD
+	LDA #bank_FD>>16			;$BB809B   |\ Set DMA source bank to FD
 	STA DMA[0].source_bank			;$BB809D   |/
 	TYA					;$BB80A0   |\ Set CGRAM destination
 	STA PPU.cgram_address			;$BB80A1   |/
@@ -1691,7 +1691,7 @@ CODE_BB8AF6:
 	CLC					;$BB8B0E   |
 	ADC #$0081				;$BB8B0F   |
 	XBA					;$BB8B12   |
-	ORA.w #!bank_FD				;$BB8B13   |
+	ORA.w #bank_FD>>16			;$BB8B13   |
 	STA $0B26,x				;$BB8B16   |
 	LDA $F1					;$BB8B19   |
 	INC A					;$BB8B1B   |
@@ -5800,7 +5800,7 @@ CODE_BBB0B9:					;	   |
 	CLC					;$BBB0D9   |
 	ADC $34					;$BBB0DA   |
 	TAX					;$BBB0DC   |
-	LDA.l $B50008,x				;$BBB0DD   |
+	LDA.l bank_B5-$8000+8,x			;$BBB0DD   |
 	ASL A					;$BBB0E1   |
 	ASL A					;$BBB0E2   |
 	TAX					;$BBB0E3   |
@@ -5834,12 +5834,12 @@ CODE_BBB104:					;	   |
 	STA $3A					;$BBB115   |
 	LDA $0B84				;$BBB117   |
 	TAX					;$BBB11A   |
-	LDA.l $B50000,x				;$BBB11B   |
+	LDA.l bank_B5-$8000,x			;$BBB11B   |
 	JSR CODE_BBB1DD				;$BBB11F   |
 	STA $46					;$BBB122   |
 	INX					;$BBB124   |
 	INX					;$BBB125   |
-	LDA.l $B50000,x				;$BBB126   |
+	LDA.l bank_B5-$8000,x			;$BBB126   |
 	JSR CODE_BBB1DD				;$BBB12A   |
 	STA $48					;$BBB12D   |
 	INX					;$BBB12F   |
@@ -5855,23 +5855,23 @@ CODE_BBB104:					;	   |
 	CLC					;$BBB13C   |
 	ADC $34					;$BBB13D   |
 	TAX					;$BBB13F   |
-	LDA.l $B50000,x				;$BBB140   |
+	LDA.l bank_B5-$8000,x			;$BBB140   |
 	JSR CODE_BBB1DD				;$BBB144   |
 	STA $52					;$BBB147   |
-	LDA.l $B50004,x				;$BBB149   |
+	LDA.l bank_B5-$8000+4,x			;$BBB149   |
 	JSR CODE_BBB1DD				;$BBB14D   |
 	STA $54					;$BBB150   |
-	LDA.l $B50002,x				;$BBB152   |
+	LDA.l bank_B5-$8000+2,x			;$BBB152   |
 	SEC					;$BBB156   |
-	SBC $B50000,x				;$BBB157   |
+	SBC bank_B5-$8000,x			;$BBB157   |
 	JSR CODE_BBB1DD				;$BBB15B   |
 	STA $4E					;$BBB15E   |
-	LDA.l $B50006,x				;$BBB160   |
+	LDA.l bank_B5-$8000+6,x			;$BBB160   |
 	SEC					;$BBB164   |
-	SBC $B50004,x				;$BBB165   |
+	SBC bank_B5-$8000+4,x			;$BBB165   |
 	JSR CODE_BBB1DD				;$BBB169   |
 	STA $50					;$BBB16C   |
-	LDA.l $B50008,x				;$BBB16E   |
+	LDA.l bank_B5-$8000+8,x			;$BBB16E   |
 	STA $0AB4				;$BBB172   |
 	ASL A					;$BBB175   |
 	TAY					;$BBB176   |
@@ -8997,7 +8997,7 @@ CODE_BBC8EF:					;	   |
 	RTS					;$BBC8FE  /
 
 
-warnpc $3BE800 : padbyte $00 : pad $3BE800
+warnpc (bank_BB+$E800) : padbyte $00 : pad (bank_BB+$E800)
 
 %mirror(DATA_FBE800)
 	dw DATA_FF2A08				;0000

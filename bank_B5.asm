@@ -682,7 +682,7 @@ endif						;	   | |/
 	RTS					;$B5848F  /
 
 
-warnpc $359C00 : padbyte $00 : pad $359C00
+warnpc (bank_B5+$9C00) : padbyte $00 : pad (bank_B5+$9C00)
 
 
 ;$32	(byte)	OAM render properties

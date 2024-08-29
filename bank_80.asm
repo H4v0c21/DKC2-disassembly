@@ -4679,7 +4679,7 @@ upload_language_tilemap:			;	  \
 	TAX					;$80AC40   |/
 	LDA.l DATA_ED7447,x			;$80AC41   |\ Load the pointer to the current language tilemap
 	TAX					;$80AC45   | | and upload it to VRAM
-	LDY #$00ED				;$80AC46   | |
+	LDY #DATA_ED7447>>16			;$80AC46   | |
 	LDA #vram_menus_language_tilemap	;$80AC49   | |
 	JSR upload_fileselect_tilemap		;$80AC4C   |/
 	RTS					;$80AC4F  /
@@ -4690,7 +4690,7 @@ upload_channel_count_tilemap:			;	  \
 	TAX					;$80AC53   |/
 	LDA.l DATA_ED7893,x			;$80AC54   |\ Load the pointer to the current channel count tilemap
 	TAX					;$80AC58   | | and upload it to VRAM
-	LDY #$00ED				;$80AC59   | |
+	LDY #DATA_ED7893>>16			;$80AC59   | |
 	LDA #vram_menus_channel_count_tilemap	;$80AC5C   | |
 	JSR upload_fileselect_tilemap		;$80AC5F   |/
 	RTS					;$80AC62  /
@@ -4814,7 +4814,7 @@ CODE_80AD13:
 	TAX					;$80AD3E   |
 	LDA.l DATA_ED7639,x			;$80AD3F   |
 	TAX					;$80AD43   |
-	LDY #$00ED				;$80AD44   |
+	LDY #DATA_ED7639>>16			;$80AD44   |
 	LDA $32					;$80AD47   |
 	JSR upload_fileselect_tilemap		;$80AD49   |
 	LDA $32					;$80AD4C   |
@@ -5066,7 +5066,7 @@ CODE_80AF53:
 	TAX					;$80AF57   |
 	LDA.l DATA_ED783B,x			;$80AF58   |
 	STA $34					;$80AF5C   |
-	LDA #$00ED				;$80AF5E   |
+	LDA #DATA_ED783B>>16			;$80AF5E   |
 	STA $36					;$80AF61   |
 	LDY #$0000				;$80AF63   |
 	LDA $32					;$80AF66   |

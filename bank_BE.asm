@@ -4171,7 +4171,7 @@ CODE_BED6BE:					;	   |
 	LDY level_number			;$BED6CA   |
 	CPY #!level_rickety_race		;$BED6CC   |
 	BNE CODE_BED6D4				;$BED6CF   |
-	LDA.w #!bank_FD				;$BED6D1   |
+	LDA.w #bank_FD>>16			;$BED6D1   |
 CODE_BED6D4:					;	   |
 	STA $34					;$BED6D4   |
 	LDA [$32]				;$BED6D6   |
@@ -4255,7 +4255,7 @@ CODE_BED747:
 set_klank_race_kart_velocity:
 	LDA $5C,x				;$BED74E  \  get base address of klank's race kart trigger data (kart sprite is in X)
 	STA $32					;$BED750   |
-	LDA.w #!bank_FD				;$BED752   | get bank of data
+	LDA.w #bank_FD>>16			;$BED752   | get bank of data
 	STA $34					;$BED755   |
 	LDY #$0000				;$BED757   | initialize iteration counter
 .check_spawn_position				;	   |
@@ -6575,7 +6575,7 @@ spawn_and_setup_klank_kart:
 	ADC #klank_race_kart_data_table		;$BEE836   | add base address of klank kart race data table
 	STA $06,x				;$BEE839   |
 	STA $32					;$BEE83B   | 
-	LDA.w #!bank_FD				;$BEE83D   | get the bank of the table
+	LDA.w #bank_FD>>16			;$BEE83D   | get the bank of the table
 	STA $34					;$BEE840   |
 	LDA [$32]				;$BEE842   | get spawn location data
 	STA $32					;$BEE844   | 
@@ -6627,7 +6627,7 @@ spawn_and_setup_klank_kart:
 	JSL CODE_BB8432				;$BEE883   | spawn the klank's kart
 	PLA					;$BEE887   | restore address of klank kart spawn data
 	STA $32					;$BEE888   |
-	LDA.w #!bank_FD				;$BEE88A   | get bank of klank race data
+	LDA.w #bank_FD>>16			;$BEE88A   | get bank of klank race data
 	STA $34					;$BEE88D   |
 	PLY					;$BEE88F   | restore iteration counter
 	BCS .return				;$BEE890   |
