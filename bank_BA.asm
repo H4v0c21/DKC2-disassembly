@@ -590,7 +590,7 @@ CODE_BA94CF:
 CODE_BA94EF:					;	   |
 	DEC $0757				;$BA94EF   |
 	BNE CODE_BA94FF				;$BA94F2   |
-	JSL CODE_BB8158				;$BA94F4   |
+	JSL set_current_level_as_cleared	;$BA94F4   |
 	LDA #$0027				;$BA94F8   |
 	JSL CODE_B8D8BA				;$BA94FB   |
 CODE_BA94FF:					;	   |
@@ -1897,7 +1897,7 @@ CODE_BAA099:					;	   |
 	LSR A					;$BAA09E   |
 	BCC CODE_BAA0AF				;$BAA09F   |
 	DEC $065A				;$BAA0A1   |
-	JSL CODE_BB8158				;$BAA0A4   |
+	JSL set_current_level_as_cleared	;$BAA0A4   |
 	LDA #$0027				;$BAA0A8   |
 	JSL CODE_B8D8BA				;$BAA0AB   |
 CODE_BAA0AF:					;	   |
@@ -2894,7 +2894,7 @@ CODE_BAB08E:
 	LDX current_sprite			;$BAB090   |
 	DEC $44,x				;$BAB092   |
 	BNE CODE_BAB09E				;$BAB094   |
-	JSL CODE_BB8158				;$BAB096   |
+	JSL set_current_level_as_cleared	;$BAB096   |
 	JSL CODE_B8A691				;$BAB09A   |
 CODE_BAB09E:					;	   |
 	LDX current_sprite			;$BAB09E   |

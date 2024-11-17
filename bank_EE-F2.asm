@@ -4,25 +4,25 @@ arch spc700
 base !spc_base_eng_loc
 
 CODE_04D8:
-	CLRP					;$04D8   |
-	MOV X, #$FF				;$04D9   |
-	MOV SP, X				;$04DB   |
-	INC X					;$04DC   |
-	MOV $F4, X				;$04DD   |
-	INC X					;$04DF   |
-	MOV $E9, X				;$04E0   |
-	MOV A, #$00				;$04E2   |
-	MOV $00, A				;$04E4   |
-	MOV $01, #$D0				;$04E6   |
-CODE_04E9:					;   |
-	MOV Y, A				;$04E9   |
-CODE_04EA:					;   |
-	MOV ($00)+Y, A				;$04EA   |
-	INC Y					;$04EC   |
-	BNE CODE_04EA				;$04ED   |
-	INC $01					;$04EF   |
-	BNE CODE_04E9				;$04F1   |
-CODE_04F3:					;   |
+	CLRP					;$04D8  \> Clear direct page
+	MOV X, #$FF				;$04D9   |\
+	MOV SP, X				;$04DB   |/ Reset stack pointer
+	INC X					;$04DC   |\ X = 0
+	MOV $F4, X				;$04DD   |/ Set CPU transaction id to 0
+	INC X					;$04DF   |\
+	MOV $E9, X				;$04E0   |/ Set next expected CPU transaction id to 1
+	MOV A, #$00				;$04E2   |> A = 0
+	MOV $00, A				;$04E4   |\
+	MOV $01, #$D0				;$04E6   |/ Set $00 to $D000
+.next_page					;	 |\ Zero fills $D000-$FFFF
+	MOV Y, A				;$04E9   | | Reset Y index to 0
+.next_byte					;	 | |\
+	MOV ($00)+Y, A				;$04EA   | | | Set byte to 0
+	INC Y					;$04EC   | | | Update index to next byte
+	BNE .next_byte				;$04ED   | |/ If not end of page then move to next byte
+	INC $01					;$04EF   | | Else increase page number
+	BNE .next_page				;$04F1   |/ And zero fill the next page until the end of ARAM
+CODE_04F3:					;	 |
 	MOV X, #$FF				;$04F3   |
 	MOV $F2, #$6C				;$04F5   |
 	MOV $F3, X				;$04F8   |
@@ -32,54 +32,55 @@ CODE_04F3:					;   |
 	MOV $F3, X				;$0503   |
 	MOV $04B7, X				;$0505   |
 	MOV X, $E9				;$0508   |
-CODE_050A:					;   |
-	CMP X, $F4				;$050A   |
-	BNE CODE_050A				;$050C   |
-	MOVW YA, $F5				;$050E   |
-	MOV $F4, X				;$0510   |
-	INC X					;$0512   |
-	MOV $0539, A				;$0513   |
-	MOV $0542, A				;$0516   |
-	MOV $053A, Y				;$0519   |
-	MOV $0543, Y				;$051C   |
-CODE_051F:					;   |
-	CMP X, $F4				;$051F   |
-	BNE CODE_051F				;$0521   |
-	MOVW YA, $F5				;$0523   |
-	MOV $F4, X				;$0525   |
-	INC X					;$0527   |
-	MOV $EA, A				;$0528   |
-	MOV $EB, Y				;$052A   |
+CODE_050A:					;	 |
+	CMP X, $F4				;$050A   |\
+	BNE CODE_050A				;$050C   |/ If the CPU didnt send any data yet then wait until it does
+	MOVW YA, $F5				;$050E   |> Read SPC sound engine address sent by the CPU into Y and A
+	MOV $F4, X				;$0510   |\ Update transaction id (acknowledge that the SPC received the data)
+	INC X					;$0512   |/
+	MOV DATA_0538+1, A			;$0513   |\ Patch address operand of 2 MOV instructions to point to the SPC sound engine
+	MOV DATA_0541+1, A			;$0516   | |
+	MOV DATA_0538+2, Y			;$0519   | |
+	MOV DATA_0541+2, Y			;$051C   |/
+CODE_051F:					;	 |
+	CMP X, $F4				;$051F   |\
+	BNE CODE_051F				;$0521   |/ If the CPU didnt send any data yet then wait until it does
+	MOVW YA, $F5				;$0523   |> Read data sent by the CPU into Y and A
+	MOV $F4, X				;$0525   |\ Update transaction id (acknowledge that the SPC received the data)
+	INC X					;$0527   |/
+	MOV $EA, A				;$0528   |\
+	MOV $EB, Y				;$052A   |/
 	DECW $EA				;$052C   |
 	BMI CODE_0556				;$052E   |
 	MOV Y, #$00				;$0530   |
-CODE_0532:					;   |
-	CMP X, $F4				;$0532   |
-	BNE CODE_0532				;$0534   |
-	MOV A, $F5				;$0536   |
-DATA_0538:					;   |
-	MOV $0000+Y, A				;$0538   |
+CODE_0532:					;	 |
+	CMP X, $F4				;$0532   |\
+	BNE CODE_0532				;$0534   |/ If the CPU didnt send any data yet then wait until it does
+	MOV A, $F5				;$0536   |> Read data sent by the CPU into A
+DATA_0538:					;	 |
+	MOV $0000+Y, A				;$0538   |> Dynamically patched to be a pointer to SPC sound engine (MOV $0560+Y, A)
 	MOV A, $F6				;$053B   |
 	MOV $F4, X				;$053D   |
 	INC X					;$053F   |
 	INC Y					;$0540   |
-	MOV $0000+Y, A				;$0541   |
+DATA_0541:					;	 |
+	MOV $0000+Y, A				;$0541   |> Dynamically patched to be a pointer to SPC sound engine (MOV $0560+Y, A)
 	INC Y					;$0544   |
 	BEQ CODE_054E				;$0545   |
-CODE_0547:					;   |
+CODE_0547:					;	 |
 	DECW $EA				;$0547   |
 	BPL CODE_0532				;$0549   |
-	JMP CODE_050A				;$054B   |
+	JMP CODE_050A				;$054B  /
 
-CODE_054E:
-	INC $053A				;$054E   |
-	INC $0543				;$0551   |
-	BRA CODE_0547				;$0554   |
+CODE_054E:					;	\
+	INC DATA_0538+2				;$054E   |
+	INC DATA_0541+2				;$0551   |
+	BRA CODE_0547				;$0554  /
 
 CODE_0556:
-	MOV $E9, X				;$0556   |
+	MOV $E9, X				;$0556  \
 	MOV X, #$00				;$0558   |
-	JMP (DATA_0538+1+X)			;$055A   |
+	JMP (DATA_0538+1+X)			;$055A  /
 
 	db $00
 	dw $D604
@@ -1833,7 +1834,6 @@ DATA_1199:
 	dw $3904
 	dw $3C68
 	dw $3FFF
-
 	db $FF
 base off
 arch 65816

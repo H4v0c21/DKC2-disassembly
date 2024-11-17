@@ -995,9 +995,9 @@ CODE_808A8D:
 	STA $0636				;$808AB1   |
 endif						;	   |
 CODE_808AB4:					;	   |
-	LDA player_active_pressed		;$808AB4   |
-	AND #$1000				;$808AB7   |
-	BNE CODE_808AED				;$808ABA   |
+	LDA player_active_pressed		;$808AB4   |\ Get the players current buttons
+	AND #$1000				;$808AB7   | | Check if start is currently being pressed
+	BNE .unpause_game			;$808ABA   |/ If start was pressed then we should unpause the game
 	LDA $D5					;$808ABC   |
 	SEC					;$808ABE   |
 	SBC #$0001				;$808ABF   |
@@ -1005,22 +1005,22 @@ CODE_808AB4:					;	   |
 	LDA $D7					;$808AC4   |
 	SBC #$0000				;$808AC6   |
 	STA $D7					;$808AC9   |
-	LDA player_active_pressed		;$808ACB   |
-	AND #$2000				;$808ACE   |
-	BEQ CODE_808AE6				;$808AD1   |
-	LDA $08A8				;$808AD3   |
-	JSL CODE_BB825C				;$808AD6   |
-	BCC CODE_808AE6				;$808ADA   |
-	LDA #$0040				;$808ADC   |
-	TRB $08C2				;$808ADF   |
-	JML CODE_BBBDC4				;$808AE2  /
+	LDA player_active_pressed		;$808ACB   |\ Get the players current buttons
+	AND #$2000				;$808ACE   |/ Check if select is currently being pressed
+	BEQ .handle_debug_exit_cheat		;$808AD1   |> If not then we should start checking for the cheat
+	LDA $08A8				;$808AD3   |\ Get current level id
+	JSL CODE_BB825C				;$808AD6   |/ Check if the level was completed
+	BCC .handle_debug_exit_cheat		;$808ADA   |> If not then see if the debug exit cheat was attempted
+	LDA #$0040				;$808ADC   |\
+	TRB $08C2				;$808ADF   | | Reset the paused flag
+	JML CODE_BBBDC4				;$808AE2  / / Then exit the level
 
-CODE_808AE6:
-	JSR CODE_808B19				;$808AE6  \
+.handle_debug_exit_cheat
+	JSR .check_for_debug_cheat		;$808AE6  \
 	LDA #$0001				;$808AE9   |
 	RTS					;$808AEC  /
 
-CODE_808AED:
+.unpause_game
 	LDA #$075E				;$808AED  \
 	JSL play_high_priority_sound		;$808AF0   |
 	LDA #$065E				;$808AF4   |
@@ -1036,60 +1036,66 @@ CODE_808AED:
 	TRB $08C2				;$808B15   |
 	RTS					;$808B18  /
 
-CODE_808B19:
-	LDX $19D6				;$808B19  \
-	LDA player_active_held			;$808B1C   |
-	BEQ CODE_808B40				;$808B1F   |
-	CMP.l DATA_808B7C,x			;$808B21   |
-	BEQ CODE_808B40				;$808B25   |
-	CMP.l DATA_808B7E,x			;$808B27   |
-	BEQ CODE_808B41				;$808B2B   |
-	LDA.l DATA_808B7C,x			;$808B2D   |
-	ORA.l DATA_808B7E,x			;$808B31   |
+.check_for_debug_cheat
+	LDX $19D6				;$808B19  \> Get how far into the cheat we are
+	LDA player_active_held			;$808B1C   |\ Get the players current buttons
+	BEQ .return				;$808B1F   |/ If no buttons are pressed return
+	CMP.l .cheat_buttons,x			;$808B21   |
+	BEQ .return				;$808B25   |
+	CMP.l .cheat_buttons_next,x		;$808B27   |
+	BEQ .activate_cheat			;$808B2B   |
+	LDA.l .cheat_buttons,x			;$808B2D   |
+	ORA.l .cheat_buttons_next,x		;$808B31   |
 	EOR #$FFFF				;$808B35   |
 	AND player_active_held			;$808B38   |
-	BEQ CODE_808B40				;$808B3B   |
+	BEQ .return				;$808B3B   |
 	STZ $19D6				;$808B3D   |
-CODE_808B40:					;	   |
+.return						;	   |
 	RTS					;$808B40  /
 
-CODE_808B41:
+.activate_cheat
 	INX					;$808B41  \
 	INX					;$808B42   |
 	INX					;$808B43   |
 	INX					;$808B44   |
 	STX $19D6				;$808B45   |
-	LDA.l DATA_808B7E,x			;$808B48   |
+	LDA.l .cheat_buttons_next,x		;$808B48   |
 	CMP #$1000				;$808B4C   |
-	BNE CODE_808B40				;$808B4F   |
+	BNE .return				;$808B4F   |
 	JSL disable_screen			;$808B51   |
 	LDA #$0505				;$808B55   |
 	JSL play_high_priority_sound		;$808B58   |
-	LDA #$0000				;$808B5C   |
-CODE_808B5F:					;	   |
-	JSR CODE_808B6F				;$808B5F   |
-	DEC A					;$808B62   |
-	BNE CODE_808B5F				;$808B63   |
-	LDA #$0040				;$808B65   |
-	TRB $08C2				;$808B68   |
-	JML CODE_BBBDC4				;$808B6B  /
+	LDA #$0000				;$808B5C   |\ Load counter with 0
+.waste_cpu_time					;	   | |
+	JSR .stall_for_time			;$808B5F   | | Waste some CPU time
+	DEC A					;$808B62   | | -1 from counter
+	BNE .waste_cpu_time			;$808B63   |/ loop back and repeat until we've done this loop 65536 times
+	LDA #$0040				;$808B65   |\
+	TRB $08C2				;$808B68   |/ Unpause the game
+	JML CODE_BBBDC4				;$808B6B  /> And exit the level
 
-CODE_808B6F:
-	LDY $00,x				;$808B6F  \
-	LDY $00,x				;$808B71   |
-	LDY $00,x				;$808B73   |
-	LDY $00,x				;$808B75   |
-	LDY $00,x				;$808B77   |
-	LDY $00,x				;$808B79   |
-	RTS					;$808B7B  /
+.stall_for_time
+	LDY $00,x				;$808B6F  \ \ All these instructions basically do nothing
+	LDY $00,x				;$808B71   | | But waste CPU time in this context
+	LDY $00,x				;$808B73   | | We're still not sure exactly why this is the case
+	LDY $00,x				;$808B75   | |
+	LDY $00,x				;$808B77   | |
+	LDY $00,x				;$808B79   | |
+	RTS					;$808B7B  / / Return
 
-DATA_808B7C:
-	db $00, $00
+.cheat_buttons
+%offset(.cheat_buttons_next, 2)
+	dw $0000				;
+	dw $4100				; Y+Right
+	dw $4100				; Y+Right
+	dw $0280				; A+Left
+	dw $0280				; A+Left
+	dw $8800				; B+Up
+	dw $8800				; B+Up
+	dw $0440				; X+Down
+	dw $0440				; X+Down
+	dw $1000				; Start
 
-DATA_808B7E:
-	db $00, $41, $00, $41, $80, $02, $80, $02
-	db $00, $88, $00, $88, $40, $04, $40, $04
-	db $00, $10
 
 DATA_808B90:
 	db $00, $00, $00, $02, $00, $01, $00, $00
@@ -1496,7 +1502,7 @@ clear_noncritical_wram:				;	  \
 	RTL					;$808EAD  /
 
 clear_full_wram:
-%local(.return, temp_32)				;	  \
+%local(.return, temp_32)			;	  \
 	PLA					;$808EAE   |\ Store the return address in scratch ram
 	INC A					;$808EAF   | |
 	STA .return				;$808EB0   |/
@@ -8327,7 +8333,7 @@ CODE_80CC3F:
 	LDA #$7010				;$80CC5E   |
 	STA PPU.vram_address			;$80CC61   |
 	SEP #$30				;$80CC64   |
-	LDA #$F5				;$80CC66   |
+	LDA #falling_leaves_tiledata>>16	;$80CC66   |
 	STA DMA[0].source_bank			;$80CC68   |
 	LDA #$01				;$80CC6B   |
 	STA CPU.enable_dma			;$80CC6D   |
@@ -9442,7 +9448,7 @@ CODE_80D7AB:
 	JSR CODE_808988				;$80D7AB  \
 	BNE CODE_80D7CF				;$80D7AE   |
 	JSL sprite_loader			;$80D7B0   |
-	JSR CODE_80D7E6				;$80D7B4   |
+	JSR wind_force_handler			;$80D7B4   |
 	JSL sprite_handler			;$80D7B7   |
 	JSL camera_handler			;$80D7BB   |
 	JSL horizontal_level_scroll_handler	;$80D7BF   |
@@ -9454,15 +9460,22 @@ CODE_80D7AB:
 CODE_80D7CF:
 	JMP CODE_80D45D				;$80D7CF  /
 
+;wind speeds
 DATA_80D7D2:
-	db $10, $00, $00, $04, $00, $01, $00, $01
-	db $C0, $00
+	dw $0010				;idle blowing right
+	dw $0400				;jump right blowing right
+	dw $0100				;jump blowing right
+	dw $0100				;walk right blowing right
+	dw $00C0				;walking left blowing right
 
 DATA_80D7DC:
-	db $F0, $FF, $00, $FC, $00, $FF, $00, $FF
-	db $40, $FF
+	dw $FFF0				;idle blowing left
+	dw $FC00				;jump left blowing left
+	dw $FF00				;jump blowing left
+	dw $FF00				;walk left blowing left
+	dw $FF40				;walking right blowing left
 
-CODE_80D7E6:
+wind_force_handler:
 	PHK					;$80D7E6  \
 	PLB					;$80D7E7   |
 	LDY #DATA_80D7D2			;$80D7E8   |
@@ -9897,7 +9910,7 @@ CODE_80DB99:
 	JSR CODE_808988				;$80DB99  \
 	BNE CODE_80DBCB				;$80DB9C   |
 	JSL sprite_loader			;$80DB9E   |
-	JSR CODE_80D7E6				;$80DBA2   |
+	JSR wind_force_handler			;$80DBA2   |
 	JSL sprite_handler			;$80DBA5   |
 	JSL camera_handler			;$80DBA9   |
 	LDA $0AB4				;$80DBAD   |
@@ -12655,7 +12668,7 @@ CODE_80F35A:					;	   |
 render_sprites:
 	PHK					;$80F35B  \
 	PLB					;$80F35C   |
-	JSL CODE_B5A8DA				;$80F35D   |
+	JSL CODE_B5A8DA				;$80F35D   |> Sort render orders
 	LDA #$0200				;$80F361   |
 	STA $70					;$80F364   |
 	LDA #$0400				;$80F366   |
@@ -12676,9 +12689,9 @@ render_sprites:
 	STZ oam_attribute[$1A].size		;$80F392   |
 	STZ oam_attribute[$1C].size		;$80F395   |
 	STZ oam_attribute[$1E].size		;$80F398   |
-	JSL CODE_BEC695				;$80F39B   |
-	JSL CODE_B59F40				;$80F39F   |
-	JSL CODE_B5F0FD				;$80F3A3   |
+	JSL CODE_BEC695				;$80F39B   |> Render HUD elements
+	JSL CODE_B59F40				;$80F39F   |> Render sprites
+	JSL CODE_B5F0FD				;$80F3A3   |> Bananas
 	LDA $0638				;$80F3A7   |
 	BEQ CODE_80F3B0				;$80F3AA   |
 	JSL CODE_B59C52				;$80F3AC   |

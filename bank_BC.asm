@@ -9270,6 +9270,14 @@ CODE_BCFE07:
 	CLC					;$BCFE08   |
 	RTL					;$BCFE09  /
 
+
+;checks if current sprite (which called this) collided with any other sprite that wasn't a kong or itself
+
+;takes collision interaction flags in A (if these don't match the sprites it's checking collision against then it won't actually check for collision)
+
+;returns carry set if collided or carry clear is no collision
+;$6A will contain the sprite that the calling sprite collided with
+
 CODE_BCFE0A:
 	STA $EB					;$BCFE0A  \
 	LDA #main_sprite_table_end		;$BCFE0C   |
@@ -9285,89 +9293,92 @@ CODE_BCFE0A:
 	PHB					;$BCFE25   |
 	PHK					;$BCFE26   |
 	PLB					;$BCFE27   |
-CODE_BCFE28:					;	   |
-	LDA $6A					;$BCFE28   |
-	SEC					;$BCFE2A   |
-	SBC #sizeof(sprite)			;$BCFE2B   |
-	STA $6A					;$BCFE2E   |
-	CMP #$0E40				;$BCFE30   |
-	BEQ CODE_BCFE07				;$BCFE33   |
-	CMP current_sprite			;$BCFE35   |
-	BEQ CODE_BCFE28				;$BCFE37   |
-	TAX					;$BCFE39   |
-	LDA $00,x				;$BCFE3A   |
-	BEQ CODE_BCFE28				;$BCFE3C   |
-	LDA $30,x				;$BCFE3E   |
-	AND $EB					;$BCFE40   |
-	BEQ CODE_BCFE28				;$BCFE42   |
-	LDA $1A,x				;$BCFE44   |
-	LSR A					;$BCFE46   |
-	TAY					;$BCFE47   |
-	LDA DATA_BCB600,y			;$BCFE48   |
-	TAY					;$BCFE4B   |
-	LDA $0A,x				;$BCFE4C   |
-	BIT $12,x				;$BCFE4E   |
-	BPL CODE_BCFE69				;$BCFE50   |
-	SEC					;$BCFE52   |
-	SBC $0002,y				;$BCFE53   |
+.next_sprite					;	   |
+	LDA $6A					;$BCFE28   |> Get sprite to check collision against
+	SEC					;$BCFE2A   |\
+	SBC #sizeof(sprite)			;$BCFE2B   | | Move to previous slot
+	STA $6A					;$BCFE2E   |/
+	CMP #$0E40				;$BCFE30   |\ Check if dixie slot
+	BEQ CODE_BCFE07				;$BCFE33   |/ If on dixie slot, no more sprites need to be checked because the rest are kongs
+	CMP current_sprite			;$BCFE35   |\ Check if potential target sprite is current sprite
+	BEQ .next_sprite			;$BCFE37   |/ If same sprite then skip, to not collide with itself
+	TAX					;$BCFE39   |> Potential target sprite in X
+	LDA $00,x				;$BCFE3A   |\ Get sprite type
+	BEQ .next_sprite			;$BCFE3C   |/ If sprite doesn't exist skip to next sprite
+	LDA $30,x				;$BCFE3E   |\ Get interaction flags from potential target sprite
+	AND $EB					;$BCFE40   | | Compare to current sprites interaction flags
+	BEQ .next_sprite			;$BCFE42   |/ If the sprites can't interact then skip to next sprite
+	LDA $1A,x				;$BCFE44   |\
+	LSR A					;$BCFE46   | |
+	TAY					;$BCFE47   | |
+	LDA DATA_BCB600,y			;$BCFE48   | | Get hitbox data address
+	TAY					;$BCFE4B   |/ Put it in Y
+	LDA $0A,x				;$BCFE4C   |> Get potential target sprite y position
+	BIT $12,x				;$BCFE4E   |\
+	BPL .no_y_flip				;$BCFE50   |/ If sprite isn't vertical flipped then add hitbox y offset
+	SEC					;$BCFE52   |\
+	SBC $0002,y				;$BCFE53   |/ Else subtract hitbox y offset
 	CMP $DB					;$BCFE56   |
-	BCC CODE_BCFE28				;$BCFE58   |
+	BCC .next_sprite			;$BCFE58   |
 	STA $E7					;$BCFE5A   |
 	SBC $0006,y				;$BCFE5C   |
 	CMP $DF					;$BCFE5F   |
-	BCC CODE_BCFE65				;$BCFE61   |
-	BNE CODE_BCFE28				;$BCFE63   |
-CODE_BCFE65:					;	   |
+	BCC ..y_clipped				;$BCFE61   |
+	BNE .next_sprite			;$BCFE63   |
+..y_clipped					;	   |
 	STA $E3					;$BCFE65   |
-	BRA CODE_BCFE7F				;$BCFE67  /
+	BRA .check_x_clipping			;$BCFE67  /
 
-CODE_BCFE69:
-	CLC					;$BCFE69  \
-	ADC $0002,y				;$BCFE6A   |
-	CMP $DF					;$BCFE6D   |
-	BCC CODE_BCFE74				;$BCFE6F   |
-	BNE CODE_BCFE28				;$BCFE71   |
+;first word is target
+;second word is current
+
+.no_y_flip
+	CLC					;$BCFE69  \ \
+	ADC $0002,y				;$BCFE6A   |/ Add hitbox y offset, this is potential target sprite's hitbox top
+	CMP $DF					;$BCFE6D   |\ Current sprite's hitbox bottom
+	BCC .top_bottom_intersect		;$BCFE6F   |/
+	BNE .next_sprite			;$BCFE71   |
 	CLC					;$BCFE73   |
-CODE_BCFE74:					;	   |
-	STA $E3					;$BCFE74   |
-	ADC $0006,y				;$BCFE76   |
-	CMP $DB					;$BCFE79   |
-	BCC CODE_BCFE28				;$BCFE7B   |
-	STA $E7					;$BCFE7D   |
-CODE_BCFE7F:					;	   |
-	LDA $06,x				;$BCFE7F   |
-	BIT $12,x				;$BCFE81   |
-	BVC CODE_BCFE9C				;$BCFE83   |
-	SEC					;$BCFE85   |
-	SBC $0000,y				;$BCFE86   |
+.top_bottom_intersect				;	   |
+	STA $E3					;$BCFE74   |> Save target hitbox top
+	ADC $0006,y				;$BCFE76   |> Add target hitbox height to get potential target sprite's hitbox bottom
+	CMP $DB					;$BCFE79   |\ Current sprite's hitbox top
+	BCC .next_sprite			;$BCFE7B   |/ If bottom of target isn't intersecting top of current then skip to next sprite
+	STA $E7					;$BCFE7D   |> Save target hitbox bottom
+.check_x_clipping				;	   |
+	LDA $06,x				;$BCFE7F   |> Get potential target sprite x position
+	BIT $12,x				;$BCFE81   |\
+	BVC .no_x_flip				;$BCFE83   |/ If sprite isn't horizontal flipped then add hitbox x offset
+	SEC					;$BCFE85   |\
+	SBC $0000,y				;$BCFE86   |/ Else subtract hitbox x offset
 	CMP $D9					;$BCFE89   |
-	BCC CODE_BCFE28				;$BCFE8B   |
+	BCC .next_sprite			;$BCFE8B   |
 	STA $E5					;$BCFE8D   |
 	SBC $0004,y				;$BCFE8F   |
 	CMP $DD					;$BCFE92   |
-	BCC CODE_BCFE98				;$BCFE94   |
-	BNE CODE_BCFE28				;$BCFE96   |
-CODE_BCFE98:					;	   |
+	BCC ..x_clipped				;$BCFE94   |
+	BNE .next_sprite			;$BCFE96   |
+..x_clipped					;	   |
 	STA $E1					;$BCFE98   |
-	BRA CODE_BCFEB5				;$BCFE9A  /
+	BRA .sprites_are_colliding		;$BCFE9A  /
 
-CODE_BCFE9C:
-	CLC					;$BCFE9C  \
-	ADC $0000,y				;$BCFE9D   |
-	CMP $DD					;$BCFEA0   |
-	BCC CODE_BCFEA7				;$BCFEA2   |
-	BNE CODE_BCFE28				;$BCFEA4   |
-	CLC					;$BCFEA6   |
-CODE_BCFEA7:					;	   |
-	STA $E1					;$BCFEA7   |
-	ADC $0004,y				;$BCFEA9   |
-	CMP $D9					;$BCFEAC   |
-	BCS CODE_BCFEB3				;$BCFEAE   |
-	BRL CODE_BCFE28				;$BCFEB0  /
+.no_x_flip
+	CLC					;$BCFE9C  \ \
+	ADC $0000,y				;$BCFE9D   |/ Add hitbox x offset, this is potential target sprite's hitbox left
+	CMP $DD					;$BCFEA0   |\ Current sprite's hitbox right
+	BCC .left_right_intersect		;$BCFEA2   |/ If left of target is intersecting right of current continue checking for clip
+	BNE .next_sprite			;$BCFEA4   |> Else skip to next sprite
+	CLC					;$BCFEA6   |> Return no clipping
+.left_right_intersect				;	   |
+	STA $E1					;$BCFEA7   |> Save target hitbox left
+	ADC $0004,y				;$BCFEA9   |> Add target hitbox width to get potential target sprite's hitbox right
+	CMP $D9					;$BCFEAC   |\ Current sprite's hitbox left
+	BCS ..x_clipped				;$BCFEAE   |/ If right of target is intersecting left of current
+	BRL .next_sprite			;$BCFEB0  /> Else skip to next sprite
 
-CODE_BCFEB3:
+..x_clipped:
 	STA $E5					;$BCFEB3  \
-CODE_BCFEB5:					;	   |
+.sprites_are_colliding				;	   |
 	PLB					;$BCFEB5   |
 	SEC					;$BCFEB6   |
 	RTL					;$BCFEB7  /
@@ -9433,6 +9444,9 @@ CODE_BCFF1B:
 	SEC					;$BCFF1B  \
 	RTL					;$BCFF1C  /
 
+;similar to CODE_BCFE0A but checks every sprite as a victim (including aux sprite?!?)
+;probably exclusively used for platform sprites
+
 CODE_BCFF1D:
 	STA $EB					;$BCFF1D  \
 	LDA #main_sprite_table_end		;$BCFF1F   |
@@ -9449,31 +9463,31 @@ CODE_BCFF38:					;	   |
 	PHB					;$BCFF38   |
 	PHK					;$BCFF39   |
 	PLB					;$BCFF3A   |
-CODE_BCFF3B:					;	   |
+.next_sprite					;	   |
 	LDA $6A					;$BCFF3B   |
-	CMP #$0D85				;$BCFF3D   |
-	BCC CODE_BCFF6E				;$BCFF40   |
+	CMP #aux_sprite_table+1			;$BCFF3D   |\
+	BCC CODE_BCFF6E				;$BCFF40   |/ This might be a bug because it will continue to process aux as if it can have collision
 	SBC #sizeof(sprite)			;$BCFF42   |
 	STA $6A					;$BCFF45   |
 	CMP current_sprite			;$BCFF47   |
-	BEQ CODE_BCFF3B				;$BCFF49   |
+	BEQ .next_sprite			;$BCFF49   |
 	TAX					;$BCFF4B   |
 	LDA $00,x				;$BCFF4C   |
-	BEQ CODE_BCFF3B				;$BCFF4E   |
+	BEQ .next_sprite			;$BCFF4E   |
 	LDA $30,x				;$BCFF50   |
 	AND $EB					;$BCFF52   |
-	BEQ CODE_BCFF3B				;$BCFF54   |
+	BEQ .next_sprite			;$BCFF54   |
 	LDA $0A,x				;$BCFF56   |
 	CMP $DB					;$BCFF58   |
-	BCC CODE_BCFF3B				;$BCFF5A   |
+	BCC .next_sprite			;$BCFF5A   |
 	CMP $DF					;$BCFF5C   |
-	BCS CODE_BCFF3B				;$BCFF5E   |
+	BCS .next_sprite			;$BCFF5E   |
 	LDA $06,x				;$BCFF60   |
 	CMP $D9					;$BCFF62   |
-	BCC CODE_BCFF3B				;$BCFF64   |
+	BCC .next_sprite			;$BCFF64   |
 	DEC A					;$BCFF66   |
 	CMP $DD					;$BCFF67   |
-	BCS CODE_BCFF3B				;$BCFF69   |
+	BCS .next_sprite			;$BCFF69   |
 	PLB					;$BCFF6B   |
 	SEC					;$BCFF6C   |
 	RTL					;$BCFF6D  /

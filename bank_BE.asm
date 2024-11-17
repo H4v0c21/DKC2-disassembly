@@ -51,18 +51,18 @@ CODE_BEB850:
 	JSR CODE_BEB82A				;$BEB850  /
 
 DATA_BEB853:
-	dw CODE_BEB86B
-	dw CODE_BEB8EF
-	dw CODE_BEB94D
-	dw CODE_BEB992
-	dw CODE_BEB9E4
-	dw CODE_BEB8EF
-	dw CODE_BEBA2C
-	dw CODE_BEBA39
-	dw CODE_BEBA3C
-	dw CODE_BEBA57
-	dw CODE_BEBA5A
-	dw CODE_BEBA7D
+	dw CODE_BEB86B				;00
+	dw CODE_BEB8EF				;01
+	dw CODE_BEB94D				;02
+	dw CODE_BEB992				;03
+	dw CODE_BEB9E4				;04
+	dw CODE_BEB8EF				;05
+	dw CODE_BEBA2C				;06
+	dw CODE_BEBA39				;07
+	dw CODE_BEBA3C				;08
+	dw CODE_BEBA57				;09
+	dw CODE_BEBA5A				;0A
+	dw CODE_BEBA7D				;0B
 
 
 CODE_BEB86B:
@@ -83,7 +83,7 @@ CODE_BEB87C:
 	BRA CODE_BEB898				;$BEB88D  /
 
 CODE_BEB88F:
-	JSL CODE_BB8147				;$BEB88F  \
+	JSL set_current_level_dk_coin_collected	;$BEB88F  \
 	LDX current_sprite			;$BEB893   |
 	LDA #$0064				;$BEB895   |
 CODE_BEB898:					;	   |
@@ -227,7 +227,7 @@ endif						;	   |
 	LDA #$0735				;$BEB9AB   | |
 	JSL queue_sound_effect			;$BEB9AE   |/
 .no_sound_effect				;	   |
-	JSL CODE_BB8114				;$BEB9B2   |
+	JSL is_current_krem_coin_collected	;$BEB9B2   |
 	BCC CODE_BEB9D6				;$BEB9B6   |
 	LDX current_sprite			;$BEB9B8   |
 	LDA $36,x				;$BEB9BA   |
@@ -294,7 +294,7 @@ CODE_BEBA39:
 	JML [$05A9]				;$BEBA39  /
 
 CODE_BEBA3C:
-	JSL CODE_BB8135				;$BEBA3C  \
+	JSL is_current_level_dk_coin_collected	;$BEBA3C  \
 	BCC CODE_BEBA50				;$BEBA40   |
 	LDA #$01C5				;$BEBA42   |
 	JSL set_sprite_animation		;$BEBA45   |
@@ -1502,7 +1502,7 @@ CODE_BEC2B1:
 CODE_BEC2C0:
 	LDX $6A					;$BEC2C0  \
 	LDA $6E					;$BEC2C2   |
-	CMP #$01A0				;$BEC2C4   |
+	CMP #!sprite_enguarde			;$BEC2C4   |
 	BEQ CODE_BEC2D1				;$BEC2C7   |
 	JSR CODE_BEC141				;$BEC2C9   |
 	BCS CODE_BEC2D1				;$BEC2CC   |
@@ -1568,7 +1568,7 @@ CODE_BEC33F:
 
 CODE_BEC345:
 	LDA $6E					;$BEC345  \
-	CMP #$01A0				;$BEC347   |
+	CMP #!sprite_enguarde			;$BEC347   |
 	BEQ CODE_BEC34F				;$BEC34A   |
 	BRL CODE_BEC500				;$BEC34C  /
 
@@ -1720,7 +1720,7 @@ CODE_BEC452:
 	BNE CODE_BEC4B7				;$BEC459   |
 	LDY current_sprite			;$BEC45B   |
 	LDA $0000,y				;$BEC45D   |
-	CMP #$01AC				;$BEC460   |
+	CMP #!sprite_klobber			;$BEC460   |
 	BNE CODE_BEC46D				;$BEC463   |
 	LDA $09F7				;$BEC465   |
 	CMP #$5004				;$BEC468   |
@@ -4648,7 +4648,7 @@ CODE_BEDA0B:					;	   |
 	JSR CODE_BEDA4E				;$BEDA11   |
 	LDA $0000,y				;$BEDA14   |
 	SEC					;$BEDA17   |
-	SBC #$00E4				;$BEDA18   |
+	SBC #!sprite_diddy_kong			;$BEDA18   |
 	BEQ CODE_BEDA20				;$BEDA1B   |
 	LDA #$0026				;$BEDA1D   |
 CODE_BEDA20:					;	   |
@@ -6364,7 +6364,7 @@ CODE_BEE680:
 CODE_BEE691:
 	CMP #$0011				;$BEE691  \
 	BNE CODE_BEE6A2				;$BEE694   |
-	JSL CODE_BB8135				;$BEE696   |
+	JSL is_current_level_dk_coin_collected	;$BEE696   |
 	LDA #$0011				;$BEE69A   |
 	BCC CODE_BEE6A2				;$BEE69D   |
 	LDA #$001A				;$BEE69F   |
@@ -7700,7 +7700,7 @@ DATA_BEF051:
 	dw CODE_BEF0E3				;04
 	dw CODE_BEF0EC				;05
 	dw CODE_BEF143				;06
-	dw CODE_BEF19A				;07
+	dw CODE_BEF19A				;07 patrol xy area in air around home
 	dw CODE_BEF1CC				;08
 	dw CODE_BEF1D5				;09
 	dw CODE_BEF3C3				;0A
@@ -7722,13 +7722,13 @@ DATA_BEF051:
 	dw CODE_BEF449				;1A
 	dw CODE_BEF65B				;1B
 	dw CODE_BEF6C3				;1C
-	dw CODE_BEF780				;1D
+	dw handle_sprite_on_level_x_boundary	;1D
 	dw CODE_BEF0A7				;1E
 	dw CODE_BEF0A7				;1F
 	dw CODE_BEF7AB				;20
 	dw CODE_BEF7BC				;21
-	dw CODE_BEF7EF				;22
-	dw CODE_BEF808				;23
+	dw CODE_BEF7EF				;22 move left right on ground
+	dw CODE_BEF808				;23 patrol x area around home
 	dw CODE_BEF8EE				;24
 	dw CODE_BEFA15				;25
 	dw CODE_BEFA37				;26
@@ -7777,8 +7777,8 @@ CODE_BEF0D0:					;	   |
 
 CODE_BEF0E3:
 	JSR CODE_BEF0A8				;$BEF0E3  \
-	JSR CODE_BEFB45				;$BEF0E6   |
-	JMP CODE_BEFB4F				;$BEF0E9  /
+	JSR handle_sprite_left_right		;$BEF0E6   |
+	JMP handle_sprite_gravity		;$BEF0E9  /
 
 CODE_BEF0EC:
 	LDA $0053,y				;$BEF0EC  \
@@ -7787,7 +7787,7 @@ CODE_BEF0EC:
 	TAX					;$BEF0F3   |
 	JSR (DATA_BEF0FD,x)			;$BEF0F4   |
 	JSR CODE_BEF0A8				;$BEF0F7   |
-	JMP CODE_BEFB45				;$BEF0FA  /
+	JMP handle_sprite_left_right		;$BEF0FA  /
 
 DATA_BEF0FD:
 	dw CODE_BEF101
@@ -7839,7 +7839,7 @@ CODE_BEF143:
 	TAX					;$BEF14A   |
 	JSR (DATA_BEF154,x)			;$BEF14B   |
 	JSR CODE_BEF0A8				;$BEF14E   |
-	JMP CODE_BEFB3B				;$BEF151  /
+	JMP handle_sprite_up_down		;$BEF151  /
 
 DATA_BEF154:
 	dw CODE_BEF158
@@ -7889,35 +7889,35 @@ CODE_BEF19A:
 	AND #$00FF				;$BEF19D   |
 	ASL A					;$BEF1A0   |
 	TAX					;$BEF1A1   |
-	JSR (DATA_BEF1AE,x)			;$BEF1A2   |
+	JSR (.movement_state_table,x)		;$BEF1A2   |
 	JSR CODE_BEF0A8				;$BEF1A5   |
-	JSR CODE_BEFB45				;$BEF1A8   |
-	JMP CODE_BEFB3B				;$BEF1AB  /
+	JSR handle_sprite_left_right		;$BEF1A8   |
+	JMP handle_sprite_up_down		;$BEF1AB  /
 
-DATA_BEF1AE:
-	dw CODE_BEF1B2
-	dw CODE_BEF1C6
+.movement_state_table
+	dw .init_state
+	dw .patrol_state
 
 
-CODE_BEF1B2:
+.init_state
 	TYX					;$BEF1B2  \
-	LDA $06,x				;$BEF1B3   |
-	STA $42,x				;$BEF1B5   |
-	LDA $0A,x				;$BEF1B7   |
-	STA $44,x				;$BEF1B9   |
-	LDA $26,x				;$BEF1BB   |
-	STA $48,x				;$BEF1BD   |
-	LDA $2A,x				;$BEF1BF   |
-	STA $4C,x				;$BEF1C1   |
-	INC $53,x				;$BEF1C3   |
-	RTS					;$BEF1C5  /
+	LDA $06,x				;$BEF1B3   |\ Get x position
+	STA $42,x				;$BEF1B5   |/ Set x home position
+	LDA $0A,x				;$BEF1B7   |\ Get y position
+	STA $44,x				;$BEF1B9   |/ Set y home position
+	LDA $26,x				;$BEF1BB   |\ Get target x velocity
+	STA $48,x				;$BEF1BD   |/ Set patrol x velocity
+	LDA $2A,x				;$BEF1BF   |\ Get target y velocity
+	STA $4C,x				;$BEF1C1   |/ Set patrol y velocity
+	INC $53,x				;$BEF1C3   |\ Set to actual movement state (setup for movement is done)
+	RTS					;$BEF1C5  / / Return
 
-CODE_BEF1C6:
+.patrol_state
 	JSR CODE_BEF10D				;$BEF1C6  \
 	JMP CODE_BEF164				;$BEF1C9  /
 
 CODE_BEF1CC:
-	JSR CODE_BEFB45				;$BEF1CC  \
+	JSR handle_sprite_left_right		;$BEF1CC  \
 	JSR CODE_BEF0AB				;$BEF1CF   |
 	JMP CODE_BEF143				;$BEF1D2  /
 
@@ -8475,8 +8475,8 @@ CODE_BEF52C:					;	   |
 	RTS					;$BEF52C  /
 
 CODE_BEF52D:
-	JSR CODE_BEFB45				;$BEF52D  \
-	JSR CODE_BEFB3B				;$BEF530   |
+	JSR handle_sprite_left_right		;$BEF52D  \
+	JSR handle_sprite_up_down		;$BEF530   |
 	JMP CODE_BEF0A8				;$BEF533  /
 
 CODE_BEF536:
@@ -8496,11 +8496,11 @@ CODE_BEF540:
 	STA $0C,x				;$BEF545   |
 	STZ $08,x				;$BEF547   |
 	JSR CODE_BEF0C7				;$BEF549   |
-	JMP CODE_BEFB4F				;$BEF54C  /
+	JMP handle_sprite_gravity		;$BEF54C  /
 
 CODE_BEF54F:
 	JSR CODE_BEF0C7				;$BEF54F  \
-	JSR CODE_BEFB4F				;$BEF552   |
+	JSR handle_sprite_gravity		;$BEF552   |
 	LDX current_sprite			;$BEF555   |
 	LDA $0C,x				;$BEF557   |
 	CMP $0A,x				;$BEF559   |
@@ -8527,11 +8527,11 @@ CODE_BEF571:
 	LDA $06,x				;$BEF574   |
 	STA $0C,x				;$BEF576   |
 	STZ $04,x				;$BEF578   |
-	JSR CODE_BEFB45				;$BEF57A   |
+	JSR handle_sprite_left_right		;$BEF57A   |
 	JMP CODE_BEF0AB				;$BEF57D  /
 
 CODE_BEF580:
-	JSR CODE_BEFB45				;$BEF580  \
+	JSR handle_sprite_left_right		;$BEF580  \
 	JSR CODE_BEF0AB				;$BEF583   |
 	TYX					;$BEF586   |
 	LDA $0C,x				;$BEF587   |
@@ -8554,12 +8554,12 @@ CODE_BEF59A:
 	RTS					;$BEF5A3  /
 
 CODE_BEF5A4:
-	JSR CODE_BEFB3B				;$BEF5A4  \
+	JSR handle_sprite_up_down		;$BEF5A4  \
 	JSR CODE_BEF0C7				;$BEF5A7   |
 	JMP CODE_BEF0EC				;$BEF5AA  /
 
 CODE_BEF5AD:
-	JSR CODE_BEFB4F				;$BEF5AD  \
+	JSR handle_sprite_gravity		;$BEF5AD  \
 	TXY					;$BEF5B0   |
 CODE_BEF5B1:					;	   |
 	JSR CODE_BEF0A8				;$BEF5B1   |
@@ -8577,7 +8577,7 @@ CODE_BEF5C3:
 	TYX					;$BEF5C3  \
 	DEC $1E,x				;$BEF5C4   |
 	BMI CODE_BEF5CF				;$BEF5C6   |
-	JSR CODE_BEFB4F				;$BEF5C8   |
+	JSR handle_sprite_gravity		;$BEF5C8   |
 	TXY					;$BEF5CB   |
 	JMP CODE_BEF0A8				;$BEF5CC  /
 
@@ -8596,7 +8596,7 @@ CODE_BEF5CF:
 	RTS					;$BEF5E6  /
 
 CODE_BEF5E7:
-	JSR CODE_BEFB4F				;$BEF5E7  \
+	JSR handle_sprite_gravity		;$BEF5E7  \
 	TXY					;$BEF5EA   |
 	JSR CODE_BEF0A8				;$BEF5EB   |
 	TYX					;$BEF5EE   |
@@ -8613,7 +8613,7 @@ CODE_BEF602:					;	   |
 	RTS					;$BEF602  /
 
 CODE_BEF603:
-	JSR CODE_BEFB4F				;$BEF603  \
+	JSR handle_sprite_gravity		;$BEF603  \
 	TXY					;$BEF606   |
 	JSR CODE_BEF0C7				;$BEF607   |
 	JMP CODE_BEF0EC				;$BEF60A  /
@@ -8678,8 +8678,8 @@ CODE_BEF65B:
 	TAX					;$BEF662   |
 	JSR (DATA_BEF66F,x)			;$BEF663   |
 	JSR CODE_BEF0A8				;$BEF666   |
-	JSR CODE_BEFB45				;$BEF669   |
-	JMP CODE_BEFB3B				;$BEF66C  /
+	JSR handle_sprite_left_right		;$BEF669   |
+	JMP handle_sprite_up_down		;$BEF66C  /
 
 DATA_BEF66F:
 	dw CODE_BEF673
@@ -8830,63 +8830,63 @@ CODE_BEF76F:					;	   |
 CODE_BEF77F:					;	   |
 	RTS					;$BEF77F  /
 
-CODE_BEF780:
-	LDX current_sprite			;$BEF780  \
-	LDA #$0108				;$BEF782   |
-	CMP $06,x				;$BEF785   |
-	BCS CODE_BEF794				;$BEF787   |
-	LDA $0AFC				;$BEF789   |
-	ADC #$00F8				;$BEF78C   |
-	CMP $06,x				;$BEF78F   |
-	BCC CODE_BEF794				;$BEF791   |
-	RTS					;$BEF793  /
+handle_sprite_on_level_x_boundary:
+	LDX current_sprite			;$BEF780  \> Get current sprite
+	LDA #$0108				;$BEF782   |\ Get hardcoded left level boundary
+	CMP $06,x				;$BEF785   | | See if sprite walked off the left of the level
+	BCS .on_edge_of_level_bounds		;$BEF787   |/ If so then prepare to stop and turn it around
+	LDA $0AFC				;$BEF789   |\ Get right level boundary
+	ADC #$00F8				;$BEF78C   | | Add a hardcoded x offset
+	CMP $06,x				;$BEF78F   | | See if the sprite walked off the right of the level
+	BCC .on_edge_of_level_bounds		;$BEF791   |/ If so then prepare to stop and turn it around
+	RTS					;$BEF793  /> Else return
 
-CODE_BEF794:
-	BEQ CODE_BEF7AA				;$BEF794  \
-	STA $06,x				;$BEF796   |
-	LDA $26,x				;$BEF798   |
-	EOR $20,x				;$BEF79A   |
-	ASL A					;$BEF79C   |
-	STZ $20,x				;$BEF79D   |
-	BCS CODE_BEF7AA				;$BEF79F   |
-	STZ $26,x				;$BEF7A1   |
-	LDA #$0002				;$BEF7A3   |
-	ORA $1E,x				;$BEF7A6   |
-	STA $1E,x				;$BEF7A8   |
-CODE_BEF7AA:					;	   |
+.on_edge_of_level_bounds
+	BEQ .return				;$BEF794  \> If the sprite just hit the edge then do nothing this frame
+	STA $06,x				;$BEF796   |> Set the sprites x position back in the level boundary
+	LDA $26,x				;$BEF798   |\ Determine whether sprite is heading in or out of bounds
+	EOR $20,x				;$BEF79A   | |
+	ASL A					;$BEF79C   |/
+	STZ $20,x				;$BEF79D   |> Zero sprites current x velocity
+	BCS .return				;$BEF79F   |> Sprite is heading back in bounds so leave it alone
+	STZ $26,x				;$BEF7A1   |> Else its leaving the level bounds, zero target x velocity
+	LDA #$0002				;$BEF7A3   |\
+	ORA $1E,x				;$BEF7A6   | | Tell the sprite that it hit a wall so it turns around
+	STA $1E,x				;$BEF7A8   |/
+.return						;	   |
 	RTS					;$BEF7AA  /
 
 CODE_BEF7AB:
 	JSR CODE_BEF7BC				;$BEF7AB  \
-	JSR CODE_BEF780				;$BEF7AE   |
-	JSR CODE_BEFB45				;$BEF7B1   |
-	JSR CODE_BEFB4F				;$BEF7B4   |
+	JSR handle_sprite_on_level_x_boundary	;$BEF7AE   |
+	JSR handle_sprite_left_right		;$BEF7B1   |
+	JSR handle_sprite_gravity		;$BEF7B4   |
 	JSL CODE_B8D246				;$BEF7B7   |
 	RTS					;$BEF7BB  /
 
 CODE_BEF7BC:
-	LDA $0D4E				;$BEF7BC  \
-	BPL CODE_BEF7C6				;$BEF7BF   |
-CODE_BEF7C1:					;	   |
+	LDA $0D4E				;$BEF7BC  \ \
+	BPL .level_has_water			;$BEF7BF   |/ Branch if the level has water
+.not_submerged					;	   |
 	JSL CODE_B8D5E0				;$BEF7C1   |
 	RTS					;$BEF7C5  /
 
-CODE_BEF7C6:
-	LDX current_sprite			;$BEF7C6  \
-	CLC					;$BEF7C8   |
-	ADC #$0010				;$BEF7C9   |
-	CMP $0A,x				;$BEF7CC   |
-	BCS CODE_BEF7C1				;$BEF7CE   |
-	LDA $20,x				;$BEF7D0   |
-	ASL A					;$BEF7D2   |
-	ROR $20,x				;$BEF7D3   |
-	ASL A					;$BEF7D5   |
-	ROR $20,x				;$BEF7D6   |
-	LDA $24,x				;$BEF7D8   |
-	ASL A					;$BEF7DA   |
-	ROR $24,x				;$BEF7DB   |
-	ASL A					;$BEF7DD   |
-	ROR $24,x				;$BEF7DE   |
+.level_has_water
+	LDX current_sprite			;$BEF7C6  \> Get current sprite
+	CLC					;$BEF7C8   |\
+	ADC #$0010				;$BEF7C9   | | Add an offset to the water position
+	CMP $0A,x				;$BEF7CC   | | Check if the current sprite is submerged in the water
+	BCS .not_submerged			;$BEF7CE   |/
+	LDA $20,x				;$BEF7D0   |\ Weird code to slow down current x velocity
+	ASL A					;$BEF7D2   | |
+	ROR $20,x				;$BEF7D3   | |
+	ASL A					;$BEF7D5   | |
+	ROR $20,x				;$BEF7D6   |/
+	LDA $24,x				;$BEF7D8   |\ Same for y velocity
+	ASL A					;$BEF7DA   | |
+	ROR $24,x				;$BEF7DB   | |
+	ASL A					;$BEF7DD   | |
+	ROR $24,x				;$BEF7DE   |/
 	JSL CODE_B8D5E0				;$BEF7E0   |
 	LDX current_sprite			;$BEF7E4   |
 	ASL $20,x				;$BEF7E6   |
@@ -8913,34 +8913,34 @@ CODE_BEF807:					;	   |
 
 CODE_BEF808:
 	TAX					;$BEF808  \
-	JSR (DATA_BEF80F,x)			;$BEF809   |
+	JSR (.movement_state_table,x)		;$BEF809   |
 	JMP CODE_BEF7AB				;$BEF80C  /
 
-DATA_BEF80F:
-	dw CODE_BEF815
-	dw CODE_BEF825
+.movement_state_table
+	dw .init_state
+	dw .patrol_state
 	dw CODE_BEF8D0
 
 
-CODE_BEF815:
+.init_state
 	TYX					;$BEF815  \
-	LDA $06,x				;$BEF816   |
-	STA $42,x				;$BEF818   |
-	LDA $0A,x				;$BEF81A   |
-	STA $44,x				;$BEF81C   |
-	LDA $26,x				;$BEF81E   |
-	STA $48,x				;$BEF820   |
-	INC $53,x				;$BEF822   |
-	RTS					;$BEF824  /
+	LDA $06,x				;$BEF816   |\ Get x position
+	STA $42,x				;$BEF818   |/ Set as home position
+	LDA $0A,x				;$BEF81A   |\ Get y position
+	STA $44,x				;$BEF81C   |/ Set as home position
+	LDA $26,x				;$BEF81E   |\ Get target x velocity
+	STA $48,x				;$BEF820   |/ Set as patrol velocity
+	INC $53,x				;$BEF822   |\ Set to actual movement state (setup for movement is done)
+	RTS					;$BEF824  / / Return
 
-CODE_BEF825:
-	LDA $0010,y				;$BEF825  \
-	AND #$0007				;$BEF828   |
+.patrol_state
+	LDA $0010,y				;$BEF825  \ \ Get terrain tile attributes
+	AND #$0007				;$BEF828   | | Get slope steepness
 	CMP #$0006				;$BEF82B   |
 	BEQ CODE_BEF86E				;$BEF82E   |
-	LDA $001E,y				;$BEF830   |
-	AND #$0002				;$BEF833   |
-	BNE CODE_BEF892				;$BEF836   |
+	LDA $001E,y				;$BEF830   |\
+	AND #$0002				;$BEF833   | |
+	BNE CODE_BEF892				;$BEF836   |/ If sprite is hitting a wall then handle turning them around
 	LDA $0026,y				;$BEF838   |
 	BPL CODE_BEF85E				;$BEF83B   |
 	LDA $0046,y				;$BEF83D   |
@@ -8975,14 +8975,14 @@ CODE_BEF86E:
 	RTS					;$BEF871  /
 
 	JSR CODE_BEF7BC				;$BEF872   |
-	JSR CODE_BEF780				;$BEF875   |
-	JSR CODE_BEFB45				;$BEF878   |
-	JSR CODE_BEFB4F				;$BEF87B   |
+	JSR handle_sprite_on_level_x_boundary	;$BEF875   |
+	JSR handle_sprite_left_right		;$BEF878   |
+	JSR handle_sprite_gravity		;$BEF87B   |
 	JSL CODE_B8D246				;$BEF87E   |
 	JSR CODE_BEF7BC				;$BEF882   |
-	JSR CODE_BEF780				;$BEF885   |
-	JSR CODE_BEFB45				;$BEF888   |
-	JSR CODE_BEFB4F				;$BEF88B   |
+	JSR handle_sprite_on_level_x_boundary	;$BEF885   |
+	JSR handle_sprite_left_right		;$BEF888   |
+	JSR handle_sprite_gravity		;$BEF88B   |
 	JSL CODE_B8D246				;$BEF88E   |
 CODE_BEF892:					;	   |
 	TYX					;$BEF892   |
@@ -9045,7 +9045,7 @@ CODE_BEF8EE:
 	JSR CODE_BEF0A8				;$BEF8FB   |
 	LDA $0006,y				;$BEF8FE   |
 	STA $0042,y				;$BEF901   |
-	JMP CODE_BEFB3B				;$BEF904  /
+	JMP handle_sprite_up_down		;$BEF904  /
 
 DATA_BEF907:
 	dw CODE_BEF90B
@@ -9189,7 +9189,7 @@ CODE_BEFA11:
 
 CODE_BEFA15:
 	JSR CODE_BEF7BC				;$BEFA15  \
-	JSR CODE_BEF780				;$BEFA18   |
+	JSR handle_sprite_on_level_x_boundary	;$BEFA18   |
 	LDX current_sprite			;$BEFA1B   |
 	LDA $22,x				;$BEFA1D   |
 	CLC					;$BEFA1F   |
@@ -9201,14 +9201,14 @@ CODE_BEFA15:
 	LDA [$8E],y				;$BEFA2B   |
 CODE_BEFA2D:					;	   |
 	STA $24,x				;$BEFA2D   |
-	JSR CODE_BEFB45				;$BEFA2F   |
+	JSR handle_sprite_left_right		;$BEFA2F   |
 	JSL CODE_B8D246				;$BEFA32   |
 	RTS					;$BEFA36  /
 
 CODE_BEFA37:
 	JSR CODE_BEF7BC				;$BEFA37  \
-	JSR CODE_BEF780				;$BEFA3A   |
-	JSR CODE_BEFB4F				;$BEFA3D   |
+	JSR handle_sprite_on_level_x_boundary	;$BEFA3A   |
+	JSR handle_sprite_gravity		;$BEFA3D   |
 	JSL CODE_B8D246				;$BEFA40   |
 	LDX current_sprite			;$BEFA44   |
 	LDA $1E,x				;$BEFA46   |
@@ -9223,8 +9223,8 @@ CODE_BEFA57:					;	   |
 
 CODE_BEFA58:
 	JSR CODE_BEF7BC				;$BEFA58  \
-	JSR CODE_BEF780				;$BEFA5B   |
-	JSR CODE_BEFB4F				;$BEFA5E   |
+	JSR handle_sprite_on_level_x_boundary	;$BEFA5B   |
+	JSR handle_sprite_gravity		;$BEFA5E   |
 	JSL CODE_B8D246				;$BEFA61   |
 	LDX current_sprite			;$BEFA65   |
 	LDA $1E,x				;$BEFA67   |
@@ -9305,8 +9305,8 @@ CODE_BEFAE6:
 	STA $0DAA				;$BEFAE9   |
 	LDA $002A,y				;$BEFAEC   |
 	STA $0DAE				;$BEFAEF   |
-	JSR CODE_BEFB45				;$BEFAF2   |
-	JSR CODE_BEFB3B				;$BEFAF5   |
+	JSR handle_sprite_left_right		;$BEFAF2   |
+	JSR handle_sprite_up_down		;$BEFAF5   |
 	JSL CODE_B8D5E0				;$BEFAF8   |
 	LDX current_sprite			;$BEFAFC   |
 	LDA $26,x				;$BEFAFE   |
@@ -9337,7 +9337,7 @@ CODE_BEFB22:
 	LDA $20,x				;$BEFB26   |
 	PHA					;$BEFB28   |
 	STZ $20,x				;$BEFB29   |
-	JSR CODE_BEFB3B				;$BEFB2B   |
+	JSR handle_sprite_up_down		;$BEFB2B   |
 	JSL CODE_B8D5E0				;$BEFB2E   |
 	LDX current_sprite			;$BEFB32   |
 	PLA					;$BEFB34   |
@@ -9346,29 +9346,29 @@ CODE_BEFB22:
 	STA $26,x				;$BEFB38   |
 	RTS					;$BEFB3A  /
 
-CODE_BEFB3B:
-	LDY #$0004				;$BEFB3B  \
-	LDA [$8E],y				;$BEFB3E   |
-	JSL interpolate_y_velocity_global	;$BEFB40   |
-	RTS					;$BEFB44  /
+handle_sprite_up_down:
+	LDY #$0004				;$BEFB3B  \ \ Prepare to load acceleration constant
+	LDA [$8E],y				;$BEFB3E   | | Get sprite acceleration
+	JSL interpolate_y_velocity_global	;$BEFB40   | | Process and apply y position from velocities and acceleration
+	RTS					;$BEFB44  / / Return
 
-CODE_BEFB45:
-	LDY #$0004				;$BEFB45  \
-	LDA [$8E],y				;$BEFB48   |
-	JSL interpolate_x_velocity_global	;$BEFB4A   |
-	RTS					;$BEFB4E  /
+handle_sprite_left_right:
+	LDY #$0004				;$BEFB45  \ \ Prepare to load acceleration constant
+	LDA [$8E],y				;$BEFB48   | | Get sprite acceleration
+	JSL interpolate_x_velocity_global	;$BEFB4A   | | Process and apply x position from velocities and acceleration
+	RTS					;$BEFB4E  / / Return
 
-CODE_BEFB4F:
-	LDX current_sprite			;$BEFB4F  \
-	LDY #$0000				;$BEFB51   |
-	LDA [$8E],y				;$BEFB54   |
-	LDY #$0002				;$BEFB56   |
-	CLC					;$BEFB59   |
-	ADC $24,x				;$BEFB5A   |
-	BMI CODE_BEFB64				;$BEFB5C   |
-	CMP [$8E],y				;$BEFB5E   |
-	BCC CODE_BEFB64				;$BEFB60   |
-	LDA [$8E],y				;$BEFB62   |
-CODE_BEFB64:					;	   |
-	STA $24,x				;$BEFB64   |
-	RTS					;$BEFB66  /
+handle_sprite_gravity:
+	LDX current_sprite			;$BEFB4F  \> Get current sprite
+	LDY #$0000				;$BEFB51   |\ Prepare to load gravity force constant
+	LDA [$8E],y				;$BEFB54   |/ Get sprite gravity force
+	LDY #$0002				;$BEFB56   |> Prepare to load max fall velocity constant
+	CLC					;$BEFB59   |\
+	ADC $24,x				;$BEFB5A   |/ Add gravity force to current y velocity
+	BMI .apply_y_velocity			;$BEFB5C   |> If moving upward then dont bother capping fall speed
+	CMP [$8E],y				;$BEFB5E   |\ Else check if sprite is falling too fast
+	BCC .apply_y_velocity			;$BEFB60   |/ If not then apply the new y velocity
+	LDA [$8E],y				;$BEFB62   |> Else cap it then apply it
+.apply_y_velocity				;	   |
+	STA $24,x				;$BEFB64   |\ Apply new y velocity
+	RTS					;$BEFB66  / / Return

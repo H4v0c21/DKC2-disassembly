@@ -798,9 +798,9 @@ CODE_B88663:					;	   |
 
 CODE_B88664:
 	LDA $00,x				;$B88664  \
-	CMP #$02D8				;$B88666   |
+	CMP #!sprite_horsetail			;$B88666   |
 	BEQ CODE_B88670				;$B88669   |
-	CMP #$0254				;$B8866B   |
+	CMP #!sprite_ghost_rope			;$B8866B   |
 	BNE CODE_B88663				;$B8866E   |
 CODE_B88670:					;	   |
 	JSR work_on_active_kong			;$B88670   |
@@ -1050,7 +1050,7 @@ CODE_B88864:
 	JSR CODE_B881BB				;$B8886A   |
 	JSR CODE_B88EBC				;$B8886D   |
 	JSL CODE_B3E287				;$B88870   |
-	JSL CODE_BB8158				;$B88874   |
+	JSL set_current_level_as_cleared	;$B88874   |
 	LDA $051B				;$B88878   |
 	CMP #$001F				;$B8887B   |
 	BEQ CODE_B8889A				;$B8887E   |
@@ -1146,7 +1146,7 @@ CODE_B88936:					;	   |
 	STZ $0AF2				;$B88945   |
 	LDX current_sprite			;$B88948   |
 	LDA $6E					;$B8894A   |
-	CMP #$0198				;$B8894C   |
+	CMP #!sprite_squawks			;$B8894C   |
 	BNE CODE_B88956				;$B8894F   |
 	LDA #$FD00				;$B88951   |
 	BRA CODE_B88959				;$B88954  /
@@ -1361,27 +1361,9 @@ CODE_B88B02:					;	   |
 	JSR work_on_inactive_kong		;$B88B0A   |
 if !version == 0				;	   |
 	LDA #$0040				;$B88B0D   |
-	STZ $20,x				;$B88B10   |
-	LDA #$FB00				;$B88B12   |
-	STA $24,x				;$B88B15   |
-	RTS					;$B88B17   |
-						;	   |
-CODE_B88B15:					;	   |
-	LDA current_player_mount		;$B88B18   |
-	BNE CODE_B88B80				;$B88B19   |
-	LDA $6E					;$B88B1B   |
-	BNE CODE_B88B20				;$B88B1D   |
-	RTS					;$B88B1F   |
-						;	   |
-CODE_B88B20:					;	   |
-	JSR CODE_B88C33				;$B88B20   |
-	JSR work_on_active_kong			;$B88B23   |
-	LDA $6E					;$B88B26   |
-	CMP #$01A0				;$B88B28   |
-	BEQ CODE_B88B74				;$B88B2B   |
-else						;	   |
-	STZ $20,x				;$B88B1D   |
-	LDA #$FB00				;$B88B1F   |
+endif						;	   |
+	STZ $20,x				;$B88B0D   |
+	LDA #$FB00				;$B88B0F   |
 	STA $24,x				;$B88B12   |
 	RTS					;$B88B14  /
 
@@ -1396,8 +1378,9 @@ CODE_B88B1E:
 	JSR CODE_B88C33				;$B88B1E  \
 	JSR work_on_active_kong			;$B88B21   |
 	LDA $6E					;$B88B24   |
-	CMP #$01A0				;$B88B26   |
+	CMP #!sprite_enguarde			;$B88B26   |
 	BEQ CODE_B88B74				;$B88B29   |
+if !version == 1				;	   |
 	JSR CODE_B88C65				;$B88B2B   |
 endif						;	   |
 	LDX current_sprite			;$B88B2E   |
@@ -1440,7 +1423,7 @@ CODE_B88B80:
 	JSR CODE_B88C33				;$B88B80  \
 	JSR work_on_active_kong			;$B88B83   |
 	LDA $6E					;$B88B86   |
-	CMP #$01A0				;$B88B88   |
+	CMP #!sprite_enguarde			;$B88B88   |
 	BEQ CODE_B88BCA				;$B88B8B   |
 	LDX current_sprite			;$B88B8D   |
 	LDA #$00E4				;$B88B8F   |
@@ -1549,7 +1532,7 @@ if !version == 1
 	LDX #main_sprite_table			;$B88C65  \
 CODE_B88C68:					;	   |
 	LDA $00,x				;$B88C68   |
-	CMP #$0134				;$B88C6A   |
+	CMP #!sprite_animal_icon		;$B88C6A   |
 	BNE CODE_B88C7D				;$B88C6D   |
 	LDA current_sprite			;$B88C6F   |
 	PHA					;$B88C71   |
@@ -1762,7 +1745,7 @@ DATA_B88E0B:
 CODE_B88E15:
 	LDA $6E					;$B88E15  \
 	SEC					;$B88E17   |
-	SBC #$0190				;$B88E18   |
+	SBC #!sprite_squitter			;$B88E18   |
 	LSR A					;$B88E1B   |
 	TAX					;$B88E1C   |
 	LDA.l DATA_B88E0B,x			;$B88E1D   |
@@ -1899,7 +1882,7 @@ CODE_B88F14:
 	STY $32					;$B88F17   |
 	LDA $6E					;$B88F19   |
 	SEC					;$B88F1B   |
-	SBC #$0190				;$B88F1C   |
+	SBC #!sprite_squitter			;$B88F1C   |
 	LSR A					;$B88F1F   |
 	AND #$00FE				;$B88F20   |
 	CLC					;$B88F23   |
@@ -1922,9 +1905,9 @@ CODE_B88F39:
 CODE_B88F3F:
 	JSL CODE_B88F14				;$B88F3F  \
 	LDA $6E					;$B88F43   |
-	CMP #$01A0				;$B88F45   |
+	CMP #!sprite_enguarde			;$B88F45   |
 	BEQ CODE_B88F82				;$B88F48   |
-	CMP #$0198				;$B88F4A   |
+	CMP #!sprite_squawks			;$B88F4A   |
 	BNE CODE_B88F51				;$B88F4D   |
 	BRA CODE_B88FC3				;$B88F4F  /
 
@@ -2138,7 +2121,7 @@ CODE_B8910A:					;	   |
 	STA $42,x				;$B89114   |
 	LDA $6E					;$B89116   |
 	SEC					;$B89118   |
-	SBC #$0190				;$B89119   |
+	SBC #!sprite_squitter			;$B89119   |
 	LSR A					;$B8911C   |
 	AND #$00FE				;$B8911D   |
 	TAY					;$B89120   |
@@ -2504,7 +2487,7 @@ CODE_B893DF:
 	JSR work_on_active_kong			;$B893E6   |
 	LDA $6E					;$B893E9   |
 	SEC					;$B893EB   |
-	SBC #$0190				;$B893EC   |
+	SBC #!sprite_squitter			;$B893EC   |
 	AND #$001C				;$B893EF   |
 	TAY					;$B893F2   |
 	TAX					;$B893F3   |
@@ -2625,7 +2608,7 @@ CODE_B894C7:
 	LDA #$F800				;$B894DD   |
 	STA $32					;$B894E0   |
 	LDA $6E					;$B894E2   |
-	CMP #$01A0				;$B894E4   |
+	CMP #!sprite_enguarde			;$B894E4   |
 	BNE CODE_B894F0				;$B894E7   |
 	LDA #$FE00				;$B894E9   |
 	STA $32					;$B894EC   |
@@ -2664,7 +2647,7 @@ CODE_B894FA:					;	   |
 
 CODE_B89532:
 	LDA $6E					;$B89532  \
-	CMP #$01A0				;$B89534   |
+	CMP #!sprite_enguarde			;$B89534   |
 	BNE CODE_B89540				;$B89537   |
 	LDA #$0004				;$B89539   |
 	STA $2E,x				;$B8953C   |
@@ -2686,7 +2669,7 @@ CODE_B89542:					;	   |
 	JSR CODE_B89609				;$B8955D   |
 CODE_B89560:					;	   |
 	LDA $6E					;$B89560   |
-	CMP #$0198				;$B89562   |
+	CMP #!sprite_squawks			;$B89562   |
 	BNE CODE_B89573				;$B89565   |
 	LDA #$0004				;$B89567   |
 	LDX #$0006				;$B8956A   |
@@ -2703,7 +2686,7 @@ CODE_B8957C:
 
 	LDX current_player_mount		;$B8957D   |
 	LDA $6E					;$B8957F   |
-	CMP #$0190				;$B89581   |
+	CMP #!sprite_squitter			;$B89581   |
 	BNE CODE_B8958E				;$B89584   |
 	LDA $0A,x				;$B89586   |
 	SEC					;$B89588   |
@@ -2714,9 +2697,9 @@ CODE_B8958E:					;	   |
 
 CODE_B8958F:
 	LDA $6E					;$B8958F  \
-	CMP #$0190				;$B89591   |
+	CMP #!sprite_squitter			;$B89591   |
 	BEQ CODE_B895BF				;$B89594   |
-	CMP #$0198				;$B89596   |
+	CMP #!sprite_squawks			;$B89596   |
 	BEQ CODE_B895BF				;$B89599   |
 	LDX current_player_mount		;$B8959B   |
 	STX current_sprite			;$B8959D   |
@@ -3012,7 +2995,7 @@ CODE_B898C2:					;	   |
 	JSR set_player_normal_gravity		;$B898D6   |
 	JSL CODE_B5E43E				;$B898D9   |
 	LDA $6E					;$B898DD   |
-	CMP #$01A0				;$B898DF   |
+	CMP #!sprite_enguarde			;$B898DF   |
 	BEQ CODE_B898E9				;$B898E2   |
 	JSL CODE_B9DFCF				;$B898E4   |
 CODE_B898E8:					;	   |
@@ -3122,7 +3105,7 @@ get_x_acceleration:
 	RTS					;$B89996  /
 
 .has_animal
-	CMP #$0198				;$B89997  \
+	CMP #!sprite_squawks			;$B89997  \
 	BEQ .squawks				;$B8999A   |
 	TAY					;$B8999C   |
 	LDA $052B				;$B8999D   |
@@ -3271,7 +3254,7 @@ kong_behavior_08:
 
 kong_behavior_09:
 	LDA $6E					;$B89AA2  \
-	CMP #$0194				;$B89AA4   |
+	CMP #!sprite_rattly			;$B89AA4   |
 	BEQ .has_rattly				;$B89AA7   |
 	LDX current_sprite			;$B89AA9   |
 	LDA $32,x				;$B89AAB   |
@@ -3299,7 +3282,7 @@ kong_behavior_09:
 
 CODE_B89AE0:
 	LDA $6E					;$B89AE0  \
-	CMP #$019C				;$B89AE2   |
+	CMP #!sprite_rambi			;$B89AE2   |
 	BNE .return				;$B89AE5   |
 	LDY $66					;$B89AE7   |
 	LDA $0000,y				;$B89AE9   |
@@ -3323,7 +3306,7 @@ kong_behavior_0A:
 	JSR CODE_B8994C				;$B89B10   |
 	JSR CODE_B8B5DA				;$B89B13   |
 	LDA $6E					;$B89B16   |
-	CMP #$019C				;$B89B18   |
+	CMP #!sprite_rambi			;$B89B18   |
 	BNE .CODE_B89B24			;$B89B1B   |
 	LDA #$0008				;$B89B1D   |
 	JSL CODE_BCFA9A				;$B89B20   |
@@ -3361,7 +3344,7 @@ CODE_B89B49:
 	BPL .CODE_B89B9B			;$B89B59   |
 	LDA $6E					;$B89B5B   |
 	SEC					;$B89B5D   |
-	SBC #$0190				;$B89B5E   |
+	SBC #!sprite_squitter			;$B89B5E   |
 	LSR A					;$B89B61   |
 	TAX					;$B89B62   |
 	LDA.l .DATA_B89B81,x			;$B89B63   |
@@ -3650,7 +3633,7 @@ endif						;	   |
 	ORA $0AB8				;$B89D73   |
 	STA $0AB8				;$B89D76   |
 	LDA $6E					;$B89D79   |
-	CMP #$019C				;$B89D7B   |
+	CMP #!sprite_rambi			;$B89D7B   |
 	BNE CODE_B89D87				;$B89D7E   |
 	LDA #$0008				;$B89D80   |
 	JSL CODE_BCFA9A				;$B89D83   |
@@ -3689,9 +3672,9 @@ CODE_B89DC5:					;	   |
 
 CODE_B89DCA:
 	LDA $6E					;$B89DCA  \
-	CMP #$0198				;$B89DCC   |
+	CMP #!sprite_squawks			;$B89DCC   |
 	BEQ CODE_B89E01				;$B89DCF   |
-	CMP #$01A0				;$B89DD1   |
+	CMP #!sprite_enguarde			;$B89DD1   |
 	BEQ CODE_B89E0D				;$B89DD4   |
 	LDA $26,x				;$B89DD6   |
 	BEQ CODE_B89DC5				;$B89DD8   |
@@ -5441,7 +5424,7 @@ kong_behavior_45:
 	JSR CODE_B8D817				;$B8AB2F   |
 	JSR CODE_B8B4CF				;$B8AB32   |
 	LDA $00,x				;$B8AB35   |
-	CMP #$02D8				;$B8AB37   |
+	CMP #!sprite_horsetail			;$B8AB37   |
 	BEQ CODE_B8AB62				;$B8AB3A   |
 	JSR CODE_B8B4F7				;$B8AB3C   |
 	BCC CODE_B8AB53				;$B8AB3F   |
@@ -6429,7 +6412,7 @@ kong_behavior_78:
 CODE_B8B310:
 	LDX current_sprite			;$B8B310  \
 	LDA $00,x				;$B8B312   |
-	CMP #$00E8				;$B8B314   |
+	CMP #!sprite_dixie_kong			;$B8B314   |
 	BNE CODE_B8B377				;$B8B317   |
 	DEC $0D64				;$B8B319   |
 	BNE CODE_B8B377				;$B8B31C   |
@@ -6535,19 +6518,19 @@ CODE_B8B3F0:
 	LDA level_number			;$B8B3F0  \
 	CMP #!level_k_rool_duel			;$B8B3F2   |
 	BEQ CODE_B8B40A				;$B8B3F5   |
-	CMP #$00B9				;$B8B3F7   |
+	CMP #!level_stronghold_showdown		;$B8B3F7   |
 	BEQ CODE_B8B40A				;$B8B3FA   |
-	CMP #$006B				;$B8B3FC   |
+	CMP #!level_krocodile_kore		;$B8B3FC   |
 	BEQ CODE_B8B435				;$B8B3FF   |
 	LDX #$0002				;$B8B401   |
 	LDY #$0003				;$B8B404   |
 	JSR CODE_B89171				;$B8B407   |
 CODE_B8B40A:					;	   |
-	JSL CODE_BB8114				;$B8B40A   |
+	JSL is_current_krem_coin_collected	;$B8B40A   |
 	BCS CODE_B8B434				;$B8B40E   |
-	LDA.l DATA_FF1904			;$B8B410   |
-	TAY					;$B8B414   |
-	JSL CODE_BB8432				;$B8B415   |
+	LDA.l DATA_FF1904			;$B8B410   |\
+	TAY					;$B8B414   | |
+	JSL CODE_BB8432				;$B8B415   |/ Spawn a kremcoin
 	BCS CODE_B8B434				;$B8B419   |
 	LDX alternate_sprite			;$B8B41B   |
 	LDA #$001B				;$B8B41D   |
@@ -6564,7 +6547,7 @@ CODE_B8B434:					;	   |
 	RTS					;$B8B434  /
 
 CODE_B8B435:
-	JSL CODE_BB8135				;$B8B435  \
+	JSL is_current_level_dk_coin_collected	;$B8B435  \
 	BCS CODE_B8B434				;$B8B439   |
 	LDA.l DATA_FF18F0			;$B8B43B   |
 	TAY					;$B8B43F   |
@@ -6805,7 +6788,7 @@ CODE_B8B5F2:
 	BCS CODE_B8B5F1				;$B8B5F5   |
 	LDA $6E					;$B8B5F7   |
 	BEQ CODE_B8B600				;$B8B5F9   |
-	CMP #$01A0				;$B8B5FB   |
+	CMP #!sprite_enguarde			;$B8B5FB   |
 	BNE CODE_B8B5F1				;$B8B5FE   |
 CODE_B8B600:					;	   |
 	JSR CODE_B881BB				;$B8B600   |
@@ -6955,7 +6938,7 @@ CODE_B8B6E0:
 	JSR CODE_B8B6C7				;$B8B6E0  \
 	LDX current_sprite			;$B8B6E3   |
 	LDA $6E					;$B8B6E5   |
-	CMP #$01A0				;$B8B6E7   |
+	CMP #!sprite_enguarde			;$B8B6E7   |
 	BEQ CODE_B8B6F9				;$B8B6EA   |
 	LDA #$003D				;$B8B6EC   |
 	STA $2E,x				;$B8B6EF   |
@@ -7341,7 +7324,7 @@ start_player_falling:				;	   |
 	RTS					;$B8B975  /
 
 .has_animal
-	CMP #$0198				;$B8B976  \
+	CMP #!sprite_squawks			;$B8B976  \
 	BEQ .squawks				;$B8B979   |
 	LDA #$000A				;$B8B97B   |
 	STA $2E,x				;$B8B97E   |
@@ -8571,7 +8554,7 @@ walk_left_action:
 slow_rattly_if_on_ground:
 	LDX current_sprite			;$B8C1D6  \
 	LDY $6E					;$B8C1D8   |
-	CPY #$0194				;$B8C1DA   |
+	CPY #!sprite_rattly			;$B8C1DA   |
 	BEQ .rattly				;$B8C1DD   |
 	RTS					;$B8C1DF  /
 
@@ -9108,7 +9091,7 @@ dismount_animal_action:
 .has_animal
 	LDX current_player_mount		;$B8C545  \
 	BEQ .no_dismount			;$B8C547   |
-	CMP #$0198				;$B8C549   |
+	CMP #!sprite_squawks			;$B8C549   |
 	BNE .not_squawks			;$B8C54C   |
 	LDA $4A,x				;$B8C54E   |
 	LSR A					;$B8C550   |
@@ -9553,13 +9536,13 @@ CODE_B8C88E:
 
 animal_special_action:
 	LDA $6E					;$B8C890  \ \
-	CMP #$0194				;$B8C892   | | if animal is rattly start rattly super jump charge
+	CMP #!sprite_rattly			;$B8C892   | | if animal is rattly start rattly super jump charge
 	BEQ .rattly				;$B8C895   |/
 	LDA $0983				;$B8C897   |\
 	AND #$0080				;$B8C89A   | | if a was pressed this frame initialize special ability
 	BNE .a_pressed_this_frame		;$B8C89D   |/
 	LDA $6E					;$B8C89F   |
-	CMP #$0190				;$B8C8A1   |
+	CMP #!sprite_squitter			;$B8C8A1   |
 	BEQ .squitter_dont_shoot_platform	;$B8C8A4   |
 	RTS					;$B8C8A6  /
 
@@ -9585,11 +9568,11 @@ animal_special_action:
 .a_pressed_this_frame
 	LDX current_sprite			;$B8C8C9  \
 	LDA $6E					;$B8C8CB   |
-	CMP #$019C				;$B8C8CD   |
+	CMP #!sprite_rambi			;$B8C8CD   |
 	BEQ .rambi				;$B8C8D0   |
-	CMP #$01A0				;$B8C8D2   |
+	CMP #!sprite_enguarde			;$B8C8D2   |
 	BEQ .enguarde				;$B8C8D5   |
-	CMP #$0190				;$B8C8D7   |
+	CMP #!sprite_squitter			;$B8C8D7   |
 	BEQ .squitter				;$B8C8DA   |
 .return						;	   |
 	RTS					;$B8C8DC  /
@@ -9704,7 +9687,7 @@ scan_for_web_platforms:
 	STZ $36					;$B8C9A1   |/
 .scan_for_platform				;	   |
 	LDA $00,x				;$B8C9A3   |\
-	CMP #$0118				;$B8C9A5   | | check if sprite is web platform
+	CMP #!sprite_web_platform		;$B8C9A5   | | check if sprite is web platform
 	BNE .next_slot				;$B8C9A8   |/ if not skip to next sprite slot
 	INC $32					;$B8C9AA   |> increment web platform count
 	LDA $44,x				;$B8C9AC   |\ if platform is despawning dont store lifetime counter
@@ -9847,9 +9830,9 @@ land_animal_attack_action:
 
 .y_pressed_this_frame
 	LDA $6E					;$B8CA93  \ \
-	CMP #$019C				;$B8CA95   | |
+	CMP #!sprite_rambi			;$B8CA95   | |
 	BEQ start_rambi_attack			;$B8CA98   |/
-	CMP #$0190				;$B8CA9A   |\
+	CMP #!sprite_squitter			;$B8CA9A   |\
 	BNE .return				;$B8CA9D   |/
 	LDY $66					;$B8CA9F   |> get kong control variables address
 	LDA global_frame_counter		;$B8CAA1   |\
@@ -10149,7 +10132,7 @@ shoot_web_platform_r_action:
 shoot_web_platform_lr:
 	LDX current_sprite			;$B8CCD0  \ \
 	LDA $6E					;$B8CCD2   | |
-	CMP #$0190				;$B8CCD4   | | if animal is squitter shoot web platform
+	CMP #!sprite_squitter			;$B8CCD4   | | if animal is squitter shoot web platform
 	BEQ .shoot_platform			;$B8CCD7   |/
 	RTS					;$B8CCD9  / > otherwise return
 
@@ -10248,7 +10231,7 @@ CODE_B8CD57:
 	JMP CODE_B8B6E0				;$B8CD5D  /
 
 CODE_B8CD60:
-	CMP #$0198				;$B8CD60  \
+	CMP #!sprite_squawks			;$B8CD60  \
 	BEQ .squawks				;$B8CD63   |
 	JSR start_player_faster_falling		;$B8CD65   |
 	RTS					;$B8CD68   |
@@ -10501,7 +10484,7 @@ set_player_terminal_velocity:
 	RTS					;$B8CEC8  / /
 
 .has_animal
-	CMP #$0198				;$B8CEC9  \
+	CMP #!sprite_squawks			;$B8CEC9  \
 	BEQ .is_squawks				;$B8CECC   |
 .riding_animal					;	   |
 	SEC					;$B8CECE   |
@@ -10531,7 +10514,7 @@ set_player_terminal_velocity_down:
 	RTS					;$B8CEF5  /
 
 .has_animal
-	CMP #$0198				;$B8CEF6  \
+	CMP #!sprite_squawks			;$B8CEF6  \
 	BEQ .squawks				;$B8CEF9   |
 .riding_animal					;	   |
 	SEC					;$B8CEFB   |

@@ -40,7 +40,7 @@ CODE_B9D03A:
 	LDX current_sprite			;$B9D03C   |
 	LDA $00,x				;$B9D03E   |
 	SEC					;$B9D040   |
-	SBC #$01A4				;$B9D041   |
+	SBC #!sprite_barrel			;$B9D041   |> Throwable base sprite id
 	LSR A					;$B9D044   |
 	LSR A					;$B9D045   |
 	CLC					;$B9D046   |
@@ -63,7 +63,7 @@ CODE_B9D04B:
 	LDX current_sprite			;$B9D060   |
 	LDA $00,x				;$B9D062   |
 	SEC					;$B9D064   |
-	SBC #$0190				;$B9D065   |
+	SBC #!sprite_squitter			;$B9D065   |> Animal buddy base sprite id
 	LSR A					;$B9D068   |
 	LSR A					;$B9D069   |
 	CLC					;$B9D06A   |
@@ -83,7 +83,7 @@ CODE_B9D07B:
 	LDX current_sprite			;$B9D07D   |
 	LDA $00,x				;$B9D07F   |
 	SEC					;$B9D081   |
-	SBC #$0190				;$B9D082   |
+	SBC #!sprite_squitter			;$B9D082   |
 	LSR A					;$B9D085   |
 	LSR A					;$B9D086   |
 	CLC					;$B9D087   |
@@ -94,7 +94,7 @@ CODE_B9D08C:
 	STA $26					;$B9D08C  \
 	LDA $6E					;$B9D08E   |
 	SEC					;$B9D090   |
-	SBC #$0190				;$B9D091   |
+	SBC #!sprite_squitter			;$B9D091   |
 	LSR A					;$B9D094   |
 	LSR A					;$B9D095   |
 	CLC					;$B9D096   |
@@ -1207,9 +1207,9 @@ CODE_B9D726:
 	BRA CODE_B9D71C				;$B9D72B  /
 
 CODE_B9D72D:
-	CMP #$0198				;$B9D72D  \
+	CMP #!sprite_squawks			;$B9D72D  \
 	BEQ CODE_B9D744				;$B9D730   |
-	CMP #$01A0				;$B9D732   |
+	CMP #!sprite_enguarde			;$B9D732   |
 	BEQ CODE_B9D749				;$B9D735   |
 	LDA #$0009				;$B9D737   |
 CODE_B9D73A:					;	   |
@@ -1276,9 +1276,9 @@ CODE_B9D79F:
 	BRA CODE_B9D784				;$B9D7A4  /
 
 CODE_B9D7A6:
-	CMP #$0198				;$B9D7A6  \
+	CMP #!sprite_squawks			;$B9D7A6  \
 	BEQ CODE_B9D7BD				;$B9D7A9   |
-	CMP #$01A0				;$B9D7AB   |
+	CMP #!sprite_enguarde			;$B9D7AB   |
 	BEQ CODE_B9D7C2				;$B9D7AE   |
 	LDA #$0009				;$B9D7B0   |
 CODE_B9D7B3:					;	   |
@@ -1338,9 +1338,9 @@ CODE_B9D80C:
 	BRA CODE_B9D7FD				;$B9D811  /
 
 CODE_B9D813:
-	CMP #$0198				;$B9D813  \
+	CMP #!sprite_squawks			;$B9D813  \
 	BEQ CODE_B9D82A				;$B9D816   |
-	CMP #$01A0				;$B9D818   |
+	CMP #!sprite_enguarde			;$B9D818   |
 	BEQ CODE_B9D82F				;$B9D81B   |
 	LDA #$0009				;$B9D81D   |
 CODE_B9D820:					;	   |
@@ -2599,7 +2599,7 @@ CODE_B9E04F:
 	RTS					;$B9E057  /
 
 CODE_B9E058:
-	CMP #$0194				;$B9E058  \
+	CMP #!sprite_rattly			;$B9E058  \
 	BEQ CODE_B9E066				;$B9E05B   |
 	LDA #$0063				;$B9E05D   |
 	JSL CODE_B9D08C				;$B9E060   |
@@ -2943,7 +2943,7 @@ CODE_B9E262:
 
 CODE_B9E26A:
 	LDA $6E					;$B9E26A  \
-	CMP #$01A0				;$B9E26C   |
+	CMP #!sprite_enguarde			;$B9E26C   |
 	BEQ CODE_B9E28F				;$B9E26F   |
 	LDA #$0700				;$B9E271   |
 	BIT $12,x				;$B9E274   |
@@ -4811,7 +4811,7 @@ CODE_B9EE5F:
 	LDA $48,x				;$B9EE66   |
 	TAY					;$B9EE68   |
 	LDA $0000,y				;$B9EE69   |
-	CMP #$011C				;$B9EE6C   |
+	CMP #!sprite_dkbarrel_letters		;$B9EE6C   |
 	BNE CODE_B9EE72				;$B9EE6F   |
 	RTS					;$B9EE71  /
 
@@ -5186,7 +5186,7 @@ CODE_B9F06A:
 	RTS					;$B9F06E  /
 
 CODE_B9F06F:
-	JSL CODE_BB8158				;$B9F06F  \
+	JSL set_current_level_as_cleared	;$B9F06F  \
 	LDA #$0027				;$B9F073   |
 	JSL CODE_B8D8BA				;$B9F076   |
 	RTS					;$B9F07A  /

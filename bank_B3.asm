@@ -31,7 +31,7 @@ sprite_handler:
 	BEQ .get_next_slot			;$B3804A   |/ Get the next sprite
 	STX current_sprite			;$B3804C   |\ If the sprite was found, preserve the index
 	TAX					;$B3804E   | |
-	JMP (DATA_B38348,x)			;$B3804F  /_/ Then jump to the sprite code
+	JMP (sprite_main_table,x)		;$B3804F  /_/ Then jump to the sprite code
 
 .sprite_return
 	LDX current_sprite			;$B38052  \ Reload current sprite pointer
@@ -105,7 +105,7 @@ CODE_B380C1:
 	AND #$0001				;$B380CD   |
 	BEQ CODE_B380D5				;$B380D0   |
 CODE_B380D2:					;	   |
-	JMP (DATA_B38348,x)			;$B380D2  /
+	JMP (sprite_main_table,x)		;$B380D2  /
 
 CODE_B380D5:
 	LDX current_sprite			;$B380D5  \
@@ -281,7 +281,7 @@ water_surface_splash_main:
 	JSL CODE_B9D100				;$B38208  \
 	JML [$05A9]				;$B3820C  /
 
-unknown_sprite_00E0_main:
+invincibility_controller_main:
 	LDA current_sprite			;$B3820F  \
 	STA $19CE				;$B38211   |
 	INC $19AE				;$B38214   |
@@ -369,6 +369,7 @@ CODE_B382C6:					;	   |
 	TRB $08C2				;$B382C9   |
 	RTS					;$B382CC  /
 
+; Update follower waypoint buffer
 CODE_B382CD:
 	TXY					;$B382CD  \
 	LDX $099D				;$B382CE   |
@@ -426,7 +427,7 @@ process_platform_sprites:
 	BNE CODE_B38324				;$B38345   |/ If slot contains a platform then process it
 	RTS					;$B38347  /
 
-DATA_B38348:
+sprite_main_table:
 	%offset(DATA_B3834A, 2)
 	dw null_sprite_main,$0000		;0000
 	dw unknown_sprite_0004_main,$0000	;0004
@@ -484,7 +485,7 @@ DATA_B38348:
 	dw camera_unlock_trigger_main,$0000	;00D4
 	dw unknown_sprite_00D8_main,$0000	;00D8
 	dw race_handler_main,$0000		;00DC
-	dw unknown_sprite_00E0_main,$0001	;00E0
+	dw invincibility_controller_main,$0001	;00E0
 	dw diddy_kong_main,$0001		;00E4
 	dw dixie_kong_main,$0001		;00E8
 	dw unknown_sprite_00EC_main,$0000	;00EC
@@ -1620,7 +1621,7 @@ CODE_B38D27:
 	JSL CODE_BCFB58				;$B38D32   |
 	LDA $00,x				;$B38D36   |
 	SEC					;$B38D38   |
-	SBC #$0190				;$B38D39   |
+	SBC #!sprite_squitter			;$B38D39   |
 	LSR A					;$B38D3C   |
 	LSR A					;$B38D3D   |
 	CLC					;$B38D3E   |
@@ -1646,9 +1647,9 @@ CODE_B38D51:
 	BNE CODE_B38D4F				;$B38D67   |
 	LDX current_sprite			;$B38D69   |
 	LDA $00,x				;$B38D6B   |
-	CMP #$0198				;$B38D6D   |
+	CMP #!sprite_squawks			;$B38D6D   |
 	BEQ CODE_B38D95				;$B38D70   |
-	CMP #$01A0				;$B38D72   |
+	CMP #!sprite_enguarde			;$B38D72   |
 	BEQ CODE_B38D7C				;$B38D75   |
 	LDA $0024,y				;$B38D77   |
 	BMI CODE_B38D4F				;$B38D7A   |
@@ -2206,7 +2207,7 @@ CODE_B39118:
 	LDA $6E					;$B39118  \
 	BEQ CODE_B39163				;$B3911A   |
 	SEC					;$B3911C   |
-	SBC #$0190				;$B3911D   |
+	SBC #!sprite_squitter			;$B3911D   |
 	LSR A					;$B39120   |
 	TAX					;$B39121   |
 	LDA.l DATA_FF0D00,x			;$B39122   |
@@ -2668,7 +2669,7 @@ dkbarrel_letters_main:
 	LDA $42,x				;$B394A2   |
 	TAY					;$B394A4   |
 	LDA $0000,y				;$B394A5   |
-	CMP #$01A8				;$B394A8   |
+	CMP #!sprite_dkbarrel			;$B394A8   |
 	BNE CODE_B394C3				;$B394AB   |
 	LDA $0048,y				;$B394AD   |
 	BMI CODE_B394C3				;$B394B0   |
@@ -2835,7 +2836,7 @@ krool_water_drips_main:
 	LDX current_sprite			;$B395F8  \
 	LDY $42,x				;$B395FA   |
 	LDA $0000,y				;$B395FC   |
-	CMP #$02D8				;$B395FF   |
+	CMP #!sprite_horsetail			;$B395FF   |
 	BNE CODE_B3960E				;$B39602   |
 	LDA $004C,y				;$B39604   |
 	CMP current_sprite			;$B39607   |
@@ -3531,7 +3532,7 @@ CODE_B39B5F:
 CODE_B39B66:					;	   |
 	LDX $6A					;$B39B66   |
 	LDA $00,x				;$B39B68   |
-	CMP #$013C				;$B39B6A   |
+	CMP #!sprite_cannon			;$B39B6A   |
 	BEQ CODE_B39B9E				;$B39B6D   |
 	LDA #$061A				;$B39B6F   |
 	JSL queue_sound_effect			;$B39B72   |
@@ -3922,7 +3923,7 @@ CODE_B39E4D:					;	   |
 	CMP #!level_kreepy_krow			;$B39E54   |
 	BEQ CODE_B39E74				;$B39E57   |
 	LDA $0000,y				;$B39E59   |
-	CMP #$01E8				;$B39E5C   |
+	CMP #!sprite_klobber_body		;$B39E5C   |
 	BEQ CODE_B39E74				;$B39E5F   |
 CODE_B39E61:					;	   |
 	JSL CODE_B9D100				;$B39E61   |
@@ -4097,7 +4098,7 @@ CODE_B39F88:
 
 CODE_B39F8F:
 	LDA $00,x				;$B39F8F  \
-	CMP #$01A8				;$B39F91   |
+	CMP #!sprite_dkbarrel			;$B39F91   |
 	BNE CODE_B39FD4				;$B39F94   |
 	PHX					;$B39F96   |
 	JSR CODE_B38D10				;$B39F97   |
@@ -4218,9 +4219,9 @@ CODE_B3A05D:					;	   |
 	JML CODE_B38000				;$B3A068  /
 
 CODE_B3A06C:
-	CMP #$0190				;$B3A06C  \
+	CMP #!sprite_squitter			;$B3A06C  \
 	BCC CODE_B3A05D				;$B3A06F   |
-	CMP #$01A1				;$B3A071   |
+	CMP #!sprite_enguarde+1			;$B3A071   |
 	BCS CODE_B3A05D				;$B3A074   |
 	STA $32					;$B3A076   |
 	LDY current_sprite			;$B3A078   |
@@ -4487,7 +4488,7 @@ CODE_B3A227:
 	LDA $42,x				;$B3A229   |
 	TAY					;$B3A22B   |
 	LDA $0000,y				;$B3A22C   |
-	CMP #$0160				;$B3A22F   |
+	CMP #!sprite_level_goal			;$B3A22F   |
 	BNE CODE_B3A236				;$B3A232   |
 	CLC					;$B3A234   |
 	RTS					;$B3A235  /
@@ -4853,7 +4854,7 @@ zinger_main:
 #.animation_and_movement_update			;	   |
 	JSR process_animation_handle_submerged	;$B3A4A0   |> Handle animation updates
 	LDA $00,x				;$B3A4A3   |\
-	CMP #$0200				;$B3A4A5   | | Check if sprite is a klinger
+	CMP #!sprite_klinger			;$B3A4A5   | | Check if sprite is a klinger
 	BNE ..movement_and_crush_update		;$B3A4A8   |/ If not resume normal sprite logic
 	LDA $48,x				;$B3A4AA   |\ Get wait timer
 	BEQ ..movement_and_crush_update		;$B3A4AC   |/ If klinger isnt waiting resume normal sprite logic
@@ -5414,7 +5415,7 @@ endif						;	   |
 	JSL CODE_BCFB58				;$B3A8BD   |> Populate kong and sprite hitboxes
 	LDY active_kong_sprite			;$B3A8C1   |\
 	LDA $0000,y				;$B3A8C4   | |
-	CMP #$00E8				;$B3A8C7   | | Check if sprite id is dixie
+	CMP #!sprite_dixie_kong			;$B3A8C7   | | Check if sprite id is dixie
 	BNE ..kong_is_diddy			;$B3A8CA   |/ If not dixie then continue
 	LDA $09D9				;$B3A8CC   |\ Get bottom clipping position of held click-clack
 	SEC					;$B3A8CF   | |
@@ -5778,12 +5779,12 @@ CODE_B3ABB6:
 	STA $002E,y				;$B3ABBC   |
 	LDA $004E,y				;$B3ABBF   |
 	BEQ CODE_B3ABCE				;$B3ABC2   |
-	LDA #$01A4				;$B3ABC4   |
+	LDA #!sprite_barrel			;$B3ABC4   |
 	STA $0000,y				;$B3ABC7   |
 	JML barrel_main				;$B3ABCA  /
 
 CODE_B3ABCE:
-	LDA #$01B8				;$B3ABCE  \
+	LDA #!sprite_tntbarrel			;$B3ABCE  \
 	STA $0000,y				;$B3ABD1   |
 	JML tntbarrel_main			;$B3ABD4  /
 
@@ -8389,7 +8390,7 @@ CODE_B3BE28:
 CODE_B3BE31:
 	JSL CODE_BB82B8				;$B3BE31  \
 	LDX current_sprite			;$B3BE35   |
-	LDA #$00F0				;$B3BE37   |
+	LDA #!sprite_unknown_00F0		;$B3BE37   |
 	STA $00,x				;$B3BE3A   |
 	LDA #$0001				;$B3BE3C   |
 	STA $2E,x				;$B3BE3F   |
@@ -11249,7 +11250,7 @@ CODE_B3D39B:
 	JML [$05A9]				;$B3D3AC  /
 
 CODE_B3D3AF:
-	LDA #$01C0				;$B3D3AF  \
+	LDA #!sprite_chest			;$B3D3AF  \
 	LDY #$0000				;$B3D3B2   |
 	BRA CODE_B3D435				;$B3D3B5  /
 
@@ -11281,7 +11282,7 @@ CODE_B3D3D9:
 	JML [$05A9]				;$B3D3EE  /
 
 CODE_B3D3F1:
-	LDA #$01B0				;$B3D3F1  \
+	LDA #!sprite_canball			;$B3D3F1  \
 	LDY #$0003				;$B3D3F4   |
 	BRA CODE_B3D435				;$B3D3F7  /
 
@@ -11725,7 +11726,7 @@ CODE_B3D741:
 	LDX $0D58				;$B3D741  \
 	BEQ CODE_B3D75B				;$B3D744   |
 	LDA $00,x				;$B3D746   |
-	CMP #$0180				;$B3D748   |
+	CMP #!sprite_krochead_switch_barrel	;$B3D748   |
 	BNE CODE_B3D75B				;$B3D74B   |
 	LDA $44,x				;$B3D74D   |
 	SEC					;$B3D74F   |
@@ -11965,8 +11966,8 @@ CODE_B3D91D:
 
 DATA_B3D923:
 	dw clapper_sprite_code			;00
-	dw CODE_B3D9CD				;02
-	dw CODE_B3DAD6				;04
+	dw vertical_wind_changer_code		;02
+	dw horizontal_wind_changer_code		;04
 	dw CODE_B3DC21				;06
 	dw CODE_B3DF48				;08
 	dw CODE_B3DF48				;0A
@@ -12050,7 +12051,7 @@ clapper_sprite_code:
 	JSL set_sprite_animation		;$B3D9C6   | | Play clapping animation
 	JML [$05A9]				;$B3D9CA  /_/ Done processing sprite
 
-CODE_B3D9CD:
+vertical_wind_changer_code:
 	LDX current_sprite			;$B3D9CD  \
 	LDA $2E,x				;$B3D9CF   |
 	ASL A					;$B3D9D1   |
@@ -12214,20 +12215,20 @@ CODE_B3DAC1:
 CODE_B3DAD5:					;	   |
 	RTS					;$B3DAD5  /
 
-CODE_B3DAD6:
+horizontal_wind_changer_code:
 	LDX current_sprite			;$B3DAD6  \
 	LDA $2E,x				;$B3DAD8   |
 	ASL A					;$B3DADA   |
 	TAX					;$B3DADB   |
-	JMP (DATA_B3DADF,x)			;$B3DADC  /
+	JMP (.state_table,x)			;$B3DADC  /
 
-DATA_B3DADF:
-	dw CODE_B3DAE3
-	dw CODE_B3DAF7
+.state_table
+	dw .state_0
+	dw .state_1
 
 
 
-CODE_B3DAE3:
+.state_0
 	LDX current_sprite			;$B3DAE3  \
 	STZ $42,x				;$B3DAE5   |
 	INC $2E,x				;$B3DAE7   |
@@ -12237,7 +12238,7 @@ CODE_B3DAE3:
 	JSR CODE_B3DB57				;$B3DAF1   |
 	JML [$05A9]				;$B3DAF4  /
 
-CODE_B3DAF7:
+.state_1
 	JSR CODE_B3DB15				;$B3DAF7  \
 	BEQ CODE_B3DAFF				;$B3DAFA   |
 	JSR CODE_B3DB48				;$B3DAFC   |
@@ -12922,9 +12923,9 @@ CODE_B3E006:
 	JSL CODE_BCFCB5				;$B3E013   |
 	BCC CODE_B3E060				;$B3E017   |
 	LDA $6E					;$B3E019   |
-	CMP #$019C				;$B3E01B   |
+	CMP #!sprite_rambi			;$B3E01B   |
 	BEQ CODE_B3E025				;$B3E01E   |
-	CMP #$01A0				;$B3E020   |
+	CMP #!sprite_enguarde			;$B3E020   |
 	BNE CODE_B3E060				;$B3E023   |
 CODE_B3E025:					;	   |
 	LDX current_sprite			;$B3E025   |
@@ -12965,7 +12966,7 @@ CODE_B3E063:
 	STZ $30,x				;$B3E065   |
 	STZ $32,x				;$B3E067   |
 	JSL CODE_BB82C3				;$B3E069   |
-	LDA #$0094				;$B3E06D   |
+	LDA #!sprite_exit_door			;$B3E06D   |
 	STA $00,x				;$B3E070   |
 	STZ $1A,x				;$B3E072   |
 	STZ $16,x				;$B3E074   |
@@ -13169,7 +13170,7 @@ CODE_B3E1B6:
 
 CODE_B3E1B8:
 	LDA $00,x				;$B3E1B8  \
-	CMP #$0124				;$B3E1BA   |
+	CMP #!sprite_breakable_wall		;$B3E1BA   |
 	BEQ CODE_B3E1E0				;$B3E1BD   |
 	LDY active_kong_sprite			;$B3E1BF   |
 	LDA $002E,y				;$B3E1C2   |
@@ -13199,7 +13200,7 @@ CODE_B3E1E2:
 	JSL CODE_B881B4				;$B3E1E6   |
 	JSR CODE_B3E28B				;$B3E1EA   |
 	LDA $6E					;$B3E1ED   |
-	CMP #$01A0				;$B3E1EF   |
+	CMP #!sprite_enguarde			;$B3E1EF   |
 	BEQ CODE_B3E203				;$B3E1F2   |
 	LDX active_kong_sprite			;$B3E1F4   |
 	LDY $0A84				;$B3E1F7   |
@@ -13855,7 +13856,7 @@ CODE_B3E6EF:
 	LDX current_sprite			;$B3E6EF  \
 	LDY $42,x				;$B3E6F1   |
 	LDA $0000,y				;$B3E6F3   |
-	CMP #$0140				;$B3E6F6   |
+	CMP #!sprite_barrel_cannon		;$B3E6F6   |
 	BNE CODE_B3E72A				;$B3E6F9   |
 	LDA $003C,y				;$B3E6FB   |
 	CMP current_sprite			;$B3E6FE   |
@@ -14014,7 +14015,7 @@ CODE_B3E7F3:					;	   |
 	XBA					;$B3E7FE   |
 	STA $2A,x				;$B3E7FF   |
 	LDA $00,x				;$B3E801   |
-	CMP #$013C				;$B3E803   |
+	CMP #!sprite_cannon			;$B3E803   |
 	BEQ CODE_B3E80F				;$B3E806   |
 	LDA #$0800				;$B3E808   |
 	ORA $2A,x				;$B3E80B   |
@@ -14280,7 +14281,7 @@ CODE_B3E9E4:
 	TAY					;$B3EA01   |
 	ASL A					;$B3EA02   |
 	CLC					;$B3EA03   |
-	ADC #$0190				;$B3EA04   |
+	ADC #!sprite_squitter			;$B3EA04   |
 	STA $6E					;$B3EA07   |
 	STZ current_player_mount		;$B3EA09   |
 	PHK					;$B3EA0B   |
@@ -14636,7 +14637,7 @@ CODE_B3EC94:
 CODE_B3EC9E:
 	LDX current_sprite			;$B3EC9E  \
 	LDA $00,x				;$B3ECA0   |
-	CMP #$013C				;$B3ECA2   |
+	CMP #!sprite_cannon			;$B3ECA2   |
 	BEQ CODE_B3ECCF				;$B3ECA5   |
 	LDY active_kong_sprite			;$B3ECA7   |
 	LDX alternate_sprite			;$B3ECAA   |
@@ -14997,13 +14998,13 @@ CODE_B3EEDD:
 	AND #$0001				;$B3EEF7   |
 	BNE CODE_B3EF06				;$B3EEFA   |
 	LDA $0000,y				;$B3EEFC   |
-	CMP #$00E8				;$B3EEFF   |
+	CMP #!sprite_dixie_kong			;$B3EEFF   |
 	BNE CODE_B3EF0E				;$B3EF02   |
 	BRA CODE_B3EF44				;$B3EF04  /
 
 CODE_B3EF06:
 	LDA $0000,y				;$B3EF06  \
-	CMP #$00E4				;$B3EF09   |
+	CMP #!sprite_diddy_kong			;$B3EF09   |
 	BEQ CODE_B3EF44				;$B3EF0C   |
 CODE_B3EF0E:					;	   |
 	LDA $6A					;$B3EF0E   |
@@ -15455,7 +15456,7 @@ CODE_B3F289:
 CODE_B3F2A6:
 	LDY current_sprite			;$B3F2A6  \
 	LDA $0000,y				;$B3F2A8   |
-	CMP #$013C				;$B3F2AB   |
+	CMP #!sprite_cannon			;$B3F2AB   |
 	BEQ CODE_B3F2E5				;$B3F2AE   |
 	LDA $0048,y				;$B3F2B0   |
 	CLC					;$B3F2B3   |

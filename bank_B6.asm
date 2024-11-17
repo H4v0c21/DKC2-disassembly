@@ -190,9 +190,9 @@ CODE_B68186:
 	LDY $074F				;$B68186  \
 	BEQ CODE_B6819B				;$B68189   |
 	LDA $0000,y				;$B6818B   |
-	CMP #$01B8				;$B6818E   |
+	CMP #!sprite_tntbarrel			;$B6818E   |
 	BEQ CODE_B6819B				;$B68191   |
-	CMP #$017C				;$B68193   |
+	CMP #!sprite_kleever_falling_canball	;$B68193   |
 	BEQ CODE_B6819B				;$B68196   |
 	STZ $074F				;$B68198   |
 CODE_B6819B:					;	   |
@@ -277,7 +277,7 @@ CODE_B68225:
 	BCC CODE_B68267				;$B68232   |
 	LDY $6A					;$B68234   |
 	LDA $0000,y				;$B68236   |
-	CMP #$01B8				;$B68239   |
+	CMP #!sprite_tntbarrel			;$B68239   |
 	BNE CODE_B68267				;$B6823C   |
 	LDA $0020,y				;$B6823E   |
 	BNE CODE_B6824A				;$B68241   |
@@ -305,7 +305,7 @@ CODE_B68268:
 	BCC CODE_B68267				;$B68272   |
 	LDY $6A					;$B68274   |
 	LDA $0000,y				;$B68276   |
-	CMP #$01B8				;$B68279   |
+	CMP #!sprite_tntbarrel			;$B68279   |
 	BNE CODE_B68267				;$B6827C   |
 	LDA $0020,y				;$B6827E   |
 	BNE CODE_B68267				;$B68281   |
@@ -1069,7 +1069,7 @@ CODE_B68C6B:
 	BEQ CODE_B68C81				;$B68C6F   |
 	DEC $0747				;$B68C71   |
 	BNE CODE_B68C81				;$B68C74   |
-	JSL CODE_BB8158				;$B68C76   |
+	JSL set_current_level_as_cleared	;$B68C76   |
 	LDA #$0027				;$B68C7A   |
 	JSL CODE_B8D8BA				;$B68C7D   |
 CODE_B68C81:					;	   |
@@ -1469,7 +1469,7 @@ CODE_B68FD8:
 	LDY $073B				;$B68FD8  \
 	BEQ CODE_B68FE8				;$B68FDB   |
 	LDA $0000,y				;$B68FDD   |
-	CMP #$01A8				;$B68FE0   |
+	CMP #!sprite_dkbarrel			;$B68FE0   |
 	BEQ CODE_B68FE8				;$B68FE3   |
 	STZ $073B				;$B68FE5   |
 CODE_B68FE8:					;	   |
@@ -2564,7 +2564,7 @@ CODE_B69ABE:
 	BCC CODE_B69B30				;$B69AC9   |
 	LDY $6A					;$B69ACB   |
 	LDA $0000,y				;$B69ACD   |
-	CMP #$0268				;$B69AD0   |
+	CMP #!sprite_krool_gun			;$B69AD0   |
 	BNE CODE_B69AE8				;$B69AD3   |
 	LDY $0654				;$B69AD5   |
 	LDA $001C,y				;$B69AD8   |
@@ -2576,7 +2576,7 @@ CODE_B69AE3:
 	LDY $6A					;$B69AE3  \
 	LDA $0000,y				;$B69AE5   |
 CODE_B69AE8:					;	   |
-	CMP #$0264				;$B69AE8   |
+	CMP #!sprite_krool			;$B69AE8   |
 	BNE CODE_B69B1B				;$B69AEB   |
 if !version == 0				;	   |
 	LDA #$056B				;$B69AED   |
@@ -2610,7 +2610,7 @@ CODE_B69B16:
 	LDY $6A					;$B69B16  \
 	LDA $0000,y				;$B69B18   |
 CODE_B69B1B:					;	   |
-	CMP #$0270				;$B69B1B   |
+	CMP #!sprite_krool_canball		;$B69B1B   |
 	BNE CODE_B69B30				;$B69B1E   |
 	LDA $002E,y				;$B69B20   |
 	BIT #$0040				;$B69B23   |
@@ -2620,7 +2620,7 @@ CODE_B69B1B:					;	   |
 	BRL CODE_B69BC5				;$B69B2D  /
 
 CODE_B69B30:
-	CMP #$02A0				;$B69B30  \
+	CMP #!sprite_spiked_canballs		;$B69B30  \
 	BNE CODE_B69B45				;$B69B33   |
 	LDA $002E,y				;$B69B35   |
 	BIT #$0040				;$B69B38   |
@@ -3258,7 +3258,7 @@ CODE_B6A045:
 	BCC CODE_B6A0B2				;$B6A057   |
 	LDY $6A					;$B6A059   |
 	LDA $0000,y				;$B6A05B   |
-	CMP #$0268				;$B6A05E   |
+	CMP #!sprite_krool_gun			;$B6A05E   |
 	BNE CODE_B6A076				;$B6A061   |
 	LDY $0654				;$B6A063   |
 	LDA $001C,y				;$B6A066   |
@@ -3270,7 +3270,7 @@ CODE_B6A071:
 	LDY $6A					;$B6A071  \
 	LDA $0000,y				;$B6A073   |
 CODE_B6A076:					;	   |
-	CMP #$0264				;$B6A076   |
+	CMP #!sprite_krool			;$B6A076   |
 	BNE CODE_B6A09D				;$B6A079   |
 if !version == 0				;	   |
 	LDA #$056B				;$B6A07B   |
@@ -3297,7 +3297,7 @@ CODE_B6A098:
 	LDY $6A					;$B6A098  \
 	LDA $0000,y				;$B6A09A   |
 CODE_B6A09D:					;	   |
-	CMP #$02A0				;$B6A09D   |
+	CMP #!sprite_spiked_canballs		;$B6A09D   |
 	BNE CODE_B6A0B2				;$B6A0A0   |
 	LDA $002E,y				;$B6A0A2   |
 	BIT #$0040				;$B6A0A5   |
@@ -3458,7 +3458,7 @@ endif						;	   |
 	BCC CODE_B6A1F7				;$B6A1D6   |
 	LDY $6A					;$B6A1D8   |
 	LDA $0000,y				;$B6A1DA   |
-	CMP #$0270				;$B6A1DD   |
+	CMP #!sprite_krool_canball		;$B6A1DD   |
 	BNE CODE_B6A1F7				;$B6A1E0   |
 	LDY $6A					;$B6A1E2   |
 	LDA $002E,y				;$B6A1E4   |
@@ -3876,7 +3876,7 @@ CODE_B6A43B:
 	STA $08FC				;$B6A446   |
 	JSL CODE_B4AFAD				;$B6A449   |
 	LDX current_sprite			;$B6A44D   |
-	LDA #$0288				;$B6A44F   |
+	LDA #!sprite_tied_up_donkey_kong	;$B6A44F   |
 	STA $00,x				;$B6A452   |
 	LDA $4E,x				;$B6A454   |
 	BNE CODE_B6A485				;$B6A456   |
@@ -4302,14 +4302,14 @@ CODE_B6A7CC:
 	TSB $06A5				;$B6A7D4   |
 	LDA #$0012				;$B6A7D7   |
 	TSB $08FC				;$B6A7DA   |
-	JSL CODE_BB8158				;$B6A7DD   |
+	JSL set_current_level_as_cleared	;$B6A7DD   |
 	JSL CODE_B8A691				;$B6A7E1   |
 CODE_B6A7E5:					;	   |
 	JML [$05A9]				;$B6A7E5  /
 
 CODE_B6A7E8:
 	LDY $0654				;$B6A7E8  \
-	LDA #$0290				;$B6A7EB   |
+	LDA #!sprite_unknown_0290		;$B6A7EB   |
 	STA $0000,y				;$B6A7EE   |
 	LDA #$F500				;$B6A7F1   |
 	STA $0024,y				;$B6A7F4   |
@@ -6259,7 +6259,7 @@ CODE_B6BD32:					;	   |
 	BCC CODE_B6BD6F				;$B6BD40   |
 	LDY $6A					;$B6BD42   |
 	LDA $0000,y				;$B6BD44   |
-	CMP #$01B8				;$B6BD47   |
+	CMP #!sprite_tntbarrel			;$B6BD47   |
 	BNE CODE_B6BD6F				;$B6BD4A   |
 	LDA $0020,y				;$B6BD4C   |
 	BNE CODE_B6BD6F				;$B6BD4F   |
@@ -9127,9 +9127,9 @@ CODE_B6D358:
 	BEQ CODE_B6D3C0				;$B6D35E   |
 	LDY $44,x				;$B6D360   |
 	LDA $0000,y				;$B6D362   |
-	CMP #$0144				;$B6D365   |
+	CMP #!sprite_kleever_canball		;$B6D365   |
 	BEQ CODE_B6D390				;$B6D368   |
-	CMP #$017C				;$B6D36A   |
+	CMP #!sprite_kleever_falling_canball	;$B6D36A   |
 	BEQ CODE_B6D390				;$B6D36D   |
 	LDA $2E,x				;$B6D36F   |
 	BIT #$0080				;$B6D371   |
@@ -10572,7 +10572,7 @@ CODE_B6DE66:
 	BCC CODE_B6DE8E				;$B6DE71   |
 	LDX $6A					;$B6DE73   |
 	LDA $00,x				;$B6DE75   |
-	CMP #$0144				;$B6DE77   |
+	CMP #!sprite_kleever_canball		;$B6DE77   |
 	BNE CODE_B6DE8E				;$B6DE7A   |
 	LDA $2E,x				;$B6DE7C   |
 	BEQ CODE_B6DE8E				;$B6DE7E   |
@@ -12059,7 +12059,7 @@ CODE_B6EA72:					;	   |
 	JML [$05A9]				;$B6EA72  /
 
 CODE_B6EA75:
-	JSL CODE_BB8158				;$B6EA75  \
+	JSL set_current_level_as_cleared	;$B6EA75  \
 	JSL CODE_BB82B8				;$B6EA79   |
 	BRA CODE_B6EA71				;$B6EA7D  /
 
@@ -12456,9 +12456,9 @@ CODE_B6ED54:
 	BCC CODE_B6EDAD				;$B6ED5F   |
 	LDY $6A					;$B6ED61   |
 	LDA $0000,y				;$B6ED63   |
-	CMP #$0224				;$B6ED66   |
+	CMP #!sprite_krows_body			;$B6ED66   |
 	BEQ CODE_B6EDB0				;$B6ED69   |
-	CMP #$0228				;$B6ED6B   |
+	CMP #!sprite_krows_head			;$B6ED6B   |
 	BEQ CODE_B6EDB0				;$B6ED6E   |
 	LDA current_sprite			;$B6ED70   |
 	PHA					;$B6ED72   |
@@ -12954,9 +12954,9 @@ CODE_B6F12C:					;	   |
 	BCC CODE_B6F19C				;$B6F139   |
 	LDY $6A					;$B6F13B   |
 	LDA $0000,y				;$B6F13D   |
-	CMP #$0224				;$B6F140   |
+	CMP #!sprite_krows_body			;$B6F140   |
 	BEQ CODE_B6F1C2				;$B6F143   |
-	CMP #$0228				;$B6F145   |
+	CMP #!sprite_krows_head			;$B6F145   |
 	BEQ CODE_B6F1C2				;$B6F148   |
 	JSR CODE_B6F063				;$B6F14A   |
 	LDA $002E,y				;$B6F14D   |

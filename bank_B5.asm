@@ -2627,9 +2627,9 @@ update_sprite_graphics:
 	SEP #$10				;$B5A91F   |
 	LDY #$01				;$B5A921   |
 	LDX #$00				;$B5A923   |
-CODE_B5A925:					;	   |
+.next_dma					;	   |
 	LDA $1738,x				;$B5A925   |
-	BPL CODE_B5A94D				;$B5A928   |
+	BPL .return				;$B5A928   |
 	STA DMA[0].source_bank			;$B5A92A   |
 	LDA $1732,x				;$B5A92D   |
 	STA DMA[0].size				;$B5A930   |
@@ -2643,9 +2643,9 @@ CODE_B5A925:					;	   |
 	CLC					;$B5A946   |
 	ADC #$0008				;$B5A947   |
 	TAX					;$B5A94A   |
-	BRA CODE_B5A925				;$B5A94B  /
+	BRA .next_dma				;$B5A94B  /
 
-CODE_B5A94D:
+.return
 	REP #$10				;$B5A94D  \
 	RTL					;$B5A94F  /
 
@@ -5508,10 +5508,10 @@ CODE_B5C2DB:
 	BEQ CODE_B5C30B				;$B5C2F1   |
 	LDX current_sprite			;$B5C2F3   |
 	LDA $00,x				;$B5C2F5   |
-	CMP #$00E9				;$B5C2F7   |
+	CMP #!sprite_dixie_kong+1		;$B5C2F7   |
 	BCS CODE_B5C30B				;$B5C2FA   |
 	LDA $6E					;$B5C2FC   |
-	CMP #$0198				;$B5C2FE   |
+	CMP #!sprite_squawks			;$B5C2FE   |
 	BEQ CODE_B5C30B				;$B5C301   |
 	BIT $24,x				;$B5C303   |
 	BPL CODE_B5C366				;$B5C305   |

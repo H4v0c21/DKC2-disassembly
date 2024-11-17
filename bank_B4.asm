@@ -6757,7 +6757,7 @@ CODE_B4B985:					;	   |
 
 CODE_B4B991:
 	LDA $066E				;$B4B991  \
-	JSL CODE_BB8138				;$B4B994   |
+	JSL is_level_dk_coin_collected		;$B4B994   |
 CODE_B4B998:					;	   |
 	BEQ CODE_B4B9B6				;$B4B998   |
 	SEP #$20				;$B4B99A   |
@@ -6976,7 +6976,7 @@ CODE_B4BB48:					;	   |
 	AND #$00FF				;$B4BB4B   |
 	BEQ CODE_B4BB5E				;$B4BB4E   |
 	PHX					;$B4BB50   |
-	JSL CODE_BB8138				;$B4BB51   |
+	JSL is_level_dk_coin_collected		;$B4BB51   |
 	PLX					;$B4BB55   |
 	CMP #$0000				;$B4BB56   |
 	BEQ CODE_B4BB61				;$B4BB59   |

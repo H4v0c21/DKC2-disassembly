@@ -194,7 +194,7 @@ CODE_BB80D7:					;	   |
 	PLX					;$BB80F6   |
 	LDA $053D,x				;$BB80F7   |
 	PHX					;$BB80FA   |
-	JSL CODE_BB8116				;$BB80FB   |
+	JSL is_krem_coin_collected		;$BB80FB   |
 	BCS CODE_BB8103				;$BB80FF   |
 	INC $B0					;$BB8101   |
 CODE_BB8103:					;	   |
@@ -212,80 +212,96 @@ CODE_BB8110:
 	LDA #$0000				;$BB8110  \
 	RTL					;$BB8113  /
 
-CODE_BB8114:
+is_current_krem_coin_collected:
 	LDA level_number			;$BB8114  \
-CODE_BB8116:					;	   |
-	JSR CODE_BB8169				;$BB8116   |
+is_krem_coin_collected:				;	   |
+	JSR get_complete_bit_for_level		;$BB8116   |
 	LDA.l $7E59B2,x				;$BB8119   |
 	AND $60					;$BB811D   |
-	BNE CODE_BB8123				;$BB811F   |
+	BNE .collected				;$BB811F   |
 	CLC					;$BB8121   |
 	RTL					;$BB8122  /
 
-CODE_BB8123:
+.collected
 	SEC					;$BB8123  \
 	RTL					;$BB8124  /
 
 CODE_BB8125:
 	LDA level_number			;$BB8125  \
-	JSR CODE_BB8169				;$BB8127   |
+	JSR get_complete_bit_for_level		;$BB8127   |
 	LDA.l $7E59B2,x				;$BB812A   |
 	ORA $60					;$BB812E   |
 	STA $7E59B2,x				;$BB8130   |
 	RTL					;$BB8134  /
 
-CODE_BB8135:
+is_current_level_dk_coin_collected:
 	LDA $08A8				;$BB8135  \
-CODE_BB8138:					;	   |
-	JSR CODE_BB8169				;$BB8138   |
+is_level_dk_coin_collected:			;	   |
+	JSR get_complete_bit_for_level		;$BB8138   |
 	LDA.l $7E59D2,x				;$BB813B   |
 	AND $60					;$BB813F   |
-	BNE CODE_BB8145				;$BB8141   |
+	BNE .collected				;$BB8141   |
 	CLC					;$BB8143   |
 	RTL					;$BB8144  /
 
-CODE_BB8145:
+.collected
 	SEC					;$BB8145  \
 	RTL					;$BB8146  /
 
-CODE_BB8147:
+set_current_level_dk_coin_collected:
 	LDA $08A8				;$BB8147  \
-	JSR CODE_BB8169				;$BB814A   |
+	JSR get_complete_bit_for_level		;$BB814A   |
 	LDA.l $7E59D2,x				;$BB814D   |
 	ORA $60					;$BB8151   |
 	STA $7E59D2,x				;$BB8153   |
 	RTL					;$BB8157  /
 
-CODE_BB8158:
+set_current_level_as_cleared:
 	LDA $08A8				;$BB8158  \
-	JSR CODE_BB8169				;$BB815B   |
+	JSR get_complete_bit_for_level		;$BB815B   |
 	LDA.l $7E59F2,x				;$BB815E   |
 	ORA $60					;$BB8162   |
 	STA $7E59F2,x				;$BB8164   |
 	RTL					;$BB8168  /
 
-CODE_BB8169:
-	STA $5E					;$BB8169  \
-	AND #$000F				;$BB816B   |
-	ASL A					;$BB816E   |
-	TAX					;$BB816F   |
-	LDA.l DATA_BB817F,x			;$BB8170   |
-	STA $60					;$BB8174   |
-	LDA $5E					;$BB8176   |
-	LSR A					;$BB8178   |
-	LSR A					;$BB8179   |
-	LSR A					;$BB817A   |
-	LSR A					;$BB817B   |
-	ASL A					;$BB817C   |
-	TAX					;$BB817D   |
-	RTS					;$BB817E  /
+; This routine is used to get the correct level complete bit to toggle or check for a given level
+; It returns the byte index in X and bit index in $60
+; Byte index is which byte contains the levels completed flag bit in the array of level complete data bytes
+; Bit index is which bit within that byte is the one for the level the caller requested
+; Worth noting this is also used for DK coins
+get_complete_bit_for_level:
+	STA $5E					;$BB8169  \> Preserve level index
+	AND #$000F				;$BB816B   |\ Get last 4 bits of level index
+	ASL A					;$BB816E   | | *2 to index a 16 bit table
+	TAX					;$BB816F   | |
+	LDA.l .level_index_to_bits_table,x	;$BB8170   |/ Get bit index for the level
+	STA $60					;$BB8174   |> Save bit index of level
+	LDA $5E					;$BB8176   |\ Get the level index
+	LSR A					;$BB8178   | | /16 * 2 to round it to the byte index
+	LSR A					;$BB8179   | |
+	LSR A					;$BB817A   | |
+	LSR A					;$BB817B   | |
+	ASL A					;$BB817C   |/
+	TAX					;$BB817D   |\
+	RTS					;$BB817E  / / Return byte index in X
 
-
-DATA_BB817F:
-	db $01, $00, $02, $00, $04, $00, $08, $00
-	db $10, $00, $20, $00, $40, $00, $80, $00
-	db $00, $01, $00, $02, $00, $04, $00, $08
-	db $00, $10, $00, $20, $00, $40, $00, $80
+.level_index_to_bits_table
+	dw $0001				;00
+	dw $0002				;01
+	dw $0004				;02
+	dw $0008				;03
+	dw $0010				;04
+	dw $0020				;05
+	dw $0040				;06
+	dw $0080				;07
+	dw $0100				;08
+	dw $0200				;09
+	dw $0400				;0A
+	dw $0800				;0B
+	dw $1000				;0C
+	dw $2000				;0D
+	dw $4000				;0E
+	dw $8000				;0F
 
 CODE_BB819F:
 	STZ $0904				;$BB819F  \
@@ -378,7 +394,7 @@ CODE_BB8259:					;	   |
 
 	LDA level_number			;$BB825A   |
 CODE_BB825C:					;	   |
-	JSR CODE_BB8169				;$BB825C   |
+	JSR get_complete_bit_for_level		;$BB825C   |
 	LDA.l $7E59F2,x				;$BB825F   |
 	AND $60					;$BB8263   |
 	BNE CODE_BB8269				;$BB8265   |
@@ -446,7 +462,7 @@ CODE_BB82B8:
 	LDX current_sprite			;$BB82B8  \
 	LDA $00,x				;$BB82BA   |
 	BEQ CODE_BB82D1				;$BB82BC   |
-	CMP #$00E4				;$BB82BE   |
+	CMP #!sprite_diddy_kong			;$BB82BE   |
 	BCC CODE_BB82D7				;$BB82C1   |
 CODE_BB82C3:					;	   |
 	LDA $12,x				;$BB82C3   |
@@ -465,9 +481,9 @@ CODE_BB82D2:
 	RTL					;$BB82D6  /
 
 CODE_BB82D7:
-	CMP #$0084				;$BB82D7  \
+	CMP #!sprite_kremcoin_cheat_handler	;$BB82D7  \
 	BCS CODE_BB82D2				;$BB82DA   |
-	CMP #$006C				;$BB82DC   |
+	CMP #!sprite_kannon			;$BB82DC   |
 	BCC CODE_BB82ED				;$BB82DF   |
 	LDA $12,x				;$BB82E1   |
 	JSR CODE_BB8C06				;$BB82E3   |
@@ -5387,7 +5403,7 @@ CODE_BBAE28:
 	BEQ CODE_BBAE62				;$BBAE2A   |
 	LDA $6E					;$BBAE2C   |
 	SEC					;$BBAE2E   |
-	SBC #$0190				;$BBAE2F   |
+	SBC #!sprite_squitter			;$BBAE2F   |
 	LSR A					;$BBAE32   |
 	AND #$000E				;$BBAE33   |
 	TAX					;$BBAE36   |
@@ -5413,7 +5429,7 @@ CODE_BBAE4A:
 CODE_BBAE62:
 	JSL CODE_B8808E				;$BBAE62  \
 	LDA $6E					;$BBAE66   |
-	CMP #$01A0				;$BBAE68   |
+	CMP #!sprite_enguarde			;$BBAE68   |
 	BEQ CODE_BBAE73				;$BBAE6B   |
 	JSL CODE_B8B9B8				;$BBAE6D   |
 	BRA CODE_BBAE77				;$BBAE71  /
@@ -5469,7 +5485,7 @@ CODE_BBAEBD:
 CODE_BBAEC8:					;	   |
 	LDX current_sprite			;$BBAEC8   |
 	LDA $00,x				;$BBAECA   |
-	CMP #$00E4				;$BBAECC   |
+	CMP #!sprite_diddy_kong			;$BBAECC   |
 	BNE CODE_BBAEE3				;$BBAECF   |
 	LDA #$0001				;$BBAED1   |
 	JSR request_sprite_palette		;$BBAED4   |
@@ -6593,7 +6609,7 @@ CODE_BBB695:
 	AND #$0040				;$BBB6A0   | | If debug sprite freeze isnt active continue
 	BEQ CODE_BBB6AC				;$BBB6A3   |/
 	LDX alternate_sprite			;$BBB6A5   |\
-	LDA #$00F8				;$BBB6A7   | | Else Mutate group manager into sprite 00F8
+	LDA #!sprite_debug_spawn_group_manager	;$BBB6A7   | | Else Mutate group manager into sprite 00F8
 	STA $00,x				;$BBB6AA   |/
 CODE_BBB6AC:					;	   |
 	LDX alternate_sprite			;$BBB6AC   |
@@ -6874,7 +6890,7 @@ CODE_BBB847:
 	AND #$0040				;$BBB8AD   |
 	BEQ CODE_BBB8B9				;$BBB8B0   |
 	LDX alternate_sprite			;$BBB8B2   |
-	LDA #$0090				;$BBB8B4   | unknown_sprite_0090_main
+	LDA #!sprite_unknown_0090		;$BBB8B4   |
 	STA $00,x				;$BBB8B7   |
 CODE_BBB8B9:					;	   |
 	CLC					;$BBB8B9   |
@@ -6943,7 +6959,7 @@ CODE_BBB8D6:					;	   |
 	AND #$0040				;$BBB92C   | | If debug sprite freeze is disabled then continue
 	BEQ CODE_BBB938				;$BBB92F   |/
 	LDX alternate_sprite			;$BBB931   |\ Else replace sprite with frozen dummy sprite
-	LDA #$00F4				;$BBB933   | |
+	LDA #!sprite_debug_dummy_sprite		;$BBB933   | |
 	STA $00,x				;$BBB936   |/
 CODE_BBB938:					;	   |
 	CLC					;$BBB938   |
@@ -7349,9 +7365,9 @@ CODE_BBBBE9:
 
 CODE_BBBBEC:
 	LDA $00,x				;$BBBBEC  \
-	CMP #$0090				;$BBBBEE   |
+	CMP #!sprite_unknown_0090		;$BBBBEE   |
 	BEQ CODE_BBBBD6				;$BBBBF1   |
-	CMP #$00F4				;$BBBBF3   |
+	CMP #!sprite_debug_dummy_sprite		;$BBBBF3   |
 	BNE CODE_BBBC2B				;$BBBBF6   |
 	BRA CODE_BBBBD6				;$BBBBF8  /
 
@@ -7406,7 +7422,7 @@ CODE_BBBC2B:					;	   |
 CODE_BBBC42:
 	JSL CODE_BB82B8				;$BBBC42  \
 	LDX current_sprite			;$BBBC46   |
-	LDA #$00F0				;$BBBC48   |
+	LDA #!sprite_unknown_00F0		;$BBBC48   |
 	STA $00,x				;$BBBC4B   |
 	STZ $1A,x				;$BBBC4D   |
 	STZ $16,x				;$BBBC4F   |
@@ -7476,7 +7492,7 @@ CODE_BBBCBF:					;	   |
 CODE_BBBCC1:
 	LDY current_sprite			;$BBBCC1  \ \
 	LDA $0000,y				;$BBBCC3   | |
-	CMP #$00F8				;$BBBCC6   | | If this sprite isnt a debug frozen group manager continue
+	CMP #!sprite_debug_spawn_group_manager	;$BBBCC6   | | If this sprite isnt a debug frozen group manager continue
 	BNE CODE_BBBD21				;$BBBCC9   |/
 	BRA CODE_BBBCBF				;$BBBCCB  /
 
@@ -8112,7 +8128,7 @@ CODE_BBC174:					;	   |
 	LDA $19D0				;$BBC176   |
 	ASL A					;$BBC179   |
 	TAX					;$BBC17A   |
-	LDA.l DATA_BBC18D,x			;$BBC17B   |
+	LDA.l .DATA_BBC18D,x			;$BBC17B   |
 	CLC					;$BBC17F   |
 	ADC $19D2				;$BBC180   |
 	TAX					;$BBC183   |
@@ -8120,145 +8136,145 @@ CODE_BBC174:					;	   |
 	STA $19D4				;$BBC187   |
 	JMP ($0002,x)				;$BBC18A  /
 
-DATA_BBC18D:
-	dw DATA_BBC1A7
-	dw DATA_BBC1A7
-	dw DATA_BBC1E7
-	dw DATA_BBC217
-	dw DATA_BBC22B
-	dw DATA_BBC24F
-	dw DATA_BBC26B
-	dw DATA_BBC287
-	dw DATA_BBC2AB
-	dw DATA_BBC1FF
-	dw DATA_BBC2CF
-	dw DATA_BBC2EB
-	dw DATA_BBC2FB
+.DATA_BBC18D
+	dw .DATA_BBC1A7				;00
+	dw .DATA_BBC1A7				;01
+	dw .DATA_BBC1E7				;02
+	dw .DATA_BBC217				;03
+	dw .DATA_BBC22B				;04
+	dw .DATA_BBC24F				;05
+	dw .DATA_BBC26B				;06
+	dw .DATA_BBC287				;07
+	dw .DATA_BBC2AB				;08
+	dw .DATA_BBC1FF				;09
+	dw .DATA_BBC2CF				;0A
+	dw .DATA_BBC2EB				;0B
+	dw .DATA_BBC2FB				;0C
 
-DATA_BBC1A7:
-	db $00, $00 : dw CODE_BBC389
-	db $00, $00 : dw CODE_BBC394
-	db $40, $00 : dw CODE_BBC3E5
-	db $28, $00 : dw CODE_BBC457
-	db $40, $00 : dw CODE_BBC3E5
-	db $50, $00 : dw CODE_BBC457
-	db $08, $00 : dw CODE_BBC3E5
-	db $01, $00 : dw CODE_BBC316
-	db $A0, $00 : dw CODE_BBC3AE
-	db $30, $00 : dw CODE_BBC368
-	db $01, $00 : dw CODE_BBC35E
-	db $48, $00 : dw CODE_BBC4C6
-	db $08, $00 : dw CODE_BBC42F
-	db $40, $00 : dw CODE_BBC48A
-	db $40, $00 : dw CODE_BBC34A
-	db $01, $00 : dw CODE_BBC513
+.DATA_BBC1A7
+	dw $0000, .move_active_kong_to_left_of_level
+	dw $0000, .move_inactive_kong_left_of_active
+	dw $0040, .set_kong_states_to_cutscene_move
+	dw $0028, .set_kongs_walking_right
+	dw $0040, .set_kong_states_to_cutscene_move
+	dw $0050, .set_kongs_walking_right
+	dw $0008, .set_kong_states_to_cutscene_move
+	dw $0001, .give_reward_to_player
+	dw $00A0, .stop_kongs_and_celebrate
+	dw $0030, .lift_dk_off_screen
+	dw $0001, .transition_music_to_flying_krock
+	dw $0048, .CODE_BBC4C6
+	dw $0008, .CODE_BBC42F
+	dw $0040, .CODE_BBC48A
+	dw $0040, .CODE_BBC34A
+	dw $0001, .CODE_BBC513
 
-DATA_BBC1E7:
-	db $00, $00 : dw CODE_BBC394
-	db $40, $00 : dw CODE_BBC42F
-	db $2C, $00 : dw CODE_BBC48A
-	db $40, $01 : dw CODE_BBC4C6
-	db $04, $00 : dw CODE_BBC42F
-	db $01, $00 : dw CODE_BBC513
+.DATA_BBC1E7
+	dw $0000, .move_inactive_kong_left_of_active
+	dw $0040, .CODE_BBC42F
+	dw $002C, .CODE_BBC48A
+	dw $0140, .CODE_BBC4C6
+	dw $0004, .CODE_BBC42F
+	dw $0001, .CODE_BBC513
 
-DATA_BBC1FF:
-	db $00, $00 : dw CODE_BBC394
-	db $20, $00 : dw CODE_BBC42F
-	db $2C, $00 : dw CODE_BBC48A
-	db $40, $00 : dw CODE_BBC4C6
-	db $04, $00 : dw CODE_BBC42F
-	db $01, $00 : dw CODE_BBC513
+.DATA_BBC1FF
+	dw $0000, .move_inactive_kong_left_of_active
+	dw $0020, .CODE_BBC42F
+	dw $002C, .CODE_BBC48A
+	dw $0040, .CODE_BBC4C6
+	dw $0004, .CODE_BBC42F
+	dw $0001, .CODE_BBC513
 
-DATA_BBC217:
-	db $18, $00 : dw CODE_BBC406
-	db $04, $00 : dw CODE_BBC42F
-	db $C0, $00 : dw CODE_BBC33A
-	db $18, $00 : dw CODE_BBC344
-	db $01, $00 : dw CODE_BBC513
+.DATA_BBC217
+	dw $0018, .CODE_BBC406
+	dw $0004, .CODE_BBC42F
+	dw $00C0, .CODE_BBC33A
+	dw $0018, .CODE_BBC344
+	dw $0001, .CODE_BBC513
 
-DATA_BBC22B:
-	db $28, $00 : dw CODE_BBC406
-	db $01, $00 : dw CODE_BBC316
-	db $01, $00 : dw CODE_BBC42F
-	db $60, $00 : dw CODE_BBC3AE
-	db $01, $00 : dw CODE_BBC321
-	db $40, $00 : dw CODE_BBC4C6
-	db $40, $00 : dw CODE_BBC33A
-	db $88, $03 : dw CODE_BBC42F
-	db $01, $00 : dw CODE_BBC513
+.DATA_BBC22B
+	dw $0028, .CODE_BBC406
+	dw $0001, .give_reward_to_player
+	dw $0001, .CODE_BBC42F
+	dw $0060, .stop_kongs_and_celebrate
+	dw $0001, .CODE_BBC321
+	dw $0040, .CODE_BBC4C6
+	dw $0040, .CODE_BBC33A
+	dw $0388, .CODE_BBC42F
+	dw $0001, .CODE_BBC513
 
-DATA_BBC24F:
-	db $00, $00 : dw CODE_BBC389
-	db $00, $00 : dw CODE_BBC394
-	db $02, $00 : dw CODE_BBC3E5
-	db $10, $00 : dw CODE_BBC48A
-	db $50, $00 : dw CODE_BBC4C6
-	db $08, $00 : dw CODE_BBC42F
-	db $01, $00 : dw CODE_BBC513
+.DATA_BBC24F
+	dw $0000, .move_active_kong_to_left_of_level
+	dw $0000, .move_inactive_kong_left_of_active
+	dw $0002, .set_kong_states_to_cutscene_move
+	dw $0010, .CODE_BBC48A
+	dw $0050, .CODE_BBC4C6
+	dw $0008, .CODE_BBC42F
+	dw $0001, .CODE_BBC513
 
-DATA_BBC26B:
-	db $00, $00 : dw CODE_BBC373
-	db $00, $00 : dw CODE_BBC394
-	db $02, $00 : dw CODE_BBC3E5
-	db $10, $00 : dw CODE_BBC48A
-	db $50, $00 : dw CODE_BBC4C6
-	db $08, $00 : dw CODE_BBC42F
-	db $01, $00 : dw CODE_BBC513
+.DATA_BBC26B
+	dw $0000, .CODE_BBC373
+	dw $0000, .move_inactive_kong_left_of_active
+	dw $0002, .set_kong_states_to_cutscene_move
+	dw $0010, .CODE_BBC48A
+	dw $0050, .CODE_BBC4C6
+	dw $0008, .CODE_BBC42F
+	dw $0001, .CODE_BBC513
 
-DATA_BBC287:
-	db $00, $00 : dw CODE_BBC37E
-	db $00, $00 : dw CODE_BBC394
-	db $01, $00 : dw CODE_BBC3E5
-	db $20, $00 : dw CODE_BBC457
-	db $30, $00 : dw CODE_BBC42F
-	db $28, $00 : dw CODE_BBC457
-	db $50, $00 : dw CODE_BBC4C6
-	db $08, $00 : dw CODE_BBC42F
-	db $01, $00 : dw CODE_BBC513
+.DATA_BBC287
+	dw $0000, .CODE_BBC37E
+	dw $0000, .move_inactive_kong_left_of_active
+	dw $0001, .set_kong_states_to_cutscene_move
+	dw $0020, .set_kongs_walking_right
+	dw $0030, .CODE_BBC42F
+	dw $0028, .set_kongs_walking_right
+	dw $0050, .CODE_BBC4C6
+	dw $0008, .CODE_BBC42F
+	dw $0001, .CODE_BBC513
 
-DATA_BBC2AB:
-	db $00, $00 : dw CODE_BBC389
-	db $00, $00 : dw CODE_BBC394
-	db $01, $00 : dw CODE_BBC3E5
-	db $10, $00 : dw CODE_BBC457
-	db $50, $00 : dw CODE_BBC42F
-	db $13, $00 : dw CODE_BBC457
-	db $78, $00 : dw CODE_BBC4C6
-	db $08, $00 : dw CODE_BBC42F
-	db $01, $00 : dw CODE_BBC513
+.DATA_BBC2AB
+	dw $0000, .move_active_kong_to_left_of_level
+	dw $0000, .move_inactive_kong_left_of_active
+	dw $0001, .set_kong_states_to_cutscene_move
+	dw $0010, .set_kongs_walking_right
+	dw $0050, .CODE_BBC42F
+	dw $0013, .set_kongs_walking_right
+	dw $0078, .CODE_BBC4C6
+	dw $0008, .CODE_BBC42F
+	dw $0001, .CODE_BBC513
 
-DATA_BBC2CF:
-	db $00, $00 : dw CODE_BBC389
-	db $00, $00 : dw CODE_BBC394
-	db $01, $00 : dw CODE_BBC3E5
-	db $4C, $00 : dw CODE_BBC48A
-	db $80, $00 : dw CODE_BBC4C6
-	db $08, $00 : dw CODE_BBC42F
-	db $01, $00 : dw CODE_BBC513
+.DATA_BBC2CF
+	dw $0000, .move_active_kong_to_left_of_level
+	dw $0000, .move_inactive_kong_left_of_active
+	dw $0001, .set_kong_states_to_cutscene_move
+	dw $004C, .CODE_BBC48A
+	dw $0080, .CODE_BBC4C6
+	dw $0008, .CODE_BBC42F
+	dw $0001, .CODE_BBC513
 
-DATA_BBC2EB:
-	db $30, $00 : dw CODE_BBC406
-	db $01, $00 : dw CODE_BBC316
-	db $00, $0C : dw CODE_BBC42F
-	db $01, $00 : dw CODE_BBC513
+.DATA_BBC2EB
+	dw $0030, .CODE_BBC406
+	dw $0001, .give_reward_to_player
+	dw $0C00, .CODE_BBC42F
+	dw $0001, .CODE_BBC513
 
-DATA_BBC2FB:
-	db $48, $00 : dw CODE_BBC406
-	db $00, $02 : dw CODE_BBC42F
-	db $01, $00 : dw CODE_BBC30B
-	db $00, $02 : dw CODE_BBC513
+.DATA_BBC2FB
+	dw $0048, .CODE_BBC406
+	dw $0200, .CODE_BBC42F
+	dw $0001, .CODE_BBC30B
+	dw $0200, .CODE_BBC513
 
-CODE_BBC30B:
-	JSL CODE_BB8158				;$BBC30B  \
+.CODE_BBC30B
+	JSL set_current_level_as_cleared	;$BBC30B  \
 	JSL CODE_B88262				;$BBC30F   |
 	JMP CODE_BBC15D				;$BBC313  /
 
-CODE_BBC316:
+.give_reward_to_player
 	JSL CODE_B8808E				;$BBC316  \
 	JSL CODE_B8B3EC				;$BBC31A   |
 	JMP CODE_BBC150				;$BBC31E  /
 
-CODE_BBC321:
+.CODE_BBC321
 	LDY #$0E9E				;$BBC321  \
 	LDX active_kong_sprite			;$BBC324   |
 	LDA $0006,y				;$BBC327   |
@@ -8271,16 +8287,16 @@ CODE_BBC321:
 	STA $12,x				;$BBC335   |
 	JMP CODE_BBC15D				;$BBC337  /
 
-CODE_BBC33A:
+.CODE_BBC33A
 	LDA.l $000654				;$BBC33A  \
 	STA $0AE8				;$BBC33E   |
 	JMP CODE_BBC150				;$BBC341  /
 
-CODE_BBC344:
+.CODE_BBC344
 	STZ $0AE8				;$BBC344  \
 	JMP CODE_BBC150				;$BBC347  /
 
-CODE_BBC34A:
+.CODE_BBC34A
 	LDA $08FC				;$BBC34A  \
 	ORA #$0003				;$BBC34D   |
 	STA $08FC				;$BBC350   |
@@ -8288,87 +8304,87 @@ CODE_BBC34A:
 	JSL CODE_B4AFAD				;$BBC357   |
 	JMP CODE_BBC150				;$BBC35B  /
 
-CODE_BBC35E:
+.transition_music_to_flying_krock
 	LDA #$0001				;$BBC35E  \
 	JSL transition_song			;$BBC361   |
 	JMP CODE_BBC150				;$BBC365  /
 
-CODE_BBC368:
+.lift_dk_off_screen
 	LDX $075F				;$BBC368  \
 	LDA #$0002				;$BBC36B   |
 	STA $2E,x				;$BBC36E   |
 	JMP CODE_BBC150				;$BBC370  /
 
-CODE_BBC373:
+.CODE_BBC373
 	LDX active_kong_sprite			;$BBC373  \
 	LDA #$0180				;$BBC376   |
 	STA $06,x				;$BBC379   |
 	JMP CODE_BBC15D				;$BBC37B  /
 
-CODE_BBC37E:
+.CODE_BBC37E
 	LDX active_kong_sprite			;$BBC37E  \
 	LDA #$0350				;$BBC381   |
 	STA $06,x				;$BBC384   |
 	JMP CODE_BBC15D				;$BBC386  /
 
-CODE_BBC389:
+.move_active_kong_to_left_of_level
 	LDX active_kong_sprite			;$BBC389  \
 	LDA #$0100				;$BBC38C   |
 	STA $06,x				;$BBC38F   |
-	JMP CODE_BBC15D				;$BBC391  /
+	JMP CODE_BBC15D				;$BBC391  /> Cutscene code done
 
-CODE_BBC394:
-	LDA $08C2				;$BBC394  \
-	AND #$4000				;$BBC397   |
-	BEQ CODE_BBC3AB				;$BBC39A   |
-	LDY inactive_kong_sprite		;$BBC39C   |
-	LDX active_kong_sprite			;$BBC39F   |
-	LDA $06,x				;$BBC3A2   |
-	SEC					;$BBC3A4   |
-	SBC #$001C				;$BBC3A5   |
-	STA $0006,y				;$BBC3A8   |
-CODE_BBC3AB:					;	   |
-	JMP CODE_BBC15D				;$BBC3AB  /
+.move_inactive_kong_left_of_active
+	LDA $08C2				;$BBC394  \ \
+	AND #$4000				;$BBC397   | |
+	BEQ ..done				;$BBC39A   |/ If there is a no follower kong then were done
+	LDY inactive_kong_sprite		;$BBC39C   |\ Get follower kong in Y
+	LDX active_kong_sprite			;$BBC39F   |/ Get main kong in X
+	LDA $06,x				;$BBC3A2   |\ Get main kong x position
+	SEC					;$BBC3A4   | |
+	SBC #$001C				;$BBC3A5   | | Set follower kong to the left of main kong
+	STA $0006,y				;$BBC3A8   |/
+..done						;	   |
+	JMP CODE_BBC15D				;$BBC3AB  /> Cutscene code done
 
-CODE_BBC3AE:
-	JSL CODE_B8808E				;$BBC3AE  \
-	LDA $0A,x				;$BBC3B2   |
-	STA $0C,x				;$BBC3B4   |
-	STZ $0E,x				;$BBC3B6   |
-	STZ $26,x				;$BBC3B8   |
-	STZ $20,x				;$BBC3BA   |
-	LDA #$0074				;$BBC3BC   |
-	STA $2E,x				;$BBC3BF   |
-	LDA #$0045				;$BBC3C1   |
-	JSL CODE_B9D0B0				;$BBC3C4   |
-	LDA $08C2				;$BBC3C8   |
-	AND #$4000				;$BBC3CB   |
-	BEQ CODE_BBC42C				;$BBC3CE   |
-	JSL CODE_B880A2				;$BBC3D0   |
-	LDA #$0074				;$BBC3D4   |
-	STZ $26,x				;$BBC3D7   |
-	STA $2E,x				;$BBC3D9   |
-	LDA #$0001				;$BBC3DB   |
-	JSL CODE_B9D0B0				;$BBC3DE   |
-	JMP CODE_BBC150				;$BBC3E2  /
+.stop_kongs_and_celebrate
+	JSL CODE_B8808E				;$BBC3AE  \> Work on active kong
+	LDA $0A,x				;$BBC3B2   |\ Get kongs y position
+	STA $0C,x				;$BBC3B4   | | Set ground position to current y
+	STZ $0E,x				;$BBC3B6   |/ Set distance from ground to 0
+	STZ $26,x				;$BBC3B8   |\ Clear x velocities and stop kong
+	STZ $20,x				;$BBC3BA   |/
+	LDA #$0074				;$BBC3BC   |\ Set kong state to cutscene idle
+	STA $2E,x				;$BBC3BF   |/
+	LDA #$0045				;$BBC3C1   |\ Set kong animation to celebrate
+	JSL CODE_B9D0B0				;$BBC3C4   |/
+	LDA $08C2				;$BBC3C8   |\
+	AND #$4000				;$BBC3CB   | |
+	BEQ .CODE_BBC42C			;$BBC3CE   |/ If there is no follower kong then were done
+	JSL CODE_B880A2				;$BBC3D0   |> Else work on inactive kong
+	LDA #$0074				;$BBC3D4   |\ Load cutscene idle kong state
+	STZ $26,x				;$BBC3D7   | | Clear x velocities and stop kong
+	STA $2E,x				;$BBC3D9   |/ Apply kong state
+	LDA #$0001				;$BBC3DB   |\ Set kong animation to idle
+	JSL CODE_B9D0B0				;$BBC3DE   |/
+	JMP CODE_BBC150				;$BBC3E2  /> Cutscene code done
 
-CODE_BBC3E5:
-	JSL CODE_B8808E				;$BBC3E5  \
-	JSR CODE_BBC3FE				;$BBC3E9   |
-	LDA $08C2				;$BBC3EC   |
-	AND #$4000				;$BBC3EF   |
-	BEQ CODE_BBC42C				;$BBC3F2   |
-	JSL CODE_B880A2				;$BBC3F4   |
-	JSR CODE_BBC3FE				;$BBC3F8   |
-	JMP CODE_BBC150				;$BBC3FB  /
+.set_kong_states_to_cutscene_move
+	JSL CODE_B8808E				;$BBC3E5  \ \ Work on active kong
+	JSR ..set_kong_state_to_cutscene_move	;$BBC3E9   |/ Set active kong state to cutscene move
+	LDA $08C2				;$BBC3EC   |\
+	AND #$4000				;$BBC3EF   | |
+	BEQ .CODE_BBC42C			;$BBC3F2   |/ If there is no follower kong then were done
+	JSL CODE_B880A2				;$BBC3F4   |\ Else work on inactive kong
+	JSR ..set_kong_state_to_cutscene_move	;$BBC3F8   |/ Set inactive kong state to cutscene move
+	JMP CODE_BBC150				;$BBC3FB  /> Cutscene code done
 
-CODE_BBC3FE:
+..set_kong_state_to_cutscene_move
 	LDA #$0075				;$BBC3FE  \
 	STA $2E,x				;$BBC401   |
 	STZ $26,x				;$BBC403   |
 	RTS					;$BBC405  /
 
-CODE_BBC406:
+.CODE_BBC406
 	JSL CODE_B8808E				;$BBC406  \
 	JSL CODE_B88EB8				;$BBC40A   |
 	LDX current_sprite			;$BBC40E   |
@@ -8379,24 +8395,24 @@ CODE_BBC406:
 	STZ $1C,x				;$BBC419   |
 	LDA $08C2				;$BBC41B   |
 	AND #$4000				;$BBC41E   |
-	BEQ CODE_BBC42C				;$BBC421   |
+	BEQ .CODE_BBC42C			;$BBC421   |
 	JSL CODE_B880A2				;$BBC423   |
 	LDA #$0022				;$BBC427   |
 	STA $2E,x				;$BBC42A   |
-CODE_BBC42C:					;	   |
+.CODE_BBC42C					;	   |
 	JMP CODE_BBC150				;$BBC42C  /
 
-CODE_BBC42F:
+.CODE_BBC42F
 	JSL CODE_B8808E				;$BBC42F  \
-	JSR CODE_BBC448				;$BBC433   |
+	JSR .CODE_BBC448			;$BBC433   |
 	LDA $08C2				;$BBC436   |
 	AND #$4000				;$BBC439   |
-	BEQ CODE_BBC42C				;$BBC43C   |
+	BEQ .CODE_BBC42C			;$BBC43C   |
 	JSL CODE_B880A2				;$BBC43E   |
-	JSR CODE_BBC448				;$BBC442   |
+	JSR .CODE_BBC448			;$BBC442   |
 	JMP CODE_BBC150				;$BBC445  /
 
-CODE_BBC448:
+.CODE_BBC448
 	LDA #$0074				;$BBC448  \
 	STZ $26,x				;$BBC44B   |
 	STA $2E,x				;$BBC44D   |
@@ -8404,41 +8420,41 @@ CODE_BBC448:
 	JSL CODE_B9D0B0				;$BBC452   |
 	RTS					;$BBC456  /
 
-CODE_BBC457:
-	JSL CODE_B8808E				;$BBC457  \
-	JSR CODE_BBC470				;$BBC45B   |
-	LDA $08C2				;$BBC45E   |
-	AND #$4000				;$BBC461   |
-	BEQ CODE_BBC4A0				;$BBC464   |
-	JSL CODE_B880A2				;$BBC466   |
-	JSR CODE_BBC470				;$BBC46A   |
-	JMP CODE_BBC150				;$BBC46D  /
+.set_kongs_walking_right
+	JSL CODE_B8808E				;$BBC457  \ \ Work on active kong
+	JSR .set_kong_walking_right		;$BBC45B   |/ Make active kong walk to the right
+	LDA $08C2				;$BBC45E   |\
+	AND #$4000				;$BBC461   | |
+	BEQ .CODE_BBC4A0			;$BBC464   |/ If there is no follower kong then were done
+	JSL CODE_B880A2				;$BBC466   |\ Else work on inactive kong
+	JSR .set_kong_walking_right		;$BBC46A   |/ Make inactive kong walk to the right
+	JMP CODE_BBC150				;$BBC46D  /> Cutscene code done
 
-CODE_BBC470:
-	LDA $0A,x				;$BBC470  \
-	STA $0C,x				;$BBC472   |
-	STZ $0E,x				;$BBC474   |
-	LDA #$0200				;$BBC476   |
-	STA $26,x				;$BBC479   |
-	STA $20,x				;$BBC47B   |
-	LDA #$0075				;$BBC47D   |
-	STA $2E,x				;$BBC480   |
-	LDA #$0003				;$BBC482   |
-	JSL CODE_B9D0B0				;$BBC485   |
-	RTS					;$BBC489  /
+.set_kong_walking_right
+	LDA $0A,x				;$BBC470  \ \ Get kongs y position
+	STA $0C,x				;$BBC472   | | Set ground position to current y
+	STZ $0E,x				;$BBC474   |/ Set distance from ground to 0
+	LDA #$0200				;$BBC476   |\ Lead right walking x velocity
+	STA $26,x				;$BBC479   | | Set x velocities for kong
+	STA $20,x				;$BBC47B   |/
+	LDA #$0075				;$BBC47D   |\ Set kong state to cutscene moving
+	STA $2E,x				;$BBC480   |/
+	LDA #$0003				;$BBC482   |\ Set kong animation to walking
+	JSL CODE_B9D0B0				;$BBC485   |/
+	RTS					;$BBC489  /> Return
 
-CODE_BBC48A:
+.CODE_BBC48A
 	JSL CODE_B8808E				;$BBC48A  \
-	JSR CODE_BBC4A3				;$BBC48E   |
+	JSR .CODE_BBC4A3			;$BBC48E   |
 	LDA $08C2				;$BBC491   |
 	AND #$4000				;$BBC494   |
-	BEQ CODE_BBC4A0				;$BBC497   |
+	BEQ .CODE_BBC4A0			;$BBC497   |
 	JSL CODE_B880A2				;$BBC499   |
-	JSR CODE_BBC4A3				;$BBC49D   |
-CODE_BBC4A0:					;	   |
+	JSR .CODE_BBC4A3			;$BBC49D   |
+.CODE_BBC4A0					;	   |
 	JMP CODE_BBC150				;$BBC4A0  /
 
-CODE_BBC4A3:
+.CODE_BBC4A3
 	LDA $0A,x				;$BBC4A3  \
 	STA $0C,x				;$BBC4A5   |
 	STZ $0E,x				;$BBC4A7   |
@@ -8454,21 +8470,21 @@ CODE_BBC4A3:
 	JSL CODE_B9D0B0				;$BBC4C1   |
 	RTS					;$BBC4C5  /
 
-CODE_BBC4C6:
+.CODE_BBC4C6
 	STZ $0D7A				;$BBC4C6  \
 	JSL CODE_B8808E				;$BBC4C9   |
-	JSR CODE_BBC4E2				;$BBC4CD   |
+	JSR .CODE_BBC4E2			;$BBC4CD   |
 	LDA $08C2				;$BBC4D0   |
 	AND #$4000				;$BBC4D3   |
-	BEQ CODE_BBC4A0				;$BBC4D6   |
+	BEQ .CODE_BBC4A0			;$BBC4D6   |
 	JSL CODE_B880A2				;$BBC4D8   |
-	JSR CODE_BBC4E2				;$BBC4DC   |
+	JSR .CODE_BBC4E2			;$BBC4DC   |
 	JMP CODE_BBC150				;$BBC4DF  /
 
-CODE_BBC4E2:
+.CODE_BBC4E2
 	LDA level_number			;$BBC4E2  \
 	CMP #!level_k_rool_duel			;$BBC4E4   |
-	BNE CODE_BBC4FC				;$BBC4E7   |
+	BNE .CODE_BBC4FC			;$BBC4E7   |
 	LDY $0654				;$BBC4E9   |
 	LDA $0006,y				;$BBC4EC   |
 	SEC					;$BBC4EF   |
@@ -8478,7 +8494,7 @@ CODE_BBC4E2:
 	AND #$4000				;$BBC4F5   |
 	EOR $12,x				;$BBC4F8   |
 	STA $12,x				;$BBC4FA   |
-CODE_BBC4FC:					;	   |
+.CODE_BBC4FC					;	   |
 	LDA $0A,x				;$BBC4FC   |
 	STA $0C,x				;$BBC4FE   |
 	STZ $0E,x				;$BBC500   |
@@ -8490,12 +8506,12 @@ CODE_BBC4FC:					;	   |
 	JSL CODE_B9D0B0				;$BBC50E   |
 	RTS					;$BBC512  /
 
-CODE_BBC513:
+.CODE_BBC513
 	JSL CODE_B8808E				;$BBC513  \
 	STZ $2E,x				;$BBC517   |
 	LDA $08C2				;$BBC519   |
 	AND #$4000				;$BBC51C   |
-	BEQ CODE_BBC537				;$BBC51F   |
+	BEQ .CODE_BBC537			;$BBC51F   |
 	JSL CODE_B880A2				;$BBC521   |
 	LDA #$0022				;$BBC525   |
 	STA $2E,x				;$BBC528   |
@@ -8503,7 +8519,7 @@ CODE_BBC513:
 	LDX #$0003				;$BBC52D   |
 	LDY #$0000				;$BBC530   |
 	JSL CODE_B8D8D1				;$BBC533   |
-CODE_BBC537:					;	   |
+.CODE_BBC537					;	   |
 	JMP CODE_BBC150				;$BBC537  /
 
 validate_save_file:				;	  \
