@@ -663,7 +663,7 @@
 !sprite_unknown_00CC			= $00CC
 !sprite_giant_tire			= $00D0
 !sprite_camera_unlock_trigger		= $00D4
-!sprite_unknown_00D8			= $00D8
+!sprite_fg_occluder			= $00D8
 !sprite_race_handler			= $00DC
 !sprite_invincibility_controller	= $00E0
 !sprite_diddy_kong			= $00E4
@@ -674,7 +674,7 @@
 !sprite_debug_spawn_group_manager	= $00F8
 !sprite_dixie_hurt_tears		= $00FC
 !sprite_diddy_hurt_stars		= $0100
-!sprite_unknown_0104			= $0104
+!sprite_honey_splash			= $0104
 !sprite_web_shot			= $0108
 !sprite_water_surface_splash		= $010C
 !sprite_rain_cloud			= $0110

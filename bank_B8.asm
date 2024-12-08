@@ -2818,15 +2818,15 @@ CODE_B8967D:
 CODE_B89688:					;	   |
 	LDX current_sprite			;$B89688   |\ 
 	CPX active_kong_sprite			;$B8968A   | |
-	BNE kong_behavior_handler		;$B8968D   |/
+	BNE kong_state_handler			;$B8968D   |/
 	LDA #$0002				;$B8968F   |
 	TRB $0B02				;$B89692   |
-	BEQ kong_behavior_handler		;$B89695   |
+	BEQ kong_state_handler			;$B89695   |
 	LDA #$0020				;$B89697   |\
 	JSR process_player_action		;$B8969A   |/ player riding skull cart
 	BRL CODE_B8996E				;$B8969D  /
 
-kong_behavior_handler:
+kong_state_handler:
 	LDA $30,x				;$B896A0  \
 	AND #$F7FF				;$B896A2   |
 	STA $30,x				;$B896A5   |
@@ -2838,10 +2838,10 @@ kong_behavior_handler:
 	ASL A					;$B896AF   |
 	ASL A					;$B896B0   |
 	TAX					;$B896B1   |
-	JMP (kong_behavior_table,x)		;$B896B2  /
+	JMP (kong_state_table,x)		;$B896B2  /
 
 
-kong_behavior_table:
+kong_state_table:
 	%offset(DATA_B896B7, 2)
 	dw kong_behavior_00 : db $00, $00	;00
 	dw kong_behavior_01 : db $00, $00	;01

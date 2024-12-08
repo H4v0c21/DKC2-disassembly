@@ -4218,20 +4218,34 @@ CODE_B9EA4E:
 	RTS					;$B9EA58  /
 
 DATA_F9EA59:
-	db $06, $14, $25, $06, $18, $25, $06, $1C
-	db $25, $06, $20, $25, $03, $1C, $25, $03
-	db $18, $25, $92, $50
+	db $06 : dw $2514
+	db $06 : dw $2518
+	db $06 : dw $251C
+	db $06 : dw $2520
+	db $03 : dw $251C
+	db $03 : dw $2518
+	db !animation_command_92, $50
 
 DATA_F9EA6D:
-	db $06, $14, $25, $06, $24, $25, $06, $28
-	db $25, $08, $2C, $25, $08, $30, $25, $08
-	db $34, $25, $92, $50
+	db $06 : dw $2514
+	db $06 : dw $2524
+	db $06 : dw $2528
+	db $08 : dw $252C
+	db $08 : dw $2530
+	db $08 : dw $2534
+	db !animation_command_92, $50
 
 DATA_F9EA81:
-	db $8E, $26, $05, $03, $C4, $24, $03, $C8
-	db $24, $03, $CC, $24, $03, $D0, $24, $03
-	db $D4, $24, $03, $D8, $24, $03, $DC, $24
-	db $03, $E0, $24, $92, $50
+	db !animation_command_8E, $26, $05
+	db $03 : dw $24C4
+	db $03 : dw $24C8
+	db $03 : dw $24CC
+	db $03 : dw $24D0
+	db $03 : dw $24D4
+	db $03 : dw $24D8
+	db $03 : dw $24DC
+	db $03 : dw $24E0
+	db !animation_command_92, $50
 
 CODE_B9EA9E:
 	INC $3A,X				;$B9EA9E   |
@@ -4427,20 +4441,36 @@ DATA_B9EBD7:
 	dw DATA_B9EC12
 
 DATA_B9EBDF:
-	db $03, $CC, $22, $03, $C8, $22, $03, $CC
-	db $22, $03, $D0, $22, $84 : dw CODE_B9EBA4 : db $92, $2C
+	db $03 : dw $22CC
+	db $03 : dw $22C8
+	db $03 : dw $22CC
+	db $03 : dw $22D0
+	db !animation_command_84 : dw CODE_B9EBA4
+	db !animation_command_92, $2C
 
 DATA_B9EBF0:
-	db $03, $D0, $22, $03, $CC, $22, $03, $D0
-	db $22, $03, $D4, $22, $84 : dw CODE_B9EBA4 : db $92, $2C
+	db $03 : dw $22D0
+	db $03 : dw $22CC
+	db $03 : dw $22D0
+	db $03 : dw $22D4
+	db !animation_command_84 : dw CODE_B9EBA4
+	db !animation_command_92, $2C
 
 DATA_B9EC01:
-	db $03, $D4, $22, $03, $D0, $22, $03, $D4
-	db $22, $03, $D8, $22, $84 : dw CODE_B9EBA4 : db $92, $2C
+	db $03 : dw $22D4
+	db $03 : dw $22D0
+	db $03 : dw $22D4
+	db $03 : dw $22D8
+	db !animation_command_84 : dw CODE_B9EBA4
+	db !animation_command_92, $2C
 
 DATA_B9EC12:
-	db $03, $D8, $22, $03, $D4, $22, $03, $D8
-	db $22, $03, $DC, $22, $84 : dw CODE_B9EBA4 : db $92, $2C
+	db $03 : dw $22D8
+	db $03 : dw $22D4
+	db $03 : dw $22D8
+	db $03 : dw $22DC
+	db !animation_command_84 : dw CODE_B9EBA4
+	db !animation_command_92, $2C
 
 CODE_B9EC23:
 	LDA $46,x				;$B9EC23   |
@@ -5199,23 +5229,71 @@ CODE_B9F080:
 	JSL CODE_BAC256				;$B9F080  \
 	RTS					;$B9F084  /
 
+;auto barrel cannon rotation frames
 DATA_B9F085:
-	db $CC, $08, $D0, $08, $D4, $08, $D8, $08
-	db $DC, $08, $E0, $08, $E4, $08, $E8, $08
-	db $AC, $08, $B0, $08, $B4, $08, $B8, $08
-	db $BC, $08, $C0, $08, $C4, $08, $C8, $08
+	dw $08CC
+	dw $08D0
+	dw $08D4
+	dw $08D8
+	dw $08DC
+	dw $08E0
+	dw $08E4
+	dw $08E8
+	dw $08AC
+	dw $08B0
+	dw $08B4
+	dw $08B8
+	dw $08BC
+	dw $08C0
+	dw $08C4
+	dw $08C8
 
+;auto barrel cannon rotation frames
 DATA_B9F0A5:
-	db $18, $03, $1C, $03, $20, $03, $24, $03
-	db $28, $03, $2C, $03, $30, $03, $34, $03
-	db $F8, $02, $FC, $02, $00, $03, $04, $03
-	db $08, $03, $0C, $03, $10, $03, $14, $03
+	dw $0318
+	dw $031C
+	dw $0320
+	dw $0324
+	dw $0328
+	dw $032C
+	dw $0330
+	dw $0334
+	dw $02F8
+	dw $02FC
+	dw $0300
+	dw $0304
+	dw $0308
+	dw $030C
+	dw $0310
+	dw $0314
 
+;level end target/chest reward frames
 DATA_B9F0C5:
-	db $44, $19, $B0, $23, $D0, $23, $F0, $23
-	db $10, $24, $8C, $08, $68, $08, $60, $09
-	db $E4, $10, $E4, $10, $E4, $10, $E4, $10
-	db $80, $31, $80, $31, $80, $31, $80, $31
-	db $CC, $0F, $28, $11, $84, $09, $5C, $09
-	db $44, $19, $44, $19, $44, $19, $44, $19
-	db $44, $19, $08, $33, $CC, $0F, $CC, $0F
+	dw $1944	;00 Banana Bunch
+	dw $23B0	;01 K (unused)
+	dw $23D0	;02 O (unused)
+	dw $23F0	;03 N (unused)
+	dw $2410	;04 G
+	dw $088C	;05 Barrel (unused)
+	dw $0868	;06 TNT Barrel (unused)
+	dw $0960	;07 Invincibility Barrel (unused)
+	dw $10E4	;08 Life Balloon
+	dw $10E4	;09 Life Balloon
+	dw $10E4	;0A Life Balloon (unused)
+	dw $10E4	;0B Life Balloon (unused)
+	dw $3180	;0C Banana Coin
+	dw $3180	;0D Banana Coin (unused)
+	dw $3180	;0E Banana Coin (unused)
+	dw $3180	;0F Banana Coin (unused)
+	dw $0FCC	;10 Krem Coin (unused)
+	dw $1128	;11 DK Coin
+	dw $0984	;12 Cannonball (unused)
+	dw $095C	;13 Chest (unused)
+	dw $1944	;14 Banana Bunch (unused)
+	dw $1944	;15 Banana Bunch (unused)
+	dw $1944	;16 Banana Bunch (unused)
+	dw $1944	;17 Banana Bunch (unused)
+	dw $1944	;18 Banana Bunch (unused)
+	dw $3308	;19 Banana
+	dw $0FCC	;1A Krem Coin (unused)
+	dw $0FCC	;1B Krem Coin (unused)

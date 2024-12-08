@@ -2712,212 +2712,732 @@ DATA_FD470E:
 	db $C0, $40, $9C, $38, $53, $43, $10, $08	;11
 
 DATA_FD479E:
-	db $0B, $00, $00, $00, $1B, $00 : dw klobber_karnage_level_palette, CODE_BBACFA, CODE_BBAD34
-	db $30, $30, $1C, $00, $1A, $00, $0F, $00, $00
+	dw $000B
+	dw $0000
+	dw $001B
+	dw klobber_karnage_level_palette
+	dw CODE_BBACFA
+	dw CODE_BBAD34
+	db $30
+	db $30
+	dw $001C
+	dw $001A
+	db $0F
+	dw $0000
 
 DATA_FD47B3:
-	db $0B, $00, $00, $00, $1B, $00 : dw jungle_jinx_level_palette, CODE_BBACFA, CODE_BBAD34
-	db $30, $30, $1C, $00, $1A, $00, $0F, $00, $00
+	dw $000B
+	dw $0000
+	dw $001B
+	dw jungle_jinx_level_palette
+	dw CODE_BBACFA
+	dw CODE_BBAD34
+	db $30
+	db $30
+	dw $001C
+	dw $001A
+	db $0F
+	dw $0000
 
 DATA_FD47C8:
-	db $11, $00, $03, $00, $03, $00 : dw krockhead_klamber_level_palette, CODE_BBACE2, CODE_BBAD34
-	db $26, $26, $10, $00, $0F, $00, $09, $08, $10
+	dw $0011
+	dw $0003
+	dw $0003
+	dw krockhead_klamber_level_palette
+	dw CODE_BBACE2
+	dw CODE_BBAD34
+	db $26
+	db $26
+	dw $0010
+	dw $000F
+	db $09
+	dw $1008
 
 DATA_FD47DD:
-	db $11, $00, $03, $00, $03, $00 : dw mudhole_marsh_level_palette, CODE_BBACE2, CODE_BBAD34
-	db $26, $26, $10, $00, $0F, $00, $09, $08, $10
+	dw $0011
+	dw $0003
+	dw $0003
+	dw mudhole_marsh_level_palette
+	dw CODE_BBACE2
+	dw CODE_BBAD34
+	db $26
+	db $26
+	dw $0010
+	dw $000F
+	db $09
+	dw $1008
 
 DATA_FD47F2:
-	db $0B, $00, $00, $00, $1B, $00 : dw !null_pointer, CODE_BBACFA, CODE_BBAD34
-	db $30, $30, $1C, $00, $1A, $00, $0F, $00, $00
+	dw $000B
+	dw $0000
+	dw $001B
+	dw !null_pointer
+	dw CODE_BBACFA
+	dw CODE_BBAD34
+	db $30
+	db $30
+	dw $001C
+	dw $001A
+	db $0F
+	dw $0000
 
 DATA_FD4807:
-	db $11, $00, $0E, $00, $1A, $00 : dw !null_pointer, CODE_BBACE2, CODE_BBAD34
-	db $2F, $2F, $1B, $00, $19, $00, $0E, $02, $30
+	dw $0011
+	dw $000E
+	dw $001A
+	dw !null_pointer
+	dw CODE_BBACE2
+	dw CODE_BBAD34
+	db $2F
+	db $2F
+	dw $001B
+	dw $0019
+	db $0E
+	dw $3002
 
 DATA_FD481C:
-	db $11, $00, $0D, $00, $1A, $00 : dw !null_pointer, CODE_BBACE2, CODE_BBAD34
-	db $31, $2F, $1D, $00, $1B, $00, $0E, $02, $30
+	dw $0011
+	dw $000D
+	dw $001A
+	dw !null_pointer
+	dw CODE_BBACE2
+	dw CODE_BBAD34
+	db $31
+	db $2F
+	dw $001D
+	dw $001B
+	db $0E
+	dw $3002
 
 DATA_FD4831:
-	db $11, $00, $0D, $00, $1A, $00 : dw !null_pointer, CODE_BBACE2, CODE_BBAD34
-	db $31, $2F, $1D, $00, $1B, $00, $11, $02, $30
+	dw $0011
+	dw $000D
+	dw $001A
+	dw !null_pointer
+	dw CODE_BBACE2
+	dw CODE_BBAD34
+	db $31
+	db $2F
+	dw $001D
+	dw $001B
+	db $11
+	dw $3002
 
 DATA_FD4846:
-	db $13, $00, $1A, $00, $16, $00 : dw !null_pointer, CODE_BBACE2, CODE_BBAD34
-	db $2B, $2B, $15, $00, $14, $00, $0B, $80, $00
+	dw $0013
+	dw $001A
+	dw $0016
+	dw !null_pointer
+	dw CODE_BBACE2
+	dw CODE_BBAD34
+	db $2B
+	db $2B
+	dw $0015
+	dw $0014
+	db $0B
+	dw $0080
 
 DATA_FD485B:
-	db $13, $00, $1A, $00, $16, $00 : dw !null_pointer, CODE_BBACE2, CODE_BBAD06
-	db $2B, $2B, $15, $00, $14, $00, $0B, $80, $00
+	dw $0013
+	dw $001A
+	dw $0016
+	dw !null_pointer
+	dw CODE_BBACE2
+	dw CODE_BBAD06
+	db $2B
+	db $2B
+	dw $0015
+	dw $0014
+	db $0B
+	dw $0080
 
 DATA_FD4870:
-	db $12, $00, $19, $00, $16, $00 : dw !null_pointer, CODE_BBACE2, CODE_BBAD34
-	db $32, $31, $1E, $00, $1C, $00, $0B, $20, $00
+	dw $0012
+	dw $0019
+	dw $0016
+	dw !null_pointer
+	dw CODE_BBACE2
+	dw CODE_BBAD34
+	db $32
+	db $31
+	dw $001E
+	dw $001C
+	db $0B
+	dw $0020
 
 DATA_FD4885:
-	db $13, $00, $1A, $00, $16, $00 : dw !null_pointer, CODE_BBACE2, CODE_BBAD34
-	db $2B, $2B, $15, $00, $14, $00, $14, $82, $00
+	dw $0013
+	dw $001A
+	dw $0016
+	dw !null_pointer
+	dw CODE_BBACE2
+	dw CODE_BBAD34
+	db $2B
+	db $2B
+	dw $0015
+	dw $0014
+	db $14
+	dw $0082
 
 DATA_FD489A:
-	db $11, $00, $00, $00, $05, $00 : dw !null_pointer, CODE_BBACE2, CODE_BBAD19
-	db $2E, $2E, $19, $00, $17, $00, $0D, $00, $00
+	dw $0011
+	dw $0000
+	dw $0005
+	dw !null_pointer
+	dw CODE_BBACE2
+	dw CODE_BBAD19
+	db $2E
+	db $2E
+	dw $0019
+	dw $0017
+	db $0D
+	dw $0000
 
 DATA_FD48AF:
-	db $11, $00, $0B, $00, $05, $00 : dw !null_pointer, CODE_BBACE2, CODE_BBAD34
-	db $2A, $2A, $14, $00, $13, $00, $0C, $00, $00
+	dw $0011
+	dw $000B
+	dw $0005
+	dw !null_pointer
+	dw CODE_BBACE2
+	dw CODE_BBAD34
+	db $2A
+	db $2A
+	dw $0014
+	dw $0013
+	db $0C
+	dw $0000
 
 DATA_FD48C4:
-	db $11, $00, $00, $00, $05, $00 : dw !null_pointer, CODE_BBACE2, CODE_BBAD34
-	db $01, $02, $01, $00, $01, $00, $00, $02, $00
+	dw $0011
+	dw $0000
+	dw $0005
+	dw !null_pointer
+	dw CODE_BBACE2
+	dw CODE_BBAD34
+	db $01
+	db $02
+	dw $0001
+	dw $0001
+	db $00
+	dw $0002
 
 DATA_FD48D9:
-	db $10, $00, $16, $00, $05, $00 : dw !null_pointer, CODE_BBACE2, CODE_BBAD34
-	db $35, $34, $21, $00, $1F, $00, $00, $02, $00
+	dw $0010
+	dw $0016
+	dw $0005
+	dw !null_pointer
+	dw CODE_BBACE2
+	dw CODE_BBAD34
+	db $35
+	db $34
+	dw $0021
+	dw $001F
+	db $00
+	dw $0002
 
 DATA_FD48EE:
-	db $0F, $00, $15, $00, $05, $00 : dw !null_pointer, CODE_BBACE2, CODE_BBAD34
-	db $1E, $1E, $0E, $00, $0D, $00, $00, $02, $00
+	dw $000F
+	dw $0015
+	dw $0005
+	dw !null_pointer
+	dw CODE_BBACE2
+	dw CODE_BBAD34
+	db $1E
+	db $1E
+	dw $000E
+	dw $000D
+	db $00
+	dw $0002
 
 DATA_FD4903:
-	db $0E, $00, $14, $00, $05, $00 : dw gusty_glade_level_palette, CODE_BBACE2, CODE_BBAD34
-	db $1D, $1D, $0F, $00, $0E, $00, $00, $02, $80
+	dw $000E
+	dw $0014
+	dw $0005
+	dw gusty_glade_level_palette
+	dw CODE_BBACE2
+	dw CODE_BBAD34
+	db $1D
+	db $1D
+	dw $000F
+	dw $000E
+	db $00
+	dw $8002
 
 DATA_FD4918:
-	db $11, $00, $13, $00, $10, $00 : dw !null_pointer, CODE_BBACE2, CODE_BBAD34
-	db $02, $03, $02, $00, $02, $00, $01, $02, $00
+	dw $0011
+	dw $0013
+	dw $0010
+	dw !null_pointer
+	dw CODE_BBACE2
+	dw CODE_BBAD34
+	db $02
+	db $03
+	dw $0002
+	dw $0002
+	db $01
+	dw $0002
 
 DATA_FD492D:
-	db $0D, $00, $12, $00, $10, $00 : dw !null_pointer, CODE_BBACE2, CODE_BBAD34
-	db $02, $03, $18, $00, $02, $00, $01, $22, $00
+	dw $000D
+	dw $0012
+	dw $0010
+	dw !null_pointer
+	dw CODE_BBACE2
+	dw CODE_BBAD34
+	db $02
+	db $03
+	dw $0018
+	dw $0002
+	db $01
+	dw $0022
 
 DATA_FD4942:
-	db $0C, $00, $11, $00, $10, $00 : dw !null_pointer, CODE_BBACE2, CODE_BBAD34
-	db $28, $28, $12, $00, $11, $00, $01, $12, $00
+	dw $000C
+	dw $0011
+	dw $0010
+	dw !null_pointer
+	dw CODE_BBACE2
+	dw CODE_BBAD34
+	db $28
+	db $28
+	dw $0012
+	dw $0011
+	db $01
+	dw $0012
 
 DATA_FD4957:
-	db $11, $00, $10, $00, $0B, $00 : dw !null_pointer, CODE_BBACE2, CODE_BBAD34
-	db $03, $04, $03, $00, $03, $00, $02, $02, $08
+	dw $0011
+	dw $0010
+	dw $000B
+	dw !null_pointer
+	dw CODE_BBACE2
+	dw CODE_BBAD34
+	db $03
+	db $04
+	dw $0003
+	dw $0003
+	db $02
+	dw $0802
 
 DATA_FD496C:
-	db $11, $00, $0F, $00, $0B, $00 : dw !null_pointer, CODE_BBACE2, CODE_BBAD34
-	db $03, $04, $03, $00, $03, $00, $07, $02, $08
+	dw $0011
+	dw $000F
+	dw $000B
+	dw !null_pointer
+	dw CODE_BBACE2
+	dw CODE_BBAD34
+	db $03
+	db $04
+	dw $0003
+	dw $0003
+	db $07
+	dw $0802
 
 DATA_FD4981:
-	db $11, $00, $10, $00, $0B, $00 : dw !null_pointer, CODE_BBACE2, CODE_BBAD34
-	db $03, $04, $03, $00, $03, $00, $07, $02, $08
+	dw $0011
+	dw $0010
+	dw $000B
+	dw !null_pointer
+	dw CODE_BBACE2
+	dw CODE_BBAD34
+	db $03
+	db $04
+	dw $0003
+	dw $0003
+	db $07
+	dw $0802
 
 DATA_FD4996:
-	db $11, $00, $04, $00, $06, $00 : dw !null_pointer, CODE_BBACE2, CODE_BBAD34
-	db $06, $07, $06, $00, $06, $00, $03, $0B, $00
+	dw $0011
+	dw $0004
+	dw $0006
+	dw !null_pointer
+	dw CODE_BBACE2
+	dw CODE_BBAD34
+	db $06
+	db $07
+	dw $0006
+	dw $0006
+	db $03
+	dw $000B
 
 DATA_FD49AB:
-	db $11, $00, $17, $00, $06, $00 : dw !null_pointer, CODE_BBACE2, CODE_BBAD34
-	db $06, $07, $1A, $00, $18, $00, $03, $0B, $00
+	dw $0011
+	dw $0017
+	dw $0006
+	dw !null_pointer
+	dw CODE_BBACE2
+	dw CODE_BBAD34
+	db $06
+	db $07
+	dw $001A
+	dw $0018
+	db $03
+	dw $000B
 
 DATA_FD49C0:
-	db $04, $00, $04, $00, $12, $00 : dw !null_pointer, CODE_BBACE2, CODE_BBAD34
-	db $06, $07, $06, $00, $06, $00, $03, $0B, $00
+	dw $0004
+	dw $0004
+	dw $0012
+	dw !null_pointer
+	dw CODE_BBACE2
+	dw CODE_BBAD34
+	db $06
+	db $07
+	dw $0006
+	dw $0006
+	db $03
+	dw $000B
 
 DATA_FD49D5:
-	db $09, $00, $0A, $00, $0D, $00 : dw !null_pointer, CODE_BBACEE, CODE_BBAD34
-	db $20, $20, $07, $00, $07, $00, $06, $08, $00
+	dw $0009
+	dw $000A
+	dw $000D
+	dw !null_pointer
+	dw CODE_BBACEE
+	dw CODE_BBAD34
+	db $20
+	db $20
+	dw $0007
+	dw $0007
+	db $06
+	dw $0008
 
 DATA_FD49EA:
-	db $09, $00, $0A, $00, $0D, $00 : dw fiery_furnace_level_palette, CODE_BBACEE, CODE_BBAD34
-	db $20, $20, $07, $00, $07, $00, $06, $08, $00
+	dw $0009
+	dw $000A
+	dw $000D
+	dw fiery_furnace_level_palette
+	dw CODE_BBACEE
+	dw CODE_BBAD34
+	db $20
+	db $20
+	dw $0007
+	dw $0007
+	db $06
+	dw $0008
 
 DATA_FD49FF:
-	db $08, $00, $09, $00, $0D, $00 : dw !null_pointer, CODE_BBACEE, CODE_BBAD34
-	db $29, $29, $13, $00, $12, $00, $06, $00, $01
+	dw $0008
+	dw $0009
+	dw $000D
+	dw !null_pointer
+	dw CODE_BBACEE
+	dw CODE_BBAD34
+	db $29
+	db $29
+	dw $0013
+	dw $0012
+	db $06
+	dw $0100
 
 DATA_FD4A14:
-	db $05, $00, $06, $00, $1D, $00 : dw !null_pointer, CODE_BBACE2, CODE_BBAD34
-	db $2D, $2D, $17, $00, $16, $00, $04, $42, $00
+	dw $0005
+	dw $0006
+	dw $001D
+	dw !null_pointer
+	dw CODE_BBACE2
+	dw CODE_BBAD34
+	db $2D
+	db $2D
+	dw $0017
+	dw $0016
+	db $04
+	dw $0042
 
 DATA_FD4A29:
-	db $11, $00, $05, $00, $1D, $00 : dw !null_pointer, CODE_BBACE2, CODE_BBAD34
-	db $21, $21, $08, $00, $08, $00, $04, $42, $00
+	dw $0011
+	dw $0005
+	dw $001D
+	dw !null_pointer
+	dw CODE_BBACE2
+	dw CODE_BBAD34
+	db $21
+	db $21
+	dw $0008
+	dw $0008
+	db $04
+	dw $0042
 
 DATA_FD4A3E:
-	db $07, $00, $05, $00, $1D, $00 : dw !null_pointer, CODE_BBACE2, CODE_BBAD34
-	db $21, $21, $08, $00, $08, $00, $04, $42, $10
+	dw $0007
+	dw $0005
+	dw $001D
+	dw !null_pointer
+	dw CODE_BBACE2
+	dw CODE_BBAD34
+	db $21
+	db $21
+	dw $0008
+	dw $0008
+	db $04
+	dw $1042
 
 DATA_FD4A53:
-	db $14, $00, $05, $00, $15, $00 : dw !null_pointer, CODE_BBACE2, CODE_BBAD34
-	db $25, $25, $0D, $00, $08, $00, $04, $02, $00
+	dw $0014
+	dw $0005
+	dw $0015
+	dw !null_pointer
+	dw CODE_BBACE2
+	dw CODE_BBAD34
+	db $25
+	db $25
+	dw $000D
+	dw $0008
+	db $04
+	dw $0002
 
 DATA_FD4A68:
-	db $14, $00, $05, $00, $1D, $00 : dw !null_pointer, CODE_BBACE2, CODE_BBAD34
-	db $25, $25, $0D, $00, $08, $00, $04, $42, $00
+	dw $0014
+	dw $0005
+	dw $001D
+	dw !null_pointer
+	dw CODE_BBACE2
+	dw CODE_BBAD34
+	db $25
+	db $25
+	dw $000D
+	dw $0008
+	db $04
+	dw $0042
 
 DATA_FD4A7D:
-	db $07, $00, $05, $00, $1D, $00 : dw !null_pointer, CODE_BBACE2, CODE_BBAD34
-	db $0B, $21, $08, $00, $08, $00, $04, $42, $00
+	dw $0007
+	dw $0005
+	dw $001D
+	dw !null_pointer
+	dw CODE_BBACE2
+	dw CODE_BBAD34
+	db $0B
+	db $21
+	dw $0008
+	dw $0008
+	db $04
+	dw $0042
 
 DATA_FD4A92:
-	db $00, $00, $00, $00, $0E, $00 : dw !null_pointer, CODE_BBACE2, CODE_BBAD34
-	db $22, $22, $09, $00, $09, $00, $05, $00, $40
+	dw $0000
+	dw $0000
+	dw $000E
+	dw !null_pointer
+	dw CODE_BBACE2
+	dw CODE_BBAD34
+	db $22
+	db $22
+	dw $0009
+	dw $0009
+	db $05
+	dw $4000
 
 DATA_FD4AA7:
-	db $00, $00, $00, $00, $0E, $00 : dw !null_pointer, CODE_BBACE2, CODE_BBAD34
-	db $22, $22, $09, $00, $09, $00, $13, $00, $40
+	dw $0000
+	dw $0000
+	dw $000E
+	dw !null_pointer
+	dw CODE_BBACE2
+	dw CODE_BBAD34
+	db $22
+	db $22
+	dw $0009
+	dw $0009
+	db $13
+	dw $4000
 
 DATA_FD4ABC:
-	db $06, $00, $08, $00, $17, $00 : dw !null_pointer, CODE_BBACE2, CODE_BBAD34
-	db $2C, $2C, $16, $00, $15, $00, $13, $00, $40
+	dw $0006
+	dw $0008
+	dw $0017
+	dw !null_pointer
+	dw CODE_BBACE2
+	dw CODE_BBAD34
+	db $2C
+	db $2C
+	dw $0016
+	dw $0015
+	db $13
+	dw $4000
 
 DATA_FD4AD1:
-	db $06, $00, $08, $00, $17, $00 : dw !null_pointer, CODE_BBACE2, CODE_BBAD34
-	db $2C, $2C, $16, $00, $15, $00, $05, $00, $40
+	dw $0006
+	dw $0008
+	dw $0017
+	dw !null_pointer
+	dw CODE_BBACE2
+	dw CODE_BBAD34
+	db $2C
+	db $2C
+	dw $0016
+	dw $0015
+	db $05
+	dw $4000
 
 DATA_FD4AE6:
-	db $11, $00, $18, $00, $07, $00 : dw windy_well_level_palette, CODE_BBACE2, CODE_BBAD34
-	db $34, $33, $20, $00, $1E, $00, $08, $00, $80
+	dw $0011
+	dw $0018
+	dw $0007
+	dw windy_well_level_palette
+	dw CODE_BBACE2
+	dw CODE_BBAD34
+	db $34
+	db $33
+	dw $0020
+	dw $001E
+	db $08
+	dw $8000
 
 DATA_FD4AFB:
-	db $11, $00, $07, $00, $07, $00 : dw !null_pointer, CODE_BBACE2, CODE_BBAD34
-	db $24, $24, $0C, $00, $0C, $00, $08, $00, $00
+	dw $0011
+	dw $0007
+	dw $0007
+	dw !null_pointer
+	dw CODE_BBACE2
+	dw CODE_BBAD34
+	db $24
+	db $24
+	dw $000C
+	dw $000C
+	db $08
+	dw $0000
 
 DATA_FD4B10:
-	db $11, $00, $07, $00, $07, $00 : dw squawks_shaft_level_palette, CODE_BBACE2, CODE_BBAD34
-	db $24, $24, $0C, $00, $0C, $00, $08, $00, $00
+	dw $0011
+	dw $0007
+	dw $0007
+	dw squawks_shaft_level_palette
+	dw CODE_BBACE2
+	dw CODE_BBAD34
+	db $24
+	db $24
+	dw $000C
+	dw $000C
+	db $08
+	dw $0000
 
 DATA_FD4B25:
-	db $11, $00, $02, $00, $09, $00 : dw !null_pointer, CODE_BBACE2, CODE_BBAD34
-	db $27, $27, $11, $00, $10, $00, $0A, $80, $02
+	dw $0011
+	dw $0002
+	dw $0009
+	dw !null_pointer
+	dw CODE_BBACE2
+	dw CODE_BBAD34
+	db $27
+	db $27
+	dw $0011
+	dw $0010
+	db $0A
+	dw $0280
 
 DATA_FD4B3A:
-	db $03, $00, $02, $00, $09, $00 : dw !null_pointer, CODE_BBACE2, CODE_BBAD34
-	db $27, $27, $11, $00, $10, $00, $0A, $80, $02
+	dw $0003
+	dw $0002
+	dw $0009
+	dw !null_pointer
+	dw CODE_BBACE2
+	dw CODE_BBAD34
+	db $27
+	db $27
+	dw $0011
+	dw $0010
+	db $0A
+	dw $0280
 
 DATA_FD4B4F:
-	db $02, $00, $02, $00, $09, $00 : dw !null_pointer, CODE_BBACE2, CODE_BBAD34
-	db $27, $27, $11, $00, $10, $00, $0A, $80, $02
+	dw $0002
+	dw $0002
+	dw $0009
+	dw !null_pointer
+	dw CODE_BBACE2
+	dw CODE_BBAD34
+	db $27
+	db $27
+	dw $0011
+	dw $0010
+	db $0A
+	dw $0280
 
 DATA_FD4B64:
-	db $01, $00, $01, $00, $09, $00 : dw !null_pointer, CODE_BBACE2, CODE_BBAD34
-	db $33, $32, $1F, $00, $1D, $00, $12, $80, $02
+	dw $0001
+	dw $0001
+	dw $0009
+	dw !null_pointer
+	dw CODE_BBACE2
+	dw CODE_BBAD34
+	db $33
+	db $32
+	dw $001F
+	dw $001D
+	db $12
+	dw $0280
 
 DATA_FD4B79:
-	db $11, $00, $02, $00, $09, $00 : dw !null_pointer, CODE_BBACE2, CODE_BBAD34
-	db $27, $27, $11, $00, $10, $00, $12, $80, $02
+	dw $0011
+	dw $0002
+	dw $0009
+	dw !null_pointer
+	dw CODE_BBACE2
+	dw CODE_BBAD34
+	db $27
+	db $27
+	dw $0011
+	dw $0010
+	db $12
+	dw $0280
 
 DATA_FD4B8E:
-	db $02, $00, $02, $00, $09, $00 : dw !null_pointer, CODE_BBACE2, CODE_BBAD34
-	db $27, $27, $11, $00, $10, $00, $12, $80, $02
+	dw $0002
+	dw $0002
+	dw $0009
+	dw !null_pointer
+	dw CODE_BBACE2
+	dw CODE_BBAD34
+	db $27
+	db $27
+	dw $0011
+	dw $0010
+	db $12
+	dw $0280
 
 DATA_FD4BA3:
-	db $03, $00, $02, $00, $09, $00 : dw !null_pointer, CODE_BBACE2, CODE_BBAD34
-	db $27, $27, $11, $00, $10, $00, $12, $80, $02
+	dw $0003
+	dw $0002
+	dw $0009
+	dw !null_pointer
+	dw CODE_BBACE2
+	dw CODE_BBAD34
+	db $27
+	db $27
+	dw $0011
+	dw $0010
+	db $12
+	dw $0280
 
 DATA_FD4BB8:
-	db $0A, $00, $0C, $00, $0F, $00 : dw !null_pointer, CODE_BBACE2, CODE_BBAD34
-	db $23, $23, $0A, $00, $0A, $00, $10, $04, $00
+	dw $000A
+	dw $000C
+	dw $000F
+	dw !null_pointer
+	dw CODE_BBACE2
+	dw CODE_BBAD34
+	db $23
+	db $23
+	dw $000A
+	dw $000A
+	db $10
+	dw $0004
 
 DATA_FD4BCD:
-	db $11, $00, $03, $00, $03, $00 : dw !null_pointer, CODE_BBACE2, CODE_BBAD34
-	db $26, $26, $10, $00, $0F, $00, $09, $08, $10
+	dw $0011
+	dw $0003
+	dw $0003
+	dw !null_pointer
+	dw CODE_BBACE2
+	dw CODE_BBAD34
+	db $26
+	db $26
+	dw $0010
+	dw $000F
+	db $09
+	dw $1008
 
 DATA_FD4BE2:
 	dw !normal_level_type
@@ -6052,33 +6572,34 @@ DATA_FD6170:
 	dw !null_pointer				;00CE
 	dw !null_pointer				;00CF
 
+;level end target/chest reward palettes
 DATA_FD618E:
-	dw global_sprite_palette			;00D0
-	dw global_sprite_palette			;00D1
-	dw global_sprite_palette			;00D2
-	dw global_sprite_palette			;00D3
-	dw global_sprite_palette			;00D4
-	dw barrel_sprite_palette			;00D5
-	dw barrel_sprite_palette			;00D6
-	dw barrel_sprite_palette			;00D7
-	dw life_balloon_red_sprite_palette		;00D8
-	dw life_balloon_green_sprite_palette		;00D9
-	dw life_balloon_blue_sprite_palette		;00DA
-	dw coin_sprite_palette				;00DB
-	dw coin_sprite_palette				;00DC
-	dw coin_sprite_palette				;00DD
-	dw coin_sprite_palette				;00DE
-	dw coin_sprite_palette				;00DF
-	dw coin_sprite_palette				;00E0
-	dw coin_sprite_palette				;00E1
-	dw cannonball_sprite_palette			;00E2
-	dw coin_sprite_palette				;00E3
-	dw coin_sprite_palette				;00E4
-	dw coin_sprite_palette				;00E5
-	dw coin_sprite_palette				;00E6
-	dw coin_sprite_palette				;00E7
-	dw coin_sprite_palette				;00E8
-	dw global_sprite_palette			;00E9
+	dw global_sprite_palette			;0000
+	dw global_sprite_palette			;0001
+	dw global_sprite_palette			;0002
+	dw global_sprite_palette			;0003
+	dw global_sprite_palette			;0004
+	dw barrel_sprite_palette			;0005
+	dw barrel_sprite_palette			;0006
+	dw barrel_sprite_palette			;0007
+	dw life_balloon_red_sprite_palette		;0008
+	dw life_balloon_green_sprite_palette		;0009
+	dw life_balloon_blue_sprite_palette		;000A
+	dw coin_sprite_palette				;000B
+	dw coin_sprite_palette				;000C
+	dw coin_sprite_palette				;000D
+	dw coin_sprite_palette				;000E
+	dw coin_sprite_palette				;000F
+	dw coin_sprite_palette				;0010
+	dw coin_sprite_palette				;0011
+	dw cannonball_sprite_palette			;0012
+	dw coin_sprite_palette				;0013
+	dw coin_sprite_palette				;0014
+	dw coin_sprite_palette				;0015
+	dw coin_sprite_palette				;0016
+	dw coin_sprite_palette				;0017
+	dw coin_sprite_palette				;0018
+	dw global_sprite_palette			;0019
 
 DATA_FD61C2:
 	db $00, $00, $00, $0C, $00, $14, $00, $20

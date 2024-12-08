@@ -25,116 +25,338 @@ DATA_FF002E:
 	db $00, $00, $00, $00, $00, $00, $00, $00
 	db $00, $00, $00
 
-
+;diddy constants
 DATA_FF0040:
-	db $70, $00
+%offset(DATA_FF0042, 2)
+	dw $0070			;00 idle gravity force
+	dw $0800			;02 max fall y velocity
+	dw $005A			;04 jump gravity force
+	dw $0800			;06 max fall y velocity holding down?
+	dw $F7C8			;08 jump y velocity
+	dw $0120			;0A 
+	dw $0240			;0C walk x velocity
+	dw $0360			;0E run x velocity
+	dw $000B			;10 jump x acceleration
+	dw $000B			;12 walk x acceleration
+	dw $000B			;14 run x acceleration
+	dw $0002			;16 ice walk x acceleration
+	dw $0005			;18 ice run x acceleration
+	dw $0002			;1A ice idle x acceleration (used for idle on frozen water)
+	dw $0002			;1C 
+	dw $0120			;1E idle roll x velocity
+	dw $0360			;20 walk roll x velocity
+	dw $0480			;22 run roll x velocity
+	dw $003C			;24 death bounce gravity force
+	dw $FA80			;26 death first bounce y velocity
+	dw $FD80			;28 death second bounce y velocity
+	dw $FA80			;2A hurt bounce y velocity
+	dw $0400			;2C hurt run x velocity
+	dw $0100			;2E glide max fall y velocity (downward velocity)
+	dw $FF00			;30 glide y velocity (upward velocity)
+	dw $000D			;32 roll gravity delay timer (used when rolling off ledges)
+	dw $0C00			;34 thrown object forward x velocity
+	dw $FF00			;36 thrown object forward y velocity
+	dw $0200			;38 thrown object upward x velocity
+	dw $F800			;3A thrown object upward y velocity
+	dw $0C80			;3C thrown kong forward x velocity (for other kong)
+	dw $FE00			;3E thrown kong forward y velocity (for other kong)
+	dw $0000			;40 thrown kong upward x velocity (for other kong)
+	dw $F840			;42 thrown kong upward y velocity (for other kong)
+	dw $0040			;44 team thrown upward gravity force
+	dw $0200			;46 team thrown upward x velocity (when steering kong in air)
+	dw $000A			;48 team thrown upward x acceleration (when steering kong in air)
+	dw $0050			;4A barrel cannon shoot gravity force
+	dw $0004			;4C barrel cannon shoot x acceleration
+	dw $0180			;4E steerable barrel cannon move velocity
+	dw $000A			;50 steerable barrel cannon move acceleration
+	dw $0300			;52 rotatable barrel cannon rotation speed
+	dw $01C0			;54 up single rope climb y velocity
+	dw $02C0			;56 down single rope climb y velocity
+	dw $02C0			;58 up single rope climb y velocity (holding y)
+	dw $03C0			;5A down single rope climb y velocity (holding y)
+	dw $01C0			;5C up double rope climb 
+	dw $02C0			;5E down double rope climb 
+	dw $02C0			;60 up double rope climb (holding y)
+	dw $03C0			;62 down double rope climb (holding y)
+	dw $0240			;64 horizontal rope climb x velocity
+	dw $0380			;66 horizontal rope climb x velocity (holding y)
+	dw $FF60			;68 updraft y velocity (holding up)
+	dw $0060			;6A updraft y velocity (holding down)
+	dw $0200			;6C updraft x velocity
+	dw $0003			;6E updraft acceleration
+	dw $FE00			;70 swim up y velocity
+	dw $FD40			;72 swim up y velocity (holding up)
+	dw $FF00			;74 swim up y velocity (holding down)
+	dw $000C			;76 swim gravity force
+	dw $0140			;78 swim down y velocity
+	dw $0240			;7A swim down y velocity (holding down)
+	dw $0180			;7C swim x velocity
+	dw $0280			;7E swim x velocity (holding y)
+	dw $00C0			;80 squawks max fall y velocity (transformed)
+	dw $0480			;82 squawks max fall y velocity (transformed holding down)
+	dw $FD80			;84 squawks flap y velocity (transformed)
+	dw $0003			;86 squawks x acceleration (transformed)
+	dw $0010			;88 squitter web shot delay
+	dw $0003			;8A squitter max web shots
+	dw $0400			;8C squitter web shot x velocity
+	dw $FFEE			;8E squitter web shot up y velocity
+	dw $0012			;90 squitter web shot down y velocity
+	dw $0200			;92 squitter web platform x velocity
+	dw $FFF2			;94 squitter web platform up y velocity
+	dw $000E			;96 squitter web platform down y velocity
+	dw $F600			;98 rattly super jump y velocity
+	dw $0070			;9A squitter idle gravity force
+	dw $005C			;9C rattly idle gravity force
+	dw $0010			;9E squawks idle gravity force
+	dw $0070			;A0 rambi idle gravity force
+	dw $0070			;A2 enguarde idle gravity force
+	dw $0800			;A4 squitter max fall y velocity
+	dw $0800			;A6 rattly max fall y velocity
+	dw $0280			;A8 squawks max fall y velocity
+	dw $0800			;AA rambi max fall y velocity
+	dw $0800			;AC enguarde max fall y velocity
+	dw $0048			;AE squitter jump gravity force
+	dw $0036			;B0 rattly jump gravity force
+	dw $0028			;B2 squawks gravity force (holding down)
+	dw $0048			;B4 rambi gravity jump force
+	dw $0048			;B6 
+	dw $0800			;B8 
+	dw $0800			;BA 
+	dw $0380			;BC squawks max fall y velocity (holding down)
+	dw $0800			;BE 
+	dw $0800			;C0 
+	dw $F870			;C2 squitter jump y velocity
+	dw $F870			;C4 rattly jump y velocity
+	dw $FE80			;C6 squawks flap y velocity (riding/castle crush)
+	dw $F900			;C8 rambi jump y velocity
+	dw $F900			;CA 
+	dw $0220			;CC squitter walk x velocity
+	dw $0200			;CE rattly walk x velocity
+	dw $0300			;D0 squawks walk x velocity
+	dw $0200			;D2 rambi walk x velocity
+	dw $0200			;D4 
+	dw $0340			;D6 squitter run x velocity
+	dw $0300			;D8 rattly run x velocity
+	dw $0480			;DA squawks run x velocity
+	dw $0300			;DC rambi run x velocity
+	dw $0300			;DE 
+	dw $0009			;E0 squitter x acceleration
+	dw $000A			;E2 rattly x acceleration
+	dw $0002			;E4 squawks x acceleration (riding)
+	dw $0007			;E6 rambi x acceleration
+	dw $0007			;E8 
 
-DATA_FF0042:
-	db $00, $08, $5A, $00, $00, $08, $C8, $F7
-	db $20, $01, $40, $02, $60, $03, $0B, $00
-	db $0B, $00, $0B, $00, $02, $00, $05, $00
-	db $02, $00, $02, $00, $20, $01, $60, $03
-	db $80, $04, $3C, $00, $80, $FA, $80, $FD
-	db $80, $FA, $00, $04, $00, $01, $00, $FF
-	db $0D, $00, $00, $0C, $00, $FF, $00, $02
-	db $00, $F8, $80, $0C, $00, $FE, $00, $00
-	db $40, $F8, $40, $00, $00, $02, $0A, $00
-	db $50, $00, $04, $00, $80, $01, $0A, $00
-	db $00, $03, $C0, $01, $C0, $02, $C0, $02
-	db $C0, $03, $C0, $01, $C0, $02, $C0, $02
-	db $C0, $03, $40, $02, $80, $03, $60, $FF
-	db $60, $00, $00, $02, $03, $00, $00, $FE
-	db $40, $FD, $00, $FF, $0C, $00, $40, $01
-	db $40, $02, $80, $01, $80, $02, $C0, $00
-	db $80, $04, $80, $FD, $03, $00, $10, $00
-	db $03, $00, $00, $04, $EE, $FF, $12, $00
-	db $00, $02, $F2, $FF, $0E, $00, $00, $F6
-	db $70, $00, $5C, $00, $10, $00, $70, $00
-	db $70, $00, $00, $08, $00, $08, $80, $02
-	db $00, $08, $00, $08, $48, $00, $36, $00
-	db $28, $00, $48, $00, $48, $00, $00, $08
-	db $00, $08, $80, $03, $00, $08, $00, $08
-	db $70, $F8, $70, $F8, $80, $FE, $00, $F9
-	db $00, $F9, $20, $02, $00, $02, $00, $03
-	db $00, $02, $00, $02, $40, $03, $00, $03
-	db $80, $04, $00, $03, $00, $03, $09, $00
-	db $0A, $00, $02, $00, $07, $00, $07, $00
-
+;dixie constants
 DATA_FF012A:
-	db $70, $00
+%offset(DATA_FF012C, 2)
+	dw $0070			;00 idle gravity force
+	dw $0800			;02 max fall y velocity
+	dw $0048			;04 jump gravity force
+	dw $0800			;06 max fall y velocity holding down?
+	dw $F8C8			;08 jump y velocity
+	dw $0100			;0A 
+	dw $0200			;0C walk x velocity
+	dw $0300			;0E run x velocity
+	dw $000B			;10 jump x acceleration
+	dw $000B			;12 walk x acceleration
+	dw $000B			;14 run x acceleration
+	dw $0002			;16 ice walk x acceleration
+	dw $0005			;18 ice run x acceleration
+	dw $0002			;1A ice idle x acceleration (used for idle on frozen water)
+	dw $0002			;1C 
+	dw $0120			;1E idle roll x velocity
+	dw $0360			;20 walk roll x velocity
+	dw $0480			;22 run roll x velocity
+	dw $003C			;24 death bounce gravity force
+	dw $FA80			;26 death first bounce y velocity
+	dw $FD80			;28 death second bounce y velocity
+	dw $FA80			;2A hurt bounce y velocity
+	dw $0400			;2C hurt run x velocity
+	dw $0100			;2E glide max fall y velocity (downward velocity)
+	dw $FF00			;30 glide y velocity (upward velocity)
+	dw $0004			;32 roll gravity delay timer (used when rolling off ledges)
+	dw $0B00			;34 thrown object forward x velocity
+	dw $FF80			;36 thrown object forward y velocity
+	dw $0200			;38 thrown object upward x velocity
+	dw $F800			;3A thrown object upward y velocity
+	dw $0E80			;3C thrown kong forward x velocity (for other kong)
+	dw $FE80			;3E thrown kong forward y velocity (for other kong)
+	dw $0000			;40 thrown kong upward x velocity (for other kong)
+	dw $F800			;42 thrown kong upward y velocity (for other kong)
+	dw $0040			;44 team thrown upward gravity force
+	dw $0200			;46 team thrown upward x velocity (when steering kong in air)
+	dw $0008			;48 team thrown upward x acceleration (when steering kong in air)
+	dw $0050			;4A barrel cannon shoot gravity force
+	dw $0004			;4C barrel cannon shoot x acceleration
+	dw $0180			;4E steerable barrel cannon move velocity
+	dw $000A			;50 steerable barrel cannon move acceleration
+	dw $0300			;52 rotatable barrel cannon rotation speed
+	dw $0140			;54 up single rope climb y velocity
+	dw $0240			;56 down single rope climb y velocity
+	dw $0240			;58 up single rope climb y velocity (holding y)
+	dw $0340			;5A down single rope climb y velocity (holding y)
+	dw $0140			;5C up double rope climb 
+	dw $0240			;5E down double rope climb 
+	dw $0240			;60 up double rope climb (holding y)
+	dw $0340			;62 down double rope climb (holding y)
+	dw $0200			;64 horizontal rope climb x velocity
+	dw $0300			;66 horizontal rope climb x velocity (holding y)
+	dw $FF60			;68 updraft y velocity (holding up)
+	dw $0060			;6A updraft y velocity (holding down)
+	dw $0200			;6C updraft x velocity
+	dw $0003			;6E updraft acceleration
+	dw $FE00			;70 swim up y velocity
+	dw $FD40			;72 swim up y velocity (holding up)
+	dw $FF00			;74 swim up y velocity (holding down)
+	dw $000C			;76 swim gravity force
+	dw $0140			;78 swim down y velocity
+	dw $0240			;7A swim down y velocity (holding down)
+	dw $0180			;7C swim x velocity
+	dw $0280			;7E swim x velocity (holding y)
+	dw $00C0			;80 squawks max fall y velocity (transformed)
+	dw $0480			;82 squawks max fall y velocity (transformed holding down)
+	dw $FD80			;84 squawks flap y velocity (transformed)
+	dw $0003			;86 squawks x acceleration (transformed)
+	dw $0010			;88 squitter web shot delay
+	dw $0003			;8A squitter max web shots
+	dw $0400			;8C squitter web shot x velocity
+	dw $FFEE			;8E squitter web shot up y velocity
+	dw $0012			;90 squitter web shot down y velocity
+	dw $0200			;92 squitter web platform x velocity
+	dw $FFF2			;94 squitter web platform up y velocity
+	dw $000E			;96 squitter web platform down y velocity
+	dw $F600			;98 rattly super jump y velocity
+	dw $0070			;9A squitter idle gravity force
+	dw $005C			;9C rattly idle gravity force
+	dw $0010			;9E squawks idle gravity force
+	dw $0070			;A0 rambi idle gravity force
+	dw $0070			;A2 enguarde idle gravity force
+	dw $0800			;A4 squitter max fall y velocity
+	dw $0800			;A6 rattly max fall y velocity
+	dw $0280			;A8 squawks max fall y velocity
+	dw $0800			;AA rambi max fall y velocity
+	dw $0800			;AC enguarde max fall y velocity
+	dw $0048			;AE squitter jump gravity force
+	dw $0036			;B0 rattly jump gravity force
+	dw $0028			;B2 squawks gravity force (holding down)
+	dw $0048			;B4 rambi gravity jump force
+	dw $0048			;B6 
+	dw $0800			;B8 
+	dw $0800			;BA 
+	dw $0380			;BC squawks max fall y velocity (holding down)
+	dw $0800			;BE 
+	dw $0800			;C0 
+	dw $F880			;C2 squitter jump y velocity
+	dw $F870			;C4 rattly jump y velocity
+	dw $FE80			;C6 squawks flap y velocity (riding/castle crush)
+	dw $F900			;C8 rambi jump y velocity
+	dw $F900			;CA 
+	dw $0220			;CC squitter walk x velocity
+	dw $0200			;CE rattly walk x velocity
+	dw $0300			;D0 squawks walk x velocity
+	dw $0200			;D2 rambi walk x velocity
+	dw $0200			;D4 
+	dw $0340			;D6 squitter run x velocity
+	dw $0300			;D8 rattly run x velocity
+	dw $0480			;DA squawks run x velocity
+	dw $0300			;DC rambi run x velocity
+	dw $0300			;DE 
+	dw $0009			;E0 squitter x acceleration
+	dw $000A			;E2 rattly x acceleration
+	dw $0002			;E4 squawks x acceleration (riding)
+	dw $0007			;E6 rambi x acceleration
+	dw $0007			;E8 
 
-DATA_FF012C:
-	db $00, $08, $48, $00, $00, $08, $C8, $F8
-	db $00, $01, $00, $02, $00, $03, $0B, $00
-	db $0B, $00, $0B, $00, $02, $00, $05, $00
-	db $02, $00, $02, $00, $20, $01, $60, $03
-	db $80, $04, $3C, $00, $80, $FA, $80, $FD
-	db $80, $FA, $00, $04, $00, $01, $00, $FF
-	db $04, $00, $00, $0B, $80, $FF, $00, $02
-	db $00, $F8, $80, $0E, $80, $FE, $00, $00
-	db $00, $F8, $40, $00, $00, $02, $08, $00
-	db $50, $00, $04, $00, $80, $01, $0A, $00
-	db $00, $03, $40, $01, $40, $02, $40, $02
-	db $40, $03, $40, $01, $40, $02, $40, $02
-	db $40, $03, $00, $02, $00, $03, $60, $FF
-	db $60, $00, $00, $02, $03, $00, $00, $FE
-	db $40, $FD, $00, $FF, $0C, $00, $40, $01
-	db $40, $02, $80, $01, $80, $02, $C0, $00
-	db $80, $04, $80, $FD, $03, $00, $10, $00
-	db $03, $00, $00, $04, $EE, $FF, $12, $00
-	db $00, $02, $F2, $FF, $0E, $00, $00, $F6
-	db $70, $00, $5C, $00, $10, $00, $70, $00
-	db $70, $00, $00, $08, $00, $08, $80, $02
-	db $00, $08, $00, $08, $48, $00, $36, $00
-	db $28, $00, $48, $00, $48, $00, $00, $08
-	db $00, $08, $80, $03, $00, $08, $00, $08
-	db $80, $F8, $70, $F8, $80, $FE, $00, $F9
-	db $00, $F9, $20, $02, $00, $02, $00, $03
-	db $00, $02, $00, $02, $40, $03, $00, $03
-	db $80, $04, $00, $03, $00, $03, $09, $00
-	db $0A, $00, $02, $00, $07, $00, $07, $00
-
+;used for barrels and maybe other thrown objects
 DATA_FF0214:
-	db $50, $00, $00, $08, $07, $00, $00, $04
+	dw $0050	;gravity
+	dw $0800	;terminal velocity
+	dw $0007	;acceleration index
+	dw $0400	;thrown target x velocity
 
+;general constants
 DATA_FF021C:
-	db $70, $00, $00, $08, $08, $00, $40, $00
+	dw $0070	;gravity
+	dw $0800	;terminal velocity
+	dw $0008	;acceleration index
+	dw $0040
 
 DATA_FF0224:
-	db $70, $00, $00, $0C, $08, $00, $40, $00
-	
+	dw $0070	;gravity
+	dw $0C00	;terminal velocity
+	dw $0008	;acceleration index
+	dw $0040
+
+;squitter constants (non controllable version)
 DATA_FF022C:
-	db $40, $00, $00, $08, $08, $00, $40, $00
+	dw $0040	;gravity
+	dw $0800	;terminal velocity
+	dw $0008	;acceleration index
+	dw $0040
 
+;rattly constants (non controllable version)
 DATA_FF0234:
-	db $40, $00, $00, $08, $08, $00, $40, $00
+	dw $0040	;gravity
+	dw $0800	;terminal velocity
+	dw $0008	;acceleration index
+	dw $0040
 
+;squawks constants (non controllable version, appears to be unused)
 DATA_FF023C:
-	db $40, $00, $00, $08, $08, $00, $40, $00
+	dw $0040	;gravity
+	dw $0800	;terminal velocity
+	dw $0008	;acceleration index
+	dw $0040
 
+;squawks egg constants 
 DATA_FF0244:
-	db $40, $00, $00, $08, $02, $00
+	dw $0040	;gravity
+	dw $0800	;terminal velocity
+	dw $0002	;acceleration index
 
+;rambi constants (non controllable version)
 DATA_FF024A:
-	db $40, $00, $00, $08, $08, $00, $40, $00
+	dw $0040	;gravity
+	dw $0800	;terminal velocity
+	dw $0008	;acceleration index
+	dw $0040
 
+;cannonball/egg fragment constants
 DATA_FF0252:
-	db $40, $00, $00, $08, $02, $00
+	dw $0040	;gravity
+	dw $0800	;terminal velocity
+	dw $0002	;acceleration index
 
+;enguarde constants (non controllable version, appears to be unused)
 DATA_FF0258:
-	db $40, $00, $00, $08, $08, $00, $40, $00
+	dw $0040	;gravity
+	dw $0800	;terminal velocity
+	dw $0008	;acceleration index
+	dw $0040
 
+;green/red klobber constants
 DATA_FF0260:
-	db $70, $00, $00, $08, $02, $00, $00, $04
-	db $0F, $02
+	dw $0070	;gravity
+	dw $0800	;terminal velocity
+	dw $0002
+	dw $0400	;target x velocity
+	dw $020F
 
+;yellow/black klobber constants
 DATA_FF026A:
-	db $70, $00, $00, $08, $02, $00, $00, $05
-	db $0F, $02
+	dw $0070	;gravity
+	dw $0800	;terminal velocity
+	dw $0002
+	dw $0500	;target x velocity
+	dw $020F
 
+;unknown klobber variant constants (might be unused)
 DATA_FF0274:
-	db $70, $00, $00, $08, $02, $00, $60, $03
-	db $0F, $02
+	dw $0070	;gravity
+	dw $0800	;terminal velocity
+	dw $0002
+	dw $0360	;target x velocity
+	dw $020F
 
 ;neek constants
 DATA_FF027E:
@@ -143,8 +365,8 @@ DATA_FF027E:
 	dw $0008	;acceleration index
 	dw $0040	
 	dw $5528	;collision flags
-	dw $0171	;defeated state
-	dw $0201	;defeated animation
+	dw $0171	;defeated animation
+	dw $0201	;defeated state
 	dw $0000	;attack animation
 	dw $0000	;attack state
 	dw $0000
@@ -157,8 +379,8 @@ DATA_FF0294:
 	dw $0008	;acceleration index
 	dw $0040	
 	dw $5528	;collision flags
-	dw $0162	;defeated state
-	dw $0101	;defeated animation
+	dw $0162	;defeated animation
+	dw $0101	;defeated state
 	dw $0000	;attack animation
 	dw $0000	;attack state
 	dw $0000
@@ -171,8 +393,8 @@ DATA_FF02AA:
 	dw $0008	;acceleration index
 	dw $0040	
 	dw $5408	;collision flags
-	dw $01A1	;defeated state
-	dw $0101	;defeated animation
+	dw $01A1	;defeated animation
+	dw $0101	;defeated state
 	dw $01A2	;attack animation
 	dw $0000	;attack state
 	dw $0000
@@ -185,8 +407,8 @@ DATA_FF02C0:
 	dw $0008	;acceleration index
 	dw $0040	
 	dw $5480	;collision flags
-	dw $01A5	;defeated state
-	dw $0101	;defeated animation
+	dw $01A5	;defeated animation
+	dw $0101	;defeated state
 	dw $0000	;attack animation
 	dw $0000	;attack state
 	dw $0000
@@ -199,332 +421,484 @@ DATA_FF02D6:
 	dw $0008	;acceleration index
 	dw $0040	
 	dw $5428	;collision flags
-	dw $01A7	;defeated state
-	dw $0101	;defeated animation
+	dw $01A7	;defeated animation
+	dw $0101	;defeated state
 	dw $0000	;attack animation
 	dw $0000	;attack state
 	dw $0000
 	dw $0000
 
+;zinger constants
 DATA_FF02EC:
-	db $70, $00, $00, $08, $0F, $00, $40, $00
-	db $00, $50, $99, $01, $01, $01, $00, $00
-	db $00, $00, $00, $00, $00, $00
+	dw $0070	;gravity
+	dw $0800	;terminal velocity
+	dw $000F	;acceleration index
+	dw $0040	
+	dw $5000	;collision flags
+	dw $0199	;defeated animation
+	dw $0101	;defeated state
+	dw $0000	;attack animation
+	dw $0000	;attack state
+	dw $0000
+	dw $0000
 
+;zinger constants (rotation maybe)
 DATA_FF0302:
-	db $70, $00, $00, $08, $0F, $00, $40, $00
-	db $00, $60, $00, $00, $01, $01, $00, $00
-	db $00, $00, $00, $00, $00, $00
+	dw $0070	;gravity
+	dw $0800	;terminal velocity
+	dw $000F	;acceleration index
+	dw $0040	
+	dw $6000	;collision flags
+	dw $0000	;defeated animation
+	dw $0101	;defeated state
+	dw $0000	;attack animation
+	dw $0000	;attack state
+	dw $0000
+	dw $0000
 
+;flitter constants
 DATA_FF0318:
-	db $70, $00, $00, $08, $0F, $00, $40, $00
-	db $28, $54, $9D, $01, $01, $01, $00, $00
-	db $00, $00, $00, $00, $00, $00
+	dw $0070	;gravity
+	dw $0800	;terminal velocity
+	dw $000F	;acceleration index
+	dw $0040	
+	dw $5428	;collision flags
+	dw $019D	;defeated animation
+	dw $0101	;defeated state
+	dw $0000	;attack animation
+	dw $0000	;attack state
+	dw $0000
+	dw $0000
 
+;blue kruncha constants
 DATA_FF032E:
-	db $70, $00, $00, $08, $08, $00, $00, $00
-	db $1C, $00, $2C, $01, $C0, $01, $90, $67
-	db $CC, $67
+	dw $0070	;gravity
+	dw $0800	;terminal velocity
+	dw $0008	;acceleration index
+	dw $0000	;anger face attacker (FFFF=false, 0000=true)
+	dw $001C	;anger run x velocity
+	dw $012C	;anger timer
+	dw $01C0	;anger animation speed
+	dw kruncha_blue_sprite_palette
+	dw kruncha_angry_sprite_palette
 
+;red kruncha constants
 DATA_FF0340:
-	db $70, $00, $00, $08, $08, $00, $FF, $FF
-	db $30, $00, $2C, $01, $C0, $01, $AE, $67
-	db $CC, $67
+	dw $0070	;gravity
+	dw $0800	;terminal velocity
+	dw $0008	;acceleration index
+	dw $FFFF	;anger face attacker (FFFF=false, 0000=true)
+	dw $0030	;anger run x velocity
+	dw $012C	;anger timer
+	dw $01C0	;anger animation speed
+	dw kruncha_red_sprite_palette
+	dw kruncha_angry_sprite_palette
 
+;click-clack constants
 DATA_FF0352:
-	db $70, $00, $00, $08, $08, $00, $40, $00
-	db $78, $00, $E0, $01
+	dw $0070	;gravity
+	dw $0800	;terminal velocity
+	dw $0008	;acceleration index
+	dw $0040
+	dw $0078	;stun timer
+	dw $01E0
 
+;lockjaw constants
 DATA_FF035E:
-	db $70, $00, $00, $08, $08, $00, $40, $00
-	db $30, $40, $04, $00, $3C, $00, $00, $00
-	db $0F, $00
+	dw $0070	;gravity
+	dw $0800	;terminal velocity
+	dw $0008	;acceleration index
+	dw $0040
+	dw $4030
+	dw $0004
+	dw $003C
+	dw $0000
+	dw $000F
 
 DATA_FF0370:
-	db $70, $00, $00, $08, $08, $00, $40, $00
-	db $40, $50, $04, $00, $28, $00, $00, $00
-	db $0F, $00
+	dw $0070	;gravity
+	dw $0800	;terminal velocity
+	dw $0008	;acceleration index
+	dw $0040
+	dw $5040
+	dw $0004
+	dw $0028
+	dw $0000
+	dw $000F
 
 DATA_FF0382:
-	db $70, $00, $00, $08, $08, $00, $40, $00
-	db $30, $40, $04, $00, $46, $00, $20, $00
-	db $0F, $00
+	dw $0070	;gravity
+	dw $0800	;terminal velocity
+	dw $0008	;acceleration index
+	dw $0040
+	dw $4030
+	dw $0004
+	dw $0046
+	dw $0020
+	dw $000F
 
 DATA_FF0394:
-	db $70, $00, $00, $08, $08, $00, $40, $00
-	db $80, $60, $04, $00, $32, $00, $00, $00
-	db $0F, $00
+	dw $0070	;gravity
+	dw $0800	;terminal velocity
+	dw $0008	;acceleration index
+	dw $0040
+	dw $6080
+	dw $0004
+	dw $0032
+	dw $0000
+	dw $000F
 
 DATA_FF03A6:
-	db $70, $00, $00, $08, $08, $00, $40, $00
-	db $60, $60, $04, $00, $2D, $00, $00, $00
-	db $0F, $00
+	dw $0070	;gravity
+	dw $0800	;terminal velocity
+	dw $0008	;acceleration index
+	dw $0040
+	dw $6060
+	dw $0004
+	dw $002D
+	dw $0000
+	dw $000F
 
 DATA_FF03B8:
-	db $70, $00, $00, $08, $08, $00, $40, $00
-	db $30, $40, $04, $00, $3C, $00, $30, $00
-	db $0F, $00
+	dw $0070	;gravity
+	dw $0800	;terminal velocity
+	dw $0008	;acceleration index
+	dw $0040
+	dw $4030
+	dw $0004
+	dw $003C
+	dw $0030
+	dw $000F
 
 DATA_FF03CA:
-	db $70, $00, $00, $08, $08, $00, $40, $00
-	db $30, $40, $04, $00, $3C, $00, $3A, $00
-	db $0F, $00
+	dw $0070	;gravity
+	dw $0800	;terminal velocity
+	dw $0008	;acceleration index
+	dw $0040
+	dw $4030
+	dw $0004
+	dw $003C
+	dw $003A
+	dw $000F
 
+;snapjaw constants
 DATA_FF03DC:
-	db $70, $00, $00, $08, $08, $00, $40, $00
-	db $40, $40, $00, $00, $00, $00, $20, $00
-	db $0F, $00, $30, $30, $C0, $00, $30, $30
-	db $00, $04, $E0, $06, $00, $09
+	dw $0070	;gravity
+	dw $0800	;terminal velocity
+	dw $0008	;acceleration index
+	dw $0040
+	dw $4040
+	dw $0000
+	dw $0000
+	dw $0020
+	dw $000F
+	dw $3030
+	dw $00C0
+	dw $3030
+	dw $0400
+	dw $06E0
+	dw $0900
 
 DATA_FF03FA:
-	db $70, $00, $00, $08, $08, $00, $40, $00
-	db $40, $40, $00, $00, $00, $00, $20, $00
-	db $0F, $00, $30, $30, $C0, $00, $30, $30
-	db $00, $04, $00, $01, $00, $06
+	dw $0070	;gravity
+	dw $0800	;terminal velocity
+	dw $0008	;acceleration index
+	dw $0040
+	dw $4040
+	dw $0000
+	dw $0000
+	dw $0020
+	dw $000F
+	dw $3030
+	dw $00C0
+	dw $3030
+	dw $0400
+	dw $0100
+	dw $0600
 
 DATA_FF0418:
-	db $70, $00, $00, $08, $08, $00, $40, $00
-	db $40, $40, $00, $00, $00, $00, $20, $00
-	db $0F, $00, $30, $30, $C0, $00, $30, $30
-	db $00, $04, $00, $01, $00, $18
+	dw $0070	;gravity
+	dw $0800	;terminal velocity
+	dw $0008	;acceleration index
+	dw $0040
+	dw $4040
+	dw $0000
+	dw $0000
+	dw $0020
+	dw $000F
+	dw $3030
+	dw $00C0
+	dw $3030
+	dw $0400
+	dw $0100
+	dw $1800
 
+;kaboing constants
 DATA_FF0436:
-	db $70, $00, $00, $0C, $0F, $00
+	dw $0070	;gravity
+	dw $0C00	;terminal velocity
+	dw $000F	;acceleration index
 
+;kannon constants (shooting down)
 DATA_FF043C:
-	db $70, $00, $00, $08, $08, $00, $40, $00
-	db $76, $00, $00, $00
+	dw $0070	;gravity
+	dw $0800	;terminal velocity
+	dw $0008	;acceleration index
+	dw $0040
+	dw $0076
+	dw $0000
 
 DATA_FF0448:
-	db $70, $00, $00, $04, $08, $00, $40, $00
+	dw $0070	;gravity
+	dw $0400	;terminal velocity
+	dw $0008	;acceleration index
+	dw $0040
 
+;kannon constants (shooting sideways)
 DATA_FF0450:
-	db $70, $00, $00, $08, $08, $00, $40, $00
-	db $E2, $00, $00, $00
+	dw $0070	;gravity
+	dw $0800	;terminal velocity
+	dw $0008	;acceleration index
+	dw $0040
+	dw $00E2
+	dw $0000
 
+;rideable balloon constants
 DATA_FF045C:
-	db $01, $00, $40, $00, $02, $00, $C0, $FF
-	db $01, $00, $50, $00, $04, $00, $C0, $FF
-	db $00, $01
+	dw $0001
+	dw $0040
+	dw $0002
+	dw $FFC0
+	dw $0001
+	dw $0050
+	dw $0004
+	dw $FFC0
+	dw $0100
 
+;skull cart constants
 DATA_FF046E:
-	db $40, $F7, $70, $00, $B8, $00, $00, $08
+	dw $F740
+	dw $0070
+	dw $00B8
+	dw $0800
 
+;klank constants
 DATA_FF0476:
-	db $90, $00, $00, $0C, $08, $00, $40, $00
-
-
+	dw $0090
+	dw $0C00
+	dw $0008
+	dw $0040
 
 DATA_FF047E:
-	dw DATA_FF0C7E	; 0000 invincibility_controller_main
-	dw DATA_FF0C88	; 0002 sun
-	dw DATA_FF0CBA	; 0004 diddy boom box
-	dw DATA_FF0CD2	; 0006 dixie guitar
-	dw DATA_FF0E76	; 0008 large smoke puff
-	dw DATA_FF0E8E	; 000A krook hook
-	dw DATA_FF0EAE	; 000C lava splash
-	dw DATA_FF0EC2	; 000E diddy
-	dw DATA_FF0EE4	; 0010 dixie
-	dw DATA_FF0F06	; 0012 unknown_sprite_00EC_main
-	dw DATA_FF0F18	; 0014 dixie hurt tears
-	dw DATA_FF0F2C	; 0016 diddy hurt stars
-	dw DATA_FF0F48	; 0018 water surface splash (with upward Y offset)
-	dw DATA_FF0F5C	; 001A water surface splash
-	dw DATA_FF0F70	; 001C unused rain cloud (loop animation)
-	dw DATA_FF0F84	; 001E unused rain cloud (spawn animation)
-	dw DATA_FF0F98	; 0020 unused dixie hurt tears (same sprite id as rain cloud)
-	dw DATA_FF0FAC	; 0022 spawn group manager
-	dw DATA_FF0FD2	; 0024 water bubbles
-	dw DATA_FF0FDE	; 0026 unused rock
-	dw DATA_FF1004	; 0028 squawks egg projectile
-	dw DATA_FF1004	; 002A squawks egg projectile
-	dw DATA_FF1004	; 002C squawks egg projectile
-	dw DATA_FF1B72	; 002E cannon ball piece
-	dw DATA_FF1BA0	; 0030 cannon ball pieces/egg piece
-	dw DATA_FF1BCE	; 0032 egg piece
-	dw DATA_FF103A	; 0034 collision burst effect (with set position)
-	dw DATA_FF104E	; 0036 collision burst effect (with position offset of 0)
-	dw DATA_FF108A	; 0038 klobber (green)
-	dw DATA_FF1094	; 003A klobber (red)
-	dw DATA_FF109E	; 003C klobber (yellow)
-	dw DATA_FF10A8	; 003E klobber (black)
-	dw DATA_FF10B2	; 0040 life balloon
-	dw DATA_FF10F4	; 0042 banana bunch
-	dw DATA_FF1122	; 0044 barrel icon (barrel palette)
-	dw DATA_FF1142	; 0046 barrel icon (global palette)
-	dw DATA_FF1210	; 0048 smoke
-	dw DATA_FF122C	; 004A smoke (faster animation speed)
-	dw DATA_FF124C	; 004C water splash
-	dw DATA_FF1278	; 004E 
-	dw DATA_FF1290
-	dw DATA_FF12A8
-	dw DATA_FF12C0
-	dw DATA_FF151E
-	dw DATA_FF1528
-	dw !null_pointer
-	dw !null_pointer
-	dw DATA_FF1554
-	dw DATA_FF15B6
-	dw DATA_FF15CA
-	dw DATA_FF15DE
-	dw DATA_FF15F2
-	dw DATA_FF1626
-	dw DATA_FF163A
-	dw DATA_FF164E
-	dw DATA_FF166A
-	dw DATA_FF1684
-	dw DATA_FF169E
-	dw DATA_FF16BA
-	dw DATA_FF16D2
-	dw DATA_FF1714
-	dw DATA_FF0C10
-	dw DATA_FF17AC
-	dw DATA_FF17C0
-	dw DATA_FF17E0
-	dw DATA_FF1804
-	dw DATA_FF1824
-	dw DATA_FF1846
-	dw DATA_FF245C
-	dw DATA_FF23D0
-	dw DATA_FF23EC
-	dw DATA_FF2408
-	dw DATA_FF2424
-	dw DATA_FF2440
-	dw DATA_FF1AEA
-	dw DATA_FF1B06
-	dw DATA_FF1B2A
-	dw DATA_FF1B56
-	dw DATA_FF1BFC
-	dw DATA_FF1C18
-	dw DATA_FF1C34
-	dw DATA_FF1C54
-	dw DATA_FF1C7A
-	dw DATA_FF1C9C
-	dw DATA_FF1CDC
-	dw DATA_FF1D36
-	dw DATA_FF1D54
-	dw DATA_FF1D72
-	dw DATA_FF1D8E
-	dw DATA_FF1DC8
-	dw DATA_FF1E0C
-	dw DATA_FF1E32
-	dw DATA_FF1E58
-	dw DATA_FF1E74
-	dw DATA_FF1EAA
-	dw DATA_FF1EC8
-	dw DATA_FF1EFE
-	dw DATA_FF1F2C
-	dw DATA_FF1F8A
-	dw DATA_FF1FFE
-	dw DATA_FF2020
-	dw DATA_FF0C60
-	dw DATA_FF0C60
-	dw DATA_FF0C2C
-	dw DATA_FF0BF4
-	dw DATA_FF14B4
-	dw DATA_FF14EE
-	dw DATA_FF2308
-	dw DATA_FF2334
-	dw DATA_FF0BA4
-	dw DATA_FF0C02
-	dw DATA_FF12DA
-	dw DATA_FF0BC0
-	dw DATA_FF16F2
-	dw DATA_FF14E0
-	dw DATA_FF14A6
-	dw DATA_FF13AC
-	dw DATA_FF13E6
-	dw DATA_FF13F0
-	dw DATA_FF13FA
-	dw DATA_FF1404
-	dw DATA_FF143A
-	dw DATA_FF1462
-	dw DATA_FF140E
-	dw DATA_FF1494
-	dw DATA_FF1448
-	dw !null_pointer
-	dw !null_pointer
-	dw DATA_FF2478
-	dw DATA_FF249A
-	dw DATA_FF24BC
-	dw DATA_FF24DE
-	dw DATA_FF2526
-	dw DATA_FF2548
-	dw DATA_FF22BE
-	dw DATA_FF229C
-	dw DATA_FF2620
-	dw !null_pointer
-	dw DATA_FF2500
-	dw DATA_FF25BA
-	dw DATA_FF25D0
-	dw DATA_FF263A
-	dw DATA_FF2716
-	dw DATA_FF26F8
-	dw DATA_FF0BB2
-	dw DATA_FF0B80
-	dw DATA_FF0B8C
-	dw DATA_FF0B98
-	dw DATA_FF1162
-	dw DATA_FF1182
-	dw DATA_FF11C8
-	dw DATA_FF11D2
-	dw DATA_FF11DC
-	dw DATA_FF11E6
-	dw DATA_FF11F0
-	dw DATA_FF0C1E
-	dw DATA_FF296E
-	dw DATA_FF299A
-	dw DATA_FF29BC
-	dw DATA_FF29E8
-	dw DATA_FF2734
-	dw DATA_FF2752
-	dw DATA_FF264C
-	dw DATA_FF265E
-	dw DATA_FF2670
-	dw DATA_FF2682
-	dw DATA_FF2694
-	dw DATA_FF26A6
-	dw DATA_FF26B8
-	dw DATA_FF2364
-	dw DATA_FF2388
-	dw DATA_FF23AC
-	dw DATA_FF21EE
-	dw DATA_FF1D1A
-	dw DATA_FF1CFA
-	dw DATA_FF22DC
-	dw DATA_FF2774
-	dw DATA_FF278E
-	dw DATA_FF27B4
-	dw DATA_FF27E8
-	dw DATA_FF27CE
-	dw DATA_FF281C
-	dw DATA_FF2802
-	dw DATA_FF213C
-	dw DATA_FF2090
-	dw DATA_FF20B4
-	dw DATA_FF20D8
-	dw DATA_FF20FC
-	dw DATA_FF2120
-	dw DATA_FF207A
-	dw DATA_FF206C
-	dw DATA_FF1FE8
-	dw DATA_FF1FD2
-	dw DATA_FF1FBC
-	dw DATA_FF1FAE
-	dw DATA_FF1F9C
-	dw DATA_FF1CBA
-	dw DATA_FF1D80
-	dw DATA_FF25A0
-	dw DATA_FF2842
-	dw DATA_FF287C
-	dw !null_pointer
-	dw DATA_FF2856
-	dw DATA_FF289C
-	dw DATA_FF28BC
-	dw DATA_FF28DC
-	dw DATA_FF2912
-	dw DATA_FF2926
-	dw DATA_FF2946
+	dw DATA_FF0C7E		;0000 invincibility_controller_main
+	dw DATA_FF0C88		;0002 sun
+	dw DATA_FF0CBA		;0004 diddy boom box
+	dw DATA_FF0CD2		;0006 dixie guitar
+	dw DATA_FF0E76		;0008 large smoke puff
+	dw DATA_FF0E8E		;000A krook hook
+	dw DATA_FF0EAE		;000C lava splash
+	dw DATA_FF0EC2		;000E diddy
+	dw DATA_FF0EE4		;0010 dixie
+	dw DATA_FF0F06		;0012 unknown_sprite_00EC_main
+	dw DATA_FF0F18		;0014 dixie hurt tears
+	dw DATA_FF0F2C		;0016 diddy hurt stars
+	dw DATA_FF0F48		;0018 water surface splash (with upward Y offset)
+	dw DATA_FF0F5C		;001A water surface splash
+	dw DATA_FF0F70		;001C unused rain cloud (loop animation)
+	dw DATA_FF0F84		;001E unused rain cloud (spawn animation)
+	dw DATA_FF0F98		;0020 unused dixie hurt tears (same sprite id as rain cloud)
+	dw DATA_FF0FAC		;0022 spawn group manager
+	dw DATA_FF0FD2		;0024 water bubbles
+	dw DATA_FF0FDE		;0026 unused rock
+	dw DATA_FF1004		;0028 squawks egg projectile
+	dw DATA_FF1004		;002A squawks egg projectile
+	dw DATA_FF1004		;002C squawks egg projectile
+	dw DATA_FF1B72		;002E cannon ball piece
+	dw DATA_FF1BA0		;0030 cannon ball pieces/egg piece
+	dw DATA_FF1BCE		;0032 egg piece
+	dw DATA_FF103A		;0034 collision burst effect (with set position)
+	dw DATA_FF104E		;0036 collision burst effect (with position offset of 0)
+	dw DATA_FF108A		;0038 klobber (green)
+	dw DATA_FF1094		;003A klobber (red)
+	dw DATA_FF109E		;003C klobber (yellow)
+	dw DATA_FF10A8		;003E klobber (black)
+	dw DATA_FF10B2		;0040 life balloon
+	dw DATA_FF10F4		;0042 banana bunch
+	dw DATA_FF1122		;0044 barrel icon (barrel palette)
+	dw DATA_FF1142		;0046 barrel icon (global palette)
+	dw DATA_FF1210		;0048 smoke
+	dw DATA_FF122C		;004A smoke (faster animation speed)
+	dw DATA_FF124C		;004C water splash
+	dw DATA_FF1278		;004E dust left?
+	dw DATA_FF1290		;0050 dust right?
+	dw DATA_FF12A8		;0052 dust up?
+	dw DATA_FF12C0		;0054 dust right?
+	dw DATA_FF151E		;0056 fireball (kills enemies)?
+	dw DATA_FF1528		;0058 fireball (kills enemies)?
+	dw !null_pointer	;005A
+	dw !null_pointer	;005C
+	dw DATA_FF1554		;005E firework?
+	dw DATA_FF15B6		;0060 barrel fragment
+	dw DATA_FF15CA		;0062 barrel fragment
+	dw DATA_FF15DE		;0064 barrel fragment
+	dw DATA_FF15F2		;0066 barrel fragment
+	dw DATA_FF1626		;0068 barrel fragment
+	dw DATA_FF163A		;006A barrel fragment
+	dw DATA_FF164E		;006C ???
+	dw DATA_FF166A		;006E unknown_sprite_0014
+	dw DATA_FF1684		;0070 unknown_sprite_0014
+	dw DATA_FF169E		;0072 unknown_sprite_0014
+	dw DATA_FF16BA		;0074 smoke puff
+	dw DATA_FF16D2		;0076 smoke puff
+	dw DATA_FF1714		;0078 ???
+	dw DATA_FF0C10		;007A horizontal wind changer
+	dw DATA_FF17AC		;007C unused honey splash
+	dw DATA_FF17C0		;007E ???
+	dw DATA_FF17E0		;0080 level target barrel?
+	dw DATA_FF1804		;0082
+	dw DATA_FF1824		;0084
+	dw DATA_FF1846		;0086 puftup spike?
+	dw DATA_FF245C		;0088 kleever bone
+	dw DATA_FF23D0		;008A kleever fragment
+	dw DATA_FF23EC		;008C kleever fragment
+	dw DATA_FF2408		;008E kleever fragment
+	dw DATA_FF2424		;0090 kleever fragment
+	dw DATA_FF2440		;0092 kleever fragment
+	dw DATA_FF1AEA		;0094 diddy hurt stars
+	dw DATA_FF1B06		;0096 burst effect (kills enemies)
+	dw DATA_FF1B2A		;0098 squitter web platform
+	dw DATA_FF1B56		;009A skull cart sparks
+	dw DATA_FF1BFC		;009C krows head
+	dw DATA_FF1C18		;009E kreepy krow head
+	dw DATA_FF1C34		;00A0 king zing stinger
+	dw DATA_FF1C54		;00A2 krow egg?
+	dw DATA_FF1C7A		;00A4 kreepy krow egg?
+	dw DATA_FF1C9C		;00A6 kleever arm
+	dw DATA_FF1CDC		;00A8 kleever attack effect?
+	dw DATA_FF1D36		;00AA kleever fireball?
+	dw DATA_FF1D54		;00AC kleever cannon ball?
+	dw DATA_FF1D72		;00AE tnt (maybe kudgels)?
+	dw DATA_FF1D8E		;00B0 kleever falling cannon ball?
+	dw DATA_FF1DC8		;00B2 kleever hooks?
+	dw DATA_FF1E0C		;00B4 mini necky (kreepy krow)?
+	dw DATA_FF1E32		;00B6 mini necky (kreepy krow)?
+	dw DATA_FF1E58		;00B8 kreepy krow barrel spawn smoke?
+	dw DATA_FF1E74		;00BA kreepy krow barrel?
+	dw DATA_FF1EAA		;00BC king zing spikes?
+	dw DATA_FF1EC8		;00BE ???
+	dw DATA_FF1EFE		;00C0 king zing ring zinger?
+	dw DATA_FF1F2C		;00C2 k. rool gun
+	dw DATA_FF1F8A		;00C4 k. rool cannon ball
+	dw DATA_FF1FFE		;00C6 k. rool gun fire
+	dw DATA_FF2020		;00C8 k. rool vacuum effect
+	dw DATA_FF0C60		;00CA timer?
+	dw DATA_FF0C60		;00CC timer?
+	dw DATA_FF0C2C		;00CE smoke puff?
+	dw DATA_FF0BF4		;00D0 horizontal wind changer
+	dw DATA_FF14B4		;00D2 explosion (kills enemies)
+	dw DATA_FF14EE		;00D4 explosion (kills enemies)
+	dw DATA_FF2308		;00D6 explosion (kills enemies)
+	dw DATA_FF2334		;00D8 explosion (kills enemies)
+	dw DATA_FF0BA4		;00DA vertical wind changer
+	dw DATA_FF0C02		;00DC horizontal wind changer
+	dw DATA_FF12DA		;00DE dust
+	dw DATA_FF0BC0		;00E0 ???
+	dw DATA_FF16F2		;00E2 smoke puff
+	dw DATA_FF14E0		;00E4 explosion (kills enemies)
+	dw DATA_FF14A6		;00E6 explosion (kills enemies)
+	dw DATA_FF13AC		;00E8 smoke puff
+	dw DATA_FF13E6		;00EA blue klank
+	dw DATA_FF13F0		;00EC orange klank
+	dw DATA_FF13FA		;00EE yellow klank
+	dw DATA_FF1404		;00F0 green klank
+	dw DATA_FF143A		;00F2 klank race flag
+	dw DATA_FF1462		;00F4 klank race traffic light
+	dw DATA_FF140E		;00F6 pink klank
+	dw DATA_FF1494		;00F8 klank race flag?
+	dw DATA_FF1448		;00FA klank race flag?
+	dw !null_pointer	;00FC
+	dw !null_pointer	;00FE
+	dw DATA_FF2478		;0100 npc kong?
+	dw DATA_FF249A		;0102 npc kong?
+	dw DATA_FF24BC		;0104 npc kong?
+	dw DATA_FF24DE		;0106 npc kong?
+	dw DATA_FF2526		;0108 npc kong?
+	dw DATA_FF2548		;010A npc kong?
+	dw DATA_FF22BE		;010C klubbas club?
+	dw DATA_FF229C		;010E klubba
+	dw DATA_FF2620		;0110 ???
+	dw !null_pointer	;0112
+	dw DATA_FF2500		;0114 npc kong?
+	dw DATA_FF25BA		;0116 ???
+	dw DATA_FF25D0		;0118 ???
+	dw DATA_FF263A		;011A map plane
+	dw DATA_FF2716		;011C ???
+	dw DATA_FF26F8		;011E ???
+	dw DATA_FF0BB2		;0120 vertical wind changer
+	dw DATA_FF0B80		;0122 smoke puff
+	dw DATA_FF0B8C		;0124 smoke puff
+	dw DATA_FF0B98		;0126 smoke puff
+	dw DATA_FF1162		;0128
+	dw DATA_FF1182		;012A
+	dw DATA_FF11C8		;012C
+	dw DATA_FF11D2		;012E
+	dw DATA_FF11DC		;0130
+	dw DATA_FF11E6		;0132
+	dw DATA_FF11F0		;0134
+	dw DATA_FF0C1E		;0136
+	dw DATA_FF296E		;0138
+	dw DATA_FF299A		;013A
+	dw DATA_FF29BC		;013C
+	dw DATA_FF29E8		;013E
+	dw DATA_FF2734		;0140
+	dw DATA_FF2752		;0142
+	dw DATA_FF264C		;0144
+	dw DATA_FF265E		;0146
+	dw DATA_FF2670		;0148
+	dw DATA_FF2682		;014A
+	dw DATA_FF2694		;014C
+	dw DATA_FF26A6		;014E
+	dw DATA_FF26B8		;0150
+	dw DATA_FF2364		;0152
+	dw DATA_FF2388		;0154
+	dw DATA_FF23AC		;0156
+	dw DATA_FF21EE		;0158
+	dw DATA_FF1D1A		;015A
+	dw DATA_FF1CFA		;015C
+	dw DATA_FF22DC		;015E
+	dw DATA_FF2774		;0160
+	dw DATA_FF278E		;0162
+	dw DATA_FF27B4		;0164
+	dw DATA_FF27E8		;0166
+	dw DATA_FF27CE		;0168
+	dw DATA_FF281C		;016A
+	dw DATA_FF2802		;016C
+	dw DATA_FF213C		;016E
+	dw DATA_FF2090		;0170
+	dw DATA_FF20B4		;0172
+	dw DATA_FF20D8		;0174
+	dw DATA_FF20FC		;0176
+	dw DATA_FF2120		;0178
+	dw DATA_FF207A		;017A
+	dw DATA_FF206C		;017C
+	dw DATA_FF1FE8		;017E
+	dw DATA_FF1FD2		;0180
+	dw DATA_FF1FBC		;0182
+	dw DATA_FF1FAE		;0184
+	dw DATA_FF1F9C		;0186
+	dw DATA_FF1CBA		;0188
+	dw DATA_FF1D80		;018A
+	dw DATA_FF25A0		;018C
+	dw DATA_FF2842		;018E
+	dw DATA_FF287C		;0190
+	dw !null_pointer	;0192
+	dw DATA_FF2856		;0194
+	dw DATA_FF289C		;0196
+	dw DATA_FF28BC		;0198
+	dw DATA_FF28DC		;019A
+	dw DATA_FF2912		;019C
+	dw DATA_FF2926		;019E
+	dw DATA_FF2946		;01A0
 
 DATA_FF0620:
 	dw DATA_FF06A2
@@ -1430,11 +1804,11 @@ DATA_FF0FAC:
 	dw !initcommand_success
 
 DATA_FF0FD2:
-	dw !initcommand_setup_static, $0028, $6682 : dl DATA_C00B21 : db $06
+	dw !initcommand_setup_static, !sprite_air_bubble_generator, global_sprite_palette : dl DATA_C00B21 : db $06
 	dw !initcommand_success
 
 DATA_FF0FDE:
-	dw !initcommand_setup_static2, $000C, $0002 : dl DATA_C01B21 : db $20
+	dw !initcommand_setup_static2, !sprite_rock, $0002 : dl DATA_C01B21 : db $20
 	dw !initcommand_spawn_relative, $0000, $0000
 	dw sprite.render_order, $00C8
 	dw sprite.x_speed, $0000
@@ -1444,7 +1818,7 @@ DATA_FF0FDE:
 	dw !initcommand_success
 
 DATA_FF1004:
-	dw !initcommand_setup_static2, $0010, $000F : dl DATA_C01F21 : db $20
+	dw !initcommand_setup_static2, !sprite_squawks_egg, $000F : dl DATA_C01F21 : db $20
 	dw !initcommand_spawn_relative, $0008, $FFF0
 	dw sprite.constants_address, DATA_FF0244
 	dw sprite.state, $0000
@@ -1649,7 +2023,7 @@ DATA_FF124C:
 	dw !initcommand_success
 
 DATA_FF1260:
-	dw !initcommand_setup_static, $0014, $6682 : dl DATA_C02321 : db $20
+	dw !initcommand_setup_static, !sprite_unknown_0014, global_sprite_palette : dl DATA_C02321 : db $20
 	dw sprite.constants_address, DATA_FF021C
 	dw !initcommand_set_animation, $01F8
 	dw sprite.movement_state, $0001
@@ -1915,7 +2289,7 @@ DATA_FF1554:
 	dw !initcommand_success
 
 DATA_FF1576:
-	dw !initcommand_setup_static2, $0060, $0002 : dl DATA_FB0800 : db $17
+	dw !initcommand_setup_static2, !sprite_barrel_pieces, $0002 : dl DATA_FB0800 : db $17
 	dw sprite.render_order, $00F4
 	dw sprite.state, $0000
 	dw sprite.interaction_flags, $0000
@@ -1924,7 +2298,7 @@ DATA_FF1576:
 	dw !initcommand_success
 
 DATA_FF1596:
-	dw !initcommand_setup_static2, $0064, $0002 : dl DATA_FA0660 : db $20
+	dw !initcommand_setup_static2, !sprite_unknown_0064, $0002 : dl DATA_FA0660 : db $20
 	dw sprite.render_order, $00F4
 	dw sprite.state, $0000
 	dw sprite.interaction_flags, $0000
@@ -1961,7 +2335,7 @@ DATA_FF15F2:
 	dw !initcommand_success
 
 DATA_FF1606:
-	dw !initcommand_setup_static2, $0064, $0028 : dl DATA_FA0660 : db $20
+	dw !initcommand_setup_static2, !sprite_unknown_0064, $0028 : dl DATA_FA0660 : db $20
 	dw sprite.render_order, $00F4
 	dw sprite.state, $0000
 	dw sprite.interaction_flags, $0000
@@ -2097,7 +2471,7 @@ DATA_FF178A:
 
 DATA_FF17AC:
 	dw !initcommand_spawn_relative, $0000, $0000
-	dw sprite.number, !sprite_unknown_0104
+	dw sprite.number, !sprite_honey_splash
 	dw !initcommand_set_palette, global_sprite_palette
 	dw !initcommand_set_animation, $019E
 	dw !initcommand_success
@@ -2134,7 +2508,7 @@ DATA_FF1804:
 	dw !initcommand_success
 
 DATA_FF1824:
-	dw !initcommand_setup_static2, $005C, $0058 : dl DATA_C008E1 : db $12
+	dw !initcommand_setup_static2, !sprite_krool_water_drips, $0058 : dl DATA_C008E1 : db $12
 	dw sprite.number, !sprite_krool_water_drips
 	dw !initcommand_spawn_relative, $0000, $0000
 	dw sprite.state, $0000
@@ -2143,7 +2517,7 @@ DATA_FF1824:
 	dw !initcommand_success
 
 DATA_FF1846:
-	dw !initcommand_setup_static2, $0058, $0032 : dl DATA_C006E1 : db $10
+	dw !initcommand_setup_static2, !sprite_puftup_spikes, $0032 : dl DATA_C006E1 : db $10
 	dw !initcommand_spawn_relative, $0000, $0000
 	dw sprite.constants_address, DATA_FF021C
 	dw sprite.movement_state, $0001
@@ -2389,35 +2763,36 @@ DATA_FF1A80:
 	dw !initcommand_set_animation, $01C2
 	dw !initcommand_success
 
+;level end target/chest reward sprites
 DATA_FF1A8E:
-	dw DATA_FFC584
-	dw DATA_FF97EA
-	dw DATA_FF9816
-	dw DATA_FF983C
-	dw DATA_FF9862
-	dw DATA_FFAB30
-	dw DATA_FFAAE8
-	dw DATA_FF34CE
-	dw DATA_FF1870
-	dw DATA_FF187E
-	dw DATA_FF188C
-	dw DATA_FFC584
-	dw DATA_FF96C4
-	dw DATA_FF96C4
-	dw DATA_FF96C4
-	dw DATA_FF96C4
-	dw DATA_FF96D4
-	dw DATA_FF97A8
-	dw DATA_FF65EA
-	dw DATA_FFBA52
-	dw DATA_FFC584
-	dw DATA_FFC584
-	dw DATA_FFC584
-	dw DATA_FFC584
-	dw DATA_FFC584
-	dw DATA_FF1AC6
-	dw DATA_FF97B2
-	dw DATA_FF96D4
+	dw DATA_FFC584			;00
+	dw DATA_FF97EA			;01
+	dw DATA_FF9816			;02
+	dw DATA_FF983C			;03
+	dw DATA_FF9862			;04
+	dw DATA_FFAB30			;05
+	dw DATA_FFAAE8			;06
+	dw DATA_FF34CE			;07
+	dw DATA_FF1870			;08
+	dw DATA_FF187E			;09
+	dw DATA_FF188C			;0A
+	dw DATA_FFC584			;0B
+	dw DATA_FF96C4			;0C
+	dw DATA_FF96C4			;0D
+	dw DATA_FF96C4			;0E
+	dw DATA_FF96C4			;0F
+	dw DATA_FF96D4			;10
+	dw DATA_FF97A8			;11
+	dw DATA_FF65EA			;12
+	dw DATA_FFBA52			;13
+	dw DATA_FFC584			;14
+	dw DATA_FFC584			;15
+	dw DATA_FFC584			;16
+	dw DATA_FFC584			;17
+	dw DATA_FFC584			;18
+	dw DATA_FF1AC6			;19
+	dw DATA_FF97B2			;1A
+	dw DATA_FF96D4			;1B
 
 DATA_FF1AC6:
 	dw sprite.number, !sprite_bananas
@@ -2476,7 +2851,7 @@ DATA_FF1B56:
 	dw !initcommand_success
 
 DATA_FF1B72:
-	dw !initcommand_setup_static2, $0018, $0020 : dl DATA_C01021 : db $20
+	dw !initcommand_setup_static2, !sprite_canball_pieces1, $0020 : dl DATA_C01021 : db $20
 	dw !initcommand_spawn_relative, $0000, $0000
 	dw sprite.constants_address, DATA_FF0252
 	dw sprite.render_order, $00C8
@@ -2488,7 +2863,7 @@ DATA_FF1B72:
 	dw !initcommand_success
 
 DATA_FF1BA0:
-	dw !initcommand_setup_static2, $001C, $0020 : dl DATA_C01421 : db $19
+	dw !initcommand_setup_static2, !sprite_canball_pieces2, $0020 : dl DATA_C01421 : db $19
 	dw !initcommand_spawn_relative, $0000, $0000
 	dw sprite.constants_address, DATA_FF0252
 	dw sprite.render_order, $00C8
@@ -2500,7 +2875,7 @@ DATA_FF1BA0:
 	dw !initcommand_success
 
 DATA_FF1BCE:
-	dw !initcommand_setup_static2, $0020, $0020 : dl DATA_C01741 : db $1F
+	dw !initcommand_setup_static2, !sprite_egg_shell_pieces, $0020 : dl DATA_C01741 : db $1F
 	dw !initcommand_spawn_relative, $0000, $0000
 	dw sprite.constants_address, DATA_FF0252
 	dw sprite.render_order, $00C8
@@ -2662,7 +3037,7 @@ DATA_FF1D8E:
 	dw !initcommand_success
 
 DATA_FF1DC8:
-	dw !initcommand_setup_static2, $0024, $0009 : dl DATA_C00DA1 : db $14
+	dw !initcommand_setup_static2, !sprite_kleever_dropping_hooks, $0009 : dl DATA_C00DA1 : db $14
 	dw sprite.render_order, $00D4
 	dw sprite.y_position, $0100
 	dw sprite.general_purpose_42, $0000
@@ -2729,7 +3104,7 @@ DATA_FF1E74:
 	dw !initcommand_success
 
 DATA_FF1EAA:
-	dw !initcommand_setup_static2, $0068, $0032 : dl DATA_C006E1 : db $10
+	dw !initcommand_setup_static2, !sprite_king_zing_spikes, $0032 : dl DATA_C006E1 : db $10
 	dw !initcommand_spawn_relative, $0000, $FFF6
 	dw sprite.render_order, $00D3
 	dw sprite.unknown_1C, $0000
@@ -2963,7 +3338,7 @@ DATA_FF2162:
 	dw !initcommand_success
 
 DATA_FF217A:
-	dw !initcommand_setup_static, $0298, $6682 : dl DATA_C02321 : db $20
+	dw !initcommand_setup_static, !sprite_lava_splash, global_sprite_palette : dl DATA_C02321 : db $20
 	dw !initcommand_spawn_relative, $0000, $0005
 	dw sprite.render_order, $00F8
 	dw sprite.x_speed, $FE50
@@ -2978,7 +3353,7 @@ DATA_FF217A:
 	dw !initcommand_success
 
 DATA_FF21B4:
-	dw !initcommand_setup_static, $0298, $6682 : dl DATA_C02321 : db $20
+	dw !initcommand_setup_static, !sprite_lava_splash, global_sprite_palette : dl DATA_C02321 : db $20
 	dw !initcommand_spawn_relative, $0000, $0005
 	dw sprite.render_order, $00F8
 	dw sprite.x_speed, $01B0
@@ -3016,7 +3391,7 @@ DATA_FF2216:
 	dw !initcommand_success
 
 DATA_FF2238:
-	dw !initcommand_setup_static2, $0018, $0074 : dl DATA_C01021 : db $20
+	dw !initcommand_setup_static2, !sprite_canball_pieces1, $0074 : dl DATA_C01021 : db $20
 	dw !initcommand_spawn_relative, $0000, $0000
 	dw sprite.constants_address, DATA_FF0252
 	dw sprite.render_order, $00C8
@@ -3029,7 +3404,7 @@ DATA_FF2238:
 	dw !initcommand_success
 
 DATA_FF226A:
-	dw !initcommand_setup_static2, $001C, $0074 : dl DATA_C01421 : db $19
+	dw !initcommand_setup_static2, !sprite_canball_pieces2, $0074 : dl DATA_C01421 : db $19
 	dw !initcommand_spawn_relative, $0000, $0000
 	dw sprite.constants_address, DATA_FF0252
 	dw sprite.render_order, $00C8
@@ -3136,7 +3511,7 @@ DATA_FF23AC:
 	dw !initcommand_success
 
 DATA_FF23D0:
-	dw !initcommand_setup_static2, $0034, $0051 : dl DATA_FB64E0 : db $17
+	dw !initcommand_setup_static2, !sprite_kleever_pieces1, $0051 : dl DATA_FB64E0 : db $17
 	dw sprite.render_order, $00F9
 	dw sprite.general_purpose_46, $0000
 	dw !initcommand_set_oam, $2000
@@ -3144,7 +3519,7 @@ DATA_FF23D0:
 	dw !initcommand_success
 
 DATA_FF23EC:
-	dw !initcommand_setup_static2, $0038, $0051 : dl DATA_FB67C0 : db $20
+	dw !initcommand_setup_static2, !sprite_kleever_pieces2, $0051 : dl DATA_FB67C0 : db $20
 	dw sprite.render_order, $00F9
 	dw sprite.general_purpose_46, $0000
 	dw !initcommand_set_oam, $2000
@@ -3152,7 +3527,7 @@ DATA_FF23EC:
 	dw !initcommand_success
 
 DATA_FF2408:
-	dw !initcommand_setup_static2, $003C, $0051 : dl DATA_FB6BC0 : db $20
+	dw !initcommand_setup_static2, !sprite_kleever_pieces3, $0051 : dl DATA_FB6BC0 : db $20
 	dw sprite.render_order, $00F9
 	dw sprite.general_purpose_46, $0000
 	dw !initcommand_set_oam, $2000
@@ -3160,7 +3535,7 @@ DATA_FF2408:
 	dw !initcommand_success
 
 DATA_FF2424:
-	dw !initcommand_setup_static2, $0044, $0051 : dl DATA_FA0360 : db $18
+	dw !initcommand_setup_static2, !sprite_kleever_pieces4, $0051 : dl DATA_FA0360 : db $18
 	dw sprite.render_order, $00F9
 	dw sprite.general_purpose_46, $0000
 	dw !initcommand_set_oam, $2000
@@ -3168,7 +3543,7 @@ DATA_FF2424:
 	dw !initcommand_success
 
 DATA_FF2440:
-	dw !initcommand_setup_static2, $0048, $0051 : dl DATA_FC5680 : db $14
+	dw !initcommand_setup_static2, !sprite_kleever_pieces5, $0051 : dl DATA_FC5680 : db $14
 	dw sprite.render_order, $00F9
 	dw sprite.general_purpose_46, $0000
 	dw !initcommand_set_oam, $2000
@@ -3176,7 +3551,7 @@ DATA_FF2440:
 	dw !initcommand_success
 
 DATA_FF245C:
-	dw !initcommand_setup_static2, $002C, $0051 : dl DATA_FA0000 : db $1B
+	dw !initcommand_setup_static2, !sprite_kleever_bone_pieces, $0051 : dl DATA_FA0000 : db $1B
 	dw sprite.render_order, $00F9
 	dw sprite.general_purpose_46, $0000
 	dw !initcommand_set_oam, $2000
@@ -3449,7 +3824,7 @@ DATA_FF2774:
 	dw !initcommand_success
 
 DATA_FF278E:
-	dw !initcommand_setup_static2, $0054, $00AF : dl DATA_FC54E0 : db $0D
+	dw !initcommand_setup_static2, !sprite_unknown_0054, $00AF : dl DATA_FC54E0 : db $0D
 	dw !initcommand_spawn_relative, $0000, $0000
 	dw sprite.render_order, $00F8
 	dw sprite.x_speed, $0000
@@ -3528,7 +3903,7 @@ DATA_FF286A:
 	dw !initcommand_success
 
 DATA_FF287C:
-	dw !initcommand_setup_static, $00A0, $6682 : dl intro_sparkle_graphics : db $0D
+	dw !initcommand_setup_static, !sprite_sparkle, global_sprite_palette : dl intro_sparkle_graphics : db $0D
 	dw sprite.render_order, $00FA
 	dw sprite.unknown_1C, $0000
 	dw !initcommand_set_oam, $3000
@@ -3617,7 +3992,7 @@ DATA_FF296E:
 	dw !initcommand_success
 
 DATA_FF299A:
-	dw !initcommand_setup_static, $004C, $6682 : dl intro_sparkle_graphics : db $0D
+	dw !initcommand_setup_static, !sprite_unknown_004C, global_sprite_palette : dl intro_sparkle_graphics : db $0D
 	dw !initcommand_spawn_relative, $0000, $0000
 	dw sprite.render_order, $00FA
 	dw sprite.unknown_1C, $0000
@@ -3639,7 +4014,7 @@ DATA_FF29BC:
 	dw !initcommand_success
 
 DATA_FF29E8:
-	dw !initcommand_setup_static, $0050, $6682 : dl intro_sparkle_graphics : db $0D
+	dw !initcommand_setup_static, !sprite_unknown_0050, global_sprite_palette : dl intro_sparkle_graphics : db $0D
 	dw sprite.render_order, $00FA
 	dw sprite.unknown_1C, $0000
 	dw !initcommand_set_oam, $2000
@@ -7960,10 +8335,10 @@ DATA_FF6A7A:
 
 ;kannon vertical projectile speed presets
 DATA_FF6A98:
-	%offset(DATA_FF6A9A, $2)
-	%offset(DATA_FF6A9C, $4)
-	%offset(DATA_FF6A9E, $6)
-	%offset(DATA_FF6AA0, $8)
+%offset(DATA_FF6A9A, $2)
+%offset(DATA_FF6A9C, $4)
+%offset(DATA_FF6A9E, $6)
+%offset(DATA_FF6AA0, $8)
 	dw $FFC0, $0400, $0080, $0500, $0000
 	dw $FF80, $0400, $0010, $0500, $FE00
 	dw $0080, $0400, $0020, $FC80, $0420
@@ -16685,92 +17060,162 @@ DATA_FFC492:
 	dw sprite.constants_address, DATA_FFC559
 	dw !initcommand_success
 
+; Level target reward sequences
+; First byte is how long to show reward
+; Second byte is what reward to show
+; Terminated with a display duration of 0
 DATA_FFC49C:
-	db $28, $0C, $28, $19, $28, $0C, $28, $00
+	db $28, $0C
+	db $28, $19
+	db $28, $0C
+	db $28, $00
 	db $00
 
 DATA_FFC4A5:
-	db $28, $0C, $28, $00, $28, $08, $28, $00
+	db $28, $0C
+	db $28, $00
+	db $28, $08
+	db $28, $00
 	db $00
 
 DATA_FFC4AE:
-	db $28, $08, $28, $00, $28, $0C, $28, $00
+	db $28, $08
+	db $28, $00
+	db $28, $0C
+	db $28, $00
 	db $00
 
 DATA_FFC4B7:
-	db $28, $0C, $28, $00, $28, $0C, $28, $04
+	db $28, $0C
+	db $28, $00
+	db $28, $0C
+	db $28, $04
 	db $00
 
 DATA_FFC4C0:
-	db $28, $00, $28, $19, $28, $0C, $28, $04
+	db $28, $00
+	db $28, $19
+	db $28, $0C
+	db $28, $04
 	db $00
 
 DATA_FFC4C9:
-	db $28, $19, $28, $00, $28, $0C, $28, $00
+	db $28, $19
+	db $28, $00
+	db $28, $0C
+	db $28, $00
 	db $00
 
 DATA_FFC4D2:
-	db $28, $00, $28, $19, $28, $00, $28, $0C
+	db $28, $00
+	db $28, $19
+	db $28, $00
+	db $28, $0C
 	db $00
 
 DATA_FFC4DB:
-	db $28, $0C, $28, $00, $28, $0C, $28, $19
+	db $28, $0C
+	db $28, $00
+	db $28, $0C
+	db $28, $19
 	db $00
 
 DATA_FFC4E4:
-	db $28, $00, $28, $19, $28, $00, $28, $04
+	db $28, $00
+	db $28, $19
+	db $28, $00
+	db $28, $04
 	db $00
 
 DATA_FFC4ED:
-	db $28, $00, $28, $08, $28, $19, $28, $0C
+	db $28, $00
+	db $28, $08
+	db $28, $19
+	db $28, $0C
 	db $00
 
 DATA_FFC4F6:
-	db $28, $11, $28, $00, $28, $08, $28, $0C
+	db $28, $11
+	db $28, $00
+	db $28, $08
+	db $28, $0C
 	db $00
 
 DATA_FFC4FF:
-	db $28, $0C, $28, $00, $28, $08, $28, $00
+	db $28, $0C
+	db $28, $00
+	db $28, $08
+	db $28, $00
 	db $00
 
 DATA_FFC508:
-	db $28, $0C, $28, $19, $28, $0C, $28, $00
+	db $28, $0C
+	db $28, $19
+	db $28, $0C
+	db $28, $00
 	db $00
 
 DATA_FFC511:
-	db $2C, $00, $2C, $09, $2C, $00, $2C, $08
+	db $2C, $00
+	db $2C, $09
+	db $2C, $00
+	db $2C, $08
 	db $00
 
 DATA_FFC51A:
-	db $28, $0C, $28, $08, $28, $0C, $28, $00
+	db $28, $0C
+	db $28, $08
+	db $28, $0C
+	db $28, $00
 	db $00
 
 DATA_FFC523:
-	db $38, $00, $38, $08, $38, $00, $38, $0C
+	db $38, $00
+	db $38, $08
+	db $38, $00
+	db $38, $0C
 	db $00
 
 DATA_FFC52C:
-	db $28, $09, $28, $0C, $28, $00, $28, $0C
+	db $28, $09
+	db $28, $0C
+	db $28, $00
+	db $28, $0C
 	db $00
 
 DATA_FFC535:
-	db $28, $00, $28, $19, $28, $00, $28, $04
+	db $28, $00
+	db $28, $19
+	db $28, $00
+	db $28, $04
 	db $00
 
 DATA_FFC53E:
-	db $28, $19, $28, $0C, $28, $00, $28, $08
+	db $28, $19
+	db $28, $0C
+	db $28, $00
+	db $28, $08
 	db $00
 
 DATA_FFC547:
-	db $28, $19, $0C, $11, $28, $00, $28, $0C
+	db $28, $19
+	db $0C, $11
+	db $28, $00
+	db $28, $0C
 	db $00
 
 DATA_FFC550:
-	db $28, $0C, $28, $00, $28, $08, $28, $19
+	db $28, $0C
+	db $28, $00
+	db $28, $08
+	db $28, $19
 	db $00
 
 DATA_FFC559:
-	db $28, $00, $28, $08, $28, $00, $28, $0C
+	db $28, $00
+	db $28, $08
+	db $28, $00
+	db $28, $0C
 	db $00
 
 DATA_FFC562:
@@ -17391,40 +17836,28 @@ DATA_FFCAD9:
 	dw sprite.max_x_speed, $FE00
 	dw !initcommand_success
 
+;kloak projectiles
 DATA_FFCAF7:
-	dw DATA_FFC584
-	db $00, $03, $00, $FB, $88, $78, $13, $82, $1F
-	db $00
+	dw DATA_FFC584, $0300, $FB00, $7888, $8213, $001F
 
 DATA_FFCB03:
-	dw DATA_FFC584
-	db $00, $04, $00, $00, $88, $78, $14, $82, $28
-	db $00
+	dw DATA_FFC584, $0400, $0000, $7888, $8214, $0028
 
 DATA_FFCB0F:
-	dw DATA_FF7C8C
-	db $00, $04, $00, $FB, $80, $80, $15, $82, $12
-	db $00
+	dw DATA_FF7C8C, $0400, $FB00, $8080, $8215, $0012
 
 DATA_FFCB1B:
-	dw DATA_FFC584
-	db $00, $03, $00, $FB, $88, $78, $13, $82, $14
-	db $00
+	dw DATA_FFC584, $0300, $FB00, $7888, $8213, $0014
 
 DATA_FFCB27:
-	dw DATA_FF7C8C
-	db $C0, $02, $00, $FB, $80, $80, $15, $82, $27
-	db $00
+	dw DATA_FF7C8C, $02C0, $FB00, $8080, $8215, $0027
 
 DATA_FFCB33:
-	dw DATA_FF7C8C
-	db $30, $03, $00, $FB, $80, $80, $15, $82, $1D
-	db $00
+	dw DATA_FF7C8C, $0330, $FB00, $8080, $8215, $001D
 
 DATA_FFCB3F:
-	dw DATA_FFC584
-	db $00, $03, $00, $FB, $88, $78, $13, $82, $1C
-	db $00, $00
+	dw DATA_FFC584, $0300, $FB00, $7888, $8213, $001C
+	db $00
 
 DATA_FFCB4C:
 	dw sprite.number, !sprite_rideable_balloon
@@ -17561,7 +17994,7 @@ DATA_FFCCE8:
 	db $10, $10, $80, $07, $00, $00, $80, $F8
 
 DATA_FFCCF0:
-	dw !initcommand_setup_static2, $0024, $0009 : dl DATA_C00DA1 : db $14
+	dw !initcommand_setup_static2, !sprite_kleever_dropping_hooks, $0009 : dl DATA_C00DA1 : db $14
 	dw sprite.render_order, $00D4
 	dw sprite.y_position, $0100
 	dw sprite.general_purpose_42, $0000
@@ -18855,7 +19288,7 @@ if !version == 1
 endif
 
 DATA_FFDAD8:
-	dw sprite.number, !sprite_unknown_00D8
+	dw sprite.number, !sprite_fg_occluder
 	dw !initcommand_success
 
 DATA_FFDADE:
@@ -21147,23 +21580,28 @@ DATA_FFF97B:
 
 ;skull cart data
 DATA_FFF9A1:
-	db $00, $14, $40, $00, $80, $02, $08, $00
-	db $80, $14, $40, $00, $B8, $03, $08, $00
-	db $40, $15, $00, $01, $80, $15, $80, $00 : dw DATA_FFFA29
-	db $E0, $16, $00, $10, $FF, $FF
+	dw $1400, $0040, $0280, $0008
+	dw $1480, $0040, $03B8, $0008
+	dw $1540, $0100
+	dw $1580, $0080, DATA_FFFA29
+	dw $16E0, $1000
+	dw $FFFF
 
 DATA_FFF9C1:
-	db $A0, $30, $00, $01, $A8, $30, $80, $00 : dw DATA_FFFA29
-	db $B8, $30, $40, $00, $C0, $03, $28, $00
-	db $00, $31, $00, $08, $04, $00, $E0, $31
-	db $00, $08, $00, $00, $40, $32, $00, $01
-	db $48, $32, $80, $00 : dw DATA_FFFA29
-	db $80, $32, $40, $00, $00, $03, $28, $00
-	db $C0, $33, $40, $00, $00, $03, $28, $00
-	db $00, $35, $00, $10, $FF, $FF
+	dw $30A0, $0100
+	dw $30A8, $0080, DATA_FFFA29
+	dw $30B8, $0040, $03C0, $0028
+	dw $3100, $0800, $0004
+	dw $31E0, $0800, $0000
+	dw $3240, $0100
+	dw $3248, $0080, DATA_FFFA29
+	dw $3280, $0040, $0300, $0028
+	dw $33C0, $0040, $0300, $0028
+	dw $3500, $1000
+	dw $FFFF
 
 DATA_FFF9FF:
-	db $FF, $FF
+	dw $FFFF
 
 race_handler_init:
 	dw sprite.number, !sprite_race_handler

@@ -348,25 +348,25 @@ CODE_BB81E3:					;	   |
 	CLC					;$BB81EF   |
 	ADC $0904				;$BB81F0   |
 	STA $0904				;$BB81F3   |
-	LDA #$0009				;$BB81F6   |
+	LDA #!level_krows_nest			;$BB81F6   |
 	LDY #$0001				;$BB81F9   |
 	JSR CODE_BB824B				;$BB81FC   |
-	LDA #$0021				;$BB81FF   |
+	LDA #!level_kleevers_kiln		;$BB81FF   |
 	LDY #$0001				;$BB8202   |
 	JSR CODE_BB824B				;$BB8205   |
-	LDA #$000D				;$BB8208   |
+	LDA #!level_kreepy_krow			;$BB8208   |
 	LDY #$0001				;$BB820B   |
 	JSR CODE_BB824B				;$BB820E   |
-	LDA #$0060				;$BB8211   |
+	LDA #!level_king_zing_sting		;$BB8211   |
 	LDY #$0001				;$BB8214   |
 	JSR CODE_BB824B				;$BB8217   |
-	LDA #$0063				;$BB821A   |
+	LDA #!level_kudgels_kontest		;$BB821A   |
 	LDY #$0001				;$BB821D   |
 	JSR CODE_BB824B				;$BB8220   |
-	LDA #$0061				;$BB8223   |
+	LDA #!level_k_rool_duel			;$BB8223   |
 	LDY #$0004				;$BB8226   |
 	JSR CODE_BB824B				;$BB8229   |
-	LDA #$006B				;$BB822C   |
+	LDA #!level_krocodile_kore		;$BB822C   |
 	LDY #$0004				;$BB822F   |
 	JSR CODE_BB824B				;$BB8232   |
 	LDA $08FB				;$BB8235   |
@@ -5245,38 +5245,38 @@ DATA_BBAC76:
 	db $00, $FD, $B0, $F4
 
 CODE_BBACE2:
-	LDA #$0006				;$BBACE2   |
+	LDA #$0006				;$BBACE2  \
 	STA $88					;$BBACE5   |
 	LDA #$FFFC				;$BBACE7   |
 	STA $0BA4				;$BBACEA   |
 	RTS					;$BBACED  /
 
 CODE_BBACEE:
-	LDA #$0005				;$BBACEE   |
+	LDA #$0005				;$BBACEE  \
 	STA $88					;$BBACF1   |
 	LDA #$FFFC				;$BBACF3   |
 	STA $0BA4				;$BBACF6   |
 	RTS					;$BBACF9  /
 
 CODE_BBACFA:
-	LDA #$0005				;$BBACFA   |
+	LDA #$0005				;$BBACFA  \
 	STA $88					;$BBACFD   |
 	LDA #$FFFC				;$BBACFF   |
 	STA $0BA4				;$BBAD02   |
 	RTS					;$BBAD05  /
 
 CODE_BBAD06:
-	JSR CODE_BBAD34				;$BBAD06   |
+	JSR CODE_BBAD34				;$BBAD06  \
 	LDA $08FC				;$BBAD09   |
 	AND #$0003				;$BBAD0C   |
-	BNE CODE_BBAD18				;$BBAD0F   |
+	BNE .cutscene_done			;$BBAD0F   |
 	LDA #$0001				;$BBAD11   |
 	JSL CODE_BBC16B				;$BBAD14   |
-CODE_BBAD18:					;	   |
+.cutscene_done					;	   |
 	RTS					;$BBAD18  /
 
 CODE_BBAD19:
-	JSR CODE_BBAD34				;$BBAD19   |
+	JSR CODE_BBAD34				;$BBAD19  \
 	LDA #$0004				;$BBAD1C   |
 	BIT $08C4				;$BBAD1F   |
 	BNE CODE_BBAD2C				;$BBAD22   |
@@ -5327,38 +5327,38 @@ CODE_BBAD34:
 CODE_BBAD98:
 	LDA level_number			;$BBAD98  \
 	CMP #!level_krows_nest			;$BBAD9A   |
-	BEQ CODE_BBADB4				;$BBAD9D   |
+	BEQ .krow_cutscene			;$BBAD9D   |
 	CMP #!level_kreepy_krow			;$BBAD9F   |
-	BEQ CODE_BBADBC				;$BBADA2   |
+	BEQ .kreepy_krow_cutscene		;$BBADA2   |
 	CMP #!level_kleevers_kiln		;$BBADA4   |
-	BEQ CODE_BBADC4				;$BBADA7   |
+	BEQ .kleever_cutscene			;$BBADA7   |
 	CMP #!level_kudgels_kontest		;$BBADA9   |
-	BEQ CODE_BBADCC				;$BBADAC   |
+	BEQ .kudgel_cutscene			;$BBADAC   |
 	CMP #!level_krocodile_kore		;$BBADAE   |
-	BEQ CODE_BBADD4				;$BBADB1   |
+	BEQ .k_rool_2_cutscene			;$BBADB1   |
 	RTS					;$BBADB3  /
 
-CODE_BBADB4:
+.krow_cutscene
 	LDA #$0005				;$BBADB4  \
 	JSL CODE_BBC16B				;$BBADB7   |
 	RTS					;$BBADBB  /
 
-CODE_BBADBC:
+.kreepy_krow_cutscene
 	LDA #$0006				;$BBADBC  \
 	JSL CODE_BBC16B				;$BBADBF   |
 	RTS					;$BBADC3  /
 
-CODE_BBADC4:
+.kleever_cutscene
 	LDA #$0007				;$BBADC4  \
 	JSL CODE_BBC16B				;$BBADC7   |
 	RTS					;$BBADCB  /
 
-CODE_BBADCC:
+.kudgel_cutscene
 	LDA #$0008				;$BBADCC  \
 	JSL CODE_BBC16B				;$BBADCF   |
 	RTS					;$BBADD3  /
 
-CODE_BBADD4:
+.k_rool_2_cutscene
 	LDA #$000A				;$BBADD4  \
 	JSL CODE_BBC16B				;$BBADD7   |
 	RTS					;$BBADDB  /
