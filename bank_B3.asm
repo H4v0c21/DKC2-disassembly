@@ -9275,7 +9275,11 @@ air_bubble_generator_main:
 	ORA #$1000				;$B3C4C1   |
 	STA $0921				;$B3C4C4   |
 	JSL CODE_BB82D2				;$B3C4C7   |
+if !ex_patch == 1
+	JMP air_bubble_vram_allocation_fix
+else
 	JML [$05A9]				;$B3C4CB  /
+endif
 
 kutlass_main:
 	JSR CODE_B3A369				;$B3C4CE  /
@@ -15847,4 +15851,15 @@ ex_sprite_handler_2_wrapper:
 	JSL ex_sprite_handler_2		;check if sprite is ex, if it is don't come back here
 	JMP (DATA_B38348,x)		;if we came back from the JSL do vanilla sprite main
 
+air_bubble_vram_allocation_fix:
+	LDA $12,x				;\ Get VRAM slot from OAM variable
+	AND #$01E0				; |
+	LSR A					; |
+	LSR A					; |
+	LSR A					; |
+	LSR A					;/
+	TAX					;
+	LDA #$FFFF				;\ Give the slot an invalid sprite reference...
+	STA $0B04,x				;/ To prevent our big sprite de-allocator from accident nuking it
+	JML [$05A9]				;> Done with sprite, we overwrote this to hijack
 endif
