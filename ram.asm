@@ -112,6 +112,8 @@ intro_sparkle_x_position = $098F
 intro_sparkle_y_position = $0991
 player_skipped_demo = $099B
 
+current_held_sprite = $0D7A
+
 aux_sprite_table = $0D84
 main_sprite_table = $0DE2
 main_sprite_table_end = $0DE2+(sizeof(sprite)*24)

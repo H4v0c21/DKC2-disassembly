@@ -6504,111 +6504,171 @@ CODE_B5C9B1:
 
 ;used for terrain collision
 DATA_B5C9B5:
-	db $00, $00, $00, $00, $00, $00, $00, $00
-	db $00, $00, $00, $00, $00, $00, $00, $00
-	db $00, $00, $01, $00, $01, $00, $01, $00
-	db $01, $00, $01, $00, $01, $00, $01, $00
-	db $01, $00, $02, $00, $02, $00, $02, $00
-	db $02, $00, $02, $00, $02, $00, $02, $00
-	db $02, $00, $02, $00, $03, $00, $03, $00
-	db $03, $00, $03, $00, $03, $00, $03, $00
-	db $03, $00, $03, $00, $03, $00, $03, $00
-	db $04, $00, $04, $00, $04, $00, $04, $00
-	db $04, $00, $04, $00, $04, $00, $04, $00
-	db $04, $00, $04, $00, $04, $00, $05, $00
-	db $05, $00, $05, $00, $05, $00, $05, $00
-	db $05, $00, $05, $00, $06, $00, $06, $00
-	db $06, $00, $06, $00, $06, $00, $06, $80
-	db $06, $80, $00, $00, $00, $00, $00, $00
-	db $00, $00, $00, $00, $00, $00, $00, $00
-	db $00, $00, $00, $00, $00, $00, $00, $00
-	db $00, $00, $05, $80, $05, $80, $00, $00
-	db $00, $00, $00, $00, $00, $00, $00, $00
+	dw $0000				;00
+	dw $0000				;02
+	dw $0000				;04
+	dw $0000				;06
+	dw $0000				;08
+	dw $0000				;0A
+	dw $0000				;0C
+	dw $0000				;0E
+	dw $0000				;10
+	dw $0001				;12
+	dw $0001				;14
+	dw $0001				;16
+	dw $0001				;18
+	dw $0001				;1A
+	dw $0001				;1C
+	dw $0001				;1E
+	dw $0001				;20
+	dw $0002				;22
+	dw $0002				;24
+	dw $0002				;26
+	dw $0002				;28
+	dw $0002				;2A
+	dw $0002				;2C
+	dw $0002				;2E
+	dw $0002				;30
+	dw $0002				;32
+	dw $0003				;34
+	dw $0003				;36
+	dw $0003				;38
+	dw $0003				;3A
+	dw $0003				;3C
+	dw $0003				;3E
+	dw $0003				;40
+	dw $0003				;42
+	dw $0003				;44
+	dw $0003				;46
+	dw $0004				;48
+	dw $0004				;4A
+	dw $0004				;4C
+	dw $0004				;4E
+	dw $0004				;50
+	dw $0004				;52
+	dw $0004				;54
+	dw $0004				;56
+	dw $0004				;58
+	dw $0004				;5A
+	dw $0004				;5C
+	dw $0005				;5E
+	dw $0005				;60
+	dw $0005				;62
+	dw $0005				;64
+	dw $0005				;66
+	dw $0005				;68
+	dw $0005				;6A
+	dw $0006				;6C
+	dw $0006				;6E
+	dw $0006				;70
+	dw $0006				;72
+	dw $0006				;74
+	dw $8006				;76
+	dw $8006				;78
+	dw $0000				;7A
+	dw $0000				;7C
+	dw $0000				;7E
+	dw $0000				;80
+	dw $0000				;82
+	dw $0000				;84
+	dw $0000				;86
+	dw $0000				;88
+	dw $0000				;8A
+	dw $0000				;8C
+	dw $0000				;8E
+	dw $0000				;90
+	dw $8005				;92
+	dw $8005				;94
+	dw $0000				;96
+	dw $0000				;98
+	dw $0000				;9A
+	dw $0000				;9C
+	dw $0000				;9E
 
 CODE_B5CA55:
 	JMP ($00AA)				;$B5CA55  /
 
 DATA_B5CA58:
-	dw CODE_B5CC0C
-	dw CODE_B5CC10
-	dw CODE_B5CC14
-	dw CODE_B5CC18
-	dw CODE_B5CC1C
-	dw CODE_B5CC20
-	dw CODE_B5CC24
-	dw CODE_B5CC28
-	dw CODE_B5CC2C
-	dw CODE_B5CD89
-	dw CODE_B5CD82
-	dw CODE_B5CD7B
-	dw CODE_B5CD74
-	dw CODE_B5CD6D
-	dw CODE_B5CD66
-	dw CODE_B5CD5F
-	dw CODE_B5CD58
-	dw CODE_B5CD8C
-	dw CODE_B5CD92
-	dw CODE_B5CD94
-	dw CODE_B5CD9A
-	dw CODE_B5CDA0
-	dw CODE_B5CDA6
-	dw CODE_B5CDAC
-	dw CODE_B5CDB2
-	dw CODE_B5CDB8
-	dw CODE_B5CD4B
-	dw CODE_B5CD3E
-	dw CODE_B5CD35
-	dw CODE_B5CD28
-	dw CODE_B5CD1B
-	dw CODE_B5CD0E
-	dw CODE_B5CD01
-	dw CODE_B5CCF4
-	dw CODE_B5CCE7
-	dw CODE_B5CCDA
-	dw CODE_B5CCA7
-	dw CODE_B5CCAC
-	dw CODE_B5CCB1
-	dw CODE_B5CCB6
-	dw CODE_B5CCB7
-	dw CODE_B5CCBC
-	dw CODE_B5CCC1
-	dw CODE_B5CCC6
-	dw CODE_B5CCCB
-	dw CODE_B5CCD0
-	dw CODE_B5CCD5
-	dw CODE_B5CCA1
-	dw CODE_B5CC9B
-	dw CODE_B5CC95
-	dw CODE_B5CC93
-	dw CODE_B5CC8D
-	dw CODE_B5CC87
-	dw CODE_B5CC81
-	dw CODE_B5CC48
-	dw CODE_B5CC41
-	dw CODE_B5CC3A
-	dw CODE_B5CC37
-	dw CODE_B5CC30
-	dw CODE_B5CC4F
-	dw CODE_B5CC5E
-	dw CODE_B5CC10
-	dw CODE_B5CC20
-	dw CODE_B5CBCC
-	dw CODE_B5CBDA
-	dw CODE_B5CBE3
-	dw CODE_B5CBF5
-	dw CODE_B5CB75
-	dw CODE_B5CB89
-	dw CODE_B5CB9D
-	dw CODE_B5CBBA
-	dw CODE_B5CB63
-	dw CODE_B5CB6C
-	dw CODE_B5CC6D
-	dw CODE_B5CC77
-	dw CODE_B5CAF8
-	dw CODE_B5CB0F
-	dw CODE_B5CB2A
-	dw CODE_B5CB3D
-	dw CODE_B5CB56
+	dw CODE_B5CC0C				;00
+	dw CODE_B5CC10				;02
+	dw CODE_B5CC14				;04
+	dw CODE_B5CC18				;06
+	dw CODE_B5CC1C				;08
+	dw CODE_B5CC20				;0A
+	dw CODE_B5CC24				;0C
+	dw CODE_B5CC28				;0E
+	dw CODE_B5CC2C				;10
+	dw CODE_B5CD89				;12
+	dw CODE_B5CD82				;14
+	dw CODE_B5CD7B				;16
+	dw CODE_B5CD74				;18
+	dw CODE_B5CD6D				;1A
+	dw CODE_B5CD66				;1C
+	dw CODE_B5CD5F				;1E
+	dw CODE_B5CD58				;20
+	dw CODE_B5CD8C				;22
+	dw CODE_B5CD92				;24
+	dw CODE_B5CD94				;26
+	dw CODE_B5CD9A				;28
+	dw CODE_B5CDA0				;2A
+	dw CODE_B5CDA6				;2C
+	dw CODE_B5CDAC				;2E
+	dw CODE_B5CDB2				;30
+	dw CODE_B5CDB8				;32
+	dw CODE_B5CD4B				;34
+	dw CODE_B5CD3E				;36
+	dw CODE_B5CD35				;38
+	dw CODE_B5CD28				;3A
+	dw CODE_B5CD1B				;3C
+	dw CODE_B5CD0E				;3E
+	dw CODE_B5CD01				;40
+	dw CODE_B5CCF4				;42
+	dw CODE_B5CCE7				;44
+	dw CODE_B5CCDA				;46
+	dw CODE_B5CCA7				;48
+	dw CODE_B5CCAC				;4A
+	dw CODE_B5CCB1				;4C
+	dw CODE_B5CCB6				;4E
+	dw CODE_B5CCB7				;50
+	dw CODE_B5CCBC				;52
+	dw CODE_B5CCC1				;54
+	dw CODE_B5CCC6				;56
+	dw CODE_B5CCCB				;58
+	dw CODE_B5CCD0				;5A
+	dw CODE_B5CCD5				;5C
+	dw CODE_B5CCA1				;5E
+	dw CODE_B5CC9B				;60
+	dw CODE_B5CC95				;62
+	dw CODE_B5CC93				;64
+	dw CODE_B5CC8D				;66
+	dw CODE_B5CC87				;68
+	dw CODE_B5CC81				;6A
+	dw CODE_B5CC48				;6C
+	dw CODE_B5CC41				;6E
+	dw CODE_B5CC3A				;70
+	dw CODE_B5CC37				;72
+	dw CODE_B5CC30				;74
+	dw CODE_B5CC4F				;76
+	dw CODE_B5CC5E				;78
+	dw CODE_B5CC10				;7A
+	dw CODE_B5CC20				;7C
+	dw CODE_B5CBCC				;7E
+	dw CODE_B5CBDA				;80
+	dw CODE_B5CBE3				;82
+	dw CODE_B5CBF5				;84
+	dw CODE_B5CB75				;86
+	dw CODE_B5CB89				;88
+	dw CODE_B5CB9D				;8A
+	dw CODE_B5CBBA				;8C
+	dw CODE_B5CB63				;8E
+	dw CODE_B5CB6C				;90
+	dw CODE_B5CC6D				;92
+	dw CODE_B5CC77				;94
+	dw CODE_B5CAF8				;96
+	dw CODE_B5CB0F				;98
+	dw CODE_B5CB2A				;9A
+	dw CODE_B5CB3D				;9C
+	dw CODE_B5CB56				;9E
 
 
 CODE_B5CAF8:
@@ -9995,14 +10055,38 @@ CODE_B5E5FA:
 	RTS					;$B5E61F  /
 
 DATA_B5E620:
-	db $00, $00, $00, $01, $00, $02, $00, $03
-	db $00, $04, $00, $05, $00, $06, $00, $07
-	db $00, $08, $00, $09, $00, $0A, $00, $0B
-	db $00, $0C, $00, $0D, $00, $0E, $00, $0F
-	db $00, $0F, $00, $0E, $00, $0D, $00, $0C
-	db $00, $0B, $00, $0A, $00, $09, $00, $08
-	db $00, $07, $00, $06, $00, $05, $00, $04
-	db $00, $03, $00, $02, $00, $01, $00, $00
+	dw $0000
+	dw $0100
+	dw $0200
+	dw $0300
+	dw $0400
+	dw $0500
+	dw $0600
+	dw $0700
+	dw $0800
+	dw $0900
+	dw $0A00
+	dw $0B00
+	dw $0C00
+	dw $0D00
+	dw $0E00
+	dw $0F00
+	dw $0F00
+	dw $0E00
+	dw $0D00
+	dw $0C00
+	dw $0B00
+	dw $0A00
+	dw $0900
+	dw $0800
+	dw $0700
+	dw $0600
+	dw $0500
+	dw $0400
+	dw $0300
+	dw $0200
+	dw $0100
+	dw $0000
 
 ;Y = sprite for camera to follow
 
@@ -10168,14 +10252,38 @@ CODE_B5E749:
 	RTS					;$B5E778  /
 
 DATA_B5E779:
-	db $00, $00, $00, $01, $00, $02, $00, $03
-	db $00, $04, $00, $05, $00, $06, $00, $07
-	db $00, $08, $00, $09, $00, $0A, $00, $0B
-	db $00, $0C, $00, $0D, $00, $0E, $00, $0F
-	db $00, $0F, $00, $0E, $00, $0D, $00, $0C
-	db $00, $0B, $00, $0A, $00, $09, $00, $08
-	db $00, $07, $00, $06, $00, $05, $00, $04
-	db $00, $03, $00, $02, $00, $01, $00, $00
+	dw $0000
+	dw $0100
+	dw $0200
+	dw $0300
+	dw $0400
+	dw $0500
+	dw $0600
+	dw $0700
+	dw $0800
+	dw $0900
+	dw $0A00
+	dw $0B00
+	dw $0C00
+	dw $0D00
+	dw $0E00
+	dw $0F00
+	dw $0F00
+	dw $0E00
+	dw $0D00
+	dw $0C00
+	dw $0B00
+	dw $0A00
+	dw $0900
+	dw $0800
+	dw $0700
+	dw $0600
+	dw $0500
+	dw $0400
+	dw $0300
+	dw $0200
+	dw $0100
+	dw $0000
 
 CODE_B5E7B9:
 	LDA $C2					;$B5E7B9  \

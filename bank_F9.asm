@@ -1,845 +1,845 @@
 DATA_F90000:
 	%offset(DATA_F90002, 2)
-	dw DATA_F94668 : db $00, $00
-	dw DATA_F90D00 : db $00, $00
-	dw DATA_F91411 : db $00, $00
-	dw DATA_F91B62 : db $00, $00
-	dw DATA_F91C73 : db $00, $00
-	dw DATA_F91D0C : db $03, $00
-	dw DATA_F91D17 : db $00, $30
-	dw DATA_F91D66 : db $00, $30
-	dw DATA_F91DA2 : db $00, $00
-	dw DATA_F91DB9 : db $02, $58
-	dw DATA_F91E1A : db $00, $00
-	dw DATA_F91EB2 : db $00, $00
-	dw DATA_F91AD6 : db $00, $00
-	dw DATA_F91AEA : db $00, $00
-	dw DATA_F91B19 : db $00, $00
-	dw DATA_F91958 : db $04, $00
-	dw DATA_F91A1B : db $00, $00
-	dw DATA_F91A28 : db $00, $00
-	dw DATA_F91A73 : db $00, $00
-	dw DATA_F91988 : db $04, $00
-	dw DATA_F919C3 : db $04, $20
-	dw DATA_F91A8B : db $01, $00
-	dw DATA_F91A98 : db $00, $30
-	dw DATA_F91AB0 : db $00, $30
-	dw DATA_F91AC6 : db $00, $00
-	dw DATA_F91316 : db $00, $30
-	dw DATA_F91D7D : db $00, $30
-	dw DATA_F91D8E : db $00, $30
-	dw DATA_F91351 : db $00, $30
-	dw DATA_F91425 : db $00, $00
-	dw DATA_F91768 : db $00, $00
-	dw DATA_F91790 : db $00, $00
-	dw DATA_F918EA : db $00, $00
-	dw DATA_F91809 : db $01, $00
-	dw DATA_F91818 : db $00, $30
-	dw DATA_F9182A : db $00, $30
-	dw DATA_F91842 : db $00, $00
-	dw DATA_F91854 : db $00, $30
-	dw DATA_F91866 : db $00, $00
-	dw DATA_F9138C : db $00, $98
-	dw DATA_F913BE : db $00, $00
-	dw DATA_F91C59 : db $00, $00
-	dw DATA_F91CDA : db $00, $00
-	dw DATA_F91F18 : db $00, $00
-	dw DATA_F91FA0 : db $00, $00
-	dw DATA_F91F8C : db $00, $00
-	dw DATA_F91FE4 : db $00, $00
-	dw DATA_F92019 : db $00, $00
-	dw DATA_F9204D : db $00, $00
-	dw DATA_F92021 : db $00, $00
-	dw DATA_F92079 : db $00, $00
-	dw DATA_F92093 : db $00, $00
-	dw DATA_F920B9 : db $00, $00
-	dw DATA_F920E2 : db $00, $00
-	dw DATA_F9210B : db $00, $00
-	dw DATA_F92113 : db $00, $00
-	dw DATA_F92133 : db $00, $00
-	dw DATA_F92153 : db $00, $00
-	dw DATA_F921B8 : db $00, $00
-	dw DATA_F91B30 : db $00, $00
-	dw DATA_F91B30 : db $00, $00
-	dw DATA_F91BA9 : db $00, $00
-	dw DATA_F91CA8 : db $00, $00
-	dw DATA_F91D55 : db $00, $00
-	dw DATA_F9138C : db $00, $00
-	dw DATA_F91411 : db $00, $00
-	dw DATA_F921FF : db $00, $00
-	dw DATA_F9224C : db $00, $00
-	dw DATA_F9227E : db $00, $00
-	dw DATA_F91054 : db $00, $00
-	dw DATA_F912D7 : db $00, $00
-	dw DATA_F91309 : db $00, $00
-	dw DATA_F9130E : db $00, $00
-	dw DATA_F9466D : db $00, $00
-	dw DATA_F947CA : db $00, $00
-	dw DATA_F91316 : db $00, $00
-	dw DATA_F90FEF : db $00, $00
-	dw DATA_F90FFD : db $00, $00
-	dw DATA_F94D19 : db $00, $00
-	dw DATA_F91EB7 : db $00, $00
-	dw DATA_F91EC2 : db $00, $00
-	dw DATA_F91EF8 : db $00, $00
-	dw DATA_F91ECA : db $00, $00
-	dw DATA_F91ECA : db $00, $00
-	dw DATA_F91ED2 : db $00, $00
-	dw DATA_F91ED2 : db $00, $00
-	dw DATA_F91ED2 : db $00, $00
-	dw DATA_F91ED2 : db $00, $00
-	dw DATA_F91ED2 : db $00, $00
-	dw DATA_F949EB : db $00, $00
-	dw DATA_F949EB : db $00, $00
-	dw DATA_F949EB : db $00, $00
-	dw DATA_F949EB : db $00, $00
-	dw DATA_F949EB : db $00, $00
-	dw DATA_F92292 : db $00, $00
-	dw DATA_F92845 : db $00, $C0
-	dw DATA_F92C08 : db $00, $00
-	dw DATA_F92E59 : db $00, $A0
-	dw DATA_F948E6 : db $00, $00
-	dw DATA_F922B7 : db $00, $00
-	dw DATA_F927DF : db $00, $C0
-	dw DATA_F92C7D : db $00, $00
-	dw DATA_F92EAE : db $00, $00
-	dw DATA_F94948 : db $00, $00
-	dw DATA_F922CB : db $00, $00
-	dw DATA_F92845 : db $00, $C0
-	dw DATA_F92C08 : db $00, $00
-	dw DATA_F92EC2 : db $00, $A8
-	dw DATA_F948E6 : db $00, $00
-	dw DATA_F923F9 : db $01, $00
-	dw DATA_F9298B : db $01, $C0
-	dw DATA_F92C08 : db $00, $00
+	dw DATA_F94668 : db $00, $00		;0000	$F94668	DATA_F94668
+	dw DATA_F90D00 : db $00, $00		;0001	$F90D00	diddy_idle
+	dw DATA_F91411 : db $00, $00		;0002	$F91411	diddy_turn
+	dw DATA_F91B62 : db $00, $00		;0003	$F91B62	diddy_walk
+	dw DATA_F91C73 : db $00, $00		;0004	$F91C73	diddy_run
+	dw DATA_F91D0C : db $03, $00		;0005	$F91D0C	diddy_jump
+	dw DATA_F91D17 : db $00, $30		;0006	$F91D17	diddy_air
+	dw DATA_F91D66 : db $00, $30		;0007	$F91D66	diddy_fall
+	dw DATA_F91DA2 : db $00, $00		;0008	$F91DA2	diddy_land
+	dw DATA_F91DB9 : db $02, $58		;0009	$F91DB9	diddy_roll
+	dw DATA_F91E1A : db $00, $00		;000A	$F91E1A	diddy_death
+	dw DATA_F91EB2 : db $00, $00		;000B	$F91EB2	DATA_F91EB2
+	dw DATA_F91AD6 : db $00, $00		;000C	$F91AD6	diddy_crouch_start
+	dw DATA_F91AEA : db $00, $00		;000D	$F91AEA	diddy_crouch_loop
+	dw DATA_F91B19 : db $00, $00		;000E	$F91B19	diddy_crouch_end
+	dw DATA_F91958 : db $04, $00		;000F	$F91958	diddy_carry_pickup
+	dw DATA_F91A1B : db $00, $00		;0010	$F91A1B	diddy_carry_idle
+	dw DATA_F91A28 : db $00, $00		;0011	$F91A28	diddy_carry_walk
+	dw DATA_F91A73 : db $00, $00		;0012	$F91A73	diddy_carry_turn
+	dw DATA_F91988 : db $04, $00		;0013	$F91988	diddy_carry_drop
+	dw DATA_F919C3 : db $04, $20		;0014	$F919C3	diddy_carry_throw
+	dw DATA_F91A8B : db $01, $00		;0015	$F91A8B	diddy_carry_jump
+	dw DATA_F91A98 : db $00, $30		;0016	$F91A98	diddy_carry_air
+	dw DATA_F91AB0 : db $00, $30		;0017	$F91AB0	diddy_carry_fall
+	dw DATA_F91AC6 : db $00, $00		;0018	$F91AC6	diddy_carry_land
+	dw DATA_F91316 : db $00, $30		;0019	$F91316	diddy_tumble_air
+	dw DATA_F91D7D : db $00, $30		;001A	$F91D7D	diddy_slope_slide
+	dw DATA_F91D8E : db $00, $30		;001B	$F91D8E	diddy_bounce_back
+	dw DATA_F91351 : db $00, $30		;001C	$F91351	diddy_bounce_up
+	dw DATA_F91425 : db $00, $00		;001D	$F91425	diddy_team_bottom_idle
+	dw DATA_F91768 : db $00, $00		;001E	$F91768	diddy_team_bottom_turn
+	dw DATA_F91790 : db $00, $00		;001F	$F91790	diddy_team_bottom_walk
+	dw DATA_F918EA : db $00, $00		;0020	$F918EA	diddy_team_top_idle
+	dw DATA_F91809 : db $01, $00		;0021	$F91809	diddy_team_bottom_jump
+	dw DATA_F91818 : db $00, $30		;0022	$F91818	diddy_team_bottom_air
+	dw DATA_F9182A : db $00, $30		;0023	$F9182A	diddy_team_bottom_fall
+	dw DATA_F91842 : db $00, $00		;0024	$F91842	diddy_team_bottom_land
+	dw DATA_F91854 : db $00, $30		;0025	$F91854	diddy_team_bottom_bounce_up
+	dw DATA_F91866 : db $00, $00		;0026	$F91866	diddy_team_bottom_throw
+	dw DATA_F9138C : db $00, $98		;0027	$F9138C	diddy_team_top_air
+	dw DATA_F913BE : db $00, $00		;0028	$F913BE	diddy_team_top_stunned
+	dw DATA_F91C59 : db $00, $00		;0029	$F91C59	diddy_hurt
+	dw DATA_F91CDA : db $00, $00		;002A	$F91CDA	diddy_hurt_jump_off_screen
+	dw DATA_F91F18 : db $00, $00		;002B	$F91F18	diddy_honey_wall_idle
+	dw DATA_F91FA0 : db $00, $00		;002C	$F91FA0	diddy_honey_floor_idle
+	dw DATA_F91F8C : db $00, $00		;002D	$F91F8C	diddy_honey_floor_walk
+	dw DATA_F91FE4 : db $00, $00		;002E	$F91FE4	diddy_honey_floor_carry_idle
+	dw DATA_F92019 : db $00, $00		;002F	$F92019	diddy_rope_vertical_single_idle
+	dw DATA_F9204D : db $00, $00		;0030	$F9204D	diddy_rope_vertical_single_up
+	dw DATA_F92021 : db $00, $00		;0031	$F92021	diddy_rope_vertical_single_down
+	dw DATA_F92079 : db $00, $00		;0032	$F92079	diddy_rope_vertical_single_turn
+	dw DATA_F92093 : db $00, $00		;0033	$F92093	DATA_F92093
+	dw DATA_F920B9 : db $00, $00		;0034	$F920B9	diddy_rope_vertical_single_to_double
+	dw DATA_F920E2 : db $00, $00		;0035	$F920E2	diddy_rope_vertical_double_to_single
+	dw DATA_F9210B : db $00, $00		;0036	$F9210B	diddy_rope_vertical_double_idle
+	dw DATA_F92113 : db $00, $00		;0037	$F92113	diddy_rope_vertical_double_up
+	dw DATA_F92133 : db $00, $00		;0038	$F92133	diddy_rope_vertical_double_down
+	dw DATA_F92153 : db $00, $00		;0039	$F92153	diddy_rope_horizontal_idle
+	dw DATA_F921B8 : db $00, $00		;003A	$F921B8	diddy_rope_horizontal_move
+	dw DATA_F91B30 : db $00, $00		;003B	$F91B30	diddy_follow_walk
+	dw DATA_F91B30 : db $00, $00		;003C	$F91B30	diddy_follow_walk
+	dw DATA_F91BA9 : db $00, $00		;003D	$F91BA9	diddy_follow_run
+	dw DATA_F91CA8 : db $00, $00		;003E	$F91CA8	diddy_follow_jump
+	dw DATA_F91D55 : db $00, $00		;003F	$F91D55	diddy_follow_air
+	dw DATA_F9138C : db $00, $00		;0040	$F9138C	diddy_team_top_air
+	dw DATA_F91411 : db $00, $00		;0041	$F91411	diddy_turn
+	dw DATA_F921FF : db $00, $00		;0042	$F921FF	diddy_hook_idle
+	dw DATA_F9224C : db $00, $00		;0043	$F9224C	diddy_swim_idle
+	dw DATA_F9227E : db $00, $00		;0044	$F9227E	diddy_swim_turn
+	dw DATA_F91054 : db $00, $00		;0045	$F91054	diddy_celebrate
+	dw DATA_F912D7 : db $00, $00		;0046	$F912D7	diddy_level_end_run
+	dw DATA_F91309 : db $00, $00		;0047	$F91309	DATA_F91309
+	dw DATA_F9130E : db $00, $00		;0048	$F9130E	DATA_F9130E
+	dw DATA_F9466D : db $00, $00		;0049	$F9466D	diddy_swap_to
+	dw DATA_F947CA : db $00, $00		;004A	$F947CA	diddy_swap_idle
+	dw DATA_F91316 : db $00, $00		;004B	$F91316	diddy_tumble_air
+	dw DATA_F90FEF : db $00, $00		;004C	$F90FEF	diddy_krockhead_bounce
+	dw DATA_F90FFD : db $00, $00		;004D	$F90FFD	diddy_carry_krockhead_bounce
+	dw DATA_F94D19 : db $00, $00		;004E	$F94D19	diddy_skull_cart
+	dw DATA_F91EB7 : db $00, $00		;004F	$F91EB7	diddy_squitter_mount
+	dw DATA_F91EC2 : db $00, $00		;0050	$F91EC2	diddy_rattly_idle
+	dw DATA_F91EF8 : db $00, $00		;0051	$F91EF8	diddy_squawks_idle
+	dw DATA_F91ECA : db $00, $00		;0052	$F91ECA	diddy_animal_mount
+	dw DATA_F91ECA : db $00, $00		;0053	$F91ECA	diddy_animal_mount
+	dw DATA_F91ED2 : db $00, $00		;0054	$F91ED2	diddy_animal_idle
+	dw DATA_F91ED2 : db $00, $00		;0055	$F91ED2	diddy_animal_idle
+	dw DATA_F91ED2 : db $00, $00		;0056	$F91ED2	diddy_animal_idle
+	dw DATA_F91ED2 : db $00, $00		;0057	$F91ED2	diddy_animal_idle
+	dw DATA_F91ED2 : db $00, $00		;0058	$F91ED2	diddy_animal_idle
+	dw DATA_F949EB : db $00, $00		;0059	$F949EB	animal_attack
+	dw DATA_F949EB : db $00, $00		;005A	$F949EB	animal_attack
+	dw DATA_F949EB : db $00, $00		;005B	$F949EB	animal_attack
+	dw DATA_F949EB : db $00, $00		;005C	$F949EB	animal_attack
+	dw DATA_F949EB : db $00, $00		;005D	$F949EB	animal_attack
+	dw DATA_F92292 : db $00, $00		;005E	$F92292	squitter_idle
+	dw DATA_F92845 : db $00, $C0		;005F	$F92845	rattly_diddy_idle
+	dw DATA_F92C08 : db $00, $00		;0060	$F92C08	squawks_idle
+	dw DATA_F92E59 : db $00, $A0		;0061	$F92E59	rambi_idle
+	dw DATA_F948E6 : db $00, $00		;0062	$F948E6	enguarde_idle
+	dw DATA_F922B7 : db $00, $00		;0063	$F922B7	squitter_turn
+	dw DATA_F927DF : db $00, $C0		;0064	$F927DF	DATA_F927DF
+	dw DATA_F92C7D : db $00, $00		;0065	$F92C7D	squawks_turn
+	dw DATA_F92EAE : db $00, $00		;0066	$F92EAE	rambi_turn
+	dw DATA_F94948 : db $00, $00		;0067	$F94948	enguarde_turn
+	dw DATA_F922CB : db $00, $00		;0068	$F922CB	squitter_walk
+	dw DATA_F92845 : db $00, $C0		;0069	$F92845	rattly_diddy_idle
+	dw DATA_F92C08 : db $00, $00		;006A	$F92C08	squawks_idle
+	dw DATA_F92EC2 : db $00, $A8		;006B	$F92EC2	rambi_walk
+	dw DATA_F948E6 : db $00, $00		;006C	$F948E6	enguarde_idle
+	dw DATA_F923F9 : db $01, $00		;006D	$F923F9	squitter_jump
+	dw DATA_F9298B : db $01, $C0		;006E	$F9298B	rattly_diddy_jump
+	dw DATA_F92C08 : db $00, $00		;006F	$F92C08	squawks_idle
 if !version == 0
-	dw DATA_F93036 : db $01, $00
+	dw DATA_F93036 : db $01, $00		;0070	$F93036	rambi_diddy_jump
 else
-	dw DATA_F93036 : db $01, $C0
+	dw DATA_F93036 : db $01, $C0		;0070	$F93036	rambi_diddy_jump
 endif
-	dw DATA_F948E6 : db $00, $00
-	dw DATA_F9240C : db $00, $00
-	dw DATA_F9299D : db $00, $C0
-	dw DATA_F92C08 : db $00, $00
-	dw DATA_F93048 : db $00, $C0
-	dw DATA_F948E6 : db $00, $00
-	dw DATA_F92457 : db $00, $00
-	dw DATA_F927F3 : db $00, $C0
-	dw DATA_F92C08 : db $00, $00
-	dw DATA_F930B4 : db $00, $C8
-	dw DATA_F948E6 : db $00, $00
-	dw DATA_F92449 : db $00, $00
-	dw DATA_F92AF8 : db $00, $00
-	dw DATA_F92C08 : db $00, $00
-	dw DATA_F93092 : db $00, $C8
-	dw DATA_F948E6 : db $00, $00
-	dw DATA_F92471 : db $00, $00
-	dw DATA_F9281F : db $00, $00
-	dw DATA_F92C91 : db $00, $00
-	dw DATA_F92FFC : db $00, $00
-	dw DATA_F9496C : db $00, $00
-	dw DATA_F92CA8 : db $08, $00
-	dw DATA_F94A9C : db $08, $00
-	dw DATA_F92CA8 : db $08, $00
-	dw DATA_F9481B : db $00, $A0
-	dw DATA_F94A08 : db $00, $A0
-	dw DATA_F92D73 : db $08, $00
-	dw DATA_F92D73 : db $08, $00
-	dw DATA_F92D73 : db $08, $00
-	dw DATA_F947D4 : db $01, $A8
-	dw DATA_F94997 : db $00, $00
-	dw DATA_F92484 : db $00, $00
-	dw DATA_F92835 : db $00, $00
-	dw DATA_F92C08 : db $00, $00
-	dw DATA_F9317E : db $00, $A8
-	dw DATA_F948E6 : db $00, $00
-	dw DATA_F94C5A : db $00, $00
-	dw DATA_F94C62 : db $00, $00
-	dw DATA_F94C6A : db $00, $00
-	dw DATA_F94C72 : db $00, $00
-	dw DATA_F94C7A : db $00, $00
-	dw DATA_F92356 : db $00, $00
-	dw DATA_F92848 : db $00, $00
-	dw DATA_F92B75 : db $00, $00
-	dw DATA_F92F53 : db $00, $00
-	dw DATA_F94908 : db $00, $00
-	dw DATA_F91007 : db $00, $00
-	dw DATA_F91C4E : db $00, $00
-	dw DATA_F91BD2 : db $00, $00
-	dw DATA_F90F96 : db $00, $00
-	dw DATA_F91C0D : db $00, $00
-	dw DATA_F93188 : db $00, $00
-	dw DATA_F93BD1 : db $00, $00
-	dw DATA_F9379A : db $00, $00
-	dw DATA_F937D8 : db $00, $00
-	dw DATA_F93977 : db $03, $00
-	dw DATA_F93982 : db $00, $20
-	dw DATA_F93A3D : db $00, $20
-	dw DATA_F93A90 : db $00, $00
-	dw DATA_F9418B : db $02, $40
-	dw DATA_F940F3 : db $00, $00
-	dw DATA_F94215 : db $00, $30
-	dw DATA_F93738 : db $00, $00
-	dw DATA_F9374C : db $00, $00
-	dw DATA_F93757 : db $00, $00
-	dw DATA_F93E14 : db $04, $00
-	dw DATA_F93F4A : db $00, $00
-	dw DATA_F93F92 : db $00, $00
-	dw DATA_F9401D : db $00, $00
-	dw DATA_F93E64 : db $04, $00
-	dw DATA_F93EBF : db $04, $20
-	dw DATA_F94035 : db $01, $00
-	dw DATA_F94042 : db $00, $20
-	dw DATA_F940CA : db $00, $20
-	dw DATA_F940E3 : db $00, $00
-	dw DATA_F93ADF : db $00, $20
-	dw DATA_F93A5B : db $00, $20
-	dw DATA_F93A72 : db $00, $20
-	dw DATA_F93B11 : db $00, $20
-	dw DATA_F93BE5 : db $00, $00
-	dw DATA_F93C0A : db $00, $00
-	dw DATA_F93C32 : db $00, $00
-	dw DATA_F93DF1 : db $00, $00
-	dw DATA_F93C95 : db $01, $00
-	dw DATA_F93CA2 : db $00, $30
-	dw DATA_F93CBA : db $00, $30
-	dw DATA_F93CD0 : db $00, $00
-	dw DATA_F93CE0 : db $00, $30
-	dw DATA_F93D3A : db $00, $00
-	dw DATA_F93B43 : db $00, $98
-	dw DATA_F93B75 : db $00, $00
-	dw DATA_F938DB : db $00, $00
-	dw DATA_F93933 : db $00, $00
-	dw DATA_F942FA : db $00, $00
-	dw DATA_F943E8 : db $00, $00
-	dw DATA_F943D4 : db $00, $00
-	dw DATA_F943F9 : db $00, $00
-	dw DATA_F94446 : db $00, $00
-	dw DATA_F9447A : db $00, $00
-	dw DATA_F9444E : db $00, $00
-	dw DATA_F944A6 : db $00, $00
-	dw DATA_F944C6 : db $00, $00
-	dw DATA_F944E6 : db $00, $00
-	dw DATA_F94509 : db $00, $00
-	dw DATA_F9452C : db $00, $00
-	dw DATA_F94534 : db $00, $00
-	dw DATA_F94554 : db $00, $00
-	dw DATA_F94574 : db $00, $00
-	dw DATA_F94591 : db $00, $00
-	dw DATA_F93768 : db $00, $00
-	dw DATA_F93768 : db $00, $00
-	dw DATA_F93816 : db $00, $00
-	dw DATA_F938F5 : db $00, $00
-	dw DATA_F93A26 : db $00, $00
-	dw DATA_F93B11 : db $00, $00
-	dw DATA_F93BD1 : db $00, $00
-	dw DATA_F945D2 : db $00, $00
-	dw DATA_F9461F : db $00, $00
-	dw DATA_F94654 : db $00, $00
-	dw DATA_F93470 : db $00, $00
-	dw DATA_F936F0 : db $00, $00
-	dw DATA_F9372B : db $00, $00
-	dw DATA_F93730 : db $00, $00
-	dw DATA_F94747 : db $00, $00
-	dw DATA_F947CF : db $00, $00
-	dw DATA_F93AAD : db $00, $00
-	dw DATA_F933DA : db $00, $00
-	dw DATA_F933E8 : db $00, $00
-	dw DATA_F94C82 : db $00, $00
-	dw DATA_F9423E : db $00, $00
-	dw DATA_F94287 : db $00, $00
-	dw DATA_F942E0 : db $00, $00
-	dw DATA_F9428F : db $00, $00
-	dw DATA_F9428F : db $00, $00
-	dw DATA_F94297 : db $00, $00
-	dw DATA_F94297 : db $00, $00
-	dw DATA_F94297 : db $00, $00
-	dw DATA_F94297 : db $00, $00
-	dw DATA_F94297 : db $00, $00
-	dw DATA_F949EB : db $00, $00
-	dw DATA_F949EB : db $00, $00
-	dw DATA_F949EB : db $00, $00
-	dw DATA_F949EB : db $00, $00
-	dw DATA_F949EB : db $00, $00
-	dw DATA_F92292 : db $00, $00
-	dw DATA_F9248E : db $00, $C0
-	dw DATA_F92C08 : db $00, $00
-	dw DATA_F92E59 : db $00, $A0
-	dw DATA_F948E6 : db $00, $00
-	dw DATA_F922B7 : db $00, $00
-	dw DATA_F927DF : db $00, $C0
-	dw DATA_F92C7D : db $00, $00
-	dw DATA_F92EAE : db $00, $00
-	dw DATA_F94948 : db $00, $00
-	dw DATA_F922CB : db $00, $00
-	dw DATA_F9248E : db $00, $C0
-	dw DATA_F92C08 : db $00, $00
-	dw DATA_F92EC2 : db $00, $A8
-	dw DATA_F948E6 : db $00, $00
-	dw DATA_F923F9 : db $01, $00
-	dw DATA_F925D7 : db $01, $C0
-	dw DATA_F92C08 : db $00, $00
+	dw DATA_F948E6 : db $00, $00		;0071	$F948E6	enguarde_idle
+	dw DATA_F9240C : db $00, $00		;0072	$F9240C	squitter_air
+	dw DATA_F9299D : db $00, $C0		;0073	$F9299D	rattly_diddy_air
+	dw DATA_F92C08 : db $00, $00		;0074	$F92C08	squawks_idle
+	dw DATA_F93048 : db $00, $C0		;0075	$F93048	rambi_diddy_air
+	dw DATA_F948E6 : db $00, $00		;0076	$F948E6	enguarde_idle
+	dw DATA_F92457 : db $00, $00		;0077	$F92457	squitter_fall
+	dw DATA_F927F3 : db $00, $C0		;0078	$F927F3	DATA_F927F3
+	dw DATA_F92C08 : db $00, $00		;0079	$F92C08	squawks_idle
+	dw DATA_F930B4 : db $00, $C8		;007A	$F930B4	rambi_diddy_fall
+	dw DATA_F948E6 : db $00, $00		;007B	$F948E6	enguarde_idle
+	dw DATA_F92449 : db $00, $00		;007C	$F92449	squitter_land
+	dw DATA_F92AF8 : db $00, $00		;007D	$F92AF8	rattly_diddy_land
+	dw DATA_F92C08 : db $00, $00		;007E	$F92C08	squawks_idle
+	dw DATA_F93092 : db $00, $C8		;007F	$F93092	rambi_diddy_land
+	dw DATA_F948E6 : db $00, $00		;0080	$F948E6	enguarde_idle
+	dw DATA_F92471 : db $00, $00		;0081	$F92471	squitter_mount
+	dw DATA_F9281F : db $00, $00		;0082	$F9281F	rattly_mount
+	dw DATA_F92C91 : db $00, $00		;0083	$F92C91	squawks_mount
+	dw DATA_F92FFC : db $00, $00		;0084	$F92FFC	rambi_diddy_mount
+	dw DATA_F9496C : db $00, $00		;0085	$F9496C	enguarde_diddy_mount
+	dw DATA_F92CA8 : db $08, $00		;0086	$F92CA8	squawks_attack
+	dw DATA_F94A9C : db $08, $00		;0087	$F94A9C	rattly_diddy_charge
+	dw DATA_F92CA8 : db $08, $00		;0088	$F92CA8	squawks_attack
+	dw DATA_F9481B : db $00, $A0		;0089	$F9481B	rambi_charge
+	dw DATA_F94A08 : db $00, $A0		;008A	$F94A08	enguarde_charge
+	dw DATA_F92D73 : db $08, $00		;008B	$F92D73	squawks_attack_2
+	dw DATA_F92D73 : db $08, $00		;008C	$F92D73	squawks_attack_2
+	dw DATA_F92D73 : db $08, $00		;008D	$F92D73	squawks_attack_2
+	dw DATA_F947D4 : db $01, $A8		;008E	$F947D4	rambi_attack
+	dw DATA_F94997 : db $00, $00		;008F	$F94997	enguarde_attack
+	dw DATA_F92484 : db $00, $00		;0090	$F92484	squitter_barrel_cannon_air
+	dw DATA_F92835 : db $00, $00		;0091	$F92835	rattly_barrel_cannon_air
+	dw DATA_F92C08 : db $00, $00		;0092	$F92C08	squawks_idle
+	dw DATA_F9317E : db $00, $A8		;0093	$F9317E	rambi_barrel_cannon_air
+	dw DATA_F948E6 : db $00, $00		;0094	$F948E6	enguarde_idle
+	dw DATA_F94C5A : db $00, $00		;0095	$F94C5A	squitter_hurt
+	dw DATA_F94C62 : db $00, $00		;0096	$F94C62	rattly_hurt
+	dw DATA_F94C6A : db $00, $00		;0097	$F94C6A	squawks_hurt
+	dw DATA_F94C72 : db $00, $00		;0098	$F94C72	rambi_hurt
+	dw DATA_F94C7A : db $00, $00		;0099	$F94C7A	enguarde_hurt
+	dw DATA_F92356 : db $00, $00		;009A	$F92356	squitter_exit
+	dw DATA_F92848 : db $00, $00		;009B	$F92848	rattly_diddy_exit
+	dw DATA_F92B75 : db $00, $00		;009C	$F92B75	squawks_exit
+	dw DATA_F92F53 : db $00, $00		;009D	$F92F53	rambi_exit
+	dw DATA_F94908 : db $00, $00		;009E	$F94908	enguarde_exit
+	dw DATA_F91007 : db $00, $00		;009F	$F91007	diddy_scared
+	dw DATA_F91C4E : db $00, $00		;00A0	$F91C4E	diddy_stunned
+	dw DATA_F91BD2 : db $00, $00		;00A1	$F91BD2	diddy_bonus_exit
+	dw DATA_F90F96 : db $00, $00		;00A2	$F90F96	diddy_wind_float
+	dw DATA_F91C0D : db $00, $00		;00A3	$F91C0D	diddy_bonus_exit_swim
+	dw DATA_F93188 : db $00, $00		;00A4	$F93188	dixie_idle
+	dw DATA_F93BD1 : db $00, $00		;00A5	$F93BD1	dixie_turn
+	dw DATA_F9379A : db $00, $00		;00A6	$F9379A	dixie_walk
+	dw DATA_F937D8 : db $00, $00		;00A7	$F937D8	dixie_run
+	dw DATA_F93977 : db $03, $00		;00A8	$F93977	dixie_jump
+	dw DATA_F93982 : db $00, $20		;00A9	$F93982	dixie_air
+	dw DATA_F93A3D : db $00, $20		;00AA	$F93A3D	dixie_fall
+	dw DATA_F93A90 : db $00, $00		;00AB	$F93A90	dixie_land
+	dw DATA_F9418B : db $02, $40		;00AC	$F9418B	dixie_roll
+	dw DATA_F940F3 : db $00, $00		;00AD	$F940F3	dixie_death
+	dw DATA_F94215 : db $00, $30		;00AE	$F94215	dixie_glide
+	dw DATA_F93738 : db $00, $00		;00AF	$F93738	dixie_crouch_start
+	dw DATA_F9374C : db $00, $00		;00B0	$F9374C	dixie_crouch_loop
+	dw DATA_F93757 : db $00, $00		;00B1	$F93757	dixie_crouch_end
+	dw DATA_F93E14 : db $04, $00		;00B2	$F93E14	dixie_carry_pickup
+	dw DATA_F93F4A : db $00, $00		;00B3	$F93F4A	dixie_carry_idle
+	dw DATA_F93F92 : db $00, $00		;00B4	$F93F92	dixie_carry_walk
+	dw DATA_F9401D : db $00, $00		;00B5	$F9401D	dixie_carry_turn
+	dw DATA_F93E64 : db $04, $00		;00B6	$F93E64	dixie_carry_drop
+	dw DATA_F93EBF : db $04, $20		;00B7	$F93EBF	dixie_carry_throw
+	dw DATA_F94035 : db $01, $00		;00B8	$F94035	dixie_carry_jump
+	dw DATA_F94042 : db $00, $20		;00B9	$F94042	dixie_carry_air
+	dw DATA_F940CA : db $00, $20		;00BA	$F940CA	dixie_carry_fall
+	dw DATA_F940E3 : db $00, $00		;00BB	$F940E3	dixie_carry_land
+	dw DATA_F93ADF : db $00, $20		;00BC	$F93ADF	dixie_barrel_cannon_air
+	dw DATA_F93A5B : db $00, $20		;00BD	$F93A5B	dixie_slope_slide
+	dw DATA_F93A72 : db $00, $20		;00BE	$F93A72	dixie_bounce_back
+	dw DATA_F93B11 : db $00, $20		;00BF	$F93B11	dixie_bounce_up
+	dw DATA_F93BE5 : db $00, $00		;00C0	$F93BE5	dixie_team_bottom_idle
+	dw DATA_F93C0A : db $00, $00		;00C1	$F93C0A	dixie_team_bottom_turn
+	dw DATA_F93C32 : db $00, $00		;00C2	$F93C32	dixie_team_bottom_walk
+	dw DATA_F93DF1 : db $00, $00		;00C3	$F93DF1	dixie_team_top_idle
+	dw DATA_F93C95 : db $01, $00		;00C4	$F93C95	dixie_team_bottom_jump
+	dw DATA_F93CA2 : db $00, $30		;00C5	$F93CA2	dixie_team_bottom_air
+	dw DATA_F93CBA : db $00, $30		;00C6	$F93CBA	dixie_team_bottom_fall
+	dw DATA_F93CD0 : db $00, $00		;00C7	$F93CD0	dixie_team_bottom_land
+	dw DATA_F93CE0 : db $00, $30		;00C8	$F93CE0	dixie_team_bottom_bounce_up
+	dw DATA_F93D3A : db $00, $00		;00C9	$F93D3A	dixie_team_bottom_throw
+	dw DATA_F93B43 : db $00, $98		;00CA	$F93B43	dixie_team_top_air
+	dw DATA_F93B75 : db $00, $00		;00CB	$F93B75	dixie_team_top_stunned
+	dw DATA_F938DB : db $00, $00		;00CC	$F938DB	dixie_hurt
+	dw DATA_F93933 : db $00, $00		;00CD	$F93933	dixie_hurt_jump_off_screen
+	dw DATA_F942FA : db $00, $00		;00CE	$F942FA	dixie_honey_wall_idle
+	dw DATA_F943E8 : db $00, $00		;00CF	$F943E8	dixie_honey_floor_idle
+	dw DATA_F943D4 : db $00, $00		;00D0	$F943D4	dixie_honey_floor_walk
+	dw DATA_F943F9 : db $00, $00		;00D1	$F943F9	dixie_honey_floor_carry_idle
+	dw DATA_F94446 : db $00, $00		;00D2	$F94446	dixie_rope_vertical_single_idle
+	dw DATA_F9447A : db $00, $00		;00D3	$F9447A	dixie_rope_vertical_single_up
+	dw DATA_F9444E : db $00, $00		;00D4	$F9444E	dixie_rope_vertical_single_down
+	dw DATA_F944A6 : db $00, $00		;00D5	$F944A6	dixie_rope_vertical_single_turn
+	dw DATA_F944C6 : db $00, $00		;00D6	$F944C6	DATA_F944C6
+	dw DATA_F944E6 : db $00, $00		;00D7	$F944E6	dixie_rope_vertical_single_to_double
+	dw DATA_F94509 : db $00, $00		;00D8	$F94509	dixie_rope_vertical_double_to_single
+	dw DATA_F9452C : db $00, $00		;00D9	$F9452C	dixie_rope_vertical_double_idle
+	dw DATA_F94534 : db $00, $00		;00DA	$F94534	dixie_rope_vertical_double_up
+	dw DATA_F94554 : db $00, $00		;00DB	$F94554	dixie_rope_vertical_double_down
+	dw DATA_F94574 : db $00, $00		;00DC	$F94574	dixie_rope_horizontal_idle
+	dw DATA_F94591 : db $00, $00		;00DD	$F94591	dixie_rope_horizontal_move
+	dw DATA_F93768 : db $00, $00		;00DE	$F93768	dixie_follow_walk
+	dw DATA_F93768 : db $00, $00		;00DF	$F93768	dixie_follow_walk
+	dw DATA_F93816 : db $00, $00		;00E0	$F93816	dixie_follow_run
+	dw DATA_F938F5 : db $00, $00		;00E1	$F938F5	dixie_follow_jump
+	dw DATA_F93A26 : db $00, $00		;00E2	$F93A26	dixie_follow_air
+	dw DATA_F93B11 : db $00, $00		;00E3	$F93B11	dixie_bounce_up
+	dw DATA_F93BD1 : db $00, $00		;00E4	$F93BD1	dixie_turn
+	dw DATA_F945D2 : db $00, $00		;00E5	$F945D2	dixie_hook_idle
+	dw DATA_F9461F : db $00, $00		;00E6	$F9461F	dixie_swim_idle
+	dw DATA_F94654 : db $00, $00		;00E7	$F94654	dixie_swim_turn
+	dw DATA_F93470 : db $00, $00		;00E8	$F93470	dixie_celebrate
+	dw DATA_F936F0 : db $00, $00		;00E9	$F936F0	dixie_level_end_run
+	dw DATA_F9372B : db $00, $00		;00EA	$F9372B	DATA_F9372B
+	dw DATA_F93730 : db $00, $00		;00EB	$F93730	DATA_F93730
+	dw DATA_F94747 : db $00, $00		;00EC	$F94747	dixie_swap_to
+	dw DATA_F947CF : db $00, $00		;00ED	$F947CF	dixie_swap_idle
+	dw DATA_F93AAD : db $00, $00		;00EE	$F93AAD	dixie_swap_air
+	dw DATA_F933DA : db $00, $00		;00EF	$F933DA	dixie_krockhead_bounce
+	dw DATA_F933E8 : db $00, $00		;00F0	$F933E8	dixie_carry_krockhead_bounce
+	dw DATA_F94C82 : db $00, $00		;00F1	$F94C82	dixie_skull_cart
+	dw DATA_F9423E : db $00, $00		;00F2	$F9423E	dixie_squitter_mount
+	dw DATA_F94287 : db $00, $00		;00F3	$F94287	dixie_rattly_idle
+	dw DATA_F942E0 : db $00, $00		;00F4	$F942E0	dixie_squawks_idle
+	dw DATA_F9428F : db $00, $00		;00F5	$F9428F	dixie_animal_mount
+	dw DATA_F9428F : db $00, $00		;00F6	$F9428F	dixie_animal_mount
+	dw DATA_F94297 : db $00, $00		;00F7	$F94297	dixie_animal_idle
+	dw DATA_F94297 : db $00, $00		;00F8	$F94297	dixie_animal_idle
+	dw DATA_F94297 : db $00, $00		;00F9	$F94297	dixie_animal_idle
+	dw DATA_F94297 : db $00, $00		;00FA	$F94297	dixie_animal_idle
+	dw DATA_F94297 : db $00, $00		;00FB	$F94297	dixie_animal_idle
+	dw DATA_F949EB : db $00, $00		;00FC	$F949EB	animal_attack
+	dw DATA_F949EB : db $00, $00		;00FD	$F949EB	animal_attack
+	dw DATA_F949EB : db $00, $00		;00FE	$F949EB	animal_attack
+	dw DATA_F949EB : db $00, $00		;00FF	$F949EB	animal_attack
+	dw DATA_F949EB : db $00, $00		;0100	$F949EB	animal_attack
+	dw DATA_F92292 : db $00, $00		;0101	$F92292	squitter_idle
+	dw DATA_F9248E : db $00, $C0		;0102	$F9248E	rattly_dixie_idle
+	dw DATA_F92C08 : db $00, $00		;0103	$F92C08	squawks_idle
+	dw DATA_F92E59 : db $00, $A0		;0104	$F92E59	rambi_idle
+	dw DATA_F948E6 : db $00, $00		;0105	$F948E6	enguarde_idle
+	dw DATA_F922B7 : db $00, $00		;0106	$F922B7	squitter_turn
+	dw DATA_F927DF : db $00, $C0		;0107	$F927DF	DATA_F927DF
+	dw DATA_F92C7D : db $00, $00		;0108	$F92C7D	squawks_turn
+	dw DATA_F92EAE : db $00, $00		;0109	$F92EAE	rambi_turn
+	dw DATA_F94948 : db $00, $00		;010A	$F94948	enguarde_turn
+	dw DATA_F922CB : db $00, $00		;010B	$F922CB	squitter_walk
+	dw DATA_F9248E : db $00, $C0		;010C	$F9248E	rattly_dixie_idle
+	dw DATA_F92C08 : db $00, $00		;010D	$F92C08	squawks_idle
+	dw DATA_F92EC2 : db $00, $A8		;010E	$F92EC2	rambi_walk
+	dw DATA_F948E6 : db $00, $00		;010F	$F948E6	enguarde_idle
+	dw DATA_F923F9 : db $01, $00		;0110	$F923F9	squitter_jump
+	dw DATA_F925D7 : db $01, $C0		;0111	$F925D7	rattly_dixie_jump
+	dw DATA_F92C08 : db $00, $00		;0112	$F92C08	squawks_idle
 if !version == 0
-	dw DATA_F930F4 : db $01, $00
+	dw DATA_F930F4 : db $01, $00		;0113	$F930F4	rambi_dixie_jump
 else
-	dw DATA_F930F4 : db $01, $C0
+	dw DATA_F930F4 : db $01, $C0		;0113	$F930F4	rambi_dixie_jump
 endif
-	dw DATA_F948E6 : db $00, $00
-	dw DATA_F9240C : db $00, $00
-	dw DATA_F925E9 : db $00, $C0
-	dw DATA_F92C08 : db $00, $00
-	dw DATA_F93104 : db $00, $C8
-	dw DATA_F948E6 : db $00, $00
-	dw DATA_F92457 : db $00, $00
-	dw DATA_F927F3 : db $00, $C0
-	dw DATA_F92C08 : db $00, $00
-	dw DATA_F9315D : db $00, $C8
-	dw DATA_F948E6 : db $00, $00
-	dw DATA_F92449 : db $00, $00
-	dw DATA_F92762 : db $00, $00
-	dw DATA_F92C08 : db $00, $00
-	dw DATA_F93142 : db $00, $C8
-	dw DATA_F948E6 : db $00, $00
-	dw DATA_F92471 : db $00, $00
-	dw DATA_F9281F : db $00, $00
-	dw DATA_F92C91 : db $00, $00
-	dw DATA_F93171 : db $00, $00
-	dw DATA_F9495C : db $00, $00
-	dw DATA_F92CA8 : db $08, $00
-	dw DATA_F94B80 : db $08, $00
-	dw DATA_F92CA8 : db $08, $00
-	dw DATA_F9481B : db $00, $A0
-	dw DATA_F94A08 : db $00, $00
-	dw DATA_F92D73 : db $08, $00
-	dw DATA_F92D73 : db $08, $00
-	dw DATA_F92D73 : db $08, $00
-	dw DATA_F947D4 : db $01, $A8
-	dw DATA_F94997 : db $00, $00
-	dw DATA_F92484 : db $00, $00
-	dw DATA_F92835 : db $00, $00
-	dw DATA_F92C08 : db $00, $00
-	dw DATA_F9317E : db $00, $A8
-	dw DATA_F948E6 : db $00, $00
-	dw DATA_F94C5A : db $00, $00
-	dw DATA_F94C62 : db $00, $00
-	dw DATA_F94C6A : db $00, $00
-	dw DATA_F94C72 : db $00, $00
-	dw DATA_F94C7A : db $00, $00
-	dw DATA_F92356 : db $00, $00
-	dw DATA_F92491 : db $00, $00
-	dw DATA_F92B75 : db $00, $00
-	dw DATA_F92F53 : db $00, $00
-	dw DATA_F94908 : db $00, $00
-	dw DATA_F93402 : db $00, $00
-	dw DATA_F938D0 : db $00, $00
-	dw DATA_F93848 : db $00, $00
-	dw DATA_F93379 : db $00, $00
-	dw DATA_F9388C : db $00, $00
-	dw DATA_F96784 : db $00, $00
-	dw DATA_F96805 : db $00, $00
-	dw DATA_F9690D : db $00, $00
-	dw DATA_F96941 : db $00, $00
-	dw DATA_F970B1 : db $00, $00
-	dw DATA_F967C4 : db $00, $00
-	dw DATA_F968A8 : db $00, $00
-	dw DATA_F96939 : db $00, $00
-	dw DATA_F96A8A : db $00, $00
-	dw DATA_F970CB : db $00, $00
-	dw DATA_F97006 : db $00, $00
-	dw DATA_F96FF5 : db $00, $00
-	dw DATA_F97026 : db $00, $00
-	dw DATA_F966DB : db $00, $00
-	dw DATA_F966F8 : db $00, $00
-	dw DATA_F96712 : db $00, $00
-	dw DATA_F9672C : db $00, $00
-	dw DATA_F96746 : db $00, $00
-	dw DATA_F96760 : db $00, $00
-	dw DATA_F966D9 : db $00, $00
-	dw DATA_F94DE7 : db $00, $00
-	dw DATA_F94DB3 : db $00, $00
-	dw DATA_F94DDC : db $00, $00
-	dw DATA_F9677F : db $00, $00
-	dw DATA_F9677A : db $00, $00
-	dw DATA_F953CE : db $00, $00
-	dw DATA_F953F7 : db $00, $00
-	dw DATA_F95416 : db $00, $00
-	dw DATA_F94F6F : db $00, $00
-	dw DATA_F94FA8 : db $00, $00
-	dw DATA_F94F8F : db $00, $00
-	dw DATA_F94FCA : db $00, $00
-	dw DATA_F94FE4 : db $00, $00
-	dw DATA_F96C9A : db $00, $00
-	dw DATA_F95D3E : db $00, $00
-	dw DATA_F95D61 : db $00, $00
-	dw DATA_F95D77 : db $00, $00
-	dw DATA_F95D8D : db $00, $00
-	dw DATA_F95DAD : db $00, $00
-	dw DATA_F95E33 : db $00, $00
-	dw DATA_F94F1F : db $00, $00
-	dw DATA_F94F3C : db $00, $00
-	dw DATA_F94F58 : db $00, $00
-	dw DATA_F9542D : db $00, $00
-	dw DATA_F95459 : db $00, $00
-	dw DATA_F95472 : db $00, $00
-	dw DATA_F9548F : db $00, $00
-	dw DATA_F954FC : db $00, $00
-	dw DATA_F95706 : db $00, $00
-	dw DATA_F9572F : db $00, $00
-	dw DATA_F9574B : db $00, $00
-	dw DATA_F957F7 : db $00, $00
-	dw DATA_F95802 : db $00, $00
-	dw DATA_F95849 : db $00, $00
-	dw DATA_F95C54 : db $00, $00
-	dw DATA_F95C8F : db $00, $00
-	dw DATA_F95C3D : db $00, $00
-	dw DATA_F958FB : db $00, $00
-	dw DATA_F95915 : db $00, $00
-	dw DATA_F95947 : db $00, $00
-	dw DATA_F95F40 : db $00, $00
-	dw DATA_F95F69 : db $00, $00
-	dw DATA_F95F82 : db $00, $00
-	dw DATA_F95FBC : db $00, $00
-	dw DATA_F95FE8 : db $00, $00
-	dw DATA_F96010 : db $00, $00
-	dw DATA_F96040 : db $00, $00
-	dw DATA_F96054 : db $00, $00
-	dw DATA_F9606E : db $00, $00
-	dw DATA_F96133 : db $00, $00
-	dw DATA_F96113 : db $00, $00
-	dw DATA_F9614F : db $00, $00
-	dw DATA_F96175 : db $00, $00
-	dw DATA_F95952 : db $00, $00
-	dw DATA_F959E3 : db $00, $00
-	dw DATA_F95A4D : db $00, $00
-	dw DATA_F95536 : db $00, $00
-	dw DATA_F9555F : db $00, $00
-	dw DATA_F95594 : db $00, $00
-	dw DATA_F95A81 : db $00, $00
-	dw DATA_F95A67 : db $00, $00
-	dw DATA_F95A9E : db $00, $00
-	dw DATA_F95AB4 : db $00, $00
-	dw DATA_F95B1B : db $00, $00
-	dw DATA_F95B01 : db $00, $00
-	dw DATA_F95B38 : db $00, $00
-	dw DATA_F95B57 : db $00, $00
-	dw DATA_F96DA7 : db $00, $00
-	dw DATA_F955AB : db $00, $00
-	dw DATA_F955D7 : db $00, $00
-	dw DATA_F955F0 : db $00, $00
-	dw DATA_F9560A : db $00, $00
-	dw DATA_F95669 : db $00, $00
-	dw DATA_F9568C : db $00, $00
-	dw DATA_F956A2 : db $00, $00
-	dw DATA_F95B96 : db $00, $00
-	dw DATA_F95C26 : db $00, $00
-	dw DATA_F95B77 : db $00, $00
-	dw DATA_F95896 : db $00, $00
-	dw DATA_F958BF : db $00, $00
-	dw DATA_F958E7 : db $00, $00
-	dw DATA_F96446 : db $00, $00
-	dw DATA_F9649C : db $00, $00
-	dw DATA_F964EC : db $00, $00
-	dw DATA_F96501 : db $00, $00
-	dw DATA_F9655A : db $00, $00
-	dw DATA_F96571 : db $00, $00
-	dw DATA_F965A0 : db $00, $00
-	dw DATA_F965A5 : db $00, $00
-	dw DATA_F965AA : db $00, $00
-	dw DATA_F94EE4 : db $00, $00
-	dw DATA_F96FDE : db $00, $00
-	dw clapper_idle : db $00, $00
-	dw clapper_interact : db $00, $00
-	dw DATA_F96AE2 : db $00, $00
-	dw DATA_F96AC8 : db $00, $00
-	dw DATA_F96AFC : db $00, $00
-	dw DATA_F94E95 : db $00, $00
-	dw DATA_F96B9B : db $00, $00
-	dw DATA_F96BE2 : db $00, $00
-	dw DATA_F95CB8 : db $00, $00
-	dw DATA_F95CE4 : db $00, $00
-	dw DATA_F96B19 : db $00, $00
-	dw DATA_F96B33 : db $00, $00
-	dw DATA_F96B4D : db $00, $00
-	dw DATA_F9707E : db $00, $00
-	dw DATA_F97083 : db $00, $00
-	dw DATA_F965EE : db $00, $00
-	dw DATA_F98B38 : db $00, $00
-	dw DATA_F98B4C : db $00, $00
-	dw DATA_F98BBA : db $00, $00
-	dw DATA_F98BE0 : db $00, $00
-	dw DATA_F98C0F : db $00, $00
-	dw DATA_F98C3E : db $00, $00
-	dw DATA_F98C52 : db $00, $00
-	dw DATA_F98C6C : db $00, $00
-	dw DATA_F98C83 : db $00, $00
-	dw DATA_F98C97 : db $00, $00
-	dw DATA_F98CB1 : db $00, $00
-	dw DATA_F98CC8 : db $00, $00
-	dw DATA_F98D3C : db $00, $00
-	dw DATA_F98D59 : db $00, $00
-	dw DATA_F98D76 : db $00, $00
-	dw DATA_F98D87 : db $00, $00
-	dw DATA_F98D92 : db $00, $00
-	dw DATA_F98B30 : db $00, $00
-	dw DATA_F98DCD : db $00, $00
-	dw DATA_F98E11 : db $00, $00
-	dw DATA_F98E25 : db $00, $00
-	dw DATA_F98E4E : db $00, $00
-	dw DATA_F98E5F : db $00, $00
-	dw DATA_F98E88 : db $00, $00
-	dw DATA_F98E93 : db $00, $00
-	dw DATA_F98EBC : db $00, $00
-	dw DATA_F98F00 : db $00, $00
-	dw DATA_F98F14 : db $00, $00
-	dw DATA_F98F3D : db $00, $00
-	dw DATA_F98F4E : db $00, $00
-	dw DATA_F98F77 : db $00, $00
-	dw DATA_F98F82 : db $00, $00
-	dw DATA_F972DC : db $00, $00
-	dw DATA_F9730D : db $00, $00
-	dw DATA_F98B07 : db $00, $00
-	dw DATA_F98B0F : db $00, $00
-	dw DATA_F98B17 : db $00, $00
-	dw DATA_F98B25 : db $00, $00
-	dw DATA_F95E4A : db $00, $00
-	dw DATA_F95E58 : db $00, $00
-	dw DATA_F95E87 : db $00, $00
-	dw DATA_F95E9D : db $00, $00
-	dw DATA_F95EB3 : db $00, $00
-	dw DATA_F95F06 : db $00, $00
-	dw DATA_F95F20 : db $00, $00
-	dw DATA_F950B2 : db $00, $00
-	dw DATA_F95302 : db $00, $00
-	dw DATA_F95195 : db $00, $00
-	dw DATA_F951EC : db $00, $00
-	dw DATA_F94ECA : db $00, $00
-	dw DATA_F95CF5 : db $00, $00
-	dw DATA_F986D6 : db $00, $00
-	dw DATA_F972AF : db $00, $00
-	dw DATA_F989E6 : db $00, $00
-	dw DATA_F98741 : db $00, $00
-	dw DATA_F9864F : db $00, $00
-	dw DATA_F98684 : db $00, $00
-	dw DATA_F98709 : db $00, $00
-	dw DATA_F9875E : db $00, $00
-	dw DATA_F98778 : db $00, $00
-	dw DATA_F98798 : db $00, $00
-	dw DATA_F987C1 : db $00, $00
-	dw DATA_F987C9 : db $00, $00
-	dw DATA_F987F9 : db $00, $00
-	dw DATA_F986EF : db $00, $00
-	dw DATA_F986BA : db $00, $00
-	dw DATA_F987D9 : db $00, $00
-	dw DATA_F98A18 : db $00, $00
-	dw DATA_F98A56 : db $00, $00
-	dw DATA_F98A6F : db $00, $00
-	dw DATA_F98A8E : db $00, $00
-	dw DATA_F98AC6 : db $00, $00
-	dw DATA_F982C8 : db $00, $00
-	dw DATA_F98416 : db $00, $00
-	dw DATA_F983FC : db $00, $00
-	dw DATA_F9831D : db $00, $00
-	dw DATA_F98399 : db $00, $00
-	dw DATA_F983E2 : db $00, $00
-	dw DATA_F9841E : db $00, $00
-	dw DATA_F98441 : db $00, $00
-	dw DATA_F98468 : db $00, $00
-	dw DATA_F98303 : db $00, $00
-	dw DATA_F98457 : db $00, $00
-	dw DATA_F984BA : db $00, $00
-	dw DATA_F9850D : db $00, $00
-	dw DATA_F98521 : db $00, $00
-	dw DATA_F98601 : db $00, $00
-	dw DATA_F98535 : db $00, $00
-	dw DATA_F98567 : db $00, $00
-	dw DATA_F98599 : db $00, $00
-	dw DATA_F985B3 : db $00, $00
-	dw DATA_F985CD : db $00, $00
-	dw DATA_F985E7 : db $00, $00
-	dw DATA_F975D4 : db $00, $00
-	dw DATA_F975DC : db $00, $00
-	dw DATA_F975E6 : db $00, $00
-	dw DATA_F975F0 : db $00, $00
-	dw DATA_F975FA : db $00, $00
-	dw DATA_F97604 : db $00, $00
-	dw DATA_F971ED : db $00, $00
-	dw DATA_F97213 : db $00, $00
-	dw DATA_F9725A : db $00, $00
-	dw DATA_F97292 : db $00, $00
-	dw DATA_F9861B : db $00, $00
-	dw DATA_F98635 : db $00, $00
-	dw DATA_F980B7 : db $00, $00
-	dw DATA_F980D1 : db $00, $00
-	dw DATA_F980E7 : db $00, $00
-	dw DATA_F98101 : db $00, $00
-	dw DATA_F98111 : db $00, $00
-	dw DATA_F9814E : db $00, $00
-	dw DATA_F981B8 : db $00, $00
-	dw DATA_F981C0 : db $00, $00
-	dw DATA_F981C8 : db $00, $00
-	dw DATA_F981D0 : db $00, $00
-	dw DATA_F981D8 : db $00, $00
-	dw DATA_F981E0 : db $00, $00
-	dw DATA_F981E8 : db $00, $00
-	dw DATA_F981F0 : db $00, $00
-	dw DATA_F981F8 : db $00, $00
-	dw DATA_F9822D : db $00, $00
-	dw DATA_F98188 : db $00, $00
-	dw DATA_F981A2 : db $00, $00
-	dw DATA_F98259 : db $00, $00
-	dw DATA_F977AB : db $00, $00
-	dw DATA_F977D6 : db $00, $00
-	dw DATA_F977EA : db $00, $00
-	dw DATA_F97818 : db $00, $00
-	dw DATA_F97843 : db $00, $00
-	dw DATA_F978F9 : db $00, $00
-	dw DATA_F979A9 : db $00, $00
-	dw DATA_F979BA : db $00, $00
-	dw DATA_F97725 : db $00, $00
-	dw DATA_F97748 : db $00, $00
-	dw DATA_F97768 : db $00, $00
-	dw DATA_F9778B : db $00, $00
-	dw DATA_F97A22 : db $00, $00
-	dw DATA_F979FC : db $00, $00
-	dw DATA_F97A0F : db $00, $00
-	dw DATA_F976EA : db $00, $00
-	dw DATA_F97709 : db $00, $00
-	dw DATA_F979EC : db $00, $00
-	dw DATA_F979F4 : db $00, $00
-	dw DATA_F98FAB : db $00, $00
-	dw DATA_F97627 : db $00, $00
-	dw DATA_F9767A : db $00, $00
-	dw DATA_F976BE : db $00, $00
-	dw DATA_F97550 : db $00, $00
-	dw DATA_F97597 : db $00, $00
-	dw DATA_F975CC : db $00, $00
-	dw DATA_F986A1 : db $00, $00
-	dw DATA_F97A2A : db $00, $00
-	dw DATA_F97A38 : db $00, $00
-	dw DATA_F97A5A : db $00, $00
-	dw DATA_F97A7A : db $00, $00
-	dw DATA_F97A91 : db $00, $00
-	dw DATA_F97AB0 : db $00, $00
-	dw DATA_F97AD2 : db $00, $00
-	dw DATA_F97AE5 : db $00, $00
-	dw DATA_F97AF8 : db $00, $00
-	dw DATA_F97B11 : db $00, $00
-	dw DATA_F97B2A : db $00, $00
-	dw DATA_F97B7A : db $00, $00
-	dw DATA_F97B94 : db $00, $00
-	dw DATA_F97B9C : db $00, $00
-	dw DATA_F97BA4 : db $00, $00
-	dw DATA_F97BBE : db $00, $00
-	dw DATA_F97BF0 : db $00, $00
-	dw DATA_F97C16 : db $00, $00
-	dw DATA_F97C42 : db $00, $00
-	dw DATA_F97C83 : db $00, $00
-	dw DATA_F97D34 : db $00, $00
-	dw DATA_F97D66 : db $00, $00
-	dw DATA_F97DA7 : db $00, $00
-	dw DATA_F97DB2 : db $00, $00
-	dw DATA_F97DE7 : db $00, $00
-	dw DATA_F97B5A : db $00, $00
-	dw DATA_F97E19 : db $00, $00
-	dw DATA_F97E48 : db $00, $00
-	dw DATA_F97E6B : db $00, $00
-	dw DATA_F97E91 : db $00, $00
-	dw DATA_F97A46 : db $00, $00
-	dw DATA_F98069 : db $00, $00
-	dw DATA_F9809D : db $00, $00
-	dw DATA_F98285 : db $00, $00
-	dw DATA_F9805B : db $00, $00
-	dw DATA_F98083 : db $00, $00
-	dw DATA_F97B49 : db $00, $00
-	dw DATA_F97CA6 : db $00, $00
-	dw DATA_F97CFC : db $00, $00
-	dw DATA_F97EAE : db $00, $00
-	dw DATA_F97EE3 : db $00, $00
-	dw DATA_F97F64 : db $00, $00
-	dw DATA_F97FE4 : db $00, $00
-	dw DATA_F97B41 : db $00, $00
-	dw DATA_F97F0C : db $00, $00
-	dw DATA_F97F3E : db $00, $00
-	dw DATA_F972BD : db $00, $00
-	dw DATA_F972CE : db $00, $00
-	dw DATA_F9734E : db $00, $00
-	dw DATA_F97356 : db $00, $00
-	dw DATA_F9735E : db $00, $00
-	dw DATA_F9736B : db $00, $00
-	dw DATA_F97338 : db $00, $00
-	dw DATA_F97343 : db $00, $00
-	dw DATA_F97378 : db $00, $00
-	dw DATA_F973AD : db $00, $00
-	dw DATA_F973D6 : db $00, $00
-	dw DATA_F973ED : db $00, $00
-	dw DATA_F97401 : db $00, $00
-	dw DATA_F9744E : db $00, $00
-	dw DATA_F97495 : db $00, $00
-	dw DATA_F974A0 : db $00, $00
-	dw DATA_F974AB : db $00, $00
-	dw DATA_F974B3 : db $00, $00
-	dw DATA_F974BB : db $00, $00
-	dw DATA_F974F0 : db $00, $00
-	dw DATA_F9751C : db $00, $00
-	dw DATA_F982B1 : db $00, $00
-	dw DATA_F97536 : db $00, $00
-	dw DATA_F989CC : db $00, $00
-	dw DATA_F96B67 : db $00, $00
-	dw DATA_F96B81 : db $00, $00
-	dw DATA_F96C6F : db $00, $00
-	dw DATA_F96C20 : db $00, $00
-	dw DATA_F96C28 : db $00, $00
-	dw DATA_F96C77 : db $00, $00
-	dw DATA_F96CB1 : db $00, $00
-	dw DATA_F96CB6 : db $00, $00
-	dw DATA_F96CFF : db $00, $00
-	dw DATA_F96CFA : db $00, $00
-	dw DATA_F96CF0 : db $00, $00
-	dw DATA_F96CEB : db $00, $00
-	dw DATA_F96CF5 : db $00, $00
-	dw DATA_F96E70 : db $00, $00
-	dw DATA_F96D04 : db $00, $00
-	dw DATA_F96D24 : db $00, $00
-	dw DATA_F96D29 : db $00, $00
-	dw DATA_F96D37 : db $00, $00
-	dw DATA_F96D51 : db $00, $00
-	dw DATA_F96D56 : db $00, $00
-	dw DATA_F96D5B : db $00, $00
-	dw DATA_F96D60 : db $00, $00
-	dw DATA_F96D65 : db $00, $00
-	dw DATA_F9660E : db $00, $00
-	dw DATA_F9663C : db $00, $00
-	dw DATA_F9666A : db $00, $00
-	dw DATA_F96698 : db $00, $00
-	dw DATA_F96E53 : db $00, $00
-	dw DATA_F95D1E : db $00, $00
-	dw DATA_F96D9D : db $00, $00
-	dw DATA_F96DA2 : db $00, $00
-	dw DATA_F96D98 : db $00, $00
-	dw DATA_F96CBB : db $00, $00
-	dw DATA_F96CE1 : db $00, $00
-	dw DATA_F96300 : db $00, $00
-	dw DATA_F96345 : db $00, $00
-	dw DATA_F9636D : db $00, $00
-	dw DATA_F96395 : db $00, $00
-	dw DATA_F963C4 : db $00, $00
-	dw DATA_F9640B : db $00, $00
-	dw DATA_F96CE6 : db $00, $00
-	dw DATA_F96DBB : db $00, $00
-	dw DATA_F96DC0 : db $00, $00
-	dw DATA_F96DF5 : db $00, $00
-	dw DATA_F9618F : db $00, $00
-	dw DATA_F961B8 : db $00, $00
-	dw DATA_F961CE : db $00, $00
-	dw DATA_F96211 : db $00, $00
-	dw DATA_F9622B : db $00, $00
-	dw DATA_F96E84 : db $00, $00
-	dw DATA_F96E9E : db $00, $00
-	dw DATA_F96F43 : db $00, $00
-	dw DATA_F97076 : db $00, $00
-	dw DATA_F97088 : db $00, $00
-	dw DATA_F964F1 : db $00, $00
-	dw DATA_F95ACE : db $00, $00
-	dw DATA_F95AEB : db $00, $00
-	dw DATA_F965AF : db $00, $00
-	dw DATA_F965D8 : db $00, $00
-	dw DATA_F971D3 : db $00, $00
-	dw DATA_F94E25 : db $00, $00
-	dw DATA_F96E12 : db $00, $00
-	dw DATA_F95033 : db $00, $00
-	dw DATA_F966C6 : db $00, $00
-	dw DATA_F9888C : db $00, $00
-	dw DATA_F94E66 : db $00, $00
-	dw DATA_F96D6A : db $00, $00
-	dw DATA_F96D93 : db $00, $00
-	dw DATA_F98851 : db $00, $00
-	dw DATA_F98819 : db $00, $00
-	dw DATA_F94E2A : db $00, $00
-	dw DATA_F94E2A : db $00, $00
-	dw DATA_F95046 : db $00, $00
-	dw DATA_F966C6 : db $00, $00
-	dw DATA_F9888C : db $00, $00
-	dw DATA_F94E6B : db $00, $00
-	dw DATA_F96D6F : db $00, $00
-	dw DATA_F96D93 : db $00, $00
-	dw DATA_F94E3B : db $00, $00
-	dw DATA_F96E12 : db $00, $00
-	dw DATA_F9506B : db $00, $00
-	dw DATA_F966C6 : db $00, $00
-	dw DATA_F9888C : db $00, $00
-	dw DATA_F94E7C : db $00, $00
-	dw DATA_F96D80 : db $00, $00
-	dw DATA_F96D93 : db $00, $00
-	dw DATA_F94E49 : db $00, $00
-	dw DATA_F94E49 : db $00, $00
-	dw DATA_F9508A : db $00, $00
-	dw DATA_F966CB : db $00, $00
-	dw DATA_F98894 : db $00, $00
-	dw DATA_F94E8D : db $00, $00
-	dw DATA_F96D8E : db $00, $00
-	dw DATA_F96D93 : db $00, $00
-	dw DATA_F988FE : db $00, $00
-	dw DATA_F988CC : db $00, $00
-	dw DATA_F98936 : db $00, $00
-	dw DATA_F9899A : db $00, $00
-	dw DATA_F98968 : db $00, $00
-	dw DATA_F956BC : db $00, $00
-	dw DATA_F96792 : db $00, $00
-	dw DATA_F9685B : db $00, $00
-	dw DATA_F952DF : db $00, $00
-	dw DATA_F977C2 : db $00, $00
-	dw !null_pointer : db $00, $00
-	dw !null_pointer : db $00, $00
-	dw !null_pointer : db $00, $00
-	dw !null_pointer : db $00, $00
-	dw !null_pointer : db $00, $00
-	dw !null_pointer : db $00, $00
-	dw !null_pointer : db $00, $00
-	dw !null_pointer : db $00, $00
-	dw !null_pointer : db $00, $00
-	dw !null_pointer : db $00, $00
-	dw !null_pointer : db $00, $00
-	dw !null_pointer : db $00, $00
-	dw !null_pointer : db $00, $00
-	dw !null_pointer : db $00, $00
-	dw !null_pointer : db $00, $00
-	dw !null_pointer : db $00, $00
-	dw !null_pointer : db $00, $00
-	dw !null_pointer : db $00, $00
-	dw !null_pointer : db $00, $00
-	dw !null_pointer : db $00, $00
-	dw !null_pointer : db $00, $00
-	dw !null_pointer : db $00, $00
-	dw !null_pointer : db $00, $00
-	dw !null_pointer : db $00, $00
-	dw !null_pointer : db $00, $00
-	dw !null_pointer : db $00, $00
-	dw !null_pointer : db $00, $00
-	dw !null_pointer : db $00, $00
-	dw !null_pointer : db $00, $00
-	dw !null_pointer : db $00, $00
-	dw !null_pointer : db $00, $00
-	dw !null_pointer : db $00, $00
-	dw !null_pointer : db $00, $00
-	dw !null_pointer : db $00, $00
-	dw !null_pointer : db $00, $00
-	dw !null_pointer : db $00, $00
-	dw !null_pointer : db $00, $00
-	dw !null_pointer : db $00, $00
-	dw !null_pointer : db $00, $00
-	dw !null_pointer : db $00, $00
-	dw !null_pointer : db $00, $00
-	dw !null_pointer : db $00, $00
-	dw !null_pointer : db $00, $00
-	dw !null_pointer : db $00, $00
-	dw !null_pointer : db $00, $00
-	dw !null_pointer : db $00, $00
-	dw !null_pointer : db $00, $00
-	dw !null_pointer : db $00, $00
-	dw !null_pointer : db $00, $00
-	dw !null_pointer : db $00, $00
-	dw !null_pointer : db $00, $00
-	dw !null_pointer : db $00, $00
+	dw DATA_F948E6 : db $00, $00		;0114	$F948E6	enguarde_idle
+	dw DATA_F9240C : db $00, $00		;0115	$F9240C	squitter_air
+	dw DATA_F925E9 : db $00, $C0		;0116	$F925E9	rattly_dixie_air
+	dw DATA_F92C08 : db $00, $00		;0117	$F92C08	squawks_idle
+	dw DATA_F93104 : db $00, $C8		;0118	$F93104	rambi_dixie_air
+	dw DATA_F948E6 : db $00, $00		;0119	$F948E6	enguarde_idle
+	dw DATA_F92457 : db $00, $00		;011A	$F92457	squitter_fall
+	dw DATA_F927F3 : db $00, $C0		;011B	$F927F3	DATA_F927F3
+	dw DATA_F92C08 : db $00, $00		;011C	$F92C08	squawks_idle
+	dw DATA_F9315D : db $00, $C8		;011D	$F9315D	rambi_dixie_fall
+	dw DATA_F948E6 : db $00, $00		;011E	$F948E6	enguarde_idle
+	dw DATA_F92449 : db $00, $00		;011F	$F92449	squitter_land
+	dw DATA_F92762 : db $00, $00		;0120	$F92762	rattly_dixie_land
+	dw DATA_F92C08 : db $00, $00		;0121	$F92C08	squawks_idle
+	dw DATA_F93142 : db $00, $C8		;0122	$F93142	rambi_dixie_land
+	dw DATA_F948E6 : db $00, $00		;0123	$F948E6	enguarde_idle
+	dw DATA_F92471 : db $00, $00		;0124	$F92471	squitter_mount
+	dw DATA_F9281F : db $00, $00		;0125	$F9281F	rattly_mount
+	dw DATA_F92C91 : db $00, $00		;0126	$F92C91	squawks_mount
+	dw DATA_F93171 : db $00, $00		;0127	$F93171	rambi_dixie_mount
+	dw DATA_F9495C : db $00, $00		;0128	$F9495C	enguarde_dixie_mount
+	dw DATA_F92CA8 : db $08, $00		;0129	$F92CA8	squawks_attack
+	dw DATA_F94B80 : db $08, $00		;012A	$F94B80	rattly_dixie_charge
+	dw DATA_F92CA8 : db $08, $00		;012B	$F92CA8	squawks_attack
+	dw DATA_F9481B : db $00, $A0		;012C	$F9481B	rambi_charge
+	dw DATA_F94A08 : db $00, $00		;012D	$F94A08	enguarde_charge
+	dw DATA_F92D73 : db $08, $00		;012E	$F92D73	squawks_attack_2
+	dw DATA_F92D73 : db $08, $00		;012F	$F92D73	squawks_attack_2
+	dw DATA_F92D73 : db $08, $00		;0130	$F92D73	squawks_attack_2
+	dw DATA_F947D4 : db $01, $A8		;0131	$F947D4	rambi_attack
+	dw DATA_F94997 : db $00, $00		;0132	$F94997	enguarde_attack
+	dw DATA_F92484 : db $00, $00		;0133	$F92484	squitter_barrel_cannon_air
+	dw DATA_F92835 : db $00, $00		;0134	$F92835	rattly_barrel_cannon_air
+	dw DATA_F92C08 : db $00, $00		;0135	$F92C08	squawks_idle
+	dw DATA_F9317E : db $00, $A8		;0136	$F9317E	rambi_barrel_cannon_air
+	dw DATA_F948E6 : db $00, $00		;0137	$F948E6	enguarde_idle
+	dw DATA_F94C5A : db $00, $00		;0138	$F94C5A	squitter_hurt
+	dw DATA_F94C62 : db $00, $00		;0139	$F94C62	rattly_hurt
+	dw DATA_F94C6A : db $00, $00		;013A	$F94C6A	squawks_hurt
+	dw DATA_F94C72 : db $00, $00		;013B	$F94C72	rambi_hurt
+	dw DATA_F94C7A : db $00, $00		;013C	$F94C7A	enguarde_hurt
+	dw DATA_F92356 : db $00, $00		;013D	$F92356	squitter_exit
+	dw DATA_F92491 : db $00, $00		;013E	$F92491	rattly_dixie_exit
+	dw DATA_F92B75 : db $00, $00		;013F	$F92B75	squawks_exit
+	dw DATA_F92F53 : db $00, $00		;0140	$F92F53	rambi_exit
+	dw DATA_F94908 : db $00, $00		;0141	$F94908	enguarde_exit
+	dw DATA_F93402 : db $00, $00		;0142	$F93402	dixie_scared
+	dw DATA_F938D0 : db $00, $00		;0143	$F938D0	dixie_stunned
+	dw DATA_F93848 : db $00, $00		;0144	$F93848	dixie_bonus_exit
+	dw DATA_F93379 : db $00, $00		;0145	$F93379	dixie_wind_float
+	dw DATA_F9388C : db $00, $00		;0146	$F9388C	dixie_bonus_exit_swim
+	dw DATA_F96784 : db $00, $00		;0147	$F96784	squitter_no_player_idle
+	dw DATA_F96805 : db $00, $00		;0148	$F96805	rattly_no_player_idle
+	dw DATA_F9690D : db $00, $00		;0149	$F9690D	squawks_no_player_idle
+	dw DATA_F96941 : db $00, $00		;014A	$F96941	rambi_no_player_idle
+	dw DATA_F970B1 : db $00, $00		;014B	$F970B1	enguarde_no_player_idle
+	dw DATA_F967C4 : db $00, $00		;014C	$F967C4	squitter_hurt_run
+	dw DATA_F968A8 : db $00, $00		;014D	$F968A8	rattly_hurt_run
+	dw DATA_F96939 : db $00, $00		;014E	$F96939	squawks_hurt_run
+	dw DATA_F96A8A : db $00, $00		;014F	$F96A8A	rambi_hurt_run
+	dw DATA_F970CB : db $00, $00		;0150	$F970CB	enguarde_hurt_run
+	dw DATA_F97006 : db $00, $00		;0151	$F97006	rain_cloud_spawn
+	dw DATA_F96FF5 : db $00, $00		;0152	$F96FF5	rain_cloud_loop
+	dw DATA_F97026 : db $00, $00		;0153	$F97026	DATA_F97026
+	dw DATA_F966DB : db $00, $00		;0154	$F966DB	DATA_F966DB
+	dw DATA_F966F8 : db $00, $00		;0155	$F966F8	DATA_F966F8
+	dw DATA_F96712 : db $00, $00		;0156	$F96712	squawks_egg_projectile
+	dw DATA_F9672C : db $00, $00		;0157	$F9672C	cannon_ball_fragment
+	dw DATA_F96746 : db $00, $00		;0158	$F96746	krow_egg_fragment
+	dw DATA_F96760 : db $00, $00		;0159	$F96760	krow_egg_fragment_2
+	dw DATA_F966D9 : db $00, $00		;015A	$F966D9	DATA_F966D9
+	dw DATA_F94DE7 : db $00, $00		;015B	$F94DE7	DATA_F94DE7
+	dw DATA_F94DB3 : db $00, $00		;015C	$F94DB3	dixie_hurt_tears
+	dw DATA_F94DDC : db $00, $00		;015D	$F94DDC	diddy_hurt_birds
+	dw DATA_F9677F : db $00, $00		;015E	$F9677F	DATA_F9677F
+	dw DATA_F9677A : db $00, $00		;015F	$F9677A	gangplank_galley_sun
+	dw DATA_F953CE : db $00, $00		;0160	$F953CE	klomp_walk
+	dw DATA_F953F7 : db $00, $00		;0161	$F953F7	klomp_turn
+	dw DATA_F95416 : db $00, $00		;0162	$F95416	klomp_death
+	dw DATA_F94F6F : db $00, $00		;0163	$F94F6F	click_clack_walk
+	dw DATA_F94FA8 : db $00, $00		;0164	$F94FA8	click_clack_stunned_airborne
+	dw DATA_F94F8F : db $00, $00		;0165	$F94F8F	click_clack_turn
+	dw DATA_F94FCA : db $00, $00		;0166	$F94FCA	click_clack_stunned
+	dw DATA_F94FE4 : db $00, $00		;0167	$F94FE4	click_clack_recover
+	dw DATA_F96C9A : db $00, $00		;0168	$F96C9A	collision_spark_effect
+	dw DATA_F95D3E : db $00, $00		;0169	$F95D3E	kutlass_walk
+	dw DATA_F95D61 : db $00, $00		;016A	$F95D61	kutlass_turn
+	dw DATA_F95D77 : db $00, $00		;016B	$F95D77	kutlass_chase_turn
+	dw DATA_F95D8D : db $00, $00		;016C	$F95D8D	kutlass_chase_run
+	dw DATA_F95DAD : db $00, $00		;016D	$F95DAD	kutlass_attack
+	dw DATA_F95E33 : db $00, $00		;016E	$F95E33	kutlass_death
+	dw DATA_F94F1F : db $00, $00		;016F	$F94F1F	neek_walk
+	dw DATA_F94F3C : db $00, $00		;0170	$F94F3C	neek_turn
+	dw DATA_F94F58 : db $00, $00		;0171	$F94F58	neek_death
+	dw DATA_F9542D : db $00, $00		;0172	$F9542D	kruncha_walk
+	dw DATA_F95459 : db $00, $00		;0173	$F95459	kruncha_turn
+	dw DATA_F95472 : db $00, $00		;0174	$F95472	kruncha_death
+	dw DATA_F9548F : db $00, $00		;0175	$F9548F	kruncha_angry
+	dw DATA_F954FC : db $00, $00		;0176	$F954FC	kruncha_calm
+	dw DATA_F95706 : db $00, $00		;0177	$F95706	lockjaw_swim
+	dw DATA_F9572F : db $00, $00		;0178	$F9572F	lockjaw_turn
+	dw DATA_F9574B : db $00, $00		;0179	$F9574B	lockjaw_chomp_left
+	dw DATA_F957F7 : db $00, $00		;017A	$F957F7	lockjaw_death
+	dw DATA_F95802 : db $00, $00		;017B	$F95802	lockjaw_chomp_right
+	dw DATA_F95849 : db $00, $00		;017C	$F95849	lockjaw_attack
+	dw DATA_F95C54 : db $00, $00		;017D	$F95C54	kannon_shoot_horizontal
+	dw DATA_F95C8F : db $00, $00		;017E	$F95C8F	kannon_shoot_down
+	dw DATA_F95C3D : db $00, $00		;017F	$F95C3D	kannon_death
+	dw DATA_F958FB : db $00, $00		;0180	$F958FB	shuri_idle
+	dw DATA_F95915 : db $00, $00		;0181	$F95915	shuri_spin
+	dw DATA_F95947 : db $00, $00		;0182	$F95947	shuri_death
+	dw DATA_F95F40 : db $00, $00		;0183	$F95F40	puftup_swim
+	dw DATA_F95F69 : db $00, $00		;0184	$F95F69	puftup_turn_inflate
+	dw DATA_F95F82 : db $00, $00		;0185	$F95F82	puftup_turn_deflate
+	dw DATA_F95FBC : db $00, $00		;0186	$F95FBC	puftup_inflate
+	dw DATA_F95FE8 : db $00, $00		;0187	$F95FE8	puftup_deflate
+	dw DATA_F96010 : db $00, $00		;0188	$F96010	puftup_explode
+	dw DATA_F96040 : db $00, $00		;0189	$F96040	puftup_death
+	dw DATA_F96054 : db $00, $00		;018A	$F96054	puftup_spike
+	dw DATA_F9606E : db $00, $00		;018B	$F9606E	cat_o_9_tails_idle
+	dw DATA_F96133 : db $00, $00		;018C	$F96133	cat_o_9_tails_stand
+	dw DATA_F96113 : db $00, $00		;018D	$F96113	cat_o_9_tails_chase
+	dw DATA_F9614F : db $00, $00		;018E	$F9614F	cat_o_9_tails_spin
+	dw DATA_F96175 : db $00, $00		;018F	$F96175	cat_o_9_tails_death
+	dw DATA_F95952 : db $00, $00		;0190	$F95952	kaboing_jump
+	dw DATA_F959E3 : db $00, $00		;0191	$F959E3	kaboing_jump_2
+	dw DATA_F95A4D : db $00, $00		;0192	$F95A4D	kaboing_death
+	dw DATA_F95536 : db $00, $00		;0193	$F95536	mini_necky_idle
+	dw DATA_F9555F : db $00, $00		;0194	$F9555F	mini_necky_swoop
+	dw DATA_F95594 : db $00, $00		;0195	$F95594	mini_necky_death
+	dw DATA_F95A81 : db $00, $00		;0196	$F95A81	zinger_horizontal
+	dw DATA_F95A67 : db $00, $00		;0197	$F95A67	zinger_idle
+	dw DATA_F95A9E : db $00, $00		;0198	$F95A9E	zinger_turn
+	dw DATA_F95AB4 : db $00, $00		;0199	$F95AB4	zinger_death
+	dw DATA_F95B1B : db $00, $00		;019A	$F95B1B	flitter_horizontal
+	dw DATA_F95B01 : db $00, $00		;019B	$F95B01	flitter_idle
+	dw DATA_F95B38 : db $00, $00		;019C	$F95B38	flitter_turn
+	dw DATA_F95B57 : db $00, $00		;019D	$F95B57	flitter_death
+	dw DATA_F96DA7 : db $00, $00		;019E	$F96DA7	DATA_F96DA7
+	dw DATA_F955AB : db $00, $00		;019F	$F955AB	klampon_walk
+	dw DATA_F955D7 : db $00, $00		;01A0	$F955D7	klampon_turn
+	dw DATA_F955F0 : db $00, $00		;01A1	$F955F0	klampon_death
+	dw DATA_F9560A : db $00, $00		;01A2	$F9560A	klampon_bite
+	dw DATA_F95669 : db $00, $00		;01A3	$F95669	spiny_walk
+	dw DATA_F9568C : db $00, $00		;01A4	$F9568C	spiny_turn
+	dw DATA_F956A2 : db $00, $00		;01A5	$F956A2	spiny_death
+	dw DATA_F95B96 : db $00, $00		;01A6	$F95B96	klinger_idle
+	dw DATA_F95C26 : db $00, $00		;01A7	$F95C26	klinger_death
+	dw DATA_F95B77 : db $00, $00		;01A8	$F95B77	DATA_F95B77
+	dw DATA_F95896 : db $00, $00		;01A9	$F95896	flotsam_swim
+	dw DATA_F958BF : db $00, $00		;01AA	$F958BF	flotsam_turn
+	dw DATA_F958E7 : db $00, $00		;01AB	$F958E7	flotsam_death
+	dw DATA_F96446 : db $00, $00		;01AC	$F96446	haunted_hall_gate
+	dw DATA_F9649C : db $00, $00		;01AD	$F9649C	haunted_hall_gate_2
+	dw DATA_F964EC : db $00, $00		;01AE	$F964EC	target_terror_gate
+	dw DATA_F96501 : db $00, $00		;01AF	$F96501	klank_idle
+	dw DATA_F9655A : db $00, $00		;01B0	$F9655A	klank_death
+	dw DATA_F96571 : db $00, $00		;01B1	$F96571	skull_cart_spark
+	dw DATA_F965A0 : db $00, $00		;01B2	$F965A0	plus_barrel_idle
+	dw DATA_F965A5 : db $00, $00		;01B3	$F965A5	minus_barrel_idle
+	dw DATA_F965AA : db $00, $00		;01B4	$F965AA	plus_barrel_idle_2
+	dw DATA_F94EE4 : db $00, $00		;01B5	$F94EE4	ship_deck_water_splash
+	dw DATA_F96FDE : db $00, $00		;01B6	$F96FDE	water_surface_splash
+	dw clapper_idle : db $00, $00		;01B7	$F970D3	clapper_idle
+	dw clapper_interact : db $00, $00	;01B8	$F97129	clapper_interact
+	dw DATA_F96AE2 : db $00, $00		;01B9	$F96AE2	dixie_map
+	dw DATA_F96AC8 : db $00, $00		;01BA	$F96AC8	diddy_map
+	dw DATA_F96AFC : db $00, $00		;01BB	$F96AFC	smoke_cloud
+	dw DATA_F94E95 : db $00, $00		;01BC	$F94E95	fireball_explosion
+	dw DATA_F96B9B : db $00, $00		;01BD	$F96B9B	firework_1
+	dw DATA_F96BE2 : db $00, $00		;01BE	$F96BE2	firework_2
+	dw DATA_F95CB8 : db $00, $00		;01BF	$F95CB8	smoke_cloud_2
+	dw DATA_F95CE4 : db $00, $00		;01C0	$F95CE4	DATA_F95CE4
+	dw DATA_F96B19 : db $00, $00		;01C1	$F96B19	banana_coin_idle
+	dw DATA_F96B33 : db $00, $00		;01C2	$F96B33	krem_coin_idle
+	dw DATA_F96B4D : db $00, $00		;01C3	$F96B4D	dk_coin_idle
+	dw DATA_F9707E : db $00, $00		;01C4	$F9707E	krem_coin_collected
+	dw DATA_F97083 : db $00, $00		;01C5	$F97083	dk_coin_collected
+	dw DATA_F965EE : db $00, $00		;01C6	$F965EE	tire_idle
+	dw DATA_F98B38 : db $00, $00		;01C7	$F98B38	cranky_idle
+	dw DATA_F98B4C : db $00, $00		;01C8	$F98B4C	cranky_shake_cane
+	dw DATA_F98BBA : db $00, $00		;01C9	$F98BBA	cranky_lean
+	dw DATA_F98BE0 : db $00, $00		;01CA	$F98BE0	funky_surf
+	dw DATA_F98C0F : db $00, $00		;01CB	$F98C0F	funky_board_surf
+	dw DATA_F98C3E : db $00, $00		;01CC	$F98C3E	funky_idle
+	dw DATA_F98C52 : db $00, $00		;01CD	$F98C52	funky_idle_to_surf
+	dw DATA_F98C6C : db $00, $00		;01CE	$F98C6C	funky_surf_to_idle
+	dw DATA_F98C83 : db $00, $00		;01CF	$F98C83	funky_board_idle
+	dw DATA_F98C97 : db $00, $00		;01D0	$F98C97	funky_board_idle_to_surf
+	dw DATA_F98CB1 : db $00, $00		;01D1	$F98CB1	funky_board_surf_to_idle
+	dw DATA_F98CC8 : db $00, $00		;01D2	$F98CC8	swanky_point
+	dw DATA_F98D3C : db $00, $00		;01D3	$F98D3C	swanky_idle
+	dw DATA_F98D59 : db $00, $00		;01D4	$F98D59	swanky_touch_hair
+	dw DATA_F98D76 : db $00, $00		;01D5	$F98D76	swanky_touch_hair_to_idle
+	dw DATA_F98D87 : db $00, $00		;01D6	$F98D87	swanky_idle_2
+	dw DATA_F98D92 : db $00, $00		;01D7	$F98D92	swanky_idle_3
+	dw DATA_F98B30 : db $00, $00		;01D8	$F98B30	klubba_barrel
+	dw DATA_F98DCD : db $00, $00		;01D9	$F98DCD	wrinkly_open_book
+	dw DATA_F98E11 : db $00, $00		;01DA	$F98E11	wrinkly_read
+	dw DATA_F98E25 : db $00, $00		;01DB	$F98E25	wrinkly_turn_page_forward
+	dw DATA_F98E4E : db $00, $00		;01DC	$F98E4E	wrinkly_read_2
+	dw DATA_F98E5F : db $00, $00		;01DD	$F98E5F	wrinkly_turn_page_back
+	dw DATA_F98E88 : db $00, $00		;01DE	$F98E88	wrinkly_read_3
+	dw DATA_F98E93 : db $00, $00		;01DF	$F98E93	wrinkly_turn_page_fast
+	dw DATA_F98EBC : db $00, $00		;01E0	$F98EBC	wrinkly_shirt_open_book
+	dw DATA_F98F00 : db $00, $00		;01E1	$F98F00	wrinkly_shirt_read
+	dw DATA_F98F14 : db $00, $00		;01E2	$F98F14	wrinkly_shirt_turn_page_forward
+	dw DATA_F98F3D : db $00, $00		;01E3	$F98F3D	wrinkly_shirt_read_2
+	dw DATA_F98F4E : db $00, $00		;01E4	$F98F4E	wrinkly_shirt_turn_page_back
+	dw DATA_F98F77 : db $00, $00		;01E5	$F98F77	wrinkly_shirt_read_3
+	dw DATA_F98F82 : db $00, $00		;01E6	$F98F82	wrinkly_shirt_turn_page_fast
+	dw DATA_F972DC : db $00, $00		;01E7	$F972DC	klubba_attack
+	dw DATA_F9730D : db $00, $00		;01E8	$F9730D	klubba_club_attack
+	dw DATA_F98B07 : db $00, $00		;01E9	$F98B07	funky_barrel_wings
+	dw DATA_F98B0F : db $00, $00		;01EA	$F98B0F	funky_barrel
+	dw DATA_F98B17 : db $00, $00		;01EB	$F98B17	funky_barrel_propeller
+	dw DATA_F98B25 : db $00, $00		;01EC	$F98B25	funky_barrel_map
+	dw DATA_F95E4A : db $00, $00		;01ED	$F95E4A	krook_idle
+	dw DATA_F95E58 : db $00, $00		;01EE	$F95E58	krook_walk
+	dw DATA_F95E87 : db $00, $00		;01EF	$F95E87	krook_turn
+	dw DATA_F95E9D : db $00, $00		;01F0	$F95E9D	krook_turn_throw
+	dw DATA_F95EB3 : db $00, $00		;01F1	$F95EB3	krook_throw
+	dw DATA_F95F06 : db $00, $00		;01F2	$F95F06	krook_death
+	dw DATA_F95F20 : db $00, $00		;01F3	$F95F20	krook_thrown_hook
+	dw DATA_F950B2 : db $00, $00		;01F4	$F950B2	klobber_wake
+	dw DATA_F95302 : db $00, $00		;01F5	$F95302	klobber_run
+	dw DATA_F95195 : db $00, $00		;01F6	$F95195	klobber_turn
+	dw DATA_F951EC : db $00, $00		;01F7	$F951EC	klobber_hide
+	dw DATA_F94ECA : db $00, $00		;01F8	$F94ECA	dust_particle
+	dw DATA_F95CF5 : db $00, $00		;01F9	$F95CF5	lava_splash
+	dw DATA_F986D6 : db $00, $00		;01FA	$F986D6	kreepy_krow_head_yell
+	dw DATA_F972AF : db $00, $00		;01FB	$F972AF	kudgel_attack_land
+	dw DATA_F989E6 : db $00, $00		;01FC	$F989E6	kreepy_krow_head_final_hit
+	dw DATA_F98741 : db $00, $00		;01FD	$F98741	krow_body_credits
+	dw DATA_F9864F : db $00, $00		;01FE	$F9864F	kreepy_krow_death_spark
+	dw DATA_F98684 : db $00, $00		;01FF	$F98684	kreepy_krow_death_spark_2
+	dw DATA_F98709 : db $00, $00		;0200	$F98709	krow_body_idle
+	dw DATA_F9875E : db $00, $00		;0201	$F9875E	krow_body_fly
+	dw DATA_F98778 : db $00, $00		;0202	$F98778	krow_body_final_hit
+	dw DATA_F98798 : db $00, $00		;0203	$F98798	krow_body_turn
+	dw DATA_F987C1 : db $00, $00		;0204	$F987C1	krow_head_idle
+	dw DATA_F987C9 : db $00, $00		;0205	$F987C9	krow_head_swoop_attack
+	dw DATA_F987F9 : db $00, $00		;0206	$F987F9	krow_head_turn
+	dw DATA_F986EF : db $00, $00		;0207	$F986EF	krow_body_hurt
+	dw DATA_F986BA : db $00, $00		;0208	$F986BA	krow_head_hurt
+	dw DATA_F987D9 : db $00, $00		;0209	$F987D9	krow_angry_head
+	dw DATA_F98A18 : db $00, $00		;020A	$F98A18	krow_head_final_hit
+	dw DATA_F98A56 : db $00, $00		;020B	$F98A56	krow_body_defeat
+	dw DATA_F98A6F : db $00, $00		;020C	$F98A6F	krow_head_defeat
+	dw DATA_F98A8E : db $00, $00		;020D	$F98A8E	krow_body_struggle
+	dw DATA_F98AC6 : db $00, $00		;020E	$F98AC6	krow_head_struggle
+	dw DATA_F982C8 : db $00, $00		;020F	$F982C8	kleever_shoot_fire_trail
+	dw DATA_F98416 : db $00, $00		;0210	$F98416	kleever_idle
+	dw DATA_F983FC : db $00, $00		;0211	$F983FC	kleever_arm_idle
+	dw DATA_F9831D : db $00, $00		;0212	$F9831D	kleever_shoot_fireball
+	dw DATA_F98399 : db $00, $00		;0213	$F98399	kleever_arm_shoot_fireball
+	dw DATA_F983E2 : db $00, $00		;0214	$F983E2	kleever_fireball
+	dw DATA_F9841E : db $00, $00		;0215	$F9841E	kleever_turn
+	dw DATA_F98441 : db $00, $00		;0216	$F98441	kleever_arm_turn
+	dw DATA_F98468 : db $00, $00		;0217	$F98468	kleever_charge_attack
+	dw DATA_F98303 : db $00, $00		;0218	$F98303	kleever_lava_bubbles
+	dw DATA_F98457 : db $00, $00		;0219	$F98457	kleever_charge_wait
+	dw DATA_F984BA : db $00, $00		;021A	$F984BA	kleever_attack
+	dw DATA_F9850D : db $00, $00		;021B	$F9850D	kleever_fragment
+	dw DATA_F98521 : db $00, $00		;021C	$F98521	kleever_fragment_2
+	dw DATA_F98601 : db $00, $00		;021D	$F98601	kleever_fragment_3
+	dw DATA_F98535 : db $00, $00		;021E	$F98535	kleever_fragment_4
+	dw DATA_F98567 : db $00, $00		;021F	$F98567	kleever_fragment_5
+	dw DATA_F98599 : db $00, $00		;0220	$F98599	kleever_fragment_6
+	dw DATA_F985B3 : db $00, $00		;0221	$F985B3	kleever_fragment_7
+	dw DATA_F985CD : db $00, $00		;0222	$F985CD	kleever_fragment_8
+	dw DATA_F985E7 : db $00, $00		;0223	$F985E7	kleever_fragment_9
+	dw DATA_F975D4 : db $00, $00		;0224	$F975D4	krool_soaked_puddle
+	dw DATA_F975DC : db $00, $00		;0225	$F975DC	krool_water_drop
+	dw DATA_F975E6 : db $00, $00		;0226	$F975E6	krool_water_drop_2
+	dw DATA_F975F0 : db $00, $00		;0227	$F975F0	krool_water_drop_3
+	dw DATA_F975FA : db $00, $00		;0228	$F975FA	krool_water_drop_4
+	dw DATA_F97604 : db $00, $00		;0229	$F97604	krool_water_drop_5
+	dw DATA_F971ED : db $00, $00		;022A	$F971ED	yoshi_idle
+	dw DATA_F97213 : db $00, $00		;022B	$F97213	mario_idle
+	dw DATA_F9725A : db $00, $00		;022C	$F9725A	link_idle
+	dw DATA_F97292 : db $00, $00		;022D	$F97292	klubba_barrel_sparkle
+	dw DATA_F9861B : db $00, $00		;022E	$F9861B	kleever_body_death
+	dw DATA_F98635 : db $00, $00		;022F	$F98635	kleever_death_fire_trail
+	dw DATA_F980B7 : db $00, $00		;0230	$F980B7	king_zing_idle
+	dw DATA_F980D1 : db $00, $00		;0231	$F980D1	king_zing_turn
+	dw DATA_F980E7 : db $00, $00		;0232	$F980E7	king_zing_stinger_idle
+	dw DATA_F98101 : db $00, $00		;0233	$F98101	king_zing_stinger_turn
+	dw DATA_F98111 : db $00, $00		;0234	$F98111	king_zing_hurt
+	dw DATA_F9814E : db $00, $00		;0235	$F9814E	king_zing_stinger_hurt
+	dw DATA_F981B8 : db $00, $00		;0236	$F981B8	king_zing_spike_up
+	dw DATA_F981C0 : db $00, $00		;0237	$F981C0	king_zing_spike_up_right
+	dw DATA_F981C8 : db $00, $00		;0238	$F981C8	king_zing_spike_right
+	dw DATA_F981D0 : db $00, $00		;0239	$F981D0	king_zing_spike_down_right
+	dw DATA_F981D8 : db $00, $00		;023A	$F981D8	king_zing_spike_down
+	dw DATA_F981E0 : db $00, $00		;023B	$F981E0	king_zing_spike_down_left
+	dw DATA_F981E8 : db $00, $00		;023C	$F981E8	king_zing_spike_left
+	dw DATA_F981F0 : db $00, $00		;023D	$F981F0	king_zing_spike_up_left
+	dw DATA_F981F8 : db $00, $00		;023E	$F981F8	king_zing_smoke_medium
+	dw DATA_F9822D : db $00, $00		;023F	$F9822D	king_zing_smoke_large
+	dw DATA_F98188 : db $00, $00		;0240	$F98188	king_zing_small_idle
+	dw DATA_F981A2 : db $00, $00		;0241	$F981A2	king_zing_small_turn
+	dw DATA_F98259 : db $00, $00		;0242	$F98259	smoke_cloud_3
+	dw DATA_F977AB : db $00, $00		;0243	$F977AB	donkey_idle
+	dw DATA_F977D6 : db $00, $00		;0244	$F977D6	donkey_rope_idle
+	dw DATA_F977EA : db $00, $00		;0245	$F977EA	donkey_hurt
+	dw DATA_F97818 : db $00, $00		;0246	$F97818	donkey_rope_hurt
+	dw DATA_F97843 : db $00, $00		;0247	$F97843	donkey_scared
+	dw DATA_F978F9 : db $00, $00		;0248	$F978F9	donkey_rope_scared
+	dw DATA_F979A9 : db $00, $00		;0249	$F979A9	donkey_free
+	dw DATA_F979BA : db $00, $00		;024A	$F979BA	donkey_punch
+	dw DATA_F97725 : db $00, $00		;024B	$F97725	krool_melee_donkey
+	dw DATA_F97748 : db $00, $00		;024C	$F97748	krool_blunderbuss_melee_donkey
+	dw DATA_F97768 : db $00, $00		;024D	$F97768	krool_melee_donkey_heavy
+	dw DATA_F9778B : db $00, $00		;024E	$F9778B	krool_blunderbuss_melee_donkey_heavy
+	dw DATA_F97A22 : db $00, $00		;024F	$F97A22	donkey_rope_upper
+	dw DATA_F979FC : db $00, $00		;0250	$F979FC	krool_shoot_donkey
+	dw DATA_F97A0F : db $00, $00		;0251	$F97A0F	krool_blunderbuss_shoot_donkey
+	dw DATA_F976EA : db $00, $00		;0252	$F976EA	donkey_shot_by_krool
+	dw DATA_F97709 : db $00, $00		;0253	$F97709	donkey_rope_shot_by_krool
+	dw DATA_F979EC : db $00, $00		;0254	$F979EC	krool_donkey_punched
+	dw DATA_F979F4 : db $00, $00		;0255	$F979F4	krool_blunderbuss_donkey_punched
+	dw DATA_F98FAB : db $00, $00		;0256	$F98FAB	lost_world_rock_step
+	dw DATA_F97627 : db $00, $00		;0257	$F97627	krool_lost_soaked
+	dw DATA_F9767A : db $00, $00		;0258	$F9767A	krool_lost_blunderbuss_soaked
+	dw DATA_F976BE : db $00, $00		;0259	$F976BE	krool_fish
+	dw DATA_F97550 : db $00, $00		;025A	$F97550	krool_lost_final_hit
+	dw DATA_F97597 : db $00, $00		;025B	$F97597	krool_lost_blunderbuss_final_hit
+	dw DATA_F975CC : db $00, $00		;025C	$F975CC	krool_map_fall
+	dw DATA_F986A1 : db $00, $00		;025D	$F986A1	krow_head_yell
+	dw DATA_F97A2A : db $00, $00		;025E	$F97A2A	krool_idle
+	dw DATA_F97A38 : db $00, $00		;025F	$F97A38	krool_blunderbuss_idle
+	dw DATA_F97A5A : db $00, $00		;0260	$F97A5A	krool_dash
+	dw DATA_F97A7A : db $00, $00		;0261	$F97A7A	krool_blunderbuss_dash
+	dw DATA_F97A91 : db $00, $00		;0262	$F97A91	krool_dash_end
+	dw DATA_F97AB0 : db $00, $00		;0263	$F97AB0	krool_blunderbuss_dash_end
+	dw DATA_F97AD2 : db $00, $00		;0264	$F97AD2	krool_shoot
+	dw DATA_F97AE5 : db $00, $00		;0265	$F97AE5	krool_blunderbuss_shoot
+	dw DATA_F97AF8 : db $00, $00		;0266	$F97AF8	krool_shoot_fish
+	dw DATA_F97B11 : db $00, $00		;0267	$F97B11	krool_blunderbuss_shoot_fish
+	dw DATA_F97B2A : db $00, $00		;0268	$F97B2A	krool_cannon_ball_spikes_expanded
+	dw DATA_F97B7A : db $00, $00		;0269	$F97B7A	krool_dash_fire
+	dw DATA_F97B94 : db $00, $00		;026A	$F97B94	krool_vacuum
+	dw DATA_F97B9C : db $00, $00		;026B	$F97B9C	krool_blunderbuss_vacuum
+	dw DATA_F97BA4 : db $00, $00		;026C	$F97BA4	krool_vacuum_particles
+	dw DATA_F97BBE : db $00, $00		;026D	$F97BBE	krool_melee
+	dw DATA_F97BF0 : db $00, $00		;026E	$F97BF0	krool_blunderbuss_melee
+	dw DATA_F97C16 : db $00, $00		;026F	$F97C16	smoke_cloud_4
+	dw DATA_F97C42 : db $00, $00		;0270	$F97C42	krool_backfire
+	dw DATA_F97C83 : db $00, $00		;0271	$F97C83	krool_blunderbuss_backfire
+	dw DATA_F97D34 : db $00, $00		;0272	$F97D34	krool_fireball
+	dw DATA_F97D66 : db $00, $00		;0273	$F97D66	krool_soot_eyes_blink
+	dw DATA_F97DA7 : db $00, $00		;0274	$F97DA7	krool_soot_eyes_angry
+	dw DATA_F97DB2 : db $00, $00		;0275	$F97DB2	fireball_explosion_2
+	dw DATA_F97DE7 : db $00, $00		;0276	$F97DE7	krool_backfire_sparks
+	dw DATA_F97B5A : db $00, $00		;0277	$F97B5A	krool_cannon_ball_spikes_removed
+	dw DATA_F97E19 : db $00, $00		;0278	$F97E19	krool_stun
+	dw DATA_F97E48 : db $00, $00		;0279	$F97E48	krool_blunderbuss_stun
+	dw DATA_F97E6B : db $00, $00		;027A	$F97E6B	krool_stun_recover
+	dw DATA_F97E91 : db $00, $00		;027B	$F97E91	krool_blunderbuss_stun_recover
+	dw DATA_F97A46 : db $00, $00		;027C	$F97A46	krool_blunderbuss_recovered_wait
+	dw DATA_F98069 : db $00, $00		;027D	$F98069	DATA_F98069
+	dw DATA_F9809D : db $00, $00		;027E	$F9809D	krool_gas_cloud
+	dw DATA_F98285 : db $00, $00		;027F	$F98285	smoke_cloud_5
+	dw DATA_F9805B : db $00, $00		;0280	$F9805B	krool_cannon_ball_from_barrel
+	dw DATA_F98083 : db $00, $00		;0281	$F98083	krool_barrel
+	dw DATA_F97B49 : db $00, $00		;0282	$F97B49	krool_cannon_ball_spiked
+	dw DATA_F97CA6 : db $00, $00		;0283	$F97CA6	krool_backfire_final
+	dw DATA_F97CFC : db $00, $00		;0284	$F97CFC	krool_blunderbuss_backfire_final
+	dw DATA_F97EAE : db $00, $00		;0285	$F97EAE	krool_stun_2
+	dw DATA_F97EE3 : db $00, $00		;0286	$F97EE3	krool_blunderbuss_stun_2
+	dw DATA_F97F64 : db $00, $00		;0287	$F97F64	krool_stun_3
+	dw DATA_F97FE4 : db $00, $00		;0288	$F97FE4	krool_blunderbuss_stun_3
+	dw DATA_F97B41 : db $00, $00		;0289	$F97B41	krool_cannon_ball_spikes_retracted
+	dw DATA_F97F0C : db $00, $00		;028A	$F97F0C	krool_stun_recover_2
+	dw DATA_F97F3E : db $00, $00		;028B	$F97F3E	krool_blunderbuss_stun_recover_2
+	dw DATA_F972BD : db $00, $00		;028C	$F972BD	kudgel_idle
+	dw DATA_F972CE : db $00, $00		;028D	$F972CE	kudgel_club_idle
+	dw DATA_F9734E : db $00, $00		;028E	$F9734E	kudgel_fall
+	dw DATA_F97356 : db $00, $00		;028F	$F97356	kudgel_club_fall
+	dw DATA_F9735E : db $00, $00		;0290	$F9735E	kudgel_land
+	dw DATA_F9736B : db $00, $00		;0291	$F9736B	kudgel_club_land
+	dw DATA_F97338 : db $00, $00		;0292	$F97338	kudgel_jump
+	dw DATA_F97343 : db $00, $00		;0293	$F97343	kudgel_club_jump
+	dw DATA_F97378 : db $00, $00		;0294	$F97378	kudgel_attack_long
+	dw DATA_F973AD : db $00, $00		;0295	$F973AD	kudgel_club_attack_long
+	dw DATA_F973D6 : db $00, $00		;0296	$F973D6	kudgel_fall_attack
+	dw DATA_F973ED : db $00, $00		;0297	$F973ED	kudgel_club_fall_attack
+	dw DATA_F97401 : db $00, $00		;0298	$F97401	kudgel_hurt
+	dw DATA_F9744E : db $00, $00		;0299	$F9744E	kudgel_club_hurt
+	dw DATA_F97495 : db $00, $00		;029A	$F97495	kudgel_jump_short
+	dw DATA_F974A0 : db $00, $00		;029B	$F974A0	kudgel_club_jump_short
+	dw DATA_F974AB : db $00, $00		;029C	$F974AB	kudgel_death
+	dw DATA_F974B3 : db $00, $00		;029D	$F974B3	kudgel_club_death
+	dw DATA_F974BB : db $00, $00		;029E	$F974BB	big_splash
+	dw DATA_F974F0 : db $00, $00		;029F	$F974F0	smoke_cloud_6
+	dw DATA_F9751C : db $00, $00		;02A0	$F9751C	kudgel_tnt_fireball_small
+	dw DATA_F982B1 : db $00, $00		;02A1	$F982B1	king_zing_death
+	dw DATA_F97536 : db $00, $00		;02A2	$F97536	kudgel_dust
+	dw DATA_F989CC : db $00, $00		;02A3	$F989CC	krow_egg_crack
+	dw DATA_F96B67 : db $00, $00		;02A4	$F96B67	barrel_fragment
+	dw DATA_F96B81 : db $00, $00		;02A5	$F96B81	barrel_fragment_2
+	dw DATA_F96C6F : db $00, $00		;02A6	$F96C6F	ghost_rope_hidden
+	dw DATA_F96C20 : db $00, $00		;02A7	$F96C20	ghost_rope_idle
+	dw DATA_F96C28 : db $00, $00		;02A8	$F96C28	ghost_rope_disappear
+	dw DATA_F96C77 : db $00, $00		;02A9	$F96C77	ghost_rope_appear
+	dw DATA_F96CB1 : db $00, $00		;02AA	$F96CB1	hook_idle
+	dw DATA_F96CB6 : db $00, $00		;02AB	$F96CB6	hook_move
+	dw DATA_F96CFF : db $00, $00		;02AC	$F96CFF	animal_crate_squitter_idle
+	dw DATA_F96CFA : db $00, $00		;02AD	$F96CFA	animal_crate_rattly_idle
+	dw DATA_F96CF0 : db $00, $00		;02AE	$F96CF0	animal_crate_squawks_idle
+	dw DATA_F96CEB : db $00, $00		;02AF	$F96CEB	animal_crate_rambi_idle
+	dw DATA_F96CF5 : db $00, $00		;02B0	$F96CF5	animal_crate_enguarde_idle
+	dw DATA_F96E70 : db $00, $00		;02B1	$F96E70	animal_crate_open
+	dw DATA_F96D04 : db $00, $00		;02B2	$F96D04	banana_bunch_idle
+	dw DATA_F96D24 : db $00, $00		;02B3	$F96D24	level_target_idle
+	dw DATA_F96D29 : db $00, $00		;02B4	$F96D29	level_target_trigger
+	dw DATA_F96D37 : db $00, $00		;02B5	$F96D37	midway_barrel_idle
+	dw DATA_F96D51 : db $00, $00		;02B6	$F96D51	no_animals_sign_rambi_idle
+	dw DATA_F96D56 : db $00, $00		;02B7	$F96D56	no_animals_sign_squawks_idle
+	dw DATA_F96D5B : db $00, $00		;02B8	$F96D5B	no_animals_sign_squitter_idle
+	dw DATA_F96D60 : db $00, $00		;02B9	$F96D60	no_animals_sign_enguarde_idle
+	dw DATA_F96D65 : db $00, $00		;02BA	$F96D65	no_animals_sign_rattly_idle
+	dw DATA_F9660E : db $00, $00		;02BB	$F9660E	letter_k_idle
+	dw DATA_F9663C : db $00, $00		;02BC	$F9663C	letter_o_idle
+	dw DATA_F9666A : db $00, $00		;02BD	$F9666A	letter_n_idle
+	dw DATA_F96698 : db $00, $00		;02BE	$F96698	letter_g_idle
+	dw DATA_F96E53 : db $00, $00		;02BF	$F96E53	dk_barrel_label_idle
+	dw DATA_F95D1E : db $00, $00		;02C0	$F95D1E	life_balloon_idle
+	dw DATA_F96D9D : db $00, $00		;02C1	$F96D9D	level_target_pole
+	dw DATA_F96DA2 : db $00, $00		;02C2	$F96DA2	level_target_barrel
+	dw DATA_F96D98 : db $00, $00		;02C3	$F96D98	k_rool_letter_idle
+	dw DATA_F96CBB : db $00, $00		;02C4	$F96CBB	bullrush_idle
+	dw DATA_F96CE1 : db $00, $00		;02C5	$F96CE1	bullrush_still
+	dw DATA_F96300 : db $00, $00		;02C6	$F96300	krockhead_barrel_label_idle
+	dw DATA_F96345 : db $00, $00		;02C7	$F96345	krockhead_green_idle
+	dw DATA_F9636D : db $00, $00		;02C8	$F9636D	krockhead_green_rise_from_barrel
+	dw DATA_F96395 : db $00, $00		;02C9	$F96395	krockhead_sink
+	dw DATA_F963C4 : db $00, $00		;02CA	$F963C4	krockhead_rise
+	dw DATA_F9640B : db $00, $00		;02CB	$F9640B	krockhead_brown_idle
+	dw DATA_F96CE6 : db $00, $00		;02CC	$F96CE6	bullrush_lily_pad
+	dw DATA_F96DBB : db $00, $00		;02CD	$F96DBB	barrel_invincibility_idle
+	dw DATA_F96DC0 : db $00, $00		;02CE	$F96DC0	glimmer_idle
+	dw DATA_F96DF5 : db $00, $00		;02CF	$F96DF5	glimmer_turn
+	dw DATA_F9618F : db $00, $00		;02D0	$F9618F	kloak_idle
+	dw DATA_F961B8 : db $00, $00		;02D1	$F961B8	kloak_turn
+	dw DATA_F961CE : db $00, $00		;02D2	$F961CE	kloak_throw
+	dw DATA_F96211 : db $00, $00		;02D3	$F96211	kloak_death
+	dw DATA_F9622B : db $00, $00		;02D4	$F9622B	hot_air_balloon_idle
+	dw DATA_F96E84 : db $00, $00		;02D5	$F96E84	squitter_web_fly
+	dw DATA_F96E9E : db $00, $00		;02D6	$F96E9E	web_platform_spawn
+	dw DATA_F96F43 : db $00, $00		;02D7	$F96F43	web_platform_despawn
+	dw DATA_F97076 : db $00, $00		;02D8	$F97076	DATA_F97076
+	dw DATA_F97088 : db $00, $00		;02D9	$F97088	DATA_F97088
+	dw DATA_F964F1 : db $00, $00		;02DA	$F964F1	barrel_checkmark_idle
+	dw DATA_F95ACE : db $00, $00		;02DB	$F95ACE	king_zing_chase
+	dw DATA_F95AEB : db $00, $00		;02DC	$F95AEB	king_zing_chase_turn
+	dw DATA_F965AF : db $00, $00		;02DD	$F965AF	screech_idle
+	dw DATA_F965D8 : db $00, $00		;02DE	$F965D8	screech_turn
+	dw DATA_F971D3 : db $00, $00		;02DF	$F971D3	banana_idle
+	dw DATA_F94E25 : db $00, $00		;02E0	$F94E25	barrel_idle
+	dw DATA_F96E12 : db $00, $00		;02E1	$F96E12	dk_barrel_idle
+	dw DATA_F95033 : db $00, $00		;02E2	$F95033	klobber_barrel_idle
+	dw DATA_F966C6 : db $00, $00		;02E3	$F966C6	cannon_ball_down
+	dw DATA_F9888C : db $00, $00		;02E4	$F9888C	krow_egg_held
+	dw DATA_F94E66 : db $00, $00		;02E5	$F94E66	tnt_barrel_idle
+	dw DATA_F96D6A : db $00, $00		;02E6	$F96D6A	crate_idle
+	dw DATA_F96D93 : db $00, $00		;02E7	$F96D93	chest_idle
+	dw DATA_F98851 : db $00, $00		;02E8	$F98851	krow_egg_left_idle
+	dw DATA_F98819 : db $00, $00		;02E9	$F98819	krow_egg_right_idle
+	dw DATA_F94E2A : db $00, $00		;02EA	$F94E2A	barrel_carry
+	dw DATA_F94E2A : db $00, $00		;02EB	$F94E2A	barrel_carry
+	dw DATA_F95046 : db $00, $00		;02EC	$F95046	klobber_barrel_carry
+	dw DATA_F966C6 : db $00, $00		;02ED	$F966C6	cannon_ball_down
+	dw DATA_F9888C : db $00, $00		;02EE	$F9888C	krow_egg_held
+	dw DATA_F94E6B : db $00, $00		;02EF	$F94E6B	tnt_barrel_pickup
+	dw DATA_F96D6F : db $00, $00		;02F0	$F96D6F	crate_pickup
+	dw DATA_F96D93 : db $00, $00		;02F1	$F96D93	chest_idle
+	dw DATA_F94E3B : db $00, $00		;02F2	$F94E3B	barrel_idle_placed
+	dw DATA_F96E12 : db $00, $00		;02F3	$F96E12	dk_barrel_idle
+	dw DATA_F9506B : db $00, $00		;02F4	$F9506B	DATA_F9506B
+	dw DATA_F966C6 : db $00, $00		;02F5	$F966C6	cannon_ball_down
+	dw DATA_F9888C : db $00, $00		;02F6	$F9888C	krow_egg_held
+	dw DATA_F94E7C : db $00, $00		;02F7	$F94E7C	tnt_barrel_drop
+	dw DATA_F96D80 : db $00, $00		;02F8	$F96D80	crate_drop
+	dw DATA_F96D93 : db $00, $00		;02F9	$F96D93	chest_idle
+	dw DATA_F94E49 : db $00, $00		;02FA	$F94E49	barrel_thrown
+	dw DATA_F94E49 : db $00, $00		;02FB	$F94E49	barrel_thrown
+	dw DATA_F9508A : db $00, $00		;02FC	$F9508A	klobber_barrel_roll
+	dw DATA_F966CB : db $00, $00		;02FD	$F966CB	cannon_ball
+	dw DATA_F98894 : db $00, $00		;02FE	$F98894	krow_egg_right_land
+	dw DATA_F94E8D : db $00, $00		;02FF	$F94E8D	tnt_barrel_thrown
+	dw DATA_F96D8E : db $00, $00		;0300	$F96D8E	crate_thrown
+	dw DATA_F96D93 : db $00, $00		;0301	$F96D93	chest_idle
+	dw DATA_F988FE : db $00, $00		;0302	$F988FE	krow_egg_left_land
+	dw DATA_F988CC : db $00, $00		;0303	$F988CC	krow_egg_left_thrown
+	dw DATA_F98936 : db $00, $00		;0304	$F98936	krow_egg_right_thrown
+	dw DATA_F9899A : db $00, $00		;0305	$F9899A	krow_egg_right_fall
+	dw DATA_F98968 : db $00, $00		;0306	$F98968	krow_egg_left_fall
+	dw DATA_F956BC : db $00, $00		;0307	$F956BC	snapjaw_credits
+	dw DATA_F96792 : db $00, $00		;0308	$F96792	squitter_credits
+	dw DATA_F9685B : db $00, $00		;0309	$F9685B	rattly_credits
+	dw DATA_F952DF : db $00, $00		;030A	$F952DF	klobber_barrel_credits
+	dw DATA_F977C2 : db $00, $00		;030B	$F977C2	donkey_credits
+	dw !null_pointer : db $00, $00		;030C
+	dw !null_pointer : db $00, $00		;030D
+	dw !null_pointer : db $00, $00		;030E
+	dw !null_pointer : db $00, $00		;030F
+	dw !null_pointer : db $00, $00		;0310
+	dw !null_pointer : db $00, $00		;0311
+	dw !null_pointer : db $00, $00		;0312
+	dw !null_pointer : db $00, $00		;0313
+	dw !null_pointer : db $00, $00		;0314
+	dw !null_pointer : db $00, $00		;0315
+	dw !null_pointer : db $00, $00		;0316
+	dw !null_pointer : db $00, $00		;0317
+	dw !null_pointer : db $00, $00		;0318
+	dw !null_pointer : db $00, $00		;0319
+	dw !null_pointer : db $00, $00		;031A
+	dw !null_pointer : db $00, $00		;031B
+	dw !null_pointer : db $00, $00		;031C
+	dw !null_pointer : db $00, $00		;031D
+	dw !null_pointer : db $00, $00		;031E
+	dw !null_pointer : db $00, $00		;031F
+	dw !null_pointer : db $00, $00		;0320
+	dw !null_pointer : db $00, $00		;0321
+	dw !null_pointer : db $00, $00		;0322
+	dw !null_pointer : db $00, $00		;0323
+	dw !null_pointer : db $00, $00		;0324
+	dw !null_pointer : db $00, $00		;0325
+	dw !null_pointer : db $00, $00		;0326
+	dw !null_pointer : db $00, $00		;0327
+	dw !null_pointer : db $00, $00		;0328
+	dw !null_pointer : db $00, $00		;0329
+	dw !null_pointer : db $00, $00		;032A
+	dw !null_pointer : db $00, $00		;032B
+	dw !null_pointer : db $00, $00		;032C
+	dw !null_pointer : db $00, $00		;032D
+	dw !null_pointer : db $00, $00		;032E
+	dw !null_pointer : db $00, $00		;032F
+	dw !null_pointer : db $00, $00		;0330
+	dw !null_pointer : db $00, $00		;0331
+	dw !null_pointer : db $00, $00		;0332
+	dw !null_pointer : db $00, $00		;0333
+	dw !null_pointer : db $00, $00		;0334
+	dw !null_pointer : db $00, $00		;0335
+	dw !null_pointer : db $00, $00		;0336
+	dw !null_pointer : db $00, $00		;0337
+	dw !null_pointer : db $00, $00		;0338
+	dw !null_pointer : db $00, $00		;0339
+	dw !null_pointer : db $00, $00		;033A
+	dw !null_pointer : db $00, $00		;033B
+	dw !null_pointer : db $00, $00		;033C
+	dw !null_pointer : db $00, $00		;033D
+	dw !null_pointer : db $00, $00		;033E
+	dw !null_pointer : db $00, $00		;033F
 
 DATA_F90D00:
 	db !animation_command_84 : dw CODE_B9E0A8

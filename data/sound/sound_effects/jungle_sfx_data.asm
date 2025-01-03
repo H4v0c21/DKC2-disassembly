@@ -11,10 +11,10 @@ base !dyn_snd_loc
 	dw (.pointers_end-.pointers_start)>>1	;quantity of sound effects (default $0004)
 ;sound effect pointers
 .pointers_start:
-	dw .seq_2ED9	;60: 
-	dw .seq_2EC3	;61: 
-	dw .seq_2EAF	;62: 
-	dw .seq_2E9E	;63: 
+	dw .seq_2ED9	;60: Tire bounce
+	dw .seq_2EC3	;61: Tire bounce off wall
+	dw .seq_2EAF	;62: Tire bounce off ground
+	dw .seq_2E9E	;63: Tire idle loop
 .pointers_end:
 
 .seq_2E9E:

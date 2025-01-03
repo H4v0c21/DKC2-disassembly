@@ -143,7 +143,7 @@ DMA_palette:					;	   |
 	LDA #$2200				;$BB8093   |\ DMA to CGRAM, write once to one register
 	STA DMA[0].settings			;$BB8096   |/
 	SEP #$20				;$BB8099   |
-	LDA #!bank_FD				;$BB809B   |\ Set DMA source bank to FD
+	LDA.b #<:palette_data_bank		;$BB809B   |\ Set DMA source bank to FD
 	STA DMA[0].source_bank			;$BB809D   |/
 	TYA					;$BB80A0   |\ Set CGRAM destination
 	STA PPU.cgram_address			;$BB80A1   |/
@@ -1707,7 +1707,7 @@ CODE_BB8AF6:
 	CLC					;$BB8B0E   |
 	ADC #$0081				;$BB8B0F   |
 	XBA					;$BB8B12   |
-	ORA.w #!bank_FD				;$BB8B13   |
+	ORA #<:palette_data_bank		;$BB8B13   |
 	STA $0B26,x				;$BB8B16   |
 	LDA $F1					;$BB8B19   |
 	INC A					;$BB8B1B   |
@@ -5218,15 +5218,29 @@ CODE_BBAC40:
 	RTS					;$BBAC49  /
 
 DATA_BBAC4A:
-	db $01
-
-DATA_BBAC4B:
-	db $00, $0A, $05, $14, $0A, $15, $0E, $62
-	db $13, $68, $1A, $69, $1B, $6C, $1C, $6E
-	db $21, $7A, $25, $7E, $26, $7F, $27, $81
-	db $28, $82, $29, $83, $2A, $84, $2B, $8F
-	db $2C, $90, $31, $92, $32, $93, $33, $B7
-	db $34, $B8, $35
+	%offset(DATA_BBAC4B, 1)
+	db $01, $00
+	db $0A, $05
+	db $14, $0A
+	db $15, $0E
+	db $62, $13
+	db $68, $1A
+	db $69, $1B
+	db $6C, $1C
+	db $6E, $21
+	db $7A, $25
+	db $7E, $26
+	db $7F, $27
+	db $81, $28
+	db $82, $29
+	db $83, $2A
+	db $84, $2B
+	db $8F, $2C
+	db $90, $31
+	db $92, $32
+	db $93, $33
+	db $B7, $34
+	db $B8, $35
 
 DATA_BBAC76:
 	db $00, $01, $00, $01, $00, $01, $00, $01
@@ -6989,76 +7003,76 @@ DATA_BBB93C:
 	dw $0100, $0300, $0028, $0150
 
 DATA_BBB9AC:
-	dw CODE_BBBA2C
-	dw CODE_BBBA7F
-	dw CODE_BBBA7F
-	dw CODE_BBBA2C
-	dw CODE_BBBA2C
-	dw CODE_BBBA2C
-	dw CODE_BBBA2C
-	dw CODE_BBBA7F
-	dw CODE_BBBA90
-	dw CODE_BBBA7F
-	dw CODE_BBBA5E
-	dw CODE_BBBA69
-	dw CODE_BBBA74
-	dw CODE_BBBA53
-	dw CODE_BBBA2E
-	dw CODE_BBBA7F
+	dw CODE_BBBA2C				;00
+	dw CODE_BBBA7F				;02
+	dw CODE_BBBA7F				;04
+	dw CODE_BBBA2C				;06
+	dw CODE_BBBA2C				;08
+	dw CODE_BBBA2C				;0A
+	dw CODE_BBBA2C				;0C
+	dw CODE_BBBA7F				;0E
+	dw CODE_BBBA90				;10
+	dw CODE_BBBA7F				;12
+	dw CODE_BBBA5E				;14
+	dw CODE_BBBA69				;16
+	dw CODE_BBBA74				;18
+	dw CODE_BBBA53				;1A
+	dw CODE_BBBA2E				;1C
+	dw CODE_BBBA7F				;1E
 
 DATA_BBB9CC:
-	dw CODE_BBBA2C
-	dw CODE_BBBAB8
-	dw CODE_BBBA92
-	dw CODE_BBBA2C
-	dw CODE_BBBA2C
-	dw CODE_BBBA2C
-	dw CODE_BBBA2C
-	dw CODE_BBBAB8
-	dw CODE_BBBA90
-	dw CODE_BBBAB8
-	dw CODE_BBBAB8
-	dw CODE_BBBAB8
-	dw CODE_BBBAB8
-	dw CODE_BBBAB8
-	dw CODE_BBBAB8
-	dw CODE_BBBAA2
+	dw CODE_BBBA2C				;00
+	dw CODE_BBBAB8				;02
+	dw CODE_BBBA92				;04
+	dw CODE_BBBA2C				;06
+	dw CODE_BBBA2C				;08
+	dw CODE_BBBA2C				;0A
+	dw CODE_BBBA2C				;0C
+	dw CODE_BBBAB8				;0E
+	dw CODE_BBBA90				;10
+	dw CODE_BBBAB8				;12
+	dw CODE_BBBAB8				;14
+	dw CODE_BBBAB8				;16
+	dw CODE_BBBAB8				;18
+	dw CODE_BBBAB8				;1A
+	dw CODE_BBBAB8				;1C
+	dw CODE_BBBAA2				;1E
 
 DATA_BBB9EC:
-	dw CODE_BBBA2C
-	dw CODE_BBBA2C
-	dw CODE_BBBAF3
-	dw CODE_BBBA2C
-	dw CODE_BBBA2C
-	dw CODE_BBBA2C
-	dw CODE_BBBA2C
-	dw CODE_BBBA2C
-	dw CODE_BBBA90
-	dw CODE_BBBA2C
-	dw CODE_BBBA2C
-	dw CODE_BBBA2C
-	dw CODE_BBBA2C
-	dw CODE_BBBA2C
-	dw CODE_BBBA2C
-	dw CODE_BBBAF3
+	dw CODE_BBBA2C				;00
+	dw CODE_BBBA2C				;02
+	dw CODE_BBBAF3				;04
+	dw CODE_BBBA2C				;06
+	dw CODE_BBBA2C				;08
+	dw CODE_BBBA2C				;0A
+	dw CODE_BBBA2C				;0C
+	dw CODE_BBBA2C				;0E
+	dw CODE_BBBA90				;10
+	dw CODE_BBBA2C				;12
+	dw CODE_BBBA2C				;14
+	dw CODE_BBBA2C				;16
+	dw CODE_BBBA2C				;18
+	dw CODE_BBBA2C				;1A
+	dw CODE_BBBA2C				;1C
+	dw CODE_BBBAF3				;1E
 
 DATA_BBBA0C:
-	dw CODE_BBBA2C
-	dw CODE_BBB8CC
-	dw CODE_BBB8CC
-	dw CODE_BBBA2C
-	dw CODE_BBBA2C
-	dw CODE_BBBA2C
-	dw CODE_BBBA2C
-	dw CODE_BBB8BD
-	dw CODE_BBBA2C
-	dw CODE_BBB847
-	dw CODE_BBB8CC
-	dw CODE_BBB8CC
-	dw CODE_BBB8CC
-	dw CODE_BBB70C
-	dw CODE_BBB847
-	dw CODE_BBB8CC
+	dw CODE_BBBA2C				;00
+	dw CODE_BBB8CC				;02
+	dw CODE_BBB8CC				;04
+	dw CODE_BBBA2C				;06
+	dw CODE_BBBA2C				;08
+	dw CODE_BBBA2C				;0A
+	dw CODE_BBBA2C				;0C
+	dw CODE_BBB8BD				;0E
+	dw CODE_BBBA2C				;10
+	dw CODE_BBB847				;12
+	dw CODE_BBB8CC				;14
+	dw CODE_BBB8CC				;16
+	dw CODE_BBB8CC				;18
+	dw CODE_BBB70C				;1A
+	dw CODE_BBB847				;1C
+	dw CODE_BBB8CC				;1E
 
 CODE_BBBA2C:
 	CLC					;$BBBA2C  \
@@ -7984,17 +7998,17 @@ CODE_BBC062:
 
 DATA_BBC070:
 	dw $0000				;
-	dw $0190				; Squitter
-	dw $0194				; Rattly
-	dw $0198				; Squawks
-	dw $019C				; Rambi
-	dw $01A0				; Enguarde
+	dw !sprite_squitter			; Squitter
+	dw !sprite_rattly			; Rattly
+	dw !sprite_squawks			; Squawks
+	dw !sprite_rambi			; Rambi
+	dw !sprite_enguarde			; Enguarde
 	dw $0000				;
 
 CODE_BBC07E:
 	LDA $0551				;$BBC07E  \
 	STA $26					;$BBC081   |
-	LDA #$00FD				;$BBC083   |
+	LDA #<:level_settings_data_bank		;$BBC083   |
 	STA $28					;$BBC086   |
 	BRA CODE_BBC098				;$BBC088  /
 
@@ -8025,6 +8039,7 @@ CODE_BBC0AA:					;	   |
 	BNE CODE_BBC0AA				;$BBC0B0   |
 	RTS					;$BBC0B2  /
 
+;unused?
 	LDX #$0018				;$BBC0B3   |
 CODE_BBC0B6:					;	   |
 	LDA.l DATA_BBC0C3,x			;$BBC0B6   |
@@ -8035,11 +8050,13 @@ CODE_BBC0B6:					;	   |
 	RTL					;$BBC0C2  /
 
 DATA_BBC0C3:
-	db $05, $00, $97, $00, $6B, $00, $86, $00
-	db $6B, $00, $80, $00, $6B, $00, $9A, $00
-	db $6B, $00, $16, $00, $6B, $00, $00, $00
-	db $00, $00
-
+	dw $0005
+	dw !level_klobber_karnage_bonus_1, !level_krocodile_kore
+	dw !level_gusty_glade_bonus_1, !level_krocodile_kore
+	dw !level_klobber_karnage, !level_krocodile_kore
+	dw !level_animal_antics_rambi_area, !level_krocodile_kore
+	dw !level_fiery_furnace, !level_krocodile_kore
+	dw $0000, $0000
 
 CODE_BBC0DD:
 	STY $5E					;$BBC0DD  \

@@ -252,76 +252,82 @@ CODE_B9D160:
 	TAY					;$B9D16F   |
 	BRA process_anim_script			;$B9D170  /
 
+;animation command 81
 CODE_B9D172:
-	LDX current_sprite			;$B9D172  \
-	INY					;$B9D174   |
-	LDA $0000,y				;$B9D175   |
-	STA $26					;$B9D178   |
-	INY					;$B9D17A   |
-	INY					;$B9D17B   |
-	TYA					;$B9D17C   |
-	PHA					;$B9D17D   |
-	STA $3C,x				;$B9D17E   |
-	PHB					;$B9D180   |
-	PHK					;$B9D181   |
-	PLB					;$B9D182   |
-	%return(CODE_B9D189)			;$B9D183   |
-	JMP ($0026)				;$B9D186  /
+	LDX current_sprite			;$B9D172  \> Get current sprite
+	INY					;$B9D174   |\
+	LDA $0000,y				;$B9D175   | | Get command param 1 (animation code execution pointer)
+	STA $26					;$B9D178   |/
+	INY					;$B9D17A   |\ Move to next command
+	INY					;$B9D17B   |/
+	TYA					;$B9D17C   |\
+	PHA					;$B9D17D   |/ Preserve current animation script pointer on stack
+	STA $3C,x				;$B9D17E   |> Update animation script pointer for current sprite
+	PHB					;$B9D180   |> Preserve data bank
+	PHK					;$B9D181   |\
+	PLB					;$B9D182   |/ Set data bank to this bank
+	%return(return_B9D189)			;$B9D183   |> Set return address for when RTS is executed
+	JMP ($0026)				;$B9D186  /> Execute animation code
 
-CODE_B9D189:
-	PLB					;$B9D189  \
-	PLA					;$B9D18A   |
-	STA $52					;$B9D18B   |
-	LDX current_sprite			;$B9D18D   |
-	LDY $3C,x				;$B9D18F   |
-	TYA					;$B9D191   |
-	CMP $52					;$B9D192   |
-	BNE CODE_B9D199				;$B9D194   |
-	JMP process_anim_script			;$B9D196  /
+return_B9D189:
+	PLB					;$B9D189  \> Retrieve data bank from stack
+	PLA					;$B9D18A   |\ Retrieve last animation script pointer from stack and save it
+	STA $52					;$B9D18B   |/
+	LDX current_sprite			;$B9D18D   |\
+	LDY $3C,x				;$B9D18F   | | Get animation script pointer from current sprite
+	TYA					;$B9D191   |/
+	CMP $52					;$B9D192   |\ If animation script pointer for this sprite was changed stop processing the script
+	BNE .stop_processing_script		;$B9D194   |/
+	JMP process_anim_script			;$B9D196  /> Continue processing animation script
 
-CODE_B9D199:
+.stop_processing_script
 	PLB					;$B9D199  \
 	RTL					;$B9D19A  /
 
+;animation command 82 (animation jump)
 CODE_B9D19B:
-	LDX current_sprite			;$B9D19B  \
-	INY					;$B9D19D   |
-	LDA $0000,y				;$B9D19E   |
-	TAY					;$B9D1A1   |
-	JMP process_anim_script			;$B9D1A2  /
+	LDX current_sprite			;$B9D19B  \> Get current sprite
+	INY					;$B9D19D   |\
+	LDA $0000,y				;$B9D19E   |/ Get command param 1 (animation script pointer)
+	TAY					;$B9D1A1   |> Move animation script pointer to new animation jump address
+	JMP process_anim_script			;$B9D1A2  /> Continue processing animation script from new address
 
+;animation command 83 (execute code)
 CODE_B9D1A5:
-	LDX current_sprite			;$B9D1A5  \
-	TYA					;$B9D1A7   |
-	STA $3C,x				;$B9D1A8   |
-	INY					;$B9D1AA   |
-	LDA $0000,y				;$B9D1AB   |
-	STA $26					;$B9D1AE   |
-	INY					;$B9D1B0   |
-	INY					;$B9D1B1   |
-	JMP ($0026)				;$B9D1B2  /
+	LDX current_sprite			;$B9D1A5  \> Get current sprite
+	TYA					;$B9D1A7   |\
+	STA $3C,x				;$B9D1A8   |/ Update animation script pointer for current sprite
+	INY					;$B9D1AA   |\
+	LDA $0000,y				;$B9D1AB   | | Get command param 1 (animation code execution pointer)
+	STA $26					;$B9D1AE   |/
+	INY					;$B9D1B0   |\ Move to next command
+	INY					;$B9D1B1   |/
+	JMP ($0026)				;$B9D1B2  /> Execute animation code
 
+;animation command 84 (execute code later)
 CODE_B9D1B5:
-	LDX current_sprite			;$B9D1B5  \
-	INY					;$B9D1B7   |
-	LDA $0000,y				;$B9D1B8   |
-	STA $3E,x				;$B9D1BB   |
-	INY					;$B9D1BD   |
-	INY					;$B9D1BE   |
-	JMP process_anim_script			;$B9D1BF  /
+	LDX current_sprite			;$B9D1B5  \> Get current sprite
+	INY					;$B9D1B7   |\
+	LDA $0000,y				;$B9D1B8   |/ Get command param 1 (animation code execution pointer)
+	STA $3E,x				;$B9D1BB   |> Store animation code pointer in sprite for execution later
+	INY					;$B9D1BD   |\ Move to next command
+	INY					;$B9D1BE   |/
+	JMP process_anim_script			;$B9D1BF  /> Continue processing animation script
 
+;animation command 8E (play sound effect)
 CODE_B9D1C2:
-	LDX current_sprite			;$B9D1C2  \
-	INY					;$B9D1C4   |
-	LDA $0000,y				;$B9D1C5   |
-	PHY					;$B9D1C8   |
-	JSL queue_sound_effect			;$B9D1C9   |
-	PLY					;$B9D1CD   |
-	INY					;$B9D1CE   |
-	INY					;$B9D1CF   |
-	LDX current_sprite			;$B9D1D0   |
-	JMP process_anim_script			;$B9D1D2  /
+	LDX current_sprite			;$B9D1C2  \> Get current sprite
+	INY					;$B9D1C4   |\
+	LDA $0000,y				;$B9D1C5   |/ Get command param 1 (sound effect)
+	PHY					;$B9D1C8   |\ Preserve animation script pointer
+	JSL queue_sound_effect			;$B9D1C9   | | And queue sound effect
+	PLY					;$B9D1CD   |/ Then retrieve animation script pointer
+	INY					;$B9D1CE   |\ Move to next command
+	INY					;$B9D1CF   |/
+	LDX current_sprite			;$B9D1D0   |> Get current sprite
+	JMP process_anim_script			;$B9D1D2  /> Continue processing animation script
 
+;animation command 93 (play sound effect unknown)
 CODE_B9D1D5:
 	LDX current_sprite			;$B9D1D5  \
 	INY					;$B9D1D7   |
@@ -332,9 +338,9 @@ CODE_B9D1D5:
 	PHA					;$B9D1E0   |
 	JSL CODE_BBBB69				;$B9D1E1   |
 	PLA					;$B9D1E5   |
-	BCS CODE_B9D1EC				;$B9D1E6   |
+	BCS .CODE_B9D1EC			;$B9D1E6   |
 	JSL queue_sound_effect			;$B9D1E8   |
-CODE_B9D1EC:					;	   |
+.CODE_B9D1EC					;	   |
 	PLY					;$B9D1EC   |
 	PLB					;$B9D1ED   |
 	INY					;$B9D1EE   |
@@ -342,93 +348,106 @@ CODE_B9D1EC:					;	   |
 	LDX current_sprite			;$B9D1F0   |
 	JMP process_anim_script			;$B9D1F2  /
 
+;animation command 8F (animation jump if true)
 CODE_B9D1F5:
-	LDX current_sprite			;$B9D1F5  \
-	INY					;$B9D1F7   |
-	LDA $0000,y				;$B9D1F8   |
-	STA $26					;$B9D1FB   |
-	INY					;$B9D1FD   |
-	INY					;$B9D1FE   |
-	TYA					;$B9D1FF   |
-	STA $3C,x				;$B9D200   |
-	PHB					;$B9D202   |
-	PHK					;$B9D203   |
-	PLB					;$B9D204   |
-	%return(CODE_B9D20B)			;$B9D205   |
-	JMP ($0026)				;$B9D208  /
+	LDX current_sprite			;$B9D1F5  \> Get current sprite
+	INY					;$B9D1F7   |\
+	LDA $0000,y				;$B9D1F8   | | Get command param 1 (animation code execution pointer)
+	STA $26					;$B9D1FB   |/
+	INY					;$B9D1FD   |\ Move to next parameter
+	INY					;$B9D1FE   |/
+	TYA					;$B9D1FF   |\
+	STA $3C,x				;$B9D200   |/ Update animation script pointer for current sprite
+	PHB					;$B9D202   |> Preserve data bank
+	PHK					;$B9D203   |\ Set data bank to this bank
+	PLB					;$B9D204   |/
+	%return(.animation_code_return)		;$B9D205   |> Set return address for when RTS is executed
+	JMP ($0026)				;$B9D208  /> Execute animation code
 
-CODE_B9D20B:
-	PLB					;$B9D20B  \
-	LDX current_sprite			;$B9D20C   |
-	LDY $3C,x				;$B9D20E   |
-	LDA $0000,y				;$B9D210   |
-	BCS CODE_B9D21A				;$B9D213   |
-	INY					;$B9D215   |
-	INY					;$B9D216   |
-	JMP process_anim_script			;$B9D217  /
+.animation_code_return
+	PLB					;$B9D20B  \> Retrieve data bank from stack
+	LDX current_sprite			;$B9D20C   |\
+	LDY $3C,x				;$B9D20E   |/ Get animation script pointer from current sprite
+	LDA $0000,y				;$B9D210   |> Get animation jump address
+	BCS .jump				;$B9D213   |> If the condition was met jump to new animation address
+	INY					;$B9D215   |\ Move to next command
+	INY					;$B9D216   |/
+	JMP process_anim_script			;$B9D217  /> Condition wasn't met, Continue processing animation script
 
-CODE_B9D21A:
-	TAY					;$B9D21A  \
-	JMP process_anim_script			;$B9D21B  /
+.jump
+	TAY					;$B9D21A  \> Jump to new animation script address
+	JMP process_anim_script			;$B9D21B  /> Continue processing animation script
 
+;animation command 90 (execute code then set new animation id)
 CODE_B9D21E:
-	LDX current_sprite			;$B9D21E  \
-	INY					;$B9D220   |
-	LDA $0000,y				;$B9D221   |
-	STA $26					;$B9D224   |
-	INY					;$B9D226   |
-	INY					;$B9D227   |
-	TYA					;$B9D228   |
-	STA $3C,x				;$B9D229   |
-	PHB					;$B9D22B   |
-	PHK					;$B9D22C   |
-	PLB					;$B9D22D   |
-	%return(CODE_B9D234)			;$B9D22E   |
-	JMP ($0026)				;$B9D231  /
+	LDX current_sprite			;$B9D21E  \> Get current sprite
+	INY					;$B9D220   |\
+	LDA $0000,y				;$B9D221   | | Get command param 1 (animation code execution pointer)
+	STA $26					;$B9D224   |/
+	INY					;$B9D226   |\ Move to next parameter
+	INY					;$B9D227   |/
+	TYA					;$B9D228   |\
+	STA $3C,x				;$B9D229   |/ Update animation script pointer for current sprite
+	PHB					;$B9D22B   |> Preserve data bank
+	PHK					;$B9D22C   |\ Set data bank to this bank
+	PLB					;$B9D22D   |/
+	%return(.animation_code_return)		;$B9D22E   |> Set return address for when RTS is executed
+	JMP ($0026)				;$B9D231  /> Execute animation code
 
-CODE_B9D234:
-	PLB					;$B9D234  \
-	LDX current_sprite			;$B9D235   |
-	LDY $3C,x				;$B9D237   |
-	LDA $0000,y				;$B9D239   |
+.animation_code_return
+	PLB					;$B9D234  \> Retrieve data bank from stack
+	LDX current_sprite			;$B9D235   |\
+	LDY $3C,x				;$B9D237   |/ Get animation script pointer from current sprite
+	LDA $0000,y				;$B9D239   |> Get new animation id
 	PLB					;$B9D23C   |
-	JMP set_sprite_animation		;$B9D23D  /
+	JMP set_sprite_animation		;$B9D23D  /> Set new sprite animation
 
+;animation command 91 (call animation script subroutine)
 CODE_B9D240:
-	INY					;$B9D240  \
-	LDA $0000,y				;$B9D241   |
-	AND #$00FF				;$B9D244   |
-	CLC					;$B9D247   |
-	ADC current_sprite			;$B9D248   |
-	TAX					;$B9D24A   |
-	INY					;$B9D24B   |
-	LDA $0000,y				;$B9D24C   |
-	INY					;$B9D24F   |
-	INY					;$B9D250   |
-	STY $00,x				;$B9D251   |
-	TAY					;$B9D253   |
-	LDX current_sprite			;$B9D254   |
-	JMP process_anim_script			;$B9D256  /
+	INY					;$B9D240  \ \
+	LDA $0000,y				;$B9D241   | | Get command param 1 (variable to use for animation script return)
+	AND #$00FF				;$B9D244   |/
+	CLC					;$B9D247   |\
+	ADC current_sprite			;$B9D248   | | Add offset to current sprite pointer to get actual address in RAM
+	TAX					;$B9D24A   |/
+	INY					;$B9D24B   |\
+	LDA $0000,y				;$B9D24C   |/ Get command param 2 (animation script call address)
+	INY					;$B9D24F   |\ Move to next parameter
+	INY					;$B9D250   |/
+	STY $00,x				;$B9D251   |> Store current animation script address in return variable of sprite
+	TAY					;$B9D253   |> Jump to new animation script address
+	LDX current_sprite			;$B9D254   |> Get current sprite
+	JMP process_anim_script			;$B9D256  /> Continue processing animation script
 
+;animation command 92 (return from animation script subroutine)
 CODE_B9D259:
-	INY					;$B9D259  \
-	LDA $0000,y				;$B9D25A   |
-	AND #$00FF				;$B9D25D   |
-	CLC					;$B9D260   |
-	ADC current_sprite			;$B9D261   |
-	TAX					;$B9D263   |
-	LDY $00,x				;$B9D264   |
-	LDX current_sprite			;$B9D266   |
-	JMP process_anim_script			;$B9D268  /
+	INY					;$B9D259  \ \
+	LDA $0000,y				;$B9D25A   | | Get command param 1 (variable to use for animation script return)
+	AND #$00FF				;$B9D25D   |/
+	CLC					;$B9D260   |\
+	ADC current_sprite			;$B9D261   | | Add offset to current sprite pointer to get actual address in RAM
+	TAX					;$B9D263   |/
+	LDY $00,x				;$B9D264   |> Get animation return address from sprite variable and jump back to it
+	LDX current_sprite			;$B9D266   |> Get current sprite
+	JMP process_anim_script			;$B9D268  /> Continue processing animation script
 
+;animation command 85 (draw graphic A with sprite and graphic B with kong if riding animal)
+;parameters:
+;00 command (85)
+;01 draw duration
+;02 graphic a
+;04 graphic b
+
+;this is only used in one animation script, when diddy mounts enguarde
+;its probably leftover legacy code from DKC 1 that never needed to be changed
 CODE_B9D26B:
-	LDX current_sprite			;$B9D26B  \
-	LDA $0000,y				;$B9D26D   |
-	AND #$FF00				;$B9D270   |
-	CLC					;$B9D273   |
-	ADC $38,x				;$B9D274   |
-	STA $38,x				;$B9D276   |
-	BPL CODE_B9D283				;$B9D278   |
+	LDX current_sprite			;$B9D26B  \ \
+	LDA $0000,y				;$B9D26D   | | Get command param 1 (draw time)
+	AND #$FF00				;$B9D270   |/
+	CLC					;$B9D273   |\
+	ADC $38,x				;$B9D274   | | Add draw time to sprite graphic
+	STA $38,x				;$B9D276   |/
+	BPL .apply_graphic			;$B9D278   |
 	INY					;$B9D27A   |
 	INY					;$B9D27B   |
 	INY					;$B9D27C   |
@@ -437,34 +456,46 @@ CODE_B9D26B:
 	INY					;$B9D27F   |
 	JMP process_anim_script			;$B9D280  /
 
-CODE_B9D283:
-	LDA $0002,y				;$B9D283  \
-	STA $1A,x				;$B9D286   |
-	LDA.l $00006C				;$B9D288   |
-	BEQ CODE_B9D29E				;$B9D28C   |
-	TAX					;$B9D28E   |
-	LDA.l $000593				;$B9D28F   |
-	CMP current_sprite			;$B9D293   |
-	BNE CODE_B9D29E				;$B9D295   |
-	LDA $0004,y				;$B9D297   |
-	STA $1A,x				;$B9D29A   |
-	STZ $3A,x				;$B9D29C   |
-CODE_B9D29E:					;	   |
-	LDX current_sprite			;$B9D29E   |
-	TYA					;$B9D2A0   |
-	CLC					;$B9D2A1   |
-	ADC #$0006				;$B9D2A2   |
-	STA $3C,x				;$B9D2A5   |
+.apply_graphic
+	LDA $0002,y				;$B9D283  \ \
+	STA $1A,x				;$B9D286   |/ Apply first graphic to current sprite
+	LDA.l current_player_mount		;$B9D288   |\ Get animal buddy sprite
+	BEQ .done				;$B9D28C   |/ If kong isnt mounted, dont apply second graphic
+	TAX					;$B9D28E   |> Else get ready to apply a graphic to animal
+	LDA.l active_kong_sprite		;$B9D28F   |\
+	CMP current_sprite			;$B9D293   | |
+	BNE .done				;$B9D295   |/ If this sprite isnt active kong, dont apply second graphic
+	LDA $0004,y				;$B9D297   |\
+	STA $1A,x				;$B9D29A   |/ Apply second graphic to animal
+	STZ $3A,x				;$B9D29C   |> Prevent draw updates on animal
+.done						;	   |
+	LDX current_sprite			;$B9D29E   |> Get current sprite
+	TYA					;$B9D2A0   |\
+	CLC					;$B9D2A1   | |
+	ADC #$0006				;$B9D2A2   | |
+	STA $3C,x				;$B9D2A5   |/ Update animation script address, move to next command
 	JMP CODE_B9D13D				;$B9D2A7  /
 
+;animation command 86 (draw graphic A with sprite and graphic B with kong if riding animal, with kong position offset)
+;parameters:
+;00 command (86)
+;01 draw duration
+;02 graphic a
+;04 graphic b
+;06 draw x offset
+;08 draw y offset
+
+;this command writes kong position offsets to $0D76 and $0D78 (kong animal riding offsets)
+;aside from this it is exactly the same as command 85
+
 CODE_B9D2AA:
-	LDX current_sprite			;$B9D2AA  \
-	LDA $0000,y				;$B9D2AC   |
-	AND #$FF00				;$B9D2AF   |
-	CLC					;$B9D2B2   |
-	ADC $38,x				;$B9D2B3   |
-	STA $38,x				;$B9D2B5   |
-	BPL CODE_B9D2C6				;$B9D2B7   |
+	LDX current_sprite			;$B9D2AA  \ \
+	LDA $0000,y				;$B9D2AC   | | Get command param 1 (draw time)
+	AND #$FF00				;$B9D2AF   |/
+	CLC					;$B9D2B2   |\
+	ADC $38,x				;$B9D2B3   | | Add draw time to sprite graphic
+	STA $38,x				;$B9D2B5   |/
+	BPL .apply_graphic			;$B9D2B7   |
 	INY					;$B9D2B9   |
 	INY					;$B9D2BA   |
 	INY					;$B9D2BB   |
@@ -477,42 +508,52 @@ CODE_B9D2AA:
 	INY					;$B9D2C2   |
 	JMP process_anim_script			;$B9D2C3  /
 
-CODE_B9D2C6:
-	LDA $0002,y				;$B9D2C6  \
-	STA $1A,x				;$B9D2C9   |
-	LDA.l $00006C				;$B9D2CB   |
-	BEQ CODE_B9D2F9				;$B9D2CF   |
-	TAX					;$B9D2D1   |
-	LDA.l $000593				;$B9D2D2   |
-	CMP current_sprite			;$B9D2D6   |
-	BNE CODE_B9D2F9				;$B9D2D8   |
-	LDA $0006,y				;$B9D2DA   |
-	CLC					;$B9D2DD   |
-	ADC $000D72				;$B9D2DE   |
-	STA $000D76				;$B9D2E2   |
-	LDA $0008,y				;$B9D2E6   |
-	CLC					;$B9D2E9   |
-	ADC $000D74				;$B9D2EA   |
-	STA $000D78				;$B9D2EE   |
-	LDA $0004,y				;$B9D2F2   |
-	STA $1A,x				;$B9D2F5   |
-	STZ $3A,x				;$B9D2F7   |
-CODE_B9D2F9:					;	   |
-	LDX current_sprite			;$B9D2F9   |
-	TYA					;$B9D2FB   |
-	CLC					;$B9D2FC   |
-	ADC #$000A				;$B9D2FD   |
-	STA $3C,x				;$B9D300   |
+.apply_graphic
+	LDA $0002,y				;$B9D2C6  \ \
+	STA $1A,x				;$B9D2C9   |/ Apply first graphic to current sprite
+	LDA.l current_player_mount		;$B9D2CB   |\ Get animal buddy sprite
+	BEQ .done				;$B9D2CF   |/ If kong isnt mounted, dont apply second graphic
+	TAX					;$B9D2D1   |> Else get ready to apply a graphic to animal
+	LDA.l active_kong_sprite		;$B9D2D2   |\
+	CMP current_sprite			;$B9D2D6   | |
+	BNE .done				;$B9D2D8   |/ If this sprite isnt active kong, dont apply second graphic
+	LDA $0006,y				;$B9D2DA   |\ Get x draw offset from animation
+	CLC					;$B9D2DD   | |
+	ADC $000D72				;$B9D2DE   | | Add to kong x offset on animal
+	STA $000D76				;$B9D2E2   |/ Apply new true x offset of kong on animal
+	LDA $0008,y				;$B9D2E6   |\ Get y draw offset from animation
+	CLC					;$B9D2E9   | |
+	ADC $000D74				;$B9D2EA   | | Add to kong y offset on animal
+	STA $000D78				;$B9D2EE   |/ Apply new true y offset of kong on animal
+	LDA $0004,y				;$B9D2F2   |\
+	STA $1A,x				;$B9D2F5   |/ Apply second graphic to animal
+	STZ $3A,x				;$B9D2F7   |> Prevent draw updates on animal
+.done						;	   |
+	LDX current_sprite			;$B9D2F9   |> Get current sprite
+	TYA					;$B9D2FB   |\
+	CLC					;$B9D2FC   | |
+	ADC #$000A				;$B9D2FD   | |
+	STA $3C,x				;$B9D300   |/ Update animation script address, move to next command
 	JMP CODE_B9D13D				;$B9D302  /
 
+;animation command 87 (draw graphic with current sprite, with kong position offset)
+;parameters:
+;00 command (87)
+;01 draw duration
+;02 graphic a
+;04 draw x offset
+;06 draw y offset
+
+;this command writes kong position offsets to $0D76 and $0D78 (kong animal riding offsets)
+
 CODE_B9D305:
-	LDX current_sprite			;$B9D305  \
-	LDA $0000,y				;$B9D307   |
-	AND #$FF00				;$B9D30A   |
-	CLC					;$B9D30D   |
-	ADC $38,x				;$B9D30E   |
-	STA $38,x				;$B9D310   |
-	BPL CODE_B9D31F				;$B9D312   |
+	LDX current_sprite			;$B9D305  \ \
+	LDA $0000,y				;$B9D307   | | Get command param 1 (draw time)
+	AND #$FF00				;$B9D30A   |/
+	CLC					;$B9D30D   |\
+	ADC $38,x				;$B9D30E   | | Add draw time to sprite graphic
+	STA $38,x				;$B9D310   |/
+	BPL .apply_graphic			;$B9D312   |
 	INY					;$B9D314   |
 	INY					;$B9D315   |
 	INY					;$B9D316   |
@@ -523,91 +564,106 @@ CODE_B9D305:
 	INY					;$B9D31B   |
 	JMP process_anim_script			;$B9D31C  /
 
-CODE_B9D31F:
-	LDA $0002,y				;$B9D31F  \
-	STA $1A,x				;$B9D322   |
-	LDA.l $00006C				;$B9D324   |
-	BEQ CODE_B9D34A				;$B9D328   |
-	LDA.l $000593				;$B9D32A   |
-	CMP current_sprite			;$B9D32E   |
-	BNE CODE_B9D34A				;$B9D330   |
-	LDA $0004,y				;$B9D332   |
-	CLC					;$B9D335   |
-	ADC $000D72				;$B9D336   |
-	STA $000D76				;$B9D33A   |
-	LDA $0006,y				;$B9D33E   |
-	CLC					;$B9D341   |
-	ADC $000D74				;$B9D342   |
-	STA $000D78				;$B9D346   |
-CODE_B9D34A:					;	   |
-	LDX current_sprite			;$B9D34A   |
-	TYA					;$B9D34C   |
-	CLC					;$B9D34D   |
-	ADC #$0008				;$B9D34E   |
-	STA $3C,x				;$B9D351   |
+.apply_graphic
+	LDA $0002,y				;$B9D31F  \ \
+	STA $1A,x				;$B9D322   |/ Apply first graphic to current sprite
+	LDA.l current_player_mount		;$B9D324   |\ Get animal buddy sprite
+	BEQ .done				;$B9D328   |/ If kong isnt mounted, dont apply draw offset
+	LDA.l active_kong_sprite		;$B9D32A   |\ Else get active kong
+	CMP current_sprite			;$B9D32E   | |
+	BNE .done				;$B9D330   |/ If this sprite isnt active kong, dont apply draw offset
+	LDA $0004,y				;$B9D332   |\ Get x draw offset from animation
+	CLC					;$B9D335   | |
+	ADC $000D72				;$B9D336   | | Add to kong x offset on animal
+	STA $000D76				;$B9D33A   |/ Apply new true x offset of kong on animal
+	LDA $0006,y				;$B9D33E   |\ Get y draw offset from animation
+	CLC					;$B9D341   | |
+	ADC $000D74				;$B9D342   | | Add to kong y offset on animal
+	STA $000D78				;$B9D346   |/ Apply new true y offset of kong on animal
+.done						;	   |
+	LDX current_sprite			;$B9D34A   |> Get current sprite
+	TYA					;$B9D34C   |\
+	CLC					;$B9D34D   | |
+	ADC #$0008				;$B9D34E   | |
+	STA $3C,x				;$B9D351   |/ Update animation script address, move to next command
 	JMP CODE_B9D13D				;$B9D353  /
 
+;animation command 88 (set kong animal position offset)
+;parameters:
+;00 command (88)
+;01 draw x offset
+;03 draw y offset
+
+;this command writes kong position offsets to $0D76 and $0D78 (kong animal riding offsets)
+
 CODE_B9D356:
-	LDA.l $00006C				;$B9D356  \
-	BEQ CODE_B9D37C				;$B9D35A   |
-	LDA.l $000593				;$B9D35C   |
-	CMP current_sprite			;$B9D360   |
-	BNE CODE_B9D37C				;$B9D362   |
-	LDA $0001,y				;$B9D364   |
-	CLC					;$B9D367   |
-	ADC $000D72				;$B9D368   |
-	STA $000D76				;$B9D36C   |
-	LDA $0003,y				;$B9D370   |
-	CLC					;$B9D373   |
-	ADC $000D74				;$B9D374   |
-	STA $000D78				;$B9D378   |
-CODE_B9D37C:					;	   |
-	LDX current_sprite			;$B9D37C   |
-	TYA					;$B9D37E   |
-	CLC					;$B9D37F   |
-	ADC #$0005				;$B9D380   |
-	TAY					;$B9D383   |
+	LDA.l current_player_mount		;$B9D356  \ \ Get animal buddy sprite
+	BEQ .done				;$B9D35A   |/ If kong isnt mounted, dont apply second graphic
+	LDA.l active_kong_sprite		;$B9D35C   |\ Else get active kong
+	CMP current_sprite			;$B9D360   | |
+	BNE .done				;$B9D362   |/ If this sprite isnt active kong, dont apply draw offset
+	LDA $0001,y				;$B9D364   |\ Get x draw offset from animation
+	CLC					;$B9D367   | |
+	ADC $000D72				;$B9D368   | | Add to kong x offset on animal
+	STA $000D76				;$B9D36C   |/ Apply new true x offset of kong on animal
+	LDA $0003,y				;$B9D370   |\ Get y draw offset from animation
+	CLC					;$B9D373   | |
+	ADC $000D74				;$B9D374   | | Add to kong y offset on animal
+	STA $000D78				;$B9D378   |/ Apply new true y offset of kong on animal
+.done						;	   |
+	LDX current_sprite			;$B9D37C   |> Get current sprite
+	TYA					;$B9D37E   |\
+	CLC					;$B9D37F   | |
+	ADC #$0005				;$B9D380   | |
+	TAY					;$B9D383   |/ Update animation script address, move to next command
 	JMP process_anim_script			;$B9D384  /
 
+;animation command 89 (draw graphic A with sprite and graphic B with held sprite if holding)
+;parameters:
+;00 command (89)
+;01 draw duration
+;02 graphic a
+;04 graphic b
+
 CODE_B9D387:
-	LDX current_sprite			;$B9D387  \
-	LDA $0000,y				;$B9D389   |
-	AND #$FF00				;$B9D38C   |
-	CLC					;$B9D38F   |
-	ADC $38,x				;$B9D390   |
-	STA $38,x				;$B9D392   |
-	BPL CODE_B9D39F				;$B9D394   |
+	LDX current_sprite			;$B9D387  \ \
+	LDA $0000,y				;$B9D389   | | Get command param 1 (draw time)
+	AND #$FF00				;$B9D38C   |/
+	CLC					;$B9D38F   |\
+	ADC $38,x				;$B9D390   | | Add draw time to sprite graphic
+	STA $38,x				;$B9D392   |/
+	BPL .apply_graphic			;$B9D394   |
 	INY					;$B9D396   |
 	INY					;$B9D397   |
 	INY					;$B9D398   |
 	INY					;$B9D399   |
 	INY					;$B9D39A   |
 	INY					;$B9D39B   |
-	JMP process_anim_script			;$B9D39C  /
+	JMP process_anim_script			;$B9D39C  / 
 
-CODE_B9D39F:
-	LDA $0002,y				;$B9D39F  \
-	STA $1A,x				;$B9D3A2   |
-	LDA.l $000D7A				;$B9D3A4   |
-	BEQ CODE_B9D3BE				;$B9D3A8   |
-	LDA.l $000593				;$B9D3AA   |
-	CMP current_sprite			;$B9D3AE   |
-	BNE CODE_B9D3BE				;$B9D3B0   |
-	LDA.l $000D7A				;$B9D3B2   |
-	TAX					;$B9D3B6   |
-	LDA $0004,y				;$B9D3B7   |
-	STA $1A,x				;$B9D3BA   |
-	STZ $3A,x				;$B9D3BC   |
-CODE_B9D3BE:					;	   |
-	LDX current_sprite			;$B9D3BE   |
-	TYA					;$B9D3C0   |
-	CLC					;$B9D3C1   |
-	ADC #$0006				;$B9D3C2   |
-	STA $3C,x				;$B9D3C5   |
+.apply_graphic
+	LDA $0002,y				;$B9D39F  \ \
+	STA $1A,x				;$B9D3A2   |/ Apply first graphic to current sprite
+	LDA.l current_held_sprite		;$B9D3A4   |\ Get held sprite
+	BEQ .done				;$B9D3A8   |/ If not holding a sprite, dont apply second graphic
+	LDA.l active_kong_sprite		;$B9D3AA   |\ Get active kong
+	CMP current_sprite			;$B9D3AE   | |
+	BNE .done				;$B9D3B0   |/ If this sprite isnt active kong, dont apply second graphic
+	LDA.l current_held_sprite		;$B9D3B2   |\
+	TAX					;$B9D3B6   |/ Get held sprite
+	LDA $0004,y				;$B9D3B7   |\
+	STA $1A,x				;$B9D3BA   |/ Apply second graphic to held sprite
+	STZ $3A,x				;$B9D3BC   |> Prevent draw updates on held sprite
+.done						;	   |
+	LDX current_sprite			;$B9D3BE   |\
+	TYA					;$B9D3C0   | |
+	CLC					;$B9D3C1   | |
+	ADC #$0006				;$B9D3C2   | |
+	STA $3C,x				;$B9D3C5   |/ Update animation script address, move to next command
 	JMP CODE_B9D13D				;$B9D3C7  /
 
 CODE_B9D3CA:
-	LDX current_sprite			;$B9D3CA  \
+	LDX current_sprite			;$B9D3CA  \ 
 	LDA $0000,y				;$B9D3CC   |
 	AND #$FF00				;$B9D3CF   |
 	CLC					;$B9D3D2   |
@@ -640,12 +696,12 @@ endif						;	  /
 CODE_B9D3E7:					;	  \
 	LDA $0002,y				;$B9D3E7   |
 	STA $1A,x				;$B9D3EA   |
-	LDA.l $000D7A				;$B9D3EC   |
+	LDA.l current_held_sprite		;$B9D3EC   |
 	BEQ CODE_B9D414				;$B9D3F0   |
-	LDA.l $000593				;$B9D3F2   |
+	LDA.l active_kong_sprite		;$B9D3F2   |
 	CMP current_sprite			;$B9D3F6   |
 	BNE CODE_B9D414				;$B9D3F8   |
-	LDA.l $000D7A				;$B9D3FA   |
+	LDA.l current_held_sprite		;$B9D3FA   |
 	TAX					;$B9D3FE   |
 	LDA $0004,y				;$B9D3FF   |
 	STA $1A,x				;$B9D402   |
@@ -688,9 +744,9 @@ CODE_B9D41D:
 CODE_B9D437:
 	LDA $0002,y				;$B9D437  \
 	STA $1A,x				;$B9D43A   |
-	LDA.l $000D7A				;$B9D43C   |
+	LDA.l current_held_sprite		;$B9D43C   |
 	BEQ CODE_B9D458				;$B9D440   |
-	LDA.l $000593				;$B9D442   |
+	LDA.l active_kong_sprite		;$B9D442   |
 	CMP current_sprite			;$B9D446   |
 	BNE CODE_B9D458				;$B9D448   |
 	LDA $0004,y				;$B9D44A   |
@@ -706,9 +762,9 @@ CODE_B9D458:					;	   |
 	JMP CODE_B9D13D				;$B9D461  /
 
 CODE_B9D464:
-	LDA.l $000D7A				;$B9D464  \
+	LDA.l current_held_sprite		;$B9D464  \
 	BEQ CODE_B9D480				;$B9D468   |
-	LDA.l $000593				;$B9D46A   |
+	LDA.l active_kong_sprite		;$B9D46A   |
 	CMP current_sprite			;$B9D46E   |
 	BNE CODE_B9D480				;$B9D470   |
 	LDA $0001,y				;$B9D472   |
@@ -760,27 +816,27 @@ CODE_B9D4BB:					;	   |
 	JMP CODE_B9D13D				;$B9D4C2  /
 
 DATA_B9D4C5:
-	dw CODE_B9D160
-	dw CODE_B9D172
-	dw CODE_B9D19B
-	dw CODE_B9D1A5
-	dw CODE_B9D1B5
-	dw CODE_B9D26B
-	dw CODE_B9D2AA
-	dw CODE_B9D305
-	dw CODE_B9D356
-	dw CODE_B9D387
-	dw CODE_B9D3CA
-	dw CODE_B9D41D
-	dw CODE_B9D464
-	dw CODE_B9D48B
-	dw CODE_B9D1C2
-	dw CODE_B9D1F5
-	dw CODE_B9D21E
-	dw CODE_B9D240
-	dw CODE_B9D259
-	dw CODE_B9D1D5
-	dw CODE_B9D160
+	dw CODE_B9D160				; 80
+	dw CODE_B9D172				; 81
+	dw CODE_B9D19B				; 82
+	dw CODE_B9D1A5				; 83
+	dw CODE_B9D1B5				; 84
+	dw CODE_B9D26B				; 85
+	dw CODE_B9D2AA				; 86
+	dw CODE_B9D305				; 87
+	dw CODE_B9D356				; 88
+	dw CODE_B9D387				; 89
+	dw CODE_B9D3CA				; 8A
+	dw CODE_B9D41D				; 8B
+	dw CODE_B9D464				; 8C
+	dw CODE_B9D48B				; 8D
+	dw CODE_B9D1C2				; 8E
+	dw CODE_B9D1F5				; 8F
+	dw CODE_B9D21E				; 90
+	dw CODE_B9D240				; 91
+	dw CODE_B9D259				; 92
+	dw CODE_B9D1D5				; 93
+	dw CODE_B9D160				; 94
 
 CODE_B9D4EF:
 	LDA.l $000515				;$B9D4EF   |

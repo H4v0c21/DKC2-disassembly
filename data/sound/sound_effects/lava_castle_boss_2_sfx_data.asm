@@ -11,12 +11,12 @@ base !dyn_snd_loc
 	dw (.pointers_end-.pointers_start)>>1	;quantity of sound effects (default $0020)
 ;sound effect pointers
 .pointers_start:
-	dw .seq_2F46	;60: 
-	dw .seq_2F46	;61: 
-	dw .seq_2F46	;62: 
-	dw .seq_2F46	;63: 
-	dw .seq_2F46	;64: 
-	dw .seq_2F46	;65: 
+	dw .seq_2F46	;60: None
+	dw .seq_2F46	;61: None
+	dw .seq_2F46	;62: None
+	dw .seq_2F46	;63: None
+	dw .seq_2F46	;64: None
+	dw .seq_2F46	;65: None
 	dw .seq_306F	;66: Hanging hooks appearing (Kleever's Kiln/Kreepy Krow)
 	dw .seq_305D	;67: Piece of debris falling (Kleever's Kiln/K. Rool Duel)
 	dw .seq_3042	;68: Broken Kleever spiraling to his demise
@@ -27,14 +27,14 @@ base !dyn_snd_loc
 	dw .seq_2ED6	;6D: Lava bubbling 3
 	dw .seq_2F12	;6E: Landing on a Green Krockhead
 	dw .seq_2F01	;6F: Bouncing on a Brown Krockhead
-	dw .seq_2F46	;70: 
-	dw .seq_2F46	;71: 
-	dw .seq_2F46	;72: 
-	dw .seq_2F46	;73: 
-	dw .seq_2F46	;74: 
-	dw .seq_2F46	;75: 
-	dw .seq_2F46	;76: 
-	dw .seq_2F46	;77: 
+	dw .seq_2F46	;70: None
+	dw .seq_2F46	;71: None
+	dw .seq_2F46	;72: None
+	dw .seq_2F46	;73: None
+	dw .seq_2F46	;74: None
+	dw .seq_2F46	;75: None
+	dw .seq_2F46	;76: None
+	dw .seq_2F46	;77: None
 	dw .seq_2F23	;78: Kongs scared
 	dw .seq_2FB1	;79: Fireball sound
 	dw .seq_2F9D	;7A: King Zing hit

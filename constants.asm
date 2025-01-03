@@ -1,11 +1,5 @@
 !null_pointer = $000000
 
-!bank_7E = $7E
-!bank_B3 = $B3
-!bank_B4 = $B4
-!bank_FD = $FD
-
-
 ;sprite init command constants
 !initcommand_success = $8000
 !initcommand_set_animation = $8100

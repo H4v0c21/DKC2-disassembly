@@ -1,3 +1,7 @@
+palette_data_bank:
+klank_race_data_bank:
+level_settings_data_bank:
+
 DATA_FD0000:
 	%offset(DATA_FD0001, 1)
 	%offset(DATA_FD0003, 3)
