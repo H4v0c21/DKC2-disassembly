@@ -154,6 +154,8 @@ endstruct
 !last_used_graphic_id #= !ex_graphics_id_start-4
 !last_used_palette_id #= !ex_palette_id_start-1
 
+!null_id = $1FFE
+
 ;throws an error if the ex patch version doesn't match the one passed to this macro by the pack creator
 macro require_patch_version(required_version)
 	assert !ex_patch_version == <required_version>,"This pack requires a different Ex Patch version!"
@@ -179,21 +181,30 @@ endmacro
 
 ;creates a spawn script for a custom sprite
 !spawn_script_counter = 0
-macro insert_sprite_spawn_script(spawn_script_path)
-	org !ex_spawn_script_insertion_address							;go to next free insertion address
+macro insert_sprite_spawn_script(spawn_script_id, spawn_script_path)
 	
-	spawn_script_!spawn_script_counter:							;create a label for the spawn script
-		incsrc <spawn_script_path>							;import spawn script
-	spawn_script_end_!spawn_script_counter:							;mark the end of the spawn script
-
-	org !ex_spawn_script_table_insertion_address						;go to next free slot in spawn script table
-		dw spawn_script_!spawn_script_counter						;write spawn script pointer
-		
-	!ex_spawn_script_insertion_address := spawn_script_end_!spawn_script_counter		;update data insertion address
-	!spawn_script_counter #= !spawn_script_counter+1					;update label counter to prevent label redefines
+	;go to next free script data insertion address
+	org !ex_spawn_script_insertion_address
 	
-	!last_used_spawn_id #= !last_used_spawn_id+2						;update last used id
-	!ex_spawn_script_table_insertion_address #= !ex_spawn_script_table_insertion_address+2	;update table insertion address
+	;create script label, import script data, mark end of script data
+	spawn_script_!spawn_script_counter:
+		incsrc <spawn_script_path>
+	spawn_script_end_!spawn_script_counter:
+	
+	;go to next free slot in script table and write pointer
+	org !ex_spawn_script_table_insertion_address+<spawn_script_id>-!ex_spawn_id_start
+		dw spawn_script_!spawn_script_counter
+	
+	;update script data insertion address
+	!ex_spawn_script_insertion_address := spawn_script_end_!spawn_script_counter
+	
+	;increment this counter so we dont redefine labels if we call the macro again
+	!spawn_script_counter #= !spawn_script_counter+1
+	
+	;update last used script id, and table insertion address
+	
+	;!last_used_spawn_id #= !last_used_spawn_id+2
+	;!ex_spawn_script_table_insertion_address #= !ex_spawn_script_table_insertion_address+2
 endmacro
 
 

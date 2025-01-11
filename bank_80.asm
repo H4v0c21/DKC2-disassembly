@@ -13825,7 +13825,7 @@ org $80FFB0
 
 if !exhi == 1
 	;dummy header so old editors don't get mad, this header does literally nothing for the actual game
-	incsrc "exhi/rom_header.asm"
+	incsrc "rom_header.asm"
 else
 DATA_80FFB0:
 	db $30, $31

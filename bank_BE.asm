@@ -820,11 +820,11 @@ CODE_BEBE06:
 	LDX current_sprite			;$BEBE11   |
 	RTS					;$BEBE13  /
 
+%hook("check_throwable_collision")
 CODE_BEBE14:
 	JSR CODE_BEBE18				;$BEBE14  \
 	RTL					;$BEBE17  /
 
-%hook("check_throwable_collision")
 CODE_BEBE18:
 	STA $60					;$BEBE18  \
 	LDX current_sprite			;$BEBE1A   |

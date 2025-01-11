@@ -1,7 +1,7 @@
 !exhi = 1
 !bypass_anti_piracy = 1
 !ex_patch = 1
-!ex_patch_version = 1
+!ex_patch_version = 2
 
 if !exhi == 1
 	exhirom
@@ -25,6 +25,11 @@ org $008000			;dummy org so functions work
 	incsrc structs.asm
 	incsrc mmio.asm
 	incsrc audio_constants.asm
+
+if !ex_patch == 1
+	incsrc "ex_patch/ex_defines.asm"
+endif
+
 
 check bankcross half
 org $C00000
@@ -164,45 +169,149 @@ if !exhi == 1
 		org $400000
 	check bankcross half
 		org $008000
-			incsrc "exhi/bank_00.asm"
-		org $018000
-			incsrc "ex_patch/custom_level_code_handlers.asm" : padbyte $00 : pad $020000
-		org $028000
-			incsrc "ex_patch/ex_sprite_handler.asm" : padbyte $00 : pad $030000
-		org $038000
-			incsrc "ex_patch/ex_spawn_handler.asm" : padbyte $00 : pad $040000
-		
-	check bankcross full
-		org $440000
-			ex_null_spawn_script:
-				dw !initcommand_success
-			ex_spawn_scripts: : padbyte $00 : pad $450000
-		org $450000
-			ex_sprite_constants: : padbyte $00 : pad $460000
-		org $460000
-			incsrc "ex_patch/ex_animation_data.asm" : padbyte $00 : pad $070000
-	
-	;check bankcross half
-		org $078000
-			incsrc "ex_patch/ex_animation_handler.asm"
-			ex_animation_code: : padbyte $00 : pad $0A0000
-		org $088000
-			incsrc "ex_patch/ex_hitbox_handler.asm" : padbyte $00 : pad $090000
-	
-	;check bankcross full
-		org $490000
-			incsrc "ex_patch/ex_palette_data.asm"
-			padbyte $00 : pad $4A0000
-		
-	;check bankcross half
-		org $0A8000
-			incsrc "ex_patch/ex_palette_handler.asm"
-			incsrc "ex_patch/ex_graphics_handler.asm"
+			incsrc "ex_patch/ex_metadata_handler.asm"
 			
-		org $4B0000
-			ex_graphics:
-		org $5FFFFF
+			NMI_start_force_bank_80:
+				JML NMI_start
+			
+			IRQ_start_force_bank_80:
+				JML IRQ_start
+			
+			RESET_start_force_bank_80:
+				JML RESET_start
+			
+			incsrc "ex_patch/ex_sprites.asm"
+			
+			incsrc "ex_patch/custom_level_code_handlers.asm"
+			
+			warnpc $00FFB0 : org $00FFB0 : incsrc "rom_header.asm"
+
+		org $410000
+			ex_sprite_animation_table: : fillbyte $00 : fill !ex_sprite_animation_table_size
+			ex_sprite_graphics_table: : fillbyte $00 : fill !ex_sprite_graphics_table_size
+			ex_sprite_hitbox_table: : fillbyte $00 : fill !ex_sprite_hitbox_table_size
+			ex_sprite_palette_table: : fillbyte $00 : fill !ex_sprite_palette_table_size
+			
+		org $028000
+			ex_sprite_main_hop:
+				JMP.w (ex_sprite_main_table,x)
+			
+			%hook("ex_sprite_state_handler")
+			ex_sprite_state_handler:
+				PHK					;\
+				PLB					; |
+				LDY current_sprite			; |
+				LDA $0054,y				; |
+				STA $8E					; |
+				LDA $002E,y				; |
+				AND #$007F				; |
+				ASL A					; |
+				SEC					; |
+				ADC $01,s				; |
+				TAX					; |
+				PLA					; |
+				LDA $002F,y				; |
+				AND #$00FF				; |
+				ASL A					; |
+				JMP ($0000,x)				;/
+
+
+			%hook("ex_sprite_state_safe_handler")
+			ex_sprite_state_safe_handler:
+				PHK			;Set current data bank
+				PLB			;
+				LDY current_sprite	;Get current sprite being processed
+				LDA $0054,y		;Use current sprites constants
+				STA $8E			;
+				LDA $002E,y		;get sprite state
+				AND #$007F		
+				STA $32			
+				LDA #$0000		
+				SEC			
+				ADC $01,s		
+				TAX			
+				LDA $32			
+				CMP $0000,x		
+				BCS .invalid_state	
+				ASL A			
+				SEC			
+				ADC $01,s		;add address from top of stack to get our index
+				ADC #$0002		
+				TAX			
+				PLA			;pull address out of stack
+				LDA $002F,y		
+				AND #$00FF		
+				ASL A			
+				JMP ($0000,x)		;jump to sprite state code
+
+			.invalid_state			
+				LDA #$0000		
+				STA $002E,y		
+				PLA			
+				JML [$05A9]		;return from sprite code
+			
+			ex_sprite_main_table: : fillbyte $00 : fill !ex_sprite_main_table_size
+			ex_sprite_main_data:
+		
+		org $430000
+			ex_sprite_spawn_script_table: : fillbyte $00 : fill !ex_sprite_spawn_script_table_size
+		org $440000
+			ex_sprite_spawn_script_data:
+		org $450000
+			ex_sprite_constants_data:
+		org $068000
+			ex_sprite_hitbox_data:
+		org $470000
 			db $00
+			ex_sprite_palette_data:
+		org $480000
+			ex_sprite_animation_data:
+		org $098000
+			ex_sprite_animation_code_hop:
+				JMP ($0026)
+			
+			ex_sprite_animation_code:
+		org $4A0000
+			ex_sprite_graphics_data:
+		
+		org $5FFFFF : db $00
+		
+;		org $018000
+;			incsrc "ex_patch/custom_level_code_handlers.asm" : padbyte $00 : pad $020000
+;		org $028000
+;			incsrc "ex_patch/ex_sprite_handler.asm" : padbyte $00 : pad $030000
+;		org $038000
+;			incsrc "ex_patch/ex_spawn_handler.asm" : padbyte $00 : pad $040000
+;		
+;	check bankcross full
+;		org $440000
+;			ex_spawn_scripts: : padbyte $00 : pad $450000
+;		org $450000
+;			ex_sprite_constants: : padbyte $00 : pad $460000
+;		org $460000
+;			;incsrc "ex_patch/ex_animation_data.asm" : padbyte $00 : pad $070000
+;	
+;	;check bankcross half
+;		org $078000
+;			;incsrc "ex_patch/ex_animation_handler.asm"
+;			ex_animation_code: : padbyte $00 : pad $0A0000
+;		org $088000
+;			;incsrc "ex_patch/ex_hitbox_handler.asm" : padbyte $00 : pad $090000
+;	
+;	;check bankcross full
+;		org $490000
+;			;incsrc "ex_patch/ex_palette_data.asm"
+;			padbyte $00 : pad $4A0000
+;		
+;	;check bankcross half
+;		org $0A8000
+;			;incsrc "ex_patch/ex_palette_handler.asm"
+;			;incsrc "ex_patch/ex_graphics_handler.asm"
+;			
+;		org $4B0000
+;			ex_graphics:
+;		org $5FFFFF
+;			db $00
 	endif
 
 ;7,968 KB

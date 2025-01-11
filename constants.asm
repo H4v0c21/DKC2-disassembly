@@ -279,25 +279,3 @@
 !music_rigging		= $001D
 !music_credits		= $001E
 !music_krool		= $001F
-
-
-
-if !ex_patch == 1
-	!level_logic_done = post_logic_hook
-else
-	!level_logic_done = CODE_808CA2
-endif
-
-if !ex_patch == 1
-	if !version == 1
-		!ex_spawn_id_start = $1046
-	else
-		!ex_spawn_id_start = $1044
-	endif
-	
-	!ex_sprite_id_start = $0320
-	!ex_animation_id_start = $0340
-	!ex_graphics_id_start = $3600
-	!ex_palette_id_start = $00EB
-
-endif

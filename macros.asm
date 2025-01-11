@@ -23,8 +23,18 @@ macro font_tile_offset(label)
 endmacro
 
 macro return(label)
-	PEA <label>-1
+	PEA.w <label>-1
 endmacro
+
+macro return_long(address)
+	SEP #$20
+	LDA.b #<:<address>	;\ Push return bank to stack
+	PHA			;/
+	REP #$20		;> Back to 16 bit A
+	LDA #<address>-1	;\ Push return address to stack
+	PHA			;/
+endmacro
+
 
 macro pea_use_dbr(label)
 	?dummy:

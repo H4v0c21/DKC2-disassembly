@@ -41,15 +41,15 @@ if !game_version == 0
 	spawn_big_ex_sprite_direct = $BBC928
 	populate_sprite_clipping = $BCFB58
 	check_sprite_collision = $BEBD83
-	check_throwable_collision = $BEBE0D
+	check_throwable_collision = $BEBE09
 	check_simple_player_collision = $BEBE62
 	check_complex_player_collision = $BEBE80
 	process_current_movement = $BEF05C
 	process_alternate_movement = $BEF060
-	ex_sprite_state_handler = $02803B
-	ex_sprite_state_safe_handler = $02805A
-	use_vanilla_constants = $028096
-	use_ex_constants = $02809C
+	use_vanilla_constants = $00813B
+	use_ex_constants = $008141
+	ex_sprite_state_handler = $028003
+	ex_sprite_state_safe_handler = $028022
 else
 	sprite_return_handle_despawn = $B38000
 	sprite_return_no_despawn = $B38004
@@ -92,15 +92,15 @@ else
 	spawn_big_ex_sprite_direct = $BBC928
 	populate_sprite_clipping = $BCFB58
 	check_sprite_collision = $BEBD8E
-	check_throwable_collision = $BEBE18
+	check_throwable_collision = $BEBE14
 	check_simple_player_collision = $BEBE6D
 	check_complex_player_collision = $BEBE8B
 	process_current_movement = $BEF039
 	process_alternate_movement = $BEF03D
-	ex_sprite_state_handler = $02803B
-	ex_sprite_state_safe_handler = $02805A
-	use_vanilla_constants = $028096
-	use_ex_constants = $02809C
+	use_vanilla_constants = $00813B
+	use_ex_constants = $008141
+	ex_sprite_state_handler = $028003
+	ex_sprite_state_safe_handler = $028022
 endif
 
 ;RAM
@@ -230,5 +230,5 @@ sram_file_buffer = $7E56CA
 working_palette = $7E8928
 primary_palette = $7E8C28
 
-
+function sound(channel, effect) = channel<<8|effect
 

@@ -9127,7 +9127,7 @@ spawn_ex_sprite_direct:
 	STZ $56,x
 	STZ $32,x
 	PHB
-	%pea_shift_dbr(ex_spawn_scripts)
+	%pea_shift_dbr(ex_sprite_spawn_script_data)
 	PLB
 	PLB
 	JML parse_initscript_entry
@@ -9203,7 +9203,7 @@ request_vanilla_palette_direct:
 offset_palette_address_if_needed:
 	PHA
 	LDA requested_palette_bank
-	CMP #<:ex_palette_table
+	CMP #<:ex_sprite_palette_data
 	BEQ .is_ex_palette
 	PLA
 	CLC
