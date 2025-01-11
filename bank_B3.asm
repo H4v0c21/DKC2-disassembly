@@ -448,11 +448,11 @@ sprite_main_table:
 	dw unknown_sprite_0040_main,$0000	;0040
 	dw kleever_pieces4_main,$0000		;0044
 	dw kleever_pieces5_main,$0000		;0048
-	dw unknown_sprite_004C_main,$0000	;004C
+	dw kreepy_krow_sparkle_main,$0000	;004C
 	dw unknown_sprite_0050_main,$0000	;0050
-	dw unknown_sprite_0054_main,$0000	;0054
+	dw krool_water_drips_main,$0000		;0054
 	dw puftup_spikes_main,$0000		;0058
-	dw krool_water_drips_main,$0000		;005C
+	dw lilypad_main,$0000			;005C
 	dw barrel_pieces_main,$0000		;0060
 	dw unknown_sprite_0064_main,$0000	;0064
 	dw king_zing_spikes_main,$0000		;0068
@@ -470,7 +470,7 @@ sprite_main_table:
 	dw unknown_sprite_0098_main,$0000	;0098
 	dw sparkle_spawner_main,$0000		;009C
 	dw sparkle_main,$0000			;00A0
-	dw unknown_sprite_00A4_main,$0000	;00A4
+	dw unknown_sprite_00A4_main,$0000	;00A4 sound effect tester/generator?
 	dw unknown_sprite_00A8_main,$0000	;00A8
 	dw water_level_changer_main,$0000	;00AC
 	dw sprite_marker_main,$0000		;00B0
@@ -518,9 +518,9 @@ sprite_main_table:
 	dw skull_cart_main,$0001		;0158
 	dw coins_main,$0000			;015C
 	dw level_goal_main,$0001		;0160
-	dw unknown_sprite_0164_main,$0001	;0164
-	dw unknown_sprite_0168_main,$0001	;0168
-	dw unknown_sprite_016C_main,$0001	;016C
+	dw level_goal_barrel_main,$0001		;0164
+	dw level_goal_pole_main,$0001		;0168
+	dw level_goal_prize_main,$0001		;016C
 	dw bananas_main,$0000			;0170
 	dw kong_letter_main,$0000		;0174
 	dw extra_life_balloon_main,$0001	;0178
@@ -593,7 +593,7 @@ sprite_main_table:
 	dw donkey_kongs_bindings_main,$0000	;0284
 	dw tied_up_donkey_kong_main,$0000	;0288
 	dw shot_donkey_kong_main,$0000		;028C
-	dw unknown_sprite_0290_main,$0000	;0290
+	dw defeated_krool_main,$0000		;0290
 	dw unknown_sprite_0294_main,$0000	;0294
 	dw lava_splash_main,$0000		;0298
 	dw krools_blinking_eyes_main,$0000	;029C
@@ -604,7 +604,7 @@ sprite_main_table:
 	dw kleever_broken_hilt_main,$0000	;02B0
 	dw kleever_broken_fire_main,$0000	;02B4
 	dw king_zing_stinger_main,$0000		;02B8
-	dw unknown_sprite_02BC_main,$0000	;02BC
+	dw king_zing_smoke_effect_main,$0000	;02BC
 	dw king_zing_ring_zinger_main,$0000	;02C0
 	dw kleever_attack_effect_main,$0000	;02C4
 	dw kleever_hand_main,$0000		;02C8
@@ -612,7 +612,7 @@ sprite_main_table:
 	dw kleever_hand_bubbles_main,$0000	;02D0
 	dw krockhead_main,$0000			;02D4
 	dw horsetail_main,$0000			;02D8
-	dw unknown_sprite_02DC_main,$0000	;02DC
+	dw chest_or_swanky_prize,$0000		;02DC
 	dw glimmer_main,$0000			;02E0
 	dw kloak_main,$0000			;02E4
 	dw unknown_sprite_02E8_main,$0000	;02E8
@@ -621,7 +621,7 @@ sprite_main_table:
 	dw skull_cart_sparks_main,$0001		;02F4
 	dw plus_and_minus_barrel_main,$0000	;02F8
 	dw gate_barrel_main,$0000		;02FC
-	dw unknown_sprite_0300_main,$0001	;0300
+	dw unknown_sprite_0300_main,$0001	;0300 kackle chase handler?
 	dw clapper_main,$0000			;0304
 	dw unknown_sprite_0308_main,$0001	;0308 smoke?
 	dw screech_main,$0000			;030C
@@ -679,7 +679,7 @@ tied_up_donkey_kong_main:
 	LDA #$0016				;$B386B5  \
 	JML CODE_B68025				;$B386B8  /
 
-unknown_sprite_0290_main:
+defeated_krool_main:
 	LDA #$0018				;$B386BC  \
 	JML CODE_B68025				;$B386BF  /
 
@@ -707,7 +707,7 @@ krool_main:
 	LDA #$0024				;$B386E6  \
 	JML CODE_B68025				;$B386E9  /
 
-unknown_sprite_004C_main:
+kreepy_krow_sparkle_main:
 	LDA #$0026				;$B386ED  \
 	JML CODE_B68025				;$B386F0  /
 
@@ -803,7 +803,7 @@ king_zing_ring_zinger_main:
 	LDA #$0002				;$B3878E  \
 	JML CODE_BA9000				;$B38791  /
 
-unknown_sprite_02BC_main:
+king_zing_smoke_effect_main:
 	LDA #$0004				;$B38795  \
 	JML CODE_BA9000				;$B38798  /
 
@@ -827,7 +827,7 @@ kreepy_krows_head_main:
 	LDA #$000E				;$B387B8  \
 	JML CODE_BA9000				;$B387BB  /
 
-unknown_sprite_0054_main:
+krool_water_drips_main:
 	LDA #$0000				;$B387BF  \
 	JML CODE_BAB078				;$B387C2  /
 
@@ -2832,20 +2832,20 @@ CODE_B395E6:					;	   |
 	JSL CODE_BB82B8				;$B395F1   |
 	JML [$05A9]				;$B395F5  /
 
-krool_water_drips_main:
-	LDX current_sprite			;$B395F8  \
-	LDY $42,x				;$B395FA   |
-	LDA $0000,y				;$B395FC   |
-	CMP #!sprite_horsetail			;$B395FF   |
-	BNE CODE_B3960E				;$B39602   |
-	LDA $004C,y				;$B39604   |
-	CMP current_sprite			;$B39607   |
-	BNE CODE_B3960E				;$B39609   |
-	JML [$05A9]				;$B3960B  /
+lilypad_main:
+	LDX current_sprite			;$B395F8  \ get lilypad sprite
+	LDY $42,x				;$B395FA   | get address of horsetail sprite that spawned it
+	LDA $0000,y				;$B395FC   | check its ID
+	CMP #!sprite_horsetail			;$B395FF   | 
+	BNE .delete_sprite			;$B39602   | if there's a mismatch, delete lilypad sprite
+	LDA $004C,y				;$B39604   | else get address of self from horsetail
+	CMP current_sprite			;$B39607   | check if its the currently processing sprite
+	BNE .delete_sprite			;$B39609   | if not, delete lilypad sprite
+	JML [$05A9]				;$B3960B  / else done processing sprite
 
-CODE_B3960E:
+.delete_sprite:
 	JSL CODE_BB82B8				;$B3960E  \
-	JML [$05A9]				;$B39612  /
+	JML [$05A9]				;$B39612  / done processing sprite
 
 ghost_rope_main:
 horsetail_main:
@@ -3566,7 +3566,7 @@ CODE_B39BA5:
 	RTS					;$B39BB3  /
 
 unknown_sprite_00CC_main:
-unknown_sprite_02DC_main:
+chest_or_swanky_prize:
 	LDX current_sprite			;$B39BB4  \
 	LDA $54,x				;$B39BB6   |
 	STA $8E					;$B39BB8   |
@@ -4268,7 +4268,7 @@ if !version == 1
 	RTS					;$B3A0C7  /
 endif
 
-unknown_sprite_016C_main:
+level_goal_prize_main:
 	JSR CODE_B3A227				;$B3A0C8  \
 	BCS CODE_B3A0DA				;$B3A0CB   |
 	LDX current_sprite			;$B3A0CD   |
@@ -4408,7 +4408,7 @@ CODE_B3A1AE:
 	SEC					;$B3A1B0   |
 	RTS					;$B3A1B1  /
 
-unknown_sprite_0168_main:
+level_goal_pole_main:
 	JSR CODE_B3A227				;$B3A1B2  \
 	BCS CODE_B3A1BA				;$B3A1B5   |
 	JML [$05A9]				;$B3A1B7  /
@@ -4417,7 +4417,7 @@ CODE_B3A1BA:
 	JSL CODE_BB82B8				;$B3A1BA  \
 	JML [$05A9]				;$B3A1BE  /
 
-unknown_sprite_0164_main:
+level_goal_barrel_main:
 	JSR CODE_B3A227				;$B3A1C1  \
 	BCS CODE_B3A1CD				;$B3A1C4   |
 	LDA $2E,x				;$B3A1C6   |
@@ -11968,13 +11968,13 @@ DATA_B3D923:
 	dw clapper_sprite_code			;00
 	dw vertical_wind_changer_code		;02
 	dw horizontal_wind_changer_code		;04
-	dw CODE_B3DC21				;06
+	dw timer_sprite_code			;06
 	dw CODE_B3DF48				;08
 	dw CODE_B3DF48				;0A
 	dw CODE_B3E3AF				;0C
-	dw CODE_B3E4D9				;0E
-	dw CODE_B3E65C				;10
-	dw CODE_B3E682				;12
+	dw checkpoint_barrel_sprite_code	;0E
+	dw cannon_sprite_code			;10
+	dw barrel_icons_sprite_code		;12
 	dw barrel_cannon_code			;14
 
 
@@ -12437,7 +12437,7 @@ CODE_B3DC1B:					;	   |
 	STA $20,x				;$B3DC1E   |
 	RTS					;$B3DC20  /
 
-CODE_B3DC21:
+timer_sprite_code:
 	LDY current_sprite			;$B3DC21  \
 	LDA $002E,y				;$B3DC23   |
 	ASL A					;$B3DC26   |
@@ -13565,7 +13565,7 @@ CODE_B3E4C1:
 	STA $091B				;$B3E4D5   |
 	RTS					;$B3E4D8  /
 
-CODE_B3E4D9:
+checkpoint_barrel_sprite_code:
 	LDY current_sprite			;$B3E4D9  \
 	LDA $002E,y				;$B3E4DB   |
 	ASL A					;$B3E4DE   |
@@ -13763,7 +13763,7 @@ CODE_B3E657:					;	   |
 	STA $06,x				;$B3E659   |
 	RTS					;$B3E65B  /
 
-CODE_B3E65C:
+cannon_sprite_code:
 	LDX current_sprite			;$B3E65C  \
 	LDA $2A,x				;$B3E65E   |
 	AND #$0800				;$B3E660   |
@@ -13784,7 +13784,7 @@ CODE_B3E67B:					;	   |
 CODE_B3E67F:					;	   |
 	JMP barrel_cannon_code			;$B3E67F  /
 
-CODE_B3E682:
+barrel_icons_sprite_code:
 	PHK					;$B3E682  \
 	PLB					;$B3E683   |
 	LDX current_sprite			;$B3E684   |

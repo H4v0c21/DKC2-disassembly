@@ -2478,7 +2478,7 @@ DATA_FF17AC:
 
 DATA_FF17C0:
 	dw !initcommand_spawn_relative, $0015, $FFBE
-	dw sprite.number, !sprite_unknown_0168
+	dw sprite.number, !sprite_level_goal_pole
 	dw sprite.render_order, $00C9
 	dw sprite.state, $0000
 	dw !initcommand_set_alt_palette, $0002
@@ -2488,7 +2488,7 @@ DATA_FF17C0:
 
 DATA_FF17E0:
 	dw !initcommand_spawn_relative, $0015, $0000
-	dw sprite.number, !sprite_unknown_0164
+	dw sprite.number, !sprite_level_goal_barrel
 	dw sprite.render_order, $00CA
 	dw sprite.state, $0000
 	dw sprite.x_speed, $0000
@@ -2499,7 +2499,7 @@ DATA_FF17E0:
 
 DATA_FF1804:
 	dw !initcommand_spawn_relative, $0015, $FF92
-	dw sprite.number, !sprite_unknown_016C
+	dw sprite.number, !sprite_level_goal_prize
 	dw sprite.render_order, $00CA
 	dw sprite.state, $0000
 	dw !initcommand_set_alt_palette, $0000
@@ -2508,8 +2508,8 @@ DATA_FF1804:
 	dw !initcommand_success
 
 DATA_FF1824:
-	dw !initcommand_setup_static2, !sprite_krool_water_drips, $0058 : dl DATA_C008E1 : db $12
-	dw sprite.number, !sprite_krool_water_drips
+	dw !initcommand_setup_static2, !sprite_lilypad, $0058 : dl DATA_C008E1 : db $12
+	dw sprite.number, !sprite_lilypad
 	dw !initcommand_spawn_relative, $0000, $0000
 	dw sprite.state, $0000
 	dw !initcommand_set_oam, $3000
@@ -2547,7 +2547,7 @@ DATA_FF188C:
 
 DATA_FF189A:
 	dw !initcommand_spawn_relative, $0000, $0000
-	dw sprite.number, !sprite_unknown_02DC
+	dw sprite.number, !sprite_chest_or_swanky_prize
 	dw sprite.render_order, $00C4
 	dw sprite.constants_address, DATA_FF0214
 	dw sprite.interaction_flags, $0000
@@ -3112,7 +3112,7 @@ DATA_FF1EAA:
 	dw !initcommand_success
 
 DATA_FF1EC8:
-	dw sprite.number, !sprite_unknown_02BC
+	dw sprite.number, !sprite_king_zing_smoke_effect
 	dw sprite.state, $0000
 	dw sprite.x_speed, $0000
 	dw sprite.y_speed, $0000
@@ -3824,7 +3824,7 @@ DATA_FF2774:
 	dw !initcommand_success
 
 DATA_FF278E:
-	dw !initcommand_setup_static2, !sprite_unknown_0054, $00AF : dl DATA_FC54E0 : db $0D
+	dw !initcommand_setup_static2, !sprite_krool_water_drips, $00AF : dl DATA_FC54E0 : db $0D
 	dw !initcommand_spawn_relative, $0000, $0000
 	dw sprite.render_order, $00F8
 	dw sprite.x_speed, $0000
@@ -3992,7 +3992,7 @@ DATA_FF296E:
 	dw !initcommand_success
 
 DATA_FF299A:
-	dw !initcommand_setup_static, !sprite_unknown_004C, global_sprite_palette : dl intro_sparkle_graphics : db $0D
+	dw !initcommand_setup_static, !sprite_kreepy_krow_sparkle, global_sprite_palette : dl intro_sparkle_graphics : db $0D
 	dw !initcommand_spawn_relative, $0000, $0000
 	dw sprite.render_order, $00FA
 	dw sprite.unknown_1C, $0000
@@ -18857,6 +18857,7 @@ DATA_FFD5DA:
 	dw $0001, $003C
 	dw $0002
 
+;unused?
 	dw $0000, $0078
 	dw $0001, $00F0
 	dw $0002
@@ -18918,6 +18919,7 @@ DATA_FFD5FC:
 	dw $1F32, $0000, $0000
 	dw $1FF0, $8300, $FF00
 	dw $7FFF, $0000, $0000
+
 
 DATA_FFD728:
 	dw $0000, $0000, $0000

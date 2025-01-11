@@ -5,24 +5,24 @@ CODE_BEB800:
 	JMP (DATA_BEB806,x)			;$BEB803  /
 
 DATA_BEB806:
-	dw CODE_BECBA0				;0000 haunted_hall_door_main
-	dw CODE_BECDE2				;0002 gate_barrel_main
-	dw CODE_BECE8D				;0004 skull_cart_sparks_main
-	dw CODE_BECF73				;0006 skull_cart_main
-	dw CODE_BEE47F				;0008 klank_main
-	dw CODE_BEE07E				;000A kackle_main
+	dw haunted_hall_door_sprite_code	;0000 haunted_hall_door_main
+	dw gate_barrel_sprite_code		;0002 gate_barrel_main
+	dw skull_cart_sparks_sprite_code	;0004 skull_cart_sparks_main
+	dw skull_cart_sprite_code		;0006 skull_cart_main
+	dw klank_sprite_code			;0008 klank_main
+	dw kackle_sprite_code			;000A kackle_main
 	dw CODE_BEE2D9				;000C unknown_sprite_0300_main
-	dw CODE_BEB850				;000E coins_main
-	dw CODE_BEBA99				;0010 kong_letter_main
+	dw coins_sprite_code			;000E coins_main
+	dw kong_letter_sprite_code		;0010 kong_letter_main
 	dw race_handler_sprite_code		;0012 race_handler_main
 	dw racing_flag_sprite_code		;0014 racing_flag_main
-	dw CODE_BEEA8D				;0016 chasing_king_zing_main
-	dw CODE_BEEB4E				;0018 screech_main
-	dw CODE_BEEC82				;001A giant_tire_main
-	dw CODE_BEEE38				;001C camera_unlock_trigger_main
-	dw CODE_BEEF1F				;001E chest_spawner_main
-	dw CODE_BEEF81				;0020 kremcoin_cheat_handler_main
-	dw CODE_BEEA7F				;0022 double_zingers_main
+	dw chasing_king_zing_sprite_code	;0016 chasing_king_zing_main
+	dw screech_sprite_code			;0018 screech_main
+	dw giant_tire_sprite_code		;001A giant_tire_main
+	dw camera_unlock_trigger_sprite_code	;001C camera_unlock_trigger_main
+	dw chest_spawner_sprite_code		;001E chest_spawner_main
+	dw kremcoin_cheat_handler_sprite_code	;0020 kremcoin_cheat_handler_main
+	dw double_zingers_sprite_code		;0022 double_zingers_main
 
 
 CODE_BEB82A:
@@ -47,7 +47,7 @@ CODE_BEB849:
 	JSL CODE_BBBB99				;$BEB849  \
 	JML [$05A9]				;$BEB84D  /
 
-CODE_BEB850:
+coins_sprite_code:
 	JSR CODE_BEB82A				;$BEB850  /
 
 DATA_BEB853:
@@ -340,7 +340,7 @@ CODE_BEBA96:
 ;$4C,x	letter type, 0=K ,1=O ,2=N ,3=G
 
 
-CODE_BEBA99:
+kong_letter_sprite_code:
 	JSR CODE_BEB82A				;$BEBA99  /
 
 DATA_BEBA9C:
@@ -2716,7 +2716,7 @@ CODE_BECB95:
 	INY					;$BECB9D   |
 	BRA CODE_BECB86				;$BECB9E  /
 
-CODE_BECBA0:
+haunted_hall_door_sprite_code:
 	LDA $0A36				;$BECBA0  \
 	BIT #$0004				;$BECBA3   |
 	BEQ CODE_BECBB5				;$BECBA6   |
@@ -3023,7 +3023,7 @@ CODE_BECDDC:
 CODE_BECDDF:					;	   |
 	JMP CODE_BEB849				;$BECDDF  /
 
-CODE_BECDE2:
+gate_barrel_sprite_code:
 	JSR CODE_BEB82A				;$BECDE2  \
 DATA_BECDE5:
 	dw CODE_BECDEB
@@ -3107,7 +3107,7 @@ CODE_BECE7E:
 	JSL CODE_BB8412				;$BECE88   |
 	RTS					;$BECE8C  /
 
-CODE_BECE8D:
+skull_cart_sparks_sprite_code:
 	JSR CODE_BEB82A				;$BECE8D  /
 
 DATA_BECE90:
@@ -3209,7 +3209,7 @@ DATA_BECF4D:
 	db $02, $02, $02, $01, $01, $01
 
 
-CODE_BECF73:
+skull_cart_sprite_code:
 	LDA $0A36				;$BECF73  \
 	BIT #$0004				;$BECF76   |
 	BEQ CODE_BECF94				;$BECF79   |
@@ -5498,7 +5498,7 @@ CODE_BEE071:
 	INC $5C,x				;$BEE07A   |
 	BRA CODE_BEE068				;$BEE07C  /
 
-CODE_BEE07E:
+kackle_sprite_code:
 	LDA $0A36				;$BEE07E  \
 	BIT #$0004				;$BEE081   |
 	BEQ CODE_BEE096				;$BEE084   |
@@ -6083,7 +6083,7 @@ CODE_BEE47D:
 	CLC					;$BEE47D  \
 	RTS					;$BEE47E  /
 
-CODE_BEE47F:
+klank_sprite_code:
 	LDY current_sprite			;$BEE47F  \
 	LDA $0054,y				;$BEE481   |
 	STA $8E					;$BEE484   |
@@ -6903,7 +6903,7 @@ racing_flag_sprite_code:
 	JML [$05A9]				;$BEEA7C  /  Done processing sprite
 
 
-CODE_BEEA7F:
+double_zingers_sprite_code:
 	INC $19AA				;$BEEA7F  \
 	JSR CODE_BEB82A				;$BEEA82  /
 
@@ -6914,7 +6914,7 @@ DATA_BEEA85:
 	dw CODE_BEEB34
 
 
-CODE_BEEA8D:
+chasing_king_zing_sprite_code:
 	INC $19AA				;$BEEA8D  \
 	JSR CODE_BEB82A				;$BEEA90  /
 
@@ -7013,7 +7013,7 @@ CODE_BEEB42:
 	JSL CODE_BEBE8B				;$BEEB49   |
 	RTS					;$BEEB4D  /
 
-CODE_BEEB4E:
+screech_sprite_code:
 	JSR CODE_BEB82A				;$BEEB4E  /
 
 DATA_BEEB50:
@@ -7178,7 +7178,7 @@ CODE_BEEC79:
 	STA $00,x				;$BEEC7F   |
 	RTS					;$BEEC81  /
 
-CODE_BEEC82:
+giant_tire_sprite_code:
 	LDY current_sprite			;$BEEC82  \
 	LDA $002E,y				;$BEEC84   |
 	AND #$00FF				;$BEEC87   |
@@ -7410,7 +7410,7 @@ CODE_BEEE14:					;	   |
 CODE_BEEE37:					;	   |
 	RTL					;$BEEE37  /
 
-CODE_BEEE38:
+camera_unlock_trigger_sprite_code:
 	LDX current_sprite			;$BEEE38  \
 	LDA $2E,x				;$BEEE3A   |
 	BNE CODE_BEEE9D				;$BEEE3C   |
@@ -7522,7 +7522,7 @@ CODE_BEEF1C:					;	   |
 	REP #$20				;$BEEF1C   |
 	RTS					;$BEEF1E  /
 
-CODE_BEEF1F:
+chest_spawner_sprite_code:
 	LDX current_sprite			;$BEEF1F  \
 	LDA $54,x				;$BEEF21   |
 	STA $8E					;$BEEF23   |
@@ -7574,7 +7574,7 @@ CODE_BEEF68:					;	   |
 CODE_BEEF7E:					;	   |
 	JML [$05A9]				;$BEEF7E  /
 
-CODE_BEEF81:
+kremcoin_cheat_handler_sprite_code:
 	LDA $08B8				;$BEEF81  \ Get number of cheated krem coins
 	BNE .delete_cheat_handler_sprite	;$BEEF84   |> If player already cheated stop checking for cheat
 	LDY current_sprite			;$BEEF86   |\ Get current sprite
