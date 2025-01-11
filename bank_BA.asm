@@ -5,14 +5,14 @@ CODE_BA9000:
 	JMP (DATA_BA9006,x)			;$BA9003  /
 
 DATA_BA9006:
-	dw CODE_BA9048				;0000 king_zing_main
-	dw CODE_BA9796				;0002 king_zing_ring_zinger_main
-	dw CODE_BA993E				;0004 unknown_sprite_02BC_main
-	dw CODE_BA99B1				;0006 king_zing_stinger_main
-	dw CODE_BA9A9E				;0008 king_zing_spikes_main
-	dw CODE_BA9B3D				;000A kreepy_krows_body_main
-	dw CODE_BA9C0E				;000C kreepy_krows_eggs_main
-	dw CODE_BAA1C6				;000E kreepy_krows_head_main
+	dw king_zing_sprite_code		;0000 king_zing_main
+	dw king_zing_ring_zinger_sprite_code	;0002 king_zing_ring_zinger_main
+	dw king_zing_smoke_effect_sprite_code	;0004 king_zing_smoke_effect_main
+	dw king_zing_stinger_sprite_code	;0006 king_zing_stinger_main
+	dw king_zing_spikes_sprite_code		;0008 king_zing_spikes_main
+	dw kreepy_krows_body_sprite_code	;000A kreepy_krows_body_main
+	dw kreepy_krows_eggs_sprite_code	;000C kreepy_krows_eggs_main
+	dw kreepy_krows_head_sprite_code	;000E kreepy_krows_head_main
 
 CODE_BA9016:
 	STY $5E					;$BA9016  \
@@ -43,7 +43,7 @@ CODE_BA9042:
 	PLB					;$BA9046   |
 	RTS					;$BA9047  /
 
-CODE_BA9048:
+king_zing_sprite_code:
 	PHB					;$BA9048  \
 	PHK					;$BA9049   |
 	PLB					;$BA904A   |
@@ -856,7 +856,7 @@ CODE_BA976E:					;	   |
 	STA $0042,y				;$BA9792   |
 	RTS					;$BA9795  /
 
-CODE_BA9796:
+king_zing_ring_zinger_sprite_code:
 	LDA.l $000652				;$BA9796  \
 	BEQ CODE_BA97AE				;$BA979A   |
 	LDY current_sprite			;$BA979C   |
@@ -1028,7 +1028,7 @@ DATA_BA9918:
 	db $51, $00, $00, $00, $FA, $FF, $A0, $FF
 	db $00, $00, $01, $00, $51, $00
 
-CODE_BA993E:
+king_zing_smoke_effect_sprite_code:
 	LDX $0654				;$BA993E  \
 	LDA $2E,x				;$BA9941   |
 	BIT #$8000				;$BA9943   |
@@ -1087,7 +1087,7 @@ CODE_BA99A6:					;	   |
 DATA_BA99A9:
 	db $E7, $FF, $FE, $FF, $13, $00, $15, $00
 
-CODE_BA99B1:
+king_zing_stinger_sprite_code:
 	PHB					;$BA99B1  \
 	PHK					;$BA99B2   |
 	PLB					;$BA99B3   |
@@ -1191,7 +1191,7 @@ CODE_BA9A96:					;	   |
 	PLB					;$BA9A9A   |
 	JML [$05A9]				;$BA9A9B  /
 
-CODE_BA9A9E:
+king_zing_spikes_sprite_code:
 	LDX current_sprite			;$BA9A9E  \
 	LDA $42,x				;$BA9AA0   |
 	JSL interpolate_x_velocity_global	;$BA9AA2   |
@@ -1280,7 +1280,7 @@ CODE_BA9B16:
 	STY $46,x				;$BA9B3A   |
 	RTS					;$BA9B3C  /
 
-CODE_BA9B3D:
+kreepy_krows_body_sprite_code:
 	PHB					;$BA9B3D  \
 	PHK					;$BA9B3E   |
 	PLB					;$BA9B3F   |
@@ -1372,7 +1372,7 @@ CODE_BA9C06:					;	   |
 	PLB					;$BA9C0A   |
 	JML [$05A9]				;$BA9C0B  /
 
-CODE_BA9C0E:
+kreepy_krows_eggs_sprite_code:
 	LDX active_kong_sprite			;$BA9C0E  \
 	LDA $2E,x				;$BA9C11   |
 	ASL A					;$BA9C13   |
@@ -1976,7 +1976,7 @@ DATA_BAA1B0:
 	db $00, $01, $0A, $00, $2D, $00
 
 
-CODE_BAA1C6:
+kreepy_krows_head_sprite_code:
 	LDA $000652				;$BAA1C6  \
 	BNE CODE_BAA1CF				;$BAA1CA   |
 	BRL CODE_BAA219				;$BAA1CC  /
@@ -2878,17 +2878,17 @@ CODE_BAB078:
 	JMP (DATA_BAB07E,x)			;$BAB07B  /
 
 DATA_BAB07E:
-	dw CODE_BAC0D2
-	dw CODE_BAC133
-	dw CODE_BAB08E
-	dw CODE_BAC303
-	dw CODE_BAC1D9
-	dw CODE_BAB13B
-	dw CODE_BAB18D
-	dw CODE_BAB12C
+	dw krool_water_drips_sprite_code 	;00 krool_water_drips_main
+	dw krool_fish_sprite_code		;02 krool_fish_main
+	dw kore_sparkle_spawner_sprite_code	;04 unknown_sprite_0098_main
+	dw scroll_and_float_barrel_sprite_code	;06 scroll_and_float_barrel_main
+	dw kong_npc_sprite_code			;08 kong_npc_main
+	dw sparkle_spawner_sprite_code		;0A sparkle_spawner_main
+	dw sparkle_sprite_code			;0C sparkle_main
+	dw kore_sparkle_sprite_code		;0E unknown_sprite_0050_main
 
 
-CODE_BAB08E:
+kore_sparkle_spawner_sprite_code:
 	PHK					;$BAB08E  \
 	PLB					;$BAB08F   |
 	LDX current_sprite			;$BAB090   |
@@ -2967,13 +2967,13 @@ CODE_BAB11F:					;	   |
 CODE_BAB129:					;	   |
 	JML [$05A9]				;$BAB129  /
 
-CODE_BAB12C:
+kore_sparkle_sprite_code:
 	JSL apply_position_from_velocity_global	;$BAB12C  \
 	JSL CODE_B9D100				;$BAB130   |
 	JSL CODE_BBBB8D				;$BAB134   |
 	JML [$05A9]				;$BAB138  /
 
-CODE_BAB13B:
+sparkle_spawner_sprite_code:
 	LDX current_sprite			;$BAB13B  \
 	DEC $42,x				;$BAB13D   |
 	BNE CODE_BAB18A				;$BAB13F   |
@@ -3007,7 +3007,7 @@ CODE_BAB13B:
 CODE_BAB18A:					;	   |
 	JML [$05A9]				;$BAB18A  /
 
-CODE_BAB18D:
+sparkle_sprite_code:
 	LDX current_sprite			;$BAB18D  \
 	LDY $0674				;$BAB18F   |
 	LDA $0006,y				;$BAB192   |
@@ -3914,35 +3914,35 @@ DATA_BAB90B:
 	db $00, $00, $00, $00, $00, $00, $00, $00
 	db $00, $00, $00, $00, $00, $00, $63
 
-CODE_BAC0D2:
+krool_water_drips_sprite_code:
 	LDA.l $0006A3				;$BAC0D2  \
 	BIT #$4000				;$BAC0D6   |
-	BEQ CODE_BAC0E2				;$BAC0D9   |
-	JSL CODE_BB82B8				;$BAC0DB   |
+	BEQ .state_handler			;$BAC0D9   | 
+	JSL CODE_BB82B8				;$BAC0DB   | 
 	JML [$05A9]				;$BAC0DF  /
 
-CODE_BAC0E2:
+.state_handler:
 	LDX current_sprite			;$BAC0E2  \
 	LDA $2E,x				;$BAC0E4   |
 	ASL A					;$BAC0E6   |
 	TAX					;$BAC0E7   |
 	PHK					;$BAC0E8   |
 	PLB					;$BAC0E9   |
-	JMP (DATA_BAC0ED,x)			;$BAC0EA  /
+	JMP (.state_table,x)			;$BAC0EA  /
 
-DATA_BAC0ED:
-	dw CODE_BAC0F3
-	dw CODE_BAC0FA
-	dw CODE_BAC113
+.state_table:
+	dw .dummy_animated_state
+	dw .state_1
+	dw .state_2
 
 
-CODE_BAC0F3:
-	JSL CODE_B9D100				;$BAC0F3  \
-	JML [$05A9]				;$BAC0F7  /
+.dummy_animated_state:
+	JSL CODE_B9D100				;$BAC0F3  \ process animations
+	JML [$05A9]				;$BAC0F7  / done processing sprite
 
-CODE_BAC0FA:
+.state_1:
 	LDY #$0162				;$BAC0FA  \
-	JSL CODE_BB8412				;$BAC0FD   |
+	JSL CODE_BB8412				;$BAC0FD   | spawn another water drop
 	LDX current_sprite			;$BAC101   |
 	INC $2E,x				;$BAC103   |
 	LDA $42,x				;$BAC105   |
@@ -3951,7 +3951,7 @@ CODE_BAC0FA:
 	JSL CODE_B9D09B				;$BAC10C   |
 	JML [$05A9]				;$BAC110  /
 
-CODE_BAC113:
+.state_2:
 	LDX current_sprite			;$BAC113  \
 	LDA $24,x				;$BAC115   |
 	CLC					;$BAC117   |
@@ -3961,91 +3961,91 @@ CODE_BAC113:
 	LDX current_sprite			;$BAC121   |
 	LDA $0A,x				;$BAC123   |
 	CMP #$01C0				;$BAC125   |
-	BCC CODE_BAC130				;$BAC128   |
+	BCC .return				;$BAC128   |
 	STZ $2E,x				;$BAC12A   |
-	JSL CODE_B9D100				;$BAC12C   |
-CODE_BAC130:					;	   |
-	JML [$05A9]				;$BAC130  /
+	JSL CODE_B9D100				;$BAC12C   | process animations
+.return:					;	   |
+	JML [$05A9]				;$BAC130  / done processing sprite
 
-CODE_BAC133:
+krool_fish_sprite_code:
 	LDX current_sprite			;$BAC133  \
 	LDA $2E,x				;$BAC135   |
 	ASL A					;$BAC137   |
 	TAX					;$BAC138   |
 	PHK					;$BAC139   |
 	PLB					;$BAC13A   |
-	JMP (DATA_BAC13E,x)			;$BAC13B  /
+	JMP (.state_table,x)			;$BAC13B  /
 
-DATA_BAC13E:
-	dw CODE_BAC142
-	dw CODE_BAC1B4
+.state_table:
+	dw .bounce_state
+	dw .fall_state
 
 
-CODE_BAC142:
-	JSR CODE_BAC1C2				;$BAC142  \
-	LDA $0A,x				;$BAC145   |
-	CMP #$01C5				;$BAC147   |
-	BCC CODE_BAC1A7				;$BAC14A   |
-	LDA #$01C5				;$BAC14C   |
-	STA $0A,x				;$BAC14F   |
-	LDA $46,x				;$BAC151   |
-	BNE CODE_BAC177				;$BAC153   |
-	INC $2E,x				;$BAC155   |
+.bounce_state:
+	JSR .interpolate_fish_velocities	;$BAC142  \
+	LDA $0A,x				;$BAC145   | get fish Y position
+	CMP #$01C5				;$BAC147   | check if it reached 01C5
+	BCC .handle_timer			;$BAC14A   | if not, handle state transition timer
+	LDA #$01C5				;$BAC14C   | else cap it to 01C5
+	STA $0A,x				;$BAC14F   | 
+	LDA $46,x				;$BAC151   | get timer value
+	BNE .continue_bounce_state		;$BAC153   | if timer hasn't finished yet, don't transition state
+	INC $2E,x				;$BAC155   | else set fall state
 	LDA #$FB00				;$BAC157   |
-	STA $24,x				;$BAC15A   |
+	STA $24,x				;$BAC15A   | set current Y velocity
 	LDA #$0700				;$BAC15C   |
-	STA $2A,x				;$BAC15F   |
+	STA $2A,x				;$BAC15F   | set target Y velocity
 	LDA #$0003				;$BAC161   |
-	STA $44,x				;$BAC164   |
+	STA $44,x				;$BAC164   | set preset to use for Y interpolation
 	LDA #$055B				;$BAC166   |
-	JSL queue_sound_effect			;$BAC169   |
+	JSL queue_sound_effect			;$BAC169   | play krool water splash 1 sound
 	LDA #$065C				;$BAC16D   |
-	JSL queue_sound_effect			;$BAC170   |
-	BRL CODE_BAC1AD				;$BAC174  /
+	JSL queue_sound_effect			;$BAC170   | play krool water splash 2 sound
+	BRL .return				;$BAC174  / done processing sprite
 
-CODE_BAC177:
-	JSL CODE_B4C175				;$BAC177  \
+.continue_bounce_state:
+	JSL CODE_B4C175				;$BAC177  \ get RNG (A)
 	LDY #$00FF				;$BAC17B   |
-	JSL CODE_B4BD7C				;$BAC17E   |
+	JSL CODE_B4BD7C				;$BAC17E   | divide A by Y
 	LDA CPU.multiply_result			;$BAC182   |
-	STA $000650				;$BAC185   |
-	LDA #$FE80				;$BAC189   |
+	STA $000650				;$BAC185   | store result
+	LDA #$FE80				;$BAC189   | load base Y velocity
 	SEC					;$BAC18C   |
-	SBC $000650				;$BAC18D   |
-	LDX current_sprite			;$BAC191   |
-	STA $24,x				;$BAC193   |
+	SBC $000650				;$BAC18D   | subtract it by division result to get new Y velocity
+	LDX current_sprite			;$BAC191   | get fish sprite
+	STA $24,x				;$BAC193   | set current Y velocity
 	LDA #$055B				;$BAC195   |
-	JSL queue_sound_effect			;$BAC198   |
+	JSL queue_sound_effect			;$BAC198   | play krool water splash 1 sound
 	LDA #$065C				;$BAC19C   |
-	JSL queue_sound_effect			;$BAC19F   |
-	LDX current_sprite			;$BAC1A3   |
-	INC $42,x				;$BAC1A5   |
-CODE_BAC1A7:					;	   |
-	LDA $46,x				;$BAC1A7   |
-	BEQ CODE_BAC1AD				;$BAC1A9   |
-	DEC $46,x				;$BAC1AB   |
-CODE_BAC1AD:					;	   |
-	JSL CODE_B9D100				;$BAC1AD   |
-	JML [$05A9]				;$BAC1B1  /
+	JSL queue_sound_effect			;$BAC19F   | play krool water splash 2 sound
+	LDX current_sprite			;$BAC1A3   | 
+	INC $42,x				;$BAC1A5   | increase bounce count
+.handle_timer:					;	   |
+	LDA $46,x				;$BAC1A7   | get timer value
+	BEQ .return				;$BAC1A9   | if timer finished, return
+	DEC $46,x				;$BAC1AB   | else count it down
+.return:					;	   |
+	JSL CODE_B9D100				;$BAC1AD   | process animation
+	JML [$05A9]				;$BAC1B1  / done processing sprite
 
-CODE_BAC1B4:
-	JSR CODE_BAC1C2				;$BAC1B4  \
-	JSL CODE_B9D100				;$BAC1B7   |
-	JSL CODE_BBBB8D				;$BAC1BB   |
-	JML [$05A9]				;$BAC1BF  /
+.fall_state:
+	JSR .interpolate_fish_velocities	;$BAC1B4  \
+	JSL CODE_B9D100				;$BAC1B7   | process animation
+	JSL CODE_BBBB8D				;$BAC1BB   | kill sprite if offscreen
+	JML [$05A9]				;$BAC1BF  / done processing sprite
 
-CODE_BAC1C2:
-	LDX current_sprite			;$BAC1C2  \
-	LDA $42,x				;$BAC1C4   |
-	JSL interpolate_x_velocity_global	;$BAC1C6   |
+.interpolate_fish_velocities:
+	LDX current_sprite			;$BAC1C2  \ get fish sprite
+	LDA $42,x				;$BAC1C4   | get bounce count
+	JSL interpolate_x_velocity_global	;$BAC1C6   | and use it as X interpolation preset
 	LDX current_sprite			;$BAC1CA   |
-	LDA $44,x				;$BAC1CC   |
-	JSL interpolate_y_velocity_global	;$BAC1CE   |
+	LDA $44,x				;$BAC1CC   | get Y interpolation preset
+	JSL interpolate_y_velocity_global	;$BAC1CE   | 
 	JSL apply_position_from_velocity_global	;$BAC1D2   |
-	LDX current_sprite			;$BAC1D6   |
+	LDX current_sprite			;$BAC1D6   | 
 	RTS					;$BAC1D8  /
 
-CODE_BAC1D9:
+kong_npc_sprite_code:
 	PHB					;$BAC1D9  \
 	PHK					;$BAC1DA   |
 	PLB					;$BAC1DB   |
@@ -4213,7 +4213,7 @@ DATA_BAC2E5:
 	dw $0063, DATA_BAC2E5
 
 
-CODE_BAC303:
+scroll_and_float_barrel_sprite_code:
 	LDX current_sprite			;$BAC303  \
 	STX $0674				;$BAC305   |
 	DEC $46,x				;$BAC308   |

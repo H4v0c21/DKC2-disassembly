@@ -25,28 +25,28 @@ CODE_B68025:
 	JMP (DATA_B6802B,x)			;$B68028  /
 
 DATA_B6802B:
-	dw CODE_B68053				;0000 kudgel_main
-	dw CODE_B682DF				;0002 kudgels_club_main
-	dw CODE_B69397				;0004 krool_gun_main
-	dw CODE_B699EB				;0006 shot_donkey_kong_main
-	dw CODE_B69A5A				;0008 krool_canball_main
-	dw CODE_B69EEA				;000A spiked_canballs_main
-	dw CODE_B6A3D6				;000C krool_gun_fire_main
-	dw CODE_B6A3D6				;000E krool_gun_vacuum_effect_main
-	dw CODE_B6A3D6				;0010 krools_blinking_eyes_main
-	dw CODE_B6A3DD				;0012 krool_puddle_main
+	dw kudgel_sprite_code			;0000 kudgel_main
+	dw kudgels_club_sprite_code		;0002 kudgels_club_main
+	dw krool_gun_sprite_code		;0004 krool_gun_main
+	dw shot_donkey_kong_sprite_code		;0006 shot_donkey_kong_main
+	dw krool_canball_sprite_code		;0008 krool_canball_main
+	dw spiked_canballs_sprite_code		;000A spiked_canballs_main
+	dw krool_misc_sprite_code		;000C krool_gun_fire_main
+	dw krool_misc_sprite_code		;000E krool_gun_vacuum_effect_main
+	dw krool_misc_sprite_code		;0010 krools_blinking_eyes_main
+	dw krool_puddle_sprite_code		;0012 krool_puddle_main
 	dw CODE_B6A43B				;0014 unknown_sprite_0294_main
-	dw CODE_B6A485				;0016 tied_up_donkey_kong_main
-	dw CODE_B6A725				;0018 unknown_sprite_0290_main
-	dw CODE_B6A82A				;001A donkey_kongs_rope_main
-	dw CODE_B6A82A				;001C donkey_kongs_bindings_main
-	dw CODE_B6A877				;001E lava_splash_main
-	dw CODE_B6D02E				;0020 klubba_main
-	dw CODE_B6D06E				;0022 klubbas_club_main
-	dw CODE_B68D70				;0024 krool_main
-	dw CODE_B6A877				;0026 unknown_sprite_004C_main
+	dw tied_up_donkey_kong_sprite_code	;0016 tied_up_donkey_kong_main
+	dw defeated_krool_sprite_code		;0018 defeated_krool_main
+	dw donkey_kong_rope_sprite_code		;001A donkey_kongs_rope_main
+	dw donkey_kong_rope_sprite_code		;001C donkey_kongs_bindings_main
+	dw boss_splash_and_sparkle_sprite_code	;001E lava_splash_main
+	dw klubba_sprite_code			;0020 klubba_main
+	dw klubbas_club_sprite_code		;0022 klubbas_club_main
+	dw krool_sprite_code			;0024 krool_main
+	dw boss_splash_and_sparkle_sprite_code	;0026 kreepy_krow_sparkle_main
 
-CODE_B68053:
+kudgel_sprite_code:
 	PHB					;$B68053  \
 	PHK					;$B68054   |
 	PLB					;$B68055   |
@@ -352,7 +352,7 @@ CODE_B682C9:					;	   |
 	STA $09E9				;$B682DB   |
 	RTS					;$B682DE  /
 
-CODE_B682DF:
+kudgels_club_sprite_code:
 	LDX $0654				;$B682DF  \
 	LDA $2E,x				;$B682E2   |
 	BIT #$0001				;$B682E4   |
@@ -1190,7 +1190,7 @@ CODE_B68D65:					;	   |
 CODE_B68D6F:					;	   |
 	RTS					;$B68D6F  /
 
-CODE_B68D70:
+krool_sprite_code:
 	PHB					;$B68D70  \
 	PHK					;$B68D71   |
 	PLB					;$B68D72   |
@@ -1770,7 +1770,7 @@ DATA_B69383:
 	dw $0380
 	dw $0280
 
-CODE_B69397:
+krool_gun_sprite_code:
 	LDX $0654				;$B69397  \
 	LDA $2E,x				;$B6939A   |
 	BIT #$0001				;$B6939C   |
@@ -2464,7 +2464,7 @@ CODE_B699E7:					;	   |
 	STA $0006,y				;$B699E7   |
 	RTS					;$B699EA  /
 
-CODE_B699EB:
+shot_donkey_kong_sprite_code:
 	LDX current_sprite			;$B699EB  \
 	LDA $42,x				;$B699ED   |
 	JSL interpolate_x_velocity_global	;$B699EF   |
@@ -2506,7 +2506,7 @@ CODE_B69A4F:					;	   |
 	JSL CODE_BBBB8D				;$B69A53   |
 	JML [$05A9]				;$B69A57  /
 
-CODE_B69A5A:
+krool_canball_sprite_code:
 	PHB					;$B69A5A  \
 	PHK					;$B69A5B   |
 	PLB					;$B69A5C   |
@@ -3070,7 +3070,7 @@ CODE_B69EE7:					;	   |
 	STA $20,x				;$B69EE7   |
 	RTS					;$B69EE9  /
 
-CODE_B69EEA:
+spiked_canballs_sprite_code:
 	PHB					;$B69EEA  \
 	PHK					;$B69EEB   |
 	PLB					;$B69EEC   |
@@ -3817,11 +3817,11 @@ CODE_B6A3CE:
 	STA $2E,x				;$B6A3D3   |
 	RTL					;$B6A3D5  /
 
-CODE_B6A3D6:
+krool_misc_sprite_code:
 	JSL CODE_B9D100				;$B6A3D6  \
 	JML [$05A9]				;$B6A3DA  /
 
-CODE_B6A3DD:
+krool_puddle_sprite_code:
 	LDA.l $0006A3				;$B6A3DD  \
 	BIT #$4000				;$B6A3E1   |
 	BEQ CODE_B6A3ED				;$B6A3E4   |
@@ -3879,7 +3879,7 @@ CODE_B6A43B:
 	LDA #!sprite_tied_up_donkey_kong	;$B6A44F   |
 	STA $00,x				;$B6A452   |
 	LDA $4E,x				;$B6A454   |
-	BNE CODE_B6A485				;$B6A456   |
+	BNE tied_up_donkey_kong_sprite_code	;$B6A456   |
 	INC $4E,x				;$B6A458   |
 	STX $075F				;$B6A45A   |
 	LDY #$011C				;$B6A45D   |
@@ -3896,7 +3896,7 @@ CODE_B6A43B:
 	LDA $0012,y				;$B6A47C   |
 	ORA #$4000				;$B6A47F   |
 	STA $0012,y				;$B6A482   |
-CODE_B6A485:					;	   |
+tied_up_donkey_kong_sprite_code:		;	   |
 	LDX current_sprite			;$B6A485   |
 	LDA $2E,x				;$B6A487   |
 	BEQ CODE_B6A492				;$B6A489   |
@@ -4225,7 +4225,7 @@ CODE_B6A721:					;	   |
 	STA $0AEC				;$B6A721   |
 	RTS					;$B6A724  /
 
-CODE_B6A725:
+defeated_krool_sprite_code:
 	JSR CODE_B6A701				;$B6A725  \
 	LDX current_sprite			;$B6A728   |
 	LDA $42,x				;$B6A72A   |
@@ -4309,7 +4309,7 @@ CODE_B6A7E5:					;	   |
 
 CODE_B6A7E8:
 	LDY $0654				;$B6A7E8  \
-	LDA #!sprite_unknown_0290		;$B6A7EB   |
+	LDA #!sprite_defeated_krool		;$B6A7EB   |
 	STA $0000,y				;$B6A7EE   |
 	LDA #$F500				;$B6A7F1   |
 	STA $0024,y				;$B6A7F4   |
@@ -4333,7 +4333,7 @@ CODE_B6A80A:					;	   |
 	JSL CODE_BB842C				;$B6A825   |
 	RTL					;$B6A829  /
 
-CODE_B6A82A:
+donkey_kong_rope_sprite_code:
 	LDX $075F				;$B6A82A  \
 	LDA $2E,x				;$B6A82D   |
 	BEQ CODE_B6A835				;$B6A82F   |
@@ -4365,7 +4365,7 @@ CODE_B6A853:					;	   |
 	JSL CODE_B9D09B				;$B6A872   |
 	RTL					;$B6A876  /
 
-CODE_B6A877:
+boss_splash_and_sparkle_sprite_code:
 	LDX current_sprite			;$B6A877  \
 	LDA $42,x				;$B6A879   |
 	JSL interpolate_x_velocity_global	;$B6A87B   |
@@ -8775,8 +8775,7 @@ CODE_B6D010:
 	STY $46,x				;$B6D02B   |
 	RTS					;$B6D02D  /
 
-;klubba
-CODE_B6D02E:
+klubba_sprite_code:
 	PHB					;$B6D02E  \
 	PHK					;$B6D02F   |
 	PLB					;$B6D030   |
@@ -8805,8 +8804,7 @@ CODE_B6D02E:
 	PLB					;$B6D06A   |
 	JML [$05A9]				;$B6D06B  /
 
-;klubba club
-CODE_B6D06E:
+klubbas_club_sprite_code:
 	PHB					;$B6D06E  \
 	PHK					;$B6D06F   |
 	PLB					;$B6D070   |
@@ -8921,30 +8919,30 @@ CODE_B6D171:
 	JMP (DATA_B6D177,x)			;$B6D174  /
 
 DATA_B6D177:
-	dw CODE_B6D1A1				;0000 kleever_main
-	dw CODE_B6DE34				;0002 kleever_fireballs_main
-	dw CODE_B6E0F3				;0004 dropping_hooks_main
-	dw CODE_B6E49E				;0006 kleever_canball_main
-	dw CODE_B6E79E				;0008 kleevers_hand_bubbles_main
-	dw CODE_B6E7A5				;000A kleever_hand_main
-	dw CODE_B6E97C				;000C kleever_falling_canball_main
-	dw CODE_B6E9DD				;000E kleever_attack_effect_main
-	dw CODE_B6E9E4				;0010 broken_kleever_hilt_main
-	dw CODE_B6EAA4				;0012 broken_kleever_fire_main
-	dw CODE_B6EAB8				;0014 kleever_bone_pieces_main
-	dw CODE_B6EAB8				;0016 unknown_sprite_0030_main
-	dw CODE_B6EAB8				;0018 kleever_pieces1_main
-	dw CODE_B6EAB8				;001A kleever_pieces2_main
-	dw CODE_B6EAB8				;001C kleever_pieces3_main
-	dw CODE_B6EAB8				;001E unknown_sprite_0040_main
-	dw CODE_B6EAB8				;0020 kleever_pieces4_main
-	dw CODE_B6EAB8				;0022 kleever_pieces5_main
-	dw CODE_B6ECF3				;0024 krows_egg_main
-	dw CODE_B6F571				;0026 krows_body_main
-	dw CODE_B6F7C3				;0028 krows_head_main
+	dw kleever_sprite_code			;0000 kleever_main
+	dw kleever_fireballs_sprite_code	;0002 kleever_fireballs_main
+	dw dropping_hooks_sprite_code		;0004 dropping_hooks_main
+	dw kleever_canball_sprite_code		;0006 kleever_canball_main
+	dw kleever_hand_bubbles_sprite_code	;0008 kleevers_hand_bubbles_main
+	dw kleever_hand_sprite_code		;000A kleever_hand_main
+	dw kleever_falling_canball_sprite_code	;000C kleever_falling_canball_main
+	dw kleever_attack_effect_sprite_code	;000E kleever_attack_effect_main
+	dw broken_kleever_hilt_sprite_code	;0010 broken_kleever_hilt_main
+	dw broken_kleever_fire_sprite_code	;0012 broken_kleever_fire_main
+	dw kleever_and_roof_pieces_sprite_code	;0014 kleever_bone_pieces_main
+	dw kleever_and_roof_pieces_sprite_code	;0016 unknown_sprite_0030_main
+	dw kleever_and_roof_pieces_sprite_code	;0018 kleever_pieces1_main
+	dw kleever_and_roof_pieces_sprite_code	;001A kleever_pieces2_main
+	dw kleever_and_roof_pieces_sprite_code	;001C kleever_pieces3_main
+	dw kleever_and_roof_pieces_sprite_code	;001E unknown_sprite_0040_main
+	dw kleever_and_roof_pieces_sprite_code	;0020 kleever_pieces4_main
+	dw kleever_and_roof_pieces_sprite_code	;0022 kleever_pieces5_main
+	dw krows_egg_sprite_code		;0024 krows_egg_main
+	dw krows_body_sprite_code		;0026 krows_body_main
+	dw krows_head_sprite_code		;0028 krows_head_main
 
 
-CODE_B6D1A1:
+kleever_sprite_code:
 	PHB					;$B6D1A1  \
 	PHK					;$B6D1A2   |
 	PLB					;$B6D1A3   |
@@ -10542,7 +10540,7 @@ CODE_B6DE2C:
 CODE_B6DE33:					;	   |
 	RTS					;$B6DE33  /
 
-CODE_B6DE34:
+kleever_fireballs_sprite_code:
 	JSL CODE_BBBB8D				;$B6DE34  \
 	BCC CODE_B6DE4C				;$B6DE38   |
 	LDA #$066C				;$B6DE3A   |
@@ -10919,7 +10917,7 @@ DATA_B6E0D9:
 	dw $05D0, $0238
 
 
-CODE_B6E0F3:
+dropping_hooks_sprite_code:
 	LDX current_sprite			;$B6E0F3  \
 	LDY $0654				;$B6E0F5   |
 	LDA level_number			;$B6E0F8   |
@@ -11351,7 +11349,7 @@ CODE_B6E489:
 CODE_B6E49D:					;	   |
 	RTS					;$B6E49D  /
 
-CODE_B6E49E:
+kleever_canball_sprite_code:
 	PHB					;$B6E49E  \
 	PHK					;$B6E49F   |
 	PLB					;$B6E4A0   |
@@ -11752,11 +11750,11 @@ CODE_B6E788:					;	   |
 	STA $09E9				;$B6E79A   |
 	RTS					;$B6E79D  /
 
-CODE_B6E79E:
+kleever_hand_bubbles_sprite_code:
 	JSL CODE_B9D100				;$B6E79E  \
 	JML [$05A9]				;$B6E7A2  /
 
-CODE_B6E7A5:
+kleever_hand_sprite_code:
 	PHB					;$B6E7A5  \
 	PHK					;$B6E7A6   |
 	PLB					;$B6E7A7   |
@@ -11940,7 +11938,7 @@ DATA_B6E8FC:
 	dw $0000, $FFFF
 DATA_B6E97C:
 
-CODE_B6E97C:
+kleever_falling_canball_sprite_code:
 	LDY current_sprite			;$B6E97C  \
 	LDA $0054,y				;$B6E97E   |
 	STA $8E					;$B6E981   |
@@ -11990,11 +11988,11 @@ CODE_B6E9D3:
 	JSL CODE_BB845D				;$B6E9D6   |
 	JML [$05A9]				;$B6E9DA  /
 
-CODE_B6E9DD:
+kleever_attack_effect_sprite_code:
 	JSL CODE_B9D100				;$B6E9DD  \
 	JML [$05A9]				;$B6E9E1  /
 
-CODE_B6E9E4:
+broken_kleever_hilt_sprite_code:
 	LDA.l $0006A3				;$B6E9E4  \
 	BIT #$0010				;$B6E9E8   |
 	BNE CODE_B6E9F0				;$B6E9EB   |
@@ -12083,7 +12081,7 @@ CODE_B6EA83:
 	STA $42,x				;$B6EAA1   |
 	RTS					;$B6EAA3  /
 
-CODE_B6EAA4:
+broken_kleever_fire_sprite_code:
 	LDA.l $0006A3				;$B6EAA4  \
 	BIT #$0010				;$B6EAA8   |
 	BEQ CODE_B6EAB5				;$B6EAAB   |
@@ -12093,7 +12091,7 @@ CODE_B6EAA4:
 CODE_B6EAB5:					;	   |
 	JML [$05A9]				;$B6EAB5  /
 
-CODE_B6EAB8:
+kleever_and_roof_pieces_sprite_code:
 	LDA.l $0006A3				;$B6EAB8  \
 	BIT #$0010				;$B6EABC   |
 	BNE CODE_B6EAC4				;$B6EABF   |
@@ -12400,7 +12398,7 @@ CODE_B6ECE4:
 	STA $002E,y				;$B6ECED   |
 	BRL CODE_B6F055				;$B6ECF0  /
 
-CODE_B6ECF3:
+krows_egg_sprite_code:
 	PHB					;$B6ECF3  \
 	PHK					;$B6ECF4   |
 	PLB					;$B6ECF5   |
@@ -13467,7 +13465,7 @@ CODE_B6F56D:					;	   |
 	STX current_sprite			;$B6F56E   |
 	RTS					;$B6F570  /
 
-CODE_B6F571:
+krows_body_sprite_code:
 	PHB					;$B6F571  \
 	PHK					;$B6F572   |
 	PLB					;$B6F573   |
@@ -13762,7 +13760,7 @@ CODE_B6F7AB:					;	   |
 CODE_B6F7C2:					;	   |
 	RTL					;$B6F7C2  /
 
-CODE_B6F7C3:
+krows_head_sprite_code:
 	LDA.l $000652				;$B6F7C3  \
 	BNE CODE_B6F7CC				;$B6F7C7   |
 	BRL CODE_B6F824				;$B6F7C9  /

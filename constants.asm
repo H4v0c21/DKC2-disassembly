@@ -622,11 +622,11 @@
 !sprite_unknown_0040			= $0040
 !sprite_kleever_pieces4			= $0044
 !sprite_kleever_pieces5			= $0048
-!sprite_unknown_004C			= $004C
+!sprite_kreepy_krow_sparkle		= $004C
 !sprite_unknown_0050			= $0050
-!sprite_unknown_0054			= $0054
+!sprite_krool_water_drips		= $0054
 !sprite_puftup_spikes			= $0058
-!sprite_krool_water_drips		= $005C
+!sprite_lilypad		                = $005C
 !sprite_barrel_pieces			= $0060
 !sprite_unknown_0064			= $0064
 !sprite_king_zing_spikes		= $0068
@@ -692,9 +692,9 @@
 !sprite_skull_cart			= $0158
 !sprite_coins				= $015C
 !sprite_level_goal			= $0160
-!sprite_unknown_0164			= $0164
-!sprite_unknown_0168			= $0168
-!sprite_unknown_016C			= $016C
+!sprite_level_goal_barrel		= $0164
+!sprite_level_goal_pole			= $0168
+!sprite_level_goal_prize		= $016C
 !sprite_bananas				= $0170
 !sprite_kong_letter			= $0174
 !sprite_extra_life_balloon		= $0178
@@ -767,7 +767,7 @@
 !sprite_donkey_kongs_bindings		= $0284
 !sprite_tied_up_donkey_kong		= $0288
 !sprite_shot_donkey_kong		= $028C
-!sprite_unknown_0290			= $0290
+!sprite_defeated_krool			= $0290
 !sprite_unknown_0294			= $0294
 !sprite_lava_splash			= $0298
 !sprite_krools_blinking_eyes		= $029C
@@ -778,7 +778,7 @@
 !sprite_kleever_broken_hilt		= $02B0
 !sprite_kleever_broken_fire		= $02B4
 !sprite_king_zing_stinger		= $02B8
-!sprite_unknown_02BC			= $02BC
+!sprite_king_zing_smoke_effect		= $02BC
 !sprite_king_zing_ring_zinger		= $02C0
 !sprite_kleever_attack_effect		= $02C4
 !sprite_kleever_hand			= $02C8
@@ -786,7 +786,7 @@
 !sprite_kleever_hand_bubbles		= $02D0
 !sprite_krockhead			= $02D4
 !sprite_horsetail			= $02D8
-!sprite_unknown_02DC			= $02DC
+!sprite_chest_or_swanky_prize		= $02DC
 !sprite_glimmer				= $02E0
 !sprite_kloak				= $02E4
 !sprite_unknown_02E8			= $02E8
