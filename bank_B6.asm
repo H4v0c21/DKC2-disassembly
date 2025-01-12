@@ -5848,7 +5848,7 @@ CODE_B6B9BB:					;	   |
 	LDA DATA_B6B98D,y			;$B6B9C2   |
 	TAY					;$B6B9C5   |
 	PLA					;$B6B9C6   |
-	JSL CODE_B4BD7C				;$B6B9C7   |
+	JSL divide_a_by_y			;$B6B9C7   |
 	LDA CPU.divide_result			;$B6B9CB   |
 	XBA					;$B6B9CE   |
 	AND #$FF00				;$B6B9CF   |
@@ -8982,7 +8982,7 @@ CODE_B6D1B4:
 	STA $28,x				;$B6D1EE   |
 	LDA #$0005				;$B6D1F0   |
 	STA $22,x				;$B6D1F3   |
-	LDY #$AB44				;$B6D1F5   |
+	LDY #DATA_BAAB44			;$B6D1F5   |
 	STY $4C,x				;$B6D1F8   |
 	JSR CODE_B6DB52				;$B6D1FA   |
 	STZ $44,x				;$B6D1FD   |
@@ -10062,7 +10062,7 @@ CODE_B6DAD6:
 	LDA $2E,x				;$B6DAD6  \
 	ORA #$0010				;$B6DAD8   |
 	STA $2E,x				;$B6DADB   |
-	LDA #$AB48				;$B6DADD   |
+	LDA #DATA_BAAB48			;$B6DADD   |
 	STA $4C,x				;$B6DAE0   |
 	LDY $42,x				;$B6DAE2   |
 	PHX					;$B6DAE4   |
@@ -10116,7 +10116,7 @@ CODE_B6DB36:
 	JSR CODE_B6DC9B				;$B6DB40   |
 	LDY $4C,x				;$B6DB43   |
 	JSR CODE_B6DB86				;$B6DB45   |
-	LDY #$AB44				;$B6DB48   |
+	LDY #DATA_BAAB44			;$B6DB48   |
 	STY $4C,x				;$B6DB4B   |
 	JSR CODE_B6DB52				;$B6DB4D   |
 	PLB					;$B6DB50   |
@@ -10281,7 +10281,7 @@ CODE_B6DC3F:
 	LDA $2E,x				;$B6DC49   |
 	AND #$FFF7				;$B6DC4B   |
 	STA $2E,x				;$B6DC4E   |
-	LDY #$AB44				;$B6DC50   |
+	LDY #DATA_BAAB44			;$B6DC50   |
 	STY $4C,x				;$B6DC53   |
 	JSR CODE_B6DB52				;$B6DC55   |
 CODE_B6DC58:					;	   |
@@ -10365,7 +10365,7 @@ CODE_B6DCBF:					;	   |
 	LDX alternate_sprite			;$B6DCE6   |
 	LDA #$C000				;$B6DCE8   |
 	STA $1C,x				;$B6DCEB   |
-	LDY #$AAE8				;$B6DCED   |
+	LDY #DATA_BAAAE8			;$B6DCED   |
 	STY $42,x				;$B6DCF0   |
 	JSR CODE_B6D923				;$B6DCF2   |
 	JSR CODE_B6EA83				;$B6DCF5   |
@@ -10399,10 +10399,10 @@ CODE_B6DD13:
 	LDY $0656				;$B6DD34   |
 	LDA #$0002				;$B6DD37   |
 	STA $0042,y				;$B6DD3A   |
-	LDA #$AABE				;$B6DD3D   |
+	LDA #DATA_BAAABE			;$B6DD3D   |
 	STA $0044,y				;$B6DD40   |
 	STA $0046,y				;$B6DD43   |
-	LDA #$AAE8				;$B6DD46   |
+	LDA #DATA_BAAAE8			;$B6DD46   |
 	STA $0048,y				;$B6DD49   |
 	BRA CODE_B6DD55				;$B6DD4C  /
 
@@ -11172,7 +11172,7 @@ CODE_B6E306:					;	   |
 	LDY $4C,x				;$B6E318   |
 	BEQ CODE_B6E327				;$B6E31A   |
 	JSR CODE_B6DB86				;$B6E31C   |
-	LDY #$AB48				;$B6E31F   |
+	LDY #DATA_BAAB48			;$B6E31F   |
 	STY $4C,x				;$B6E322   |
 	JSR CODE_B6DB52				;$B6E324   |
 CODE_B6E327:					;	   |

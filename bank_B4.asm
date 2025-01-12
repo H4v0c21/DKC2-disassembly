@@ -7253,11 +7253,11 @@ CODE_B4BD16:					;	   |
 
 CODE_B4BD57:
 	LDY #$000A				;$B4BD57  \
-	JSL CODE_B4BD7C				;$B4BD5A   |
+	JSL divide_a_by_y			;$B4BD5A   |
 	LDA CPU.divide_remainder		;$B4BD5E   |
 	STA $0000,x				;$B4BD61   |
 	LDA CPU.divide_result			;$B4BD64   |
-	JSL CODE_B4BD7C				;$B4BD67   |
+	JSL divide_a_by_y			;$B4BD67   |
 	SEP #$20				;$B4BD6B   |
 	LDA CPU.divide_remainder		;$B4BD6D   |
 	STA $0001,x				;$B4BD70   |
@@ -7266,7 +7266,7 @@ CODE_B4BD57:
 	REP #$20				;$B4BD79   |
 	RTS					;$B4BD7B  /
 
-CODE_B4BD7C:
+divide_a_by_y:
 	STA CPU.dividen				;$B4BD7C  \
 	STY CPU.divisor				;$B4BD7F   |
 	NOP					;$B4BD82   |
@@ -9364,126 +9364,126 @@ DATA_B4CF37:
 	db $00, $04, $00, $00
 
 DATA_B4CF4B:
-	db $0E : dw DATA_B4D0B3
-	db $0E : dw DATA_B4D0EA
-	db $0E : dw DATA_B4D128
-	db $0E : dw DATA_B4D151
-	db $0E : dw DATA_B4D184
-	db $0E : dw DATA_B4D1B1
-	db $0E : dw DATA_B4D1E6
-	db $0E : dw DATA_B4D218
-	db $0E : dw DATA_B4D23C
-	db $0E : dw DATA_B4D24D
-	db $0A : dw DATA_B4D28B
-	db $0E : dw DATA_B4D2BA
-	db $0E : dw DATA_B4D2F2
-	db $06 : dw DATA_B4D32D
-	db $10 : dw DATA_B4D363
-	db $08 : dw DATA_B4D38C
-	db $0E : dw DATA_B4D3CF
-	db $08 : dw DATA_B4D40C
-	db $0C : dw DATA_B4D44F
-	db $0E : dw DATA_B4D481
-	db $06 : dw DATA_B4D4BE
-	db $0E : dw DATA_B4D4F0
-	db $0A : dw DATA_B4D523
-	db $0E : dw DATA_B4D54E
-	db $04 : dw DATA_B4D587
-	db $0E : dw DATA_B4D5B5
-	db $10 : dw DATA_B4D5ED
-	db $0E : dw DATA_B4D620
-	db $0E : dw DATA_B4D64D
-	db $0E : dw DATA_B4D68A
-	db $0E : dw DATA_B4D6CD
-	db $0C : dw DATA_B4D706
-	db $0E : dw DATA_B4D738
-	db $0E : dw DATA_B4D771
-	db $10 : dw DATA_B4D7A3
-	db $0A : dw DATA_B4D7D6
-	db $06 : dw DATA_B4D805
-	db $04 : dw DATA_B4D83B
-	db $08 : dw DATA_B4D86D
-	db $0E : dw DATA_B4D8AC
-	db $0E : dw DATA_B4D8C1
-	db $04 : dw DATA_B4D8EF
-	db $0E : dw DATA_B4D921
-	db $0A : dw DATA_B4D94F
-	db $0E : dw DATA_B4D97A
-	db $08 : dw DATA_B4D9AD
-	db $0E : dw DATA_B4D9EC
-	db $0C : dw DATA_B4DA2E
-	db $00 : dw !null_pointer
-	db $06 : dw DATA_B4DA60
-	db $0E : dw DATA_B4DA96
-	db $10 : dw DATA_B4DAC4
-	db $0E : dw DATA_B4DAF2
-	db $04 : dw DATA_B4DB2A
-	db $0E : dw DATA_B4DB58
-	db $0A : dw DATA_B4DB88
-	db $0C : dw DATA_B4DBB7
-	db $0E : dw DATA_B4DBE9
-	db $0E : dw DATA_B4DC1B
-	db $0E : dw DATA_B4DC54
-	db $06 : dw DATA_B4DC91
-	db $08 : dw DATA_B4DCC3
-	db $00 : dw !null_pointer
-	db $0E : dw DATA_B4DD06
-	db $10 : dw DATA_B4DD34
-	db $0E : dw DATA_B4DD6F
-	db $0E : dw DATA_B4DD9C
-	db $04 : dw DATA_B4DDDE
-	db $0E : dw DATA_B4DE0C
-	db $0E : dw DATA_B4DE21
-	db $0E : dw DATA_B4DE57
-	db $0C : dw DATA_B4DE89
-	db $10 : dw DATA_B4DEBB
-	db $0E : dw DATA_B4DEEB
-	db $0E : dw DATA_B4DF21
-	db $0E : dw DATA_B4DF5F
-	db $04 : dw DATA_B4DF93
-	db $08 : dw DATA_B4DFC9
-	db $0E : dw DATA_B4E008
-	db $0E : dw DATA_B4E01D
-	db $0E : dw DATA_B4E032
-	db $0A : dw DATA_B4E067
-	db $0E : dw DATA_B4E096
-	db $06 : dw DATA_B4E0AB
-	db $0E : dw DATA_B4E0DD
-	db $0E : dw DATA_B4E0F2
-	db $0E : dw DATA_B4E107
-	db $0E : dw DATA_B4E11C
-	db $0E : dw DATA_B4E131
-	db $0E : dw DATA_B4E146
-	db $00 : dw !null_pointer
-	db $0E : dw DATA_B4E15B
-	db $0A : dw DATA_B4E197
-	db $10 : dw DATA_B4E1C2
-	db $0C : dw DATA_B4E1F0
-	db $04 : dw DATA_B4E23E
-	db $0E : dw DATA_B4E26C
-	db $10 : dw DATA_B4E29F
-	db $0C : dw DATA_B4E2CF
-	db $04 : dw DATA_B4E30C
-	db $0E : dw DATA_B4E33A
-	db $10 : dw DATA_B4E37B
-	db $0C : dw DATA_B4E3AB
-	db $04 : dw DATA_B4E3F1
-	db $0E : dw DATA_B4E41F
-	db $10 : dw DATA_B4E45A
-	db $0C : dw DATA_B4E48A
-	db $04 : dw DATA_B4E4CB
-	db $0E : dw DATA_B4E4F9
-	db $10 : dw DATA_B4E52F
-	db $0C : dw DATA_B4E55F
-	db $04 : dw DATA_B4E5A7
-	db $0E : dw DATA_B4E5D5
-	db $10 : dw DATA_B4E60D
-	db $0E : dw DATA_B4E63D
-	db $0E : dw DATA_B4E652
-	db $0E : dw DATA_B4E667
-	db $0E : dw DATA_B4E67C
-	db $0E : dw DATA_B4E691
-	db $06 : dw DATA_B4E6A6
+	db $0E : dw DATA_B4D0B3				;00
+	db $0E : dw DATA_B4D0EA				;01
+	db $0E : dw DATA_B4D128				;02
+	db $0E : dw DATA_B4D151				;03
+	db $0E : dw DATA_B4D184				;04
+	db $0E : dw DATA_B4D1B1				;05
+	db $0E : dw DATA_B4D1E6				;06
+	db $0E : dw DATA_B4D218				;07
+	db $0E : dw DATA_B4D23C				;08
+	db $0E : dw DATA_B4D24D				;09
+	db $0A : dw DATA_B4D28B				;0A
+	db $0E : dw DATA_B4D2BA				;0B
+	db $0E : dw DATA_B4D2F2				;0C
+	db $06 : dw DATA_B4D32D				;0D
+	db $10 : dw DATA_B4D363				;0E
+	db $08 : dw DATA_B4D38C				;0F
+	db $0E : dw DATA_B4D3CF				;10
+	db $08 : dw DATA_B4D40C				;11
+	db $0C : dw DATA_B4D44F				;12
+	db $0E : dw DATA_B4D481				;13
+	db $06 : dw DATA_B4D4BE				;14
+	db $0E : dw DATA_B4D4F0				;15
+	db $0A : dw DATA_B4D523				;16
+	db $0E : dw DATA_B4D54E				;17
+	db $04 : dw DATA_B4D587				;18
+	db $0E : dw DATA_B4D5B5				;19
+	db $10 : dw DATA_B4D5ED				;1A
+	db $0E : dw DATA_B4D620				;1B
+	db $0E : dw DATA_B4D64D				;1C
+	db $0E : dw DATA_B4D68A				;1D
+	db $0E : dw DATA_B4D6CD				;1E
+	db $0C : dw DATA_B4D706				;1F
+	db $0E : dw DATA_B4D738				;20
+	db $0E : dw DATA_B4D771				;21
+	db $10 : dw DATA_B4D7A3				;22
+	db $0A : dw DATA_B4D7D6				;23
+	db $06 : dw DATA_B4D805				;24
+	db $04 : dw DATA_B4D83B				;25
+	db $08 : dw DATA_B4D86D				;26
+	db $0E : dw DATA_B4D8AC				;27
+	db $0E : dw DATA_B4D8C1				;28
+	db $04 : dw DATA_B4D8EF				;29
+	db $0E : dw DATA_B4D921				;2A
+	db $0A : dw DATA_B4D94F				;2B
+	db $0E : dw DATA_B4D97A				;2C
+	db $08 : dw DATA_B4D9AD				;2D
+	db $0E : dw DATA_B4D9EC				;2E
+	db $0C : dw DATA_B4DA2E				;2F
+	db $00 : dw !null_pointer			;30
+	db $06 : dw DATA_B4DA60				;31
+	db $0E : dw DATA_B4DA96				;32
+	db $10 : dw DATA_B4DAC4				;33
+	db $0E : dw DATA_B4DAF2				;34
+	db $04 : dw DATA_B4DB2A				;35
+	db $0E : dw DATA_B4DB58				;36
+	db $0A : dw DATA_B4DB88				;37
+	db $0C : dw DATA_B4DBB7				;38
+	db $0E : dw DATA_B4DBE9				;39
+	db $0E : dw DATA_B4DC1B				;3A
+	db $0E : dw DATA_B4DC54				;3B
+	db $06 : dw DATA_B4DC91				;3C
+	db $08 : dw DATA_B4DCC3				;3D
+	db $00 : dw !null_pointer			;3E
+	db $0E : dw DATA_B4DD06				;3F
+	db $10 : dw DATA_B4DD34				;40
+	db $0E : dw DATA_B4DD6F				;41
+	db $0E : dw DATA_B4DD9C				;42
+	db $04 : dw DATA_B4DDDE				;43
+	db $0E : dw DATA_B4DE0C				;44
+	db $0E : dw DATA_B4DE21				;45
+	db $0E : dw DATA_B4DE57				;46
+	db $0C : dw DATA_B4DE89				;47
+	db $10 : dw DATA_B4DEBB				;48
+	db $0E : dw DATA_B4DEEB				;49
+	db $0E : dw DATA_B4DF21				;4A
+	db $0E : dw DATA_B4DF5F				;4B
+	db $04 : dw DATA_B4DF93				;4C
+	db $08 : dw DATA_B4DFC9				;4D
+	db $0E : dw DATA_B4E008				;4E
+	db $0E : dw DATA_B4E01D				;4F
+	db $0E : dw DATA_B4E032				;50
+	db $0A : dw DATA_B4E067				;51
+	db $0E : dw DATA_B4E096				;52
+	db $06 : dw DATA_B4E0AB				;53
+	db $0E : dw DATA_B4E0DD				;54
+	db $0E : dw DATA_B4E0F2				;55
+	db $0E : dw DATA_B4E107				;56
+	db $0E : dw DATA_B4E11C				;57
+	db $0E : dw DATA_B4E131				;58
+	db $0E : dw DATA_B4E146				;59
+	db $00 : dw !null_pointer			;5A
+	db $0E : dw DATA_B4E15B				;5B
+	db $0A : dw DATA_B4E197				;5C
+	db $10 : dw DATA_B4E1C2				;5D
+	db $0C : dw DATA_B4E1F0				;5E
+	db $04 : dw DATA_B4E23E				;5F
+	db $0E : dw DATA_B4E26C				;60
+	db $10 : dw DATA_B4E29F				;61
+	db $0C : dw DATA_B4E2CF				;62
+	db $04 : dw DATA_B4E30C				;63
+	db $0E : dw DATA_B4E33A				;64
+	db $10 : dw DATA_B4E37B				;65
+	db $0C : dw DATA_B4E3AB				;66
+	db $04 : dw DATA_B4E3F1				;67
+	db $0E : dw DATA_B4E41F				;68
+	db $10 : dw DATA_B4E45A				;69
+	db $0C : dw DATA_B4E48A				;6A
+	db $04 : dw DATA_B4E4CB				;6B
+	db $0E : dw DATA_B4E4F9				;6C
+	db $10 : dw DATA_B4E52F				;6D
+	db $0C : dw DATA_B4E55F				;6E
+	db $04 : dw DATA_B4E5A7				;6F
+	db $0E : dw DATA_B4E5D5				;70
+	db $10 : dw DATA_B4E60D				;71
+	db $0E : dw DATA_B4E63D				;72
+	db $0E : dw DATA_B4E652				;73
+	db $0E : dw DATA_B4E667				;74
+	db $0E : dw DATA_B4E67C				;75
+	db $0E : dw DATA_B4E691				;76
+	db $06 : dw DATA_B4E6A6				;77
 
 DATA_B4D0B3:
 	db $14, $00, $68, $01, $32, $04, $00 : dw .text

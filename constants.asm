@@ -365,6 +365,7 @@
 !music_bonus_3				= $0022
 !music_bonus_4				= $0023
 !music_secret_ending			= $0024
+!music_bonus_5				= $0025
 
 !level_web_woods_unused			= $0000
 !level_glimmers_galleon			= $0001

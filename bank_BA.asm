@@ -2165,8 +2165,6 @@ DATA_BAA39A:
 	dw $4000
 	dw $0221
 
-
-
 DATA_BAA3B0:
 	dw $0010
 
@@ -2516,36 +2514,72 @@ DATA_BAAA88:
 	dw $0100, $0000, $0100, $0000, $0909, $FC80, $1500, $004B, $FFF6
 	dw $0100, $0000, $0100, $0000, $0909, $FC80, $1500, $004B, $FFF6
 	
-	db $02, $01, $00, $01, $FF, $00, $FF, $01
-	db $FE, $01, $02, $01, $01, $00, $00, $01
-	db $00, $01, $FF, $00, $FF, $01, $FF, $02
-	db $02, $01, $00, $02, $02, $01, $FF, $01
-	db $02, $01, $FF, $00, $FE, $02, $01, $01
-	db $01, $01, $28, $00, $00, $FC, $00, $FC
-	db $04, $00, $03, $00, $20, $00, $40, $01
-	db $00, $04, $05, $00, $05, $00, $19, $00
-	db $F0, $04, $40, $04, $06, $00, $06, $00
-	db $2D, $00, $50, $01, $00, $FB, $06, $00
-	db $06, $00, $28, $00, $80, $FB, $00, $04
-	db $06, $00, $05, $00, $28, $00, $00, $02
-	db $00, $00, $06, $00, $04, $00, $21, $00
-	db $00, $03, $00, $FB, $06, $00, $06, $00
-	db $28, $00, $00, $FC, $00, $01, $06, $00
-	db $06, $00, $C8, $00, $80, $01, $50, $04
-	db $07, $00, $07, $00, $63, $00, $F6, $FF
-	db $D0, $FF, $F6, $FF, $D0, $FF, $00, $00
-	db $CE, $FF, $08, $00, $D0, $FF, $0F, $00
-	db $D3, $FF, $14, $00, $DC, $FF, $14, $00
-	db $DC, $FF, $14, $00, $DC, $FF, $14, $00
-	db $DC, $FF, $14, $00, $DC, $FF, $0F, $00
-	db $D3, $FF, $08, $00, $D0, $FF, $00, $00
-	db $CE, $FF, $F6, $FF, $D0, $FF, $F0, $FF
-	db $D3, $FF, $ED, $FF, $D5, $FF, $E9, $FF
-	db $D7, $FF, $ED, $FF, $D5, $FF, $F0, $FF
-	db $D3, $FF, $F6, $FF, $D0, $FF, $F6, $FF
-	db $D1, $FF, $FA, $FF, $D2, $FF, $00, $00
-	db $D4, $FF, $FA, $FF, $D2, $FF, $F6, $FF
-	db $D1, $FF
+;kleever shake offset related
+DATA_BAAABE:
+	db $02, $01
+	db $00, $01
+	db $FF, $00
+	db $FF, $01
+	db $FE, $01
+	db $02, $01
+	db $01, $00
+	db $00, $01
+	db $00, $01
+	db $FF, $00
+	db $FF, $01
+	db $FF, $02
+	db $02, $01
+	db $00, $02
+	db $02, $01
+	db $FF, $01
+	db $02, $01
+	db $FF, $00
+	db $FE, $02
+	db $01, $01
+	db $01, $01
+
+;kleever defeated related
+DATA_BAAAE8:
+	dw $0028, $FC00, $FC00, $0004, $0003
+	dw $0020, $0140, $0400, $0005, $0005
+	dw $0019, $04F0, $0440, $0006, $0006
+	dw $002D, $0150, $FB00, $0006, $0006
+	dw $0028, $FB80, $0400, $0006, $0005
+	dw $0028, $0200, $0000, $0006, $0004
+	dw $0021, $0300, $FB00, $0006, $0006
+	dw $0028, $FC00, $0100, $0006, $0006
+	dw $00C8, $0180, $0450, $0007, $0007
+
+	dw $0063
+
+;kleever shake offset related
+DATA_BAAB44:
+%offset(DATA_BAAB48, 4)
+	dw $FFF6, $FFD0
+	dw $FFF6, $FFD0
+	dw $0000, $FFCE
+	dw $0008, $FFD0
+	dw $000F, $FFD3
+	dw $0014, $FFDC
+	dw $0014, $FFDC
+	dw $0014, $FFDC
+	dw $0014, $FFDC
+	dw $0014, $FFDC
+	dw $000F, $FFD3
+	dw $0008, $FFD0
+	dw $0000, $FFCE
+	dw $FFF6, $FFD0
+	dw $FFF0, $FFD3
+	dw $FFED, $FFD5
+	dw $FFE9, $FFD7
+	dw $FFED, $FFD5
+	dw $FFF0, $FFD3
+	dw $FFF6, $FFD0
+	dw $FFF6, $FFD1
+	dw $FFFA, $FFD2
+	dw $0000, $FFD4
+	dw $FFFA, $FFD2
+	dw $FFF6, $FFD1
 
 ;king zing attack pattern pointers
 DATA_BAABA8:
@@ -2887,7 +2921,6 @@ DATA_BAB07E:
 	dw sparkle_sprite_code			;0C sparkle_main
 	dw kore_sparkle_sprite_code		;0E unknown_sprite_0050_main
 
-
 kore_sparkle_spawner_sprite_code:
 	PHK					;$BAB08E  \
 	PLB					;$BAB08F   |
@@ -2934,7 +2967,7 @@ CODE_BAB0BE:
 	JSL CODE_BB8412				;$BAB0E4   |
 	JSL CODE_B4C175				;$BAB0E8   |
 	LDY #$0020				;$BAB0EC   |
-	JSL CODE_B4BD7C				;$BAB0EF   |
+	JSL divide_a_by_y			;$BAB0EF   |
 	LDY alternate_sprite			;$BAB0F3   |
 	LDA #$01F0				;$BAB0F5   |
 	CLC					;$BAB0F8   |
@@ -2983,7 +3016,7 @@ sparkle_spawner_sprite_code:
 	JSL CODE_BB8412				;$BAB149   |
 	JSL CODE_B4C175				;$BAB14D   |
 	LDY #$001E				;$BAB151   |
-	JSL CODE_B4BD7C				;$BAB154   |
+	JSL divide_a_by_y			;$BAB154   |
 	LDX $0674				;$BAB158   |
 	LDY alternate_sprite			;$BAB15B   |
 	LDA $06,x				;$BAB15D   |
@@ -2995,7 +3028,7 @@ sparkle_spawner_sprite_code:
 	STA $0006,y				;$BAB16A   |
 	JSL CODE_B4C175				;$BAB16D   |
 	LDY #$001E				;$BAB171   |
-	JSL CODE_B4BD7C				;$BAB174   |
+	JSL divide_a_by_y			;$BAB174   |
 	LDY alternate_sprite			;$BAB178   |
 	LDA $0A,x				;$BAB17A   |
 	STA $0044,y				;$BAB17C   |
@@ -4006,7 +4039,7 @@ krool_fish_sprite_code:
 .continue_bounce_state:
 	JSL CODE_B4C175				;$BAC177  \ get RNG (A)
 	LDY #$00FF				;$BAC17B   |
-	JSL CODE_B4BD7C				;$BAC17E   | divide A by Y
+	JSL divide_a_by_y			;$BAC17E   |
 	LDA CPU.multiply_result			;$BAC182   |
 	STA $000650				;$BAC185   | store result
 	LDA #$FE80				;$BAC189   | load base Y velocity

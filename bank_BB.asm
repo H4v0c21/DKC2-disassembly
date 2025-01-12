@@ -2981,7 +2981,7 @@ CODE_BB938B:
 	LDA level_number			;$BB938B  \
 	CMP #!level_animal_antics_rambi_area	;$BB938D   |
 	BNE CODE_BB939B				;$BB9390   |
-	LDA #$009B				;$BB9392   |
+	LDA #!level_animal_antics_squitter_area	;$BB9392   |
 	CMP $08AC				;$BB9395   |
 	BEQ CODE_BB93A2				;$BB9398   |
 CODE_BB939A:					;	   |
@@ -3147,32 +3147,212 @@ CODE_BB94B6:
 	RTS					;$BB94C3  /
 
 DATA_BB94C4:
-	db $00, $00, $00, $00, $00, $00, $00, $00
-	db $00, $00, $00, $00, $00, $00, $00, $00
-	db $00, $00, $00, $00, $00, $00, $00, $00
-	db $00, $00, $0F, $00, $22, $25, $00, $00
-	db $00, $21, $00, $00, $00, $00, $00, $00
-	db $00, $00, $00, $00, $00, $00, $00, $00
-	db $00, $00, $00, $00, $00, $00, $00, $00
-	db $00, $00, $00, $00, $00, $00, $00, $00
-	db $00, $00, $00, $00, $00, $00, $00, $00
-	db $00, $00, $00, $00, $00, $00, $00, $00
-	db $00, $00, $00, $00, $00, $00, $00, $00
-	db $00, $00, $00, $00, $00, $00, $00, $00
-	db $21, $00, $00, $00, $00, $00, $00, $00
-	db $00, $00, $00, $00, $00, $00, $00, $25
-	db $25, $25, $25, $25, $22, $22, $22, $22
-	db $00, $00, $00, $00, $00, $00, $00, $00
-	db $00, $23, $23, $23, $23, $00, $00, $00
-	db $00, $00, $00, $00, $00, $00, $00, $00
-	db $00, $23, $23, $23, $23, $23, $00, $00
-	db $00, $00, $00, $00, $00, $00, $00, $00
-	db $00, $00, $00, $00, $00, $00, $00, $00
-	db $00, $00, $00, $00, $00, $00, $00, $00
-	db $00, $00, $00, $00, $00, $00, $00, $00
-	db $00, $13, $00, $00, $00, $20, $00, $00
-	db $20, $20, $20, $20, $00, $00, $00, $00
-	db $00, $00, $00, $00, $00, $00
+	db !music_null				;00
+	db !music_null				;01
+	db !music_null				;02
+	db !music_null				;03
+	db !music_null				;04
+	db !music_null				;05
+	db !music_null				;06
+	db !music_null				;07
+	db !music_null				;08
+	db !music_null				;09
+	db !music_null				;0A
+	db !music_null				;0B
+	db !music_null				;0C
+	db !music_null				;0D
+	db !music_null				;0E
+	db !music_null				;0F
+	db !music_null				;10
+	db !music_null				;11
+	db !music_null				;12
+	db !music_null				;13
+	db !music_null				;14
+	db !music_null				;15
+	db !music_null				;16
+	db !music_null				;17
+	db !music_null				;18
+	db !music_null				;19
+	db !music_bonus				;1A
+	db !music_null				;1B
+	db !music_bonus_3			;1C
+	db !music_bonus_5			;1D
+	db !music_null				;1E
+	db !music_null				;1F
+	db !music_null				;20
+	db !music_big_boss_2			;21
+	db !music_null				;22
+	db !music_null				;23
+	db !music_null				;24
+	db !music_null				;25
+	db !music_null				;26
+	db !music_null				;27
+	db !music_null				;28
+	db !music_null				;29
+	db !music_null				;2A
+	db !music_null				;2B
+	db !music_null				;2C
+	db !music_null				;2D
+	db !music_null				;2E
+	db !music_null				;2F
+	db !music_null				;30
+	db !music_null				;31
+	db !music_null				;32
+	db !music_null				;33
+	db !music_null				;34
+	db !music_null				;35
+	db !music_null				;36
+	db !music_null				;37
+	db !music_null				;38
+	db !music_null				;39
+	db !music_null				;3A
+	db !music_null				;3B
+	db !music_null				;3C
+	db !music_null				;3D
+	db !music_null				;3E
+	db !music_null				;3F
+	db !music_null				;40
+	db !music_null				;41
+	db !music_null				;42
+	db !music_null				;43
+	db !music_null				;44
+	db !music_null				;45
+	db !music_null				;46
+	db !music_null				;47
+	db !music_null				;48
+	db !music_null				;49
+	db !music_null				;4A
+	db !music_null				;4B
+	db !music_null				;4C
+	db !music_null				;4D
+	db !music_null				;4E
+	db !music_null				;4F
+	db !music_null				;50
+	db !music_null				;51
+	db !music_null				;52
+	db !music_null				;53
+	db !music_null				;54
+	db !music_null				;55
+	db !music_null				;56
+	db !music_null				;57
+	db !music_null				;58
+	db !music_null				;59
+	db !music_null				;5A
+	db !music_null				;5B
+	db !music_null				;5C
+	db !music_null				;5D
+	db !music_null				;5E
+	db !music_null				;5F
+	db !music_big_boss_2			;60
+	db !music_null				;61
+	db !music_null				;62
+	db !music_null				;63
+	db !music_null				;64
+	db !music_null				;65
+	db !music_null				;66
+	db !music_null				;67
+	db !music_null				;68
+	db !music_null				;69
+	db !music_null				;6A
+	db !music_null				;6B
+	db !music_null				;6C
+	db !music_null				;6D
+	db !music_null				;6E
+	db !music_bonus_5			;6F
+	db !music_bonus_5			;70
+	db !music_bonus_5			;71
+	db !music_bonus_5			;72
+	db !music_bonus_5			;73
+	db !music_bonus_3			;74
+	db !music_bonus_3			;75
+	db !music_bonus_3			;76
+	db !music_bonus_3			;77
+	db !music_null				;78
+	db !music_null				;79
+	db !music_null				;7A
+	db !music_null				;7B
+	db !music_null				;7C
+	db !music_null				;7D
+	db !music_null				;7E
+	db !music_null				;7F
+	db !music_null				;80
+	db !music_bonus_4			;81
+	db !music_bonus_4			;82
+	db !music_bonus_4			;83
+	db !music_bonus_4			;84
+	db !music_null				;85
+	db !music_null				;86
+	db !music_null				;87
+	db !music_null				;88
+	db !music_null				;89
+	db !music_null				;8A
+	db !music_null				;8B
+	db !music_null				;8C
+	db !music_null				;8D
+	db !music_null				;8E
+	db !music_null				;8F
+	db !music_null				;90
+	db !music_bonus_4			;91
+	db !music_bonus_4			;92
+	db !music_bonus_4			;93
+	db !music_bonus_4			;94
+	db !music_bonus_4			;95
+	db !music_null				;96
+	db !music_null				;97
+	db !music_null				;98
+	db !music_null				;99
+	db !music_null				;9A
+	db !music_null				;9B
+	db !music_null				;9C
+	db !music_null				;9D
+	db !music_null				;9E
+	db !music_null				;9F
+	db !music_null				;A0
+	db !music_null				;A1
+	db !music_null				;A2
+	db !music_null				;A3
+	db !music_null				;A4
+	db !music_null				;A5
+	db !music_null				;A6
+	db !music_null				;A7
+	db !music_null				;A8
+	db !music_null				;A9
+	db !music_null				;AA
+	db !music_null				;AB
+	db !music_null				;AC
+	db !music_null				;AD
+	db !music_null				;AE
+	db !music_null				;AF
+	db !music_null				;B0
+	db !music_null				;B1
+	db !music_null				;B2
+	db !music_null				;B3
+	db !music_null				;B4
+	db !music_null				;B5
+	db !music_null				;B6
+	db !music_null				;B7
+	db !music_null				;B8
+	db !music_rescue_kong			;B9
+	db !music_null				;BA
+	db !music_null				;BB
+	db !music_null				;BC
+	db !music_bonus_2			;BD
+	db !music_null				;BE
+	db !music_null				;BF
+	db !music_bonus_2			;C0
+	db !music_bonus_2			;C1
+	db !music_bonus_2			;C2
+	db !music_bonus_2			;C3
+	db !music_null				;C4
+	db !music_null				;C5
+	db !music_null				;C6
+	db !music_null				;C7
+	db !music_null				;C8
+	db !music_null				;C9
+	db !music_null				;CA
+	db !music_null				;CB
+	db !music_null				;CC
+	db !music_null				;CD
 
 DATA_BB9592:
 	dw CODE_BB9788
@@ -5555,19 +5735,19 @@ CODE_BBAF0F:					;	   |
 	INY					;$BBAF2B   |
 	INY					;$BBAF2C   |
 	STA $00,x				;$BBAF2D   |
-	CMP #$0000				;$BBAF2F   |
+	CMP #!normal_level_type			;$BBAF2F   |
 	BEQ CODE_BBAF65				;$BBAF32   |
-	CMP #$0001				;$BBAF34   |
+	CMP #!bonus_level_type			;$BBAF34   |
 	BEQ CODE_BBAF58				;$BBAF37   |
-	CMP #$0002				;$BBAF39   |
+	CMP #!small_level_type			;$BBAF39   |
 	BEQ CODE_BBAF65				;$BBAF3C   |
-	CMP #$0003				;$BBAF3E   |
+	CMP #!boss_level_type			;$BBAF3E   |
 	BEQ CODE_BBAF65				;$BBAF41   |
-	CMP #$0004				;$BBAF43   |
+	CMP #!npc_level_type			;$BBAF43   |
 	BEQ CODE_BBAF55				;$BBAF46   |
-	CMP #$0005				;$BBAF48   |
+	CMP #!map_level_type			;$BBAF48   |
 	BEQ CODE_BBAF55				;$BBAF4B   |
-	CMP #$0006				;$BBAF4D   |
+	CMP #!sub_level_type			;$BBAF4D   |
 	BEQ CODE_BBAF65				;$BBAF50   |
 CODE_BBAF52:					;	   |
 	PLB					;$BBAF52   |
@@ -8574,7 +8754,11 @@ validate_save_file:				;	  \
 	RTL					;$BBC576  / Return the good news
 
 .invalid_file
+if !override_save_validation == 1
+	SEC
+else
 	CLC					;$BBC577  \ Mark carry clear to indicate invalid file
+endif
 	RTL					;$BBC578  / Return with a sad story
 
 .sram_file_offsets_low

@@ -2098,47 +2098,46 @@ sample_table:
 
 song_data:
 	%offset(song_sample_maps, 3)
-	dl null_song_data, null_sample_map
-	dl island_map_song_data, island_map_sample_map
-	dl main_theme_song_data, main_theme_sample_map
-	dl swamp_song_data, swamp_sample_map
-	dl swanky_song_data, swanky_sample_map
-	dl forest_song_data, forest_sample_map
-	dl ship_deck_song_data, ship_deck_sample_map
-	dl mine_song_data, mine_sample_map
-	dl funky_song_data, funky_sample_map
-	dl brambles_song_data, brambles_sample_map
-	dl klubba_song_data, klubba_sample_map
-	dl wasp_hive_song_data, wasp_hive_sample_map
-	dl wrinkly_song_data, wrinkly_sample_map
-	dl lava_song_data, lava_sample_map
-	dl roller_coaster_song_data, roller_coaster_sample_map
-	dl bonus_song_data, bonus_sample_map
-	dl ship_hold_song_data, ship_hold_sample_map
-	dl fanfare_song_data, fanfare_sample_map
-	dl ship_deck_2_song_data, ship_deck_2_sample_map
-	dl rescue_kong_song_data, rescue_kong_sample_map
-	dl game_over_song_data, game_over_sample_map
-	dl big_boss_song_data, big_boss_sample_map
-	dl castle_song_data, castle_sample_map
-	dl haunted_song_data, haunted_sample_map
-	dl file_select_song_data, file_select_sample_map
-	dl cranky_song_data, cranky_sample_map
-	dl ice_song_data, ice_sample_map
-	dl jungle_song_data, jungle_sample_map
-	dl lost_world_song_data, lost_world_sample_map
-	dl rigging_song_data, rigging_sample_map
-	dl credits_song_data, credits_sample_map
-	dl k_rool_song_data, k_rool_sample_map
-	dl bonus_song_data, bonus_sample_map_2
-	dl big_boss_song_data, big_boss_sample_map_2
-	dl bonus_song_data, bonus_sample_map
-	dl bonus_song_data, bonus_sample_map_3
-	dl secret_ending_song_data, secret_ending_sample_map
-	dl bonus_song_data, bonus_sample_map_4
-	dl DATA_F2E728, DATA_EE1935
-	dl DATA_F2E72C, DATA_EE1937
-
+	dl null_song_data, null_sample_map			;00
+	dl island_map_song_data, island_map_sample_map		;01
+	dl main_theme_song_data, main_theme_sample_map		;02
+	dl swamp_song_data, swamp_sample_map			;03
+	dl swanky_song_data, swanky_sample_map			;04
+	dl forest_song_data, forest_sample_map			;05
+	dl ship_deck_song_data, ship_deck_sample_map		;06
+	dl mine_song_data, mine_sample_map			;07
+	dl funky_song_data, funky_sample_map			;08
+	dl brambles_song_data, brambles_sample_map		;09
+	dl klubba_song_data, klubba_sample_map			;0A
+	dl wasp_hive_song_data, wasp_hive_sample_map		;0B
+	dl wrinkly_song_data, wrinkly_sample_map		;0C
+	dl lava_song_data, lava_sample_map			;0D
+	dl roller_coaster_song_data, roller_coaster_sample_map	;0E
+	dl bonus_song_data, bonus_sample_map			;0F
+	dl ship_hold_song_data, ship_hold_sample_map		;10
+	dl fanfare_song_data, fanfare_sample_map		;11
+	dl ship_deck_2_song_data, ship_deck_2_sample_map	;12
+	dl rescue_kong_song_data, rescue_kong_sample_map	;13
+	dl game_over_song_data, game_over_sample_map		;14
+	dl big_boss_song_data, big_boss_sample_map		;15
+	dl castle_song_data, castle_sample_map			;16
+	dl haunted_song_data, haunted_sample_map		;17
+	dl file_select_song_data, file_select_sample_map	;18
+	dl cranky_song_data, cranky_sample_map			;19
+	dl ice_song_data, ice_sample_map			;1A
+	dl jungle_song_data, jungle_sample_map			;1B
+	dl lost_world_song_data, lost_world_sample_map		;1C
+	dl rigging_song_data, rigging_sample_map		;1D
+	dl credits_song_data, credits_sample_map		;1E
+	dl k_rool_song_data, k_rool_sample_map			;1F
+	dl bonus_song_data, bonus_sample_map_2			;20
+	dl big_boss_song_data, big_boss_sample_map_2		;21
+	dl bonus_song_data, bonus_sample_map			;22
+	dl bonus_song_data, bonus_sample_map_3			;23
+	dl secret_ending_song_data, secret_ending_sample_map	;24
+	dl bonus_song_data, bonus_sample_map_4			;25
+	dl DATA_F2E728, DATA_EE1935				;26
+	dl DATA_F2E72C, DATA_EE1937				;27
 	db $00, $00, $00
 
 DATA_EE1179:
@@ -2146,47 +2145,47 @@ DATA_EE1179:
 
 DATA_EE117B:
 	%offset(DATA_EE117D, 2)
-	dl dummy_sfx_data				;00
-	dl dummy_sfx_data				;01
-	dl dummy_sfx_data				;02
-	dl swamp_forest_mine_brambles_hive_sfx_data	;03
-	dl swamp_forest_mine_brambles_hive_sfx_data	;04
-	dl swamp_forest_mine_brambles_hive_sfx_data	;05
-	dl ship_ice_ending_sfx_data			;06
-	dl swamp_forest_mine_brambles_hive_sfx_data	;07
-	dl dummy_sfx_data				;08
-	dl swamp_forest_mine_brambles_hive_sfx_data	;09
-	dl boss_1_sfx_data				;0A
-	dl swamp_forest_mine_brambles_hive_sfx_data	;0B
-	dl dummy_sfx_data				;0C
-	dl lava_castle_boss_2_sfx_data			;0D
-	dl roller_coaster_sfx_data			;0E
-	dl swamp_forest_mine_brambles_hive_sfx_data	;0F
-	dl ship_ice_ending_sfx_data			;10
-	dl dummy_sfx_data				;11
-	dl ship_ice_ending_sfx_data			;12
-	dl boss_1_sfx_data				;13
-	dl dummy_sfx_data				;14
-	dl boss_1_sfx_data				;15
-	dl lava_castle_boss_2_sfx_data			;16
-	dl roller_coaster_sfx_data			;17
-	dl dummy_sfx_data				;18
-	dl dummy_sfx_data				;19
-	dl ship_ice_ending_sfx_data			;1A
-	dl jungle_sfx_data				;1B
-	dl dummy_sfx_data				;1C
-	dl ship_ice_ending_sfx_data			;1D
-	dl ship_ice_ending_sfx_data			;1E
-	dl boss_1_sfx_data				;1F
-	dl roller_coaster_sfx_data			;20
-	dl lava_castle_boss_2_sfx_data			;21
-	dl lava_castle_boss_2_sfx_data			;22
-	dl ship_ice_ending_sfx_data			;23
-	dl ship_ice_ending_sfx_data			;24
-	dl ship_ice_ending_sfx_data			;25
-	dl dummy_sfx_data				;26
-	dl dummy_sfx_data				;27
-	dl dummy_sfx_data				;28
+	dl dummy_sfx_data					;00
+	dl dummy_sfx_data					;01
+	dl dummy_sfx_data					;02
+	dl swamp_forest_mine_brambles_hive_sfx_data		;03
+	dl swamp_forest_mine_brambles_hive_sfx_data		;04
+	dl swamp_forest_mine_brambles_hive_sfx_data		;05
+	dl ship_ice_ending_sfx_data				;06
+	dl swamp_forest_mine_brambles_hive_sfx_data		;07
+	dl dummy_sfx_data					;08
+	dl swamp_forest_mine_brambles_hive_sfx_data		;09
+	dl boss_1_sfx_data					;0A
+	dl swamp_forest_mine_brambles_hive_sfx_data		;0B
+	dl dummy_sfx_data					;0C
+	dl lava_castle_boss_2_sfx_data				;0D
+	dl roller_coaster_sfx_data				;0E
+	dl swamp_forest_mine_brambles_hive_sfx_data		;0F
+	dl ship_ice_ending_sfx_data				;10
+	dl dummy_sfx_data					;11
+	dl ship_ice_ending_sfx_data				;12
+	dl boss_1_sfx_data					;13
+	dl dummy_sfx_data					;14
+	dl boss_1_sfx_data					;15
+	dl lava_castle_boss_2_sfx_data				;16
+	dl roller_coaster_sfx_data				;17
+	dl dummy_sfx_data					;18
+	dl dummy_sfx_data					;19
+	dl ship_ice_ending_sfx_data				;1A
+	dl jungle_sfx_data					;1B
+	dl dummy_sfx_data					;1C
+	dl ship_ice_ending_sfx_data				;1D
+	dl ship_ice_ending_sfx_data				;1E
+	dl boss_1_sfx_data					;1F
+	dl roller_coaster_sfx_data				;20
+	dl lava_castle_boss_2_sfx_data				;21
+	dl lava_castle_boss_2_sfx_data				;22
+	dl ship_ice_ending_sfx_data				;23
+	dl ship_ice_ending_sfx_data				;24
+	dl ship_ice_ending_sfx_data				;25
+	dl dummy_sfx_data					;26
+	dl dummy_sfx_data					;27
+	dl dummy_sfx_data					;28
 
 DATA_EE11F6:
 	db $00, $00, $00

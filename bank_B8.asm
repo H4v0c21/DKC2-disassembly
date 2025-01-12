@@ -495,21 +495,21 @@ CODE_B883D5:
 	BEQ CODE_B8841B				;$B883E6   |
 	BRA CODE_B88414				;$B883E8  /
 
-	CMP #$0012				;$B883EA   |
+	CMP #!music_ship_deck_2			;$B883EA   |
 	BEQ CODE_B88414				;$B883ED   |
-	CMP #$001D				;$B883EF   |
+	CMP #!music_rigging			;$B883EF   |
 	BEQ CODE_B88414				;$B883F2   |
-	CMP #$0006				;$B883F4   |
+	CMP #!music_ship_deck			;$B883F4   |
 	BEQ CODE_B88414				;$B883F7   |
-	CMP #$0010				;$B883F9   |
+	CMP #!music_ship_hold			;$B883F9   |
 	BEQ CODE_B88414				;$B883FC   |
-	CMP #$000D				;$B883FE   |
+	CMP #!music_lava			;$B883FE   |
 	BEQ CODE_B88414				;$B88401   |
-	CMP #$0003				;$B88403   |
+	CMP #!music_swamp			;$B88403   |
 	BEQ CODE_B88414				;$B88406   |
-	CMP #$0005				;$B88408   |
+	CMP #!music_forest			;$B88408   |
 	BEQ CODE_B88414				;$B8840B   |
-	CMP #$0007				;$B8840D   |
+	CMP #!music_mine			;$B8840D   |
 	BEQ CODE_B88414				;$B88410   |
 	BRA CODE_B8841B				;$B88412  /
 
