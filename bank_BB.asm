@@ -226,7 +226,7 @@ is_krem_coin_collected:				;	   |
 	SEC					;$BB8123  \
 	RTL					;$BB8124  /
 
-CODE_BB8125:
+set_this_level_kremcoin_collected:
 	LDA level_number			;$BB8125  \
 	JSR get_complete_bit_for_level		;$BB8127   |
 	LDA.l $7E59B2,x				;$BB812A   |
@@ -383,7 +383,7 @@ CODE_BB8241:					;	   |
 	RTL					;$BB824A  /
 
 CODE_BB824B:
-	JSL CODE_BB825C				;$BB824B  \
+	JSL is_current_level_cleared		;$BB824B  \
 	BCC CODE_BB8259				;$BB824F   |
 	TYA					;$BB8251   |
 	CLC					;$BB8252   |
@@ -393,7 +393,7 @@ CODE_BB8259:					;	   |
 	RTS					;$BB8259  /
 
 	LDA level_number			;$BB825A   |
-CODE_BB825C:					;	   |
+is_current_level_cleared:			;	   |
 	JSR get_complete_bit_for_level		;$BB825C   |
 	LDA.l $7E59F2,x				;$BB825F   |
 	AND $60					;$BB8263   |

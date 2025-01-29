@@ -314,7 +314,7 @@ CODE_B8824D:
 
 CODE_B88262:
 	LDA #$0027				;$B88262  \
-	JML CODE_B8D8BA				;$B88265  /
+	JML set_player_interaction_global	;$B88265  /
 
 CODE_B88269:
 if !version == 1				;	  \
@@ -3547,7 +3547,7 @@ CODE_B89CCD:
 	LDY #$0036				;$B89CDB   |
 	JSL CODE_BB842C				;$B89CDE   |
 	LDA #$0023				;$B89CE2   |
-	JSL CODE_B8D8BA				;$B89CE5   |
+	JSL set_player_interaction_global	;$B89CE5   |
 	SEC					;$B89CE9   |
 	RTS					;$B89CEA  /
 
@@ -4087,7 +4087,7 @@ if !version == 1				;	   |
 	CMP #$0001				;$B8A0AA   |
 	BNE CODE_B8A0B9				;$B8A0AD   |
 	LDA #$0020				;$B8A0AF   |
-	JSL CODE_B8D8BA				;$B8A0B2   |
+	JSL set_player_interaction_global	;$B8A0B2   |
 	JMP CODE_B89979				;$B8A0B6  /
 endif
 
@@ -5336,7 +5336,7 @@ kong_behavior_40:
 
 CODE_B8AA6D:
 	LDA #$0005				;$B8AA6D  \
-	JSL CODE_B8D8BA				;$B8AA70   |
+	JSL set_player_interaction_global	;$B8AA70   |
 	JMP CODE_B89979				;$B8AA74  /
 
 kong_behavior_41:
@@ -6718,7 +6718,7 @@ CODE_B8B56E:					;	   |
 	LDY #$0036				;$B8B575   |
 	JSL CODE_BB842C				;$B8B578   |
 	LDA #$0023				;$B8B57C   |
-	JSL CODE_B8D8BA				;$B8B57F   |
+	JSL set_player_interaction_global	;$B8B57F   |
 	RTS					;$B8B583  /
 
 CODE_B8B584:
@@ -6738,13 +6738,13 @@ CODE_B8B597:					;	   |
 	CMP #$0001				;$B8B59A   |
 	BEQ CODE_B8B5A7				;$B8B59D   |
 	LDA #$0029				;$B8B59F   |
-	JSL CODE_B8D8BA				;$B8B5A2   |
+	JSL set_player_interaction_global	;$B8B5A2   |
 CODE_B8B5A6:					;	   |
 	RTS					;$B8B5A6  /
 
 CODE_B8B5A7:
 	LDA #$0028				;$B8B5A7  \
-	JSL CODE_B8D8BA				;$B8B5AA   |
+	JSL set_player_interaction_global	;$B8B5AA   |
 	LDX current_sprite			;$B8B5AE   |
 	LDA #$0003				;$B8B5B0   |
 	STA $0A36				;$B8B5B3   |
@@ -6821,7 +6821,7 @@ CODE_B8B62D:
 	LDY #$0036				;$B8B62D  \
 	JSL CODE_BB842C				;$B8B630   |
 	LDA #$0023				;$B8B634   |
-	JSL CODE_B8D8BA				;$B8B637   |
+	JSL set_player_interaction_global	;$B8B637   |
 	LDA #$066D				;$B8B63B   |
 	JSL queue_sound_effect			;$B8B63E   |
 	SEC					;$B8B642   |
@@ -6980,7 +6980,7 @@ CODE_B8B72A:
 	BCC CODE_B8B750				;$B8B733   |
 	BNE CODE_B8B77B				;$B8B735   |
 	LDA #$0012				;$B8B737   |
-	JSL CODE_B8D8BA				;$B8B73A   |
+	JSL set_player_interaction_global	;$B8B73A   |
 	BCS CODE_B8B729				;$B8B73E   |
 	STZ $0A86				;$B8B740   |
 	LDA $AE					;$B8B743   |
@@ -7006,7 +7006,7 @@ CODE_B8B750:
 	CMP #$0014				;$B8B762   |
 	BPL CODE_B8B729				;$B8B765   |
 	LDA #$0012				;$B8B767   |
-	JSL CODE_B8D8BA				;$B8B76A   |
+	JSL set_player_interaction_global	;$B8B76A   |
 	BCS CODE_B8B729				;$B8B76E   |
 	LDA $5E					;$B8B770   |
 	STA $0A86				;$B8B772   |
@@ -7020,7 +7020,7 @@ CODE_B8B77B:
 	CMP #$006E				;$B8B77F   |
 	BEQ CODE_B8B792				;$B8B782   |
 	LDA #$0011				;$B8B784   |
-	JSL CODE_B8D8BA				;$B8B787   |
+	JSL set_player_interaction_global	;$B8B787   |
 	BCS CODE_B8B792				;$B8B78B   |
 	LDA $5E					;$B8B78D   |
 	STA $0A86				;$B8B78F   |
@@ -12030,7 +12030,7 @@ CODE_B8D8A6:
 CODE_B8D8B9:					;	   |
 	RTS					;$B8D8B9  /
 
-CODE_B8D8BA:
+set_player_interaction_global:
 	JSR set_player_interaction		;$B8D8BA  \
 	RTL					;$B8D8BD  /
 

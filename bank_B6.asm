@@ -236,7 +236,7 @@ CODE_B681C7:					;	   |
 	BEQ CODE_B681FE				;$B681E4   |
 	STZ $074D				;$B681E6   |
 	LDA #$000B				;$B681E9   |
-	JSL CODE_B8D8BA				;$B681EC   |
+	JSL set_player_interaction_global	;$B681EC   |
 	BCS CODE_B681FE				;$B681F0   |
 	LDA.l $000652				;$B681F2   |
 	ASL A					;$B681F6   |
@@ -518,7 +518,7 @@ CODE_B68446:					;	   |
 	BNE CODE_B68488				;$B68459   |
 	JSR CODE_B6800D				;$B6845B   |
 	LDA #$0026				;$B6845E   |
-	JSL CODE_B8D8BA				;$B68461   |
+	JSL set_player_interaction_global	;$B68461   |
 	BCS CODE_B68488				;$B68465   |
 	LDX $0654				;$B68467   |
 	LDA $12,x				;$B6846A   |
@@ -938,7 +938,8 @@ CODE_B68AFA:					;	   |
 	RTS					;$B68AFA  /
 
 
-;particle sprite spawning data for Krocodile Kore when K. Rool is defeated
+;Particle sprite spawning data for when Kudgel or Krocodile Kore K.rool are defeated
+
 
 ;0000	current x velocity
 ;0002	target x velocity
@@ -1071,7 +1072,7 @@ CODE_B68C6B:
 	BNE CODE_B68C81				;$B68C74   |
 	JSL set_current_level_as_cleared	;$B68C76   |
 	LDA #$0027				;$B68C7A   |
-	JSL CODE_B8D8BA				;$B68C7D   |
+	JSL set_player_interaction_global	;$B68C7D   |
 CODE_B68C81:					;	   |
 	RTS					;$B68C81  /
 
@@ -1533,6 +1534,8 @@ CODE_B69043:
 	JSL CODE_B9D09B				;$B69058   |
 	RTL					;$B6905C  /
 
+
+;krool related?
 DATA_B6905D:
 %offset(DATA_B6905F, 2)
 	dw $2000, $003C
@@ -1845,7 +1848,7 @@ CODE_B69419:					;	   |
 	BNE CODE_B6945B				;$B6942C   |
 	JSR CODE_B6800D				;$B6942E   |
 	LDA #$0026				;$B69431   |
-	JSL CODE_B8D8BA				;$B69434   |
+	JSL set_player_interaction_global	;$B69434   |
 	BCS CODE_B6945B				;$B69438   |
 	LDX $0654				;$B6943A   |
 	LDA $12,x				;$B6943D   |
@@ -3118,7 +3121,7 @@ CODE_B69F32:
 	BIT #$0400				;$B69F3F   |
 	BEQ CODE_B69F71				;$B69F42   |
 	LDA #$0024				;$B69F44   |
-	JSL CODE_B8D8BA				;$B69F47   |
+	JSL set_player_interaction_global	;$B69F47   |
 	BCS CODE_B69F6E				;$B69F4B   |
 	LDA #$0013				;$B69F4D   |
 	STA $0A86				;$B69F50   |
@@ -5078,6 +5081,8 @@ DATA_B6AE73:
 	dw $0001
 	dw $0001
 
+
+;king zing commands
 DATA_B6AE87:
 	dw !boss_command_26, $026E, $016D, DATA_B6AE73
 	dw !boss_command_27, $4000
@@ -5188,7 +5193,7 @@ endif						;	   |
 CODE_B6AFBC:
 	LDA.l $00070B				;$B6AFBC  \
 	BNE CODE_B6AFDA				;$B6AFC0   |
-	LDA #$6BE6				;$B6AFC2   |
+	LDA #zinger_red_sprite_palette		;$B6AFC2   |
 	JSL set_sprite_palette_direct_global	;$B6AFC5   |
 	STZ $0709				;$B6AFC9   |
 	LDA $2E,x				;$B6AFCC   |
@@ -6769,7 +6774,7 @@ CODE_B6C153:
 	BIT #$0080				;$B6C16A   |
 	BNE CODE_B6C186				;$B6C16D   |
 	LDA #$001F				;$B6C16F   |
-	JSL CODE_B8D8BA				;$B6C172   |
+	JSL set_player_interaction_global	;$B6C172   |
 	BCS CODE_B6C186				;$B6C176   |
 	LDX $0654				;$B6C178   |
 	LDA $12,x				;$B6C17B   |
@@ -8509,6 +8514,8 @@ CODE_B6CE1C:					;	   |
 CODE_B6CE3A:					;	   |
 	RTS					;$B6CE3A  /
 
+
+;king zing damage position offsets (big zinger phase)
 DATA_B6CE3B:
 	dw $0004, $FFFA
 	dw $0004, $FFFB
@@ -13260,13 +13267,13 @@ CODE_B6F39A:					;	   |
 	LDA $2E,x				;$B6F3C1   |
 	BIT #$0004				;$B6F3C3   |
 	BNE CODE_B6F3E0				;$B6F3C6   |
-	JSL CODE_B4C175				;$B6F3C8   |
-	CMP #$8000				;$B6F3CC   |
-	BCS CODE_B6F3E0				;$B6F3CF   |
+	JSL CODE_B4C175				;$B6F3C8   | Get random number
+	CMP #$8000				;$B6F3CC   | Check if number is negative
+	BCS CODE_B6F3E0				;$B6F3CF   | If yes, its a "fake" egg
 	LDA $2E,x				;$B6F3D1   |
 	ORA #$0004				;$B6F3D3   |
 	STA $2E,x				;$B6F3D6   |
-	LDA $002E,y				;$B6F3D8   |
+	LDA $002E,y				;$B6F3D8   | Else, its a "real" egg
 	ORA #$010B				;$B6F3DB   |
 	BRA CODE_B6F3E6				;$B6F3DE  /
 

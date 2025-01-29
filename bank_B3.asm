@@ -1662,7 +1662,7 @@ CODE_B38D7C:					;	   |
 	AND #$0100				;$B38D87   |
 	BNE CODE_B38D4F				;$B38D8A   |
 	LDA #$0017				;$B38D8C   |
-	JSL CODE_B8D8BA				;$B38D8F   |
+	JSL set_player_interaction_global	;$B38D8F   |
 	SEC					;$B38D93   |
 	RTS					;$B38D94  /
 
@@ -1671,7 +1671,7 @@ CODE_B38D95:
 	AND #$1001				;$B38D98   |
 	BNE CODE_B38D4F				;$B38D9B   |
 	LDA #$0017				;$B38D9D   |
-	JSL CODE_B8D8BA				;$B38DA0   |
+	JSL set_player_interaction_global	;$B38DA0   |
 	SEC					;$B38DA4   |
 	RTS					;$B38DA5  /
 
@@ -3337,7 +3337,7 @@ CODE_B399A8:
 	JSR CODE_B39A5F				;$B399B9   |
 	BNE CODE_B399EC				;$B399BC   |
 	LDA #$000D				;$B399BE   |
-	JSL CODE_B8D8BA				;$B399C1   |
+	JSL set_player_interaction_global	;$B399C1   |
 	BCS CODE_B399EC				;$B399C5   |
 	LDA #CODE_B3992E			;$B399C7   |
 	STA $0A8A				;$B399CA   |
@@ -3359,7 +3359,7 @@ CODE_B399EC:
 
 CODE_B399EE:
 	LDA #$000D				;$B399EE  \
-	JSL CODE_B8D8BA				;$B399F1   |
+	JSL set_player_interaction_global	;$B399F1   |
 	BCS CODE_B399EC				;$B399F5   |
 	LDA #CODE_B398D7			;$B399F7   |
 	STA $0A8A				;$B399FA   |
@@ -3384,7 +3384,7 @@ CODE_B39A1C:
 	AND #$0406				;$B39A2C   |
 	BEQ CODE_B399EC				;$B39A2F   |
 	LDA #$000D				;$B39A31   |
-	JSL CODE_B8D8BA				;$B39A34   |
+	JSL set_player_interaction_global	;$B39A34   |
 	BCS CODE_B399EC				;$B39A38   |
 	LDA #CODE_B3992E			;$B39A3A   |
 	STA $0A8A				;$B39A3D   |
@@ -4193,77 +4193,77 @@ unknown_sprite_0308_main:
 	JML [$05A9]				;$B3A03B  /
 
 no_animal_buddy_sign_main:
-	LDA $08A8				;$B3A03E  \
-	CMP #$006E				;$B3A041   |
-	BNE CODE_B3A04C				;$B3A044   |
+	LDA $08A8				;$B3A03E  \ Get parent level number
+	CMP #!level_toxic_tower			;$B3A041   |
+	BNE .dont_set_flag			;$B3A044   | If not toxic tower, skip setting flag
 	LDA #$0040				;$B3A046   |
-	TSB $052B				;$B3A049   |
-CODE_B3A04C:					;	   |
+	TSB $052B				;$B3A049   | Else set some level effect flag
+.dont_set_flag:					;	   |
 if !version == 1				;	   |
-	JSR CODE_B3A0C7				;$B3A04C   |
+	JSR .CODE_B3A0C7			;$B3A04C   | Dead code
 endif						;	   |
-	LDX active_kong_sprite			;$B3A04F   |
-	LDA $6E					;$B3A052   |
-	BNE CODE_B3A06C				;$B3A054   |
-	LDX #$0E9E				;$B3A056   |
-CODE_B3A059:					;	   |
+	LDX active_kong_sprite			;$B3A04F   | Get kong sprite
+	LDA $6E					;$B3A052   | Get current animal ID
+	BNE .sprite_found			;$B3A054   | If it exists, player is riding one or is transformed
+	LDX #$0E9E				;$B3A056   | Else scan sprite table for standalone animal
+.continue_scanning:				;	   |
 	LDA $00,x				;$B3A059   |
-	BNE CODE_B3A06C				;$B3A05B   |
-CODE_B3A05D:					;	   |
+	BNE .sprite_found			;$B3A05B   |
+.next_slot:					;	   |
 	TXA					;$B3A05D   |
 	CLC					;$B3A05E   |
 	ADC #sizeof(sprite)			;$B3A05F   |
 	TAX					;$B3A062   |
 	CPX #main_sprite_table_end		;$B3A063   |
-	BNE CODE_B3A059				;$B3A066   |
-	JML CODE_B38000				;$B3A068  /
+	BNE .continue_scanning			;$B3A066   | If not at the end of sprite table continue scanning
+	JML CODE_B38000				;$B3A068  / Else done processing sprite
 
-CODE_B3A06C:
+.sprite_found:
 	CMP #!sprite_squitter			;$B3A06C  \
-	BCC CODE_B3A05D				;$B3A06F   |
+	BCC .next_slot				;$B3A06F   |
 	CMP #!sprite_enguarde+1			;$B3A071   |
-	BCS CODE_B3A05D				;$B3A074   |
-	STA $32					;$B3A076   |
-	LDY current_sprite			;$B3A078   |
-	LDA $000A,y				;$B3A07A   |
+	BCS .next_slot				;$B3A074   | If ID of sprite found is not an animal move to next slot
+	STA $32					;$B3A076   | Store found ID to a temp. location
+	LDY current_sprite			;$B3A078   | Get sign sprite
+	LDA $000A,y				;$B3A07A   | Get Y position
 	CLC					;$B3A07D   |
-	ADC #$0008				;$B3A07E   |
-	CMP $0A,x				;$B3A081   |
-	BMI CODE_B3A0BC				;$B3A083   |
-	LDA $0006,y				;$B3A085   |
-	SEC					;$B3A088   |
+	ADC #$0008				;$B3A07E   | Offset by 8 pixels downwards
+	CMP $0A,x				;$B3A081   | Compare with kong/animal's Y position
+	BMI .return				;$B3A083   | If negative, kong/animal is below the sign, return
+	LDA $0006,y				;$B3A085   | 
+	SEC					;$B3A088   | Else get distance between kong/animal and the sign
 	SBC $06,x				;$B3A089   |
-	BPL CODE_B3A091				;$B3A08B   |
+	BPL .positive				;$B3A08B   | If positive distance don't invert
 	EOR #$FFFF				;$B3A08D   |
-	INC A					;$B3A090   |
-CODE_B3A091:					;	   |
-	CMP #$0010				;$B3A091   |
-	BPL CODE_B3A0BC				;$B3A094   |
-	LDA $6E					;$B3A096   |
-	BEQ CODE_B3A0BF				;$B3A098   |
-	LDA #$0019				;$B3A09A   |
-	JSL CODE_B8D8BA				;$B3A09D   |
-	BCS CODE_B3A0BC				;$B3A0A1   |
-	LDX current_sprite			;$B3A0A3   |
-	LDA $42,x				;$B3A0A5   |
+	INC A					;$B3A090   | Else make it positive
+.positive:					;	   |
+	CMP #$0010				;$B3A091   | Check if within range of touching the sign
+	BPL .return				;$B3A094   | If not, return
+	LDA $6E					;$B3A096   | Else get current animal ID
+	BEQ .despawn_standalone_animal		;$B3A098   | If it doesn't exist its a standalone animal
+	LDA #$0019				;$B3A09A   | 
+	JSL .set_player_interaction_global	;$B3A09D   | Else set player interaction to "transform animal into item"
+	BCS .return				;$B3A0A1   |
+	LDX current_sprite			;$B3A0A3   | Get sign sprite
+	LDA $42,x				;$B3A0A5   | Get item to transform animal into
 	STA $0A86				;$B3A0A7   |
-	LDA $0A,x				;$B3A0AA   |
+	LDA $0A,x				;$B3A0AA   | Get sign Y position
 	SEC					;$B3A0AC   |
 	SBC #$0020				;$B3A0AD   |
 	STA $0A88				;$B3A0B0   |
 	LDA $12,x				;$B3A0B3   |
-	AND #$4000				;$B3A0B5   |
+	AND #$4000				;$B3A0B5   | Get kong facing direction
 	ASL A					;$B3A0B8   |
-	TSB $0A88				;$B3A0B9   |
-CODE_B3A0BC:					;	   |
-	JMP CODE_B38000				;$B3A0BC  /
+	TSB $0A88				;$B3A0B9   | Sets h flip for spawned item?
+.return:					;	   |
+	JMP CODE_B38000				;$B3A0BC  / Done processing sprite
 
-CODE_B3A0BF:
+.despawn_standalone_animal:
 	LDA #$0002				;$B3A0BF  \
 	STA $32,x				;$B3A0C2   |
-	JMP CODE_B38000				;$B3A0C4  /
+	JMP CODE_B38000				;$B3A0C4  / Done processing sprite
 
-CODE_B3A0C7:
+.CODE_B3A0C7:
 if !version == 1
 	RTS					;$B3A0C7  /
 endif
@@ -4593,7 +4593,7 @@ CODE_B3A2EB:					;	   |
 	LDA #$02B4				;$B3A2EB   |
 	JSL set_sprite_animation		;$B3A2EE   |
 	LDA #$002A				;$B3A2F2   |
-	JSL CODE_B8D8BA				;$B3A2F5   |
+	JSL set_player_interaction_global	;$B3A2F5   |
 	BCS CODE_B3A310				;$B3A2F9   |
 	LDX current_sprite			;$B3A2FB   |
 	LDA $06,x				;$B3A2FD   |
@@ -5058,7 +5058,7 @@ CODE_B3A604:
 	CMP $0A82				;$B3A604  \ \
 	BEQ .update_interaction_variable	;$B3A607   |/ If the interaction is already happening then dont apply it again
 	PHY					;$B3A609   |> Preserve extra interaction variable (most likely X velocity)
-	JSL CODE_B8D8BA				;$B3A60A   |> Apply interaction
+	JSL set_player_interaction_global	;$B3A60A   |> Apply interaction
 	PLY					;$B3A60E   |> Recover extra interaction variable
 	BCS .return				;$B3A60F   |> If interaction wasnt applied then dont apply knockback velocity
 .update_interaction_variable			;	   |
@@ -10523,18 +10523,18 @@ CODE_B3CDDF:
 	JSR CODE_B3CF7F				;$B3CDDF  \
 	STZ $0AE8				;$B3CDE2   |
 	LDA #$001B				;$B3CDE5   |
-	JSL CODE_B8D8BA				;$B3CDE8   |
+	JSL set_player_interaction_global	;$B3CDE8   |
 	JML [$05A9]				;$B3CDEC  /
 
 CODE_B3CDEF:
 	LDA #$0029				;$B3CDEF  \
-	JSL CODE_B8D8BA				;$B3CDF2   |
+	JSL set_player_interaction_global	;$B3CDF2   |
 	JSL CODE_BB82B8				;$B3CDF6   |
 	JML [$05A9]				;$B3CDFA  /
 
 CODE_B3CDFD:
 	LDA #$0014				;$B3CDFD  \
-	JSL CODE_B8D8BA				;$B3CE00   |
+	JSL set_player_interaction_global	;$B3CE00   |
 	BCS CODE_B3CE48				;$B3CE04   |
 	LDX current_sprite			;$B3CE06   |
 	LDA $4C,x				;$B3CE08   |
@@ -11506,50 +11506,50 @@ CODE_B3D57A:					;	   |
 rideable_balloon_main:
 	JSR CODE_B3A369				;$B3D57B  /
 
-DATA_B3D57E:
-	dw CODE_B3D582
-	dw CODE_B3D596
+.state_table:
+	dw .init_state
+	dw .state_1
 
 
-CODE_B3D582:
-	TYX					;$B3D582  \
+.init_state:
+	TYX					;$B3D582  \ Get balloon sprite
 	LDA $06,x				;$B3D583   |
 	STA $22,x				;$B3D585   |
 	LDA $0A,x				;$B3D587   |
 	STA $28,x				;$B3D589   |
-	STZ $30,x				;$B3D58B   |
+	STZ $30,x				;$B3D58B   | Clear interaction flags
 	LDA $0959				;$B3D58D   |
 	DEC A					;$B3D590   |
 	DEC A					;$B3D591   |
 	STA $0C,x				;$B3D592   |
-	INC $2E,x				;$B3D594   |
-CODE_B3D596:					;	   |
-	JSL CODE_BBBB7B				;$B3D596   |
-	BCC CODE_B3D59F				;$B3D59A   |
-	JMP CODE_B38000				;$B3D59C  /
+	INC $2E,x				;$B3D594   | Init done
+.state_1:					;	   |
+	JSL CODE_BBBB7B				;$B3D596   | Check if sprite has gone offscreen
+	BCC ..CODE_B3D59F			;$B3D59A   | If not... 
+	JMP CODE_B38000				;$B3D59C  /  Else done processing sprite
 
-CODE_B3D59F:
-	LDA #CODE_B3D5AD			;$B3D59F  \
-	JSL CODE_B3D46C				;$B3D5A2   |
-	JSL CODE_B9D100				;$B3D5A6   |
-	JML [$05A9]				;$B3D5AA  /
+..CODE_B3D59F:
+	LDA #..CODE_B3D5AD			;$B3D59F  \
+	JSL CODE_B3D46C				;$B3D5A2   | initialize_platform_sprite
+	JSL CODE_B9D100				;$B3D5A6   | Process animation
+	JML [$05A9]				;$B3D5AA  / Done processing sprite
 
-CODE_B3D5AD:
+..CODE_B3D5AD:
 	LDX current_sprite			;$B3D5AD  \
-	LDA $54,x				;$B3D5AF   |
+	LDA $54,x				;$B3D5AF   | Get balloon constants
 	STA $8E					;$B3D5B1   |
-	JSR CODE_B3D5E0				;$B3D5B3   |
-	JSL CODE_B3D485				;$B3D5B6   |
-	JSL CODE_B3D4AE				;$B3D5BA   |
+	JSR .CODE_B3D5E0			;$B3D5B3   |
+	JSL CODE_B3D485				;$B3D5B6   | set_platform_hitbox_position
+	JSL CODE_B3D4AE				;$B3D5BA   | set_platform_hitbox_size
 	LDX current_sprite			;$B3D5BE   |
 	ROL A					;$B3D5C0   |
 	STA $4E,x				;$B3D5C1   |
 	LDA $34,x				;$B3D5C3   |
-	CMP active_kong_sprite			;$B3D5C5   |
-	BEQ CODE_B3D5CF				;$B3D5C8   |
-	CMP inactive_kong_sprite		;$B3D5CA   |
-	BNE CODE_B3D5DF				;$B3D5CD   |
-CODE_B3D5CF:					;	   |
+	CMP active_kong_sprite			;$B3D5C5   | Check if the active kong is standing on it
+	BEQ ..CODE_B3D5CF			;$B3D5C8   | If yes
+	CMP inactive_kong_sprite		;$B3D5CA   | Else check if its the inactive kong
+	BNE ..return				;$B3D5CD   | If not, return
+..CODE_B3D5CF:					;	   |
 	LDA $22,x				;$B3D5CF   |
 	SEC					;$B3D5D1   |
 	SBC #$0008				;$B3D5D2   |
@@ -11557,112 +11557,140 @@ CODE_B3D5CF:					;	   |
 	CLC					;$B3D5D8   |
 	ADC #$0010				;$B3D5D9   |
 	STA $0A28				;$B3D5DC   |
-CODE_B3D5DF:					;	   |
+..return:					;	   |
 	RTL					;$B3D5DF  /
 
-CODE_B3D5E0:
-	LDY current_sprite			;$B3D5E0  \
+.CODE_B3D5E0:
+	LDY current_sprite			;$B3D5E0  \ Get balloon sprite
 	LDA $004E,y				;$B3D5E2   |
 	LSR A					;$B3D5E5   |
-	BCC CODE_B3D622				;$B3D5E6   |
+	BCC ..CODE_B3D622			;$B3D5E6   |
 	LDA $8E					;$B3D5E8   |
 	CLC					;$B3D5EA   |
 	ADC #$0008				;$B3D5EB   |
 	STA $8E					;$B3D5EE   |
 	LDX $34,y				;$B3D5F0   |
 	CPX active_kong_sprite			;$B3D5F2   |
-	BNE CODE_B3D622				;$B3D5F5   |
+	BNE ..CODE_B3D622			;$B3D5F5   |
 	LDY $0595				;$B3D5F7   |
 	LDA $0004,y				;$B3D5FA   |
 	LDY current_sprite			;$B3D5FD   |
 	AND #$0300				;$B3D5FF   |
-	BEQ CODE_B3D622				;$B3D602   |
+	BEQ ..CODE_B3D622			;$B3D602   |
 	AND #$0100				;$B3D604   |
 	CMP #$0001				;$B3D607   |
 	LDY #$0008				;$B3D60A   |
 	LDA [$8E],y				;$B3D60D   |
 	LDY current_sprite			;$B3D60F   |
-	BCS CODE_B3D617				;$B3D611   |
+	BCS ..CODE_B3D617			;$B3D611   |
 	EOR #$FFFF				;$B3D613   |
 	INC A					;$B3D616   |
-CODE_B3D617:					;	   |
+..CODE_B3D617:					;	   |
 	STA $0026,y				;$B3D617   |
 	LDA #$0004				;$B3D61A   |
 	STA $0052,y				;$B3D61D   |
-	BRA CODE_B3D63F				;$B3D620  /
+	BRA ..CODE_B3D63F			;$B3D620  /
 
-CODE_B3D622:
+..CODE_B3D622:
 	LDA $0052,y				;$B3D622  \
 	AND #$00FF				;$B3D625   |
 	CMP #$0017				;$B3D628   |
-	BEQ CODE_B3D63F				;$B3D62B   |
+	BEQ ..CODE_B3D63F			;$B3D62B   |
 	LDA #$0017				;$B3D62D   |
 	STA $0052,y				;$B3D630   |
 	LDA #$0203				;$B3D633   |
 	STA $0046,y				;$B3D636   |
 	LDA #$0020				;$B3D639   |
 	STA $0026,y				;$B3D63C   |
-CODE_B3D63F:					;	   |
+..CODE_B3D63F:					;	   |
 	LDX $0C,y				;$B3D63F   |
 	LDA $0006,y				;$B3D641   |
 	CMP.l DATA_B3D691,x			;$B3D644   |
-	BCS CODE_B3D656				;$B3D648   |
-CODE_B3D64A:					;	   |
+	BCS ..CODE_B3D656			;$B3D648   |
+..CODE_B3D64A:					;	   |
 	DEX					;$B3D64A   |
 	DEX					;$B3D64B   |
 	CMP.l DATA_B3D691,x			;$B3D64C   |
-	BCC CODE_B3D64A				;$B3D650   |
-	BRA CODE_B3D65C				;$B3D652  /
+	BCC ..CODE_B3D64A			;$B3D650   |
+	BRA ..CODE_B3D65C			;$B3D652  /
 
-CODE_B3D654:
+..CODE_B3D654:
 	INX					;$B3D654  \
 	INX					;$B3D655   |
-CODE_B3D656:					;	   |
+..CODE_B3D656:					;	   |
 	CMP.l DATA_B3D693,x			;$B3D656   |
-	BCS CODE_B3D654				;$B3D65A   |
-CODE_B3D65C:					;	   |
+	BCS ..CODE_B3D654			;$B3D65A   |
+..CODE_B3D65C:					;	   |
 	STX $0C,y				;$B3D65C   |
 	SEC					;$B3D65E   |
 	SBC.l DATA_B3D691,x			;$B3D65F   |
 	CMP #$000E				;$B3D663   |
-	BCC CODE_B3D676				;$B3D666   |
+	BCC ..CODE_B3D676			;$B3D666   |
 	INX					;$B3D668   |
 	INX					;$B3D669   |
 	LDA $0006,y				;$B3D66A   |
 	SBC.l DATA_B3D691,x			;$B3D66D   |
 	CMP #$FFF2				;$B3D671   |
-	BCC CODE_B3D690				;$B3D674   |
-CODE_B3D676:					;	   |
+	BCC ..return				;$B3D674   |
+..CODE_B3D676:					;	   |
 	LDA.l DATA_B3D691,x			;$B3D676   |
 	LSR A					;$B3D67A   |
 	LDA #$0278				;$B3D67B   |
-	BCC CODE_B3D683				;$B3D67E   |
+	BCC ..CODE_B3D683			;$B3D67E   |
 	LDA #$0238				;$B3D680   |
-CODE_B3D683:					;	   |
+..CODE_B3D683:					;	   |
 	CMP $000A,y				;$B3D683   |
-	BCS CODE_B3D690				;$B3D686   |
+	BCS ..return				;$B3D686   |
 	TYX					;$B3D688   |
 	LDY #$0006				;$B3D689   |
 	LDA [$8E],y				;$B3D68C   |
 	STA $24,x				;$B3D68E   |
-CODE_B3D690:					;	   |
+..return:					;	   |
 	RTS					;$B3D690  /
 
+;X positions for red-hot-ride steam?
 DATA_B3D691:
+%offset(DATA_B3D693, 2)
 	dw $0000
-
-DATA_B3D693:
-	dw $0321, $05A9, $0649, $0AE8
-	dw $0BB9, $0C89, $0D29, $0DC1
-	dw $0E41, $0FA1, $1001, $1061
-	dw $10C1, $1769, $1839, $19A0
-	dw $1A11, $1AA0, $1B70, $1C21
-	dw $1CF1, $1D31, $1FA0, $2129
-	dw $2390, $2469, $2591, $2631
-	dw $2669, $26A1, $2701, $8000
-	dw $0000, $0160, $0181, $0221
+	dw $0321
+	dw $05A9
+	dw $0649
+	dw $0AE8
+	dw $0BB9
+	dw $0C89
+	dw $0D29
+	dw $0DC1
+	dw $0E41
+	dw $0FA1
+	dw $1001
+	dw $1061
+	dw $10C1
+	dw $1769
+	dw $1839
+	dw $19A0
+	dw $1A11
+	dw $1AA0
+	dw $1B70
+	dw $1C21
+	dw $1CF1
+	dw $1D31
+	dw $1FA0
+	dw $2129
+	dw $2390
+	dw $2469
+	dw $2591
+	dw $2631
+	dw $2669
+	dw $26A1
+	dw $2701
 	dw $8000
 
+;bonus 2 steam vents	
+	dw $0000
+	dw $0160
+	dw $0181
+	dw $0221
+	dw $8000
 
 krockhead_main:
 	JSR CODE_B3A369				;$B3D6DD  \
@@ -12035,7 +12063,7 @@ clapper_sprite_code:
 	BEQ .kong_knocked_back			;$B3D9A9   |\ If kong is being knocked back
 	BRA .set_clapping_animation		;$B3D9AB  /_/ Play clapping animation
 	
-	JSL CODE_B8D8BA				;$B3D9AD  \ \ Dead code?
+	JSL set_player_interaction_global	;$B3D9AD  \ \ Dead code?
 	BCS .set_clapping_animation		;$B3D9B1   |/ Dead code?
 .kong_knocked_back				;	   |
 	LDX current_sprite			;$B3D9B3   |> Get clapper sprite
@@ -12114,7 +12142,7 @@ CODE_B3DA25:					;	   |
 	AND #$0004				;$B3DA38   |
 	BNE CODE_B3DA46				;$B3DA3B   |
 	LDA #$000C				;$B3DA3D   |
-	JSL CODE_B8D8BA				;$B3DA40   |
+	JSL set_player_interaction_global	;$B3DA40   |
 	BRA CODE_B3DA4C				;$B3DA44  /
 
 CODE_B3DA46:
@@ -12570,7 +12598,7 @@ CODE_B3DD21:
 	LDX current_sprite			;$B3DD21  \
 	INC $2E,x				;$B3DD23   |
 	LDA #$0027				;$B3DD25   |
-	JSL CODE_B8D8BA				;$B3DD28   |
+	JSL set_player_interaction_global	;$B3DD28   |
 	BCS CODE_B3DD35				;$B3DD2C   |
 	LDX current_sprite			;$B3DD2E   |
 	LDA $42,x				;$B3DD30   |
@@ -12595,7 +12623,7 @@ CODE_B3DD48:
 CODE_B3DD54:
 	INC $2E,x				;$B3DD54  \
 	LDA #$0028				;$B3DD56   |
-	JSL CODE_B8D8BA				;$B3DD59   |
+	JSL set_player_interaction_global	;$B3DD59   |
 	JSR CODE_B3DE26				;$B3DD5D   |
 	JSR CODE_B3DE0A				;$B3DD60   |
 	JSL CODE_BB82B8				;$B3DD63   |
@@ -12711,6 +12739,7 @@ CODE_B3DE26:
 	STA $097F				;$B3DE28   |
 	RTS					;$B3DE2B  /
 
+;timer digit table?
 DATA_B3DE2C:
 	db $00, $00, $00, $01, $00, $02, $00, $03
 	db $00, $04, $00, $05, $00, $06, $00, $07
@@ -12866,7 +12895,7 @@ CODE_B3DF9E:					;	   |
 
 CODE_B3DFA1:
 	LDA #$002B				;$B3DFA1  \
-	JSL CODE_B8D8BA				;$B3DFA4   |
+	JSL set_player_interaction_global	;$B3DFA4   |
 	BCS CODE_B3DFBD				;$B3DFA8   |
 	LDA #CODE_B3E1E2			;$B3DFAA   |
 	STA $0A8A				;$B3DFAD   |
@@ -12894,7 +12923,7 @@ CODE_B3DFDA:					;	   |
 
 CODE_B3DFDD:
 	LDA #$002B				;$B3DFDD  \
-	JSL CODE_B8D8BA				;$B3DFE0   |
+	JSL set_player_interaction_global	;$B3DFE0   |
 	BCS CODE_B3DFF9				;$B3DFE4   |
 	LDA #CODE_B3E2F4			;$B3DFE6   |
 	STA $0A8A				;$B3DFE9   |
@@ -13479,7 +13508,7 @@ CODE_B3E413:
 	STA $091B				;$B3E422   |
 	JSL CODE_BB8C19				;$B3E425   |
 	LDA #$0025				;$B3E429   |
-	JSL CODE_B8D8BA				;$B3E42C   |
+	JSL set_player_interaction_global	;$B3E42C   |
 	BCS CODE_B3E43D				;$B3E430   |
 	LDX active_kong_sprite			;$B3E432   |
 	LDA $12,x				;$B3E435   |
@@ -13512,7 +13541,7 @@ CODE_B3E45B:
 	STA $091B				;$B3E46D   |
 	JSL CODE_BB8C19				;$B3E470   |
 	LDA #$0025				;$B3E474   |
-	JSL CODE_B8D8BA				;$B3E477   |
+	JSL set_player_interaction_global	;$B3E477   |
 	BCS CODE_B3E488				;$B3E47B   |
 	LDX active_kong_sprite			;$B3E47D   |
 	LDA $12,x				;$B3E480   |
@@ -13784,6 +13813,18 @@ CODE_B3E67B:					;	   |
 CODE_B3E67F:					;	   |
 	JMP barrel_cannon_code			;$B3E67F  /
 
+
+;Barrel icon variables:
+;42,x 	Index of barrel that spawned the icon
+;44,x 	Flag related to switching graphic IDs
+;46,x 	Unused
+;48,x 	Initial graphic ID
+;4A,x 	Alternate graphic ID
+;4C,x 	countdown timer before switching graphic ID, gets value from $4E,x
+;4E,x 	time values for changing from one graphic ID to the other, copied to $4C,x...
+;	...it is read as a byte so it can have separate timers for the 2 different graphics...
+;	...high byte is for changing from initial graphic to alternate graphic, low byte vice versa
+
 barrel_icons_sprite_code:
 	PHK					;$B3E682  \
 	PLB					;$B3E683   |
@@ -13791,140 +13832,140 @@ barrel_icons_sprite_code:
 	LDA $2E,x				;$B3E686   |
 	ASL A					;$B3E688   |
 	TAX					;$B3E689   |
-	JMP (DATA_B3E68D,x)			;$B3E68A  /
+	JMP (.state_table,x)			;$B3E68A  /
 
-DATA_B3E68D:
-	dw CODE_B3E691
-	dw CODE_B3E6B3
+.state_table:
+	dw .init_state
+	dw .idle_state
 
 
-CODE_B3E691:
-	JSR CODE_B3E6EF				;$B3E691  \
-	BCS CODE_B3E6AC				;$B3E694   |
-	JSR CODE_B3E74B				;$B3E696   |
-	LDX current_sprite			;$B3E699   |
-	INC $2E,x				;$B3E69B   |
+.init_state:
+	JSR .handle_orphaned_icons_and_snap	;$B3E691  \ Snap icon to barrel and check if sprites match
+	BCS .delete_icon_sprite			;$B3E694   | If a mismatch happened, delete icon sprite
+	JSR .update_number_graphic		;$B3E696   |
+	LDX current_sprite			;$B3E699   | Else get icon sprite
+	INC $2E,x				;$B3E69B   | Set state 1
 	STZ $44,x				;$B3E69D   |
-	LDA $4E,x				;$B3E69F   |
-	AND #$00FF				;$B3E6A1   |
-	STA $4C,x				;$B3E6A4   |
-	JSR CODE_B3E72C				;$B3E6A6   |
-	JML [$05A9]				;$B3E6A9  /
+	LDA $4E,x				;$B3E69F   | Get graphic swap time values
+	AND #$00FF				;$B3E6A1   | Get low byte, time value for initial graphic
+	STA $4C,x				;$B3E6A4   | And initialize the timer with it
+	JSR .handle_graphic_swap		;$B3E6A6   |
+	JML [$05A9]				;$B3E6A9  / done processing sprite
 
-CODE_B3E6AC:
-	JSL CODE_BB82B8				;$B3E6AC  \
-	JML [$05A9]				;$B3E6B0  /
+.delete_icon_sprite:
+	JSL CODE_BB82B8				;$B3E6AC  \ delete sprite
+	JML [$05A9]				;$B3E6B0  / done processing sprite
 
-CODE_B3E6B3:
-	JSR CODE_B3E6EF				;$B3E6B3  \
-	BCS CODE_B3E6AC				;$B3E6B6   |
-	JSR CODE_B3E74B				;$B3E6B8   |
-	JSR CODE_B3E6C4				;$B3E6BB   |
-	JSR CODE_B3E72C				;$B3E6BE   |
-	JML [$05A9]				;$B3E6C1  /
+.idle_state:
+	JSR .handle_orphaned_icons_and_snap	;$B3E6B3  \ Snap icon to barrel and check if sprites match
+	BCS .delete_icon_sprite			;$B3E6B6   | If a mismatch happened, delete icon sprite
+	JSR .update_number_graphic		;$B3E6B8   | Else
+	JSR .handle_swap_timer			;$B3E6BB   |
+	JSR .handle_graphic_swap		;$B3E6BE   |
+	JML [$05A9]				;$B3E6C1  / done processing sprite
 
-CODE_B3E6C4:
-	LDX current_sprite			;$B3E6C4  \
+.handle_swap_timer:
+	LDX current_sprite			;$B3E6C4  \ get icon sprite
 	LDA $2A,x				;$B3E6C6   |
 	AND #$1000				;$B3E6C8   |
-	BNE CODE_B3E6D3				;$B3E6CB   |
-	LDA $4C,x				;$B3E6CD   |
-	BEQ CODE_B3E6D4				;$B3E6CF   |
-	DEC $4C,x				;$B3E6D1   |
-CODE_B3E6D3:					;	   |
+	BNE ..return				;$B3E6CB   | If active kong has entered the barrel, return
+	LDA $4C,x				;$B3E6CD   | Else get time until next graphic swap
+	BEQ ..CODE_B3E6D4			;$B3E6CF   | If timer done then
+	DEC $4C,x				;$B3E6D1   | Else count it down
+..return:					;	   | 
 	RTS					;$B3E6D3  /
 
-CODE_B3E6D4:
+..CODE_B3E6D4:
 	LDA $44,x				;$B3E6D4  \
-	EOR #$0001				;$B3E6D6   |
+	EOR #$0001				;$B3E6D6   | flip flag status
 	STA $44,x				;$B3E6D9   |
 	AND #$0001				;$B3E6DB   |
-	BNE CODE_B3E6EA				;$B3E6DE   |
-	LDA $4E,x				;$B3E6E0   |
-CODE_B3E6E2:					;	   |
-	AND #$00FF				;$B3E6E2   |
-	BEQ CODE_B3E6D3				;$B3E6E5   |
+	BNE ..CODE_B3E6EA			;$B3E6DE   | if flag is on
+	LDA $4E,x				;$B3E6E0   | Else
+..CODE_B3E6E2:					;	   |
+	AND #$00FF				;$B3E6E2   | Get low byte
+	BEQ ..return				;$B3E6E5   |
 	STA $4C,x				;$B3E6E7   |
 	RTS					;$B3E6E9  /
 
-CODE_B3E6EA:
+..CODE_B3E6EA:
 	LDA $4E,x				;$B3E6EA  \
 	XBA					;$B3E6EC   |
-	BRA CODE_B3E6E2				;$B3E6ED  /
+	BRA ..CODE_B3E6E2			;$B3E6ED  /
 
-CODE_B3E6EF:
-	LDX current_sprite			;$B3E6EF  \
-	LDY $42,x				;$B3E6F1   |
+.handle_orphaned_icons_and_snap:
+	LDX current_sprite			;$B3E6EF  \ Get icon sprite
+	LDY $42,x				;$B3E6F1   | Get index of sprite that spawned it
 	LDA $0000,y				;$B3E6F3   |
 	CMP #!sprite_barrel_cannon		;$B3E6F6   |
-	BNE CODE_B3E72A				;$B3E6F9   |
-	LDA $003C,y				;$B3E6FB   |
-	CMP current_sprite			;$B3E6FE   |
-	BNE CODE_B3E72A				;$B3E700   |
-	LDA $002A,y				;$B3E702   |
+	BNE ..sprite_mismatched			;$B3E6F9   | If its not a barrel cannon, return with the bad news
+	LDA $003C,y				;$B3E6FB   | Else get index of self in the barrel
+	CMP current_sprite			;$B3E6FE   | Check if its still the currently processing sprite
+	BNE ..sprite_mismatched			;$B3E700   | If not, return with the bad news
+	LDA $002A,y				;$B3E702   | Else 
 	STA $2A,x				;$B3E705   |
 	AND #$1000				;$B3E707   |
-	BNE CODE_B3E718				;$B3E70A   |
-CODE_B3E70C:					;	   |
+	BNE ..CODE_B3E718			;$B3E70A   | If active kong touched the barrel...
+..snap_icon_to_barrel:				;	   |
 	LDA $0006,y				;$B3E70C   |
-	STA $06,x				;$B3E70F   |
+	STA $06,x				;$B3E70F   | Else Copy X position of barrel to icon
 	LDA $000A,y				;$B3E711   |
-	STA $0A,x				;$B3E714   |
-	CLC					;$B3E716   |
+	STA $0A,x				;$B3E714   | Copy Y position of barrel to icon
+	CLC					;$B3E716   | Tell caller all is OK
 	RTS					;$B3E717  /
 
-CODE_B3E718:
-	PHY					;$B3E718  \
+..CODE_B3E718:
+	PHY					;$B3E718  \ Preserve barrel sprite
 	LDY active_kong_sprite			;$B3E719   |
-	LDA $002E,y				;$B3E71C   |
-	PLY					;$B3E71F   |
-	CMP #$0011				;$B3E720   |
-	BNE CODE_B3E70C				;$B3E723   |
-	LDY active_kong_sprite			;$B3E725   |
-	BRA CODE_B3E70C				;$B3E728  /
+	LDA $002E,y				;$B3E71C   | Get active kong's state
+	PLY					;$B3E71F   | Retrieve barrel sprite
+	CMP #$0011				;$B3E720   | Check if kong is in the "inside barrel cannon" state
+	BNE ..snap_icon_to_barrel		;$B3E723   | If not continue snapping icon to barrel
+	LDY active_kong_sprite			;$B3E725   | Else get active kong sprite in Y instead
+	BRA ..snap_icon_to_barrel		;$B3E728  / And snap the kong instead
 
-CODE_B3E72A:
+..sprite_mismatched:
 	SEC					;$B3E72A  \
 	RTS					;$B3E72B  /
 
-CODE_B3E72C:
-	LDX current_sprite			;$B3E72C  \
-	LDY $42,x				;$B3E72E   |
-	LDA $0044,y				;$B3E730   |
-	BEQ CODE_B3E741				;$B3E733   |
-	LDA $44,x				;$B3E735   |
+.handle_graphic_swap:
+	LDX current_sprite			;$B3E72C  \ Get icon sprite
+	LDY $42,x				;$B3E72E   | Get barrel sprite
+	LDA $0044,y				;$B3E730   | Get barrel timer
+	BEQ ..set_default_graphic		;$B3E733   | If 0, timer ended or it is not a number barrel. Set default graphic
+	LDA $44,x				;$B3E735   | Else get some flag in icon sprite
 	LSR A					;$B3E737   |
-	BCS CODE_B3E746				;$B3E738   |
+	BCS ..set_alternate_graphic		;$B3E738   |
 	LDA $2A,x				;$B3E73A   |
 	AND #$1000				;$B3E73C   |
-	BNE CODE_B3E746				;$B3E73F   |
-CODE_B3E741:					;	   |
+	BNE ..set_alternate_graphic		;$B3E73F   | If active kong entered the barrel, force alternate graphic
+..set_default_graphic:				;	   | Else set default
 	LDA $48,x				;$B3E741   |
 	STA $1A,x				;$B3E743   |
 	RTS					;$B3E745  /
 
-CODE_B3E746:
+..set_alternate_graphic:
 	LDA $4A,x				;$B3E746  \
 	STA $1A,x				;$B3E748   |
 	RTS					;$B3E74A  /
 
-CODE_B3E74B:
-	LDA #$0000				;$B3E74B  \
-	LDX current_sprite			;$B3E74E   |
-	LDY $42,x				;$B3E750   |
-	LDA $0044,y				;$B3E752   |
-	XBA					;$B3E755   |
-	AND #$0007				;$B3E756   |
-	BEQ CODE_B3E765				;$B3E759   |
+.update_number_graphic:
+	LDA #$0000				;$B3E74B  \ Dead code
+	LDX current_sprite			;$B3E74E   | Get icon sprite
+	LDY $42,x				;$B3E750   | Get barrel sprite
+	LDA $0044,y				;$B3E752   | Get number barrel timer
+	XBA					;$B3E755   | 
+	AND #$0007				;$B3E756   | Get number
+	BEQ ..number_is_0			;$B3E759   | If 0, reset to default graphic ID
 	DEC A					;$B3E75B   |
-	ASL A					;$B3E75C   |
+	ASL A					;$B3E75C   | Else
 	ASL A					;$B3E75D   |
 	CLC					;$B3E75E   |
-	ADC #$10D0				;$B3E75F   |
+	ADC #$10D0				;$B3E75F   | offset to get new graphic ID to swap to
 	STA $4A,x				;$B3E762   |
 	RTS					;$B3E764  /
 
-CODE_B3E765:
+..number_is_0:
 	STZ $4A,x				;$B3E765  \
 	RTS					;$B3E767  /
 
@@ -15012,7 +15053,7 @@ CODE_B3EF0E:					;	   |
 	BEQ CODE_B3EF6A				;$B3EF13   |
 CODE_B3EF15:					;	   |
 	LDA #$0010				;$B3EF15   |
-	JSL CODE_B8D8BA				;$B3EF18   |
+	JSL set_player_interaction_global	;$B3EF18   |
 	BCS CODE_B3EF44				;$B3EF1C   |
 	LDA #CODE_B3EF84			;$B3EF1E   |
 	STA $0A8A				;$B3EF21   |
@@ -15053,7 +15094,7 @@ CODE_B3EF5D:
 
 CODE_B3EF6A:
 	LDA #$000F				;$B3EF6A  \
-	JSL CODE_B8D8BA				;$B3EF6D   |
+	JSL set_player_interaction_global	;$B3EF6D   |
 	BCS CODE_B3EF44				;$B3EF71   |
 	LDA #CODE_B3F069			;$B3EF73   |
 	STA $0A8A				;$B3EF76   |

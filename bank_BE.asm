@@ -25,6 +25,7 @@ DATA_BEB806:
 	dw double_zingers_sprite_code		;0022 double_zingers_main
 
 
+;sprite handler, similar to CODE_B3A369
 CODE_BEB82A:
 	PHK					;$BEB82A  \
 	PLB					;$BEB82B   |
@@ -265,7 +266,7 @@ CODE_BEB9F5:
 	LDA #$0200				;$BEB9FC   |
 	JSL CODE_BEBE4D				;$BEB9FF   |
 	BCS CODE_BEB9F2				;$BEBA03   |
-	JSL CODE_BB8125				;$BEBA05   |
+	JSL set_this_level_kremcoin_collected	;$BEBA05   |
 	JSL CODE_BB819F				;$BEBA09   |
 	LDA #$0002				;$BEBA0D   |
 	TSB $08C4				;$BEBA10   |
@@ -1689,7 +1690,7 @@ CODE_BEC41D:
 
 CODE_BEC420:
 	LDA #$000E				;$BEC420  \
-	JSL CODE_B8D8BA				;$BEC423   |
+	JSL set_player_interaction_global	;$BEC423   |
 	BCS CODE_BEC43F				;$BEC427   |
 	LDA #$0560				;$BEC429   |
 	JSL queue_sound_effect			;$BEC42C   |
@@ -1706,7 +1707,7 @@ CODE_BEC43F:
 
 CODE_BEC442:
 	LDA #$0013				;$BEC442  \
-	JSL CODE_B8D8BA				;$BEC445   |
+	JSL set_player_interaction_global	;$BEC445   |
 	LDX current_sprite			;$BEC449   |
 	LDY $6A					;$BEC44B   |
 	LDA #$0003				;$BEC44D   |
@@ -1738,7 +1739,7 @@ CODE_BEC46D:					;	   |
 
 CODE_BEC485:
 	TYA					;$BEC485  \
-	JSL CODE_B8D8BA				;$BEC486   |
+	JSL set_player_interaction_global	;$BEC486   |
 	BCS CODE_BEC4B7				;$BEC48A   |
 CODE_BEC48C:					;	   |
 	JSR CODE_BEC5A4				;$BEC48C   |
@@ -1769,12 +1770,12 @@ CODE_BEC4BA:
 	CMP #$0001				;$BEC4BD   |
 	BEQ CODE_BEC4C8				;$BEC4C0   |
 	TYA					;$BEC4C2   |
-	JSL CODE_B8D8BA				;$BEC4C3   |
+	JSL set_player_interaction_global	;$BEC4C3   |
 	RTS					;$BEC4C7  /
 
 CODE_BEC4C8:
 	LDA #$0028				;$BEC4C8  \
-	JSL CODE_B8D8BA				;$BEC4CB   |
+	JSL set_player_interaction_global	;$BEC4CB   |
 	LDA #$0003				;$BEC4CF   |
 	STA $0A36				;$BEC4D2   |
 	RTS					;$BEC4D5  /
@@ -1804,7 +1805,7 @@ CODE_BEC4F2:
 	BRL CODE_BEBEA3				;$BEC4F7  /
 
 CODE_BEC4FA:
-	JSL CODE_B8D8BA				;$BEC4FA  \
+	JSL set_player_interaction_global	;$BEC4FA  \
 	BRA CODE_BEC508				;$BEC4FE  /
 
 CODE_BEC500:
@@ -1833,7 +1834,7 @@ CODE_BEC526:					;	   |
 	RTL					;$BEC52C  /
 
 CODE_BEC52D:
-	JSL CODE_B8D8BA				;$BEC52D  \
+	JSL set_player_interaction_global	;$BEC52D  \
 	BCS CODE_BEC57A				;$BEC531   |
 	LDX $6A					;$BEC533   |
 	LDY current_sprite			;$BEC535   |
@@ -2989,7 +2990,7 @@ CODE_BECD7A:
 	LDA $06,x				;$BECD9D   |
 	STA $38,x				;$BECD9F   |
 	LDA #$0021				;$BECDA1   |
-	JSL CODE_B8D8BA				;$BECDA4   |
+	JSL set_player_interaction_global	;$BECDA4   |
 	BCC CODE_BECDB3				;$BECDA8   |
 	JMP CODE_BEB849				;$BECDAA  /
 
@@ -3406,7 +3407,7 @@ CODE_BED0D4:					;	   |
 	ORA #$8000				;$BED0E4   |
 	STA $42,x				;$BED0E7   |
 	LDA #$0016				;$BED0E9   |
-	JSL CODE_B8D8BA				;$BED0EC   |
+	JSL set_player_interaction_global	;$BED0EC   |
 	BCS CODE_BED0F6				;$BED0F0   |
 	LDX current_sprite			;$BED0F2   |
 	DEC $2F,x				;$BED0F4   |
@@ -4394,7 +4395,7 @@ CODE_BED81B:
 	CMP #$0021				;$BED83C   |
 	BEQ CODE_BED887				;$BED83F   |
 	LDA #$0015				;$BED841   |
-	JSL CODE_B8D8BA				;$BED844   |
+	JSL set_player_interaction_global	;$BED844   |
 	BCS CODE_BED887				;$BED848   |
 	STX $0A86				;$BED84A   |
 	LDA $6A					;$BED84D   |
@@ -4406,7 +4407,7 @@ CODE_BED81B:
 
 CODE_BED859:
 	LDA #$0015				;$BED859  \
-	JSL CODE_B8D8BA				;$BED85C   |
+	JSL set_player_interaction_global	;$BED85C   |
 	BCS CODE_BED887				;$BED860   |
 	STX $0A86				;$BED862   |
 	LDA $6A					;$BED865   |
@@ -4457,7 +4458,7 @@ CODE_BED8B5:					;	   |
 	JSL CODE_BEBDC1				;$BED8B8   |
 	BCC CODE_BED887				;$BED8BC   |
 	LDA #$0015				;$BED8BE   |
-	JSL CODE_B8D8BA				;$BED8C1   |
+	JSL set_player_interaction_global	;$BED8C1   |
 	BCS CODE_BED887				;$BED8C5   |
 	STX $0A86				;$BED8C7   |
 	LDA inactive_kong_sprite		;$BED8CA   |
@@ -4832,7 +4833,7 @@ CODE_BEDBE2:
 	CMP #$0010				;$BEDBEB   |
 	BPL CODE_BEDC2A				;$BEDBEE   |
 	LDA #$0016				;$BEDBF0   |
-	JSL CODE_B8D8BA				;$BEDBF3   |
+	JSL set_player_interaction_global	;$BEDBF3   |
 	BCS CODE_BEDC2A				;$BEDBF7   |
 	STZ $0D5E				;$BEDBF9   |
 	LDX current_sprite			;$BEDBFC   |
@@ -7126,7 +7127,7 @@ CODE_BEEC2E:
 	JSR CODE_BED92E				;$BEEC2E  \
 	BCC CODE_BEEC3C				;$BEEC31   |
 	LDA #$0022				;$BEEC33   |
-	JSL CODE_B8D8BA				;$BEEC36   |
+	JSL set_player_interaction_global	;$BEEC36   |
 	BCS CODE_BEEC43				;$BEEC3A   |
 CODE_BEEC3C:					;	   |
 	LDX current_sprite			;$BEEC3C   |

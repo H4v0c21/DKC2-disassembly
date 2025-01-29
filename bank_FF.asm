@@ -665,15 +665,15 @@ DATA_FF0450:
 
 ;rideable balloon constants
 DATA_FF045C:
-	dw $0001
-	dw $0040
-	dw $0002
-	dw $FFC0
-	dw $0001
-	dw $0050
-	dw $0004
-	dw $FFC0
-	dw $0100
+	dw $0001 	;Gravity? (idle)
+	dw $0040	;Max Y velocity (idle)
+	dw $0002 	;X velocity interpolation preset (idle)
+	dw $FFC0	;Y velocity (lifted by steam)
+	dw $0001	;Gravity? (moving with kong)
+	dw $0050	;Max Y velocity (moving with kong)
+	dw $0004	;X velocity interpolation preset (moving with kong)
+	dw $FFC0	;Y velocity (lifted by steam, kong on top)
+	dw $0100 	;Max X velocity (moving with kong)
 
 ;skull cart constants
 DATA_FF046E:
@@ -1959,6 +1959,8 @@ DATA_FF11A2:
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_success
 
+
+;DATA_FF047E indexes of animal icons, used by barrel cannons when spawning the icon
 DATA_FF11BE:
 	dw $012C, $012E, $0130, $0132, $0134
 
@@ -8446,7 +8448,8 @@ DATA_FF6BD0:
 DATA_FF6BE6:
 	dw DATA_FF1742 : db $08, $46
 	dw $0000
-	
+
+;unused
 	dw DATA_FF1766 : db $05, $5A
 	dw $0000
 
@@ -8465,7 +8468,8 @@ DATA_FF6BFE:
 DATA_FF6C04:
 	dw DATA_FF1766 : db $06, $69
 	dw $0000
-	
+
+;unused	
 	dw DATA_FF1766 : db $05, $5A
 	dw $0000
 
