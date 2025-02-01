@@ -1009,7 +1009,7 @@ CODE_808AB4:					;	   |
 	AND #$2000				;$808ACE   |/ Check if select is currently being pressed
 	BEQ .handle_debug_exit_cheat		;$808AD1   |> If not then we should start checking for the cheat
 	LDA $08A8				;$808AD3   |\ Get current level id
-	JSL CODE_BB825C				;$808AD6   |/ Check if the level was completed
+	JSL is_current_level_cleared		;$808AD6   |/ Check if the level was completed
 	BCC .handle_debug_exit_cheat		;$808ADA   |> If not then see if the debug exit cheat was attempted
 	LDA #$0040				;$808ADC   |\
 	TRB $08C2				;$808ADF   | | Reset the paused flag
@@ -1621,16 +1621,16 @@ CODE_808FAE:					;	   |
 	STA $78					;$808FBD   |
 	LDA $08A4				;$808FBF   |
 	JSL CODE_808837				;$808FC2   |
-	JSL CODE_B48000				;$808FC6   |
+	JSL CODE_B48000				;$808FC6   | Initialize world map
 if !version == 1				;	   |
 	LDX #$0000				;$808FCA   |
 	LDA #$0000				;$808FCD   |
-CODE_808FD0:					;	   |
-	STA $7E59B2,x				;$808FD0   |
+.loop:						;	   |
+	STA $7E59B2,x				;$808FD0   | Reset all level completion flags
 	INX					;$808FD4   |
 	INX					;$808FD5   |
 	CPX #$0060				;$808FD6   |
-	BNE CODE_808FD0				;$808FD9   |
+	BNE .loop				;$808FD9   |
 endif						;	   |
 	RTS					;$808FDB  /
 

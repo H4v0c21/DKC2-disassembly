@@ -665,15 +665,15 @@ DATA_FF0450:
 
 ;rideable balloon constants
 DATA_FF045C:
-	dw $0001
-	dw $0040
-	dw $0002
-	dw $FFC0
-	dw $0001
-	dw $0050
-	dw $0004
-	dw $FFC0
-	dw $0100
+	dw $0001 	;Gravity? (idle)
+	dw $0040	;Max Y velocity (idle)
+	dw $0002 	;X velocity interpolation preset (idle)
+	dw $FFC0	;Y velocity (lifted by steam)
+	dw $0001	;Gravity? (moving with kong)
+	dw $0050	;Max Y velocity (moving with kong)
+	dw $0004	;X velocity interpolation preset (moving with kong)
+	dw $FFC0	;Y velocity (lifted by steam, kong on top)
+	dw $0100 	;Max X velocity (moving with kong)
 
 ;skull cart constants
 DATA_FF046E:
@@ -754,7 +754,7 @@ DATA_FF047E:
 	dw DATA_FF0C10		;007A horizontal wind changer
 	dw DATA_FF17AC		;007C unused honey splash
 	dw DATA_FF17C0		;007E ???
-	dw DATA_FF17E0		;0080 level target barrel?
+	dw DATA_FF17E0		;0080 level target barrel
 	dw DATA_FF1804		;0082
 	dw DATA_FF1824		;0084
 	dw DATA_FF1846		;0086 puftup spike?
@@ -1447,7 +1447,7 @@ DATA_FF0BB2:
 	dw !initcommand_success
 
 DATA_FF0BC0:
-	dw sprite.type, !sprite_unknown_0300
+	dw sprite.type, !sprite_haunted_hall_timer_handler
 	dw sprite.render_order, $00F8
 	dw sprite.x_position, $1780
 	dw sprite.y_position, $1200
@@ -1959,6 +1959,8 @@ DATA_FF11A2:
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_success
 
+
+;DATA_FF047E indexes of animal icons, used by barrel cannons when spawning the icon
 DATA_FF11BE:
 	dw $012C, $012E, $0130, $0132, $0134
 
@@ -4022,6 +4024,7 @@ DATA_FF29E8:
 	dw sprite.animation_control, $0280
 	dw !initcommand_success
 
+;unused?
 DATA_FF2A08:
 	dw sprite.type, !sprite_chest_spawner
 	dw sprite.state, $0000
@@ -4032,7 +4035,7 @@ DATA_FF2A08:
 	dw sprite.general_purpose_48, $0010
 	dw !initcommand_success
 
-;chest spawn positions
+;unused? chest spawn positions, but with a terminator?
 DATA_FF2A26:
 	dw $014C, $01C0
 	dw $0174, $01C0
@@ -4040,7 +4043,6 @@ DATA_FF2A26:
 	dw $01C4, $01C0
 	dw $0000
 
-;k rool
 DATA_FF2A38:
 	dw sprite.type, !sprite_krool
 	dw sprite.x_position, $0278
@@ -8446,7 +8448,8 @@ DATA_FF6BD0:
 DATA_FF6BE6:
 	dw DATA_FF1742 : db $08, $46
 	dw $0000
-	
+
+;unused
 	dw DATA_FF1766 : db $05, $5A
 	dw $0000
 
@@ -8465,7 +8468,8 @@ DATA_FF6BFE:
 DATA_FF6C04:
 	dw DATA_FF1766 : db $06, $69
 	dw $0000
-	
+
+;unused	
 	dw DATA_FF1766 : db $05, $5A
 	dw $0000
 
@@ -15304,6 +15308,7 @@ DATA_FFB338:
 	dw sprite.x_sub_position, $0168
 	dw !initcommand_success
 
+;only used in krool's cabin
 DATA_FFB342:
 	dw !initcommand_load_subconfig, DATA_FFB29E
 	dw sprite.max_y_speed, $0000
@@ -19311,9 +19316,12 @@ DATA_FFDAE8:
 	dw sprite.constants_address, DATA_FFDB06
 	dw !initcommand_success
 
+;chest positions
 DATA_FFDB06:
-	db $4C, $01, $C0, $01, $74, $01, $C0, $01
-	db $9C, $01, $C0, $01, $C4, $01, $C0, $01
+	dw $014C, $01C0
+	dw $0174, $01C0
+	dw $019C, $01C0
+	dw $01C4, $01C0
 
 DATA_FFDB16:
 	dw sprite.type, !sprite_barrel_cannon

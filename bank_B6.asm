@@ -236,7 +236,7 @@ CODE_B681C7:					;	   |
 	BEQ CODE_B681FE				;$B681E4   |
 	STZ $074D				;$B681E6   |
 	LDA #$000B				;$B681E9   |
-	JSL CODE_B8D8BA				;$B681EC   |
+	JSL set_player_interaction_global	;$B681EC   |
 	BCS CODE_B681FE				;$B681F0   |
 	LDA.l $000652				;$B681F2   |
 	ASL A					;$B681F6   |
@@ -398,7 +398,7 @@ CODE_B6832A:
 	BCC CODE_B6836B				;$B68338   |
 	LDA $6A					;$B6833A   |
 	STA current_sprite			;$B6833C   |
-	JSL CODE_BB82B8				;$B6833E   |
+	JSL delete_sprite_handle_deallocation	;$B6833E   |
 	LDY #$004A				;$B68342   |
 	JSL CODE_BB842C				;$B68345   |
 	LDY #$0060				;$B68349   |
@@ -460,7 +460,7 @@ CODE_B683BC:					;	   |
 	LDA.l $00074F				;$B683DB   |
 	STA current_sprite			;$B683DF   |
 	JSL CODE_B3975C				;$B683E1   |
-	JSL CODE_BB82B8				;$B683E5   |
+	JSL delete_sprite_handle_deallocation	;$B683E5   |
 	LDX $0656				;$B683E9   |
 	STX current_sprite			;$B683EC   |
 	STZ $0D7A				;$B683EE   |
@@ -518,7 +518,7 @@ CODE_B68446:					;	   |
 	BNE CODE_B68488				;$B68459   |
 	JSR CODE_B6800D				;$B6845B   |
 	LDA #$0026				;$B6845E   |
-	JSL CODE_B8D8BA				;$B68461   |
+	JSL set_player_interaction_global	;$B68461   |
 	BCS CODE_B68488				;$B68465   |
 	LDX $0654				;$B68467   |
 	LDA $12,x				;$B6846A   |
@@ -938,7 +938,8 @@ CODE_B68AFA:					;	   |
 	RTS					;$B68AFA  /
 
 
-;particle sprite spawning data for Krocodile Kore when K. Rool is defeated
+;Particle sprite spawning data for when Kudgel or Krocodile Kore K.rool are defeated
+
 
 ;0000	current x velocity
 ;0002	target x velocity
@@ -1071,7 +1072,7 @@ CODE_B68C6B:
 	BNE CODE_B68C81				;$B68C74   |
 	JSL set_current_level_as_cleared	;$B68C76   |
 	LDA #$0027				;$B68C7A   |
-	JSL CODE_B8D8BA				;$B68C7D   |
+	JSL set_player_interaction_global	;$B68C7D   |
 CODE_B68C81:					;	   |
 	RTS					;$B68C81  /
 
@@ -1533,6 +1534,8 @@ CODE_B69043:
 	JSL CODE_B9D09B				;$B69058   |
 	RTL					;$B6905C  /
 
+
+;krool related?
 DATA_B6905D:
 %offset(DATA_B6905F, 2)
 	dw $2000, $003C
@@ -1845,7 +1848,7 @@ CODE_B69419:					;	   |
 	BNE CODE_B6945B				;$B6942C   |
 	JSR CODE_B6800D				;$B6942E   |
 	LDA #$0026				;$B69431   |
-	JSL CODE_B8D8BA				;$B69434   |
+	JSL set_player_interaction_global	;$B69434   |
 	BCS CODE_B6945B				;$B69438   |
 	LDX $0654				;$B6943A   |
 	LDA $12,x				;$B6943D   |
@@ -2515,7 +2518,7 @@ krool_canball_sprite_code:
 	BEQ CODE_B69A76				;$B69A64   |
 	JSR CODE_B6AD9B				;$B69A66   |
 	STZ $0735				;$B69A69   |
-	JSL CODE_BB82B8				;$B69A6C   |
+	JSL delete_sprite_handle_deallocation	;$B69A6C   |
 	JSR CODE_B6AD29				;$B69A70   |
 	BRL CODE_B69C37				;$B69A73  /
 
@@ -2797,7 +2800,7 @@ CODE_B69C87:
 	CMP #$0312				;$B69C90   |
 	BCC CODE_B69C9D				;$B69C93   |
 CODE_B69C95:					;	   |
-	JSL CODE_BB82B8				;$B69C95   |
+	JSL delete_sprite_handle_deallocation	;$B69C95   |
 	LDX current_sprite			;$B69C99   |
 	SEC					;$B69C9B   |
 	RTS					;$B69C9C  /
@@ -2858,7 +2861,7 @@ CODE_B69CF2:
 	LDX current_sprite			;$B69CFE   |
 	PHX					;$B69D00   |
 	STY current_sprite			;$B69D01   |
-	JSL CODE_BB82B8				;$B69D03   |
+	JSL delete_sprite_handle_deallocation	;$B69D03   |
 	JSL CODE_B3975C				;$B69D07   |
 	PLX					;$B69D0B   |
 	STX current_sprite			;$B69D0C   |
@@ -2914,7 +2917,7 @@ CODE_B69D75:					;	   |
 	STA $0044,y				;$B69D88   |
 	JSR CODE_B6AD9B				;$B69D8B   |
 	STZ $0735				;$B69D8E   |
-	JSL CODE_BB82B8				;$B69D91   |
+	JSL delete_sprite_handle_deallocation	;$B69D91   |
 	RTS					;$B69D95  /
 
 CODE_B69D96:
@@ -2998,7 +3001,7 @@ CODE_B69E33:
 	PHX					;$B69E5E   |
 	LDX $0656				;$B69E5F   |
 	STX current_sprite			;$B69E62   |
-	JSL CODE_BB82B8				;$B69E64   |
+	JSL delete_sprite_handle_deallocation	;$B69E64   |
 	PLX					;$B69E68   |
 	STX current_sprite			;$B69E69   |
 	LDA #$9E75				;$B69E6B   |
@@ -3079,7 +3082,7 @@ spiked_canballs_sprite_code:
 	BEQ CODE_B69F06				;$B69EF4   |
 	JSR CODE_B6AD9B				;$B69EF6   |
 	STZ $0735				;$B69EF9   |
-	JSL CODE_BB82B8				;$B69EFC   |
+	JSL delete_sprite_handle_deallocation	;$B69EFC   |
 	JSR CODE_B6AD29				;$B69F00   |
 	BRL CODE_B6A18F				;$B69F03  /
 
@@ -3118,7 +3121,7 @@ CODE_B69F32:
 	BIT #$0400				;$B69F3F   |
 	BEQ CODE_B69F71				;$B69F42   |
 	LDA #$0024				;$B69F44   |
-	JSL CODE_B8D8BA				;$B69F47   |
+	JSL set_player_interaction_global	;$B69F47   |
 	BCS CODE_B69F6E				;$B69F4B   |
 	LDA #$0013				;$B69F4D   |
 	STA $0A86				;$B69F50   |
@@ -3131,7 +3134,7 @@ CODE_B69F32:
 	LDA #$000B				;$B69F62   |
 	STA $44,x				;$B69F65   |
 CODE_B69F67:					;	   |
-	JSL CODE_BB82B8				;$B69F67   |
+	JSL delete_sprite_handle_deallocation	;$B69F67   |
 	BRL CODE_B6A18F				;$B69F6B  /
 
 CODE_B69F6E:
@@ -3598,7 +3601,7 @@ CODE_B6A2E2:
 	LDA $06,x				;$B6A305   |
 	CMP #$02C0				;$B6A307   |
 	BCC CODE_B6A312				;$B6A30A   |
-	JSL CODE_BB82B8				;$B6A30C   |
+	JSL delete_sprite_handle_deallocation	;$B6A30C   |
 	BRA CODE_B6A317				;$B6A310  /
 
 CODE_B6A312:
@@ -3825,7 +3828,7 @@ krool_puddle_sprite_code:
 	LDA.l $0006A3				;$B6A3DD  \
 	BIT #$4000				;$B6A3E1   |
 	BEQ CODE_B6A3ED				;$B6A3E4   |
-	JSL CODE_BB82B8				;$B6A3E6   |
+	JSL delete_sprite_handle_deallocation	;$B6A3E6   |
 	JML [$05A9]				;$B6A3EA  /
 
 CODE_B6A3ED:
@@ -3865,7 +3868,7 @@ CODE_B6A421:
 	RTL					;$B6A433  /
 
 CODE_B6A434:
-	JSL CODE_BB82B8				;$B6A434  \
+	JSL delete_sprite_handle_deallocation	;$B6A434  \
 	JML [$05A9]				;$B6A438  /
 
 CODE_B6A43B:
@@ -4003,13 +4006,13 @@ CODE_B6A536:
 	CMP #$0100				;$B6A548   |
 	BCS CODE_B6A56C				;$B6A54B   |
 	PHX					;$B6A54D   |
-	JSL CODE_BB82B8				;$B6A54E   |
+	JSL delete_sprite_handle_deallocation	;$B6A54E   |
 	LDA.l $00075B				;$B6A552   |
 	STA current_sprite			;$B6A556   |
-	JSL CODE_BB82B8				;$B6A558   |
+	JSL delete_sprite_handle_deallocation	;$B6A558   |
 	LDA.l $00075D				;$B6A55C   |
 	STA current_sprite			;$B6A560   |
-	JSL CODE_BB82B8				;$B6A562   |
+	JSL delete_sprite_handle_deallocation	;$B6A562   |
 	PLX					;$B6A566   |
 	STX current_sprite			;$B6A567   |
 	JML [$05A9]				;$B6A569  /
@@ -4147,7 +4150,7 @@ CODE_B6A66F:
 	PHX					;$B6A676   |
 	LDA.l $00075B				;$B6A677   |
 	STA current_sprite			;$B6A67B   |
-	JSL CODE_BB82B8				;$B6A67D   |
+	JSL delete_sprite_handle_deallocation	;$B6A67D   |
 	PLX					;$B6A681   |
 	STX current_sprite			;$B6A682   |
 	STZ $0650				;$B6A684   |
@@ -4254,7 +4257,7 @@ CODE_B6A739:
 	JSL queue_sound_effect			;$B6A752   |
 	LDA.l $000656				;$B6A756   |
 	STA current_sprite			;$B6A75A   |
-	JSL CODE_BB82B8				;$B6A75C   |
+	JSL delete_sprite_handle_deallocation	;$B6A75C   |
 	STZ $0656				;$B6A760   |
 	PLX					;$B6A763   |
 	STX current_sprite			;$B6A764   |
@@ -4741,7 +4744,7 @@ CODE_B6ABCB:
 	LDA.l $000733				;$B6ABCE   |
 	BEQ CODE_B6ABDD				;$B6ABD2   |
 	STA current_sprite			;$B6ABD4   |
-	JSL CODE_BB82B8				;$B6ABD6   |
+	JSL delete_sprite_handle_deallocation	;$B6ABD6   |
 	STZ $0733				;$B6ABDA   |
 CODE_B6ABDD:					;	   |
 	LDX $0654				;$B6ABDD   |
@@ -5078,6 +5081,8 @@ DATA_B6AE73:
 	dw $0001
 	dw $0001
 
+
+;king zing commands
 DATA_B6AE87:
 	dw !boss_command_26, $026E, $016D, DATA_B6AE73
 	dw !boss_command_27, $4000
@@ -5188,7 +5193,7 @@ endif						;	   |
 CODE_B6AFBC:
 	LDA.l $00070B				;$B6AFBC  \
 	BNE CODE_B6AFDA				;$B6AFC0   |
-	LDA #$6BE6				;$B6AFC2   |
+	LDA #zinger_red_sprite_palette		;$B6AFC2   |
 	JSL set_sprite_palette_direct_global	;$B6AFC5   |
 	STZ $0709				;$B6AFC9   |
 	LDA $2E,x				;$B6AFCC   |
@@ -6047,7 +6052,7 @@ boss_command_code_3F:
 	BEQ CODE_B6BB8E				;$B6BB71   |
 	STA current_sprite			;$B6BB73   |
 	JSL CODE_B3975C				;$B6BB75   |
-	JSL CODE_BB82B8				;$B6BB79   |
+	JSL delete_sprite_handle_deallocation	;$B6BB79   |
 	LDX $0654				;$B6BB7D   |
 	STX current_sprite			;$B6BB80   |
 	LDA.l $00074F				;$B6BB82   |
@@ -6265,7 +6270,7 @@ CODE_B6BD32:					;	   |
 	BNE CODE_B6BD6F				;$B6BD4F   |
 	STY current_sprite			;$B6BD51   |
 	JSL CODE_B3975C				;$B6BD53   |
-	JSL CODE_BB82B8				;$B6BD57   |
+	JSL delete_sprite_handle_deallocation	;$B6BD57   |
 	LDX $0654				;$B6BD5B   |
 	STX current_sprite			;$B6BD5E   |
 	LDA.l $00074F				;$B6BD60   |
@@ -6726,7 +6731,7 @@ CODE_B6C0F3:					;	   |
 CODE_B6C0FF:
 	LDA.l $000739				;$B6C0FF  \
 	STA current_sprite			;$B6C103   |
-	JSL CODE_BB82B8				;$B6C105   |
+	JSL delete_sprite_handle_deallocation	;$B6C105   |
 	LDA #$0770				;$B6C109   |
 	CLC					;$B6C10C   |
 	JSL CODE_B3814F				;$B6C10D   |
@@ -6769,7 +6774,7 @@ CODE_B6C153:
 	BIT #$0080				;$B6C16A   |
 	BNE CODE_B6C186				;$B6C16D   |
 	LDA #$001F				;$B6C16F   |
-	JSL CODE_B8D8BA				;$B6C172   |
+	JSL set_player_interaction_global	;$B6C172   |
 	BCS CODE_B6C186				;$B6C176   |
 	LDX $0654				;$B6C178   |
 	LDA $12,x				;$B6C17B   |
@@ -7051,7 +7056,7 @@ CODE_B6C3BE:
 	STZ $44,x				;$B6C3C2   |
 	LDX $072B				;$B6C3C4   |
 	STX current_sprite			;$B6C3C7   |
-	JSL CODE_BB82B8				;$B6C3C9   |
+	JSL delete_sprite_handle_deallocation	;$B6C3C9   |
 	LDA.l $000654				;$B6C3CD   |
 	STA current_sprite			;$B6C3D1   |
 	STZ $072B				;$B6C3D3   |
@@ -8509,6 +8514,8 @@ CODE_B6CE1C:					;	   |
 CODE_B6CE3A:					;	   |
 	RTS					;$B6CE3A  /
 
+
+;king zing damage position offsets (big zinger phase)
 DATA_B6CE3B:
 	dw $0004, $FFFA
 	dw $0004, $FFFB
@@ -9084,7 +9091,7 @@ CODE_B6D2F8:					;	   |
 	JML [$05A9]				;$B6D2F9  /
 
 CODE_B6D2FC:
-	JSL CODE_BB82B8				;$B6D2FC  \
+	JSL delete_sprite_handle_deallocation	;$B6D2FC  \
 	BRA CODE_B6D2F8				;$B6D300  /
 
 CODE_B6D302:
@@ -10734,7 +10741,7 @@ CODE_B6DF80:
 CODE_B6DF86:					;	   |
 	XBA					;$B6DF86   |
 	STA $0020,y				;$B6DF87   |
-	JSL CODE_BB82B8				;$B6DF8A   |
+	JSL delete_sprite_handle_deallocation	;$B6DF8A   |
 	BRA CODE_B6DF9C				;$B6DF8E  /
 
 CODE_B6DF90:
@@ -10931,7 +10938,7 @@ dropping_hooks_sprite_code:
 CODE_B6E10A:
 	LDA $46,x				;$B6E10A  \
 	BPL CODE_B6E12A				;$B6E10C   |
-	JSL CODE_BB8BE9				;$B6E10E   |
+	JSL get_sprite_position_in_level_data	;$B6E10E   |
 	LDX current_sprite			;$B6E112   |
 	LDA $74					;$B6E114   |
 	STA $46,x				;$B6E116   |
@@ -11054,7 +11061,7 @@ CODE_B6E213:					;	   |
 	JML [$05A9]				;$B6E213  /
 
 CODE_B6E216:
-	JSL CODE_BB82B8				;$B6E216  \
+	JSL delete_sprite_handle_deallocation	;$B6E216  \
 	JML [$05A9]				;$B6E21A  /
 
 CODE_B6E21D:
@@ -11208,7 +11215,7 @@ CODE_B6E353:					;	   |
 	STZ $42,x				;$B6E36F   |
 	PHX					;$B6E371   |
 	STA current_sprite			;$B6E372   |
-	JSL CODE_BB82B8				;$B6E374   |
+	JSL delete_sprite_handle_deallocation	;$B6E374   |
 	PLX					;$B6E378   |
 	STX current_sprite			;$B6E379   |
 	LDA.l $000652				;$B6E37B   |
@@ -11372,7 +11379,7 @@ DATA_B6E4AE:
 
 
 CODE_B6E4BC:
-	JSL CODE_BB82B8				;$B6E4BC  \
+	JSL delete_sprite_handle_deallocation	;$B6E4BC  \
 	PLB					;$B6E4C0   |
 	JML [$05A9]				;$B6E4C1  /
 
@@ -11393,7 +11400,7 @@ CODE_B6E4CF:
 	LDA $0A,x				;$B6E4E7   |
 	CMP #$02C7				;$B6E4E9   |
 	BCC CODE_B6E500				;$B6E4EC   |
-	JSL CODE_BB82B8				;$B6E4EE   |
+	JSL delete_sprite_handle_deallocation	;$B6E4EE   |
 	LDY #$0152				;$B6E4F2   |
 	JSL CODE_BB842C				;$B6E4F5   |
 	LDA #$077E				;$B6E4F9   |
@@ -11428,7 +11435,7 @@ CODE_B6E515:
 CODE_B6E523:
 	JSR CODE_B6E504				;$B6E523  \
 	BCS CODE_B6E559				;$B6E526   |
-	JSL CODE_B39EC8				;$B6E528   |
+	JSL apply_sprite_gravity_global		;$B6E528   |
 	JSL CODE_B39EBA				;$B6E52C   |
 	JSL CODE_B8D5E0				;$B6E530   |
 	JSL CODE_B9D100				;$B6E534   |
@@ -11552,14 +11559,14 @@ CODE_B6E5F4:
 CODE_B6E604:
 	LDX current_sprite			;$B6E604  \
 	STZ $26,x				;$B6E606   |
-	JSL CODE_B39EC8				;$B6E608   |
+	JSL apply_sprite_gravity_global		;$B6E608   |
 	JSL CODE_B39EBA				;$B6E60C   |
 	JSL CODE_B8D5E0				;$B6E610   |
 	LDX current_sprite			;$B6E614   |
 	LDA $0A,x				;$B6E616   |
 	CMP #$02C7				;$B6E618   |
 	BCC CODE_B6E62A				;$B6E61B   |
-	JSL CODE_BB82B8				;$B6E61D   |
+	JSL delete_sprite_handle_deallocation	;$B6E61D   |
 	LDY #$0152				;$B6E621   |
 	JSL CODE_BB842C				;$B6E624   |
 	BRA CODE_B6E630				;$B6E628  /
@@ -11837,7 +11844,7 @@ CODE_B6E83F:					;	   |
 	LDA.l $000759				;$B6E848   |
 	BEQ CODE_B6E85D				;$B6E84C   |
 	STA current_sprite			;$B6E84E   |
-	JSL CODE_BB82B8				;$B6E850   |
+	JSL delete_sprite_handle_deallocation	;$B6E850   |
 	STZ $0759				;$B6E854   |
 	LDA.l $000654				;$B6E857   |
 	STA current_sprite			;$B6E85B   |
@@ -11847,7 +11854,7 @@ CODE_B6E85D:					;	   |
 	CMP #$0365				;$B6E862   |
 	BCC CODE_B6E8C4				;$B6E865   |
 	STX current_sprite			;$B6E867   |
-	JSL CODE_BB82B8				;$B6E869   |
+	JSL delete_sprite_handle_deallocation	;$B6E869   |
 	STZ $0656				;$B6E86D   |
 	LDX $0654				;$B6E870   |
 	STX current_sprite			;$B6E873   |
@@ -11985,7 +11992,7 @@ CODE_B6E9CC:					;	   |
 CODE_B6E9D3:
 	TYX					;$B6E9D3  \
 	LDY $4E,x				;$B6E9D4   |
-	JSL CODE_BB845D				;$B6E9D6   |
+	JSL apply_spawn_script_to_slot_global	;$B6E9D6   |
 	JML [$05A9]				;$B6E9DA  /
 
 kleever_attack_effect_sprite_code:
@@ -12033,10 +12040,10 @@ CODE_B6EA11:					;	   |
 	CMP #$02F0				;$B6EA36   |
 	BCC CODE_B6EA71				;$B6EA39   |
 	PHX					;$B6EA3B   |
-	JSL CODE_BB82B8				;$B6EA3C   |
+	JSL delete_sprite_handle_deallocation	;$B6EA3C   |
 	LDY $0656				;$B6EA40   |
 	STY current_sprite			;$B6EA43   |
-	JSL CODE_BB82B8				;$B6EA45   |
+	JSL delete_sprite_handle_deallocation	;$B6EA45   |
 	PLX					;$B6EA49   |
 	STX current_sprite			;$B6EA4A   |
 	LDY #$0152				;$B6EA4C   |
@@ -12058,7 +12065,7 @@ CODE_B6EA72:					;	   |
 
 CODE_B6EA75:
 	JSL set_current_level_as_cleared	;$B6EA75  \
-	JSL CODE_BB82B8				;$B6EA79   |
+	JSL delete_sprite_handle_deallocation	;$B6EA79   |
 	BRA CODE_B6EA71				;$B6EA7D  /
 
 	JSR CODE_B6EA83				;$B6EA7F   |
@@ -12206,7 +12213,7 @@ CODE_B6EB7F:					;	   |
 	BMI CODE_B6EBAC				;$B6EBA1   |
 	CMP #$00E0				;$B6EBA3   |
 	BMI CODE_B6EBAC				;$B6EBA6   |
-	JSL CODE_BB82B8				;$B6EBA8   |
+	JSL delete_sprite_handle_deallocation	;$B6EBA8   |
 CODE_B6EBAC:					;	   |
 	JML [$05A9]				;$B6EBAC  /
 
@@ -12364,7 +12371,7 @@ DATA_B6ECA0:
 
 
 CODE_B6ECB4:
-	JSL CODE_BB82B8				;$B6ECB4  \
+	JSL delete_sprite_handle_deallocation	;$B6ECB4  \
 	LDX current_sprite			;$B6ECB8   |
 	LDA $22,x				;$B6ECBA   |
 	BPL CODE_B6ECCD				;$B6ECBC   |
@@ -12462,7 +12469,7 @@ CODE_B6ED54:
 	PHA					;$B6ED72   |
 	LDA $6A					;$B6ED73   |
 	STA current_sprite			;$B6ED75   |
-	JSL CODE_BB82B8				;$B6ED77   |
+	JSL delete_sprite_handle_deallocation	;$B6ED77   |
 	PLX					;$B6ED7B   |
 	STX current_sprite			;$B6ED7C   |
 	LDA #$0006				;$B6ED7E   |
@@ -12470,7 +12477,7 @@ CODE_B6ED54:
 	LDA #$041A				;$B6ED84   |
 	JSL queue_sound_effect			;$B6ED87   |
 CODE_B6ED8B:					;	   |
-	JSL CODE_BB82B8				;$B6ED8B   |
+	JSL delete_sprite_handle_deallocation	;$B6ED8B   |
 	JSR CODE_B6FEA2				;$B6ED8F   |
 	LDX current_sprite			;$B6ED92   |
 	LDA $2E,x				;$B6ED94   |
@@ -12823,7 +12830,7 @@ CODE_B6F031:					;	   |
 	CMP #$023A				;$B6F033   |
 	BCC CODE_B6F051				;$B6F036   |
 CODE_B6F038:					;	   |
-	JSL CODE_BB82B8				;$B6F038   |
+	JSL delete_sprite_handle_deallocation	;$B6F038   |
 	LDA $2E,x				;$B6F03C   |
 	BIT #$0080				;$B6F03E   |
 	BNE CODE_B6F055				;$B6F041   |
@@ -12880,7 +12887,7 @@ CODE_B6F09D:					;	   |
 	JSR CODE_B6F266				;$B6F09D   |
 	LDA #$041A				;$B6F0A0   |
 	JSL queue_sound_effect			;$B6F0A3   |
-	JSL CODE_BB82B8				;$B6F0A7   |
+	JSL delete_sprite_handle_deallocation	;$B6F0A7   |
 	LDA $2E,x				;$B6F0AB   |
 	BIT #$0080				;$B6F0AD   |
 	BNE CODE_B6F055				;$B6F0B0   |
@@ -12968,14 +12975,14 @@ CODE_B6F12C:					;	   |
 	PHA					;$B6F161   |
 	LDA $6A					;$B6F162   |
 	STA current_sprite			;$B6F164   |
-	JSL CODE_BB82B8				;$B6F166   |
+	JSL delete_sprite_handle_deallocation	;$B6F166   |
 	PLX					;$B6F16A   |
 	STX current_sprite			;$B6F16B   |
 	LDA #$0006				;$B6F16D   |
 	JSR CODE_B6F266				;$B6F170   |
 	LDA #$041A				;$B6F173   |
 	JSL queue_sound_effect			;$B6F176   |
-	JSL CODE_BB82B8				;$B6F17A   |
+	JSL delete_sprite_handle_deallocation	;$B6F17A   |
 	JSR CODE_B6FEA2				;$B6F17E   |
 	LDX current_sprite			;$B6F181   |
 	LDA $2E,x				;$B6F183   |
@@ -13026,7 +13033,7 @@ CODE_B6F1C2:
 	JSR CODE_B6F82D				;$B6F1E0   |
 	PLX					;$B6F1E3   |
 	STX current_sprite			;$B6F1E4   |
-	JSL CODE_BB82B8				;$B6F1E6   |
+	JSL delete_sprite_handle_deallocation	;$B6F1E6   |
 	JSR CODE_B6FEA2				;$B6F1EA   |
 	RTS					;$B6F1ED  /
 
@@ -13260,13 +13267,13 @@ CODE_B6F39A:					;	   |
 	LDA $2E,x				;$B6F3C1   |
 	BIT #$0004				;$B6F3C3   |
 	BNE CODE_B6F3E0				;$B6F3C6   |
-	JSL CODE_B4C175				;$B6F3C8   |
-	CMP #$8000				;$B6F3CC   |
-	BCS CODE_B6F3E0				;$B6F3CF   |
+	JSL CODE_B4C175				;$B6F3C8   | Get random number
+	CMP #$8000				;$B6F3CC   | Check if number is negative
+	BCS CODE_B6F3E0				;$B6F3CF   | If yes, its a "fake" egg
 	LDA $2E,x				;$B6F3D1   |
 	ORA #$0004				;$B6F3D3   |
 	STA $2E,x				;$B6F3D6   |
-	LDA $002E,y				;$B6F3D8   |
+	LDA $002E,y				;$B6F3D8   | Else, its a "real" egg
 	ORA #$010B				;$B6F3DB   |
 	BRA CODE_B6F3E6				;$B6F3DE  /
 
@@ -13906,7 +13913,7 @@ CODE_B6F8F3:
 	BEQ CODE_B6F903				;$B6F8F5   |
 	PHX					;$B6F8F7   |
 	STA current_sprite			;$B6F8F8   |
-	JSL CODE_BB82B8				;$B6F8FA   |
+	JSL delete_sprite_handle_deallocation	;$B6F8FA   |
 	PLX					;$B6F8FE   |
 	STX current_sprite			;$B6F8FF   |
 	STZ $0E,x				;$B6F901   |
@@ -14236,6 +14243,8 @@ DATA_B6FE82:
 	dw $0002
 	dw $0002
 
+;This routine calculates the position offset that the hit star sprite should use
+;in relation to the current colliding sprite and what it just collided with, and spawns it
 CODE_B6FE9E:
 	JSR CODE_B6FEA2				;$B6FE9E  \
 	RTL					;$B6FE9F  /

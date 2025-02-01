@@ -1839,262 +1839,262 @@ base off
 arch 65816
 
 sample_table:
-	dl brr_sample_EECE62
-	dl brr_sample_EECFFC
-	dl brr_sample_EED1CC
-	dl brr_sample_EED47C
-	dl brr_sample_EED63A
-	dl brr_sample_EED87E
-	dl brr_sample_EEDC73
-	dl brr_sample_EEE055
-	dl brr_sample_EEE1AF
-	dl brr_sample_EEE8CE
-	dl brr_sample_EEE9A2
-	dl brr_sample_EEEE4B
-	dl brr_sample_EEF6B6
-	dl brr_sample_EEF8C5
-	dl brr_sample_EEFDC8
-	dl brr_sample_EEFFDF
-	dl brr_sample_EF001A
-	dl brr_sample_EF05BE
-	dl brr_sample_EF0997
-	dl brr_sample_EF120B
-	dl brr_sample_EF1EDC
-	dl brr_sample_EF288C
-	dl brr_sample_EF2F7E
-	dl brr_sample_EF3288
-	dl brr_sample_EF335C
-	dl brr_sample_EF35BC
-	dl brr_sample_EF37B0
-	dl brr_sample_EF3A10
-	dl brr_sample_EF3D5A
-	dl brr_sample_EF4512
-	dl brr_sample_EF4C79
-	dl brr_sample_EF5053
-	dl brr_sample_EF5910
-	dl brr_sample_EF5927
-	dl brr_sample_EF596B
-	dl brr_sample_EF5D96
-	dl brr_sample_EF63EF
-	dl brr_sample_EF66CD
-	dl brr_sample_EF66ED
-	dl brr_sample_EF6731
-	dl brr_sample_EF6748
-	dl brr_sample_EF69CC
-	dl brr_sample_EF720B
-	dl brr_sample_EF72FA
-	dl brr_sample_EF7A2B
-	dl brr_sample_EF8006
-	dl brr_sample_EF818E
-	dl brr_sample_EF8880
-	dl brr_sample_EF90BF
-	dl brr_sample_EF90D6
-	dl brr_sample_EF943B
-	dl brr_sample_EF9677
-	dl brr_sample_EFA228
-	dl brr_sample_EFA7E8
-	dl brr_sample_EFA81A
-	dl brr_sample_EFAC18
-	dl brr_sample_EFAC4A
-	dl brr_sample_EFAC7C
-	dl brr_sample_EFACAE
-	dl brr_sample_EFACE0
-	dl brr_sample_EFAD12
-	dl brr_sample_EFAD44
-	dl brr_sample_EFAD76
-	dl brr_sample_EFADA8
-	dl brr_sample_EFADDA
-	dl brr_sample_EFAE0C
-	dl brr_sample_EFAE3E
-	dl brr_sample_EFAE70
-	dl brr_sample_EFAEA2
-	dl brr_sample_EFAED4
-	dl brr_sample_EFAF06
-	dl brr_sample_EFAF38
-	dl brr_sample_EFAF6A
-	dl brr_sample_EFAF9C
-	dl brr_sample_EFAFCE
-	dl brr_sample_EFB000
-	dl brr_sample_EFB032
-	dl brr_sample_EFB064
-	dl brr_sample_EFB096
-	dl brr_sample_EFB0C8
-	dl brr_sample_EFB0FA
-	dl brr_sample_EFB11A
-	dl brr_sample_EFB13A
-	dl brr_sample_EFB15A
-	dl brr_sample_EFB17A
-	dl brr_sample_EFB19A
-	dl brr_sample_EFB1BA
-	dl brr_sample_EFB1DA
-	dl brr_sample_EFB1FA
-	dl brr_sample_EFB21A
-	dl brr_sample_EFB23A
-	dl brr_sample_EFB26B
-	dl brr_sample_EFB29C
-	dl brr_sample_EFB2CD
-	dl brr_sample_EFB2FE
-	dl brr_sample_EFB32F
-	dl brr_sample_EFB360
-	dl brr_sample_EFB391
-	dl brr_sample_EFB3C2
-	dl brr_sample_EFB3F3
-	dl brr_sample_EFB424
-	dl brr_sample_EFB455
-	dl brr_sample_EFB486
-	dl brr_sample_EFB4B7
-	dl brr_sample_EFB4E8
-	dl brr_sample_EFB519
-	dl brr_sample_EFB54A
-	dl brr_sample_EFB57B
-	dl brr_sample_EFB5AC
-	dl brr_sample_EFB5DD
-	dl brr_sample_EFB60E
-	dl brr_sample_EFB63F
-	dl brr_sample_EFB670
-	dl brr_sample_EFB6A1
-	dl brr_sample_EFB6D2
-	dl brr_sample_EFB703
-	dl brr_sample_EFB734
-	dl brr_sample_EFB765
-	dl brr_sample_EFB796
-	dl brr_sample_EFB7C7
-	dl brr_sample_EFB7F8
-	dl brr_sample_EFB829
-	dl brr_sample_EFB85A
-	dl brr_sample_EFB912
-	dl brr_sample_EFD404
-	dl brr_sample_EFDB08
-	dl brr_sample_EFE26F
-	dl brr_sample_EFE8F5
-	dl brr_sample_EFECBD
-	dl brr_sample_EFEDF4
-	dl brr_sample_EFEEF5
-	dl brr_sample_EFF035
-	dl brr_sample_EFF11B
-	dl brr_sample_EFF894
-	dl brr_sample_EFFAFC
-	dl brr_sample_EFFECD
-	dl brr_sample_F00162
-	dl brr_sample_F0062F
-	dl brr_sample_F00823
-	dl brr_sample_F009FC
-	dl brr_sample_F00A1C
-	dl brr_sample_F00FAF
-	dl brr_sample_F01674
-	dl brr_sample_F01B6E
-	dl brr_sample_F01BA9
-	dl brr_sample_F02667
-	dl brr_sample_F02800
-	dl brr_sample_F02988
-	dl brr_sample_F02C2F
-	dl brr_sample_F03A17
-	dl brr_sample_F03A5B
-	dl brr_sample_F03B1D
-	dl brr_sample_F03D2B
-	dl brr_sample_F04854
-	dl brr_sample_F057E3
-	dl brr_sample_F05FFD
-	dl brr_sample_F073F1
-	dl brr_sample_F08A2D
-	dl brr_sample_F09BFB
-	dl brr_sample_F0A157
-	dl brr_sample_F0A5FF
-	dl brr_sample_F0AE2B
-	dl brr_sample_F0B2B0
-	dl brr_sample_F0B7FA
-	dl brr_sample_F0BD45
-	dl brr_sample_F0C93E
-	dl brr_sample_F0CD45
-	dl brr_sample_F0DC8C
-	dl brr_sample_F0F65E
-	dl brr_sample_F1078A
-	dl brr_sample_F10F26
-	dl brr_sample_F117C7
-	dl brr_sample_F11EEE
-	dl brr_sample_F11F0D
-	dl brr_sample_F12A9A
-	dl brr_sample_F133B1
-	dl brr_sample_F139DC
-	dl brr_sample_F14B98
-	dl brr_sample_F14DA6
-	dl brr_sample_F15542
-	dl brr_sample_F15C0F
-	dl brr_sample_F1663C
-	dl brr_sample_F16F1C
-	dl brr_sample_F179D9
-	dl brr_sample_F18004
-	dl brr_sample_F186E4
-	dl brr_sample_F192E5
-	dl brr_sample_F19304
-	dl brr_sample_F19311
-	dl brr_sample_F1946B
-	dl brr_sample_F1A225
-	dl brr_sample_F1A811
-	dl brr_sample_F1AD5B
-	dl brr_sample_F1B55A
-	dl brr_sample_F1B795
-	dl brr_sample_F1B9D0
-	dl brr_sample_F1BC0B
-	dl brr_sample_F1C03F
-	dl brr_sample_F1C916
-	dl brr_sample_F1CC05
-	dl brr_sample_F1CD4E
-	dl brr_sample_F1CFF6
-	dl brr_sample_F1D190
-	dl brr_sample_F1D68A
-	dl brr_sample_F1DF7C
-	dl brr_sample_F1E973
-	dl brr_sample_F1EDA6
-	dl brr_sample_F1F188
-	dl brr_sample_F1F195
-	dl brr_sample_F1F337
-	dl brr_sample_F1F92C
-	dl brr_sample_F20080
-	dl brr_sample_F202BB
-	dl brr_sample_F218D4
-	dl brr_sample_F21E5D
-	dl brr_sample_F22132
-	dl brr_sample_F225B6
-	dl brr_sample_F22C44
-	dl brr_sample_F232D2
-	dl !null_pointer
-	dl !null_pointer
-	dl !null_pointer
-	dl !null_pointer
-	dl !null_pointer
-	dl !null_pointer
-	dl !null_pointer
-	dl !null_pointer
-	dl !null_pointer
-	dl !null_pointer
-	dl !null_pointer
-	dl !null_pointer
-	dl !null_pointer
-	dl !null_pointer
-	dl !null_pointer
-	dl !null_pointer
-	dl !null_pointer
-	dl !null_pointer
-	dl !null_pointer
-	dl !null_pointer
-	dl !null_pointer
-	dl !null_pointer
-	dl !null_pointer
-	dl !null_pointer
-	dl !null_pointer
-	dl !null_pointer
-	dl !null_pointer
-	dl !null_pointer
-	dl !null_pointer
-	dl !null_pointer
-	dl !null_pointer
-	dl !null_pointer
-	dl !null_pointer
-	dl !null_pointer
-	dl !null_pointer
-	dl !null_pointer
-	dl !null_pointer
+	dl brr_sample_EECE62		;00
+	dl brr_sample_EECFFC		;01
+	dl brr_sample_EED1CC		;02
+	dl brr_sample_EED47C		;03
+	dl brr_sample_EED63A		;04
+	dl brr_sample_EED87E		;05
+	dl brr_sample_EEDC73		;06
+	dl brr_sample_EEE055		;07
+	dl brr_sample_EEE1AF		;08
+	dl brr_sample_EEE8CE		;09
+	dl brr_sample_EEE9A2		;0A
+	dl brr_sample_EEEE4B		;0B
+	dl brr_sample_EEF6B6		;0C
+	dl brr_sample_EEF8C5		;0D
+	dl brr_sample_EEFDC8		;0E
+	dl brr_sample_EEFFDF		;0F
+	dl brr_sample_EF001A		;10
+	dl brr_sample_EF05BE		;11
+	dl brr_sample_EF0997		;12
+	dl brr_sample_EF120B		;13
+	dl brr_sample_EF1EDC		;14
+	dl brr_sample_EF288C		;15
+	dl brr_sample_EF2F7E		;16
+	dl brr_sample_EF3288		;17
+	dl brr_sample_EF335C		;18
+	dl brr_sample_EF35BC		;19
+	dl brr_sample_EF37B0		;1A
+	dl brr_sample_EF3A10		;1B
+	dl brr_sample_EF3D5A		;1C
+	dl brr_sample_EF4512		;1D
+	dl brr_sample_EF4C79		;1E
+	dl brr_sample_EF5053		;1F
+	dl brr_sample_EF5910		;20
+	dl brr_sample_EF5927		;21
+	dl brr_sample_EF596B		;22
+	dl brr_sample_EF5D96		;23
+	dl brr_sample_EF63EF		;24
+	dl brr_sample_EF66CD		;25
+	dl brr_sample_EF66ED		;26
+	dl brr_sample_EF6731		;27
+	dl brr_sample_EF6748		;28
+	dl brr_sample_EF69CC		;29
+	dl brr_sample_EF720B		;2A
+	dl brr_sample_EF72FA		;2B
+	dl brr_sample_EF7A2B		;2C
+	dl brr_sample_EF8006		;2D
+	dl brr_sample_EF818E		;2E
+	dl brr_sample_EF8880		;2F
+	dl brr_sample_EF90BF		;30
+	dl brr_sample_EF90D6		;31
+	dl brr_sample_EF943B		;32
+	dl brr_sample_EF9677		;33
+	dl brr_sample_EFA228		;34
+	dl brr_sample_EFA7E8		;35
+	dl brr_sample_EFA81A		;36
+	dl brr_sample_EFAC18		;37
+	dl brr_sample_EFAC4A		;38
+	dl brr_sample_EFAC7C		;39
+	dl brr_sample_EFACAE		;3A
+	dl brr_sample_EFACE0		;3B
+	dl brr_sample_EFAD12		;3C
+	dl brr_sample_EFAD44		;3D
+	dl brr_sample_EFAD76		;3E
+	dl brr_sample_EFADA8		;3F
+	dl brr_sample_EFADDA		;40
+	dl brr_sample_EFAE0C		;41
+	dl brr_sample_EFAE3E		;42
+	dl brr_sample_EFAE70		;43
+	dl brr_sample_EFAEA2		;44
+	dl brr_sample_EFAED4		;45
+	dl brr_sample_EFAF06		;46
+	dl brr_sample_EFAF38		;47
+	dl brr_sample_EFAF6A		;48
+	dl brr_sample_EFAF9C		;49
+	dl brr_sample_EFAFCE		;4A
+	dl brr_sample_EFB000		;4B
+	dl brr_sample_EFB032		;4C
+	dl brr_sample_EFB064		;4D
+	dl brr_sample_EFB096		;4E
+	dl brr_sample_EFB0C8		;4F
+	dl brr_sample_EFB0FA		;50
+	dl brr_sample_EFB11A		;51
+	dl brr_sample_EFB13A		;52
+	dl brr_sample_EFB15A		;53
+	dl brr_sample_EFB17A		;54
+	dl brr_sample_EFB19A		;55
+	dl brr_sample_EFB1BA		;56
+	dl brr_sample_EFB1DA		;57
+	dl brr_sample_EFB1FA		;58
+	dl brr_sample_EFB21A		;59
+	dl brr_sample_EFB23A		;5A
+	dl brr_sample_EFB26B		;5B
+	dl brr_sample_EFB29C		;5C
+	dl brr_sample_EFB2CD		;5D
+	dl brr_sample_EFB2FE		;5E
+	dl brr_sample_EFB32F		;5F
+	dl brr_sample_EFB360		;60
+	dl brr_sample_EFB391		;61
+	dl brr_sample_EFB3C2		;62
+	dl brr_sample_EFB3F3		;63
+	dl brr_sample_EFB424		;64
+	dl brr_sample_EFB455		;65
+	dl brr_sample_EFB486		;66
+	dl brr_sample_EFB4B7		;67
+	dl brr_sample_EFB4E8		;68
+	dl brr_sample_EFB519		;69
+	dl brr_sample_EFB54A		;6A
+	dl brr_sample_EFB57B		;6B
+	dl brr_sample_EFB5AC		;6C
+	dl brr_sample_EFB5DD		;6D
+	dl brr_sample_EFB60E		;6E
+	dl brr_sample_EFB63F		;6F
+	dl brr_sample_EFB670		;70
+	dl brr_sample_EFB6A1		;71
+	dl brr_sample_EFB6D2		;72
+	dl brr_sample_EFB703		;73
+	dl brr_sample_EFB734		;74
+	dl brr_sample_EFB765		;75
+	dl brr_sample_EFB796		;76
+	dl brr_sample_EFB7C7		;77
+	dl brr_sample_EFB7F8		;78
+	dl brr_sample_EFB829		;79
+	dl brr_sample_EFB85A		;7A
+	dl brr_sample_EFB912		;7B
+	dl brr_sample_EFD404		;7C
+	dl brr_sample_EFDB08		;7D
+	dl brr_sample_EFE26F		;7E
+	dl brr_sample_EFE8F5		;7F
+	dl brr_sample_EFECBD		;80
+	dl brr_sample_EFEDF4		;81
+	dl brr_sample_EFEEF5		;82
+	dl brr_sample_EFF035		;83
+	dl brr_sample_EFF11B		;84
+	dl brr_sample_EFF894		;85
+	dl brr_sample_EFFAFC		;86
+	dl brr_sample_EFFECD		;87
+	dl brr_sample_F00162		;88
+	dl brr_sample_F0062F		;89
+	dl brr_sample_F00823		;8A
+	dl brr_sample_F009FC		;8B
+	dl brr_sample_F00A1C		;8C
+	dl brr_sample_F00FAF		;8D
+	dl brr_sample_F01674		;8E
+	dl brr_sample_F01B6E		;8F
+	dl brr_sample_F01BA9		;90
+	dl brr_sample_F02667		;91
+	dl brr_sample_F02800		;92
+	dl brr_sample_F02988		;93
+	dl brr_sample_F02C2F		;94
+	dl brr_sample_F03A17		;95
+	dl brr_sample_F03A5B		;96
+	dl brr_sample_F03B1D		;97
+	dl brr_sample_F03D2B		;98
+	dl brr_sample_F04854		;99
+	dl brr_sample_F057E3		;9A
+	dl brr_sample_F05FFD		;9B
+	dl brr_sample_F073F1		;9C
+	dl brr_sample_F08A2D		;9D
+	dl brr_sample_F09BFB		;9E
+	dl brr_sample_F0A157		;9F
+	dl brr_sample_F0A5FF		;A0
+	dl brr_sample_F0AE2B		;A1
+	dl brr_sample_F0B2B0		;A2
+	dl brr_sample_F0B7FA		;A3
+	dl brr_sample_F0BD45		;A4
+	dl brr_sample_F0C93E		;A5
+	dl brr_sample_F0CD45		;A6
+	dl brr_sample_F0DC8C		;A7
+	dl brr_sample_F0F65E		;A8
+	dl brr_sample_F1078A		;A9
+	dl brr_sample_F10F26		;AA
+	dl brr_sample_F117C7		;AB
+	dl brr_sample_F11EEE		;AC
+	dl brr_sample_F11F0D		;AD
+	dl brr_sample_F12A9A		;AE
+	dl brr_sample_F133B1		;AF
+	dl brr_sample_F139DC		;B0
+	dl brr_sample_F14B98		;B1
+	dl brr_sample_F14DA6		;B2
+	dl brr_sample_F15542		;B3
+	dl brr_sample_F15C0F		;B4
+	dl brr_sample_F1663C		;B5
+	dl brr_sample_F16F1C		;B6
+	dl brr_sample_F179D9		;B7
+	dl brr_sample_F18004		;B8
+	dl brr_sample_F186E4		;B9
+	dl brr_sample_F192E5		;BA
+	dl brr_sample_F19304		;BB
+	dl brr_sample_F19311		;BC
+	dl brr_sample_F1946B		;BD
+	dl brr_sample_F1A225		;BE
+	dl brr_sample_F1A811		;BF
+	dl brr_sample_F1AD5B		;C0
+	dl brr_sample_F1B55A		;C1
+	dl brr_sample_F1B795		;C2
+	dl brr_sample_F1B9D0		;C3
+	dl brr_sample_F1BC0B		;C4
+	dl brr_sample_F1C03F		;C5
+	dl brr_sample_F1C916		;C6
+	dl brr_sample_F1CC05		;C7
+	dl brr_sample_F1CD4E		;C8
+	dl brr_sample_F1CFF6		;C9
+	dl brr_sample_F1D190		;CA
+	dl brr_sample_F1D68A		;CB
+	dl brr_sample_F1DF7C		;CC
+	dl brr_sample_F1E973		;CD
+	dl brr_sample_F1EDA6		;CE
+	dl brr_sample_F1F188		;CF
+	dl brr_sample_F1F195		;D0
+	dl brr_sample_F1F337		;D1
+	dl brr_sample_F1F92C		;D2
+	dl brr_sample_F20080		;D3
+	dl brr_sample_F202BB		;D4
+	dl brr_sample_F218D4		;D5
+	dl brr_sample_F21E5D		;D6
+	dl brr_sample_F22132		;D7
+	dl brr_sample_F225B6		;D8
+	dl brr_sample_F22C44		;D9
+	dl brr_sample_F232D2		;DA
+	dl !null_pointer		;DB
+	dl !null_pointer		;DC
+	dl !null_pointer		;DD
+	dl !null_pointer		;DE
+	dl !null_pointer		;DF
+	dl !null_pointer		;E0
+	dl !null_pointer		;E1
+	dl !null_pointer		;E2
+	dl !null_pointer		;E3
+	dl !null_pointer		;E4
+	dl !null_pointer		;E5
+	dl !null_pointer		;E6
+	dl !null_pointer		;E7
+	dl !null_pointer		;E8
+	dl !null_pointer		;E9
+	dl !null_pointer		;EA
+	dl !null_pointer		;EB
+	dl !null_pointer		;EC
+	dl !null_pointer		;ED
+	dl !null_pointer		;EE
+	dl !null_pointer		;EF
+	dl !null_pointer		;F0
+	dl !null_pointer		;F1
+	dl !null_pointer		;F2
+	dl !null_pointer		;F3
+	dl !null_pointer		;F4
+	dl !null_pointer		;F5
+	dl !null_pointer		;F6
+	dl !null_pointer		;F7
+	dl !null_pointer		;F8
+	dl !null_pointer		;F9
+	dl !null_pointer		;FA
+	dl !null_pointer		;FB
+	dl !null_pointer		;FC
+	dl !null_pointer		;FD
+	dl !null_pointer		;FE
+	dl !null_pointer		;FF
 
 song_data:
 	%offset(song_sample_maps, 3)

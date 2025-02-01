@@ -5065,6 +5065,7 @@ DATA_B5BB2E:
 	dl carnival_8x8_tilemap
 	dl castle_8x8_tilemap
 
+;level tilemap vram addresses
 DATA_B5BB6D:
 	dw $6800
 	dw $3800

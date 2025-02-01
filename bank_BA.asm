@@ -86,7 +86,7 @@ CODE_BA90A8:
 	BEQ CODE_BA90D5				;$BA90AF   |
 	DEC $0709				;$BA90B1   |
 	BNE CODE_BA90D1				;$BA90B4   |
-	LDA #$6C04				;$BA90B6   |
+	LDA #zinger_yellow_sprite_palette	;$BA90B6   |
 	JSL set_sprite_palette_direct_global	;$BA90B9   |
 	LDX current_sprite			;$BA90BD   |
 	LDA $2E,x				;$BA90BF   |
@@ -184,7 +184,7 @@ CODE_BA9192:					;	   |
 	BNE CODE_BA91C1				;$BA919B   |
 	LDA.l $000656				;$BA919D   |
 	STA current_sprite			;$BA91A1   |
-	JSL CODE_BB82B8				;$BA91A3   |
+	JSL delete_sprite_handle_deallocation	;$BA91A3   |
 	LDA.l $000654				;$BA91A7   |
 	STA current_sprite			;$BA91AB   |
 	STZ $0656				;$BA91AD   |
@@ -239,7 +239,7 @@ CODE_BA920D:
 	BNE CODE_BA924B				;$BA9213   |
 	LDA.l $00071F				;$BA9215   |
 	BNE CODE_BA922F				;$BA9219   |
-	LDA #$6C04				;$BA921B   |
+	LDA #zinger_yellow_sprite_palette	;$BA921B   |
 	JSL set_sprite_palette_direct_global	;$BA921E   |
 	LDX current_sprite			;$BA9222   |
 	LDA $32,x				;$BA9224   |
@@ -251,7 +251,7 @@ CODE_BA920D:
 CODE_BA922F:
 	LDX current_sprite			;$BA922F  \
 	STZ $32,x				;$BA9231   |
-	LDA #$6BE6				;$BA9233   |
+	LDA #zinger_red_sprite_palette		;$BA9233   |
 	JSL set_sprite_palette_direct_global	;$BA9236   |
 	BRA CODE_BA924B				;$BA923A  /
 
@@ -350,12 +350,20 @@ CODE_BA92F6:
 	STA $000711				;$BA930F   |
 	RTS					;$BA9313  /
 
+;king zing damage flash palette addresses
 DATA_BA9314:
-	db $04, $6C, $E6, $6B
+	dw zinger_yellow_sprite_palette
+	dw zinger_red_sprite_palette
 
+;king zing stinger palette ID's
 DATA_BA9318:
-	db $98, $00, $99, $00, $9A, $00, $9B, $00
-	db $9A, $00, $99, $00
+	dw $0098
+	dw $0099
+	dw $009A
+	dw $009B
+	dw $009A
+	dw $0099
+
 DATA_BA9324:
 
 CODE_BA9324:
@@ -374,7 +382,7 @@ CODE_BA9334:
 	LDA $2E,x				;$BA933E   |
 	AND #$FDFE				;$BA9340   |
 	STA $2E,x				;$BA9343   |
-	LDA #$6C04				;$BA9345   |
+	LDA #zinger_yellow_sprite_palette	;$BA9345   |
 	JSL set_sprite_palette_direct_global	;$BA9348   |
 	STZ $070D				;$BA934C   |
 	LDX current_sprite			;$BA934F   |
@@ -592,14 +600,14 @@ CODE_BA94EF:					;	   |
 	BNE CODE_BA94FF				;$BA94F2   |
 	JSL set_current_level_as_cleared	;$BA94F4   |
 	LDA #$0027				;$BA94F8   |
-	JSL CODE_B8D8BA				;$BA94FB   |
+	JSL set_player_interaction_global	;$BA94FB   |
 CODE_BA94FF:					;	   |
 	BRL CODE_BA926C				;$BA94FF  /
 
 CODE_BA9502:
 	PHY					;$BA9502  \
-	LDA #$067A				;$BA9503   |
-	JSL queue_sound_effect			;$BA9506   |
+	LDA #$067A				;$BA9503   | 
+	JSL queue_sound_effect			;$BA9506   | Play king_zing_hit sound effect
 	LDX current_sprite			;$BA950A   |
 	PHX					;$BA950C   |
 	JSR CODE_BA92F6				;$BA950D   |
@@ -791,21 +799,37 @@ CODE_BA96BA:
 	STZ $24,x				;$BA96C7   |
 	RTS					;$BA96C9  /
 
+
+;king zing damage shake offsets (ring zinger phase)
 DATA_BA96CA:
-	db $03, $00, $03, $00, $03, $00, $FD, $FF
-	db $FD, $FF, $FD, $FF, $03, $00, $03, $00
-	db $03, $00, $FD, $FF, $FD, $FF, $FD, $FF
-	db $03, $00, $03, $00, $03, $00, $FD, $FF
-	db $FD, $FF, $FD, $FF, $03, $00, $03, $00
-	db $03, $00, $FD, $FF, $FD, $FF, $FD, $FF
-	db $03, $00, $03, $00, $03, $00, $FD, $FF
-	db $FD, $FF, $FD, $FF, $03, $00, $03, $00
-	db $03, $00, $FD, $FF, $FD, $FF, $FD, $FF
-	db $03, $00, $03, $00, $03, $00, $FD, $FF
-	db $FD, $FF, $FD, $FF, $03, $00, $03, $00
-	db $03, $00, $FD, $FF, $FD, $FF, $FD, $FF
-	db $03, $00, $03, $00, $03, $00, $FD, $FF
-	db $FD, $FF, $FD, $FF
+	dw $0003, $0003
+	dw $0003, $FFFD
+	dw $FFFD, $FFFD
+	dw $0003, $0003
+	dw $0003, $FFFD
+	dw $FFFD, $FFFD
+	dw $0003, $0003
+	dw $0003, $FFFD
+	dw $FFFD, $FFFD
+	dw $0003, $0003
+	dw $0003, $FFFD
+	dw $FFFD, $FFFD
+	dw $0003, $0003
+	dw $0003, $FFFD
+	dw $FFFD, $FFFD
+	dw $0003, $0003
+	dw $0003, $FFFD
+	dw $FFFD, $FFFD
+	dw $0003, $0003
+	dw $0003, $FFFD 	
+	dw $FFFD, $FFFD
+	dw $0003, $0003
+	dw $0003, $FFFD
+	dw $FFFD, $FFFD
+	dw $0003, $0003
+	dw $0003, $FFFD
+	dw $FFFD, $FFFD
+
 DATA_BA9736:
 
 CODE_BA9736:
@@ -828,7 +852,7 @@ CODE_BA9751:
 	LDA $002E,y				;$BA9754   |
 	ORA #$8000				;$BA9757   |
 	STA $002E,y				;$BA975A   |
-	JSL CODE_BB82B8				;$BA975D   |
+	JSL delete_sprite_handle_deallocation	;$BA975D   |
 	RTL					;$BA9761  /
 
 CODE_BA9762:
@@ -869,7 +893,7 @@ king_zing_ring_zinger_sprite_code:
 	JMP (DATA_BA97B5,x)			;$BA97AB  /
 
 CODE_BA97AE:
-	JSL CODE_BB82B8				;$BA97AE  \
+	JSL delete_sprite_handle_deallocation	;$BA97AE  \
 	BRL CODE_BA97F0				;$BA97B2  /
 
 DATA_BA97B5:
@@ -1009,7 +1033,7 @@ CODE_BA98DD:					;	   |
 	JML [$05A9]				;$BA98DD  /
 
 CODE_BA98E0:
-	JSL CODE_BB82B8				;$BA98E0  \
+	JSL delete_sprite_handle_deallocation	;$BA98E0  \
 	BRA CODE_BA98DD				;$BA98E4  /
 
 DATA_BA98E6:
@@ -1033,7 +1057,7 @@ king_zing_smoke_effect_sprite_code:
 	LDA $2E,x				;$BA9941   |
 	BIT #$8000				;$BA9943   |
 	BEQ CODE_BA994E				;$BA9946   |
-	JSL CODE_BB82D2				;$BA9948   |
+	JSL delete_sprite_no_deallocation	;$BA9948   |
 	BRA CODE_BA99A6				;$BA994C  /
 
 CODE_BA994E:
@@ -1091,60 +1115,61 @@ king_zing_stinger_sprite_code:
 	PHB					;$BA99B1  \
 	PHK					;$BA99B2   |
 	PLB					;$BA99B3   |
-	LDA.l $000652				;$BA99B4   |
-	BNE CODE_BA99BD				;$BA99B8   |
+	LDA.l $000652				;$BA99B4   | Get king zing hit points
+	BNE .CODE_BA99BD			;$BA99B8   |
 	BRL CODE_BA9A71				;$BA99BA  /
 
-CODE_BA99BD:
-	LDX $0654				;$BA99BD  \
-	LDA $2E,x				;$BA99C0   |
+.CODE_BA99BD:
+	LDX $0654				;$BA99BD  \ Get index of king zing sprite
+	LDA $2E,x				;$BA99C0   | Get king zing state
 	BIT #$0200				;$BA99C2   |
 	BNE CODE_BA9A24				;$BA99C5   |
-	JSL CODE_BCFB58				;$BA99C7   |
-	LDA #$0000				;$BA99CB   |
-	JSL CODE_B6CF65				;$BA99CE   |
-	LDX $0656				;$BA99D2   |
+	JSL CODE_BCFB58				;$BA99C7   | Else populate sprite clipping
+	LDA #$0000				;$BA99CB   | Load collision flags
+	JSL CODE_B6CF65				;$BA99CE   | Check complex player collision
+	LDX $0656				;$BA99D2   | Get index of self
 	LDY #DATA_BA99A7			;$BA99D5   |
 	JSL CODE_B6E736				;$BA99D8   |
 	LDA #$0200				;$BA99DC   |
 	LDY #$0000				;$BA99DF   |
 	JSL CODE_BA9016				;$BA99E2   |
 	BCC CODE_BA9A22				;$BA99E6   |
-	LDA.l $000656				;$BA99E8   |
-	CMP $6A					;$BA99EC   |
-	BEQ CODE_BA9A22				;$BA99EE   |
-	LDX $6A					;$BA99F0   |
+	LDA.l $000656				;$BA99E8   | Get index of self
+	CMP $6A					;$BA99EC   | Check if its the current colliding sprite
+	BEQ CODE_BA9A22				;$BA99EE   | If yes
+	LDX $6A					;$BA99F0   | Else get current colliding sprite
 	LDA $2E,x				;$BA99F2   |
-	CMP #$0001				;$BA99F4   |
-	BEQ CODE_BA9A22				;$BA99F7   |
-	JSL CODE_B6FE9E				;$BA99F9   |
-	LDX current_sprite			;$BA99FD   |
+	CMP #$0001				;$BA99F4   | Check if its in state 1
+	BEQ CODE_BA9A22				;$BA99F7   | If yes
+	JSL CODE_B6FE9E				;$BA99F9   | Else spawn hit star sprite
+	LDX current_sprite			;$BA99FD   | Get stinger sprite
 	LDA $32,x				;$BA99FF   |
-	ORA #$0008				;$BA9A01   |
+	ORA #$0008				;$BA9A01   | Set some flag
 	STA $32,x				;$BA9A04   |
-	LDX $6A					;$BA9A06   |
+	LDX $6A					;$BA9A06   | Get current colliding sprite (should be squawks egg)
 	LDA #$0001				;$BA9A08   |
-	STA $2E,x				;$BA9A0B   |
+	STA $2E,x				;$BA9A0B   | Set its state to 1
 	LDA #$FC00				;$BA9A0D   |
-	STA $24,x				;$BA9A10   |
+	STA $24,x				;$BA9A10   | Set current Y velocity
 	LDA $DB					;$BA9A12   |
 	CMP $E3					;$BA9A14   |
 	BMI CODE_BA9A20				;$BA9A16   |
-	LDA $20,x				;$BA9A18   |
+	LDA $20,x				;$BA9A18   | Get current X velocity
 	EOR #$FFFF				;$BA9A1A   |
-	INC A					;$BA9A1D   |
-	STA $20,x				;$BA9A1E   |
+	INC A					;$BA9A1D   | Invert and update it
+	STA $20,x				;$BA9A1E   | 
 CODE_BA9A20:					;	   |
-	STZ $26,x				;$BA9A20   |
+	STZ $26,x				;$BA9A20   | Clear target X velocity
 CODE_BA9A22:					;	   |
 	BRA CODE_BA9A55				;$BA9A22  /
 
 CODE_BA9A24:
-	LDX $0654				;$BA9A24  \
+	LDX $0654				;$BA9A24  \ Get index of king zing sprite
 	LDA.l $000765				;$BA9A27   |
 	BNE CODE_BA9A71				;$BA9A2B   |
 	BRL CODE_BA9A71				;$BA9A2D  /
 
+;dead code? looks like it would apply the knockback interaction to the player on collision
 	LDX current_sprite			;$BA9A30   |
 	JSL CODE_BCFB58				;$BA9A32   |
 	LDA #$0C7B				;$BA9A36   |
@@ -1159,11 +1184,11 @@ CODE_BA9A24:
 	BRA CODE_BA9A71				;$BA9A53  /
 
 CODE_BA9A55:
-	LDY $0654				;$BA9A55  \
+	LDY $0654				;$BA9A55  \ Get index of king zing sprite
 	LDA $002E,y				;$BA9A58   |
 	BIT #$0001				;$BA9A5B   |
 	BNE CODE_BA9A71				;$BA9A5E   |
-	LDX current_sprite			;$BA9A60   |
+	LDX current_sprite			;$BA9A60   | Get stinger sprite
 	LDA.l $000765				;$BA9A62   |
 	BNE CODE_BA9A71				;$BA9A66   |
 	LDA $32,x				;$BA9A68   |
@@ -1187,9 +1212,9 @@ CODE_BA9A8D:					;	   |
 	LDX current_sprite			;$BA9A90   |
 	JSL set_sprite_palette_global		;$BA9A92   |
 CODE_BA9A96:					;	   |
-	JSL CODE_B9D100				;$BA9A96   |
+	JSL CODE_B9D100				;$BA9A96   | Process animation
 	PLB					;$BA9A9A   |
-	JML [$05A9]				;$BA9A9B  /
+	JML [$05A9]				;$BA9A9B  / Done processing sprite
 
 king_zing_spikes_sprite_code:
 	LDX current_sprite			;$BA9A9E  \
@@ -1216,7 +1241,7 @@ CODE_BA9ACD:					;	   |
 	BIT #$0007				;$BA9AD1   |
 	BEQ CODE_BA9ADC				;$BA9AD4   |
 CODE_BA9AD6:					;	   |
-	JSL CODE_BB82B8				;$BA9AD6   |
+	JSL delete_sprite_handle_deallocation	;$BA9AD6   |
 	BRA CODE_BA9B0B				;$BA9ADA  /
 
 CODE_BA9ADC:
@@ -1389,17 +1414,13 @@ CODE_BA9C2A:					;	   |
 	LDA $32,x				;$BA9C2C   |
 	BEQ CODE_BA9C47				;$BA9C2E   |
 	LDA #$0000				;$BA9C30   |
-	PHB					;$BA9C33   |
+	PHB					;$BA9C33   | 
 	PHK					;$BA9C34   |
 	PLB					;$BA9C35   |
-if !version == 0				;	   |
-	JSR $F305				;$BA9C36   | This appears to be dead code?
-else						;	   |
-	JSR $F266				;$BA9C36   |
-endif						;	   |
+	JSR.w CODE_B6F266		 	;$BA9C36   | This code was probably from B6 krow code and got moved, would have spawned egg shell pieces
 	PLB					;$BA9C39   |
-	JSL CODE_BB82B8				;$BA9C3A   |
-	LDA #$041A				;$BA9C3E   |
+	JSL delete_sprite_handle_deallocation	;$BA9C3A   | Would have deleted egg sprite and played a barrel break sound
+	LDA #$041A				;$BA9C3E   | 
 	JSL queue_sound_effect			;$BA9C41   |
 	BRA CODE_BA9C61				;$BA9C45  /
 
@@ -1508,10 +1529,10 @@ CODE_BA9D14:
 	JSL queue_sound_effect			;$BA9D25   |
 	LDA #$073A				;$BA9D29   |
 	JSL queue_sound_effect			;$BA9D2C   |
-	LDY.w #DATA_FF1E74			;$BA9D30   |
+	LDY.w #DATA_FF1E74			;$BA9D30   | Spawn barrel
 	JSL CODE_BB8432				;$BA9D33   |
 	LDY $06FD				;$BA9D37   |
-	JSL CODE_B4C175				;$BA9D3A   |
+	JSL CODE_B4C175				;$BA9D3A   | Get RNG
 	STA $000650				;$BA9D3E   |
 	STA CPU.dividen				;$BA9D42   |
 	LDA #$0003				;$BA9D45   |
@@ -1782,6 +1803,8 @@ CODE_BA9F88:					;	   |
 	DEC $0703				;$BA9F88   |
 	RTS					;$BA9F8B  /
 
+
+;spawns a kreepy krow egg and plays the egg fall sound
 CODE_BA9F8C:
 	LDA #$0565				;$BA9F8C  \
 	JSL queue_sound_effect			;$BA9F8F   |
@@ -1829,7 +1852,7 @@ CODE_BA9FDF:					;	   |
 
 CODE_BA9FE2:
 	INC $065C				;$BA9FE2  \
-	LDA #$057C				;$BA9FE5   |
+	LDA #$057C				;$BA9FE5   | play kreepy krow destroyed sound effect
 	JSL queue_sound_effect			;$BA9FE8   |
 	LDY #$0138				;$BA9FEC   |
 	JSL CODE_BB842C				;$BA9FEF   |
@@ -1841,12 +1864,12 @@ CODE_BA9FE2:
 	JSL CODE_BB842C				;$BAA004   |
 	LDY #$013C				;$BAA008   |
 	JSL CODE_BB842C				;$BAA00B   |
-	LDX $0654				;$BAA00F   |
-	LDA #$C000				;$BAA012   |
-	STA $1C,x				;$BAA015   |
+	LDX $0654				;$BAA00F   | get index of body sprite
+	LDA #$C000				;$BAA012   | 
+	STA $1C,x				;$BAA015   | make it invisible
 	STZ $3A,x				;$BAA017   |
-	LDX $0656				;$BAA019   |
-	STA $1C,x				;$BAA01C   |
+	LDX $0656				;$BAA019   | get index of head sprite
+	STA $1C,x				;$BAA01C   | make it invisible
 	STZ $3A,x				;$BAA01E   |
 	STZ $0658				;$BAA020   |
 CODE_BAA023:					;	   |
@@ -1899,7 +1922,7 @@ CODE_BAA099:					;	   |
 	DEC $065A				;$BAA0A1   |
 	JSL set_current_level_as_cleared	;$BAA0A4   |
 	LDA #$0027				;$BAA0A8   |
-	JSL CODE_B8D8BA				;$BAA0AB   |
+	JSL set_player_interaction_global	;$BAA0AB   |
 CODE_BAA0AF:					;	   |
 	BRL CODE_BA9C06				;$BAA0AF  /
 
@@ -1907,74 +1930,151 @@ CODE_BAA0B2:
 	STX $0658				;$BAA0B2  \
 	BRL CODE_BA9C06				;$BAA0B5  /
 
-DATA_BAA0B8:
-	db $B8, $00, $B9, $00, $82, $00, $83, $00
-	db $B8, $00, $B9, $00, $82, $00, $83, $00
-	db $84, $00, $85, $00, $82, $00, $83, $00
-	db $84, $00, $85, $00, $86, $00, $87, $00
-	db $86, $00, $87, $00, $00, $00, $00, $00
 
+;kreepy krow death flash palette ID's
+DATA_BAA0B8:
+	dw $00B8
+	dw $00B9
+	dw $0082
+	dw $0083
+	dw $00B8
+	dw $00B9
+	dw $0082
+	dw $0083
+	dw $0084
+	dw $0085
+	dw $0082
+	dw $0083
+	dw $0084
+	dw $0085
+	dw $0086
+	dw $0087
+	dw $0086
+	dw $0087
+	dw !null_pointer, !null_pointer
+
+
+;kreepy krow mini-necky spawning data
+
+;number of mini-neckys to spawn per phase, mini-necky data
 DATA_BAA0E0:
 	%offset(DATA_BAA0E2, 2)
-	db $08, $00 : dw DATA_BAA114
-	db $06, $00 : dw DATA_BAA0FC
-	db $04, $00 : dw DATA_BAA0EC
+	dw $0008, .phase_3 			;Phase 3
+	dw $0006, .phase_2 			;Phase 2
+	dw $0004, .phase_1			;Phase 1
 
-DATA_BAA0EC:
-	db $01, $00, $78, $00, $02, $00, $78, $00
-	db $01, $00, $78, $00, $02, $00, $00, $00
+;index into mini-necky variable setup table, delay before next spawn
+.phase_1:
+	dw $0001, $0078
+	dw $0002, $0078
+	dw $0001, $0078
+	dw $0002, $0000
 
-DATA_BAA0FC:
-	db $03, $00, $5A, $00, $04, $00, $5A, $00
-	db $03, $00, $5A, $00, $04, $00, $5A, $00
-	db $03, $00, $69, $00, $04, $00, $00, $00
+.phase_2:
+	dw $0003, $005A
+	dw $0004, $005A
+	dw $0003, $005A
+	dw $0004, $005A
+	dw $0003, $0069
+	dw $0004, $0000
 
-DATA_BAA114:
-	db $05, $00, $3C, $00, $06, $00, $3C, $00
-	db $05, $00, $3C, $00, $06, $00, $3C, $00
-	db $05, $00, $3C, $00, $06, $00, $4B, $00
-	db $05, $00, $3C, $00, $06, $00, $00, $00
+.phase_3:
+	dw $0005, $003C
+	dw $0006, $003C
+	dw $0005, $003C
+	dw $0006, $003C
+	dw $0005, $003C
+	dw $0006, $004B
+	dw $0005, $003C
+	dw $0006, $0000
 
-
+;mini-necky variables setup table
 DATA_BAA134:
-	dw !null_pointer
-	dw DATA_BAA142
-	dw DATA_BAA158
-	dw DATA_BAA16E
-	dw DATA_BAA184
-	dw DATA_BAA19A
-	dw DATA_BAA1B0
+	dw !null_pointer 			;00
+	dw .DATA_BAA142				;01
+	dw .DATA_BAA158				;02
+	dw .DATA_BAA16E				;03
+	dw .DATA_BAA184				;04
+	dw .DATA_BAA19A				;05
+	dw .DATA_BAA1B0				;06
 
-DATA_BAA142:
-	db $60, $02, $D0, $0B, $02, $02, $14, $00
-	db $00, $08, $80, $FF, $00, $00, $00, $FB
-	db $00, $FF, $1E, $00, $2D, $00
+.DATA_BAA142:
+	dw $0260				;X position
+	dw $0BD0 				;Y position
+	dw $0202 				;$46,x (Movement behavior related?)
+	dw $0014 				;$48,x (Movement behavior related?)
+	dw $0800 				;Potential terrain tile position
+	dw $FF80 				;Distance from potential ground
+	dw $0000				;$22,x
+	dw $FB00 				;$28,x
+	dw $FF00 				;Current X velocity
+	dw $001E				;$4E,x (Time before diving)
+	dw $002D				;$50,x (Time before stops moving?)
 
-DATA_BAA158:
-	db $00, $01, $D0, $0B, $02, $02, $14, $00
-	db $00, $08, $80, $FF, $00, $00, $00, $05
-	db $00, $01, $1E, $00, $2D, $00
+.DATA_BAA158:
+	dw $0100
+	dw $0BD0
+	dw $0202
+	dw $0014
+	dw $0800
+	dw $FF80
+	dw $0000
+	dw $0500
+	dw $0100
+	dw $001E
+	dw $002D
 
-DATA_BAA16E:
-	db $60, $02, $00, $07, $02, $02, $14, $00
-	db $00, $08, $80, $FF, $00, $00, $00, $FB
-	db $00, $FF, $14, $00, $2D, $00
+.DATA_BAA16E:
+	dw $0260
+	dw $0700
+	dw $0202
+	dw $0014
+	dw $0800
+	dw $FF80
+	dw $0000
+	dw $FB00
+	dw $FF00
+	dw $0014
+	dw $002D
 
-DATA_BAA184:
-	db $00, $01, $00, $07, $02, $02, $14, $00
-	db $00, $08, $80, $FF, $00, $00, $00, $05
-	db $00, $01, $14, $00, $2D, $00
+.DATA_BAA184:
+	dw $0100
+	dw $0700
+	dw $0202
+	dw $0014
+	dw $0800
+	dw $FF80
+	dw $0000
+	dw $0500
+	dw $0100
+	dw $0014
+	dw $002D
 
-DATA_BAA19A:
-	db $60, $02, $B0, $01, $02, $02, $14, $00
-	db $00, $08, $80, $FF, $00, $00, $00, $FB
-	db $00, $FF, $0A, $00, $2D, $00
+.DATA_BAA19A:
+	dw $0260
+	dw $01B0
+	dw $0202
+	dw $0014
+	dw $0800
+	dw $FF80
+	dw $0000
+	dw $FB00
+	dw $FF00
+	dw $000A
+	dw $002D
 
-DATA_BAA1B0:
-	db $00, $01, $B0, $01, $02, $02, $14, $00
-	db $00, $08, $80, $FF, $00, $00, $00, $05
-	db $00, $01, $0A, $00, $2D, $00
-
+.DATA_BAA1B0:
+	dw $0100
+	dw $01B0
+	dw $0202
+	dw $0014
+	dw $0800
+	dw $FF80
+	dw $0000
+	dw $0500
+	dw $0100
+	dw $000A
+	dw $002D
 
 kreepy_krows_head_sprite_code:
 	LDA $000652				;$BAA1C6  \
@@ -2017,6 +2117,8 @@ CODE_BAA219:					;	   |
 	JSL CODE_B9D100				;$BAA21B   |
 	JML [$05A9]				;$BAA21F  /
 
+
+;amount of kleever fragments to spawn
 DATA_BAA222:
 	dw $0012
 
@@ -2165,9 +2267,13 @@ DATA_BAA39A:
 	dw $4000
 	dw $0221
 
+
+;amount of k.rool duel roof pieces to spawn
 DATA_BAA3B0:
 	dw $0010
 
+
+;k.rool duel roof pieces spawning data
 DATA_BAA3B2:
 	dw DATA_FF2440
 	dw $FFFE, $FFF2
@@ -2296,6 +2402,8 @@ DATA_BAA4FC:
 	dw $4000
 	dw $0221
 
+
+;donkey kong position offsets applied when being shot by krool
 DATA_BAA512:
 	db $FF, $00, $FE, $00, $FD, $00, $FC, $00
 	db $FB, $00, $FA, $00, $F9, $00, $F8, $00
@@ -2358,11 +2466,14 @@ DATA_BAA5EF:
 	
 	dw DATA_BAA590
 
+
+;kleever Y bob offsets
 DATA_BAA6BC:
 	db $01, $00, $01, $01, $01, $00, $01, $00
 	db $00, $00, $FF, $00, $FF, $FF, $FF, $00
 	db $FF, $00, $00, $00
 
+;unclear, seems related to kleever swings in both phases
 DATA_BAA6D0:
 	dw DATA_BAA6F0
 	dw DATA_BAA70A
@@ -2382,10 +2493,10 @@ DATA_BAA6D0:
 	dw DATA_BAA7DA
 
 DATA_BAA6F0:
-	db $03, $00, $ED, $FF, $F6, $FF, $21, $00
-	db $1A, $00, $0A, $00, $E6, $FF, $13, $00
-	db $11, $00, $1C, $00, $D9, $FF, $19, $00
-	db $0F, $00
+	dw $0003 
+	db $ED, $FF, $F6, $FF, $21, $00, $1A, $00
+	db $0A, $00, $E6, $FF, $13, $00, $11, $00 
+	db $1C, $00, $D9, $FF, $19, $00, $0F, $00
 
 DATA_BAA70A:
 	db $03, $00, $F0, $FF, $F3, $FF, $1D, $00
@@ -2718,9 +2829,13 @@ DATA_BAAD1E:
 	dw DATA_BAA7E4
 	dw !null_pointer
 
+
+;number of entries in table below
 DATA_BAAD2E:
 	db $18, $00
 
+
+;krow 1 phase 2 falling egg data?
 DATA_BAAD30:
 	dw DATA_BAAD60
 	dw DATA_BAAD70
@@ -2851,6 +2966,8 @@ DATA_BAAEF0:
 	db $02, $00, $04, $00, $04, $00, $04, $00
 	db $02, $00, $02, $00, $00, $00, $00, $00
 
+
+;krow 1 egg shell piece related
 DATA_BAAF10:
 	dw DATA_BAAF1C
 	dw DATA_BAAF5A
@@ -3002,9 +3119,9 @@ CODE_BAB129:					;	   |
 
 kore_sparkle_sprite_code:
 	JSL apply_position_from_velocity_global	;$BAB12C  \
-	JSL CODE_B9D100				;$BAB130   |
-	JSL CODE_BBBB8D				;$BAB134   |
-	JML [$05A9]				;$BAB138  /
+	JSL CODE_B9D100				;$BAB130   | process animation
+	JSL CODE_BBBB8D				;$BAB134   | despawn sprite if offscreen
+	JML [$05A9]				;$BAB138  / done processing sprite
 
 sparkle_spawner_sprite_code:
 	LDX current_sprite			;$BAB13B  \
@@ -3951,7 +4068,7 @@ krool_water_drips_sprite_code:
 	LDA.l $0006A3				;$BAC0D2  \
 	BIT #$4000				;$BAC0D6   |
 	BEQ .state_handler			;$BAC0D9   | 
-	JSL CODE_BB82B8				;$BAC0DB   | 
+	JSL delete_sprite_handle_deallocation	;$BAC0DB   | 
 	JML [$05A9]				;$BAC0DF  /
 
 .state_handler:
@@ -4456,6 +4573,7 @@ CODE_BAC7FD:					;	   |
 	BNE CODE_BAC7FD				;$BAC866   |
 	RTS					;$BAC868  /
 
+;used by boss_command_code_49 (shoot fish)
 DATA_BAC869:
 	db $04, $00
 
@@ -4469,24 +4587,28 @@ DATA_BAC86B:
 	db $80, $FE, $00, $00, $05, $00, $00, $FB
 	db $00, $06, $03, $00, $00, $02, $00, $40
 
+
+;kreepy krow sparkle velocities
 DATA_BAC8AB:
-	db $00, $FE
+	dw $FE00
 
 DATA_BAC8AD:
-	db $00, $FF
+	dw $FF00
 
 DATA_BAC8AF:
-	db $50, $FE
+	dw $FE50
 
 DATA_BAC8B1:
-	db $80, $00
+	dw $0080
 
+;unknown, stored into their $42,x and $44,x respectively
 DATA_BAC8B3:
 	db $04
 
 DATA_BAC8B4:
 	db $06
 
+;values to subtract from their frame display time?
 DATA_BAC8B5:
 	db $00, $01, $50, $00, $40, $01, $80, $FE
 	db $40, $00, $04, $06, $80, $00, $00, $FF

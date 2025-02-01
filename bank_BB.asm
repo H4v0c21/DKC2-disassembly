@@ -226,7 +226,7 @@ is_krem_coin_collected:				;	   |
 	SEC					;$BB8123  \
 	RTL					;$BB8124  /
 
-CODE_BB8125:
+set_this_level_kremcoin_collected:
 	LDA level_number			;$BB8125  \
 	JSR get_complete_bit_for_level		;$BB8127   |
 	LDA.l $7E59B2,x				;$BB812A   |
@@ -383,7 +383,7 @@ CODE_BB8241:					;	   |
 	RTL					;$BB824A  /
 
 CODE_BB824B:
-	JSL CODE_BB825C				;$BB824B  \
+	JSL is_current_level_cleared		;$BB824B  \
 	BCC CODE_BB8259				;$BB824F   |
 	TYA					;$BB8251   |
 	CLC					;$BB8252   |
@@ -393,7 +393,7 @@ CODE_BB8259:					;	   |
 	RTS					;$BB8259  /
 
 	LDA level_number			;$BB825A   |
-CODE_BB825C:					;	   |
+is_current_level_cleared:			;	   |
 	JSR get_complete_bit_for_level		;$BB825C   |
 	LDA.l $7E59F2,x				;$BB825F   |
 	AND $60					;$BB8263   |
@@ -458,64 +458,65 @@ CODE_BB82B4:
 	CLC					;$BB82B6   |
 	RTS					;$BB82B7  /
 
-CODE_BB82B8:
-	LDX current_sprite			;$BB82B8  \
-	LDA $00,x				;$BB82BA   |
-	BEQ CODE_BB82D1				;$BB82BC   |
-	CMP #!sprite_diddy_kong			;$BB82BE   |
-	BCC CODE_BB82D7				;$BB82C1   |
-CODE_BB82C3:					;	   |
-	LDA $12,x				;$BB82C3   |
-	JSR CODE_BB8C06				;$BB82C5   |
+delete_sprite_handle_deallocation:
+	LDX current_sprite			;$BB82B8  \ Get current sprite
+	LDA $00,x				;$BB82BA   | Get sprite ID
+	BEQ .return				;$BB82BC   | If it doesn't exist, return
+	CMP #!normal_sprite_type_range_start	;$BB82BE   | Else check if its a normal sprite
+	BCC .handle_big_or_static		;$BB82C1   | If it isn't, handle big or static sprite
+#delete_sprite_force_deallocation:		;	   |
+	LDA $12,x				;$BB82C3   | Else get sprite's OAM info
+	JSR dereference_sprite_palette		;$BB82C5   | Dereference palette
 	LDX current_sprite			;$BB82C8   |
-	JSR CODE_BB83B4				;$BB82CA   |
-CODE_BB82CD:					;	   |
-	LDX current_sprite			;$BB82CD   |
-	STZ $00,x				;$BB82CF   |
-CODE_BB82D1:					;	   |
-	RTL					;$BB82D1  /
+	JSR deallocate_sprite_vram_slot		;$BB82CA   | Deallocate vram slot
+#delete_sprite_no_deallocation_2:		;	   |
+	LDX current_sprite			;$BB82CD   | Get current sprite
+	STZ $00,x				;$BB82CF   | Clear sprite ID
+.return:					;	   | 
+	RTL					;$BB82D1  / Return
 
-CODE_BB82D2:
+#delete_sprite_no_deallocation:
 	LDX current_sprite			;$BB82D2  \
-	STZ $00,x				;$BB82D4   |
+	STZ $00,x				;$BB82D4   | Clear sprite ID
 	RTL					;$BB82D6  /
 
-CODE_BB82D7:
-	CMP #!sprite_kremcoin_cheat_handler	;$BB82D7  \
-	BCS CODE_BB82D2				;$BB82DA   |
-	CMP #!sprite_kannon			;$BB82DC   |
-	BCC CODE_BB82ED				;$BB82DF   |
-	LDA $12,x				;$BB82E1   |
-	JSR CODE_BB8C06				;$BB82E3   |
+.handle_big_or_static:
+	CMP #!large_sprite_type_range_end	;$BB82D7  \ Check if sprite not in big range...
+	BCS delete_sprite_no_deallocation	;$BB82DA   | or normal range, delete it without deallocation
+	CMP #!large_sprite_type_range_start	;$BB82DC   | Else check if sprite in static range/below big range
+	BCC .dereference_static_sprite		;$BB82DF   | If yes, start bullshit scanning
+	LDA $12,x				;$BB82E1   | Else its a big sprite, get its OAM info
+	JSR dereference_sprite_palette		;$BB82E3   | Dereference its palette
 	LDX current_sprite			;$BB82E6   |
-	JSR CODE_BB83C5				;$BB82E8   |
-	BRA CODE_BB82CD				;$BB82EB  /
+	JSR deallocate_big_sprite_vram_slot	;$BB82E8   | Deallocate 2 VRAM slots instead of 1
+	BRA delete_sprite_no_deallocation_2	;$BB82EB  / And delete the sprite
 
-CODE_BB82ED:
-	STA $32					;$BB82ED  \
-	LDX #$0E9E				;$BB82EF   |
-CODE_BB82F2:					;	   |
-	LDA $32					;$BB82F2   |
-	CMP $00,x				;$BB82F4   |
-	BEQ CODE_BB8307				;$BB82F6   |
-CODE_BB82F8:					;	   |
-	TXA					;$BB82F8   |
-	CLC					;$BB82F9   |
-	ADC #sizeof(sprite)			;$BB82FA   |
-	TAX					;$BB82FD   |
-	CPX #main_sprite_table_end		;$BB82FE   |
-	BNE CODE_BB82F2				;$BB8301   |
-	LDX current_sprite			;$BB8303   |
-	BRA CODE_BB82C3				;$BB8305  /
+.dereference_static_sprite:
+	STA $32					;$BB82ED  \ Preserve sprite type in scratch ram
+	LDX #!non_kong_sprite_slot_start	;$BB82EF   | Load first non-kong sprite slot
+.next_slot:					;	   |
+	LDA $32					;$BB82F2   | Get type of sprite to delete
+	CMP $00,x				;$BB82F4   | Compare with current slot's type
+	BEQ .found_same_sprite_type		;$BB82F6   | If same sprite type was found 
+.get_next_slot:					;	   |
+	TXA					;$BB82F8   |\
+	CLC					;$BB82F9   | |
+	ADC #sizeof(sprite)			;$BB82FA   | | Get next sprite slot
+	TAX					;$BB82FD   |/
+	CPX #main_sprite_table_end		;$BB82FE   |\ If not end of table, go to next slot
+	BNE .next_slot				;$BB8301   |/
+	LDX current_sprite			;$BB8303   | Get sprite to delete
+	BRA delete_sprite_force_deallocation	;$BB8305  / Delete and deallocate our original sprite
 
-CODE_BB8307:
-	CPX current_sprite			;$BB8307  \
-	BEQ CODE_BB82F8				;$BB8309   |
-	LDX current_sprite			;$BB830B   |
-	LDA $12,x				;$BB830D   |
-	JSR CODE_BB8C06				;$BB830F   |
-	BRA CODE_BB82CD				;$BB8312  /
+.found_same_sprite_type:
+	CPX current_sprite			;$BB8307  \ Check if the sprite is the one to delete
+	BEQ .get_next_slot			;$BB8309   | If slot contains sprite to delete, next slot
+	LDX current_sprite			;$BB830B   | Else get current sprite
+	LDA $12,x				;$BB830D   | Get OAM info
+	JSR dereference_sprite_palette		;$BB830F   | Dereference palette
+	BRA delete_sprite_no_deallocation_2	;$BB8312  / Delete sprite
 
+;dead code
 	JSR CODE_BB8318				;$BB8314   |
 	RTL					;$BB8317  /
 
@@ -630,10 +631,11 @@ CODE_BB83AE:
 	SEC					;$BB83AE  \
 	RTL					;$BB83AF  /
 
-	JSR CODE_BB83B4				;$BB83B0   |
+;unused wrapper
+	JSR deallocate_sprite_vram_slot		;$BB83B0   |
 	RTL					;$BB83B3  /
 
-CODE_BB83B4:
+deallocate_sprite_vram_slot:
 	LDA $12,x				;$BB83B4  \
 	AND #$01E0				;$BB83B6   |
 	LSR A					;$BB83B9   |
@@ -645,7 +647,7 @@ CODE_BB83B4:
 	STA $0B04,y				;$BB83C1   |
 	RTS					;$BB83C4  /
 
-CODE_BB83C5:
+deallocate_big_sprite_vram_slot:
 	LDA $12,x				;$BB83C5  \
 	AND #$01E0				;$BB83C7   |
 	LSR A					;$BB83CA   |
@@ -655,13 +657,13 @@ CODE_BB83C5:
 	TAY					;$BB83CE   |
 	LDA $0B04,y				;$BB83CF   |
 	CMP $0B06,y				;$BB83D2   |
-	BNE CODE_BB83E1				;$BB83D5   |
+	BNE .slot_mismatch			;$BB83D5   |
 	LDA #$0000				;$BB83D7   |
 	STA $0B04,y				;$BB83DA   |
 	STA $0B06,y				;$BB83DD   |
 	RTS					;$BB83E0  /
 
-CODE_BB83E1:
+.slot_mismatch:
 	LDA #$0000				;$BB83E1  \
 	STA $0B04,y				;$BB83E4   |
 	LDA #$0004				;$BB83E7   |
@@ -742,8 +744,8 @@ CODE_BB8443:
 CODE_BB845C:
 	RTL					;$BB845C  /
 
-CODE_BB845D:
-	JSL CODE_BB8474				;$BB845D  \
+apply_spawn_script_to_slot_global:
+	JSL apply_spawn_script_to_slot		;$BB845D  \
 	RTL					;$BB8461  /
 
 CODE_BB8462:
@@ -757,7 +759,7 @@ CODE_BB8468:					;	   |
 	STZ $2C,x				;$BB846E   |
 	STZ $56,x				;$BB8470   |
 	STZ $32,x				;$BB8472   |
-CODE_BB8474:					;	   |
+apply_spawn_script_to_slot:			;	   |
 	PHB					;$BB8474   |
 	%pea_shift_dbr(DATA_FF0000)		;$BB8475   |
 	PLB					;$BB8478   |
@@ -1194,7 +1196,7 @@ CODE_BB876C:
 CODE_BB876F:
 	LDX alternate_sprite			;$BB876F  \
 	LDA $12,x				;$BB8771   |
-	JSR CODE_BB8C06				;$BB8773   |
+	JSR dereference_sprite_palette		;$BB8773   |
 	BCS CODE_BB8780				;$BB8776   |
 	LDA $F1					;$BB8778   |
 	DEC A					;$BB877A   |
@@ -1307,7 +1309,7 @@ CODE_BB8835:
 CODE_BB8838:
 	LDX alternate_sprite			;$BB8838  \
 	LDA $12,x				;$BB883A   |
-	JSR CODE_BB8C06				;$BB883C   |
+	JSR dereference_sprite_palette		;$BB883C   |
 	BCS CODE_BB8849				;$BB883F   |
 	LDA $F1					;$BB8841   |
 	DEC A					;$BB8843   |
@@ -1836,42 +1838,42 @@ CODE_BB8B66:
 	ADC $05A7				;$BB8BE5   |
 	RTS					;$BB8BE8  /
 
-CODE_BB8BE9:
+get_sprite_position_in_level_data:
 	LDX current_sprite			;$BB8BE9  \
-	LDA $56,x				;$BB8BEB   |
-	DEC A					;$BB8BED   |
+	LDA $56,x				;$BB8BEB   | Get sprite level placement number
+	DEC A					;$BB8BED   | -1
 	ASL A					;$BB8BEE   |
-	ASL A					;$BB8BEF   |
+	ASL A					;$BB8BEF   | *8
 	ASL A					;$BB8BF0   |
-	TAY					;$BB8BF1   |
+	TAY					;$BB8BF1   | Transfer to Y
 	PHB					;$BB8BF2   |
-	%pea_shift_dbr(DATA_FE0000)		;$BB8BF3   |
+	%pea_shift_dbr(DATA_FE0000)		;$BB8BF3   | Use sprite placement data bank
 	PLB					;$BB8BF6   |
 	PLB					;$BB8BF7   |
-	LDA ($F5),y				;$BB8BF8   |
-	STA $72					;$BB8BFA   |
-	LDA ($F7),y				;$BB8BFC   |
-	STA $74					;$BB8BFE   |
-	PLB					;$BB8C00   |
-	RTL					;$BB8C01  /
+	LDA ($F5),y				;$BB8BF8   | Get sprite's spawn X position
+	STA $72					;$BB8BFA   | Save it
+	LDA ($F7),y				;$BB8BFC   | Get sprite's spawn Y position
+	STA $74					;$BB8BFE   | Save it
+	PLB					;$BB8C00   | Restore data bank
+	RTL					;$BB8C01  / Return
 
-CODE_BB8C02:
-	JSR CODE_BB8C06				;$BB8C02  \
+dereference_sprite_palette_global:
+	JSR dereference_sprite_palette		;$BB8C02  \
 	RTL					;$BB8C05  /
 
-CODE_BB8C06:
-	XBA					;$BB8C06  \
-	AND #$000E				;$BB8C07   |
-	TAX					;$BB8C0A   |
-	DEC $0B74,x				;$BB8C0B   |
-	BMI CODE_BB8C14				;$BB8C0E   |
-	BEQ CODE_BB8C14				;$BB8C10   |
-	SEC					;$BB8C12   |
+dereference_sprite_palette:
+	XBA					;$BB8C06  \ \
+	AND #$000E				;$BB8C07   | | Extract palette slot from OAM info
+	TAX					;$BB8C0A   |/
+	DEC $0B74,x				;$BB8C0B   |> Decrease palette reference count
+	BMI .empty_slot				;$BB8C0E   | If reference count less than or equal to 0
+	BEQ .empty_slot				;$BB8C10   | 
+	SEC					;$BB8C12   | Return slot still in use
 	RTS					;$BB8C13  /
 
-CODE_BB8C14:
-	STZ $0B64,x				;$BB8C14  \
-	CLC					;$BB8C17   |
+.empty_slot:
+	STZ $0B64,x				;$BB8C14  \ Clear palette address from table
+	CLC					;$BB8C17   | Return slot is empty
 	RTS					;$BB8C18  /
 
 CODE_BB8C19:
@@ -1923,7 +1925,7 @@ set_sprite_palette_direct:			;	   |
 
 CODE_BB8C68:
 	LDA $0012,y				;$BB8C68  \
-	JSR CODE_BB8C06				;$BB8C6B   |
+	JSR dereference_sprite_palette		;$BB8C6B   |
 CODE_BB8C6E:					;	   |
 	LDA $05A7				;$BB8C6E   |
 	JSR request_palette_direct		;$BB8C71   |
@@ -6928,7 +6930,7 @@ CODE_BBB75D:					;	   |
 CODE_BBB77F:					;	   |
 	LDX alternate_sprite			;$BBB77F   |
 	LDA $12,x				;$BBB781   |
-	JSR CODE_BB8C06				;$BBB783   |
+	JSR dereference_sprite_palette		;$BBB783   |
 	BCS CODE_BBB790				;$BBB786   |
 	LDA $F1					;$BBB788   |
 	DEC A					;$BBB78A   |
@@ -7013,7 +7015,7 @@ CODE_BBB7DD:					;	   |
 	ADC #$000A				;$BBB818   |
 	TAY					;$BBB81B   |
 	LDX alternate_sprite			;$BBB81C   |
-	JSL CODE_BB8474				;$BBB81E   |
+	JSL apply_spawn_script_to_slot		;$BBB81E   |
 	LDX alternate_sprite			;$BBB822   |
 	LDA.l $0000FB				;$BBB824   |
 	STA $56,x				;$BBB828   |
@@ -7067,7 +7069,7 @@ CODE_BBB847:
 	LDA.l DATA_FBE800,x			;$BBB880   |
 	TAY					;$BBB884   |
 	LDX alternate_sprite			;$BBB885   |
-	JSL CODE_BB8474				;$BBB887   |
+	JSL apply_spawn_script_to_slot		;$BBB887   |
 	LDX alternate_sprite			;$BBB88B   |
 	LDA.l $0000FB				;$BBB88D   |
 	STA $56,x				;$BBB891   |
@@ -7136,7 +7138,7 @@ CODE_BBB8D6:					;	   |
 	LDA.l DATA_FBE800,x			;$BBB8FF   |
 	TAY					;$BBB903   |
 	LDX alternate_sprite			;$BBB904   |
-	JSL CODE_BB8474				;$BBB906   |
+	JSL apply_spawn_script_to_slot		;$BBB906   |
 	LDX alternate_sprite			;$BBB90A   |
 	LDA.l $0000FB				;$BBB90C   |
 	STA $56,x				;$BBB910   |
@@ -7452,7 +7454,7 @@ CODE_BBBB53:
 	AND #$E000				;$BBBB5C   |
 	STA $7E7A12,x				;$BBBB5F   |
 CODE_BBBB63:					;	   |
-	JSL CODE_BB82B8				;$BBBB63   |
+	JSL delete_sprite_handle_deallocation	;$BBBB63   |
 	SEC					;$BBBB67   |
 	RTL					;$BBBB68  /
 
@@ -7494,7 +7496,7 @@ CODE_BBBB8D:
 	RTL					;$BBBB92  /
 
 CODE_BBBB93:
-	JSL CODE_BB82B8				;$BBBB93  \
+	JSL delete_sprite_handle_deallocation	;$BBBB93  \
 	SEC					;$BBBB97   |
 	RTL					;$BBBB98  /
 
@@ -7526,7 +7528,7 @@ CODE_BBBBB3:
 	RTL					;$BBBBBF  /
 
 CODE_BBBBC0:
-	JSL CODE_BB82B8				;$BBBBC0  \
+	JSL delete_sprite_handle_deallocation	;$BBBBC0  \
 	SEC					;$BBBBC4   |
 	RTL					;$BBBBC5  /
 
@@ -7609,12 +7611,12 @@ CODE_BBBC2B:					;	   |
 	LDA.l $7E7A12,x				;$BBBC31   |
 	AND #$E000				;$BBBC35   |
 	STA $7E7A12,x				;$BBBC38   |
-	JSL CODE_BB82B8				;$BBBC3C   |
+	JSL delete_sprite_handle_deallocation	;$BBBC3C   |
 	SEC					;$BBBC40   |
 	RTL					;$BBBC41  /
 
 CODE_BBBC42:
-	JSL CODE_BB82B8				;$BBBC42  \
+	JSL delete_sprite_handle_deallocation	;$BBBC42  \
 	LDX current_sprite			;$BBBC46   |
 	LDA #!sprite_unknown_00F0		;$BBBC48   |
 	STA $00,x				;$BBBC4B   |
@@ -7649,7 +7651,7 @@ CODE_BBBC67:					;	   |
 	LDA.l $7E7A12,x				;$BBBC7B   |
 	AND #$E000				;$BBBC7F   |
 	STA $7E7A12,x				;$BBBC82   |
-	JSL CODE_BB82D2				;$BBBC86   |
+	JSL delete_sprite_no_deallocation	;$BBBC86   |
 CODE_BBBC8A:					;	   |
 	JML [$05A9]				;$BBBC8A  /
 
@@ -7767,7 +7769,7 @@ CODE_BBBD2A:
 	LDA.l $7E7A12,x				;$BBBD3E   |
 	AND #$E000				;$BBBD42   |
 	STA $7E7A12,x				;$BBBD45   |
-	JSL CODE_BB82B8				;$BBBD49   |
+	JSL delete_sprite_handle_deallocation	;$BBBD49   |
 CODE_BBBD4D:					;	   |
 	PLX					;$BBBD4D   |
 	INX					;$BBBD4E   |
@@ -7783,7 +7785,7 @@ CODE_BBBD50:					;	   |
 	TAX					;$BBBD5D   |
 	LDA #$0000				;$BBBD5E   |
 	STA $000A42,x				;$BBBD61   |
-	JML CODE_BB82D2				;$BBBD65  /
+	JML delete_sprite_no_deallocation	;$BBBD65  /
 
 CODE_BBBD69:
 	PLX					;$BBBD69  \
