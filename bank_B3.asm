@@ -4610,7 +4610,7 @@ level_goal_main:
 	JSL set_sprite_animation		;$B3A2EE   | Play level_target_trigger animation
 	LDA #$002A				;$B3A2F2   |
 	JSL set_player_interaction_global	;$B3A2F5   | Set player interaction to "hitting goal target"
-	BCS ...return				;$B3A2F9   |
+	BCS ..return				;$B3A2F9   |
 	LDX current_sprite			;$B3A2FB   | Get goal sprite
 	LDA $06,x				;$B3A2FD   | Get goal X position
 	CLC					;$B3A2FF   |
@@ -4620,7 +4620,7 @@ level_goal_main:
 	STA $0A88				;$B3A308   | Set terrain tile position for kong
 	LDA $48,x				;$B3A30B   |
 	STA $0A8A				;$B3A30D   | Set unknown interaction variable
-...return:					;	   |
+..return:					;	   |
 	BRL .return				;$B3A310  / Done processing sprite
 
 .dummy_state:
