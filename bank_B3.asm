@@ -4610,7 +4610,7 @@ level_goal_main:
 	JSL set_sprite_animation		;$B3A2EE   | Play level_target_trigger animation
 	LDA #$002A				;$B3A2F2   |
 	JSL set_player_interaction_global	;$B3A2F5   | Set player interaction to "hitting goal target"
-	BCS ..return				;$B3A2F9   |
+	BCS ...return				;$B3A2F9   |
 	LDX current_sprite			;$B3A2FB   | Get goal sprite
 	LDA $06,x				;$B3A2FD   | Get goal X position
 	CLC					;$B3A2FF   |
@@ -4620,7 +4620,7 @@ level_goal_main:
 	STA $0A88				;$B3A308   | Set terrain tile position for kong
 	LDA $48,x				;$B3A30B   |
 	STA $0A8A				;$B3A30D   | Set unknown interaction variable
-..return:					;	   |
+...return:					;	   |
 	BRL .return				;$B3A310  / Done processing sprite
 
 .dummy_state:
@@ -7606,26 +7606,26 @@ force_sprite_submerged:
 	LDY $44,x				;$B3B896   | Else get home position 
 	STA $44,x				;$B3B898   | Cap it to water height threshold (just below water)
 	CMP $0A,x				;$B3B89A   | Check if sprite is above threshold
-	BCC ..sprite_submerged			;$B3B89C   | If not
+	BCC .sprite_submerged			;$B3B89C   | If not
 	TYA					;$B3B89E   | Else transfer initial home position to A
 	SBC $44,x				;$B3B89F   | Get distance between old and new home position
 	EOR #$FFFF				;$B3B8A1   | Invert it
 	SEC					;$B3B8A4   | 
 	ADC $0A,x				;$B3B8A5   | Add difference to sprite's Y position
 	STA $0A,x				;$B3B8A7   | And apply it
-	BRA ..sprite_submerged			;$B3B8A9  /
+	BRA .sprite_submerged			;$B3B8A9  /
 
 .home_submerged:
 	JSL get_sprite_position_in_level_data	;$B3B8AB  \
 	LDA $32					;$B3B8AF   | Get original home Y position
 	CMP $74					;$B3B8B1   | Check if its above Y spawn position
-	BCS ..check_current_home		;$B3B8B3   | If yes, check against current home position
+	BCS .check_current_home			;$B3B8B3   | If yes, check against current home position
 	LDA $74					;$B3B8B5   | Else get Y spawn position
-..check_current_home:				;	   |
+.check_current_home:				;	   |
 	CMP $44,x				;$B3B8B7   | Check if current home position is above Y position
-	BCS ..sprite_submerged			;$B3B8B9   | If yes, check if sprite is submerged
+	BCS .sprite_submerged			;$B3B8B9   | If yes, check if sprite is submerged
 	STA $44,x				;$B3B8BB   | Else store Y spawn position as Y home position
-..sprite_submerged:				;	   |
+.sprite_submerged:				;	   |
 	LDA $0D4E				;$B3B8BD   | Get water Y position
 	CLC					;$B3B8C0   |
 	ADC #$0014				;$B3B8C1   | Offset by 20 pixels downwards

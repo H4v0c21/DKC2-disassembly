@@ -1417,7 +1417,7 @@ CODE_BA9C2A:					;	   |
 	PHB					;$BA9C33   | 
 	PHK					;$BA9C34   |
 	PLB					;$BA9C35   |
-	JSR CODE_B6F266				;$BA9C36   | This code was probably from B6 krow code and got moved, would have spawned egg shell pieces
+	JSR.w CODE_B6F266		 	;$BA9C36   | This code was probably from B6 krow code and got moved, would have spawned egg shell pieces
 	PLB					;$BA9C39   |
 	JSL delete_sprite_handle_deallocation	;$BA9C3A   | Would have deleted egg sprite and played a barrel break sound
 	LDA #$041A				;$BA9C3E   | 
@@ -1943,6 +1943,10 @@ DATA_BAA0B8:
 	dw $0083
 	dw $0084
 	dw $0085
+	dw $0082
+	dw $0083
+	dw $0084
+	dw $0085
 	dw $0086
 	dw $0087
 	dw $0086
@@ -2035,7 +2039,7 @@ DATA_BAA134:
 
 .DATA_BAA184:
 	dw $0100
-	dw $0007
+	dw $0700
 	dw $0202
 	dw $0014
 	dw $0800

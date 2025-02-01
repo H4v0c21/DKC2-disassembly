@@ -5945,20 +5945,20 @@ haunted_hall_timer_handler_code:		;	  \
 	SEP #$20				;$BEE377   | 8-Bit A
 	LDA $4C,x				;$BEE379   |
 	DEC $4D,x				;$BEE37B   |
-	BEQ CODE_BEE387				;$BEE37D   |
+	BEQ .CODE_BEE387			;$BEE37D   |
 	REP #$20				;$BEE37F   | 16-Bit A
 	JSR CODE_BEE405				;$BEE381   |
 	JML [$05A9]				;$BEE384  / Done processing sprite
 
-CODE_BEE387:
+.CODE_BEE387:
 	STA $4D,x				;$BEE387  \
 	REP #$20				;$BEE389   |
 	INC $46,x				;$BEE38B   |
 	DEC $42,x				;$BEE38D   |
-	BNE CODE_BEE396				;$BEE38F   |
+	BNE .CODE_BEE396			;$BEE38F   |
 	LDA #$0001				;$BEE391   |
 	STA $2E,x				;$BEE394   |
-CODE_BEE396:					;	   |
+.CODE_BEE396:					;	   |
 	JSR CODE_BEE405				;$BEE396   |
 	JML [$05A9]				;$BEE399  /
 
@@ -5967,27 +5967,27 @@ CODE_BEE396:					;	   |
 	SEP #$20				;$BEE39D   | 8-Bit A
 	LDA $4C,x				;$BEE39F   |
 	DEC $4D,x				;$BEE3A1   |
-	BEQ CODE_BEE3AD				;$BEE3A3   |
+	BEQ .CODE_BEE3AD			;$BEE3A3   |
 	REP #$20				;$BEE3A5   | 16-Bit A
 	JSR CODE_BEE405				;$BEE3A7   |
 	JML [$05A9]				;$BEE3AA  / Done processing sprite
 
-CODE_BEE3AD:
+.CODE_BEE3AD:
 	STA $4D,x				;$BEE3AD  \
 	REP #$20				;$BEE3AF   |
 	DEC $46,x				;$BEE3B1   |
-	BPL CODE_BEE3BB				;$BEE3B3   |
+	BPL .CODE_BEE3BB			;$BEE3B3   |
 	STZ $46,x				;$BEE3B5   |
 	STZ $44,x				;$BEE3B7   |
-	BRA CODE_BEE3BF				;$BEE3B9  /
+	BRA .CODE_BEE3BF			;$BEE3B9  /
 
-CODE_BEE3BB:
+.CODE_BEE3BB:
 	INC $44,x				;$BEE3BB  \
-	BNE CODE_BEE3C4				;$BEE3BD   |
-CODE_BEE3BF:					;	   |
+	BNE .CODE_BEE3C4			;$BEE3BD   |
+.CODE_BEE3BF:					;	   |
 	LDA #$0001				;$BEE3BF   |
 	STA $2E,x				;$BEE3C2   |
-CODE_BEE3C4:					;	   |
+.CODE_BEE3C4:					;	   |
 	JSR CODE_BEE405				;$BEE3C4   |
 	JML [$05A9]				;$BEE3C7  /
 
