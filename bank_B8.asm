@@ -1448,7 +1448,7 @@ CODE_B88BAE:					;	   |
 	BCS CODE_B88BC0				;$B88BBB   |
 	JSR CODE_B89609				;$B88BBD   |
 CODE_B88BC0:					;	   |
-	JSL CODE_BB82B8				;$B88BC0   |
+	JSL delete_sprite_handle_deallocation	;$B88BC0   |
 	STZ $6E					;$B88BC4   |
 	STZ current_player_mount		;$B88BC6   |
 	BRA CODE_B88BD9				;$B88BC8  /
@@ -1537,7 +1537,7 @@ CODE_B88C68:					;	   |
 	LDA current_sprite			;$B88C6F   |
 	PHA					;$B88C71   |
 	STX current_sprite			;$B88C72   |
-	JSL CODE_BB82B8				;$B88C74   |
+	JSL delete_sprite_handle_deallocation	;$B88C74   |
 	PLA					;$B88C78   |
 	STA current_sprite			;$B88C79   |
 	BRA CODE_B88C88				;$B88C7B  /

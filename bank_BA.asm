@@ -184,7 +184,7 @@ CODE_BA9192:					;	   |
 	BNE CODE_BA91C1				;$BA919B   |
 	LDA.l $000656				;$BA919D   |
 	STA current_sprite			;$BA91A1   |
-	JSL CODE_BB82B8				;$BA91A3   |
+	JSL delete_sprite_handle_deallocation	;$BA91A3   |
 	LDA.l $000654				;$BA91A7   |
 	STA current_sprite			;$BA91AB   |
 	STZ $0656				;$BA91AD   |
@@ -606,8 +606,8 @@ CODE_BA94FF:					;	   |
 
 CODE_BA9502:
 	PHY					;$BA9502  \
-	LDA #$067A				;$BA9503   |
-	JSL queue_sound_effect			;$BA9506   |
+	LDA #$067A				;$BA9503   | 
+	JSL queue_sound_effect			;$BA9506   | Play king_zing_hit sound effect
 	LDX current_sprite			;$BA950A   |
 	PHX					;$BA950C   |
 	JSR CODE_BA92F6				;$BA950D   |
@@ -852,7 +852,7 @@ CODE_BA9751:
 	LDA $002E,y				;$BA9754   |
 	ORA #$8000				;$BA9757   |
 	STA $002E,y				;$BA975A   |
-	JSL CODE_BB82B8				;$BA975D   |
+	JSL delete_sprite_handle_deallocation	;$BA975D   |
 	RTL					;$BA9761  /
 
 CODE_BA9762:
@@ -893,7 +893,7 @@ king_zing_ring_zinger_sprite_code:
 	JMP (DATA_BA97B5,x)			;$BA97AB  /
 
 CODE_BA97AE:
-	JSL CODE_BB82B8				;$BA97AE  \
+	JSL delete_sprite_handle_deallocation	;$BA97AE  \
 	BRL CODE_BA97F0				;$BA97B2  /
 
 DATA_BA97B5:
@@ -1033,7 +1033,7 @@ CODE_BA98DD:					;	   |
 	JML [$05A9]				;$BA98DD  /
 
 CODE_BA98E0:
-	JSL CODE_BB82B8				;$BA98E0  \
+	JSL delete_sprite_handle_deallocation	;$BA98E0  \
 	BRA CODE_BA98DD				;$BA98E4  /
 
 DATA_BA98E6:
@@ -1057,7 +1057,7 @@ king_zing_smoke_effect_sprite_code:
 	LDA $2E,x				;$BA9941   |
 	BIT #$8000				;$BA9943   |
 	BEQ CODE_BA994E				;$BA9946   |
-	JSL CODE_BB82D2				;$BA9948   |
+	JSL delete_sprite_no_deallocation	;$BA9948   |
 	BRA CODE_BA99A6				;$BA994C  /
 
 CODE_BA994E:
@@ -1115,60 +1115,61 @@ king_zing_stinger_sprite_code:
 	PHB					;$BA99B1  \
 	PHK					;$BA99B2   |
 	PLB					;$BA99B3   |
-	LDA.l $000652				;$BA99B4   |
-	BNE CODE_BA99BD				;$BA99B8   |
+	LDA.l $000652				;$BA99B4   | Get king zing hit points
+	BNE .CODE_BA99BD			;$BA99B8   |
 	BRL CODE_BA9A71				;$BA99BA  /
 
-CODE_BA99BD:
-	LDX $0654				;$BA99BD  \
-	LDA $2E,x				;$BA99C0   |
+.CODE_BA99BD:
+	LDX $0654				;$BA99BD  \ Get index of king zing sprite
+	LDA $2E,x				;$BA99C0   | Get king zing state
 	BIT #$0200				;$BA99C2   |
 	BNE CODE_BA9A24				;$BA99C5   |
-	JSL CODE_BCFB58				;$BA99C7   |
-	LDA #$0000				;$BA99CB   |
-	JSL CODE_B6CF65				;$BA99CE   |
-	LDX $0656				;$BA99D2   |
+	JSL CODE_BCFB58				;$BA99C7   | Else populate sprite clipping
+	LDA #$0000				;$BA99CB   | Load collision flags
+	JSL CODE_B6CF65				;$BA99CE   | Check complex player collision
+	LDX $0656				;$BA99D2   | Get index of self
 	LDY #DATA_BA99A7			;$BA99D5   |
 	JSL CODE_B6E736				;$BA99D8   |
 	LDA #$0200				;$BA99DC   |
 	LDY #$0000				;$BA99DF   |
 	JSL CODE_BA9016				;$BA99E2   |
 	BCC CODE_BA9A22				;$BA99E6   |
-	LDA.l $000656				;$BA99E8   |
-	CMP $6A					;$BA99EC   |
-	BEQ CODE_BA9A22				;$BA99EE   |
-	LDX $6A					;$BA99F0   |
+	LDA.l $000656				;$BA99E8   | Get index of self
+	CMP $6A					;$BA99EC   | Check if its the current colliding sprite
+	BEQ CODE_BA9A22				;$BA99EE   | If yes
+	LDX $6A					;$BA99F0   | Else get current colliding sprite
 	LDA $2E,x				;$BA99F2   |
-	CMP #$0001				;$BA99F4   |
-	BEQ CODE_BA9A22				;$BA99F7   |
-	JSL CODE_B6FE9E				;$BA99F9   |
-	LDX current_sprite			;$BA99FD   |
+	CMP #$0001				;$BA99F4   | Check if its in state 1
+	BEQ CODE_BA9A22				;$BA99F7   | If yes
+	JSL CODE_B6FE9E				;$BA99F9   | Else spawn hit star sprite
+	LDX current_sprite			;$BA99FD   | Get stinger sprite
 	LDA $32,x				;$BA99FF   |
-	ORA #$0008				;$BA9A01   |
+	ORA #$0008				;$BA9A01   | Set some flag
 	STA $32,x				;$BA9A04   |
-	LDX $6A					;$BA9A06   |
+	LDX $6A					;$BA9A06   | Get current colliding sprite (should be squawks egg)
 	LDA #$0001				;$BA9A08   |
-	STA $2E,x				;$BA9A0B   |
+	STA $2E,x				;$BA9A0B   | Set its state to 1
 	LDA #$FC00				;$BA9A0D   |
-	STA $24,x				;$BA9A10   |
+	STA $24,x				;$BA9A10   | Set current Y velocity
 	LDA $DB					;$BA9A12   |
 	CMP $E3					;$BA9A14   |
 	BMI CODE_BA9A20				;$BA9A16   |
-	LDA $20,x				;$BA9A18   |
+	LDA $20,x				;$BA9A18   | Get current X velocity
 	EOR #$FFFF				;$BA9A1A   |
-	INC A					;$BA9A1D   |
-	STA $20,x				;$BA9A1E   |
+	INC A					;$BA9A1D   | Invert and update it
+	STA $20,x				;$BA9A1E   | 
 CODE_BA9A20:					;	   |
-	STZ $26,x				;$BA9A20   |
+	STZ $26,x				;$BA9A20   | Clear target X velocity
 CODE_BA9A22:					;	   |
 	BRA CODE_BA9A55				;$BA9A22  /
 
 CODE_BA9A24:
-	LDX $0654				;$BA9A24  \
+	LDX $0654				;$BA9A24  \ Get index of king zing sprite
 	LDA.l $000765				;$BA9A27   |
 	BNE CODE_BA9A71				;$BA9A2B   |
 	BRL CODE_BA9A71				;$BA9A2D  /
 
+;dead code? looks like it would apply the knockback interaction to the player on collision
 	LDX current_sprite			;$BA9A30   |
 	JSL CODE_BCFB58				;$BA9A32   |
 	LDA #$0C7B				;$BA9A36   |
@@ -1183,11 +1184,11 @@ CODE_BA9A24:
 	BRA CODE_BA9A71				;$BA9A53  /
 
 CODE_BA9A55:
-	LDY $0654				;$BA9A55  \
+	LDY $0654				;$BA9A55  \ Get index of king zing sprite
 	LDA $002E,y				;$BA9A58   |
 	BIT #$0001				;$BA9A5B   |
 	BNE CODE_BA9A71				;$BA9A5E   |
-	LDX current_sprite			;$BA9A60   |
+	LDX current_sprite			;$BA9A60   | Get stinger sprite
 	LDA.l $000765				;$BA9A62   |
 	BNE CODE_BA9A71				;$BA9A66   |
 	LDA $32,x				;$BA9A68   |
@@ -1211,9 +1212,9 @@ CODE_BA9A8D:					;	   |
 	LDX current_sprite			;$BA9A90   |
 	JSL set_sprite_palette_global		;$BA9A92   |
 CODE_BA9A96:					;	   |
-	JSL CODE_B9D100				;$BA9A96   |
+	JSL CODE_B9D100				;$BA9A96   | Process animation
 	PLB					;$BA9A9A   |
-	JML [$05A9]				;$BA9A9B  /
+	JML [$05A9]				;$BA9A9B  / Done processing sprite
 
 king_zing_spikes_sprite_code:
 	LDX current_sprite			;$BA9A9E  \
@@ -1240,7 +1241,7 @@ CODE_BA9ACD:					;	   |
 	BIT #$0007				;$BA9AD1   |
 	BEQ CODE_BA9ADC				;$BA9AD4   |
 CODE_BA9AD6:					;	   |
-	JSL CODE_BB82B8				;$BA9AD6   |
+	JSL delete_sprite_handle_deallocation	;$BA9AD6   |
 	BRA CODE_BA9B0B				;$BA9ADA  /
 
 CODE_BA9ADC:
@@ -1418,7 +1419,7 @@ CODE_BA9C2A:					;	   |
 	PLB					;$BA9C35   |
 	JSR CODE_B6F266				;$BA9C36   | This code was probably from B6 krow code and got moved, would have spawned egg shell pieces
 	PLB					;$BA9C39   |
-	JSL CODE_BB82B8				;$BA9C3A   | Would have deleted egg sprite and played a barrel break sound
+	JSL delete_sprite_handle_deallocation	;$BA9C3A   | Would have deleted egg sprite and played a barrel break sound
 	LDA #$041A				;$BA9C3E   | 
 	JSL queue_sound_effect			;$BA9C41   |
 	BRA CODE_BA9C61				;$BA9C45  /
@@ -4063,7 +4064,7 @@ krool_water_drips_sprite_code:
 	LDA.l $0006A3				;$BAC0D2  \
 	BIT #$4000				;$BAC0D6   |
 	BEQ .state_handler			;$BAC0D9   | 
-	JSL CODE_BB82B8				;$BAC0DB   | 
+	JSL delete_sprite_handle_deallocation	;$BAC0DB   | 
 	JML [$05A9]				;$BAC0DF  /
 
 .state_handler:

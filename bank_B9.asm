@@ -3405,7 +3405,7 @@ CODE_B9E508:
 	BRA CODE_B9E4EC				;$B9E50F  /
 
 CODE_B9E511:
-	JSL CODE_BB82B8				;$B9E511  \
+	JSL delete_sprite_handle_deallocation	;$B9E511  \
 	RTS					;$B9E515  /
 
 CODE_B9E516:
@@ -4933,7 +4933,7 @@ CODE_B9EE9F:
 	RTS					;$B9EEA6  /
 
 CODE_B9EEA7:
-	JSL CODE_BB82B8				;$B9EEA7  \
+	JSL delete_sprite_handle_deallocation	;$B9EEA7  \
 	LDA $6E					;$B9EEAB   |
 	BNE CODE_B9EEC9				;$B9EEAD   |
 	LDX current_sprite			;$B9EEAF   |
@@ -4982,7 +4982,7 @@ CODE_B9EEEB:
 	RTS					;$B9EEF2  /
 
 CODE_B9EEF3:
-	JSL CODE_BB82B8				;$B9EEF3  \
+	JSL delete_sprite_handle_deallocation	;$B9EEF3  \
 	RTS					;$B9EEF7  /
 
 CODE_B9EEF8:
@@ -5326,30 +5326,30 @@ DATA_B9F0A5:
 ;level end target/chest reward frames
 DATA_B9F0C5:
 	dw $1944	;00 Banana Bunch
-	dw $23B0	;01 K (unused)
-	dw $23D0	;02 O (unused)
-	dw $23F0	;03 N (unused)
+	dw $23B0	;01 K
+	dw $23D0	;02 O
+	dw $23F0	;03 N
 	dw $2410	;04 G
-	dw $088C	;05 Barrel (unused)
-	dw $0868	;06 TNT Barrel (unused)
-	dw $0960	;07 Invincibility Barrel (unused)
+	dw $088C	;05 Barrel
+	dw $0868	;06 TNT Barrel
+	dw $0960	;07 Invincibility Barrel
 	dw $10E4	;08 Life Balloon
 	dw $10E4	;09 Life Balloon
-	dw $10E4	;0A Life Balloon (unused)
-	dw $10E4	;0B Life Balloon (unused)
+	dw $10E4	;0A Life Balloon
+	dw $10E4	;0B Life Balloon
 	dw $3180	;0C Banana Coin
-	dw $3180	;0D Banana Coin (unused)
-	dw $3180	;0E Banana Coin (unused)
-	dw $3180	;0F Banana Coin (unused)
-	dw $0FCC	;10 Krem Coin (unused)
+	dw $3180	;0D Banana Coin
+	dw $3180	;0E Banana Coin
+	dw $3180	;0F Banana Coin
+	dw $0FCC	;10 Krem Coin
 	dw $1128	;11 DK Coin
-	dw $0984	;12 Cannonball (unused)
-	dw $095C	;13 Chest (unused)
-	dw $1944	;14 Banana Bunch (unused)
-	dw $1944	;15 Banana Bunch (unused)
-	dw $1944	;16 Banana Bunch (unused)
-	dw $1944	;17 Banana Bunch (unused)
-	dw $1944	;18 Banana Bunch (unused)
+	dw $0984	;12 Cannonball
+	dw $095C	;13 Chest
+	dw $1944	;14 Banana Bunch
+	dw $1944	;15 Banana Bunch
+	dw $1944	;16 Banana Bunch
+	dw $1944	;17 Banana Bunch
+	dw $1944	;18 Banana Bunch
 	dw $3308	;19 Banana
-	dw $0FCC	;1A Krem Coin (unused)
-	dw $0FCC	;1B Krem Coin (unused)
+	dw $0FCC	;1A Krem Coin
+	dw $0FCC	;1B Krem Coin

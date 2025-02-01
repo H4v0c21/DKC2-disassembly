@@ -11,7 +11,7 @@ DATA_BEB806:
 	dw skull_cart_sprite_code		;0006 skull_cart_main
 	dw klank_sprite_code			;0008 klank_main
 	dw kackle_sprite_code			;000A kackle_main
-	dw CODE_BEE2D9				;000C unknown_sprite_0300_main
+	dw haunted_hall_timer_handler_code	;000C haunted_hall_timer_handler_main
 	dw coins_sprite_code			;000E coins_main
 	dw kong_letter_sprite_code		;0010 kong_letter_main
 	dw race_handler_sprite_code		;0012 race_handler_main
@@ -111,7 +111,7 @@ CODE_BEB8B2:					;	   | |
 	EOR $4F,x				;$BEB8C0   |
 	AND #$00FF				;$BEB8C2   |
 	EOR $4F,x				;$BEB8C5   |
-	JSL CODE_BEC5BC				;$BEB8C7   |
+	JSL set_sprite_hud_target_position	;$BEB8C7   |
 	SEP #$20				;$BEB8CB   |
 	LDA CPU.divide_result			;$BEB8CD   |
 	XBA					;$BEB8D0   |
@@ -144,7 +144,7 @@ CODE_BEB8FD:					;	   |
 	LDA $48,x				;$BEB909   |
 CODE_BEB90B:					;	   |
 	STA $44,x				;$BEB90B   |
-	JSL CODE_BEC5FA				;$BEB90D   |
+	JSL move_sprite_to_target_hud_position	;$BEB90D   |
 	BPL CODE_BEB94A				;$BEB911   |
 	LDX current_sprite			;$BEB913   |
 	STX $097D				;$BEB915   |
@@ -204,7 +204,7 @@ CODE_BEB967:					;	   |
 	BNE CODE_BEB97D				;$BEB978   |
 	STZ $097D				;$BEB97A   |
 CODE_BEB97D:					;	   |
-	JSL CODE_BB82B8				;$BEB97D   |
+	JSL delete_sprite_handle_deallocation	;$BEB97D   |
 	JML [$05A9]				;$BEB981  /
 
 CODE_BEB984:
@@ -357,7 +357,7 @@ CODE_BEBAAA:
 	LDA $004C,y				;$BEBAAA  \
 	AND $0902				;$BEBAAD   |
 	BEQ CODE_BEBAB9				;$BEBAB0   |
-	JSL CODE_BB82B8				;$BEBAB2   |
+	JSL delete_sprite_handle_deallocation	;$BEBAB2   |
 	JML [$05A9]				;$BEBAB6  /
 
 CODE_BEBAB9:
@@ -379,7 +379,7 @@ CODE_BEBACA:
 	EOR $4F,x				;$BEBAD9   |
 	AND #$00FF				;$BEBADB   |
 	EOR $4F,x				;$BEBADE   |
-	JSL CODE_BEC5BC				;$BEBAE0   |
+	JSL set_sprite_hud_target_position	;$BEBAE0   |
 	INC $2E,x				;$BEBAE4   | set kong letter sprite as collected
 	LDA $4C,x				;$BEBAE6   | get what kong letter the sprite is
 	TSB $0902				;$BEBAE8   | set the corresponding kong letter bit
@@ -415,11 +415,11 @@ CODE_BEBB1C:					;	   |
 
 CODE_BEBB1F:
 	JSL CODE_B9D100				;$BEBB1F  \
-	JSL CODE_BEC5FA				;$BEBB23   |
+	JSL move_sprite_to_target_hud_position	;$BEBB23   |
 	JML [$05A9]				;$BEBB27  /
 
 CODE_BEBB2A:
-	JSL CODE_BEC5FA				;$BEBB2A  \
+	JSL move_sprite_to_target_hud_position	;$BEBB2A  \
 	LDY current_sprite			;$BEBB2E   |
 	LDA $0012,y				;$BEBB30   |
 	AND #$01FF				;$BEBB33   |
@@ -473,7 +473,7 @@ CODE_BEBB8A:					;	   |
 	DEY					;$BEBB8C   |
 	BPL CODE_BEBB7A				;$BEBB8D   |
 	REP #$20				;$BEBB8F   |
-	JSL CODE_BEC5FA				;$BEBB91   |
+	JSL move_sprite_to_target_hud_position	;$BEBB91   |
 	BMI CODE_BEBB99				;$BEBB95   |
 	INC $5E					;$BEBB97   |
 CODE_BEBB99:					;	   |
@@ -538,7 +538,7 @@ CODE_BEBBEB:					;	   |
 	BNE CODE_BEBC00				;$BEBBFB   |
 	STZ $097B				;$BEBBFD   |
 CODE_BEBC00:					;	   |
-	JSL CODE_BB82B8				;$BEBC00   |
+	JSL delete_sprite_handle_deallocation	;$BEBC00   |
 CODE_BEBC04:					;	   |
 	JML [$05A9]				;$BEBC04  /
 
@@ -620,7 +620,7 @@ CODE_BEBC97:					;	   |
 	JML [$05A9]				;$BEBC97  /
 
 CODE_BEBC9A:
-	JSL CODE_BB82B8				;$BEBC9A  \
+	JSL delete_sprite_handle_deallocation	;$BEBC9A  \
 	LDA #$0001				;$BEBC9E   |
 	JSL CODE_BEC63E				;$BEBCA1   |
 	LDX current_sprite			;$BEBCA5   |
@@ -1904,30 +1904,30 @@ CODE_BEC5B9:					;	   |
 	LDX current_sprite			;$BEC5B9   |
 	RTS					;$BEC5BB  /
 
-CODE_BEC5BC:
-	LDX current_sprite			;$BEC5BC  \
-	STA $24,x				;$BEC5BE   |
-	SEP #$20				;$BEC5C0   |
-	STZ $24,x				;$BEC5C2   |
-	STZ $20,x				;$BEC5C4   |
-	STA $21,x				;$BEC5C6   |
-	REP #$20				;$BEC5C8   |
+set_sprite_hud_target_position:
+	LDX current_sprite			;$BEC5BC  \ Get sprite
+	STA $24,x				;$BEC5BE   | Store target Y position to high byte of Y velocity
+	SEP #$20				;$BEC5C0   | 8-Bit A
+	STZ $24,x				;$BEC5C2   | Clear low byte of Y velocity
+	STZ $20,x				;$BEC5C4   | Clear low byte of X velocity
+	STA $21,x				;$BEC5C6   | Store target X position to high byte of X velocity
+	REP #$20				;$BEC5C8   | 16-Bit A
 	LDA #$8000				;$BEC5CA   |
-	STA $1C,x				;$BEC5CD   |
+	STA $1C,x				;$BEC5CD   | Make sprite visible
 	LDA $06,x				;$BEC5CF   |
-	SEC					;$BEC5D1   |
+	SEC					;$BEC5D1   | Subtract sprite X position from camera X position
 	SBC $17BA				;$BEC5D2   |
-	BCS CODE_BEC5DA				;$BEC5D5   |
-	LDA #$0000				;$BEC5D7   |
+	BCS CODE_BEC5DA				;$BEC5D5   | If sprite X position greater than camera's
+	LDA #$0000				;$BEC5D7   | Else sprite is offscreen, load cap value
 CODE_BEC5DA:					;	   |
-	CMP #$0100				;$BEC5DA   |
-	BCC CODE_BEC5E2				;$BEC5DD   |
-	LDA #$00FF				;$BEC5DF   |
+	CMP #$0100				;$BEC5DA   | Check if sprite X is at right border of the camera
+	BCC CODE_BEC5E2				;$BEC5DD   | 
+	LDA #$00FF				;$BEC5DF   | Else cap it to right border
 CODE_BEC5E2:					;	   |
-	STA $06,x				;$BEC5E2   |
+	STA $06,x				;$BEC5E2   | Update X position
 	LDA $0A,x				;$BEC5E4   |
-	SEC					;$BEC5E6   |
-	SBC $17C0				;$BEC5E7   |
+	SEC					;$BEC5E6   | Repeat process for Y position
+	SBC $17C0				;$BEC5E7   | 
 	BCS CODE_BEC5EF				;$BEC5EA   |
 	LDA #$0000				;$BEC5EC   |
 CODE_BEC5EF:					;	   |
@@ -1935,10 +1935,10 @@ CODE_BEC5EF:					;	   |
 	BCC CODE_BEC5F7				;$BEC5F2   |
 	LDA #$00FF				;$BEC5F4   |
 CODE_BEC5F7:					;	   |
-	STA $0A,x				;$BEC5F7   |
-	RTL					;$BEC5F9  /
+	STA $0A,x				;$BEC5F7   | Update Y position
+	RTL					;$BEC5F9  / Return
 
-CODE_BEC5FA:
+move_sprite_to_target_hud_position:
 	LDY #$0002				;$BEC5FA  \
 	LDX current_sprite			;$BEC5FD   |
 	LDA $20,x				;$BEC5FF   |
@@ -2880,7 +2880,7 @@ CODE_BECCC4:
 CODE_BECCCB:
 	LDX $42,y				;$BECCCB  \
 	BNE CODE_BECCD6				;$BECCCD   |
-	JSL CODE_BB82B8				;$BECCCF   |
+	JSL delete_sprite_handle_deallocation	;$BECCCF   |
 	JML [$05A9]				;$BECCD3  /
 
 CODE_BECCD6:
@@ -3026,6 +3026,7 @@ CODE_BECDDF:					;	   |
 
 gate_barrel_sprite_code:
 	JSR CODE_BEB82A				;$BECDE2  \
+	
 DATA_BECDE5:
 	dw CODE_BECDEB
 	dw CODE_BECE07
@@ -3059,7 +3060,7 @@ CODE_BECE1B:
 	STA $0D58				;$BECE24   |
 	LDA $00,x				;$BECE27   |
 	PHA					;$BECE29   |
-	JSL CODE_BB82B8				;$BECE2A   |
+	JSL delete_sprite_handle_deallocation	;$BECE2A   |
 	LDX current_sprite			;$BECE2E   |
 	STZ $1A,x				;$BECE30   |
 	STZ $18,x				;$BECE32   |
@@ -3262,7 +3263,7 @@ CODE_BECFB8:					;	   |
 	JMP CODE_BED794				;$BECFC3  /
 
 CODE_BECFC6:
-	JSL CODE_BB82B8				;$BECFC6  \
+	JSL delete_sprite_handle_deallocation	;$BECFC6  \
 	JML [$05A9]				;$BECFCA  /
 
 CODE_BECFCD:
@@ -5847,98 +5848,107 @@ CODE_BEE2EF:					;	   |
 	RTS					;$BEE307   |
 endif						;	  /
 
-CODE_BEE2D9:					;	  \
-	LDA $0A36				;$BEE2D9   |
+haunted_hall_timer_handler_code:		;	  \
+	LDA $0A36				;$BEE2D9   | Get timestop flags
 	BIT #$0004				;$BEE2DC   |
-	BEQ CODE_BEE2F1				;$BEE2DF   |
-	LDY current_sprite			;$BEE2E1   |
-	LDA $002E,y				;$BEE2E3   |
-	AND #$00FF				;$BEE2E6   |
+	BEQ .handle_state			;$BEE2DF   | If time isnt stopped, handle state logic
+	LDY current_sprite			;$BEE2E1   | Else get handler sprite
+	LDA $002E,y				;$BEE2E3   | 
+	AND #$00FF				;$BEE2E6   | Get current state low byte
 	CMP #$0006				;$BEE2E9   |
-	BEQ CODE_BEE2F1				;$BEE2EC   |
-	JML [$05A9]				;$BEE2EE  /
+	BEQ .handle_state			;$BEE2EC   | If in state 6, handle state logic
+	JML [$05A9]				;$BEE2EE  / Else done processing sprite
 
-CODE_BEE2F1:
-	LDY current_sprite			;$BEE2F1  \
-	LDX $0D5A				;$BEE2F3   |
-	BEQ CODE_BEE312				;$BEE2F6   |
+.handle_state:
+	LDY current_sprite			;$BEE2F1  \ Get handler sprite
+	LDX $0D5A				;$BEE2F3   | Get index of kackle sprite
+	BEQ .delete_handler_sprite		;$BEE2F6   | If it doesn't exist, delete handler and timer sprite
 	LDA $1C,x				;$BEE2F8   |
-	BEQ CODE_BEE312				;$BEE2FA   |
+	BEQ .delete_handler_sprite		;$BEE2FA   | If it doesn't exist, delete handler and timer sprite
 	LDA $002E,y				;$BEE2FC   |
-	ASL A					;$BEE2FF   |
+	ASL A					;$BEE2FF   | Else get current state
 	TAX					;$BEE300   |
-	JMP (DATA_BEE304,x)			;$BEE301  /
+	JMP (.state_table,x)			;$BEE301  / Handle state logic
 
-DATA_BEE304:
-	dw CODE_BEE328
-	dw CODE_BEE359
-	dw CODE_BEE370
-	dw CODE_BEE373
-	dw CODE_BEE376
-	dw CODE_BEE39C
-	dw CODE_BEE3CA
+.state_table:
+	dw .init_state
+	dw .state_1
+	dw .state_2
+	dw .state_3
+	dw .state_4
+	dw .state_5
+	dw .state_6
 
 
-CODE_BEE312:
-	PHY					;$BEE312  \
-	LDX $4A,y				;$BEE313   |
-	STX current_sprite			;$BEE315   |
-	JSL CODE_BB82B8				;$BEE317   |
+;handler variables:
+;42,x	how much to add to timer
+;44,x	how much to subtract from timer
+;46,x	current timer value
+;48,x
+;49,x
+;4A,x	index of timer sprite
+;4C,x
+;4D,x
+.delete_handler_sprite:
+	PHY					;$BEE312  \ Preserve handler sprite
+	LDX $4A,y				;$BEE313   | Get index of timer sprite
+	STX current_sprite			;$BEE315   | Set as current
+	JSL delete_sprite_handle_deallocation	;$BEE317   | And delete it
 	PLY					;$BEE31B   |
-	STY current_sprite			;$BEE31C   |
-	JSL CODE_BB82B8				;$BEE31E   |
-	STZ $097F				;$BEE322   |
-	JML [$05A9]				;$BEE325  /
+	STY current_sprite			;$BEE31C   | Retrieve handler sprite
+	JSL delete_sprite_handle_deallocation	;$BEE31E   | Delete it
+	STZ $097F				;$BEE322   | And clear its index
+	JML [$05A9]				;$BEE325  / Done processing sprite
 
-CODE_BEE328:
-	LDY #$00CC				;$BEE328  \
-	JSL CODE_BB842C				;$BEE32B   |
-	BCS CODE_BEE356				;$BEE32F   |
-	LDX current_sprite			;$BEE331   |
-	LDY alternate_sprite			;$BEE333   |
-	STY $4A,x				;$BEE335   |
-	LDA $06,x				;$BEE337   |
+.init_state:
+	LDY #$00CC				;$BEE328  \ Get index of timer spawn script
+	JSL CODE_BB842C				;$BEE32B   | Spawn it
+	BCS ..return				;$BEE32F   | If spawn failed return
+	LDX current_sprite			;$BEE331   | Else get handler sprite
+	LDY alternate_sprite			;$BEE333   | Get timer sprite that just spawned
+	STY $4A,x				;$BEE335   | Store its index on handler
+	LDA $06,x				;$BEE337   | Get X position
 	CLC					;$BEE339   |
-	ADC #$0100				;$BEE33A   |
-	STA $0006,y				;$BEE33D   |
+	ADC #$0100				;$BEE33A   | Offset by 256 pixels
+	STA $0006,y				;$BEE33D   | Store it to timer's X position
 	LDA $0A,x				;$BEE340   |
-	STA $000A,y				;$BEE342   |
-	INC $2E,x				;$BEE345   |
+	STA $000A,y				;$BEE342   | Copy handler's Y position to timer's
+	INC $2E,x				;$BEE345   | Go to state 1
 	LDA #$C000				;$BEE347   |
 	STA $1C,x				;$BEE34A   |
-	STX $097F				;$BEE34C   |
+	STX $097F				;$BEE34C   | Store an index to handler sprite
 	STZ $42,x				;$BEE34F   |
-	STZ $44,x				;$BEE351   |
+	STZ $44,x				;$BEE351   | Initialize variables for adding/subtracting timer
 	JSR CODE_BEE405				;$BEE353   |
-CODE_BEE356:					;	   |
-	JML [$05A9]				;$BEE356  /
+..return:					;	   |
+	JML [$05A9]				;$BEE356  / Done processing sprite
 
-CODE_BEE359:
+.state_1:
 	JSR CODE_BEE45B				;$BEE359  \
 	JSR CODE_BEE3E8				;$BEE35C   |
 	JSR CODE_BEE405				;$BEE35F   |
 	LDX current_sprite			;$BEE362   |
-	LDA $46,x				;$BEE364   |
-	BPL CODE_BEE370				;$BEE366   |
+	LDA $46,x				;$BEE364   | Get timer value
+	BPL .state_2				;$BEE366   | If positive, return
 	LDA #$0003				;$BEE368   |
-	STA $2E,x				;$BEE36B   |
-	JML [$05A9]				;$BEE36D  /
+	STA $2E,x				;$BEE36B   | Else set state 3... which also just returns
+	JML [$05A9]				;$BEE36D  / Done processing sprite
 
-CODE_BEE370:
-	JML [$05A9]				;$BEE370  /
+.state_2:
+	JML [$05A9]				;$BEE370  / Done processing sprite
 
-CODE_BEE373:
-	JML [$05A9]				;$BEE373  /
+.state_3:
+	JML [$05A9]				;$BEE373  / Done processing sprite
 
-CODE_BEE376:
-	TYX					;$BEE376  \
-	SEP #$20				;$BEE377   |
+.state_4:
+	TYX					;$BEE376  \ Get handler sprite
+	SEP #$20				;$BEE377   | 8-Bit A
 	LDA $4C,x				;$BEE379   |
 	DEC $4D,x				;$BEE37B   |
 	BEQ CODE_BEE387				;$BEE37D   |
-	REP #$20				;$BEE37F   |
+	REP #$20				;$BEE37F   | 16-Bit A
 	JSR CODE_BEE405				;$BEE381   |
-	JML [$05A9]				;$BEE384  /
+	JML [$05A9]				;$BEE384  / Done processing sprite
 
 CODE_BEE387:
 	STA $4D,x				;$BEE387  \
@@ -5952,15 +5962,15 @@ CODE_BEE396:					;	   |
 	JSR CODE_BEE405				;$BEE396   |
 	JML [$05A9]				;$BEE399  /
 
-CODE_BEE39C:
-	TYX					;$BEE39C  \
-	SEP #$20				;$BEE39D   |
+.state_5:
+	TYX					;$BEE39C  \ Get handler sprite
+	SEP #$20				;$BEE39D   | 8-Bit A
 	LDA $4C,x				;$BEE39F   |
 	DEC $4D,x				;$BEE3A1   |
 	BEQ CODE_BEE3AD				;$BEE3A3   |
-	REP #$20				;$BEE3A5   |
+	REP #$20				;$BEE3A5   | 16-Bit A
 	JSR CODE_BEE405				;$BEE3A7   |
-	JML [$05A9]				;$BEE3AA  /
+	JML [$05A9]				;$BEE3AA  / Done processing sprite
 
 CODE_BEE3AD:
 	STA $4D,x				;$BEE3AD  \
@@ -5981,19 +5991,19 @@ CODE_BEE3C4:					;	   |
 	JSR CODE_BEE405				;$BEE3C4   |
 	JML [$05A9]				;$BEE3C7  /
 
-CODE_BEE3CA:
-	LDX current_sprite			;$BEE3CA  \
+.state_6:
+	LDX current_sprite			;$BEE3CA  \ Get handler sprite
 	LDA #$0001				;$BEE3CC   |
 	JSR CODE_BEE41D				;$BEE3CF   |
-	LDY $0D5A				;$BEE3D2   |
+	LDY $0D5A				;$BEE3D2   | Get index of kackle sprite
 	LDA $002E,y				;$BEE3D5   |
-	AND #$00FF				;$BEE3D8   |
-	CMP #$0006				;$BEE3DB   |
-	BEQ CODE_BEE3E5				;$BEE3DE   |
+	AND #$00FF				;$BEE3D8   | Get low byte of kackle state
+	CMP #$0006				;$BEE3DB   | 
+	BEQ ..return				;$BEE3DE   | If in state 6, return
 	LDA #$0001				;$BEE3E0   |
-	STA $2E,x				;$BEE3E3   |
-CODE_BEE3E5:					;	   |
-	JML [$05A9]				;$BEE3E5  /
+	STA $2E,x				;$BEE3E3   | Else set handler to state 1
+..return:					;	   |
+	JML [$05A9]				;$BEE3E5  / Done processing sprite
 
 CODE_BEE3E8:
 	LDX current_sprite			;$BEE3E8  \
@@ -6041,7 +6051,7 @@ CODE_BEE42E:					;	   |
 CODE_BEE435:					;	   |
 	ASL A					;$BEE435   |
 	TAX					;$BEE436   |
-	LDA.l DATA_B3DE2C,x			;$BEE437   |
+	LDA.l DATA_B3DE2C,x			;$BEE437   | Get timer digit table
 	STA $32					;$BEE43B   |
 	LDX current_sprite			;$BEE43D   |
 	AND #$00FF				;$BEE43F   |
@@ -6118,7 +6128,7 @@ DATA_BEE4A2:
 CODE_BEE4AC:
 	LDA $0042,y				;$BEE4AC  \
 	BNE CODE_BEE4F4				;$BEE4AF   |
-	JSL CODE_BB82B8				;$BEE4B1   |
+	JSL delete_sprite_handle_deallocation	;$BEE4B1   |
 	JML [$05A9]				;$BEE4B5  /
 
 CODE_BEE4B8:
@@ -6788,7 +6798,7 @@ racing_flag_sprite_code:
 	BPL ..return				;$BEE99A   | if still positive, return
 	CMP #$FFF8				;$BEE99C   | else check if its gone offscreen
 	BCS ..return				;$BEE99F   | if not, return
-	JSL CODE_BB82B8				;$BEE9A1   | else kill traffic light sprite
+	JSL delete_sprite_handle_deallocation	;$BEE9A1   | else kill traffic light sprite
 ..return:					;	   |
 	JML [$05A9]				;$BEE9A5  /  Done processing sprite
 
@@ -6828,7 +6838,7 @@ racing_flag_sprite_code:
 	JML [$05A9]				;$BEE9D9  /  else we're done processing the sprite
 
 ..despawn_flag
-	JSL CODE_BB82B8				;$BEE9DC  \  kill flag sprite
+	JSL delete_sprite_handle_deallocation	;$BEE9DC  \  kill flag sprite
 	LDA #$8000				;$BEE9E0   |
 	TRB $0923				;$BEE9E3   | clear bit 7
 	LDY current_sprite			;$BEE9E6   | get flag sprite we just killed
@@ -6900,7 +6910,7 @@ racing_flag_sprite_code:
 	LDA #dixie_active_sprite_palette	;$BEEA6F   | get dixie palette address
 	LDX current_sprite			;$BEEA72   | get flag sprite
 	JSL CODE_BB8AE4				;$BEEA74   | restore dixie's palette
-	JSL CODE_BB82B8				;$BEEA78   | kill flag sprite
+	JSL delete_sprite_handle_deallocation	;$BEEA78   | kill flag sprite
 	JML [$05A9]				;$BEEA7C  /  Done processing sprite
 
 
@@ -6986,7 +6996,7 @@ CODE_BEEAF7:
 	LDA $000A,y				;$BEEB0D   |
 	CMP #$0840				;$BEEB10   |
 	BCC CODE_BEEB19				;$BEEB13   |
-	JSL CODE_BB82B8				;$BEEB15   |
+	JSL delete_sprite_handle_deallocation	;$BEEB15   |
 CODE_BEEB19:					;	   |
 	JML [$05A9]				;$BEEB19  /
 
@@ -7362,7 +7372,7 @@ CODE_BEEDCD:
 CODE_BEEDD3:					;	   |
 	LDX current_sprite			;$BEEDD3   |
 	LDA $12,x				;$BEEDD5   |
-	JSL CODE_BB8C02				;$BEEDD7   |
+	JSL dereference_sprite_palette_global	;$BEEDD7   |
 	DEC $19B2				;$BEEDDB   |
 	LDA $19B2				;$BEEDDE   |
 	AND #$00FF				;$BEEDE1   |
@@ -7523,57 +7533,63 @@ CODE_BEEF1C:					;	   |
 	REP #$20				;$BEEF1C   |
 	RTS					;$BEEF1E  /
 
+;Chest spawner variables:
+;$42,x	chest spawn script address
+;$44,x	number of chests to spawn
+;$46,x	single banana chest reward ID
+;$48,x	kremcoin chest reward ID
+;$4A,x	RNG result
 chest_spawner_sprite_code:
-	LDX current_sprite			;$BEEF1F  \
+	LDX current_sprite			;$BEEF1F  \ Get spawner sprite
 	LDA $54,x				;$BEEF21   |
-	STA $8E					;$BEEF23   |
-	LDA $2E,x				;$BEEF25   |
-	BNE CODE_BEEF47				;$BEEF27   |
-	JSL CODE_808E4F				;$BEEF29   |
+	STA $8E					;$BEEF23   | Set constants address
+	LDA $2E,x				;$BEEF25   | Get current state
+	BNE .spawn_chest			;$BEEF27   | If 1, spawn chest
+	JSL CODE_808E4F				;$BEEF29   | Else get RNG
 	STA CPU.dividen				;$BEEF2D   |
-	LDX current_sprite			;$BEEF30   |
-	SEP #$20				;$BEEF32   |
-	LDA $44,x				;$BEEF34   |
-	STA CPU.divisor				;$BEEF36   |
-	REP #$20				;$BEEF39   |
-	INC $2E,x				;$BEEF3B   |
+	LDX current_sprite			;$BEEF30   | Redundant, X still has the spawner sprite by this point
+	SEP #$20				;$BEEF32   | 8-Bit A
+	LDA $44,x				;$BEEF34   | Get number of chests to spawn
+	STA CPU.divisor				;$BEEF36   | And divide the RNG result by it (4)
+	REP #$20				;$BEEF39   | 16-Bit A
+	INC $2E,x				;$BEEF3B   | Set state 1
 	NOP					;$BEEF3D   |
-	NOP					;$BEEF3E   |
+	NOP					;$BEEF3E   | Stall for time until division is complete
 	NOP					;$BEEF3F   |
 	NOP					;$BEEF40   |
-	LDA CPU.multiply_result			;$BEEF41   |
+	LDA CPU.multiply_result			;$BEEF41   | Retrieve remainder between 1-4
 	INC A					;$BEEF44   |
-	STA $4A,x				;$BEEF45   |
-CODE_BEEF47:					;	   |
-	LDY $42,x				;$BEEF47   |
-	JSL CODE_BB8432				;$BEEF49   |
-	BCS CODE_BEEF7E				;$BEEF4D   |
-	LDX alternate_sprite			;$BEEF4F   |
-	LDA [$8E]				;$BEEF51   |
-	STA $06,x				;$BEEF53   |
+	STA $4A,x				;$BEEF45   | Increase it by 1 and store it for later
+.spawn_chest:					;	   |
+	LDY $42,x				;$BEEF47   | Load chest spawn script to use
+	JSL CODE_BB8432				;$BEEF49   | And spawn the sprite
+	BCS .return				;$BEEF4D   | If the spawn failed, return
+	LDX alternate_sprite			;$BEEF4F   | Else get chest we just spawned
+	LDA [$8E]				;$BEEF51   | Read first word of spawner constants (X position)
+	STA $06,x				;$BEEF53   | Set chest X position
 	LDY #$0002				;$BEEF55   |
-	LDA [$8E],y				;$BEEF58   |
-	STA $0A,x				;$BEEF5A   |
-	LDX current_sprite			;$BEEF5C   |
-	LDY $46,x				;$BEEF5E   |
-	LDA $44,x				;$BEEF60   |
-	CMP $4A,x				;$BEEF62   |
-	BNE CODE_BEEF68				;$BEEF64   |
-	LDY $48,x				;$BEEF66   |
-CODE_BEEF68:					;	   |
-	TYA					;$BEEF68   |
-	LDY alternate_sprite			;$BEEF69   |
-	STA $0042,y				;$BEEF6B   |
-	LDA $54,x				;$BEEF6E   |
+	LDA [$8E],y				;$BEEF58   | Read next word (Y position)
+	STA $0A,x				;$BEEF5A   | Set chest Y position
+	LDX current_sprite			;$BEEF5C   | Get spawner sprite
+	LDY $46,x				;$BEEF5E   | Get chest reward ID for single banana
+	LDA $44,x				;$BEEF60   | Get chest count
+	CMP $4A,x				;$BEEF62   | Compare with the RNG result
+	BNE .set_chest_item_and_positions	;$BEEF64   | If it doesn't match, it will be a single banana chest
+	LDY $48,x				;$BEEF66   | Else get chest reward ID for Kremcoin
+.set_chest_item_and_positions:			;	   |
+	TYA					;$BEEF68   | Transfer chest reward ID to A
+	LDY alternate_sprite			;$BEEF69   | Get spawned chest sprite
+	STA $0042,y				;$BEEF6B   | Set what item the chest has
+	LDA $54,x				;$BEEF6E   | Get spawner constants address
 	CLC					;$BEEF70   |
-	ADC #$0004				;$BEEF71   |
-	STA $54,x				;$BEEF74   |
+	ADC #$0004				;$BEEF71   | Offset by 4 to get to next set of positions
+	STA $54,x				;$BEEF74   | Update the address
 	STA $8E					;$BEEF76   |
-	DEC $44,x				;$BEEF78   |
-	BNE CODE_BEEF47				;$BEEF7A   |
-	STZ $00,x				;$BEEF7C   |
-CODE_BEEF7E:					;	   |
-	JML [$05A9]				;$BEEF7E  /
+	DEC $44,x				;$BEEF78   | Decrease chest count
+	BNE .spawn_chest			;$BEEF7A   | If not 0, spawn next chest
+	STZ $00,x				;$BEEF7C   | Else done spawning chests, delete spawner sprite
+.return:					;	   |
+	JML [$05A9]				;$BEEF7E  / Done processing sprite
 
 kremcoin_cheat_handler_sprite_code:
 	LDA $08B8				;$BEEF81  \ Get number of cheated krem coins

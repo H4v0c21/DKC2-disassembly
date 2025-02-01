@@ -796,7 +796,7 @@
 !sprite_skull_cart_sparks		= $02F4
 !sprite_plus_and_minus_barrel		= $02F8
 !sprite_gate_barrel			= $02FC
-!sprite_unknown_0300			= $0300
+!sprite_haunted_hall_timer_handler	= $0300
 !sprite_clapper				= $0304
 !sprite_unknown_0308			= $0308
 !sprite_screech				= $030C
@@ -804,3 +804,14 @@
 !sprite_npc_kong_credits		= $0314
 !sprite_hero_kong_credits		= $0318
 !sprite_double_zingers			= $031C
+
+!normal_sprite_type_range_start		= $00E4
+
+!large_sprite_type_range_start		= $006C
+!large_sprite_type_range_end		= $0084
+
+!animal_sprite_type_range_start		= $0190
+!animal_sprite_type_range_end		= $01A0
+
+
+!non_kong_sprite_slot_start            = $0E9E

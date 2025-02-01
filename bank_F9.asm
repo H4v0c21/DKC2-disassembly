@@ -6802,7 +6802,6 @@ DATA_F95CF5:
 
 DATA_F95D1E:
 	db !animation_command_81 : dw CODE_B9E96E
-
 DATA_F95D21:
 	db $04 : dw $10E4
 	db $04 : dw $10E8

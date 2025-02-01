@@ -754,7 +754,7 @@ DATA_FF047E:
 	dw DATA_FF0C10		;007A horizontal wind changer
 	dw DATA_FF17AC		;007C unused honey splash
 	dw DATA_FF17C0		;007E ???
-	dw DATA_FF17E0		;0080 level target barrel?
+	dw DATA_FF17E0		;0080 level target barrel
 	dw DATA_FF1804		;0082
 	dw DATA_FF1824		;0084
 	dw DATA_FF1846		;0086 puftup spike?
@@ -1447,7 +1447,7 @@ DATA_FF0BB2:
 	dw !initcommand_success
 
 DATA_FF0BC0:
-	dw sprite.type, !sprite_unknown_0300
+	dw sprite.type, !sprite_haunted_hall_timer_handler
 	dw sprite.render_order, $00F8
 	dw sprite.x_position, $1780
 	dw sprite.y_position, $1200
@@ -4024,6 +4024,7 @@ DATA_FF29E8:
 	dw sprite.animation_control, $0280
 	dw !initcommand_success
 
+;unused?
 DATA_FF2A08:
 	dw sprite.type, !sprite_chest_spawner
 	dw sprite.state, $0000
@@ -4034,7 +4035,7 @@ DATA_FF2A08:
 	dw sprite.general_purpose_48, $0010
 	dw !initcommand_success
 
-;chest spawn positions
+;unused? chest spawn positions, but with a terminator?
 DATA_FF2A26:
 	dw $014C, $01C0
 	dw $0174, $01C0
@@ -4042,7 +4043,6 @@ DATA_FF2A26:
 	dw $01C4, $01C0
 	dw $0000
 
-;k rool
 DATA_FF2A38:
 	dw sprite.type, !sprite_krool
 	dw sprite.x_position, $0278
@@ -15308,6 +15308,7 @@ DATA_FFB338:
 	dw sprite.x_sub_position, $0168
 	dw !initcommand_success
 
+;only used in krool's cabin
 DATA_FFB342:
 	dw !initcommand_load_subconfig, DATA_FFB29E
 	dw sprite.max_y_speed, $0000
@@ -19315,9 +19316,12 @@ DATA_FFDAE8:
 	dw sprite.constants_address, DATA_FFDB06
 	dw !initcommand_success
 
+;chest positions
 DATA_FFDB06:
-	db $4C, $01, $C0, $01, $74, $01, $C0, $01
-	db $9C, $01, $C0, $01, $C4, $01, $C0, $01
+	dw $014C, $01C0
+	dw $0174, $01C0
+	dw $019C, $01C0
+	dw $01C4, $01C0
 
 DATA_FFDB16:
 	dw sprite.type, !sprite_barrel_cannon
