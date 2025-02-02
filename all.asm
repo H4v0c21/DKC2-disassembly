@@ -10,9 +10,10 @@ if defined("override_save_validation") == 0
 	!override_save_validation = 0
 endif
 
-!override_pirate_panic = 0
-!pirate_panic_replacement = $23
-
+if defined("override_pirate_panic") == 0
+	!override_pirate_panic = 0
+	!pirate_panic_replacement = $23
+endif
 
 org $008000			;dummy org so functions work
 	incsrc macros.asm
@@ -25,7 +26,7 @@ org $008000			;dummy org so functions work
 	incsrc audio_constants.asm
 
 org $C00000
-check bankcross half
+	check bankcross half
 	incsrc "bank_C0.asm"
 	warnpc $C07FFC
 	padbyte $00

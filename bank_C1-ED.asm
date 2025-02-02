@@ -11201,8 +11201,8 @@ SPRITE_GRAPHIC_2E54:
 	incbin "data/objects/graphics/sprite_graphic_2E54.bin"
 
 ;$DA4C4F
-krazy_kremland_top_8x8_tilemap:
-	incbin "data/world_maps/8x8_tilemaps/krazy_kremland_top_8x8_tilemap.bin"
+krazy_kremland_upper_8x8_tilemap:
+	incbin "data/world_maps/8x8_tilemaps/krazy_kremland_upper_8x8_tilemap.bin"
 
 ;$DA5323 (sprite graphic)
 SPRITE_GRAPHIC_2E58:
@@ -11780,8 +11780,8 @@ SPRITE_GRAPHIC_3088:
 
 check bankcross off
 ;$DBFB2C
-krazy_kremland_bottom_8x8_tilemap:
-	incbin "data/world_maps/8x8_tilemaps/krazy_kremland_bottom_8x8_tilemap.bin"
+krazy_kremland_lower_8x8_tilemap:
+	incbin "data/world_maps/8x8_tilemaps/krazy_kremland_lower_8x8_tilemap.bin"
 check bankcross full
 
 ;$DC021A (sprite graphic)
@@ -13337,8 +13337,8 @@ krem_quay_tiledata:
 check bankcross full
 
 ;$E80535
-krazy_kremland_bottom_tiledata:
-	incbin "data/world_maps/graphics/krazy_kremland_bottom_tiledata.bin"
+krazy_kremland_lower_tiledata:
+	incbin "data/world_maps/graphics/krazy_kremland_lower_tiledata.bin"
 
 ;$E84E0D
 gloomy_gulch_8x8_tilemap:
@@ -13363,8 +13363,8 @@ the_flying_krock_tiledata:
 check bankcross full
 
 ;$E909EC
-krazy_kremland_top_tiledata:
-	incbin "data/world_maps/graphics/krazy_kremland_top_tiledata.bin"
+krazy_kremland_upper_tiledata:
+	incbin "data/world_maps/graphics/krazy_kremland_upper_tiledata.bin"
 
 ;$E95221
 haunted_hall_kackle_layer_2_tiledata:

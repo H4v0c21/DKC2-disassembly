@@ -71,7 +71,7 @@ kudgel_sprite_code:
 	STY $0656				;$B6808A   |
 	STY $42,x				;$B6808D   |
 	STZ $44,x				;$B6808F   |
-	JSR CODE_B6D008				;$B68091   |
+	JSR parse_boss_command			;$B68091   |
 CODE_B68094:					;	   |
 	LDX current_sprite			;$B68094   |
 	LDA $2E,x				;$B68096   |
@@ -155,7 +155,7 @@ CODE_B68147:					;	   |
 	LDX current_sprite			;$B68147   |
 	LDA $44,x				;$B68149   |
 	BNE CODE_B68152				;$B6814B   |
-	JSR CODE_B6D008				;$B6814D   |
+	JSR parse_boss_command			;$B6814D   |
 	BRA CODE_B6815E				;$B68150  /
 
 CODE_B68152:
@@ -163,7 +163,7 @@ CODE_B68152:
 	LDX current_sprite			;$B68155   |
 	LDA $44,x				;$B68157   |
 	BNE CODE_B6815E				;$B68159   |
-	JSR CODE_B6D008				;$B6815B   |
+	JSR parse_boss_command			;$B6815B   |
 CODE_B6815E:					;	   |
 	JSR CODE_B68186				;$B6815E   |
 	JSR CODE_B6819C				;$B68161   |
@@ -1094,7 +1094,7 @@ CODE_B68C82:
 	TAY					;$B68CAA   |
 	LDA DATA_B684C6,y			;$B68CAB   |
 	STA $46,x				;$B68CAE   |
-	JSR CODE_B6D008				;$B68CB0   |
+	JSR parse_boss_command			;$B68CB0   |
 CODE_B68CB3:					;	   |
 	JSR CODE_B68D5D				;$B68CB3   |
 	RTS					;$B68CB6  /
@@ -1117,7 +1117,7 @@ CODE_B68CC2:
 	LDA #$028D				;$B68CD2   |
 	JSL CODE_B9D09B				;$B68CD5   |
 	LDX $0654				;$B68CD9   |
-	JSR CODE_B6D008				;$B68CDC   |
+	JSR parse_boss_command			;$B68CDC   |
 	PLB					;$B68CDF   |
 	RTL					;$B68CE0  /
 
@@ -1307,7 +1307,7 @@ CODE_B68E7E:					;	   |
 	STZ $065A				;$B68E7E   |
 	LDX current_sprite			;$B68E81   |
 	LDX current_sprite			;$B68E83   |
-	JSR CODE_B6D008				;$B68E85   |
+	JSR parse_boss_command			;$B68E85   |
 CODE_B68E88:					;	   |
 	LDX current_sprite			;$B68E88   |
 	LDA $2E,x				;$B68E8A   |
@@ -1377,7 +1377,7 @@ CODE_B68F0F:					;	   |
 	LDX current_sprite			;$B68F16   |
 	LDA $44,x				;$B68F18   |
 	BNE CODE_B68F1F				;$B68F1A   |
-	JSR CODE_B6D008				;$B68F1C   |
+	JSR parse_boss_command			;$B68F1C   |
 CODE_B68F1F:					;	   |
 	JSR CODE_B68F76				;$B68F1F   |
 	JSR CODE_B68FE9				;$B68F22   |
@@ -1525,7 +1525,7 @@ CODE_B69042:					;	   |
 CODE_B69043:
 	PHK					;$B69043  \
 	PLB					;$B69044   |
-	JSR CODE_B6D008				;$B69045   |
+	JSR parse_boss_command			;$B69045   |
 	LDA #$025E				;$B69048   |
 	JSL set_sprite_animation		;$B6904B   |
 	LDA.l $000656				;$B6904F   |
@@ -4818,7 +4818,7 @@ CODE_B6AC79:					;	   |
 	BRA CODE_B6AC97				;$B6AC7D  /
 
 CODE_B6AC7F:
-	JSR CODE_B6D008				;$B6AC7F  \
+	JSR parse_boss_command			;$B6AC7F  \
 	LDA #$025E				;$B6AC82   |
 	JSL set_sprite_animation		;$B6AC85   |
 	LDX $0656				;$B6AC89   |
@@ -4862,7 +4862,7 @@ CODE_B6ACD8:
 	PHB					;$B6ACD8  \
 	PHK					;$B6ACD9   |
 	PLB					;$B6ACDA   |
-	JSR CODE_B6D008				;$B6ACDB   |
+	JSR parse_boss_command			;$B6ACDB   |
 	LDA #$025E				;$B6ACDE   |
 	JSL set_sprite_animation		;$B6ACE1   |
 	LDX $0656				;$B6ACE5   |
@@ -4892,7 +4892,7 @@ CODE_B6AD0D:
 	PHB					;$B6AD0D  \
 	PHK					;$B6AD0E   |
 	PLB					;$B6AD0F   |
-	JSR CODE_B6D008				;$B6AD10   |
+	JSR parse_boss_command			;$B6AD10   |
 	LDA #$025E				;$B6AD13   |
 	JSL set_sprite_animation		;$B6AD16   |
 	LDA.l $000656				;$B6AD1A   |
@@ -8757,35 +8757,35 @@ CODE_B6CFFD:
 CODE_B6D007:					;	   |
 	RTS					;$B6D007  /
 
-CODE_B6D008:
-	JSR CODE_B6D010				;$B6D008  \
-	LDA $44,x				;$B6D00B   |
-	BEQ CODE_B6D008				;$B6D00D   |
-	RTS					;$B6D00F  /
+parse_boss_command:
+	JSR .parse_command			;$B6D008  \> Parse the next boss command
+	LDA $44,x				;$B6D00B   |\
+	BEQ parse_boss_command			;$B6D00D   |/ If no return command code is present then process next command
+	RTS					;$B6D00F  /> Return
 
-CODE_B6D010:
-	LDY $46,x				;$B6D010  \
-	LDA $0000,y				;$B6D012   |
-	ASL A					;$B6D015   |
-	ASL A					;$B6D016   |
-	PHY					;$B6D017   |
-	TAY					;$B6D018   |
-	LDA DATA_B6B69F,y			;$B6D019   |
-	STA $46,x				;$B6D01C   |
-	LDA DATA_B6B6A1,y			;$B6D01E   |
-	STA $44,x				;$B6D021   |
-	PLY					;$B6D023   |
-	INY					;$B6D024   |
-	INY					;$B6D025   |
-	JSR ($0046,x)				;$B6D026   |
-	LDX current_sprite			;$B6D029   |
-	STY $46,x				;$B6D02B   |
-	RTS					;$B6D02D  /
+.parse_command
+	LDY $46,x				;$B6D010  \ \ Get attack pattern index
+	LDA $0000,y				;$B6D012   |/ Get boss command
+	ASL A					;$B6D015   |\
+	ASL A					;$B6D016   |/
+	PHY					;$B6D017   |> Preserve pattern index
+	TAY					;$B6D018   |\
+	LDA DATA_B6B69F,y			;$B6D019   | | Get command code pointer
+	STA $46,x				;$B6D01C   |/ Write pointer to sprite variable
+	LDA DATA_B6B6A1,y			;$B6D01E   |\ Get command return code pointer
+	STA $44,x				;$B6D021   |/ Write pointer to sprite variable
+	PLY					;$B6D023   |> Retrieve pattern index
+	INY					;$B6D024   |\
+	INY					;$B6D025   |/ Increment pattern index for next command or operand
+	JSR ($0046,x)				;$B6D026   |> Execute command
+	LDX current_sprite			;$B6D029   |\ Get current sprite
+	STY $46,x				;$B6D02B   |/ Restore pattern index to sprite variable
+	RTS					;$B6D02D  /> Return
 
 klubba_sprite_code:
-	PHB					;$B6D02E  \
-	PHK					;$B6D02F   |
-	PLB					;$B6D030   |
+	PHB					;$B6D02E  \ \ Preserve the current bank
+	PHK					;$B6D02F   | | Set current data bank to here
+	PLB					;$B6D030   |/
 	LDX current_sprite			;$B6D031   |> Get klubba sprite
 	LDA $42,x				;$B6D033   |\ If club sprite exists
 	BNE .already_initialized		;$B6D035   |/ Then klubba was already initialized
@@ -13482,18 +13482,18 @@ endif						;	   |
 	LDX current_sprite			;$B6F578   |
 	JSL CODE_B9D100				;$B6F57A   |
 	LDX current_sprite			;$B6F57E   |
-	LDA $42,x				;$B6F580   |
-	BNE CODE_B6F5D7				;$B6F582   |
-	JSL CODE_B4AEAF				;$B6F584   |
+	LDA $42,x				;$B6F580   |\
+	BNE .head_exists			;$B6F582   |/ If head sprite exists then skip spawning head
+	JSL CODE_B4AEAF				;$B6F584   |> Clear block of boss RAM for krow
 	STZ $04,x				;$B6F588   |
 	STZ $32,x				;$B6F58A   |
 	STZ $06A1				;$B6F58C   |
 	STZ $06A3				;$B6F58F   |
 	STZ $06A5				;$B6F592   |
-	LDA #DATA_B6F932			;$B6F595   |
-	STA $00065A				;$B6F598   |
-	LDA #$0004				;$B6F59C   |
-	STA $000652				;$B6F59F   |
+	LDA #DATA_B6F932			;$B6F595   |\ Set krow attack pattern starting address
+	STA $00065A				;$B6F598   |/
+	LDA #$0004				;$B6F59C   |\ Set krow hp
+	STA $000652				;$B6F59F   |/
 	LDA #$0001				;$B6F5A3   |
 	STA $0006D5				;$B6F5A6   |
 	STZ $06D7				;$B6F5AA   |
@@ -13501,33 +13501,33 @@ endif						;	   |
 	STZ $06DB				;$B6F5B0   |
 	STZ $06DD				;$B6F5B3   |
 	STZ $06DF				;$B6F5B6   |
-	LDY #$009C				;$B6F5B9   |
-	JSL CODE_BB842C				;$B6F5BC   |
-	LDA alternate_sprite			;$B6F5C0   |
-	LDX current_sprite			;$B6F5C2   |
-	STX $0654				;$B6F5C4   |
-	STA $000656				;$B6F5C7   |
-	STA $42,x				;$B6F5CB   |
+	LDY #$009C				;$B6F5B9   |\ Spawn krows head
+	JSL CODE_BB842C				;$B6F5BC   |/
+	LDA alternate_sprite			;$B6F5C0   |\ Get krows head
+	LDX current_sprite			;$B6F5C2   | | Get krows body
+	STX $0654				;$B6F5C4   | | Store krows body in boss RAM
+	STA $000656				;$B6F5C7   | | Store krows head in boss RAM
+	STA $42,x				;$B6F5CB   |/ Store krows head in body sprite variable
 	STZ $44,x				;$B6F5CD   |
 	STZ $0E,x				;$B6F5CF   |
 	STZ $06D3				;$B6F5D1   |
-	JSR CODE_B6D008				;$B6F5D4   |
-CODE_B6F5D7:					;	   |
-	LDA.l $000652				;$B6F5D7   |
-	BNE CODE_B6F5E0				;$B6F5DB   |
+	JSR parse_boss_command			;$B6F5D4   |
+.head_exists					;	   |
+	LDA.l $000652				;$B6F5D7   |\
+	BNE .alive				;$B6F5DB   |/ If krow still has hp he is alive
 	BRL CODE_B6F692				;$B6F5DD  /
 
-CODE_B6F5E0:
+.alive
 	LDX current_sprite			;$B6F5E0  \
-	LDA $2E,x				;$B6F5E2   |
-	BIT #$0200				;$B6F5E4   |
-	BEQ CODE_B6F61A				;$B6F5E7   |
-	LDA $04,x				;$B6F5E9   |
-	BEQ CODE_B6F5F2				;$B6F5EB   |
-	DEC $04,x				;$B6F5ED   |
+	LDA $2E,x				;$B6F5E2   |\ Get krow state
+	BIT #$0200				;$B6F5E4   | |
+	BEQ CODE_B6F61A				;$B6F5E7   |/ If bonking is disabled then dont check for bonking
+	LDA $04,x				;$B6F5E9   |\ Get bonk timer
+	BEQ .handle_bonking			;$B6F5EB   |/ If bonk timer is 0 then try to bonk player again
+	DEC $04,x				;$B6F5ED   |> Else decrement the bonk timer
 	BRL CODE_B6F672				;$B6F5EF  /
 
-CODE_B6F5F2:
+.handle_bonking
 	JSL CODE_BCFB58				;$B6F5F2  \
 	LDA #$007B				;$B6F5F6   |
 	JSL CODE_B6CF65				;$B6F5F9   |
@@ -13535,12 +13535,12 @@ CODE_B6F5F2:
 	LDA #$001E				;$B6F5FF   |
 	LDY #$FE00				;$B6F602   |
 	JSL CODE_B3A600				;$B6F605   |
-	LDX $0654				;$B6F609   |
-	LDA $2E,x				;$B6F60C   |
-	ORA #$0200				;$B6F60E   |
-	STA $2E,x				;$B6F611   |
-	LDA #$0014				;$B6F613   |
-	STA $04,x				;$B6F616   |
+	LDX $0654				;$B6F609   |> Get krow head
+	LDA $2E,x				;$B6F60C   |\ Get krow state
+	ORA #$0200				;$B6F60E   | | Enable bonking
+	STA $2E,x				;$B6F611   |/ Apply new state
+	LDA #$0014				;$B6F613   |\
+	STA $04,x				;$B6F616   |/ Reset bonk cooldown
 	BRA CODE_B6F672				;$B6F618  /
 
 CODE_B6F61A:
@@ -13571,9 +13571,9 @@ CODE_B6F61A:
 
 CODE_B6F650:
 	LDX $0654				;$B6F650  \
-	LDA $2E,x				;$B6F653   |
-	ORA #$0200				;$B6F655   |
-	STA $2E,x				;$B6F658   |
+	LDA $2E,x				;$B6F653   |\ Get krow state
+	ORA #$0200				;$B6F655   | | Enable bonking
+	STA $2E,x				;$B6F658   |/ Apply new state
 	LDA #$0014				;$B6F65A   |
 	STA $04,x				;$B6F65D   |
 	LDA #$001E				;$B6F65F   |
@@ -13596,7 +13596,7 @@ CODE_B6F680:					;	   |
 	LDA $44,x				;$B6F687   |
 	BNE CODE_B6F68E				;$B6F689   |
 CODE_B6F68B:					;	   |
-	JSR CODE_B6D008				;$B6F68B   |
+	JSR parse_boss_command			;$B6F68B   |
 CODE_B6F68E:					;	   |
 	PLB					;$B6F68E   |
 	JML [$05A9]				;$B6F68F  /
@@ -14060,11 +14060,7 @@ DATA_B6FB0E:
 	dw !boss_command_fly_to, $0200, $019F, $0001
 	dw !boss_command_11
 	dw !boss_command_0F, $0200
-if !version == 0
-	dw !boss_command_19, $AF04, $AF34
-else
-	dw !boss_command_19, $AEE0, $AF10
-endif
+	dw !boss_command_19, DATA_BAAEE0, DATA_BAAF10
 
 DATA_B6FBB2:
 	dw !boss_command_fly_to, $01B0, $019F, $0002
@@ -14120,11 +14116,7 @@ DATA_B6FC76:
 	dw !boss_command_fly_to, $0160, $019F, $0001
 	dw !boss_command_11
 	dw !boss_command_0F, $0200
-if !version == 0
-	dw !boss_command_19, $AF04, $AF34
-else
-	dw !boss_command_19, $AEE0, $AF10
-endif
+	dw !boss_command_19, DATA_BAAEE0, DATA_BAAF10
 
 DATA_B6FD1A:
 	dw !boss_command_fly_to, $0200, $019F, $0002

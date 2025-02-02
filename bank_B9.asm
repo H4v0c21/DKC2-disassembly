@@ -1438,7 +1438,7 @@ CODE_B9D85C:					;	   |
 
 CODE_B9D85D:
 	LDA $0515				;$B9D85D  \
-	CMP #$0003				;$B9D860   |
+	CMP #!boss_level_type			;$B9D860   |
 	BNE CODE_B9D86A				;$B9D863   |
 	JSL CODE_B8A695				;$B9D865   |
 	RTS					;$B9D869  /
@@ -1656,9 +1656,9 @@ CODE_B9D9FD:
 	NOP					;$B9D9FE   |
 CODE_B9D9FF:					;	   |
 	LDA $0515				;$B9D9FF   |
-	CMP #$0002				;$B9DA02   |
+	CMP #!small_level_type			;$B9DA02   |
 	BEQ CODE_B9DA18				;$B9DA05   |
-	CMP #$0001				;$B9DA07   |
+	CMP #!bonus_level_type			;$B9DA07   |
 	BNE CODE_B9DA11				;$B9DA0A   |
 	LDA $052D				;$B9DA0C   |
 	BEQ CODE_B9DA18				;$B9DA0F   |

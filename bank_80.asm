@@ -672,7 +672,7 @@ CODE_808819:
 	LDA nmi_submode				;$808819  \
 	ASL A					;$80881B   |
 	TAX					;$80881C   |
-	JSR (nmi_routine_table,x)		;$80881D   |
+	JSR (level_nmi_table,x)			;$80881D   |
 	SEP #$20				;$808820   |
 	LDA CPU.ppu_status			;$808822   |
 	REP #$20				;$808825   |
@@ -683,7 +683,7 @@ CODE_808830:					;	   |
 	LDA gamemode_submode			;$808830   |
 	ASL A					;$808832   |
 	TAX					;$808833   |
-	JMP (DATA_80D411,x)			;$808834  /
+	JMP (level_logic_table,x)		;$808834  /
 
 CODE_808837:
 	JSR CODE_80883B				;$808837  \
@@ -1591,7 +1591,7 @@ CODE_808F6C:
 	LDA #!level_pirate_panic		;$808F6C  \
 	STA level_number			;$808F6F   |
 	STA $05BD				;$808F71   |
-	LDA #$0003				;$808F74   |
+	LDA #!level_pirate_panic		;$808F74   |
 	STA $08A8				;$808F77   |
 	LDA #$FFFC				;$808F7A   |
 	STA $0BA4				;$808F7D   |
@@ -5811,41 +5811,42 @@ run_nintendo_copyright:				;	  \
 	WAI					;$80B6BE   | If you find a way to actually trigger this loop
 	BRA .wait_for_next_frame		;$80B6BF  / you are messing with dark magic. I sympathize.
 
-nmi_routine_table:
-	dw CODE_80B705				;00
-	dw CODE_80B746				;01
-	dw CODE_80B779				;02 ship hold
-	dw CODE_80B7A6				;03 hive
-	dw CODE_80B95F				;04 island map (not called from this table?)
-	dw CODE_80B720				;05
-	dw CODE_80B977				;06 ship deck
-	dw CODE_80B9C6				;07 lava
-	dw CODE_80BB77				;08 ship mast rain
-	dw CODE_80BBD5				;09 carnival
-	dw CODE_80BC3D				;0A
-	dw CODE_80BC6D				;0B world map (not called from this table?)
-	dw CODE_80BC85				;0C mine
-	dw CODE_80BDAA				;0D ship mast clouds
-	dw CODE_80BE9C				;0E forest light shafts
-	dw CODE_80BED2				;0F forest leaves
-	dw CODE_80BF08				;10 swamp
-	dw CODE_80BF82				;11 brambles
-	dw CODE_80BFDE				;12 ship hold dark
-	dw CODE_80C05A				;13 lava hot air
-	dw CODE_80C074				;14 krocodile kore
-	dw CODE_80C180				;15 castle
-	dw CODE_80C26B				;16 haunted hall
-	dw CODE_80C466				;17 ship mast water
-	dw CODE_80C4A5				;18 ship hold lava
-	dw CODE_80C584				;19 k.rool duel
-	dw CODE_80C5DE				;1A ship deck sunset
-	dw CODE_80C65B				;1B ice water
-	dw CODE_80C750				;1C jungle
-	dw CODE_80C7C6				;1D ice transparent
-	dw CODE_80C821				;1E castle toxic
-	dw CODE_80C847				;1F brambles leaves
-	dw CODE_80C8AA				;20 mine debris
-	dw CODE_80C8FF				;21 forest fog
+;$80B6C1
+level_nmi_table:
+	dw CODE_80B705				;00 
+	dw CODE_80B746				;01 Forest (Unused)
+	dw CODE_80B779				;02 Ship Hold
+	dw CODE_80B7A6				;03 Wasp Hive
+	dw CODE_80B95F				;04 
+	dw CODE_80B720				;05 
+	dw CODE_80B977				;06 Ship Deck
+	dw CODE_80B9C6				;07 Lava
+	dw CODE_80BB77				;08 Ship Mast (Rain)
+	dw CODE_80BBD5				;09 Roller Coaster
+	dw CODE_80BC3D				;0A Ship Deck (Cabin)
+	dw CODE_80BC6D				;0B 
+	dw CODE_80BC85				;0C Mine
+	dw CODE_80BDAA				;0D Ship Mast (Clouds)
+	dw CODE_80BE9C				;0E Forest (Lights)
+	dw CODE_80BED2				;0F Forest (Windy)
+	dw CODE_80BF08				;10 Swamp
+	dw CODE_80BF82				;11 Brambles
+	dw CODE_80BFDE				;12 Ship Hold (Dark)
+	dw CODE_80C05A				;13 Lava (Geyser)
+	dw CODE_80C074				;14 Krocodile Kore
+	dw CODE_80C180				;15 Castle
+	dw CODE_80C26B				;16 Haunted
+	dw CODE_80C466				;17 Ship Mast (Water)
+	dw CODE_80C4A5				;18 Ship Hold (Hot)
+	dw CODE_80C584				;19 K. Rool Duel
+	dw CODE_80C5DE				;1A Ship Deck (Sunset)
+	dw CODE_80C65B				;1B Ice (Water)
+	dw CODE_80C750				;1C Jungle
+	dw CODE_80C7C6				;1D Ice (Transparent)
+	dw CODE_80C821				;1E Castle (Toxic)
+	dw CODE_80C847				;1F Brambles (Windy)
+	dw CODE_80C8AA				;20 Mine (Windy)
+	dw CODE_80C8FF				;21 Forest (Misty)
 
 CODE_80B705:
 	LDA pending_dma_hdma_channels		;$80B705  \
@@ -7117,7 +7118,7 @@ CODE_80C200:					;	   |
 	REP #$20				;$80C214   |
 	LDX #$0000				;$80C216   |
 CODE_80C219:					;	   |
-	LDA.l DATA_FD2EBE,x			;$80C219   |
+	LDA.l castle_level_palette+$D0,x	;$80C219   |
 	AND #$001F				;$80C21D   |
 	SEC					;$80C220   |
 	SBC $32					;$80C221   |
@@ -7125,7 +7126,7 @@ CODE_80C219:					;	   |
 	LDA #$0000				;$80C225   |
 CODE_80C228:					;	   |
 	STA $38					;$80C228   |
-	LDA.l DATA_FD2EBE,x			;$80C22A   |
+	LDA.l castle_level_palette+$D0,x	;$80C22A   |
 	AND #$03E0				;$80C22E   |
 	SEC					;$80C231   |
 	SBC $34					;$80C232   |
@@ -7133,7 +7134,7 @@ CODE_80C228:					;	   |
 	LDA #$0000				;$80C236   |
 CODE_80C239:					;	   |
 	TSB $38					;$80C239   |
-	LDA.l DATA_FD2EBE,x			;$80C23B   |
+	LDA.l castle_level_palette+$D0,x	;$80C23B   |
 	AND #$7C00				;$80C23F   |
 	SEC					;$80C242   |
 	SBC $36					;$80C243   |
@@ -8752,7 +8753,7 @@ update_rigging_graphics:
 
 CODE_80CF9F:
 	LDA $0515				;$80CF9F  \
-	CMP #$0003				;$80CFA2   |
+	CMP #!boss_level_type			;$80CFA2   |
 	BEQ CODE_80CFDB				;$80CFA5   |
 	LDA global_frame_counter		;$80CFA7   |
 	BIT #$0001				;$80CFA9   |
@@ -9015,39 +9016,40 @@ DATA_80D3ED:
 	dl DATA_80D381 : db $00
 	dl DATA_80D1D1 : db $00
 
-DATA_80D411:
-	dw CODE_80D45A				;00
-	dw CODE_80D462				;01
-	dw CODE_80D486				;02
-	dw CODE_80D557				;03
-	dw CODE_80D58C				;04
-	dw CODE_80D451				;05
-	dw CODE_80D595				;06
-	dw CODE_80D5C3				;07 lava
-	dw CODE_80D5E7				;08
-	dw CODE_80D61B				;09
-	dw CODE_80D642				;0A
-	dw CODE_80D665				;0B
-	dw CODE_80D66E				;0C
-	dw CODE_80D784				;0D
-	dw CODE_80D7AB				;0E
-	dw CODE_80D830				;0F
-	dw CODE_80D854				;10 brambles
-	dw CODE_80D886				;11
-	dw CODE_80D8B7				;12
-	dw CODE_80D8DE				;13
-	dw CODE_80D902				;14 castle
-	dw CODE_80DA21				;15
-	dw CODE_80DA45				;16 ship mast water
-	dw CODE_80DA76				;17
-	dw CODE_80DA9A				;18
-	dw CODE_80DACB				;19
-	dw CODE_80DB12				;1A
-	dw CODE_80DB36				;1B
-	dw CODE_80DB6B				;1C
-	dw CODE_80DB99				;1D
-	dw CODE_80DBCE				;1E
-	dw CODE_80DD3C				;1F
+;$80D411
+level_logic_table:
+	dw CODE_80D45A				;00 
+	dw CODE_80D462				;01 Forest (Unused)
+	dw CODE_80D486				;02 Ship Hold
+	dw CODE_80D557				;03 Wasp Hive
+	dw CODE_80D58C				;04 
+	dw CODE_80D451				;05 
+	dw CODE_80D595				;06 Ship Deck
+	dw CODE_80D5C3				;07 Lava
+	dw CODE_80D5E7				;08 Ship Mast
+	dw CODE_80D61B				;09 Roller Coaster
+	dw CODE_80D642				;0A Ship Deck (Cabin)
+	dw CODE_80D665				;0B 
+	dw CODE_80D66E				;0C Mine
+	dw CODE_80D784				;0D Forest (Lights)
+	dw CODE_80D7AB				;0E Forest (Windy)
+	dw CODE_80D830				;0F Swamp
+	dw CODE_80D854				;10 Brambles
+	dw CODE_80D886				;11 Ship Hold (Dark)
+	dw CODE_80D8B7				;12 Lava (Geyser)
+	dw CODE_80D8DE				;13 Krocodile Kore
+	dw CODE_80D902				;14 Castle
+	dw CODE_80DA21				;15 Haunted
+	dw CODE_80DA45				;16 Ship Mast (Water)
+	dw CODE_80DA76				;17 K. Rool Duel
+	dw CODE_80DA9A				;18 Ship Deck (Sunset)
+	dw CODE_80DACB				;19 Ice (Water)
+	dw CODE_80DB12				;1A Jungle
+	dw CODE_80DB36				;1B Ice (Transparent)
+	dw CODE_80DB6B				;1C Castle (Toxic)
+	dw CODE_80DB99				;1D Brambles (Windy)
+	dw CODE_80DBCE				;1E Mine (Windy)
+	dw CODE_80DD3C				;1F Forest (Misty)
 
 CODE_80D451:
 	JSR CODE_808988				;$80D451  \

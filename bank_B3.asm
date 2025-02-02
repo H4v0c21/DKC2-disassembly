@@ -471,7 +471,7 @@ sprite_main_table:
 	dw unknown_sprite_0098_main,$0000	;0098
 	dw sparkle_spawner_main,$0000		;009C
 	dw sparkle_main,$0000			;00A0
-	dw unknown_sprite_00A4_main,$0000	;00A4 sound effect tester/generator?
+	dw sound_generator_main,$0000		;00A4
 	dw unknown_sprite_00A8_main,$0000	;00A8
 	dw water_level_changer_main,$0000	;00AC
 	dw sprite_marker_main,$0000		;00B0
@@ -1291,7 +1291,7 @@ CODE_B38AE4:
 	BRL CODE_B38A6C				;$B38AEB  /
 
 	LDA $0515				;$B38AEE   |
-	CMP #$0001				;$B38AF1   |
+	CMP #!bonus_level_type			;$B38AF1   |
 	BEQ CODE_B38AFD				;$B38AF4   |
 CODE_B38AF6:					;	   |
 	LDX current_sprite			;$B38AF6   |
@@ -1391,7 +1391,7 @@ CODE_B38B99:
 
 CODE_B38B9B:
 	LDA $0515				;$B38B9B  \
-	CMP #$0001				;$B38B9E   |
+	CMP #!bonus_level_type			;$B38B9E   |
 	BEQ CODE_B38BA9				;$B38BA1   |
 CODE_B38BA3:					;	   |
 	LDX current_sprite			;$B38BA3   |
@@ -1527,7 +1527,7 @@ CODE_B38C90:
 
 CODE_B38C92:
 	LDA $0515				;$B38C92  \
-	CMP #$0001				;$B38C95   |
+	CMP #!bonus_level_type			;$B38C95   |
 	BEQ CODE_B38CA0				;$B38C98   |
 CODE_B38C9A:					;	   |
 	LDX current_sprite			;$B38C9A   |
@@ -1790,7 +1790,7 @@ endif
 
 CODE_B38E64:
 	LDA $0515				;$B38E64  \
-	CMP #$0001				;$B38E67   |
+	CMP #!bonus_level_type			;$B38E67   |
 	BEQ CODE_B38E76				;$B38E6A   |
 CODE_B38E6C:					;	   |
 	LDX current_sprite			;$B38E6C   |
@@ -3726,7 +3726,7 @@ CODE_B39CD0:					;	   |
 	JMP CODE_B38000				;$B39CD0  /
 
 	LDA $0515				;$B39CD3   |
-	CMP #$0001				;$B39CD6   |
+	CMP #!bonus_level_type			;$B39CD6   |
 	BNE CODE_B39CE7				;$B39CD9   |
 	LDX current_sprite			;$B39CDB   |
 	LDA $42,x				;$B39CDD   |
@@ -8040,7 +8040,7 @@ CODE_B3BB91:					;	   |
 	STA $2E,x				;$B3BBAA   |
 	JMP CODE_B38000				;$B3BBAC  /
 
-unknown_sprite_00A4_main:
+sound_generator_main:
 	JSR CODE_B3A369				;$B3BBAF  /
 
 DATA_B3BBB2:
@@ -12904,7 +12904,7 @@ CODE_B3DF88:					;	   |
 
 CODE_B3DF8D:
 	LDA $0515				;$B3DF8D  \
-	CMP #$0002				;$B3DF90   |
+	CMP #!small_level_type			;$B3DF90   |
 	BNE CODE_B3DF99				;$B3DF93   |
 	LDA $6E					;$B3DF95   |
 	BEQ CODE_B3DF9E				;$B3DF97   |

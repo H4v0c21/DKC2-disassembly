@@ -2493,73 +2493,74 @@ DATA_BAA6D0:
 	dw DATA_BAA7DA
 
 DATA_BAA6F0:
-	dw $0003 
-	db $ED, $FF, $F6, $FF, $21, $00, $1A, $00
-	db $0A, $00, $E6, $FF, $13, $00, $11, $00 
-	db $1C, $00, $D9, $FF, $19, $00, $0F, $00
+	dw $0003
+	dw $FFED, $FFF6, $0021, $001A
+	dw $000A, $FFE6, $0013, $0011
+	dw $001C, $FFD9, $0019, $000F
 
 DATA_BAA70A:
-	db $03, $00, $F0, $FF, $F3, $FF, $1D, $00
-	db $20, $00, $08, $00, $DF, $FF, $10, $00
-	db $15, $00, $16, $00, $D4, $FF, $17, $00
-	db $0D, $00
+	dw $0003
+	dw $FFF0, $FFF3, $001D, $0020
+	dw $0008, $FFDF, $0010, $0015
+	dw $0016, $FFD4, $0017, $000D
 
 DATA_BAA724:
-	db $03, $00, $F0, $FF, $F4, $FF, $1D, $00
-	db $20, $00, $04, $00, $DE, $FF, $10, $00
-	db $14, $00, $11, $00, $CA, $FF, $13, $00
-	db $14, $00
+	dw $0003
+	dw $FFF0, $FFF4, $001D, $0020
+	dw $0004, $FFDE, $0010, $0014
+	dw $0011, $FFCA, $0013, $0014
 
 DATA_BAA73E:
-	db $02, $00, $F1, $FF, $F4, $FF, $1B, $00
-	db $22, $00, $02, $00, $C8, $FF, $13, $00
-	db $2B, $00
+	dw $0002
+	dw $FFF1, $FFF4, $001B, $0022
+	dw $0002, $FFC8, $0013, $002B
 
 DATA_BAA750:
-	db $02, $00, $F1, $FF, $F6, $FF, $1A, $00
-	db $21, $00, $FE, $FF, $C3, $FF, $0F, $00
-	db $31, $00
+	dw $0002
+	dw $FFF1, $FFF6, $001A, $0021
+	dw $FFFE, $FFC3, $000F, $0031
 
 DATA_BAA762:
-	db $01, $00, $F3, $FF, $C2, $FF, $17, $00
-	db $56, $00
+	dw $0001
+	dw $FFF3, $FFC2, $0017, $0056
 
 DATA_BAA76C:
-	db $02, $00, $EC, $FF, $C4, $FF, $0F, $00
-	db $31, $00
+	dw $0002
+	dw $FFEC, $FFC4, $000F, $0031
 
 DATA_BAA776:
-	db $02, $00, $E1, $FF, $C9, $FF, $0F, $00
-	db $1B, $00, $F0, $FF, $EF, $FF, $1C, $00
-	db $24, $00
+	dw $0002
+	dw $FFE1, $FFC9, $000F, $001B
+	dw $FFF0, $FFEF, $001C, $0024
 
 DATA_BAA788:
-	db $02, $00, $DB, $FF, $CF, $FF, $14, $00
-	db $1B, $00, $EF, $FF, $EF, $FF, $1F, $00
-	db $23, $00
+	dw $0002
+	dw $FFDB, $FFCF, $0014, $001B
+	dw $FFEF, $FFEF, $001F, $0023
 
 DATA_BAA79A:
-	db $02, $00, $EF, $FF, $F2, $FF, $22, $00
-	db $1F, $00, $D6, $FF, $D4, $FF, $16, $00
-	db $1F, $00
-
+	dw $0002
+	dw $FFEF, $FFF2, $0022, $001F
+	dw $FFD6, $FFD4, $0016, $001F
+	
 DATA_BAA7AC:
-	db $02, $00, $D2, $FF, $D9, $FF, $13, $00
-	db $1C, $00, $EE, $FF, $F1, $FF, $24, $00
-	db $1F, $00
+	dw $0002
+	dw $FFD2, $FFD9, $0013, $001C
+	dw $FFEE, $FFF1, $0024, $001F
 
 DATA_BAA7BE:
-	db $02, $00, $CF, $FF, $E4, $FF, $20, $00
-	db $18, $00, $F2, $FF, $F1, $FF, $23, $00
-	db $1D, $00
+	dw $0002
+	dw $FFCF, $FFE4, $0020, $0018
+	dw $FFF2, $FFF1, $0023, $001D
 
 DATA_BAA7D0:
-	db $01, $00, $CE, $FF, $F0, $FF, $47, $00
-	db $18, $00
+	dw $0001
+	dw $FFCE, $FFF0, $0047, $0018
 
 DATA_BAA7DA:
-	db $01, $00, $CD, $FF, $F2, $FF, $47, $00
-	db $19, $00
+	dw $0001
+	dw $FFCD, $FFF2, $0047, $0019
+
 
 ;k rool projectiles
 
@@ -2830,11 +2831,9 @@ DATA_BAAD1E:
 	dw !null_pointer
 
 
-;number of entries in table below
 DATA_BAAD2E:
-	db $18, $00
-
-
+	dw $0018
+	
 ;krow 1 phase 2 falling egg data?
 DATA_BAAD30:
 	dw DATA_BAAD60
@@ -2958,11 +2957,17 @@ DATA_BAAED0:
 	db $A0, $01, $00, $00, $05, $00, $03, $00
 	db $01, $00, $C8, $00, $05, $00, $FA, $FF
 
-DATA_BAAEF0:
+DATA_BAAEE0:
 	db $02, $00, $00, $00, $04, $00, $00, $00
 	db $04, $00, $02, $00, $04, $00, $04, $00
+
+;unused?
+DATA_BAAEF0:
 	db $02, $00, $02, $00, $00, $00, $00, $00
 	db $00, $00, $02, $00, $00, $00, $04, $00
+
+;unused?
+DATA_BAAF00:
 	db $02, $00, $04, $00, $04, $00, $04, $00
 	db $02, $00, $02, $00, $00, $00, $00, $00
 
@@ -2977,7 +2982,7 @@ DATA_BAAF10:
 	dw DATA_BAB052
 
 DATA_BAAF1C:
-	db $05, $00
+	dw $0005
 	dw DATA_FF1BCE : db $F6, $FF, $F6, $FF, $00, $00, $00, $00, $80, $F9
 	dw DATA_FF1BA0 : db $00, $00, $F6, $FF, $00, $01, $00, $01, $B0, $FA
 	dw DATA_FF1BCE : db $0A, $00, $00, $00, $00, $FE, $80, $FF, $80, $FA
@@ -2985,7 +2990,7 @@ DATA_BAAF1C:
 	dw DATA_FF1BA0 : db $00, $00, $0A, $00, $20, $01, $50, $00, $C0, $FB
 
 DATA_BAAF5A:
-	db $05, $00
+	dw $0005
 	dw DATA_FF1BA0 : db $F6, $FF, $F6, $FF, $80, $FF, $90, $FF, $40, $FB
 	dw DATA_FF1BA0 : db $00, $00, $F6, $FF, $00, $01, $30, $01, $60, $FA
 	dw DATA_FF1BCE : db $0A, $00, $00, $00, $80, $02, $C0, $02, $70, $FB
@@ -2993,7 +2998,7 @@ DATA_BAAF5A:
 	dw DATA_FF1BA0 : db $00, $00, $0A, $00, $90, $03, $50, $04, $00, $FD
 
 DATA_BAAF98:
-	db $05, $00
+	dw $0005
 	dw DATA_FF1B72 : db $F6, $FF, $F6, $FF, $80, $00, $40, $00, $B0, $FA
 	dw DATA_FF1BA0 : db $00, $00, $EC, $FF, $90, $00, $B0, $01, $80, $FB
 	dw DATA_FF1B72 : db $0A, $00, $F6, $FF, $00, $02, $00, $03, $00, $FC
@@ -3001,7 +3006,7 @@ DATA_BAAF98:
 	dw DATA_FF1BA0 : db $00, $00, $00, $00, $C0, $02, $00, $03, $00, $FD
 
 DATA_BAAFD6:
-	db $07, $00
+	dw $0007
 	dw DATA_FF1B72 : db $00, $00, $0A, $00, $00, $00, $00, $00, $00, $FA
 	dw DATA_FF1BCE : db $EC, $FF, $F6, $FF, $50, $FD, $70, $FF, $80, $FB
 	dw DATA_FF1BCE : db $DD, $FF, $0A, $00, $00, $FE, $80, $FF, $00, $FC
@@ -3011,13 +3016,13 @@ DATA_BAAFD6:
 	dw DATA_FF1B72 : db $14, $00, $00, $00, $B0, $02, $90, $01, $00, $FE
 
 DATA_BAB02C:
-	db $03, $00
+	dw $0003
 	dw DATA_FF1B72 : db $F6, $FF, $F6, $FF, $00, $00, $00, $00, $80, $F9
 	dw DATA_FF1BA0 : db $00, $00, $F6, $FF, $00, $01, $00, $01, $B0, $FA
 	dw DATA_FF1BA0 : db $0A, $00, $00, $00, $00, $FE, $80, $FF, $80, $FA
 
 DATA_BAB052:
-	db $03, $00
+	dw $0003
 	dw DATA_FF1B72 : db $F6, $FF, $F6, $FF, $80, $FF, $90, $FF, $40, $FB
 	dw DATA_FF1BA0 : db $00, $00, $F6, $FF, $00, $01, $30, $01, $60, $FA
 	dw DATA_FF1BA0 : db $0A, $00, $00, $00, $80, $02, $C0, $02, $70, $FB

@@ -80,12 +80,12 @@ CODE_B480B2:
 	REP #$20				;$B480BD   |
 	LDA #$0000				;$B480BF   |
 	TAY					;$B480C2   |
-CODE_B480C3:					;	   |
+.next_word					;	   |
 	STA [$CE],y				;$B480C3   |
 	INY					;$B480C5   |
 	INY					;$B480C6   |
 	DEC $0650				;$B480C7   |
-	BNE CODE_B480C3				;$B480CA   |
+	BNE .next_word				;$B480CA   |
 	RTS					;$B480CC  /
 
 CODE_B480CD:
@@ -424,7 +424,7 @@ CODE_B4839C:					;	   |
 	STA PPU.cgram_address			;$B483A0   |
 	LDY #$0006				;$B483A3   |
 CODE_B483A6:					;	   |
-	LDA.l DATA_FD1C2A,x			;$B483A6   |
+	LDA.l kremland_lower_map_palette+$BA,x	;$B483A6   |
 	STA PPU.cgram_write			;$B483AA   |
 	INX					;$B483AD   |
 	CPX #$0006				;$B483AE   |
@@ -452,7 +452,7 @@ CODE_B483BB:					;	   |
 	STA PPU.cgram_address			;$B483D8   |
 	LDY #$0004				;$B483DB   |
 CODE_B483DE:					;	   |
-	LDA.l DATA_FD2160,x			;$B483DE   |
+	LDA.l kremland_upper_map_palette+$F0,x	;$B483DE   |
 	STA PPU.cgram_write			;$B483E2   |
 	TXA					;$B483E5   |
 	INC A					;$B483E6   |
@@ -462,7 +462,7 @@ CODE_B483DE:					;	   |
 	BNE CODE_B483DE				;$B483EB   |
 	LDY #$0004				;$B483ED   |
 CODE_B483F0:					;	   |
-	LDA.l DATA_FD2164,x			;$B483F0   |
+	LDA.l kremland_upper_map_palette+$F4,x	;$B483F0   |
 	STA PPU.cgram_write			;$B483F4   |
 	TXA					;$B483F7   |
 	INC A					;$B483F8   |
@@ -475,7 +475,7 @@ CODE_B483F0:					;	   |
 	TAX					;$B48403   |
 	LDY #$0008				;$B48404   |
 CODE_B48407:					;	   |
-	LDA.l DATA_FD2168,x			;$B48407   |
+	LDA.l kremland_upper_map_palette+$F8,x	;$B48407   |
 	STA PPU.cgram_write			;$B4840B   |
 	TXA					;$B4840E   |
 	INC A					;$B4840F   |
@@ -5329,12 +5329,12 @@ CODE_B4AEAF:
 	JSR CODE_B4AEC3				;$B4AEB0   |
 	LDX #$064E				;$B4AEB3   |
 	LDA #$0012				;$B4AEB6   |
-CODE_B4AEB9:					;	   |
+.next_word					;	   |
 	STZ $0000,x				;$B4AEB9   |
 	INX					;$B4AEBC   |
 	INX					;$B4AEBD   |
 	DEC A					;$B4AEBE   |
-	BNE CODE_B4AEB9				;$B4AEBF   |
+	BNE .next_word				;$B4AEBF   |
 	PLX					;$B4AEC1   |
 	RTL					;$B4AEC2  /
 
@@ -5342,11 +5342,11 @@ CODE_B4AEC3:
 	PHX					;$B4AEC3  \
 	LDX #$06CF				;$B4AEC4   |
 	LDA #$00C0				;$B4AEC7   |
-CODE_B4AECA:					;	   |
+.next_word					;	   |
 	STZ $0000,x				;$B4AECA   |
 	INX					;$B4AECD   |
 	DEC A					;$B4AECE   |
-	BNE CODE_B4AECA				;$B4AECF   |
+	BNE .next_word				;$B4AECF   |
 	PLX					;$B4AED1   |
 	RTS					;$B4AED2  /
 
@@ -5354,11 +5354,11 @@ CODE_B4AED3:
 	PHX					;$B4AED3  \
 	LDX #$06CF				;$B4AED4   |
 	LDA #$0062				;$B4AED7   |
-CODE_B4AEDA:					;	   |
+.next_word					;	   |
 	STZ $0000,x				;$B4AEDA   |
 	INX					;$B4AEDD   |
 	DEC A					;$B4AEDE   |
-	BNE CODE_B4AEDA				;$B4AEDF   |
+	BNE .next_word				;$B4AEDF   |
 	PLX					;$B4AEE1   |
 	RTS					;$B4AEE2  /
 
@@ -9845,7 +9845,7 @@ DATA_B4D8C1:
 
 DATA_B4D8EF:
 	db $41, $00, $BE, $00, $32, $0A, $02 : dw .text
-	dw !level_3C
+	dw !level_monkey_museum_gloomy_gulch
 	dw $0028, $0025
 	dw $002A, $0026
 .text
@@ -9863,7 +9863,7 @@ DATA_B4D921:
 
 DATA_B4D94F:
 	db $EB, $00, $A6, $00, $32, $02, $02 : dw .text
-	dw !level_4C
+	dw !level_kong_kollege_gloomy_gulch
 	dw $002C, $0028
 .text
 	db $0C, ">KONG KOLLEGE"
@@ -9881,7 +9881,7 @@ DATA_B4D97A:
 
 DATA_B4D9AD:
 	db $E9, $00, $73, $00, $32, $02, $02 : dw .text
-	dw !level_44
+	dw !level_swankys_bonus_bonanza_gloomy_gulch
 	dw $002E, $002A
 .text
 	db $16, ">SWANKY'S BONUS BONANZA"
@@ -9900,7 +9900,7 @@ DATA_B4D9EC:
 
 DATA_B4DA2E:
 	db $9E, $00, $64, $00, $32, $01, $01 : dw .text
-	dw !level_5C
+	dw !level_klubbas_kiosk_gloomy_gulch
 	dw $002E, $002B
 .text
 	db $0E, ">KLUBBA'S KIOSK"
@@ -9908,7 +9908,7 @@ DATA_B4DA2E:
 
 DATA_B4DA60:
 	db $7F, $00, $0C, $00, $32, $05, $01 : dw .text
-	dw !level_54
+	dw !level_funkys_flights_gloomy_gulch
 	dw $002E, $002C
 	dw $0032, $002E
 .text
@@ -9944,7 +9944,7 @@ DATA_B4DAF2:
 
 DATA_B4DB2A:
 	db $E1, $00, $8A, $01, $32, $02, $02 : dw .text
-	dw !level_3D
+	dw !level_monkey_museum_k_rools_keep
 	dw $0034, $0031
 .text
 	db $0D, ">MONKEY MUSEUM"
@@ -9961,7 +9961,7 @@ DATA_B4DB58:
 
 DATA_B4DB88:
 	db $5A, $00, $56, $01, $32, $09, $01 : dw .text
-	dw !level_45
+	dw !level_kong_kollege_k_rools_keep
 	dw $0036, $0032
 	dw $0039, $0033
 .text
@@ -9970,7 +9970,7 @@ DATA_B4DB88:
 
 DATA_B4DBB7:
 	db $16, $00, $45, $01, $32, $04, $04 : dw .text
-	dw !level_5D
+	dw !level_klubbas_kiosk_k_rools_keep
 	dw $0034, $0034
 .text
 	db $0E, ">KLUBBA'S KIOSK"
@@ -10006,7 +10006,7 @@ DATA_B4DC54:
 
 DATA_B4DC91:
 	db $DC, $00, $8C, $00, $32, $02, $02 : dw .text
-	dw !level_55
+	dw !level_funkys_flights_k_rools_keep
 	dw $003B, $0037
 .text
 	db $12, ">FUNKY'S FLIGHTS II"
@@ -10103,7 +10103,7 @@ DATA_B4DE57:
 
 DATA_B4DE89:
 	db $9D, $00, $A0, $00, $32, $02, $02 : dw .text
-	dw !level_5B
+	dw !level_klubbas_kiosk_krazy_kremland_lower
 	dw $0045, $0048
 .text
 	db $0E, ">KLUBBA'S KIOSK"
@@ -10190,7 +10190,7 @@ DATA_B4E032:
 
 DATA_B4E067:
 	db $44, $00, $A6, $00, $32, $0A, $02 : dw .text
-	dw !level_4B
+	dw !level_kong_kollege_krazy_kremland_lower
 	dw $0050, $003D
 	dw $0052, $004A
 .text

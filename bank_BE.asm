@@ -218,7 +218,7 @@ CODE_BEB992:
 if !version == 1				;	  \
 	LDA $052D				;$BEB992   |
 	AND #$00FF				;$BEB995   |
-	CMP #$0003				;$BEB998   |
+	CMP #!find_the_token_bonus_type		;$BEB998   |
 	BNE .no_sound_effect			;$BEB99B   |
 endif						;	   |
 	LDA #$0621				;$BEB99D   |\
@@ -1767,7 +1767,7 @@ CODE_BEC4B7:
 
 CODE_BEC4BA:
 	LDA $0515				;$BEC4BA  \
-	CMP #$0001				;$BEC4BD   |
+	CMP #!bonus_level_type			;$BEC4BD   |
 	BEQ CODE_BEC4C8				;$BEC4C0   |
 	TYA					;$BEC4C2   |
 	JSL set_player_interaction_global	;$BEC4C3   |

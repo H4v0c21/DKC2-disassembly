@@ -7344,7 +7344,7 @@ CODE_B5CE7C:
 	JSR CODE_B5E0A1				;$B5CE7C  /
 
 DATA_B5CE7F:
-	db $10, $09 : dw krazy_kremland_outside_map_palette : db $0B, $0B
+	db $10, $09 : dw kremland_lower_map_palette : db $0B, $0B
 
 
 CODE_B5CE85:
@@ -7399,7 +7399,7 @@ CODE_B5CEC7:
 	JSR CODE_B5E0A1				;$B5CEC7  /
 
 DATA_B5CECA:
-	db $15, $09 : dw krazy_kremland_inside_map_palette : db $0B, $0B
+	db $15, $09 : dw kremland_upper_map_palette : db $0B, $0B
 
 
 CODE_B5CED0:
@@ -8842,7 +8842,7 @@ CODE_B5DC9A:					;	   |
 	LDX #$0000				;$B5DCA0   |
 	TXY					;$B5DCA3   |
 CODE_B5DCA4:					;	   |
-	LDA.l DATA_FD0B72,x			;$B5DCA4   |
+	LDA.l crocodile_isle_map_palette+$62,x	;$B5DCA4   |
 	SEC					;$B5DCA8   |
 	SBC $32					;$B5DCA9   |
 	STA $8029,y				;$B5DCAB   |
@@ -9202,11 +9202,11 @@ CODE_B5DF4F:
 	STA $7E8136				;$B5DF53   |
 	LDA #$0000				;$B5DF57   |
 	STA $7E8139				;$B5DF5A   |
-	LDA #DATA_FD0C50			;$B5DF5E   |
+	LDA #crocodile_isle_map_palette+$0140	;$B5DF5E   |
 	LDX $17C0				;$B5DF61   |
 	CPX #$0080				;$B5DF64   |
 	BCS CODE_B5DF6C				;$B5DF67   |
-	LDA #DATA_FD0CB0			;$B5DF69   |
+	LDA #crocodile_isle_map_palette+$01A0	;$B5DF69   |
 CODE_B5DF6C:					;	   |
 	LDX #$0004				;$B5DF6C   |
 	LDY #$00A0				;$B5DF6F   |
@@ -9249,7 +9249,7 @@ CODE_B5DF92:					;	   |
 	STA PPU.cgram_address			;$B5DFBF   |
 	LDX #$0000				;$B5DFC2   |
 CODE_B5DFC5:					;	   |
-	LDA.l DATA_FD0B72,x			;$B5DFC5   |
+	LDA.l crocodile_isle_map_palette+$62,x	;$B5DFC5   |
 	STA PPU.cgram_write			;$B5DFC9   |
 	INX					;$B5DFCC   |
 	CPX #$0010				;$B5DFCD   |

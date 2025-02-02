@@ -170,9 +170,9 @@ CODE_BB80BA:					;	   |
 	LDX #$0515				;$BB80BE   |
 	JSL CODE_BBAF0F				;$BB80C1   |
 	LDA $0515				;$BB80C5   |
-	CMP #$0000				;$BB80C8   |
+	CMP #!normal_level_type			;$BB80C8   |
 	BEQ CODE_BB80D4				;$BB80CB   |
-	CMP #$0006				;$BB80CD   |
+	CMP #!sub_level_type			;$BB80CD   |
 	BEQ CODE_BB80D4				;$BB80D0   |
 	BRA CODE_BB8110				;$BB80D2  /
 
@@ -185,7 +185,7 @@ CODE_BB80D7:					;	   |
 	LDX #$0553				;$BB80DD   |
 	JSL CODE_BBAF0F				;$BB80E0   |
 	LDA $0553				;$BB80E4   |
-	CMP #$0001				;$BB80E7   |
+	CMP #!bonus_level_type			;$BB80E7   |
 	BNE CODE_BB8103				;$BB80EA   |
 	LDA $056B				;$BB80EC   |
 	AND #$00FF				;$BB80EF   |
@@ -2871,7 +2871,7 @@ CODE_BB9265:					;	   |
 	AND #$0001				;$BB928A   |
 	BEQ CODE_BB929D				;$BB928D   |
 	LDA $0515				;$BB928F   |
-	CMP #$0000				;$BB9292   |
+	CMP #!normal_level_type			;$BB9292   |
 	BNE CODE_BB929D				;$BB9295   |
 	LDA #$4000				;$BB9297   |
 	TSB $08C2				;$BB929A   |
@@ -2882,19 +2882,19 @@ CODE_BB929D:					;	   |
 	LDA $0517				;$BB92A7   |\
 	ASL A					;$BB92AA   | |
 	TAX					;$BB92AB   | |
-	JSR (DATA_BB9592,x)			;$BB92AC   |/ run level graphics uploader
-	LDA $0515				;$BB92AF   |
-	CMP #$0001				;$BB92B2   |
-	BNE CODE_BB92C9				;$BB92B5   |
-	LDA $052D				;$BB92B7   |
-	AND #$00FF				;$BB92BA   |
-	CMP #$0002				;$BB92BD   |
-	BNE CODE_BB92C9				;$BB92C0   |
-	LDA #$0016				;$BB92C2   |
-	JSL VRAM_payload_handler_global		;$BB92C5   |
-CODE_BB92C9:					;	   |
+	JSR (DATA_BB9592,x)			;$BB92AC   |/ Run level graphics uploader
+	LDA $0515				;$BB92AF   |\ Get level type
+	CMP #!bonus_level_type			;$BB92B2   | |
+	BNE .done_handling_stars		;$BB92B5   |/ If level isnt a bonus skip handling star graphics
+	LDA $052D				;$BB92B7   |\ Get bonus type
+	AND #$00FF				;$BB92BA   | |
+	CMP #!collect_the_stars_bonus_type	;$BB92BD   | | Check if its collect the stars
+	BNE .done_handling_stars		;$BB92C0   |/ If not dont upload star graphics
+	LDA #$0016				;$BB92C2   |\ Upload star collectible graphics
+	JSL VRAM_payload_handler_global		;$BB92C5   |/
+.done_handling_stars:				;	   |
 	LDX #$000A				;$BB92C9   |\
-	JSR ($0515,x)				;$BB92CC   |/ setup terrain slope attributes
+	JSR ($0515,x)				;$BB92CC   |/ Setup terrain slope attributes
 	JSR CODE_BBB34D				;$BB92CF   |
 	LDA $052B				;$BB92D2   |
 	AND #$0004				;$BB92D5   |
@@ -2932,15 +2932,15 @@ CODE_BB9313:					;	   |
 	JSR CODE_BB93C0				;$BB931D   |
 	JSL CODE_B5F109				;$BB9320   |
 	LDA $0515				;$BB9324   |
-	CMP #$0001				;$BB9327   |
-	BNE CODE_BB933E				;$BB932A   |
+	CMP #!bonus_level_type			;$BB9327   |
+	BNE .done_handling_stars		;$BB932A   |
 	LDA $052D				;$BB932C   |
 	AND #$00FF				;$BB932F   |
-	CMP #$0002				;$BB9332   |
-	BNE CODE_BB933E				;$BB9335   |
+	CMP #!collect_the_stars_bonus_type	;$BB9332   |
+	BNE .done_handling_stars		;$BB9335   |
 	LDA #$9998				;$BB9337   |
 	STA $7FD734				;$BB933A   |
-CODE_BB933E:					;	   |
+.done_handling_stars:				;	   |
 	LDA level_number			;$BB933E   |
 	CMP #!level_bramble_blast		;$BB9340   |
 	BNE CODE_BB934B				;$BB9343   |
@@ -2964,9 +2964,9 @@ endif						;	   |
 	STZ $1730				;$BB9366   |
 	JSR CODE_BB93E7				;$BB9369   |
 	LDA $0515				;$BB936C   |
-	CMP #$0001				;$BB936F   |
+	CMP #!bonus_level_type			;$BB936F   |
 	BEQ CODE_BB9379				;$BB9372   |
-	CMP #$0006				;$BB9374   |
+	CMP #!sub_level_type			;$BB9374   |
 	BEQ CODE_BB9379				;$BB9377   |
 CODE_BB9379:					;	   |
 	RTL					;$BB9379  /
@@ -3040,7 +3040,7 @@ CODE_BB93E7:
 
 CODE_BB93FE:
 	LDA $0515				;$BB93FE  \
-	CMP #$0001				;$BB9401   |
+	CMP #!bonus_level_type			;$BB9401   |
 	BNE CODE_BB940C				;$BB9404   |
 	LDA $052D				;$BB9406   |
 	BNE CODE_BB940C				;$BB9409   |
@@ -3052,18 +3052,18 @@ CODE_BB940C:
 	AND #$00FF				;$BB9412   |
 	BEQ CODE_BB9424				;$BB9415   |
 	LDX $0515				;$BB9417   |
-	CPX #$0001				;$BB941A   |
+	CPX #!bonus_level_type			;$BB941A   |
 	BNE CODE_BB943E				;$BB941D   |
 	ORA #$0300				;$BB941F   |
 	BRA CODE_BB9441				;$BB9422  /
 
 CODE_BB9424:
 	LDA $0515				;$BB9424  \
-	CMP #$0001				;$BB9427   |
+	CMP #!bonus_level_type			;$BB9427   |
 	BEQ CODE_BB9446				;$BB942A   |
-	CMP #$0003				;$BB942C   |
+	CMP #!boss_level_type			;$BB942C   |
 	BEQ CODE_BB9457				;$BB942F   |
-	CMP #$0002				;$BB9431   |
+	CMP #!small_level_type			;$BB9431   |
 	BEQ CODE_BB9445				;$BB9434   |
 	LDA $08C6				;$BB9436   |
 	BMI CODE_BB9473				;$BB9439   |
@@ -3655,7 +3655,7 @@ CODE_BB9828:
 
 CODE_BB9866:
 	LDY #$0010				;$BB9866  \
-	LDA #DATA_FD326E			;$BB9869   |
+	LDA #rattle_battle_level_palette+$20	;$BB9869   |
 	LDX #$0004				;$BB986C   |
 	JSL DMA_palette				;$BB986F   |
 	RTS					;$BB9873  /
@@ -3983,7 +3983,7 @@ CODE_BB9B1E:					;	   |
 	LDA #$0201				;$BB9B4C   |
 	STA pending_dma_hdma_channels		;$BB9B4F   |
 	LDA $0515				;$BB9B52   |
-	CMP #$0001				;$BB9B55   |
+	CMP #!bonus_level_type			;$BB9B55   |
 	BEQ CODE_BB9B62				;$BB9B58   |
 	LDY #$00D0				;$BB9B5A   |
 	JSL CODE_BB83EF				;$BB9B5D   |
@@ -4797,7 +4797,7 @@ CODE_BBA4E0:					;	   |
 
 CODE_BBA5A9:
 	LDA $0515				;$BBA5A9  \
-	CMP #$0003				;$BBA5AC   |
+	CMP #!boss_level_type			;$BBA5AC   |
 	BEQ CODE_BBA5BD				;$BBA5AF   |
 	LDA #$001C				;$BBA5B1   |
 	STA $78					;$BBA5B4   |
@@ -8055,7 +8055,7 @@ CODE_BBBF81:
 	STA level_number			;$BBBF92   |
 	STZ $08A6				;$BBBF94   |
 	LDA $0553				;$BBBF97   |
-	CMP #$0001				;$BBBF9A   |
+	CMP #!bonus_level_type			;$BBBF9A   |
 	BNE CODE_BBBFC1				;$BBBF9D   |
 	LDA $056B				;$BBBF9F   |
 	AND #$00FF				;$BBBFA2   |
@@ -8221,18 +8221,18 @@ CODE_BBC0AA:					;	   |
 	BNE CODE_BBC0AA				;$BBC0B0   |
 	RTS					;$BBC0B2  /
 
-;unused?
-	LDX #$0018				;$BBC0B3   |
-CODE_BBC0B6:					;	   |
-	LDA.l DATA_BBC0C3,x			;$BBC0B6   |
-	STA $0006D7,x				;$BBC0BA   |
-	DEX					;$BBC0BE   |
-	DEX					;$BBC0BF   |
-	BNE CODE_BBC0B6				;$BBC0C0   |
-	RTL					;$BBC0C2  /
+;unused
+	LDX #$0018				;$BBC0B3  \> Number of words to copy
+.next						;	   |
+	LDA.l .unused_lost_world_unlocks,x	;$BBC0B6   |\ Get level id from unlock data
+	STA $0006D7,x				;$BBC0BA   |/ Store it to the unlock queue
+	DEX					;$BBC0BE   |\
+	DEX					;$BBC0BF   |/ Next word index
+	BNE .next				;$BBC0C0   |> If there is more words to copy then repeat
+	RTL					;$BBC0C2  /> Done copying unlocks, return
 
-DATA_BBC0C3:
-	dw $0005
+.unused_lost_world_unlocks:
+	dw $0005				; Number of unlock pairs
 	dw !level_klobber_karnage_bonus_1, !level_krocodile_kore
 	dw !level_gusty_glade_bonus_1, !level_krocodile_kore
 	dw !level_klobber_karnage, !level_krocodile_kore
@@ -9219,172 +9219,172 @@ CODE_BBC8EF:					;	   |
 warnpc $BBE800 : padbyte $00 : pad $BBE800
 
 %mirror(DATA_FBE800)
-	dw DATA_FF2A08				;0000
-	dw DATA_FF2A38				;0002
-	dw DATA_FF2A66				;0004
-	dw DATA_FF2A94				;0006
-	dw DATA_FF2ADA				;0008
-	dw DATA_FF2B2E				;000A
-	dw DATA_FF2B3C				;000C
-	dw DATA_FF2B4A				;000E
-	dw DATA_FF2B5C				;0010
-	dw DATA_FF2B6E				;0012
-	dw DATA_FF2B7C				;0014
-	dw DATA_FF2B8A				;0016
-	dw DATA_FF2B9C				;0018
-	dw DATA_FF2BAE				;001A
-	dw DATA_FF2BBC				;001C
-	dw DATA_FF2BCA				;001E
-	dw DATA_FF2BD8				;0020
-	dw DATA_FF2BEA				;0022
-	dw DATA_FF2BF8				;0024
-	dw DATA_FF2C0A				;0026
-	dw DATA_FF2C1C				;0028
-	dw DATA_FF2C2A				;002A
-	dw DATA_FF2C3C				;002C
-	dw DATA_FF2C4A				;002E
-	dw DATA_FF2C58				;0030
-	dw DATA_FF2C66				;0032
-	dw DATA_FF2C74				;0034
-	dw DATA_FF2C86				;0036
-	dw DATA_FF2C98				;0038
-	dw DATA_FF2CAA				;003A
-	dw DATA_FF2CBC				;003C
-	dw DATA_FF2CCE				;003E
-	dw DATA_FF2CE0				;0040
-	dw DATA_FF2CF2				;0042
-	dw DATA_FF2D04				;0044
-	dw DATA_FF2D16				;0046
-	dw DATA_FF2D24				;0048
-	dw DATA_FF2D36				;004A
-	dw DATA_FF2D44				;004C
-	dw DATA_FF2D52				;004E
-	dw DATA_FF2D60				;0050
-	dw DATA_FF2DEA				;0052
-	dw DATA_FF2DF8				;0054
-	dw DATA_FF2E02				;0056
-	dw DATA_FF2E10				;0058
-	dw DATA_FF2E1A				;005A
-	dw DATA_FF2E28				;005C
-	dw DATA_FF2E36				;005E
-	dw DATA_FF2E44				;0060
-	dw DATA_FF2E52				;0062
-	dw DATA_FF2E60				;0064
-	dw DATA_FF2E72				;0066
-	dw DATA_FF2E84				;0068
-	dw DATA_FF2E92				;006A
-	dw DATA_FF2EA0				;006C
-	dw DATA_FF2EAE				;006E
-	dw DATA_FF2EC0				;0070
-	dw DATA_FF2ED2				;0072
-	dw DATA_FF2EE0				;0074
-	dw DATA_FF2EEE				;0076
-	dw DATA_FF2EFC				;0078
-	dw DATA_FF2F0E				;007A
-	dw DATA_FF2F20				;007C
-	dw DATA_FF2F32				;007E
-	dw DATA_FF2F44				;0080
-	dw DATA_FF2F52				;0082
-	dw DATA_FF2F60				;0084
-	dw DATA_FF2F72				;0086
-	dw DATA_FF2F84				;0088
-	dw DATA_FF2F96				;008A
-	dw DATA_FF2FA4				;008C
-	dw DATA_FF2FB6				;008E
-	dw DATA_FF2FC4				;0090
-	dw DATA_FF2FD2				;0092
-	dw DATA_FF2FE4				;0094
-	dw DATA_FF2FF2				;0096
-	dw DATA_FF3004				;0098
-	dw DATA_FF3016				;009A
-	dw DATA_FF3028				;009C
-	dw DATA_FF303A				;009E
-	dw DATA_FF304C				;00A0
-	dw DATA_FF305E				;00A2
-	dw DATA_FF3070				;00A4
-	dw DATA_FF3082				;00A6
-	dw DATA_FF3094				;00A8
-	dw DATA_FF30A2				;00AA
-	dw DATA_FF30B0				;00AC
-	dw DATA_FF30BE				;00AE
-	dw DATA_FF30C8				;00B0
-	dw DATA_FF30DA				;00B2
-	dw DATA_FF311E				;00B4
-	dw DATA_FF312C				;00B6
-	dw DATA_FF3136				;00B8
-	dw DATA_FF3144				;00BA
-	dw DATA_FF314E				;00BC
-	dw DATA_FF3158				;00BE
-	dw DATA_FF316A				;00C0
-	dw DATA_FF3178				;00C2
-	dw DATA_FF318E				;00C4
-	dw DATA_FF31A4				;00C6
-	dw DATA_FF31BA				;00C8
-	dw DATA_FF31D0				;00CA
-	dw DATA_FF31E2				;00CC
-	dw DATA_FF3290				;00CE
-	dw DATA_FF329A				;00D0
-	dw DATA_FF32A4				;00D2
-	dw DATA_FF32AE				;00D4
-	dw DATA_FF32B8				;00D6
-	dw DATA_FF32C2				;00D8
-	dw DATA_FF32C8				;00DA
-	dw DATA_FF32D2				;00DC
-	dw DATA_FF32E0				;00DE
-	dw DATA_FF32EA				;00E0
-	dw DATA_FF32F4				;00E2
-	dw DATA_FF32FA				;00E4
-	dw DATA_FF3304				;00E6
-	dw DATA_FF3312				;00E8
-	dw DATA_FF331C				;00EA
-	dw DATA_FF3326				;00EC
-	dw DATA_FF3334				;00EE
-	dw DATA_FF3342				;00F0
-	dw DATA_FF3354				;00F2
-	dw DATA_FF3362				;00F4
-	dw DATA_FF3370				;00F6
-	dw DATA_FF3382				;00F8
-	dw DATA_FF3390				;00FA
-	dw DATA_FF339A				;00FC
-	dw DATA_FF33A8				;00FE
-	dw DATA_FF33B6				;0100
-	dw DATA_FF33C8				;0102
-	dw DATA_FF33DA				;0104
-	dw DATA_FF33E4				;0106
-	dw DATA_FF33F2				;0108
-	dw DATA_FF3400				;010A
-	dw DATA_FF340E				;010C
-	dw DATA_FF3420				;010E
-	dw DATA_FF342E				;0110
-	dw DATA_FF343C				;0112
-	dw DATA_FF347C				;0114
-	dw DATA_FF34CE				;0116
-	dw DATA_FF34D4				;0118
-	dw DATA_FF34DE				;011A
-	dw DATA_FF34E8				;011C
-	dw DATA_FF34F2				;011E
-	dw DATA_FF34FC				;0120
-	dw DATA_FF3506				;0122
-	dw DATA_FF3510				;0124
-	dw DATA_FF351A				;0126
-	dw DATA_FF3524				;0128
-	dw DATA_FF352E				;012A
-	dw DATA_FF352E				;012C
-	dw DATA_FF3538				;012E
-	dw DATA_FF3542				;0130
-	dw DATA_FF354C				;0132
-	dw DATA_FF355A				;0134
-	dw DATA_FF3568				;0136
-	dw DATA_FF358A				;0138
-	dw DATA_FF35AC				;013A
-	dw DATA_FF35CE				;013C
-	dw DATA_FF3648				;013E
-	dw DATA_FF366A				;0140
-	dw DATA_FF368C				;0142
-	dw DATA_FF36AE				;0144
-	dw DATA_FF36D0				;0146
-	dw DATA_FF36F2				;0148
-	dw DATA_FF3718				;014A
+	dw DATA_FF2A08				;0000 4 chest spawner (not placed)
+	dw DATA_FF2A38				;0002 K. Rool
+	dw DATA_FF2A66				;0004 Kudgel
+	dw DATA_FF2A94				;0006 Donkey Kong (Stronghold Showdown)
+	dw DATA_FF2ADA				;0008 Kleever
+	dw DATA_FF2B2E				;000A Klomp
+	dw DATA_FF2B3C				;000C Klomp
+	dw DATA_FF2B4A				;000E Klomp
+	dw DATA_FF2B5C				;0010 Klomp
+	dw DATA_FF2B6E				;0012 Klomp
+	dw DATA_FF2B7C				;0014 Klomp
+	dw DATA_FF2B8A				;0016 Klomp
+	dw DATA_FF2B9C				;0018 Klomp
+	dw DATA_FF2BAE				;001A Klomp
+	dw DATA_FF2BBC				;001C Klomp
+	dw DATA_FF2BCA				;001E Klomp
+	dw DATA_FF2BD8				;0020 Klomp
+	dw DATA_FF2BEA				;0022 Klomp
+	dw DATA_FF2BF8				;0024 Klomp
+	dw DATA_FF2C0A				;0026 Klomp (not placed)
+	dw DATA_FF2C1C				;0028 Klomp (not placed)
+	dw DATA_FF2C2A				;002A Klomp
+	dw DATA_FF2C3C				;002C Klomp
+	dw DATA_FF2C4A				;002E Klomp
+	dw DATA_FF2C58				;0030 Klomp
+	dw DATA_FF2C66				;0032 Klomp
+	dw DATA_FF2C74				;0034 Klomp
+	dw DATA_FF2C86				;0036 Klomp
+	dw DATA_FF2C98				;0038 Klomp (not placed)
+	dw DATA_FF2CAA				;003A Klomp
+	dw DATA_FF2CBC				;003C Klomp
+	dw DATA_FF2CCE				;003E Klomp
+	dw DATA_FF2CE0				;0040 Klomp
+	dw DATA_FF2CF2				;0042 Klomp
+	dw DATA_FF2D04				;0044 Klomp
+	dw DATA_FF2D16				;0046 Klomp (not placed)
+	dw DATA_FF2D24				;0048 Klomp
+	dw DATA_FF2D36				;004A Klomp (not placed)
+	dw DATA_FF2D44				;004C Klomp
+	dw DATA_FF2D52				;004E Klomp
+	dw DATA_FF2D60				;0050 Klomp
+	dw DATA_FF2DEA				;0052 Click-clack (not placed)
+	dw DATA_FF2DF8				;0054 Click-clack (not placed)
+	dw DATA_FF2E02				;0056 Click-clack
+	dw DATA_FF2E10				;0058 Click-clack
+	dw DATA_FF2E1A				;005A Click-clack (not placed)
+	dw DATA_FF2E28				;005C Click-clack (not placed)
+	dw DATA_FF2E36				;005E Click-clack (not placed)
+	dw DATA_FF2E44				;0060 Click-clack (not placed)
+	dw DATA_FF2E52				;0062 Click-clack (not placed)
+	dw DATA_FF2E60				;0064 Click-clack
+	dw DATA_FF2E72				;0066 Click-clack
+	dw DATA_FF2E84				;0068 Click-clack
+	dw DATA_FF2E92				;006A Click-clack
+	dw DATA_FF2EA0				;006C Click-clack
+	dw DATA_FF2EAE				;006E Click-clack (not placed)
+	dw DATA_FF2EC0				;0070 Click-clack
+	dw DATA_FF2ED2				;0072 Click-clack
+	dw DATA_FF2EE0				;0074 Click-clack
+	dw DATA_FF2EEE				;0076 Click-clack
+	dw DATA_FF2EFC				;0078 Click-clack
+	dw DATA_FF2F0E				;007A Click-clack
+	dw DATA_FF2F20				;007C Click-clack
+	dw DATA_FF2F32				;007E Click-clack
+	dw DATA_FF2F44				;0080 Click-clack
+	dw DATA_FF2F52				;0082 Click-clack
+	dw DATA_FF2F60				;0084 Click-clack (not placed)
+	dw DATA_FF2F72				;0086 Click-clack (not placed)
+	dw DATA_FF2F84				;0088 Click-clack
+	dw DATA_FF2F96				;008A Click-clack
+	dw DATA_FF2FA4				;008C Click-clack
+	dw DATA_FF2FB6				;008E Click-clack
+	dw DATA_FF2FC4				;0090 Click-clack (not placed)
+	dw DATA_FF2FD2				;0092 Click-clack
+	dw DATA_FF2FE4				;0094 Click-clack
+	dw DATA_FF2FF2				;0096 Click-clack
+	dw DATA_FF3004				;0098 Click-clack
+	dw DATA_FF3016				;009A Click-clack
+	dw DATA_FF3028				;009C Click-clack
+	dw DATA_FF303A				;009E Click-clack
+	dw DATA_FF304C				;00A0 Click-clack
+	dw DATA_FF305E				;00A2 Click-clack
+	dw DATA_FF3070				;00A4 Click-clack
+	dw DATA_FF3082				;00A6 Click-clack (not placed)
+	dw DATA_FF3094				;00A8 Click-clack
+	dw DATA_FF30A2				;00AA Click-clack
+	dw DATA_FF30B0				;00AC Click-clack
+	dw DATA_FF30BE				;00AE Click-clack
+	dw DATA_FF30C8				;00B0 Click-clack (not placed)
+	dw DATA_FF30DA				;00B2 Click-clack (not placed)
+	dw DATA_FF311E				;00B4 Neek
+	dw DATA_FF312C				;00B6 Neek
+	dw DATA_FF3136				;00B8 Neek
+	dw DATA_FF3144				;00BA Neek
+	dw DATA_FF314E				;00BC Neek
+	dw DATA_FF3158				;00BE Neek
+	dw DATA_FF316A				;00C0 Neek
+	dw DATA_FF3178				;00C2 Neek
+	dw DATA_FF318E				;00C4 Neek
+	dw DATA_FF31A4				;00C6 Neek (not placed)
+	dw DATA_FF31BA				;00C8 Neek
+	dw DATA_FF31D0				;00CA Neek
+	dw DATA_FF31E2				;00CC Neek (not placed)
+	dw DATA_FF3290				;00CE Klobber (Green)
+	dw DATA_FF329A				;00D0 Klobber (Green) (not placed)
+	dw DATA_FF32A4				;00D2 Klobber (Green) (not placed)
+	dw DATA_FF32AE				;00D4 Klobber (Green) (not placed)
+	dw DATA_FF32B8				;00D6 Klobber (Green) (not placed)
+	dw DATA_FF32C2				;00D8 Klobber (Green)
+	dw DATA_FF32C8				;00DA Klobber (Green)
+	dw DATA_FF32D2				;00DC Klobber (Green) (not placed)
+	dw DATA_FF32E0				;00DE Klobber (Green)
+	dw DATA_FF32EA				;00E0 Klobber (Green) (not placed)
+	dw DATA_FF32F4				;00E2 Klobber (TNT)
+	dw DATA_FF32FA				;00E4 Klobber (TNT)
+	dw DATA_FF3304				;00E6 Klobber (TNT) (not placed)
+	dw DATA_FF3312				;00E8 Klobber (TNT)
+	dw DATA_FF331C				;00EA Klobber (TNT)
+	dw DATA_FF3326				;00EC Klobber (Yellow)
+	dw DATA_FF3334				;00EE Klobber (Yellow) (not placed)
+	dw DATA_FF3342				;00F0 Klobber (Yellow) (not placed)
+	dw DATA_FF3354				;00F2 Klobber (Yellow)
+	dw DATA_FF3362				;00F4 Klobber (Yellow)
+	dw DATA_FF3370				;00F6 Klobber (Yellow)
+	dw DATA_FF3382				;00F8 Klobber (Yellow)
+	dw DATA_FF3390				;00FA Klobber (Yellow)
+	dw DATA_FF339A				;00FC Klobber (Yellow) (not placed)
+	dw DATA_FF33A8				;00FE Klobber (Yellow)
+	dw DATA_FF33B6				;0100 Klobber (Yellow)
+	dw DATA_FF33C8				;0102 Klobber (Yellow)
+	dw DATA_FF33DA				;0104 Klobber (Black)
+	dw DATA_FF33E4				;0106 Klobber (Black)
+	dw DATA_FF33F2				;0108 Klobber (Black)
+	dw DATA_FF3400				;010A Klobber (Black)
+	dw DATA_FF340E				;010C Klobber (Black)
+	dw DATA_FF3420				;010E Klobber (Black)
+	dw DATA_FF342E				;0110 Klobber (Black) (not placed)
+	dw DATA_FF343C				;0112 Klobber (Black)
+	dw DATA_FF347C				;0114 Barrel
+	dw DATA_FF34CE				;0116 Invincibility Barrel (not placed)
+	dw DATA_FF34D4				;0118 Invincibility Barrel
+	dw DATA_FF34DE				;011A Invincibility Barrel (not placed)
+	dw DATA_FF34E8				;011C Invincibility Barrel (not placed)
+	dw DATA_FF34F2				;011E Invincibility Barrel (not placed)
+	dw DATA_FF34FC				;0120 Invincibility Barrel
+	dw DATA_FF3506				;0122 Invincibility Barrel
+	dw DATA_FF3510				;0124 Invincibility Barrel
+	dw DATA_FF351A				;0126 Invincibility Barrel
+	dw DATA_FF3524				;0128 Invincibility Barrel
+	dw DATA_FF352E				;012A Invincibility Barrel (not placed)
+	dw DATA_FF352E				;012C Invincibility Barrel
+	dw DATA_FF3538				;012E Invincibility Barrel
+	dw DATA_FF3542				;0130 Invincibility Barrel
+	dw DATA_FF354C				;0132 Invincibility Barrel
+	dw DATA_FF355A				;0134 Invincibility Barrel
+	dw DATA_FF3568				;0136 Cannon
+	dw DATA_FF358A				;0138 Cannon
+	dw DATA_FF35AC				;013A Cannon (not placed)
+	dw DATA_FF35CE				;013C Cannon
+	dw DATA_FF3648				;013E Animal Barrel (Squitter)
+	dw DATA_FF366A				;0140 Animal Barrel (Rattly) 
+	dw DATA_FF368C				;0142 Animal Barrel (Squawks)
+	dw DATA_FF36AE				;0144 Animal Barrel (Rambi)
+	dw DATA_FF36D0				;0146 Animal Barrel (Enguarde)
+	dw DATA_FF36F2				;0148 Animal Barrel (Squawks)
+	dw DATA_FF3718				;014A Animal Barrel (Squitter)
 	dw DATA_FF373E				;014C
 	dw DATA_FF3760				;014E
 	dw DATA_FF3782				;0150

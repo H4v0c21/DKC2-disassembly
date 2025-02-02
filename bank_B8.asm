@@ -324,7 +324,7 @@ endif						;	   |
 	JSR CODE_B880BC				;$B8826F   |
 	JSL CODE_B881B4				;$B88272   |
 	LDA $0515				;$B88276   |
-	CMP #$0003				;$B88279   |
+	CMP #!boss_level_type			;$B88279   |
 	BEQ CODE_B882D6				;$B8827C   |
 	JSR work_on_active_kong			;$B8827E   |
 	LDA $0A86				;$B88281   |
@@ -1592,7 +1592,7 @@ endif						;	   |
 	STA $0A,x				;$B88CC9   |
 CODE_B88CCB:					;	   |
 	LDA $0515				;$B88CCB   |
-	CMP #$0001				;$B88CCE   |
+	CMP #!bonus_level_type			;$B88CCE   |
 	BEQ CODE_B88C89				;$B88CD1   |
 	STZ $0AEE				;$B88CD3   |
 	STZ $0AF2				;$B88CD6   |
@@ -1637,7 +1637,7 @@ CODE_B88D1E:					;	   |
 	EOR $12,x				;$B88D30   |
 	STA $12,x				;$B88D32   |
 	LDA $0515				;$B88D34   |
-	CMP #$0001				;$B88D37   |
+	CMP #!bonus_level_type			;$B88D37   |
 	LDA $08C2				;$B88D3A   |
 	AND #$4000				;$B88D3D   |
 	BNE CODE_B88D45				;$B88D40   |
@@ -6735,7 +6735,7 @@ CODE_B8B586:
 	BCS CODE_B8B5A6				;$B8B595   |
 CODE_B8B597:					;	   |
 	LDA $0515				;$B8B597   |
-	CMP #$0001				;$B8B59A   |
+	CMP #!bonus_level_type			;$B8B59A   |
 	BEQ CODE_B8B5A7				;$B8B59D   |
 	LDA #$0029				;$B8B59F   |
 	JSL set_player_interaction_global	;$B8B5A2   |

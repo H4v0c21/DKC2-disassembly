@@ -2767,34 +2767,34 @@ DATA_FF1A80:
 
 ;level end target/chest reward sprites
 DATA_FF1A8E:
-	dw DATA_FFC584			;00
-	dw DATA_FF97EA			;01
-	dw DATA_FF9816			;02
-	dw DATA_FF983C			;03
-	dw DATA_FF9862			;04
-	dw DATA_FFAB30			;05
-	dw DATA_FFAAE8			;06
-	dw DATA_FF34CE			;07
-	dw DATA_FF1870			;08
-	dw DATA_FF187E			;09
-	dw DATA_FF188C			;0A
-	dw DATA_FFC584			;0B
-	dw DATA_FF96C4			;0C
-	dw DATA_FF96C4			;0D
-	dw DATA_FF96C4			;0E
-	dw DATA_FF96C4			;0F
-	dw DATA_FF96D4			;10
-	dw DATA_FF97A8			;11
-	dw DATA_FF65EA			;12
-	dw DATA_FFBA52			;13
-	dw DATA_FFC584			;14
-	dw DATA_FFC584			;15
-	dw DATA_FFC584			;16
-	dw DATA_FFC584			;17
-	dw DATA_FFC584			;18
-	dw DATA_FF1AC6			;19
-	dw DATA_FF97B2			;1A
-	dw DATA_FF96D4			;1B
+	dw DATA_FFC584			;00 Banana Bunch
+	dw DATA_FF97EA			;01 K
+	dw DATA_FF9816			;02 O
+	dw DATA_FF983C			;03 N
+	dw DATA_FF9862			;04 G
+	dw DATA_FFAB30			;05 Barrel
+	dw DATA_FFAAE8			;06 TNT Barrel
+	dw DATA_FF34CE			;07 Invincibility Barrel
+	dw DATA_FF1870			;08 Life Balloon
+	dw DATA_FF187E			;09 Life Balloon
+	dw DATA_FF188C			;0A Life Balloon
+	dw DATA_FFC584			;0B Life Balloon
+	dw DATA_FF96C4			;0C Banana Coin
+	dw DATA_FF96C4			;0D Banana Coin
+	dw DATA_FF96C4			;0E Banana Coin
+	dw DATA_FF96C4			;0F Banana Coin
+	dw DATA_FF96D4			;10 Krem Coin
+	dw DATA_FF97A8			;11 DK Coin
+	dw DATA_FF65EA			;12 Cannonball
+	dw DATA_FFBA52			;13 Chest
+	dw DATA_FFC584			;14 Banana Bunch
+	dw DATA_FFC584			;15 Banana Bunch
+	dw DATA_FFC584			;16 Banana Bunch
+	dw DATA_FFC584			;17 Banana Bunch
+	dw DATA_FFC584			;18 Banana Bunch
+	dw DATA_FF1AC6			;19 Banana
+	dw DATA_FF97B2			;1A Krem Coin
+	dw DATA_FF96D4			;1B Krem Coin
 
 DATA_FF1AC6:
 	dw sprite.type, !sprite_bananas
@@ -14540,20 +14540,20 @@ DATA_FFAB90:
 
 ;unused?
 DATA_FFAB9A:
-	dw sprite.type, !sprite_unknown_00A4
+	dw sprite.type, !sprite_sound_generator
 	dw sprite.state, $0000
 	dw sprite.general_purpose_42, $0606
 	dw !initcommand_success
 
 DATA_FFABA8:
-	dw sprite.type, !sprite_unknown_00A4
+	dw sprite.type, !sprite_sound_generator
 	dw sprite.state, $0001
 	dw sprite.general_purpose_44, $003C
 	dw sprite.general_purpose_42, $0606
 	dw !initcommand_success
 
 DATA_FFABBA:
-	dw sprite.type, !sprite_unknown_00A4
+	dw sprite.type, !sprite_sound_generator
 	dw sprite.state, $0002
 	dw sprite.general_purpose_42, $0606
 	dw !initcommand_success
