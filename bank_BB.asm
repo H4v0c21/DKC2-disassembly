@@ -7864,7 +7864,7 @@ endif
 	STA level_number			;$BBBDF1   |
 	STZ $0902				;$BBBDF3   |
 	STZ $08A6				;$BBBDF6   |
-	LDA.l $0006B1				;$BBBDF9   |
+	LDA.l world_number			;$BBBDF9   |
 	JML CODE_B5CDFD				;$BBBDFD  /
 
 CODE_BBBE01:
@@ -7930,7 +7930,7 @@ CODE_BBBE7E:					;	   |
 	TSB $06D1				;$BBBE81   |
 	STZ $059D				;$BBBE84   |
 	JSR CODE_BBBED7				;$BBBE87   |
-	LDA.l $0006B1				;$BBBE8A   |
+	LDA.l world_number			;$BBBE8A   |
 	JML CODE_B5CDFD				;$BBBE8E  /
 
 DATA_BBBE92:
@@ -7961,7 +7961,7 @@ CODE_BBBEA0:
 	TRB $06D1				;$BBBEC2   |
 	STZ $059D				;$BBBEC5   |
 	JSR CODE_BBBED7				;$BBBEC8   |
-	LDA.l $0006B1				;$BBBECB   |
+	LDA.l world_number			;$BBBECB   |
 	JML CODE_B5CDFD				;$BBBECF  /
 
 CODE_BBBED3:
@@ -8042,7 +8042,7 @@ CODE_BBBF65:					;	   |
 	LDA #$8000				;$BBBF70   |
 	TRB $08C6				;$BBBF73   |
 	JSR CODE_BBBED7				;$BBBF76   |
-	LDA.l $0006B1				;$BBBF79   |
+	LDA.l world_number			;$BBBF79   |
 	JML CODE_B5CDFD				;$BBBF7D  /
 
 CODE_BBBF81:
@@ -8909,10 +8909,10 @@ CODE_BBC686:					;	   |
 	DEX					;$BBC68C   |
 	BPL CODE_BBC686				;$BBC68D   |
 	REP #$20				;$BBC68F   |
-	LDA.l $0006B1				;$BBC691   |
+	LDA.l world_number			;$BBC691   |
 	LDY #$00AD				;$BBC695   |
 	STA [$D9],y				;$BBC698   |
-	LDA.l $0006AB				;$BBC69A   |
+	LDA.l map_node_number			;$BBC69A   |
 	LDY #$00AF				;$BBC69E   |
 	STA [$D9],y				;$BBC6A1   |
 	LDA.l $0006A9				;$BBC6A3   |
@@ -9060,10 +9060,10 @@ CODE_BBC7C2:					;	   |
 	REP #$20				;$BBC7CB   |
 	LDY #$00AD				;$BBC7CD   |
 	LDA [$D9],y				;$BBC7D0   |
-	STA $0006B1				;$BBC7D2   |
+	STA.l world_number			;$BBC7D2   |
 	LDY #$00AF				;$BBC7D6   |
 	LDA [$D9],y				;$BBC7D9   |
-	STA $0006AB				;$BBC7DB   |
+	STA.l map_node_number			;$BBC7DB   |
 	LDY #$00B1				;$BBC7DF   |
 	LDA [$D9],y				;$BBC7E2   |
 	STA $0006A9				;$BBC7E4   |

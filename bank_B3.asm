@@ -528,7 +528,7 @@ sprite_main_table:
 	dw kleever_falling_canball_main,$0000	;017C
 	dw krochead_switch_barrel_main,$0000	;0180
 	dw scroll_and_float_barrel_main,$0000	;0184
-	dw npc_hud_coin_main,$0000		;0188
+	dw npc_hud_coin_main,$0000		;0188 also doubles as some sort of controller in funky's flights?
 	dw kong_npc_main,$0000			;018C
 	dw squitter_main,$0000			;0190
 	dw rattly_main,$0000			;0194
@@ -597,8 +597,8 @@ sprite_main_table:
 	dw defeated_krool_main,$0000		;0290
 	dw unknown_sprite_0294_main,$0000	;0294
 	dw lava_splash_main,$0000		;0298
-	dw krools_blinking_eyes_main,$0000	;029C
-	dw spiked_canballs_main,$0000		;02A0
+	dw krools_blinking_eyes_main,$0000	;029C is also mario, link and yoshi
+	dw spiked_canballs_main,$0000		;02A0 also krool gas clouds
 	dw kleever_main,$0000			;02A4
 	dw krool_puddle_main,$0000		;02A8
 	dw krool_fish_main,$0000		;02AC
@@ -5195,7 +5195,7 @@ CODE_B3A6DC:
 	BCS CODE_B3A734				;$B3A6ED   |
 	LDY current_song			;$B3A6EF   |
 	LDA #$0766				;$B3A6F1   |
-	CPY #$0003				;$B3A6F4   |
+	CPY #!music_swamp			;$B3A6F4   |
 	BEQ CODE_B3A734				;$B3A6F7   |
 	LDY #$004C				;$B3A6F9   |
 	LDA $0523				;$B3A6FC   |

@@ -637,7 +637,7 @@ CODE_8087C9:
 	JML CODE_808C9E				;$8087D5  /
 
 CODE_8087D9:
-	LDA.l $0006B1				;$8087D9  \
+	LDA.l world_number			;$8087D9  \
 	JML CODE_B5CDFD				;$8087DD  /
 
 CODE_8087E1:
@@ -1557,7 +1557,7 @@ CODE_808F04:
 	JSR CODE_808FDC				;$808F26   |
 	JSL CODE_BBC736				;$808F29   |
 CODE_808F2D:					;	   |
-	LDA.l $0006B1				;$808F2D   |
+	LDA.l world_number			;$808F2D   |
 	JML CODE_B5CDFD				;$808F31  /
 
 CODE_808F35:
@@ -1754,8 +1754,8 @@ CODE_8090B1:
 
 CODE_8090BB:
 	JSL disable_screen			;$8090BB  \
-	LDA #$0006				;$8090BF   |
-	STA $000689				;$8090C2   |
+	LDA #!npc_screen_type_wrinkly		;$8090BF   |
+	STA.l npc_screen_type			;$8090C2   |
 	LDA #CODE_808D02			;$8090C6   |
 	JML set_nmi_pointer			;$8090C9  /
 

@@ -7261,14 +7261,14 @@ CODE_B5CDEF:
 	RTS					;$B5CDFC  /
 
 CODE_B5CDFD:
-	STA $0006B1				;$B5CDFD  \
+	STA.l world_number			;$B5CDFD  \
 	JSL disable_screen			;$B5CE01   |
 	JSL clear_wram_tables			;$B5CE05   |
 	JSL init_registers_global		;$B5CE09   |
 	JSL clear_noncritical_wram		;$B5CE0D   |
 	PHK					;$B5CE11   |
 	PLB					;$B5CE12   |
-	LDA.l $0006B1				;$B5CE13   |
+	LDA.l world_number			;$B5CE13   |
 	ASL A					;$B5CE17   |
 	TAX					;$B5CE18   |
 	JMP (DATA_B5CE1C,x)			;$B5CE19  /
@@ -7671,7 +7671,7 @@ CODE_B5D1D0:					;	   |
 CODE_B5D1F5:
 	JSL CODE_80897C				;$B5D1F5  \
 	INC global_frame_counter		;$B5D1F9   |
-	LDA.l $0006AB				;$B5D1FB   |
+	LDA.l map_node_number			;$B5D1FB   |
 	CMP #$0072				;$B5D1FF   |
 	BEQ CODE_B5D229				;$B5D202   |
 	CMP #$0073				;$B5D204   |
@@ -7704,7 +7704,7 @@ CODE_B5D23F:
 	%pea_mask_dbr($7E3202)			;$B5D23F  \
 	PLB					;$B5D242   |
 	PLB					;$B5D243   |
-	LDA.l $0006AB				;$B5D244   |
+	LDA.l map_node_number			;$B5D244   |
 	ASL A					;$B5D248   |
 	ASL A					;$B5D249   |
 	TAY					;$B5D24A   |
@@ -7738,7 +7738,7 @@ CODE_B5D263:					;	   |
 	BNE CODE_B5D280				;$B5D27B   |
 	LDY $000B,x				;$B5D27D   |
 CODE_B5D280:					;	   |
-	STY $06AB				;$B5D280   |
+	STY map_node_number			;$B5D280   |
 	PLX					;$B5D283   |
 	STX $06AF				;$B5D284   |
 	LDA $0000,x				;$B5D287   |
@@ -7779,11 +7779,11 @@ CODE_B5D2CA:
 	BRA CODE_B5D310				;$B5D2E2  /
 
 CODE_B5D2E4:
-	LDA.l $0006AB				;$B5D2E4  \
+	LDA.l map_node_number			;$B5D2E4  \
 	STA $0006A9				;$B5D2E8   |
 	INC A					;$B5D2EC   |
-	STA $0006B1				;$B5D2ED   |
-	LDA.l $0006B1				;$B5D2F1   |
+	STA.l world_number			;$B5D2ED   |
+	LDA.l world_number			;$B5D2F1   |
 	ASL A					;$B5D2F5   |
 	TAX					;$B5D2F6   |
 	LDA #$B400				;$B5D2F7   |
@@ -7791,14 +7791,14 @@ CODE_B5D2E4:
 	PLB					;$B5D2FB   |
 	PLB					;$B5D2FC   |
 	LDY.w DATA_B4C44C,x			;$B5D2FD   |
-	STY $06AB				;$B5D300   |
+	STY map_node_number			;$B5D300   |
 	JSL CODE_B49C2A				;$B5D303   |
 	LDA.l $0006A9				;$B5D307   |
 	INC A					;$B5D30B   |
-	STA $0006B1				;$B5D30C   |
+	STA.l world_number			;$B5D30C   |
 CODE_B5D310:					;	   |
 	JSL CODE_B489ED				;$B5D310   |
-	LDA.l $0006B1				;$B5D314   |
+	LDA.l world_number			;$B5D314   |
 	PLB					;$B5D318   |
 	JMP CODE_B5CDFD				;$B5D319  /
 
@@ -7824,8 +7824,8 @@ CODE_B5D334:
 	LDX #stack				;$B5D336   |
 	TXS					;$B5D339   |
 	STZ PPU.oam_address			;$B5D33A   |
-	LDA.l $0006B1				;$B5D33D   |
-	CMP #$000A				;$B5D341   |
+	LDA.l world_number			;$B5D33D   |
+	CMP #!world_lost_world_w2		;$B5D341   |
 	BCS CODE_B5D349				;$B5D344   |
 	BRL CODE_B5D3D9				;$B5D346  /
 

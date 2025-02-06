@@ -2,6 +2,7 @@
 *.sfc
 *.srm
 *.sram
+*.sym
 *.usage
 *.sh
 *.7z
@@ -17,6 +18,7 @@ DMA_log*
 *.avi
 *.sox
 *.trace
+build.bat
 multibuild.bat
 verify.bat
 verify.py
