@@ -2156,6 +2156,7 @@ DATA_EE1179:
 
 DATA_EE117B:
 	%offset(DATA_EE117D, 2)
+print "shit2> ", pc
 	dl dummy_sfx_data					;00
 	dl dummy_sfx_data					;01
 	dl dummy_sfx_data					;02
