@@ -212,8 +212,10 @@ CODE_BB8110:
 	LDA #$0000				;$BB8110  \
 	RTL					;$BB8113  /
 
+%hook("is_current_level_kremcoin_collected")
 CODE_BB8114:
 	LDA level_number			;$BB8114  \
+%hook("is_level_kremcoin_collected")
 CODE_BB8116:					;	   |
 	JSR CODE_BB8169				;$BB8116   |
 	LDA.l $7E59B2,x				;$BB8119   |
@@ -226,6 +228,7 @@ CODE_BB8123:
 	SEC					;$BB8123  \
 	RTL					;$BB8124  /
 
+%hook("set_this_level_kremcoin_collected")
 CODE_BB8125:
 	LDA level_number			;$BB8125  \
 	JSR CODE_BB8169				;$BB8127   |
@@ -234,8 +237,10 @@ CODE_BB8125:
 	STA $7E59B2,x				;$BB8130   |
 	RTL					;$BB8134  /
 
+%hook("is_current_level_dk_coin_collected")
 CODE_BB8135:
 	LDA $08A8				;$BB8135  \
+%hook("is_level_dk_coin_collected")
 CODE_BB8138:					;	   |
 	JSR CODE_BB8169				;$BB8138   |
 	LDA.l $7E59D2,x				;$BB813B   |
@@ -248,6 +253,7 @@ CODE_BB8145:
 	SEC					;$BB8145  \
 	RTL					;$BB8146  /
 
+%hook("set_current_level_dk_coin_collected")
 CODE_BB8147:
 	LDA $08A8				;$BB8147  \
 	JSR CODE_BB8169				;$BB814A   |
@@ -256,6 +262,7 @@ CODE_BB8147:
 	STA $7E59D2,x				;$BB8153   |
 	RTL					;$BB8157  /
 
+%hook("set_current_level_as_cleared")
 CODE_BB8158:
 	LDA $08A8				;$BB8158  \
 	JSR CODE_BB8169				;$BB815B   |
@@ -442,7 +449,7 @@ CODE_BB82B4:
 	CLC					;$BB82B6   |
 	RTS					;$BB82B7  /
 
-%hook("delete_sprite")
+%hook("delete_sprite_handle_deallocation")
 CODE_BB82B8:
 	LDX current_sprite			;$BB82B8  \
 	LDA $00,x				;$BB82BA   |
@@ -618,6 +625,7 @@ CODE_BB83AE:
 	JSR CODE_BB83B4				;$BB83B0   |
 	RTL					;$BB83B3  /
 
+%hook("deallocate_sprite_vram_slot")
 CODE_BB83B4:
 	LDA $12,x				;$BB83B4  \
 	AND #$01E0				;$BB83B6   |
@@ -751,6 +759,7 @@ CODE_BB8468:					;	   |
 	STZ $2C,x				;$BB846E   |
 	STZ $56,x				;$BB8470   |
 	STZ $32,x				;$BB8472   |
+%hook("apply_spawn_script_to_slot")
 CODE_BB8474:					;	   |
 	PHB					;$BB8474   |
 	%pea_shift_dbr(DATA_FF0000)		;$BB8475   |
@@ -1886,6 +1895,7 @@ CODE_BB8BE1:
 	ADC $05A7				;$BB8BE5   |
 	RTS					;$BB8BE8  /
 
+%hook("get_spawn_position_in_level_data")
 CODE_BB8BE9:
 	LDX current_sprite			;$BB8BE9  \
 	LDA $56,x				;$BB8BEB   |
@@ -1905,6 +1915,7 @@ CODE_BB8BE9:
 	PLB					;$BB8C00   |
 	RTL					;$BB8C01  /
 
+%hook("dereference_sprite_palette")
 CODE_BB8C02:
 	JSR CODE_BB8C06				;$BB8C02  \
 	RTL					;$BB8C05  /

@@ -451,8 +451,13 @@ CODE_B38324:
 	STA $32					;$B3832F   |
 	LDA $0A00,y				;$B38331   |
 	STA $34					;$B38334   |
+if !ex_patch == 1
+	JSL ex_sprite_constants_handler_4
+	NOP
+else
 	LDX $0A01,y				;$B38336   |
 	STX current_sprite			;$B38339   |
+endif
 	PHK					;$B3833B   |
 	%return(CODE_B38342)			;$B3833C   |
 	JML [$0032]				;$B3833F  /
@@ -4002,6 +4007,7 @@ CODE_B39EBE:
 	JSL CODE_B8D010				;$B39EC3   |
 	RTS					;$B39EC7  /
 
+%hook("apply_sprite_gravity")
 CODE_B39EC8:
 	JSR CODE_B39ECC				;$B39EC8  \
 	RTL					;$B39ECB  /
@@ -4021,6 +4027,7 @@ CODE_B39EE1:					;	   |
 	STA $24,x				;$B39EE1   |
 	RTS					;$B39EE3  /
 
+CODE_B39EE4:
 	LDY #$0004				;$B39EE4   |
 	LDA [$8E],y				;$B39EE7   |
 	JSL CODE_B8CFD4				;$B39EE9   |
@@ -5098,6 +5105,7 @@ CODE_B3A61E:					;	   |
 CODE_B3A622:					;	   |
 	RTS					;$B3A622  /
 
+%hook("defeat_sprite_using_anim")
 CODE_B3A623:
 	JSR CODE_B3A627				;$B3A623  \
 	RTL					;$B3A626  /
@@ -15862,4 +15870,66 @@ air_bubble_vram_allocation_fix:
 	LDA #$FFFF				;\ Give the slot an invalid sprite reference...
 	STA $0B04,x				;/ To prevent our big sprite de-allocator from accident nuking it
 	JML [$05A9]				;> Done with sprite, we overwrote this to hijack
+
+%hook("force_sprite_submerged")
+force_sprite_submerged_global:
+	JSR CODE_B3B887
+	RTL
+
+%hook("process_animation_handle_submerged")
+process_animation_handle_submerged_global:
+	JSR CODE_B3B8CB
+	RTL
+
+%hook("defeat_aquatic_sprite_using_anim")
+defeat_aquatic_sprite_using_anim_global:
+	JSR CODE_B3C9CB
+	RTL
+
+%hook("make_sprite_fall_off_screen_with_default_constants")
+make_sprite_fall_off_screen_with_default_constants:
+	LDA #default_defeated_constants
+%hook("make_sprite_fall_off_screen_with_defined_constants")
+make_sprite_fall_off_screen_with_defined_constants:
+	LDX current_sprite
+	STA $54,x
+	JSL CODE_BBBB69	
+	BCC .CODE_B3A66B	
+	LDA $052B
+	AND #$0008
+	BNE .CODE_B3A66E	
+	JSL CODE_BB82B8	
+.CODE_B3A66B:
+	JML [$05A9]				
+
+.CODE_B3A66E:
+	JSL CODE_BCFB58	
+	JSL CODE_BCFEE0
+	LDA $DF
+	SEC
+	SBC $DB
+	CMP #$0020
+	ROL A
+	STA $0A40
+	LDX current_sprite
+	LDA $06,x
+	STA $0A3E
+	JSL CODE_BB82B8
+	JSR CODE_B3A6DC
+	JML [$05A9]
+
+%hook("check_for_sprite_crush")
+check_for_sprite_crush_global:
+	JSR CODE_B3A3A3
+	RTL
+
+%hook("apply_x_acceleration")
+apply_x_acceleration_global:
+	JSR CODE_B39EEE
+	RTL
+
+%hook("apply_y_acceleration")
+apply_y_acceleration_global:
+	JSR CODE_B39EE4
+	RTL
 endif

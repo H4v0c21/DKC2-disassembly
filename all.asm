@@ -258,7 +258,13 @@ if !exhi == 1
 		org $440000
 			ex_sprite_spawn_script_data:
 		org $450000
+			default_defeated_constants:
+				dw $0070
+				dw $0C00
+				dw $0008
+				dw $0040
 			ex_sprite_constants_data:
+
 		org $068000
 			ex_sprite_hitbox_data:
 		org $470000

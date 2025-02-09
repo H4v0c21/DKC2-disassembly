@@ -1907,6 +1907,7 @@ CODE_BEC5B9:					;	   |
 	LDX current_sprite			;$BEC5B9   |
 	RTS					;$BEC5BB  /
 
+%hook("set_sprite_target_hud_position")
 CODE_BEC5BC:
 	LDX current_sprite			;$BEC5BC  \
 	STA $24,x				;$BEC5BE   |
@@ -1941,6 +1942,7 @@ CODE_BEC5F7:					;	   |
 	STA $0A,x				;$BEC5F7   |
 	RTL					;$BEC5F9  /
 
+%hook("move_sprite_to_target_hud_position")
 CODE_BEC5FA:
 	LDY #$0002				;$BEC5FA  \
 	LDX current_sprite			;$BEC5FD   |
