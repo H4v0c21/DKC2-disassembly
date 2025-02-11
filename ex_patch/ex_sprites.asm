@@ -80,6 +80,21 @@ ex_sprite_constants_handler_3:
 	JSL CODE_B8805E			;> Process interactions
 	RTL
 
+ex_sprite_constants_handler_4:
+	LDX $0A01,y
+	STX current_sprite
+	LDA $00,x
+	CMP #!ex_sprite_id_start	;\ If sprite id is in ex range use alternate bank for constants	
+	BCS .use_ex_constants		;/	
+	LDA #$00FF			;\ Sprite constants bank
+	STA $90				;/
+	RTL
+
+.use_ex_constants
+	LDA #<:ex_sprite_constants_data	;\ Sprite constants bank
+	STA $90				;/
+	RTL
+
 %hook("use_vanilla_constants")
 use_vanilla_constants:
 	LDA #$00FF

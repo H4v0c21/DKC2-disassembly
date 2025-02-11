@@ -207,6 +207,18 @@ macro insert_sprite_spawn_script(spawn_script_id, spawn_script_path)
 	;!ex_spawn_script_table_insertion_address #= !ex_spawn_script_table_insertion_address+2
 endmacro
 
+!spawn_script_counter = 0	;might be bad
+macro insert_sprite_spawn_script_no_id(spawn_script_path)
+	org !ex_spawn_script_insertion_address							;go to next free insertion address
+	
+	spawn_script_!spawn_script_counter:							;create a label for the spawn script
+		incsrc <spawn_script_path>							;import spawn script
+	spawn_script_end_!spawn_script_counter:							;mark the end of the spawn script
+
+		
+	!ex_spawn_script_insertion_address := spawn_script_end_!spawn_script_counter		;update data insertion address
+	!spawn_script_counter #= !spawn_script_counter+1					;update label counter to prevent label redefines
+endmacro
 
 ;creates a main routine for a custom sprite
 !sprite_main_counter = 0

@@ -7712,6 +7712,7 @@ CODE_B4C165:					;	   |
 	LDA #simple_gamemode_nmi		;$B4C16E   |
 	JML set_nmi_pointer			;$B4C171  /
 
+%hook("get_rng_rshift_xor")
 CODE_B4C175:
 	LDA rng_result				;$B4C175  \
 	PHA					;$B4C177   |

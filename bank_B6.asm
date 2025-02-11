@@ -14243,6 +14243,7 @@ DATA_B6FE82:
 	dw $0002
 	dw $0002
 
+%hook("spawn_hit_star_relative")
 CODE_B6FE9E:
 	JSR CODE_B6FEA2				;$B6FE9E  \
 	RTL					;$B6FE9F  /
