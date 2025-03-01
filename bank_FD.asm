@@ -395,283 +395,44 @@ crocodile_isle_map_palette:
 pirate_panic_level_palette:
 	incbin "data/levels/palettes/pirate_panic_level_palette.bin"
 
+;$FD0DD0
 red_hot_ride_smoke_layer_3_palette:
 	db $00, $00, $EF, $3D, $B5, $56, $7B, $6F
 	db $29, $25, $B5, $56, $7B, $6F, $FF, $7F
 	db $29, $25, $7B, $6F, $FF, $7F, $FF, $7F
 	db $29, $7D, $29, $7D, $29, $7D, $29, $7D
 
+;$FD0DF0
 lava_level_palette:
-	db $02, $04, $00, $00, $24, $0C, $46, $14
-	db $02, $04, $1F, $02, $7F, $01, $BF, $00
-	db $02, $04, $25, $00, $2E, $00, $BF, $00
-	db $FF, $7F, $FF, $7F, $FF, $7F, $FF, $7F
-	db $00, $4C, $00, $00, $23, $08, $45, $18
-	db $68, $20, $8A, $30, $8D, $3C, $AF, $4C
-	db $41, $00, $84, $08, $C7, $10, $29, $19
-	db $8C, $21, $4E, $29, $2B, $21, $C8, $14
-	db $00, $4C, $FF, $03, $BF, $03, $5F, $03
-	db $FF, $02, $BF, $02, $5F, $02, $1F, $02
-	db $BF, $01, $7F, $01, $1F, $01, $BF, $00
-	db $7F, $00, $1F, $00, $9C, $73, $DE, $7B
-	db $00, $4C, $5F, $03, $BF, $02, $1F, $02
-	db $7F, $01, $BF, $00, $1F, $00, $5B, $00
-	db $54, $00, $2E, $00, $4B, $00, $48, $00
-	db $25, $00, $23, $00, $01, $00, $88, $00
-	db $00, $4C, $BF, $00, $D6, $00, $6E, $00
-	db $2C, $00, $06, $00, $8B, $00, $CD, $00
-	db $78, $01, $3B, $01, $50, $00, $BF, $01
-	db $F3, $00, $FF, $64, $FF, $64, $FF, $64
-	db $00, $4C, $00, $00, $02, $04, $24, $0C
-	db $46, $14, $48, $14, $4C, $14, $30, $10
-	db $34, $0C, $3A, $04, $3F, $00, $22, $00
-	db $23, $00, $45, $00, $46, $00, $67, $00
-	db $00, $4C, $16, $56, $93, $4D, $2F, $39
-	db $EC, $28, $C9, $20, $86, $14, $44, $0C
-	db $75, $46, $D5, $3A, $91, $26, $EE, $21
-	db $4B, $19, $E8, $10, $A5, $08, $22, $04
-	db $00, $4C, $00, $00, $22, $00, $44, $00
-	db $66, $00, $88, $00, $AA, $00, $AC, $00
-	db $CE, $00, $F0, $00, $12, $01, $56, $01
-	db $BA, $01, $FE, $01, $73, $00, $9F, $00
-	
+	incbin "data/levels/palettes/lava_level_palette.bin"
+
+;$FD0EF0	
 fiery_furnace_level_palette:
-	db $02, $04, $00, $00, $24, $0C, $46, $14
-	db $02, $04, $1F, $02, $7F, $01, $BF, $00
-	db $02, $04, $25, $00, $2E, $00, $BF, $00
-	db $FF, $7F, $FF, $7F, $FF, $7F, $FF, $7F
-	db $57, $01, $00, $00, $42, $0C, $84, $18
-	db $C6, $24, $08, $31, $4A, $3D, $AC, $4D
-	db $42, $0C, $85, $14, $C7, $20, $0A, $29
-	db $4C, $35, $8F, $3D, $2B, $29, $C8, $14
-	db $57, $01, $FF, $03, $BF, $03, $5F, $03
-	db $FF, $02, $BF, $02, $5F, $02, $1F, $02
-	db $BF, $01, $7F, $01, $1F, $01, $BF, $00
-	db $7F, $00, $1F, $00, $9C, $73, $DE, $7B
-	db $57, $01, $5F, $03, $BF, $02, $1F, $02
-	db $7F, $01, $BF, $00, $1F, $00, $36, $00
-	db $4D, $04, $4A, $04, $46, $04, $44, $0C
-	db $23, $04, $22, $00, $01, $00, $65, $10
-	db $57, $01, $BF, $00, $D6, $00, $6E, $00
-	db $2C, $00, $06, $00, $8B, $00, $CD, $00
-	db $78, $01, $3B, $01, $50, $00, $BF, $01
-	db $F3, $00, $FF, $64, $FF, $64, $FF, $64
-	db $57, $01, $00, $00, $02, $04, $03, $10
-	db $06, $10, $28, $14, $2B, $14, $2E, $18
-	db $54, $14, $5A, $14, $7F, $14, $22, $00
-	db $23, $04, $44, $0C, $65, $10, $86, $14
-	db $57, $01, $52, $5E, $EF, $51, $8D, $45
-	db $4A, $39, $E7, $28, $A5, $1C, $42, $10
-	db $75, $52, $12, $46, $CF, $3D, $6D, $31
-	db $2A, $25, $C7, $18, $84, $10, $22, $04
-	db $57, $01, $00, $00, $22, $00, $23, $04
-	db $44, $0C, $65, $10, $A7, $18, $C9, $20
-	db $0B, $29, $4D, $31, $6F, $39, $B2, $45
-	db $D4, $4D, $16, $56, $54, $00, $1F, $00
+	incbin "data/levels/palettes/fiery_furnace_level_palette.bin"
 
+;$FD0FF0
 monkey_museum_palette:
-	db $23, $00, $FF, $7F, $00, $00, $F0, $08
-	db $3F, $3A, $1D, $19, $A3, $10, $D6, $4E
-	db $FF, $7F, $AC, $08, $E4, $14, $A7, $29
-	db $6A, $3E, $4E, $57, $B3, $67, $F9, $7B
-	db $23, $00, $00, $00, $3A, $26, $7F, $3B
-	db $A7, $08, $2D, $11, $92, $19, $45, $04
-	db $68, $04, $AC, $08, $F0, $08, $32, $0D
-	db $34, $0D, $78, $0D, $1F, $16, $9F, $1E
-	db $23, $00, $A3, $04, $45, $00, $88, $04
-	db $AB, $04, $EF, $08, $65, $14, $44, $10
-	db $43, $10, $22, $0C, $21, $0C, $2F, $0D
-	db $95, $11, $FB, $11, $3F, $16, $DF, $2E
-	db $23, $00, $FF, $5F, $73, $36, $E7, $0C
-	db $10, $01, $FC, $19, $68, $00, $BD, $11
-	db $D8, $00, $3C, $01, $E1, $00, $C1, $01
-	db $49, $01, $CC, $01, $70, $02, $D4, $0E
-	db $23, $00, $00, $00, $86, $0C, $2B, $19
-	db $B1, $25, $56, $36, $A9, $08, $A9, $08
-	db $E9, $00, $0E, $0D, $2E, $01, $CB, $08
-	db $67, $04, $7F, $04, $14, $00, $0E, $00
-	db $23, $00, $00, $00, $09, $00, $0D, $00
-	db $31, $00, $36, $00, $3A, $00, $3F, $04
-	db $93, $36, $C6, $18, $45, $04, $68, $04
-	db $F0, $08, $BD, $06, $3B, $06, $D9, $01
-	db $23, $00, $00, $00, $05, $05, $87, $04
-	db $AA, $0C, $8A, $04, $AC, $04, $94, $11
-	db $70, $04, $48, $04, $40, $00, $80, $00
-	db $A1, $00, $01, $05, $23, $05, $C8, $09
-	db $23, $00, $00, $00, $AD, $00, $F3, $19
-	db $0D, $11, $F8, $21, $19, $37, $FB, $01
-	db $FD, $02, $FF, $07, $74, $15, $AA, $08
-	db $13, $12, $FF, $7F, $F8, $53, $FF, $23
+	incbin "data/screens/palettes/monkey_museum_palette.bin"
 
+;$FD10F0
 funkys_flights_palette:
-	db $00, $7C, $FF, $7F, $00, $00, $6B, $29
-	db $10, $3A, $94, $4A, $5A, $67, $42, $08
-	db $28, $15, $E7, $08, $6C, $09, $E7, $18
-	db $32, $1A, $D6, $22, $B3, $19, $EB, $10
-	db $00, $7C, $C3, $08, $42, $11, $8D, $46
-	db $2A, $3A, $C8, $2D, $66, $25, $0B, $1E
-	db $E9, $31, $10, $06, $A9, $0D, $AB, $1E
-	db $26, $1A, $4E, $16, $89, $1A, $A9, $36
-	db $00, $7C, $40, $00, $80, $00, $C0, $00
-	db $E0, $00, $20, $05, $60, $05, $A1, $05
-	db $42, $0A, $04, $13, $4B, $0D, $52, $0D
-	db $A6, $11, $4F, $4F, $6B, $05, $7B, $07
-	db $00, $7C, $68, $33, $69, $27, $8B, $1B
-	db $BD, $6F, $A7, $11, $AD, $0F, $B1, $0F
-	db $B5, $0B, $B9, $0B, $BE, $07, $01, $0E
-	db $B5, $06, $EF, $05, $49, $01, $C4, $00
-	db $00, $7C, $9D, $6B, $77, $5F, $74, $5B
-	db $4F, $4F, $AC, $3E, $6B, $3A, $0C, $4B
-	db $6E, $4F, $4D, $47, $4A, $3B, $68, $33
-	db $65, $27, $03, $1F, $82, $0E, $01, $0E
-	db $00, $7C, $20, $00, $A8, $04, $2F, $0D
-	db $72, $11, $4B, $05, $AF, $09, $B6, $22
-	db $B1, $1D, $9B, $2E, $F6, $1D, $E4, $08
-	db $1B, $00, $65, $0D, $8C, $00, $05, $10
-	db $00, $7C, $1B, $00, $11, $00, $0B, $00
-	db $82, $08, $00, $6C, $00, $40, $FF, $03
-	db $E7, $18, $0A, $1D, $00, $05, $08, $09
-	db $DD, $6B, $B5, $56, $EF, $2D, $00, $00
-	db $C9, $7D, $A8, $75, $88, $69, $67, $5D
-	db $47, $51, $69, $51, $8A, $55, $CC, $59
-	db $ED, $5D, $0F, $5E, $51, $62, $72, $66
-	db $94, $6A, $D5, $6A, $F7, $6E, $39, $73
+	incbin "data/screens/palettes/funkys_flights_palette.bin"
 
+;$FD11F0
 kong_kollege_palette:
-	db $00, $7C, $FF, $7F, $00, $00, $95, $46
-	db $73, $46, $CF, $31, $2A, $21, $C7, $18
-	db $84, $0C, $42, $08, $18, $5B, $A8, $08
-	db $0D, $11, $51, $15, $14, $1A, $77, $09
-	db $00, $7C, $09, $21, $FF, $73, $18, $77
-	db $F4, $7E, $91, $7E, $4F, $7E, $42, $08
-	db $CA, $7D, $00, $4C, $C6, $24, $07, $39
-	db $3F, $04, $EC, $30, $FF, $13, $77, $06
-	db $00, $7C, $07, $51, $E7, $1C, $63, $08
-	db $A5, $41, $80, $01, $2B, $2A, $54, $3B
-	db $88, $0E, $B9, $2A, $6B, $04, $EE, $16
-	db $7E, $6B, $0D, $7E, $14, $1A, $1D, $2B
-	db $00, $7C, $14, $1A, $97, $26, $75, $26
-	db $D2, $19, $AF, $11, $BF, $37, $1D, $2B
-	db $D9, $2A, $14, $1A, $A6, $0C, $42, $08
-	db $6D, $19, $22, $05, $0D, $11, $31, $1A
-	db $00, $7C, $60, $03, $C0, $02, $20, $02
-	db $80, $01, $40, $01, $00, $01, $E0, $00
-	db $84, $0C, $E7, $1C, $1D, $2B, $98, $19
-	db $8A, $04, $42, $08, $D8, $56, $FF, $7F
-	db $00, $7C, $3B, $22, $BF, $2E, $B6, $19
-	db $94, $19, $50, $15, $0B, $0D, $67, $04
-	db $42, $08, $FF, $7F, $73, $46, $00, $64
-	db $6F, $21, $4B, $1E, $C9, $08, $1A, $00
-	db $00, $7C, $14, $69, $8C, $3C, $0F, $21
-	db $06, $19, $61, $04, $06, $15, $9F, $7F
-	db $49, $08, $8E, $08, $11, $05, $B7, $05
-	db $5B, $1A, $EF, $04, $18, $00, $D2, $29
-	db $00, $7C, $00, $4C, $08, $51, $8C, $51
-	db $94, $52, $5B, $67, $00, $2C, $0E, $00
-	db $12, $00, $16, $00, $1B, $00, $0E, $30
-	db $3C, $2F, $23, $08, $00, $24, $6F, $21
+	incbin "data/screens/palettes/kong_kollege_palette.bin"
 
+;$FD12F0
 swankys_bonus_bonanza_palette:
-	db $00, $7C, $FF, $7F, $00, $00, $DD, $1E
-	db $7B, $0E, $F5, $09, $D4, $09, $4F, $05
-	db $FF, $37, $1B, $42, $9C, $10, $1E, $63
-	db $5F, $23, $44, $04, $F9, $1C, $AD, $35
-	db $00, $7C, $E3, $03, $03, $7C, $1F, $00
-	db $32, $22, $EF, $19, $8B, $0D, $08, $09
-	db $A6, $08, $84, $04, $05, $00, $00, $00
-	db $A9, $04, $0C, $05, $3A, $0E, $DE, $16
-	db $00, $7C, $5E, $63, $99, $42, $D6, $29
-	db $D3, $29, $70, $25, $FF, $7F, $0A, $1D
-	db $25, $04, $87, $04, $AA, $08, $CC, $08
-	db $2F, $11, $92, $1D, $39, $00, $B1, $11
-	db $00, $7C, $22, $08, $23, $18, $00, $00
-	db $85, $18, $CA, $30, $CC, $50, $CF, $70
-	db $D1, $7C, $D6, $79, $39, $7E, $5B, $7E
-	db $4A, $09, $8C, $15, $0F, $16, $31, $22
-	db $00, $7C, $42, $04, $00, $00, $24, $00
-	db $25, $00, $67, $0C, $C1, $00, $01, $18
-	db $06, $00, $01, $08, $23, $18, $84, $00
-	db $84, $0C, $08, $21, $22, $04, $04, $00
-	db $00, $7C, $8A, $04, $00, $00, $F9, $08
-	db $37, $00, $79, $09, $F9, $0D, $99, $16
-	db $B0, $08, $D5, $25, $71, $19, $50, $15
-	db $AA, $08, $65, $04, $7C, $46, $FF, $6F
-	db $00, $7C, $0F, $1E, $31, $1E, $49, $05
-	db $C7, $04, $6B, $0D, $A8, $0C, $22, $04
-	db $E7, $00, $2C, $1D, $F3, $31, $36, $3A
-	db $79, $42, $63, $0C, $00, $00, $C8, $1C
-	db $00, $7C, $00, $00, $C0, $00, $60, $01
-	db $00, $02, $80, $02, $C7, $1F, $08, $00
-	db $0A, $00, $0E, $00, $10, $00, $15, $00
-	db $5F, $29, $40, $24, $80, $40, $AC, $41
+	incbin "data/screens/palettes/swankys_bonus_bonanza_palette.bin"
 
+;$FD13F0
 klubbas_kiosk_palette:
-	db $00, $7C, $FF, $7F, $00, $00, $52, $4A
-	db $CE, $39, $29, $25, $A5, $14, $39, $67
-	db $8D, $19, $24, $0D, $24, $16, $C5, $10
-	db $4B, $21, $EA, $14, $C8, $0C, $85, $0C
-	db $00, $7C, $62, $04, $C7, $0C, $0B, $11
-	db $6E, $21, $CD, $19, $26, $11, $43, $00
-	db $6D, $15, $41, $04, $D0, $19, $54, $22
-	db $96, $26, $F8, $2A, $3B, $2F, $4B, $05
-	db $00, $00, $7D, $57, $DB, $3A, $11, $2E
-	db $8D, $21, $08, $15, $C6, $0C, $84, $08
-	db $43, $04, $D0, $7D, $87, $7C, $44, $3C
-	db $01, $20, $1E, $1B, $9F, $0D, $3F, $00
-	db $00, $7C, $8C, $23, $2B, $1F, $EA, $1E
-	db $89, $1A, $48, $16, $E7, $11, $86, $0D
-	db $24, $0D, $E3, $08, $00, $00, $82, $04
-	db $41, $04, $84, $08, $EC, $19, $A7, $08
-	db $1F, $7C, $86, $08, $A9, $08, $CB, $08
-	db $EE, $0C, $50, $15, $64, $08, $92, $1D
-	db $4F, $15, $04, $05, $33, $22, $3B, $33
-	db $BF, $2F, $DB, $1E, $16, $12, $51, $05
-	db $00, $7C, $62, $00, $A3, $00, $05, $01
-	db $46, $01, $A8, $01, $0A, $06, $65, $0C
-	db $00, $00, $A7, $08, $C9, $00, $0F, $0D
-	db $4D, $05, $71, $19, $63, $04, $62, $00
-	db $00, $7C, $FA, $52, $54, $3E, $AF, $2D
-	db $0A, $1D, $19, $29, $A9, $08, $00, $20
-	db $4D, $19, $1B, $00, $6C, $00, $00, $44
-	db $3C, $36, $78, $25, $44, $08, $CF, $14
-	db $00, $7C, $EE, $11, $4A, $09, $C6, $04
-	db $AA, $08, $CF, $08, $30, $11, $93, $19
-	db $F7, $21, $AA, $14, $29, $25, $72, $1A
-	db $86, $08, $21, $04, $F5, $6F, $A9, $25
+	incbin "data/screens/palettes/klubbas_kiosk_palette.bin"
 
+;$FD14F0
 topsail_trouble_level_palette:
-	db $C9, $6D, $4A, $29, $8C, $31, $CE, $39
-	db $00, $00, $4A, $29, $AD, $35, $10, $42
-	db $FF, $03, $FF, $03, $FF, $03, $FF, $03
-	db $FF, $03, $FF, $03, $FF, $03, $FF, $03
-	db $C9, $6D, $A8, $61, $88, $51, $68, $45
-	db $28, $35, $08, $25, $E7, $20, $E7, $20
-	db $C6, $1C, $C6, $18, $A5, $18, $A5, $14
-	db $84, $10, $84, $10, $63, $0C, $63, $0C
-	db $00, $7C, $21, $04, $42, $04, $64, $04
-	db $86, $08, $A7, $0C, $E9, $10, $0B, $11
-	db $4D, $15, $91, $19, $51, $15, $B2, $1D
-	db $17, $22, $5A, $26, $9E, $2A, $DF, $2E
-	db $00, $7C, $01, $00, $21, $00, $42, $04
-	db $44, $04, $64, $04, $65, $04, $87, $04
-	db $CA, $0C, $EC, $0C, $2F, $11, $50, $15
-	db $71, $15, $51, $11, $3B, $22, $0E, $0D
-	db $00, $7C, $21, $04, $43, $08, $EB, $10
-	db $2B, $19, $A6, $10, $4F, $19, $15, $2A
-	db $62, $10, $C6, $18, $08, $21, $49, $25
-	db $EF, $35, $52, $42, $F8, $52, $DF, $6B
-	db $00, $7C, $B8, $19, $88, $08, $44, $04
-	db $51, $15, $AB, $08, $D9, $1D, $20, $04
-	db $82, $0C, $E7, $1C, $4B, $29, $B0, $39
-	db $14, $4A, $79, $56, $DE, $66, $5F, $7B
-	db $00, $7C, $98, $6F, $35, $63, $B2, $56
-	db $2D, $42, $68, $31, $05, $25, $62, $14
-	db $A8, $0C, $94, $19, $24, $11, $E4, $10
-	db $C3, $0C, $A2, $08, $41, $04, $20, $00
-	db $C9, $6D, $A8, $65, $88, $5D, $67, $51
-	db $47, $49, $26, $41, $06, $3D, $06, $39
-	db $E5, $30, $E5, $2C, $C5, $28, $C5, $24
-	db $A4, $1C, $A4, $18, $84, $14, $84, $10
+	incbin "data/levels/palettes/topsail_trouble_level_palette.bin"
 
 topsail_trouble_bg_layer_2_palette:
 	db $1F, $64, $84, $10, $A5, $14, $C6, $14
@@ -679,39 +440,9 @@ topsail_trouble_bg_layer_2_palette:
 	db $4B, $21, $6C, $21, $6D, $25, $8E, $25
 	db $AF, $29, $D1, $29, $F2, $2D, $34, $32
 
+;$FD1610
 mainbrace_mayhem_level_palette:
-	db $00, $00, $21, $04, $42, $08, $63, $0C
-	db $00, $00, $42, $08, $63, $0C, $A5, $14
-	db $00, $00, $63, $0C, $A5, $14, $C6, $18
-	db $00, $00, $A5, $14, $C6, $18, $E7, $1C
-	db $00, $00, $C6, $18, $E7, $1C, $08, $21
-	db $00, $00, $E7, $1C, $08, $21, $29, $25
-	db $00, $00, $08, $21, $29, $25, $4A, $29
-	db $00, $00, $00, $02, $00, $02, $00, $02
-	db $00, $7C, $21, $04, $42, $04, $64, $04
-	db $86, $08, $A7, $0C, $E9, $10, $0B, $11
-	db $4D, $15, $91, $19, $51, $15, $B2, $1D
-	db $17, $22, $5A, $26, $9E, $2A, $DF, $2E
-	db $00, $7C, $01, $00, $21, $00, $42, $04
-	db $44, $04, $64, $04, $65, $04, $87, $04
-	db $CA, $0C, $EC, $0C, $2F, $11, $50, $15
-	db $71, $15, $51, $11, $3B, $22, $0E, $0D
-	db $00, $7C, $21, $04, $43, $08, $EB, $10
-	db $2B, $19, $A6, $10, $4F, $19, $15, $2A
-	db $62, $10, $C6, $18, $08, $21, $49, $25
-	db $EF, $35, $52, $42, $F8, $52, $DF, $6B
-	db $00, $7C, $B8, $19, $88, $08, $44, $04
-	db $51, $15, $AB, $08, $D9, $1D, $20, $04
-	db $82, $0C, $E7, $1C, $4B, $29, $B0, $39
-	db $14, $4A, $79, $56, $DE, $66, $5F, $7B
-	db $00, $7C, $98, $6F, $35, $63, $B2, $56
-	db $2D, $42, $68, $31, $05, $25, $62, $14
-	db $A8, $0C, $94, $19, $24, $11, $E4, $10
-	db $C3, $0C, $A2, $08, $41, $04, $20, $00
-	db $C9, $7D, $A8, $75, $88, $69, $67, $5D
-	db $47, $51, $69, $51, $8A, $55, $CC, $59
-	db $ED, $5D, $0F, $5E, $51, $62, $72, $66
-	db $94, $6A, $D5, $6A, $F7, $6E, $39, $73
+	incbin "data/levels/palettes/mainbrace_mayhem_level_palette.bin"
 
 carnival_level_palette:
 	db $00, $00, $00, $7C, $00, $7C, $00, $7C
@@ -808,113 +539,17 @@ mine_glint_layer_3_palette:
 	db $E7, $1C, $8C, $31, $31, $46, $00, $00
 	db $42, $08, $84, $10, $E7, $1C
 
+;$FD228E
 kannons_klaim_level_palette:
-	db $00, $00, $86, $04, $CA, $08, $2E, $09
-	db $00, $7C, $CA, $08, $2E, $09, $93, $0D
-	db $1F, $00, $1F, $00, $1F, $00, $1F, $00
-	db $1F, $00, $1F, $00, $1F, $00, $1F, $00
-	db $00, $00, $22, $0C, $64, $1C, $86, $28
-	db $A8, $34, $C7, $3C, $09, $4D, $6B, $61
-	db $AE, $75, $F0, $7D, $52, $7E, $95, $7E
-	db $D7, $7E, $3A, $7F, $7C, $7F, $DF, $7F
-	db $20, $01
-DATA_FD22D0:
-	db $01, $14, $03, $2C, $25, $48, $27, $6C
-	db $4A, $40, $24, $1C, $25, $08, $23, $00
-	db $28, $04, $28, $18, $02, $08, $D9, $1D
-	db $EE, $10, $38, $19, $BA, $09, $20, $01
-	db $01, $00, $A5, $14, $2A, $21, $6E, $2D
-	db $77, $3E, $DF, $73, $4A, $09, $0F, $0E
-	db $72, $12, $84, $04, $66, $04, $AB, $04
-	db $ED, $08, $71, $19, $F5, $21, $20, $01
-	db $3F, $04, $34, $04, $2C, $04, $CA, $04
-	db $88, $00, $B2, $15, $44, $00, $29, $25
-	db $6B, $2D, $63, $0C, $A5, $14, $08, $21
-	db $AD, $35, $22, $00, $21, $04, $20, $01
-	db $54, $05, $B7, $0D, $5E, $1A, $BF, $22
-	db $65, $08, $E9, $0C, $2D, $0D, $ED, $08
-	db $16, $26, $43, $04, $A7, $08, $CA, $0C
-	db $EC, $0C, $71, $19, $B2, $1D, $20, $01
-	db $01, $00, $23, $00, $45, $00, $67, $00
-	db $89, $00, $AC, $00, $CE, $00, $F0, $00
-	db $69, $00, $B0, $00, $1A, $01, $9F, $01
-	db $A4, $00, $EE, $01, $FF, $03, $20, $01
-	db $FF, $7F, $FF, $3F, $5F, $17, $9F, $0E
-	db $1F, $02, $9F, $01, $3F, $01, $1A, $01
-	db $D5, $00, $B0, $00, $8C, $00, $48, $00
-	db $45, $00, $00, $00, $08, $01
+	incbin "data/levels/palettes/kannons_klaim_level_palette.bin"
 
+;$FD238E
 squawks_shaft_level_palette:
-	db $00, $00, $B7, $02, $3B, $03, $DF, $3B
-	db $00, $00, $4C, $01, $F1, $01, $B7, $02
-	db $00, $00, $A7, $00, $4C, $01, $F1, $01
-	db $00, $00, $02, $00, $44, $00, $A7, $00
-	db $00, $00, $22, $08, $23, $10, $45, $18
-	db $67, $24, $88, $10, $CA, $00, $0D, $01
-	db $4F, $05, $B3, $09, $16, $0E, $9A, $12
-	db $3D, $17, $5D, $2B, $9E, $43, $FF, $5F
-	db $20, $01
-	
-	db $05, $00, $F0, $00, $75, $01, $39, $02
-	db $72, $01, $CC, $00, $06, $00, $04, $00
-	db $06, $00, $AD, $00, $02, $08, $D9, $1D
-	db $EE, $10, $38, $19, $BA, $09, $20, $01
-	db $01, $00, $83, $10, $C7, $18, $09, $1D
-	db $AF, $29, $D8, $3A, $4A, $09, $0F, $0E
-	db $72, $12, $84, $04, $04, $00, $AB, $04
-	db $ED, $08, $71, $19, $F5, $21, $20, $01
-	db $3F, $04, $34, $04, $2C, $04, $CA, $04
-	db $65, $08, $B2, $15, $04, $00, $29, $25
-	db $6B, $2D, $63, $0C, $A5, $14, $08, $21
-	db $AD, $35, $02, $00, $21, $04, $20, $01
-	db $54, $05, $B7, $0D, $5E, $1A, $BF, $22
-	db $65, $08, $E9, $0C, $2D, $0D, $ED, $08
-	db $16, $26, $43, $04, $A7, $08, $CA, $0C
-	db $EC, $0C, $71, $19, $B2, $1D, $20, $01
-	db $01, $00, $02, $00, $04, $00, $06, $00
-	db $48, $00, $6B, $00, $AD, $00, $F0, $00
-	db $6A, $00, $AE, $00, $F0, $00, $33, $01
-	db $A4, $00, $EE, $01, $FF, $03, $20, $01
-	db $FF, $6B, $FF, $4F, $FF, $33, $5D, $23
-	db $BB, $12, $18, $0A, $75, $01, $33, $01
-	db $F0, $00, $AE, $00, $6A, $00, $46, $00
-	db $03, $00, $00, $00, $08, $01
+	incbin "data/levels/palettes/squawks_shaft_level_palette.bin"
 
+;$FD248E
 windy_well_level_palette:
-	db $00, $00, $86, $04, $CA, $08, $2E, $09
-	db $00, $7C, $CA, $08, $2E, $09, $93, $0D
-	db $1F, $00, $1F, $00, $1F, $00, $1F, $00
-	db $1F, $00, $1F, $00, $1F, $00, $1F, $00
-	db $00, $00, $41, $0C, $82, $1C, $C3, $28
-	db $25, $35, $E4, $10, $05, $15, $47, $1D
-	db $A9, $25, $EA, $2D, $4C, $36, $AE, $3E
-	db $F0, $46, $52, $4F, $B4, $57, $F6, $5F
-	db $20, $01
-	
-	db $01, $14, $45, $28, $69, $3C, $AD, $50
-	db $4A, $40, $24, $1C, $64, $10, $42, $08
-	db $A5, $18, $E7, $20, $02, $08, $D9, $1D
-	db $EE, $10, $38, $19, $BA, $09, $20, $01
-	db $01, $00, $83, $10, $C7, $18, $09, $1D
-	db $AF, $29, $96, $4E, $4A, $09, $0F, $0E
-	db $72, $12, $84, $04, $64, $10, $AB, $04
-	db $ED, $08, $71, $19, $F5, $21, $20, $01
-	db $3F, $04, $34, $04, $2C, $04, $CA, $04
-	db $85, $08, $B2, $15, $64, $0C, $29, $25
-	db $6B, $2D, $63, $0C, $A5, $14, $08, $21
-	db $AD, $35, $42, $04, $21, $04, $20, $01
-	db $54, $05, $B7, $0D, $5E, $1A, $BF, $22
-	db $65, $08, $E9, $0C, $2D, $0D, $ED, $08
-	db $16, $26, $43, $04, $A7, $08, $CA, $0C
-	db $EC, $0C, $71, $19, $B2, $1D, $20, $01
-	db $01, $00, $42, $08, $64, $10, $A5, $18
-	db $E7, $20, $08, $29, $4A, $31, $8B, $39
-	db $08, $21, $49, $31, $AB, $3D, $0D, $4A
-	db $A4, $00, $EE, $01, $FF, $03, $20, $01
-	db $FE, $7F, $99, $7F, $34, $7B, $13, $77
-	db $12, $73, $B0, $62, $4F, $56, $0D, $4A
-	db $AB, $3D, $49, $31, $08, $21, $A6, $14
-	db $63, $0C, $00, $00, $08, $01
+	incbin "data/levels/palettes/windy_well_level_palette.bin"
 
 ;$FD258E
 gameover_screen_palette:
@@ -5295,7 +4930,7 @@ DATA_FD5FEE:
 	dw click_clack_credits_sprite_palette		;0010
 	dw water_splash_sprite_palette			;0011
 	dw kutlass_yellow_sprite_palette		;0012
-	dw DATA_FD6428					;0013 map sprites palette without first color
+	dw map_p1_kong_and_text_no_bg_sprite_palette	;0013 map sprites palette without first color
 	dw coin_sprite_palette				;0014
 	dw loaded_cannon_sprite_palette			;0015
 	dw DATA_FD68F8					;0016 unknown lime green gradient
@@ -5367,7 +5002,7 @@ DATA_FD6044:
 	dw krockhead_green_sprite_palette		;0056
 	dw kleever_hurt_3_sprite_palette		;0057
 	dw bullrush_sprite_palette			;0058
-	dw DATA_FD6E7A					;0059
+	dw DATA_FD6E7A					;0059 unused bullrush?
 	dw hot_air_balloon_sprite_palette		;005A
 	dw chest_dark_sprite_palette			;005B
 	dw kloak_sprite_palette				;005C
@@ -5381,8 +5016,8 @@ DATA_FD6044:
 	dw krockhead_brown_sprite_palette		;0064
 	dw klobber_yellow_sprite_palette		;0065
 	dw klobber_black_sprite_palette			;0066
-	dw DATA_FD6FA6					;0067 unknown coin?
-	dw DATA_FD6FC4					;0068 unknown coin?
+	dw DATA_FD6FA6					;0067 krem coin?
+	dw DATA_FD6FC4					;0068 dk coin?
 	dw k_rool_sprite_palette			;0069
 	dw k_rool_gun_sprite_palette			;006A
 	dw k_rool_burnt_sprite_palette			;006B
@@ -5398,15 +5033,15 @@ DATA_FD6044:
 	dw yoshi_sprite_palette				;0075
 	dw mario_sprite_palette				;0076
 	dw screech_sprite_palette			;0077
-	dw wall_castle_sprite_palette			;0078
-	dw DATA_FD6354					;0079
+	dw wall_castle_left_sprite_palette		;0078
+	dw wall_castle_right_sprite_palette		;0079 unused
 	dw wall_lava_sprite_palette			;007A
 	dw wall_ship_hold_high_sprite_palette		;007B
 	dw wall_ice_sprite_palette			;007C
-	dw DATA_FD63CC					;007D
-	dw DATA_FD63EA					;007E
-	dw DATA_FD6408					;007F
-	dw DATA_FD7800					;0080
+	dw DATA_FD63CC					;007D unused wall palette
+	dw DATA_FD63EA					;007E unused wall palette
+	dw DATA_FD6408					;007F unused wall palette
+	dw map_p2_kong_and_text_sprite_palette		;0080
 	dw link_sprite_palette				;0081
 	dw kreepy_krow_dying_head_1_sprite_palette	;0082
 	dw kreepy_krow_dying_body_1_sprite_palette	;0083
@@ -5448,7 +5083,7 @@ DATA_FD6044:
 	dw DATA_FD76B6					;00A7 unknown honey colored
 	dw donkey_kong_sprite_palette			;00A8
 	dw flopping_fish_sprite_palette			;00A9
-	dw map_kong_and_text_sprite_palette		;00AA
+	dw map_p1_kong_and_text_sprite_palette		;00AA
 	dw map_kremling_sprite_palette			;00AB
 	dw roof_piece_sprite_palette			;00AC
 	dw map_cranky_wrinkly_sprite_palette		;00AD
@@ -5587,13 +5222,13 @@ wall_forest_left_sprite_palette:
 	db $CD, $14, $0F, $19, $31, $1D, $54, $21
 	db $11, $21, $54, $21, $94, $21
 
-wall_castle_sprite_palette:
+wall_castle_left_sprite_palette:
 	db $00, $00, $21, $04, $60, $00, $42, $04
 	db $C0, $00, $A7, $0C, $EB, $10, $4D, $19
 	db $6E, $1D, $6E, $25, $A8, $0C, $D1, $29
 	db $34, $32, $64, $08, $96, $3A
 
-DATA_FD6354:
+wall_castle_right_sprite_palette:
 	db $85, $0C, $84, $0C, $A5, $0C, $C7, $10
 	db $63, $08, $A6, $14, $E8, $14, $85, $08
 	db $21, $04, $42, $04, $64, $08, $85, $0C
@@ -5635,14 +5270,12 @@ DATA_FD6408:
 	db $0C, $0D, $4E, $11, $91, $15, $D4, $19
 	db $A0, $00, $80, $00, $63, $04
 
-map_kong_and_text_sprite_palette:
-	db $00, $7C
-
-DATA_FD6428:
-	db $FF, $03, $66, $04, $34, $11, $9D, $0D
-	db $1A, $32, $DF, $46, $BF, $5B, $F9, $30
-	db $BF, $51, $CC, $04, $E0, $02, $97, $04
-	db $BF, $0C, $EF, $3D, $FF, $7F
+map_p1_kong_and_text_sprite_palette:
+%offset(map_p1_kong_and_text_no_bg_sprite_palette, $02)
+	db $00, $7C, $FF, $03, $66, $04, $34, $11
+	db $9D, $0D, $1A, $32, $DF, $46, $BF, $5B
+	db $F9, $30, $BF, $51, $CC, $04, $E0, $02
+	db $97, $04, $BF, $0C, $EF, $3D, $FF, $7F
 
 link_sprite_palette:
 	db $7F, $4B, $BC, $3A, $F8, $29, $50, $19
@@ -6632,7 +6265,7 @@ click_clack_sprite_palette:
 	db $66, $31, $88, $35, $2A, $3E, $CC, $46
 	db $6F, $4F, $19, $67, $FF, $7F
 
-DATA_FD7800:
+map_p2_kong_and_text_sprite_palette:
 	db $00, $7C, $DF, $39, $66, $04, $34, $11
 	db $9D, $0D, $1A, $32, $DF, $46, $BF, $5B
 	db $CF, $50, $95, $69, $CC, $04, $1F, $7C
@@ -6791,12 +6424,12 @@ DATA_FD79E2:
 DATA_FD7A56:
 	dw PPU.screen : db $80
 	dw PPU.layer_mode : db $09
-	dw PPU.layer_1_2_tilemap_base|$8000 : dw $7170
+	dw PPU.layer_1_2_tilemap_base|$8000, $7170
 	dw PPU.layer_3_tilemap_base : db $72
-	dw PPU.layer_all_tiledata_base|$8000 : dw $0666
+	dw PPU.layer_all_tiledata_base|$8000, $0666
 	dw PPU.sprite_select : db $00
-	dw PPU.screens|$8000 : dw $1111
-	dw PPU.set_window_layer_all|$8000 : dw $0000
+	dw PPU.screens|$8000, $1111
+	dw PPU.set_window_layer_all|$8000, $0000
 	dw PPU.set_window_sprite_color : db $00
 	dw PPU.color_addition_logic : db $00
 	dw PPU.set_color_math : db $00
@@ -6807,12 +6440,12 @@ DATA_FD7A56:
 
 DATA_FD7A86:
 	dw PPU.layer_mode : db $09
-	dw PPU.layer_1_2_tilemap_base|$8000 : dw $6958
+	dw PPU.layer_1_2_tilemap_base|$8000, $6958
 	dw PPU.layer_3_tilemap_base : db $5C
-	dw PPU.layer_all_tiledata_base|$8000 : dw $0627
+	dw PPU.layer_all_tiledata_base|$8000, $0627
 	dw PPU.sprite_select : db $00
-	dw PPU.screens|$8000 : dw $0016
-	dw PPU.window_masks|$8000 : dw $0016
+	dw PPU.screens|$8000, $0016
+	dw PPU.window_masks|$8000, $0016
 	dw PPU.set_window_sprite_color : db $30
 	dw PPU.color_addition_logic : db $00
 	dw PPU.set_color_math : db $26
@@ -6824,11 +6457,11 @@ DATA_FD7A86:
 
 DATA_FD7AB6:
 	dw PPU.layer_mode : db $09
-	dw PPU.layer_1_2_tilemap_base|$8000 : dw $7139
+	dw PPU.layer_1_2_tilemap_base|$8000, $7139
 	dw PPU.layer_3_tilemap_base : db $6C
-	dw PPU.layer_all_tiledata_base|$8000 : dw $0642
+	dw PPU.layer_all_tiledata_base|$8000, $0642
 	dw PPU.sprite_select : db $00
-	dw PPU.screens|$8000 : dw $1304
+	dw PPU.screens|$8000, $1304
 	dw PPU.color_addition_logic : db $02
 	dw PPU.set_color_math : db $24
 	dw PPU.video_mode : db $00
@@ -6839,11 +6472,11 @@ DATA_FD7AB6:
 
 DATA_FD7ADF:
 	dw PPU.layer_mode : db $09
-	dw PPU.layer_1_2_tilemap_base|$8000 : dw $796C
+	dw PPU.layer_1_2_tilemap_base|$8000, $796C
 	dw PPU.layer_3_tilemap_base : db $68
-	dw PPU.layer_all_tiledata_base|$8000 : dw $0725
+	dw PPU.layer_all_tiledata_base|$8000, $0725
 	dw PPU.sprite_select : db $00
-	dw PPU.screens|$8000 : dw $1601
+	dw PPU.screens|$8000, $1601
 	dw PPU.color_addition_logic : db $02
 	dw PPU.set_color_math : db $21
 	dw PPU.video_mode : db $00
@@ -6855,11 +6488,11 @@ DATA_FD7ADF:
 
 DATA_FD7B08:
 	dw PPU.layer_mode : db $09
-	dw PPU.layer_1_2_tilemap_base|$8000 : dw $6A7A
+	dw PPU.layer_1_2_tilemap_base|$8000, $6A7A
 	dw PPU.layer_3_tilemap_base : db $1A
-	dw PPU.layer_all_tiledata_base|$8000 : dw $0752
+	dw PPU.layer_all_tiledata_base|$8000, $0752
 	dw PPU.sprite_select : db $00
-	dw PPU.screens|$8000 : dw $0601
+	dw PPU.screens|$8000, $0601
 	dw PPU.color_addition_logic : db $02
 	dw PPU.set_color_math : db $23
 	dw PPU.video_mode : db $00
@@ -6871,12 +6504,12 @@ DATA_FD7B08:
 DATA_FD7B31:
 	dw PPU.screen : db $80
 	dw PPU.layer_mode : db $09
-	dw PPU.layer_1_2_tilemap_base|$8000 : dw $0070
+	dw PPU.layer_1_2_tilemap_base|$8000, $0070
 	dw PPU.layer_3_tilemap_base : db $68
-	dw PPU.layer_all_tiledata_base|$8000 : dw $0602
+	dw PPU.layer_all_tiledata_base|$8000, $0602
 	dw PPU.sprite_select : db $00
-	dw PPU.screens|$8000 : dw $0007
-	dw PPU.set_window_layer_all|$8000 : dw $0000
+	dw PPU.screens|$8000, $0007
+	dw PPU.set_window_layer_all|$8000, $0000
 	dw PPU.set_window_sprite_color : db $00
 	dw PPU.color_addition_logic : db $00
 	dw PPU.set_color_math : db $00
@@ -6887,11 +6520,11 @@ DATA_FD7B31:
 
 DATA_FD7B61:
 	dw PPU.layer_mode : db $09
-	dw PPU.layer_1_2_tilemap_base|$8000 : dw $5C71
+	dw PPU.layer_1_2_tilemap_base|$8000, $5C71
 	dw PPU.layer_3_tilemap_base : db $79
-	dw PPU.layer_all_tiledata_base|$8000 : dw $0562
+	dw PPU.layer_all_tiledata_base|$8000, $0562
 	dw PPU.sprite_select : db $00
-	dw PPU.screens|$8000 : dw $1017
+	dw PPU.screens|$8000, $1017
 	dw PPU.color_addition_logic : db $02
 	dw PPU.set_color_math : db $02
 	dw PPU.video_mode : db $00
@@ -6903,11 +6536,11 @@ DATA_FD7B61:
 
 DATA_FD7B8A:
 	dw PPU.layer_mode : db $09
-	dw PPU.layer_1_2_tilemap_base|$8000 : dw $7C70
+	dw PPU.layer_1_2_tilemap_base|$8000, $7C70
 	dw PPU.layer_3_tilemap_base : db $7A
-	dw PPU.layer_all_tiledata_base|$8000 : dw $0602
+	dw PPU.layer_all_tiledata_base|$8000, $0602
 	dw PPU.sprite_select : db $00
-	dw PPU.screens|$8000 : dw $0015
+	dw PPU.screens|$8000, $0015
 	dw PPU.color_addition_logic : db $00
 	dw PPU.set_color_math : db $00
 	dw PPU.video_mode : db $00
@@ -6918,11 +6551,11 @@ DATA_FD7B8A:
 
 DATA_FD7BB3:
 	dw PPU.layer_mode : db $09
-	dw PPU.layer_1_2_tilemap_base|$8000 : dw $7C74
+	dw PPU.layer_1_2_tilemap_base|$8000, $7C74
 	dw PPU.layer_3_tilemap_base : db $4A
-	dw PPU.layer_all_tiledata_base|$8000 : dw $0562
+	dw PPU.layer_all_tiledata_base|$8000, $0562
 	dw PPU.sprite_select : db $00
-	dw PPU.screens|$8000 : dw $0017
+	dw PPU.screens|$8000, $0017
 	dw PPU.color_addition_logic : db $00
 	dw PPU.set_color_math : db $00
 	dw PPU.video_mode : db $00
@@ -6933,11 +6566,11 @@ DATA_FD7BB3:
 
 DATA_FD7BDC:
 	dw PPU.layer_mode : db $09
-	dw PPU.layer_1_2_tilemap_base|$8000 : dw $6A78
+	dw PPU.layer_1_2_tilemap_base|$8000, $6A78
 	dw PPU.layer_3_tilemap_base : db $1A
-	dw PPU.layer_all_tiledata_base|$8000 : dw $0752
+	dw PPU.layer_all_tiledata_base|$8000, $0752
 	dw PPU.sprite_select : db $00
-	dw PPU.screens|$8000 : dw $0011
+	dw PPU.screens|$8000, $0011
 	dw PPU.color_addition_logic : db $00
 	dw PPU.set_color_math : db $00
 	dw PPU.video_mode : db $00
@@ -6948,11 +6581,11 @@ DATA_FD7BDC:
 
 DATA_FD7C05:
 	dw PPU.layer_mode : db $09
-	dw PPU.layer_1_2_tilemap_base|$8000 : dw $6A71
+	dw PPU.layer_1_2_tilemap_base|$8000, $6A71
 	dw PPU.layer_3_tilemap_base : db $1A
-	dw PPU.layer_all_tiledata_base|$8000 : dw $0752
+	dw PPU.layer_all_tiledata_base|$8000, $0752
 	dw PPU.sprite_select : db $00
-	dw PPU.screens|$8000 : dw $0011
+	dw PPU.screens|$8000, $0011
 	dw PPU.color_addition_logic : db $00
 	dw PPU.set_color_math : db $00
 	dw PPU.video_mode : db $00
@@ -6963,11 +6596,11 @@ DATA_FD7C05:
 
 DATA_FD7C2E:
 	dw PPU.layer_mode : db $09
-	dw PPU.layer_1_2_tilemap_base|$8000 : dw $7079
+	dw PPU.layer_1_2_tilemap_base|$8000, $7079
 	dw PPU.layer_3_tilemap_base : db $6C
-	dw PPU.layer_all_tiledata_base|$8000 : dw $0652
+	dw PPU.layer_all_tiledata_base|$8000, $0652
 	dw PPU.sprite_select : db $00
-	dw PPU.screens|$8000 : dw $1017
+	dw PPU.screens|$8000, $1017
 	dw PPU.color_addition_logic : db $02
 	dw PPU.set_color_math : db $63
 	dw PPU.video_mode : db $00
@@ -6978,11 +6611,11 @@ DATA_FD7C2E:
 
 DATA_FD7C57:
 	dw PPU.layer_mode : db $09
-	dw PPU.layer_1_2_tilemap_base|$8000 : dw $6A72
+	dw PPU.layer_1_2_tilemap_base|$8000, $6A72
 	dw PPU.layer_3_tilemap_base : db $1A
-	dw PPU.layer_all_tiledata_base|$8000 : dw $0752
+	dw PPU.layer_all_tiledata_base|$8000, $0752
 	dw PPU.sprite_select : db $00
-	dw PPU.screens|$8000 : dw $0011
+	dw PPU.screens|$8000, $0011
 	dw PPU.color_addition_logic : db $00
 	dw PPU.set_color_math : db $00
 	dw PPU.video_mode : db $00
@@ -6993,11 +6626,11 @@ DATA_FD7C57:
 
 DATA_FD7C80:
 	dw PPU.layer_mode : db $01
-	dw PPU.layer_1_2_tilemap_base|$8000 : dw $787C
+	dw PPU.layer_1_2_tilemap_base|$8000, $787C
 	dw PPU.layer_3_tilemap_base : db $1A
-	dw PPU.layer_all_tiledata_base|$8000 : dw $0726
+	dw PPU.layer_all_tiledata_base|$8000, $0726
 	dw PPU.sprite_select : db $00
-	dw PPU.screens|$8000 : dw $0013
+	dw PPU.screens|$8000, $0013
 	dw PPU.color_addition_logic : db $02
 	dw PPU.set_color_math : db $22
 	dw PPU.video_mode : db $00
@@ -7008,10 +6641,10 @@ DATA_FD7C80:
 
 DATA_FD7CA9:
 	dw PPU.layer_mode : db $09
-	dw PPU.layer_1_2_tilemap_base|$8000 : dw $6978
-	dw PPU.layer_all_tiledata_base|$8000 : dw $0672
+	dw PPU.layer_1_2_tilemap_base|$8000, $6978
+	dw PPU.layer_all_tiledata_base|$8000, $0672
 	dw PPU.sprite_select : db $00
-	dw PPU.screens|$8000 : dw $1211
+	dw PPU.screens|$8000, $1211
 	dw PPU.color_addition_logic : db $02
 	dw PPU.set_color_math : db $21
 	dw PPU.video_mode : db $00
@@ -7022,11 +6655,11 @@ DATA_FD7CA9:
 
 DATA_FD7CCF:
 	dw PPU.layer_mode : db $09
-	dw PPU.layer_1_2_tilemap_base|$8000 : dw $6958
+	dw PPU.layer_1_2_tilemap_base|$8000, $6958
 	dw PPU.layer_3_tilemap_base : db $5C
-	dw PPU.layer_all_tiledata_base|$8000 : dw $0627
+	dw PPU.layer_all_tiledata_base|$8000, $0627
 	dw PPU.sprite_select : db $00
-	dw PPU.screens|$8000 : dw $0017
+	dw PPU.screens|$8000, $0017
 	dw PPU.color_addition_logic : db $00
 	dw PPU.set_color_math : db $00
 	dw PPU.video_mode : db $00
@@ -7037,13 +6670,13 @@ DATA_FD7CCF:
 
 DATA_FD7CF8:
 	dw PPU.layer_mode : db $09
-	dw PPU.layer_1_2_tilemap_base|$8000 : dw $6958
+	dw PPU.layer_1_2_tilemap_base|$8000, $6958
 	dw PPU.layer_3_tilemap_base : db $5C
-	dw PPU.layer_all_tiledata_base|$8000 : dw $0627
+	dw PPU.layer_all_tiledata_base|$8000, $0627
 	dw PPU.sprite_select : db $00
-	dw PPU.window_1|$8000 : dw $FF00
-	dw PPU.screens|$8000 : dw $0116
-	dw PPU.window_masks|$8000 : dw $0116
+	dw PPU.window_1|$8000, $FF00
+	dw PPU.screens|$8000, $0116
+	dw PPU.window_masks|$8000, $0116
 	dw PPU.set_window_sprite_color : db $30
 	dw PPU.color_addition_logic : db $22
 	dw PPU.set_color_math : db $26
@@ -7055,11 +6688,11 @@ DATA_FD7CF8:
 
 DATA_FD7D2C:
 	dw PPU.layer_mode : db $09
-	dw PPU.layer_1_2_tilemap_base|$8000 : dw $6A73
+	dw PPU.layer_1_2_tilemap_base|$8000, $6A73
 	dw PPU.layer_3_tilemap_base : db $1A
-	dw PPU.layer_all_tiledata_base|$8000 : dw $0722
+	dw PPU.layer_all_tiledata_base|$8000, $0722
 	dw PPU.sprite_select : db $00
-	dw PPU.screens|$8000 : dw $0003
+	dw PPU.screens|$8000, $0003
 	dw PPU.color_addition_logic : db $00
 	dw PPU.set_color_math : db $82
 	dw PPU.video_mode : db $00
@@ -7070,11 +6703,11 @@ DATA_FD7D2C:
 
 DATA_FD7D55:
 	dw PPU.layer_mode : db $09
-	dw PPU.layer_1_2_tilemap_base|$8000 : dw $6779
+	dw PPU.layer_1_2_tilemap_base|$8000, $6779
 	dw PPU.layer_3_tilemap_base : db $74
-	dw PPU.layer_all_tiledata_base|$8000 : dw $0622
+	dw PPU.layer_all_tiledata_base|$8000, $0622
 	dw PPU.sprite_select : db $00
-	dw PPU.screens|$8000 : dw $0017
+	dw PPU.screens|$8000, $0017
 	dw PPU.color_addition_logic : db $00
 	dw PPU.set_color_math : db $00
 	dw PPU.video_mode : db $00
@@ -7085,11 +6718,11 @@ DATA_FD7D55:
 
 DATA_FD7D7E:
 	dw PPU.layer_mode : db $09
-	dw PPU.layer_1_2_tilemap_base|$8000 : dw $7079
+	dw PPU.layer_1_2_tilemap_base|$8000, $7079
 	dw PPU.layer_3_tilemap_base : db $6C
-	dw PPU.layer_all_tiledata_base|$8000 : dw $0652
+	dw PPU.layer_all_tiledata_base|$8000, $0652
 	dw PPU.sprite_select : db $00
-	dw PPU.screens|$8000 : dw $1317
+	dw PPU.screens|$8000, $1317
 	dw PPU.color_addition_logic : db $02
 	dw PPU.set_color_math : db $44
 	dw PPU.video_mode : db $00
@@ -7100,11 +6733,11 @@ DATA_FD7D7E:
 
 DATA_FD7DA7:
 	dw PPU.layer_mode : db $09
-	dw PPU.layer_1_2_tilemap_base|$8000 : dw $5C79
+	dw PPU.layer_1_2_tilemap_base|$8000, $5C79
 	dw PPU.layer_3_tilemap_base : db $6C
-	dw PPU.layer_all_tiledata_base|$8000 : dw $0662
+	dw PPU.layer_all_tiledata_base|$8000, $0662
 	dw PPU.sprite_select : db $00
-	dw PPU.screens|$8000 : dw $0013
+	dw PPU.screens|$8000, $0013
 	dw PPU.color_addition_logic : db $00
 	dw PPU.set_color_math : db $02
 	dw PPU.video_mode : db $00
@@ -7115,11 +6748,11 @@ DATA_FD7DA7:
 
 DATA_FD7DD0:
 	dw PPU.layer_mode : db $09
-	dw PPU.layer_1_2_tilemap_base|$8000 : dw $7870
+	dw PPU.layer_1_2_tilemap_base|$8000, $7870
 	dw PPU.layer_3_tilemap_base : db $74
-	dw PPU.layer_all_tiledata_base|$8000 : dw $0562
+	dw PPU.layer_all_tiledata_base|$8000, $0562
 	dw PPU.sprite_select : db $00
-	dw PPU.screens|$8000 : dw $0013
+	dw PPU.screens|$8000, $0013
 	dw PPU.color_addition_logic : db $00
 	dw PPU.set_color_math : db $00
 	dw PPU.video_mode : db $00
@@ -7130,11 +6763,11 @@ DATA_FD7DD0:
 
 DATA_FD7DF9:
 	dw PPU.layer_mode : db $09
-	dw PPU.layer_1_2_tilemap_base|$8000 : dw $5C79
+	dw PPU.layer_1_2_tilemap_base|$8000, $5C79
 	dw PPU.layer_3_tilemap_base : db $58
-	dw PPU.layer_all_tiledata_base|$8000 : dw $0562
+	dw PPU.layer_all_tiledata_base|$8000, $0562
 	dw PPU.sprite_select : db $00
-	dw PPU.screens|$8000 : dw $0413
+	dw PPU.screens|$8000, $0413
 	dw PPU.color_addition_logic : db $02
 	dw PPU.set_color_math : db $22
 	dw PPU.video_mode : db $00
@@ -7145,11 +6778,11 @@ DATA_FD7DF9:
 
 DATA_FD7E22:
 	dw PPU.layer_mode : db $09
-	dw PPU.layer_1_2_tilemap_base|$8000 : dw $7079
+	dw PPU.layer_1_2_tilemap_base|$8000, $7079
 	dw PPU.layer_3_tilemap_base : db $6C
-	dw PPU.layer_all_tiledata_base|$8000 : dw $0652
+	dw PPU.layer_all_tiledata_base|$8000, $0652
 	dw PPU.sprite_select : db $00
-	dw PPU.screens|$8000 : dw $1304
+	dw PPU.screens|$8000, $1304
 	dw PPU.color_addition_logic : db $02
 	dw PPU.set_color_math : db $24
 	dw PPU.video_mode : db $00
@@ -7160,11 +6793,11 @@ DATA_FD7E22:
 
 DATA_FD7E4B:
 	dw PPU.layer_mode : db $09
-	dw PPU.layer_1_2_tilemap_base|$8000 : dw $7971
+	dw PPU.layer_1_2_tilemap_base|$8000, $7971
 	dw PPU.layer_3_tilemap_base : db $6C
-	dw PPU.layer_all_tiledata_base|$8000 : dw $0526
+	dw PPU.layer_all_tiledata_base|$8000, $0526
 	dw PPU.sprite_select : db $00
-	dw PPU.screens|$8000 : dw $0017
+	dw PPU.screens|$8000, $0017
 	dw PPU.color_addition_logic : db $00
 	dw PPU.set_color_math : db $00
 	dw PPU.video_mode : db $00
@@ -7175,11 +6808,11 @@ DATA_FD7E4B:
 
 DATA_FD7E74:
 	dw PPU.layer_mode : db $01
-	dw PPU.layer_1_2_tilemap_base|$8000 : dw $7079
+	dw PPU.layer_1_2_tilemap_base|$8000, $7079
 	dw PPU.layer_3_tilemap_base : db $74
-	dw PPU.layer_all_tiledata_base|$8000 : dw $0562
+	dw PPU.layer_all_tiledata_base|$8000, $0562
 	dw PPU.sprite_select : db $00
-	dw PPU.screens|$8000 : dw $0017
+	dw PPU.screens|$8000, $0017
 	dw PPU.color_addition_logic : db $00
 	dw PPU.set_color_math : db $00
 	dw PPU.video_mode : db $00
@@ -7190,13 +6823,13 @@ DATA_FD7E74:
 
 DATA_FD7E9D:
 	dw PPU.layer_mode : db $01
-	dw PPU.layer_1_2_tilemap_base|$8000 : dw $7139
+	dw PPU.layer_1_2_tilemap_base|$8000, $7139
 	dw PPU.layer_3_tilemap_base : db $6C
-	dw PPU.layer_all_tiledata_base|$8000 : dw $0642
+	dw PPU.layer_all_tiledata_base|$8000, $0642
 	dw PPU.sprite_select : db $00
-	dw PPU.screens|$8000 : dw $1304
-	dw PPU.window_masks|$8000 : dw $0004
-	dw PPU.window_1|$8000 : dw $C040
+	dw PPU.screens|$8000, $1304
+	dw PPU.window_masks|$8000, $0004
+	dw PPU.window_1|$8000, $C040
 	dw PPU.color_addition_logic : db $02
 	dw PPU.set_color_math : db $A4
 	dw PPU.set_window_layer_3_4 : db $03
@@ -7208,11 +6841,11 @@ DATA_FD7E9D:
 
 DATA_FD7ED1:
 	dw PPU.layer_mode : db $09
-	dw PPU.layer_1_2_tilemap_base|$8000 : dw $6779
+	dw PPU.layer_1_2_tilemap_base|$8000, $6779
 	dw PPU.layer_3_tilemap_base : db $74
-	dw PPU.layer_all_tiledata_base|$8000 : dw $0622
+	dw PPU.layer_all_tiledata_base|$8000, $0622
 	dw PPU.sprite_select : db $00
-	dw PPU.screens|$8000 : dw $0413
+	dw PPU.screens|$8000, $0413
 	dw PPU.set_window_sprite_color : db $20
 	dw PPU.color_addition_logic : db $12
 	dw PPU.set_color_math : db $43
@@ -7224,11 +6857,11 @@ DATA_FD7ED1:
 
 DATA_FD7EFD:
 	dw PPU.layer_mode : db $09
-	dw PPU.layer_1_2_tilemap_base|$8000 : dw $6979
+	dw PPU.layer_1_2_tilemap_base|$8000, $6979
 	dw PPU.layer_3_tilemap_base : db $74
-	dw PPU.layer_all_tiledata_base|$8000 : dw $0672
+	dw PPU.layer_all_tiledata_base|$8000, $0672
 	dw PPU.sprite_select : db $00
-	dw PPU.screens|$8000 : dw $1211
+	dw PPU.screens|$8000, $1211
 	dw PPU.color_addition_logic : db $02
 	dw PPU.set_color_math : db $21
 	dw PPU.video_mode : db $00
@@ -7239,11 +6872,11 @@ DATA_FD7EFD:
 
 DATA_FD7F26:
 	dw PPU.layer_mode : db $09
-	dw PPU.layer_1_2_tilemap_base|$8000 : dw $7169
+	dw PPU.layer_1_2_tilemap_base|$8000, $7169
 	dw PPU.layer_3_tilemap_base : db $64
-	dw PPU.layer_all_tiledata_base|$8000 : dw $0622
+	dw PPU.layer_all_tiledata_base|$8000, $0622
 	dw PPU.sprite_select : db $00
-	dw PPU.screens|$8000 : dw $1304
+	dw PPU.screens|$8000, $1304
 	dw PPU.color_addition_logic : db $02
 	dw PPU.set_color_math : db $20
 	dw PPU.video_mode : db $00
@@ -7254,13 +6887,13 @@ DATA_FD7F26:
 
 DATA_FD7F4F:
 	dw PPU.layer_mode : db $01
-	dw PPU.layer_1_2_tilemap_base|$8000 : dw $6979
+	dw PPU.layer_1_2_tilemap_base|$8000, $6979
 	dw PPU.layer_3_tilemap_base : db $59
-	dw PPU.layer_all_tiledata_base|$8000 : dw $0672
+	dw PPU.layer_all_tiledata_base|$8000, $0672
 	dw PPU.sprite_select : db $00
-	dw PPU.screens|$8000 : dw $1502
-	dw PPU.window_masks|$8000 : dw $0202
-	dw PPU.window_1|$8000 : dw $FF10
+	dw PPU.screens|$8000, $1502
+	dw PPU.window_masks|$8000, $0202
+	dw PPU.window_1|$8000, $FF10
 	dw PPU.set_window_layer_1_2 : db $30
 	dw PPU.color_addition_logic : db $02
 	dw PPU.set_color_math : db $22
@@ -7272,11 +6905,11 @@ DATA_FD7F4F:
 
 DATA_FD7F83:
 	dw PPU.layer_mode : db $09
-	dw PPU.layer_1_2_tilemap_base|$8000 : dw $7079
+	dw PPU.layer_1_2_tilemap_base|$8000, $7079
 	dw PPU.layer_3_tilemap_base : db $6C
-	dw PPU.layer_all_tiledata_base|$8000 : dw $0652
+	dw PPU.layer_all_tiledata_base|$8000, $0652
 	dw PPU.sprite_select : db $00
-	dw PPU.screens|$8000 : dw $1304
+	dw PPU.screens|$8000, $1304
 	dw PPU.color_addition_logic : db $02
 	dw PPU.set_color_math : db $64
 	dw PPU.video_mode : db $00
@@ -7287,11 +6920,11 @@ DATA_FD7F83:
 
 DATA_FD7FAC:
 	dw PPU.layer_mode : db $09
-	dw PPU.layer_1_2_tilemap_base|$8000 : dw $6979
+	dw PPU.layer_1_2_tilemap_base|$8000, $6979
 	dw PPU.layer_3_tilemap_base : db $74
-	dw PPU.layer_all_tiledata_base|$8000 : dw $0672
+	dw PPU.layer_all_tiledata_base|$8000, $0672
 	dw PPU.sprite_select : db $00
-	dw PPU.screens|$8000 : dw $1015
+	dw PPU.screens|$8000, $1015
 	dw PPU.color_addition_logic : db $02
 	dw PPU.set_color_math : db $21
 	dw PPU.video_mode : db $00
@@ -7302,11 +6935,11 @@ DATA_FD7FAC:
 
 DATA_FD7FD5:
 	dw PPU.layer_mode : db $09
-	dw PPU.layer_1_2_tilemap_base|$8000 : dw $7479
+	dw PPU.layer_1_2_tilemap_base|$8000, $7479
 	dw PPU.layer_3_tilemap_base : db $6C
-	dw PPU.layer_all_tiledata_base|$8000 : dw $0452
+	dw PPU.layer_all_tiledata_base|$8000, $0452
 	dw PPU.sprite_select : db $00
-	dw PPU.screens|$8000 : dw $1304
+	dw PPU.screens|$8000, $1304
 	dw PPU.color_addition_logic : db $02
 	dw PPU.set_color_math : db $64
 	dw PPU.video_mode : db $00
@@ -7317,11 +6950,11 @@ DATA_FD7FD5:
 
 DATA_FD7FFE:
 	dw PPU.layer_mode : db $01
-	dw PPU.layer_1_2_tilemap_base|$8000 : dw $7279
+	dw PPU.layer_1_2_tilemap_base|$8000, $7279
 	dw PPU.layer_3_tilemap_base : db $6C
-	dw PPU.layer_all_tiledata_base|$8000 : dw $0622
+	dw PPU.layer_all_tiledata_base|$8000, $0622
 	dw PPU.sprite_select : db $00
-	dw PPU.screens|$8000 : dw $0017
+	dw PPU.screens|$8000, $0017
 	dw PPU.color_addition_logic : db $00
 	dw PPU.set_color_math : db $42
 	dw PPU.video_mode : db $00
@@ -7332,11 +6965,11 @@ DATA_FD7FFE:
 
 DATA_FD8027:
 	dw PPU.layer_mode : db $09
-	dw PPU.layer_1_2_tilemap_base|$8000 : dw $7479
+	dw PPU.layer_1_2_tilemap_base|$8000, $7479
 	dw PPU.layer_3_tilemap_base : db $70
-	dw PPU.layer_all_tiledata_base|$8000 : dw $0652
+	dw PPU.layer_all_tiledata_base|$8000, $0652
 	dw PPU.sprite_select : db $00
-	dw PPU.screens|$8000 : dw $1413
+	dw PPU.screens|$8000, $1413
 	dw PPU.color_addition_logic : db $02
 	dw PPU.set_color_math : db $01
 	dw PPU.video_mode : db $00
@@ -7347,11 +6980,11 @@ DATA_FD8027:
 
 DATA_FD8050:
 	dw PPU.layer_mode : db $09
-	dw PPU.layer_1_2_tilemap_base|$8000 : dw $7161
+	dw PPU.layer_1_2_tilemap_base|$8000, $7161
 	dw PPU.layer_3_tilemap_base : db $6C
-	dw PPU.layer_all_tiledata_base|$8000 : dw $0622
+	dw PPU.layer_all_tiledata_base|$8000, $0622
 	dw PPU.sprite_select : db $00
-	dw PPU.screens|$8000 : dw $1304
+	dw PPU.screens|$8000, $1304
 	dw PPU.color_addition_logic : db $02
 	dw PPU.set_color_math : db $24
 	dw PPU.video_mode : db $00
@@ -7362,11 +6995,11 @@ DATA_FD8050:
 
 DATA_FD8079:
 	dw PPU.layer_mode : db $01
-	dw PPU.layer_1_2_tilemap_base|$8000 : dw $6079
+	dw PPU.layer_1_2_tilemap_base|$8000, $6079
 	dw PPU.layer_3_tilemap_base : db $74
-	dw PPU.layer_all_tiledata_base|$8000 : dw $0572
+	dw PPU.layer_all_tiledata_base|$8000, $0572
 	dw PPU.sprite_select : db $00
-	dw PPU.screens|$8000 : dw $0017
+	dw PPU.screens|$8000, $0017
 	dw PPU.color_addition_logic : db $00
 	dw PPU.set_color_math : db $00
 	dw PPU.video_mode : db $00
@@ -7377,11 +7010,11 @@ DATA_FD8079:
 
 DATA_FD80A2:
 	dw PPU.layer_mode : db $09
-	dw PPU.layer_1_2_tilemap_base|$8000 : dw $5C79
+	dw PPU.layer_1_2_tilemap_base|$8000, $5C79
 	dw PPU.layer_3_tilemap_base : db $58
-	dw PPU.layer_all_tiledata_base|$8000 : dw $0562
+	dw PPU.layer_all_tiledata_base|$8000, $0562
 	dw PPU.sprite_select : db $00
-	dw PPU.screens|$8000 : dw $0017
+	dw PPU.screens|$8000, $0017
 	dw PPU.video_mode : db $00
 	dw PPU.fixed_color : db $00
 	dw PPU.screen : db $80
@@ -7390,11 +7023,11 @@ DATA_FD80A2:
 
 DATA_FD80C5:
 	dw PPU.layer_mode : db $09
-	dw PPU.layer_1_2_tilemap_base|$8000 : dw $6958
+	dw PPU.layer_1_2_tilemap_base|$8000, $6958
 	dw PPU.layer_3_tilemap_base : db $5C
-	dw PPU.layer_all_tiledata_base|$8000 : dw $0627
+	dw PPU.layer_all_tiledata_base|$8000, $0627
 	dw PPU.sprite_select : db $00
-	dw PPU.screens|$8000 : dw $1601
+	dw PPU.screens|$8000, $1601
 	dw PPU.color_addition_logic : db $22
 	dw PPU.set_color_math : db $31
 	dw PPU.video_mode : db $00
@@ -7405,11 +7038,11 @@ DATA_FD80C5:
 
 DATA_FD80EE:
 	dw PPU.layer_mode : db $09
-	dw PPU.layer_1_2_tilemap_base|$8000 : dw $7478
+	dw PPU.layer_1_2_tilemap_base|$8000, $7478
 	dw PPU.layer_3_tilemap_base : db $00
-	dw PPU.layer_all_tiledata_base|$8000 : dw $0026
+	dw PPU.layer_all_tiledata_base|$8000, $0026
 	dw PPU.sprite_select : db $00
-	dw PPU.screens|$8000 : dw $0013
+	dw PPU.screens|$8000, $0013
 	dw PPU.color_addition_logic : db $00
 	dw PPU.set_color_math : db $00
 	dw PPU.set_window_layer_1_2 : db $00
@@ -7421,11 +7054,11 @@ DATA_FD80EE:
 
 DATA_FD811A:
 	dw PPU.layer_mode : db $09
-	dw PPU.layer_1_2_tilemap_base|$8000 : dw $7872
+	dw PPU.layer_1_2_tilemap_base|$8000, $7872
 	dw PPU.layer_3_tilemap_base : db $00
-	dw PPU.layer_all_tiledata_base|$8000 : dw $0025
+	dw PPU.layer_all_tiledata_base|$8000, $0025
 	dw PPU.sprite_select : db $00
-	dw PPU.screens|$8000 : dw $0013
+	dw PPU.screens|$8000, $0013
 	dw PPU.color_addition_logic : db $00
 	dw PPU.set_color_math : db $00
 	dw PPU.set_window_layer_1_2 : db $00
@@ -7437,11 +7070,11 @@ DATA_FD811A:
 
 DATA_FD8146:
 	dw PPU.layer_mode : db $09
-	dw PPU.layer_1_2_tilemap_base|$8000 : dw $0074
+	dw PPU.layer_1_2_tilemap_base|$8000, $0074
 	dw PPU.layer_3_tilemap_base : db $7A
-	dw PPU.layer_all_tiledata_base|$8000 : dw $0602
+	dw PPU.layer_all_tiledata_base|$8000, $0602
 	dw PPU.sprite_select : db $00
-	dw PPU.screens|$8000 : dw $0015
+	dw PPU.screens|$8000, $0015
 	dw PPU.color_addition_logic : db $00
 	dw PPU.set_color_math : db $00
 	dw PPU.set_window_layer_1_2 : db $00
@@ -7455,9 +7088,9 @@ DATA_FD8172:
 	dw PPU.layer_mode : db $09
 	dw PPU.layer_1_tilemap_base : db $6C
 	dw PPU.layer_3_tilemap_base : db $70
-	dw PPU.layer_all_tiledata_base|$8000 : dw $0002
+	dw PPU.layer_all_tiledata_base|$8000, $0002
 	dw PPU.sprite_select : db $00
-	dw PPU.screens|$8000 : dw $0005
+	dw PPU.screens|$8000, $0005
 	dw PPU.color_addition_logic : db $00
 	dw PPU.set_color_math : db $81
 	dw PPU.video_mode : db $00

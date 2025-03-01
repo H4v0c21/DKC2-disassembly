@@ -7588,7 +7588,7 @@ DATA_B5D011:
 	db $FE, $00, $00, $7F, $80, $00, $01, $00
 	db $00, $00
 
-
+;Island Map NMI
 CODE_B5D13B:
 	PHK					;$B5D13B  \
 	PLB					;$B5D13C   |
@@ -7672,15 +7672,15 @@ CODE_B5D1F5:
 	JSL CODE_80897C				;$B5D1F5  \
 	INC global_frame_counter		;$B5D1F9   |
 	LDA.l map_node_number			;$B5D1FB   |
-	CMP #$0072				;$B5D1FF   |
+	CMP #!map_node_w2_entrance_from_klubba	;$B5D1FF   |
 	BEQ CODE_B5D229				;$B5D202   |
-	CMP #$0073				;$B5D204   |
+	CMP #!map_node_w3_entrance_from_klubba	;$B5D204   |
 	BEQ CODE_B5D229				;$B5D207   |
-	CMP #$0074				;$B5D209   |
+	CMP #!map_node_w4_entrance_from_klubba	;$B5D209   |
 	BEQ CODE_B5D229				;$B5D20C   |
-	CMP #$0075				;$B5D20E   |
+	CMP #!map_node_w5_entrance_from_klubba	;$B5D20E   |
 	BEQ CODE_B5D229				;$B5D211   |
-	CMP #$0076				;$B5D213   |
+	CMP #!map_node_w6_entrance_from_klubba	;$B5D213   |
 	BEQ CODE_B5D229				;$B5D216   |
 	LDA.l $0006A3				;$B5D218   |
 	BIT #$0020				;$B5D21C   |
@@ -7709,7 +7709,7 @@ CODE_B5D23F:
 	ASL A					;$B5D249   |
 	TAY					;$B5D24A   |
 	LDX $3202,y				;$B5D24B   |
-	LDA #$B400				;$B5D24E   |
+	LDA #$B400				;$B5D24E   | Bank
 	PHA					;$B5D251   |
 	PLB					;$B5D252   |
 	PLB					;$B5D253   |
@@ -7730,7 +7730,7 @@ CODE_B5D263:					;	   |
 	PLB					;$B5D26D   |
 	LDA $0002,y				;$B5D26E   |
 	PHA					;$B5D271   |
-	LDA #$B400				;$B5D272   |
+	LDA #$B400				;$B5D272   | Bank
 	PHA					;$B5D275   |
 	PLB					;$B5D276   |
 	PLB					;$B5D277   |
@@ -11648,7 +11648,7 @@ CODE_B5EF97:
 	SEC					;$B5EF9B   |
 if !version == 0				;	   |
 	SBC $9F					;$B5EF9C   |
-	XBA    					;$B5EF9E   |
+	XBA					;$B5EF9E   |
 	LDA $E3					;$B5EF9F   |
 	CMP $A7					;$B5EFA1   |
 else						;	   |

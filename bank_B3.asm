@@ -4867,7 +4867,7 @@ zinger_main:
 	LDA [$8E],y				;$B3A498   |/ Get sprite collision attributes
 	JSL CODE_BEBE8B				;$B3A49A   |> Check kong collision
 	BCS ..sprite_collided			;$B3A49E   |
-#.animation_and_movement_update			;	   |
+..animation_and_movement_update			;	   |
 	JSR process_animation_handle_submerged	;$B3A4A0   |> Handle animation updates
 	LDA $00,x				;$B3A4A3   |\
 	CMP #!sprite_klinger			;$B3A4A5   | | Check if sprite is a klinger
@@ -4889,7 +4889,7 @@ zinger_main:
 	BCC ..failed_defeat			;$B3A4C4   |/ If return status was 0001 then we couldnt defeat the enemy
 	LDY #$0012				;$B3A4C6   |\ Else an alternate event occurred from collision (like knockback)
 	LDA [$8E],y				;$B3A4C9   | | Get alternate collision animation
-	BEQ .animation_and_movement_update	;$B3A4CB   |/ If no alternate collision animation defined, dont apply an animation
+	BEQ ..animation_and_movement_update	;$B3A4CB   |/ If no alternate collision animation defined, dont apply an animation
 	JSL set_sprite_animation		;$B3A4CD   |> Set animation
 	LDX current_sprite			;$B3A4D1   |> Get current sprite
 	LDY #$0014				;$B3A4D3   |\
@@ -4905,7 +4905,7 @@ zinger_main:
 ..defeat_sprite
 	LDY #$000A				;$B3A4E6  \ \
 	LDA [$8E],y				;$B3A4E9   |/ Get defeated animation from constants
-	BEQ .animation_and_movement_update	;$B3A4EB   |> If no animation is defined then dont apply an animation
+	BEQ ..animation_and_movement_update	;$B3A4EB   |> If no animation is defined then dont apply an animation
 	JSR defeat_sprite_using_animation	;$B3A4ED   |> Defeat sprite using animation
 	LDX current_sprite			;$B3A4F0   |> Get current sprite
 	LDY #$000C				;$B3A4F2   |\
@@ -4921,7 +4921,7 @@ zinger_main:
 ..failed_defeat
 	LDY #$000E				;$B3A505  \ \
 	LDA [$8E],y				;$B3A508   |/ Get animation from constants
-	BEQ .animation_and_movement_update	;$B3A50A   |> If no animation is defined then dont apply an animation
+	BEQ ..animation_and_movement_update	;$B3A50A   |> If no animation is defined then dont apply an animation
 	JSL set_sprite_animation		;$B3A50C   |> Set animation
 	LDX current_sprite			;$B3A510   |> Get current sprite
 	LDY #$0010				;$B3A512   |\
@@ -9223,7 +9223,7 @@ extra_life_balloon_main:
 	LDA #$0002				;$B3C453   |
 	STA $2E,x				;$B3C456   | Set state 2
 	LDA #$28D4				;$B3C458   | Load X/Y onscreen target hud position
-	JSL set_sprite_hud_target_position	;$B3C45B   | Set position to move balloon to (to life icon)
+	JSL set_sprite_target_hud_position	;$B3C45B   | Set position to move balloon to (to life icon)
 	JSL CODE_B9D100				;$B3C45F   | Process animations
 	JML [$05A9]				;$B3C463  / Done processing sprite
 
@@ -14354,7 +14354,7 @@ if !version == 1				;	   |
 	LDA animal_buddy_palette_numbers,y	;$B3EA11   |
 else						;	   |
 	LDA animal_buddy_palette_numbers,y	;$B3EA0D   |
-	PHX                             	;$B3EA0E   |
+	PHX					;$B3EA0E   |
 	LDX active_kong_sprite			;$B3EA11   |
 endif						;	   |
 	JSL set_sprite_palette_global		;$B3EA14   |

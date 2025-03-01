@@ -1,131 +1,131 @@
 ;Command set 1 jump table
 copy_or_return_1_entry:
 	NOP					;$BB8000  \ Decompression command entry
-	JMP copy_or_return_1            	;$BB8001  /
+	JMP copy_or_return_1			;$BB8001  /
 
 stream_byte_1_entry:
-	NOP                             	;$BB8004  \ Decompression command entry
-	JMP stream_byte_1               	;$BB8005  /
+	NOP					;$BB8004  \ Decompression command entry
+	JMP stream_byte_1			;$BB8005  /
 
 stream_word_1_entry:
-	NOP                             	;$BB8008  \ Decompression command entry
-	JMP stream_word_1               	;$BB8009  /
+	NOP					;$BB8008  \ Decompression command entry
+	JMP stream_word_1			;$BB8009  /
 
 stream_byte_fill_1_entry:
-	NOP                             	;$BB800C  \ Decompression command entry
-	JMP stream_byte_fill_1          	;$BB800D  /
+	NOP					;$BB800C  \ Decompression command entry
+	JMP stream_byte_fill_1			;$BB800D  /
 
 direct_byte_1_fill_1_entry:
-	NOP                             	;$BB8010  \ Decompression command entry
-	JMP direct_byte_1_fill_1        	;$BB8011  /
+	NOP					;$BB8010  \ Decompression command entry
+	JMP direct_byte_1_fill_1		;$BB8011  /
 
 direct_byte_2_fill_1_entry:
-	NOP                             	;$BB8014  \ Decompression command entry
-	JMP direct_byte_2_fill_1        	;$BB8015  /
+	NOP					;$BB8014  \ Decompression command entry
+	JMP direct_byte_2_fill_1		;$BB8015  /
 
 direct_word_put_1_entry:
-	NOP                             	;$BB8018  \ Decompression command entry
-	JMP direct_word_put_1           	;$BB8019  /
+	NOP					;$BB8018  \ Decompression command entry
+	JMP direct_word_put_1			;$BB8019  /
 
 direct_byte_1_put_1_entry:
-	NOP                             	;$BB801C  \ Decompression command entry
-	JMP direct_byte_1_put_1         	;$BB801D  /
+	NOP					;$BB801C  \ Decompression command entry
+	JMP direct_byte_1_put_1			;$BB801D  /
 
 direct_byte_2_put_1_entry:
-	NOP                             	;$BB8020  \ Decompression command entry
-	JMP direct_byte_2_put_1         	;$BB8021  /
+	NOP					;$BB8020  \ Decompression command entry
+	JMP direct_byte_2_put_1			;$BB8021  /
 
 back_copy_word_1_entry:
-	NOP                             	;$BB8024  \ Decompression command entry
-	JMP back_copy_word_1            	;$BB8025  /
+	NOP					;$BB8024  \ Decompression command entry
+	JMP back_copy_word_1			;$BB8025  /
 
 back_copy_1_entry:
-	NOP                             	;$BB8028  \ Decompression command entry
-	JMP back_copy_1                 	;$BB8029  /
+	NOP					;$BB8028  \ Decompression command entry
+	JMP back_copy_1				;$BB8029  /
 
 back_copy_far_1_entry:
-	NOP                             	;$BB802C  \ Decompression command entry
-	JMP back_copy_far_1             	;$BB802D  /
+	NOP					;$BB802C  \ Decompression command entry
+	JMP back_copy_far_1			;$BB802D  /
 
 back_copy_arbitrary_1_entry:
-	NOP                             	;$BB8030  \ Decompression command entry
-	JMP back_copy_arbitrary_1       	;$BB8031  /
+	NOP					;$BB8030  \ Decompression command entry
+	JMP back_copy_arbitrary_1		;$BB8031  /
 
 duplicate_byte_1_entry:
-	NOP                             	;$BB8034  \ Decompression command entry
-	JMP duplicate_byte_1            	;$BB8035  /
+	NOP					;$BB8034  \ Decompression command entry
+	JMP duplicate_byte_1			;$BB8035  /
 
 duplicate_word_1_entry:
-	NOP                             	;$BB8038  \ Decompression command entry
-	JMP duplicate_word_1            	;$BB8039  /
+	NOP					;$BB8038  \ Decompression command entry
+	JMP duplicate_word_1			;$BB8039  /
 
 copy_future_word_1_entry:
-	NOP                             	;$BB803C  \ Decompression command entry
-	JMP copy_future_word_1          	;$BB803D  /
+	NOP					;$BB803C  \ Decompression command entry
+	JMP copy_future_word_1			;$BB803D  /
 
 ;Command set 2 jump table
 copy_or_return_2_entry:
 	JMP copy_or_return_2			;$BB8040  > Decompression command entry
 
 stream_byte_2_entry:
-	NOP                             	;$BB8043  \ Decompression command entry
-	JMP stream_byte_2               	;$BB8044  /
+	NOP					;$BB8043  \ Decompression command entry
+	JMP stream_byte_2			;$BB8044  /
 
 stream_word_2_entry:
-	NOP                             	;$BB8047  \ Decompression command entry
-	JMP stream_word_2               	;$BB8048  /
+	NOP					;$BB8047  \ Decompression command entry
+	JMP stream_word_2			;$BB8048  /
 
 stream_byte_fill_2_entry:
-	NOP                             	;$BB804B  \ Decompression command entry
-	JMP stream_byte_fill_2          	;$BB804C  /
+	NOP					;$BB804B  \ Decompression command entry
+	JMP stream_byte_fill_2			;$BB804C  /
 
 direct_byte_1_fill_2_entry:
-	NOP                             	;$BB804F  \ Decompression command entry
-	JMP direct_byte_1_fill_2        	;$BB8050  /
+	NOP					;$BB804F  \ Decompression command entry
+	JMP direct_byte_1_fill_2		;$BB8050  /
 
 direct_byte_2_fill_2_entry:
-	NOP                             	;$BB8053  \ Decompression command entry
-	JMP direct_byte_2_fill_2        	;$BB8054  /
+	NOP					;$BB8053  \ Decompression command entry
+	JMP direct_byte_2_fill_2		;$BB8054  /
 
 direct_word_put_2_entry:
-	NOP                             	;$BB8057  \ Decompression command entry
-	JMP direct_word_put_2           	;$BB8058  /
+	NOP					;$BB8057  \ Decompression command entry
+	JMP direct_word_put_2			;$BB8058  /
 
 direct_byte_1_put_2_entry:
-	NOP                             	;$BB805B  \ Decompression command entry
-	JMP direct_byte_1_put_2         	;$BB805C  /
+	NOP					;$BB805B  \ Decompression command entry
+	JMP direct_byte_1_put_2			;$BB805C  /
 
 direct_byte_2_put_2_entry:
-	NOP                             	;$BB805F  \ Decompression command entry
-	JMP direct_byte_2_put_2         	;$BB8060  /
+	NOP					;$BB805F  \ Decompression command entry
+	JMP direct_byte_2_put_2			;$BB8060  /
 
 back_copy_word_2_entry:
-	NOP                             	;$BB8063  \ Decompression command entry
-	JMP back_copy_word_2            	;$BB8064  /
+	NOP					;$BB8063  \ Decompression command entry
+	JMP back_copy_word_2			;$BB8064  /
 
 back_copy_2_entry:
-	NOP                             	;$BB8067  \ Decompression command entry
-	JMP back_copy_2                 	;$BB8068  /
+	NOP					;$BB8067  \ Decompression command entry
+	JMP back_copy_2				;$BB8068  /
 
 back_copy_far_2_entry:
-	NOP                             	;$BB806B  \ Decompression command entry
-	JMP back_copy_far_2             	;$BB806C  /
+	NOP					;$BB806B  \ Decompression command entry
+	JMP back_copy_far_2			;$BB806C  /
 
 back_copy_arbitrary_2_entry:
-	NOP                             	;$BB806F  \ Decompression command entry
-	JMP back_copy_arbitrary_2       	;$BB8070  /
+	NOP					;$BB806F  \ Decompression command entry
+	JMP back_copy_arbitrary_2		;$BB8070  /
 
 duplicate_byte_2_entry:
-	NOP                             	;$BB8073  \ Decompression command entry
-	JMP duplicate_byte_2            	;$BB8074  /
+	NOP					;$BB8073  \ Decompression command entry
+	JMP duplicate_byte_2			;$BB8074  /
 
 duplicate_word_2_entry:
-	NOP                             	;$BB8077  \ Decompression command entry
-	JMP duplicate_word_2            	;$BB8078  /
+	NOP					;$BB8077  \ Decompression command entry
+	JMP duplicate_word_2			;$BB8078  /
 
 copy_future_word_2_entry:
-	NOP                             	;$BB807B  \ Decompression command entry
-	JMP copy_future_word_2          	;$BB807C  /
+	NOP					;$BB807B  \ Decompression command entry
+	JMP copy_future_word_2			;$BB807C  /
 
 DMA_global_palette:
 	STX $32					;$BB807F  \ Store palette id in scratch RAM
@@ -7898,7 +7898,7 @@ CODE_BBBE28:
 	LDA #$0001				;$BBBE38   |
 	STA $0006CF				;$BBBE3B   |
 	LDA $059D				;$BBBE3F   |
-	%offset(DATA_BBBE43, 1)         ;Todo: represent better maybe
+	%offset(DATA_BBBE43, 1)			;Todo: represent better maybe
 	CMP #$FFFF				;$BBBE42   |
 	BEQ CODE_BBBE54				;$BBBE45   |
 	LDA $0515				;$BBBE47   |

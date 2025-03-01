@@ -790,11 +790,11 @@ CODE_B4869D:					;	   |
 	BIT #$0020				;$B486AD   |
 	BEQ CODE_B486D5				;$B486B0   |
 	LDA map_node_number			;$B486B2   |
-	CMP #$0044				;$B486B5   |
+	CMP #!map_node_w4_lower_to_upper_right	;$B486B5   |
 	BEQ CODE_B486D5				;$B486B8   |
-	CMP #$004F				;$B486BA   |
+	CMP #!map_node_w4_upper_to_lower_left	;$B486BA   |
 	BEQ CODE_B486D5				;$B486BD   |
-	CMP #$004E				;$B486BF   |
+	CMP #!map_node_w4_upper_to_lower_right	;$B486BF   |
 	BEQ CODE_B486D5				;$B486C2   |
 	ASL A					;$B486C4   |
 	ASL A					;$B486C5   |
@@ -1264,33 +1264,33 @@ CODE_B48A67:
 	CMP #!world_lost_world_w2		;$B48A67  \
 	BCC CODE_B48ABB				;$B48A6A   |
 	LDA map_node_number			;$B48A6C   |
-	CMP #$005E				;$B48A6F   |
+	CMP #!map_node_return_to_w2		;$B48A6F   |
 	BNE CODE_B48A79				;$B48A72   |
-	LDA #$0072				;$B48A74   |
+	LDA #!map_node_w2_entrance_from_klubba	;$B48A74   |
 	BRA CODE_B48A9F				;$B48A77  /
 
 CODE_B48A79:
-	CMP #$0062				;$B48A79  \
+	CMP #!map_node_return_to_w3		;$B48A79  \
 	BNE CODE_B48A83				;$B48A7C   |
-	LDA #$0073				;$B48A7E   |
+	LDA #!map_node_w3_entrance_from_klubba	;$B48A7E   |
 	BRA CODE_B48A9F				;$B48A81  /
 
 CODE_B48A83:
-	CMP #$0066				;$B48A83  \
+	CMP #!map_node_return_to_w4		;$B48A83  \
 	BNE CODE_B48A8D				;$B48A86   |
-	LDA #$0074				;$B48A88   |
+	LDA #!map_node_w4_entrance_from_klubba	;$B48A88   |
 	BRA CODE_B48A9F				;$B48A8B  /
 
 CODE_B48A8D:
-	CMP #$006A				;$B48A8D  \
+	CMP #!map_node_return_to_w5		;$B48A8D  \
 	BNE CODE_B48A97				;$B48A90   |
-	LDA #$0075				;$B48A92   |
+	LDA #!map_node_w5_entrance_from_klubba	;$B48A92   |
 	BRA CODE_B48A9F				;$B48A95  /
 
 CODE_B48A97:
-	CMP #$006E				;$B48A97  \
+	CMP #!map_node_return_to_w6		;$B48A97  \
 	BNE CODE_B48ABB				;$B48A9A   |
-	LDA #$0076				;$B48A9C   |
+	LDA #!map_node_w6_entrance_from_klubba	;$B48A9C   |
 CODE_B48A9F:					;	   |
 	STA map_node_number			;$B48A9F   |
 	LDA $0900				;$B48AA2   |
@@ -1492,7 +1492,7 @@ spawn_npc_hud_coin:
 	LDX npc_screen_type			;$B48C76  \ Get NPC screen type
 	LDY DATA_B4CD47,x			;$B48C79   | Index table with hud coin spawn scripts using it
 	JSL CODE_BB8432				;$B48C7C   | Spawn the hud coin
-	LDX alternate_sprite			;$B48C80   | 
+	LDX alternate_sprite			;$B48C80   |
 	LDA #$0014				;$B48C82   |
 	STA $06,x				;$B48C85   | Set coin X position
 	LDA #$0023				;$B48C87   |
@@ -1504,7 +1504,7 @@ spawn_npc_hud_coin:
 	CLC					;$B48C96   | Else offset coin Y position
 	ADC #$000A				;$B48C97   |
 	STA $0A,x				;$B48C9A   |
-.return:					;	   | 
+.return:					;	   |
 	RTS					;$B48C9C  / Return
 
 CODE_B48C9D:
@@ -2734,7 +2734,7 @@ CODE_B49764:
 	BRA CODE_B4979C				;$B49777  /
 
 CODE_B49779:
-	CMP #!npc_screen_type_swanky		;$B49779  \  check if swanky 
+	CMP #!npc_screen_type_swanky		;$B49779  \  check if swanky
 	BNE CODE_B4978E				;$B4977C   | if not, we must be in the funky or klubba screen
 	LDY #DATA_B4C521			;$B4977E   | else load text pointer table for available swanky selections
 	LDX language_select			;$B49781   | get current language in use
@@ -2755,7 +2755,7 @@ CODE_B49799:
 	LDA DATA_B4C4ED,x			;$B49799  \  load text pointer table for available funky or klubba selections
 CODE_B4979C:					;	   |
 	TAX					;$B4979C   |
-	JSR CODE_B4ADE5				;$B4979D   | set return address to 
+	JSR CODE_B4ADE5				;$B4979D   | set return address to
 	LDA $0000,x				;$B497A0   | read first word of text table to get selection limit
 	LSR A					;$B497A3   | divide it by two
 	PHK					;$B497A4   |
@@ -2764,11 +2764,11 @@ CODE_B4979C:					;	   |
 	DEC A					;$B497A9   |
 	DEC A					;$B497AA   | decrease A by 2
 	STA $065A				;$B497AB   | set which option no longer scrolls down the text when hovered on
-	JSR CODE_B4ADE5				;$B497AE   | 
+	JSR CODE_B4ADE5				;$B497AE   |
 	LDA $0000,x				;$B497B1   | read first word of text table
 	PHK					;$B497B4   |
 	PLB					;$B497B5   | set data bank back to B4
-	CMP #$0006				;$B497B6   | 
+	CMP #$0006				;$B497B6   |
 	BCS CODE_B497BE				;$B497B9   | if higher than 6, don't cap
 	LDA #$0006				;$B497BB   | else cap to 6
 CODE_B497BE:					;	   |
@@ -2824,7 +2824,7 @@ pulltable
 
 CODE_B49875:
 	LDA world_number			;$B49875  \  get world number
-	DEC A					;$B49878   | 
+	DEC A					;$B49878   |
 	ASL A					;$B49879   |
 	STY $0666				;$B4987A   |
 	CLC					;$B4987D   |
@@ -2932,7 +2932,7 @@ CODE_B49953:					;	   |
 CODE_B4996E:
 	LDY npc_screen_type			;$B4996E  \ Get npc screen type
 	LDX npc_screen_init_data,y		;$B49971   | Index table of NPC screen init data
-	JSR ($000E,x)				;$B49974   | Run routine from data 
+	JSR ($000E,x)				;$B49974   | Run routine from data
 	RTS					;$B49977  / Return
 
 CODE_B49978:
@@ -2999,10 +2999,10 @@ CODE_B49A0A:					;	   |
 	SEP #$20				;$B49A0A   | 8-bit A
 	LDA $06B6				;$B49A0C   | else get cursor Y positon
 	CLC					;$B49A0F   |
-	ADC $06BB				;$B49A10   | 
+	ADC $06BB				;$B49A10   |
 	STA $06B6				;$B49A13   | update cursor Y positon
 	REP #$20				;$B49A16   | 16-bit A
-	DEC $0650				;$B49A18   | decrease the icon move timer 
+	DEC $0650				;$B49A18   | decrease the icon move timer
 	BEQ CODE_B49A20				;$B49A1B   | if it reached 0, stop moving it and update cursor selection
 	BRL CODE_B49ADD				;$B49A1D  /  else do something
 
@@ -3028,7 +3028,7 @@ CODE_B49A3D:
 CODE_B49A48:
 	LDA $06D6				;$B49A48  \  get text scroll Y offset
 	CLC					;$B49A4B   |
-	ADC $06BB				;$B49A4C   | add value to add to cursor 
+	ADC $06BB				;$B49A4C   | add value to add to cursor
 	STA $06D6				;$B49A4F   | update it
 	DEC $0650				;$B49A52   | decrease cursor move timer
 	BEQ CODE_B49A5A				;$B49A55   | if it reached 0, stop moving it and update cursor selection
@@ -3042,7 +3042,7 @@ CODE_B49A5A:
 	JSL queue_sound_effect			;$B49A66   | play menu move sound effect
 	LDA $0654				;$B49A6A   | get cursor selection
 	CLC					;$B49A6D   |
-	ADC $06BB				;$B49A6E   | 
+	ADC $06BB				;$B49A6E   |
 	STA $0654				;$B49A71   | update cursor selection
 	BRA CODE_B49ADD				;$B49A74  /
 
@@ -3083,7 +3083,7 @@ CODE_B49AC3:
 	BEQ CODE_B49ADD				;$B49AC9   | if not, do something
 	LDA $06B5				;$B49ACB   | else get cursor X/Y position
 	STA $0670				;$B49ACE   | store a mirror of it
-	LDA $06A3				;$B49AD1   | 
+	LDA $06A3				;$B49AD1   |
 	AND #$FBFF				;$B49AD4   | clear all bits but bit 10
 	STA $06A3				;$B49AD7   |
 	BRL CODE_B49C71				;$B49ADA  /
@@ -3294,7 +3294,7 @@ CODE_B49C4D:
 CODE_B49C71:
 	LDX npc_screen_type			;$B49C71  \  get npc screen type
 	CPX #!npc_screen_type_swanky		;$B49C74   | check if its swanky
-	BEQ CODE_B49CAC				;$B49C77   | 
+	BEQ CODE_B49CAC				;$B49C77   |
 	CPX #!npc_screen_type_wrinkly		;$B49C79   | else check if its wrinkly
 	BEQ CODE_B49C89				;$B49C7C   |
 CODE_B49C7E:					;	   |
@@ -3304,7 +3304,7 @@ CODE_B49C7E:					;	   |
 	BRL CODE_B49D4F				;$B49C86  /
 
 CODE_B49C89:
-	LDA $0654				;$B49C89  \  
+	LDA $0654				;$B49C89  \
 	DEC A					;$B49C8C   | decrease cursor selection
 	BNE CODE_B49C7E				;$B49C8D   | if not 0,
 	JSR (DATA_B49DE0,x)			;$B49C8F   | else we chose the first option (save game), call some code
@@ -3353,7 +3353,7 @@ CODE_B49CCE:
 CODE_B49CDB:
 	LDX npc_screen_type			;$B49CDB  \  get npc screen type
 	LDA funky_and_klubba_prices_table,x	;$B49CDE   | use it as index to get address of table with prices
-CODE_B49CE1:					;	   | 
+CODE_B49CE1:					;	   |
 	STA $0666				;$B49CE1   | store the address of price table
 	LDA $0654				;$B49CE4   | get current cursor position
 	DEC A					;$B49CE7   |
@@ -3460,7 +3460,7 @@ CODE_B49D9E:					;	   |
 	BNE CODE_B49DDD				;$B49DBB   |
 	LDA world_number			;$B49DBD   | get world number
 	CMP #!world_lost_world_w2		;$B49DC0   | check if its any of the lost world maps
-	BCC CODE_B49DDD				;$B49DC3   | if not, 
+	BCC CODE_B49DDD				;$B49DC3   | if not,
 	SEP #$20				;$B49DC5   |
 	LDA $00,x				;$B49DC7   |
 	ORA $0666				;$B49DC9   |
@@ -3694,41 +3694,41 @@ CODE_B49F61:
 	LDA world_number			;$B49F84   |
 	STA $0900				;$B49F87   | Preserve which world we came from
 	LDA map_node_number			;$B49F8A   |
-	CMP #$0012				;$B49F8D   | Check if current node is w2 klubba
+	CMP #!map_node_klubbas_kiosk_w2		;$B49F8D   | Check if current node is w2 klubba
 	BNE CODE_B49F9D				;$B49F90   |
-	LDA #!world_lost_world_w2		;$B49F92   | 
+	LDA #!world_lost_world_w2		;$B49F92   |
 	STA world_number			;$B49F95   | Else set w2 lost world
-	LDA #$005E				;$B49F98   |
+	LDA #!map_node_return_to_w2		;$B49F98   |
 	BRA CODE_B49FD6				;$B49F9B  /
 
 CODE_B49F9D:
-	CMP #$001F				;$B49F9D  \
+	CMP #!map_node_klubbas_kiosk_w3		;$B49F9D  \
 	BNE CODE_B49FAD				;$B49FA0   |
 	LDA #!world_lost_world_w3		;$B49FA2   |
 	STA world_number			;$B49FA5   |
-	LDA #$0062				;$B49FA8   |
+	LDA #!map_node_return_to_w3		;$B49FA8   |
 	BRA CODE_B49FD6				;$B49FAB  /
 
 CODE_B49FAD:
-	CMP #$0047				;$B49FAD  \
+	CMP #!map_node_klubbas_kiosk_w4_lower	;$B49FAD  \
 	BNE CODE_B49FBD				;$B49FB0   |
 	LDA #!world_lost_world_w4		;$B49FB2   |
 	STA world_number			;$B49FB5   |
-	LDA #$0066				;$B49FB8   |
+	LDA #!map_node_return_to_w4		;$B49FB8   |
 	BRA CODE_B49FD6				;$B49FBB  /
 
 CODE_B49FBD:
-	CMP #$002F				;$B49FBD  \
+	CMP #!map_node_klubbas_kiosk_w5		;$B49FBD  \
 	BNE CODE_B49FCD				;$B49FC0   |
 	LDA #!world_lost_world_w5		;$B49FC2   |
 	STA world_number			;$B49FC5   |
-	LDA #$006A				;$B49FC8   |
+	LDA #!map_node_return_to_w5		;$B49FC8   |
 	BRA CODE_B49FD6				;$B49FCB  /
 
 CODE_B49FCD:
 	LDA #!world_lost_world_w6		;$B49FCD  \
 	STA world_number			;$B49FD0   |
-	LDA #$006E				;$B49FD3   |
+	LDA #!map_node_return_to_w6		;$B49FD3   |
 CODE_B49FD6:					;	   |
 	STA map_node_number			;$B49FD6   |
 	LDA $06A1				;$B49FD9   |
@@ -3978,7 +3978,7 @@ get_player_coin_count_npc:
 	BNE .not_klubba				;$B4A1DD   | If not, continue with banana coins
 	LDA $08CC				;$B4A1DF   | Else load number of kremcoins instead
 .not_klubba:					;	   |
-	AND #$00FF				;$B4A1E2   | 
+	AND #$00FF				;$B4A1E2   |
 	RTS					;$B4A1E5  / Return
 
 CODE_B4A1E6:
@@ -5413,13 +5413,13 @@ CODE_B4AF40:
 	AND #$FFFB				;$B4AF49   |
 	STA $06A1				;$B4AF4C   |
 	LDA map_node_number			;$B4AF4F   |
-	CMP #$0052				;$B4AF52   |
+	CMP #!map_node_w4_lower_to_upper_left	;$B4AF52   |
 	BEQ CODE_B4AF8F				;$B4AF55   |
-	CMP #$0044				;$B4AF57   |
+	CMP #!map_node_w4_lower_to_upper_right	;$B4AF57   |
 	BEQ CODE_B4AF8A				;$B4AF5A   |
-	CMP #$004F				;$B4AF5C   |
+	CMP #!map_node_w4_upper_to_lower_left	;$B4AF5C   |
 	BEQ CODE_B4AF7C				;$B4AF5F   |
-	CMP #$004E				;$B4AF61   |
+	CMP #!map_node_w4_upper_to_lower_right	;$B4AF61   |
 	BEQ CODE_B4AF77				;$B4AF64   |
 	LDA $06A3				;$B4AF66   |
 	AND #$FFDF				;$B4AF69   |
@@ -5432,11 +5432,11 @@ CODE_B4AF75:					;	   |
 	RTS					;$B4AF76  /
 
 CODE_B4AF77:
-	LDA #$0044				;$B4AF77  \
+	LDA #!map_node_w4_lower_to_upper_right	;$B4AF77  \
 	BRA CODE_B4AF7F				;$B4AF7A  /
 
 CODE_B4AF7C:
-	LDA #$0052				;$B4AF7C  \
+	LDA #!map_node_w4_lower_to_upper_left	;$B4AF7C  \
 CODE_B4AF7F:					;	   |
 	STA map_node_number			;$B4AF7F   |
 	LDA #!world_krazy_kremland_lower	;$B4AF82   |
@@ -5444,11 +5444,11 @@ CODE_B4AF7F:					;	   |
 	BRA CODE_B4AF9B				;$B4AF88  /
 
 CODE_B4AF8A:
-	LDA #$004E				;$B4AF8A  \
+	LDA #!map_node_w4_upper_to_lower_right	;$B4AF8A  \
 	BRA CODE_B4AF92				;$B4AF8D  /
 
 CODE_B4AF8F:
-	LDA #$004F				;$B4AF8F  \
+	LDA #!map_node_w4_upper_to_lower_left	;$B4AF8F  \
 CODE_B4AF92:					;	   |
 	STA map_node_number			;$B4AF92   |
 	LDA #!world_krazy_kremland_upper	;$B4AF95   |
@@ -6048,7 +6048,7 @@ CODE_B4B3FD:					;	   |
 	JSR CODE_B4AED3				;$B4B41A   |
 	LDA #!world_crocodile_isle		;$B4B41D   |
 	STA world_number			;$B4B420   |
-	LDA #$0000				;$B4B423   |
+	LDA #!map_node_w1			;$B4B423   |
 	STA map_node_number			;$B4B426   |
 	JSR CODE_B4B42D				;$B4B429   |
 	RTS					;$B4B42C  /
@@ -6538,13 +6538,13 @@ update_swanky_lights:
 	BNE .return				;$B4B7CF   | If not, return
 	LDA $091D				;$B4B7D1   | Else get index into color value table
 	INC A					;$B4B7D4   | +1
-	CMP #$0003				;$B4B7D5   | 
+	CMP #$0003				;$B4B7D5   |
 	BCC .continue_updating			;$B4B7D8   | If less than 3, continue updating
 	LDA #$0000				;$B4B7DA   | Else reset index to 0
 .continue_updating:				;	   |
 	STA $091D				;$B4B7DD   | Update index
 	ASL A					;$B4B7E0   | *2
-	TAX					;$B4B7E1   | 
+	TAX					;$B4B7E1   |
 	SEP #$20				;$B4B7E2   | 8-Bit A
 	LDA #$46				;$B4B7E4   |
 	STA PPU.cgram_address			;$B4B7E6   | Set palette index
@@ -6568,7 +6568,7 @@ update_swanky_lights:
 	STA PPU.cgram_write			;$B4B80C   | Write color value
 	INX					;$B4B80F   | Move to next byte
 	DEY					;$B4B810   | Decrease iteraction counter
-	BNE .write_normal_colors		;$B4B811   | If not 
+	BNE .write_normal_colors		;$B4B811   | If not
 	REP #$20				;$B4B813   | Else we're done updating the colors, back to 16-Bit
 .return:					;	   |
 	RTS					;$B4B815  / Return
@@ -7747,217 +7747,217 @@ CODE_B4C175:
 
 ;map area number from level number
 DATA_B4C18B:
-	db $00					;00
-	db $1C					;01
-	db $46					;02
-	db $41					;03
-	db $09					;04
-	db $1E					;05
-	db $00					;06
-	db $10					;07
-	db $17					;08
-	db $0E					;09
-	db $20					;0A
-	db $0C					;0B
-	db $42					;0C
-	db $33					;0D
-	db $49					;0E
-	db $4B					;0F
-	db $2A					;10
-	db $50					;11
-	db $00					;12
-	db $2E					;13
-	db $15					;14
-	db $0B					;15
-	db $6C					;16
-	db $32					;17
-	db $2C					;18
-	db $28					;19
-	db $00					;1A
-	db $00					;1B
-	db $00					;1C
-	db $00					;1D
-	db $00					;1E
-	db $00					;1F
-	db $00					;20
-	db $1A					;21
-	db $00					;22
-	db $36					;23
-	db $19					;24
-	db $13					;25
-	db $00					;26
-	db $00					;27
-	db $1B					;28
-	db $1D					;29
-	db $00					;2A
-	db $00					;2B
-	db $45					;2C
-	db $21					;2D
-	db $4A					;2E
-	db $5B					;2F
-	db $00					;30
-	db $01					;31
-	db $02					;32
-	db $03					;33
-	db $04					;34
-	db $05					;35
-	db $06					;36
-	db $07					;37
-	db $43					;38
-	db $18					;39
-	db $25					;3A
-	db $4C					;3B
-	db $29					;3C
-	db $35					;3D
-	db $00					;3E
-	db $00					;3F
-	db $0A					;40
-	db $11					;41
-	db $26					;42
-	db $4D					;43
-	db $2D					;44
-	db $37					;45
-	db $00					;46
-	db $00					;47
-	db $0F					;48
-	db $16					;49
-	db $23					;4A
-	db $51					;4B
-	db $2B					;4C
-	db $3D					;4D
-	db $5C					;4E
-	db $00					;4F
-	db $0D					;50
-	db $14					;51
-	db $24					;52
-	db $53					;53
-	db $31					;54
-	db $3C					;55
-	db $77					;56
-	db $00					;57
-	db $00					;58
-	db $12					;59
-	db $1F					;5A
-	db $47					;5B
-	db $2F					;5C
-	db $38					;5D
-	db $00					;5E
-	db $00					;5F
-	db $48					;60
-	db $5D					;61
-	db $39					;62
-	db $22					;63
-	db $52					;64
-	db $4F					;65
-	db $4E					;66
-	db $44					;67
-	db $30					;68
-	db $00					;69
-	db $00					;6A
-	db $00					;6B
-	db $34					;6C
-	db $3B					;6D
-	db $3F					;6E
-	db $00					;6F
-	db $00					;70
-	db $00					;71
-	db $00					;72
-	db $00					;73
-	db $00					;74
-	db $00					;75
-	db $00					;76
-	db $00					;77
-	db $00					;78
-	db $00					;79
-	db $00					;7A
-	db $00					;7B
-	db $00					;7C
-	db $00					;7D
-	db $00					;7E
-	db $00					;7F
-	db $68					;80
-	db $00					;81
-	db $00					;82
-	db $00					;83
-	db $00					;84
-	db $00					;85
-	db $00					;86
-	db $00					;87
-	db $00					;88
-	db $00					;89
-	db $00					;8A
-	db $00					;8B
-	db $00					;8C
-	db $00					;8D
-	db $00					;8E
-	db $3A					;8F
-	db $00					;90
-	db $00					;91
-	db $00					;92
-	db $00					;93
-	db $00					;94
-	db $00					;95
-	db $64					;96
-	db $00					;97
-	db $00					;98
-	db $60					;99
-	db $70					;9A
-	db $00					;9B
-	db $00					;9C
-	db $00					;9D
-	db $00					;9E
-	db $00					;9F
-	db $00					;A0
-	db $00					;A1
-	db $00					;A2
-	db $00					;A3
-	db $00					;A4
-	db $00					;A5
-	db $00					;A6
-	db $00					;A7
-	db $00					;A8
-	db $00					;A9
-	db $00					;AA
-	db $00					;AB
-	db $00					;AC
-	db $00					;AD
-	db $00					;AE
-	db $00					;AF
-	db $00					;B0
-	db $00					;B1
-	db $00					;B2
-	db $00					;B3
-	db $00					;B4
-	db $00					;B5
-	db $00					;B6
-	db $00					;B7
-	db $00					;B8
-	db $40					;B9
-	db $00					;BA
-	db $00					;BB
-	db $00					;BC
-	db $00					;BD
-	db $00					;BE
-	db $00					;BF
-	db $00					;C0
-	db $00					;C1
-	db $00					;C2
-	db $00					;C3
-	db $5E					;C4
-	db $62					;C5
-	db $66					;C6
-	db $6A					;C7
-	db $6E					;C8
-	db $5F					;C9
-	db $63					;CA
-	db $67					;CB
-	db $6B					;CC
-	db $6F					;CD
-	db $61					;CE
-	db $65					;CF
-	db $69					;D0
-	db $6D					;D1
-	db $71					;D2
+	db !null_pointer				;00
+	db !map_node_glimmers_galleon			;01
+	db !map_node_rambi_rumble			;02
+	db !map_node_pirate_panic			;03
+	db !map_node_gangplank_galley			;04
+	db !map_node_rattle_battle			;05
+	db !null_pointer				;06
+	db !map_node_hot_head_hop			;07
+	db !map_node_red_hot_ride			;08
+	db !map_node_krows_nest				;09
+	db !map_node_slime_climb			;0A
+	db !map_node_topsail_trouble			;0B
+	db !map_node_mainbrace_mayhem			;0C
+	db !map_node_kreepy_krow			;0D
+	db !map_node_target_terror			;0E
+	db !map_node_rickety_race			;0F
+	db !map_node_haunted_hall			;10
+	db !map_node_hornet_hole			;11
+	db !null_pointer				;12
+	db !map_node_parrot_chute_panic			;13
+	db !map_node_lava_lagoon			;14
+	db !map_node_lockjaws_locker			;15
+	db !map_node_fiery_furnace			;16
+	db !map_node_web_woods				;17
+	db !map_node_gusty_glade			;18
+	db !map_node_ghostly_grove			;19
+	db !null_pointer				;1A
+	db !null_pointer				;1B
+	db !null_pointer				;1C
+	db !null_pointer				;1D
+	db !null_pointer				;1E
+	db !null_pointer				;1F
+	db !null_pointer				;20
+	db !map_node_kleevers_kiln			;21
+	db !null_pointer				;22
+	db !map_node_windy_well				;23
+	db !map_node_squawks_shaft			;24
+	db !map_node_kannons_klaim			;25
+	db !null_pointer				;26
+	db !null_pointer				;27
+	db !map_node_barrel_bayou			;28
+	db !map_node_krockhead_klamber			;29
+	db !null_pointer				;2A
+	db !null_pointer				;2B
+	db !map_node_mudhole_marsh			;2C
+	db !map_node_bramble_blast			;2D
+	db !map_node_bramble_scramble			;2E
+	db !map_node_screechs_sprint			;2F
+	db !map_node_w1					;30
+	db !map_node_w2					;31
+	db !map_node_w3					;32
+	db !map_node_w4					;33
+	db !map_node_w5					;34
+	db !map_node_w6					;35
+	db !map_node_w7					;36
+	db !map_node_lost_world				;37
+	db !map_node_monkey_museum_w1			;38
+	db !map_node_monkey_museum_w2			;39
+	db !map_node_monkey_museum_w3			;3A
+	db !map_node_monkey_museum_w4_upper		;3B
+	db !map_node_monkey_museum_w5			;3C
+	db !map_node_monkey_museum_w6			;3D
+	db !null_pointer				;3E
+	db !null_pointer				;3F
+	db !map_node_kong_kollege_w1			;40
+	db !map_node_swankys_bonus_bonanza_w2		;41
+	db !map_node_swankys_bonus_bonanza_w3		;42
+	db !map_node_swankys_bonus_bonanza_w4_upper	;43
+	db !map_node_swankys_bonus_bonanza_w5		;44
+	db !map_node_kong_kollege_w6			;45
+	db !null_pointer				;46
+	db !null_pointer				;47
+	db !map_node_swankys_bonus_bonanza_w1		;48
+	db !map_node_kong_kollege_w2			;49
+	db !map_node_kong_kollege_w3			;4A
+	db !map_node_kong_kollege_w4_lower		;4B
+	db !map_node_kong_kollege_w5			;4C
+	db !map_node_swankys_bonus_bonanza_w6		;4D
+	db !map_node_kong_kollege_w7			;4E
+	db !null_pointer				;4F
+	db !map_node_funkys_flights_w1			;50
+	db !map_node_funkys_flights_w2			;51
+	db !map_node_funkys_flights_w3			;52
+	db !map_node_funkys_flights_w4_upper		;53
+	db !map_node_funkys_flights_w5			;54
+	db !map_node_funkys_flights_w6			;55
+	db !map_node_funkys_flights_w7			;56
+	db !null_pointer				;57
+	db !null_pointer				;58
+	db !map_node_klubbas_kiosk_w2			;59
+	db !map_node_klubbas_kiosk_w3			;5A
+	db !map_node_klubbas_kiosk_w4_lower		;5B
+	db !map_node_klubbas_kiosk_w5			;5C
+	db !map_node_klubbas_kiosk_w6			;5D
+	db !null_pointer				;5E
+	db !null_pointer				;5F
+	db !map_node_king_zing_sting			;60
+	db !map_node_k_rool_duel			;61
+	db !map_node_castle_crush			;62
+	db !map_node_kudgels_kontest			;63
+	db !map_node_w4_lower_to_upper_left		;64
+	db !map_node_w4_upper_to_lower_left		;65
+	db !map_node_w4_upper_to_lower_right		;66
+	db !map_node_w4_lower_to_upper_right		;67
+	db !map_node_lockjaws_locker_warp_room		;68
+	db !null_pointer				;69
+	db !null_pointer				;6A
+	db !null_pointer				;6B
+	db !map_node_arctic_abyss			;6C
+	db !map_node_chain_link_chamber			;6D
+	db !map_node_toxic_tower			;6E
+	db !null_pointer				;6F
+	db !null_pointer				;70
+	db !null_pointer				;71
+	db !null_pointer				;72
+	db !null_pointer				;73
+	db !null_pointer				;74
+	db !null_pointer				;75
+	db !null_pointer				;76
+	db !null_pointer				;77
+	db !null_pointer				;78
+	db !null_pointer				;79
+	db !null_pointer				;7A
+	db !null_pointer				;7B
+	db !null_pointer				;7C
+	db !null_pointer				;7D
+	db !null_pointer				;7E
+	db !null_pointer				;7F
+	db !map_node_klobber_karnage			;80
+	db !null_pointer				;81
+	db !null_pointer				;82
+	db !null_pointer				;83
+	db !null_pointer				;84
+	db !null_pointer				;85
+	db !null_pointer				;86
+	db !null_pointer				;87
+	db !null_pointer				;88
+	db !null_pointer				;89
+	db !null_pointer				;8A
+	db !null_pointer				;8B
+	db !null_pointer				;8C
+	db !null_pointer				;8D
+	db !null_pointer				;8E
+	db !map_node_clappers_cavern			;8F
+	db !null_pointer				;90
+	db !null_pointer				;91
+	db !null_pointer				;92
+	db !null_pointer				;93
+	db !null_pointer				;94
+	db !null_pointer				;95
+	db !map_node_black_ice_battle			;96
+	db !null_pointer				;97
+	db !null_pointer				;98
+	db !map_node_jungle_jinx			;99
+	db !map_node_animal_antics_rambi_area		;9A
+	db !null_pointer				;9B
+	db !null_pointer				;9C
+	db !null_pointer				;9D
+	db !null_pointer				;9E
+	db !null_pointer				;9F
+	db !null_pointer				;A0
+	db !null_pointer				;A1
+	db !null_pointer				;A2
+	db !null_pointer				;A3
+	db !null_pointer				;A4
+	db !null_pointer				;A5
+	db !null_pointer				;A6
+	db !null_pointer				;A7
+	db !null_pointer				;A8
+	db !null_pointer				;A9
+	db !null_pointer				;AA
+	db !null_pointer				;AB
+	db !null_pointer				;AC
+	db !null_pointer				;AD
+	db !null_pointer				;AE
+	db !null_pointer				;AF
+	db !null_pointer				;B0
+	db !null_pointer				;B1
+	db !null_pointer				;B2
+	db !null_pointer				;B3
+	db !null_pointer				;B4
+	db !null_pointer				;B5
+	db !null_pointer				;B6
+	db !null_pointer				;B7
+	db !null_pointer				;B8
+	db !map_node_stronghold_showdown		;B9
+	db !null_pointer				;BA
+	db !null_pointer				;BB
+	db !null_pointer				;BC
+	db !null_pointer				;BD
+	db !null_pointer				;BE
+	db !null_pointer				;BF
+	db !null_pointer				;C0
+	db !null_pointer				;C1
+	db !null_pointer				;C2
+	db !null_pointer				;C3
+	db !map_node_return_to_w2			;C4
+	db !map_node_return_to_w3			;C5
+	db !map_node_return_to_w4			;C6
+	db !map_node_return_to_w5			;C7
+	db !map_node_return_to_w6			;C8
+	db !map_node_monkey_museum_w2_lost_world	;C9
+	db !map_node_monkey_museum_w3_lost_world	;CA
+	db !map_node_monkey_museum_w4_lost_world	;CB
+	db !map_node_monkey_museum_w5_lost_world	;CC
+	db !map_node_monkey_museum_w6_lost_world	;CD
+	db !map_node_krocodile_kore_w2_lost_world	;CE
+	db !map_node_krocodile_kore_w3_lost_world	;CF
+	db !map_node_krocodile_kore_w4_lost_world	;D0
+	db !map_node_krocodile_kore_w5_lost_world	;D1
+	db !map_node_krocodile_kore_w6_lost_world	;D2
 
 DATA_B4C25E:
 	dw .crocodile_isle			;00
@@ -7981,16 +7981,14 @@ DATA_B4C25E:
 	dw $0070, $016F				;Min/max Y scroll range
 	dw $0005				;Unknown
 	dw $0007				;Number of map icons to draw
-	dw $000B				;Level name text Y position	
-
-;node ID's
-	dw $0000
-	dw $0001
-	dw $0002
-	dw $0003
-	dw $0004
-	dw $0005
-	dw $0006
+	dw $000B				;Level name text Y position
+	dw !map_node_w1
+	dw !map_node_w2
+	dw !map_node_w3
+	dw !map_node_w4
+	dw !map_node_w5
+	dw !map_node_w6
+	dw !map_node_w7
 
 .gangplank_galleon:
 	dw $0080, $0080
@@ -7998,18 +7996,17 @@ DATA_B4C25E:
 	dw $0008
 	dw $000B
 	dw $00C8
-
-	dw $0041
-	dw $0042
-	dw $0043
-	dw $0009
-	dw $000A
-	dw $000B
-	dw $000C
-	dw $000D
-	dw $000E
-	dw $000F
-	dw $0058
+	dw !map_node_pirate_panic
+	dw !map_node_mainbrace_mayhem
+	dw !map_node_monkey_museum_w1
+	dw !map_node_gangplank_galley
+	dw !map_node_kong_kollege_w1
+	dw !map_node_lockjaws_locker
+	dw !map_node_topsail_trouble
+	dw !map_node_funkys_flights_w1
+	dw !map_node_krows_nest
+	dw !map_node_swankys_bonus_bonanza_w1
+	dw !map_node_w1_entrance
 
 .crocodile_cauldron:
 	dw $0080, $0080
@@ -8017,19 +8014,18 @@ DATA_B4C25E:
 	dw $000B
 	dw $000C
 	dw $00C8
-
-	dw $0010
-	dw $0011
-	dw $0012
-	dw $0013
-	dw $0014
-	dw $0015
-	dw $0016
-	dw $0017
-	dw $0018
-	dw $0019
-	dw $001A
-	dw $0027
+	dw !map_node_hot_head_hop
+	dw !map_node_swankys_bonus_bonanza_w2
+	dw !map_node_klubbas_kiosk_w2
+	dw !map_node_kannons_klaim
+	dw !map_node_funkys_flights_w2
+	dw !map_node_lava_lagoon
+	dw !map_node_kong_kollege_w2
+	dw !map_node_red_hot_ride
+	dw !map_node_monkey_museum_w2
+	dw !map_node_squawks_shaft
+	dw !map_node_kleevers_kiln
+	dw !map_node_w2_entrance
 
 .krem_quay:
 	dw $0080, $0180
@@ -8037,21 +8033,19 @@ DATA_B4C25E:
 	dw $000D
 	dw $000D
 	dw $000B
-
-	dw $001B
-	dw $001C
-	dw $001D
-	dw $001E
-	dw $001F
-	dw $0020
-	dw $0021
-	dw $0022
-	dw $0023
-	dw $0024
-	dw $0025
-	dw $0026
-	dw $0054
-
+	dw !map_node_barrel_bayou
+	dw !map_node_glimmers_galleon
+	dw !map_node_krockhead_klamber
+	dw !map_node_rattle_battle
+	dw !map_node_klubbas_kiosk_w3
+	dw !map_node_slime_climb
+	dw !map_node_bramble_blast
+	dw !map_node_kudgels_kontest
+	dw !map_node_kong_kollege_w3
+	dw !map_node_funkys_flights_w3
+	dw !map_node_monkey_museum_w3
+	dw !map_node_swankys_bonus_bonanza_w3
+	dw !map_node_w3_entrance
 
 .krazy_kremland_lower:
 	dw $0080, $0080
@@ -8059,17 +8053,15 @@ DATA_B4C25E:
 	dw $0009
 	dw $0009
 	dw $00C8
-
-	dw $0044
-	dw $0045
-	dw $0046
-	dw $0047
-	dw $0048
-	dw $0050
-	dw $0051
-	dw $0052
-	dw $0055
-
+	dw !map_node_w4_lower_to_upper_right
+	dw !map_node_mudhole_marsh
+	dw !map_node_rambi_rumble
+	dw !map_node_klubbas_kiosk_w4_lower
+	dw !map_node_king_zing_sting
+	dw !map_node_hornet_hole
+	dw !map_node_kong_kollege_w4_lower
+	dw !map_node_w4_lower_to_upper_left
+	dw !map_node_w4_entrance
 
 .gloomy_gulch:
 	dw $0080, $0080
@@ -8077,20 +8069,18 @@ DATA_B4C25E:
 	dw $000A
 	dw $000C
 	dw $00C8
-
-	dw $0028
-	dw $0029
-	dw $002A
-	dw $002B
-	dw $002C
-	dw $002D
-	dw $002E
-	dw $002F
-	dw $0031
-	dw $0032
-	dw $0033
-	dw $0056
-
+	dw !map_node_ghostly_grove
+	dw !map_node_monkey_museum_w5
+	dw !map_node_haunted_hall
+	dw !map_node_kong_kollege_w5
+	dw !map_node_gusty_glade
+	dw !map_node_swankys_bonus_bonanza_w5
+	dw !map_node_parrot_chute_panic
+	dw !map_node_klubbas_kiosk_w5
+	dw !map_node_funkys_flights_w5
+	dw !map_node_web_woods
+	dw !map_node_kreepy_krow
+	dw !map_node_w5_entrance
 
 .krools_keep:
 	dw $0080, $0080
@@ -8098,21 +8088,19 @@ DATA_B4C25E:
 	dw $000B
 	dw $000D
 	dw $00C8
-
-	dw $0034
-	dw $0035
-	dw $0036
-	dw $0037
-	dw $0038
-	dw $0039
-	dw $003A
-	dw $003B
-	dw $003C
-	dw $003D
-	dw $003F
-	dw $0040
-	dw $0057
-
+	dw !map_node_arctic_abyss
+	dw !map_node_monkey_museum_w6
+	dw !map_node_windy_well
+	dw !map_node_kong_kollege_w6
+	dw !map_node_klubbas_kiosk_w6
+	dw !map_node_castle_crush
+	dw !map_node_clappers_cavern
+	dw !map_node_chain_link_chamber
+	dw !map_node_funkys_flights_w6
+	dw !map_node_swankys_bonus_bonanza_w6
+	dw !map_node_toxic_tower
+	dw !map_node_stronghold_showdown
+	dw !map_node_w6_entrance
 
 .the_flying_krock:
 	dw $0080, $0080
@@ -8120,13 +8108,11 @@ DATA_B4C25E:
 	dw $0005
 	dw $0005
 	dw $000B
-
-	dw $0059
-	dw $005B
-	dw $005C
-	dw $005D
-	dw $0077
-
+	dw !map_node_w7_entrance
+	dw !map_node_screechs_sprint
+	dw !map_node_kong_kollege_w7
+	dw !map_node_k_rool_duel
+	dw !map_node_funkys_flights_w7
 
 .unused_lost_world:
 	dw $0080, $0080
@@ -8134,20 +8120,18 @@ DATA_B4C25E:
 	dw $000B
 	dw $000C
 	dw $00C8
-
-	dw $0010
-	dw $0011
-	dw $0012
-	dw $0013
-	dw $0014
-	dw $0015
-	dw $0016
-	dw $0017
-	dw $0018
-	dw $0019
-	dw $001A
-	dw $0027
-
+	dw !map_node_hot_head_hop
+	dw !map_node_swankys_bonus_bonanza_w2
+	dw !map_node_klubbas_kiosk_w2
+	dw !map_node_kannons_klaim
+	dw !map_node_funkys_flights_w2
+	dw !map_node_lava_lagoon
+	dw !map_node_kong_kollege_w2
+	dw !map_node_red_hot_ride
+	dw !map_node_monkey_museum_w2
+	dw !map_node_squawks_shaft
+	dw !map_node_kleevers_kiln
+	dw !map_node_w2_entrance
 
 .krazy_kremland_upper:
 	dw $0080, $0080
@@ -8155,16 +8139,14 @@ DATA_B4C25E:
 	dw $0007
 	dw $0008
 	dw $00C8
-
-	dw $0049
-	dw $004A
-	dw $004B
-	dw $004C
-	dw $004D
-	dw $004E
-	dw $004F
-	dw $0053
-
+	dw !map_node_target_terror
+	dw !map_node_bramble_scramble
+	dw !map_node_rickety_race
+	dw !map_node_monkey_museum_w4_upper
+	dw !map_node_swankys_bonus_bonanza_w4_upper
+	dw !map_node_w4_upper_to_lower_right
+	dw !map_node_w4_upper_to_lower_left
+	dw !map_node_funkys_flights_w4_upper
 
 .lost_world_w2:
 	dw $0080, $0080
@@ -8172,13 +8154,11 @@ DATA_B4C25E:
 	dw $0000
 	dw $0005
 	dw $000B
-
-	dw $005E
-	dw $005F
-	dw $0060
-	dw $0061
-	dw $0072
-
+	dw !map_node_return_to_w2
+	dw !map_node_monkey_museum_w2_lost_world
+	dw !map_node_jungle_jinx
+	dw !map_node_krocodile_kore_w2_lost_world
+	dw !map_node_w2_entrance_from_klubba
 
 .lost_world_w3:
 	dw $0080, $0080
@@ -8186,13 +8166,11 @@ DATA_B4C25E:
 	dw $0000
 	dw $0005
 	dw $000B
-
-	dw $0062
-	dw $0063
-	dw $0064
-	dw $0065
-	dw $0073
-
+	dw !map_node_return_to_w3
+	dw !map_node_monkey_museum_w3_lost_world
+	dw !map_node_black_ice_battle
+	dw !map_node_krocodile_kore_w3_lost_world
+	dw !map_node_w3_entrance_from_klubba
 
 .lost_world_w4:
 	dw $0080, $0080
@@ -8200,13 +8178,11 @@ DATA_B4C25E:
 	dw $0000
 	dw $0005
 	dw $000B
-
-	dw $0066
-	dw $0067
-	dw $0068
-	dw $0069
-	dw $0074
-
+	dw !map_node_return_to_w4
+	dw !map_node_monkey_museum_w4_lost_world
+	dw !map_node_klobber_karnage
+	dw !map_node_krocodile_kore_w4_lost_world
+	dw !map_node_w4_entrance_from_klubba
 
 .lost_world_w5:
 	dw $0080, $0080
@@ -8214,13 +8190,11 @@ DATA_B4C25E:
 	dw $0000
 	dw $0005
 	dw $000B
-
-	dw $006A
-	dw $006B
-	dw $006C
-	dw $006D
-	dw $0075
-
+	dw !map_node_return_to_w5
+	dw !map_node_monkey_museum_w5_lost_world
+	dw !map_node_fiery_furnace
+	dw !map_node_krocodile_kore_w5_lost_world
+	dw !map_node_w5_entrance_from_klubba
 
 .lost_world_w6:
 	dw $0080, $0080
@@ -8228,44 +8202,52 @@ DATA_B4C25E:
 	dw $0000
 	dw $0005
 	dw $000B
-
-	dw $006E
-	dw $006F
-	dw $0070
-	dw $0071
-	dw $0076
-
+	dw !map_node_return_to_w6
+	dw !map_node_monkey_museum_w6_lost_world
+	dw !map_node_animal_antics_rambi_area
+	dw !map_node_krocodile_kore_w6_lost_world
+	dw !map_node_w6_entrance_from_klubba
 
 ;world entrance node ID's
 DATA_B4C44C:
-	dw !null_pointer	
-	dw $0058				;Gangplank galleon
-	dw $0027				;Crocodile cauldron
-	dw $0054				;Krem quay
-	dw $0055				;Krazy kremland
-	dw $0056				;Gloomy gulch
-	dw $0057				;K.rools keep
-	dw $0059				;The flying krock
 	dw !null_pointer
-	dw $004F				;Krazy kremland lower to upper
+	dw !map_node_w1_entrance		;Gangplank galleon
+	dw !map_node_w2_entrance		;Crocodile cauldron
+	dw !map_node_w3_entrance		;Krem quay
+	dw !map_node_w4_entrance		;Krazy kremland
+	dw !map_node_w5_entrance		;Gloomy gulch
+	dw !map_node_w6_entrance		;K.rools keep
+	dw !map_node_w7_entrance		;The flying krock
+	dw !null_pointer
+	dw !map_node_w4_upper_to_lower_left	;Krazy kremland lower to upper
 
-
+;map node initial unlocks (these are what map nodes to unlock by default)
 DATA_B4C460:
-	db $00, $00, $41, $00, $10, $00, $1B, $00
-	db $50, $00, $28, $00, $34, $00, $5B, $00
-	db $49, $00, $05, $00, $99, $00, $CE, $00
-	db $96, $00, $CF, $00, $80, $00, $D0, $00
-	db $16, $00, $D1, $00, $9A, $00, $D2, $00
-	db $00, $00, $00, $00
+	dw !map_node_w1
+	dw !map_node_pirate_panic
+	dw !map_node_hot_head_hop
+	dw !map_node_barrel_bayou
+	dw !map_node_hornet_hole
+	dw !map_node_ghostly_grove
+	dw !map_node_arctic_abyss
+	dw !map_node_screechs_sprint
+	dw !map_node_target_terror
 
+	dw $0005
+	dw !level_jungle_jinx, !level_krocodile_kore_crocodile_cauldron_lost_world
+	dw !level_black_ice_battle, !level_krocodile_kore_krem_quay_lost_world
+	dw !level_klobber_karnage, !level_krocodile_kore_krazy_kremland_lost_world
+	dw !level_fiery_furnace, !level_krocodile_kore_gloomy_gulch_lost_world
+	dw !level_animal_antics_rambi_area, !level_krocodile_kore_k_rools_keep_lost_world
+	dw !null_pointer, !null_pointer
 
 ;Krocodile kore node ID's (read immediately after beating krocodile kore)
 DATA_B4C48C:
-	db $61
-	db $65
-	db $69
-	db $6D
-	db $71
+	db !map_node_krocodile_kore_w2_lost_world
+	db !map_node_krocodile_kore_w3_lost_world
+	db !map_node_krocodile_kore_w4_lost_world
+	db !map_node_krocodile_kore_w5_lost_world
+	db !map_node_krocodile_kore_w6_lost_world
 
 ;Map icons OAM properties
 DATA_B4C491:
@@ -9676,126 +9658,126 @@ DATA_B4CF37:
 	db $00, $04, $00, $00
 
 DATA_B4CF4B:
-	db $0E : dw DATA_B4D0B3				;00
-	db $0E : dw DATA_B4D0EA				;01
-	db $0E : dw DATA_B4D128				;02
-	db $0E : dw DATA_B4D151				;03
-	db $0E : dw DATA_B4D184				;04
-	db $0E : dw DATA_B4D1B1				;05
-	db $0E : dw DATA_B4D1E6				;06
-	db $0E : dw DATA_B4D218				;07
-	db $0E : dw DATA_B4D23C				;08
-	db $0E : dw DATA_B4D24D				;09
-	db $0A : dw DATA_B4D28B				;0A
-	db $0E : dw DATA_B4D2BA				;0B
-	db $0E : dw DATA_B4D2F2				;0C
-	db $06 : dw DATA_B4D32D				;0D
-	db $10 : dw DATA_B4D363				;0E
-	db $08 : dw DATA_B4D38C				;0F
-	db $0E : dw DATA_B4D3CF				;10
-	db $08 : dw DATA_B4D40C				;11
-	db $0C : dw DATA_B4D44F				;12
-	db $0E : dw DATA_B4D481				;13
-	db $06 : dw DATA_B4D4BE				;14
-	db $0E : dw DATA_B4D4F0				;15
-	db $0A : dw DATA_B4D523				;16
-	db $0E : dw DATA_B4D54E				;17
-	db $04 : dw DATA_B4D587				;18
-	db $0E : dw DATA_B4D5B5				;19
-	db $10 : dw DATA_B4D5ED				;1A
-	db $0E : dw DATA_B4D620				;1B
-	db $0E : dw DATA_B4D64D				;1C
-	db $0E : dw DATA_B4D68A				;1D
-	db $0E : dw DATA_B4D6CD				;1E
-	db $0C : dw DATA_B4D706				;1F
-	db $0E : dw DATA_B4D738				;20
-	db $0E : dw DATA_B4D771				;21
-	db $10 : dw DATA_B4D7A3				;22
-	db $0A : dw DATA_B4D7D6				;23
-	db $06 : dw DATA_B4D805				;24
-	db $04 : dw DATA_B4D83B				;25
-	db $08 : dw DATA_B4D86D				;26
-	db $0E : dw DATA_B4D8AC				;27
-	db $0E : dw DATA_B4D8C1				;28
-	db $04 : dw DATA_B4D8EF				;29
-	db $0E : dw DATA_B4D921				;2A
-	db $0A : dw DATA_B4D94F				;2B
-	db $0E : dw DATA_B4D97A				;2C
-	db $08 : dw DATA_B4D9AD				;2D
-	db $0E : dw DATA_B4D9EC				;2E
-	db $0C : dw DATA_B4DA2E				;2F
-	db $00 : dw !null_pointer			;30
-	db $06 : dw DATA_B4DA60				;31
-	db $0E : dw DATA_B4DA96				;32
-	db $10 : dw DATA_B4DAC4				;33
-	db $0E : dw DATA_B4DAF2				;34
-	db $04 : dw DATA_B4DB2A				;35
-	db $0E : dw DATA_B4DB58				;36
-	db $0A : dw DATA_B4DB88				;37
-	db $0C : dw DATA_B4DBB7				;38
-	db $0E : dw DATA_B4DBE9				;39
-	db $0E : dw DATA_B4DC1B				;3A
-	db $0E : dw DATA_B4DC54				;3B
-	db $06 : dw DATA_B4DC91				;3C
-	db $08 : dw DATA_B4DCC3				;3D
-	db $00 : dw !null_pointer			;3E
-	db $0E : dw DATA_B4DD06				;3F
-	db $10 : dw DATA_B4DD34				;40
-	db $0E : dw DATA_B4DD6F				;41
-	db $0E : dw DATA_B4DD9C				;42
-	db $04 : dw DATA_B4DDDE				;43
-	db $0E : dw DATA_B4DE0C				;44
-	db $0E : dw DATA_B4DE21				;45
-	db $0E : dw DATA_B4DE57				;46
-	db $0C : dw DATA_B4DE89				;47
-	db $10 : dw DATA_B4DEBB				;48
-	db $0E : dw DATA_B4DEEB				;49
-	db $0E : dw DATA_B4DF21				;4A
-	db $0E : dw DATA_B4DF5F				;4B
-	db $04 : dw DATA_B4DF93				;4C
-	db $08 : dw DATA_B4DFC9				;4D
-	db $0E : dw DATA_B4E008				;4E
-	db $0E : dw DATA_B4E01D				;4F
-	db $0E : dw DATA_B4E032				;50
-	db $0A : dw DATA_B4E067				;51
-	db $0E : dw DATA_B4E096				;52
-	db $06 : dw DATA_B4E0AB				;53
-	db $0E : dw DATA_B4E0DD				;54
-	db $0E : dw DATA_B4E0F2				;55
-	db $0E : dw DATA_B4E107				;56
-	db $0E : dw DATA_B4E11C				;57
-	db $0E : dw DATA_B4E131				;58
-	db $0E : dw DATA_B4E146				;59
-	db $00 : dw !null_pointer			;5A
-	db $0E : dw DATA_B4E15B				;5B
-	db $0A : dw DATA_B4E197				;5C
-	db $10 : dw DATA_B4E1C2				;5D
-	db $0C : dw DATA_B4E1F0				;5E
-	db $04 : dw DATA_B4E23E				;5F
-	db $0E : dw DATA_B4E26C				;60
-	db $10 : dw DATA_B4E29F				;61
-	db $0C : dw DATA_B4E2CF				;62
-	db $04 : dw DATA_B4E30C				;63
-	db $0E : dw DATA_B4E33A				;64
-	db $10 : dw DATA_B4E37B				;65
-	db $0C : dw DATA_B4E3AB				;66
-	db $04 : dw DATA_B4E3F1				;67
-	db $0E : dw DATA_B4E41F				;68
-	db $10 : dw DATA_B4E45A				;69
-	db $0C : dw DATA_B4E48A				;6A
-	db $04 : dw DATA_B4E4CB				;6B
-	db $0E : dw DATA_B4E4F9				;6C
-	db $10 : dw DATA_B4E52F				;6D
-	db $0C : dw DATA_B4E55F				;6E
-	db $04 : dw DATA_B4E5A7				;6F
-	db $0E : dw DATA_B4E5D5				;70
-	db $10 : dw DATA_B4E60D				;71
-	db $0E : dw DATA_B4E63D				;72
-	db $0E : dw DATA_B4E652				;73
-	db $0E : dw DATA_B4E667				;74
-	db $0E : dw DATA_B4E67C				;75
-	db $0E : dw DATA_B4E691				;76
-	db $06 : dw DATA_B4E6A6				;77
+	db $0E : dw DATA_B4D0B3				; 00 gangplank_galleon
+	db $0E : dw DATA_B4D0EA				; 01 crocodile_cauldron
+	db $0E : dw DATA_B4D128				; 02 krem_quay
+	db $0E : dw DATA_B4D151				; 03 krazy_kremland
+	db $0E : dw DATA_B4D184				; 04 gloomy_gulch
+	db $0E : dw DATA_B4D1B1				; 05 k_rools_keep
+	db $0E : dw DATA_B4D1E6				; 06 the_flying_krock
+	db $0E : dw DATA_B4D218				; 07 lost_world
+	db $0E : dw DATA_B4D23C				; 08 ???
+	db $0E : dw DATA_B4D24D				; 09 gangplank_galley
+	db $0A : dw DATA_B4D28B				; 0A kong_kollege_gangplank_galleon
+	db $0E : dw DATA_B4D2BA				; 0B lockjaws_locker
+	db $0E : dw DATA_B4D2F2				; 0C topsail_trouble
+	db $06 : dw DATA_B4D32D				; 0D funkys_flights_gangplank_galleon
+	db $10 : dw DATA_B4D363				; 0E krows_nest
+	db $08 : dw DATA_B4D38C				; 0F swankys_bonus_bonanza_gangplank_galleon
+	db $0E : dw DATA_B4D3CF				; 10 hot_head_hop
+	db $08 : dw DATA_B4D40C				; 11 swankys_bonus_bonanza_crocodile_cauldron
+	db $0C : dw DATA_B4D44F				; 12 klubbas_kiosk_crocodile_cauldron
+	db $0E : dw DATA_B4D481				; 13 kannons_klaim
+	db $06 : dw DATA_B4D4BE				; 14 funkys_flights_crocodile_cauldron
+	db $0E : dw DATA_B4D4F0				; 15 lava_lagoon
+	db $0A : dw DATA_B4D523				; 16 kong_kollege_crocodile_cauldron
+	db $0E : dw DATA_B4D54E				; 17 red_hot_ride
+	db $04 : dw DATA_B4D587				; 18 monkey_museum_crocodile_cauldron
+	db $0E : dw DATA_B4D5B5				; 19 squawks_shaft
+	db $10 : dw DATA_B4D5ED				; 1A kleevers_kiln
+	db $0E : dw DATA_B4D620				; 1B barrel_bayou
+	db $0E : dw DATA_B4D64D				; 1C glimmers_galleon
+	db $0E : dw DATA_B4D68A				; 1D krockhead_klamber
+	db $0E : dw DATA_B4D6CD				; 1E rattle_battle
+	db $0C : dw DATA_B4D706				; 1F klubbas_kiosk_krem_quay
+	db $0E : dw DATA_B4D738				; 20 slime_climb
+	db $0E : dw DATA_B4D771				; 21 bramble_blast
+	db $10 : dw DATA_B4D7A3				; 22 kudgels_kontest
+	db $0A : dw DATA_B4D7D6				; 23 kong_kollege_krem_quay
+	db $06 : dw DATA_B4D805				; 24 funkys_flights_krem_quay
+	db $04 : dw DATA_B4D83B				; 25 monkey_museum_krem_quay
+	db $08 : dw DATA_B4D86D				; 26 swankys_bonus_bonanza_krem_quay
+	db $0E : dw DATA_B4D8AC				; 27 crocodile_cauldron_entrance
+	db $0E : dw DATA_B4D8C1				; 28 ghostly_grove
+	db $04 : dw DATA_B4D8EF				; 29 monkey_museum_gloomy_gulch
+	db $0E : dw DATA_B4D921				; 2A haunted_hall
+	db $0A : dw DATA_B4D94F				; 2B kong_kollege_gloomy_gulch
+	db $0E : dw DATA_B4D97A				; 2C gusty_glade
+	db $08 : dw DATA_B4D9AD				; 2D swankys_bonus_bonanza_gloomy_gulch
+	db $0E : dw DATA_B4D9EC				; 2E parrot_chute_panic
+	db $0C : dw DATA_B4DA2E				; 2F klubbas_kiosk_gloomy_gulch
+	db $00 : dw !null_pointer			; 30 lockjaws_locker_warp_room
+	db $06 : dw DATA_B4DA60				; 31 funkys_flights_gloomy_gulch
+	db $0E : dw DATA_B4DA96				; 32 web_woods
+	db $10 : dw DATA_B4DAC4				; 33 kreepy_krow
+	db $0E : dw DATA_B4DAF2				; 34 arctic_abyss
+	db $04 : dw DATA_B4DB2A				; 35 monkey_museum_k_rools_keep
+	db $0E : dw DATA_B4DB58				; 36 windy_well
+	db $0A : dw DATA_B4DB88				; 37 kong_kollege_k_rools_keep
+	db $0C : dw DATA_B4DBB7				; 38 klubbas_kiosk_k_rools_keep
+	db $0E : dw DATA_B4DBE9				; 39 castle_crush
+	db $0E : dw DATA_B4DC1B				; 3A clappers_cavern
+	db $0E : dw DATA_B4DC54				; 3B chain_link_chamber
+	db $06 : dw DATA_B4DC91				; 3C funkys_flights_k_rools_keep
+	db $08 : dw DATA_B4DCC3				; 3D swankys_bonus_bonanza_k_rools_keep
+	db $00 : dw !null_pointer			; 3E ???
+	db $0E : dw DATA_B4DD06				; 3F toxic_tower
+	db $10 : dw DATA_B4DD34				; 40 stronghold_showdown
+	db $0E : dw DATA_B4DD6F				; 41 pirate_panic
+	db $0E : dw DATA_B4DD9C				; 42 mainbrace_mayhem
+	db $04 : dw DATA_B4DDDE				; 43 monkey_museum_gangplank_galleon
+	db $0E : dw DATA_B4DE0C				; 44 krazy_kremland_lower_to_upper_right
+	db $0E : dw DATA_B4DE21				; 45 mudhole_marsh
+	db $0E : dw DATA_B4DE57				; 46 rambi_rumble
+	db $0C : dw DATA_B4DE89				; 47 klubbas_kiosk_krazy_kremland_lower
+	db $10 : dw DATA_B4DEBB				; 48 king_zing_sting
+	db $0E : dw DATA_B4DEEB				; 49 target_terror
+	db $0E : dw DATA_B4DF21				; 4A bramble_scramble
+	db $0E : dw DATA_B4DF5F				; 4B rickety_race
+	db $04 : dw DATA_B4DF93				; 4C monkey_museum_krazy_kremland_upper
+	db $08 : dw DATA_B4DFC9				; 4D swankys_bonus_bonanza_krazy_kremland_upper
+	db $0E : dw DATA_B4E008				; 4E krazy_kremland_upper_to_lower_right
+	db $0E : dw DATA_B4E01D				; 4F krazy_kremland_upper_to_lower_left
+	db $0E : dw DATA_B4E032				; 50 hornet_hole
+	db $0A : dw DATA_B4E067				; 51 kong_kollege_krazy_kremland_lower
+	db $0E : dw DATA_B4E096				; 52 krazy_kremland_lower_to_upper_left
+	db $06 : dw DATA_B4E0AB				; 53 funkys_flights_krazy_kremland_upper
+	db $0E : dw DATA_B4E0DD				; 54 krem_quay_entrance
+	db $0E : dw DATA_B4E0F2				; 55 krazy_kremland_entrance
+	db $0E : dw DATA_B4E107				; 56 gloomy_gulch_entrance
+	db $0E : dw DATA_B4E11C				; 57 k_rools_keep_entrance
+	db $0E : dw DATA_B4E131				; 58 gangplank_galleon_entrance
+	db $0E : dw DATA_B4E146				; 59 the_flying_krock_entrance
+	db $00 : dw !null_pointer			; 5A ???
+	db $0E : dw DATA_B4E15B				; 5B screechs_sprint
+	db $0A : dw DATA_B4E197				; 5C kong_kollege_the_flying_krock
+	db $10 : dw DATA_B4E1C2				; 5D k_rool_duel
+	db $0C : dw DATA_B4E1F0				; 5E return_to_crocodile_cauldron
+	db $04 : dw DATA_B4E23E				; 5F monkey_museum_crocodile_cauldron_lost_world
+	db $0E : dw DATA_B4E26C				; 60 jungle_jinx
+	db $10 : dw DATA_B4E29F				; 61 krocodile_kore_crocodile_cauldron_lost_world
+	db $0C : dw DATA_B4E2CF				; 62 return_to_krem_quay
+	db $04 : dw DATA_B4E30C				; 63 monkey_museum_krem_quay_lost_world
+	db $0E : dw DATA_B4E33A				; 64 black_ice_battle
+	db $10 : dw DATA_B4E37B				; 65 krocodile_kore_krem_quay_lost_world
+	db $0C : dw DATA_B4E3AB				; 66 return_to_krazy_kremland
+	db $04 : dw DATA_B4E3F1				; 67 monkey_museum_krazy_kremland_lost_world
+	db $0E : dw DATA_B4E41F				; 68 klobber_karnage
+	db $10 : dw DATA_B4E45A				; 69 krocodile_kore_krazy_kremland_lost_world
+	db $0C : dw DATA_B4E48A				; 6A return_to_gloomy_gulch
+	db $04 : dw DATA_B4E4CB				; 6B monkey_museum_gloomy_gulch_lost_world
+	db $0E : dw DATA_B4E4F9				; 6C fiery_furnace
+	db $10 : dw DATA_B4E52F				; 6D krocodile_kore_gloomy_gulch_lost_world
+	db $0C : dw DATA_B4E55F				; 6E return_to_k_rools_keep
+	db $04 : dw DATA_B4E5A7				; 6F monkey_museum_k_rools_keep_lost_world
+	db $0E : dw DATA_B4E5D5				; 70 animal_antics_rambi_area
+	db $10 : dw DATA_B4E60D				; 71 krocodile_kore_k_rools_keep_lost_world
+	db $0E : dw DATA_B4E63D				; 72 crocodile_cauldron_entrance_from_klubba
+	db $0E : dw DATA_B4E652				; 73 krem_quay_entrance_from_klubba
+	db $0E : dw DATA_B4E667				; 74 krazy_kremland_entrance_from_klubba
+	db $0E : dw DATA_B4E67C				; 75 gloomy_gulch_entrance_from_klubba
+	db $0E : dw DATA_B4E691				; 76 k_rools_keep_entrance_from_klubba
+	db $06 : dw DATA_B4E6A6				; 77 funkys_flights_the_flying_krock
 
 DATA_B4D0B3:
 	db $14, $00, $68, $01, $32, $04, $00 : dw .text
@@ -9860,7 +9842,7 @@ DATA_B4D1E6:
 
 DATA_B4D218:
 	db $64, $00, $2D, $00, $32, $00, $00 : dw .text
-	dw !level_mainbrace_mayhem	
+	dw !level_mainbrace_mayhem
 .text
 	db $0A, ">LOST WORLD"
 	db $0B, ">MONDE PERDU"
@@ -11433,7 +11415,7 @@ DATA_B4EDCA:
 	dw $0096, $0080
 	dw $008F, $0078
 	dw $008F, $0071
-	
+
 DATA_B4EDE3:
 	db $04, $20, $3E, $00, $20
 	dw $008F, $0071

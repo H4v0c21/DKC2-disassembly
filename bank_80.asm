@@ -288,7 +288,7 @@ RESET_start:
 	TXS					;$8084F1   |/
 	%return(start_engine)			;$8084F2   | Push address to start the game engine
 	%return(clear_VRAM)			;$8084F5   | Push address for clearing VRAM
-init_registers:    				;	   |
+init_registers:					;	   |
 	SEP #$30				;$8084F8   | Use 8 bit to manipulate MMIO
 	LDX #$00				;$8084FA   | Reset index to clear PPU MMIO
 .clear_PPU					;	   |
@@ -9389,7 +9389,7 @@ CODE_80D71D:
 	STA $36					;$80D736   |
 	LDX #$0000				;$80D738   |
 CODE_80D73B:					;	   |
-	LDA.l DATA_FD22D0,x			;$80D73B   |
+	LDA.l kannons_klaim_level_palette+$42,x	;$80D73B   |
 	AND #$001F				;$80D73F   |
 	SEC					;$80D742   |
 	SBC $32					;$80D743   |
@@ -9397,7 +9397,7 @@ CODE_80D73B:					;	   |
 	LDA #$0000				;$80D747   |
 CODE_80D74A:					;	   |
 	STA $38					;$80D74A   |
-	LDA.l DATA_FD22D0,x			;$80D74C   |
+	LDA.l kannons_klaim_level_palette+$42,x	;$80D74C   |
 	AND #$03E0				;$80D750   |
 	SEC					;$80D753   |
 	SBC $34					;$80D754   |
@@ -9405,7 +9405,7 @@ CODE_80D74A:					;	   |
 	LDA #$0000				;$80D758   |
 CODE_80D75B:					;	   |
 	TSB $38					;$80D75B   |
-	LDA.l DATA_FD22D0,x			;$80D75D   |
+	LDA.l kannons_klaim_level_palette+$42,x	;$80D75D   |
 	AND #$7C00				;$80D761   |
 	SEC					;$80D764   |
 	SBC $36					;$80D765   |

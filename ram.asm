@@ -5,6 +5,7 @@
 ;Temporaries are named after the address they point to rather than a sequence.
 ;Temporaries used for any significant context should have local reassignment
 ;Temporaries are generally any addres used in multi contexts.
+
 spc_transaction = $00
 
 current_song = $1C

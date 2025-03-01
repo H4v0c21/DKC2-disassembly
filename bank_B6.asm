@@ -794,7 +794,6 @@ DATA_B688F0:
 DATA_B68924:
 	dw !boss_command_rise, $0150, $F800, $FC00, $0003
 	dw !boss_command_wait, $000A
-
 DATA_B68932:
 	dw !boss_command_fall, $0000, $0014, $0400, $0900, $0006
 	dw !boss_command_wait, $0014
@@ -5912,7 +5911,7 @@ CODE_B6BA4A:					;	   |
 	JSL CODE_B8D5E0				;$B6BA52   |
 	LDX current_sprite			;$B6BA56   |
 	LDA $0A,x				;$B6BA58   |
-	CMP #$0225				;$B6BA5A   |
+	CMP #$0225				;$B6BA5A   |> Kudgel floor position
 	BCC CODE_B6BA93				;$B6BA5D   |
 	LDA #$056D				;$B6BA5F   |
 	JSL queue_sound_effect			;$B6BA62   |
@@ -6031,7 +6030,7 @@ CODE_B6BB36:					;	   |
 	JSL CODE_B8D5E0				;$B6BB3E   |
 	LDX current_sprite			;$B6BB42   |
 	LDA $0A,x				;$B6BB44   |
-	CMP #$0225				;$B6BB46   |
+	CMP #$0225				;$B6BB46   |> Kudgel floor position
 	BCC CODE_B6BB68				;$B6BB49   |
 	STZ $44,x				;$B6BB4B   |
 	LDA #$0290				;$B6BB4D   |
@@ -6237,7 +6236,7 @@ CODE_B6BCE9:					;	   |
 	JSL CODE_B8D5E0				;$B6BCF1   |
 	LDX current_sprite			;$B6BCF5   |
 	LDA $0A,x				;$B6BCF7   |
-	CMP #$0225				;$B6BCF9   |
+	CMP #$0225				;$B6BCF9   |> Kudgel floor position
 	BCC CODE_B6BD32				;$B6BCFC   |
 	STZ $44,x				;$B6BCFE   |
 	LDA #$056D				;$B6BD00   |

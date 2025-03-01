@@ -2843,138 +2843,138 @@ kong_state_handler:
 
 kong_state_table:
 	%offset(DATA_B896B7, 2)
-	dw kong_behavior_00 : db $00, $00	;00
-	dw kong_behavior_01 : db $00, $00	;01
-	dw kong_behavior_02 : db $00, $00	;02
-	dw kong_behavior_03 : db $00, $00	;03
-	dw kong_behavior_04 : db $00, $00	;04
-	dw kong_behavior_05 : db $01, $00	;05
-	dw kong_behavior_06 : db $00, $00	;06
-	dw kong_behavior_07 : db $00, $00	;07
-	dw kong_behavior_08 : db $04, $00	;08
-	dw kong_behavior_09 : db $00, $00	;09
-	dw kong_behavior_0A : db $00, $00	;0A
-	dw kong_behavior_0B : db $00, $00	;0B
-	dw kong_behavior_0C : db $00, $00	;0C
-	dw kong_behavior_0D : db $00, $00	;0D
-	dw kong_behavior_0E : db $00, $00	;0E
-	dw kong_behavior_0F : db $00, $00	;0F
-	dw kong_behavior_10 : db $00, $00	;10
-	dw kong_behavior_11 : db $48, $00	;11
-	dw kong_behavior_12 : db $40, $00	;12
-	dw kong_behavior_13 : db $04, $02	;13
-	dw kong_behavior_14 : db $00, $00	;14
-	dw kong_behavior_15 : db $00, $00	;15
-	dw kong_behavior_16 : db $00, $00	;16
-	dw kong_behavior_17 : db $00, $00	;17
-	dw kong_behavior_18 : db $00, $00	;18
-	dw kong_behavior_19 : db $00, $00	;19
-	dw kong_behavior_1A : db $00, $00	;1A
-	dw kong_behavior_1B : db $00, $00	;1B
-	dw kong_behavior_1C : db $00, $00	;1C
-	dw kong_behavior_1D : db $00, $00	;1D
-	dw kong_behavior_1E : db $00, $00	;1E
-	dw kong_behavior_1F : db $00, $00	;1F
-	dw kong_behavior_20 : db $04, $02	;20
-	dw kong_behavior_21 : db $00, $00	;21
-	dw kong_behavior_22 : db $10, $00	;22
-	dw kong_behavior_23 : db $08, $00	;23
-	dw kong_behavior_24 : db $01, $02	;24
-	dw kong_behavior_25 : db $04, $02	;25
-	dw kong_behavior_26 : db $04, $02	;26
-	dw kong_behavior_27 : db $04, $02	;27
-	dw kong_behavior_28 : db $04, $02	;28
-	dw kong_behavior_29 : db $00, $00	;29
-	dw kong_behavior_2A : db $10, $00	;2A
-	dw kong_behavior_2B : db $00, $00	;2B
-	dw kong_behavior_2C : db $88, $02	;2C
-	dw kong_behavior_2D : db $00, $00	;2D
+	dw kong_state_00, $0000			;00
+	dw kong_state_01, $0000			;01
+	dw kong_state_02, $0000			;02
+	dw kong_state_03, $0000			;03
+	dw kong_state_04, $0000			;04
+	dw kong_state_05, $0001			;05
+	dw kong_state_06, $0000			;06
+	dw kong_state_07, $0000			;07
+	dw kong_state_08, $0004			;08
+	dw kong_state_09, $0000			;09
+	dw kong_state_0A, $0000			;0A
+	dw kong_state_0B, $0000			;0B
+	dw kong_state_0C, $0000			;0C
+	dw kong_state_0D, $0000			;0D
+	dw kong_state_0E, $0000			;0E
+	dw kong_state_0F, $0000			;0F
+	dw kong_state_10, $0000			;10
+	dw kong_state_11, $0048			;11
+	dw kong_state_12, $0040			;12
+	dw kong_state_13, $0204			;13
+	dw kong_state_14, $0000			;14
+	dw kong_state_15, $0000			;15
+	dw kong_state_16, $0000			;16
+	dw kong_state_17, $0000			;17
+	dw kong_state_18, $0000			;18
+	dw kong_state_19, $0000			;19
+	dw kong_state_1A, $0000			;1A
+	dw kong_state_1B, $0000			;1B
+	dw kong_state_1C, $0000			;1C
+	dw kong_state_1D, $0000			;1D
+	dw kong_state_1E, $0000			;1E
+	dw kong_state_1F, $0000			;1F
+	dw kong_state_20, $0204			;20
+	dw kong_state_21, $0000			;21
+	dw kong_state_22, $0010			;22
+	dw kong_state_23, $0008			;23
+	dw kong_state_24, $0201			;24
+	dw kong_state_25, $0204			;25
+	dw kong_state_26, $0204			;26
+	dw kong_state_27, $0204			;27
+	dw kong_state_28, $0204			;28
+	dw kong_state_29, $0000			;29
+	dw kong_state_2A, $0010			;2A
+	dw kong_state_2B, $0000			;2B
+	dw kong_state_2C, $0288			;2C
+	dw kong_state_2D, $0000			;2D
 if !version == 0
-	dw kong_behavior_2E : db $00, $02	;2E
+	dw kong_state_2E, $0200			;2E
 else
-	dw kong_behavior_2E : db $04, $02	;2E
+	dw kong_state_2E, $0204	 		;2E
 endif
-	dw kong_behavior_2F : db $00, $00	;2F
-	dw kong_behavior_30 : db $6C, $00	;30
-	dw kong_behavior_31 : db $00, $02	;31
-	dw kong_behavior_32 : db $00, $02	;32
-	dw kong_behavior_33 : db $20, $00	;33
-	dw kong_behavior_34 : db $20, $00	;34
-	dw kong_behavior_35 : db $00, $00	;35
-	dw kong_behavior_36 : db $00, $00	;36
-	dw kong_behavior_37 : db $00, $00	;37
-	dw kong_behavior_38 : db $00, $00	;38
-	dw kong_behavior_39 : db $00, $00	;39
-	dw kong_behavior_3A : db $00, $00	;3A
-	dw kong_behavior_3B : db $04, $00	;3B
-	dw kong_behavior_3C : db $04, $00	;3C
-	dw kong_behavior_3D : db $00, $00	;3D
-	dw kong_behavior_3E : db $00, $00	;3E
-	dw kong_behavior_3F : db $00, $00	;3F
-	dw kong_behavior_40 : db $00, $00	;40
-	dw kong_behavior_41 : db $00, $00	;41
-	dw kong_behavior_42 : db $00, $00	;42
-	dw kong_behavior_43 : db $00, $00	;43
-	dw kong_behavior_44 : db $00, $00	;44
-	dw kong_behavior_45 : db $00, $00	;45
-	dw kong_behavior_46 : db $20, $00	;46
-	dw kong_behavior_47 : db $24, $00	;47
-	dw kong_behavior_48 : db $00, $00	;48
-	dw kong_behavior_49 : db $0C, $02	;49
-	dw kong_behavior_4A : db $0C, $02	;4A
-	dw kong_behavior_4B : db $0C, $02	;4B
-	dw kong_behavior_4C : db $08, $02	;4C
-	dw kong_behavior_4D : db $00, $00	;4D
-	dw kong_behavior_4E : db $00, $00	;4E
-	dw kong_behavior_4F : db $00, $00	;4F
-	dw kong_behavior_50 : db $00, $00	;50
-	dw kong_behavior_51 : db $00, $00	;51
-	dw kong_behavior_52 : db $00, $00	;52
-	dw kong_behavior_53 : db $00, $00	;53
-	dw kong_behavior_50 : db $00, $00	;54
-	dw kong_behavior_55 : db $00, $00	;55
-	dw kong_behavior_56 : db $00, $00	;56
-	dw kong_behavior_57 : db $00, $00	;57
-	dw kong_behavior_58 : db $00, $00	;58
-	dw kong_behavior_59 : db $00, $00	;59
-	dw kong_behavior_5A : db $00, $00	;5A
-	dw kong_behavior_5B : db $02, $00	;5B
-	dw kong_behavior_5B : db $02, $00	;5C
-	dw kong_behavior_5D : db $00, $00	;5D
-	dw kong_behavior_5E : db $00, $00	;5E
-	dw kong_behavior_5F : db $00, $00	;5F
-	dw kong_behavior_60 : db $00, $00	;60
-	dw kong_behavior_61 : db $00, $00	;61
-	dw kong_behavior_62 : db $00, $00	;62
-	dw kong_behavior_63 : db $00, $00	;63
-	dw kong_behavior_64 : db $20, $00	;64
-	dw kong_behavior_65 : db $20, $00	;65
-	dw kong_behavior_66 : db $20, $00	;66
-	dw kong_behavior_67 : db $02, $00	;67
-	dw kong_behavior_68 : db $00, $00	;68
-	dw kong_behavior_69 : db $04, $00	;69
-	dw kong_behavior_6A : db $00, $00	;6A
-	dw kong_behavior_6B : db $00, $00	;6B
-	dw kong_behavior_6C : db $00, $00	;6C
-	dw kong_behavior_6D : db $00, $00	;6D
-	dw kong_behavior_6E : db $00, $00	;6E
-	dw kong_behavior_6F : db $04, $02	;6F
-	dw kong_behavior_70 : db $00, $00	;70
-	dw kong_behavior_71 : db $00, $00	;71
-	dw kong_behavior_72 : db $00, $00	;72
-	dw kong_behavior_73 : db $00, $01	;73
-	dw kong_behavior_74 : db $00, $01	;74
-	dw kong_behavior_75 : db $00, $01	;75
-	dw kong_behavior_76 : db $00, $00	;76
-	dw kong_behavior_77 : db $0C, $02	;77
-	dw kong_behavior_78 : db $0C, $02	;78
-	dw kong_behavior_79 : db $08, $00	;79
-	dw kong_behavior_7A : db $08, $00	;7A
-	dw kong_behavior_7B : db $08, $00	;7B
-	dw kong_behavior_7C : db $00, $01	;7C
-	dw kong_behavior_7D : db $06, $02	;7D
-	dw kong_behavior_7E : db $04, $02	;7E
-	dw kong_behavior_7F : db $06, $02	;7F
+	dw kong_state_2F, $0000			;2F
+	dw kong_state_30, $006C			;30
+	dw kong_state_31, $0200			;31
+	dw kong_state_32, $0200			;32
+	dw kong_state_33, $0020			;33
+	dw kong_state_34, $0020			;34
+	dw kong_state_35, $0000			;35
+	dw kong_state_36, $0000			;36
+	dw kong_state_37, $0000			;37
+	dw kong_state_38, $0000			;38
+	dw kong_state_39, $0000			;39
+	dw kong_state_3A, $0000			;3A
+	dw kong_state_3B, $0004			;3B
+	dw kong_state_3C, $0004			;3C
+	dw kong_state_3D, $0000			;3D
+	dw kong_state_3E, $0000			;3E
+	dw kong_state_3F, $0000			;3F
+	dw kong_state_40, $0000			;40
+	dw kong_state_41, $0000			;41
+	dw kong_state_42, $0000			;42
+	dw kong_state_43, $0000			;43
+	dw kong_state_44, $0000			;44
+	dw kong_state_45, $0000			;45
+	dw kong_state_46, $0020			;46
+	dw kong_state_47, $0024			;47
+	dw kong_state_48, $0000			;48
+	dw kong_state_49, $020C			;49
+	dw kong_state_4A, $020C			;4A
+	dw kong_state_4B, $020C			;4B
+	dw kong_state_4C, $0208			;4C
+	dw kong_state_4D, $0000			;4D
+	dw kong_state_4E, $0000			;4E
+	dw kong_state_4F, $0000			;4F
+	dw kong_state_50, $0000			;50
+	dw kong_state_51, $0000			;51
+	dw kong_state_52, $0000			;52
+	dw kong_state_53, $0000			;53
+	dw kong_state_50, $0000			;54
+	dw kong_state_55, $0000			;55
+	dw kong_state_56, $0000			;56
+	dw kong_state_57, $0000			;57
+	dw kong_state_58, $0000			;58
+	dw kong_state_59, $0000			;59
+	dw kong_state_5A, $0000			;5A
+	dw kong_state_5B_5C, $0002		;5B
+	dw kong_state_5B_5C, $0002		;5C
+	dw kong_state_5D, $0000			;5D
+	dw kong_state_5E, $0000			;5E
+	dw kong_state_5F, $0000			;5F
+	dw kong_state_60, $0000			;60
+	dw kong_state_61, $0000			;61
+	dw kong_state_62, $0000			;62
+	dw kong_state_63, $0000			;63
+	dw kong_state_64, $0020			;64
+	dw kong_state_65, $0020			;65
+	dw kong_state_66, $0020			;66
+	dw kong_state_67, $0002			;67
+	dw kong_state_68, $0000			;68
+	dw kong_state_69, $0004			;69
+	dw kong_state_6A, $0000			;6A
+	dw kong_state_6B, $0000			;6B
+	dw kong_state_6C, $0000			;6C
+	dw kong_state_6D, $0000			;6D
+	dw kong_state_6E, $0000			;6E
+	dw kong_state_6F, $0204			;6F
+	dw kong_state_70, $0000			;70
+	dw kong_state_71, $0000			;71
+	dw kong_state_72, $0000			;72
+	dw kong_state_73, $0100			;73
+	dw kong_state_74, $0100			;74
+	dw kong_state_75, $0100			;75
+	dw kong_state_76, $0000			;76
+	dw kong_state_77, $020C			;77
+	dw kong_state_78, $020C			;78
+	dw kong_state_79, $0008			;79
+	dw kong_state_7A, $0008			;7A
+	dw kong_state_7B, $0008			;7B
+	dw kong_state_7C, $0100			;7C
+	dw kong_state_7D, $0206			;7D
+	dw kong_state_7E, $0204			;7E
+	dw kong_state_7F, $0206			;7F
 
 
 CODE_B898B5:
@@ -3036,7 +3036,7 @@ CODE_B89908:					;	   |
 	TYA					;$B8991A   |
 	STZ $24,x				;$B8991B   |
 CODE_B8991D:					;	   |
-	JSR CODE_B8D225				;$B8991D   |
+	JSR prevent_sprite_from_leaving_level_x	;$B8991D   |
 	JSR update_damaged_invincibility	;$B89920   |
 	JSL CODE_B9D100				;$B89923   |
 	RTS					;$B89927  /
@@ -3052,26 +3052,26 @@ CODE_B89933:
 	JSR get_x_acceleration			;$B89936   |
 	LDA [$8E],y				;$B89939   |
 	JSR interpolate_x_velocity		;$B8993B   |
-	JSR CODE_B8D24A				;$B8993E   |
+	JSR handle_slope_sliding_velocity	;$B8993E   |
 	JSR CODE_B8D5E6				;$B89941   |
 	JSR update_damaged_invincibility	;$B89944   |
 	JSL CODE_B9D100				;$B89947   |
 	RTS					;$B8994B  /
 
-CODE_B8994C:
+handle_player_physics:
 	JSR apply_player_gravity		;$B8994C  \
 CODE_B8994F:					;	   |
 	JSR get_x_acceleration			;$B8994F   |
 	LDA [$8E],y				;$B89952   |
 	JSR interpolate_x_velocity		;$B89954   |
 CODE_B89957:					;	   |
-	JSR CODE_B8D24A				;$B89957   |
+	JSR handle_slope_sliding_velocity	;$B89957   |
 	JSR CODE_B8D5E6				;$B8995A   |
-	JSR CODE_B8B516				;$B8995D   |
+	JSR record_highest_y_position		;$B8995D   |
 CODE_B89960:					;	   |
-	JSR CODE_B8D225				;$B89960   |
+	JSR prevent_sprite_from_leaving_level_x	;$B89960   |
 CODE_B89963:					;	   |
-	JSR CODE_B8B53A				;$B89963   |
+	JSR handle_player_pit_death		;$B89963   |
 CODE_B89966:					;	   |
 	JSR update_damaged_invincibility	;$B89966   |
 	JSL CODE_B9D100				;$B89969   |
@@ -3159,25 +3159,25 @@ CODE_B899E6:
 	TAY					;$B899EB   |
 	RTS					;$B899EC  /
 
-kong_behavior_00:
+kong_state_00:
 	LDA #$0000				;$B899ED  \
 	JSR process_player_action		;$B899F0   |
-	JSR CODE_B8B8DA				;$B899F3   |
-	JSR CODE_B8994C				;$B899F6   |
+	JSR handle_player_slope_state_and_anim	;$B899F3   |
+	JSR handle_player_physics		;$B899F6   |
 	JSR CODE_B8B5C3				;$B899F9   |
 	JMP CODE_B8996E				;$B899FC  /
 
-kong_behavior_01:
+kong_state_01:
 	LDA #$0001				;$B899FF  \
 	JSR process_player_action		;$B89A02   |
 	JSR face_moving_direction		;$B89A05   |
 	JSR set_normal_gravity_if_falling	;$B89A08   |
-	JSR CODE_B8994C				;$B89A0B   |
+	JSR handle_player_physics		;$B89A0B   |
 	JSR CODE_B8B714				;$B89A0E   |
 	JSR CODE_B8B5C3				;$B89A11   |
 	JMP CODE_B8996E				;$B89A14  /
 
-kong_behavior_02:
+kong_state_02:
 	LDA #$0003				;$B89A17  \
 	JSR process_player_action		;$B89A1A   |
 	JSR face_moving_direction		;$B89A1D   |
@@ -3188,7 +3188,7 @@ kong_behavior_02:
 	CMP $24,x				;$B89A27   |
 	BCC .CODE_B89A3A			;$B89A29   |
 	JSR CODE_B8B8AB				;$B89A2B   |
-	JSR CODE_B8994C				;$B89A2E   |
+	JSR handle_player_physics		;$B89A2E   |
 	JSR CODE_B89A4A				;$B89A31   |
 	JSR CODE_B8B5C3				;$B89A34   |
 	JMP CODE_B8996E				;$B89A37  /
@@ -3218,41 +3218,41 @@ CODE_B89A4A:
 	STA $24,x				;$B89A5F   |
 	RTS					;$B89A61  /
 
-kong_behavior_03:
-	BRA kong_behavior_02			;$B89A62  /
+kong_state_03:
+	BRA kong_state_02			;$B89A62  /
 
-kong_behavior_04:
+kong_state_04:
 	LDA #$0002				;$B89A64  \
 	JSR process_player_action		;$B89A67   |
-	JSR CODE_B8994C				;$B89A6A   |
+	JSR handle_player_physics		;$B89A6A   |
 	JSR CODE_B8B5C3				;$B89A6D   |
 	JMP CODE_B8996E				;$B89A70  /
 
-kong_behavior_05:
+kong_state_05:
 	LDA #$0004				;$B89A73  \
 	JSR process_player_action		;$B89A76   |
 	LDX current_sprite			;$B89A79   |
 	STZ $2C,x				;$B89A7B   |
-	JSR CODE_B8994C				;$B89A7D   |
+	JSR handle_player_physics		;$B89A7D   |
 	JMP CODE_B8996E				;$B89A80  /
 
-kong_behavior_06:
-	JMP kong_behavior_01			;$B89A83  /
+kong_state_06:
+	JMP kong_state_01			;$B89A83  /
 
-kong_behavior_07:
+kong_state_07:
 	LDA #$0005				;$B89A86  \
 	JSR process_player_action		;$B89A89   |
-	JSR CODE_B8994C				;$B89A8C   |
+	JSR handle_player_physics		;$B89A8C   |
 	JMP CODE_B8996E				;$B89A8F  /
 
-kong_behavior_08:
+kong_state_08:
 	LDA #$0006				;$B89A92  \
 	JSR process_player_action		;$B89A95   |
 	JSR CODE_B8D5E6				;$B89A98   |
 	JSL CODE_B9D100				;$B89A9B   |
 	JMP CODE_B8996E				;$B89A9F  /
 
-kong_behavior_09:
+kong_state_09:
 	LDA $6E					;$B89AA2  \
 	CMP #!sprite_rattly			;$B89AA4   |
 	BEQ .has_rattly				;$B89AA7   |
@@ -3262,8 +3262,8 @@ kong_behavior_09:
 	BEQ .CODE_B89ADA			;$B89AB0   |
 	LDA #$0007				;$B89AB2   |
 	JSR process_player_action		;$B89AB5   |
-	JSR CODE_B8B8DA				;$B89AB8   |
-	JSR CODE_B8994C				;$B89ABB   |
+	JSR handle_player_slope_state_and_anim	;$B89AB8   |
+	JSR handle_player_physics		;$B89ABB   |
 	JSR CODE_B89AE0				;$B89ABE   |
 	JMP CODE_B8996E				;$B89AC1  /
 
@@ -3272,7 +3272,7 @@ kong_behavior_09:
 	JSR process_player_action		;$B89AC7   |
 	LDA #$000C				;$B89ACA   |
 	JSL CODE_BCFA9A				;$B89ACD   |
-	JSR CODE_B8994C				;$B89AD1   |
+	JSR handle_player_physics		;$B89AD1   |
 	JSR CODE_B8B5DA				;$B89AD4   |
 	JMP CODE_B8996E				;$B89AD7  /
 
@@ -3297,13 +3297,13 @@ CODE_B89AE0:
 .return						;	   |
 	RTS					;$B89B01  /
 
-kong_behavior_0A:
+kong_state_0A:
 	LDX current_sprite			;$B89B02  \
 	LDA #$0008				;$B89B04   |
 	JSR process_player_action		;$B89B07   |
 	JSR face_moving_direction		;$B89B0A   |
 	JSR set_normal_gravity_if_falling	;$B89B0D   |
-	JSR CODE_B8994C				;$B89B10   |
+	JSR handle_player_physics		;$B89B10   |
 	JSR CODE_B8B5DA				;$B89B13   |
 	LDA $6E					;$B89B16   |
 	CMP #!sprite_rambi			;$B89B18   |
@@ -3313,10 +3313,10 @@ kong_behavior_0A:
 .CODE_B89B24					;	   |
 	JMP CODE_B8996E				;$B89B24  /
 
-kong_behavior_0B:
+kong_state_0B:
 	JSR CODE_B89B49				;$B89B27  \
 	JSR CODE_B89B30				;$B89B2A   |
-	JMP kong_behavior_0A			;$B89B2D  /
+	JMP kong_state_0A			;$B89B2D  /
 
 CODE_B89B30:
 	LDA level_number			;$B89B30  \
@@ -3379,11 +3379,11 @@ CODE_B89B49:
 .CODE_B89B9B					;	   |
 	RTS					;$B89B9B  /
 
-kong_behavior_0C:
+kong_state_0C:
 	LDA #$0009				;$B89B9C  \
 	JSR process_player_action		;$B89B9F   |
-	JSR CODE_B8B8DA				;$B89BA2   |
-	JSR CODE_B8994C				;$B89BA5   |
+	JSR handle_player_slope_state_and_anim	;$B89BA2   |
+	JSR handle_player_physics		;$B89BA5   |
 	LDX current_sprite			;$B89BA8   |
 	LDA $2E,x				;$B89BAA   |
 	CMP #$000C				;$B89BAC   |
@@ -3407,25 +3407,25 @@ CODE_B89BCD:
 	JSR start_player_falling		;$B89BCD  \
 	JMP CODE_B8996E				;$B89BD0  /
 
-kong_behavior_0D:
+kong_state_0D:
 	LDA #$000A				;$B89BD3  \
 	JSR process_player_action		;$B89BD6   |
 	JSR face_moving_direction		;$B89BD9   |
 	JSR set_normal_gravity_if_falling	;$B89BDC   |
-	JSR CODE_B8994C				;$B89BDF   |
+	JSR handle_player_physics		;$B89BDF   |
 	BRA CODE_B89BB4				;$B89BE2  /
 
-kong_behavior_0E:
-	JMP kong_behavior_0D			;$B89BE4  /
+kong_state_0E:
+	JMP kong_state_0D			;$B89BE4  /
 
-kong_behavior_0F:
+kong_state_0F:
 	LDA #$0012				;$B89BE7  \
 	JSR process_player_action		;$B89BEA   |
 	JSR CODE_B8A186				;$B89BED   |
 	JSR CODE_B89960				;$B89BF0   |
 	JMP CODE_B8996E				;$B89BF3  /
 
-kong_behavior_10:
+kong_state_10:
 	LDX current_player_mount		;$B89BF6  \
 	BEQ .CODE_B89C01			;$B89BF8   |
 	LDA $4A,x				;$B89BFA   |
@@ -3457,7 +3457,7 @@ kong_behavior_10:
 	STA $42,x				;$B89C30   |
 	LDA #$052F				;$B89C32   |
 	JSL queue_sound_effect			;$B89C35   |
-	JMP kong_behavior_44			;$B89C39  /
+	JMP kong_state_44			;$B89C39  /
 
 CODE_B89C3C:
 	JSR CODE_B89CED				;$B89C3C  \
@@ -3472,9 +3472,9 @@ CODE_B89C4C:
 	JSR get_x_acceleration			;$B89C4F   |
 	LDA [$8E],y				;$B89C52   |
 	JSR interpolate_x_velocity		;$B89C54   |
-	JSR CODE_B8D24A				;$B89C57   |
+	JSR handle_slope_sliding_velocity	;$B89C57   |
 	JSR CODE_B8D5E6				;$B89C5A   |
-	JSR CODE_B8B516				;$B89C5D   |
+	JSR record_highest_y_position		;$B89C5D   |
 	RTS					;$B89C60  /
 
 CODE_B89C61:
@@ -3583,7 +3583,7 @@ CODE_B89D07:
 	STA $3A,x				;$B89D17   |
 	RTS					;$B89D19  /
 
-kong_behavior_11:
+kong_state_11:
 	LDA $0933				;$B89D1A  \
 	ORA #$0001				;$B89D1D   |
 	STA $0933				;$B89D20   |
@@ -3623,7 +3623,7 @@ kong_behavior_11:
 	STZ $24,x				;$B89D66   |
 	RTS					;$B89D68  /
 
-kong_behavior_12:
+kong_state_12:
 if !version == 1				;	  \
 	LDX #main_sprite_table			;$B89D69   |
 	LDA $54,x				;$B89D6C   |
@@ -3757,25 +3757,25 @@ CODE_B89E51:
 
 CODE_B89E57:
 if !version == 1				;	  \
-	JSR CODE_B8D24A				;$B89E57   |
+	JSR handle_slope_sliding_velocity	;$B89E57   |
 	JSR CODE_B8D5E6				;$B89E5A   |
-	JSR CODE_B8B516				;$B89E5D   |
+	JSR record_highest_y_position		;$B89E5D   |
 	JSR CODE_B89960				;$B89E60   |
 	RTS					;$B89E63  /
 endif
 
-kong_behavior_13:
+kong_state_13:
 	JSL CODE_B381CA				;$B89E64  \
 	JMP CODE_B89975				;$B89E68  /
 
-kong_behavior_14:
+kong_state_14:
 	LDA #$0001				;$B89E6B  \
 	JSR process_player_action		;$B89E6E   |
 	JSR set_normal_gravity_if_falling	;$B89E71   |
-	JSR CODE_B8994C				;$B89E74   |
+	JSR handle_player_physics		;$B89E74   |
 	JMP CODE_B8996E				;$B89E77  /
 
-kong_behavior_15:
+kong_state_15:
 	LDA #$000C				;$B89E7A  \
 	JSR process_player_action		;$B89E7D   |
 	JSR apply_player_gravity		;$B89E80   |
@@ -3787,7 +3787,7 @@ kong_behavior_15:
 	JSR CODE_B8B5C3				;$B89E92   |
 	JMP CODE_B8996E				;$B89E95  /
 
-kong_behavior_16:
+kong_state_16:
 	LDX current_sprite			;$B89E98  \
 	LDA $6E					;$B89E9A   |
 	BNE CODE_B89EB6				;$B89E9C   |
@@ -3796,57 +3796,57 @@ kong_behavior_16:
 	BNE CODE_B89EAF				;$B89EA3   |
 	LDA #$0009				;$B89EA5   |
 	JSL CODE_BCFA9A				;$B89EA8   |
-	JMP kong_behavior_01			;$B89EAC  /
+	JMP kong_state_01			;$B89EAC  /
 
 CODE_B89EAF:
 	JSL CODE_B9DFCF				;$B89EAF  \
 	JMP CODE_B8996E				;$B89EB3  /
 
 CODE_B89EB6:
-	JMP kong_behavior_0A			;$B89EB6  /
+	JMP kong_state_0A			;$B89EB6  /
 
-kong_behavior_17:
+kong_state_17:
 	LDA #$000F				;$B89EB9  \
 	JSR process_player_action		;$B89EBC   |
-	JSR CODE_B8B8DA				;$B89EBF   |
-	JSR CODE_B8994C				;$B89EC2   |
+	JSR handle_player_slope_state_and_anim	;$B89EBF   |
+	JSR handle_player_physics		;$B89EC2   |
 	JSR CODE_B8B7F4				;$B89EC5   |
 	JSR CODE_B8B5DA				;$B89EC8   |
 	JMP CODE_B8996E				;$B89ECB  /
 
-kong_behavior_18:
+kong_state_18:
 	JSL CODE_B9D100				;$B89ECE  \
 	JSR CODE_B8B7F4				;$B89ED2   |
 	JMP CODE_B89979				;$B89ED5  /
 
-kong_behavior_19:
-	JMP kong_behavior_02			;$B89ED8  /
+kong_state_19:
+	JMP kong_state_02			;$B89ED8  /
 
-kong_behavior_1A:
+kong_state_1A:
 	LDA #$0010				;$B89EDB  \
 	JSR process_player_action		;$B89EDE   |
 	JSR face_moving_direction		;$B89EE1   |
 	JSR set_normal_gravity_if_falling	;$B89EE4   |
-	JSR CODE_B8994C				;$B89EE7   |
+	JSR handle_player_physics		;$B89EE7   |
 	JSR CODE_B8B7F4				;$B89EEA   |
 	JSR CODE_B8B5DA				;$B89EED   |
 	JMP CODE_B8996E				;$B89EF0  /
 
-kong_behavior_1B:
-	JMP kong_behavior_1A			;$B89EF3  /
+kong_state_1B:
+	JMP kong_state_1A			;$B89EF3  /
 
-kong_behavior_1C:
+kong_state_1C:
 	LDX current_sprite			;$B89EF6  \
 	LDA $1E,x				;$B89EF8   |
 	AND #$0303				;$B89EFA   |
 	BNE CODE_B89F02				;$B89EFD   |
-	JMP kong_behavior_1A			;$B89EFF  /
+	JMP kong_state_1A			;$B89EFF  /
 
 CODE_B89F02:
 	JSL CODE_B9DFCF				;$B89F02  \
 	JMP CODE_B8996E				;$B89F06  /
 
-kong_behavior_1D:
+kong_state_1D:
 	LDX current_sprite			;$B89F09  \
 	LDA $42,x				;$B89F0B   |
 	ASL A					;$B89F0D   |
@@ -3971,8 +3971,8 @@ CODE_B89FCA:
 	STZ $30,x				;$B89FD0   |
 	BRA CODE_B89FC6				;$B89FD2  /
 
-kong_behavior_1E:
-	BRL kong_behavior_1D			;$B89FD4  /
+kong_state_1E:
+	BRL kong_state_1D			;$B89FD4  /
 
 	LDX inactive_kong_sprite		;$B89FD7   |
 	LDA $2E,x				;$B89FDA   |
@@ -3987,7 +3987,7 @@ CODE_B89FE8:
 	SEC					;$B89FE8  \
 	RTL					;$B89FE9  /
 
-kong_behavior_1F:
+kong_state_1F:
 	LDY #$0000				;$B89FEA  \
 	LDA [$8E],y				;$B89FED   |
 	LDY $66					;$B89FEF   |
@@ -4063,12 +4063,12 @@ CODE_B8A07A:
 	SEC					;$B8A07A  \
 	RTS					;$B8A07B  /
 
-kong_behavior_20:
+kong_state_20:
 	JSR CODE_B8A186				;$B8A07C  \
 	JSR CODE_B89960				;$B8A07F   |
 	JMP CODE_B8996E				;$B8A082  /
 
-kong_behavior_21:
+kong_state_21:
 	JSR apply_player_gravity		;$B8A085  \
 	LDA #$0007				;$B8A088   |
 	JSR interpolate_x_velocity		;$B8A08B   |
@@ -4180,14 +4180,14 @@ CODE_B8A14E:
 	JSL CODE_B9D0B8				;$B8A15F   |
 	RTS					;$B8A163  /
 
-kong_behavior_22:
+kong_state_22:
 	JSR CODE_B8D99E				;$B8A164  \
 	JSR CODE_B8DA84				;$B8A167   |
 	JSR CODE_B8DDB1				;$B8A16A   |
 	JSL CODE_B9D100				;$B8A16D   |
 	JMP CODE_B89979				;$B8A171  /
 
-kong_behavior_23:
+kong_state_23:
 	LDA #$0011				;$B8A174  \
 	JSR process_player_action		;$B8A177   |
 	JSR CODE_B8A186				;$B8A17A   |
@@ -4211,7 +4211,7 @@ CODE_B8A186:
 	STA $20,x				;$B8A19B   |
 	RTS					;$B8A19D  /
 
-kong_behavior_24:
+kong_state_24:
 	LDA #$0001				;$B8A19E  \
 	TSB $08C2				;$B8A1A1   |
 	LDA #$000C				;$B8A1A4   |
@@ -4219,7 +4219,7 @@ kong_behavior_24:
 	JSR CODE_B89933				;$B8A1AA   |
 	JMP CODE_B8996E				;$B8A1AD  /
 
-kong_behavior_25:
+kong_state_25:
 	LDA #$0001				;$B8A1B0  \
 	TSB $08C2				;$B8A1B3   |
 	JSL CODE_BBBB69				;$B8A1B6   |
@@ -4278,7 +4278,7 @@ CODE_B8A21C:
 	INC $42,x				;$B8A21C  \
 	RTS					;$B8A21E  /
 
-kong_behavior_26:
+kong_state_26:
 	LDX current_sprite			;$B8A21F  \
 	DEC $42,x				;$B8A221   |
 	BMI CODE_B8A228				;$B8A223   |
@@ -4294,7 +4294,7 @@ CODE_B8A228:
 	JSL CODE_B9D0B8				;$B8A237   |
 	JMP CODE_B89979				;$B8A23B  /
 
-kong_behavior_27:
+kong_state_27:
 	JSR CODE_B8B843				;$B8A23E  \
 	JSR CODE_B8D7FE				;$B8A241   |
 	JSR CODE_B8D817				;$B8A244   |
@@ -4388,7 +4388,7 @@ CODE_B8A2FD:
 	JSR enable_bullet_time			;$B8A30C   |
 	JMP CODE_B89979				;$B8A30F  /
 
-kong_behavior_28:
+kong_state_28:
 	LDX current_sprite			;$B8A312  \
 	JSL CODE_BBBB69				;$B8A314   |
 	BCS CODE_B8A327				;$B8A318   |
@@ -4401,7 +4401,7 @@ CODE_B8A327:
 	JSR CODE_B8B831				;$B8A327  \
 	JML [$05A9]				;$B8A32A  /
 
-kong_behavior_29:
+kong_state_29:
 	LDA #$0002				;$B8A32D  \
 	TSB $0933				;$B8A330   |
 	JSR CODE_B8D99E				;$B8A333   |
@@ -4419,7 +4419,7 @@ CODE_B8A34A:
 	STA $2E,x				;$B8A34D   |
 	JMP CODE_B89979				;$B8A34F  /
 
-kong_behavior_2A:
+kong_state_2A:
 	LDY #$0000				;$B8A352  \
 	LDA [$8E],y				;$B8A355   |
 	LDY $66					;$B8A357   |
@@ -4466,7 +4466,7 @@ CODE_B8A3AA:
 	JSL CODE_B9D0B0				;$B8A3AD   |
 	BRA CODE_B8A3A7				;$B8A3B1  /
 
-kong_behavior_2B:
+kong_state_2B:
 	LDY #$0044				;$B8A3B3  \
 	LDA [$8E],y				;$B8A3B6   |
 	LDY $66					;$B8A3B8   |
@@ -4609,7 +4609,7 @@ CODE_B8A4DA:
 	CLC					;$B8A4DA  \
 	RTS					;$B8A4DB  /
 
-kong_behavior_2C:
+kong_state_2C:
 	LDA #$0001				;$B8A4DC  \
 	TSB $08C2				;$B8A4DF   |
 	LDA #$000C				;$B8A4E2   |
@@ -4623,10 +4623,10 @@ else						;	   |
 endif						;	   |
 	JMP CODE_B8996E				;$B8A4EE  /
 
-kong_behavior_2D:
+kong_state_2D:
 	JMP CODE_B89979				;$B8A4F1  /
 
-kong_behavior_2E:
+kong_state_2E:
 	JSL CODE_B9D100				;$B8A4F4  \
 	LDA #$0001				;$B8A4F8   |
 	TSB $08C2				;$B8A4FB   |
@@ -4668,7 +4668,7 @@ CODE_B8A522:
 	JSL CODE_B9DFCF				;$B8A554   |
 	JMP CODE_B8996E				;$B8A558  /
 
-kong_behavior_2F:
+kong_state_2F:
 	LDX current_sprite			;$B8A55B  \
 	LDY $42,x				;$B8A55D   |
 	LDA $0006,y				;$B8A55F   |
@@ -4677,7 +4677,7 @@ kong_behavior_2F:
 	STA $0A,x				;$B8A567   |
 	JMP CODE_B89979				;$B8A569  /
 
-kong_behavior_30:
+kong_state_30:
 	LDA #$0001				;$B8A56C  \
 	TSB $08C2				;$B8A56F   |
 	JSR CODE_B8A592				;$B8A572   |
@@ -4783,7 +4783,7 @@ CODE_B8A628:
 	STA $38					;$B8A62A   |
 	RTS					;$B8A62C  /
 
-kong_behavior_31:
+kong_state_31:
 	LDX current_sprite			;$B8A62D  \
 	LDY active_kong_sprite			;$B8A62F   |
 	LDA $0006,y				;$B8A632   |
@@ -4792,7 +4792,7 @@ kong_behavior_31:
 	STA $0A,x				;$B8A63A   |
 	JMP CODE_B89979				;$B8A63C  /
 
-kong_behavior_32:
+kong_state_32:
 	JSR CODE_B8D99E				;$B8A63F  \
 	JSR CODE_B8DA84				;$B8A642   |
 	JSL CODE_B9D100				;$B8A645   |
@@ -4814,7 +4814,7 @@ kong_behavior_32:
 CODE_B8A66B:					;	   |
 	JMP CODE_B89979				;$B8A66B  /
 
-kong_behavior_33:
+kong_state_33:
 	JSR CODE_B89928				;$B8A66E  \
 	LDX current_sprite			;$B8A671   |
 	LDA $06,x				;$B8A673   |
@@ -4857,11 +4857,11 @@ CODE_B8A6A9:					;	   |
 	TSB $08C2				;$B8A6B3   |
 	RTS					;$B8A6B6  /
 
-kong_behavior_34:
+kong_state_34:
 	JSR CODE_B8B530				;$B8A6B7  \
 	JMP CODE_B8996E				;$B8A6BA  /
 
-kong_behavior_35:
+kong_state_35:
 	LDA #$0008				;$B8A6BD  \
 	TSB $08C2				;$B8A6C0   |
 	LDA #$0013				;$B8A6C3   |
@@ -4920,7 +4920,7 @@ CODE_B8A719:
 CODE_B8A732:					;	   |
 	RTS					;$B8A732  /
 
-kong_behavior_36:
+kong_state_36:
 	LDA #$0008				;$B8A733  \
 	TSB $08C2				;$B8A736   |
 	JSR CODE_B8A719				;$B8A739   |
@@ -4928,7 +4928,7 @@ kong_behavior_36:
 	JSL CODE_B9D100				;$B8A73F   |
 	JMP CODE_B8996E				;$B8A743  /
 
-kong_behavior_37:
+kong_state_37:
 	LDA #$0014				;$B8A746  \
 	JSR process_player_action		;$B8A749   |
 	JSR CODE_B8A719				;$B8A74C   |
@@ -5029,7 +5029,7 @@ CODE_B8A804:					;	   |
 	STA $06,x				;$B8A804   |
 	RTS					;$B8A806  /
 
-kong_behavior_38:
+kong_state_38:
 	LDA #$0015				;$B8A807  \
 	JSR process_player_action		;$B8A80A   |
 	BCS CODE_B8A837				;$B8A80D   |
@@ -5046,7 +5046,7 @@ kong_behavior_38:
 	JSR CODE_B8D36D				;$B8A828   |
 	BCC CODE_B8A83A				;$B8A82B   |
 CODE_B8A82D:					;	   |
-	JSR CODE_B8D225				;$B8A82D   |
+	JSR prevent_sprite_from_leaving_level_x	;$B8A82D   |
 	JSR update_damaged_invincibility	;$B8A830   |
 	JSL CODE_B9D100				;$B8A833   |
 CODE_B8A837:					;	   |
@@ -5072,26 +5072,26 @@ CODE_B8A84F:
 	STZ $20,x				;$B8A85C   |
 	BRA CODE_B8A837				;$B8A85E  /
 
-kong_behavior_39:
+kong_state_39:
 	JSR face_moving_direction		;$B8A860  \
 	JSR set_normal_gravity_if_falling	;$B8A863   |
-	JSR CODE_B8994C				;$B8A866   |
+	JSR handle_player_physics		;$B8A866   |
 	JMP CODE_B8996E				;$B8A869  /
 
-kong_behavior_3A:
+kong_state_3A:
 	JSR face_moving_direction		;$B8A86C  \
 	JSR set_normal_gravity_if_falling	;$B8A86F   |
 	JSR apply_player_gravity		;$B8A872   |
 	JSR get_x_acceleration			;$B8A875   |
 	LDA [$8E],y				;$B8A878   |
 	JSR interpolate_x_velocity		;$B8A87A   |
-	JSR CODE_B8D24A				;$B8A87D   |
+	JSR handle_slope_sliding_velocity	;$B8A87D   |
 	JSR apply_position_from_velocity	;$B8A880   |
 	JSR CODE_B89960				;$B8A883   |
 	JSR CODE_B8B714				;$B8A886   |
 	JMP CODE_B8996E				;$B8A889  /
 
-kong_behavior_3B:
+kong_state_3B:
 	LDX current_sprite			;$B8A88C  \
 	DEC $42,x				;$B8A88E   |
 	BEQ CODE_B8A89C				;$B8A890   |
@@ -5106,7 +5106,7 @@ CODE_B8A89C:
 	STA $059D				;$B8A8A2   |
 	JMP CODE_B8996E				;$B8A8A5  /
 
-kong_behavior_3C:
+kong_state_3C:
 	LDX current_sprite			;$B8A8A8  \
 	LDA $12,x				;$B8A8AA   |
 	AND #$BFFF				;$B8A8AC   |
@@ -5122,7 +5122,7 @@ kong_behavior_3C:
 CODE_B8A8C9:					;	   |
 	JMP CODE_B8996E				;$B8A8C9  /
 
-kong_behavior_3D:
+kong_state_3D:
 	LDA #$0017				;$B8A8CC  \
 	JSR process_player_action		;$B8A8CF   |
 	BCS CODE_B8A8D7				;$B8A8D2   |
@@ -5130,7 +5130,7 @@ kong_behavior_3D:
 CODE_B8A8D7:					;	   |
 	JMP CODE_B8996E				;$B8A8D7  /
 
-kong_behavior_3E:
+kong_state_3E:
 	LDX current_sprite			;$B8A8DA  \
 	DEC $42,x				;$B8A8DC   |
 	BPL CODE_B8A8E3				;$B8A8DE   |
@@ -5313,15 +5313,15 @@ CODE_B8AA00:
 	STA $4A,x				;$B8AA3B   |
 	RTS					;$B8AA3D  /
 
-kong_behavior_3F:
+kong_state_3F:
 	LDA #$000A				;$B8AA3E  \
 	JSR process_player_action		;$B8AA41   |
 	JSR face_moving_direction		;$B8AA44   |
 	JSR set_normal_gravity_if_falling	;$B8AA47   |
-	JSR CODE_B8994C				;$B8AA4A   |
+	JSR handle_player_physics		;$B8AA4A   |
 	JMP CODE_B8996E				;$B8AA4D  /
 
-kong_behavior_40:
+kong_state_40:
 	LDA #$0002				;$B8AA50  \
 	TSB $0933				;$B8AA53   |
 	JSR CODE_B8D99E				;$B8AA56   |
@@ -5339,7 +5339,7 @@ CODE_B8AA6D:
 	JSL set_player_interaction_global	;$B8AA70   |
 	JMP CODE_B89979				;$B8AA74  /
 
-kong_behavior_41:
+kong_state_41:
 	LDA #$0018				;$B8AA77  \
 	JSR process_player_action		;$B8AA7A   |
 	BCS CODE_B8AA89				;$B8AA7D   |
@@ -5359,7 +5359,7 @@ CODE_B8AA8C:
 	TSB $0AB8				;$B8AA9E   |
 	RTS					;$B8AAA1  /
 
-kong_behavior_42:
+kong_state_42:
 	LDY $66					;$B8AAA2  \
 	LDA $0006,y				;$B8AAA4   |
 	ORA #$0004				;$B8AAA7   |
@@ -5369,7 +5369,7 @@ kong_behavior_42:
 	JSR process_player_action		;$B8AAB3   |
 	JSR face_moving_direction		;$B8AAB6   |
 	JSR set_normal_gravity_if_falling	;$B8AAB9   |
-	JSR CODE_B8994C				;$B8AABC   |
+	JSR handle_player_physics		;$B8AABC   |
 	JSR CODE_B8B714				;$B8AABF   |
 	JSR CODE_B8B5C3				;$B8AAC2   |
 	LDX current_sprite			;$B8AAC5   |
@@ -5380,14 +5380,14 @@ kong_behavior_42:
 CODE_B8AAD2:					;	   |
 	JMP CODE_B8996E				;$B8AAD2  /
 
-kong_behavior_43:
+kong_state_43:
 	LDA #$0019				;$B8AAD5  \
 	JSR process_player_action		;$B8AAD8   |
 	JSR update_damaged_invincibility	;$B8AADB   |
 	JSL CODE_B9D100				;$B8AADE   |
 	JMP CODE_B8996E				;$B8AAE2  /
 
-kong_behavior_44:
+kong_state_44:
 	LDX current_sprite			;$B8AAE5  \
 	DEC $42,x				;$B8AAE7   |
 	BMI CODE_B8AB08				;$B8AAE9   |
@@ -5399,7 +5399,7 @@ CODE_B8AAF4:					;	   |
 	LDA #$001A				;$B8AAF4   |
 	JSR process_player_action		;$B8AAF7   |
 	JSR CODE_B89D07				;$B8AAFA   |
-	JSR CODE_B8994C				;$B8AAFD   |
+	JSR handle_player_physics		;$B8AAFD   |
 	STZ $AC					;$B8AB00   |
 	JSR CODE_B89C70				;$B8AB02   |
 	JMP CODE_B8996E				;$B8AB05  /
@@ -5409,7 +5409,7 @@ CODE_B8AB08:
 	JSR set_player_interaction		;$B8AB0B   |
 	JMP CODE_B8996E				;$B8AB0E  /
 
-kong_behavior_45:
+kong_state_45:
 	LDA $0BA0				;$B8AB11  \
 	BEQ CODE_B8AB5D				;$B8AB14   |
 	LDA #$0008				;$B8AB16   |
@@ -5462,7 +5462,7 @@ CODE_B8AB62:
 	STA $0A,x				;$B8AB74   |
 	BRA CODE_B8AB53				;$B8AB76  /
 
-kong_behavior_46:
+kong_state_46:
 	JSR apply_player_gravity		;$B8AB78  \
 	JSR get_x_acceleration			;$B8AB7B   |
 	JSR apply_position_from_velocity	;$B8AB7E   |
@@ -5516,21 +5516,21 @@ CODE_B8ABE0:					;	   |
 	JSR CODE_B8B530				;$B8ABE0   |
 	JMP CODE_B8996E				;$B8ABE3  /
 
-kong_behavior_47:
+kong_state_47:
 	LDA #$0008				;$B8ABE6  \
 	TSB $08C2				;$B8ABE9   |
 	JSR update_damaged_invincibility	;$B8ABEC   |
 	JSL CODE_B9D100				;$B8ABEF   |
 	JMP CODE_B8996E				;$B8ABF3  /
 
-kong_behavior_48:
+kong_state_48:
 	LDA #$001D				;$B8ABF6  \
 	JSR process_player_action		;$B8ABF9   |
 	JSR update_damaged_invincibility	;$B8ABFC   |
 	JSL CODE_B9D100				;$B8ABFF   |
 	JMP CODE_B8996E				;$B8AC03  /
 
-kong_behavior_49:
+kong_state_49:
 	LDA #$000C				;$B8AC06  \
 	JSR process_player_action		;$B8AC09   |
 	JSR update_damaged_invincibility	;$B8AC0C   |
@@ -5538,14 +5538,14 @@ kong_behavior_49:
 	JSR CODE_B8B7F4				;$B8AC13   |
 	JMP CODE_B8996E				;$B8AC16  /
 
-kong_behavior_4A:
+kong_state_4A:
 	LDA #$000C				;$B8AC19  \
 	JSR process_player_action		;$B8AC1C   |
 	JSR update_damaged_invincibility	;$B8AC1F   |
 	JSR CODE_B8B7F4				;$B8AC22   |
 	JMP CODE_B89979				;$B8AC25  /
 
-kong_behavior_4B:
+kong_state_4B:
 	LDA #$000C				;$B8AC28  \
 	JSR process_player_action		;$B8AC2B   |
 	JSR update_damaged_invincibility	;$B8AC2E   |
@@ -5577,7 +5577,7 @@ CODE_B8AC51:
 	JSL CODE_B9D0B8				;$B8AC62   |
 	JMP CODE_B8996E				;$B8AC66  /
 
-kong_behavior_4C:
+kong_state_4C:
 	LDA #$000C				;$B8AC69  \
 	JSR process_player_action		;$B8AC6C   |
 	LDX inactive_kong_sprite		;$B8AC6F   |
@@ -5614,7 +5614,7 @@ CODE_B8AC80:
 	JSR disable_bullet_time			;$B8ACBB   |
 	JMP CODE_B8996E				;$B8ACBE  /
 
-kong_behavior_4D:
+kong_state_4D:
 	LDA #$000C				;$B8ACC1  \
 	JSR process_player_action		;$B8ACC4   |
 	LDX current_sprite			;$B8ACC7   |
@@ -5644,25 +5644,25 @@ CODE_B8ACD9:					;	   |
 	JSL CODE_B9D0B8				;$B8ACFB   |
 	JMP CODE_B89979				;$B8ACFF  /
 
-kong_behavior_4E:
+kong_state_4E:
 	LDA #$000C				;$B8AD02  \
 	JSR process_player_action		;$B8AD05   |
 	JSL CODE_B9D100				;$B8AD08   |
 	JMP CODE_B8996E				;$B8AD0C  /
 
-kong_behavior_4F:
+kong_state_4F:
 	LDA #$0025				;$B8AD0F  \
 	JSR process_player_action		;$B8AD12   |
 	LDX current_sprite			;$B8AD15   |
 	LDA $42,x				;$B8AD17   |
 	STA $20,x				;$B8AD19   |
 	STA $26,x				;$B8AD1B   |
-	JSR CODE_B8994C				;$B8AD1D   |
+	JSR handle_player_physics		;$B8AD1D   |
 	LDA #$0008				;$B8AD20   |
 	JSL CODE_BCFA9A				;$B8AD23   |
 	JMP CODE_B8996E				;$B8AD27  /
 
-kong_behavior_50:
+kong_state_50:
 	LDY $66					;$B8AD2A  \
 	LDA $0000,y				;$B8AD2C   |
 	CMP #$008F				;$B8AD2F   |
@@ -5713,7 +5713,7 @@ CODE_B8AD88:
 	JSR start_enguarde_attack		;$B8AD8C   |
 	JMP CODE_B8996E				;$B8AD8F  /
 
-kong_behavior_51:
+kong_state_51:
 	LDA #$001E				;$B8AD92  \
 	JSR process_player_action		;$B8AD95   |
 	BCS CODE_B8ADAC				;$B8AD98   |
@@ -5726,7 +5726,7 @@ kong_behavior_51:
 CODE_B8ADAC:					;	   |
 	JMP CODE_B8996E				;$B8ADAC  /
 
-kong_behavior_52:
+kong_state_52:
 	LDA #$0026				;$B8ADAF  \
 	JSR process_player_action		;$B8ADB2   |
 	BCS CODE_B8ADDD				;$B8ADB5   |
@@ -5758,15 +5758,15 @@ CODE_B8ADE8:
 	JSL CODE_BCFA9A				;$B8ADEB   |
 	RTS					;$B8ADEF  /
 
-kong_behavior_53:
+kong_state_53:
 	LDA #$000C				;$B8ADF0  \
 	JSR process_player_action		;$B8ADF3   |
 	LDX current_sprite			;$B8ADF6   |
 	LDA $32,x				;$B8ADF8   |
 	CMP #$0002				;$B8ADFA   |
 	BEQ CODE_B8AE0B				;$B8ADFD   |
-	JSR CODE_B8B8DA				;$B8ADFF   |
-	JSR CODE_B8994C				;$B8AE02   |
+	JSR handle_player_slope_state_and_anim	;$B8ADFF   |
+	JSR handle_player_physics		;$B8AE02   |
 	JSR CODE_B89AE0				;$B8AE05   |
 	JMP CODE_B8996E				;$B8AE08  /
 
@@ -5774,11 +5774,11 @@ CODE_B8AE0B:
 	JSR start_rambi_attack			;$B8AE0B  \
 	JMP CODE_B8996E				;$B8AE0E  /
 
-kong_behavior_55:
+kong_state_55:
 	JSL CODE_B9D100				;$B8AE11  \
 	JMP CODE_B8996E				;$B8AE15  /
 
-kong_behavior_56:
+kong_state_56:
 	LDX current_sprite			;$B8AE18  \
 	LDA $1E,x				;$B8AE1A   |
 	AND #$0303				;$B8AE1C   |
@@ -5793,7 +5793,7 @@ kong_behavior_56:
 	LDA $06,x				;$B8AE37   |
 	ORA #$0004				;$B8AE39   |
 	STA $06,x				;$B8AE3C   |
-	JSR CODE_B8994C				;$B8AE3E   |
+	JSR handle_player_physics		;$B8AE3E   |
 	JSR CODE_B8B714				;$B8AE41   |
 	JSR CODE_B8B5C3				;$B8AE44   |
 	JMP CODE_B8996E				;$B8AE47  /
@@ -5802,48 +5802,48 @@ CODE_B8AE4A:
 	JSL CODE_B9DFCF				;$B8AE4A  \
 	JMP CODE_B8996E				;$B8AE4E  /
 
-kong_behavior_57:
+kong_state_57:
 	JSR CODE_B89B30				;$B8AE51  \
 	LDA #$0007				;$B8AE54   |
 	JSR process_player_action		;$B8AE57   |
-	JSR CODE_B8B8DA				;$B8AE5A   |
-	JSR CODE_B8994C				;$B8AE5D   |
+	JSR handle_player_slope_state_and_anim	;$B8AE5A   |
+	JSR handle_player_physics		;$B8AE5D   |
 	JMP CODE_B8996E				;$B8AE60  /
 
-kong_behavior_58:
+kong_state_58:
 	LDA #$000C				;$B8AE63  \
 	JSR process_player_action		;$B8AE66   |
 	JSR apply_player_gravity		;$B8AE69   |
 	JSR get_x_acceleration			;$B8AE6C   |
 	LDA [$8E],y				;$B8AE6F   |
 	JSR interpolate_x_velocity		;$B8AE71   |
-	JSR CODE_B8D24A				;$B8AE74   |
+	JSR handle_slope_sliding_velocity	;$B8AE74   |
 	JSR apply_position_from_velocity	;$B8AE77   |
-	JSR CODE_B8B516				;$B8AE7A   |
+	JSR record_highest_y_position		;$B8AE7A   |
 	JSR CODE_B89960				;$B8AE7D   |
 	JMP CODE_B8996E				;$B8AE80  /
 
-kong_behavior_59:
+kong_state_59:
 	LDA #$0020				;$B8AE83  \
 	JSR process_player_action		;$B8AE86   |
 	JSR apply_player_gravity		;$B8AE89   |
 	JSR get_x_acceleration			;$B8AE8C   |
 	LDA [$8E],y				;$B8AE8F   |
 	JSR interpolate_x_velocity		;$B8AE91   |
-	JSR CODE_B8D24A				;$B8AE94   |
+	JSR handle_slope_sliding_velocity	;$B8AE94   |
 	JSR apply_position_from_velocity	;$B8AE97   |
 	LDX current_sprite			;$B8AE9A   |
 	STZ $1E,x				;$B8AE9C   |
 	JSR CODE_B89963				;$B8AE9E   |
 	JMP CODE_B8996E				;$B8AEA1  /
 
-kong_behavior_5A:
+kong_state_5A:
 	LDA #$000C				;$B8AEA4  \
 	JSR process_player_action		;$B8AEA7   |
-	JSR CODE_B8994C				;$B8AEAA   |
+	JSR handle_player_physics		;$B8AEAA   |
 	JMP CODE_B8996E				;$B8AEAD  /
 
-kong_behavior_5B:
+kong_state_5B_5C:
 	LDA #$0020				;$B8AEB0  \
 	JSR process_player_action		;$B8AEB3   |
 CODE_B8AEB6:					;	   |
@@ -5851,7 +5851,7 @@ CODE_B8AEB6:					;	   |
 	JSL CODE_B9D100				;$B8AEB9   |
 	JMP CODE_B8996E				;$B8AEBD  /
 
-kong_behavior_70:
+kong_state_70:
 	LDX current_sprite			;$B8AEC0  \
 	LDA $4E,x				;$B8AEC2   |
 	STA $26,x				;$B8AEC4   |
@@ -5873,7 +5873,7 @@ CODE_B8AED5:
 	JSR CODE_B8A6A9				;$B8AEE2   |
 	JML CODE_B8996E				;$B8AEE5  /
 
-kong_behavior_5D:
+kong_state_5D:
 	LDA #$001F				;$B8AEE9  \
 	JSR process_player_action		;$B8AEEC   |
 	LDX current_sprite			;$B8AEEF   |
@@ -5990,7 +5990,7 @@ DATA_B8AFAB:
 	db $02
 
 
-kong_behavior_5E:
+kong_state_5E:
 	LDX current_sprite			;$B8AFBC  \
 	LDY #$002C				;$B8AFBE   |
 	LDA [$8E],y				;$B8AFC1   |
@@ -6010,7 +6010,7 @@ CODE_B8AFD4:
 	JSL CODE_B9D000				;$B8AFDB   |
 	JMP CODE_B89979				;$B8AFDF  /
 
-kong_behavior_5F:
+kong_state_5F:
 	JSL CODE_BBBB69				;$B8AFE2  \
 	BCS CODE_B8B002				;$B8AFE6   |
 	LDX current_sprite			;$B8AFE8   |
@@ -6028,7 +6028,7 @@ CODE_B8B002:
 	JSR CODE_B8B831				;$B8B002  \
 	JMP CODE_B89979				;$B8B005  /
 
-kong_behavior_60:
+kong_state_60:
 	LDX current_sprite			;$B8B008  \
 	DEC $42,x				;$B8B00A   |
 	BEQ CODE_B8B01A				;$B8B00C   |
@@ -6040,16 +6040,16 @@ kong_behavior_60:
 CODE_B8B01A:
 	LDA #$000B				;$B8B01A  \
 	STA $2E,x				;$B8B01D   |
-	JMP kong_behavior_0B			;$B8B01F  /
+	JMP kong_state_0B			;$B8B01F  /
 
-kong_behavior_61:
+kong_state_61:
 	LDA #$0007				;$B8B022  \
 	JSR process_player_action		;$B8B025   |
-	JSR CODE_B8994C				;$B8B028   |
+	JSR handle_player_physics		;$B8B028   |
 	JSR CODE_B8B5DA				;$B8B02B   |
 	JMP CODE_B8996E				;$B8B02E  /
 
-kong_behavior_62:
+kong_state_62:
 	LDA #$0008				;$B8B031  \
 	JSR process_player_action		;$B8B034   |
 	JSR set_player_jumping_gravity		;$B8B037   |
@@ -6059,10 +6059,10 @@ kong_behavior_62:
 	STA $0006,y				;$B8B042   |
 	JSR face_moving_direction		;$B8B045   |
 	JSR set_normal_gravity_if_falling	;$B8B048   |
-	JSR CODE_B8994C				;$B8B04B   |
+	JSR handle_player_physics		;$B8B04B   |
 	JMP CODE_B8996E				;$B8B04E  /
 
-kong_behavior_63:
+kong_state_63:
 	LDA #$001F				;$B8B051  \
 	JSR process_player_action		;$B8B054   |
 	JSR update_damaged_invincibility	;$B8B057   |
@@ -6092,7 +6092,7 @@ CODE_B8B084:
 	JSL CODE_B9DFCF				;$B8B088   |
 	JMP CODE_B8996E				;$B8B08C  /
 
-kong_behavior_64:
+kong_state_64:
 	LDX current_sprite			;$B8B08F  \
 	LDA $1E,x				;$B8B091   |
 	AND #$0001				;$B8B093   |
@@ -6104,14 +6104,14 @@ kong_behavior_64:
 	BPL CODE_B8B0AC				;$B8B0A1   |
 CODE_B8B0A3:					;	   |
 	JSR CODE_B89933				;$B8B0A3   |
-	JSR CODE_B8D225				;$B8B0A6   |
+	JSR prevent_sprite_from_leaving_level_x	;$B8B0A6   |
 	JMP CODE_B8996E				;$B8B0A9  /
 
 CODE_B8B0AC:
 	JSR CODE_B8830E				;$B8B0AC  \
 	BRA CODE_B8B0A3				;$B8B0AF  /
 
-kong_behavior_65:
+kong_state_65:
 	LDX current_sprite			;$B8B0B1  \
 	LDA $4E,x				;$B8B0B3   |
 	STA $26,x				;$B8B0B5   |
@@ -6138,22 +6138,22 @@ CODE_B8B0D6:
 	JSR CODE_B8A6A9				;$B8B0E0   |
 	JMP CODE_B8996E				;$B8B0E3  /
 
-kong_behavior_66:
+kong_state_66:
 	JSR CODE_B89928				;$B8B0E6  \
 	JMP CODE_B8996E				;$B8B0E9  /
 
-kong_behavior_67:
+kong_state_67:
 	LDA #$0001				;$B8B0EC  \
 	JSR process_player_action		;$B8B0EF   |
 	JSR set_normal_gravity_if_falling	;$B8B0F2   |
-	JSR CODE_B8994C				;$B8B0F5   |
+	JSR handle_player_physics		;$B8B0F5   |
 	JSR CODE_B8B5C3				;$B8B0F8   |
 	JSR CODE_B8B107				;$B8B0FB   |
 	JMP CODE_B8996E				;$B8B0FE  /
 
-kong_behavior_68:
+kong_state_68:
 	JSR CODE_B8B107				;$B8B101  \
-	JMP kong_behavior_16			;$B8B104  /
+	JMP kong_state_16			;$B8B104  /
 
 CODE_B8B107:
 	LDX current_sprite			;$B8B107  \
@@ -6182,7 +6182,7 @@ CODE_B8B12E:
 CODE_B8B136:					;	   |
 	RTS					;$B8B136  /
 
-kong_behavior_69:
+kong_state_69:
 	LDA #$0021				;$B8B137  \
 	JSR process_player_action		;$B8B13A   |
 	JSR face_moving_direction		;$B8B13D   |
@@ -6212,22 +6212,22 @@ kong_behavior_69:
 CODE_B8B175:					;	   |
 	JMP CODE_B8996E				;$B8B175  /
 
-kong_behavior_6A:
+kong_state_6A:
 	LDA #$000C				;$B8B178  \
 	JSR process_player_action		;$B8B17B   |
 	JSR apply_player_gravity		;$B8B17E   |
 	JSR CODE_B89928				;$B8B181   |
 	JMP CODE_B89979				;$B8B184  /
 
-kong_behavior_6B:
+kong_state_6B:
 	LDA #$000C				;$B8B187  \
 	JSR process_player_action		;$B8B18A   |
 	JSR apply_player_gravity		;$B8B18D   |
 	JSR CODE_B89928				;$B8B190   |
-	JSR CODE_B8B53A				;$B8B193   |
+	JSR handle_player_pit_death		;$B8B193   |
 	JMP CODE_B89979				;$B8B196  /
 
-kong_behavior_6C:
+kong_state_6C:
 	LDY $66					;$B8B199  \
 	LDA $0000,y				;$B8B19B   |
 	CMP #$008F				;$B8B19E   |
@@ -6241,7 +6241,7 @@ CODE_B8B1B3:					;	   |
 	LDA #$0022				;$B8B1B3   |
 	JSR process_player_action		;$B8B1B6   |
 	BCS CODE_B8B1C1				;$B8B1B9   |
-	JSR CODE_B8994C				;$B8B1BB   |
+	JSR handle_player_physics		;$B8B1BB   |
 	JSR CODE_B8B5DA				;$B8B1BE   |
 CODE_B8B1C1:					;	   |
 	JMP CODE_B8996E				;$B8B1C1  /
@@ -6252,7 +6252,7 @@ CODE_B8B1C4:
 	JSR start_enguarde_attack		;$B8B1C8   |
 	JMP CODE_B8996E				;$B8B1CB  /
 
-kong_behavior_6D:
+kong_state_6D:
 	LDX current_sprite			;$B8B1CE  \
 	DEC $42,x				;$B8B1D0   |
 	BPL CODE_B8B1D9				;$B8B1D2   |
@@ -6261,10 +6261,10 @@ kong_behavior_6D:
 CODE_B8B1D9:					;	   |
 	JSR face_moving_direction		;$B8B1D9   |
 	JSR set_normal_gravity_if_falling	;$B8B1DC   |
-	JSR CODE_B8994C				;$B8B1DF   |
+	JSR handle_player_physics		;$B8B1DF   |
 	JMP CODE_B8996E				;$B8B1E2  /
 
-kong_behavior_6E:
+kong_state_6E:
 	LDX current_sprite			;$B8B1E5  \
 	LDA $24,x				;$B8B1E7   |
 	SEC					;$B8B1E9   |
@@ -6277,7 +6277,7 @@ CODE_B8B1F4:					;	   |
 	JSR process_player_action		;$B8B1F7   |
 	JSR face_moving_direction		;$B8B1FA   |
 	JSR set_normal_gravity_if_falling	;$B8B1FD   |
-	JSR CODE_B8994C				;$B8B200   |
+	JSR handle_player_physics		;$B8B200   |
 	JSR CODE_B89CCD				;$B8B203   |
 	BCS CODE_B8B20E				;$B8B206   |
 	JSR CODE_B8B714				;$B8B208   |
@@ -6285,7 +6285,7 @@ CODE_B8B1F4:					;	   |
 CODE_B8B20E:					;	   |
 	JMP CODE_B8996E				;$B8B20E  /
 
-kong_behavior_6F:
+kong_state_6F:
 	LDA #$0023				;$B8B211  \
 	JSR process_player_action		;$B8B214   |
 	BCS CODE_B8B252				;$B8B217   |
@@ -6326,11 +6326,11 @@ CODE_B8B252:
 	JSL play_high_priority_sound		;$B8B255   |
 	BRA CODE_B8B24C				;$B8B259  /
 
-kong_behavior_71:
+kong_state_71:
 	JSL CODE_B9D100				;$B8B25B  \
 	JMP CODE_B89979				;$B8B25F  /
 
-kong_behavior_72:
+kong_state_72:
 	LDA #$0020				;$B8B262  \
 	JSR process_player_action		;$B8B265   |
 	JSR apply_player_gravity		;$B8B268   |
@@ -6340,16 +6340,16 @@ kong_behavior_72:
 	JSL CODE_B9D100				;$B8B274   |
 	JMP CODE_B89979				;$B8B278  /
 
-kong_behavior_73:
+kong_state_73:
 	JSL CODE_BBC140				;$B8B27B  \
 	JMP CODE_B8997E				;$B8B27F  /
 
-kong_behavior_74:
+kong_state_74:
 	JSL CODE_B9D0F3				;$B8B282  \
 	JSL CODE_BBC140				;$B8B286   |
 	JMP CODE_B8997E				;$B8B28A  /
 
-kong_behavior_75:
+kong_state_75:
 	LDA #$000B				;$B8B28D  \
 	JSR interpolate_x_velocity		;$B8B290   |
 	JSR apply_position_from_velocity	;$B8B293   |
@@ -6357,7 +6357,7 @@ kong_behavior_75:
 	JSL CODE_BBC140				;$B8B29A   |
 	JMP CODE_B8997E				;$B8B29E  /
 
-kong_behavior_76:
+kong_state_76:
 	LDX current_sprite			;$B8B2A1  \
 	LDY $66					;$B8B2A3   |
 	LDA #$0060				;$B8B2A5   |
@@ -6399,12 +6399,12 @@ kong_behavior_76:
 	JSR work_on_inactive_kong		;$B8B2F8   |
 	JMP CODE_B89979				;$B8B2FB  /
 
-kong_behavior_77:
+kong_state_77:
 	JSR apply_position_from_velocity	;$B8B2FE  \
 	JSR CODE_B8B310				;$B8B301   |
 	JMP CODE_B8996E				;$B8B304  /
 
-kong_behavior_78:
+kong_state_78:
 	JSR apply_position_from_velocity	;$B8B307  \
 	JSR CODE_B8B310				;$B8B30A   |
 	JMP CODE_B89979				;$B8B30D  /
@@ -6460,32 +6460,32 @@ endif						;	   |
 CODE_B8B377:					;	   |
 	RTS					;$B8B377  /
 
-kong_behavior_79:
+kong_state_79:
 	LDA #$0019				;$B8B378  \
 	JSR process_player_action		;$B8B37B   |
 	JSR update_damaged_invincibility	;$B8B37E   |
 	JSL CODE_B9D100				;$B8B381   |
 	JMP CODE_B8996E				;$B8B385  /
 
-kong_behavior_7A:
+kong_state_7A:
 	LDA #$0024				;$B8B388  \
 	JSR process_player_action		;$B8B38B   |
 	JSR update_damaged_invincibility	;$B8B38E   |
 	JSL CODE_B9D100				;$B8B391   |
 	JMP CODE_B8996E				;$B8B395  /
 
-kong_behavior_7B:
+kong_state_7B:
 	LDA #$0020				;$B8B398  \
 	JSR process_player_action		;$B8B39B   |
 	JSR apply_player_gravity		;$B8B39E   |
 	JSR get_x_acceleration			;$B8B3A1   |
 	LDA [$8E],y				;$B8B3A4   |
 	JSR interpolate_x_velocity		;$B8B3A6   |
-	JSR CODE_B8D24A				;$B8B3A9   |
+	JSR handle_slope_sliding_velocity	;$B8B3A9   |
 	JSR CODE_B8D5E6				;$B8B3AC   |
-	JSR CODE_B8B516				;$B8B3AF   |
-	JSR CODE_B8D225				;$B8B3B2   |
-	JSR CODE_B8B53A				;$B8B3B5   |
+	JSR record_highest_y_position		;$B8B3AF   |
+	JSR prevent_sprite_from_leaving_level_x	;$B8B3B2   |
+	JSR handle_player_pit_death		;$B8B3B5   |
 	JSR update_damaged_invincibility	;$B8B3B8   |
 	JSL CODE_B9D0F3				;$B8B3BB   |
 	LDX current_sprite			;$B8B3BF   |
@@ -6569,20 +6569,20 @@ CODE_B8B435:
 	CLC					;$B8B465   |
 	RTS					;$B8B466  /
 
-kong_behavior_7C:
+kong_state_7C:
 	LDX current_sprite			;$B8B467  \
 	STZ $2C,x				;$B8B469   |
 	JSR apply_player_gravity		;$B8B46B   |
 	LDA #$000B				;$B8B46E   |
 	JSR interpolate_x_velocity		;$B8B471   |
 	JSR CODE_B8D5E6				;$B8B474   |
-	JSR CODE_B8D225				;$B8B477   |
+	JSR prevent_sprite_from_leaving_level_x	;$B8B477   |
 	JSR update_damaged_invincibility	;$B8B47A   |
 	JSL CODE_B9D0F3				;$B8B47D   |
 	JSL CODE_BBC140				;$B8B481   |
 	JMP CODE_B8997E				;$B8B485  /
 
-kong_behavior_7D:
+kong_state_7D:
 	LDA #$0023				;$B8B488  \
 	JSR process_player_action		;$B8B48B   |
 	LDX current_sprite			;$B8B48E   |
@@ -6597,12 +6597,12 @@ CODE_B8B49A:
 	STZ $1C,x				;$B8B49F   |
 	JMP CODE_B8996E				;$B8B4A1  /
 
-kong_behavior_7E:
+kong_state_7E:
 	JSL CODE_B381CA				;$B8B4A4  \
 	JSR CODE_B8A186				;$B8B4A8   |
 	JMP CODE_B89975				;$B8B4AB  /
 
-kong_behavior_7F:
+kong_state_7F:
 	LDA #$0023				;$B8B4AE  \
 	JSR process_player_action		;$B8B4B1   |
 	LDX current_sprite			;$B8B4B4   |
@@ -6664,7 +6664,7 @@ CODE_B8B514:
 	SEC					;$B8B514  \
 	RTS					;$B8B515  /
 
-CODE_B8B516:
+record_highest_y_position:
 	LDX current_sprite			;$B8B516  \
 	LDA $1E,x				;$B8B518   |
 	AND #$0001				;$B8B51A   |
@@ -6688,7 +6688,7 @@ CODE_B8B530:
 	STA $40,x				;$B8B537   |
 	RTS					;$B8B539  /
 
-CODE_B8B53A:
+handle_player_pit_death:
 	LDX current_sprite			;$B8B53A  \
 	LDA $0A,x				;$B8B53C   |
 	SEC					;$B8B53E   |
@@ -7239,7 +7239,7 @@ CODE_B8B8AB:
 	STA $0024,y				;$B8B8D6   |
 	RTS					;$B8B8D9  /
 
-CODE_B8B8DA:
+handle_player_slope_state_and_anim:
 	LDX current_sprite			;$B8B8DA  \
 	LDA $40,x				;$B8B8DC   |
 	AND #$0001				;$B8B8DE   |
@@ -7256,58 +7256,58 @@ CODE_B8B8DA:
 	LDA $1E,x				;$B8B8F0   |
 	AND #$0011				;$B8B8F2   |
 	CMP #$0001				;$B8B8F5   |
-	BEQ .CODE_B8B8FB			;$B8B8F8   |
+	BEQ .on_ground				;$B8B8F8   |
 	RTS					;$B8B8FA  /
 
-.CODE_B8B8FB
-	LDA $10,x				;$B8B8FB  \
-	AND #$0007				;$B8B8FD   |
-	CMP $88					;$B8B900   |
-	BEQ .CODE_B8B905			;$B8B902   |
-	RTS					;$B8B904  /
+.on_ground
+	LDA $10,x				;$B8B8FB  \ \ Get steepness of slope kong is currently on
+	AND #$0007				;$B8B8FD   |/
+	CMP $88					;$B8B900   |\
+	BEQ .too_steep				;$B8B902   |/ If slope is too steep then make kong slide down
+	RTS					;$B8B904  /> Else return
 
-.CODE_B8B905
-	LDA $10,x				;$B8B905  \
-	EOR #$FFFF				;$B8B907   |
-	LSR A					;$B8B90A   |
-	EOR $12,x				;$B8B90B   |
-	AND #$4000				;$B8B90D   |
-	EOR $12,x				;$B8B910   |
-	STA $12,x				;$B8B912   |
-	LDA #$0800				;$B8B914   |
-	STA $24,x				;$B8B917   |
-	LDA $0D7A				;$B8B919   |
-	BNE .CODE_B8B93C			;$B8B91C   |
+.too_steep
+	LDA $10,x				;$B8B905  \ \
+	EOR #$FFFF				;$B8B907   | |
+	LSR A					;$B8B90A   | |
+	EOR $12,x				;$B8B90B   | |
+	AND #$4000				;$B8B90D   | |
+	EOR $12,x				;$B8B910   | |
+	STA $12,x				;$B8B912   |/
+	LDA #$0800				;$B8B914   |\
+	STA $24,x				;$B8B917   |/ Set kongs current velocity moving downward
+	LDA $0D7A				;$B8B919   |\
+	BNE .is_carrying_something		;$B8B91C   |/
 	LDA $6E					;$B8B91E   |
-	BNE .CODE_B8B92F			;$B8B920   |
-	LDA #$0014				;$B8B922   |
-	STA $2E,x				;$B8B925   |
-	LDA #$001A				;$B8B927   |
-	JSL CODE_B9D0B8				;$B8B92A   |
-	RTS					;$B8B92E  /
+	BNE .has_animal				;$B8B920   |
+	LDA #$0014				;$B8B922   |\ Use slope sliding state
+	STA $2E,x				;$B8B925   |/ Set new state
+	LDA #$001A				;$B8B927   |\
+	JSL CODE_B9D0B8				;$B8B92A   |/ Set slope sliding animation
+	RTS					;$B8B92E  /> Return
 
-.CODE_B8B92F
-	LDA #$000A				;$B8B92F  \
-	STA $2E,x				;$B8B932   |
-	LDA #$0077				;$B8B934   |
-	JSL CODE_B9D08C				;$B8B937   |
-	RTS					;$B8B93B  /
+.has_animal
+	LDA #$000A				;$B8B92F  \ \ Use animal falling state instead of slope slide
+	STA $2E,x				;$B8B932   |/ Set new state
+	LDA #$0077				;$B8B934   |\
+	JSL CODE_B9D08C				;$B8B937   |/ Set animal falling animation
+	RTS					;$B8B93B  /> Return
 
-.CODE_B8B93C
+.is_carrying_something
 	CMP inactive_kong_sprite		;$B8B93C  \
-	BEQ .is_follower_kong			;$B8B93F   |
-	LDA #$000D				;$B8B941   |
-	STA $2E,x				;$B8B944   |
-	LDA #$0017				;$B8B946   |
-	JSL CODE_B9D0B8				;$B8B949   |
-	RTS					;$B8B94D  /
+	BEQ .holding_kong			;$B8B93F   |
+	LDA #$000D				;$B8B941   |\ Use carrying falling state instead of slope slide
+	STA $2E,x				;$B8B944   |/ Set new state
+	LDA #$0017				;$B8B946   |\
+	JSL CODE_B9D0B8				;$B8B949   |/ Set carrying falling animation
+	RTS					;$B8B94D  /> Return
 
-.is_follower_kong
-	LDA #$001A				;$B8B94E  \
-	STA $2E,x				;$B8B951   |
-	LDA #$0023				;$B8B953   |
-	JSL CODE_B9D0B8				;$B8B956   |
-	RTS					;$B8B95A  /
+.holding_kong
+	LDA #$001A				;$B8B94E  \ \ Use team up falling state instead of slope slide
+	STA $2E,x				;$B8B951   |/ Set new state
+	LDA #$0023				;$B8B953   |\
+	JSL CODE_B9D0B8				;$B8B956   |/ Set team up falling animation
+	RTS					;$B8B95A  /> Return
 
 start_player_faster_falling:
 	LDA #$0100				;$B8B95B  \
@@ -9108,13 +9108,13 @@ jump_action:
 	LDX current_sprite			;$B8C55F  \
 	LDA $0983				;$B8C561   |
 	AND #$8000				;$B8C564   |
-	BEQ .b_pressed_this_frame		;$B8C567   |
+	BEQ .no_b_press_this_frame		;$B8C567   |
 	LDY $66					;$B8C569   |
 	LDA global_frame_counter		;$B8C56B   |
 	STA $0022,y				;$B8C56D   |
 	BRA .jump				;$B8C570  /
 
-.b_pressed_this_frame
+.no_b_press_this_frame
 	LDY $66					;$B8C572  \
 	LDA global_frame_counter		;$B8C574   |
 	SEC					;$B8C576   |
@@ -10164,7 +10164,7 @@ pause_game_action:
 if !version == 0				;	   |
 	LDA #$0040				;$B8CD00   |
 	TSB $08C2				;$B8CD03   |
-	LDA #$075E                      	;$B8CD06   |
+	LDA #$075E				;$B8CD06   |
 	JSL $B58021				;$B8CD09   |
 	LDA #$065E				;$B8CD0D   |
 	JSL $B58021				;$B8CD10   |
@@ -11116,7 +11116,7 @@ start_damaged_invincibility:
 	STA $0016,y				;$B8D221   |
 	RTS					;$B8D224  /
 
-CODE_B8D225:
+prevent_sprite_from_leaving_level_x:
 	PHK					;$B8D225  \
 	PLB					;$B8D226   |
 	LDX current_sprite			;$B8D227   |
@@ -11144,7 +11144,7 @@ CODE_B8D246:
 	JSR CODE_B8D25A				;$B8D246  \
 	RTL					;$B8D249  /
 
-CODE_B8D24A:
+handle_slope_sliding_velocity:
 	LDA $052B				;$B8D24A  \
 	AND #$3000				;$B8D24D   |
 	CMP #$3000				;$B8D250   |

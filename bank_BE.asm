@@ -111,7 +111,7 @@ CODE_BEB8B2:					;	   | |
 	EOR $4F,x				;$BEB8C0   |
 	AND #$00FF				;$BEB8C2   |
 	EOR $4F,x				;$BEB8C5   |
-	JSL set_sprite_hud_target_position	;$BEB8C7   |
+	JSL set_sprite_target_hud_position	;$BEB8C7   |
 	SEP #$20				;$BEB8CB   |
 	LDA CPU.divide_result			;$BEB8CD   |
 	XBA					;$BEB8D0   |
@@ -379,7 +379,7 @@ CODE_BEBACA:
 	EOR $4F,x				;$BEBAD9   |
 	AND #$00FF				;$BEBADB   |
 	EOR $4F,x				;$BEBADE   |
-	JSL set_sprite_hud_target_position	;$BEBAE0   |
+	JSL set_sprite_target_hud_position	;$BEBAE0   |
 	INC $2E,x				;$BEBAE4   | set kong letter sprite as collected
 	LDA $4C,x				;$BEBAE6   | get what kong letter the sprite is
 	TSB $0902				;$BEBAE8   | set the corresponding kong letter bit
@@ -1904,7 +1904,7 @@ CODE_BEC5B9:					;	   |
 	LDX current_sprite			;$BEC5B9   |
 	RTS					;$BEC5BB  /
 
-set_sprite_hud_target_position:
+set_sprite_target_hud_position:
 	LDX current_sprite			;$BEC5BC  \ Get sprite
 	STA $24,x				;$BEC5BE   | Store target Y position to high byte of Y velocity
 	SEP #$20				;$BEC5C0   | 8-Bit A
