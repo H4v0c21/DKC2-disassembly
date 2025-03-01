@@ -3,7 +3,7 @@ CODE_B48000:					;	   |
 	PHK					;$B48001   |
 	PLB					;$B48002   |
 	SEP #$20				;$B48003   |
-	LDA #$7E				;$B48005   |
+	LDA #<:wram_base			;$B48005   |
 	STA $CA					;$B48007   |
 	REP #$20				;$B48009   |
 	STZ $08CC				;$B4800B   |
@@ -17,8 +17,8 @@ CODE_B48000:					;	   |
 	STZ $08FA				;$B48023   |
 	STZ $08FB				;$B48026   |
 	REP #$20				;$B48029   |
-	STZ $06B1				;$B4802B   |
-	STZ $06AB				;$B4802E   |
+	STZ world_number			;$B4802B   |
+	STZ map_node_number			;$B4802E   |
 	STZ $06A9				;$B48031   |
 	LDA #$0000				;$B48034   |
 	STA $064A				;$B48037   |
@@ -75,7 +75,7 @@ CODE_B480B2:
 	STY $CE					;$B480B2  \
 	STA $0650				;$B480B4   |
 	SEP #$20				;$B480B7   |
-	LDA #$7E				;$B480B9   |
+	LDA #<:wram_base			;$B480B9   |
 	STA $D0					;$B480BB   |
 	REP #$20				;$B480BD   |
 	LDA #$0000				;$B480BF   |
@@ -93,7 +93,7 @@ CODE_B480CD:
 	PHK					;$B480CE   |
 	PLB					;$B480CF   |
 	SEP #$20				;$B480D0   |
-	LDA #$7E				;$B480D2   |
+	LDA #<:wram_base			;$B480D2   |
 	STA $CA					;$B480D4   |
 	PHK					;$B480D6   |
 	PLA					;$B480D7   |
@@ -171,12 +171,12 @@ endif						;	   |
 	BRL CODE_B4835E				;$B48166  /
 
 CODE_B48169:
-	LDA $06B1				;$B48169  \
+	LDA world_number			;$B48169  \
 	BNE CODE_B48171				;$B4816C   |
 	JSR CODE_B4BB03				;$B4816E   |
 CODE_B48171:					;	   |
-	LDA $06B1				;$B48171   |
-	CMP #$000A				;$B48174   |
+	LDA world_number			;$B48171   |
+	CMP #!world_lost_world_w2		;$B48174   |
 	BCC CODE_B481C3				;$B48177   |
 	STZ $08FE				;$B48179   |
 	LDA #$0040				;$B4817C   |
@@ -200,7 +200,7 @@ CODE_B481A6:					;	   |
 	STX HDMA[2].settings			;$B481B0   |
 	LDX #$8012				;$B481B3   |
 	STX HDMA[2].source			;$B481B6   |
-	LDA #$7E				;$B481B9   |
+	LDA #<:wram_base			;$B481B9   |
 	STA HDMA[2].source_bank			;$B481BB   |
 	STZ HDMA[2].indirect_source_bank	;$B481BE   |
 	REP #$20				;$B481C1   |
@@ -223,19 +223,19 @@ CODE_B481E3:					;	   |
 	LDA $06A3				;$B481E3   |
 	BIT #$1000				;$B481E6   |
 	BNE CODE_B48210				;$B481E9   |
-	LDA #$0013				;$B481EB   |
+	LDA #!music_rescue_kong			;$B481EB   |
 	CMP current_song			;$B481EE   |
 	BEQ CODE_B4821B				;$B481F0   |
-	LDA $06B1				;$B481F2   |
-	CMP #$000A				;$B481F5   |
+	LDA world_number			;$B481F2   |
+	CMP #!world_lost_world_w2		;$B481F5   |
 	BCC CODE_B48203				;$B481F8   |
-	LDA #$001C				;$B481FA   |
+	LDA #!music_lost_world			;$B481FA   |
 	CMP current_song			;$B481FD   |
 	BEQ CODE_B4821B				;$B481FF   |
 	BRA CODE_B4820A				;$B48201  /
 
 CODE_B48203:
-	LDA #$0001				;$B48203  \
+	LDA #!music_island_map			;$B48203  \
 	CMP current_song			;$B48206   |
 	BEQ CODE_B4821B				;$B48208   |
 CODE_B4820A:					;	   |
@@ -243,7 +243,7 @@ CODE_B4820A:					;	   |
 	BRA CODE_B4821B				;$B4820E  /
 
 CODE_B48210:
-	LDA #$0008				;$B48210  \
+	LDA #!music_funky			;$B48210  \
 	CMP current_song			;$B48213   |
 	BEQ CODE_B4821B				;$B48215   |
 	JSL play_song				;$B48217   |
@@ -304,7 +304,7 @@ CODE_B48294:					;	   |
 	LDY #$00E0				;$B48294   |
 	LDX #$0004				;$B48297   |
 	JSL DMA_global_palette			;$B4829A   |
-	LDA $06B1				;$B4829E   |
+	LDA world_number			;$B4829E   |
 	BEQ CODE_B482D7				;$B482A1   |
 	LDA #$00AD				;$B482A3   |
 	LDY #$0080				;$B482A6   |
@@ -330,8 +330,8 @@ CODE_B482D7:					;	   |
 	LDA #$0078				;$B482E3   |
 	JSR CODE_B4B4D3				;$B482E6   |
 	JSL CODE_B489ED				;$B482E9   |
-	LDA $06B1				;$B482ED   |
-	CMP #$000A				;$B482F0   |
+	LDA world_number			;$B482ED   |
+	CMP #!world_lost_world_w2		;$B482F0   |
 	BCC CODE_B4832F				;$B482F3   |
 	LDA $08F9				;$B482F5   |
 	AND #$00FF				;$B482F8   |
@@ -396,12 +396,12 @@ CODE_B48368:
 	PHB					;$B48369   |
 	PHK					;$B4836A   |
 	PLB					;$B4836B   |
-	LDA $06B1				;$B4836C   |
-	CMP #$000A				;$B4836F   |
+	LDA world_number			;$B4836C   |
+	CMP #!world_lost_world_w2		;$B4836F   |
 	BCC CODE_B48374				;$B48372   |
 CODE_B48374:					;	   |
-	LDA $06B1				;$B48374   |
-	CMP #$0004				;$B48377   |
+	LDA world_number			;$B48374   |
+	CMP #!world_krazy_kremland_lower	;$B48377   |
 	BNE CODE_B483BB				;$B4837A   |
 	LDA screen_brightness			;$B4837C   |
 	BIT #$8000				;$B4837F   |
@@ -435,8 +435,8 @@ CODE_B483B6:					;	   |
 	BNE CODE_B483A6				;$B483B7   |
 	REP #$20				;$B483B9   |
 CODE_B483BB:					;	   |
-	LDA $06B1				;$B483BB   |
-	CMP #$0009				;$B483BE   |
+	LDA world_number			;$B483BB   |
+	CMP #!world_krazy_kremland_upper	;$B483BE   |
 	BNE CODE_B48418				;$B483C1   |
 	LDA screen_brightness			;$B483C3   |
 	BIT #$8000				;$B483C6   |
@@ -515,7 +515,7 @@ CODE_B48435:					;	   |
 	LDA #$01				;$B48456   |
 	STA CPU.enable_dma			;$B48458   |
 	REP #$20				;$B4845B   |
-	LDA $06B1				;$B4845D   |
+	LDA world_number			;$B4845D   |
 	BEQ CODE_B484BC				;$B48460   |
 	LDA #$0800				;$B48462   |
 	STA PPU.vram_address			;$B48465   |
@@ -574,7 +574,7 @@ CODE_B484BC:					;	   |
 	STA DMA[0].destination			;$B484E0   |
 	LDX #$3E00				;$B484E3   |
 	STX DMA[0].source			;$B484E6   |
-	LDA #$7E				;$B484E9   |
+	LDA #<:wram_base			;$B484E9   |
 	STA DMA[0].source_bank			;$B484EB   |
 	STZ DMA[0].unused_1			;$B484EE   |
 	LDA #$01				;$B484F1   |
@@ -731,7 +731,7 @@ CODE_B48620:					;	   |
 	STA $0685				;$B48631   |
 	LDA #$8000				;$B48634   |
 	STA $0687				;$B48637   |
-	LDA $06B1				;$B4863A   |
+	LDA world_number			;$B4863A   |
 	ASL A					;$B4863D   |
 	TAX					;$B4863E   |
 	PHK					;$B4863F   |
@@ -789,7 +789,7 @@ CODE_B4869D:					;	   |
 	LDA $06A1				;$B486AA   |
 	BIT #$0020				;$B486AD   |
 	BEQ CODE_B486D5				;$B486B0   |
-	LDA $06AB				;$B486B2   |
+	LDA map_node_number			;$B486B2   |
 	CMP #$0044				;$B486B5   |
 	BEQ CODE_B486D5				;$B486B8   |
 	CMP #$004F				;$B486BA   |
@@ -935,7 +935,7 @@ CODE_B487B7:
 	BRL CODE_B48A46				;$B487BF  /
 
 CODE_B487C2:
-	LDA $06AB				;$B487C2  \
+	LDA map_node_number			;$B487C2  \
 	ASL A					;$B487C5   |
 	ASL A					;$B487C6   |
 	TAY					;$B487C7   |
@@ -1001,7 +1001,7 @@ CODE_B4882E:
 	PHK					;$B48831   |
 	PLB					;$B48832   |
 	LDY $000B,x				;$B48833   |
-	STY $06AB				;$B48836   |
+	STY map_node_number			;$B48836   |
 	TAX					;$B48839   |
 	STX $06AF				;$B4883A   |
 	LDA $0000,x				;$B4883D   |
@@ -1186,9 +1186,9 @@ CODE_B489B7:					;	   |
 	BEQ CODE_B489DB				;$B489C2   |
 	DEC $0683				;$B489C4   |
 	BNE CODE_B489DB				;$B489C7   |
-	LDA $06B1				;$B489C9   |
+	LDA world_number			;$B489C9   |
 	BNE CODE_B489D4				;$B489CC   |
-	LDA $06AB				;$B489CE   |
+	LDA map_node_number			;$B489CE   |
 	STA $06A9				;$B489D1   |
 CODE_B489D4:					;	   |
 	LDA #$810F				;$B489D4   |
@@ -1213,7 +1213,7 @@ CODE_B489ED:
 	LDA $06A1				;$B489F7   |
 	AND #$022C				;$B489FA   |
 	STA $06A1				;$B489FD   |
-	LDA $06B1				;$B48A00   |
+	LDA world_number			;$B48A00   |
 	ASL A					;$B48A03   |
 	TAX					;$B48A04   |
 	PHK					;$B48A05   |
@@ -1221,7 +1221,7 @@ CODE_B489ED:
 	CMP #$0000				;$B48A07   |
 	BNE CODE_B48A14				;$B48A0A   |
 	LDA $06A9				;$B48A0C   |
-	STA $06AB				;$B48A0F   |
+	STA map_node_number			;$B48A0F   |
 	BRA CODE_B48A14				;$B48A12  /
 
 CODE_B48A14:
@@ -1251,7 +1251,7 @@ CODE_B48A46:
 	LDA #$01				;$B48A48   |
 	STA $064B				;$B48A4A   |
 	REP #$20				;$B48A4D   |
-	LDA $06B1				;$B48A4F   |
+	LDA world_number			;$B48A4F   |
 	BNE CODE_B48A67				;$B48A52   |
 	LDA $06A3				;$B48A54   |
 	ORA #$0001				;$B48A57   |
@@ -1261,9 +1261,9 @@ CODE_B48A46:
 	BRL CODE_B48927				;$B48A64  /
 
 CODE_B48A67:
-	CMP #$000A				;$B48A67  \
+	CMP #!world_lost_world_w2		;$B48A67  \
 	BCC CODE_B48ABB				;$B48A6A   |
-	LDA $06AB				;$B48A6C   |
+	LDA map_node_number			;$B48A6C   |
 	CMP #$005E				;$B48A6F   |
 	BNE CODE_B48A79				;$B48A72   |
 	LDA #$0072				;$B48A74   |
@@ -1292,9 +1292,9 @@ CODE_B48A97:
 	BNE CODE_B48ABB				;$B48A9A   |
 	LDA #$0076				;$B48A9C   |
 CODE_B48A9F:					;	   |
-	STA $06AB				;$B48A9F   |
+	STA map_node_number			;$B48A9F   |
 	LDA $0900				;$B48AA2   |
-	STA $06B1				;$B48AA5   |
+	STA world_number			;$B48AA5   |
 	LDA $06A3				;$B48AA8   |
 	ORA #$0020				;$B48AAB   |
 	STA $06A3				;$B48AAE   |
@@ -1306,7 +1306,7 @@ CODE_B48ABB:
 	%pea_mask_dbr($7E3201)			;$B48ABB  \
 	PLB					;$B48ABE   |
 	PLB					;$B48ABF   |
-	LDA $06AB				;$B48AC0   |
+	LDA map_node_number			;$B48AC0   |
 	ASL A					;$B48AC3   |
 	ASL A					;$B48AC4   |
 	TAX					;$B48AC5   |
@@ -1317,7 +1317,7 @@ CODE_B48ABB:
 	BMI CODE_B48AEF				;$B48AD0   |
 	CMP #$000A				;$B48AD2   |
 	BPL CODE_B48AEF				;$B48AD5   |
-	STA $0689				;$B48AD7   |
+	STA npc_screen_type			;$B48AD7   |
 	LDA #$810F				;$B48ADA   |
 	JSL set_fade_global			;$B48ADD   |
 	LDA $06A3				;$B48AE1   |
@@ -1328,7 +1328,7 @@ CODE_B48ABB:
 	BRL CODE_B48927				;$B48AEC  /
 
 CODE_B48AEF:
-	LDA $06AB				;$B48AEF  \
+	LDA map_node_number			;$B48AEF  \
 	ASL A					;$B48AF2   |
 	ASL A					;$B48AF3   |
 	TAY					;$B48AF4   |
@@ -1367,7 +1367,7 @@ CODE_B48B15:
 	BRL CODE_B48C07				;$B48B43  /
 
 CODE_B48B46:
-	LDA $0689				;$B48B46  \
+	LDA npc_screen_type			;$B48B46  \
 	TAX					;$B48B49   |
 	LDA DATA_B4C53D,x			;$B48B4A   |
 	LDY language_select			;$B48B4D   |
@@ -1378,10 +1378,10 @@ CODE_B48B55:					;	   |
 	LDA #$0004				;$B48B58   |
 	STA $0658				;$B48B5B   |
 	JSR CODE_B49266				;$B48B5E   |
-	LDY $0689				;$B48B61   |
+	LDY npc_screen_type			;$B48B61   |
 	BNE CODE_B48B78				;$B48B64   |
-	LDA $06B1				;$B48B66   |
-	CMP #$000A				;$B48B69   |
+	LDA world_number			;$B48B66   |
+	CMP #!world_lost_world_w2		;$B48B69   |
 	BCC CODE_B48B73				;$B48B6C   |
 	LDX #$0004				;$B48B6E   |
 	BRA CODE_B48B7B				;$B48B71  /
@@ -1397,13 +1397,13 @@ CODE_B48B7B:					;	   |
 	JSR get_player_coin_count_npc		;$B48B7E   |
 	LDX #$07A5				;$B48B81   |
 	JSR CODE_B4BD57				;$B48B84   |
-	LDX $0689				;$B48B87   |
+	LDX npc_screen_type			;$B48B87   |
 	JSR CODE_B48D69				;$B48B8A   |
-	LDX $0689				;$B48B8D   |
+	LDX npc_screen_type			;$B48B8D   |
 	JSR CODE_B48D8E				;$B48B90   |
 	JSR CODE_B48DB5				;$B48B93   |
-	LDX $0689				;$B48B96   |
-	CPX #$0002				;$B48B99   |
+	LDX npc_screen_type			;$B48B96   |
+	CPX #!npc_screen_type_funky		;$B48B99   |
 	BNE CODE_B48BDF				;$B48B9C   |
 	LDY #DATA_FF12F4			;$B48B9E   |
 	JSL CODE_BB83F5				;$B48BA1   |
@@ -1430,13 +1430,13 @@ CODE_B48B7B:					;	   |
 	LDA #$0032				;$B48BD9   |
 	STA $0796				;$B48BDC   |
 CODE_B48BDF:					;	   |
-	LDX $0689				;$B48BDF   |
-	CPX #$0008				;$B48BE2   |
+	LDX npc_screen_type			;$B48BDF   |
+	CPX #!npc_screen_type_klubba		;$B48BE2   |
 	BNE CODE_B48BEE				;$B48BE5   |
 	LDY #DATA_FF286A			;$B48BE7   |
 	JSL CODE_BB83F5				;$B48BEA   |
 CODE_B48BEE:					;	   |
-	JSR CODE_B48C76				;$B48BEE   |
+	JSR spawn_npc_hud_coin			;$B48BEE   |
 	LDA #CODE_808CF5			;$B48BF1   |
 	STA NMI_pointer				;$B48BF4   |
 	LDA #$0100				;$B48BF6   |
@@ -1449,16 +1449,16 @@ CODE_B48C07:
 	JSR get_player_coin_count_npc		;$B48C07  \
 	LDX #$07A5				;$B48C0A   |
 	JSR CODE_B4BD57				;$B48C0D   |
-	LDX $0689				;$B48C10   |
+	LDX npc_screen_type			;$B48C10   |
 	JSR CODE_B48D69				;$B48C13   |
 	JSR CODE_B48DB5				;$B48C16   |
 	LDX active_kong_sprite			;$B48C19   |
 	JSR CODE_B48C6B				;$B48C1C   |
 	LDX inactive_kong_sprite		;$B48C1F   |
 	JSR CODE_B48C6B				;$B48C22   |
-	LDX $0689				;$B48C25   |
+	LDX npc_screen_type			;$B48C25   |
 	JSR CODE_B48D8E				;$B48C28   |
-	JSR CODE_B48C76				;$B48C2B   |
+	JSR spawn_npc_hud_coin			;$B48C2B   |
 	LDA #$0001				;$B48C2E   |
 	STA $0654				;$B48C31   |
 	LDA $06A1				;$B48C34   |
@@ -1488,24 +1488,24 @@ CODE_B48C6B:
 	STZ $26,x				;$B48C73   |
 	RTS					;$B48C75  /
 
-CODE_B48C76:
-	LDX $0689				;$B48C76  \
-	LDY DATA_B4CD47,x			;$B48C79   |
-	JSL CODE_BB8432				;$B48C7C   |
-	LDX alternate_sprite			;$B48C80   |
+spawn_npc_hud_coin:
+	LDX npc_screen_type			;$B48C76  \ Get NPC screen type
+	LDY DATA_B4CD47,x			;$B48C79   | Index table with hud coin spawn scripts using it
+	JSL CODE_BB8432				;$B48C7C   | Spawn the hud coin
+	LDX alternate_sprite			;$B48C80   | 
 	LDA #$0014				;$B48C82   |
-	STA $06,x				;$B48C85   |
+	STA $06,x				;$B48C85   | Set coin X position
 	LDA #$0023				;$B48C87   |
-	STA $0A,x				;$B48C8A   |
-	LDA $0689				;$B48C8C   |
-	CMP #$0008				;$B48C8F   |
-	BNE CODE_B48C9C				;$B48C92   |
+	STA $0A,x				;$B48C8A   | Set coin Y position
+	LDA npc_screen_type			;$B48C8C   | Get NPC screen type
+	CMP #!npc_screen_type_klubba		;$B48C8F   | Check if its klubba
+	BNE .return				;$B48C92   | If yes return
 	LDA $0A,x				;$B48C94   |
-	CLC					;$B48C96   |
+	CLC					;$B48C96   | Else offset coin Y position
 	ADC #$000A				;$B48C97   |
 	STA $0A,x				;$B48C9A   |
-CODE_B48C9C:					;	   |
-	RTS					;$B48C9C  /
+.return:					;	   | 
+	RTS					;$B48C9C  / Return
 
 CODE_B48C9D:
 	PHK					;$B48C9D  \
@@ -1532,11 +1532,11 @@ CODE_B48C9D:
 	REP #$20				;$B48CD8   |
 	JSR CODE_B4BDD6				;$B48CDA   |
 	JSL CODE_B4BE2F				;$B48CDD   |
-	LDY $0689				;$B48CE1   |
-	LDA DATA_B4CD5B,y			;$B48CE4   |
+	LDY npc_screen_type			;$B48CE1   |
+	LDA npc_screen_music_ids,y		;$B48CE4   |
 	JSL play_song				;$B48CE7   |
-	LDY $0689				;$B48CEB   |
-	LDX DATA_B4CD51,y			;$B48CEE   |
+	LDY npc_screen_type			;$B48CEB   |
+	LDX npc_screen_init_data,y		;$B48CEE   |
 	LDA $0010,x				;$B48CF1   |
 	STA $0662				;$B48CF4   |
 	LDA $0012,x				;$B48CF7   |
@@ -1581,7 +1581,7 @@ CODE_B48C9D:
 	RTS					;$B48D68  /
 
 CODE_B48D69:
-	LDY DATA_B4CD51,x			;$B48D69  \
+	LDY npc_screen_init_data,x		;$B48D69  \
 	LDX active_kong_sprite			;$B48D6C   |
 	LDA $0016,y				;$B48D6F   |
 	STA $44,x				;$B48D72   |
@@ -1598,7 +1598,7 @@ CODE_B48D69:
 	RTS					;$B48D8D  /
 
 CODE_B48D8E:
-	LDY DATA_B4CD51,x			;$B48D8E  \
+	LDY npc_screen_init_data,x		;$B48D8E  \
 	LDX $0014,y				;$B48D91   |
 CODE_B48D94:					;	   |
 	LDY $0000,x				;$B48D94   |
@@ -1623,8 +1623,8 @@ CODE_B48DB4:
 	RTS					;$B48DB4  /
 
 CODE_B48DB5:
-	LDY $0689				;$B48DB5  \
-	LDX DATA_B4CD51,y			;$B48DB8   |
+	LDY npc_screen_type			;$B48DB5  \
+	LDX npc_screen_init_data,y		;$B48DB8   |
 	LDY active_kong_sprite			;$B48DBB   |
 	LDA $0004,x				;$B48DBE   |
 	STA $0006,y				;$B48DC1   |
@@ -1663,7 +1663,7 @@ CODE_B48DFA:
 	TSB $08C2				;$B48E19   |
 	LDA #$0000				;$B48E1C   |
 	JSL CODE_808837				;$B48E1F   |
-	STZ $0689				;$B48E23   |
+	STZ npc_screen_type			;$B48E23   |
 	JSR CODE_B48C9D				;$B48E26   |
 	LDX #$0000				;$B48E29   |
 	JSR CODE_B48D69				;$B48E2C   |
@@ -1738,7 +1738,7 @@ CODE_B48EC2:
 	STA DMA[0].destination			;$B48ED1   |
 	LDX #$3E00				;$B48ED4   |
 	STX DMA[0].source			;$B48ED7   |
-	LDA #$7E				;$B48EDA   |
+	LDA #<:wram_base			;$B48EDA   |
 	STA DMA[0].source_bank			;$B48EDC   |
 	LDX #$0180				;$B48EDF   |
 	STX DMA[0].size				;$B48EE2   |
@@ -1960,7 +1960,7 @@ CODE_B490C7:					;	   |
 	RTS					;$B490D8  /
 
 CODE_B490D9:
-	STZ $0689				;$B490D9   |
+	STZ npc_screen_type			;$B490D9   |
 	JSR CODE_B48C9D				;$B490DC   |
 	LDX #$0000				;$B490DF   |
 	JSR CODE_B48D69				;$B490E2   |
@@ -1994,7 +1994,7 @@ CODE_B49126:
 	TSB $08C2				;$B49129   |
 	LDA #$0000				;$B4912C   |
 	JSL CODE_808837				;$B4912F   |
-	STZ $0689				;$B49133   |
+	STZ npc_screen_type			;$B49133   |
 	JSR CODE_B48C9D				;$B49136   |
 	LDX #$0000				;$B49139   |
 	JSR CODE_B48D69				;$B4913C   |
@@ -2080,8 +2080,8 @@ CODE_B491FA:
 	BRA CODE_B49224				;$B491FD  /
 
 CODE_B491FF:
-	LDA $0689				;$B491FF  \
-	CMP #$0008				;$B49202   |
+	LDA npc_screen_type			;$B491FF  \
+	CMP #!npc_screen_type_klubba		;$B49202   |
 	BNE CODE_B4921F				;$B49205   |
 	JSR CODE_B49FFD				;$B49207   |
 	LDA $08FA				;$B4920A   |
@@ -2125,10 +2125,10 @@ CODE_B49224:					;	   |
 CODE_B49266:
 	PHK					;$B49266  \
 	PLB					;$B49267   |
-	LDA $0689				;$B49268   |
+	LDA npc_screen_type			;$B49268   |
 	BNE CODE_B492B5				;$B4926B   |
-	LDA $06B1				;$B4926D   |
-	CMP #$000A				;$B49270   |
+	LDA world_number			;$B4926D   |
+	CMP #!world_lost_world_w2		;$B49270   |
 	BCC CODE_B492B5				;$B49273   |
 	LDA $08FB				;$B49275   |
 	BIT #$0020				;$B49278   |
@@ -2162,7 +2162,7 @@ CODE_B492B2:					;	   |
 	BRL CODE_B4935D				;$B492B2  /
 
 CODE_B492B5:
-	LDA $0689				;$B492B5  \
+	LDA npc_screen_type			;$B492B5  \
 	LSR A					;$B492B8   |
 	STA $0654				;$B492B9   |
 	INC $0654				;$B492BC   |
@@ -2181,7 +2181,7 @@ CODE_B492C3:					;	   |
 	SEP #$20				;$B492DA   |
 	STA $08FB				;$B492DC   |
 	REP #$20				;$B492DF   |
-	LDY $0689				;$B492E1   |
+	LDY npc_screen_type			;$B492E1   |
 	LDX DATA_B4C533,y			;$B492E4   |
 	LDA language_select			;$B492E7   |
 	BEQ CODE_B492EF				;$B492EA   |
@@ -2296,7 +2296,7 @@ CODE_B493B7:
 	STA DMA[0].destination			;$B493C6   |
 	LDX #$3E00				;$B493C9   |
 	STX DMA[0].source			;$B493CC   |
-	LDA #$7E				;$B493CF   |
+	LDA #<:wram_base			;$B493CF   |
 	STA DMA[0].source_bank			;$B493D1   |
 	LDX #$0180				;$B493D4   |
 	STX DMA[0].size				;$B493D7   |
@@ -2316,10 +2316,10 @@ CODE_B493FC:					;	   |
 	LDA player_active_pressed		;$B493FC   |
 	BIT #$D0C0				;$B493FF   |
 	BEQ CODE_B49425				;$B49402   |
-	LDA $0689				;$B49404   |
+	LDA npc_screen_type			;$B49404   |
 	BNE CODE_B49419				;$B49407   |
-	LDA $06B1				;$B49409   |
-	CMP #$000A				;$B4940C   |
+	LDA world_number			;$B49409   |
+	CMP #!world_lost_world_w2		;$B4940C   |
 	BCC CODE_B49419				;$B4940F   |
 	LDA $08FB				;$B49411   |
 	BIT #$0020				;$B49414   |
@@ -2393,7 +2393,7 @@ CODE_B494AC:
 	LDA $06A1				;$B494BA   |
 	AND #$EFFE				;$B494BD   |
 	STA $06A1				;$B494C0   |
-	LDA $0689				;$B494C3   |
+	LDA npc_screen_type			;$B494C3   |
 	TAX					;$B494C6   |
 	LDA DATA_B4C53D,x			;$B494C7   |
 	LDY language_select			;$B494CA   |
@@ -2405,7 +2405,7 @@ CODE_B494D2:					;	   |
 	BRL CODE_B49444				;$B494D8  /
 
 CODE_B494DB:
-	LDA $0689				;$B494DB  \
+	LDA npc_screen_type			;$B494DB  \
 	BNE CODE_B4951B				;$B494DE   |
 	LDA $06A1				;$B494E0   |
 	BIT #$2000				;$B494E3   |
@@ -2418,7 +2418,7 @@ CODE_B494DB:
 	LDA $06A1				;$B494F7   |
 	AND #$EFFE				;$B494FA   |
 	STA $06A1				;$B494FD   |
-	LDA $0689				;$B49500   |
+	LDA npc_screen_type			;$B49500   |
 	TAX					;$B49503   |
 	LDA #DATA_F70056			;$B49504   |
 	LDY language_select			;$B49507   |
@@ -2446,7 +2446,7 @@ CODE_B4951B:
 	BRL CODE_B49444				;$B4953E  /
 
 CODE_B49541:
-	LDX $06B1				;$B49541  \
+	LDX world_number			;$B49541  \
 	DEX					;$B49544   |
 	STX $0666				;$B49545   |
 	LDA $08F0,x				;$B49548   |
@@ -2486,7 +2486,7 @@ CODE_B49584:					;	   |
 	LSR A					;$B49590   |
 	STA $0666				;$B49591   |
 	LDY #$3E14				;$B49594   |
-	LDX $06B1				;$B49597   |
+	LDX world_number			;$B49597   |
 	DEX					;$B4959A   |
 	LDA $08D2,x				;$B4959B   |
 	STA $0672				;$B4959E   |
@@ -2507,7 +2507,7 @@ CODE_B495B3:					;	   |
 	LSR A					;$B495BB   |
 	STA $0666				;$B495BC   |
 	LDY #$3E14				;$B495BF   |
-	LDX $06B1				;$B495C2   |
+	LDX world_number			;$B495C2   |
 	DEX					;$B495C5   |
 	LDA $08E7,x				;$B495C6   |
 	STA $0672				;$B495C9   |
@@ -2516,11 +2516,11 @@ CODE_B495B3:					;	   |
 	RTS					;$B495D2  /
 
 CODE_B495D3:
-	LDA $06B1				;$B495D3  \
+	LDA world_number			;$B495D3  \
 	DEC A					;$B495D6   |
 	ASL A					;$B495D7   |
 	STA $0666				;$B495D8   |
-	LDX $06B1				;$B495DB   |
+	LDX world_number			;$B495DB   |
 	DEX					;$B495DE   |
 	LDA $08E0,x				;$B495DF   |
 	BIT #$0001				;$B495E2   |
@@ -2544,7 +2544,7 @@ CODE_B495FB:					;	   |
 	DEC A					;$B49608   |
 	STA $0666				;$B49609   |
 	LDY #$3E90				;$B4960C   |
-	LDX $06B1				;$B4960F   |
+	LDX world_number			;$B4960F   |
 	DEX					;$B49612   |
 	LDA $08E0,x				;$B49613   |
 	STA $0672				;$B49616   |
@@ -2713,7 +2713,7 @@ CODE_B49744:					;	   |
 	RTS					;$B4974E  /
 
 CODE_B4974F:
-	LDA $0689				;$B4974F  \  get npc screen type
+	LDA npc_screen_type			;$B4974F  \  get npc screen type
 	BNE CODE_B49764				;$B49752   | if not 0, its not cranky, move to next check
 	LDY #DATA_B4C4F7			;$B49754   | load text pointer table for available cranky selections
 	LDX language_select			;$B49757   | get current language in use
@@ -2724,7 +2724,7 @@ CODE_B4975F:					;	   |
 	BRA CODE_B4979C				;$B49762  /
 
 CODE_B49764:
-	CMP #$0006				;$B49764  \  check if wrinkly
+	CMP #!npc_screen_type_wrinkly		;$B49764  \  check if wrinkly
 	BNE CODE_B49779				;$B49767   | if not, move to next check
 	LDY #DATA_B4C513			;$B49769   | else load text pointer table for available wrinkly selections
 	LDX language_select			;$B4976C   | get current language in use
@@ -2734,7 +2734,7 @@ CODE_B49764:
 	BRA CODE_B4979C				;$B49777  /
 
 CODE_B49779:
-	CMP #$0004				;$B49779  \  check if swanky 
+	CMP #!npc_screen_type_swanky		;$B49779  \  check if swanky 
 	BNE CODE_B4978E				;$B4977C   | if not, we must be in the funky or klubba screen
 	LDY #DATA_B4C521			;$B4977E   | else load text pointer table for available swanky selections
 	LDX language_select			;$B49781   | get current language in use
@@ -2782,25 +2782,25 @@ CODE_B497BE:					;	   |
 	INX					;$B497C7   |
 	LDY #$0000				;$B497C8   | initialize interation counter?
 	JSR CODE_B4ADF6				;$B497CB   |
-	LDA $0689				;$B497CE   | get npc screen type
+	LDA npc_screen_type			;$B497CE   | get npc screen type
 	BNE CODE_B497D8				;$B497D1   |
 	JSR CODE_B49579				;$B497D3   |
 	BRA CODE_B497F4				;$B497D6  /
 
 CODE_B497D8:
-	CMP #$0002				;$B497D8  \
+	CMP #!npc_screen_type_funky		;$B497D8  \
 	BNE CODE_B497E2				;$B497DB   |
 	JSR CODE_B495A8				;$B497DD   |
 	BRA CODE_B497F4				;$B497E0  /
 
 CODE_B497E2:
-	CMP #$0004				;$B497E2  \
+	CMP #!npc_screen_type_swanky		;$B497E2  \
 	BNE CODE_B497EC				;$B497E5   |
 	JSR CODE_B49541				;$B497E7   |
 	BRA CODE_B497F4				;$B497EA  /
 
 CODE_B497EC:
-	CMP #$0006				;$B497EC  \
+	CMP #!npc_screen_type_wrinkly		;$B497EC  \
 	BNE CODE_B497F4				;$B497EF   |
 	JSR CODE_B495D3				;$B497F1   |
 CODE_B497F4:					;	   |
@@ -2823,7 +2823,7 @@ endif
 pulltable
 
 CODE_B49875:
-	LDA $06B1				;$B49875  \  get world number
+	LDA world_number			;$B49875  \  get world number
 	DEC A					;$B49878   | 
 	ASL A					;$B49879   |
 	STY $0666				;$B4987A   |
@@ -2855,7 +2855,7 @@ CODE_B4989F:
 	STA DMA[0].destination			;$B498AE   |
 	LDX #$3E00				;$B498B1   |
 	STX DMA[0].source			;$B498B4   |
-	LDA #$7E				;$B498B7   |
+	LDA #<:wram_base			;$B498B7   |
 	STA DMA[0].source_bank			;$B498B9   |
 	LDX $0658				;$B498BC   |
 	STX DMA[0].size				;$B498BF   |
@@ -2930,10 +2930,10 @@ CODE_B49953:					;	   |
 	RTL					;$B4996D  /
 
 CODE_B4996E:
-	LDY $0689				;$B4996E  \
-	LDX DATA_B4CD51,y			;$B49971   |
-	JSR ($000E,x)				;$B49974   |
-	RTS					;$B49977  /
+	LDY npc_screen_type			;$B4996E  \ Get npc screen type
+	LDX npc_screen_init_data,y		;$B49971   | Index table of NPC screen init data
+	JSR ($000E,x)				;$B49974   | Run routine from data 
+	RTS					;$B49977  / Return
 
 CODE_B49978:
 	PHK					;$B49978  \
@@ -3257,7 +3257,7 @@ CODE_B49C2A:
 	%pea_mask_dbr($7E3202)			;$B49C2B   |
 	PLB					;$B49C2E   |
 	PLB					;$B49C2F   |
-	LDA $06AB				;$B49C30   |
+	LDA map_node_number			;$B49C30   |
 	ASL A					;$B49C33   |
 	ASL A					;$B49C34   |
 	TAX					;$B49C35   |
@@ -3292,10 +3292,10 @@ CODE_B49C4D:
 	RTS					;$B49C70  /
 
 CODE_B49C71:
-	LDX $0689				;$B49C71  \  get npc screen type
-	CPX #$0004				;$B49C74   | check if its swanky
+	LDX npc_screen_type			;$B49C71  \  get npc screen type
+	CPX #!npc_screen_type_swanky		;$B49C74   | check if its swanky
 	BEQ CODE_B49CAC				;$B49C77   | 
-	CPX #$0006				;$B49C79   | else check if its wrinkly
+	CPX #!npc_screen_type_wrinkly		;$B49C79   | else check if its wrinkly
 	BEQ CODE_B49C89				;$B49C7C   |
 CODE_B49C7E:					;	   |
 	JSR (DATA_B49DE0,x)			;$B49C7E   |
@@ -3309,7 +3309,7 @@ CODE_B49C89:
 	BNE CODE_B49C7E				;$B49C8D   | if not 0,
 	JSR (DATA_B49DE0,x)			;$B49C8F   | else we chose the first option (save game), call some code
 	BCC CODE_B49CB4				;$B49C92   |
-	LDA $06B1				;$B49C94   | get world number
+	LDA world_number			;$B49C94   | get world number
 	DEC A					;$B49C97   |
 	ASL A					;$B49C98   |
 	TAY					;$B49C99   | transfer to Y as index to get the correct price table
@@ -3329,30 +3329,30 @@ CODE_B49CAC:
 	BRL CODE_B49D40				;$B49CB1  /
 
 CODE_B49CB4:
-	LDA $0689				;$B49CB4  \  get npc screen type
+	LDA npc_screen_type			;$B49CB4  \  get npc screen type
 	BNE CODE_B49CC1				;$B49CB7   | if not 0, its not cranky, move on to next check
-	LDY #DATA_B4CB23			;$B49CB9   | else load cranky price pointer table
+	LDY #cranky_prices_table		;$B49CB9   | else load cranky price pointer table
 	JSR CODE_B49875				;$B49CBC   | get price table based on world number
 	BRA CODE_B49CE1				;$B49CBF  /
 
 CODE_B49CC1:
-	CMP #$0006				;$B49CC1  \  check if its wrinkly
+	CMP #!npc_screen_type_wrinkly		;$B49CC1  \  check if its wrinkly
 	BNE CODE_B49CCE				;$B49CC4   | if not, move on to next check
-	LDY #DATA_B4CBE5			;$B49CC6   | else load wrinkly price pointer table
+	LDY #wrinkly_prices_table		;$B49CC6   | else load wrinkly price pointer table
 	JSR CODE_B49875				;$B49CC9   | get price table based on world number
 	BRA CODE_B49CE1				;$B49CCC  /
 
 CODE_B49CCE:
-	CMP #$0004				;$B49CCE  \  check if its swanky
+	CMP #!npc_screen_type_swanky		;$B49CCE  \  check if its swanky
 	BNE CODE_B49CDB				;$B49CD1   | if not, it must be funky or klubba
-	LDY #DATA_B4CBA3			;$B49CD3   | else get swanky price pointer table
+	LDY #swanky_prices_table		;$B49CD3   | else get swanky price pointer table
 	JSR CODE_B49875				;$B49CD6   | get price table based on world number
 	BRA CODE_B49CE1				;$B49CD9  /
 
 
 CODE_B49CDB:
-	LDX $0689				;$B49CDB  \  get npc screen type
-	LDA DATA_B4CB19,x			;$B49CDE   | use it as index to get address of table with prices
+	LDX npc_screen_type			;$B49CDB  \  get npc screen type
+	LDA funky_and_klubba_prices_table,x	;$B49CDE   | use it as index to get address of table with prices
 CODE_B49CE1:					;	   | 
 	STA $0666				;$B49CE1   | store the address of price table
 	LDA $0654				;$B49CE4   | get current cursor position
@@ -3376,7 +3376,7 @@ endif						;	   |
 	STA NMI_pointer				;$B49D05   |
 	LDA #CODE_808D5F			;$B49D07   |
 	STA $065E				;$B49D0A   |
-	LDA $0689				;$B49D0D   | get npc screen type
+	LDA npc_screen_type			;$B49D0D   | get npc screen type
 	TAX					;$B49D10   | transfer it to X to use as index
 	LDA DATA_B4C547,x			;$B49D11   | get address of english dialogue table
 	LDY language_select			;$B49D14   | get current language in use
@@ -3411,8 +3411,8 @@ CODE_B49D4F:
 	PLA					;$B49D57   | restore coin count
 	TAY					;$B49D58   |
 	SEP #$10				;$B49D59   | 8-bit X/Y
-	LDA $0689				;$B49D5B   | get npc screen type
-	CMP #$0008				;$B49D5E   | check if klubba
+	LDA npc_screen_type			;$B49D5B   | get npc screen type
+	CMP #!npc_screen_type_klubba		;$B49D5E   | check if klubba
 	BNE CODE_B49D68				;$B49D61   | if not, update banana coin count
 	STY $08CC				;$B49D63   | else update kremcoin count
 	BRA CODE_B49D6B				;$B49D66  /
@@ -3428,24 +3428,24 @@ CODE_B49D6B:					;	   |
 	LDA #$0001				;$B49D79   |
 	STA $0650				;$B49D7C   |
 	LDA #$065F				;$B49D7F   | dead code
-	LDA $0689				;$B49D82   | get npc screen type
+	LDA npc_screen_type			;$B49D82   | get npc screen type
 	BNE CODE_B49D8C				;$B49D85   | if not 0, its not cranky, move to next check
 	LDX #$08D2				;$B49D87   | else
 	BRA CODE_B49D9E				;$B49D8A  /
 
 CODE_B49D8C:
-	CMP #$0002				;$B49D8C  \  check if funky
+	CMP #!npc_screen_type_funky		;$B49D8C  \  check if funky
 	BNE CODE_B49D96				;$B49D8F   | if not, move to next check
 	LDX #$08E7				;$B49D91   |
 	BRA CODE_B49D9E				;$B49D94  /
 
 CODE_B49D96:
-	CMP #$0006				;$B49D96  \  check if wrinkly
+	CMP #!npc_screen_type_wrinkly		;$B49D96  \  check if wrinkly
 	BNE CODE_B49DDD				;$B49D99   | if not,
 	LDX #$08E0				;$B49D9B   |
 CODE_B49D9E:					;	   |
 	STX $0666				;$B49D9E   |
-	LDA $06B1				;$B49DA1   | get world number
+	LDA world_number			;$B49DA1   | get world number
 	DEC A					;$B49DA4   | decrease by 1
 	CLC					;$B49DA5   |
 	ADC $0666				;$B49DA6   |
@@ -3456,10 +3456,10 @@ CODE_B49D9E:					;	   |
 	ORA $0666				;$B49DB1   |
 	STA $00,x				;$B49DB4   |
 	REP #$20				;$B49DB6   |
-	LDA $0689				;$B49DB8   |
+	LDA npc_screen_type			;$B49DB8   |
 	BNE CODE_B49DDD				;$B49DBB   |
-	LDA $06B1				;$B49DBD   | get world number
-	CMP #$000A				;$B49DC0   | check if its any of the lost world maps
+	LDA world_number			;$B49DBD   | get world number
+	CMP #!world_lost_world_w2		;$B49DC0   | check if its any of the lost world maps
 	BCC CODE_B49DDD				;$B49DC3   | if not, 
 	SEP #$20				;$B49DC5   |
 	LDA $00,x				;$B49DC7   |
@@ -3473,6 +3473,8 @@ CODE_B49D9E:					;	   |
 CODE_B49DDD:					;	   |
 	BRL CODE_B49D40				;$B49DDD  /
 
+
+;routines to run for npc options?
 DATA_B49DE0:
 	dw CODE_B49DEA
 	dw CODE_B49E14
@@ -3482,7 +3484,7 @@ DATA_B49DE0:
 
 CODE_B49DEA:
 	JSR CODE_B49E3A				;$B49DEA  \
-	LDA $06B1				;$B49DED   |
+	LDA world_number			;$B49DED   |
 	DEC A					;$B49DF0   |
 	TAX					;$B49DF1   |
 	LDA $08D2,x				;$B49DF2   |
@@ -3497,7 +3499,7 @@ CODE_B49DFC:
 
 CODE_B49DFE:
 	JSR CODE_B49E3A				;$B49DFE  \
-	LDA $06B1				;$B49E01   |
+	LDA world_number			;$B49E01   |
 	DEC A					;$B49E04   |
 	TAX					;$B49E05   |
 	LDA $08F0,x				;$B49E06   |
@@ -3516,7 +3518,7 @@ CODE_B49E12:
 
 CODE_B49E14:
 	JSR CODE_B49E3A				;$B49E14  \
-	LDA $06B1				;$B49E17   |
+	LDA world_number			;$B49E17   |
 	DEC A					;$B49E1A   |
 	TAX					;$B49E1B   |
 	LDA $08E7,x				;$B49E1C   |
@@ -3527,7 +3529,7 @@ CODE_B49E14:
 
 CODE_B49E26:
 	JSR CODE_B49E3A				;$B49E26  \
-	LDA $06B1				;$B49E29   |
+	LDA world_number			;$B49E29   |
 	DEC A					;$B49E2C   |
 	TAX					;$B49E2D   |
 	LDA $08E0,x				;$B49E2E   |
@@ -3648,21 +3650,21 @@ CODE_B49F1D:
 	JSL update_sprite_palettes_global	;$B49F23   |
 	JSR CODE_B4996E				;$B49F27   |
 	JSR CODE_B49EF1				;$B49F2A   |
-	LDA $0689				;$B49F2D   |
+	LDA npc_screen_type			;$B49F2D   |
 	BNE CODE_B49F3A				;$B49F30   |
 	LDY #DATA_B4CC57			;$B49F32   |
 	JSR CODE_B49875				;$B49F35   |
 	BRA CODE_B49F4D				;$B49F38  /
 
 CODE_B49F3A:
-	CMP #$0006				;$B49F3A  \
+	CMP #!npc_screen_type_wrinkly		;$B49F3A  \
 	BNE CODE_B49F47				;$B49F3D   |
 	LDY #DATA_B4CCDF			;$B49F3F   |
 	JSR CODE_B49875				;$B49F42   |
 	BRA CODE_B49F4D				;$B49F45  /
 
 CODE_B49F47:
-	LDX $0689				;$B49F47  \
+	LDX npc_screen_type			;$B49F47  \
 	LDA DATA_B4CC4D,x			;$B49F4A   |
 CODE_B49F4D:					;	   |
 	STA $0666				;$B49F4D   |
@@ -3678,57 +3680,57 @@ CODE_B49F4D:					;	   |
 
 CODE_B49F61:
 	LDX active_kong_sprite			;$B49F61  \
-	JSR CODE_B4A830				;$B49F64   |
+	JSR move_kong_to_golden_barrel		;$B49F64   |
 	LDX inactive_kong_sprite		;$B49F67   |
-	JSR CODE_B4A830				;$B49F6A   |
+	JSR move_kong_to_golden_barrel		;$B49F6A   |
 	LDA #CODE_B4A00D			;$B49F6D   |
 	STA $079C				;$B49F70   |
 	LDA #CODE_808D4E			;$B49F73   |
 	STA NMI_pointer				;$B49F76   |
 	JSR CODE_B49FFD				;$B49F78   |
 	LDA $08FA				;$B49F7B   |
-	ORA $0666				;$B49F7E   |
+	ORA $0666				;$B49F7E   | Set payment flag
 	STA $08FA				;$B49F81   |
-	LDA $06B1				;$B49F84   |
-	STA $0900				;$B49F87   |
-	LDA $06AB				;$B49F8A   |
-	CMP #$0012				;$B49F8D   |
+	LDA world_number			;$B49F84   |
+	STA $0900				;$B49F87   | Preserve which world we came from
+	LDA map_node_number			;$B49F8A   |
+	CMP #$0012				;$B49F8D   | Check if current node is w2 klubba
 	BNE CODE_B49F9D				;$B49F90   |
-	LDA #$000A				;$B49F92   |
-	STA $06B1				;$B49F95   |
+	LDA #!world_lost_world_w2		;$B49F92   | 
+	STA world_number			;$B49F95   | Else set w2 lost world
 	LDA #$005E				;$B49F98   |
 	BRA CODE_B49FD6				;$B49F9B  /
 
 CODE_B49F9D:
 	CMP #$001F				;$B49F9D  \
 	BNE CODE_B49FAD				;$B49FA0   |
-	LDA #$000B				;$B49FA2   |
-	STA $06B1				;$B49FA5   |
+	LDA #!world_lost_world_w3		;$B49FA2   |
+	STA world_number			;$B49FA5   |
 	LDA #$0062				;$B49FA8   |
 	BRA CODE_B49FD6				;$B49FAB  /
 
 CODE_B49FAD:
 	CMP #$0047				;$B49FAD  \
 	BNE CODE_B49FBD				;$B49FB0   |
-	LDA #$000C				;$B49FB2   |
-	STA $06B1				;$B49FB5   |
+	LDA #!world_lost_world_w4		;$B49FB2   |
+	STA world_number			;$B49FB5   |
 	LDA #$0066				;$B49FB8   |
 	BRA CODE_B49FD6				;$B49FBB  /
 
 CODE_B49FBD:
 	CMP #$002F				;$B49FBD  \
 	BNE CODE_B49FCD				;$B49FC0   |
-	LDA #$000D				;$B49FC2   |
-	STA $06B1				;$B49FC5   |
+	LDA #!world_lost_world_w5		;$B49FC2   |
+	STA world_number			;$B49FC5   |
 	LDA #$006A				;$B49FC8   |
 	BRA CODE_B49FD6				;$B49FCB  /
 
 CODE_B49FCD:
-	LDA #$000E				;$B49FCD  \
-	STA $06B1				;$B49FD0   |
+	LDA #!world_lost_world_w6		;$B49FCD  \
+	STA world_number			;$B49FD0   |
 	LDA #$006E				;$B49FD3   |
 CODE_B49FD6:					;	   |
-	STA $06AB				;$B49FD6   |
+	STA map_node_number			;$B49FD6   |
 	LDA $06A1				;$B49FD9   |
 	AND #$FDFF				;$B49FDC   |
 	STA $06A1				;$B49FDF   |
@@ -3747,7 +3749,7 @@ CODE_B49FF3:					;	   |
 CODE_B49FFD:
 	LDA #$0001				;$B49FFD  \
 	STA $0666				;$B4A000   |
-	LDA $06B1				;$B4A003   |
+	LDA world_number			;$B4A003   |
 CODE_B4A006:					;	   |
 	ASL $0666				;$B4A006   |
 	DEC A					;$B4A009   |
@@ -3761,9 +3763,9 @@ CODE_B4A00D:
 	LDX inactive_kong_sprite		;$B4A016   |
 	LDA $42,x				;$B4A019   |
 	BNE CODE_B4A02C				;$B4A01B   |
-	JSR CODE_B4A06E				;$B4A01D   |
+	JSR make_kong_jump_on_golden_barrel	;$B4A01D   |
 	LDX active_kong_sprite			;$B4A020   |
-	JSR CODE_B4A06E				;$B4A023   |
+	JSR make_kong_jump_on_golden_barrel	;$B4A023   |
 	LDA #CODE_B4A02D			;$B4A026   |
 	STA $079C				;$B4A029   |
 CODE_B4A02C:					;	   |
@@ -3799,17 +3801,17 @@ CODE_B4A051:
 CODE_B4A06D:					;	   |
 	RTS					;$B4A06D  /
 
-CODE_B4A06E:
+make_kong_jump_on_golden_barrel:
 	LDA #$0003				;$B4A06E  \
 	STA $42,x				;$B4A071   |
-	LDA #$00C8				;$B4A073   |
+	LDA #$00C8				;$B4A073   | Set how far forward to jump
 	STA $44,x				;$B4A076   |
 	LDA #$0180				;$B4A078   |
-	STA $46,x				;$B4A07B   |
+	STA $46,x				;$B4A07B   | Set jump max X velocity
 	LDA #$F600				;$B4A07D   |
-	STA $48,x				;$B4A080   |
+	STA $48,x				;$B4A080   | Set jump max Y velocity
 	LDA #$0058				;$B4A082   |
-	STA $4A,x				;$B4A085   |
+	STA $4A,x				;$B4A085   | Y position to trigger barrel entrance?
 	RTS					;$B4A087  /
 
 CODE_B4A088:
@@ -3841,7 +3843,7 @@ CODE_B4A0B5:
 	LDA #DATA_B4CA57			;$B4A0BD   |
 CODE_B4A0C0:					;	   |
 	STA $0666				;$B4A0C0   |
-	LDA $06B1				;$B4A0C3   |
+	LDA world_number			;$B4A0C3   |
 	DEC A					;$B4A0C6   |
 	ASL A					;$B4A0C7   |
 	ADC $0666				;$B4A0C8   |
@@ -3871,8 +3873,8 @@ CODE_B4A0FD:
 	PHX					;$B4A0FD  \
 	SEP #$20				;$B4A0FE   |
 	LDA #$00				;$B4A100   |
-	LDX $0689				;$B4A102   |
-	CPX #$0002				;$B4A105   |
+	LDX npc_screen_type			;$B4A102   |
+	CPX #!npc_screen_type_funky		;$B4A105   |
 	BNE CODE_B4A10C				;$B4A108   |
 	LDA #$00				;$B4A10A   |
 CODE_B4A10C:					;	   |
@@ -3890,8 +3892,8 @@ CODE_B4A11F:
 	PHX					;$B4A11F  \
 	SEP #$20				;$B4A120   |
 	LDA #$02				;$B4A122   |
-	LDX $0689				;$B4A124   |
-	CPX #$0002				;$B4A127   |
+	LDX npc_screen_type			;$B4A124   |
+	CPX #!npc_screen_type_funky		;$B4A127   |
 	BNE CODE_B4A12E				;$B4A12A   |
 	LDA #$02				;$B4A12C   |
 CODE_B4A12E:					;	   |
@@ -3970,14 +3972,14 @@ CODE_B4A1D3:					;	   |
 	RTS					;$B4A1D3  /
 
 get_player_coin_count_npc:
-	LDY $0689				;$B4A1D4  \  get npc screen type
-	LDA $08CA				;$B4A1D7   | get number of banana coins player has
-	CPY #$0008				;$B4A1DA   | check if npc screen is klubba
-	BNE CODE_B4A1E2				;$B4A1DD   | if not, continue with banana coins
-	LDA $08CC				;$B4A1DF   | else load number of kremcoins instead
-CODE_B4A1E2:					;	   |
+	LDY npc_screen_type			;$B4A1D4  \ Get npc screen type
+	LDA $08CA				;$B4A1D7   | Get number of banana coins player has
+	CPY #!npc_screen_type_klubba		;$B4A1DA   | Check if npc screen is klubba
+	BNE .not_klubba				;$B4A1DD   | If not, continue with banana coins
+	LDA $08CC				;$B4A1DF   | Else load number of kremcoins instead
+.not_klubba:					;	   |
 	AND #$00FF				;$B4A1E2   | 
-	RTS					;$B4A1E5  /  return
+	RTS					;$B4A1E5  / Return
 
 CODE_B4A1E6:
 	LDA $064E				;$B4A1E6  \
@@ -4013,7 +4015,7 @@ CODE_B4A21B:
 	STA DMA[0].destination			;$B4A22A   |
 	LDX #$4A00				;$B4A22D   |
 	STX DMA[0].source			;$B4A230   |
-	LDA #$7E				;$B4A233   |
+	LDA #<:wram_base			;$B4A233   |
 	STA DMA[0].source_bank			;$B4A235   |
 	LDX #$0180				;$B4A238   |
 	STX DMA[0].size				;$B4A23B   |
@@ -4077,9 +4079,9 @@ CODE_B4A2BB:					;	   |
 
 CODE_B4A2BC:
 	LDX active_kong_sprite			;$B4A2BC  \
-	JSR CODE_B4A303				;$B4A2BF   |
+	JSR move_kong_to_funky_plane		;$B4A2BF   |
 	LDX inactive_kong_sprite		;$B4A2C2   |
-	JSR CODE_B4A303				;$B4A2C5   |
+	JSR move_kong_to_funky_plane		;$B4A2C5   |
 	LDA #CODE_808D4E			;$B4A2C8   |
 	STA NMI_pointer				;$B4A2CB   |
 	LDA #CODE_B4A313			;$B4A2CD   |
@@ -4087,7 +4089,7 @@ CODE_B4A2BC:
 	LDA $06A3				;$B4A2D3   |
 	ORA #$1000				;$B4A2D6   |
 	STA $06A3				;$B4A2D9   |
-	STZ $06B1				;$B4A2DC   |
+	STZ world_number			;$B4A2DC   | Set world number back to crocodile isle
 	LDA #$0001				;$B4A2DF   |
 	STA $064E				;$B4A2E2   |
 	LDA $06A1				;$B4A2E5   |
@@ -4103,7 +4105,7 @@ CODE_B4A2F9:					;	   |
 	JSR CODE_B49BE0				;$B4A2FF   |
 	RTS					;$B4A302  /
 
-CODE_B4A303:
+move_kong_to_funky_plane:
 	LDA #$0001				;$B4A303  \
 	STA $42,x				;$B4A306   |
 	LDA #$0050				;$B4A308   |
@@ -4119,9 +4121,9 @@ CODE_B4A313:
 	LDX inactive_kong_sprite		;$B4A31C   |
 	LDA $42,x				;$B4A31F   |
 	BNE CODE_B4A332				;$B4A321   |
-	JSR CODE_B4A357				;$B4A323   |
+	JSR make_kong_jump_on_funky_plane	;$B4A323   |
 	LDX active_kong_sprite			;$B4A326   |
-	JSR CODE_B4A357				;$B4A329   |
+	JSR make_kong_jump_on_funky_plane	;$B4A329   |
 	LDA #CODE_B4A333			;$B4A32C   |
 	STA $079C				;$B4A32F   |
 CODE_B4A332:					;	   |
@@ -4142,7 +4144,7 @@ CODE_B4A333:
 	STA $064E				;$B4A353   |
 	RTS					;$B4A356  /
 
-CODE_B4A357:
+make_kong_jump_on_funky_plane:
 	LDA #$0003				;$B4A357  \
 	STA $42,x				;$B4A35A   |
 	LDA #$0028				;$B4A35C   |
@@ -4178,7 +4180,7 @@ CODE_B4A391:
 	LDA $06A1				;$B4A39C   |
 	AND #$FDFF				;$B4A39F   |
 	STA $06A1				;$B4A3A2   |
-	LDA $06B1				;$B4A3A5   |
+	LDA world_number			;$B4A3A5   |
 	DEC A					;$B4A3A8   |
 	ASL A					;$B4A3A9   |
 	TAX					;$B4A3AA   |
@@ -4537,7 +4539,7 @@ CODE_B4A6CE:
 	BNE CODE_B4A70D				;$B4A6D3   |
 	REP #$20				;$B4A6D5   |
 	JSR CODE_B49E3A				;$B4A6D7   |
-	LDX $06B1				;$B4A6DA   |
+	LDX world_number			;$B4A6DA   |
 	DEX					;$B4A6DD   |
 	LDA $08F0,x				;$B4A6DE   |
 	ORA $0666				;$B4A6E1   |
@@ -4600,53 +4602,54 @@ CODE_B4A741:
 	LDA $0654				;$B4A772   |
 	CLC					;$B4A775   |
 	ADC #$0007				;$B4A776   |
-	JSR CODE_B4A79F				;$B4A779   |
+	JSR spawn_swanky_prize			;$B4A779   |
 	LDX alternate_sprite			;$B4A77C   |
 	LDA $0654				;$B4A77E   |
 	DEC A					;$B4A781   |
 	ASL A					;$B4A782   |
 	ASL A					;$B4A783   |
 	TAY					;$B4A784   |
-	LDA DATA_B4A793,y			;$B4A785   |
+	LDA prize_spawn_x_positions,y		;$B4A785   |
 	STA $06,x				;$B4A788   |
-	LDA DATA_B4A795,y			;$B4A78A   |
+	LDA prize_spawn_y_positions,y		;$B4A78A   |
 	STA $0A,x				;$B4A78D   |
 CODE_B4A78F:					;	   |
 	JSR CODE_B4A7D8				;$B4A78F   |
 CODE_B4A792:					;	   |
 	RTS					;$B4A792  /
 
-DATA_B4A793:
-	db $14, $00
-DATA_B4A795:
-	db $64, $00, $80, $00, $5A, $00, $D2, $00
-	db $64, $00
+;spawn positions for swanky prize
+prize_spawn_x_positions:
+	%offset(prize_spawn_y_positions, 2)
+	dw $0014, $0064
+	dw $0080, $005A
+	dw $00D2, $0064
 
 
-CODE_B4A79F:
-	PHA					;$B4A79F  \
-	ASL A					;$B4A7A0   |
+spawn_swanky_prize:
+	PHA					;$B4A79F  \ Preserve game number index
+	ASL A					;$B4A7A0   | *2
 	TAX					;$B4A7A1   |
-	LDA.l DATA_FF18CE,x			;$B4A7A2   |
+	LDA.l DATA_FF18CE,x			;$B4A7A2   | Index table of prize spawn scripts with it
 	TAY					;$B4A7A6   |
-	JSL CODE_BB8432				;$B4A7A7   |
-	PLA					;$B4A7AB   |
-	BCS CODE_B4A7D7				;$B4A7AC   |
-	LDY alternate_sprite			;$B4A7AE   |
-	STA $0042,y				;$B4A7B0   |
+	JSL CODE_BB8432				;$B4A7A7   | Spawn the prize
+	PLA					;$B4A7AB   | Retrieve game number index
+	BCS .return				;$B4A7AC   | If the spawn failed, return
+	LDY alternate_sprite			;$B4A7AE   | Else get prize sprite
+	STA $0042,y				;$B4A7B0   | Set game number index in sprite variable
 	LDA #$001C				;$B4A7B3   |
-	STA $0052,y				;$B4A7B6   |
+	STA $0052,y				;$B4A7B6   | Set movement routine (move to kong)
 	LDA #$0003				;$B4A7B9   |
-	STA $002E,y				;$B4A7BC   |
+	STA $002E,y				;$B4A7BC   | Set state
 	LDA #$F900				;$B4A7BF   |
-	STA $0024,y				;$B4A7C2   |
+	STA $0024,y				;$B4A7C2   | Set Y velocity
 	LDA #$002A				;$B4A7C5   |
 	STA $0048,y				;$B4A7C8   |
 	LDA #$0050				;$B4A7CB   |
 	STA $004C,y				;$B4A7CE   |
 	LDA #$3000				;$B4A7D1   |
 	STA $004E,y				;$B4A7D4   |
-CODE_B4A7D7:					;	   |
+.return:					;	   |
 	RTS					;$B4A7D7  /
 
 CODE_B4A7D8:
@@ -4668,7 +4671,7 @@ CODE_B4A7E7:
 	STA DMA[0].destination			;$B4A7F6   |
 	LDX #$4600				;$B4A7F9   |
 	STX DMA[0].source			;$B4A7FC   |
-	LDA #$7E				;$B4A7FF   |
+	LDA #<:wram_base			;$B4A7FF   |
 	STA DMA[0].source_bank			;$B4A801   |
 	LDX #$0180				;$B4A804   |
 	STX DMA[0].size				;$B4A807   |
@@ -4689,7 +4692,7 @@ CODE_B4A815:
 	JSR CODE_B4AE85				;$B4A82C   |
 	RTS					;$B4A82F  /
 
-CODE_B4A830:
+move_kong_to_golden_barrel:
 	LDA #$0001				;$B4A830  \
 	STA $42,x				;$B4A833   |
 	LDA #$0098				;$B4A835   |
@@ -4698,6 +4701,7 @@ CODE_B4A830:
 	STA $46,x				;$B4A83D   |
 	RTS					;$B4A83F  /
 
+;dead code?
 	LDX active_kong_sprite			;$B4A840   |
 	JSR CODE_B4A97C				;$B4A843   |
 	LDX inactive_kong_sprite		;$B4A846   |
@@ -4711,7 +4715,7 @@ CODE_B4A830:
 	LDA $06A1				;$B4A85D   |
 	AND #$FDFF				;$B4A860   |
 	STA $06A1				;$B4A863   |
-	LDA $0689				;$B4A866   |
+	LDA npc_screen_type			;$B4A866   |
 	TAX					;$B4A869   |
 	LDA DATA_B4C551,x			;$B4A86A   |
 	LDY language_select			;$B4A86D   |
@@ -4798,7 +4802,7 @@ CODE_B4A90E:
 	STA DMA[0].destination			;$B4A91D   |
 	LDX #$3E00				;$B4A920   |
 	STX DMA[0].source			;$B4A923   |
-	LDA #$7E				;$B4A926   |
+	LDA #<:wram_base			;$B4A926   |
 	STA DMA[0].source_bank			;$B4A928   |
 	LDX #$0180				;$B4A92B   |
 	STX DMA[0].size				;$B4A92E   |
@@ -4855,7 +4859,7 @@ CODE_B4A98C:
 	LDA $06A1				;$B4A9A9   |
 	AND #$FDFF				;$B4A9AC   |
 	STA $06A1				;$B4A9AF   |
-	LDA $0689				;$B4A9B2   |
+	LDA npc_screen_type			;$B4A9B2   |
 	TAX					;$B4A9B5   |
 	LDA DATA_B4C551,x			;$B4A9B6   |
 	LDY language_select			;$B4A9B9   |
@@ -4890,7 +4894,7 @@ CODE_B4A9DB:
 	LDA $06A1				;$B4A9F8   |
 	AND #$FDFF				;$B4A9FB   |
 	STA $06A1				;$B4A9FE   |
-	LDA $0689				;$B4AA01   |
+	LDA npc_screen_type			;$B4AA01   |
 	TAX					;$B4AA04   |
 	LDA DATA_B4C551,x			;$B4AA05   |
 	LDY language_select			;$B4AA08   |
@@ -4922,7 +4926,7 @@ CODE_B4AA2A:
 	STA NMI_pointer				;$B4AA3F   |
 	LDA #$0001				;$B4AA41   |
 	STA $064E				;$B4AA44   |
-	LDA $0689				;$B4AA47   |
+	LDA npc_screen_type			;$B4AA47   |
 	TAX					;$B4AA4A   |
 	LDA DATA_B4C547,x			;$B4AA4B   |
 	LDY language_select			;$B4AA4E   |
@@ -5018,7 +5022,7 @@ CODE_B4AB00:
 	STA DMA[0].destination			;$B4AB0F   |
 	LDX #$3E00				;$B4AB12   |
 	STX DMA[0].source			;$B4AB15   |
-	LDA #$7E				;$B4AB18   |
+	LDA #<:wram_base			;$B4AB18   |
 	STA DMA[0].source_bank			;$B4AB1A   |
 	LDX #$0180				;$B4AB1D   |
 	STX DMA[0].size				;$B4AB20   |
@@ -5114,7 +5118,7 @@ CODE_B4ABEA:
 	STA DMA[0].destination			;$B4ABF9   |
 	LDX #$4600				;$B4ABFC   |
 	STX DMA[0].source			;$B4ABFF   |
-	LDA #$7E				;$B4AC02   |
+	LDA #<:wram_base			;$B4AC02   |
 	STA DMA[0].source_bank			;$B4AC04   |
 	LDX #$0180				;$B4AC07   |
 	STX DMA[0].size				;$B4AC0A   |
@@ -5157,7 +5161,7 @@ CODE_B4AC65:
 	PHK					;$B4AC65  \
 	PLB					;$B4AC66   |
 	SEP #$20				;$B4AC67   |
-	LDA #$7E				;$B4AC69   |
+	LDA #<:wram_base			;$B4AC69   |
 	STA $CA					;$B4AC6B   |
 	REP #$20				;$B4AC6D   |
 	LDX #DATA_B4AC84			;$B4AC6F   |
@@ -5308,13 +5312,13 @@ CODE_B4AE85:
 	PHK					;$B4AE86   |
 	PLB					;$B4AE87   |
 	LDA #$0200				;$B4AE88   |
-	STA $70					;$B4AE8B   |
+	STA next_oam_slot			;$B4AE8B   |
 	LDA #$0400				;$B4AE8D   |
-	STA $56					;$B4AE90   |
+	STA oam_size_index			;$B4AE90   |
 	LDA #$003C				;$B4AE92   |
 	STA $78					;$B4AE95   |
-	LDA $0689				;$B4AE97   |
-	CMP #$0004				;$B4AE9A   |
+	LDA npc_screen_type			;$B4AE97   |
+	CMP #!npc_screen_type_swanky		;$B4AE9A   |
 	BNE CODE_B4AEA6				;$B4AE9D   |
 	STZ $096F				;$B4AE9F   |
 	JSL CODE_BEC695				;$B4AEA2   |
@@ -5408,7 +5412,7 @@ CODE_B4AF40:
 	LDA $06A1				;$B4AF46   |
 	AND #$FFFB				;$B4AF49   |
 	STA $06A1				;$B4AF4C   |
-	LDA $06AB				;$B4AF4F   |
+	LDA map_node_number			;$B4AF4F   |
 	CMP #$0052				;$B4AF52   |
 	BEQ CODE_B4AF8F				;$B4AF55   |
 	CMP #$0044				;$B4AF57   |
@@ -5434,9 +5438,9 @@ CODE_B4AF77:
 CODE_B4AF7C:
 	LDA #$0052				;$B4AF7C  \
 CODE_B4AF7F:					;	   |
-	STA $06AB				;$B4AF7F   |
-	LDA #$0004				;$B4AF82   |
-	STA $06B1				;$B4AF85   |
+	STA map_node_number			;$B4AF7F   |
+	LDA #!world_krazy_kremland_lower	;$B4AF82   |
+	STA world_number			;$B4AF85   |
 	BRA CODE_B4AF9B				;$B4AF88  /
 
 CODE_B4AF8A:
@@ -5446,9 +5450,9 @@ CODE_B4AF8A:
 CODE_B4AF8F:
 	LDA #$004F				;$B4AF8F  \
 CODE_B4AF92:					;	   |
-	STA $06AB				;$B4AF92   |
-	LDA #$0009				;$B4AF95   |
-	STA $06B1				;$B4AF98   |
+	STA map_node_number			;$B4AF92   |
+	LDA #!world_krazy_kremland_upper	;$B4AF95   |
+	STA world_number			;$B4AF98   |
 CODE_B4AF9B:					;	   |
 	LDA $06A3				;$B4AF9B   |
 	ORA #$0020				;$B4AF9E   |
@@ -5622,7 +5626,7 @@ CODE_B4B0CF:
 	STA $0650				;$B4B0E2   |
 	LDX #$2A00				;$B4B0E5   |
 	SEP #$20				;$B4B0E8   |
-	LDA #$7E				;$B4B0EA   |
+	LDA #<:wram_base			;$B4B0EA   |
 	STA $D0					;$B4B0EC   |
 	REP #$20				;$B4B0EE   |
 	LDA #$5992				;$B4B0F0   |
@@ -5709,7 +5713,7 @@ CODE_B4B18F:
 	PHB					;$B4B18F  \
 	STA $0650				;$B4B190   |
 	SEP #$20				;$B4B193   |
-	LDA #$7E				;$B4B195   |
+	LDA #<:wram_base			;$B4B195   |
 	STA $D0					;$B4B197   |
 	REP #$20				;$B4B199   |
 	LDA #$5992				;$B4B19B   |
@@ -5790,7 +5794,7 @@ CODE_B4B226:					;	   |
 	BRL CODE_B4B362				;$B4B226  /
 
 CODE_B4B229:
-	LDA $06AB				;$B4B229  \
+	LDA map_node_number			;$B4B229  \
 	ASL A					;$B4B22C   |
 	ASL A					;$B4B22D   |
 	CLC					;$B4B22E   |
@@ -5957,7 +5961,7 @@ CODE_B4B36B:					;	   |
 	LDA $06D1				;$B4B36B   |
 	BIT #$0001				;$B4B36E   |
 	BEQ CODE_B4B376				;$B4B371   |
-	STZ $06B1				;$B4B373   |
+	STZ world_number			;$B4B373   |
 CODE_B4B376:					;	   |
 	LDA $06D1				;$B4B376   |
 	BIT #$0002				;$B4B379   |
@@ -6007,7 +6011,7 @@ CODE_B4B3CA:					;	   |
 
 CODE_B4B3CD:
 	SEP #$20				;$B4B3CD  \
-	LDA #$7E				;$B4B3CF   |
+	LDA #<:wram_base			;$B4B3CF   |
 	STA $D0					;$B4B3D1   |
 	REP #$20				;$B4B3D3   |
 	LDA #$5972				;$B4B3D5   |
@@ -6042,10 +6046,10 @@ CODE_B4B3FD:					;	   |
 	LDA #$0000				;$B4B415   |
 	STA [$CE]				;$B4B418   |
 	JSR CODE_B4AED3				;$B4B41A   |
-	LDA #$0000				;$B4B41D   |
-	STA $06B1				;$B4B420   |
+	LDA #!world_crocodile_isle		;$B4B41D   |
+	STA world_number			;$B4B420   |
 	LDA #$0000				;$B4B423   |
-	STA $06AB				;$B4B426   |
+	STA map_node_number			;$B4B426   |
 	JSR CODE_B4B42D				;$B4B429   |
 	RTS					;$B4B42C  /
 
@@ -6059,7 +6063,7 @@ CODE_B4B42D:
 
 CODE_B4B43D:
 	SEP #$20				;$B4B43D   |
-	LDA #$7E				;$B4B43F   |
+	LDA #<:wram_base			;$B4B43F   |
 	STA $D0					;$B4B441   |
 	REP #$20				;$B4B443   |
 	LDA #$5972				;$B4B445   |
@@ -6108,9 +6112,9 @@ CODE_B4B48D:
 	JML set_nmi_pointer			;$B4B4AF  /
 
 CODE_B4B4B3:					;	  \
-	STZ $06B1				;$B4B4B3   |
+	STZ world_number			;$B4B4B3   |
 	STZ $06A9				;$B4B4B6   |
-	STZ $06AB				;$B4B4B9   |
+	STZ map_node_number			;$B4B4B9   |
 	JSL CODE_80897C				;$B4B4BC   |
 	JSR CODE_B4B42D				;$B4B4C0   |
 	JSL CODE_B4AEAF				;$B4B4C3   |
@@ -6123,7 +6127,7 @@ CODE_B4B4D3:
 	PHB					;$B4B4D3  \
 	STA $0650				;$B4B4D4   |
 	SEP #$20				;$B4B4D7   |
-	LDA #$7E				;$B4B4D9   |
+	LDA #<:wram_base			;$B4B4D9   |
 	STA $D0					;$B4B4DB   |
 	REP #$20				;$B4B4DD   |
 	LDA #$5972				;$B4B4DF   |
@@ -6136,7 +6140,7 @@ CODE_B4B4D3:
 	LDY #DATA_B4CF4B			;$B4B4F2   |
 	SEP #$20				;$B4B4F5   |
 	LDX #$3200				;$B4B4F7   |
-	LDA #$7E				;$B4B4FA   |
+	LDA #<:wram_base			;$B4B4FA   |
 	PHA					;$B4B4FC   |
 	PLB					;$B4B4FD   |
 	XBA					;$B4B4FE   |
@@ -6528,54 +6532,64 @@ CODE_B4B7C5:					;	   |
 	DEC $06A7				;$B4B7C5   |
 	BRA CODE_B4B75B				;$B4B7C8  /
 
-CODE_B4B7CA:
-	LDA global_frame_counter		;$B4B7CA  \
-	BIT #$0007				;$B4B7CC   |
-	BNE CODE_B4B815				;$B4B7CF   |
-	LDA $091D				;$B4B7D1   |
-	INC A					;$B4B7D4   |
-	CMP #$0003				;$B4B7D5   |
-	BCC CODE_B4B7DD				;$B4B7D8   |
-	LDA #$0000				;$B4B7DA   |
-CODE_B4B7DD:					;	   |
-	STA $091D				;$B4B7DD   |
-	ASL A					;$B4B7E0   |
-	TAX					;$B4B7E1   |
-	SEP #$20				;$B4B7E2   |
+update_swanky_lights:
+	LDA global_frame_counter		;$B4B7CA  \ Get frame counter value
+	BIT #$0007				;$B4B7CC   | Check if we're on a frame divisible by 8
+	BNE .return				;$B4B7CF   | If not, return
+	LDA $091D				;$B4B7D1   | Else get index into color value table
+	INC A					;$B4B7D4   | +1
+	CMP #$0003				;$B4B7D5   | 
+	BCC .continue_updating			;$B4B7D8   | If less than 3, continue updating
+	LDA #$0000				;$B4B7DA   | Else reset index to 0
+.continue_updating:				;	   |
+	STA $091D				;$B4B7DD   | Update index
+	ASL A					;$B4B7E0   | *2
+	TAX					;$B4B7E1   | 
+	SEP #$20				;$B4B7E2   | 8-Bit A
 	LDA #$46				;$B4B7E4   |
-	STA PPU.cgram_address			;$B4B7E6   |
-	LDY #$0006				;$B4B7E9   |
-CODE_B4B7EC:					;	   |
-	LDA.l DATA_B4B816,x			;$B4B7EC   |
-	STA PPU.cgram_write			;$B4B7F0   |
-	INX					;$B4B7F3   |
-	DEY					;$B4B7F4   |
-	BNE CODE_B4B7EC				;$B4B7F5   |
-	REP #$20				;$B4B7F7   |
-	LDA $091D				;$B4B7F9   |
-	ASL A					;$B4B7FC   |
+	STA PPU.cgram_address			;$B4B7E6   | Set palette index
+	LDY #$0006				;$B4B7E9   | Start iteration counter
+.write_reflection_colors:			;	   |
+	LDA.l swanky_lights_reflection_colors,x	;$B4B7EC   |
+	STA PPU.cgram_write			;$B4B7F0   | Write color value
+	INX					;$B4B7F3   | Move to next byte
+	DEY					;$B4B7F4   | Decrease iteraction counter
+	BNE .write_reflection_colors		;$B4B7F5   |
+	REP #$20				;$B4B7F7   | Else back to 16-Bit A
+	LDA $091D				;$B4B7F9   | Get our table index
+	ASL A					;$B4B7FC   | *2
 	TAX					;$B4B7FD   |
-	SEP #$20				;$B4B7FE   |
+	SEP #$20				;$B4B7FE   | 8-Bit A
 	LDA #$11				;$B4B800   |
-	STA PPU.cgram_address			;$B4B802   |
-	LDY #$0006				;$B4B805   |
-CODE_B4B808:					;	   |
-	LDA.l DATA_B4B820,x			;$B4B808   |
-	STA PPU.cgram_write			;$B4B80C   |
-	INX					;$B4B80F   |
-	DEY					;$B4B810   |
-	BNE CODE_B4B808				;$B4B811   |
-	REP #$20				;$B4B813   |
-CODE_B4B815:					;	   |
-	RTS					;$B4B815  /
+	STA PPU.cgram_address			;$B4B802   | Set palette index
+	LDY #$0006				;$B4B805   | Start iteration counter
+.write_normal_colors:				;	   |
+	LDA.l swanky_lights_colors,x		;$B4B808   |
+	STA PPU.cgram_write			;$B4B80C   | Write color value
+	INX					;$B4B80F   | Move to next byte
+	DEY					;$B4B810   | Decrease iteraction counter
+	BNE .write_normal_colors		;$B4B811   | If not 
+	REP #$20				;$B4B813   | Else we're done updating the colors, back to 16-Bit
+.return:					;	   |
+	RTS					;$B4B815  / Return
 
-DATA_B4B816:
-	db $C1, $00, $01, $18, $06, $00, $C1, $00
-	db $01, $18
+;swanky's "BONUS" sign lights color values (reflection)
+swanky_lights_reflection_colors:
+	dw $00C1
+	dw $1801
+	dw $0006
+	dw $00C1
+	dw $1801
 
-DATA_B4B820:
-	db $E3, $03, $03, $7C, $1F, $00, $E3, $03
-	db $03, $7C
+
+;swanky's "BONUS" sign lights color values
+swanky_lights_colors:
+	dw $03E3
+	dw $7C03
+	dw $001F
+	dw $03E3
+	dw $7C03
+
 
 
 CODE_B4B82A:
@@ -6658,7 +6672,7 @@ CODE_B4B8C6:
 	%pea_mask_dbr($7E3202)			;$B4B8C6  \
 	PLB					;$B4B8C9   |
 	PLB					;$B4B8CA   |
-	LDA $06AB				;$B4B8CB   |
+	LDA map_node_number			;$B4B8CB   |
 	ASL A					;$B4B8CE   |
 	ASL A					;$B4B8CF   |
 	TAX					;$B4B8D0   |
@@ -6697,7 +6711,7 @@ CODE_B4B910:
 	STA $06A1				;$B4B916   |
 	LDA #$002B				;$B4B919   |
 	STA $0654				;$B4B91C   |
-	LDA $06B1				;$B4B91F   |
+	LDA world_number			;$B4B91F   |
 	ASL A					;$B4B922   |
 	TAY					;$B4B923   |
 	LDA DATA_B4C25E,y			;$B4B924   |
@@ -6726,9 +6740,9 @@ CODE_B4B944:					;	   |
 	STA $0682				;$B4B94E   |
 	STA $0652				;$B4B951   |
 	REP #$20				;$B4B954   |
-	LDA $06B1				;$B4B956   |
+	LDA world_number			;$B4B956   |
 	BNE CODE_B4B965				;$B4B959   |
-	LDA $06AB				;$B4B95B   |
+	LDA map_node_number			;$B4B95B   |
 	ASL A					;$B4B95E   |
 	TAX					;$B4B95F   |
 	LDA $07B2,x				;$B4B960   |
@@ -6750,7 +6764,7 @@ CODE_B4B96C:					;	   |
 	STA $06A5				;$B4B982   |
 CODE_B4B985:					;	   |
 	REP #$20				;$B4B985   |
-	LDA $06B1				;$B4B987   |
+	LDA world_number			;$B4B987   |
 	BNE CODE_B4B991				;$B4B98A   |
 	JSR CODE_B4BB40				;$B4B98C   |
 	BRA CODE_B4B998				;$B4B98F  /
@@ -6806,7 +6820,7 @@ CODE_B4B9F6:
 CODE_B4B9F9:					;	   |
 	STA $0656				;$B4B9F9   |
 	SEP #$20				;$B4B9FC   |
-	LDA #$7E				;$B4B9FE   |
+	LDA #<:wram_base			;$B4B9FE   |
 	STA $D0					;$B4BA00   |
 	REP #$20				;$B4BA02   |
 CODE_B4BA04:					;	   |
@@ -6967,7 +6981,7 @@ CODE_B4BB31:
 	RTS					;$B4BB3F  /
 
 CODE_B4BB40:
-	LDA $06AB				;$B4BB40  \
+	LDA map_node_number			;$B4BB40  \
 	ASL A					;$B4BB43   |
 	TAY					;$B4BB44   |
 	LDX DATA_B4CE29,y			;$B4BB45   |
@@ -6990,8 +7004,8 @@ CODE_B4BB61:					;	   |
 
 CODE_B4BB62:
 	REP #$20				;$B4BB62  \
-	LDA $0689				;$B4BB64   | get npc screen type
-	CMP #$0008				;$B4BB67   | check if klubba
+	LDA npc_screen_type			;$B4BB64   | get npc screen type
+	CMP #!npc_screen_type_klubba		;$B4BB67   | check if klubba
 	BNE CODE_B4BB71				;$B4BB6A   |
 	LDY #$1128				;$B4BB6C   |
 	BRA CODE_B4BB74				;$B4BB6F  /
@@ -7439,6 +7453,7 @@ CODE_B4BEB4:
 	STA $067F				;$B4BECD   |
 	RTS					;$B4BED0  /
 
+;video game hero screen kong position related
 DATA_B4BED1:
 	db $84, $00, $81, $00, $BE, $00
 
@@ -7452,6 +7467,7 @@ DATA_B4BEE7:
 	db $13, $00, $5A, $00, $C3, $00, $46, $00
 
 
+;video game hero screen init
 CODE_B4BEEF:
 	SEP #$20				;$B4BEEF  \
 	STZ CPU.enable_interrupts		;$B4BEF1   |
@@ -7476,7 +7492,7 @@ CODE_B4BEEF:
 	BEQ CODE_B4BF3A				;$B4BF2C   |
 	CMP #CODE_B491C5			;$B4BF2E   |
 	BEQ CODE_B4BF3A				;$B4BF31   |
-	LDA #$0019				;$B4BF33   |
+	LDA #!music_cranky			;$B4BF33   |
 	JSL play_song				;$B4BF36   |
 CODE_B4BF3A:					;	   |
 	JSL disable_screen			;$B4BF3A   |
@@ -7497,7 +7513,7 @@ CODE_B4BF3A:					;	   |
 	STZ HDMA[1].indirect_source_bank	;$B4BF66   |
 	REP #$20				;$B4BF69   |
 	LDY #$0000				;$B4BF6B   |
-	LDX DATA_B4CD51,y			;$B4BF6E   |
+	LDX npc_screen_init_data,y		;$B4BF6E   |
 	LDA $0010,x				;$B4BF71   |
 	STA $0662				;$B4BF74   |
 	LDA $0012,x				;$B4BF77   |
@@ -7537,15 +7553,15 @@ CODE_B4BF3A:					;	   |
 	LDA #$00C3				;$B4BFD6   |
 	STA $0A,x				;$B4BFD9   |
 	LDY #$0168				;$B4BFDB   |
-	JSL CODE_BB842C				;$B4BFDE   |
+	JSL CODE_BB842C				;$B4BFDE   | Spawn Yoshi
 	LDX alternate_sprite			;$B4BFE2   |
 	STX $0668				;$B4BFE4   |
 	LDY #$0166				;$B4BFE7   |
-	JSL CODE_BB842C				;$B4BFEA   |
+	JSL CODE_BB842C				;$B4BFEA   | Spawn Mario
 	LDX alternate_sprite			;$B4BFEE   |
 	STX $066A				;$B4BFF0   |
 	LDY #$016C				;$B4BFF3   |
-	JSL CODE_BB842C				;$B4BFF6   |
+	JSL CODE_BB842C				;$B4BFF6   | Spawn Link
 	LDX alternate_sprite			;$B4BFFA   |
 	STX $066C				;$B4BFFC   |
 	LDX #DATA_B4BED1			;$B4BFFF   |
@@ -7702,9 +7718,9 @@ CODE_B4C14E:
 	TSB $06A3				;$B4C151   |
 	STZ $06AF				;$B4C154   |
 	STZ $06AD				;$B4C157   |
-	LDA $06B1				;$B4C15A   |
+	LDA world_number			;$B4C15A   |
 	BNE CODE_B4C165				;$B4C15D   |
-	LDA $06AB				;$B4C15F   |
+	LDA map_node_number			;$B4C15F   |
 	STA $06A9				;$B4C162   |
 CODE_B4C165:					;	   |
 	JSL CODE_B4AEAF				;$B4C165   |
@@ -7944,117 +7960,295 @@ DATA_B4C18B:
 	db $71					;D2
 
 DATA_B4C25E:
-	dw DATA_B4C27C				;00
-	dw DATA_B4C298				;01
-	dw DATA_B4C2BC				;02
-	dw DATA_B4C2E2				;03
-	dw DATA_B4C30A				;04
-	dw DATA_B4C32A				;05
-	dw DATA_B4C350				;06
-	dw DATA_B4C378				;07
-	dw DATA_B4C390				;08
-	dw DATA_B4C3B6				;09
-	dw DATA_B4C3D4				;0A
-	dw DATA_B4C3EC				;0B
-	dw DATA_B4C404				;0C
-	dw DATA_B4C41C				;0D
-	dw DATA_B4C434				;0E
+	dw .crocodile_isle			;00
+	dw .gangplank_galleon			;01
+	dw .crocodile_cauldron			;02
+	dw .krem_quay				;03
+	dw .krazy_kremland_lower		;04
+	dw .gloomy_gulch			;05
+	dw .krools_keep				;06
+	dw .the_flying_krock			;07
+	dw .unused_lost_world			;08
+	dw .krazy_kremland_upper		;09
+	dw .lost_world_w2			;0A
+	dw .lost_world_w3			;0B
+	dw .lost_world_w4			;0C
+	dw .lost_world_w5			;0D
+	dw .lost_world_w6			;0E
 
-DATA_B4C27C:
-	db $80, $00, $80, $00, $70, $00, $6F, $01
-	db $05, $00, $07, $00, $0B, $00, $00, $00
-	db $01, $00, $02, $00, $03, $00, $04, $00
-	db $05, $00, $06, $00
+.crocodile_isle:
+	dw $0080, $0080				;Min/max X scroll range
+	dw $0070, $016F				;Min/max Y scroll range
+	dw $0005				;Unknown
+	dw $0007				;Number of map icons to draw
+	dw $000B				;Level name text Y position	
 
-DATA_B4C298:
-	db $80, $00, $80, $00, $6F, $00, $6F, $00
-	db $08, $00, $0B, $00, $C8, $00, $41, $00
-	db $42, $00, $43, $00, $09, $00, $0A, $00
-	db $0B, $00, $0C, $00, $0D, $00, $0E, $00
-	db $0F, $00, $58, $00
+;node ID's
+	dw $0000
+	dw $0001
+	dw $0002
+	dw $0003
+	dw $0004
+	dw $0005
+	dw $0006
 
-DATA_B4C2BC:
-	db $80, $00, $80, $00, $6F, $00, $6F, $00
-	db $0B, $00, $0C, $00, $C8, $00, $10, $00
-	db $11, $00, $12, $00, $13, $00, $14, $00
-	db $15, $00, $16, $00, $17, $00, $18, $00
-	db $19, $00, $1A, $00, $27, $00
+.gangplank_galleon:
+	dw $0080, $0080
+	dw $006F, $006F
+	dw $0008
+	dw $000B
+	dw $00C8
 
-DATA_B4C2E2:
-	db $80, $00, $80, $01, $6F, $00, $6F, $00
-	db $0D, $00, $0D, $00, $0B, $00, $1B, $00
-	db $1C, $00, $1D, $00, $1E, $00, $1F, $00
-	db $20, $00, $21, $00, $22, $00, $23, $00
-	db $24, $00, $25, $00, $26, $00, $54, $00
+	dw $0041
+	dw $0042
+	dw $0043
+	dw $0009
+	dw $000A
+	dw $000B
+	dw $000C
+	dw $000D
+	dw $000E
+	dw $000F
+	dw $0058
 
-DATA_B4C30A:
-	db $80, $00, $80, $00, $6F, $00, $6F, $00
-	db $09, $00, $09, $00, $C8, $00, $44, $00
-	db $45, $00, $46, $00, $47, $00, $48, $00
-	db $50, $00, $51, $00, $52, $00, $55, $00
+.crocodile_cauldron:
+	dw $0080, $0080
+	dw $006F, $006F
+	dw $000B
+	dw $000C
+	dw $00C8
 
-DATA_B4C32A:
-	db $80, $00, $80, $00, $6F, $00, $6F, $00
-	db $0A, $00, $0C, $00, $C8, $00, $28, $00
-	db $29, $00, $2A, $00, $2B, $00, $2C, $00
-	db $2D, $00, $2E, $00, $2F, $00, $31, $00
-	db $32, $00, $33, $00, $56, $00
+	dw $0010
+	dw $0011
+	dw $0012
+	dw $0013
+	dw $0014
+	dw $0015
+	dw $0016
+	dw $0017
+	dw $0018
+	dw $0019
+	dw $001A
+	dw $0027
 
-DATA_B4C350:
-	db $80, $00, $80, $00, $70, $00, $4F, $01
-	db $0B, $00, $0D, $00, $C8, $00, $34, $00
-	db $35, $00, $36, $00, $37, $00, $38, $00
-	db $39, $00, $3A, $00, $3B, $00, $3C, $00
-	db $3D, $00, $3F, $00, $40, $00, $57, $00
+.krem_quay:
+	dw $0080, $0180
+	dw $006F, $006F
+	dw $000D
+	dw $000D
+	dw $000B
 
-DATA_B4C378:
-	db $80, $00, $80, $00, $6F, $00, $6F, $00
-	db $05, $00, $05, $00, $0B, $00, $59, $00
-	db $5B, $00, $5C, $00, $5D, $00, $77, $00
-
-DATA_B4C390:
-	db $80, $00, $80, $00, $6F, $00, $6F, $00
-	db $0B, $00, $0C, $00, $C8, $00, $10, $00
-	db $11, $00, $12, $00, $13, $00, $14, $00
-	db $15, $00, $16, $00, $17, $00, $18, $00
-	db $19, $00, $1A, $00, $27, $00
-
-DATA_B4C3B6:
-	db $80, $00, $80, $00, $6F, $00, $6F, $00
-	db $07, $00, $08, $00, $C8, $00, $49, $00
-	db $4A, $00, $4B, $00, $4C, $00, $4D, $00
-	db $4E, $00, $4F, $00, $53, $00
-
-DATA_B4C3D4:
-	db $80, $00, $80, $00, $6F, $00, $6F, $00
-	db $00, $00, $05, $00, $0B, $00, $5E, $00
-	db $5F, $00, $60, $00, $61, $00, $72, $00
-
-DATA_B4C3EC:
-	db $80, $00, $80, $00, $6F, $00, $6F, $00
-	db $00, $00, $05, $00, $0B, $00, $62, $00
-	db $63, $00, $64, $00, $65, $00, $73, $00
-
-DATA_B4C404:
-	db $80, $00, $80, $00, $6F, $00, $6F, $00
-	db $00, $00, $05, $00, $0B, $00, $66, $00
-	db $67, $00, $68, $00, $69, $00, $74, $00
-
-DATA_B4C41C:
-	db $80, $00, $80, $00, $6F, $00, $6F, $00
-	db $00, $00, $05, $00, $0B, $00, $6A, $00
-	db $6B, $00, $6C, $00, $6D, $00, $75, $00
-
-DATA_B4C434:
-	db $80, $00, $80, $00, $6F, $00, $6F, $00
-	db $00, $00, $05, $00, $0B, $00, $6E, $00
-	db $6F, $00, $70, $00, $71, $00, $76, $00
+	dw $001B
+	dw $001C
+	dw $001D
+	dw $001E
+	dw $001F
+	dw $0020
+	dw $0021
+	dw $0022
+	dw $0023
+	dw $0024
+	dw $0025
+	dw $0026
+	dw $0054
 
 
+.krazy_kremland_lower:
+	dw $0080, $0080
+	dw $006F, $006F
+	dw $0009
+	dw $0009
+	dw $00C8
+
+	dw $0044
+	dw $0045
+	dw $0046
+	dw $0047
+	dw $0048
+	dw $0050
+	dw $0051
+	dw $0052
+	dw $0055
+
+
+.gloomy_gulch:
+	dw $0080, $0080
+	dw $006F, $006F
+	dw $000A
+	dw $000C
+	dw $00C8
+
+	dw $0028
+	dw $0029
+	dw $002A
+	dw $002B
+	dw $002C
+	dw $002D
+	dw $002E
+	dw $002F
+	dw $0031
+	dw $0032
+	dw $0033
+	dw $0056
+
+
+.krools_keep:
+	dw $0080, $0080
+	dw $0070, $014F
+	dw $000B
+	dw $000D
+	dw $00C8
+
+	dw $0034
+	dw $0035
+	dw $0036
+	dw $0037
+	dw $0038
+	dw $0039
+	dw $003A
+	dw $003B
+	dw $003C
+	dw $003D
+	dw $003F
+	dw $0040
+	dw $0057
+
+
+.the_flying_krock:
+	dw $0080, $0080
+	dw $006F, $006F
+	dw $0005
+	dw $0005
+	dw $000B
+
+	dw $0059
+	dw $005B
+	dw $005C
+	dw $005D
+	dw $0077
+
+
+.unused_lost_world:
+	dw $0080, $0080
+	dw $006F, $006F
+	dw $000B
+	dw $000C
+	dw $00C8
+
+	dw $0010
+	dw $0011
+	dw $0012
+	dw $0013
+	dw $0014
+	dw $0015
+	dw $0016
+	dw $0017
+	dw $0018
+	dw $0019
+	dw $001A
+	dw $0027
+
+
+.krazy_kremland_upper:
+	dw $0080, $0080
+	dw $006F, $006F
+	dw $0007
+	dw $0008
+	dw $00C8
+
+	dw $0049
+	dw $004A
+	dw $004B
+	dw $004C
+	dw $004D
+	dw $004E
+	dw $004F
+	dw $0053
+
+
+.lost_world_w2:
+	dw $0080, $0080
+	dw $006F, $006F
+	dw $0000
+	dw $0005
+	dw $000B
+
+	dw $005E
+	dw $005F
+	dw $0060
+	dw $0061
+	dw $0072
+
+
+.lost_world_w3:
+	dw $0080, $0080
+	dw $006F, $006F
+	dw $0000
+	dw $0005
+	dw $000B
+
+	dw $0062
+	dw $0063
+	dw $0064
+	dw $0065
+	dw $0073
+
+
+.lost_world_w4:
+	dw $0080, $0080
+	dw $006F, $006F
+	dw $0000
+	dw $0005
+	dw $000B
+
+	dw $0066
+	dw $0067
+	dw $0068
+	dw $0069
+	dw $0074
+
+
+.lost_world_w5:
+	dw $0080, $0080
+	dw $006F, $006F
+	dw $0000
+	dw $0005
+	dw $000B
+
+	dw $006A
+	dw $006B
+	dw $006C
+	dw $006D
+	dw $0075
+
+
+.lost_world_w6:
+	dw $0080, $0080
+	dw $006F, $006F
+	dw $0000
+	dw $0005
+	dw $000B
+
+	dw $006E
+	dw $006F
+	dw $0070
+	dw $0071
+	dw $0076
+
+
+;world entrance node ID's
 DATA_B4C44C:
-	db $00, $00, $58, $00, $27, $00, $54, $00
-	db $55, $00, $56, $00, $57, $00, $59, $00
-	db $00, $00, $4F, $00
+	dw !null_pointer	
+	dw $0058				;Gangplank galleon
+	dw $0027				;Crocodile cauldron
+	dw $0054				;Krem quay
+	dw $0055				;Krazy kremland
+	dw $0056				;Gloomy gulch
+	dw $0057				;K.rools keep
+	dw $0059				;The flying krock
+	dw !null_pointer
+	dw $004F				;Krazy kremland lower to upper
+
 
 DATA_B4C460:
 	db $00, $00, $41, $00, $10, $00, $1B, $00
@@ -8064,14 +8258,29 @@ DATA_B4C460:
 	db $16, $00, $D1, $00, $9A, $00, $D2, $00
 	db $00, $00, $00, $00
 
+
+;Krocodile kore node ID's (read immediately after beating krocodile kore)
 DATA_B4C48C:
-	db $61, $65, $69, $6D, $71
+	db $61
+	db $65
+	db $69
+	db $6D
+	db $71
 
+;Map icons OAM properties
 DATA_B4C491:
-	db $00, $3C, $02, $3C, $04, $30, $0A, $32
-	db $08, $32, $06, $30, $0C, $3A, $0E, $3A
-	db $80, $34
+	dw $3C00				;Diddy
+	dw $3C02				;Dixie
+	dw $3004				;Cranky
+	dw $320A				;Funky
+	dw $3208				;Swanky
+	dw $3006				;Wrinkly
+	dw $3A0C				;Klubba
+	dw $3A0E				;Kremling
+	dw $3480				;Boss skull
 
+
+;map arrows X/Y offsets and OAM properties
 DATA_B4C4A3:
 	db $04
 
@@ -8079,8 +8288,14 @@ DATA_B4C4A4:
 	db $F6
 
 DATA_B4C4A5:
-	db $20, $3C, $04, $12, $20, $BC, $F6, $04
-	db $21, $7C, $12, $04, $21, $3C
+	dw $3C20
+	dw $1204
+	dw $BC20
+	dw $04F6
+	dw $7C21
+	dw $0412
+	dw $3C21
+
 
 DATA_B4C4B3:
 	%font_tile_offset(DATA_FC0FE0)
@@ -8906,127 +9121,219 @@ DATA_B4CB0F:
 	dw DATA_F7D74E
 	dw DATA_F7D772
 
-DATA_B4CB19:
+funky_and_klubba_prices_table:
 	dw !null_pointer
-	dw DATA_B4CB9F
-	dw !null_pointer
-	dw !null_pointer
-	dw DATA_B4CC47
-
-DATA_B4CB23:
-	dw DATA_B4CB3F
-	dw DATA_B4CB4D
-	dw DATA_B4CB5B
-	dw !null_pointer
-	dw DATA_B4CB77
-	dw DATA_B4CB85
+	dw funky_prices
 	dw !null_pointer
 	dw !null_pointer
-	dw DATA_B4CB69
-	dw DATA_B4CB93
-	dw DATA_B4CB93
-	dw DATA_B4CB93
-	dw DATA_B4CB93
-	dw DATA_B4CB93
+	dw klubba_prices
 
-DATA_B4CB3F:
-	db $00, $00, $00, $00, $00, $00, $01, $00
-	db $02, $00, $03, $00, $00, $00
-
-DATA_B4CB4D:
-	db $00, $00, $00, $00, $00, $00, $01, $00
-	db $02, $00, $03, $00, $00, $00
-
-DATA_B4CB5B:
-	db $00, $00, $00, $00, $00, $00, $01, $00
-	db $02, $00, $03, $00, $00, $00
-
-DATA_B4CB69:
-	db $00, $00, $00, $00, $00, $00, $01, $00
-	db $02, $00, $03, $00, $00, $00
-
-DATA_B4CB77:
-	db $00, $00, $00, $00, $00, $00, $01, $00
-	db $02, $00, $03, $00, $00, $00
-
-DATA_B4CB85:
-	db $00, $00, $00, $00, $00, $00, $01, $00
-	db $02, $00, $03, $00, $00, $00
-
-DATA_B4CB93:
-	db $02, $00, $02, $00, $02, $00, $02, $00
-	db $02, $00, $00, $00
-
-DATA_B4CB9F:
-	db $02, $00, $00, $00
-
-DATA_B4CBA3:
-	dw DATA_B4CBB5
-	dw DATA_B4CBBD
-	dw DATA_B4CBC5
+cranky_prices_table:
+	dw .gangplank_galleon
+	dw .crocodile_cauldron
+	dw .krem_quay
 	dw !null_pointer
-	dw DATA_B4CBD5
-	dw DATA_B4CBDD
+	dw .gloomy_gulch
+	dw .krools_keep
 	dw !null_pointer
 	dw !null_pointer
-	dw DATA_B4CBCD
+	dw .krazy_kremland
+	dw .lost_world
+	dw .lost_world
+	dw .lost_world
+	dw .lost_world
+	dw .lost_world
 
-DATA_B4CBB5:
-	db $00, $00, $01, $00, $02, $00, $00, $00
+.gangplank_galleon:
+	dw $0000
+	dw $0000
+	dw $0000
+	dw $0001
+	dw $0002
+	dw $0003
+	dw $0000
 
-DATA_B4CBBD:
-	db $01, $00, $02, $00, $03, $00, $00, $00
+.crocodile_cauldron:
+	dw $0000
+	dw $0000
+	dw $0000
+	dw $0001
+	dw $0002
+	dw $0003
+	dw $0000
 
-DATA_B4CBC5:
-	db $01, $00, $02, $00, $03, $00, $00, $00
+.krem_quay:
+	dw $0000
+	dw $0000
+	dw $0000
+	dw $0001
+	dw $0002
+	dw $0003
+	dw $0000
 
-DATA_B4CBCD:
-	db $01, $00, $02, $00, $03, $00, $00, $00
+.krazy_kremland:
+	dw $0000
+	dw $0000
+	dw $0000
+	dw $0001
+	dw $0002
+	dw $0003
+	dw $0000
 
-DATA_B4CBD5:
-	db $01, $00, $02, $00, $03, $00, $00, $00
+.gloomy_gulch:
+	dw $0000
+	dw $0000
+	dw $0000
+	dw $0001
+	dw $0002
+	dw $0003
+	dw $0000
 
-DATA_B4CBDD:
-	db $01, $00, $02, $00, $03, $00, $00, $00
+.krools_keep:
+	dw $0000
+	dw $0000
+	dw $0000
+	dw $0001
+	dw $0002
+	dw $0003
+	dw $0000
 
-;wrinkly price tables per world
-DATA_B4CBE5:
-	dw DATA_B4CBF3
-	dw DATA_B4CC03
-	dw DATA_B4CC13
-	dw DATA_B4CC23
-	dw DATA_B4CC2D
-	dw DATA_B4CC37
-	dw DATA_B4CC3F
+.lost_world:
+	dw $0002
+	dw $0002
+	dw $0002
+	dw $0002
+	dw $0002
+	dw $0000
 
-DATA_B4CBF3:
-	db $00, $00, $00, $00, $00, $00, $00, $00
-	db $01, $00, $01, $00, $02, $00, $00, $00
 
-DATA_B4CC03:
-	db $00, $00, $00, $00, $00, $00, $00, $00
-	db $01, $00, $01, $00, $02, $00, $00, $00
+funky_prices:
+	dw $0002
+	dw $0000
 
-DATA_B4CC13:
-	db $00, $00, $00, $00, $00, $00, $00, $00
-	db $01, $00, $01, $00, $02, $00, $00, $00
+swanky_prices_table:
+	dw .gangplank_galleon
+	dw .crocodile_cauldron
+	dw .krem_quay
+	dw !null_pointer
+	dw .gloomy_gulch
+	dw .krools_keep
+	dw !null_pointer
+	dw !null_pointer
+	dw .krazy_kremland
 
-DATA_B4CC23:
-	db $00, $00, $00, $00, $01, $00, $02, $00
-	db $00, $00
+.gangplank_galleon:
+	dw $0000
+	dw $0001
+	dw $0002
+	dw $0000
 
-DATA_B4CC2D:
-	db $00, $00, $00, $00, $01, $00, $02, $00
-	db $00, $00
+.crocodile_cauldron:
+	dw $0001
+	dw $0002
+	dw $0003
+	dw $0000
 
-DATA_B4CC37:
-	db $00, $00, $00, $00, $01, $00, $00, $00
+.krem_quay:
+	dw $0001
+	dw $0002
+	dw $0003
+	dw $0000
 
-DATA_B4CC3F:
-	db $01, $00, $00, $00, $03, $00, $00, $00
+.krazy_kremland:
+	dw $0001
+	dw $0002
+	dw $0003
+	dw $0000
 
-DATA_B4CC47:
-	db $0F, $00, $00, $00, $00, $00
+.gloomy_gulch:
+	dw $0001
+	dw $0002
+	dw $0003
+	dw $0000
+
+.krools_keep:
+	dw $0001
+	dw $0002
+	dw $0003
+	dw $0000
+
+wrinkly_prices_table:
+	dw .gangplank_galleon
+	dw .crocodile_cauldron
+	dw .krem_quay
+	dw .krazy_kremland
+	dw .gloomy_gulch
+	dw .krools_keep
+	dw .the_flying_krock
+
+.gangplank_galleon:
+	dw $0000
+	dw $0000
+	dw $0000
+	dw $0000
+	dw $0001
+	dw $0001
+	dw $0002
+	dw $0000
+
+
+.crocodile_cauldron:
+	dw $0000
+	dw $0000
+	dw $0000
+	dw $0000
+	dw $0001
+	dw $0001
+	dw $0002
+	dw $0000
+
+
+.krem_quay:
+	dw $0000
+	dw $0000
+	dw $0000
+	dw $0000
+	dw $0001
+	dw $0001
+	dw $0002
+	dw $0000
+
+
+.krazy_kremland:
+	dw $0000
+	dw $0000
+	dw $0001
+	dw $0002
+	dw $0000
+
+
+.gloomy_gulch:
+	dw $0000
+	dw $0000
+	dw $0001
+	dw $0002
+	dw $0000
+
+
+.krools_keep:
+	dw $0000
+	dw $0000
+	dw $0001
+	dw $0000
+
+
+.the_flying_krock:
+	dw $0001
+	dw $0000
+	dw $0003
+	dw $0000
+
+
+klubba_prices:
+	dw $000F
+	dw $0000
+	dw $0000
 
 
 DATA_B4CC4D:
@@ -9196,6 +9503,7 @@ DATA_B4CD41:
 	dw CODE_B4A9DB
 
 
+;table with npc hud coin spawn scripts
 DATA_B4CD47:
 	dw DATA_FF12F4
 	dw DATA_FF12F4
@@ -9203,76 +9511,75 @@ DATA_B4CD47:
 	dw DATA_FF12F4
 	dw DATA_FF1312
 
-DATA_B4CD51:
-	dw DATA_B4CD65
-	dw DATA_B4CD81
-	dw DATA_B4CD9D
-	dw DATA_B4CDB9
-	dw DATA_B4CDD5
+npc_screen_init_data:
+	dw .crankys_museum_init			;00
+	dw .funkys_flights_init			;02
+	dw .swankys_bonus_bonanza_init		;04
+	dw .kong_kollege_init			;06
+	dw .klubbas_kiosk_init			;08
 
-;block 1?
-DATA_B4CD5B:
-	db $19, $00, $08, $00, $04, $00, $0C, $00
-	db $0A, $00
+#npc_screen_music_ids:
+	dw !music_cranky
+	dw !music_funky
+	dw !music_swanky
+	dw !music_wrinkly
+	dw !music_klubba
 
-DATA_B4CD65:
-	db $08, $07 : dw monkey_museum_palette : db $E0, $FF, $AB, $00
-	db $C0, $FF, $AB, $00, $00, $00
 
-DATA_B4CD73:
-	dw CODE_B4B82A
+.crankys_museum_init:
+	db $08, $07 : dw monkey_museum_palette	;VRAM payload index, PPU settings index, BG palette
+	dw $FFE0, $00AB				;Active kong X/Y spawn positions
+	dw $FFC0, $00AB				;Inactive kong X/Y spawn positions
+	dw $0000				;Kong H flip
+	dw CODE_B4B82A				;Routine to run every frame on NMI
+	dw $7BA0, $7AA0				;Intro and options text VRAM address, response text VRAM address
+	dw DATA_B4CDF1 				;NPC spawn data (handles big sprite spawning and other stuff)
+	dw $0060, $0040				;Main kong and inactive kong X position walk limit
+	dw $0100				;Kongs walk X velocity
 
-;block 2?
-DATA_B4CD75:
-	db $A0, $7B, $A0, $7A : dw DATA_B4CDF1 : db $60, $00
-	db $40, $00, $00, $01
-
-DATA_B4CD81:
-	db $09, $08 : dw funkys_flights_palette : db $10, $01, $C0, $00
-	db $30, $01, $C0, $00, $01, $00
-
-DATA_B4CD8F:
+.funkys_flights_init:
+	db $09, $08 : dw funkys_flights_palette
+	dw $0110, $00C0
+	dw $0130, $00C0
+	dw $0001
 	dw CODE_B4B82B
+	dw $4BA0, $4AA0
+	dw DATA_B4CDF6
+	dw $00A0, $00C0
+	dw $0100
 
-;block 3?
-DATA_B4CD91:
-	db $A0, $4B, $A0, $4A : dw DATA_B4CDF6 : db $A0, $00
-	db $C0, $00, $00, $01
+.swankys_bonus_bonanza_init:
+	db $0B, $07 : dw swankys_bonus_bonanza_palette
+	dw $0110, $00B8
+	dw $0130, $00B8
+	dw $0000
+	dw update_swanky_lights
+	dw $7BA0, $7AA0
+	dw DATA_B4CE07
+	dw $00A8, $00C8
+	dw $0100
 
-DATA_B4CD9D:
-	db $0B, $07 : dw swankys_bonus_bonanza_palette : db $10, $01, $B8, $00
-	db $30, $01, $B8, $00, $00, $00
-
-DATA_B4CDAB:
-	dw CODE_B4B7CA
-
-;block 4?
-DATA_B4CDAD:
-	db $A0, $7B, $A0, $7A : dw DATA_B4CE07 : db $A8, $00
-	db $C8, $00, $00, $01
-
-DATA_B4CDB9:
-	db $0A, $07 : dw kong_kollege_palette : db $10, $01, $B0, $00
-	db $30, $01, $B0, $00, $01, $00
-
-DATA_B4CDC7:
+.kong_kollege_init:
+	db $0A, $07 : dw kong_kollege_palette
+	dw $0110, $00B0
+	dw $0130, $00B0
+	dw $0001
 	dw CODE_B4B82A
+	dw $7BA0, $7AA0
+	dw DATA_B4CE0F
+	dw $00A0, $00C0
+	dw $0100
 
-;block 5?
-DATA_B4CDC9:
-	db $A0, $7B, $A0, $7A : dw DATA_B4CE0F : db  $A0, $00
-	db $C0, $00, $00, $01
-
-DATA_B4CDD5:
-	db $0C, $07 : dw klubbas_kiosk_palette : db $E0, $FF, $A4, $00
-	db $C0, $FF, $A4, $00, $00, $00
-
-DATA_B4CDE3:
+.klubbas_kiosk_init:
+	db $0C, $07 : dw klubbas_kiosk_palette
+	dw $FFE0, $00A4
+	dw $FFC0, $00A4
+	dw $0000
 	dw CODE_B4B82A
-
-DATA_B4CDE5:
-	db $A0, $7B, $A0, $7A : dw DATA_B4CE17 : db $50, $00
-	db $30, $00, $00, $01
+	dw $7BA0, $7AA0
+	dw DATA_B4CE17
+	dw $0050, $0030
+	dw $0100
 
 DATA_B4CDF1:
 	db $00, $01, $00, $00, $00
@@ -9291,10 +9598,15 @@ DATA_B4CE0F:
 DATA_B4CE17:
 	db $0E, $01, $01, $10, $01, $00, $00, $00
 
+;Lost world rocks spawn script indexes
 DATA_B4CE1F:
-	db $48, $01, $4A, $01, $4C, $01, $4E, $01
-	db $50, $01
+	dw $0148
+	dw $014A
+	dw $014C
+	dw $014E
+	dw $0150
 
+;Some data for the DK coin icon for the island worlds
 DATA_B4CE29:
 	dw DATA_B4CE37
 	dw DATA_B4CE3D

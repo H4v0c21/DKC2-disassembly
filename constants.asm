@@ -587,6 +587,31 @@
 !map_level_type				= $0005
 !sub_level_type				= $0006
 
+
+!world_crocodile_isle			= $0000
+!world_gangplank_galleon		= $0001
+!world_crocodile_cauldron		= $0002
+!world_krem_quay			= $0003
+!world_krazy_kremland_lower		= $0004
+!world_gloomy_gulch			= $0005
+!world_krools_keep			= $0006
+!world_the_flying_krock			= $0007
+!world_unused_lost_world		= $0008
+!world_krazy_kremland_upper		= $0009
+!world_lost_world_w2			= $000A
+!world_lost_world_w3			= $000B
+!world_lost_world_w4			= $000C
+!world_lost_world_w5			= $000D
+!world_lost_world_w6			= $000E
+
+
+!npc_screen_type_cranky			= $0000
+!npc_screen_type_funky			= $0002
+!npc_screen_type_swanky			= $0004
+!npc_screen_type_wrinkly		= $0006
+!npc_screen_type_klubba			= $0008
+
+
 !destroy_them_all_bonus_type		= $0001
 !collect_the_stars_bonus_type		= $0002
 !find_the_token_bonus_type		= $0003
@@ -801,4 +826,4 @@
 !animal_sprite_type_range_end		= $01A0
 
 
-!non_kong_sprite_slot_start            = $0E9E
+!non_kong_sprite_slot_start		= $0E9E

@@ -105,6 +105,10 @@ file_select_file_to_copy = $0615
 
 language_select = $0617
 
+npc_screen_type = $0689
+map_node_number = $06AB
+world_number = $06B1
+
 piracy_string_result = $0907
 enable_intro_bypass = $090F
 
