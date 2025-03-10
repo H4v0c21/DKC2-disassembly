@@ -606,7 +606,7 @@ CODE_BA94FF:					;	   |
 
 CODE_BA9502:
 	PHY					;$BA9502  \
-	LDA #$067A				;$BA9503   | 
+	LDA #$067A				;$BA9503   |
 	JSL queue_sound_effect			;$BA9506   | Play king_zing_hit sound effect
 	LDX current_sprite			;$BA950A   |
 	PHX					;$BA950C   |
@@ -821,7 +821,7 @@ DATA_BA96CA:
 	dw $0003, $FFFD
 	dw $FFFD, $FFFD
 	dw $0003, $0003
-	dw $0003, $FFFD 	
+	dw $0003, $FFFD
 	dw $FFFD, $FFFD
 	dw $0003, $0003
 	dw $0003, $FFFD
@@ -1157,7 +1157,7 @@ king_zing_stinger_sprite_code:
 	LDA $20,x				;$BA9A18   | Get current X velocity
 	EOR #$FFFF				;$BA9A1A   |
 	INC A					;$BA9A1D   | Invert and update it
-	STA $20,x				;$BA9A1E   | 
+	STA $20,x				;$BA9A1E   |
 CODE_BA9A20:					;	   |
 	STZ $26,x				;$BA9A20   | Clear target X velocity
 CODE_BA9A22:					;	   |
@@ -1414,13 +1414,13 @@ CODE_BA9C2A:					;	   |
 	LDA $32,x				;$BA9C2C   |
 	BEQ CODE_BA9C47				;$BA9C2E   |
 	LDA #$0000				;$BA9C30   |
-	PHB					;$BA9C33   | 
+	PHB					;$BA9C33   |
 	PHK					;$BA9C34   |
 	PLB					;$BA9C35   |
 	JSR.w CODE_B6F266		 	;$BA9C36   | This code was probably from B6 krow code and got moved, would have spawned egg shell pieces
 	PLB					;$BA9C39   |
 	JSL delete_sprite_handle_deallocation	;$BA9C3A   | Would have deleted egg sprite and played a barrel break sound
-	LDA #$041A				;$BA9C3E   | 
+	LDA #$041A				;$BA9C3E   |
 	JSL queue_sound_effect			;$BA9C41   |
 	BRA CODE_BA9C61				;$BA9C45  /
 
@@ -1865,7 +1865,7 @@ CODE_BA9FE2:
 	LDY #$013C				;$BAA008   |
 	JSL CODE_BB842C				;$BAA00B   |
 	LDX $0654				;$BAA00F   | get index of body sprite
-	LDA #$C000				;$BAA012   | 
+	LDA #$C000				;$BAA012   |
 	STA $1C,x				;$BAA015   | make it invisible
 	STZ $3A,x				;$BAA017   |
 	LDX $0656				;$BAA019   | get index of head sprite
@@ -2463,7 +2463,7 @@ DATA_BAA5EF:
 	db $0A, $00, $0A, $00, $0A, $00, $09, $00
 	db $09, $00, $08, $00, $08, $00, $07, $00
 	db $07, $00, $7E
-	
+
 	dw DATA_BAA590
 
 
@@ -2542,7 +2542,7 @@ DATA_BAA79A:
 	dw $0002
 	dw $FFEF, $FFF2, $0022, $001F
 	dw $FFD6, $FFD4, $0016, $001F
-	
+
 DATA_BAA7AC:
 	dw $0002
 	dw $FFD2, $FFD9, $0013, $001C
@@ -2625,7 +2625,7 @@ DATA_BAAA88:
 	dw $0100, $0000, $0100, $0000, $0909, $FC80, $1500, $004B, $FFF6
 	dw $0100, $0000, $0100, $0000, $0909, $FC80, $1500, $004B, $FFF6
 	dw $0100, $0000, $0100, $0000, $0909, $FC80, $1500, $004B, $FFF6
-	
+
 ;kleever shake offset related
 DATA_BAAABE:
 	db $02, $01
@@ -2833,7 +2833,7 @@ DATA_BAAD1E:
 
 DATA_BAAD2E:
 	dw $0018
-	
+
 ;krow 1 phase 2 falling egg data?
 DATA_BAAD30:
 	dw DATA_BAAD60
@@ -4072,8 +4072,8 @@ DATA_BAB90B:
 krool_water_drips_sprite_code:
 	LDA.l $0006A3				;$BAC0D2  \
 	BIT #$4000				;$BAC0D6   |
-	BEQ .state_handler			;$BAC0D9   | 
-	JSL delete_sprite_handle_deallocation	;$BAC0DB   | 
+	BEQ .state_handler			;$BAC0D9   |
+	JSL delete_sprite_handle_deallocation	;$BAC0DB   |
 	JML [$05A9]				;$BAC0DF  /
 
 .state_handler:
@@ -4142,7 +4142,7 @@ krool_fish_sprite_code:
 	CMP #$01C5				;$BAC147   | check if it reached 01C5
 	BCC .handle_timer			;$BAC14A   | if not, handle state transition timer
 	LDA #$01C5				;$BAC14C   | else cap it to 01C5
-	STA $0A,x				;$BAC14F   | 
+	STA $0A,x				;$BAC14F   |
 	LDA $46,x				;$BAC151   | get timer value
 	BNE .continue_bounce_state		;$BAC153   | if timer hasn't finished yet, don't transition state
 	INC $2E,x				;$BAC155   | else set fall state
@@ -4173,7 +4173,7 @@ krool_fish_sprite_code:
 	JSL queue_sound_effect			;$BAC198   | play krool water splash 1 sound
 	LDA #$065C				;$BAC19C   |
 	JSL queue_sound_effect			;$BAC19F   | play krool water splash 2 sound
-	LDX current_sprite			;$BAC1A3   | 
+	LDX current_sprite			;$BAC1A3   |
 	INC $42,x				;$BAC1A5   | increase bounce count
 .handle_timer:					;	   |
 	LDA $46,x				;$BAC1A7   | get timer value
@@ -4195,9 +4195,9 @@ krool_fish_sprite_code:
 	JSL interpolate_x_velocity_global	;$BAC1C6   | and use it as X interpolation preset
 	LDX current_sprite			;$BAC1CA   |
 	LDA $44,x				;$BAC1CC   | get Y interpolation preset
-	JSL interpolate_y_velocity_global	;$BAC1CE   | 
+	JSL interpolate_y_velocity_global	;$BAC1CE   |
 	JSL apply_position_from_velocity_global	;$BAC1D2   |
-	LDX current_sprite			;$BAC1D6   | 
+	LDX current_sprite			;$BAC1D6   |
 	RTS					;$BAC1D8  /
 
 kong_npc_sprite_code:
@@ -4650,7 +4650,7 @@ CODE_BAC958:					;	   |
 endif
 
 
-warnpc $BAD000 : padbyte $00 : pad $BAD000
+assert pc() <= $BAD000 : padbyte $00 : pad $BAD000
 
 DATA_BAD000:
 	db $0E, $00

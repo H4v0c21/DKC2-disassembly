@@ -12,19 +12,19 @@ DATA_FA0660:
 
 ;$FA0A60
 DATA_FA0A60:
-	incbin "data/misc_graphics/ship_hold_window_tiledata.bin":0000-0040
+	incbin "data/misc_graphics/ship_hold_window_tiledata.bin":$0000..$0040
 
 ;$FA0AA0
 DATA_FA0AA0:
-	incbin "data/misc_graphics/ship_hold_window_tiledata.bin":0040-0060
+	incbin "data/misc_graphics/ship_hold_window_tiledata.bin":$0040..$0060
 
 ;$FA0AC0
 DATA_FA0AC0:
-	incbin "data/misc_graphics/ship_hold_window_tiledata.bin":0060-0080
+	incbin "data/misc_graphics/ship_hold_window_tiledata.bin":$0060..$0080
 
 ;$FA0AE0
 DATA_FA0AE0:
-	incbin "data/misc_graphics/ship_hold_window_tiledata.bin":0080-00C0
+	incbin "data/misc_graphics/ship_hold_window_tiledata.bin":$0080..$00C0
 
 ;$FA0B20
 DATA_FA0B20:

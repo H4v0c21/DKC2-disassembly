@@ -13,9 +13,9 @@ sprite_handler:
 	STZ $19AC				;$B3801B   |
 	STZ $19AF				;$B3801E   |
 	REP #$20				;$B38021   |
-	LDA #<:.sprite_return			;$B38023   |\ Write bank of sprite return address (always B3)
+	LDA.w #<:.sprite_return			;$B38023   |\ Write bank of sprite return address (always B3)
 	STA $05AB				;$B38026   |/
-	LDA #<:DATA_FF0000			;$B38029   |\ Write bank of sprite constants for current sprite (always FF)
+	LDA.w #<:DATA_FF0000			;$B38029   |\ Write bank of sprite constants for current sprite (always FF)
 	STA $90					;$B3802C   |/
 	JSL CODE_BCFA78				;$B3802E   |
 	LDA $0A36				;$B38032   |\
@@ -38,7 +38,7 @@ sprite_handler:
 .get_next_slot					;	   |
 	TXA					;$B38054   |\ Load next sprite slot
 	CLC					;$B38055   | |
-	ADC #sizeof(sprite)			;$B38056   | |
+	ADC.w #sizeof(sprite)			;$B38056   | |
 	TAX					;$B38059   |/
 	CPX #main_sprite_table_end		;$B3805A   |\ If not at the last sprite
 	BNE .next_slot				;$B3805D   |/ then test if the sprite exists
@@ -112,7 +112,7 @@ CODE_B380D5:
 CODE_B380D7:					;	   |
 	TXA					;$B380D7   |
 	CLC					;$B380D8   |
-	ADC #sizeof(sprite)			;$B380D9   |
+	ADC.w #sizeof(sprite)			;$B380D9   |
 	TAX					;$B380DC   |
 	CPX #main_sprite_table_end		;$B380DD   |
 	BNE CODE_B38090				;$B380E0   |
@@ -327,7 +327,7 @@ diddy_hurt_stars_main:
 	LDX current_sprite			;$B3826C   | Get hurt star sprite
 	LDA $42,x				;$B3826E   | Get time until despawn
 	BEQ .return				;$B38270   | If already finished, return
-	DEC $42,x				;$B38272   | Else decrease it 
+	DEC $42,x				;$B38272   | Else decrease it
 	BEQ .delete_hurt_star_sprite		;$B38274   | If 0, delete sprite
 .return:					;	   |
 	JML [$05A9]				;$B38276  / Else done processing sprite
@@ -994,7 +994,7 @@ sprite_fg_occluder_main:
 	JSR .CODE_B388EA			;$B388D6   |
 	LDY inactive_kong_sprite		;$B388D9   | Get inactive kong sprite
 	JSR .CODE_B388EA			;$B388DC   |
-	LDY current_player_mount		;$B388DF   | Get animal that kong is riding 
+	LDY current_player_mount		;$B388DF   | Get animal that kong is riding
 	BEQ .return				;$B388E1   | If it doesn't exist, return
 	JSR .CODE_B388EA			;$B388E3   |
 .return:					;	   | Else
@@ -1066,10 +1066,10 @@ CODE_B3894F:
 ;bit 6 = is platform moving (set via animation code)
 ;bit 7 = is platform opening (set via animation code)
 
-web_platform_main:  
+web_platform_main:
 	LDX current_sprite			;$B38959  \ get web platform sprite
-	LDA $2E,x				;$B3895B   | get sprite action index 
-	ASL A					;$B3895D   |	
+	LDA $2E,x				;$B3895B   | get sprite action index
+	ASL A					;$B3895D   |
 	TAX					;$B3895E   |
 	JMP (.state_table,x)			;$B3895F  / get sprite action from table
 
@@ -1087,7 +1087,7 @@ web_platform_main:
 	JSL CODE_B9D100				;$B38977   | Process animation
 	BRA .done_processing			;$B3897B  / Done processing sprite
 
-.despawn	
+.despawn
 	LDA #$00C0				;$B3897D  \ \
 	TRB $0B02				;$B38980   |/ Clear bits 6 and 7 (so more webs can be shot)
 	JML [$05A9]				;$B38983  /> Done processing sprite
@@ -1110,7 +1110,7 @@ web_platform_main:
 	JML [$05A9]				;$B389A1  /> Done processing sprite
 
 .brl_despawn
-	BRA .despawn				;$B389A4  / 
+	BRA .despawn				;$B389A4  /
 
 .platform_idle_state
 	LDX current_sprite			;$B389A6  \> Get web platform sprite
@@ -1183,7 +1183,7 @@ update_web_velocity:
 	CLC					;$B38A1E  \ \
 	ADC $24,x				;$B38A1F   |/ Add Y velocity to Y trajectory
 	CMP #$0600				;$B38A21   |\
-	BMI ..apply_velocity			;$B38A24   |/ Make sure velocity doesnt overflow 
+	BMI ..apply_velocity			;$B38A24   |/ Make sure velocity doesnt overflow
 	LDA #$0600				;$B38A26   |> Velocity overflowed, cap it
 ..apply_velocity				;	   |
 	STA $24,x				;$B38A29   |> Update current Y velocity
@@ -2837,7 +2837,7 @@ lilypad_main:
 	LDX current_sprite			;$B395F8  \ get lilypad sprite
 	LDY $42,x				;$B395FA   | get address of horsetail sprite that spawned it
 	LDA $0000,y				;$B395FC   | check its ID
-	CMP #!sprite_horsetail			;$B395FF   | 
+	CMP #!sprite_horsetail			;$B395FF   |
 	BNE .delete_sprite			;$B39602   | if there's a mismatch, delete lilypad sprite
 	LDA $004C,y				;$B39604   | else get address of self from horsetail
 	CMP current_sprite			;$B39607   | check if its the currently processing sprite
@@ -3690,7 +3690,7 @@ CODE_B39C79:
 	JSR CODE_B39C39				;$B39C8D   |
 	TXA					;$B39C90   |
 	SEC					;$B39C91   |
-	SBC #sizeof(sprite)			;$B39C92   |
+	SBC.w #sizeof(sprite)			;$B39C92   |
 	STA current_sprite			;$B39C95   |
 CODE_B39C97:					;	   |
 	JML [$05A9]				;$B39C97  /
@@ -4214,7 +4214,7 @@ endif						;	   |
 .next_slot:					;	   |
 	TXA					;$B3A05D   |
 	CLC					;$B3A05E   |
-	ADC #sizeof(sprite)			;$B3A05F   |
+	ADC.w #sizeof(sprite)			;$B3A05F   |
 	TAX					;$B3A062   |
 	CPX #main_sprite_table_end		;$B3A063   |
 	BNE .continue_scanning			;$B3A066   | If not at the end of sprite table continue scanning
@@ -4232,7 +4232,7 @@ endif						;	   |
 	ADC #$0008				;$B3A07E   | Offset by 8 pixels downwards
 	CMP $0A,x				;$B3A081   | Compare with kong/animal's Y position
 	BMI .return				;$B3A083   | If negative, kong/animal is below the sign, return
-	LDA $0006,y				;$B3A085   | 
+	LDA $0006,y				;$B3A085   |
 	SEC					;$B3A088   | Else get distance between kong/animal and the sign
 	SBC $06,x				;$B3A089   |
 	BPL .positive				;$B3A08B   | If positive distance don't invert
@@ -4243,7 +4243,7 @@ endif						;	   |
 	BPL .return				;$B3A094   | If not, return
 	LDA $6E					;$B3A096   | Else get current animal ID
 	BEQ .despawn_standalone_animal		;$B3A098   | If it doesn't exist its a standalone animal
-	LDA #$0019				;$B3A09A   | 
+	LDA #$0019				;$B3A09A   |
 	JSL set_player_interaction_global	;$B3A09D   | Else set player interaction to "transform animal into item"
 	BCS .return				;$B3A0A1   |
 	LDX current_sprite			;$B3A0A3   | Get sign sprite
@@ -4273,7 +4273,7 @@ endif
 
 ;Goal prize variables:
 ;$42,x	index of goal target sprite
-;$44,x	index into reward sequence 
+;$44,x	index into reward sequence
 ;$46,x	reward display timer
 ;$48,x  index of reward graphic ID
 ;$4A,x	timer until prize drops down
@@ -4335,7 +4335,7 @@ level_goal_prize_main:
 .state_2:
 	LDX current_sprite			;$B3A124  \ Get prize sprite
 	INC $2E,x				;$B3A126   | Set state 3 (wait for drop)
-	LDA #$000F				;$B3A128   | 
+	LDA #$000F				;$B3A128   |
 	STA $4A,x				;$B3A12B   | Setup timer for state 3
 	BRA .return				;$B3A12D  / Done processing sprite
 
@@ -4399,7 +4399,7 @@ level_goal_prize_main:
 	TAY					;$B3A192   | Transfer index to Y
 	LDA [$8E],y				;$B3A193   |
 	AND #$00FF				;$B3A195   | Get low byte (display timer)
-	STA $46,x				;$B3A198   | 
+	STA $46,x				;$B3A198   |
 	INY					;$B3A19A   | Move Y to next byte
 	LDA [$8E],y				;$B3A19B   |
 	AND #$00FF				;$B3A19D   | Get low byte (index of reward graphic ID)
@@ -4481,7 +4481,7 @@ level_goal_barrel_main:
 	STA $0A,x				;$B3A20F   | Else set it back to initial Y position
 ..check_if_max_height:				;	   |
 	LDA $44,x				;$B3A211   |
-	SEC					;$B3A213   | 
+	SEC					;$B3A213   |
 	SBC $0A,x				;$B3A214   | Subtract current Y position from initial Y position...
 	CMP #$0060				;$B3A216   | To check if barrel reached the max height
 	BPL ..break_barrel			;$B3A219   | If yes, spawn particles and delete barrel sprite
@@ -4497,7 +4497,7 @@ level_goal_prop_check_parent:
 	LDA $42,x				;$B3A229   | Get index of sprite that spawned it
 	TAY					;$B3A22B   |
 	LDA $0000,y				;$B3A22C   | Get its ID
-	CMP #!sprite_level_goal			;$B3A22F   | 
+	CMP #!sprite_level_goal			;$B3A22F   |
 	BNE CODE_B3A236				;$B3A232   | If not the level goal, return with bad nes
 	CLC					;$B3A234   | Else tell caller everything is OK
 	RTS					;$B3A235  / Return
@@ -4512,7 +4512,7 @@ CODE_B3A236:
 ;$44,x 	index of pole sprite
 ;$46,x	index of prize sprite
 ;$48,x 	unclear
-;$4A,x	mirror of Y position obtained from CODE_B8D47C	
+;$4A,x	mirror of Y position obtained from CODE_B8D47C
 level_goal_main:
 	LDX current_sprite			;$B3A238  \
 	LDA $54,x				;$B3A23A   |
@@ -4542,7 +4542,7 @@ level_goal_main:
 	JSL CODE_BB842C				;$B3A25F   | Spawn prop barrel sprite
 	LDY alternate_sprite			;$B3A263   | Get barrel we just spawned
 	LDA current_sprite			;$B3A265   | Get goal sprite
-	TAX					;$B3A267   | 
+	TAX					;$B3A267   |
 	STA $0042,y				;$B3A268   | Store index of goal into barrel
 	TYA					;$B3A26B   |
 	STA $42,x				;$B3A26C   | Store index of barrel into goal
@@ -4568,7 +4568,7 @@ level_goal_main:
 
 .idle_state:
 	LDX active_kong_sprite			;$B3A299  \ Get active kong sprite
-	LDA $1E,x				;$B3A29C   | 
+	LDA $1E,x				;$B3A29C   |
 	AND #$0101				;$B3A29E   | Check if kong is grounded
 	BNE ..return				;$B3A2A1   | If yes, return
 	LDA $24,x				;$B3A2A3   | Else get their Y velocity
@@ -4580,7 +4580,7 @@ level_goal_main:
 ..handle_collision:				;	   |
 	JSL CODE_BCFB58				;$B3A2AF   | Else populate sprite clipping
 	LDA #$0008				;$B3A2B3   | Load collision flags
-	JSL CODE_BCFCB5				;$B3A2B6   | Check collision with kong 
+	JSL CODE_BCFCB5				;$B3A2B6   | Check collision with kong
 	BCS ..collision_happened		;$B3A2BA   | If collision happened
 ..return:					;	   |
 	JMP CODE_B38000				;$B3A2BC  / Else done processing sprite
@@ -4589,14 +4589,14 @@ level_goal_main:
 	LDX current_sprite			;$B3A2BF  \ Get goal sprite
 	INC $2E,x				;$B3A2C1   | Set state 2 (idle)
 	LDY $42,x				;$B3A2C3   | Get barrel sprite
-	LDA #$0002				;$B3A2C5   | 
+	LDA #$0002				;$B3A2C5   |
 	STA $002E,y				;$B3A2C8   | Set its state to 2 (transitions to state 3)
 	LDA #$0004				;$B3A2CB   |
 	TRB $0B02				;$B3A2CE   |
 	PHX					;$B3A2D1   | Preserve goal sprite and barrel sprite...
 	PHY					;$B3A2D2   | ...for no reason, routine below won't ditch them
 	JSR .check_if_should_drop_prize		;$B3A2D3   | Check if we should drop the prize
-	PLY					;$B3A2D6   | 
+	PLY					;$B3A2D6   |
 	PLX					;$B3A2D7   |
 	STA $0024,y				;$B3A2D8   | Set barrel Y velocity gotten from routine above
 	BCS ..dont_drop_prize			;$B3A2DB   | If the routine gave us a no, skip dropping the prize
@@ -5404,9 +5404,9 @@ endif						;	   |
 	LDA $32,x				;$B3A883   |\ Get carry interaction
 	STZ $32,x				;$B3A885   |/ Clear carry interaction
 	CMP #$0001				;$B3A887   |\
-	BEQ ..put_down				;$B3A88A   |/ If click-clack was just put down then 
+	BEQ ..put_down				;$B3A88A   |/ If click-clack was just put down then
 	CMP #$0002				;$B3A88C   |\
-	BEQ ..thrown				;$B3A88F   |/ If click-clack was just thrown then 
+	BEQ ..thrown				;$B3A88F   |/ If click-clack was just thrown then
 	CMP #$0005				;$B3A891   |\
 	BNE ..still_held			;$B3A894   |/ If kong wasnt hit whilst holding click-clack,
 ..put_down					;	   |
@@ -7599,18 +7599,18 @@ force_sprite_submerged:
 	LDX current_sprite			;$B3B887  \
 	LDA $0D4E				;$B3B889   | Get water Y position
 	CLC					;$B3B88C   |
-	ADC #$0018				;$B3B88D   | Offset it downwards by 24 pixels 
+	ADC #$0018				;$B3B88D   | Offset it downwards by 24 pixels
 	STA $32					;$B3B890   | Save it in scratch ram
 	CMP $44,x				;$B3B892   | Compare with sprite's Y home position
 	BCC .home_submerged			;$B3B894   | If home position is in the water
-	LDY $44,x				;$B3B896   | Else get home position 
+	LDY $44,x				;$B3B896   | Else get home position
 	STA $44,x				;$B3B898   | Cap it to water height threshold (just below water)
 	CMP $0A,x				;$B3B89A   | Check if sprite is above threshold
 	BCC .sprite_submerged			;$B3B89C   | If not
 	TYA					;$B3B89E   | Else transfer initial home position to A
 	SBC $44,x				;$B3B89F   | Get distance between old and new home position
 	EOR #$FFFF				;$B3B8A1   | Invert it
-	SEC					;$B3B8A4   | 
+	SEC					;$B3B8A4   |
 	ADC $0A,x				;$B3B8A5   | Add difference to sprite's Y position
 	STA $0A,x				;$B3B8A7   | And apply it
 	BRA .sprite_submerged			;$B3B8A9  /
@@ -7680,7 +7680,7 @@ flotsam_main:
 ..submerged:
 	TYX					;$B3B90D  \ Transfer flotsam sprite to X
 	INC $2E,x				;$B3B90E   | Set state 1
-.state_1:					;	   | 
+.state_1:					;	   |
 	INC $19AC				;$B3B910   | play flotsam looping sound
 	LDA #$0118				;$B3B913   |
 	JSL check_throwable_collision_global	;$B3B916   |
@@ -8490,18 +8490,18 @@ kannon_main:
 	EOR #$4000				;$B3BEBC   | | Make kannon face towards attacker
 	STA $12,x				;$B3BEBF   |/
 	LDA #$0100				;$B3BEC1   | Load an X velocity
-	BIT $12,x				;$B3BEC4   | 
+	BIT $12,x				;$B3BEC4   |
 	BVS ..set_velocities			;$B3BEC6   | If kannon is now facing left, store velocity
 	LDA #$FF00				;$B3BEC8   | Else load negative X velocity
 ..set_velocities:				;	   |
-	STA $26,x				;$B3BECB   | 
+	STA $26,x				;$B3BECB   |
 	STA $20,x				;$B3BECD   | Set current and target X velocities
 	LDA #$FA00				;$B3BECF   |
 	STA $24,x				;$B3BED2   | Set current Y velocity
 	LDA #$0004				;$B3BED4   |
 	STA $52,x				;$B3BED7   | Set "defeated" movement routine
 	LDA #$017F				;$B3BED9   | Load kannon death animation
-	JSR defeat_sprite_using_animation	;$B3BEDC   | 
+	JSR defeat_sprite_using_animation	;$B3BEDC   |
 	LDA #$0001				;$B3BEDF   |
 	STA $2E,x				;$B3BEE2   | Set defeated state
 	SEC					;$B3BEE4   | Tell caller collision happened
@@ -8533,7 +8533,7 @@ kannon_main:
 	LDX alternate_sprite			;$B3BF17   | Get projectile we just spawned
 	INY					;$B3BF19   |
 	INY					;$B3BF1A   | Move to next word of pattern data
-	LDA [$32],y				;$B3BF1B   | 
+	LDA [$32],y				;$B3BF1B   |
 	AND #$00FF				;$B3BF1D   | Get low byte (projectile speed preset)
 	STA $50,x				;$B3BF20   | And pass it to projectile
 	LDX current_sprite			;$B3BF22   | Get kannon sprite
@@ -8552,14 +8552,14 @@ kannon_main:
 	CLC					;$B3BF38   |
 	ADC #$0010				;$B3BF39   | Offset by 16 pixels
 	STA $004E,y				;$B3BF3C   | Pass to projectile
-	LDA $4E,x				;$B3BF3F   | 
+	LDA $4E,x				;$B3BF3F   |
 	STA $005A,y				;$B3BF41   | Set projectile's offscreen despawn timer
 	LDA #$054B				;$B3BF44   |
 	JSL queue_sound_effect			;$B3BF47   | Play cannon_shoot sound effect
-	LDY #$0008				;$B3BF4B   | 
+	LDY #$0008				;$B3BF4B   |
 	LDA [$8E],y				;$B3BF4E   | Get index of smoke puff script in kannon constants
 	TAY					;$B3BF50   | Transfer it to Y
-	JSL CODE_BB842C				;$B3BF51   | And spawn it 
+	JSL CODE_BB842C				;$B3BF51   | And spawn it
 	CLC					;$B3BF55   | Tell caller the projectile spawn succeeded
 ..return:					;	   |
 	RTS					;$B3BF56  / Return
@@ -9191,7 +9191,7 @@ extra_life_balloon_main:
 
 .idle_state:
 	LDA $0A36				;$B3C40E  \ Get timestop flags
-	BIT #$0004				;$B3C411   | 
+	BIT #$0004				;$B3C411   |
 	BNE .return				;$B3C414   | If timestop running, return
 	JSL CODE_BCFB58				;$B3C416   | Else populate sprite clipping
 	JSL CODE_BEBE6D				;$B3C41A   | Check simple player collision
@@ -9199,7 +9199,7 @@ extra_life_balloon_main:
 .handle_floating:				;	   |
 	JSL CODE_B9D100				;$B3C420   | Else process animation
 	LDA $04,x				;$B3C424   | Get timer until balloon starts floating
-	CMP #$8000				;$B3C426   | 
+	CMP #$8000				;$B3C426   |
 	BEQ .return_handle_despawn		;$B3C429   |
 	JSL process_current_movement		;$B3C42B   |
 	LDA $52,x				;$B3C42F   | Get movement behavior
@@ -9234,7 +9234,7 @@ extra_life_balloon_main:
 	JSL CODE_BCFB58				;$B3C46E   | Else populate sprite clipping
 	JSL CODE_BEBE6D				;$B3C472   | Check simple player collision
 	BCC .handle_floating			;$B3C476   | If no collision, handle floating
-	LDA #$0010				;$B3C478   | 
+	LDA #$0010				;$B3C478   |
 	TSB $0902				;$B3C47B   | Else set it as collected
 	BRA .collect_balloon			;$B3C47E  / And collect the balloon
 
@@ -11546,7 +11546,7 @@ rideable_balloon_main:
 	INC $2E,x				;$B3D594   | Init done
 .state_1:					;	   |
 	JSL CODE_BBBB7B				;$B3D596   | Check if sprite has gone offscreen
-	BCC ..CODE_B3D59F			;$B3D59A   | If not... 
+	BCC ..CODE_B3D59F			;$B3D59A   | If not...
 	JMP CODE_B38000				;$B3D59C  /  Else done processing sprite
 
 ..CODE_B3D59F:
@@ -11706,7 +11706,7 @@ DATA_B3D691:
 	dw $2701
 	dw $8000
 
-;bonus 2 steam vents	
+;bonus 2 steam vents
 	dw $0000
 	dw $0160
 	dw $0181
@@ -12047,7 +12047,7 @@ clapper_sprite_code:
 	BCC .water_into_ice			;$B3D951   |> If clapper is above water then do default transition
 	LDA #$00C0				;$B3D953   |\ Else slow down animation speed, clapper is submerged
 	STA $003A,y				;$B3D956   |/
-	LDA $0036,y				;$B3D959   |\ 
+	LDA $0036,y				;$B3D959   |\
 	CMP #$01B8				;$B3D95C   | |
 	BEQ .return				;$B3D95F   |/ If already clapping then skip collision check with kong
 	JSL CODE_BCFB58				;$B3D961   |\ Prepare hitbox for collision...
@@ -12055,7 +12055,7 @@ clapper_sprite_code:
 	BCC .return				;$B3D969   |> If no collision happened then return
 	LDA #$FE00				;$B3D96B   |\ Else apply a Y velocity to kong
 	STA $0024,y				;$B3D96E   |/
-	BRA .set_clapping_animation		;$B3D971  /> Set clapping animation and return 
+	BRA .set_clapping_animation		;$B3D971  /> Set clapping animation and return
 
 .water_into_ice
 	LDA #$0100				;$B3D973  \ \ Set normal animation speed
@@ -12078,12 +12078,12 @@ clapper_sprite_code:
 .collision_happened
 	LDX current_sprite			;$B3D99D  \ \
 	LDA $46,x				;$B3D99F   | | Restore the previously copied OAM properties
-	STA $12,x				;$B3D9A1   |/ 
+	STA $12,x				;$B3D9A1   |/
 	LDA #$001E				;$B3D9A3   |\
 	CMP $0A82				;$B3D9A6   |/ Check if the kong is being knocked back
 	BEQ .kong_knocked_back			;$B3D9A9   |\ If kong is being knocked back
 	BRA .set_clapping_animation		;$B3D9AB  /_/ Play clapping animation
-	
+
 	JSL set_player_interaction_global	;$B3D9AD  \ \ Dead code?
 	BCS .set_clapping_animation		;$B3D9B1   |/ Dead code?
 .kong_knocked_back				;	   |
@@ -13893,7 +13893,7 @@ barrel_icons_sprite_code:
 	LDA $4C,x				;$B3E6CD   | Else get time until next graphic swap
 	BEQ ..CODE_B3E6D4			;$B3E6CF   | If timer done then
 	DEC $4C,x				;$B3E6D1   | Else count it down
-..return:					;	   | 
+..return:					;	   |
 	RTS					;$B3E6D3  /
 
 ..CODE_B3E6D4:
@@ -13923,7 +13923,7 @@ barrel_icons_sprite_code:
 	LDA $003C,y				;$B3E6FB   | Else get index of self in the barrel
 	CMP current_sprite			;$B3E6FE   | Check if its still the currently processing sprite
 	BNE ..sprite_mismatched			;$B3E700   | If not, return with the bad news
-	LDA $002A,y				;$B3E702   | Else 
+	LDA $002A,y				;$B3E702   | Else
 	STA $2A,x				;$B3E705   |
 	AND #$1000				;$B3E707   |
 	BNE ..CODE_B3E718			;$B3E70A   | If active kong touched the barrel...
@@ -13975,7 +13975,7 @@ barrel_icons_sprite_code:
 	LDX current_sprite			;$B3E74E   | Get icon sprite
 	LDY $42,x				;$B3E750   | Get barrel sprite
 	LDA $0044,y				;$B3E752   | Get number barrel timer
-	XBA					;$B3E755   | 
+	XBA					;$B3E755   |
 	AND #$0007				;$B3E756   | Get number
 	BEQ ..number_is_0			;$B3E759   | If 0, reset to default graphic ID
 	DEC A					;$B3E75B   |
@@ -14011,7 +14011,7 @@ barrel_cannon_code:
 	dw .state_A				;0A rotating back?
 	dw .state_B				;0B rotated into place?
 	dw .state_C				;0C transforming into animal
-	dw .state_D				;0D decrement $38,x 
+	dw .state_D				;0D decrement $38,x
 	dw .state_E				;0E only spawn if exiting bonus
 
 

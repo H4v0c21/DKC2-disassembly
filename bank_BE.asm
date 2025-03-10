@@ -385,8 +385,8 @@ CODE_BEBACA:
 	TSB $0902				;$BEBAE8   | set the corresponding kong letter bit
 	LDA $0902				;$BEBAEB   | get collected kong letters
 	INC A					;$BEBAEE   |
-	AND #$000F				;$BEBAEF   |	
-	STA $52,x				;$BEBAF2   |	
+	AND #$000F				;$BEBAEF   |
+	STA $52,x				;$BEBAF2   |
 	BNE CODE_BEBAFD				;$BEBAF4   | if all the kong letters arent collected yet dont give an extra life
 	LDA #$0001				;$BEBAF6   | number of lives to give
 	JSL CODE_BEC64C				;$BEBAF9   | give extra lives
@@ -427,14 +427,14 @@ CODE_BEBB2A:
 	ASL A					;$BEBB37   |
 	ASL A					;$BEBB38   |
 	ASL A					;$BEBB39   |
-	LDX.l #DATA_C02401>>16|$0800		;$BEBB3A   |	
+	LDX.w #DATA_C02401>>16|$0800		;$BEBB3A   |
 	LDY #DATA_C02401			;$BEBB3D   | kong letters top tiledata
 	PHA					;$BEBB40   |
 	JSR CODE_BEBD5C				;$BEBB41   |
 	PLA					;$BEBB44   |
 	BCS CODE_BEBB5E				;$BEBB45   |
 	ADC #$0100				;$BEBB47   |
-	LDX.l #DATA_C02501>>16|$0800		;$BEBB4A   |
+	LDX.w #DATA_C02501>>16|$0800		;$BEBB4A   |
 	LDY #DATA_C02501			;$BEBB4D   | kong letters bottom tiledata
 	JSR CODE_BEBD5C				;$BEBB50   |
 	BCC CODE_BEBB61				;$BEBB53   |
@@ -1921,13 +1921,13 @@ set_sprite_target_hud_position:
 	LDA #$0000				;$BEC5D7   | Else sprite is offscreen, load cap value
 CODE_BEC5DA:					;	   |
 	CMP #$0100				;$BEC5DA   | Check if sprite X is at right border of the camera
-	BCC CODE_BEC5E2				;$BEC5DD   | 
+	BCC CODE_BEC5E2				;$BEC5DD   |
 	LDA #$00FF				;$BEC5DF   | Else cap it to right border
 CODE_BEC5E2:					;	   |
 	STA $06,x				;$BEC5E2   | Update X position
 	LDA $0A,x				;$BEC5E4   |
 	SEC					;$BEC5E6   | Repeat process for Y position
-	SBC $17C0				;$BEC5E7   | 
+	SBC $17C0				;$BEC5E7   |
 	BCS CODE_BEC5EF				;$BEC5EA   |
 	LDA #$0000				;$BEC5EC   |
 CODE_BEC5EF:					;	   |
@@ -3026,7 +3026,7 @@ CODE_BECDDF:					;	   |
 
 gate_barrel_sprite_code:
 	JSR CODE_BEB82A				;$BECDE2  \
-	
+
 DATA_BECDE5:
 	dw CODE_BECDEB
 	dw CODE_BECE07
@@ -4281,14 +4281,14 @@ set_klank_race_kart_velocity:
 
 .set_velocities
 	INY					;$BED776  \
-	INY					;$BED777   | increase counter by 4 
+	INY					;$BED777   | increase counter by 4
 	INY					;$BED778   |
 	INY					;$BED779   |
 	LDA [$32],y				;$BED77A   | read 3rd word (inital target X speed to apply)
 	STA $2A,x				;$BED77C   | set kart's initial target X speed
 	LDA $0A,x				;$BED77E   | get Y position
-	STA $1C,x				;$BED780   | 
-	STA $20,x				;$BED782   | 
+	STA $1C,x				;$BED780   |
+	STA $20,x				;$BED782   |
 	STZ $2C,x				;$BED784   | clear initial current X speed
 	TYA					;$BED786   |
 	CLC					;$BED787   |
@@ -5853,7 +5853,7 @@ haunted_hall_timer_handler_code:		;	  \
 	BIT #$0004				;$BEE2DC   |
 	BEQ .handle_state			;$BEE2DF   | If time isnt stopped, handle state logic
 	LDY current_sprite			;$BEE2E1   | Else get handler sprite
-	LDA $002E,y				;$BEE2E3   | 
+	LDA $002E,y				;$BEE2E3   |
 	AND #$00FF				;$BEE2E6   | Get current state low byte
 	CMP #$0006				;$BEE2E9   |
 	BEQ .handle_state			;$BEE2EC   | If in state 6, handle state logic
@@ -5998,7 +5998,7 @@ haunted_hall_timer_handler_code:		;	  \
 	LDY $0D5A				;$BEE3D2   | Get index of kackle sprite
 	LDA $002E,y				;$BEE3D5   |
 	AND #$00FF				;$BEE3D8   | Get low byte of kackle state
-	CMP #$0006				;$BEE3DB   | 
+	CMP #$0006				;$BEE3DB   |
 	BEQ ..return				;$BEE3DE   | If in state 6, return
 	LDA #$0001				;$BEE3E0   |
 	STA $2E,x				;$BEE3E3   | Else set handler to state 1
@@ -6427,7 +6427,7 @@ race_handler_sprite_code:
 
 
 .init_state
-	LDA $0044,y				;$BEE6FF  \  
+	LDA $0044,y				;$BEE6FF  \
 	ORA #$0080				;$BEE702   |
 	STA $0D5C				;$BEE705   | initialize player's race placement
 	JSR spawn_and_setup_klank_kart		;$BEE708   | spawn the first klank's kart, setup speed and trigger data
@@ -6449,7 +6449,7 @@ race_handler_sprite_code:
 	STY $4E,x				;$BEE728   | store index to traffic light in the handler
 	INC $2E,x				;$BEE72A   | go to state 2 to wait for green light
 	LDA #$8000				;$BEE72C   |
-	TSB $0923				;$BEE72F   | 
+	TSB $0923				;$BEE72F   |
 ..return					;	   |
 	JML [$05A9]				;$BEE732  /  Done processing sprite
 
@@ -6469,7 +6469,7 @@ race_handler_sprite_code:
 	LDA $17BA				;$BEE74A   | get camera X position
 	CMP #$5C80				;$BEE74D   | check if we're at or passed the spot the race should end
 	BCC ..continue_handling_race		;$BEE750   | if not, continue handling it
-	LDA #$8000				;$BEE752   | 
+	LDA #$8000				;$BEE752   |
 	TSB $0923				;$BEE755   |
 	JSR update_race_flag			;$BEE758   | update the flag
 	LDX current_sprite			;$BEE75B   | get handler sprite
@@ -6490,7 +6490,7 @@ race_handler_sprite_code:
 	JSR update_race_flag			;$BEE77B   | else update it (called every frame until player's placement changes)
 	BCS ..skip_flag_update			;$BEE77E   | if it hasn't spawned yet, don't play rank-up sound
 	%lda_sound(7, coaster_race_rank_up)	;$BEE780   | else play it
-	JSL queue_sound_effect			;$BEE783   | 
+	JSL queue_sound_effect			;$BEE783   |
 ..skip_flag_update				;	   |
 	LDA $0923				;$BEE787   |
 	AND #$0003				;$BEE78A   |
@@ -6498,7 +6498,7 @@ race_handler_sprite_code:
 	BNE ..return				;$BEE790   |
 	JSR spawn_and_setup_klank_kart		;$BEE792   | spawn next klank kart and update speed and trigger data
 	BCS ..return				;$BEE795   | if kart is not able to spawn yet, return
-	LDA #$0001				;$BEE797   | 
+	LDA #$0001				;$BEE797   |
 	TRB $0923				;$BEE79A   | else clear bit 0
 ..return					;	   |
 	JML [$05A9]				;$BEE79D  /  Done processing sprite
@@ -6543,7 +6543,7 @@ race_handler_sprite_code:
 	RTS					;$BEE7EC  /  return
 
 update_race_flag:
-	SEC					;$BEE7ED  \  
+	SEC					;$BEE7ED  \
 	LDA $092E				;$BEE7EE   | get number off firework sprites onscreen
 	AND #$00FF				;$BEE7F1   |
 	BNE .return				;$BEE7F4   | if there are any, don't update flag and return
@@ -6570,7 +6570,7 @@ update_race_flag:
 	LDA $0D5C				;$BEE81E   |
 	AND #$007F				;$BEE821   |
 	STA $4C,x				;$BEE824   | update mirror of player's race placement
-.return						;	   | 
+.return						;	   |
 	RTS					;$BEE826  /  return
 
 spawn_and_setup_klank_kart:
@@ -6585,15 +6585,15 @@ spawn_and_setup_klank_kart:
 	ASL A					;$BEE835   |
 	ADC #klank_race_kart_data_table		;$BEE836   | add base address of klank kart race data table
 	STA $06,x				;$BEE839   |
-	STA $32					;$BEE83B   | 
+	STA $32					;$BEE83B   |
 	LDA.w #<:klank_race_data_bank		;$BEE83D   | get the bank of the table
 	STA $34					;$BEE840   |
 	LDA [$32]				;$BEE842   | get spawn location data
-	STA $32					;$BEE844   | 
+	STA $32					;$BEE844   |
 	LDY #$0000				;$BEE846   | initialize iteration counter
 	LDA $42,x				;$BEE849   | get race timer
 	SEC					;$BEE84B   |
-	BEQ .check_spawn_time_limit		;$BEE84C   | if race hasn't started yet, 
+	BEQ .check_spawn_time_limit		;$BEE84C   | if race hasn't started yet,
 .check_valid_spawn_position			;	   |
 	LDA [$32],y				;$BEE84E   | get kart X spawn position
 	BMI .return				;$BEE850   | if negative, there are no more possible spawn positions, return
@@ -6605,10 +6605,10 @@ spawn_and_setup_klank_kart:
 	CMP #$0100				;$BEE85D   | else check if its at the edge of the screen
 	BCS .check_spawn_time_limit		;$BEE860   | if yes, position is valid, check if kart can spawn
 ..get_next_position				;	   |
-	TYA					;$BEE862   | 
+	TYA					;$BEE862   |
 	ADC #$0006				;$BEE863   | else offset counter by 6 to get to next spawn position
 	TAY					;$BEE866   |
-	BRA .check_valid_spawn_position		;$BEE867  /  
+	BRA .check_valid_spawn_position		;$BEE867  /
 
 .return
 	SEC					;$BEE869  \ tell caller we failed to spawn the kart
@@ -6618,7 +6618,7 @@ spawn_and_setup_klank_kart:
 	INY					;$BEE86B  \
 	INY					;$BEE86C   |
 	INY					;$BEE86D   | increase counter by 4 to get the last word
-	INY					;$BEE86E   | 
+	INY					;$BEE86E   |
 	LDA $42,x				;$BEE86F   | get race timer
 	CMP [$32],y				;$BEE871   | compare with the klank's spawn time limit
 	BCC ..spawn_kart			;$BEE873   | if below the limit, spawn the kart
@@ -6632,7 +6632,7 @@ spawn_and_setup_klank_kart:
 	DEY					;$BEE87B   | decrease counter to get back to first word
 	DEY					;$BEE87C   |
 	PHY					;$BEE87D   | preserve the counter
-	LDA $32					;$BEE87E   | 
+	LDA $32					;$BEE87E   |
 	PHA					;$BEE880   | preserve address of klank kart spawn data
 	LDY $36,x				;$BEE881   | get address of kart init script
 	JSL CODE_BB8432				;$BEE883   | spawn the klank's kart
@@ -6693,16 +6693,16 @@ racing_flag_sprite_code:
 ;sub states handled by $2F,x
 ;values above 4 are for screech's sprint
 .traffic_light_sub_state_table
-	dw .init_if_rickety_state  	
-	dw .lower_down_state 	
-	dw .start_countdown_if_rickety_state	
-	dw .wait_state 	
-	dw .rise_up_state 	
-	dw .init_if_screech_state	
-	dw .lower_down_state 	
-	dw .start_countdown_if_screech_state 	
-	dw .wait_state 	
-	dw .rise_up_state 	
+	dw .init_if_rickety_state
+	dw .lower_down_state
+	dw .start_countdown_if_rickety_state
+	dw .wait_state
+	dw .rise_up_state
+	dw .init_if_screech_state
+	dw .lower_down_state
+	dw .start_countdown_if_screech_state
+	dw .wait_state
+	dw .rise_up_state
 
 
 .init_if_screech_state
@@ -6724,14 +6724,14 @@ racing_flag_sprite_code:
 	BMI ..update_y_pos			;$BEE909   | if position still negative, update it and return
 	CMP #$0040				;$BEE90B   | check if we've reached desired Y position
 	BCC ..update_y_pos			;$BEE90E   | if not, continue updating it and return
-	LDA #$0040				;$BEE910   | 
+	LDA #$0040				;$BEE910   |
 	INC $2F,x				;$BEE913   | else set next sub state (start countdown)
 ..update_y_pos					;	   |
 	STA $0A,x				;$BEE915   | update Y position
 	JML [$05A9]				;$BEE917  /  Done processing sprite
 
 .start_countdown_if_rickety_state
-	LDA $0D5E				;$BEE91A  \  get index of skull kart player is riding 
+	LDA $0D5E				;$BEE91A  \  get index of skull kart player is riding
 	BEQ .return				;$BEE91D   | if not riding one yet, return
 .start_countdown_if_screech_state		;	   |
 	LDA $0042,y				;$BEE91F   |
@@ -6767,7 +6767,7 @@ racing_flag_sprite_code:
 	STA $004E,y				;$BEE95B   | else clear index to traffic light in the handler sprite
 ..not_rickety:					;	   |
 	LDA #$0003				;$BEE95E   |
-	TRB $0A36				;$BEE961   | disable timestop 
+	TRB $0A36				;$BEE961   | disable timestop
 	INC $2F,x				;$BEE964   | set next sub state (rise up)
 	%lda_sound(6, starting_light_2)		;$BEE966   | play green light sound effect
 	JSL queue_sound_effect			;$BEE969   |
@@ -6819,19 +6819,19 @@ racing_flag_sprite_code:
 
 .init_state
 	TYX					;$BEE9B6  \  put flag sprite in X
-	LDA $44,x				;$BEE9B7   | get despawn timer 
+	LDA $44,x				;$BEE9B7   | get despawn timer
 	STA $42,x				;$BEE9B9   | store a mirror of it
 	INC $2F,x				;$BEE9BB   | set next sub state
-.sub_state_1:					;	   | 
+.sub_state_1:					;	   |
 	TYX					;$BEE9BD   | put flag sprite in X
-	LDA #$C000				;$BEE9BE   | 
-	STA $001C,y				;$BEE9C1   | make flag invisible 
+	LDA #$C000				;$BEE9BE   |
+	STA $001C,y				;$BEE9C1   | make flag invisible
 	SEP #$20				;$BEE9C4   | 8-bit A
 	STZ $0D5D				;$BEE9C6   | clear high byte of player's race placement
 	REP #$20				;$BEE9C9   | 16-bit A
 	DEC $42,x				;$BEE9CB   | decrease despawn timer
 	BMI ..despawn_flag			;$BEE9CD   | if negative, despawn the flag
-	LDA $42,x				;$BEE9CF   | 
+	LDA $42,x				;$BEE9CF   |
 	AND #$001F				;$BEE9D1   | else use bits of timer to check if visibility should be enabled
 	CMP #$0014				;$BEE9D4   |
 	BCC .enable_visibility_state		;$BEE9D7   | if yes make the flag visible
@@ -6896,7 +6896,7 @@ racing_flag_sprite_code:
 ..count_down_timer				;	   |
 	DEC $42,x				;$BEEA55   | else decrease despawn timer
 	BMI ..despawn_flag			;$BEEA57   | if negative despawn the flag
-	LDA $42,x				;$BEEA59   | 
+	LDA $42,x				;$BEEA59   |
 	AND #$001F				;$BEEA5B   | else use bits of timer to check if visibility should be enabled
 	CMP #$0014				;$BEEA5E   |
 	BCC .enable_visibility_state		;$BEEA61   |

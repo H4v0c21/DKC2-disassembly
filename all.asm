@@ -28,7 +28,7 @@ org $008000			;dummy org so functions work
 org $C00000
 	check bankcross half
 	incsrc "bank_C0.asm"
-	warnpc $C07FFC
+	assert pc() <= $C07FFC
 	padbyte $00
 	pad $C07FFC
 if !version == 1
@@ -39,7 +39,7 @@ endif
 
 ;weird copy of ship hold tilemap that fills the end of bank 80
 org $80F4B0
-	incbin "data/levels/32x32_tilemaps/ship_hold_32x32_tilemap.bin":0000-0AF6
+	incbin "data/levels/32x32_tilemaps/ship_hold_32x32_tilemap.bin":$0000..$0AF6
 
 ;some random looking bytes
 	db $56, $3F, $2C, $01, $05, $E3, $67, $AB
@@ -117,7 +117,7 @@ endif
 org $F90000
 	check bankcross full
 	incsrc "bank_F9.asm"
-	warnpc $F9D000
+	assert pc() <= $F9D000
 	padbyte $00
 	pad $F9D000
 org $B9D000
@@ -126,7 +126,7 @@ org $B9D000
 	pad $BA0000
 org $FA0000
 	incsrc "bank_FA.asm"
-	warnpc $FA9000
+	assert pc() <= $FA9000
 	padbyte $00
 	pad $FA9000
 org $BA9000
@@ -162,7 +162,7 @@ org $FD0000
 	pad $FE0000
 org $FE0000
 	incsrc "bank_FE.asm"
-	warnpc $FEB800
+	assert pc() <= $FEB800
 	padbyte $00
 	pad $FEB800
 org $BEB800

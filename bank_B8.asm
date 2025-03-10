@@ -1545,7 +1545,7 @@ CODE_B88C68:					;	   |
 CODE_B88C7D:
 	TXA					;$B88C7D  \
 	CLC					;$B88C7E   |
-	ADC #sizeof(sprite)			;$B88C7F   |
+	ADC.w #sizeof(sprite)			;$B88C7F   |
 	TAX					;$B88C82   |
 	CPX #main_sprite_table_end		;$B88C83   |
 	BNE CODE_B88C68				;$B88C86   |
@@ -2816,7 +2816,7 @@ CODE_B8967D:
 	LDA #$16D8				;$B89682   |
 	STA $0591				;$B89685   |
 CODE_B89688:					;	   |
-	LDX current_sprite			;$B89688   |\ 
+	LDX current_sprite			;$B89688   |\
 	CPX active_kong_sprite			;$B8968A   | |
 	BNE kong_state_handler			;$B8968D   |/
 	LDA #$0002				;$B8968F   |
@@ -2830,7 +2830,7 @@ kong_state_handler:
 	LDA $30,x				;$B896A0  \
 	AND #$F7FF				;$B896A2   |
 	STA $30,x				;$B896A5   |
-	LDA $54,x				;$B896A7   |\ 
+	LDA $54,x				;$B896A7   |\
 	STA $8E					;$B896A9   |/
 	PHK					;$B896AB   |
 	PLB					;$B896AC   |
@@ -9700,7 +9700,7 @@ scan_for_web_platforms:
 .next_slot					;	   |
 	TXA					;$B8C9BA   |\
 	CLC					;$B8C9BB   | | move to next sprite slot
-	ADC #sizeof(sprite)			;$B8C9BC   |/
+	ADC.w #sizeof(sprite)			;$B8C9BC   |/
 	TAX					;$B8C9BF   |\
 	CPX #main_sprite_table_end		;$B8C9C0   | | check if we reached the end of the sprite table
 	BNE .scan_for_platform			;$B8C9C3   |/
@@ -9990,7 +9990,7 @@ update_object_pickup:
 	LDA #$0001				;$B8CBCA   |
 	STA $32,x				;$B8CBCD   |
 	STZ $1E,x				;$B8CBCF   |
-	LDY current_sprite			;$B8CBD1   |\ 
+	LDY current_sprite			;$B8CBD1   |\
 	LDA $0012,y				;$B8CBD3   | |
 	AND #$4000				;$B8CBD6   | | handle object distance calculation
 	BNE .facing_left			;$B8CBD9   |/ if player is facing left
@@ -12065,8 +12065,8 @@ CODE_B8D8D1:
 ;$42	divided x distance
 ;$44	divided y distance sub
 ;$46	divided y distance
-;$48	
-;$4A	
+;$48
+;$4A
 
 CODE_B8D8D5:
 	STZ $4A					;$B8D8D5  \

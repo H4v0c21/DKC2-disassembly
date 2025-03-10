@@ -8763,7 +8763,7 @@ DATA_BCEDC8:
 	dw $FFFB, $FFE4, $000D, $001B, $00D8, $01BF
 
 
-warnpc $BCFA00 : padbyte $00 : pad $BCFA00
+assert pc() <= $BCFA00 : padbyte $00 : pad $BCFA00
 
 ;special hitboxes
 DATA_BCFA00:
@@ -8781,7 +8781,7 @@ DATA_BCFA00:
 	dw $FFE2, $FFE8, $001F, $0023		;0B kleever range?
 	dw $FFEE, $FFF1, $001B, $0014		;0C rattly auto stomp range
 	dw $0008, $FFF8, $0024, $0010		;0D kutlass attack range
-	dw $FFD0, $FFA8, $0050, $0060		;0E 
+	dw $FFD0, $FFA8, $0050, $0060		;0E
 
 CODE_BCFA78:
 	STZ $09A7				;$BCFA78  \
@@ -9296,7 +9296,7 @@ CODE_BCFE0A:
 .next_sprite					;	   |
 	LDA $6A					;$BCFE28   |> Get sprite to check collision against
 	SEC					;$BCFE2A   |\
-	SBC #sizeof(sprite)			;$BCFE2B   | | Move to previous slot
+	SBC.w #sizeof(sprite)			;$BCFE2B   | | Move to previous slot
 	STA $6A					;$BCFE2E   |/
 	CMP #$0E40				;$BCFE30   |\ Check if dixie slot
 	BEQ CODE_BCFE07				;$BCFE33   |/ If on dixie slot, no more sprites need to be checked because the rest are kongs
@@ -9467,7 +9467,7 @@ CODE_BCFF38:					;	   |
 	LDA $6A					;$BCFF3B   |
 	CMP #aux_sprite_table+1			;$BCFF3D   |\
 	BCC CODE_BCFF6E				;$BCFF40   |/ This might be a bug because it will continue to process aux as if it can have collision
-	SBC #sizeof(sprite)			;$BCFF42   |
+	SBC.w #sizeof(sprite)			;$BCFF42   |
 	STA $6A					;$BCFF45   |
 	CMP current_sprite			;$BCFF47   |
 	BEQ .next_sprite			;$BCFF49   |

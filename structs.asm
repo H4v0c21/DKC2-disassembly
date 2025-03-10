@@ -54,6 +54,11 @@ struct sprite $0000
 	.unknown_5C:		skip 2	;5C
 endstruct
 
+; FIXME: these are here because they need to be after `struct sprite`,
+; but other parts of structs.asm need to be after ram.asm
+main_sprite_table = $0DE2
+main_sprite_table_end = $0DE2+(sizeof(sprite)*24)
+
 struct oam oam_table
 	.position:
 	.x:             skip 1
