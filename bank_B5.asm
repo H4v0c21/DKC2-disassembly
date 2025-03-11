@@ -682,7 +682,7 @@ endif						;	   | |/
 	RTS					;$B5848F  /
 
 
-warnpc $B59C00 : padbyte $00 : pad $B59C00
+assert pc() <= $B59C00 : padbyte $00 : pad $B59C00
 
 
 ;$32	(byte)	OAM render properties
@@ -705,7 +705,7 @@ CODE_B59C00:
 	LDA $1730				;$B59C04   |\ Get next free slot in sprite DMA buffer
 	CMP $78					;$B59C07   | | Compare to DMA buffer cap
 	BCC .free_slot_in_buffer		;$B59C09   |/ If there are more slots in the DMA buffer then continue
-	RTL					;$B59C0B  /> Else return and dont queue sprite graphic for DMA 
+	RTL					;$B59C0B  /> Else return and dont queue sprite graphic for DMA
 
 .free_slot_in_buffer
 	STX $18,y				;$B59C0C  \ \ Store delayed mirrors of sprite graphics number
@@ -5278,14 +5278,14 @@ DATA_B5BD05:
 	dw $0020, $2F00, $0000, $0200, $0000	; 00 web woods
 	dw $2F20, $6000, $0000, $0200, $0000	; 01 gusty glade
 	dw $6020, $88E0, $0000, $0200, $0000	; 02 ghostly grove
-	dw $9200, $9300, $0000, $0100, $0000	; 03 
+	dw $9200, $9300, $0000, $0100, $0000	; 03
 	dw $9200, $9300, $0000, $0200, $0000	; 04 web woods room
 	dw $9200, $9300, $0000, $0200, $0000	; 05 ghostly grove bonus 1
-	dw $6000, $88E0, $0000, $0200, $0000	; 06 
+	dw $6000, $88E0, $0000, $0200, $0000	; 06
 	dw $88E0, $8C80, $0000, $0200, $0000	; 07 gusty glade bonus 2
 	dw $8C80, $9060, $0000, $0200, $0000	; 08 gusty glade bonus 1/ghostly grove bonus 2
 	dw $9060, $9200, $0000, $0200, $0000	; 09 web woods bonus 2
-	dw $9300, $96E0, $0000, $0200, $0000	; 0A 
+	dw $9300, $96E0, $0000, $0200, $0000	; 0A
 	dw $FFFF
 
 ;ship_hold
@@ -6122,7 +6122,7 @@ CODE_B5C70C:
 	STZ $AC					;$B5C713   |
 	LDA $34					;$B5C715   |\
 	SEC					;$B5C717   | |
-	SBC #$0100				;$B5C718   | 
+	SBC #$0100				;$B5C718   |
 	EOR #$FFFF				;$B5C71B   |
 	INC A					;$B5C71E   |
 	AND #$FFE0				;$B5C71F   |
@@ -8166,7 +8166,7 @@ CODE_B5D644:					;	   |
 	TAY					;$B5D676   |
 	TXA					;$B5D677   |
 	CLC					;$B5D678   |
-	ADC #sizeof(sprite)			;$B5D679   |
+	ADC.w #sizeof(sprite)			;$B5D679   |
 	TAX					;$B5D67C   |
 	CPX #$02F0				;$B5D67D   |
 	BNE CODE_B5D622				;$B5D680   |
@@ -8650,7 +8650,7 @@ CODE_B5DAEB:					;	   |
 	INC $34					;$B5DB33   |
 	TYA					;$B5DB35   |
 	CLC					;$B5DB36   |
-	ADC #sizeof(sprite)			;$B5DB37   |
+	ADC.w #sizeof(sprite)			;$B5DB37   |
 	TAY					;$B5DB3A   |
 	CPY #$1074				;$B5DB3B   |
 	BEQ CODE_B5DB43				;$B5DB3E   |
@@ -8755,7 +8755,7 @@ CODE_B5DBD5:					;	   |
 	INC $36					;$B5DBFB   |
 	TYA					;$B5DBFD   |
 	CLC					;$B5DBFE   |
-	ADC #sizeof(sprite)			;$B5DBFF   |
+	ADC.w #sizeof(sprite)			;$B5DBFF   |
 	TAY					;$B5DC02   |
 	CPY #$118E				;$B5DC03   |
 	BEQ CODE_B5DC0B				;$B5DC06   |
@@ -8804,7 +8804,7 @@ CODE_B5DC3D:					;	   |
 	STA $0D8E,x				;$B5DC5B   |
 	TXA					;$B5DC5E   |
 	CLC					;$B5DC5F   |
-	ADC #sizeof(sprite)			;$B5DC60   |
+	ADC.w #sizeof(sprite)			;$B5DC60   |
 	TAX					;$B5DC63   |
 	CPX #$0178				;$B5DC64   |
 	BNE CODE_B5DC0E				;$B5DC67   |
@@ -8969,7 +8969,7 @@ CODE_B5DD93:					;	   |
 CODE_B5DD99:					;	   |
 	TXA					;$B5DD99   |
 	CLC					;$B5DD9A   |
-	ADC #sizeof(sprite)			;$B5DD9B   |
+	ADC.w #sizeof(sprite)			;$B5DD9B   |
 	TAX					;$B5DD9E   |
 	DEY					;$B5DD9F   |
 	BNE CODE_B5DD59				;$B5DDA0   |
@@ -11235,7 +11235,7 @@ CODE_B5ED61:					;	   |
 CODE_B5ED70:
 	LDX $90					;$B5ED70  \> Piracy check. Load address of anti piracy routine checksum ($A00 + $90 = $A90)
 	BMI .continue				;$B5ED72   |> If address is negative the checksum is complete. The checksum is calculated 1 byte per frame
-	LDA #<:rare_string			;$B5ED74   |\
+	LDA.w #<:rare_string			;$B5ED74   |\
 	STA $92					;$B5ED77   | | Store address of anti piracy routine at $A90
 	LDY #rare_string			;$B5ED79   | |
 	LDA [$90],y				;$B5ED7C   |/

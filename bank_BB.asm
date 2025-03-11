@@ -443,7 +443,7 @@ CODE_BB829A:					;	   |
 	BEQ CODE_BB82B4				;$BB829C   |
 	TXA					;$BB829E   |
 	CLC					;$BB829F   |
-	ADC #sizeof(sprite)			;$BB82A0   |
+	ADC.w #sizeof(sprite)			;$BB82A0   |
 	TAX					;$BB82A3   |
 	CPX #main_sprite_table_end		;$BB82A4   |
 	BNE CODE_BB829A				;$BB82A7   |
@@ -472,7 +472,7 @@ delete_sprite_handle_deallocation:
 #delete_sprite_no_deallocation_2:		;	   |
 	LDX current_sprite			;$BB82CD   | Get current sprite
 	STZ $00,x				;$BB82CF   | Clear sprite ID
-.return:					;	   | 
+.return:					;	   |
 	RTL					;$BB82D1  / Return
 
 #delete_sprite_no_deallocation:
@@ -497,11 +497,11 @@ delete_sprite_handle_deallocation:
 .next_slot:					;	   |
 	LDA $32					;$BB82F2   | Get type of sprite to delete
 	CMP $00,x				;$BB82F4   | Compare with current slot's type
-	BEQ .found_same_sprite_type		;$BB82F6   | If same sprite type was found 
+	BEQ .found_same_sprite_type		;$BB82F6   | If same sprite type was found
 .get_next_slot:					;	   |
 	TXA					;$BB82F8   |\
 	CLC					;$BB82F9   | |
-	ADC #sizeof(sprite)			;$BB82FA   | | Get next sprite slot
+	ADC.w #sizeof(sprite)			;$BB82FA   | | Get next sprite slot
 	TAX					;$BB82FD   |/
 	CPX #main_sprite_table_end		;$BB82FE   |\ If not end of table, go to next slot
 	BNE .next_slot				;$BB8301   |/
@@ -1146,7 +1146,7 @@ CODE_BB870B:					;	   |
 	BEQ CODE_BB8783				;$BB870F   |
 	TXA					;$BB8711   |
 	CLC					;$BB8712   |
-	ADC #sizeof(sprite)			;$BB8713   |
+	ADC.w #sizeof(sprite)			;$BB8713   |
 	TAX					;$BB8716   |
 	CPX #main_sprite_table_end		;$BB8717   |
 	BNE CODE_BB870B				;$BB871A   |
@@ -1259,7 +1259,7 @@ CODE_BB87D4:					;	   |
 	BEQ CODE_BB884C				;$BB87D8   |
 	TXA					;$BB87DA   |
 	CLC					;$BB87DB   |
-	ADC #sizeof(sprite)			;$BB87DC   |
+	ADC.w #sizeof(sprite)			;$BB87DC   |
 	TAX					;$BB87DF   |
 	CPX #main_sprite_table_end		;$BB87E0   |
 	BNE CODE_BB87D4				;$BB87E3   |
@@ -1709,7 +1709,7 @@ CODE_BB8AF6:
 	CLC					;$BB8B0E   |
 	ADC #$0081				;$BB8B0F   |
 	XBA					;$BB8B12   |
-	ORA #<:palette_data_bank		;$BB8B13   |
+	ORA.w #<:palette_data_bank		;$BB8B13   |
 	STA $0B26,x				;$BB8B16   |
 	LDA $F1					;$BB8B19   |
 	INC A					;$BB8B1B   |
@@ -1867,7 +1867,7 @@ dereference_sprite_palette:
 	TAX					;$BB8C0A   |/
 	DEC $0B74,x				;$BB8C0B   |> Decrease palette reference count
 	BMI .empty_slot				;$BB8C0E   | If reference count less than or equal to 0
-	BEQ .empty_slot				;$BB8C10   | 
+	BEQ .empty_slot				;$BB8C10   |
 	SEC					;$BB8C12   | Return slot still in use
 	RTS					;$BB8C13  /
 
@@ -2808,7 +2808,7 @@ init_sprite_render_order:			;	  \
 .next_slot					;	   |
 	STA sprite_render_table,x		;$BB9201   |\ Write sprite slot to render, increment to the next slot
 	CLC					;$BB9204   | |
-	ADC #sizeof(sprite)			;$BB9205   |/
+	ADC.w #sizeof(sprite)			;$BB9205   |/
 	INX					;$BB9208   |\ Check if all render slots have been filled
 	INX					;$BB9209   | |
 	CPX #$0032				;$BB920A   | |
@@ -6915,7 +6915,7 @@ CODE_BBB75D:					;	   |
 	BEQ CODE_BBB797				;$BBB761   |
 	TXA					;$BBB763   |
 	CLC					;$BBB764   |
-	ADC #sizeof(sprite)			;$BBB765   |
+	ADC.w #sizeof(sprite)			;$BBB765   |
 	TAX					;$BBB768   |
 	CPX #main_sprite_table_end		;$BBB769   |
 	BNE CODE_BBB75D				;$BBB76C   |
@@ -8190,7 +8190,7 @@ DATA_BBC070:
 CODE_BBC07E:
 	LDA $0551				;$BBC07E  \
 	STA $26					;$BBC081   |
-	LDA #<:level_settings_data_bank		;$BBC083   |
+	LDA.w #<:level_settings_data_bank	;$BBC083   |
 	STA $28					;$BBC086   |
 	BRA CODE_BBC098				;$BBC088  /
 
@@ -8784,7 +8784,7 @@ calculate_checksum:				;	  \
 	STA .additive_checksum			;$BBC591   | |
 	INY					;$BBC593   | | DKC2 subtracts the header size from the loop, but this
 	INY					;$BBC594   | | is not actually correct.  However, the last 6 bytes are
-	CPY #sizeof(save_file)-6		;$BBC595   | | unused, so this doesn't cause issue.
+	CPY.w #sizeof(save_file)-6		;$BBC595   | | unused, so this doesn't cause issue.
 	BNE .calculate_additive			;$BBC598   |/
 	LDY.w #save_file.contents		;$BBC59A   | Load the an offset past the sram header
 .calculate_xor					;	   |
@@ -8793,7 +8793,7 @@ calculate_checksum:				;	  \
 	STA .xor_checksum			;$BBC5A1   | |
 	INY					;$BBC5A3   | |
 	INY					;$BBC5A4   | |
-	CPY #sizeof(save_file)-6		;$BBC5A5   | | The same header skip bug is present here
+	CPY.w #sizeof(save_file)-6		;$BBC5A5   | | The same header skip bug is present here
 	BNE .calculate_xor			;$BBC5A8   |/
 	RTS					;$BBC5AA  /
 
@@ -8818,7 +8818,7 @@ CODE_BBC5CC:
 	TAX					;$BBC5D0   |
 	LDA.l DATA_BBC5EE,x			;$BBC5D1   |
 	STA $32					;$BBC5D5   |
-	LDA #<:sram_base			;$BBC5D7   |
+	LDA.w #<:sram_base			;$BBC5D7   |
 	STA $34					;$BBC5DA   |
 	%pea_use_dbr(sram_file_buffer)		;$BBC5DC   |
 	PLB					;$BBC5DF   |
@@ -8842,7 +8842,7 @@ CODE_BBC5F4:
 	JSL CODE_BB819F				;$BBC5F4  \
 	LDA #sram_file_buffer			;$BBC5F8   |
 	STA $26					;$BBC5FB   |
-	LDA #<:sram_file_buffer			;$BBC5FD   |
+	LDA.w #<:sram_file_buffer		;$BBC5FD   |
 	STA $28					;$BBC600   |
 	SEP #$20				;$BBC602   |
 	LDA $060D				;$BBC604   |
@@ -9216,7 +9216,7 @@ CODE_BBC8EF:					;	   |
 	RTS					;$BBC8FE  /
 
 
-warnpc $BBE800 : padbyte $00 : pad $BBE800
+assert pc() <= $BBE800 : padbyte $00 : pad $BBE800
 
 %mirror(DATA_FBE800)
 	dw DATA_FF2A08				;0000 4 chest spawner (not placed)
@@ -9379,7 +9379,7 @@ warnpc $BBE800 : padbyte $00 : pad $BBE800
 	dw DATA_FF35AC				;013A Cannon (not placed)
 	dw DATA_FF35CE				;013C Cannon
 	dw DATA_FF3648				;013E Animal Barrel (Squitter)
-	dw DATA_FF366A				;0140 Animal Barrel (Rattly) 
+	dw DATA_FF366A				;0140 Animal Barrel (Rattly)
 	dw DATA_FF368C				;0142 Animal Barrel (Squawks)
 	dw DATA_FF36AE				;0144 Animal Barrel (Rambi)
 	dw DATA_FF36D0				;0146 Animal Barrel (Enguarde)

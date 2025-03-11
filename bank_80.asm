@@ -1372,7 +1372,7 @@ CODE_808D8A:
 	ORA $08C2				;$808D8D   | set bit 12 (unclear yet, related to cutscenes)
 	STA $08C2				;$808D90   |
 	LDA $08A4				;$808D93   | get kong in front
-	JSL CODE_808837				;$808D96   | set kong 
+	JSL CODE_808837				;$808D96   | set kong
 	LDA #$0020				;$808D9A   |
 	ORA $30,x				;$808D9D   |
 	STA $30,x				;$808D9F   | set interaction flags
@@ -1385,9 +1385,9 @@ CODE_808D8A:
 	STX current_sprite			;$808DB2   |
 	LDA #$0004				;$808DB4   | load run animation
 	JSL CODE_B9D0B8				;$808DB7   | set kong animation
-	LDA.l DATA_FF012A			;$808DBB   | 
+	LDA.l DATA_FF012A			;$808DBB   |
 	STA $16E0				;$808DBF   | set dixie's gravity constant
-	LDA.l DATA_FF012C			;$808DC2   | 
+	LDA.l DATA_FF012C			;$808DC2   |
 	STA $16E2				;$808DC6   | set dixie's terminal velocity constant
 	LDX active_kong_sprite			;$808DC9   | get active kong
 	LDA #$001D				;$808DCC   |
@@ -1395,7 +1395,7 @@ CODE_808D8A:
 	LDA #$00E4				;$808DD1   |
 	STA $02,x				;$808DD4   | set render order
 	JSR CODE_808DFB				;$808DD6   | call dead code
-	LDX inactive_kong_sprite		;$808DD9   | get inactive kong 
+	LDX inactive_kong_sprite		;$808DD9   | get inactive kong
 	LDA #$001E				;$808DDC   |
 	STA $2E,x				;$808DDF   | set inactive kong to npc screen state
 	LDA #$00D8				;$808DE1   |
@@ -3166,7 +3166,7 @@ CODE_809DE2:
 	TAX					;$809DE7   |
 	LDA.l DATA_809C99,x			;$809DE8   |
 	STA $3A					;$809DEC   |
-	LDA #<:DATA_809C99			;$809DEE   |
+	LDA.w #<:DATA_809C99			;$809DEE   |
 	STA $3C					;$809DF1   |
 	LDY #$0000				;$809DF3   |
 	LDA #$0100				;$809DF6   |
@@ -3743,7 +3743,7 @@ CODE_80A440:					;	   |
 CODE_80A442:					;	   |
 	TXA					;$80A442   |
 	CLC					;$80A443   |
-	ADC #sizeof(sprite)			;$80A444   |
+	ADC.w #sizeof(sprite)			;$80A444   |
 	TAX					;$80A447   |
 	CPX #main_sprite_table_end		;$80A448   |
 	BNE CODE_80A429				;$80A44B   |
@@ -3786,7 +3786,7 @@ CODE_80A4A4:					;	   |
 	BEQ CODE_80A4B6				;$80A4A6   |
 	TXA					;$80A4A8   |
 	CLC					;$80A4A9   |
-	ADC #sizeof(sprite)			;$80A4AA   |
+	ADC.w #sizeof(sprite)			;$80A4AA   |
 	TAX					;$80A4AD   |
 	CPX #aux_sprite_table			;$80A4AE   |
 	BNE CODE_80A4A4				;$80A4B1   |
@@ -3981,11 +3981,11 @@ init_file_select:
 namespace run_file_select			;	   | Use this namespace to acces the sram_file_offsets
 	LDA.l sram_file_offsets,x		;$80A617   |\ Setup pointer to the active save file
 	STA .sram_pointer			;$80A61B   | |
-	LDA #<:sram_base			;$80A61D   | |
+	LDA.w #<:sram_base			;$80A61D   | |
 	STA .sram_pointer_bank			;$80A620   |/
 	%pea_use_dbr(sram_file_buffer)		;$80A622   |\ Swap out dbr to access full wram
 	PLB					;$80A625   |/
-	LDY #sizeof(save_file)-2		;$80A626   | Load file length
+	LDY.w #sizeof(save_file)-2		;$80A626   | Load file length
 	BRA .copy_sram				;$80A629  / Jump to the actual copy routine
 .unused						;	  \
 	LDA file_select_selection		;$80A62B   |\ Calculate the index to the current SRAM file
@@ -3995,19 +3995,19 @@ namespace run_file_select			;	   | Use this namespace to acces the sram_file_off
 	CLC					;$80A634   | |
 	ADC.w #save_file.contents		;$80A635   | | Skip the save file header
 	STA .sram_pointer			;$80A638   | |
-	LDA #<:sram_base			;$80A63A   | |
+	LDA.w #<:sram_base			;$80A63A   | |
 	STA .sram_pointer_bank			;$80A63D   |/
 namespace off					;	   |
 	LDA $060F				;$80A63F   |\ Check which controller is active
 	BEQ .copy_player_1			;$80A642   |/
 	LDA .sram_pointer			;$80A644   |\ Skip $14E bytes of the file
 	CLC					;$80A646   | |
-	ADC #sizeof(subfile)			;$80A647   | |
+	ADC.w #sizeof(subfile)			;$80A647   | |
 	STA .sram_pointer			;$80A64A   |/
 .copy_player_1					;	   |
 	%pea_use_dbr(sram_file_buffer)		;$80A64C   |\ Swap out dbr to access full wram
 	PLB					;$80A64F   |/
-	LDY #sizeof(subfile)-2			;$80A650   | Load subfile length
+	LDY.w #sizeof(subfile)-2			;$80A650   | Load subfile length
 .copy_sram					;	   |
 	LDA.w sram_file_buffer,y		;$80A653   |\ Simple copy loop from the SRAM buffer to actual SRAM
 	STA [.sram_pointer],y			;$80A656   | |
@@ -4309,7 +4309,7 @@ run_file_select:				;	  \
 	TAX					;$80A938   | |
 	LDA.l .sram_file_offsets,x		;$80A939   | |
 	STA $54					;$80A93D   | |
-	LDA #<:sram_base			;$80A93F   | |
+	LDA.w #<:sram_base			;$80A93F   | |
 	STA $56					;$80A942   |/
 	LDA.l DATA_80A866,x			;$80A944   |\ Get the VRAM offset of the target file line
 	LDX file_select_selection		;$80A948   |/
@@ -4590,7 +4590,7 @@ namespace off					;	   |/
 	TAX					;$80AB7F   |/
 	LDA.l .sram_file_offsets,x		;$80AB80   |\ Setup pointer to the active save file
 	STA .sram_pointer			;$80AB84   | |
-	LDA #<:sram_base			;$80AB86   | |
+	LDA.w #<:sram_base			;$80AB86   | |
 	STA .sram_pointer_bank			;$80AB89   |/
 	LDY.w #save_file.additive_checksum	;$80AB8B   |\ Increment the first byte which will cause the sram
 	LDA [.sram_pointer],y			;$80AB8E   | | file to no longer verify properly
@@ -4613,16 +4613,16 @@ namespace off					;	   |/
 	TAX					;$80ABB4   |/
 	LDA.l .sram_file_offsets,x		;$80ABB5   |\ Setup pointer to the active save file
 	STA .sram_pointer			;$80ABB9   | |
-	LDA #<:sram_base			;$80ABBB   | |
+	LDA.w #<:sram_base			;$80ABBB   | |
 	STA .sram_pointer_bank			;$80ABBE   |/
 	LDA file_select_file_to_copy		;$80ABC0   |\ Calculate the index to the file to copy from
 	ASL A					;$80ABC3   | |
 	TAX					;$80ABC4   |/
 	LDA.l .sram_file_offsets,x		;$80ABC5   |\ Setup pointer to the file to copy from
 	STA .sram_pointer_original		;$80ABC9   | |
-	LDA #<:sram_base			;$80ABCB   | |
+	LDA.w #<:sram_base			;$80ABCB   | |
 	STA .sram_pointer_bank_original		;$80ABCE   |/
-	LDY #sizeof(save_file)-2		;$80ABD0   | Load the size of the save file
+	LDY.w #sizeof(save_file)-2		;$80ABD0   | Load the size of the save file
 ..copy_sram					;	   |
 	LDA [.sram_pointer_original],y		;$80ABD3   |\ Copy two bytes at a time from the original file to the
 	STA [.sram_pointer],y			;$80ABD5   | | New file
@@ -4648,11 +4648,11 @@ namespace off					;	   |/
 	TAX					;$80ABFB   |/
 	LDA.l .sram_file_offsets,x		;$80ABFC   |\ Setup pointer to the active save file
 	STA .sram_pointer			;$80AC00   | |
-	LDA #<:sram_base			;$80AC02   | |
+	LDA.w #<:sram_base			;$80AC02   | |
 	STA .sram_pointer_bank			;$80AC05   |/
 	%pea_use_dbr(sram_file_buffer)		;$80AC07   |\ Switch the dbr to the sram bank
 	PLB					;$80AC0A   |/
-	LDY #sizeof(save_file)			;$80AC0B   | Load the size of the save file, loads 2 extra bytes
+	LDY.w #sizeof(save_file)			;$80AC0B   | Load the size of the save file, loads 2 extra bytes
 ..copy_sram					;	   |
 	LDA [.sram_pointer],y			;$80AC0E   |\ Copy two bytes at a time from the save file save buffer
 	STA.w sram_file_buffer,y		;$80AC10   | |
@@ -4701,7 +4701,7 @@ upload_channel_count_tilemap:			;	  \
 	RTS					;$80AC62  /
 
 upload_file_tilemaps:
-	LDA #<:save_file1			;$80AC63  \
+	LDA.w #<:save_file1			;$80AC63  \
 	STA $56					;$80AC66   |
 	LDA #$0000				;$80AC68   |
 	JSR get_file_status			;$80AC6B   |
@@ -5545,7 +5545,7 @@ init_title_screen:
 	INY					;$80B42C   | Increment the initial sparkle frame for the next sparkle
 	TXA					;$80B42D   |\ Calculate the next sprite slot
 	CLC					;$80B42E   | |
-	ADC #sizeof(sprite)			;$80B42F   | |
+	ADC.w #sizeof(sprite)			;$80B42F   | |
 	TAX					;$80B432   | |
 	CMP #$0F5A				;$80B433   | |
 	BNE .next_sprite_slot			;$80B436   |/
@@ -5611,7 +5611,7 @@ run_title_screen:				;	  \
 	STA $1A,x				;$80B4B9   | Set the sparkles display frame
 	TXA					;$80B4BB   |\ Calculate the next sprite slot
 	CLC					;$80B4BC   | |
-	ADC #sizeof(sprite)			;$80B4BD   | |
+	ADC.w #sizeof(sprite)			;$80B4BD   | |
 	TAX					;$80B4C0   | |
 	CMP #main_sprite_table_end		;$80B4C1   | |
 	BNE .next_sprite_slot			;$80B4C4   |/
@@ -5813,18 +5813,18 @@ run_nintendo_copyright:				;	  \
 
 ;$80B6C1
 level_nmi_table:
-	dw CODE_80B705				;00 
+	dw CODE_80B705				;00
 	dw CODE_80B746				;01 Forest (Unused)
 	dw CODE_80B779				;02 Ship Hold
 	dw CODE_80B7A6				;03 Wasp Hive
-	dw CODE_80B95F				;04 
-	dw CODE_80B720				;05 
+	dw CODE_80B95F				;04
+	dw CODE_80B720				;05
 	dw CODE_80B977				;06 Ship Deck
 	dw CODE_80B9C6				;07 Lava
 	dw CODE_80BB77				;08 Ship Mast (Rain)
 	dw CODE_80BBD5				;09 Roller Coaster
 	dw CODE_80BC3D				;0A Ship Deck (Cabin)
-	dw CODE_80BC6D				;0B 
+	dw CODE_80BC6D				;0B
 	dw CODE_80BC85				;0C Mine
 	dw CODE_80BDAA				;0D Ship Mast (Clouds)
 	dw CODE_80BE9C				;0E Forest (Lights)
@@ -6753,7 +6753,7 @@ CODE_80BF1A:					;	   |
 	STA $7E8013				;$80BF1A   |
 	LDA $17C0				;$80BF1E   |
 	CLC					;$80BF21   |
-	ADC #sizeof(sprite)			;$80BF22   |
+	ADC.w #sizeof(sprite)			;$80BF22   |
 	SEC					;$80BF25   |
 	SBC $0AFE				;$80BF26   |
 	BPL CODE_80BF2E				;$80BF29   |
@@ -9018,18 +9018,18 @@ DATA_80D3ED:
 
 ;$80D411
 level_logic_table:
-	dw CODE_80D45A				;00 
+	dw CODE_80D45A				;00
 	dw CODE_80D462				;01 Forest (Unused)
 	dw CODE_80D486				;02 Ship Hold
 	dw CODE_80D557				;03 Wasp Hive
-	dw CODE_80D58C				;04 
-	dw CODE_80D451				;05 
+	dw CODE_80D58C				;04
+	dw CODE_80D451				;05
 	dw CODE_80D595				;06 Ship Deck
 	dw CODE_80D5C3				;07 Lava
 	dw CODE_80D5E7				;08 Ship Mast
 	dw CODE_80D61B				;09 Roller Coaster
 	dw CODE_80D642				;0A Ship Deck (Cabin)
-	dw CODE_80D665				;0B 
+	dw CODE_80D665				;0B
 	dw CODE_80D66E				;0C Mine
 	dw CODE_80D784				;0D Forest (Lights)
 	dw CODE_80D7AB				;0E Forest (Windy)
@@ -13202,7 +13202,7 @@ CODE_80F946:
 	TAX					;$80F951   |
 	LDA.l DATA_80F70C,x			;$80F952   |
 	STA $3A					;$80F956   |
-	LDA #<:DATA_80F70C			;$80F958   |
+	LDA.w #<:DATA_80F70C			;$80F958   |
 	STA $3C					;$80F95B   |
 	LDY #$0000				;$80F95D   |
 CODE_80F960:					;	   |
@@ -13482,7 +13482,7 @@ CODE_80FB9E:
 	JML CODE_BBBEA0				;$80FB9E  /
 bank_80_end:
 
-warnpc $80FFB0
+assert pc() <= $80FFB0
 org $80FFB0
 
 DATA_80FFB0:

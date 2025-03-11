@@ -3,7 +3,7 @@ CODE_B48000:					;	   |
 	PHK					;$B48001   |
 	PLB					;$B48002   |
 	SEP #$20				;$B48003   |
-	LDA #<:wram_base			;$B48005   |
+	LDA.b #<:wram_base			;$B48005   |
 	STA $CA					;$B48007   |
 	REP #$20				;$B48009   |
 	STZ $08CC				;$B4800B   |
@@ -75,7 +75,7 @@ CODE_B480B2:
 	STY $CE					;$B480B2  \
 	STA $0650				;$B480B4   |
 	SEP #$20				;$B480B7   |
-	LDA #<:wram_base			;$B480B9   |
+	LDA.b #<:wram_base			;$B480B9   |
 	STA $D0					;$B480BB   |
 	REP #$20				;$B480BD   |
 	LDA #$0000				;$B480BF   |
@@ -93,7 +93,7 @@ CODE_B480CD:
 	PHK					;$B480CE   |
 	PLB					;$B480CF   |
 	SEP #$20				;$B480D0   |
-	LDA #<:wram_base			;$B480D2   |
+	LDA.b #<:wram_base			;$B480D2   |
 	STA $CA					;$B480D4   |
 	PHK					;$B480D6   |
 	PLA					;$B480D7   |
@@ -200,7 +200,7 @@ CODE_B481A6:					;	   |
 	STX HDMA[2].settings			;$B481B0   |
 	LDX #$8012				;$B481B3   |
 	STX HDMA[2].source			;$B481B6   |
-	LDA #<:wram_base			;$B481B9   |
+	LDA.b #<:wram_base			;$B481B9   |
 	STA HDMA[2].source_bank			;$B481BB   |
 	STZ HDMA[2].indirect_source_bank	;$B481BE   |
 	REP #$20				;$B481C1   |
@@ -574,7 +574,7 @@ CODE_B484BC:					;	   |
 	STA DMA[0].destination			;$B484E0   |
 	LDX #$3E00				;$B484E3   |
 	STX DMA[0].source			;$B484E6   |
-	LDA #<:wram_base			;$B484E9   |
+	LDA.b #<:wram_base			;$B484E9   |
 	STA DMA[0].source_bank			;$B484EB   |
 	STZ DMA[0].unused_1			;$B484EE   |
 	LDA #$01				;$B484F1   |
@@ -1738,7 +1738,7 @@ CODE_B48EC2:
 	STA DMA[0].destination			;$B48ED1   |
 	LDX #$3E00				;$B48ED4   |
 	STX DMA[0].source			;$B48ED7   |
-	LDA #<:wram_base			;$B48EDA   |
+	LDA.b #<:wram_base			;$B48EDA   |
 	STA DMA[0].source_bank			;$B48EDC   |
 	LDX #$0180				;$B48EDF   |
 	STX DMA[0].size				;$B48EE2   |
@@ -2296,7 +2296,7 @@ CODE_B493B7:
 	STA DMA[0].destination			;$B493C6   |
 	LDX #$3E00				;$B493C9   |
 	STX DMA[0].source			;$B493CC   |
-	LDA #<:wram_base			;$B493CF   |
+	LDA.b #<:wram_base			;$B493CF   |
 	STA DMA[0].source_bank			;$B493D1   |
 	LDX #$0180				;$B493D4   |
 	STX DMA[0].size				;$B493D7   |
@@ -2855,7 +2855,7 @@ CODE_B4989F:
 	STA DMA[0].destination			;$B498AE   |
 	LDX #$3E00				;$B498B1   |
 	STX DMA[0].source			;$B498B4   |
-	LDA #<:wram_base			;$B498B7   |
+	LDA.b #<:wram_base			;$B498B7   |
 	STA DMA[0].source_bank			;$B498B9   |
 	LDX $0658				;$B498BC   |
 	STX DMA[0].size				;$B498BF   |
@@ -4015,7 +4015,7 @@ CODE_B4A21B:
 	STA DMA[0].destination			;$B4A22A   |
 	LDX #$4A00				;$B4A22D   |
 	STX DMA[0].source			;$B4A230   |
-	LDA #<:wram_base			;$B4A233   |
+	LDA.b #<:wram_base			;$B4A233   |
 	STA DMA[0].source_bank			;$B4A235   |
 	LDX #$0180				;$B4A238   |
 	STX DMA[0].size				;$B4A23B   |
@@ -4671,7 +4671,7 @@ CODE_B4A7E7:
 	STA DMA[0].destination			;$B4A7F6   |
 	LDX #$4600				;$B4A7F9   |
 	STX DMA[0].source			;$B4A7FC   |
-	LDA #<:wram_base			;$B4A7FF   |
+	LDA.b #<:wram_base			;$B4A7FF   |
 	STA DMA[0].source_bank			;$B4A801   |
 	LDX #$0180				;$B4A804   |
 	STX DMA[0].size				;$B4A807   |
@@ -4802,7 +4802,7 @@ CODE_B4A90E:
 	STA DMA[0].destination			;$B4A91D   |
 	LDX #$3E00				;$B4A920   |
 	STX DMA[0].source			;$B4A923   |
-	LDA #<:wram_base			;$B4A926   |
+	LDA.b #<:wram_base			;$B4A926   |
 	STA DMA[0].source_bank			;$B4A928   |
 	LDX #$0180				;$B4A92B   |
 	STX DMA[0].size				;$B4A92E   |
@@ -5022,7 +5022,7 @@ CODE_B4AB00:
 	STA DMA[0].destination			;$B4AB0F   |
 	LDX #$3E00				;$B4AB12   |
 	STX DMA[0].source			;$B4AB15   |
-	LDA #<:wram_base			;$B4AB18   |
+	LDA.b #<:wram_base			;$B4AB18   |
 	STA DMA[0].source_bank			;$B4AB1A   |
 	LDX #$0180				;$B4AB1D   |
 	STX DMA[0].size				;$B4AB20   |
@@ -5118,7 +5118,7 @@ CODE_B4ABEA:
 	STA DMA[0].destination			;$B4ABF9   |
 	LDX #$4600				;$B4ABFC   |
 	STX DMA[0].source			;$B4ABFF   |
-	LDA #<:wram_base			;$B4AC02   |
+	LDA.b #<:wram_base			;$B4AC02   |
 	STA DMA[0].source_bank			;$B4AC04   |
 	LDX #$0180				;$B4AC07   |
 	STX DMA[0].size				;$B4AC0A   |
@@ -5161,7 +5161,7 @@ CODE_B4AC65:
 	PHK					;$B4AC65  \
 	PLB					;$B4AC66   |
 	SEP #$20				;$B4AC67   |
-	LDA #<:wram_base			;$B4AC69   |
+	LDA.b #<:wram_base			;$B4AC69   |
 	STA $CA					;$B4AC6B   |
 	REP #$20				;$B4AC6D   |
 	LDX #DATA_B4AC84			;$B4AC6F   |
@@ -5626,7 +5626,7 @@ CODE_B4B0CF:
 	STA $0650				;$B4B0E2   |
 	LDX #$2A00				;$B4B0E5   |
 	SEP #$20				;$B4B0E8   |
-	LDA #<:wram_base			;$B4B0EA   |
+	LDA.b #<:wram_base			;$B4B0EA   |
 	STA $D0					;$B4B0EC   |
 	REP #$20				;$B4B0EE   |
 	LDA #$5992				;$B4B0F0   |
@@ -5713,7 +5713,7 @@ CODE_B4B18F:
 	PHB					;$B4B18F  \
 	STA $0650				;$B4B190   |
 	SEP #$20				;$B4B193   |
-	LDA #<:wram_base			;$B4B195   |
+	LDA.b #<:wram_base			;$B4B195   |
 	STA $D0					;$B4B197   |
 	REP #$20				;$B4B199   |
 	LDA #$5992				;$B4B19B   |
@@ -5725,7 +5725,7 @@ CODE_B4B18F:
 	LDY #DATA_B4E6D8			;$B4B1AB   |
 	STZ $0656				;$B4B1AE   |
 	SEP #$20				;$B4B1B1   |
-	LDA #<:wram_base			;$B4B1B3   |
+	LDA.b #<:wram_base			;$B4B1B3   |
 	PHA					;$B4B1B5   |
 	PLB					;$B4B1B6   |
 	XBA					;$B4B1B7   |
@@ -6011,7 +6011,7 @@ CODE_B4B3CA:					;	   |
 
 CODE_B4B3CD:
 	SEP #$20				;$B4B3CD  \
-	LDA #<:wram_base			;$B4B3CF   |
+	LDA.b #<:wram_base			;$B4B3CF   |
 	STA $D0					;$B4B3D1   |
 	REP #$20				;$B4B3D3   |
 	LDA #$5972				;$B4B3D5   |
@@ -6063,7 +6063,7 @@ CODE_B4B42D:
 
 CODE_B4B43D:
 	SEP #$20				;$B4B43D   |
-	LDA #<:wram_base			;$B4B43F   |
+	LDA.b #<:wram_base			;$B4B43F   |
 	STA $D0					;$B4B441   |
 	REP #$20				;$B4B443   |
 	LDA #$5972				;$B4B445   |
@@ -6127,7 +6127,7 @@ CODE_B4B4D3:
 	PHB					;$B4B4D3  \
 	STA $0650				;$B4B4D4   |
 	SEP #$20				;$B4B4D7   |
-	LDA #<:wram_base			;$B4B4D9   |
+	LDA.b #<:wram_base			;$B4B4D9   |
 	STA $D0					;$B4B4DB   |
 	REP #$20				;$B4B4DD   |
 	LDA #$5972				;$B4B4DF   |
@@ -6140,7 +6140,7 @@ CODE_B4B4D3:
 	LDY #DATA_B4CF4B			;$B4B4F2   |
 	SEP #$20				;$B4B4F5   |
 	LDX #$3200				;$B4B4F7   |
-	LDA #<:wram_base			;$B4B4FA   |
+	LDA.b #<:wram_base			;$B4B4FA   |
 	PHA					;$B4B4FC   |
 	PLB					;$B4B4FD   |
 	XBA					;$B4B4FE   |
@@ -6820,7 +6820,7 @@ CODE_B4B9F6:
 CODE_B4B9F9:					;	   |
 	STA $0656				;$B4B9F9   |
 	SEP #$20				;$B4B9FC   |
-	LDA #<:wram_base			;$B4B9FE   |
+	LDA.b #<:wram_base			;$B4B9FE   |
 	STA $D0					;$B4BA00   |
 	REP #$20				;$B4BA02   |
 CODE_B4BA04:					;	   |

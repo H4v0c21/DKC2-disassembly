@@ -657,7 +657,7 @@ intro_sparkle_graphics:
 ;$C00DA1
 DATA_C00DA1:
 	incbin "data/misc_graphics/hook_tiledata.bin"
-	
+
 ;$C01021
 DATA_C01021:
 	incbin "data/misc_graphics/cannon_ball_fragment_tiledata.bin"
@@ -684,11 +684,11 @@ DATA_C02321:
 
 ;$C02401
 DATA_C02401:
-	incbin "data/misc_graphics/kong_letters_tiledata.bin":0000-0100
+	incbin "data/misc_graphics/kong_letters_tiledata.bin":$0000..$0100
 
 ;$C02501
 DATA_C02501:
-	incbin "data/misc_graphics/kong_letters_tiledata.bin":0100-0200
+	incbin "data/misc_graphics/kong_letters_tiledata.bin":$0100..$0200
 
 ;$C02601 (sprite graphic)
 SPRITE_GRAPHIC_02C4:

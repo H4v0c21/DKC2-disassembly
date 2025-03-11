@@ -120,8 +120,6 @@ player_skipped_demo = $099B
 current_held_sprite = $0D7A
 
 aux_sprite_table = $0D84
-main_sprite_table = $0DE2
-main_sprite_table_end = $0DE2+(sizeof(sprite)*24)
 
 sprite_render_table = $16FE
 sprite_render_table_end = $16FE+$30
