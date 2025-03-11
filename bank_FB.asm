@@ -1,14 +1,8 @@
 ;$FB0000
 DATA_FB0000:
-	incbin "data/misc_graphics/file_select_coins_tiledata.bin":$0000..$0180
-
-;$FB0180
-DATA_FB0180:
-	incbin "data/misc_graphics/file_select_coins_tiledata.bin":$0180..$0400
-
-;$FB0400
-DATA_FB0400:
-	incbin "data/misc_graphics/file_select_coins_tiledata.bin":$0400..$0800
+	%offset(DATA_FB0180, $0180)
+	%offset(DATA_FB0400, $0400)
+	incbin "data/misc_graphics/file_select_coins_tiledata.bin"
 
 ;$FB0800
 DATA_FB0800:

@@ -27,7 +27,7 @@ DATA_FF002E:
 
 ;diddy constants
 DATA_FF0040:
-%offset(DATA_FF0042, 2)
+	%offset(DATA_FF0042, 2)
 	dw $0070			;00 idle gravity force
 	dw $0800			;02 max fall y velocity
 	dw $005A			;04 jump gravity force
@@ -148,7 +148,7 @@ DATA_FF0040:
 
 ;dixie constants
 DATA_FF012A:
-%offset(DATA_FF012C, 2)
+	%offset(DATA_FF012C, 2)
 	dw $0070			;00 idle gravity force
 	dw $0800			;02 max fall y velocity
 	dw $0048			;04 jump gravity force
@@ -818,7 +818,7 @@ DATA_FF047E:
 	dw DATA_FF1448		;00FA klank race flag?
 	dw !null_pointer	;00FC
 	dw !null_pointer	;00FE
-	dw DATA_FF2478		;0100 npc kong?
+	dw DATA_FF2478		;0100 cranky
 	dw DATA_FF249A		;0102 npc kong?
 	dw DATA_FF24BC		;0104 npc kong?
 	dw DATA_FF24DE		;0106 npc kong?
@@ -8340,10 +8340,10 @@ DATA_FF6A7A:
 
 ;kannon vertical projectile speed presets
 DATA_FF6A98:
-%offset(DATA_FF6A9A, $2)
-%offset(DATA_FF6A9C, $4)
-%offset(DATA_FF6A9E, $6)
-%offset(DATA_FF6AA0, $8)
+	%offset(DATA_FF6A9A, $2)
+	%offset(DATA_FF6A9C, $4)
+	%offset(DATA_FF6A9E, $6)
+	%offset(DATA_FF6AA0, $8)
 	dw $FFC0, $0400, $0080, $0500, $0000
 	dw $FF80, $0400, $0010, $0500, $FE00
 	dw $0080, $0400, $0020, $FC80, $0420

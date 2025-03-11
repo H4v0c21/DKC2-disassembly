@@ -4,175 +4,63 @@ DATA_FC0000:
 
 ;$FC0660
 DATA_FC0660:
-	incbin "data/misc_graphics/world_map_8x16_text_tiledata.bin":$0000..$0040
-;$FC06A0
-DATA_FC06A0:
-	incbin "data/misc_graphics/world_map_8x16_text_tiledata.bin":$0040..$0080
-;$FC06E0
-DATA_FC06E0:
-	incbin "data/misc_graphics/world_map_8x16_text_tiledata.bin":$0080..$00C0
-;$FC0720
-DATA_FC0720:
-	incbin "data/misc_graphics/world_map_8x16_text_tiledata.bin":$00C0..$0100
-;$FC0760
-DATA_FC0760:
-	incbin "data/misc_graphics/world_map_8x16_text_tiledata.bin":$0100..$0140
-;$FC07A0
-DATA_FC07A0:
-	incbin "data/misc_graphics/world_map_8x16_text_tiledata.bin":$0140..$0180
-;$FC07E0
-DATA_FC07E0:
-	incbin "data/misc_graphics/world_map_8x16_text_tiledata.bin":$0180..$01C0
-;$FC0820
-DATA_FC0820:
-	incbin "data/misc_graphics/world_map_8x16_text_tiledata.bin":$01C0..$0200
-;$FC0860
-DATA_FC0860:
-	incbin "data/misc_graphics/world_map_8x16_text_tiledata.bin":$0200..$0240
-;$FC08A0
-DATA_FC08A0:
-	incbin "data/misc_graphics/world_map_8x16_text_tiledata.bin":$0240..$0280
-;$FC08E0
-DATA_FC08E0:
-	incbin "data/misc_graphics/world_map_8x16_text_tiledata.bin":$0280..$02C0
-;$FC0920
-DATA_FC0920:
-	incbin "data/misc_graphics/world_map_8x16_text_tiledata.bin":$02C0..$0300
-;$FC0960
-DATA_FC0960:
-	incbin "data/misc_graphics/world_map_8x16_text_tiledata.bin":$0300..$0340
-;$FC09A0
-DATA_FC09A0:
-	incbin "data/misc_graphics/world_map_8x16_text_tiledata.bin":$0340..$0380
-;$FC09E0
-DATA_FC09E0:
-	incbin "data/misc_graphics/world_map_8x16_text_tiledata.bin":$0380..$03C0
-;$FC0A20
-DATA_FC0A20:
-	incbin "data/misc_graphics/world_map_8x16_text_tiledata.bin":$03C0..$0400
-;$FC0A60
-DATA_FC0A60:
-	incbin "data/misc_graphics/world_map_8x16_text_tiledata.bin":$0400..$0440
-;$FC0AA0
-DATA_FC0AA0:
-	incbin "data/misc_graphics/world_map_8x16_text_tiledata.bin":$0440..$0480
-;$FC0AE0
-DATA_FC0AE0:
-	incbin "data/misc_graphics/world_map_8x16_text_tiledata.bin":$0480..$04C0
-;$FC0B20
-DATA_FC0B20:
-	incbin "data/misc_graphics/world_map_8x16_text_tiledata.bin":$04C0..$0500
-;$FC0B60
-DATA_FC0B60:
-	incbin "data/misc_graphics/world_map_8x16_text_tiledata.bin":$0500..$0540
-;$FC0BA0
-DATA_FC0BA0:
-	incbin "data/misc_graphics/world_map_8x16_text_tiledata.bin":$0540..$0580
-;$FC0BE0
-DATA_FC0BE0:
-	incbin "data/misc_graphics/world_map_8x16_text_tiledata.bin":$0580..$05C0
-;$FC0C20
-DATA_FC0C20:
-	incbin "data/misc_graphics/world_map_8x16_text_tiledata.bin":$05C0..$0600
-;$FC0C60
-DATA_FC0C60:
-	incbin "data/misc_graphics/world_map_8x16_text_tiledata.bin":$0600..$0640
-;$FC0CA0
-DATA_FC0CA0:
-	incbin "data/misc_graphics/world_map_8x16_text_tiledata.bin":$0640..$0680
-;$FC0CE0
-DATA_FC0CE0:
-	incbin "data/misc_graphics/world_map_8x16_text_tiledata.bin":$0680..$06C0
-;$FC0D20
-DATA_FC0D20:
-	incbin "data/misc_graphics/world_map_8x16_text_tiledata.bin":$06C0..$0700
-;$FC0D60
-DATA_FC0D60:
-	incbin "data/misc_graphics/world_map_8x16_text_tiledata.bin":$0700..$0740
-;$FC0DA0
-DATA_FC0DA0:
-	incbin "data/misc_graphics/world_map_8x16_text_tiledata.bin":$0740..$0780
-;$FC0DE0
-DATA_FC0DE0:
-	incbin "data/misc_graphics/world_map_8x16_text_tiledata.bin":$0780..$07C0
-;$FC0E20
-DATA_FC0E20:
-	incbin "data/misc_graphics/world_map_8x16_text_tiledata.bin":$07C0..$0800
-;$FC0E60
-DATA_FC0E60:
-	incbin "data/misc_graphics/world_map_8x16_text_tiledata.bin":$0800..$0840
-;$FC0EA0
-DATA_FC0EA0:
-	incbin "data/misc_graphics/world_map_8x16_text_tiledata.bin":$0840..$0880
-;$FC0EE0
-DATA_FC0EE0:
-	incbin "data/misc_graphics/world_map_8x16_text_tiledata.bin":$0880..$08C0
-;$FC0F20
-DATA_FC0F20:
-	incbin "data/misc_graphics/world_map_8x16_text_tiledata.bin":$08C0..$0900
-;$FC0F60
-DATA_FC0F60:
-	incbin "data/misc_graphics/world_map_8x16_text_tiledata.bin":$0900..$0940
-;$FC0FA0
-DATA_FC0FA0:
-	incbin "data/misc_graphics/world_map_8x16_text_tiledata.bin":$0940..$0980
-;$FC0FE0
-DATA_FC0FE0:
-	incbin "data/misc_graphics/world_map_8x16_text_tiledata.bin":$0980..$09C0
-;$FC1020
-DATA_FC1020:
-	incbin "data/misc_graphics/world_map_8x16_text_tiledata.bin":$09C0..$0A00
-;$FC1060
-DATA_FC1060:
-	incbin "data/misc_graphics/world_map_8x16_text_tiledata.bin":$0A00..$0A40
-;$FC10A0
-DATA_FC10A0:
-	incbin "data/misc_graphics/world_map_8x16_text_tiledata.bin":$0A40..$0A80
-;$FC10E0
-DATA_FC10E0:
-	incbin "data/misc_graphics/world_map_8x16_text_tiledata.bin":$0A80..$0AC0
-;$FC1120
-DATA_FC1120:
-	incbin "data/misc_graphics/world_map_8x16_text_tiledata.bin":$0AC0..$0B00
-;$FC1160
-DATA_FC1160:
-	incbin "data/misc_graphics/world_map_8x16_text_tiledata.bin":$0B00..$0B40
-;$FC11A0
-DATA_FC11A0:
-	incbin "data/misc_graphics/world_map_8x16_text_tiledata.bin":$0B40..$0B80
-;$FC11E0
-DATA_FC11E0:
-	incbin "data/misc_graphics/world_map_8x16_text_tiledata.bin":$0B80..$0BC0
-;$FC1220
-DATA_FC1220:
-	incbin "data/misc_graphics/world_map_8x16_text_tiledata.bin":$0BC0..$0C00
-;$FC1260
-DATA_FC1260:
-	incbin "data/misc_graphics/world_map_8x16_text_tiledata.bin":$0C00..$0C40
-;$FC12A0
-DATA_FC12A0:
-	incbin "data/misc_graphics/world_map_8x16_text_tiledata.bin":$0C40..$0C80
-;$FC12E0
-DATA_FC12E0:
-	incbin "data/misc_graphics/world_map_8x16_text_tiledata.bin":$0C80..$0CC0
-;$FC1320
-DATA_FC1320:
-	incbin "data/misc_graphics/world_map_8x16_text_tiledata.bin":$0CC0..$0D00
-;$FC1360
-DATA_FC1360:
-	incbin "data/misc_graphics/world_map_8x16_text_tiledata.bin":$0D00..$0D40
-;$FC13A0
-DATA_FC13A0:
-	incbin "data/misc_graphics/world_map_8x16_text_tiledata.bin":$0D40..$0D80
-;$FC13E0
-DATA_FC13E0:
-	incbin "data/misc_graphics/world_map_8x16_text_tiledata.bin":$0D80..$0DC0
-;$FC1420
-DATA_FC1420:
-	incbin "data/misc_graphics/world_map_8x16_text_tiledata.bin":$0DC0..$0E00
-;$FC1460
-DATA_FC1460:
-	incbin "data/misc_graphics/world_map_8x16_text_tiledata.bin":$0E00..$0E40
+	%offset(DATA_FC06A0, $0040)
+	%offset(DATA_FC06E0, $0080)
+	%offset(DATA_FC0720, $00C0)
+	%offset(DATA_FC0760, $0100)
+	%offset(DATA_FC07A0, $0140)
+	%offset(DATA_FC07E0, $0180)
+	%offset(DATA_FC0820, $01C0)
+	%offset(DATA_FC0860, $0200)
+	%offset(DATA_FC08A0, $0240)
+	%offset(DATA_FC08E0, $0280)
+	%offset(DATA_FC0920, $02C0)
+	%offset(DATA_FC0960, $0300)
+	%offset(DATA_FC09A0, $0340)
+	%offset(DATA_FC09E0, $0380)
+	%offset(DATA_FC0A20, $03C0)
+	%offset(DATA_FC0A60, $0400)
+	%offset(DATA_FC0AA0, $0440)
+	%offset(DATA_FC0AE0, $0480)
+	%offset(DATA_FC0B20, $04C0)
+	%offset(DATA_FC0B60, $0500)
+	%offset(DATA_FC0BA0, $0540)
+	%offset(DATA_FC0BE0, $0580)
+	%offset(DATA_FC0C20, $05C0)
+	%offset(DATA_FC0C60, $0600)
+	%offset(DATA_FC0CA0, $0640)
+	%offset(DATA_FC0CE0, $0680)
+	%offset(DATA_FC0D20, $06C0)
+	%offset(DATA_FC0D60, $0700)
+	%offset(DATA_FC0DA0, $0740)
+	%offset(DATA_FC0DE0, $0780)
+	%offset(DATA_FC0E20, $07C0)
+	%offset(DATA_FC0E60, $0800)
+	%offset(DATA_FC0EA0, $0840)
+	%offset(DATA_FC0EE0, $0880)
+	%offset(DATA_FC0F20, $08C0)
+	%offset(DATA_FC0F60, $0900)
+	%offset(DATA_FC0FA0, $0940)
+	%offset(DATA_FC0FE0, $0980)
+	%offset(DATA_FC1020, $09C0)
+	%offset(DATA_FC1060, $0A00)
+	%offset(DATA_FC10A0, $0A40)
+	%offset(DATA_FC10E0, $0A80)
+	%offset(DATA_FC1120, $0AC0)
+	%offset(DATA_FC1160, $0B00)
+	%offset(DATA_FC11A0, $0B40)
+	%offset(DATA_FC11E0, $0B80)
+	%offset(DATA_FC1220, $0BC0)
+	%offset(DATA_FC1260, $0C00)
+	%offset(DATA_FC12A0, $0C40)
+	%offset(DATA_FC12E0, $0C80)
+	%offset(DATA_FC1320, $0CC0)
+	%offset(DATA_FC1360, $0D00)
+	%offset(DATA_FC13A0, $0D40)
+	%offset(DATA_FC13E0, $0D80)
+	%offset(DATA_FC1420, $0DC0)
+	%offset(DATA_FC1460, $0E00)
+	incbin "data/misc_graphics/world_map_8x16_text_tiledata.bin"
 
 ;$FC14A0
 DATA_FC14A0:

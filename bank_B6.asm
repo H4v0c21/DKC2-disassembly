@@ -1536,7 +1536,7 @@ CODE_B69043:
 
 ;krool related?
 DATA_B6905D:
-%offset(DATA_B6905F, 2)
+	%offset(DATA_B6905F, 2)
 	dw $2000, $003C
 	dw $1000, $001E
 	dw $0000, $001E

@@ -836,8 +836,8 @@ DATA_FD334E:
 ;same format as base palette
 ;subtracted from base palette periodically to darken the palette throughout the level
 DATA_FD364E:
-%offset(DATA_FD3650, 2)
-%offset(DATA_FD3652, 4)
+	%offset(DATA_FD3650, 2)
+	%offset(DATA_FD3652, 4)
 	dw $FFE8, $FFFF, $0060
 	dw $0008, $0001, $0020
 	dw $0010, $0001, $0020
@@ -1239,13 +1239,13 @@ mudhole_marsh_level_palette:
 	incbin "data/levels/palettes/mudhole_marsh_level_palette.bin"
 
 ;camera control configs
-%offset(DATA_FD470D, -1)
+	%offset(DATA_FD470D, -1)
 DATA_FD470E:
-%offset(DATA_FD470F, 1)
-%offset(DATA_FD4710, 2)
-%offset(DATA_FD4712, 4)
-%offset(DATA_FD4714, 6)
-%offset(DATA_FD4715, 7)
+	%offset(DATA_FD470F, 1)
+	%offset(DATA_FD4710, 2)
+	%offset(DATA_FD4712, 4)
+	%offset(DATA_FD4714, 6)
+	%offset(DATA_FD4715, 7)
 	db $80, $38, $9C, $08, $54, $44, $0C, $08	;00
 	db $80, $38, $9C, $38, $58, $45, $04, $08	;01
 	db $80, $38, $9C, $08, $53, $42, $08, $08	;02
@@ -5271,7 +5271,7 @@ DATA_FD6408:
 	db $A0, $00, $80, $00, $63, $04
 
 map_p1_kong_and_text_sprite_palette:
-%offset(map_p1_kong_and_text_no_bg_sprite_palette, $02)
+	%offset(map_p1_kong_and_text_no_bg_sprite_palette, 2)
 	db $00, $7C, $FF, $03, $66, $04, $34, $11
 	db $9D, $0D, $1A, $32, $DF, $46, $BF, $5B
 	db $F9, $30, $BF, $51, $CC, $04, $E0, $02

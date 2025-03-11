@@ -2666,7 +2666,7 @@ DATA_BAAAE8:
 
 ;kleever shake offset related
 DATA_BAAB44:
-%offset(DATA_BAAB48, 4)
+	%offset(DATA_BAAB48, 4)
 	dw $FFF6, $FFD0
 	dw $FFF6, $FFD0
 	dw $0000, $FFCE

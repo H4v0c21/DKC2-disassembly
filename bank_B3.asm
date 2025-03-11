@@ -11671,7 +11671,7 @@ rideable_balloon_main:
 
 ;X positions for red-hot-ride steam?
 DATA_B3D691:
-%offset(DATA_B3D693, 2)
+	%offset(DATA_B3D693, 2)
 	dw $0000
 	dw $0321
 	dw $05A9

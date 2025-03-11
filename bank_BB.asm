@@ -7166,9 +7166,9 @@ CODE_BBB93A:
 	RTS					;$BBB93B  /
 
 DATA_BBB93C:
-%offset(DATA_BBB93E, 2)
-%offset(DATA_BBB940, 4)
-%offset(DATA_BBB942, 6)
+	%offset(DATA_BBB93E, 2)
+	%offset(DATA_BBB940, 4)
+	%offset(DATA_BBB942, 6)
 	dw $0020, $0140, $0020, $0140
 	dw $0028, $0150, $0028, $0150
 	dw $0010, $0120, $0010, $0100

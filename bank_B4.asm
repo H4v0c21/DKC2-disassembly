@@ -9515,7 +9515,7 @@ npc_screen_init_data:
 	dw $0000				;Kong H flip
 	dw CODE_B4B82A				;Routine to run every frame on NMI
 	dw $7BA0, $7AA0				;Intro and options text VRAM address, response text VRAM address
-	dw DATA_B4CDF1 				;NPC spawn data (handles big sprite spawning and other stuff)
+	dw DATA_B4CDF1				;NPC spawn data (handles big sprite spawning and other stuff)
 	dw $0060, $0040				;Main kong and inactive kong X position walk limit
 	dw $0100				;Kongs walk X velocity
 
@@ -9563,22 +9563,37 @@ npc_screen_init_data:
 	dw $0050, $0030
 	dw $0100
 
+;Monkey Museum spawn script indexes
 DATA_B4CDF1:
-	db $00, $01, $00, $00, $00
+	dw $0100 : db $00			;Cranky
+	dw $0000
 
+;Funky's Flights II spawn script indexes
 DATA_B4CDF6:
-	db $04, $01, $00, $02, $01, $01, $8C, $01
-	db $00, $16, $01, $00, $18, $01, $00, $00
-	db $00
+	dw $0104 : db $00			;Funky Surf Board
+	dw $0102 : db $01			;Funky
+	dw $018C : db $00			;Plane Barrel Wings
+	dw $0116 : db $00			;Plane Barrel
+	dw $0118 : db $00			;Plane Barrel Propeller
+	dw $0000
 
+;Swanky's Bonus Bonanza spawn script indexes
 DATA_B4CE07:
-	db $14, $01, $00, $06, $01, $00, $00, $00
+	dw $0114 : db $00			;Swanky Teeth Shine
+	dw $0106 : db $00			;Swanky
+	dw $0000
 
+;Kong Kollege spawn script indexes
 DATA_B4CE0F:
-	db $08, $01, $00, $0A, $01, $00, $00, $00
+	dw $0108 : db $00			;Wrinkly
+	dw $010A : db $00			;Wrinkly Shirt/Book
+	dw $0000
 
+;Klubba's Kiosk spawn script indexes
 DATA_B4CE17:
-	db $0E, $01, $01, $10, $01, $00, $00, $00
+	dw $010E : db $01			;Klubba
+	dw $0110 : db $00			;Golden Barrel
+	dw $0000
 
 ;Lost world rocks spawn script indexes
 DATA_B4CE1F:

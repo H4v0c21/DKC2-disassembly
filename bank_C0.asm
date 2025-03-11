@@ -684,11 +684,8 @@ DATA_C02321:
 
 ;$C02401
 DATA_C02401:
-	incbin "data/misc_graphics/kong_letters_tiledata.bin":$0000..$0100
-
-;$C02501
-DATA_C02501:
-	incbin "data/misc_graphics/kong_letters_tiledata.bin":$0100..$0200
+	%offset(DATA_C02501, $0100)
+	incbin "data/misc_graphics/kong_letters_tiledata.bin"
 
 ;$C02601 (sprite graphic)
 SPRITE_GRAPHIC_02C4:

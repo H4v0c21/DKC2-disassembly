@@ -13400,11 +13400,8 @@ lava_fall_layer_3_8x8_tilemap:
 
 ;$E9A745
 DATA_E9A745:
-	incbin "data/backgrounds/8x8_tilemaps/castle_crush_floor_layer_3_tilemap.bin":$0000..$00C0
-
-;$E9A805
-DATA_E9A805:
-	incbin "data/backgrounds/8x8_tilemaps/castle_crush_floor_layer_3_tilemap.bin":$00C0..$01C0
+	%offset(DATA_E9A805, $00C0)
+	incbin "data/backgrounds/8x8_tilemaps/castle_crush_floor_layer_3_tilemap.bin"
 
 ;$E9A905
 DATA_E9A905:

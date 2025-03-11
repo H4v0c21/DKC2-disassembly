@@ -2554,7 +2554,7 @@ DATA_B89462:
 
 ;dixie animal position offsets
 DATA_B89472:
-%offset(DATA_B89474, 2)
+	%offset(DATA_B89474, 2)
 	dw $FFFB, $FFFF				;Squitter
 	dw $FFFC, $FFDD				;Rattly
 	dw $FFFD, $0018				;Squawks
@@ -2563,7 +2563,7 @@ DATA_B89472:
 
 ;diddy animal position offsets
 DATA_B89486:
-%offset(DATA_B89488, 2)
+	%offset(DATA_B89488, 2)
 	dw $FFF6, $000E				;Squitter
 	dw $FFFC, $FFE8				;Rattly
 	dw $FFFD, $0012				;Squawks

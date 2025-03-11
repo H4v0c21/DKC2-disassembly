@@ -1084,7 +1084,7 @@ CODE_808AB4:					;	   |
 	RTS					;$808B7B  / / Return
 
 .cheat_buttons
-%offset(.cheat_buttons_next, 2)
+	%offset(.cheat_buttons_next, 2)
 	dw $0000				;
 	dw $4100				; Y+Right
 	dw $4100				; Y+Right
