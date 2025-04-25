@@ -5638,7 +5638,7 @@ CODE_BBAE77:					;	   |
 	LDA $08C2				;$BBAE7E   |
 	AND #$4000				;$BBAE81   |
 	BEQ CODE_BBAE91				;$BBAE84   |
-	JSL CODE_B39118				;$BBAE86   |
+	JSL spawn_follower_animal_icon		;$BBAE86   |
 	LDX alternate_sprite			;$BBAE8A   |
 	LDA #$0005				;$BBAE8C   |
 	STA $2E,x				;$BBAE8F   |

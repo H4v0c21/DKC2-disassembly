@@ -2578,12 +2578,16 @@ CODE_B49638:					;	   |
 DATA_B49647:
 	db $07 : dw DATA_B4964F : db $00, $00, $0D : dw DATA_B49657
 
+pushtable
+%get_swanky_table()
+
 DATA_B4964F:
-	db $26, $20, $32, $20, $25, $20, $25, $20
+	dw "FREE"
 
 DATA_B49657:
-	db $27, $20, $32, $20, $21, $20, $34, $20
-	db $35, $20, $29, $20, $34, $20
+	dw "GRATUIT"
+
+pulltable
 
 DATA_B49665:
 	dw DATA_B4967B
@@ -2600,22 +2604,22 @@ DATA_B49673:
 DATA_B4967B:
 	db $0D : dw DATA_B4969D : db $02, $00, $0F : dw DATA_B496AB
 
+pushtable
+%get_swanky_table()
+
 DATA_B49683:
-	db $11, $20, $00, $20, $23, $20, $2F, $20
-	db $29, $20, $2E, $20
+	dw "1 COIN"
 
 DATA_B4968F:
-	db $11, $20, $00, $20, $30, $20, $29, $20
-	db $25, $20, $23, $20, $25, $20
+	dw "1 PIECE"
 
 DATA_B4969D:
-	db $12, $20, $00, $20, $23, $20, $2F, $20
-	db $29, $20, $2E, $20, $33, $20
+	dw "2 COINS"
 
 DATA_B496AB:
-	db $12, $20, $00, $20, $30, $20, $29, $20
-	db $25, $20, $23, $20, $25, $20, $33, $20
+	dw "2 PIECES"
 
+pulltable
 
 CODE_B496BB:
 	TXA					;$B496BB  \
@@ -2810,7 +2814,6 @@ pushtable
 %get_swanky_table()
 
 DATA_B497F5:
-
 	dw "     ** Game Complete **        "
 
 DATA_B49835:

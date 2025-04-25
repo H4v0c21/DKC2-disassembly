@@ -21,8 +21,10 @@ org $008000			;dummy org so functions work
 	incsrc ram.asm
 	incsrc sram.asm
 	incsrc vram.asm
+	incsrc aram.asm
 	incsrc structs.asm
 	incsrc mmio.asm
+	incsrc apuio.asm
 	incsrc audio_constants.asm
 
 org $C00000

@@ -2204,9 +2204,9 @@ CODE_B390FE:
 	STA $3C					;$B39115   |
 	RTS					;$B39117  /
 
-CODE_B39118:
+spawn_follower_animal_icon:
 	LDA $6E					;$B39118  \
-	BEQ CODE_B39163				;$B3911A   |
+	BEQ .return				;$B3911A   |
 	SEC					;$B3911C   |
 	SBC #!sprite_squitter			;$B3911D   |
 	LSR A					;$B39120   |
@@ -2214,15 +2214,15 @@ CODE_B39118:
 	LDA.l DATA_FF0D00,x			;$B39122   |
 	TAY					;$B39126   |
 	JSL CODE_BB8432				;$B39127   |
-	BCS CODE_B39163				;$B3912B   |
+	BCS .return				;$B3912B   |
 	LDX current_sprite			;$B3912D   |
 	LDY alternate_sprite			;$B3912F   |
 	LDA $08A8				;$B39131   |
-	CMP #$0062				;$B39134   |
-	BNE CODE_B3913F				;$B39137   |
-	LDA #$00B6				;$B39139   |
-	STA $0044,y				;$B3913C   |
-CODE_B3913F:					;	   |
+	CMP #!level_castle_crush		;$B39134   |\
+	BNE .not_castle_crush			;$B39137   |/ If level isnt castle crush then use default icon Y position
+	LDA #$00B6				;$B39139   |\ Else use a different Y position for the icon
+	STA $0044,y				;$B3913C   |/
+.not_castle_crush				;	   |
 	LDA $06,x				;$B3913F   |
 	SEC					;$B39141   |
 	SBC $17BA				;$B39142   |
@@ -2238,7 +2238,7 @@ CODE_B3913F:					;	   |
 	CLC					;$B3915C   |
 	ADC #$1908				;$B3915D   |
 	STA $001A,y				;$B39160   |
-CODE_B39163:					;	   |
+.return						;	   |
 	RTL					;$B39163  /
 
 unknown_sprite_0114_main:
@@ -2538,66 +2538,67 @@ dkbarrel_main:
 	JMP (DATA_B39383,x)			;$B39380  /
 
 DATA_B39383:
-	dw CODE_B39396
-	dw CODE_B393D9
-	dw CODE_B393ED
-	dw CODE_B39401
-	dw CODE_B3944D
-	dw CODE_B39471
-	dw CODE_B39473
-	dw CODE_B3948B
+	dw .grounded_state			;00 grounded
+	dw CODE_B393D9				;01 held
+	dw CODE_B393ED				;02 throwing
+	dw CODE_B39401				;03 thrown
+	dw CODE_B3944D				;04 floating
+	dw CODE_B39471				;05
+	dw CODE_B39473				;06
+	dw CODE_B3948B				;07
 
-CODE_B39393:
+.done_processing
 	JML [$05A9]				;$B39393  \
-CODE_B39396:					;	   |
-	LDA $060B				;$B39396   |
-	AND #$0001				;$B39399   |
-	BEQ CODE_B393A1				;$B3939C   |
-	BRL CODE_B39484				;$B3939E  /
 
-CODE_B393A1:
+.grounded_state
+	LDA $060B				;$B39396  \ \
+	AND #$0001				;$B39399   | |
+	BEQ .no_barralax			;$B3939C   |/ If barralax cheat is inactive then do normal dk barrel behavior
+	BRL .delete_dk_barrel			;$B3939E  /> Else barralax is active, delete the dk barrel
+
+.no_barralax
 	LDA level_number			;$B393A1  \
 	CMP #!level_castle_crush		;$B393A3   |
-	BNE CODE_B393B1				;$B393A6   |
+	BNE .not_castle_crush			;$B393A6   |
 	LDX current_sprite			;$B393A8   |
 	LDA $10,x				;$B393AA   |
 	AND #$0100				;$B393AC   |
-	BNE CODE_B393C7				;$B393AF   |
-CODE_B393B1:					;	   |
+	BNE .break_dk_barrel_on_castle_floor	;$B393AF   |
+.not_castle_crush				;	   |
 	JSR CODE_B39F10				;$B393B1   |
-	BCS CODE_B39393				;$B393B4   |
+	BCS .done_processing			;$B393B4   |
 	JSR apply_sprite_gravity		;$B393B6   |
 	JSR CODE_B39EBE				;$B393B9   |
 	JSL CODE_B8D5E0				;$B393BC   |
 	JSL CODE_B9D100				;$B393C0   |
 	JMP CODE_B38000				;$B393C4  /
 
-CODE_B393C7:
+.break_dk_barrel_on_castle_floor
 	LDA #$051A				;$B393C7  \
 	JSL queue_sound_effect			;$B393CA   |
-	JSL CODE_B3975C				;$B393CE   |
+	JSL spawn_barrel_parts_and_smoke_global	;$B393CE   |
 	JSL delete_sprite_handle_deallocation	;$B393D2   |
 	JML [$05A9]				;$B393D6  /
 
-CODE_B393D9:
+#CODE_B393D9:
 	JSR CODE_B39F56				;$B393D9  \
-	BCS CODE_B39393				;$B393DC   |
+	BCS .done_processing			;$B393DC   |
 	JSR update_held_sprite_position		;$B393DE   |
 	JSL CODE_B9D100				;$B393E1   |
 	JSR CODE_B39E8D				;$B393E5   |
 	BCS CODE_B39434				;$B393E8   |
 	JML [$05A9]				;$B393EA  /
 
-CODE_B393ED:
+#CODE_B393ED:
 	JSR CODE_B39F56				;$B393ED  \
-	BCS CODE_B39393				;$B393F0   |
+	BCS .done_processing			;$B393F0   |
 	JSR update_held_sprite_position		;$B393F2   |
 	JSL CODE_B9D100				;$B393F5   |
 	JSR CODE_B39E9C				;$B393F9   |
 	BCS CODE_B39434				;$B393FC   |
 	JML [$05A9]				;$B393FE  /
 
-CODE_B39401:
+#CODE_B39401:
 	JSR apply_sprite_gravity		;$B39401  \
 	JSR CODE_B39EBE				;$B39404   |
 	JSL CODE_B8D5E0				;$B39407   |
@@ -2605,55 +2606,55 @@ CODE_B39401:
 	LDA $1E,x				;$B3940D   |
 	AND #$0101				;$B3940F   |
 	CMP #$0101				;$B39412   |
-	BEQ CODE_B39437				;$B39415   |
+	BEQ .break_dk_barrel			;$B39415   |
 	JSL CODE_BCFB58				;$B39417   |
 	LDA #$0020				;$B3941B   |
 	LDY #$0008				;$B3941E   |
 	JSL CODE_BEBD8E				;$B39421   |
-	BCS CODE_B39437				;$B39425   |
+	BCS .break_dk_barrel			;$B39425   |
 	JSL CODE_B9D100				;$B39427   |
 	JSL CODE_BBBB69				;$B3942B   |
-	BCS CODE_B39437				;$B3942F   |
+	BCS .break_dk_barrel			;$B3942F   |
 	JML [$05A9]				;$B39431  /
 
-CODE_B39434:
+#CODE_B39434:
 	STZ $0D7A				;$B39434  \
-CODE_B39437:					;	   |
+.break_dk_barrel				;	   |
 	LDA #$051A				;$B39437   |
 	JSL queue_sound_effect			;$B3943A   |
-	JSL CODE_B3975C				;$B3943E   |
+	JSL spawn_barrel_parts_and_smoke_global	;$B3943E   |
 	JSL CODE_B8A98A				;$B39442   |
 	JSL delete_sprite_handle_deallocation	;$B39446   |
 	JML [$05A9]				;$B3944A  /
 
-CODE_B3944D:
+#CODE_B3944D:
 	LDA $060B				;$B3944D  \
 	AND #$0001				;$B39450   |
-	BNE CODE_B39484				;$B39453   |
+	BNE .delete_dk_barrel			;$B39453   |
 	LDA $08C2				;$B39455   |
 	AND #$4000				;$B39458   |
 	BNE CODE_B3946A				;$B3945B   |
 	JSL CODE_BCFB58				;$B3945D   |
 	LDA #$0010				;$B39461   |
 	JSL CODE_BCFCB5				;$B39464   |
-	BCS CODE_B39437				;$B39468   |
-CODE_B3946A:					;	   |
+	BCS .break_dk_barrel			;$B39468   |
+#CODE_B3946A:					;	   |
 	JSL CODE_B9D100				;$B3946A   |
 	JMP CODE_B38000				;$B3946E  /
 
-CODE_B39471:
-	BRA CODE_B39437				;$B39471  /
+#CODE_B39471:
+	BRA .break_dk_barrel			;$B39471  /
 
-CODE_B39473:
+#CODE_B39473:
 	LDA $08C2				;$B39473  \
 	BIT #$4000				;$B39476   |
-	BNE CODE_B39484				;$B39479   |
+	BNE .delete_dk_barrel			;$B39479   |
 	LDX current_sprite			;$B3947B   |
 	LDA #$0004				;$B3947D   |
 	STA $2E,x				;$B39480   |
 	BRA CODE_B3944D				;$B39482  /
 
-CODE_B39484:
+.delete_dk_barrel
 	JSL delete_sprite_handle_deallocation	;$B39484  \
 	JML [$05A9]				;$B39488  /
 
@@ -2829,7 +2830,7 @@ CODE_B395E3:
 CODE_B395E6:					;	   |
 	LDA #$051A				;$B395E6   |
 	JSL queue_sound_effect			;$B395E9   |
-	JSL CODE_B3975C				;$B395ED   |
+	JSL spawn_barrel_parts_and_smoke_global	;$B395ED   |
 	JSL delete_sprite_handle_deallocation	;$B395F1   |
 	JML [$05A9]				;$B395F5  /
 
@@ -3029,18 +3030,18 @@ CODE_B3974B:					;	   |
 	JSL CODE_BBBB8D				;$B39755   |
 	JML [$05A9]				;$B39759  /
 
-CODE_B3975C:
-	JSR CODE_B39764				;$B3975C  \
+spawn_barrel_parts_and_smoke_global:
+	JSR spawn_barrel_parts_and_smoke	;$B3975C  \
 	RTL					;$B3975F  /
 
-CODE_B39760:
-	JSR CODE_B3976B				;$B39760  \
+spawn_barrel_parts_global:
+	JSR spawn_barrel_parts			;$B39760  \
 	RTL					;$B39763  /
 
-CODE_B39764:
+spawn_barrel_parts_and_smoke:
 	LDY #$004A				;$B39764  \
 	JSL CODE_BB842C				;$B39767   |
-CODE_B3976B:					;	   |
+spawn_barrel_parts:				;	   |
 	LDY #$0060				;$B3976B   |
 	JSL CODE_BB8412				;$B3976E   |
 	LDY #$0062				;$B39772   |
@@ -3444,7 +3445,7 @@ CODE_B39AAB:					;	   |
 	JSL delete_sprite_handle_deallocation	;$B39AAE   |
 	LDX current_sprite			;$B39AB2   |
 	INC $00,x				;$B39AB4   |
-	JSR CODE_B39764				;$B39AB6   |
+	JSR spawn_barrel_parts_and_smoke	;$B39AB6   |
 	LDX current_sprite			;$B39AB9   |
 	STZ $00,x				;$B39ABB   |
 	JML [$05A9]				;$B39ABD  /
@@ -3824,7 +3825,7 @@ endif						;	   |
 	BCC CODE_B39DA5				;$B39DA0   |
 	STA $004E,y				;$B39DA2   |
 CODE_B39DA5:					;	   |
-	JSL CODE_B3975C				;$B39DA5   |
+	JSL spawn_barrel_parts_and_smoke_global	;$B39DA5   |
 	LDX current_sprite			;$B39DA9   |
 	STZ $00,x				;$B39DAB   |
 CODE_B39DAD:					;	   |
@@ -3939,7 +3940,7 @@ CODE_B39E71:
 CODE_B39E74:					;	   |
 	LDA #$051A				;$B39E74   |
 	JSL queue_sound_effect			;$B39E77   |
-	JSL CODE_B3975C				;$B39E7B   |
+	JSL spawn_barrel_parts_and_smoke_global	;$B39E7B   |
 	JSL delete_sprite_handle_deallocation	;$B39E7F   |
 	JML [$05A9]				;$B39E83  /
 
@@ -4027,18 +4028,18 @@ apply_sprite_gravity_2:
 CODE_B39F10:
 	LDX current_sprite			;$B39F10  \
 	LDA $32,x				;$B39F12   |
-	BNE CODE_B39F18				;$B39F14   |
-CODE_B39F16:					;	   |
+	BNE .picking_up				;$B39F14   |
+.no_pickup					;	   |
 	CLC					;$B39F16   |
 	RTS					;$B39F17  /
 
-CODE_B39F18:
+.picking_up
 	STZ $32,x				;$B39F18  \
 	CMP #$0001				;$B39F1A   |
 	BEQ CODE_B39F26				;$B39F1D   |
 	CMP #$0200				;$B39F1F   |
 	BEQ CODE_B39F42				;$B39F22   |
-	BRA CODE_B39F16				;$B39F24  /
+	BRA .no_pickup				;$B39F24  /
 
 CODE_B39F26:
 	LDA #$0001				;$B39F26  \
@@ -4058,7 +4059,7 @@ CODE_B39F42:
 	STZ $0D7A				;$B39F42  \
 	LDA #$051A				;$B39F45   |
 	JSL queue_sound_effect			;$B39F48   |
-	JSL CODE_B3975C				;$B39F4C   |
+	JSL spawn_barrel_parts_and_smoke_global	;$B39F4C   |
 	JSL delete_sprite_handle_deallocation	;$B39F50   |
 	SEC					;$B39F54   |
 	RTS					;$B39F55  /
@@ -4488,7 +4489,7 @@ level_goal_barrel_main:
 	BRA .return				;$B3A21B  / Else done processing sprite
 
 ..break_barrel:
-	JSL CODE_B3975C				;$B3A21D  \ Spawn barrel break smoke and particles
+	JSL spawn_barrel_parts_and_smoke_global	;$B3A21D  \ Spawn barrel break smoke and particles
 	JSL delete_sprite_handle_deallocation	;$B3A221   | Delete barrel sprite
 	BRA .return				;$B3A225  / Done processing sprite
 
@@ -5746,7 +5747,7 @@ CODE_B3AB28:
 CODE_B3AB4F:
 	LDA #$051A				;$B3AB4F  \
 	JSL queue_sound_effect			;$B3AB52   |
-	JSL CODE_B3975C				;$B3AB56   |
+	JSL spawn_barrel_parts_and_smoke_global	;$B3AB56   |
 	JSL delete_sprite_handle_deallocation	;$B3AB5A   |
 CODE_B3AB5E:					;	   |
 	JML [$05A9]				;$B3AB5E  /
@@ -8102,18 +8103,18 @@ unknown_sprite_00A8_main:
 	JSR CODE_B3A369				;$B3BC12  /
 
 DATA_B3BC16:
-	dw CODE_B3BC19
-	dw CODE_B3BC68
+	dw CODE_B3BC19				;state 00
+	dw CODE_B3BC68				;state 01
 
 CODE_B3BC19:
 	TAX					;$B3BC19  \
 	JMP (DATA_B3BC1D,x)			;$B3BC1A  /
 
 DATA_B3BC1D:
-	dw CODE_B3BC2C
-	dw CODE_B3BC25
-	dw CODE_B3BC31
-	dw CODE_B3BC4B
+	dw CODE_B3BC2C				;sub state 00
+	dw CODE_B3BC25				;sub state 01
+	dw CODE_B3BC31				;sub state 02
+	dw CODE_B3BC4B				;sub state 03
 
 CODE_B3BC25:
 	LDX active_kong_sprite			;$B3BC25  \
@@ -11241,7 +11242,7 @@ CODE_B3D354:					;	   |
 CODE_B3D367:
 	LDA #$051A				;$B3D367  \
 	JSL queue_sound_effect			;$B3D36A   |
-	JSL CODE_B3975C				;$B3D36E   |
+	JSL spawn_barrel_parts_and_smoke_global	;$B3D36E   |
 	JSL delete_sprite_handle_deallocation	;$B3D372   |
 	JML [$05A9]				;$B3D376  /
 
@@ -11333,7 +11334,7 @@ CODE_B3D41C:					;	   |
 CODE_B3D425:
 	LDA #$051A				;$B3D425  \
 	JSL queue_sound_effect			;$B3D428   |
-	JSL CODE_B3975C				;$B3D42C   |
+	JSL spawn_barrel_parts_and_smoke_global	;$B3D42C   |
 	JSL delete_sprite_handle_deallocation	;$B3D430   |
 	RTS					;$B3D434  /
 
@@ -13672,7 +13673,7 @@ CODE_B3E545:					;	   |
 	LDX current_sprite			;$B3E545   |
 	LDA $00,x				;$B3E547   |
 	JSL delete_sprite_handle_deallocation	;$B3E549   |
-	JSL CODE_B3975C				;$B3E54D   |
+	JSL spawn_barrel_parts_and_smoke_global	;$B3E54D   |
 	LDA #$051A				;$B3E551   |
 	JSL queue_sound_effect			;$B3E554   |
 	JML [$05A9]				;$B3E558  /
@@ -13694,7 +13695,7 @@ CODE_B3E570:
 	STA $08A6				;$B3E574   |
 	JSR CODE_B3E58C				;$B3E577   |
 	JSL delete_sprite_handle_deallocation	;$B3E57A   |
-	JSL CODE_B3975C				;$B3E57E   |
+	JSL spawn_barrel_parts_and_smoke_global	;$B3E57E   |
 	LDA #$051A				;$B3E582   |
 	JSL queue_sound_effect			;$B3E585   |
 	JML [$05A9]				;$B3E589  /
@@ -14361,7 +14362,7 @@ endif						;	   |
 	LDA $08C2				;$B3EA18   |\
 	AND #$4000				;$B3EA1B   | |
 	BEQ .no_follower			;$B3EA1E   |/ If player doesnt have follower kong, dont spawn follower icon
-	JSL CODE_B39118				;$B3EA20   |> Else handle spawning follower icon
+	JSL spawn_follower_animal_icon		;$B3EA20   |> Else handle spawning follower icon
 .no_follower					;	   |
 	JSL CODE_B5E43E				;$B3EA24   |
 	PLX					;$B3EA28   |
@@ -14432,7 +14433,7 @@ endif						;	   |
 	BRA .CODE_B3EA39			;$B3EAA9  /
 
 .CODE_B3EAAB
-	JSL CODE_B39760				;$B3EAAB  \
+	JSL spawn_barrel_parts_global				;$B3EAAB  \
 .CODE_B3EAAF					;	   |
 	JSL delete_sprite_handle_deallocation	;$B3EAAF   |
 	JML [$05A9]				;$B3EAB3  /

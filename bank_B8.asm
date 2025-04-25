@@ -5228,37 +5228,37 @@ CODE_B8A98A:
 	RTL					;$B8A98D  /
 
 CODE_B8A98E:
-	LDA $08C2				;$B8A98E  \
-	AND #$4000				;$B8A991   |
-	BEQ CODE_B8A997				;$B8A994   |
-CODE_B8A996:					;	   |
+	LDA $08C2				;$B8A98E  \ \
+	AND #$4000				;$B8A991   | |
+	BEQ .give_second_kong			;$B8A994   |/ If player doesnt have a second kong then give them one
+.return						;	   |
 	RTS					;$B8A996  /
 
-CODE_B8A997:
-	LDX active_kong_sprite			;$B8A997  \
-	LDA $2E,x				;$B8A99A   |
-	ASL A					;$B8A99C   |
-	ASL A					;$B8A99D   |
-	TAX					;$B8A99E   |
-	LDA.l DATA_B896B7,x			;$B8A99F   |
-	AND #$0001				;$B8A9A3   |
-	BNE CODE_B8A996				;$B8A9A6   |
-	LDA $6E					;$B8A9A8   |
-	BEQ CODE_B8A9BB				;$B8A9AA   |
-	LDA current_player_mount		;$B8A9AC   |
-	BNE CODE_B8A9BB				;$B8A9AE   |
-	LDA #$4000				;$B8A9B0   |
-	TSB $08C2				;$B8A9B3   |
-	JSL CODE_B39118				;$B8A9B6   |
-	RTS					;$B8A9BA  /
+.give_second_kong
+	LDX active_kong_sprite			;$B8A997  \ \
+	LDA $2E,x				;$B8A99A   | | Get the state of the active kong
+	ASL A					;$B8A99C   | |
+	ASL A					;$B8A99D   | |
+	TAX					;$B8A99E   |/
+	LDA.l DATA_B896B7,x			;$B8A99F   |\
+	AND #$0001				;$B8A9A3   | | Check if kong is allowed to obtain a 2nd kong in this state
+	BNE .return				;$B8A9A6   |/ If not then return
+	LDA $6E					;$B8A9A8   |\
+	BEQ .no_animal				;$B8A9AA   |/ If player doesnt have an animal give second kong normally
+	LDA current_player_mount		;$B8A9AC   |\
+	BNE .no_animal				;$B8A9AE   |/ If player is riding an animal give second kong normally
+	LDA #$4000				;$B8A9B0   |\ Else set has 2nd kong flag
+	TSB $08C2				;$B8A9B3   |/ Update flags
+	JSL spawn_follower_animal_icon		;$B8A9B6   |> Spawn follower animal icon
+	RTS					;$B8A9BA  /> Return
 
-CODE_B8A9BB:
+.no_animal
 	LDX current_sprite			;$B8A9BB  \
 	LDY inactive_kong_sprite		;$B8A9BD   |
-	LDA $06,x				;$B8A9C0   |
-	STA $0006,y				;$B8A9C2   |
-	LDA $0A,x				;$B8A9C5   |
-	STA $000A,y				;$B8A9C7   |
+	LDA $06,x				;$B8A9C0   |\ Copy follower kong position to DK barrel
+	STA $0006,y				;$B8A9C2   | |
+	LDA $0A,x				;$B8A9C5   | |
+	STA $000A,y				;$B8A9C7   |/
 	LDA #$0000				;$B8A9CA   |
 	STA $0030,y				;$B8A9CD   |
 	LDA #$003E				;$B8A9D0   |

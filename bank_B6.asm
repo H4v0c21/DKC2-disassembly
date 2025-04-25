@@ -459,7 +459,7 @@ CODE_B683BC:					;	   |
 	BNE CODE_B683F4				;$B683D9   |
 	LDA.l $00074F				;$B683DB   |
 	STA current_sprite			;$B683DF   |
-	JSL CODE_B3975C				;$B683E1   |
+	JSL spawn_barrel_parts_and_smoke_global	;$B683E1   |
 	JSL delete_sprite_handle_deallocation	;$B683E5   |
 	LDX $0656				;$B683E9   |
 	STX current_sprite			;$B683EC   |
@@ -2861,7 +2861,7 @@ CODE_B69CF2:
 	PHX					;$B69D00   |
 	STY current_sprite			;$B69D01   |
 	JSL delete_sprite_handle_deallocation	;$B69D03   |
-	JSL CODE_B3975C				;$B69D07   |
+	JSL spawn_barrel_parts_and_smoke_global	;$B69D07   |
 	PLX					;$B69D0B   |
 	STX current_sprite			;$B69D0C   |
 CODE_B69D0E:					;	   |
@@ -3182,7 +3182,7 @@ CODE_B69FBF:					;	   |
 	LDA #$001E				;$B69FBF   |
 	LDY #$FF00				;$B69FC2   |
 	JSL CODE_B3A600				;$B69FC5   |
-	JSL CODE_B3975C				;$B69FC9   |
+	JSL spawn_barrel_parts_and_smoke_global	;$B69FC9   |
 	LDA #$0280				;$B69FCD   |
 	JSL set_sprite_animation		;$B69FD0   |
 	LDX current_sprite			;$B69FD4   |
@@ -6050,7 +6050,7 @@ boss_command_code_3F:
 	LDA.l $00074F				;$B6BB6D   |
 	BEQ CODE_B6BB8E				;$B6BB71   |
 	STA current_sprite			;$B6BB73   |
-	JSL CODE_B3975C				;$B6BB75   |
+	JSL spawn_barrel_parts_and_smoke_global	;$B6BB75   |
 	JSL delete_sprite_handle_deallocation	;$B6BB79   |
 	LDX $0654				;$B6BB7D   |
 	STX current_sprite			;$B6BB80   |
@@ -6268,7 +6268,7 @@ CODE_B6BD32:					;	   |
 	LDA $0020,y				;$B6BD4C   |
 	BNE CODE_B6BD6F				;$B6BD4F   |
 	STY current_sprite			;$B6BD51   |
-	JSL CODE_B3975C				;$B6BD53   |
+	JSL spawn_barrel_parts_and_smoke_global	;$B6BD53   |
 	JSL delete_sprite_handle_deallocation	;$B6BD57   |
 	LDX $0654				;$B6BD5B   |
 	STX current_sprite			;$B6BD5E   |

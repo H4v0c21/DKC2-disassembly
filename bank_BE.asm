@@ -7711,7 +7711,7 @@ process_alternate_movement:			;	   |
 ;object movement routines
 DATA_BEF051:
 	dw CODE_BEF0A7				;00
-	dw CODE_BEF0A8				;01
+	dw CODE_BEF0A8				;01 dust particle?
 	dw CODE_BEF0AB				;02
 	dw CODE_BEF0C7				;03
 	dw CODE_BEF0E3				;04
@@ -7726,8 +7726,8 @@ DATA_BEF051:
 	dw CODE_BEF4AE				;0D
 	dw CODE_BEF4E8				;0E
 	dw CODE_BEF52D				;0F
-	dw CODE_BEF536				;10
-	dw CODE_BEF567				;11
+	dw CODE_BEF536				;10 used by life balloon
+	dw CODE_BEF567				;11 kannon?
 	dw CODE_BEF5A4				;12
 	dw CODE_BEF5AD				;13
 	dw CODE_BEF5B1				;14
@@ -7738,7 +7738,7 @@ DATA_BEF051:
 	dw CODE_BEF624				;19
 	dw CODE_BEF449				;1A
 	dw CODE_BEF65B				;1B
-	dw CODE_BEF6C3				;1C
+	dw CODE_BEF6C3				;1C used for swanky prize (home to kong)
 	dw handle_sprite_on_level_x_boundary	;1D
 	dw CODE_BEF0A7				;1E
 	dw CODE_BEF0A7				;1F
@@ -8534,17 +8534,17 @@ CODE_BEF567:
 	JMP (DATA_BEF56B,x)			;$BEF568  /
 
 DATA_BEF56B:
-	dw CODE_BEF0A7
-	dw CODE_BEF571
+	dw CODE_BEF0A7				;00 do nothing
+	dw CODE_BEF571				;01
 	dw CODE_BEF580
 
 CODE_BEF571:
 	TYX					;$BEF571  \
-	INC $53,x				;$BEF572   |
-	LDA $06,x				;$BEF574   |
-	STA $0C,x				;$BEF576   |
-	STZ $04,x				;$BEF578   |
-	JSR handle_sprite_left_right		;$BEF57A   |
+	INC $53,x				;$BEF572   |> Increment movement sub state to 02
+	LDA $06,x				;$BEF574   |\ Get current x position
+	STA $0C,x				;$BEF576   |/ Save it so it can be restored later
+	STZ $04,x				;$BEF578   |> Clear sub pixel
+	JSR handle_sprite_left_right		;$BEF57A   |> Handle applying x position from x velocities
 	JMP CODE_BEF0AB				;$BEF57D  /
 
 CODE_BEF580:
@@ -8553,21 +8553,21 @@ CODE_BEF580:
 	TYX					;$BEF586   |
 	LDA $0C,x				;$BEF587   |
 	CMP $06,x				;$BEF589   |
-	BEQ CODE_BEF59A				;$BEF58B   |
+	BEQ .return_to_static_movement		;$BEF58B   |
 	ROR $5E					;$BEF58D   |
 	LDA $12,x				;$BEF58F   |
 	ASL A					;$BEF591   |
 	EOR $5E					;$BEF592   |
 	ASL A					;$BEF594   |
 	LDA $0C,x				;$BEF595   |
-	BCC CODE_BEF59A				;$BEF597   |
+	BCC .return_to_static_movement		;$BEF597   |
 	RTS					;$BEF599  /
 
-CODE_BEF59A:
-	STA $06,x				;$BEF59A  \
-	LDA #$0011				;$BEF59C   |
-	STA $52,x				;$BEF59F   |
-	STZ $20,x				;$BEF5A1   |
+.return_to_static_movement
+	STA $06,x				;$BEF59A  \> Update x position
+	LDA #$0011				;$BEF59C   |\ Restore movement state to 11 with sub state 0
+	STA $52,x				;$BEF59F   |/
+	STZ $20,x				;$BEF5A1   |> Clear current x velocity
 	RTS					;$BEF5A3  /
 
 CODE_BEF5A4:
