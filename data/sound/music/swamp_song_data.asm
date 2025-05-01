@@ -1,13 +1,14 @@
 ;03 Bayou Boogie
-;2E2CD3
+;$EE2CD3
 swamp_song_data:
-	dw !bgm_loc, $0851
-;If modifying this file, comment out the line above and uncomment the line below
-;	dw !bgm_loc, ((.end-.start)+((.end-.start)&$0001))>>1
+namespace APU
 
-.start:
+%sequence_data_header(song_data, .start, .end)
+
+base song_data
 arch spc700
-base !bgm_loc
+
+.start
 ;sub-track 00 channel pointers
 .chn_ptrs_1300:
 	dw .seq_1CB7, .seq_221C, .seq_1BA6, .seq_1C2D, .seq_207C, .seq_1DDA, .seq_1AA2, .seq_1B26
@@ -2059,6 +2060,7 @@ base !bgm_loc
 	db $96, $10
 	db !return_from_sub
 
+.end
+namespace off
 base off
 arch 65816
-.end:

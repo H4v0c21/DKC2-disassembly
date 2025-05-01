@@ -1,13 +1,14 @@
 ;13 Stronghold Showdown
-;325872
+;$F25872
 rescue_kong_song_data:
-	dw !bgm_loc, $0252
-;If modifying this file, comment out the line above and uncomment the line below
-;	dw !bgm_loc, ((.end-.start)+((.end-.start)&$0001))>>1
+namespace APU
 
-.start:
+%sequence_data_header(song_data, .start, .end)
+
+base song_data
 arch spc700
-base !bgm_loc
+
+.start
 ;sub-track 00 channel pointers
 .chn_ptrs_1300:
 	dw .seq_1518, .seq_16D9, .seq_1638, .seq_1600, .seq_1664, .seq_15E0, .seq_1719, .seq_1578
@@ -619,6 +620,7 @@ base !bgm_loc
 	db $A0, $04
 	db !return_from_sub
 
+.end
+namespace off
 base off
 arch 65816
-.end:

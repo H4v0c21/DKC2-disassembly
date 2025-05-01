@@ -1,13 +1,14 @@
 ;Sound Effects: Klubba, Rescue Kong, Big Boss(Krow/Kudgel/Kreepy Krow), K.Rool
-;32F723
+;$F2F723
 boss_1_sfx_data:
-	dw !dyn_snd_loc, $012B
-;If modifying this file, comment out the line above and uncomment the line below
-;	dw !dyn_snd_loc, ((.end-.start)+((.end-.start)&$0001))>>1
+namespace APU
 
-.start:
+%sequence_data_header(track_sfx_data, .start, .end+4)
+
+base track_sfx_data
 arch spc700
-base !dyn_snd_loc
+
+.start
 	dw (.pointers_end-.pointers_start)>>1	;quantity of sound effects (default $001D)
 ;sound effect pointers
 .pointers_start:
@@ -369,6 +370,7 @@ base !dyn_snd_loc
 	db $8A, $14
 	db !end_sequence
 
+.end
+namespace off
 base off
 arch 65816
-.end:

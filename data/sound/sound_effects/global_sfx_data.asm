@@ -1,13 +1,14 @@
 ;Global Sound Effects
-;32E730
+;$F2E730
 global_sfx_data:
-	dw !snd_loc, $04EC
-;If modifying this file, comment out the line above and uncomment the line below
-;	dw !snd_loc, ((.end-.start)+((.end-.start)&$0001))>>1
+namespace APU
 
-.start:
+%sequence_data_header(global_sfx_data, .start, .end+4)
+
+base global_sfx_data
 arch spc700
-base !snd_loc
+
+.start
 	dw (.pointers_end-.pointers_start)>>1	;quantity of sound effects (default $0060)
 ;sound effect pointers
 .pointers_start:
@@ -1503,6 +1504,7 @@ base !snd_loc
 	db $80, $08
 	db !jump_to_sequence : dw .loop_point_2DDE
 
+.end
+namespace off
 base off
 arch 65816
-.end:

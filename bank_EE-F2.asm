@@ -3,7 +3,9 @@ spc_base_engine:
 arch spc700
 base !spc_base_eng_loc
 
-CODE_04D8:
+namespace APU
+
+APU_reset:
 	CLRP					;$04D8  \> Clear direct page
 	MOV X, #$FF				;$04D9   |\
 	MOV SP, X				;$04DB   |/ Reset stack pointer
@@ -22,65 +24,65 @@ CODE_04D8:
 	BNE .next_byte				;$04ED   | |/ If not end of page then move to next byte
 	INC $01					;$04EF   | | Else increase page number
 	BNE .next_page				;$04F1   |/ And zero fill the next page until the end of ARAM
-CODE_04F3:					;	 |
-	MOV X, #$FF				;$04F3   |
-	MOV SPC.DSP_addr, #DSPs.flags		;$04F5   |
-	MOV SPC.DSP_data, X			;$04F8   |
-	MOV SPC.DSP_addr, #DSPs.echo_delay	;$04FA   |
-	MOV SPC.DSP_data, #$00			;$04FD   |
-	MOV SPC.DSP_addr, #DSPs.echo_buf_addr	;$0500   |
-	MOV SPC.DSP_data, X			;$0503   |
+handle_CPU_data_upload:				;	 |
+	MOV X, #$FF				;$04F3   |\
+	MOV SPC.DSP_addr, #DSPs.flags		;$04F5   | | Reset DSP flags
+	MOV SPC.DSP_data, X			;$04F8   |/
+	MOV SPC.DSP_addr, #DSPs.echo_delay	;$04FA   |\ Reset echo delay
+	MOV SPC.DSP_data, #$00			;$04FD   | |
+	MOV SPC.DSP_addr, #DSPs.echo_buf_addr	;$0500   | | Reset echo buffer address
+	MOV SPC.DSP_data, X			;$0503   |/
 	MOV $04B7, X				;$0505   |
 	MOV X, cpu_transaction			;$0508   |
-CODE_050A:					;	 |
+.wait_for_CPU_data_destination			;	 |
 	CMP X, SPC.CPUIO1			;$050A   |\
-	BNE CODE_050A				;$050C   |/ If the CPU didnt send any data yet then wait until it does
-	MOVW YA, SPC.CPUIO2			;$050E   |> Read SPC sound engine address sent by the CPU into Y and A
-	MOV SPC.CPUIO1, X			;$0510   |\ Update transaction id (acknowledge that the SPC received the data)
+	BNE .wait_for_CPU_data_destination	;$050C   |/ If the CPU didnt send an ARAM destination yet then wait
+	MOVW YA, SPC.CPUIO2			;$050E   |> Read ARAM destination address sent by the CPU into Y and A
+	MOV SPC.CPUIO1, X			;$0510   |\ Update transaction id (acknowledge that the APU received the destination)
 	INC X					;$0512   |/
-	MOV DATA_0538+1, A			;$0513   |\ Patch address operand of 2 MOV instructions to point to the SPC sound engine
-	MOV DATA_0541+1, A			;$0516   | |
-	MOV DATA_0538+2, Y			;$0519   | |
-	MOV DATA_0541+2, Y			;$051C   |/
-CODE_051F:					;	 |
+	MOV .first_byte_write_instruction+1, A	;$0513   |\ Patch address of 2 MOV instructions to point to the ARAM address...
+	MOV .second_byte_write_instruction+1, A	;$0516   | | That the CPU wants to write to
+	MOV .first_byte_write_instruction+2, Y	;$0519   | | This is done twice because the CPU sends 2 bytes at a time
+	MOV .second_byte_write_instruction+2, Y	;$051C   |/
+.wait_for_CPU_data_size				;	 |
 	CMP X, SPC.CPUIO1			;$051F   |\
-	BNE CODE_051F				;$0521   |/ If the CPU didnt send any data yet then wait until it does
+	BNE .wait_for_CPU_data_size		;$0521   |/ If the CPU didnt send the data size yet then wait until it does
 	MOVW YA, SPC.CPUIO2			;$0523   |> Read data sent by the CPU into Y and A
-	MOV SPC.CPUIO1, X			;$0525   |\ Update transaction id (acknowledge that the SPC received the data)
+	MOV SPC.CPUIO1, X			;$0525   |\ Update transaction id (acknowledge that the APU received the data size)
 	INC X					;$0527   |/
-	MOV $EA, A				;$0528   |\
-	MOV $EB, Y				;$052A   |/
-	DECW $EA				;$052C   |
-	BMI CODE_0556				;$052E   |
-	MOV Y, #$00				;$0530   |
-CODE_0532:					;	 |
+	MOV cpu_upload_size, A			;$0528   |\ Update remaining words
+	MOV cpu_upload_size+1, Y		;$052A   |/
+	DECW cpu_upload_size			;$052C   |\
+	BMI .execute_requested_APU_code		;$052E   |/ If the upload size is 0 the CPU wants the APU to jump
+	MOV Y, #$00				;$0530   |> Reset write index since this is a new block of data
+.wait_for_CPU_data				;	 |
 	CMP X, SPC.CPUIO1			;$0532   |\
-	BNE CODE_0532				;$0534   |/ If the CPU didnt send any data yet then wait until it does
+	BNE .wait_for_CPU_data			;$0534   |/ If the CPU didnt send any data yet then wait until it does
 	MOV A, SPC.CPUIO2			;$0536   |> Read data sent by the CPU into A
-DATA_0538:					;	 |
-	MOV $0000+Y, A				;$0538   |> Dynamically patched to be a pointer to SPC sound engine (MOV $0560+Y, A)
-	MOV A, SPC.CPUIO3			;$053B   |
-	MOV SPC.CPUIO1, X			;$053D   |
-	INC X					;$053F   |
-	INC Y					;$0540   |
-DATA_0541:					;	 |
-	MOV $0000+Y, A				;$0541   |> Dynamically patched to be a pointer to SPC sound engine (MOV $0560+Y, A)
-	INC Y					;$0544   |
-	BEQ CODE_054E				;$0545   |
-CODE_0547:					;	 |
-	DECW $EA				;$0547   |
-	BPL CODE_0532				;$0549   |
-	JMP CODE_050A				;$054B  /
+.first_byte_write_instruction			;	 |\ The next instruction is dynamically patched to point to the write address
+	MOV !null_pointer+Y, A			;$0538   | | Write 1st byte to dynamically patched ARAM destination
+	MOV A, SPC.CPUIO3			;$053B   |/ Get 2nd data byte sent by the CPU
+	MOV SPC.CPUIO1, X			;$053D   |\ Update the transaction id to tell the CPU we want more data
+	INC X					;$053F   | | Increment CPU transaction id
+	INC Y					;$0540   |/ Increment write offset
+.second_byte_write_instruction			;	 |\ The next instruction is dynamically patched to point to the write address
+	MOV !null_pointer+Y, A			;$0541   | | Write 2nd byte to dynamically patched ARAM destination
+	INC Y					;$0544   |/ Increment write offset
+	BEQ .cross_page_boundary		;$0545   |
+.next_word					;	 |
+	DECW cpu_upload_size			;$0547   |
+	BPL .wait_for_CPU_data			;$0549   |
+	JMP .wait_for_CPU_data_destination	;$054B  /
 
-CODE_054E:					;	\
-	INC DATA_0538+2				;$054E   |
-	INC DATA_0541+2				;$0551   |
-	BRA CODE_0547				;$0554  /
+.cross_page_boundary
+	INC .first_byte_write_instruction+2	;$054E  \ \ Increment high byte of ARAM destination address directly...
+	INC .second_byte_write_instruction+2	;$0551   |/ To effectively move to the next page
+	BRA .next_word				;$0554  /
 
-CODE_0556:
-	MOV cpu_transaction, X			;$0556  \
+.execute_requested_APU_code
+	MOV cpu_transaction, X			;$0556  \> Acknowledge CPU execution request
 	MOV X, #$00				;$0558   |
-	JMP (DATA_0538+1+X)			;$055A  /
+	JMP (.first_byte_write_instruction+1+X)	;$055A  /> Jump to the destination code requested by the CPU
 
 	db $00
 	dw $D604
@@ -88,7 +90,10 @@ CODE_0556:
 base off
 arch 65816
 
+namespace off
 spc_sound_engine:
+namespace APU
+
 arch spc700
 base !spc_sound_eng_loc
 DATA_0560:
@@ -127,73 +132,73 @@ DATA_0560:
 
 base $0660
 CODE_0660:
-	MOV A, $055D				;$0660  \
+	MOV A, cpu_command_parameter		;$0660  \
 	ASL A					;$0663   |
 	MOV Y, A				;$0664   |
-	MOV A, !bgm_ptr_loc+Y			;$0665   |
-	MOV music_seq_addr, A			;$0668   |
-	MOV A, !bgm_ptr_loc+1+Y			;$066A   |
-	MOV music_seq_addr+1, A			;$066D   |
+	MOV A, sub_track_table+Y		;$0665   |
+	MOV song_data_address, A		;$0668   |
+	MOV A, sub_track_table+1+Y		;$066A   |
+	MOV song_data_address+1, A		;$066D   |
 	JMP CODE_0678				;$066F  /
 
 CODE_0672:
-	MOV music_seq_addr+1, #!bgm_loc>>8	;$0672   |
-	MOV music_seq_addr, #!bgm_loc&$00FF	;$0675   |
-CODE_0678:					;   |
+	MOV song_data_address+1, #song_data>>8	;$0672  \
+	MOV song_data_address, #song_data&$00FF	;$0675   |
+CODE_0678:					;	 |
 	CALL CODE_100B				;$0678   |
 	MOV A, #$00				;$067B   |
-	MOV $1C, A				;$067D   |
-	MOV $1D, A				;$067F   |
+	MOV sound_engine_toggle, A		;$067D   |
+	MOV mono_stereo_toggle, A		;$067F   |
 	MOV SPC.control, A			;$0681   |
-CODE_0683:					;   |
+check_for_CPU_command:				;	 |
 	MOV A, cpu_transaction			;$0683   |
 	CMP A, SPC.CPUIO1			;$0685   |
-	BEQ CODE_068C				;$0687   |
-	JMP CODE_0781				;$0689   |
+	BEQ .CPU_command_received		;$0687   |
+	JMP CODE_0781				;$0689  /
 
-CODE_068C:
-	MOV X, SPC.CPUIO3			;$068C   |
-	MOV $055D, X				;$068E   |
-	MOV X, SPC.CPUIO2			;$0691   |
-	MOV SPC.CPUIO1, A			;$0693   |
-	INC A					;$0695   |
-	MOV cpu_transaction, A			;$0696   |
-	MOV A, X				;$0698   |
-	CMP A, #$80				;$0699   |
-	BPL CODE_06A0				;$069B   |
-	JMP CODE_0773				;$069D   |
+.CPU_command_received
+	MOV X, SPC.CPUIO3			;$068C  \ \ Get CPU command parameter
+	MOV cpu_command_parameter, X		;$068E   |/ Save it for later use
+	MOV X, SPC.CPUIO2			;$0691   |> Get CPU request
+	MOV SPC.CPUIO1, A			;$0693   |\ Update CPU transaction id
+	INC A					;$0695   | |
+	MOV cpu_transaction, A			;$0696   |/ Update next expected CPU transaction id
+	MOV A, X				;$0698   |> Get CPU request from X
+	CMP A, #$80				;$0699   |\
+	BPL .execute_CPU_command		;$069B   |/ If a CPU command was sent then execute it
+	JMP CODE_0773				;$069D  /> Else a sound effect was queued, handle playing it
 
-CODE_06A0:
-	AND A, #$07				;$06A0   |
+.execute_CPU_command
+	AND A, #$07				;$06A0  \
 	ASL A					;$06A2   |
 	MOV X, A				;$06A3   |
-	JMP (DATA_06A7+X)			;$06A4   |
+	JMP (.CPU_command_table+X)		;$06A4  /
 
-DATA_06A7:
-	dw CODE_070A				;F0
-	dw CODE_0702				;F1
-	dw CODE_06FA				;F2
-	dw CODE_06B7				;F3
-	dw CODE_0739				;F4
-	dw CODE_0712				;F5
-	dw CODE_077B				;F6
-	dw CODE_07DB				;F7
+.CPU_command_table
+	dw CODE_070A				;00/F8
+	dw CODE_0702				;01/F9
+	dw CODE_06FA				;02/FA Set Mono/Stereo
+	dw CODE_06B7				;03/FB Transition song
+	dw CODE_0739				;04/FC Skull Cart start loop sound?
+	dw CODE_0712				;05/FD Skull Cart stop loop sound?
+	dw CODE_077B				;06/FE Play mode
+	dw CODE_07DB				;07/FF Upload mode
 
 CODE_06B7:
-	MOV X, #$7F				;$06B7   |
-CODE_06B9:					;	 |
-	MOV A, #DSPc[7].vol_r			;$06B9   |> A = last channel volume register
+	MOV X, #$7F				;$06B7  \
+.clear_dsp					;	 |
+	MOV A, #DSPc[7].vol_r			;$06B9   |> A = last channel volume register address
 .next_channel					;	 |
-	MOV Y, A				;$06BB   |> Y channel volume register
-	MOV SPC.DSP_addr, Y			;$06BC   |
+	MOV Y, A				;$06BB   |\
+	MOV SPC.DSP_addr, Y			;$06BC   |/ Set DSP write address to Y
 	CALL CODE_06EB				;$06BE   |
 	DEC Y					;$06C1   |
 	MOV SPC.DSP_addr, Y			;$06C2   |
 	CALL CODE_06EB				;$06C4   |
-	MOV A, Y				;$06C7   |
-	SETC					;$06C8   |
-	SBC A, #$0F				;$06C9   |
-	BPL .next_channel			;$06CB   |
+	MOV A, Y				;$06C7   |\ Get DSP register index in A
+	SETC					;$06C8   | |
+	SBC A, #$0F				;$06C9   |/ Move to previous channel DSP index
+	BPL .next_channel			;$06CB   |> If index greater than 0, we have more channel registers to init
 	MOV SPC.DSP_addr, #DSPs.master_vol_l	;$06CD   |
 	CALL CODE_06EB				;$06D0   |
 	MOV SPC.DSP_addr, #DSPs.master_vol_r	;$06D3   |
@@ -203,46 +208,46 @@ CODE_06B9:					;	 |
 	MOV SPC.DSP_addr, #DSPs.echo_vol_r	;$06DF   |
 	CALL CODE_06EB				;$06E2   |
 	DEC X					;$06E5   |
-	BNE CODE_06B9				;$06E6   |
-	JMP CODE_0660				;$06E8   |
+	BNE .clear_dsp				;$06E6   |
+	JMP CODE_0660				;$06E8  /
 
 CODE_06EB:
-	MOV A, SPC.DSP_data			;$06EB   |
-	BEQ CODE_06F7				;$06ED   |
-	BMI CODE_06F5				;$06EF   |
+	MOV A, SPC.DSP_data			;$06EB  \ \
+	BEQ .write_to_DSP			;$06ED   |/ If DSP value is 0
+	BMI .add_2				;$06EF   |
 	DEC A					;$06F1   |
 	DEC A					;$06F2   |
-	BRA CODE_06F7				;$06F3   |
+	BRA .write_to_DSP			;$06F3  /
 
-CODE_06F5:
-	INC A					;$06F5   |
+.add_2
+	INC A					;$06F5  \
 	INC A					;$06F6   |
-CODE_06F7:					;   |
+.write_to_DSP					;	 |
 	MOV SPC.DSP_data, A			;$06F7   |
-	RET					;$06F9   |
+	RET					;$06F9  /
 
-CODE_06FA:					;   |
-	MOV A, $055D				;$06FA   |
-	MOV $1D, A				;$06FD   |
-	JMP CODE_0781				;$06FF   |
+CODE_06FA:
+	MOV A, cpu_command_parameter		;$06FA  \
+	MOV mono_stereo_toggle, A		;$06FD   |
+	JMP CODE_0781				;$06FF  /
 
-CODE_0702:					;   |
-	MOV A, $055D				;$0702   |
+CODE_0702:
+	MOV A, cpu_command_parameter		;$0702  \
 	MOV $E7, A				;$0705   |
-	JMP CODE_0781				;$0707   |
+	JMP CODE_0781				;$0707  /
 
-CODE_070A:					;   |
-	MOV A, $055D				;$070A   |
+CODE_070A:
+	MOV A, cpu_command_parameter		;$070A  \
 	MOV $E8, A				;$070D   |
-	JMP CODE_0781				;$070F   |
+	JMP CODE_0781				;$070F  /
 
-CODE_0712:					;   |
-	MOV A, $04B6				;$0712   |
+CODE_0712:
+	MOV A, song_master_volume		;$0712  \
 	PUSH A					;$0715   |
 	PUSH X					;$0716   |
 	MOV X, #$05				;$0717   |
-	MOV A, $055D				;$0719   |
-	MOV $04B6, A				;$071C   |
+	MOV A, cpu_command_parameter		;$0719   |
+	MOV song_master_volume, A		;$071C   |
 	MOV SPC.DSP_addr, #DSPc[5].vol_l	;$071F   |
 	MOV A, SPC.DSP_data			;$0722   |
 	CALL CODE_0C59				;$0724   |
@@ -253,22 +258,22 @@ CODE_0712:					;   |
 	MOV SPC.DSP_data, A			;$0730   |
 	POP X					;$0732   |
 	POP A					;$0733   |
-	MOV $04B6, A				;$0734   |
-	BRA CODE_0781				;$0737   |
+	MOV song_master_volume, A		;$0734   |
+	BRA CODE_0781				;$0737  /
 
-CODE_0739:					;   |
-	MOV A, $055D				;$0739   |
+CODE_0739:
+	MOV A, cpu_command_parameter		;$0739  \
 	BMI CODE_074A				;$073C   |
 	CLRC					;$073E   |
-	MOV A, $055D				;$073F   |
+	MOV A, cpu_command_parameter		;$073F   |
 	MOV $EC, A				;$0742   |
 	MOV A, #$00				;$0744   |
 	MOV $ED, A				;$0746   |
-	BRA CODE_0756				;$0748   |
+	BRA CODE_0756				;$0748  /
 
 CODE_074A:
-	MOV $055D, A				;$074A   |
-	MOV A, $055D				;$074D   |
+	MOV cpu_command_parameter, A		;$074A   |
+	MOV A, cpu_command_parameter		;$074D   |
 	MOV $EC, A				;$0750   |
 	MOV A, #$FF				;$0752   |
 	MOV $ED, A				;$0754   |
@@ -288,46 +293,45 @@ CODE_0756:					;   |
 	MOV SPC.DSP_data, A			;$076F   |
 	BRA CODE_0781				;$0771   |
 
-CODE_0773:					;   |
-	MOV X, $055D				;$0773   |
+CODE_0773:
+	MOV X, cpu_command_parameter		;$0773  \> Get channel number to play sound on
 	CALL CODE_10F7				;$0776   |
-	BRA CODE_078E				;$0779   |
+	BRA CODE_078E				;$0779  /
 
-CODE_077B:					;   |
-	MOV $1C, #$01				;$077B   |
+CODE_077B:
+	MOV sound_engine_toggle, #$01		;$077B  \
 	MOV SPC.control, #$00			;$077E   |
-
-CODE_0781:
-	MOV A, $1C				;$0781   |
+CODE_0781:					;	 |
+	MOV A, sound_engine_toggle		;$0781   |
 	BNE CODE_0788				;$0783   |
-	JMP CODE_0683				;$0785   |
+	JMP check_for_CPU_command		;$0785  /
 
 CODE_0788:
-	MOV (SPC.timer_1_divider), ($E4)	;$0788   |
+	MOV (SPC.timer_1_divider), ($E4)	;$0788  \
 	MOV SPC.control, #$01			;$078B   |
-CODE_078E:					;   |
+CODE_078E:					;	 |
 	MOV A, SPC.timer_1_output		;$078E   |
 	BEQ CODE_078E				;$0790   |
 	MOV SPC.control, #$01			;$0792   |
 	MOV $20, #$00				;$0795   |
 	CLRC					;$0798   |
-	ADC ($1E), (music_tempo)		;$0799   |
+	ADC ($1E), (song_tempo)			;$0799   |
 	ROR $20					;$079C   |
 	MOV $23, #$00				;$079E   |
 	CLRC					;$07A1   |
-	ADC ($21), ($22)			;$07A2   |
+	ADC ($21), (sfx_tempo)			;$07A2   |
 	ROR $23					;$07A5   |
 	MOV X, #$00				;$07A7   |
-CODE_07A9:					;   |
+CODE_07A9:					;	 |
 	MOV A, $20				;$07A9   |
 	BNE CODE_07B2				;$07AB   |
 	CALL CODE_09BC				;$07AD   |
-	BRA CODE_07B7				;$07B0   |
+	BRA CODE_07B7				;$07B0  /
 
 CODE_07B2:
-	CALL CODE_0813				;$07B2   |
+	CALL CODE_0813				;$07B2  \
 	BNE CODE_07B2				;$07B5   |
-CODE_07B7:					;   |
+CODE_07B7:					;	 |
 	MOV A, $01E0+X				;$07B7   |
 	BEQ CODE_07D0				;$07BA   |
 	PUSH X					;$07BC   |
@@ -337,36 +341,36 @@ CODE_07B7:					;   |
 	MOV A, $23				;$07C1   |
 	BNE CODE_07CA				;$07C3   |
 	CALL CODE_09BC				;$07C5   |
-	BRA CODE_07CF				;$07C8   |
+	BRA CODE_07CF				;$07C8  /
 
 CODE_07CA:
-	CALL CODE_0813				;$07CA   |
+	CALL CODE_0813				;$07CA  \
 	BNE CODE_07CA				;$07CD   |
-CODE_07CF:					;   |
+CODE_07CF:					;	 |
 	POP X					;$07CF   |
-CODE_07D0:					;   |
+CODE_07D0:					;	 |
 	INC X					;$07D0   |
 	CMP X, #$08				;$07D1   |
-	BEQ CODE_07D8				;$07D3   |
-	JMP CODE_07A9				;$07D5   |
+	BEQ .check_for_CPU_command		;$07D3   |
+	JMP CODE_07A9				;$07D5  /
 
-CODE_07D8:
-	JMP CODE_0683				;$07D8   |
+.check_for_CPU_command:
+	JMP check_for_CPU_command		;$07D8   >
 
 CODE_07DB:
-	MOV A, $055D				;$07DB   |
+	MOV A, cpu_command_parameter		;$07DB  \
 	BEQ CODE_07E3				;$07DE   |
-	JMP CODE_04F3				;$07E0   |
+	JMP handle_CPU_data_upload		;$07E0  /
 
 CODE_07E3:
-	MOV SPC.DSP_addr, #DSPs.key_off		;$07E3   |
+	MOV SPC.DSP_addr, #DSPs.key_off		;$07E3  \
 	MOV SPC.DSP_data, #$FF			;$07E6   |
 	MOV SPC.control, #$00			;$07E9   |
 	MOV SPC.timer_2_divider, #$C8		;$07EC   |
 	MOV SPC.control, #$02			;$07EF   |
-CODE_07F2:					;   |
+.wait						;	 |
 	MOV A, SPC.timer_2_output		;$07F2   |
-	BEQ CODE_07F2				;$07F4   |
+	BEQ .wait				;$07F4   |
 	MOV SPC.DSP_addr, #DSPs.flags		;$07F6   |
 	MOV SPC.DSP_data, #$A0			;$07F9   |
 	MOV X, #$00				;$07FC   |
@@ -377,13 +381,13 @@ CODE_07F2:					;   |
 	MOV SPC.DSP_addr, #DSPs.echo_vol_r	;$0808   |
 	MOV SPC.DSP_data, X			;$080B   |
 	CALL CODE_100B				;$080D   |
-	JMP CODE_04F3				;$0810   |
+	JMP handle_CPU_data_upload		;$0810  /
 
 CODE_0813:
-	MOV A, $0110+X				;$0813   |
+	MOV A, channel_enable+X			;$0813  \
 	BNE CODE_081B				;$0816   |
 	MOV A, #$00				;$0818   |
-	RET					;$081A   |
+	RET					;$081A  /
 
 CODE_081B:
 	DEC channel_wait_timer_lo+X		;$081B   |
@@ -409,7 +413,7 @@ CODE_0839:
 	BNE CODE_084A				;$083B   |
 	MOV A, $01E0+X				;$083D   |
 	BNE CODE_084A				;$0840   |
-	MOV A, DATA_0F95+X			;$0842   |
+	MOV A, channel_bit_table+X		;$0842   |
 	MOV SPC.DSP_addr, #DSPs.key_off		;$0845   |
 	MOV SPC.DSP_data, A			;$0848   |
 CODE_084A:					;   |
@@ -438,7 +442,7 @@ CODE_0867:
 	BNE CODE_088B				;$0869   |
 	MOV A, $01E0+X				;$086B   |
 	BNE CODE_0888				;$086E   |
-	MOV A, DATA_0F95+X			;$0870   |
+	MOV A, channel_bit_table+X		;$0870   |
 	MOV SPC.DSP_addr, #DSPs.key_off		;$0873   |
 	MOV SPC.DSP_data, A			;$0876   |
 	MOV A, X				;$0878   |
@@ -480,12 +484,12 @@ CODE_0899:					;	 |
 CODE_08AE:					;	 |
 	MOV Y, A				;$08AE   |
 	PUSH Y					;$08AF   |
-	MOV A, DATA_1199+X			;$08B0   |
+	MOV A, pitch_table+X			;$08B0   |
 	MUL YA					;$08B3   |
 	MOV $02, Y				;$08B4   |
 	MOV $03, #$00				;$08B6   |
 	POP Y					;$08B9   |
-	MOV A, DATA_119A+X			;$08BA   |
+	MOV A, pitch_table_hi+X			;$08BA   |
 	MUL YA					;$08BD   |
 	ADDW YA, $02				;$08BE   |
 	MOV $03, Y				;$08C0   |
@@ -494,9 +498,9 @@ CODE_08AE:					;	 |
 	LSR $03					;$08C5   |
 	ROR A					;$08C7   |
 	MOV $02, A				;$08C8   |
-	MOV A, DATA_119A+X			;$08CA   |
+	MOV A, pitch_table_hi+X			;$08CA   |
 	MOV Y, A				;$08CD   |
-	MOV A, DATA_1199+X			;$08CE   |
+	MOV A, pitch_table+X			;$08CE   |
 	MOV X, $04				;$08D1   |
 	BMI CODE_08D9				;$08D3   |
 	ADDW YA, $02				;$08D5   |
@@ -510,9 +514,9 @@ CODE_08DB:					;   |
 
 CODE_08DF:
 	MOV X, A				;$08DF   |
-	MOV A, DATA_1199+X			;$08E0   |
+	MOV A, pitch_table+X			;$08E0   |
 	MOV $02, A				;$08E3   |
-	MOV A, DATA_119A+X			;$08E5   |
+	MOV A, pitch_table_hi+X			;$08E5   |
 	MOV $03, A				;$08E8   |
 CODE_08EA:					;   |
 	POP A					;$08EA   |
@@ -525,7 +529,7 @@ CODE_08EA:					;   |
 	JMP CODE_0983				;$08F6   |
 
 CODE_08F9:
-	MOV A, channel_vol_l+X			;$08F9   |
+	MOV A, channel_vol_l+X			;$08F9  \
 	CALL CODE_0C59				;$08FC   |
 	MOV SPC.DSP_data, A			;$08FF   |
 	INC SPC.DSP_addr			;$0901   |
@@ -533,41 +537,41 @@ CODE_08F9:
 	CALL CODE_0C59				;$0906   |
 	MOV SPC.DSP_data, A			;$0909   |
 	INC SPC.DSP_addr			;$090B   |
-	MOV A, $0150+X				;$090D   |
+	MOV A, channel_effects+X		;$090D   |
 	AND A, #$01				;$0910   |
 	BEQ CODE_092B				;$0912   |
-	MOV A, $0160+X				;$0914   |
-	MOV $01A0+X, A				;$0917   |
-	MOV A, $0170+X				;$091A   |
+	MOV A, channel_pitch_slide_delay+X	;$0914   |
+	MOV channel_p_slide_delay_timer+X, A	;$0917   |
+	MOV A, channel_pitch_slide_interval+X	;$091A   |
 	MOV $0100+X, A				;$091D   |
-	MOV A, $0180+X				;$0920   |
-	MOV $94+X, A				;$0923   |
-	MOV A, $0190+X				;$0925   |
+	MOV A, channel_pitch_slide_up_count+X	;$0920   |
+	MOV channel_unknown_94+X, A		;$0923   |
+	MOV A, channel_pitch_slide_down_count+X	;$0925   |
 	MOV $01C0+X, A				;$0928   |
-CODE_092B:					;   |
-	MOV A, $0150+X				;$092B   |
+CODE_092B:					;	 |
+	MOV A, channel_effects+X		;$092B   |
 	AND A, #$02				;$092E   |
 	BEQ CODE_094D				;$0930   |
-	MOV A, $0234+X				;$0932   |
+	MOV A, channel_vibrato_depth+X		;$0932   |
 	BPL CODE_093D				;$0935   |
 	EOR A, #$FF				;$0937   |
 	INC A					;$0939   |
-	MOV $0234+X, A				;$093A   |
-CODE_093D:					;   |
-	MOV A, $0200+X				;$093D   |
+	MOV channel_vibrato_depth+X, A		;$093A   |
+CODE_093D:					;	 |
+	MOV A, channel_vibrato_length+X		;$093D   |
 	LSR A					;$0940   |
-	MOV $A4+X, A				;$0941   |
-	MOV A, $0210+X				;$0943   |
-	MOV $B4+X, A				;$0946   |
-	MOV A, $0220+X				;$0948   |
-	MOV $C4+X, A				;$094B   |
-CODE_094D:					;   |
+	MOV channel_vibrato_position+X, A	;$0941   |
+	MOV A, channel_vibrato_rate+X		;$0943   |
+	MOV channel_vibrato_step+X, A		;$0946   |
+	MOV A, channel_vibrato_delay+X		;$0948   |
+	MOV channel_vibrato_delay_timer+X, A	;$094B   |
+CODE_094D:					;	 |
 	MOV A, $02				;$094D   |
-	MOV $84+X, A				;$094F   |
+	MOV channel_unknown_84+X, A		;$094F   |
 	MOV SPC.DSP_data, A			;$0951   |
 	INC SPC.DSP_addr			;$0953   |
 	MOV A, $03				;$0955   |
-	MOV $74+X, A				;$0957   |
+	MOV channel_unknown_74+X, A		;$0957   |
 	MOV SPC.DSP_data, A			;$0959   |
 	INC SPC.DSP_addr			;$095B   |
 	MOV A, channel_instrument+X		;$095D   |
@@ -583,9 +587,9 @@ CODE_094D:					;   |
 	MOV SPC.DSP_addr, #DSPs.key_off		;$0975   |
 	MOV SPC.DSP_data, #$00			;$0978   |
 	MOV SPC.DSP_addr, #DSPs.key_on		;$097B   |
-	MOV A, DATA_0F95+X			;$097E   |
+	MOV A, channel_bit_table+X		;$097E   |
 	MOV SPC.DSP_data, A			;$0981   |
-CODE_0983:					;   |
+CODE_0983:					;	 |
 	MOV A, channel_default_duration_lo+X	;$0983   |
 	BEQ CODE_0997				;$0986   |
 	MOV $00, #$01				;$0988   |
@@ -593,7 +597,7 @@ CODE_0983:					;   |
 	MOV channel_wait_timer_lo+X, A		;$098E   |
 	MOV A, channel_default_duration_hi+X	;$0990   |
 	MOV channel_wait_timer_hi+X, A		;$0993   |
-	BRA CODE_09AE				;$0995   |
+	BRA CODE_09AE				;$0995  /
 
 CODE_0997:
 	MOV Y, #$01				;$0997   |
@@ -619,18 +623,18 @@ CODE_09AE:					;   |
 	RET					;$09BB   |
 
 CODE_09BC:
-	MOV A, $0150+X				;$09BC   |
+	MOV A, channel_effects+X		;$09BC  \
 	AND A, #$01				;$09BF   |
 	BNE CODE_09C6				;$09C1   |
-	JMP CODE_0A39				;$09C3   |
+	JMP CODE_0A39				;$09C3  /
 
 CODE_09C6:
-	MOV A, $01A0+X				;$09C6   |
+	MOV A, channel_p_slide_delay_timer+X	;$09C6  \
 	BEQ CODE_09DA				;$09C9   |
 	CMP A, #$FF				;$09CB   |
 	BEQ CODE_0A39				;$09CD   |
 	DEC A					;$09CF   |
-	MOV $01A0+X, A				;$09D0   |
+	MOV channel_p_slide_delay_timer+X, A	;$09D0   |
 	BNE CODE_0A39				;$09D3   |
 	MOV A, #$01				;$09D5   |
 	MOV $0100+X, A				;$09D7   |
@@ -639,13 +643,13 @@ CODE_09DA:					;   |
 	DEC A					;$09DD   |
 	MOV $0100+X, A				;$09DE   |
 	BNE CODE_0A39				;$09E1   |
-	MOV A, $0170+X				;$09E3   |
+	MOV A, channel_pitch_slide_interval+X	;$09E3   |
 	MOV $0100+X, A				;$09E6   |
 	MOV A, $01C0+X				;$09E9   |
 	BEQ CODE_0A10				;$09EC   |
 	DEC A					;$09EE   |
 	MOV $01C0+X, A				;$09EF   |
-	MOV A, $01B0+X				;$09F2   |
+	MOV A, channel_pitch_delta+X		;$09F2   |
 	EOR A, #$FF				;$09F5   |
 	INC A					;$09F7   |
 	MOV $00, A				;$09F8   |
@@ -654,22 +658,22 @@ CODE_09DA:					;   |
 	BRA CODE_0A02				;$09FE   |
 
 CODE_0A00:
-	MOV A, #$00				;$0A00   |
-CODE_0A02:					;   |
+	MOV A, #$00				;$0A00  \
+CODE_0A02:					;	 |
 	MOV $01, A				;$0A02   |
-	MOV A, $84+X				;$0A04   |
-	MOV Y, $74+X				;$0A06   |
+	MOV A, channel_unknown_84+X		;$0A04   |
+	MOV Y, channel_unknown_74+X		;$0A06   |
 	ADDW YA, $00				;$0A08   |
-	MOV $74+X, Y				;$0A0A   |
-	MOV $84+X, A				;$0A0C   |
-	BRA CODE_0A1B				;$0A0E   |
+	MOV channel_unknown_74+X, Y		;$0A0A   |
+	MOV channel_unknown_84+X, A		;$0A0C   |
+	BRA CODE_0A1B				;$0A0E  /
 
 CODE_0A10:
-	MOV A, $01B0+X				;$0A10   |
+	MOV A, channel_pitch_delta+X		;$0A10  \
 	MOV $00, A				;$0A13   |
 	BPL CODE_0A00				;$0A15   |
 	MOV A, #$FF				;$0A17   |
-	BRA CODE_0A02				;$0A19   |
+	BRA CODE_0A02				;$0A19  /
 
 CODE_0A1B:
 	MOV A, $01E0+X				;$0A1B   |
@@ -679,30 +683,30 @@ CODE_0A1B:
 	XCN A					;$0A23   |
 	OR A, #$02				;$0A24   |
 	MOV SPC.DSP_addr, A			;$0A26   |
-	MOV A, $84+X				;$0A28   |
+	MOV A, channel_unknown_84+X		;$0A28   |
 	MOV SPC.DSP_data, A			;$0A2A   |
 	INC SPC.DSP_addr			;$0A2C   |
 	MOV SPC.DSP_data, Y			;$0A2E   |
 CODE_0A30:					;   |
-	DEC $94+X				;$0A30   |
+	DEC channel_unknown_94+X		;$0A30   |
 	BNE CODE_0A39				;$0A32   |
 	MOV A, #$FF				;$0A34   |
-	MOV $01A0+X, A				;$0A36   |
+	MOV channel_p_slide_delay_timer+X, A	;$0A36   |
 CODE_0A39:					;   |
-	MOV A, $0150+X				;$0A39   |
+	MOV A, channel_effects+X		;$0A39   |
 	AND A, #$02				;$0A3C   |
 	BEQ CODE_0AB4				;$0A3E   |
-	MOV A, $C4+X				;$0A40   |
+	MOV A, channel_vibrato_delay_timer+X	;$0A40   |
 	BEQ CODE_0A48				;$0A42   |
-	DEC $C4+X				;$0A44   |
+	DEC channel_vibrato_delay_timer+X	;$0A44   |
 	BRA CODE_0AB4				;$0A46   |
 
 CODE_0A48:
-	DEC $B4+X				;$0A48   |
+	DEC channel_vibrato_step+X		;$0A48   |
 	BNE CODE_0AB4				;$0A4A   |
-	MOV A, $0210+X				;$0A4C   |
-	MOV $B4+X, A				;$0A4F   |
-	MOV A, $0234+X				;$0A51   |
+	MOV A, channel_vibrato_rate+X		;$0A4C   |
+	MOV channel_vibrato_step+X, A		;$0A4F   |
+	MOV A, channel_vibrato_depth+X		;$0A51   |
 	MOV $00, A				;$0A54   |
 	BPL CODE_0A5C				;$0A56   |
 	MOV A, #$FF				;$0A58   |
@@ -712,8 +716,8 @@ CODE_0A5C:
 	MOV A, #$00				;$0A5C   |
 CODE_0A5E:					;   |
 	MOV $01, A				;$0A5E   |
-	MOV A, $84+X				;$0A60   |
-	MOV Y, $74+X				;$0A62   |
+	MOV A, channel_unknown_84+X		;$0A60   |
+	MOV Y, channel_unknown_74+X		;$0A62   |
 	CMP X, #$0D				;$0A64   |
 	BNE CODE_0A87				;$0A66   |
 	PUSH A					;$0A68   |
@@ -738,8 +742,8 @@ CODE_0A78:
 	POP A					;$0A86   |
 CODE_0A87:					;	 |
 	ADDW YA, $00				;$0A87   |
-	MOV $74+X, Y				;$0A89   |
-	MOV $84+X, A				;$0A8B   |
+	MOV channel_unknown_74+X, Y		;$0A89   |
+	MOV channel_unknown_84+X, A		;$0A8B   |
 	MOV A, $01E0+X				;$0A8D   |
 	BNE CODE_0AA2				;$0A90   |
 	MOV A, X				;$0A92   |
@@ -747,21 +751,21 @@ CODE_0A87:					;	 |
 	XCN A					;$0A95   |
 	OR A, #$02				;$0A96   |
 	MOV SPC.DSP_addr, A			;$0A98   |
-	MOV A, $84+X				;$0A9A   |
+	MOV A, channel_unknown_84+X		;$0A9A   |
 	MOV SPC.DSP_data, A			;$0A9C   |
 	INC SPC.DSP_addr			;$0A9E   |
 	MOV SPC.DSP_data, Y			;$0AA0   |
 CODE_0AA2:					;	 |
-	DEC $A4+X				;$0AA2   |
+	DEC channel_vibrato_position+X		;$0AA2   |
 	BNE CODE_0AB4				;$0AA4   |
-	MOV A, $0200+X				;$0AA6   |
-	MOV $A4+X, A				;$0AA9   |
-	MOV A, $0234+X				;$0AAB   |
+	MOV A, channel_vibrato_length+X		;$0AA6   |
+	MOV channel_vibrato_position+X, A	;$0AA9   |
+	MOV A, channel_vibrato_depth+X		;$0AAB   |
 	EOR A, #$FF				;$0AAE   |
 	INC A					;$0AB0   |
-	MOV $0234+X, A				;$0AB1   |
+	MOV channel_vibrato_depth+X, A		;$0AB1   |
 CODE_0AB4:					;	 |
-	MOV A, $0150+X				;$0AB4   |
+	MOV A, channel_effects+X		;$0AB4   |
 	AND A, #$0C				;$0AB7   |
 	BNE CODE_0ABE				;$0AB9   |
 	JMP CODE_0B17				;$0ABB  /
@@ -801,7 +805,7 @@ CODE_0AF8:					;	 |
 	DEC A					;$0AFB   |
 	MOV $02E4+X, A				;$0AFC   |
 	BNE CODE_0B17				;$0AFF   |
-	MOV A, $0150+X				;$0B01   |
+	MOV A, channel_effects+X		;$0B01   |
 	AND A, #$08				;$0B04   |
 	BNE CODE_0B17				;$0B06   |
 	MOV A, $02F4+X				;$0B08   |
@@ -816,11 +820,11 @@ CODE_0B17:					;	 |
 command_00_end_sequence:
 	POP X					;$0B18  \
 	MOV A, #$00				;$0B19   |
-	MOV $0110+X, A				;$0B1B   |
+	MOV channel_enable+X, A			;$0B1B   |
 	MOV A, $01E0+X				;$0B1E   |\
 	BNE CODE_0B2B				;$0B21   |/ If sound effect is playing?
 	MOV SPC.DSP_addr, #DSPs.key_off		;$0B23   |
-	MOV A, DATA_0F95+X			;$0B26   |
+	MOV A, channel_bit_table+X		;$0B26   |
 	MOV SPC.DSP_data, A			;$0B29   |
 CODE_0B2B:					;	 |
 	MOV A, X				;$0B2B   |
@@ -833,20 +837,20 @@ CODE_0B2B:					;	 |
 	MOV A, #$00				;$0B35   |
 	MOV $01E0+X, A				;$0B37   |
 	MOV SPC.DSP_addr, #DSPs.noise_enable	;$0B3A   |
-	MOV A, DATA_0F95+X			;$0B3D   |
+	MOV A, channel_bit_table+X		;$0B3D   |
 	EOR A, #$FF				;$0B40   |
 	AND A, SPC.DSP_data			;$0B42   |
 	MOV SPC.DSP_data, A			;$0B44   |
 	MOV SPC.DSP_addr, #DSPs.echo_enable	;$0B46   |
-	MOV A, $0294+X				;$0B49   |
+	MOV A, channel_echo_state+X		;$0B49   |
 	BEQ CODE_0B57				;$0B4C   |
-	MOV A, DATA_0F95+X			;$0B4E   |
+	MOV A, channel_bit_table+X		;$0B4E   |
 	OR A, SPC.DSP_data			;$0B51   |
 	MOV SPC.DSP_data, A			;$0B53   |
 	BRA CODE_0B60				;$0B55  /
 
 CODE_0B57:
-	MOV A, DATA_0F95+X			;$0B57  \
+	MOV A, channel_bit_table+X		;$0B57  \
 	EOR A, #$FF				;$0B5A   |
 	AND A, SPC.DSP_data			;$0B5C   |
 	MOV SPC.DSP_data, A			;$0B5E   |
@@ -919,15 +923,15 @@ CODE_0BBC:					;	 |
 	JMP update_command_address		;$0BBF   |
 
 CODE_0BC2:
-	MOV A, $1D				;$0BC2   |
+	MOV A, mono_stereo_toggle		;$0BC2  \
 	BNE CODE_0BD2				;$0BC4   |
 	MOV A, ($00)+Y				;$0BC6   |
 	MOV channel_vol_l+X, A			;$0BC8   |
 	INC Y					;$0BCB   |
-CODE_0BCC:					;   |
+CODE_0BCC:					;	 |
 	MOV A, ($00)+Y				;$0BCC   |
 	MOV channel_vol_r+X, A			;$0BCE   |
-	RET					;$0BD1   |
+	RET					;$0BD1  /
 
 CODE_0BD2:
 	MOV A, ($00)+Y				;$0BD2   |
@@ -951,7 +955,7 @@ CODE_0BE5:					;   |
 	MOV channel_vol_r+X, A			;$0BEC   |
 	RET					;$0BEF   |
 
-CODE_0BF0:
+command_23_set_vol_single_val:
 	CALL get_channel_number_and_wait_1_tick	;$0BF0  \
 	MOV channel_vol_l+X, A			;$0BF3   |
 	CALL CODE_0BCC				;$0BF6   |
@@ -959,23 +963,23 @@ CODE_0BF0:
 	MOV channel_vol_l+X, A			;$0BFC   |
 	JMP update_command_address_2_bytes	;$0BFF  /
 
-CODE_0C02:
+command_20_load_volume_preset_1:
 	CALL get_channel_number_and_wait_1_tick	;$0C02  \
-	MOV A, $04B8				;$0C05   |
+	MOV A, vol_preset_1_l			;$0C05   |
 	MOV channel_vol_l+X, A			;$0C08   |
-	MOV A, $04B9				;$0C0B   |
+	MOV A, vol_preset_1_r			;$0C0B   |
 	MOV channel_vol_r+X, A			;$0C0E   |
-	MOV A, $1D				;$0C11   |
+	MOV A, mono_stereo_toggle		;$0C11   |
 	BNE CODE_0C2E				;$0C13   |
 	JMP CODE_0ED6				;$0C15  /
 
-CODE_0C18:
+command_31_load_volume_preset_2:
 	CALL get_channel_number_and_wait_1_tick	;$0C18  \
-	MOV A, $04BA				;$0C1B   |
+	MOV A, vol_preset_2_l			;$0C1B   |
 	MOV channel_vol_l+X, A			;$0C1E   |
-	MOV A, $04BB				;$0C21   |
+	MOV A, vol_preset_2_r			;$0C21   |
 	MOV channel_vol_r+X, A			;$0C24   |
-	MOV A, $1D				;$0C27   |
+	MOV A, mono_stereo_toggle		;$0C27   |
 	BNE CODE_0C2E				;$0C29   |
 	JMP CODE_0ED6				;$0C2B  /
 
@@ -999,15 +1003,15 @@ CODE_0C41:					;   |
 	MOV channel_vol_r+X, A			;$0C48   |
 	JMP CODE_0ED6				;$0C4B   |
 
-CODE_0C4E:
+command_24_set_master_volume_indirect:
 	CALL get_channel_number_and_wait_1_tick	;$0C4E  \
 	MOV A, ($00)+Y				;$0C51   |
-	MOV $04B6, A				;$0C53   |
+	MOV song_master_volume, A		;$0C53   |
 	JMP update_command_address_2_bytes	;$0C56  /
 
 CODE_0C59:
 	PUSH X					;$0C59   |
-	MOV Y, $04B6				;$0C5A   |
+	MOV Y, song_master_volume		;$0C5A   |
 	CMP X, #$08				;$0C5D   |
 	BCS CODE_0C6F				;$0C5F   |
 	CMP A, #$00				;$0C61   |
@@ -1037,20 +1041,20 @@ CODE_0C7E:					;   |
 	POP X					;$0C81   |
 	RET					;$0C82   |
 
-CODE_0C83:					;   |
-	CALL get_channel_number_and_wait_1_tick	;$0C83   |
+command_1E_set_volume_presets:
+	CALL get_channel_number_and_wait_1_tick	;$0C83  \
 	MOV A, ($00)+Y				;$0C86   |
-	MOV $04B8, A				;$0C88   |
+	MOV vol_preset_1_l, A			;$0C88   |
 	INC Y					;$0C8B   |
 	MOV A, ($00)+Y				;$0C8C   |
-	MOV $04B9, A				;$0C8E   |
+	MOV vol_preset_1_r, A			;$0C8E   |
 	INC Y					;$0C91   |
 	MOV A, ($00)+Y				;$0C92   |
-	MOV $04BA, A				;$0C94   |
+	MOV vol_preset_2_l, A			;$0C94   |
 	INC Y					;$0C97   |
 	MOV A, ($00)+Y				;$0C98   |
-	MOV $04BB, A				;$0C9A   |
-	JMP CODE_0F76				;$0C9D   |
+	MOV vol_preset_2_r, A			;$0C9A   |
+	JMP CODE_0F76				;$0C9D  /
 
 CODE_0CA0:
 	CALL get_channel_number_and_wait_1_tick	;$0CA0  \
@@ -1104,20 +1108,20 @@ command_04_loop_subsequence:
 CODE_0CF1:					;	 |
 	MOV channel_seq_loop_address_lo+Y, A	;$0CF1   |
 CODE_0CF4:					;	 |
-	INC $D4+X				;$0CF4   |
+	INC channel_unknown_D4+X		;$0CF4   |
 	MOVW YA, $02				;$0CF6   |
 	MOV channel_seq_address_lo+X, A		;$0CF8   |
 	MOV channel_seq_address_hi+X, Y		;$0CFA   |
 	MOV A, #$01				;$0CFC   |
 	RET					;$0CFE  /
 
-CODE_0CFF:					;   |
-	CALL get_channel_number_and_wait_1_tick	;$0CFF   |
+command_21_play_subsequence:
+	CALL get_channel_number_and_wait_1_tick	;$0CFF  \
 	MOV $04, #$01				;$0D02   |
 	CALL CODE_0D1C				;$0D05   |
 	BEQ CODE_0D0E				;$0D08   |
 	DEC A					;$0D0A   |
-	JMP CODE_0CF1				;$0D0B   |
+	JMP CODE_0CF1				;$0D0B  /
 
 CODE_0D0E:
 	DEC A					;$0D0E   |
@@ -1133,7 +1137,7 @@ CODE_0D1C:
 	INC Y					;$0D20   |
 	MOV A, ($00)+Y				;$0D21   |
 	MOV $03, A				;$0D23   |
-	MOV Y, $D4+X				;$0D25   |
+	MOV Y, channel_unknown_D4+X		;$0D25   |
 	MOV A, $04				;$0D27   |
 	MOV channel_seq_loop_count+Y, A		;$0D29   |
 	MOV A, channel_seq_address_hi+X		;$0D2C   |
@@ -1143,8 +1147,8 @@ CODE_0D1C:
 
 command_05_return_from_sub:
 	CALL get_channel_number_and_wait_1_tick	;$0D34  \
-	DEC $D4+X				;$0D37   |
-	MOV Y, $D4+X				;$0D39   |
+	DEC channel_unknown_D4+X		;$0D37   |
+	MOV Y, channel_unknown_D4+X		;$0D39   |
 	MOV A, channel_seq_loop_address_hi+Y	;$0D3B   |
 	MOV channel_seq_address_hi+X, A		;$0D3E   |
 	MOV A, channel_seq_loop_address_lo+Y	;$0D40   |
@@ -1162,7 +1166,7 @@ command_05_return_from_sub:
 	INC Y					;$0D5A   |
 	MOV A, ($00)+Y				;$0D5B   |
 	MOV $03, A				;$0D5D   |
-	INC $D4+X				;$0D5F   |
+	INC channel_unknown_D4+X		;$0D5F   |
 	MOVW YA, $02				;$0D61   |
 	MOV channel_seq_address_lo+X, A		;$0D63   |
 	MOV channel_seq_address_hi+X, Y		;$0D65   |
@@ -1196,57 +1200,57 @@ command_07_default_duration_off:
 	MOV channel_default_duration_hi+X, A	;$0D95   |
 	JMP CODE_0DDF				;$0D98  /
 
-CODE_0D9B:					;   |
-	POP X					;$0D9B   |
-	MOV Y, #$04				;$0D9C   |
-	MOV A, ($00)+Y				;$0D9E   |
-	BRA CODE_0DAA				;$0DA0   |
+command_08_pitch_slide_up:
+	POP X					;$0D9B  \> Get channel number
+	MOV Y, #$04				;$0D9C   |\ Get param 04 (pitch delta) from pitch slide up command
+	MOV A, ($00)+Y				;$0D9E   |/
+	BRA write_pitch_slide_parameters	;$0DA0  /> Go write the remaining pitch slide parameters
 
-CODE_0DA2:					;   |
-	POP X					;$0DA2   |
-	MOV Y, #$04				;$0DA3   |
-	MOV A, ($00)+Y				;$0DA5   |
-	EOR A, #$FF				;$0DA7   |
-	INC A					;$0DA9   |
-CODE_0DAA:					;   |
-	MOV $01B0+X, A				;$0DAA   |
-	MOV A, $0150+X				;$0DAD   |
-	OR A, #$01				;$0DB0   |
-	MOV $0150+X, A				;$0DB2   |
+command_09_pitch_slide_down:
+	POP X					;$0DA2  \> Get channel number
+	MOV Y, #$04				;$0DA3   |\ Get param 04 (pitch delta) from pitch slide up command
+	MOV A, ($00)+Y				;$0DA5   | |
+	EOR A, #$FF				;$0DA7   | |
+	INC A					;$0DA9   |/
+write_pitch_slide_parameters:			;	 |
+	MOV channel_pitch_delta+X, A		;$0DAA   |> Write param 04 (pitch delta)
+	MOV A, channel_effects+X		;$0DAD   |\
+	OR A, #$01				;$0DB0   | | Flag this channel as using a pitch slide effect
+	MOV channel_effects+X, A		;$0DB2   |/
 	CALL wait_1_tick			;$0DB5   |
-	MOV A, ($00)+Y				;$0DB8   |
-	MOV $0160+X, A				;$0DBA   |
-	INC Y					;$0DBD   |
-	MOV A, ($00)+Y				;$0DBE   |
-	MOV $0170+X, A				;$0DC0   |
-	INC Y					;$0DC3   |
-	MOV A, ($00)+Y				;$0DC4   |
-	MOV $0180+X, A				;$0DC6   |
-	INC Y					;$0DC9   |
-	INC Y					;$0DCA   |
-	MOV A, ($00)+Y				;$0DCB   |
-	MOV $0190+X, A				;$0DCD   |
-	MOV $00, #$06				;$0DD0   |
-	JMP update_command_address		;$0DD3   |
+	MOV A, ($00)+Y				;$0DB8   |\ param 01 (delay)
+	MOV channel_pitch_slide_delay+X, A	;$0DBA   |/
+	INC Y					;$0DBD   |\
+	MOV A, ($00)+Y				;$0DBE   | | param 02 (interval)
+	MOV channel_pitch_slide_interval+X, A	;$0DC0   |/
+	INC Y					;$0DC3   |\
+	MOV A, ($00)+Y				;$0DC4   | | param 03 (pitch up count)
+	MOV channel_pitch_slide_up_count+X, A	;$0DC6   |/
+	INC Y					;$0DC9   |> Skip param 04 because we already handled it
+	INC Y					;$0DCA   |\
+	MOV A, ($00)+Y				;$0DCB   | | param 05 (pitch down count)
+	MOV channel_pitch_slide_down_count+X, A	;$0DCD   |/
+	MOV $00, #$06				;$0DD0   |\ Command was 6 bytes
+	JMP update_command_address		;$0DD3  / /
 
-CODE_0DD6:					;   |
-	POP X					;$0DD6   |
-	MOV A, $0150+X				;$0DD7   |
+command_0A_pitch_slide_off:
+	POP X					;$0DD6  \
+	MOV A, channel_effects+X		;$0DD7   |
 	AND A, #$FE				;$0DDA   |
-	MOV $0150+X, A				;$0DDC   |
-CODE_0DDF:					;   |
+	MOV channel_effects+X, A		;$0DDC   |
+CODE_0DDF:					;	 |
 	MOV A, #$01				;$0DDF   |
 	MOV $00, A				;$0DE1   |
 	MOV channel_wait_timer_lo+X, A		;$0DE3   |
 	DEC A					;$0DE5   |
 	MOV channel_wait_timer_hi+X, A		;$0DE6   |
-	JMP update_command_address		;$0DE8   |
+	JMP update_command_address		;$0DE8  /
 
 command_0B_change_tempo:
 	POP X					;$0DEB  \
 	MOV Y, #$01				;$0DEC   |
 	MOV A, ($00)+Y				;$0DEE   |
-	MOV music_tempo, A			;$0DF0   |
+	MOV song_tempo, A			;$0DF0   |
 CODE_0DF2:					;	 |
 	CALL wait_1_tick			;$0DF2   |
 	JMP update_command_address_2_bytes	;$0DF5  /
@@ -1256,45 +1260,45 @@ command_0C_change_tempo_rel:
 	MOV Y, #$01				;$0DF9   |
 	MOV A, ($00)+Y				;$0DFB   |
 	CLRC					;$0DFD   |
-	ADC A, music_tempo			;$0DFE   |
-	MOV music_tempo, A			;$0E00   |
+	ADC A, song_tempo			;$0DFE   |
+	MOV song_tempo, A			;$0E00   |
 	JMP CODE_0DF2				;$0E02  /
 
-CODE_0E05:
-	POP X					;$0E05   |
-	MOV A, $0150+X				;$0E06   |
+command_0E_vibrato_off:
+	POP X					;$0E05  \
+	MOV A, channel_effects+X		;$0E06   |
 	AND A, #$FD				;$0E09   |
-	MOV $0150+X, A				;$0E0B   |
-	JMP CODE_0DDF				;$0E0E   |
+	MOV channel_effects+X, A		;$0E0B   |
+	JMP CODE_0DDF				;$0E0E  /
 
-CODE_0E11:					;   |
-	POP X					;$0E11   |
+command_0D_vibrato:
+	POP X					;$0E11  \
 	MOV A, #$00				;$0E12   |
-	CALL CODE_0E25				;$0E14   |
-	JMP CODE_0D6A				;$0E17   |
+	CALL set_vibrato			;$0E14   |
+	JMP CODE_0D6A				;$0E17  /
 
-CODE_0E1A:					;   |
-	POP X					;$0E1A   |
-	MOV Y, #$04				;$0E1B   |
-	MOV A, ($00)+Y				;$0E1D   |
-	CALL CODE_0E25				;$0E1F   |
-	JMP CODE_0F76				;$0E22   |
+command_0F_vibrato_with_delay:
+	POP X					;$0E1A  \> Get channel number
+	MOV Y, #$04				;$0E1B   |\ Get param 04 (delay)
+	MOV A, ($00)+Y				;$0E1D   |/
+	CALL set_vibrato			;$0E1F   |
+	JMP CODE_0F76				;$0E22  /
 
-CODE_0E25:
-	MOV $0220+X, A				;$0E25   |
-	MOV A, $0150+X				;$0E28   |
+set_vibrato:
+	MOV channel_vibrato_delay+X, A		;$0E25  \
+	MOV A, channel_effects+X		;$0E28   |
 	OR A, #$02				;$0E2B   |
-	MOV $0150+X, A				;$0E2D   |
+	MOV channel_effects+X, A		;$0E2D   |
 	CALL wait_1_tick			;$0E30   |
 	MOV A, ($00)+Y				;$0E33   |
-	MOV $0200+X, A				;$0E35   |
+	MOV channel_vibrato_length+X, A		;$0E35   |
 	INC Y					;$0E38   |
 	MOV A, ($00)+Y				;$0E39   |
-	MOV $0210+X, A				;$0E3B   |
+	MOV channel_vibrato_rate+X, A		;$0E3B   |
 	INC Y					;$0E3E   |
 	MOV A, ($00)+Y				;$0E3F   |
-	MOV $0234+X, A				;$0E41   |
-	RET					;$0E44   |
+	MOV channel_vibrato_depth+X, A		;$0E41   |
+	RET					;$0E44  /
 
 command_10_set_adsr:
 	CALL get_channel_number_and_wait_1_tick	;$0E45  \
@@ -1314,14 +1318,14 @@ command_1C_set_variable_note_1:
 	MOV Y, #$01				;$0E5B   |
 	MOV A, ($00)+Y				;$0E5D   |
 	MOV channel_variable_note_1+X, A	;$0E5F   |
-	JMP CODE_0E6B				;$0E61  /
+	JMP set_variable_note_done		;$0E61  /
 
 command_1D_set_variable_note_2:
 	POP X					;$0E64  \
 	MOV Y, #$01				;$0E65   |
 	MOV A, ($00)+Y				;$0E67   |
 	MOV channel_variable_note_2+X, A	;$0E69   |
-CODE_0E6B:					;	 |
+set_variable_note_done:				;	 |
 	CALL wait_1_tick			;$0E6B   |
 	JMP update_command_address_2_bytes	;$0E6E  /
 
@@ -1331,14 +1335,14 @@ command_12_fine_tune:
 	MOV channel_pitch_fine+X, A		;$0E76   |
 	JMP update_command_address_2_bytes	;$0E78  /
 
-CODE_0E7B:
+command_13_change_instr_pitch:
 	CALL get_channel_number_and_wait_1_tick	;$0E7B  \
 	MOV channel_wait_timer_hi+X, A		;$0E7E   |
 	MOV A, ($00)+Y				;$0E80   |
 	MOV channel_pitch+X, A			;$0E82   |
 	JMP update_command_address_2_bytes	;$0E85  /
 
-CODE_0E88:
+command_14_change_instr_pitch_rel:
 	CALL get_channel_number_and_wait_1_tick	;$0E88  \
 	MOV A, ($00)+Y				;$0E8B   |
 	CLRC					;$0E8D   |
@@ -1371,33 +1375,33 @@ CODE_0E97:
 CODE_0EC4:
 	CALL get_channel_number_and_wait_1_tick	;$0EC4  \
 	MOV SPC.DSP_addr, #DSPs.echo_enable	;$0EC7   |
-	MOV A, DATA_0F95+X			;$0ECA   |
+	MOV A, channel_bit_table+X		;$0ECA   |
 	OR A, SPC.DSP_data			;$0ECD   |
 	MOV SPC.DSP_data, A			;$0ECF   |
 	MOV A, #$01				;$0ED1   |
-	MOV $0294+X, A				;$0ED3   |
-CODE_0ED6:					;   |
+	MOV channel_echo_state+X, A		;$0ED3   |
+CODE_0ED6:					;	 |
 	MOV $00, #$01				;$0ED6   |
-	JMP update_command_address		;$0ED9   |
+	JMP update_command_address		;$0ED9  /
 
-CODE_0EDC:					;   |
-	POP X					;$0EDC   |
+CODE_0EDC:
+	POP X					;$0EDC  \
 	MOV SPC.DSP_addr, #DSPs.echo_enable	;$0EDD   |
-	MOV A, DATA_0F95+X			;$0EE0   |
+	MOV A, channel_bit_table+X		;$0EE0   |
 	EOR A, #$FF				;$0EE3   |
 	AND A, SPC.DSP_data			;$0EE5   |
 	MOV SPC.DSP_data, A			;$0EE7   |
 	MOV A, #$00				;$0EE9   |
-	MOV $0294+X, A				;$0EEB   |
+	MOV channel_echo_state+X, A		;$0EEB   |
 	MOV channel_wait_timer_hi+X, A		;$0EEE   |
 	INC A					;$0EF0   |
 	MOV channel_wait_timer_lo+X, A		;$0EF1   |
-	JMP CODE_0ED6				;$0EF3   |
+	JMP CODE_0ED6				;$0EF3  /
 
-CODE_0EF6:					;   |
-	CALL get_channel_number_and_wait_1_tick	;$0EF6   |
+CODE_0EF6:
+	CALL get_channel_number_and_wait_1_tick	;$0EF6  \
 	MOV SPC.DSP_addr, #DSPc[0].echo_fir_filter	;$0EF9   |
-CODE_0EFC:					;   |
+CODE_0EFC:					;	 |
 	MOV A, ($00)+Y				;$0EFC   |
 	MOV SPC.DSP_data, A			;$0EFE   |
 	INC Y					;$0F00   |
@@ -1406,7 +1410,7 @@ CODE_0EFC:					;   |
 	CMP SPC.DSP_addr, #$8F			;$0F05   |
 	BNE CODE_0EFC				;$0F08   |
 	MOV $00, #$09				;$0F0A   |
-	JMP update_command_address		;$0F0D   |
+	JMP update_command_address		;$0F0D  /
 
 CODE_0F10:
 	CALL get_channel_number_and_wait_1_tick	;$0F10  \
@@ -1420,7 +1424,7 @@ CODE_0F10:
 CODE_0F23:
 	POP X					;$0F23  \
 	MOV SPC.DSP_addr, #DSPs.noise_enable	;$0F24   |
-	MOV A, DATA_0F95+X			;$0F27   |
+	MOV A, channel_bit_table+X		;$0F27   |
 	OR A, SPC.DSP_data			;$0F2A   |
 	MOV SPC.DSP_data, A			;$0F2C   |
 CODE_0F2E:					;	 |
@@ -1430,7 +1434,7 @@ CODE_0F2E:					;	 |
 CODE_0F34:
 	POP X					;$0F34  \
 	MOV SPC.DSP_addr, #DSPs.noise_enable	;$0F35   |
-	MOV A, DATA_0F95+X			;$0F38   |
+	MOV A, channel_bit_table+X		;$0F38   |
 	EOR A, #$FF				;$0F3B   |
 	AND A, SPC.DSP_data			;$0F3D   |
 	MOV SPC.DSP_data, A			;$0F3F   |
@@ -1444,46 +1448,46 @@ CODE_0F44:
 	INC A					;$0F4B   |
 	BRA CODE_0F53				;$0F4C  /
 
-CODE_0F4E:					;   |
-	POP X					;$0F4E   |
+CODE_0F4E:
+	POP X					;$0F4E  \
 	MOV Y, #$04				;$0F4F   |
 	MOV A, ($00)+Y				;$0F51   |
-CODE_0F53:					;   |
-	MOV $01B0+X, A				;$0F53   |
-	MOV A, $0150+X				;$0F56   |
+CODE_0F53:					;	 |
+	MOV channel_pitch_delta+X, A		;$0F53   |
+	MOV A, channel_effects+X		;$0F56   |
 	OR A, #$01				;$0F59   |
-	MOV $0150+X, A				;$0F5B   |
+	MOV channel_effects+X, A		;$0F5B   |
 	CALL wait_1_tick			;$0F5E   |
 	MOV A, ($00)+Y				;$0F61   |
-	MOV $0160+X, A				;$0F63   |
+	MOV channel_pitch_slide_delay+X, A	;$0F63   |
 	INC Y					;$0F66   |
 	MOV A, ($00)+Y				;$0F67   |
-	MOV $0170+X, A				;$0F69   |
+	MOV channel_pitch_slide_interval+X, A	;$0F69   |
 	INC Y					;$0F6C   |
 	MOV A, ($00)+Y				;$0F6D   |
-	MOV $0190+X, A				;$0F6F   |
+	MOV channel_pitch_slide_down_count+X, A	;$0F6F   |
 	ASL A					;$0F72   |
-	MOV $0180+X, A				;$0F73   |
-CODE_0F76:					;   |
+	MOV channel_pitch_slide_up_count+X, A	;$0F73   |
+CODE_0F76:					;	 |
 	MOV $00, #$05				;$0F76   |
-	JMP update_command_address		;$0F79   |
+	JMP update_command_address		;$0F79  /
 
 command_2B_long_duration_on:
-	CALL get_channel_number_and_wait_1_tick	;$0F7C   |
+	CALL get_channel_number_and_wait_1_tick	;$0F7C  \
 	INC A					;$0F7F   |
 	MOV channel_long_duration+X, A		;$0F80   |
-	JMP CODE_0ED6				;$0F83   |
+	JMP CODE_0ED6				;$0F83  /
 
 command_2C_long_duration_off:
-	CALL get_channel_number_and_wait_1_tick	;$0F86   |\ This routine returns with A = 0
+	CALL get_channel_number_and_wait_1_tick	;$0F86  \ \ This routine returns with A = 0
 	MOV channel_long_duration+X, A		;$0F89   |/ So to zero the flag just write A to it
-	JMP CODE_0ED6				;$0F8C   |
+	JMP CODE_0ED6				;$0F8C  /
 
 CODE_0F8F:
-	MOV $00, #$07				;$0F8F   |
-	JMP update_command_address		;$0F92   |
+	MOV $00, #$07				;$0F8F  \
+	JMP update_command_address		;$0F92  /
 
-DATA_0F95:
+channel_bit_table:
 	db $01, $02, $04, $08, $10, $20, $40, $80
 	db $01, $02, $04, $08, $10, $20, $40, $80
 
@@ -1496,19 +1500,19 @@ DATA_0FA5:
 	dw command_05_return_from_sub		;05: return_from_sub
 	dw command_06_set_default_duration	;06: set_default_duration
 	dw command_07_default_duration_off	;07: default_duration_off
-	dw CODE_0D9B				;08: pitch_slide_up
-	dw CODE_0DA2				;09: pitch_slide_down
-	dw CODE_0DD6				;0A: pitch_slide_off
+	dw command_08_pitch_slide_up		;08: pitch_slide_up
+	dw command_09_pitch_slide_down		;09: pitch_slide_down
+	dw command_0A_pitch_slide_off		;0A: pitch_slide_off
 	dw command_0B_change_tempo		;0B: change_tempo
 	dw command_0C_change_tempo_rel		;0C: change_tempo_rel
-	dw CODE_0E11				;0D: vibrato
-	dw CODE_0E05				;0E: vibrato_off
-	dw CODE_0E1A				;0F: vibrato_with_delay
+	dw command_0D_vibrato			;0D: vibrato
+	dw command_0E_vibrato_off		;0E: vibrato_off
+	dw command_0F_vibrato_with_delay	;0F: vibrato_with_delay
 	dw command_10_set_adsr			;10: set_adsr
 	dw !null_pointer			;11: unimplemented command
 	dw command_12_fine_tune			;12: fine_tune
-	dw CODE_0E7B				;13: change_instr_pitch
-	dw CODE_0E88				;14: change_instr_pitch_rel
+	dw command_13_change_instr_pitch	;13: change_instr_pitch
+	dw command_14_change_instr_pitch_rel	;14: change_instr_pitch_rel
 	dw CODE_0E97				;15: set_echo
 	dw CODE_0EC4				;16: echo_on
 	dw CODE_0EDC				;17: echo_off
@@ -1518,13 +1522,13 @@ DATA_0FA5:
 	dw CODE_0F34				;1B: noise_off
 	dw command_1C_set_variable_note_1	;1C: set_variable_note_1
 	dw command_1D_set_variable_note_2	;1D: set_variable_note_2
-	dw CODE_0C83				;1E: set_volume_presets
+	dw command_1E_set_volume_presets	;1E: set_volume_presets
 	dw CODE_0CA0				;1F: echo_delay
-	dw CODE_0C02				;20: load_volume_preset_1
-	dw CODE_0CFF				;21: play_subsequence 
+	dw command_20_load_volume_preset_1	;20: load_volume_preset_1
+	dw command_21_play_subsequence		;21: play_subsequence 
 	dw CODE_0B97				;22: set_voice_parameters
-	dw CODE_0BF0				;23: set_vol_single_val
-	dw CODE_0C4E				;24: set_master_volume_indirect
+	dw command_23_set_vol_single_val	;23: set_vol_single_val
+	dw command_24_set_master_volume_indirect;24: set_master_volume_indirect
 	dw !null_pointer			;25: unimplemented command
 	dw CODE_0F44				;26: simple_pitch_slide_down
 	dw CODE_0F4E				;27: simple_pitch_slide_up
@@ -1537,11 +1541,12 @@ DATA_0FA5:
 	dw !null_pointer			;2E: unimplemented command
 	dw !null_pointer			;2F: unimplemented command
 	dw CODE_0EDC				;30: echo_off (copy)
-	dw CODE_0C18				;31: load_volume_preset_2
+	dw command_31_load_volume_preset_2	;31: load_volume_preset_2
 	dw CODE_0EDC				;32: echo_off (copy)
 
+;initialize various registers and ARAM values before loading song
 CODE_100B:
-	MOV A, #$00				;$100B   |
+	MOV A, #$00				;$100B  \
 	MOV $EC, A				;$100D   |
 	MOV $ED, A				;$100F   |
 	MOV $EE, A				;$1011   |
@@ -1566,20 +1571,20 @@ CODE_100B:
 	MOV SPC.DSP_data, A			;$1043   |
 	MOV SPC.DSP_addr, #DSPs.echo_enable	;$1045   |
 	MOV SPC.DSP_data, A			;$1048   |
-	MOV A, #$3C				;$104A   |
-	MOV $0230, A				;$104C   |
-	MOV $0231, A				;$104F   |
-	MOV SPC.DSP_addr, #DSPs.master_vol_l	;$1052   |
-	MOV SPC.DSP_data, A			;$1055   |
-	MOV SPC.DSP_addr, #DSPs.master_vol_r	;$1057   |
-	MOV SPC.DSP_data, A			;$105A   |
-	MOV A, #$64				;$105C   |
-	MOV $04B6, A				;$105E   |
-	MOV SPC.DSP_addr, #DSPs.sample_dir_addr	;$1061   |
-	MOV SPC.DSP_data, #!src_dir_loc>>8	;$1064   |
-	MOV Y, #$08				;$1067   |
-	MOV SPC.DSP_addr, #!src_dir_loc&$00FF	;$1069   |
-CODE_106C:					;   |
+	MOV A, #$3C				;$104A   |\
+	MOV $0230, A				;$104C   | |
+	MOV $0231, A				;$104F   |/
+	MOV SPC.DSP_addr, #DSPs.master_vol_l	;$1052   |\ Set master volume
+	MOV SPC.DSP_data, A			;$1055   | |
+	MOV SPC.DSP_addr, #DSPs.master_vol_r	;$1057   | |
+	MOV SPC.DSP_data, A			;$105A   |/
+	MOV A, #$64				;$105C   |\
+	MOV song_master_volume, A		;$105E   |/
+	MOV SPC.DSP_addr, #DSPs.sample_dir_addr	;$1061   |\ Set sample table address
+	MOV SPC.DSP_data, #sample_table>>8	;$1064   | |
+	MOV Y, #$08				;$1067   | |> Unknown
+	MOV SPC.DSP_addr, #sample_table&$00FF	;$1069   |/
+.clear						;	 |
 	MOV A, #$7F				;$106C   |
 	MOV SPC.DSP_data, A			;$106E   |
 	INC SPC.DSP_addr			;$1070   |
@@ -1595,7 +1600,7 @@ CODE_106C:					;   |
 	CLRC					;$1085   |
 	ADC SPC.DSP_addr, #DSPc.sample		;$1086   |
 	DEC Y					;$1089   |
-	BNE CODE_106C				;$108A   |
+	BNE .clear				;$108A   |
 	MOV $E7, #$FF				;$108C   |
 	MOV $E8, #$FF				;$108F   |
 	MOV A, #$64				;$1092   |
@@ -1608,59 +1613,59 @@ CODE_106C:					;   |
 	MOV $0A, Y				;$10A2   |
 	MOV $04B4, Y				;$10A4   |
 	MOV $01, Y				;$10A7   |
-CODE_10A9:					;   |
+CODE_10A9:					;	 |
 	MOV A, #$01				;$10A9   |
 	MOV channel_wait_timer_lo+X, A		;$10AB   |
-	MOV $0110+X, A				;$10AD   |
-	MOV A, (music_seq_addr)+Y		;$10B0   |
+	MOV channel_enable+X, A			;$10AD   |
+	MOV A, (song_data_address)+Y		;$10B0   |
 	MOV channel_seq_address_lo+X, A		;$10B2   |
 	INC Y					;$10B4   |
-	MOV A, (music_seq_addr)+Y		;$10B5   |
+	MOV A, (song_data_address)+Y		;$10B5   |
 	MOV channel_seq_address_hi+X, A		;$10B7   |
 	MOV A, $01				;$10B9   |
-	MOV $D4+X, A				;$10BB   |
+	MOV channel_unknown_D4+X, A		;$10BB   |
 	MOV A, #$00				;$10BD   |
 	MOV channel_long_duration+X, A		;$10BF   |
 	MOV channel_wait_timer_hi+X, A		;$10C2   |
 	MOV channel_default_duration_lo+X, A	;$10C4   |
 	MOV channel_default_duration_hi+X, A	;$10C7   |
-	MOV $0150+X, A				;$10CA   |
+	MOV channel_effects+X, A		;$10CA   |
 	MOV channel_pitch+X, A			;$10CD   |
 	MOV channel_pitch_fine+X, A		;$10D0   |
 	MOV $01E0+X, A				;$10D2   |
-	MOV $0294+X, A				;$10D5   |
+	MOV channel_echo_state+X, A		;$10D5   |
 	INC X					;$10D8   |
 	INC Y					;$10D9   |
 	CLRC					;$10DA   |
 	ADC $01, #$08				;$10DB   |
 	DBNZ $00, CODE_10A9			;$10DE   |
-	MOV A, (music_seq_addr)+Y		;$10E1   |
-	MOV music_tempo, A			;$10E3   |
+	MOV A, (song_data_address)+Y		;$10E1   |
+	MOV song_tempo, A			;$10E3   |
 	INC Y					;$10E5   |
-	MOV A, (music_seq_addr)+Y		;$10E6   |
-	MOV $22, A				;$10E8   |
+	MOV A, (song_data_address)+Y		;$10E6   |
+	MOV sfx_tempo, A			;$10E8   |
 	MOV A, #$00				;$10EA   |
 	MOV $1E, A				;$10EC   |
 	MOV $21, A				;$10EE   |
-CODE_10F0:					;   |
+CODE_10F0:					;	 |
 	MOV SPC.DSP_addr, #DSPs.flags		;$10F0   |
 	MOV SPC.DSP_data, #$20			;$10F3   |
-	RET					;$10F6   |
+	RET					;$10F6  /
 
 CODE_10F7:
-	PUSH A					;$10F7   |
+	PUSH A					;$10F7  \> Preserve sound effect number
 	CMP A, #!dyn_snd_base_id		;$10F8   |
 	BPL CODE_1104				;$10FA   |
 	SETC					;$10FC   |
-	SBC A, !snd_loc				;$10FD   |
+	SBC A, global_sfx_data			;$10FD   |
 	BPL CODE_110D				;$1100   |
-	BRA CODE_1111				;$1102   |
+	BRA CODE_1111				;$1102  /
 
 CODE_1104:
 	SETC					;$1104   |
 	SBC A, #!dyn_snd_base_id		;$1105   |
 	SETC					;$1107   |
-	SBC A, !dyn_snd_loc			;$1108   |
+	SBC A, track_sfx_data			;$1108   |
 	BMI CODE_1111				;$110B   |
 CODE_110D:					;   |
 	POP A					;$110D   |
@@ -1673,7 +1678,7 @@ CODE_1111:					;   |
 	MOV A, #$01				;$1114   |
 	MOV $01E0+X, A				;$1116   |
 	MOV SPC.DSP_addr, #DSPs.noise_enable	;$1119   |
-	MOV A, DATA_0F95+X			;$111C   |
+	MOV A, channel_bit_table+X		;$111C   |
 	EOR A, #$FF				;$111F   |
 	AND A, SPC.DSP_data			;$1121   |
 	MOV SPC.DSP_data, A			;$1123   |
@@ -1684,18 +1689,18 @@ CODE_1111:					;   |
 	ASL A					;$112A   |
 	ASL A					;$112B   |
 	ASL A					;$112C   |
-	MOV $D4+X, A				;$112D   |
+	MOV channel_unknown_D4+X, A		;$112D   |
 	MOV A, #$01				;$112F   |
-	MOV $0110+X, A				;$1131   |
+	MOV channel_enable+X, A			;$1131   |
 	DEC A					;$1134   |
 	MOV channel_default_duration_lo+X, A	;$1135   |
 	MOV channel_default_duration_hi+X, A	;$1138   |
 	MOV channel_wait_timer_hi+X, A		;$113B   |
 	MOV channel_long_duration+X, A		;$113D   |
 	MOV $01E0+X, A				;$1140   |
-	MOV $0150+X, A				;$1143   |
+	MOV channel_effects+X, A		;$1143   |
 	MOV channel_pitch+X, A			;$1146   |
-	MOV $0294+X, A				;$1149   |
+	MOV channel_echo_state+X, A		;$1149   |
 	MOV channel_pitch_fine+X, A		;$114C   |
 	MOV A, #$7F				;$114E   |
 	MOV channel_vol_l+X, A			;$1150   |
@@ -1710,34 +1715,34 @@ CODE_1111:					;   |
 	CMP A, #$C0				;$1167   |
 	BCS CODE_1179				;$1169   |
 	MOV Y, A				;$116B   |
-	MOV A, !snd_ptr_loc+Y			;$116C   |
+	MOV A, global_sfx_table+Y		;$116C   |
 	MOV channel_seq_address_lo+X, A		;$116F   |
 	INC Y					;$1171   |
-	MOV A, !snd_ptr_loc+Y			;$1172   |
+	MOV A, global_sfx_table+Y		;$1172   |
 	MOV channel_seq_address_hi+X, A		;$1175   |
 	BRA CODE_1188				;$1177   |
 
 CODE_1179:
-	SETC					;$1179   |
+	SETC					;$1179  \
 	SBC A, #$C0				;$117A   |
 	MOV Y, A				;$117C   |
-	MOV A, !dyn_snd_ptr_loc+Y		;$117D   |
+	MOV A, track_sfx_table+Y		;$117D   |
 	MOV channel_seq_address_lo+X, A		;$1180   |
 	INC Y					;$1182   |
-	MOV A, !dyn_snd_ptr_loc+Y		;$1183   |
+	MOV A, track_sfx_table+Y		;$1183   |
 	MOV channel_seq_address_hi+X, A		;$1186   |
-CODE_1188:					;   |
+CODE_1188:					;	 |
 	MOV A, #$02				;$1188   |
 	MOV channel_wait_timer_lo+X, A		;$118A   |
 	MOV SPC.DSP_addr, #DSPs.echo_enable	;$118C   |
-	MOV A, DATA_0F95+X			;$118F   |
+	MOV A, channel_bit_table+X		;$118F   |
 	EOR A, #$FF				;$1192   |
 	AND A, SPC.DSP_data			;$1194   |
 	MOV SPC.DSP_data, A			;$1196   |
-	RET					;$1198   |
+	RET					;$1198  /
 
-DATA_1199:
-	%offset(DATA_119A, 1)
+pitch_table:
+	%offset(pitch_table_hi, 1)
 	dw $0000
 	dw $0040
 	dw $0044
@@ -1838,265 +1843,269 @@ DATA_1199:
 	dw $3FFF
 	db $FF
 base off
+namespace off
+
 arch 65816
 
+
+
 sample_table:
-	dl brr_sample_EECE62		;00
-	dl brr_sample_EECFFC		;01
-	dl brr_sample_EED1CC		;02
-	dl brr_sample_EED47C		;03
-	dl brr_sample_EED63A		;04
-	dl brr_sample_EED87E		;05
-	dl brr_sample_EEDC73		;06
-	dl brr_sample_EEE055		;07
-	dl brr_sample_EEE1AF		;08
-	dl brr_sample_EEE8CE		;09
-	dl brr_sample_EEE9A2		;0A
-	dl brr_sample_EEEE4B		;0B
-	dl brr_sample_EEF6B6		;0C
-	dl brr_sample_EEF8C5		;0D
-	dl brr_sample_EEFDC8		;0E
-	dl brr_sample_EEFFDF		;0F
-	dl brr_sample_EF001A		;10
-	dl brr_sample_EF05BE		;11
-	dl brr_sample_EF0997		;12
-	dl brr_sample_EF120B		;13
-	dl brr_sample_EF1EDC		;14
-	dl brr_sample_EF288C		;15
-	dl brr_sample_EF2F7E		;16
-	dl brr_sample_EF3288		;17
-	dl brr_sample_EF335C		;18
-	dl brr_sample_EF35BC		;19
-	dl brr_sample_EF37B0		;1A
-	dl brr_sample_EF3A10		;1B
-	dl brr_sample_EF3D5A		;1C
-	dl brr_sample_EF4512		;1D
-	dl brr_sample_EF4C79		;1E
-	dl brr_sample_EF5053		;1F
-	dl brr_sample_EF5910		;20
-	dl brr_sample_EF5927		;21
-	dl brr_sample_EF596B		;22
-	dl brr_sample_EF5D96		;23
-	dl brr_sample_EF63EF		;24
-	dl brr_sample_EF66CD		;25
-	dl brr_sample_EF66ED		;26
-	dl brr_sample_EF6731		;27
-	dl brr_sample_EF6748		;28
-	dl brr_sample_EF69CC		;29
-	dl brr_sample_EF720B		;2A
-	dl brr_sample_EF72FA		;2B
-	dl brr_sample_EF7A2B		;2C
-	dl brr_sample_EF8006		;2D
-	dl brr_sample_EF818E		;2E
-	dl brr_sample_EF8880		;2F
-	dl brr_sample_EF90BF		;30
-	dl brr_sample_EF90D6		;31
-	dl brr_sample_EF943B		;32
-	dl brr_sample_EF9677		;33
-	dl brr_sample_EFA228		;34
-	dl brr_sample_EFA7E8		;35
-	dl brr_sample_EFA81A		;36
-	dl brr_sample_EFAC18		;37
-	dl brr_sample_EFAC4A		;38
-	dl brr_sample_EFAC7C		;39
-	dl brr_sample_EFACAE		;3A
-	dl brr_sample_EFACE0		;3B
-	dl brr_sample_EFAD12		;3C
-	dl brr_sample_EFAD44		;3D
-	dl brr_sample_EFAD76		;3E
-	dl brr_sample_EFADA8		;3F
-	dl brr_sample_EFADDA		;40
-	dl brr_sample_EFAE0C		;41
-	dl brr_sample_EFAE3E		;42
-	dl brr_sample_EFAE70		;43
-	dl brr_sample_EFAEA2		;44
-	dl brr_sample_EFAED4		;45
-	dl brr_sample_EFAF06		;46
-	dl brr_sample_EFAF38		;47
-	dl brr_sample_EFAF6A		;48
-	dl brr_sample_EFAF9C		;49
-	dl brr_sample_EFAFCE		;4A
-	dl brr_sample_EFB000		;4B
-	dl brr_sample_EFB032		;4C
-	dl brr_sample_EFB064		;4D
-	dl brr_sample_EFB096		;4E
-	dl brr_sample_EFB0C8		;4F
-	dl brr_sample_EFB0FA		;50
-	dl brr_sample_EFB11A		;51
-	dl brr_sample_EFB13A		;52
-	dl brr_sample_EFB15A		;53
-	dl brr_sample_EFB17A		;54
-	dl brr_sample_EFB19A		;55
-	dl brr_sample_EFB1BA		;56
-	dl brr_sample_EFB1DA		;57
-	dl brr_sample_EFB1FA		;58
-	dl brr_sample_EFB21A		;59
-	dl brr_sample_EFB23A		;5A
-	dl brr_sample_EFB26B		;5B
-	dl brr_sample_EFB29C		;5C
-	dl brr_sample_EFB2CD		;5D
-	dl brr_sample_EFB2FE		;5E
-	dl brr_sample_EFB32F		;5F
-	dl brr_sample_EFB360		;60
-	dl brr_sample_EFB391		;61
-	dl brr_sample_EFB3C2		;62
-	dl brr_sample_EFB3F3		;63
-	dl brr_sample_EFB424		;64
-	dl brr_sample_EFB455		;65
-	dl brr_sample_EFB486		;66
-	dl brr_sample_EFB4B7		;67
-	dl brr_sample_EFB4E8		;68
-	dl brr_sample_EFB519		;69
-	dl brr_sample_EFB54A		;6A
-	dl brr_sample_EFB57B		;6B
-	dl brr_sample_EFB5AC		;6C
-	dl brr_sample_EFB5DD		;6D
-	dl brr_sample_EFB60E		;6E
-	dl brr_sample_EFB63F		;6F
-	dl brr_sample_EFB670		;70
-	dl brr_sample_EFB6A1		;71
-	dl brr_sample_EFB6D2		;72
-	dl brr_sample_EFB703		;73
-	dl brr_sample_EFB734		;74
-	dl brr_sample_EFB765		;75
-	dl brr_sample_EFB796		;76
-	dl brr_sample_EFB7C7		;77
-	dl brr_sample_EFB7F8		;78
-	dl brr_sample_EFB829		;79
-	dl brr_sample_EFB85A		;7A
-	dl brr_sample_EFB912		;7B
-	dl brr_sample_EFD404		;7C
-	dl brr_sample_EFDB08		;7D
-	dl brr_sample_EFE26F		;7E
-	dl brr_sample_EFE8F5		;7F
-	dl brr_sample_EFECBD		;80
-	dl brr_sample_EFEDF4		;81
-	dl brr_sample_EFEEF5		;82
-	dl brr_sample_EFF035		;83
-	dl brr_sample_EFF11B		;84
-	dl brr_sample_EFF894		;85
-	dl brr_sample_EFFAFC		;86
-	dl brr_sample_EFFECD		;87
-	dl brr_sample_F00162		;88
-	dl brr_sample_F0062F		;89
-	dl brr_sample_F00823		;8A
-	dl brr_sample_F009FC		;8B
-	dl brr_sample_F00A1C		;8C
-	dl brr_sample_F00FAF		;8D
-	dl brr_sample_F01674		;8E
-	dl brr_sample_F01B6E		;8F
-	dl brr_sample_F01BA9		;90
-	dl brr_sample_F02667		;91
-	dl brr_sample_F02800		;92
-	dl brr_sample_F02988		;93
-	dl brr_sample_F02C2F		;94
-	dl brr_sample_F03A17		;95
-	dl brr_sample_F03A5B		;96
-	dl brr_sample_F03B1D		;97
-	dl brr_sample_F03D2B		;98
-	dl brr_sample_F04854		;99
-	dl brr_sample_F057E3		;9A
-	dl brr_sample_F05FFD		;9B
-	dl brr_sample_F073F1		;9C
-	dl brr_sample_F08A2D		;9D
-	dl brr_sample_F09BFB		;9E
-	dl brr_sample_F0A157		;9F
-	dl brr_sample_F0A5FF		;A0
-	dl brr_sample_F0AE2B		;A1
-	dl brr_sample_F0B2B0		;A2
-	dl brr_sample_F0B7FA		;A3
-	dl brr_sample_F0BD45		;A4
-	dl brr_sample_F0C93E		;A5
-	dl brr_sample_F0CD45		;A6
-	dl brr_sample_F0DC8C		;A7
-	dl brr_sample_F0F65E		;A8
-	dl brr_sample_F1078A		;A9
-	dl brr_sample_F10F26		;AA
-	dl brr_sample_F117C7		;AB
-	dl brr_sample_F11EEE		;AC
-	dl brr_sample_F11F0D		;AD
-	dl brr_sample_F12A9A		;AE
-	dl brr_sample_F133B1		;AF
-	dl brr_sample_F139DC		;B0
-	dl brr_sample_F14B98		;B1
-	dl brr_sample_F14DA6		;B2
-	dl brr_sample_F15542		;B3
-	dl brr_sample_F15C0F		;B4
-	dl brr_sample_F1663C		;B5
-	dl brr_sample_F16F1C		;B6
-	dl brr_sample_F179D9		;B7
-	dl brr_sample_F18004		;B8
-	dl brr_sample_F186E4		;B9
-	dl brr_sample_F192E5		;BA
-	dl brr_sample_F19304		;BB
-	dl brr_sample_F19311		;BC
-	dl brr_sample_F1946B		;BD
-	dl brr_sample_F1A225		;BE
-	dl brr_sample_F1A811		;BF
-	dl brr_sample_F1AD5B		;C0
-	dl brr_sample_F1B55A		;C1
-	dl brr_sample_F1B795		;C2
-	dl brr_sample_F1B9D0		;C3
-	dl brr_sample_F1BC0B		;C4
-	dl brr_sample_F1C03F		;C5
-	dl brr_sample_F1C916		;C6
-	dl brr_sample_F1CC05		;C7
-	dl brr_sample_F1CD4E		;C8
-	dl brr_sample_F1CFF6		;C9
-	dl brr_sample_F1D190		;CA
-	dl brr_sample_F1D68A		;CB
-	dl brr_sample_F1DF7C		;CC
-	dl brr_sample_F1E973		;CD
-	dl brr_sample_F1EDA6		;CE
-	dl brr_sample_F1F188		;CF
-	dl brr_sample_F1F195		;D0
-	dl brr_sample_F1F337		;D1
-	dl brr_sample_F1F92C		;D2
-	dl brr_sample_F20080		;D3
-	dl brr_sample_F202BB		;D4
-	dl brr_sample_F218D4		;D5
-	dl brr_sample_F21E5D		;D6
-	dl brr_sample_F22132		;D7
-	dl brr_sample_F225B6		;D8
-	dl brr_sample_F22C44		;D9
-	dl brr_sample_F232D2		;DA
-	dl !null_pointer		;DB
-	dl !null_pointer		;DC
-	dl !null_pointer		;DD
-	dl !null_pointer		;DE
-	dl !null_pointer		;DF
-	dl !null_pointer		;E0
-	dl !null_pointer		;E1
-	dl !null_pointer		;E2
-	dl !null_pointer		;E3
-	dl !null_pointer		;E4
-	dl !null_pointer		;E5
-	dl !null_pointer		;E6
-	dl !null_pointer		;E7
-	dl !null_pointer		;E8
-	dl !null_pointer		;E9
-	dl !null_pointer		;EA
-	dl !null_pointer		;EB
-	dl !null_pointer		;EC
-	dl !null_pointer		;ED
-	dl !null_pointer		;EE
-	dl !null_pointer		;EF
-	dl !null_pointer		;F0
-	dl !null_pointer		;F1
-	dl !null_pointer		;F2
-	dl !null_pointer		;F3
-	dl !null_pointer		;F4
-	dl !null_pointer		;F5
-	dl !null_pointer		;F6
-	dl !null_pointer		;F7
-	dl !null_pointer		;F8
-	dl !null_pointer		;F9
-	dl !null_pointer		;FA
-	dl !null_pointer		;FB
-	dl !null_pointer		;FC
-	dl !null_pointer		;FD
-	dl !null_pointer		;FE
-	dl !null_pointer		;FF
+	dl brr_sample_EECE62			;00
+	dl brr_sample_EECFFC			;01
+	dl brr_sample_EED1CC			;02
+	dl brr_sample_EED47C			;03
+	dl brr_sample_EED63A			;04
+	dl brr_sample_EED87E			;05
+	dl brr_sample_EEDC73			;06
+	dl brr_sample_EEE055			;07
+	dl brr_sample_EEE1AF			;08
+	dl brr_sample_EEE8CE			;09
+	dl brr_sample_EEE9A2			;0A
+	dl brr_sample_EEEE4B			;0B
+	dl brr_sample_EEF6B6			;0C
+	dl brr_sample_EEF8C5			;0D
+	dl brr_sample_EEFDC8			;0E
+	dl brr_sample_EEFFDF			;0F
+	dl brr_sample_EF001A			;10
+	dl brr_sample_EF05BE			;11
+	dl brr_sample_EF0997			;12
+	dl brr_sample_EF120B			;13
+	dl brr_sample_EF1EDC			;14
+	dl brr_sample_EF288C			;15
+	dl brr_sample_EF2F7E			;16
+	dl brr_sample_EF3288			;17
+	dl brr_sample_EF335C			;18
+	dl brr_sample_EF35BC			;19
+	dl brr_sample_EF37B0			;1A
+	dl brr_sample_EF3A10			;1B
+	dl brr_sample_EF3D5A			;1C
+	dl brr_sample_EF4512			;1D
+	dl brr_sample_EF4C79			;1E
+	dl brr_sample_EF5053			;1F
+	dl brr_sample_EF5910			;20
+	dl brr_sample_EF5927			;21
+	dl brr_sample_EF596B			;22
+	dl brr_sample_EF5D96			;23
+	dl brr_sample_EF63EF			;24
+	dl brr_sample_EF66CD			;25
+	dl brr_sample_EF66ED			;26
+	dl brr_sample_EF6731			;27
+	dl brr_sample_EF6748			;28
+	dl brr_sample_EF69CC			;29
+	dl brr_sample_EF720B			;2A
+	dl brr_sample_EF72FA			;2B
+	dl brr_sample_EF7A2B			;2C
+	dl brr_sample_EF8006			;2D
+	dl brr_sample_EF818E			;2E
+	dl brr_sample_EF8880			;2F
+	dl brr_sample_EF90BF			;30
+	dl brr_sample_EF90D6			;31
+	dl brr_sample_EF943B			;32
+	dl brr_sample_EF9677			;33
+	dl brr_sample_EFA228			;34
+	dl brr_sample_EFA7E8			;35
+	dl brr_sample_EFA81A			;36
+	dl brr_sample_EFAC18			;37
+	dl brr_sample_EFAC4A			;38
+	dl brr_sample_EFAC7C			;39
+	dl brr_sample_EFACAE			;3A
+	dl brr_sample_EFACE0			;3B
+	dl brr_sample_EFAD12			;3C
+	dl brr_sample_EFAD44			;3D
+	dl brr_sample_EFAD76			;3E
+	dl brr_sample_EFADA8			;3F
+	dl brr_sample_EFADDA			;40
+	dl brr_sample_EFAE0C			;41
+	dl brr_sample_EFAE3E			;42
+	dl brr_sample_EFAE70			;43
+	dl brr_sample_EFAEA2			;44
+	dl brr_sample_EFAED4			;45
+	dl brr_sample_EFAF06			;46
+	dl brr_sample_EFAF38			;47
+	dl brr_sample_EFAF6A			;48
+	dl brr_sample_EFAF9C			;49
+	dl brr_sample_EFAFCE			;4A
+	dl brr_sample_EFB000			;4B
+	dl brr_sample_EFB032			;4C
+	dl brr_sample_EFB064			;4D
+	dl brr_sample_EFB096			;4E
+	dl brr_sample_EFB0C8			;4F
+	dl brr_sample_EFB0FA			;50
+	dl brr_sample_EFB11A			;51
+	dl brr_sample_EFB13A			;52
+	dl brr_sample_EFB15A			;53
+	dl brr_sample_EFB17A			;54
+	dl brr_sample_EFB19A			;55
+	dl brr_sample_EFB1BA			;56
+	dl brr_sample_EFB1DA			;57
+	dl brr_sample_EFB1FA			;58
+	dl brr_sample_EFB21A			;59
+	dl brr_sample_EFB23A			;5A
+	dl brr_sample_EFB26B			;5B
+	dl brr_sample_EFB29C			;5C
+	dl brr_sample_EFB2CD			;5D
+	dl brr_sample_EFB2FE			;5E
+	dl brr_sample_EFB32F			;5F
+	dl brr_sample_EFB360			;60
+	dl brr_sample_EFB391			;61
+	dl brr_sample_EFB3C2			;62
+	dl brr_sample_EFB3F3			;63
+	dl brr_sample_EFB424			;64
+	dl brr_sample_EFB455			;65
+	dl brr_sample_EFB486			;66
+	dl brr_sample_EFB4B7			;67
+	dl brr_sample_EFB4E8			;68
+	dl brr_sample_EFB519			;69
+	dl brr_sample_EFB54A			;6A
+	dl brr_sample_EFB57B			;6B
+	dl brr_sample_EFB5AC			;6C
+	dl brr_sample_EFB5DD			;6D
+	dl brr_sample_EFB60E			;6E
+	dl brr_sample_EFB63F			;6F
+	dl brr_sample_EFB670			;70
+	dl brr_sample_EFB6A1			;71
+	dl brr_sample_EFB6D2			;72
+	dl brr_sample_EFB703			;73
+	dl brr_sample_EFB734			;74
+	dl brr_sample_EFB765			;75
+	dl brr_sample_EFB796			;76
+	dl brr_sample_EFB7C7			;77
+	dl brr_sample_EFB7F8			;78
+	dl brr_sample_EFB829			;79
+	dl brr_sample_EFB85A			;7A
+	dl brr_sample_EFB912			;7B
+	dl brr_sample_EFD404			;7C
+	dl brr_sample_EFDB08			;7D
+	dl brr_sample_EFE26F			;7E
+	dl brr_sample_EFE8F5			;7F
+	dl brr_sample_EFECBD			;80
+	dl brr_sample_EFEDF4			;81
+	dl brr_sample_EFEEF5			;82
+	dl brr_sample_EFF035			;83
+	dl brr_sample_EFF11B			;84
+	dl brr_sample_EFF894			;85
+	dl brr_sample_EFFAFC			;86
+	dl brr_sample_EFFECD			;87
+	dl brr_sample_F00162			;88
+	dl brr_sample_F0062F			;89
+	dl brr_sample_F00823			;8A
+	dl brr_sample_F009FC			;8B
+	dl brr_sample_F00A1C			;8C
+	dl brr_sample_F00FAF			;8D
+	dl brr_sample_F01674			;8E
+	dl brr_sample_F01B6E			;8F
+	dl brr_sample_F01BA9			;90
+	dl brr_sample_F02667			;91
+	dl brr_sample_F02800			;92
+	dl brr_sample_F02988			;93
+	dl brr_sample_F02C2F			;94
+	dl brr_sample_F03A17			;95
+	dl brr_sample_F03A5B			;96
+	dl brr_sample_F03B1D			;97
+	dl brr_sample_F03D2B			;98
+	dl brr_sample_F04854			;99
+	dl brr_sample_F057E3			;9A
+	dl brr_sample_F05FFD			;9B
+	dl brr_sample_F073F1			;9C
+	dl brr_sample_F08A2D			;9D
+	dl brr_sample_F09BFB			;9E
+	dl brr_sample_F0A157			;9F
+	dl brr_sample_F0A5FF			;A0
+	dl brr_sample_F0AE2B			;A1
+	dl brr_sample_F0B2B0			;A2
+	dl brr_sample_F0B7FA			;A3
+	dl brr_sample_F0BD45			;A4
+	dl brr_sample_F0C93E			;A5
+	dl brr_sample_F0CD45			;A6
+	dl brr_sample_F0DC8C			;A7
+	dl brr_sample_F0F65E			;A8
+	dl brr_sample_F1078A			;A9
+	dl brr_sample_F10F26			;AA
+	dl brr_sample_F117C7			;AB
+	dl brr_sample_F11EEE			;AC
+	dl brr_sample_F11F0D			;AD
+	dl brr_sample_F12A9A			;AE
+	dl brr_sample_F133B1			;AF
+	dl brr_sample_F139DC			;B0
+	dl brr_sample_F14B98			;B1
+	dl brr_sample_F14DA6			;B2
+	dl brr_sample_F15542			;B3
+	dl brr_sample_F15C0F			;B4
+	dl brr_sample_F1663C			;B5
+	dl brr_sample_F16F1C			;B6
+	dl brr_sample_F179D9			;B7
+	dl brr_sample_F18004			;B8
+	dl brr_sample_F186E4			;B9
+	dl brr_sample_F192E5			;BA
+	dl brr_sample_F19304			;BB
+	dl brr_sample_F19311			;BC
+	dl brr_sample_F1946B			;BD
+	dl brr_sample_F1A225			;BE
+	dl brr_sample_F1A811			;BF
+	dl brr_sample_F1AD5B			;C0
+	dl brr_sample_F1B55A			;C1
+	dl brr_sample_F1B795			;C2
+	dl brr_sample_F1B9D0			;C3
+	dl brr_sample_F1BC0B			;C4
+	dl brr_sample_F1C03F			;C5
+	dl brr_sample_F1C916			;C6
+	dl brr_sample_F1CC05			;C7
+	dl brr_sample_F1CD4E			;C8
+	dl brr_sample_F1CFF6			;C9
+	dl brr_sample_F1D190			;CA
+	dl brr_sample_F1D68A			;CB
+	dl brr_sample_F1DF7C			;CC
+	dl brr_sample_F1E973			;CD
+	dl brr_sample_F1EDA6			;CE
+	dl brr_sample_F1F188			;CF
+	dl brr_sample_F1F195			;D0
+	dl brr_sample_F1F337			;D1
+	dl brr_sample_F1F92C			;D2
+	dl brr_sample_F20080			;D3
+	dl brr_sample_F202BB			;D4
+	dl brr_sample_F218D4			;D5
+	dl brr_sample_F21E5D			;D6
+	dl brr_sample_F22132			;D7
+	dl brr_sample_F225B6			;D8
+	dl brr_sample_F22C44			;D9
+	dl brr_sample_F232D2			;DA
+	dl !null_pointer			;DB
+	dl !null_pointer			;DC
+	dl !null_pointer			;DD
+	dl !null_pointer			;DE
+	dl !null_pointer			;DF
+	dl !null_pointer			;E0
+	dl !null_pointer			;E1
+	dl !null_pointer			;E2
+	dl !null_pointer			;E3
+	dl !null_pointer			;E4
+	dl !null_pointer			;E5
+	dl !null_pointer			;E6
+	dl !null_pointer			;E7
+	dl !null_pointer			;E8
+	dl !null_pointer			;E9
+	dl !null_pointer			;EA
+	dl !null_pointer			;EB
+	dl !null_pointer			;EC
+	dl !null_pointer			;ED
+	dl !null_pointer			;EE
+	dl !null_pointer			;EF
+	dl !null_pointer			;F0
+	dl !null_pointer			;F1
+	dl !null_pointer			;F2
+	dl !null_pointer			;F3
+	dl !null_pointer			;F4
+	dl !null_pointer			;F5
+	dl !null_pointer			;F6
+	dl !null_pointer			;F7
+	dl !null_pointer			;F8
+	dl !null_pointer			;F9
+	dl !null_pointer			;FA
+	dl !null_pointer			;FB
+	dl !null_pointer			;FC
+	dl !null_pointer			;FD
+	dl !null_pointer			;FE
+	dl !null_pointer			;FF
 
 song_data:
 	%offset(song_sample_maps, 3)
@@ -4552,27 +4561,41 @@ check bankcross full
 	incsrc "data/sound/music/k_rool_song_data.asm"
 
 DATA_F2E691:
-	dw !bgm_loc, $0000	;Unused placeholder for track $20 (reuses track $0F data instead)
+namespace APU
+	dw song_data, $0000	;Unused placeholder for track $20 (reuses track $0F data instead)
+namespace off
 
 DATA_F2E695:
-	dw !bgm_loc, $0000	;Unused placeholder for track $21 (reuses track $15 data instead)
+namespace APU
+	dw song_data, $0000	;Unused placeholder for track $21 (reuses track $15 data instead)
+namespace off
 
 DATA_F2E699:
-	dw !bgm_loc, $0000	;Unused placeholder for track $22 (reuses track $0F data instead)
+namespace APU
+	dw song_data, $0000	;Unused placeholder for track $22 (reuses track $0F data instead)
+namespace off
 
 DATA_F2E69D:
-	dw !bgm_loc, $0000	;Unused placeholder for track $23 (reuses track $0F data instead)
+namespace APU
+	dw song_data, $0000	;Unused placeholder for track $23 (reuses track $0F data instead)
+namespace off
 
 	incsrc "data/sound/music/secret_ending_song_data.asm"
 
 DATA_F2E724:
-	dw !bgm_loc, $0000	;Unused placeholder for track $25 (reuses track $0F data instead)
+namespace APU
+	dw song_data, $0000	;Unused placeholder for track $25 (reuses track $0F data instead)
+namespace off
 
 DATA_F2E728:
-	dw !bgm_loc, $0000	;Placeholder for track $26
+namespace APU
+	dw song_data, $0000	;Placeholder for track $26
+namespace off
 
 DATA_F2E72C:
-	dw !bgm_loc, $0000	;Placeholder for track $27
+namespace APU
+	dw song_data, $0000	;Placeholder for track $27
+namespace off
 
 	incsrc "data/sound/sound_effects/global_sfx_data.asm"
 	incsrc "data/sound/sound_effects/dummy_sfx_data.asm"
@@ -4585,25 +4608,41 @@ DATA_F2E72C:
 	incsrc "data/sound/sound_effects/lava_castle_boss_2_sfx_data.asm"
 
 DATA_F2FB66:
-	dw !dyn_snd_loc, $0002		;Unused placeholder for song-specific sound effect set $08
+namespace APU
+	dw track_sfx_data, $0002		;Unused placeholder for song-specific sound effect set $08
+namespace off
 
 DATA_F2FB6A:
-	dw !dyn_snd_loc, $0002		;Unused placeholder for song-specific sound effect set $09
+namespace APU
+	dw track_sfx_data, $0002		;Unused placeholder for song-specific sound effect set $09
+namespace off
 
 DATA_F2FB6E:
-	dw !dyn_snd_loc, $0002		;Unused placeholder for song-specific sound effect set $0A
+namespace APU
+	dw track_sfx_data, $0002		;Unused placeholder for song-specific sound effect set $0A
+namespace off
 
 DATA_F2FB72:
-	dw !dyn_snd_loc, $0002		;Unused placeholder for song-specific sound effect set $0B
+namespace APU
+	dw track_sfx_data, $0002		;Unused placeholder for song-specific sound effect set $0B
+namespace off
 
 DATA_F2FB76:
-	dw !dyn_snd_loc, $0002		;Unused placeholder for song-specific sound effect set $0C
+namespace APU
+	dw track_sfx_data, $0002		;Unused placeholder for song-specific sound effect set $0C
+namespace off
 
 DATA_F2FB7A:
-	dw !dyn_snd_loc, $0002		;Unused placeholder for song-specific sound effect set $0D
+namespace APU
+	dw track_sfx_data, $0002		;Unused placeholder for song-specific sound effect set $0D
+namespace off
 
 DATA_F2FB7E:
-	dw !dyn_snd_loc, $0002		;Unused placeholder for song-specific sound effect set $0E
+namespace APU
+	dw track_sfx_data, $0002		;Unused placeholder for song-specific sound effect set $0E
+namespace off
 
 DATA_F2FB82:
-	dw !dyn_snd_loc, $0002		;Unused placeholder for song-specific sound effect set $0F
+namespace APU
+	dw track_sfx_data, $0002		;Unused placeholder for song-specific sound effect set $0F
+namespace off

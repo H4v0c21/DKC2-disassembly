@@ -1,13 +1,14 @@
 ;12 Snakey Chantey
-;324760
+;$F24760
 ship_deck_2_song_data:
-	dw !bgm_loc, $0887
-;If modifying this file, comment out the line above and uncomment the line below
-;	dw !bgm_loc, ((.end-.start)+((.end-.start)&$0001))>>1
+namespace APU
 
-.start:
+%sequence_data_header(song_data, .start, .end)
+
+base song_data
 arch spc700
-base !bgm_loc
+
+.start
 ;sub-track 00 channel pointers
 .chn_ptrs_1300:
 	dw .seq_18F7, .seq_225C, .seq_1F56, .seq_1D36, .seq_2114, .seq_1BEA, .seq_2396, .seq_1A8E
@@ -2323,6 +2324,7 @@ endif
 	db !play_subsequence : dw .subseq_2384
 	db !return_from_sub
 
+.end
+namespace off
 base off
 arch 65816
-.end:

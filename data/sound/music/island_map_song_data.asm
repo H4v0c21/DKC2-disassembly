@@ -1,13 +1,14 @@
 ;01 Welcome to Crocodile Isle
-;2E195F
+;$EE195F
 island_map_song_data:
-	dw !bgm_loc, $0306
-;If modifying this file, comment out the line above and uncomment the line below
-;	dw !bgm_loc, ((.end-.start)+((.end-.start)&$0001))>>1
+namespace APU
 
-.start:
+%sequence_data_header(song_data, .start, .end)
+
+base song_data
 arch spc700
-base !bgm_loc
+
+.start
 ;sub-track 00 channel pointers
 .chn_ptrs_1300:
 	dw .seq_1317, .seq_1754, .seq_1604, .seq_17F8, .seq_141C, .seq_170A, .seq_152B, .seq_1488
@@ -749,6 +750,7 @@ base !bgm_loc
 	db $99, $06
 	db !return_from_sub
 
+.end
+namespace off
 base off
 arch 65816
-.end:

@@ -1,13 +1,14 @@
 ;0E Disco Train
-;2EAF4A
+;$EEAF4A
 roller_coaster_song_data:
-	dw !bgm_loc, $0738
-;If modifying this file, comment out the line above and uncomment the line below
-;	dw !bgm_loc, ((.end-.start)+((.end-.start)&$0001))>>1
+namespace APU
 
-.start:
+%sequence_data_header(song_data, .start, .end)
+
+base song_data
 arch spc700
-base !bgm_loc
+
+.start
 ;sub-track 00 channel pointers
 .chn_ptrs_1300:
 	dw .seq_1B08, .seq_1CD6, .seq_1BB2, .seq_1EA7, .seq_1B5F, .seq_1C36, .seq_2084, .seq_1E1C
@@ -1811,6 +1812,7 @@ base !bgm_loc
 	db $9E, $04
 	db !return_from_sub
 
+.end
+namespace off
 base off
 arch 65816
-.end:

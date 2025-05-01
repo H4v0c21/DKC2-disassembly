@@ -1,13 +1,15 @@
 ;15,21 Boss Bossanova
-;325FC2
+;$F25FC2
 big_boss_song_data:
-	dw !bgm_loc, $07CB
-;If modifying this file, comment out the line above and uncomment the line below
-;	dw !bgm_loc, ((.end-.start)+((.end-.start)&$0001))>>1
+namespace APU
 
-.start:
+%sequence_data_header(song_data, .start, .end)
+
+base song_data
 arch spc700
-base !bgm_loc
+
+.start
+
 ;sub-track 00 channel pointers
 .chn_ptrs_1300:
 	dw .seq_19C3, .seq_1AF0, .seq_1C3D, .seq_2125, .seq_1E73, .seq_1F80, .seq_2042, .seq_1D42
@@ -1962,6 +1964,7 @@ base !bgm_loc
 	db $8D, $06
 	db !return_from_sub
 
+.end
+namespace off
 base off
 arch 65816
-.end:

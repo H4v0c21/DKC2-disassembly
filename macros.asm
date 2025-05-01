@@ -52,6 +52,11 @@ macro lda_sound(channel, sound)
 	lda.w #<channel><<8|!sound_<sound>
 endmacro
 
+macro sequence_data_header(base_address, start, end)
+	dw <base_address>
+	dw (((<end>-<start>)+((<end>-<start>)&$0001))>>1)
+endmacro
+
 macro get_swanky_table()
 	!i #= 0
 	' ' = $2000

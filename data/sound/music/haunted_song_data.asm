@@ -1,13 +1,14 @@
 ;17 Haunted Chase
-;328044
+;$F28044
 haunted_song_data:
-	dw !bgm_loc, $0845
-;If modifying this file, comment out the line above and uncomment the line below
-;	dw !bgm_loc, ((.end-.start)+((.end-.start)&$0001))>>1
+namespace APU
 
-.start:
+%sequence_data_header(song_data, .start, .end)
+
+base song_data
 arch spc700
-base !bgm_loc
+
+.start
 ;sub-track 00 channel pointers
 .chn_ptrs_1300:
 	dw .seq_19C3, .seq_1AD1, .seq_1C23, .seq_1F22, .seq_1C96, .seq_209C, .seq_2231, .seq_1D81
@@ -2336,6 +2337,7 @@ base !bgm_loc
 	db $96, $08
 	db !return_from_sub
 
+.end
+namespace off
 base off
 arch 65816
-.end:

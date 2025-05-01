@@ -1,13 +1,14 @@
 ;18 Steel Drum Rhumba
-;3290D1
+;$F290D1
 file_select_song_data:
-	dw !bgm_loc, $02C0
-;If modifying this file, comment out the line above and uncomment the line below
-;	dw !bgm_loc, ((.end-.start)+((.end-.start)&$0001))>>1
+namespace APU
 
-.start:
+%sequence_data_header(song_data, .start, .end)
+
+base song_data
 arch spc700
-base !bgm_loc
+
+.start
 ;sub-track 00 channel pointers
 .chn_ptrs_1300:
 	dw .seq_1315, .seq_162B, .seq_174B, .seq_1581, .seq_13E4, .seq_1438, .seq_14F3, .seq_17EE
@@ -659,6 +660,7 @@ base !bgm_loc
 	db $94, $08
 	db !return_from_sub
 
+.end
+namespace off
 base off
 arch 65816
-.end:

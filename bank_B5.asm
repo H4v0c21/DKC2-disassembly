@@ -266,7 +266,9 @@ endif						;	   | |/
 	RTS					;$B581AB  > Dead code
 
 .execute_spc_sound_engine			;	  \
-	LDA #$0672				;$B581AC   |\ Load the sound engine entry point
+namespace APU
+	LDA #CODE_0672				;$B581AC   |\ Load the sound engine entry point
+namespace off
 	STA $35					;$B581AF   |/
 	STZ $37					;$B581B1   | Zero size transfer means execute jump
 	JSR .upload_spc_block			;$B581B3   | Call the upload routine

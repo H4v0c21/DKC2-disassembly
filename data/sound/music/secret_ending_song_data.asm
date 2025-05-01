@@ -1,13 +1,14 @@
 ;24 K. Rool's Escape
-;32E6A1
+;$F2E6A1
 secret_ending_song_data:
-	dw !bgm_loc, $0040
-;If modifying this file, comment out the line above and uncomment the line below
-;	dw !bgm_loc, ((.end-.start)+((.end-.start)&$0001))>>1
+namespace APU
 
-.start:
+%sequence_data_header(song_data, .start, .end)
+
+base song_data
 arch spc700
-base !bgm_loc
+
+.start
 ;sub-track 00 channel pointers
 .chn_ptrs_1300:
 	dw .seq_1314, .seq_133D, .seq_1357, .seq_1370, .seq_1373, .seq_1376, .seq_1379, .seq_137C
@@ -82,6 +83,7 @@ base !bgm_loc
 	db $80, $10
 	db !end_sequence
 
+.end
+namespace off
 base off
 arch 65816
-.end:

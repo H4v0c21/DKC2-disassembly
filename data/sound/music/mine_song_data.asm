@@ -1,13 +1,14 @@
 ;07 Kannon's Klaim
-;2E6007
+;$EE6007
 mine_song_data:
-	dw !bgm_loc, $079E
-;If modifying this file, comment out the line above and uncomment the line below
-;	dw !bgm_loc, ((.end-.start)+((.end-.start)&$0001))>>1
+namespace APU
 
-.start:
+%sequence_data_header(song_data, .start, .end)
+
+base song_data
 arch spc700
-base !bgm_loc
+
+.start
 ;sub-track 00 channel pointers
 .chn_ptrs_1300:
 	dw .seq_1971, .seq_1AE0, .seq_1CE2, .seq_1F47, .seq_1DDA, .seq_2010, .seq_20C0, .seq_2178
@@ -1857,6 +1858,7 @@ base !bgm_loc
 	db !default_duration_off
 	db !return_from_sub
 
+.end
+namespace off
 base off
 arch 65816
-.end:

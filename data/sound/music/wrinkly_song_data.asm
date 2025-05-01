@@ -1,13 +1,14 @@
 ;0C School House Harmony
-;2E9BE0
+;$EE9BE0
 wrinkly_song_data:
-	dw !bgm_loc, $0236
-;If modifying this file, comment out the line above and uncomment the line below
-;	dw !bgm_loc, ((.end-.start)+((.end-.start)&$0001))>>1
+namespace APU
 
-.start:
+%sequence_data_header(song_data, .start, .end)
+
+base song_data
 arch spc700
-base !bgm_loc
+
+.start
 ;sub-track 00 channel pointers
 .chn_ptrs_1300:
 	dw .seq_1314, .seq_138C, .seq_15F0, .seq_1546, .seq_1681, .seq_14E9, .seq_15B3, .seq_16EE
@@ -577,6 +578,7 @@ base !bgm_loc
 	db !set_fir, $70, $BF, $DB, $E0, $E0, $0A, $C8, $C8
 	db !return_from_sub
 
+.end
+namespace off
 base off
 arch 65816
-.end:

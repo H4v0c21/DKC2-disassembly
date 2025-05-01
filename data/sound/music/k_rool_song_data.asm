@@ -1,13 +1,14 @@
 ;1F Crocodile Cacophony
-;32D64B
+;$F2D64B
 k_rool_song_data:
-	dw !bgm_loc, $0821
-;If modifying this file, comment out the line above and uncomment the line below
-;	dw !bgm_loc, ((.end-.start)+((.end-.start)&$0001))>>1
+namespace APU
 
-.start:
+%sequence_data_header(song_data, .start, .end)
+
+base song_data
 arch spc700
-base !bgm_loc
+
+.start
 ;sub-track 00 channel pointers
 .chn_ptrs_1300:
 	dw .seq_1985, .seq_1A57, .seq_1C23, .seq_223E, .seq_1E6D, .seq_1F66, .seq_20B4, .seq_1D4F
@@ -2075,6 +2076,7 @@ base !bgm_loc
 	db $91, $08
 	db !return_from_sub
 
+.end
+namespace off
 base off
 arch 65816
-.end:

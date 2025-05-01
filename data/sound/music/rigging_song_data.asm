@@ -1,13 +1,14 @@
 ;1D Jib Jig
-;32BFAF
+;$F2BFAF
 rigging_song_data:
-	dw !bgm_loc, $0819
-;If modifying this file, comment out the line above and uncomment the line below
-;	dw !bgm_loc, ((.end-.start)+((.end-.start)&$0001))>>1
+namespace APU
 
-.start:
+%sequence_data_header(song_data, .start, .end)
+
+base song_data
 arch spc700
-base !bgm_loc
+
+.start
 ;sub-track 00 channel pointers
 .chn_ptrs_1300:
 	dw .seq_19D7, .seq_1B69, .seq_1CEA, .seq_2284, .seq_201C, .seq_219A, .seq_2200, .seq_1EA0
@@ -2054,6 +2055,7 @@ base !bgm_loc
 	db $92, $0E
 	db !return_from_sub
 
+.end
+namespace off
 base off
 arch 65816
-.end:

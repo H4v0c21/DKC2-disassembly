@@ -1,13 +1,14 @@
 ;Sound Effects: Swamp, Forest, Mine, Brambles, Wasp Hive
-;32F559
+;$F2F559
 swamp_forest_mine_brambles_hive_sfx_data:
-	dw !dyn_snd_loc, $009F
-;If modifying this file, comment out the line above and uncomment the line below
-;	dw !dyn_snd_loc, ((.end-.start)+((.end-.start)&$0001))>>1
+namespace APU
 
-.start:
+%sequence_data_header(track_sfx_data, .start, .end+4)
+
+base track_sfx_data
 arch spc700
-base !dyn_snd_loc
+
+.start
 	dw (.pointers_end-.pointers_start)>>1	;quantity of sound effects (default $0015)
 ;sound effect pointers
 .pointers_start:
@@ -175,6 +176,7 @@ base !dyn_snd_loc
 	db $8E, $54
 	db !end_sequence
 
+.end
+namespace off
 base off
 arch 65816
-.end:

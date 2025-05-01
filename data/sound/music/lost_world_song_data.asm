@@ -1,13 +1,14 @@
 ;1C Lost World Anthem
-;32BAD2
+;$F2BAD2
 lost_world_song_data:
-	dw !bgm_loc, $026D
-;If modifying this file, comment out the line above and uncomment the line below
-;	dw !bgm_loc, ((.end-.start)+((.end-.start)&$0001))>>1
+namespace APU
 
-.start:
+%sequence_data_header(song_data, .start, .end)
+
+base song_data
 arch spc700
-base !bgm_loc
+
+.start
 ;sub-track 00 channel pointers
 .chn_ptrs_1300:
 	dw .seq_1317, .seq_13C7, .seq_14D5, .seq_158D, .seq_1456, .seq_1719, .seq_16E3, .seq_1754
@@ -582,6 +583,7 @@ base !bgm_loc
 	db $8D, $40
 	db !return_from_sub
 
+.end
+namespace off
 base off
 arch 65816
-.end:

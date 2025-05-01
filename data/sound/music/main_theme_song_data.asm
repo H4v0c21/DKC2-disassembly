@@ -1,13 +1,14 @@
 ;02 K. Rool Returns
-;2E1F6E
+;$EE1F6E
 main_theme_song_data:
-	dw !bgm_loc, $06B1
-;If modifying this file, comment out the line above and uncomment the line below
-;	dw !bgm_loc, ((.end-.start)+((.end-.start)&$0001))>>1
+namespace APU
 
-.start:
+%sequence_data_header(song_data, .start, .end)
+
+base song_data
 arch spc700
-base !bgm_loc
+
+.start
 ;sub-track 00 channel pointers
 .chn_ptrs_1300:
 	dw .seq_131B, .seq_1B32, .seq_1503, .seq_15F8, .seq_183D, .seq_1CB9, .seq_1467, .seq_19E6
@@ -1637,6 +1638,7 @@ base !bgm_loc
 	db $9E, $04
 	db !return_from_sub
 
+.end
+namespace off
 base off
 arch 65816
-.end:

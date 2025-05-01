@@ -1,13 +1,14 @@
 ;06 Klomp's Romp
-;2E52FC
+;$EE52FC
 ship_deck_song_data:
-	dw !bgm_loc, $0684
-;If modifying this file, comment out the line above and uncomment the line below
-;	dw !bgm_loc, ((.end-.start)+((.end-.start)&$0001))>>1
+namespace APU
 
-.start:
+%sequence_data_header(song_data, .start, .end)
+
+base song_data
 arch spc700
-base !bgm_loc
+
+.start
 ;sub-track 00 channel pointers
 .chn_ptrs_1300:
 	dw .seq_1A7F, .seq_1BA7, .seq_1C7F, .seq_1DDF, .seq_1AAF, .seq_1AD0, .seq_1D92, .seq_1DB1
@@ -1664,6 +1665,7 @@ base !bgm_loc
 	db !play_subsequence : dw .unreached_1FB3
 	db !end_sequence
 
+.end
+namespace off
 base off
 arch 65816
-.end:

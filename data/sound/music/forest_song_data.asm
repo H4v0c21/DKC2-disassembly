@@ -1,13 +1,14 @@
 ;05 Forest Interlude
-;2E421F
+;$EE421F
 forest_song_data:
-	dw !bgm_loc, $086D
-;If modifying this file, comment out the line above and uncomment the line below
-;	dw !bgm_loc, ((.end-.start)+((.end-.start)&$0001))>>1
+namespace APU
 
-.start:
+%sequence_data_header(song_data, .start, .end)
+
+base song_data
 arch spc700
-base !bgm_loc
+
+.start
 ;sub-track 00 channel pointers
 .chn_ptrs_1300:
 	dw .seq_1A55, .seq_1BC5, .seq_1CB2, .seq_20A1, .seq_1DF0, .seq_22DD, .seq_1E8A, .seq_1F24
@@ -2126,6 +2127,7 @@ base !bgm_loc
 	db !jump_to_sequence : dw .loop_point_22E2
 	db !end_sequence
 
+.end
+namespace off
 base off
 arch 65816
-.end:
