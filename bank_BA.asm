@@ -4072,7 +4072,7 @@ DATA_BAB90B:
 krool_water_drips_sprite_code:
 	LDA.l $0006A3				;$BAC0D2  \
 	BIT #$4000				;$BAC0D6   |
-	BEQ .state_handler			;$BAC0D9   |
+	BEQ .handle_state			;$BAC0D9   |
 	JSL delete_sprite_handle_deallocation	;$BAC0DB   |
 	JML [$05A9]				;$BAC0DF  /
 
