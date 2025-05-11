@@ -341,7 +341,9 @@ namespace off
 -						;	   |\ Wait for the SPC 700 to be ready
 	CMP APU.IO1				;$B5821A   | |
 	BNE -					;$B5821D   |/
-	LDA #$04D8				;$B5821F   |\ Set ARAM address for data transfer
+namespace APU
+	LDA #APU_reset				;$B5821F   |\ Set ARAM address for data transfer
+namespace off
 	STA APU.IO3				;$B58222   |/
 	LDA #$01CC				;$B58225   |\ Acknowledge the SPC-700 IPL and initiate a data transfer
 	STA APU.IO1				;$B58228   |/
@@ -408,7 +410,9 @@ namespace off
 	STA $32					;$B58294   | |
 	LDA.w #spc_sound_engine>>16		;$B58296   | |
 	STA $34					;$B58299   |/
-	LDA #$0560				;$B5829B   |\ Set the ARAM destination
+namespace APU
+	LDA #DATA_0560				;$B5829B   |\ Set the ARAM destination
+namespace off
 	STA $35					;$B5829E   |/
 	LDA #$067F				;$B582A0   |\ Set the number of words to transfer
 	STA $37					;$B582A3   |/
@@ -420,10 +424,14 @@ namespace off
 	STA $0E					;$B582AC   | |
 	LDA.w #global_sample_map>>16		;$B582AE   | |
 	STA $10					;$B582B1   |/
-	LDA #$3100				;$B582B3   |\ Source directory ARAM destination
+namespace APU
+	LDA #sample_table			;$B582B3   |\ Source directory ARAM destination
+namespace off
 	STA $02					;$B582B6   |/
 	STZ $0A					;$B582B8   |
-	LDA #$3400				;$B582BA   |\ Sample data ARAM destination
+namespace APU
+	LDA #sample_data			;$B582BA   |\ Sample data ARAM destination
+namespace off
 	STA $06					;$B582BD   |/
 	STZ $0A					;$B582BF   | Reset the sample counter
 	JSR .sample_uploader			;$B582C1   |
@@ -494,7 +502,9 @@ namespace off
 	STA $34					;$B5833B   |/
 	LDA $42					;$B5833D   |\ Set ARAM destination
 	STA $35					;$B5833F   |/
-	LDA #$3400				;$B58341   |\ Calculate and set upload size
+namespace APU
+	LDA #sample_data			;$B58341   |\ Calculate and set upload size
+namespace off
 	SEC					;$B58344   | |
 	SBC $42					;$B58345   | | word count = ($3400 - ARAM dest + 1) / 2
 	CLC					;$B58347   | |
@@ -550,7 +560,9 @@ namespace off
 	STA $32					;$B583A4   | |
 	LDA #$007E				;$B583A6   | |
 	STA $34					;$B583A9   |/
-	LDA #$0560				;$B583AB   |\ Set ARAM Destination to $0560
+namespace APU
+	LDA #DATA_0560				;$B583AB   |\ Set ARAM Destination to $0560
+namespace off
 	STA $35					;$B583AE   |/
 	LDA #$0080				;$B583B0   |\ Set transfer size to 128 words
 	STA $37					;$B583B3   |/

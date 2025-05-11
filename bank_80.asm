@@ -3933,6 +3933,7 @@ CODE_80A5A6:
 CODE_80A5C2:					;	   |
 	RTS					;$80A5C2  /
 
+;Unused code, very similar to DKC 1 code used for candy kiss sprite and others
 	LDY #$0000				;$80A5C3   |
 	LDA $24,x				;$80A5C6   |
 	STA $32					;$80A5C8   |

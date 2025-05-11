@@ -4866,7 +4866,7 @@ zinger_main:
 	BNE ..throwable_sprite_collision_check	;$B3A46D   |> If not continue to collision checks
 	LDA $30,x				;$B3A46F   |\ Else this must be a red zinger, get interaction flags
 	ORA #$0080				;$B3A471   | | Make sprite invulnerable
-	STA $30,x				;$B3A474   |/
+	STA $30,x				;$B3A474   |/ But this is bugged because we never loaded X with a sprite
 	LDA #$0100				;$B3A476   |\
 	JSL check_throwable_collision_global	;$B3A479   |/ Check throwable collision
 	BCC ..kong_sprite_collision_check	;$B3A47D   |> If no collision occurred go to kong collision check

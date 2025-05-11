@@ -96,6 +96,8 @@ namespace APU
 
 arch spc700
 base !spc_sound_eng_loc
+
+;instrument lookup table
 DATA_0560:
 	db $00, $00, $00, $00, $00, $00, $00, $00
 	db $00, $00, $00, $00, $00, $00, $00, $00
@@ -175,16 +177,16 @@ check_for_CPU_command:				;	 |
 	JMP (.CPU_command_table+X)		;$06A4  /
 
 .CPU_command_table
-	dw CODE_070A				;00/F8
-	dw CODE_0702				;01/F9
-	dw CODE_06FA				;02/FA Set Mono/Stereo
-	dw CODE_06B7				;03/FB Transition song
-	dw CODE_0739				;04/FC Skull Cart start loop sound?
-	dw CODE_0712				;05/FD Skull Cart stop loop sound?
-	dw CODE_077B				;06/FE Play mode
-	dw CODE_07DB				;07/FF Upload mode
+	dw CPU_command_F8			;00/F8
+	dw CPU_command_F9			;01/F9
+	dw CPU_command_FA_set_mono_stereo	;02/FA Set Mono/Stereo
+	dw CPU_command_FB_transition_song	;03/FB Transition song
+	dw CPU_command_FC_set_var_pitch_loop	;04/FC Start looping a sound with variable speed/pitch
+	dw CPU_command_FD_stop_var_pitch_loop	;05/FD Stop looping a sound with variable speed/pitch
+	dw CPU_command_FE_play_mode		;06/FE Play mode
+	dw CPU_command_FF_upload_mode		;07/FF Upload mode
 
-CODE_06B7:
+CPU_command_FB_transition_song:
 	MOV X, #$7F				;$06B7  \
 .clear_dsp					;	 |
 	MOV A, #DSPc[7].vol_r			;$06B9   |> A = last channel volume register address
@@ -226,22 +228,22 @@ CODE_06EB:
 	MOV SPC.DSP_data, A			;$06F7   |
 	RET					;$06F9  /
 
-CODE_06FA:
+CPU_command_FA_set_mono_stereo:
 	MOV A, cpu_command_parameter		;$06FA  \
 	MOV mono_stereo_toggle, A		;$06FD   |
 	JMP CODE_0781				;$06FF  /
 
-CODE_0702:
+CPU_command_F9:
 	MOV A, cpu_command_parameter		;$0702  \
 	MOV $E7, A				;$0705   |
 	JMP CODE_0781				;$0707  /
 
-CODE_070A:
+CPU_command_F8:
 	MOV A, cpu_command_parameter		;$070A  \
 	MOV $E8, A				;$070D   |
 	JMP CODE_0781				;$070F  /
 
-CODE_0712:
+CPU_command_FD_stop_var_pitch_loop:
 	MOV A, song_master_volume		;$0712  \
 	PUSH A					;$0715   |
 	PUSH X					;$0716   |
@@ -261,7 +263,7 @@ CODE_0712:
 	MOV song_master_volume, A		;$0734   |
 	BRA CODE_0781				;$0737  /
 
-CODE_0739:
+CPU_command_FC_set_var_pitch_loop:
 	MOV A, cpu_command_parameter		;$0739  \
 	BMI CODE_074A				;$073C   |
 	CLRC					;$073E   |
@@ -272,12 +274,12 @@ CODE_0739:
 	BRA CODE_0756				;$0748  /
 
 CODE_074A:
-	MOV cpu_command_parameter, A		;$074A   |
+	MOV cpu_command_parameter, A		;$074A  \
 	MOV A, cpu_command_parameter		;$074D   |
 	MOV $EC, A				;$0750   |
 	MOV A, #$FF				;$0752   |
 	MOV $ED, A				;$0754   |
-CODE_0756:					;   |
+CODE_0756:					;	 |
 	MOVW YA, $EC				;$0756   |
 	ADDW YA, $EC				;$0758   |
 	ADDW YA, $EC				;$075A   |
@@ -291,14 +293,14 @@ CODE_0756:					;   |
 	MOV A, SPC.DSP_data			;$076B   |
 	AND A, #$DF				;$076D   |
 	MOV SPC.DSP_data, A			;$076F   |
-	BRA CODE_0781				;$0771   |
+	BRA CODE_0781				;$0771  /
 
 CODE_0773:
 	MOV X, cpu_command_parameter		;$0773  \> Get channel number to play sound on
 	CALL CODE_10F7				;$0776   |
 	BRA CODE_078E				;$0779  /
 
-CODE_077B:
+CPU_command_FE_play_mode:
 	MOV sound_engine_toggle, #$01		;$077B  \
 	MOV SPC.control, #$00			;$077E   |
 CODE_0781:					;	 |
@@ -332,7 +334,7 @@ CODE_07B2:
 	CALL CODE_0813				;$07B2  \
 	BNE CODE_07B2				;$07B5   |
 CODE_07B7:					;	 |
-	MOV A, $01E0+X				;$07B7   |
+	MOV A, channel_unknown_01E0+X		;$07B7   |
 	BEQ CODE_07D0				;$07BA   |
 	PUSH X					;$07BC   |
 	MOV A, X				;$07BD   |
@@ -357,7 +359,7 @@ CODE_07D0:					;	 |
 .check_for_CPU_command:
 	JMP check_for_CPU_command		;$07D8   >
 
-CODE_07DB:
+CPU_command_FF_upload_mode:
 	MOV A, cpu_command_parameter		;$07DB  \
 	BEQ CODE_07E3				;$07DE   |
 	JMP handle_CPU_data_upload		;$07E0  /
@@ -390,7 +392,7 @@ CODE_0813:
 	RET					;$081A  /
 
 CODE_081B:
-	DEC channel_wait_timer_lo+X		;$081B   |
+	DEC channel_wait_timer_lo+X		;$081B  \
 	MOV A, channel_wait_timer_lo+X		;$081D   |
 	CMP A, #$01				;$081F   |
 	BEQ CODE_0839				;$0821   |
@@ -399,30 +401,30 @@ CODE_081B:
 	MOV A, channel_wait_timer_hi+X		;$0827   |
 	BEQ CODE_0850				;$0829   |
 	DEC channel_wait_timer_hi+X		;$082B   |
-	BRA CODE_084A				;$082D   |
+	BRA CODE_084A				;$082D  /
 
 CODE_082F:
-	CMP A, #$00				;$082F   |
+	CMP A, #$00				;$082F  \
 	BNE CODE_084A				;$0831   |
 	MOV A, channel_wait_timer_hi+X		;$0833   |
 	BEQ CODE_0850				;$0835   |
-	BRA CODE_084A				;$0837   |
+	BRA CODE_084A				;$0837  /
 
 CODE_0839:
-	MOV A, channel_wait_timer_hi+X		;$0839   |
+	MOV A, channel_wait_timer_hi+X		;$0839  \
 	BNE CODE_084A				;$083B   |
-	MOV A, $01E0+X				;$083D   |
+	MOV A, channel_unknown_01E0+X		;$083D   |
 	BNE CODE_084A				;$0840   |
 	MOV A, channel_bit_table+X		;$0842   |
 	MOV SPC.DSP_addr, #DSPs.key_off		;$0845   |
 	MOV SPC.DSP_data, A			;$0848   |
-CODE_084A:					;   |
+CODE_084A:					;	 |
 	CALL CODE_09BC				;$084A   |
 	MOV A, #$00				;$084D   |
-	RET					;$084F   |
+	RET					;$084F  /
 
 CODE_0850:
-	MOV A, channel_seq_address_lo+X		;$0850   |
+	MOV A, channel_seq_address_lo+X		;$0850  \
 	MOV Y, channel_seq_address_hi+X		;$0852   |
 	MOVW $00, YA				;$0854   |
 	MOV Y, #$00				;$0856   |
@@ -431,16 +433,16 @@ CODE_0850:
 	PUSH X					;$085C   |
 	ASL A					;$085D   |
 	MOV X, A				;$085E   |
-	JMP (DATA_0FA5+X)			;$085F   |
+	JMP (DATA_0FA5+X)			;$085F  /
 
 CODE_0862:
-	CALL CODE_0867				;$0862   |
-	BRA CODE_084A				;$0865   |
+	CALL CODE_0867				;$0862  \
+	BRA CODE_084A				;$0865  /
 
 CODE_0867:
-	CMP A, #$80				;$0867   |
+	CMP A, #$80				;$0867  \
 	BNE CODE_088B				;$0869   |
-	MOV A, $01E0+X				;$086B   |
+	MOV A, channel_unknown_01E0+X		;$086B   |
 	BNE CODE_0888				;$086E   |
 	MOV A, channel_bit_table+X		;$0870   |
 	MOV SPC.DSP_addr, #DSPs.key_off		;$0873   |
@@ -454,16 +456,16 @@ CODE_0867:
 	MOV SPC.DSP_data, A			;$0882   |
 	INC SPC.DSP_addr			;$0884   |
 	MOV SPC.DSP_data, A			;$0886   |
-CODE_0888:					;   |
-	JMP CODE_0983				;$0888   |
+CODE_0888:					;	 |
+	JMP CODE_0983				;$0888  /
 
 CODE_088B:
-	CMP A, #$E0				;$088B   |
+	CMP A, #$E0				;$088B  \
 	BMI CODE_0899				;$088D   |
 	CMP A, #$E1				;$088F   |
 	BEQ CODE_0897				;$0891   |
 	MOV A, channel_variable_note_1+X	;$0893   |
-	BRA CODE_0899				;$0895   |
+	BRA CODE_0899				;$0895  /
 
 CODE_0897:
 	MOV A, channel_variable_note_2+X	;$0897  \
@@ -507,26 +509,26 @@ CODE_08AE:					;	 |
 	BRA CODE_08DB				;$08D7  /
 
 CODE_08D9:
-	SUBW YA, $02				;$08D9   |
-CODE_08DB:					;   |
+	SUBW YA, $02				;$08D9  \
+CODE_08DB:					;	 |
 	MOVW $02, YA				;$08DB   |
-	BRA CODE_08EA				;$08DD   |
+	BRA CODE_08EA				;$08DD  /
 
 CODE_08DF:
-	MOV X, A				;$08DF   |
+	MOV X, A				;$08DF  \
 	MOV A, pitch_table+X			;$08E0   |
 	MOV $02, A				;$08E3   |
 	MOV A, pitch_table_hi+X			;$08E5   |
 	MOV $03, A				;$08E8   |
-CODE_08EA:					;   |
+CODE_08EA:					;	 |
 	POP A					;$08EA   |
 	MOV X, A				;$08EB   |
 	AND A, #$07				;$08EC   |
 	XCN A					;$08EE   |
 	MOV SPC.DSP_addr, A			;$08EF   |
-	MOV A, $01E0+X				;$08F1   |
+	MOV A, channel_unknown_01E0+X		;$08F1   |
 	BEQ CODE_08F9				;$08F4   |
-	JMP CODE_0983				;$08F6   |
+	JMP CODE_0983				;$08F6  /
 
 CODE_08F9:
 	MOV A, channel_vol_l+X			;$08F9  \
@@ -543,11 +545,11 @@ CODE_08F9:
 	MOV A, channel_pitch_slide_delay+X	;$0914   |
 	MOV channel_p_slide_delay_timer+X, A	;$0917   |
 	MOV A, channel_pitch_slide_interval+X	;$091A   |
-	MOV $0100+X, A				;$091D   |
+	MOV channel_unknown_0100+X, A		;$091D   |
 	MOV A, channel_pitch_slide_up_count+X	;$0920   |
 	MOV channel_unknown_94+X, A		;$0923   |
 	MOV A, channel_pitch_slide_down_count+X	;$0925   |
-	MOV $01C0+X, A				;$0928   |
+	MOV channel_unknown_01C0+X, A		;$0928   |
 CODE_092B:					;	 |
 	MOV A, channel_effects+X		;$092B   |
 	AND A, #$02				;$092E   |
@@ -600,7 +602,7 @@ CODE_0983:					;	 |
 	BRA CODE_09AE				;$0995  /
 
 CODE_0997:
-	MOV Y, #$01				;$0997   |
+	MOV Y, #$01				;$0997  \
 	MOV A, ($00)+Y				;$0999   |
 	MOV channel_wait_timer_lo+X, A		;$099B   |
 	MOV A, channel_long_duration+X		;$099D   |
@@ -610,17 +612,17 @@ CODE_0997:
 	INC Y					;$09A6   |
 	MOV A, ($00)+Y				;$09A7   |
 	MOV channel_wait_timer_lo+X, A		;$09A9   |
-CODE_09AB:					;   |
+CODE_09AB:					;	 |
 	INC Y					;$09AB   |
 	MOV $00, Y				;$09AC   |
-CODE_09AE:					;   |
+CODE_09AE:					;	 |
 	MOV $01, #$00				;$09AE   |
 	MOV A, channel_seq_address_lo+X		;$09B1   |
 	MOV Y, channel_seq_address_hi+X		;$09B3   |
 	ADDW YA, $00				;$09B5   |
 	MOV channel_seq_address_hi+X, Y		;$09B7   |
 	MOV channel_seq_address_lo+X, A		;$09B9   |
-	RET					;$09BB   |
+	RET					;$09BB  /
 
 CODE_09BC:
 	MOV A, channel_effects+X		;$09BC  \
@@ -637,25 +639,25 @@ CODE_09C6:
 	MOV channel_p_slide_delay_timer+X, A	;$09D0   |
 	BNE CODE_0A39				;$09D3   |
 	MOV A, #$01				;$09D5   |
-	MOV $0100+X, A				;$09D7   |
-CODE_09DA:					;   |
-	MOV A, $0100+X				;$09DA   |
+	MOV channel_unknown_0100+X, A		;$09D7   |
+CODE_09DA:					;	 |
+	MOV A, channel_unknown_0100+X		;$09DA   |
 	DEC A					;$09DD   |
-	MOV $0100+X, A				;$09DE   |
+	MOV channel_unknown_0100+X, A		;$09DE   |
 	BNE CODE_0A39				;$09E1   |
 	MOV A, channel_pitch_slide_interval+X	;$09E3   |
-	MOV $0100+X, A				;$09E6   |
-	MOV A, $01C0+X				;$09E9   |
+	MOV channel_unknown_0100+X, A		;$09E6   |
+	MOV A, channel_unknown_01C0+X		;$09E9   |
 	BEQ CODE_0A10				;$09EC   |
 	DEC A					;$09EE   |
-	MOV $01C0+X, A				;$09EF   |
+	MOV channel_unknown_01C0+X, A		;$09EF   |
 	MOV A, channel_pitch_delta+X		;$09F2   |
 	EOR A, #$FF				;$09F5   |
 	INC A					;$09F7   |
 	MOV $00, A				;$09F8   |
 	BPL CODE_0A00				;$09FA   |
 	MOV A, #$FF				;$09FC   |
-	BRA CODE_0A02				;$09FE   |
+	BRA CODE_0A02				;$09FE  /
 
 CODE_0A00:
 	MOV A, #$00				;$0A00  \
@@ -676,7 +678,7 @@ CODE_0A10:
 	BRA CODE_0A02				;$0A19  /
 
 CODE_0A1B:
-	MOV A, $01E0+X				;$0A1B   |
+	MOV A, channel_unknown_01E0+X		;$0A1B  \
 	BNE CODE_0A30				;$0A1E   |
 	MOV A, X				;$0A20   |
 	AND A, #$07				;$0A21   |
@@ -687,22 +689,22 @@ CODE_0A1B:
 	MOV SPC.DSP_data, A			;$0A2A   |
 	INC SPC.DSP_addr			;$0A2C   |
 	MOV SPC.DSP_data, Y			;$0A2E   |
-CODE_0A30:					;   |
+CODE_0A30:					;	 |
 	DEC channel_unknown_94+X		;$0A30   |
 	BNE CODE_0A39				;$0A32   |
 	MOV A, #$FF				;$0A34   |
 	MOV channel_p_slide_delay_timer+X, A	;$0A36   |
-CODE_0A39:					;   |
+CODE_0A39:					;	 |
 	MOV A, channel_effects+X		;$0A39   |
 	AND A, #$02				;$0A3C   |
 	BEQ CODE_0AB4				;$0A3E   |
 	MOV A, channel_vibrato_delay_timer+X	;$0A40   |
 	BEQ CODE_0A48				;$0A42   |
 	DEC channel_vibrato_delay_timer+X	;$0A44   |
-	BRA CODE_0AB4				;$0A46   |
+	BRA CODE_0AB4				;$0A46  /
 
 CODE_0A48:
-	DEC channel_vibrato_step+X		;$0A48   |
+	DEC channel_vibrato_step+X		;$0A48  \
 	BNE CODE_0AB4				;$0A4A   |
 	MOV A, channel_vibrato_rate+X		;$0A4C   |
 	MOV channel_vibrato_step+X, A		;$0A4F   |
@@ -710,11 +712,11 @@ CODE_0A48:
 	MOV $00, A				;$0A54   |
 	BPL CODE_0A5C				;$0A56   |
 	MOV A, #$FF				;$0A58   |
-	BRA CODE_0A5E				;$0A5A   |
+	BRA CODE_0A5E				;$0A5A  /
 
 CODE_0A5C:
-	MOV A, #$00				;$0A5C   |
-CODE_0A5E:					;   |
+	MOV A, #$00				;$0A5C  \
+CODE_0A5E:					;	 |
 	MOV $01, A				;$0A5E   |
 	MOV A, channel_unknown_84+X		;$0A60   |
 	MOV Y, channel_unknown_74+X		;$0A62   |
@@ -728,7 +730,7 @@ CODE_0A5E:					;   |
 	CMP A, $EF				;$0A71   |
 	BNE CODE_0A78				;$0A73   |
 	POP A					;$0A75   |
-	BRA CODE_0A87				;$0A76   |
+	BRA CODE_0A87				;$0A76  /
 
 CODE_0A78:
 	POP A					;$0A78  \
@@ -744,7 +746,7 @@ CODE_0A87:					;	 |
 	ADDW YA, $00				;$0A87   |
 	MOV channel_unknown_74+X, Y		;$0A89   |
 	MOV channel_unknown_84+X, A		;$0A8B   |
-	MOV A, $01E0+X				;$0A8D   |
+	MOV A, channel_unknown_01E0+X		;$0A8D   |
 	BNE CODE_0AA2				;$0A90   |
 	MOV A, X				;$0A92   |
 	AND A, #$07				;$0A93   |
@@ -771,24 +773,24 @@ CODE_0AB4:					;	 |
 	JMP CODE_0B17				;$0ABB  /
 
 CODE_0ABE:
-	MOV A, $02A4+X				;$0ABE  \
+	MOV A, channel_unknown_02A4+X		;$0ABE  \
 	BEQ CODE_0ACD				;$0AC1   |
-	MOV A, $02A4+X				;$0AC3   |
+	MOV A, channel_unknown_02A4+X		;$0AC3   |
 	DEC A					;$0AC6   |
-	MOV $02A4+X, A				;$0AC7   |
+	MOV channel_unknown_02A4+X, A		;$0AC7   |
 	JMP CODE_0B17				;$0ACA  /
 
 CODE_0ACD:
-	MOV A, $02B4+X				;$0ACD  \
+	MOV A, channel_unknown_02B4+X		;$0ACD  \
 	DEC A					;$0AD0   |
-	MOV $02B4+X, A				;$0AD1   |
+	MOV channel_unknown_02B4+X, A		;$0AD1   |
 	BEQ CODE_0AD9				;$0AD4   |
 	JMP CODE_0B17				;$0AD6  /
 
 CODE_0AD9:
-	MOV A, $02C4+X				;$0AD9  \
-	MOV $02B4+X, A				;$0ADC   |
-	MOV A, $01E0+X				;$0ADF   |
+	MOV A, channel_unknown_02C4+X		;$0AD9  \
+	MOV channel_unknown_02B4+X, A		;$0ADC   |
+	MOV A, channel_unknown_01E0+X		;$0ADF   |
 	BNE CODE_0AF8				;$0AE2   |
 	MOV A, X				;$0AE4   |
 	AND A, #$07				;$0AE5   |
@@ -801,19 +803,19 @@ CODE_0AD9:
 	INC SPC.DSP_addr			;$0AF4   |
 	MOV SPC.DSP_data, A			;$0AF6   |
 CODE_0AF8:					;	 |
-	MOV A, $02E4+X				;$0AF8   |
+	MOV A, channel_unknown_02E4+X		;$0AF8   |
 	DEC A					;$0AFB   |
-	MOV $02E4+X, A				;$0AFC   |
+	MOV channel_unknown_02E4+X, A		;$0AFC   |
 	BNE CODE_0B17				;$0AFF   |
 	MOV A, channel_effects+X		;$0B01   |
 	AND A, #$08				;$0B04   |
 	BNE CODE_0B17				;$0B06   |
-	MOV A, $02F4+X				;$0B08   |
-	MOV $02E4+X, A				;$0B0B   |
-	MOV A, $02D4+X				;$0B0E   |
+	MOV A, channel_unknown_02F4+X		;$0B08   |
+	MOV channel_unknown_02E4+X, A		;$0B0B   |
+	MOV A, channel_unknown_02D4+X		;$0B0E   |
 	EOR A, #$FF				;$0B11   |
 	INC A					;$0B13   |
-	MOV $02D4+X, A				;$0B14   |
+	MOV channel_unknown_02D4+X, A		;$0B14   |
 CODE_0B17:					;	 |
 	RET					;$0B17  /
 
@@ -821,7 +823,7 @@ command_00_end_sequence:
 	POP X					;$0B18  \
 	MOV A, #$00				;$0B19   |
 	MOV channel_enable+X, A			;$0B1B   |
-	MOV A, $01E0+X				;$0B1E   |\
+	MOV A, channel_unknown_01E0+X		;$0B1E   |\
 	BNE CODE_0B2B				;$0B21   |/ If sound effect is playing?
 	MOV SPC.DSP_addr, #DSPs.key_off		;$0B23   |
 	MOV A, channel_bit_table+X		;$0B26   |
@@ -835,7 +837,7 @@ CODE_0B2B:					;	 |
 	SBC A, #$08				;$0B32   |
 	MOV X, A				;$0B34   |
 	MOV A, #$00				;$0B35   |
-	MOV $01E0+X, A				;$0B37   |
+	MOV channel_unknown_01E0+X, A		;$0B37   |
 	MOV SPC.DSP_addr, #DSPs.noise_enable	;$0B3A   |
 	MOV A, channel_bit_table+X		;$0B3D   |
 	EOR A, #$FF				;$0B40   |
@@ -899,8 +901,8 @@ CODE_0B8B:
 	MOV channel_instrument+X, A		;$0B93   |
 	RET					;$0B96  /
 
-CODE_0B97:					;   |
-	CALL get_channel_number_and_wait_1_tick	;$0B97   |
+CODE_0B97:
+	CALL get_channel_number_and_wait_1_tick	;$0B97  \
 	CALL CODE_0B8B				;$0B9A   |
 	INC Y					;$0B9D   |
 	MOV A, ($00)+Y				;$0B9E   |
@@ -913,14 +915,14 @@ CODE_0B97:					;   |
 	INC Y					;$0BAC   |
 	CALL set_adsr				;$0BAD   |
 	MOV $00, #$08				;$0BB0   |
-	JMP update_command_address		;$0BB3   |
+	JMP update_command_address		;$0BB3  /
 
 command_02_set_volume_l_and_r:
-	CALL get_channel_number_and_wait_1_tick	;$0BB6   |
+	CALL get_channel_number_and_wait_1_tick	;$0BB6  \
 	CALL CODE_0BC2				;$0BB9   |
 CODE_0BBC:					;	 |
 	MOV $00, #$03				;$0BBC   |> Load length of set_volume_l_and_r command
-	JMP update_command_address		;$0BBF   |
+	JMP update_command_address		;$0BBF  /
 
 CODE_0BC2:
 	MOV A, mono_stereo_toggle		;$0BC2  \
@@ -934,11 +936,11 @@ CODE_0BCC:					;	 |
 	RET					;$0BD1  /
 
 CODE_0BD2:
-	MOV A, ($00)+Y				;$0BD2   |
+	MOV A, ($00)+Y				;$0BD2  \
 	BPL CODE_0BD9				;$0BD4   |
 	EOR A, #$FF				;$0BD6   |
 	INC A					;$0BD8   |
-CODE_0BD9:					;   |
+CODE_0BD9:					;	 |
 	LSR A					;$0BD9   |
 	MOV $03, A				;$0BDA   |
 	INC Y					;$0BDC   |
@@ -947,13 +949,13 @@ CODE_0BD9:					;   |
 	BPL CODE_0BE5				;$0BE0   |
 	EOR A, #$FF				;$0BE2   |
 	INC A					;$0BE4   |
-CODE_0BE5:					;   |
+CODE_0BE5:					;	 |
 	LSR A					;$0BE5   |
 	CLRC					;$0BE6   |
 	ADC A, $03				;$0BE7   |
 	MOV channel_vol_l+X, A			;$0BE9   |
 	MOV channel_vol_r+X, A			;$0BEC   |
-	RET					;$0BEF   |
+	RET					;$0BEF  /
 
 command_23_set_vol_single_val:
 	CALL get_channel_number_and_wait_1_tick	;$0BF0  \
@@ -984,24 +986,24 @@ command_31_load_volume_preset_2:
 	JMP CODE_0ED6				;$0C2B  /
 
 CODE_0C2E:
-	MOV A, channel_vol_l+X			;$0C2E   |
+	MOV A, channel_vol_l+X			;$0C2E  \
 	BPL CODE_0C36				;$0C31   |
 	EOR A, #$FF				;$0C33   |
 	INC A					;$0C35   |
-CODE_0C36:					;   |
+CODE_0C36:					;	 |
 	LSR A					;$0C36   |
 	MOV $00, A				;$0C37   |
 	MOV A, channel_vol_r+X			;$0C39   |
 	BPL CODE_0C41				;$0C3C   |
 	EOR A, #$FF				;$0C3E   |
 	INC A					;$0C40   |
-CODE_0C41:					;   |
+CODE_0C41:					;	 |
 	LSR A					;$0C41   |
 	CLRC					;$0C42   |
 	ADC A, $00				;$0C43   |
 	MOV channel_vol_l+X, A			;$0C45   |
 	MOV channel_vol_r+X, A			;$0C48   |
-	JMP CODE_0ED6				;$0C4B   |
+	JMP CODE_0ED6				;$0C4B  /
 
 command_24_set_master_volume_indirect:
 	CALL get_channel_number_and_wait_1_tick	;$0C4E  \
@@ -1010,7 +1012,7 @@ command_24_set_master_volume_indirect:
 	JMP update_command_address_2_bytes	;$0C56  /
 
 CODE_0C59:
-	PUSH X					;$0C59   |
+	PUSH X					;$0C59  \
 	MOV Y, song_master_volume		;$0C5A   |
 	CMP X, #$08				;$0C5D   |
 	BCS CODE_0C6F				;$0C5F   |
@@ -1022,12 +1024,12 @@ CODE_0C59:
 	CMP A, #$7F				;$0C69   |
 	BMI CODE_0C6F				;$0C6B   |
 	MOV A, #$7F				;$0C6D   |
-CODE_0C6F:					;   |
+CODE_0C6F:					;	 |
 	POP X					;$0C6F   |
-	RET					;$0C70   |
+	RET					;$0C70  /
 
 CODE_0C71:
-	EOR A, #$FF				;$0C71   |
+	EOR A, #$FF				;$0C71  \
 	INC A					;$0C73   |
 	MUL YA					;$0C74   |
 	MOV X, #$64				;$0C75   |
@@ -1035,11 +1037,11 @@ CODE_0C71:
 	CMP A, #$7F				;$0C78   |
 	BMI CODE_0C7E				;$0C7A   |
 	MOV A, #$7F				;$0C7C   |
-CODE_0C7E:					;   |
+CODE_0C7E:					;	 |
 	EOR A, #$FF				;$0C7E   |
 	INC A					;$0C80   |
 	POP X					;$0C81   |
-	RET					;$0C82   |
+	RET					;$0C82  /
 
 command_1E_set_volume_presets:
 	CALL get_channel_number_and_wait_1_tick	;$0C83  \
@@ -1054,7 +1056,7 @@ command_1E_set_volume_presets:
 	INC Y					;$0C97   |
 	MOV A, ($00)+Y				;$0C98   |
 	MOV vol_preset_2_r, A			;$0C9A   |
-	JMP CODE_0F76				;$0C9D  /
+	JMP update_command_address_5_bytes	;$0C9D  /
 
 CODE_0CA0:
 	CALL get_channel_number_and_wait_1_tick	;$0CA0  \
@@ -1124,15 +1126,15 @@ command_21_play_subsequence:
 	JMP CODE_0CF1				;$0D0B  /
 
 CODE_0D0E:
-	DEC A					;$0D0E   |
+	DEC A					;$0D0E  \
 	MOV channel_seq_loop_address_lo+Y, A	;$0D0F   |
 	MOV A, channel_seq_loop_address_hi+Y	;$0D12   |
 	DEC A					;$0D15   |
 	MOV channel_seq_loop_address_hi+Y, A	;$0D16   |
-	JMP CODE_0CF4				;$0D19   |
+	JMP CODE_0CF4				;$0D19  /
 
 CODE_0D1C:
-	MOV A, ($00)+Y				;$0D1C   |
+	MOV A, ($00)+Y				;$0D1C  \
 	MOV $02, A				;$0D1E   |
 	INC Y					;$0D20   |
 	MOV A, ($00)+Y				;$0D21   |
@@ -1143,7 +1145,7 @@ CODE_0D1C:
 	MOV A, channel_seq_address_hi+X		;$0D2C   |
 	MOV channel_seq_loop_address_hi+Y, A	;$0D2E   |
 	MOV A, channel_seq_address_lo+X		;$0D31   |
-	RET					;$0D33   |
+	RET					;$0D33  /
 
 command_05_return_from_sub:
 	CALL get_channel_number_and_wait_1_tick	;$0D34  \
@@ -1156,7 +1158,7 @@ command_05_return_from_sub:
 	MOV A, channel_seq_loop_count+Y		;$0D45   |
 	DEC A					;$0D48   |
 	MOV channel_seq_loop_count+Y, A		;$0D49   |
-	BEQ CODE_0D6A				;$0D4C   |
+	BEQ update_command_address_4_bytes	;$0D4C   |
 	MOV A, channel_seq_address_lo+X		;$0D4E   |
 	MOV Y, channel_seq_address_hi+X		;$0D50   |
 	MOVW $00, YA				;$0D52   |
@@ -1173,7 +1175,7 @@ command_05_return_from_sub:
 	MOV A, #$01				;$0D67   |
 	RET					;$0D69  /
 
-CODE_0D6A:
+update_command_address_4_bytes:
 	MOV $00, #$04				;$0D6A  \
 	JMP update_command_address		;$0D6D  /
 
@@ -1275,14 +1277,14 @@ command_0D_vibrato:
 	POP X					;$0E11  \
 	MOV A, #$00				;$0E12   |
 	CALL set_vibrato			;$0E14   |
-	JMP CODE_0D6A				;$0E17  /
+	JMP update_command_address_4_bytes	;$0E17  /
 
 command_0F_vibrato_with_delay:
 	POP X					;$0E1A  \> Get channel number
 	MOV Y, #$04				;$0E1B   |\ Get param 04 (delay)
 	MOV A, ($00)+Y				;$0E1D   |/
 	CALL set_vibrato			;$0E1F   |
-	JMP CODE_0F76				;$0E22  /
+	JMP update_command_address_5_bytes	;$0E22  /
 
 set_vibrato:
 	MOV channel_vibrato_delay+X, A		;$0E25  \
@@ -1306,12 +1308,12 @@ command_10_set_adsr:
 	JMP CODE_0BBC				;$0E4B  /
 
 set_adsr:
-	MOV A, ($00)+Y				;$0E4E   |
+	MOV A, ($00)+Y				;$0E4E  \
 	MOV channel_adsr_1+X, A			;$0E50   |
 	INC Y					;$0E53   |
 	MOV A, ($00)+Y				;$0E54   |
 	MOV channel_adsr_2+X, A			;$0E56   |
-	RET					;$0E59   |
+	RET					;$0E59  /
 
 command_1C_set_variable_note_1:
 	POP X					;$0E5A  \
@@ -1370,7 +1372,7 @@ CODE_0E97:
 	MOV $04B5, A				;$0EB9   |
 	MOV SPC.DSP_addr, #DSPs.flags		;$0EBC   |
 	MOV SPC.DSP_data, A			;$0EBF   |
-	JMP CODE_0D6A				;$0EC1  /
+	JMP update_command_address_4_bytes	;$0EC1  /
 
 CODE_0EC4:
 	CALL get_channel_number_and_wait_1_tick	;$0EC4  \
@@ -1468,7 +1470,7 @@ CODE_0F53:					;	 |
 	MOV channel_pitch_slide_down_count+X, A	;$0F6F   |
 	ASL A					;$0F72   |
 	MOV channel_pitch_slide_up_count+X, A	;$0F73   |
-CODE_0F76:					;	 |
+update_command_address_5_bytes:			;	 |
 	MOV $00, #$05				;$0F76   |
 	JMP update_command_address		;$0F79  /
 
@@ -1483,7 +1485,7 @@ command_2C_long_duration_off:
 	MOV channel_long_duration+X, A		;$0F89   |/ So to zero the flag just write A to it
 	JMP CODE_0ED6				;$0F8C  /
 
-CODE_0F8F:
+update_command_address_7_bytes:
 	MOV $00, #$07				;$0F8F  \
 	JMP update_command_address		;$0F92  /
 
@@ -1632,7 +1634,7 @@ CODE_10A9:					;	 |
 	MOV channel_effects+X, A		;$10CA   |
 	MOV channel_pitch+X, A			;$10CD   |
 	MOV channel_pitch_fine+X, A		;$10D0   |
-	MOV $01E0+X, A				;$10D2   |
+	MOV channel_unknown_01E0+X, A		;$10D2   |
 	MOV channel_echo_state+X, A		;$10D5   |
 	INC X					;$10D8   |
 	INC Y					;$10D9   |
@@ -1662,21 +1664,21 @@ CODE_10F7:
 	BRA CODE_1111				;$1102  /
 
 CODE_1104:
-	SETC					;$1104   |
+	SETC					;$1104  \
 	SBC A, #!dyn_snd_base_id		;$1105   |
 	SETC					;$1107   |
 	SBC A, track_sfx_data			;$1108   |
 	BMI CODE_1111				;$110B   |
-CODE_110D:					;   |
+CODE_110D:					;	 |
 	POP A					;$110D   |
 	MOV A, #$00				;$110E   |
 	PUSH A					;$1110   |
-CODE_1111:					;   |
+CODE_1111:					;	 |
 	POP A					;$1111   |
 	ASL A					;$1112   |
 	PUSH A					;$1113   |
 	MOV A, #$01				;$1114   |
-	MOV $01E0+X, A				;$1116   |
+	MOV channel_unknown_01E0+X, A		;$1116   |
 	MOV SPC.DSP_addr, #DSPs.noise_enable	;$1119   |
 	MOV A, channel_bit_table+X		;$111C   |
 	EOR A, #$FF				;$111F   |
@@ -1697,7 +1699,7 @@ CODE_1111:					;   |
 	MOV channel_default_duration_hi+X, A	;$1138   |
 	MOV channel_wait_timer_hi+X, A		;$113B   |
 	MOV channel_long_duration+X, A		;$113D   |
-	MOV $01E0+X, A				;$1140   |
+	MOV channel_unknown_01E0+X, A		;$1140   |
 	MOV channel_effects+X, A		;$1143   |
 	MOV channel_pitch+X, A			;$1146   |
 	MOV channel_echo_state+X, A		;$1149   |
@@ -1705,8 +1707,8 @@ CODE_1111:					;   |
 	MOV A, #$7F				;$114E   |
 	MOV channel_vol_l+X, A			;$1150   |
 	MOV channel_vol_r+X, A			;$1153   |
-	MOV $0314+X, A				;$1156   |
-	MOV $0324+X, A				;$1159   |
+	MOV channel_unknown_0314+X, A		;$1156   |
+	MOV channel_unknown_0324+X, A		;$1159   |
 	MOV A, #$8E				;$115C   |
 	MOV channel_adsr_1+X, A			;$115E   |
 	MOV A, #$E0				;$1161   |
@@ -1720,7 +1722,7 @@ CODE_1111:					;   |
 	INC Y					;$1171   |
 	MOV A, global_sfx_table+Y		;$1172   |
 	MOV channel_seq_address_hi+X, A		;$1175   |
-	BRA CODE_1188				;$1177   |
+	BRA CODE_1188				;$1177  /
 
 CODE_1179:
 	SETC					;$1179  \

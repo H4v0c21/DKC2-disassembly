@@ -28,7 +28,9 @@ song_data_address = $E5
 
 cpu_transaction = $E9
 cpu_upload_size = $EA
-
+; = $EC				;loop sfx speed absolute?
+; = $EE				;loop sfx speed relative?
+channel_unknown_0100 = $0100
 channel_enable = $0110
 channel_default_duration_lo = $0120
 channel_default_duration_hi = $0130
@@ -40,7 +42,7 @@ channel_pitch_slide_up_count  = $0180
 channel_pitch_slide_down_count  = $0190
 channel_p_slide_delay_timer = $01A0
 channel_pitch_delta = $01B0
-
+channel_unknown_01C0 = $01C0
 channel_long_duration = $01D0
 channel_unknown_01E0 = $01E0
 
@@ -55,7 +57,15 @@ channel_vol_r = $0264
 channel_adsr_1 = $0274
 channel_adsr_2 = $0284
 channel_echo_state = $0294
+channel_unknown_02A4 = $02A4
+channel_unknown_02B4 = $02B4
+channel_unknown_02C4 = $02C4
+channel_unknown_02D4 = $02D4
+channel_unknown_02E4 = $02E4
+channel_unknown_02F4 = $02F4
 
+channel_unknown_0314 = $0314
+channel_unknown_0324 = $0324
 channel_seq_loop_address_lo = $0334
 
 channel_seq_loop_address_hi = $03B4

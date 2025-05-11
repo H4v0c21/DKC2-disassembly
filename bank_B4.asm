@@ -9800,1024 +9800,1142 @@ DATA_B4CF4B:
 	db $06 : dw DATA_B4E6A6				; 77 funkys_flights_the_flying_krock
 
 DATA_B4D0B3:
-	db $14, $00, $68, $01, $32, $04, $00 : dw .text
+	dw $0014, $0168
+	db $32, $04, $00 : dw .text
 	dw !null_pointer
-	dw $0001, $0000
+	dw !map_node_w2, !map_path_0000
 .text
-	db $11, ">GANGPLANK GALLEON"
-	db $13, ">GALION DE LA GAL&RE"
+	%map_text("GANGPLANK GALLEON")
+	%map_text("GALION DE LA GAL&RE")
 
 DATA_B4D0EA:
-	db $3A, $00, $A7, $01, $32, $03, $02 : dw .text
+	dw $003A, $01A7
+	db $32, $03, $02 : dw .text
 	dw !null_pointer
-	dw $0002, $0001
-	dw $0000, $0000
+	dw !map_node_w3, !map_path_0001
+	dw !map_node_w1, !map_path_0000
 .text
-	db $12, ">CROCODILE CAULDRON"
-	db $15, ">CHAUDRON DU CROCODILE"
+	%map_text("CROCODILE CAULDRON")
+	%map_text("CHAUDRON DU CROCODILE")
 
 DATA_B4D128:
-	db $B4, $00, $AB, $01, $32, $0A, $02 : dw .text
+	dw $00B4, $01AB
+	db $32, $0A, $02 : dw .text
 	dw !null_pointer
-	dw $0001, $0001
-	dw $0003, $0002
+	dw !map_node_w2, !map_path_0001
+	dw !map_node_w4, !map_path_0002
 .text
-	db $09, ">KREM QUAY"
-	db $09, ">QUAI KREM"
+	%map_text("KREM QUAY")
+	%map_text("QUAI KREM")
 
 DATA_B4D151:
-	db $96, $00, $3D, $01, $32, $03, $01 : dw .text
+	dw $0096, $013D
+	db $32, $03, $01 : dw .text
 	dw !null_pointer
-	dw $0002, $0002
-	dw $0004, $0003
+	dw !map_node_w3, !map_path_0002
+	dw !map_node_w5, !map_path_0003
 .text
-	db $0E, ">KRAZY KREMLAND"
-	db $0E, ">KREMLAND DINGO"
+	%map_text("KRAZY KREMLAND")
+	%map_text("KREMLAND DINGO")
 
 DATA_B4D184:
-	db $81, $00, $FA, $00, $32, $0A, $02 : dw .text
+	dw $0081, $00FA
+	db $32, $0A, $02 : dw .text
 	dw !null_pointer
-	dw $0003, $0003
-	dw $0005, $0004
+	dw !map_node_w4, !map_path_0003
+	dw !map_node_w6, !map_path_0004
 .text
-	db $0C, ">GLOOMY GULCH"
-	db $0A, ">RAVIN RAVI"
+	%map_text("GLOOMY GULCH")
+	%map_text("RAVIN RAVI")
 
 DATA_B4D1B1:
-	db $81, $00, $92, $00, $32, $0C, $04 : dw .text
+	dw $0081, $0092
+	db $32, $0C, $04 : dw .text
 	dw !null_pointer
-	dw $0004, $0004
-	dw $0006, $003C
+	dw !map_node_w5, !map_path_0004
+	dw !map_node_w7, !map_path_003C
 .text
-	db $0E, ">K. ROOL'S KEEP"
-	db $10, ">CASTEL DE K.ROOL"
+	%map_text("K. ROOL'S KEEP")
+	%map_text("CASTEL DE K.ROOL")
 
 DATA_B4D1E6:
-	db $8C, $00, $1E, $00, $32, $04, $04 : dw .text
+	dw $008C, $001E
+	db $32, $04, $04 : dw .text
 	dw !null_pointer
-	dw $0005, $003C
+	dw !map_node_w6, !map_path_003C
 .text
-	db $10, ">THE FLYING KROCK"
-	db $0F, ">LE CROCO VOLANT"
+	%map_text("THE FLYING KROCK")
+	%map_text("LE CROCO VOLANT")
 
 DATA_B4D218:
-	db $64, $00, $2D, $00, $32, $00, $00 : dw .text
+	dw $0064, $002D
+	db $32, $00, $00 : dw .text
 	dw !level_mainbrace_mayhem
 .text
-	db $0A, ">LOST WORLD"
-	db $0B, ">MONDE PERDU"
+	%map_text("LOST WORLD")
+	%map_text("MONDE PERDU")
 
 DATA_B4D23C:
-	db $64, $00, $0A, $00, $32, $00, $00 : dw .text
+	dw $0064, $000A
+	db $32, $00, $00 : dw .text
 	dw !null_pointer
 .text
-	db $01, ">A"
-	db $01, ">A"
+	%map_text("A")
+	%map_text("A")
 
 DATA_B4D24D:
-	db $5A, $00, $84, $00, $32, $0A, $08 : dw .text
+	dw $005A, $0084
+	db $32, $0A, $08 : dw .text
 	dw !level_gangplank_galley
-	dw $000A, $0008
-	dw $0042, $0007
+	dw !map_node_kong_kollege_w1, !map_path_0008
+	dw !map_node_mainbrace_mayhem, !map_path_0007
 .text
-	db $10, ">GANGPLANK GALLEY"
-	db $17, ">PASSERELLE DE LA GAL&RE"
+	%map_text("GANGPLANK GALLEY")
+	%map_text("PASSERELLE DE LA GAL&RE")
 
 DATA_B4D28B:
-	db $0F, $00, $BE, $00, $32, $09, $08 : dw .text
+	dw $000F, $00BE
+	db $32, $09, $08 : dw .text
 	dw !null_pointer
-	dw $000B, $0009
-	dw $0009, $0008
+	dw !map_node_lockjaws_locker, !map_path_0009
+	dw !map_node_gangplank_galley, !map_path_0008
 .text
-	db $0C, ">KONG KOLLEGE"
-	db $0C, ">KOLL&GE KONG"
+	%map_text("KONG KOLLEGE")
+	%map_text("KOLL&GE KONG")
 
 DATA_B4D2BA:
-	db $8F, $00, $B7, $00, $32, $0A, $02 : dw .text
+	dw $008F, $00B7
+	db $32, $0A, $02 : dw .text
 	dw !level_lockjaws_locker
-	dw $000A, $0009
-	dw $000F, $000A
+	dw !map_node_kong_kollege_w1, !map_path_0009
+	dw !map_node_swankys_bonus_bonanza_w1, !map_path_000A
 .text
-	db $10, ">LOCKJAW'S LOCKER"
-	db $11, ">CASIER DE LOCKJAW"
+	%map_text("LOCKJAW'S LOCKER")
+	%map_text("CASIER DE LOCKJAW")
 
 DATA_B4D2F2:
-	db $AF, $00, $5C, $00, $32, $0C, $04 : dw .text
+	dw $00AF, $005C
+	db $32, $0C, $04 : dw .text
 	dw !level_topsail_trouble
-	dw $000F, $000B
-	dw $000D, $000C
+	dw !map_node_swankys_bonus_bonanza_w1, !map_path_000B
+	dw !map_node_funkys_flights_w1, !map_path_000C
 .text
-	db $0F, ">TOPSAIL TROUBLE"
-	db $15, ">MICMAC DANS LA M$TURE"
+	%map_text("TOPSAIL TROUBLE")
+	%map_text("MICMAC DANS LA M$TURE")
 
 DATA_B4D32D:
-	db $D9, $00, $3C, $00, $32, $0C, $04 : dw .text
+	dw $00D9, $003C
+	db $32, $0C, $04 : dw .text
 	dw !null_pointer
-	dw $000C, $000C
-	dw $000E, $000D
+	dw !map_node_topsail_trouble, !map_path_000C
+	dw !map_node_krows_nest, !map_path_000D
 .text
-	db $12, ">FUNKY'S FLIGHTS II"
-	db $0D, ">VOLS FUNKY II"
+	%map_text("FUNKY'S FLIGHTS II")
+	%map_text("VOLS FUNKY II")
 
 DATA_B4D363:
-	db $AF, $00, $14, $00, $32, $04, $04 : dw .text
+	dw $00AF, $0014
+	db $32, $04, $04 : dw .text
 	dw !level_krows_nest
-	dw $000D, $000D
+	dw !map_node_funkys_flights_w1, !map_path_000D
 .text
-	db $0B, ">KROW'S NEST"
-	db $0B, ">NID DE KROW"
+	%map_text("KROW'S NEST")
+	%map_text("NID DE KROW")
 
 DATA_B4D38C:
-	db $90, $00, $82, $00, $32, $0C, $04 : dw .text
+	dw $0090, $0082
+	db $32, $0C, $04 : dw .text
 	dw !null_pointer
-	dw $000B, $000A
-	dw $000C, $000B
+	dw !map_node_lockjaws_locker, !map_path_000A
+	dw !map_node_topsail_trouble, !map_path_000B
 .text
-	db $16, ">SWANKY'S BONUS BONANZA"
-	db $16, ">BONUS % GOGO DE SWANKY"
+	%map_text("SWANKY'S BONUS BONANZA")
+	%map_text("BONUS % GOGO DE SWANKY")
 
 DATA_B4D3CF:
-	db $73, $00, $B6, $00, $32, $09, $00 : dw .text
+	dw $0073, $00B6
+	db $32, $09, $00 : dw .text
 	dw !level_hot_head_hop
-	dw $0011, $000E
-	dw $0012, $000F
+	dw !map_node_swankys_bonus_bonanza_w2, !map_path_000E
+	dw !map_node_klubbas_kiosk_w2, !map_path_000F
 .text
-	db $0C, ">HOT-HEAD HOP"
-	db $1A, ">PARCOURS DES T(TES BR;L?ES"
+	%map_text("HOT-HEAD HOP")
+	%map_text("PARCOURS DES T(TES BR;L?ES")
 
 DATA_B4D40C:
-	db $C4, $00, $BC, $00, $32, $03, $02 : dw .text
+	dw $00C4, $00BC
+	db $32, $03, $02 : dw .text
 	dw !null_pointer
-	dw $0013, $0010
-	dw $0010, $000E
+	dw !map_node_kannons_klaim, !map_path_0010
+	dw !map_node_hot_head_hop, !map_path_000E
 .text
-	db $16, ">SWANKY'S BONUS BONANZA"
-	db $16, ">BONUS % GOGO DE SWANKY"
+	%map_text("SWANKY'S BONUS BONANZA")
+	%map_text("BONUS % GOGO DE SWANKY")
 
 DATA_B4D44F:
-	db $64, $00, $87, $00, $32, $04, $04 : dw .text
+	dw $0064, $0087
+	db $32, $04, $04 : dw .text
 	dw !null_pointer
-	dw $0010, $000F
+	dw !map_node_hot_head_hop, !map_path_000F
 .text
-	db $0E, ">KLUBBA'S KIOSK"
-	db $11, ">KIOSQUE DE KLUBBA"
+	%map_text("KLUBBA'S KIOSK")
+	%map_text("KIOSQUE DE KLUBBA")
 
 DATA_B4D481:
-	db $C8, $00, $6B, $00, $32, $0B, $01 : dw .text
+	dw $00C8, $006B
+	db $32, $0B, $01 : dw .text
 	dw !level_kannons_klaim
-	dw $0011, $0010
-	dw $0015, $0011
-	dw $0014, $0012
+	dw !map_node_swankys_bonus_bonanza_w2, !map_path_0010
+	dw !map_node_lava_lagoon, !map_path_0011
+	dw !map_node_funkys_flights_w2, !map_path_0012
 .text
-	db $0E, ">KANNON'S KLAIM"
-	db $14, ">COMPLAINTE DE KANNON"
+	%map_text("KANNON'S KLAIM")
+	%map_text("COMPLAINTE DE KANNON")
 
 DATA_B4D4BE:
-	db $EB, $00, $41, $00, $32, $04, $04 : dw .text
+	dw $00EB, $0041
+	db $32, $04, $04 : dw .text
 	dw !null_pointer
-	dw $0013, $0012
+	dw !map_node_kannons_klaim, !map_path_0012
 .text
-	db $12, ">FUNKY'S FLIGHTS II"
-	db $0D, ">VOLS FUNKY II"
+	%map_text("FUNKY'S FLIGHTS II")
+	%map_text("VOLS FUNKY II")
 
 DATA_B4D4F0:
-	db $78, $00, $64, $00, $32, $0B, $01 : dw .text
+	dw $0078, $0064
+	db $32, $0B, $01 : dw .text
 	dw !level_lava_lagoon
-	dw $0013, $0011
-	dw $0017, $0013
-	dw $0016, $0017
+	dw !map_node_kannons_klaim, !map_path_0011
+	dw !map_node_red_hot_ride, !map_path_0013
+	dw !map_node_kong_kollege_w2, !map_path_0017
 .text
-	db $0B, ">LAVA LAGOON"
-	db $0D, ">LAGON DE LAVE"
+	%map_text("LAVA LAGOON")
+	%map_text("LAGON DE LAVE")
 
 DATA_B4D523:
-	db $96, $00, $3F, $00, $32, $04, $04 : dw .text
+	dw $0096, $003F
+	db $32, $04, $04 : dw .text
 	dw !null_pointer
-	dw $0015, $0017
+	dw !map_node_lava_lagoon, !map_path_0017
 .text
-	db $0C, ">KONG KOLLEGE"
-	db $0C, ">KOLL&GE KONG"
+	%map_text("KONG KOLLEGE")
+	%map_text("KOLL&GE KONG")
 
 DATA_B4D54E:
-	db $28, $00, $64, $00, $32, $0B, $01 : dw .text
+	dw $0028, $0064
+	db $32, $0B, $01 : dw .text
 	dw !level_red_hot_ride
-	dw $0015, $0013
-	dw $0018, $0014
-	dw $0019, $0015
+	dw !map_node_lava_lagoon, !map_path_0013
+	dw !map_node_monkey_museum_w2, !map_path_0014
+	dw !map_node_squawks_shaft, !map_path_0015
 .text
-	db $0C, ">RED-HOT RIDE"
-	db $12, ">TRAVERS?E EMBRAS?E"
+	%map_text("RED-HOT RIDE")
+	%map_text("TRAVERS?E EMBRAS?E")
 
 DATA_B4D587:
-	db $04, $00, $73, $00, $32, $01, $01 : dw .text
+	dw $0004, $0073
+	db $32, $01, $01 : dw .text
 	dw !null_pointer
-	dw $0017, $0014
+	dw !map_node_red_hot_ride, !map_path_0014
 .text
-	db $0D, ">MONKEY MUSEUM"
-	db $0E, ">MUS?E DU SINGE"
+	%map_text("MONKEY MUSEUM")
+	%map_text("MUS?E DU SINGE")
 
 DATA_B4D5B5:
-	db $67, $00, $2A, $00, $32, $0C, $04 : dw .text
+	dw $0067, $002A
+	db $32, $0C, $04 : dw .text
 	dw !level_squawks_shaft
-	dw $0017, $0015
-	dw $001A, $0016
+	dw !map_node_red_hot_ride, !map_path_0015
+	dw !map_node_kleevers_kiln, !map_path_0016
 .text
-	db $0F, ">SQUAWKS'S SHAFT"
-	db $12, ">PERCHOIR DE SQUAWK"
+	%map_text("SQUAWKS'S SHAFT")
+	%map_text("PERCHOIR DE SQUAWK")
 
 DATA_B4D5ED:
-	db $7B, $00, $08, $00, $32, $04, $04 : dw .text
+	dw $007B, $0008
+	db $32, $04, $04 : dw .text
 	dw !level_kleevers_kiln
-	dw $0019, $0016
+	dw !map_node_squawks_shaft, !map_path_0016
 .text
-	db $0E, ">KLEEVER'S KILN"
-	db $12, ">FOURNIL DE KLEEVER"
+	%map_text("KLEEVER'S KILN")
+	%map_text("FOURNIL DE KLEEVER")
 
 DATA_B4D620:
-	db $2E, $00, $B7, $00, $32, $01, $00 : dw .text
+	dw $002E, $00B7
+	db $32, $01, $00 : dw .text
 	dw !level_barrel_bayou
-	dw $001C, $0018
+	dw !map_node_glimmers_galleon, !map_path_0018
 .text
-	db $0C, ">BARREL BAYOU"
-	db $0E, ">BAYOU DU BARIL"
+	%map_text("BARREL BAYOU")
+	%map_text("BAYOU DU BARIL")
 
 DATA_B4D64D:
-	db $9C, $00, $AA, $00, $32, $0B, $02 : dw .text
+	dw $009C, $00AA
+	db $32, $0B, $02 : dw .text
 	dw !level_glimmers_galleon
-	dw $001D, $001C
-	dw $001B, $0018
-	dw $0023, $0019
+	dw !map_node_krockhead_klamber, !map_path_001C
+	dw !map_node_barrel_bayou, !map_path_0018
+	dw !map_node_kong_kollege_w3, !map_path_0019
 .text
-	db $11, ">GLIMMER'S GALLEON"
-	db $11, ">GALION DE GLIMMER"
+	%map_text("GLIMMER'S GALLEON")
+	%map_text("GALION DE GLIMMER")
 
 DATA_B4D68A:
-	db $0E, $01, $B4, $00, $32, $0B, $0A : dw .text
+	dw $010E, $00B4
+	db $32, $0B, $0A : dw .text
 	dw !level_krockhead_klamber
-	dw $001E, $001E
-	dw $001C, $001C
-	dw $0025, $001D
+	dw !map_node_rattle_battle, !map_path_001E
+	dw !map_node_glimmers_galleon, !map_path_001C
+	dw !map_node_monkey_museum_w3, !map_path_001D
 .text
-	db $11, ">KROCKHEAD KLAMBER"
-	db $17, ">CRAPAHUTE DES CROQUEURS"
+	%map_text("KROCKHEAD KLAMBER")
+	%map_text("CRAPAHUTE DES CROQUEURS")
 
 DATA_B4D6CD:
-	db $60, $01, $9B, $00, $32, $0E, $02 : dw .text
+	dw $0160, $009B
+	db $32, $0E, $02 : dw .text
 	dw !level_rattle_battle
-	dw $001D, $001E
-	dw $001F, $0022
-	dw $0020, $001F
+	dw !map_node_krockhead_klamber, !map_path_001E
+	dw !map_node_klubbas_kiosk_w3, !map_path_0022
+	dw !map_node_slime_climb, !map_path_001F
 .text
-	db $0D, ">RATTLE BATTLE"
-	db $11, ">BATAILLE CANAILLE"
+	%map_text("RATTLE BATTLE")
+	%map_text("BATAILLE CANAILLE")
 
 DATA_B4D706:
-	db $B8, $01, $C6, $00, $32, $02, $02 : dw .text
+	dw $01B8, $00C6
+	db $32, $02, $02 : dw .text
 	dw !null_pointer
-	dw $001E, $0022
+	dw !map_node_rattle_battle, !map_path_0022
 .text
-	db $0E, ">KLUBBA'S KIOSK"
-	db $11, ">KIOSQUE DE KLUBBA"
+	%map_text("KLUBBA'S KIOSK")
+	%map_text("KIOSQUE DE KLUBBA")
 
 DATA_B4D738:
-	db $6F, $01, $5A, $00, $32, $0E, $04 : dw .text
+	dw $016F, $005A
+	db $32, $0E, $04 : dw .text
 	dw !level_slime_climb
-	dw $0026, $0023
-	dw $001E, $001F
-	dw $0021, $0020
+	dw !map_node_swankys_bonus_bonanza_w3, !map_path_0023
+	dw !map_node_rattle_battle, !map_path_001F
+	dw !map_node_bramble_blast, !map_path_0020
 .text
-	db $0B, ">SLIME CLIMB"
-	db $13, ">ASCENSION VISQUEUSE"
+	%map_text("SLIME CLIMB")
+	%map_text("ASCENSION VISQUEUSE")
 
 DATA_B4D771:
-	db $90, $01, $21, $00, $32, $06, $02 : dw .text
+	dw $0190, $0021
+	db $32, $06, $02 : dw .text
 	dw !level_bramble_blast
-	dw $0020, $0020
-	dw $0022, $0021
+	dw !map_node_slime_climb, !map_path_0020
+	dw !map_node_kudgels_kontest, !map_path_0021
 .text
-	db $0D, ">BRAMBLE BLAST"
-	db $0E, ">CHARDON ARDENT"
+	%map_text("BRAMBLE BLAST")
+	%map_text("CHARDON ARDENT")
 
 DATA_B4D7A3:
-	db $C2, $01, $70, $00, $32, $02, $02 : dw .text
+	dw $01C2, $0070
+	db $32, $02, $02 : dw .text
 	dw !level_kudgels_kontest
-	dw $0021, $0021
+	dw !map_node_bramble_blast, !map_path_0021
 .text
-	db $10, ">KUDGEL'S KONTEST"
-	db $10, ">KOMBAT DE KUDGEL"
+	%map_text("KUDGEL'S KONTEST")
+	%map_text("KOMBAT DE KUDGEL")
 
 DATA_B4D7D6:
-	db $6E, $00, $58, $00, $32, $0C, $04 : dw .text
+	dw $006E, $0058
+	db $32, $0C, $04 : dw .text
 	dw !null_pointer
-	dw $001C, $0019
-	dw $0024, $001A
+	dw !map_node_glimmers_galleon, !map_path_0019
+	dw !map_node_funkys_flights_w3, !map_path_001A
 .text
-	db $0C, ">KONG KOLLEGE"
-	db $0C, ">KOLL&GE KONG"
+	%map_text("KONG KOLLEGE")
+	%map_text("KOLL&GE KONG")
 
 DATA_B4D805:
-	db $A5, $00, $28, $00, $32, $06, $02 : dw .text
+	dw $00A5, $0028
+	db $32, $06, $02 : dw .text
 	dw !null_pointer
-	dw $0023, $001A
-	dw $0025, $001B
+	dw !map_node_kong_kollege_w3, !map_path_001A
+	dw !map_node_monkey_museum_w3, !map_path_001B
 .text
-	db $12, ">FUNKY'S FLIGHTS II"
-	db $0D, ">VOLS FUNKY II"
+	%map_text("FUNKY'S FLIGHTS II")
+	%map_text("VOLS FUNKY II")
 
 DATA_B4D83B:
-	db $0F, $01, $8A, $00, $32, $06, $02 : dw .text
+	dw $010F, $008A
+	db $32, $06, $02 : dw .text
 	dw !null_pointer
-	dw $0024, $001B
-	dw $001D, $001D
+	dw !map_node_funkys_flights_w3, !map_path_001B
+	dw !map_node_krockhead_klamber, !map_path_001D
 .text
-	db $0D, ">MONKEY MUSEUM"
-	db $0E, ">MUS?E DU SINGE"
+	%map_text("MONKEY MUSEUM")
+	%map_text("MUS?E DU SINGE")
 
 DATA_B4D86D:
-	db $4A, $01, $50, $00, $32, $01, $01 : dw .text
+	dw $014A, $0050
+	db $32, $01, $01 : dw .text
 	dw !null_pointer
-	dw $0020, $0023
+	dw !map_node_slime_climb, !map_path_0023
 .text
-	db $16, ">SWANKY'S BONUS BONANZA"
-	db $16, ">BONUS % GOGO DE SWANKY"
+	%map_text("SWANKY'S BONUS BONANZA")
+	%map_text("BONUS % GOGO DE SWANKY")
 
 DATA_B4D8AC:
-	db $07, $00, $B1, $00, $02, $00, $00 : dw .text
-	dw $0005
-	dw $0010, $0024
+	dw $0007, $00B1
+	db $02, $00, $00 : dw .text
+	dw !level_rattle_battle
+	dw !map_node_hot_head_hop, !map_path_0024
 .text
-	db $01, ">A"
-	db $01, ">A"
+	%map_text("A")
+	%map_text("A")
 
 DATA_B4D8C1:
-	db $1C, $00, $84, $00, $32, $01, $00 : dw .text
+	dw $001C, $0084
+	db $32, $01, $00 : dw .text
 	dw !level_ghostly_grove
-	dw $0029, $0025
+	dw !map_node_monkey_museum_w5, !map_path_0025
 .text
-	db $0D, ">GHOSTLY GROVE"
-	db $0E, ">FUNESTE FUTAIE"
+	%map_text("GHOSTLY GROVE")
+	%map_text("FUNESTE FUTAIE")
 
 DATA_B4D8EF:
-	db $41, $00, $BE, $00, $32, $0A, $02 : dw .text
+	dw $0041, $00BE
+	db $32, $0A, $02 : dw .text
 	dw !level_monkey_museum_gloomy_gulch
-	dw $0028, $0025
-	dw $002A, $0026
+	dw !map_node_ghostly_grove, !map_path_0025
+	dw !map_node_haunted_hall, !map_path_0026
 .text
-	db $0D, ">MONKEY MUSEUM"
-	db $0E, ">MUS?E DU SINGE"
+	%map_text("MONKEY MUSEUM")
+	%map_text("MUS?E DU SINGE")
 
 DATA_B4D921:
-	db $64, $00, $9B, $00, $32, $05, $04 : dw .text
+	dw $0064, $009B
+	db $32, $05, $04 : dw .text
 	dw !level_haunted_hall
-	dw $002C, $0027
-	dw $0029, $0026
+	dw !map_node_gusty_glade, !map_path_0027
+	dw !map_node_monkey_museum_w5, !map_path_0026
 .text
-	db $0C, ">HAUNTED HALL"
-	db $0B, ">ANTRE HANT?"
+	%map_text("HAUNTED HALL")
+	%map_text("ANTRE HANT?")
 
 DATA_B4D94F:
-	db $EB, $00, $A6, $00, $32, $02, $02 : dw .text
+	dw $00EB, $00A6
+	db $32, $02, $02 : dw .text
 	dw !level_kong_kollege_gloomy_gulch
-	dw $002C, $0028
+	dw !map_node_gusty_glade, !map_path_0028
 .text
-	db $0C, ">KONG KOLLEGE"
-	db $0C, ">KOLL&GE KONG"
+	%map_text("KONG KOLLEGE")
+	%map_text("KOLL&GE KONG")
 
 DATA_B4D97A:
-	db $B9, $00, $B2, $00, $32, $0B, $02 : dw .text
+	dw $00B9, $00B2
+	db $32, $0B, $02 : dw .text
 	dw !level_gusty_glade
-	dw $002B, $0028
-	dw $002A, $0027
-	dw $002E, $0029
+	dw !map_node_kong_kollege_w5, !map_path_0028
+	dw !map_node_haunted_hall, !map_path_0027
+	dw !map_node_parrot_chute_panic, !map_path_0029
 .text
-	db $0B, ">GUSTY GLADE"
-	db $0D, ">FATALE RAFALE"
+	%map_text("GUSTY GLADE")
+	%map_text("FATALE RAFALE")
 
 DATA_B4D9AD:
-	db $E9, $00, $73, $00, $32, $02, $02 : dw .text
+	dw $00E9, $0073
+	db $32, $02, $02 : dw .text
 	dw !level_swankys_bonus_bonanza_gloomy_gulch
-	dw $002E, $002A
+	dw !map_node_parrot_chute_panic, !map_path_002A
 .text
-	db $16, ">SWANKY'S BONUS BONANZA"
-	db $16, ">BONUS % GOGO DE SWANKY"
+	%map_text("SWANKY'S BONUS BONANZA")
+	%map_text("BONUS % GOGO DE SWANKY")
 
 DATA_B4D9EC:
-	db $C7, $00, $59, $00, $32, $0F, $04 : dw .text
+	dw $00C7, $0059
+	db $32, $0F, $04 : dw .text
 	dw !level_parrot_chute_panic
-	dw $002D, $002A
-	dw $002F, $002B
-	dw $002C, $0029
-	dw $0031, $002C
+	dw !map_node_swankys_bonus_bonanza_w5, !map_path_002A
+	dw !map_node_klubbas_kiosk_w5, !map_path_002B
+	dw !map_node_gusty_glade, !map_path_0029
+	dw !map_node_funkys_flights_w5, !map_path_002C
 .text
-	db $12, ">PARROT CHUTE PANIC"
-	db $11, ">PERROQUET PANIQU?"
+	%map_text("PARROT CHUTE PANIC")
+	%map_text("PERROQUET PANIQU?")
 
 DATA_B4DA2E:
-	db $9E, $00, $64, $00, $32, $01, $01 : dw .text
+	dw $009E, $0064
+	db $32, $01, $01 : dw .text
 	dw !level_klubbas_kiosk_gloomy_gulch
-	dw $002E, $002B
+	dw !map_node_parrot_chute_panic, !map_path_002B
 .text
-	db $0E, ">KLUBBA'S KIOSK"
-	db $11, ">KIOSQUE DE KLUBBA"
+	%map_text("KLUBBA'S KIOSK")
+	%map_text("KIOSQUE DE KLUBBA")
 
 DATA_B4DA60:
-	db $7F, $00, $0C, $00, $32, $05, $01 : dw .text
+	dw $007F, $000C
+	db $32, $05, $01 : dw .text
 	dw !level_funkys_flights_gloomy_gulch
-	dw $002E, $002C
-	dw $0032, $002E
+	dw !map_node_parrot_chute_panic, !map_path_002C
+	dw !map_node_web_woods, !map_path_002E
 .text
-	db $12, ">FUNKY'S FLIGHTS II"
-	db $0D, ">VOLS FUNKY II"
+	%map_text("FUNKY'S FLIGHTS II")
+	%map_text("VOLS FUNKY II")
 
 DATA_B4DA96:
-	db $6E, $00, $44, $00, $32, $0A, $08 : dw .text
+	dw $006E, $0044
+	db $32, $0A, $08 : dw .text
 	dw !level_web_woods
-	dw $0033, $002F
-	dw $0031, $002E
+	dw !map_node_kreepy_krow, !map_path_002F
+	dw !map_node_funkys_flights_w5, !map_path_002E
 .text
-	db $09, ">WEB WOODS"
-	db $0E, ">TOILE DES BOIS"
+	%map_text("WEB WOODS")
+	%map_text("TOILE DES BOIS")
 
 DATA_B4DAC4:
-	db $2B, $00, $26, $00, $32, $01, $01 : dw .text
+	dw $002B, $0026
+	db $32, $01, $01 : dw .text
 	dw !level_kreepy_krow
-	dw $0032, $002F
+	dw !map_node_web_woods, !map_path_002F
 .text
-	db $0B, ">KREEPY KROW"
-	db $10, ">KROW L'INKI?TANT"
+	%map_text("KREEPY KROW")
+	%map_text("KROW L'INKI?TANT")
 
 DATA_B4DAF2:
-	db $9E, $00, $81, $01, $32, $0D, $00 : dw .text
+	dw $009E, $0181
+	db $32, $0D, $00 : dw .text
 	dw !level_arctic_abyss
-	dw $0035, $0031
-	dw $0038, $0034
-	dw $0036, $0030
+	dw !map_node_monkey_museum_w6, !map_path_0031
+	dw !map_node_klubbas_kiosk_w6, !map_path_0034
+	dw !map_node_windy_well, !map_path_0030
 .text
-	db $0C, ">ARCTIC ABYSS"
-	db $11, ">ABYSSES ARCTIQUES"
+	%map_text("ARCTIC ABYSS")
+	%map_text("ABYSSES ARCTIQUES")
 
 DATA_B4DB2A:
-	db $E1, $00, $8A, $01, $32, $02, $02 : dw .text
+	dw $00E1, $018A
+	db $32, $02, $02 : dw .text
 	dw !level_monkey_museum_k_rools_keep
-	dw $0034, $0031
+	dw !map_node_arctic_abyss, !map_path_0031
 .text
-	db $0D, ">MONKEY MUSEUM"
-	db $0E, ">MUS?E DU SINGE"
+	%map_text("MONKEY MUSEUM")
+	%map_text("MUS?E DU SINGE")
 
 DATA_B4DB58:
-	db $9E, $00, $47, $01, $32, $06, $04 : dw .text
+	dw $009E, $0147
+	db $32, $06, $04 : dw .text
 	dw !level_windy_well
-	dw $0037, $0032
-	dw $0034, $0030
+	dw !map_node_kong_kollege_w6, !map_path_0032
+	dw !map_node_arctic_abyss, !map_path_0030
 .text
-	db $0A, ">WINDY WELL"
-	db $0F, ">GOUFFRE GLACIAL"
+	%map_text("WINDY WELL")
+	%map_text("GOUFFRE GLACIAL")
 
 DATA_B4DB88:
-	db $5A, $00, $56, $01, $32, $09, $01 : dw .text
+	dw $005A, $0156
+	db $32, $09, $01 : dw .text
 	dw !level_kong_kollege_k_rools_keep
-	dw $0036, $0032
-	dw $0039, $0033
+	dw !map_node_windy_well, !map_path_0032
+	dw !map_node_castle_crush, !map_path_0033
 .text
-	db $0C, ">KONG KOLLEGE"
-	db $0C, ">KOLL&GE KONG"
+	%map_text("KONG KOLLEGE")
+	%map_text("KOLL&GE KONG")
 
 DATA_B4DBB7:
-	db $16, $00, $45, $01, $32, $04, $04 : dw .text
+	dw $0016, $0145
+	db $32, $04, $04 : dw .text
 	dw !level_klubbas_kiosk_k_rools_keep
-	dw $0034, $0034
+	dw !map_node_arctic_abyss, !map_path_0034
 .text
-	db $0E, ">KLUBBA'S KIOSK"
-	db $11, ">KIOSQUE DE KLUBBA"
+	%map_text("KLUBBA'S KIOSK")
+	%map_text("KIOSQUE DE KLUBBA")
 
 DATA_B4DBE9:
-	db $A2, $00, $09, $01, $32, $0C, $04 : dw .text
+	dw $00A2, $0109
+	db $32, $0C, $04 : dw .text
 	dw !level_castle_crush
-	dw $0037, $0033
-	dw $003A, $0035
+	dw !map_node_kong_kollege_w6, !map_path_0033
+	dw !map_node_clappers_cavern, !map_path_0035
 .text
-	db $0C, ">CASTLE CRUSH"
-	db $0F, ">BASTION BROYEUR"
+	%map_text("CASTLE CRUSH")
+	%map_text("BASTION BROYEUR")
 
 DATA_B4DC1B:
-	db $9B, $00, $C3, $00, $32, $0C, $04 : dw .text
+	dw $009B, $00C3
+	db $32, $0C, $04 : dw .text
 	dw !level_clappers_cavern
-	dw $0039, $0035
-	dw $003B, $0036
+	dw !map_node_castle_crush, !map_path_0035
+	dw !map_node_chain_link_chamber, !map_path_0036
 .text
-	db $10, ">CLAPPER'S CAVERN"
-	db $12, ">CAVERNE DE CLAPPER"
+	%map_text("CLAPPER'S CAVERN")
+	%map_text("CAVERNE DE CLAPPER")
 
 DATA_B4DC54:
-	db $97, $00, $86, $00, $32, $0D, $04 : dw .text
+	dw $0097, $0086
+	db $32, $0D, $04 : dw .text
 	dw !level_chain_link_chamber
-	dw $003C, $0037
-	dw $003A, $0036
-	dw $003D, $0038
+	dw !map_node_funkys_flights_w6, !map_path_0037
+	dw !map_node_clappers_cavern, !map_path_0036
+	dw !map_node_swankys_bonus_bonanza_w6, !map_path_0038
 .text
-	db $12, ">CHAIN LINK CHAMBER"
-	db $10, ">SALON DU MAILLON"
+	%map_text("CHAIN LINK CHAMBER")
+	%map_text("SALON DU MAILLON")
 
 DATA_B4DC91:
-	db $DC, $00, $8C, $00, $32, $02, $02 : dw .text
+	dw $00DC, $008C
+	db $32, $02, $02 : dw .text
 	dw !level_funkys_flights_k_rools_keep
-	dw $003B, $0037
+	dw !map_node_chain_link_chamber, !map_path_0037
 .text
-	db $12, ">FUNKY'S FLIGHTS II"
-	db $0D, ">VOLS FUNKY II"
+	%map_text("FUNKY'S FLIGHTS II")
+	%map_text("VOLS FUNKY II")
 
 DATA_B4DCC3:
-	db $56, $00, $52, $00, $32, $09, $01 : dw .text
+	dw $0056, $0052
+	db $32, $09, $01 : dw .text
 	dw !null_pointer
-	dw $003B, $0038
-	dw $003F, $003A
+	dw !map_node_chain_link_chamber, !map_path_0038
+	dw !map_node_toxic_tower, !map_path_003A
 .text
-	db $16, ">SWANKY'S BONUS BONANZA"
-	db $16, ">BONUS % GOGO DE SWANKY"
+	%map_text("SWANKY'S BONUS BONANZA")
+	%map_text("BONUS % GOGO DE SWANKY")
 
 DATA_B4DD06:
-	db $97, $00, $37, $00, $32, $0A, $02 : dw .text
+	dw $0097, $0037
+	db $32, $0A, $02 : dw .text
 	dw !level_toxic_tower
-	dw $003D, $003A
-	dw $0040, $003B
+	dw !map_node_swankys_bonus_bonanza_w6, !map_path_003A
+	dw !map_node_stronghold_showdown, !map_path_003B
 .text
-	db $0B, ">TOXIC TOWER"
-	db $0C, ">TOUR TOXIQUE"
+	%map_text("TOXIC TOWER")
+	%map_text("TOUR TOXIQUE")
 
 DATA_B4DD34:
-	db $97, $00, $16, $00, $32, $04, $04 : dw .text
+	dw $0097, $0016
+	db $32, $04, $04 : dw .text
 	dw !level_stronghold_showdown
-	dw $003F, $003B
+	dw !map_node_toxic_tower, !map_path_003B
 .text
-	db $13, ">STRONGHOLD SHOWDOWN"
-	db $15, ">CONFRONTATION AU FORT"
+	%map_text("STRONGHOLD SHOWDOWN")
+	%map_text("CONFRONTATION AU FORT")
 
 if !override_pirate_panic == 1
 DATA_B4DD6F:
-	db $1D, $00, $44, $00, $32, $01, $00 : dw .text
+	dw $001D, $0044
+	db $32, $01, $00 : dw .text
 	dw !pirate_panic_replacement
-	dw $0042, $0005
+	dw !map_node_mainbrace_mayhem, !map_path_0005
 .text
-	db $0C, ">PIRATE PANIC"
-	db $0E, ">PANIQUE % BORD"
+	%map_text("PIRATE PANIC")
+	%map_text("PANIQUE % BORD")
 else
 DATA_B4DD6F:
-	db $1D, $00, $44, $00, $32, $01, $00 : dw .text
+	dw $001D, $0044
+	db $32, $01, $00 : dw .text
 	dw !level_pirate_panic
-	dw $0042, $0005
+	dw !map_node_mainbrace_mayhem, !map_path_0005
 .text
-	db $0C, ">PIRATE PANIC"
-	db $0E, ">PANIQUE % BORD"
+	%map_text("PIRATE PANIC")
+	%map_text("PANIQUE % BORD")
 endif
 
 DATA_B4DD9C:
-	db $64, $00, $2D, $00, $32, $0E, $02 : dw .text
+	dw $0064, $002D
+	db $32, $0E, $02 : dw .text
 	dw !level_mainbrace_mayhem
-	dw $0041, $0005
-	dw $0009, $0007
-	dw $0043, $0006
+	dw !map_node_pirate_panic, !map_path_0005
+	dw !map_node_gangplank_galley, !map_path_0007
+	dw !map_node_monkey_museum_w1, !map_path_0006
 .text
-	db $10, ">MAINBRACE MAYHEM"
-	db $17, ">M?LI-M?LO DANS LES M$TS"
+	%map_text("MAINBRACE MAYHEM")
+	%map_text("M?LI-M?LO DANS LES M$TS")
 
 DATA_B4DDDE:
-	db $64, $00, $0A, $00, $32, $04, $04 : dw .text
+	dw $0064, $000A
+	db $32, $04, $04 : dw .text
 	dw !null_pointer
-	dw $0042, $0006
+	dw !map_node_mainbrace_mayhem, !map_path_0006
 .text
-	db $0D, ">MONKEY MUSEUM"
-	db $0E, ">MUS?E DU SINGE"
+	%map_text("MONKEY MUSEUM")
+	%map_text("MUS?E DU SINGE")
 
 DATA_B4DE0C:
-	db $64, $00, $4B, $00, $02, $04, $00 : dw .text
+	dw $0064, $004B
+	db $02, $04, $00 : dw .text
 	dw !null_pointer
-	dw $0045, $003F
+	dw !map_node_mudhole_marsh, !map_path_003F
 .text
-	db $01, ">A"
-	db $01, ">A"
+	%map_text("A")
+	%map_text("A")
 
 DATA_B4DE21:
-	db $6E, $00, $9A, $00, $32, $0B, $02 : dw .text
+	dw $006E, $009A
+	db $32, $0B, $02 : dw .text
 	dw !level_mudhole_marsh
-	dw $0047, $0048
-	dw $0044, $003F
-	dw $0046, $0040
+	dw !map_node_klubbas_kiosk_w4_lower, !map_path_0048
+	dw !map_node_w4_lower_to_upper_right, !map_path_003F
+	dw !map_node_rambi_rumble, !map_path_0040
 .text
-	db $0D, ">MUDHOLE MARSH"
-	db $0E, ">MARAIS MARRANT"
+	%map_text("MUDHOLE MARSH")
+	%map_text("MARAIS MARRANT")
 
 DATA_B4DE57:
-	db $8F, $00, $71, $00, $32, $05, $04 : dw .text
+	dw $008F, $0071
+	db $32, $05, $04 : dw .text
 	dw !level_rambi_rumble
-	dw $0048, $0041
-	dw $0045, $0040
+	dw !map_node_king_zing_sting, !map_path_0041
+	dw !map_node_mudhole_marsh, !map_path_0040
 .text
-	db $0C, ">RAMBI RUMBLE"
-	db $0F, ">RAMBI CHAMBARDE"
+	%map_text("RAMBI RUMBLE")
+	%map_text("RAMBI CHAMBARDE")
 
 DATA_B4DE89:
-	db $9D, $00, $A0, $00, $32, $02, $02 : dw .text
+	dw $009D, $00A0
+	db $32, $02, $02 : dw .text
 	dw !level_klubbas_kiosk_krazy_kremland_lower
-	dw $0045, $0048
+	dw !map_node_mudhole_marsh, !map_path_0048
 .text
-	db $0E, ">KLUBBA'S KIOSK"
-	db $11, ">KIOSQUE DE KLUBBA"
+	%map_text("KLUBBA'S KIOSK")
+	%map_text("KIOSQUE DE KLUBBA")
 
 DATA_B4DEBB:
-	db $C3, $00, $90, $00, $32, $02, $02 : dw .text
+	dw $00C3, $0090
+	db $32, $02, $02 : dw .text
 	dw !level_king_zing_sting
-	dw $0046, $0041
+	dw !map_node_rambi_rumble, !map_path_0041
 .text
-	db $0F, ">KING ZING STING"
-	db $0E, ">ROI ZING STING"
+	%map_text("KING ZING STING")
+	%map_text("ROI ZING STING")
 
 DATA_B4DEEB:
-	db $22, $00, $7A, $00, $32, $0C, $04 : dw .text
+	dw $0022, $007A
+	db $32, $0C, $04 : dw .text
 	dw !level_target_terror
-	dw $004F, $0042
-	dw $004A, $0043
+	dw !map_node_w4_upper_to_lower_left, !map_path_0042
+	dw !map_node_bramble_scramble, !map_path_0043
 .text
-	db $0D, ">TARGET TERROR"
-	db $12, ">OBJECTIF EPOUVANTE"
+	%map_text("TARGET TERROR")
+	%map_text("OBJECTIF EPOUVANTE")
 
 DATA_B4DF21:
-	db $3A, $00, $20, $00, $32, $07, $04 : dw .text
+	dw $003A, $0020
+	db $32, $07, $04 : dw .text
 	dw !level_bramble_scramble
-	dw $004B, $0044
-	dw $0053, $0049
-	dw $0049, $0043
+	dw !map_node_rickety_race, !map_path_0044
+	dw !map_node_funkys_flights_w4_upper, !map_path_0049
+	dw !map_node_target_terror, !map_path_0043
 .text
-	db $10, ">BRAMBLE SCRAMBLE"
-	db $13, ">EMBROUILLAMINI JOLI"
+	%map_text("BRAMBLE SCRAMBLE")
+	%map_text("EMBROUILLAMINI JOLI")
 
 DATA_B4DF5F:
-	db $96, $00, $14, $00, $32, $06, $02 : dw .text
+	dw $0096, $0014
+	db $32, $06, $02 : dw .text
 	dw !level_rickety_race
-	dw $004A, $0044
-	dw $004C, $0045
+	dw !map_node_bramble_scramble, !map_path_0044
+	dw !map_node_monkey_museum_w4_upper, !map_path_0045
 .text
-	db $0C, ">RICKETY RACE"
-	db $11, ">A BOUT DE SOUFFLE"
+	%map_text("RICKETY RACE")
+	%map_text("A BOUT DE SOUFFLE")
 
 DATA_B4DF93:
-	db $98, $00, $BC, $00, $32, $0B, $08 : dw .text
+	dw $0098, $00BC
+	db $32, $0B, $08 : dw .text
 	dw !null_pointer
-	dw $004E, $0046
-	dw $004D, $0047
-	dw $004B, $0045
+	dw !map_node_w4_upper_to_lower_right, !map_path_0046
+	dw !map_node_swankys_bonus_bonanza_w4_upper, !map_path_0047
+	dw !map_node_rickety_race, !map_path_0045
 .text
-	db $0D, ">MONKEY MUSEUM"
-	db $0E, ">MUS?E DU SINGE"
+	%map_text("MONKEY MUSEUM")
+	%map_text("MUS?E DU SINGE")
 
 DATA_B4DFC9:
-	db $59, $00, $AF, $00, $32, $01, $01 : dw .text
+	dw $0059, $00AF
+	db $32, $01, $01 : dw .text
 	dw !null_pointer
-	dw $004C, $0047
+	dw !map_node_monkey_museum_w4_upper, !map_path_0047
 .text
-	db $16, ">SWANKY'S BONUS BONANZA"
-	db $16, ">BONUS % GOGO DE SWANKY"
+	%map_text("SWANKY'S BONUS BONANZA")
+	%map_text("BONUS % GOGO DE SWANKY")
 
 DATA_B4E008:
-	db $EB, $00, $C8, $00, $02, $00, $00 : dw .text
+	dw $00EB, $00C8
+	db $02, $00, $00 : dw .text
 	dw !null_pointer
-	dw $004C, $0056
+	dw !map_node_monkey_museum_w4_upper, !map_path_0056
 .text
-	db $01, ">A"
-	db $01, ">A"
+	%map_text("A")
+	%map_text("A")
 
 DATA_B4E01D:
-	db $05, $00, $B4, $00, $02, $08, $00 : dw .text
+	dw $0005, $00B4
+	db $02, $08, $00 : dw .text
 	dw !null_pointer
-	dw $0049, $0042
+	dw !map_node_target_terror, !map_path_0042
 .text
-	db $01, ">A"
-	db $01, ">A"
+	%map_text("A")
+	%map_text("A")
 
 DATA_B4E032:
-	db $11, $00, $7F, $00, $32, $09, $00 : dw .text
+	dw $0011, $007F
+	db $32, $09, $00 : dw .text
 	dw !level_hornet_hole
-	dw $0051, $003D
-	dw $0052, $003E
+	dw !map_node_kong_kollege_w4_lower, !map_path_003D
+	dw !map_node_w4_lower_to_upper_left, !map_path_003E
 .text
-	db $0B, ">HORNET HOLE"
-	db $13, ">FRELONS FR?MISSANTS"
+	%map_text("HORNET HOLE")
+	%map_text("FRELONS FR?MISSANTS")
 
 DATA_B4E067:
-	db $44, $00, $A6, $00, $32, $0A, $02 : dw .text
+	dw $0044, $00A6
+	db $32, $0A, $02 : dw .text
 	dw !level_kong_kollege_krazy_kremland_lower
-	dw $0050, $003D
-	dw $0052, $004A
+	dw !map_node_hornet_hole, !map_path_003D
+	dw !map_node_w4_lower_to_upper_left, !map_path_004A
 .text
-	db $0C, ">KONG KOLLEGE"
-	db $0C, ">KOLL&GE KONG"
+	%map_text("KONG KOLLEGE")
+	%map_text("KOLL&GE KONG")
 
 DATA_B4E096:
-	db $47, $00, $42, $00, $02, $00, $00 : dw .text
+	dw $0047, $0042
+	db $02, $00, $00 : dw .text
 	dw !null_pointer
-	dw $0050, $0054
+	dw !map_node_hornet_hole, !map_path_0054
 .text
-	db $01, ">A"
-	db $01, ">A"
+	%map_text("A")
+	%map_text("A")
 
 DATA_B4E0AB:
-	db $14, $00, $14, $00, $32, $01, $01 : dw .text
+	dw $0014, $0014
+	db $32, $01, $01 : dw .text
 	dw !null_pointer
-	dw $004A, $0049
+	dw !map_node_bramble_scramble, !map_path_0049
 .text
-	db $12, ">FUNKY'S FLIGHTS II"
-	db $0D, ">VOLS FUNKY II"
+	%map_text("FUNKY'S FLIGHTS II")
+	%map_text("VOLS FUNKY II")
 
 DATA_B4E0DD:
-	db $03, $00, $89, $00, $02, $00, $00 : dw .text
+	dw $0003, $0089
+	db $02, $00, $00 : dw .text
 	dw !null_pointer
-	dw $001B, $004B
+	dw !map_node_barrel_bayou, !map_path_004B
 .text
-	db $01, ">A"
-	db $01, ">A"
+	%map_text("A")
+	%map_text("A")
 
 DATA_B4E0F2:
-	db $01, $00, $84, $00, $02, $00, $00 : dw .text
+	dw $0001, $0084
+	db $02, $00, $00 : dw .text
 	dw !null_pointer
-	dw $0050, $004C
+	dw !map_node_hornet_hole, !map_path_004C
 .text
-	db $01, ">A"
-	db $01, ">A"
+	%map_text("A")
+	%map_text("A")
 
 DATA_B4E107:
-	db $03, $00, $7D, $00, $02, $00, $00 : dw .text
+	dw $0003, $007D
+	db $02, $00, $00 : dw .text
 	dw !null_pointer
-	dw $0028, $004D
+	dw !map_node_ghostly_grove, !map_path_004D
 .text
-	db $01, ">A"
-	db $01, ">A"
+	%map_text("A")
+	%map_text("A")
 
 DATA_B4E11C:
-	db $AF, $00, $AE, $01, $02, $00, $00 : dw .text
+	dw $00AF, $01AE
+	db $02, $00, $00 : dw .text
 	dw !null_pointer
-	dw $0034, $004E
+	dw !map_node_arctic_abyss, !map_path_004E
 .text
-	db $01, ">A"
-	db $01, ">A"
+	%map_text("A")
+	%map_text("A")
 
 DATA_B4E131:
-	db $1C, $00, $44, $00, $32, $00, $00 : dw .text
+	dw $001C, $0044
+	db $32, $00, $00 : dw .text
 	dw !null_pointer
-	dw $0041, $004F
+	dw !map_node_pirate_panic, !map_path_004F
 .text
-	db $01, ">A"
-	db $01, ">A"
+	%map_text("A")
+	%map_text("A")
 
 DATA_B4E146:
-	db $2C, $00, $82, $00, $02, $00, $00 : dw .text
+	dw $002C, $0082
+	db $02, $00, $00 : dw .text
 	dw !null_pointer
-	dw $005B, $0050
+	dw !map_node_screechs_sprint, !map_path_0050
 .text
-	db $01, ">A"
-	db $01, ">A"
+	%map_text("A")
+	%map_text("A")
 
 DATA_B4E15B:
-	db $96, $00, $C3, $00, $32, $0B, $00 : dw .text
+	dw $0096, $00C3
+	db $32, $0B, $00 : dw .text
 	dw !level_screechs_sprint
-	dw $005C, $0052
-	dw $0077, $006B
-	dw $005D, $0053
+	dw !map_node_kong_kollege_w7, !map_path_0052
+	dw !map_node_funkys_flights_w7, !map_path_006B
+	dw !map_node_k_rool_duel, !map_path_0053
 .text
-	db $10, ">SCREECH'S SPRINT"
-	db $11, ">SPRINT DE SCREECH"
+	%map_text("SCREECH'S SPRINT")
+	%map_text("SPRINT DE SCREECH")
 
 DATA_B4E197:
-	db $D2, $00, $C3, $00, $32, $02, $02 : dw .text
+	dw $00D2, $00C3
+	db $32, $02, $02 : dw .text
 	dw !null_pointer
-	dw $005B, $0052
+	dw !map_node_screechs_sprint, !map_path_0052
 .text
-	db $0C, ">KONG KOLLEGE"
-	db $0C, ">KOLL&GE KONG"
+	%map_text("KONG KOLLEGE")
+	%map_text("KOLL&GE KONG")
 
 DATA_B4E1C2:
-	db $B4, $00, $70, $00, $32, $04, $04 : dw .text
+	dw $00B4, $0070
+	db $32, $04, $04 : dw .text
 	dw !level_k_rool_duel
-	dw $005B, $0053
+	dw !map_node_screechs_sprint, !map_path_0053
 .text
-	db $0B, ">K.ROOL DUEL"
-	db $10, ">DUEL AVEC K.ROOL"
+	%map_text("K.ROOL DUEL")
+	%map_text("DUEL AVEC K.ROOL")
 
 DATA_B4E1F0:
-	db $50, $00, $B1, $00, $32, $03, $00 : dw .text
+	dw $0050, $00B1
+	db $32, $03, $00 : dw .text
 	dw !null_pointer
-	dw $005F, $0057
-	dw $0060, $0058
+	dw !map_node_monkey_museum_w2_lost_world, !map_path_0057
+	dw !map_node_jungle_jinx, !map_path_0058
 .text
-	db $1C, ">RETURN TO CROCODILE CAULDRON"
-	db $1B, ">RETOUR AU CHAUDRON DU CROCO"
+	%map_text("RETURN TO CROCODILE CAULDRON")
+	%map_text("RETOUR AU CHAUDRON DU CROCO")
 
 DATA_B4E23E:
-	db $74, $00, $CB, $00, $32, $02, $02 : dw .text
+	dw $0074, $00CB
+	db $32, $02, $02 : dw .text
 	dw !null_pointer
-	dw $005E, $0057
+	dw !map_node_return_to_w2, !map_path_0057
 .text
-	db $0D, ">MONKEY MUSEUM"
-	db $0E, ">MUS?E DU SINGE"
+	%map_text("MONKEY MUSEUM")
+	%map_text("MUS?E DU SINGE")
 
 DATA_B4E26C:
-	db $11, $00, $82, $00, $32, $09, $01 : dw .text
+	dw $0011, $0082
+	db $32, $09, $01 : dw .text
 	dw !level_jungle_jinx
-	dw $005E, $0058
-	dw $0061, $0059
+	dw !map_node_return_to_w2, !map_path_0058
+	dw !map_node_krocodile_kore_w2_lost_world, !map_path_0059
 .text
-	db $0B, ">JUNGLE JINX"
-	db $11, ">JUNGLE ENSORCEL?E"
+	%map_text("JUNGLE JINX")
+	%map_text("JUNGLE ENSORCEL?E")
 
 DATA_B4E29F:
-	db $8E, $00, $62, $00, $32, $04, $04 : dw .text
+	dw $008E, $0062
+	db $32, $04, $04 : dw .text
 	dw !level_krocodile_kore
-	dw $0060, $0059
+	dw !map_node_jungle_jinx, !map_path_0059
 .text
-	db $0E, ">KROCODILE KORE"
-	db $0F, ">KANINE DU KROCO"
+	%map_text("KROCODILE KORE")
+	%map_text("KANINE DU KROCO")
 
 DATA_B4E2CF:
-	db $50, $00, $B1, $00, $32, $09, $00 : dw .text
+	dw $0050, $00B1
+	db $32, $09, $00 : dw .text
 	dw !null_pointer
-	dw $0063, $005A
-	dw $0064, $005B
+	dw !map_node_monkey_museum_w3_lost_world, !map_path_005A
+	dw !map_node_black_ice_battle, !map_path_005B
 .text
-	db $13, ">RETURN TO KREM QUAY"
-	db $13, ">RETOUR AU QUAI KREM"
+	%map_text("RETURN TO KREM QUAY")
+	%map_text("RETOUR AU QUAI KREM")
 
 DATA_B4E30C:
-	db $74, $00, $CB, $00, $32, $02, $02 : dw .text
+	dw $0074, $00CB
+	db $32, $02, $02 : dw .text
 	dw !null_pointer
-	dw $0062, $005A
+	dw !map_node_return_to_w3, !map_path_005A
 .text
-	db $0D, ">MONKEY MUSEUM"
-	db $0E, ">MUS?E DU SINGE"
+	%map_text("MONKEY MUSEUM")
+	%map_text("MUS?E DU SINGE")
 
 DATA_B4E33A:
-	db $2C, $00, $82, $00, $32, $0C, $04 : dw .text
+	dw $002C, $0082
+	db $32, $0C, $04 : dw .text
 	dw !level_black_ice_battle
-	dw $0062, $005B
-	dw $0065, $005C
+	dw !map_node_return_to_w3, !map_path_005B
+	dw !map_node_krocodile_kore_w3_lost_world, !map_path_005C
 .text
-	db $10, ">BLACK ICE BATTLE"
-	db $1A, ">BATAILLE DE LA GLACE NOIRE"
+	%map_text("BLACK ICE BATTLE")
+	%map_text("BATAILLE DE LA GLACE NOIRE")
 
 DATA_B4E37B:
-	db $8E, $00, $62, $00, $32, $04, $04 : dw .text
+	dw $008E, $0062
+	db $32, $04, $04 : dw .text
 	dw !level_krocodile_kore
-	dw $0064, $005C
+	dw !map_node_black_ice_battle, !map_path_005C
 .text
-	db $0E, ">KROCODILE KORE"
-	db $0F, ">KANINE DU KROCO"
+	%map_text("KROCODILE KORE")
+	%map_text("KANINE DU KROCO")
 
 DATA_B4E3AB:
-	db $50, $00, $B1, $00, $32, $09, $00 : dw .text
+	dw $0050, $00B1
+	db $32, $09, $00 : dw .text
 	dw !null_pointer
-	dw $0067, $005D
-	dw $0068, $005E
+	dw !map_node_monkey_museum_w4_lost_world, !map_path_005D
+	dw !map_node_klobber_karnage, !map_path_005E
 .text
-	db $18, ">RETURN TO KRAZY KREMLAND"
-	db $17, ">RETOUR % KREMLAND DINGO"
+	%map_text("RETURN TO KRAZY KREMLAND")
+	%map_text("RETOUR % KREMLAND DINGO")
 
 DATA_B4E3F1:
-	db $74, $00, $CB, $00, $32, $02, $02 : dw .text
+	dw $0074, $00CB
+	db $32, $02, $02 : dw .text
 	dw !null_pointer
-	dw $0066, $005D
+	dw !map_node_return_to_w4, !map_path_005D
 .text
-	db $0D, ">MONKEY MUSEUM"
-	db $0E, ">MUS?E DU SINGE"
+	%map_text("MONKEY MUSEUM")
+	%map_text("MUS?E DU SINGE")
 
 DATA_B4E41F:
-	db $5E, $00, $96, $00, $32, $0C, $04 : dw .text
+	dw $005E, $0096
+	db $32, $0C, $04 : dw .text
 	dw !level_klobber_karnage
-	dw $0066, $005E
-	dw $0069, $005F
+	dw !map_node_return_to_w4, !map_path_005E
+	dw !map_node_krocodile_kore_w4_lost_world, !map_path_005F
 .text
-	db $0F, ">KLOBBER KARNAGE"
-	db $15, ">CH$TAIGNES ET MARRONS"
+	%map_text("KLOBBER KARNAGE")
+	%map_text("CH$TAIGNES ET MARRONS")
 
 DATA_B4E45A:
-	db $8E, $00, $62, $00, $32, $04, $04 : dw .text
+	dw $008E, $0062
+	db $32, $04, $04 : dw .text
 	dw !level_krocodile_kore
-	dw $0068, $005F
+	dw !map_node_klobber_karnage, !map_path_005F
 .text
-	db $0E, ">KROCODILE KORE"
-	db $0F, ">KANINE DU KROCO"
+	%map_text("KROCODILE KORE")
+	%map_text("KANINE DU KROCO")
 
 DATA_B4E48A:
-	db $50, $00, $B1, $00, $32, $09, $00 : dw .text
+	dw $0050, $00B1
+	db $32, $09, $00 : dw .text
 	dw !null_pointer
-	dw $006B, $0060
-	dw $006C, $0061
+	dw !map_node_monkey_museum_w5_lost_world, !map_path_0060
+	dw !map_node_fiery_furnace, !map_path_0061
 .text
-	db $16, ">RETURN TO GLOOMY GULCH"
-	db $14, ">RETOUR AU RAVIN RAVI"
+	%map_text("RETURN TO GLOOMY GULCH")
+	%map_text("RETOUR AU RAVIN RAVI")
 
 DATA_B4E4CB:
-	db $74, $00, $CB, $00, $32, $02, $02 : dw .text
+	dw $0074, $00CB
+	db $32, $02, $02 : dw .text
 	dw !null_pointer
-	dw $006A, $0060
+	dw !map_node_return_to_w5, !map_path_0060
 .text
-	db $0D, ">MONKEY MUSEUM"
-	db $0E, ">MUS?E DU SINGE"
+	%map_text("MONKEY MUSEUM")
+	%map_text("MUS?E DU SINGE")
 
 DATA_B4E4F9:
-	db $96, $00, $8A, $00, $32, $0A, $02 : dw .text
+	dw $0096, $008A
+	db $32, $0A, $02 : dw .text
 	dw !level_fiery_furnace
-	dw $006A, $0061
-	dw $006D, $0062
+	dw !map_node_return_to_w5, !map_path_0061
+	dw !map_node_krocodile_kore_w5_lost_world, !map_path_0062
 .text
-	db $0D, ">FIERY FURNACE"
-	db $12, ">FOURNAISE FURIEUSE"
+	%map_text("FIERY FURNACE")
+	%map_text("FOURNAISE FURIEUSE")
 
 DATA_B4E52F:
-	db $8E, $00, $62, $00, $32, $04, $04 : dw .text
+	dw $008E, $0062
+	db $32, $04, $04 : dw .text
 	dw !level_krocodile_kore
-	dw $006C, $0062
+	dw !map_node_fiery_furnace, !map_path_0062
 .text
-	db $0E, ">KROCODILE KORE"
-	db $0F, ">KANINE DU KROCO"
+	%map_text("KROCODILE KORE")
+	%map_text("KANINE DU KROCO")
 
 DATA_B4E55F:
-	db $50, $00, $B1, $00, $32, $05, $00 : dw .text
+	dw $0050, $00B1
+	db $32, $05, $00 : dw .text
 	dw !null_pointer
-	dw $0070, $0064
-	dw $006F, $0063
+	dw !map_node_animal_antics_rambi_area, !map_path_0064
+	dw !map_node_monkey_museum_w6_lost_world, !map_path_0063
 .text
-	db $17, ">RETURN TO K.ROOL'S KEEP"
-	db $1A, ">RETOUR AU CASTEL DE K.ROOL"
+	%map_text("RETURN TO K.ROOL'S KEEP")
+	%map_text("RETOUR AU CASTEL DE K.ROOL")
 
 DATA_B4E5A7:
-	db $74, $00, $CB, $00, $32, $02, $02 : dw .text
+	dw $0074, $00CB
+	db $32, $02, $02 : dw .text
 	dw !null_pointer
-	dw $006E, $0063
+	dw !map_node_return_to_w6, !map_path_0063
 .text
-	db $0D, ">MONKEY MUSEUM"
-	db $0E, ">MUS?E DU SINGE"
+	%map_text("MONKEY MUSEUM")
+	%map_text("MUS?E DU SINGE")
 
 DATA_B4E5D5:
-	db $D4, $00, $A2, $00, $32, $0A, $02 : dw .text
+	dw $00D4, $00A2
+	db $32, $0A, $02 : dw .text
 	dw !level_animal_antics_rambi_area
-	dw $006E, $0064
-	dw $0071, $0065
+	dw !map_node_return_to_w6, !map_path_0064
+	dw !map_node_krocodile_kore_w6_lost_world, !map_path_0065
 .text
-	db $0D, ">ANIMAL ANTICS"
-	db $14, ">FAC?TIES ANIMALI&RES"
+	%map_text("ANIMAL ANTICS")
+	%map_text("FAC?TIES ANIMALI&RES")
 
 DATA_B4E60D:
-	db $8E, $00, $62, $00, $32, $04, $04 : dw .text
+	dw $008E, $0062
+	db $32, $04, $04 : dw .text
 	dw !level_krocodile_kore
-	dw $0070, $0065
+	dw !map_node_animal_antics_rambi_area, !map_path_0065
 .text
-	db $0E, ">KROCODILE KORE"
-	db $0F, ">KANINE DU KROCO"
+	%map_text("KROCODILE KORE")
+	%map_text("KANINE DU KROCO")
 
 DATA_B4E63D:
-	db $64, $00, $88, $00, $02, $00, $00 : dw .text
+	dw $0064, $0088
+	db $02, $00, $00 : dw .text
 	dw !null_pointer
-	dw $0012, $0066
+	dw !map_node_klubbas_kiosk_w2, !map_path_0066
 .text
-	db $01, ">A"
-	db $01, ">A"
+	%map_text("A")
+	%map_text("A")
 
 DATA_B4E652:
-	db $B8, $01, $C7, $00, $02, $00, $00 : dw .text
+	dw $01B8, $00C7
+	db $02, $00, $00 : dw .text
 	dw !null_pointer
-	dw $001F, $0067
+	dw !map_node_klubbas_kiosk_w3, !map_path_0067
 .text
-	db $01, ">A"
-	db $01, ">A"
+	%map_text("A")
+	%map_text("A")
 
 DATA_B4E667:
-	db $9D, $00, $A1, $00, $02, $00, $00 : dw .text
+	dw $009D, $00A1
+	db $02, $00, $00 : dw .text
 	dw !null_pointer
-	dw $0047, $0068
+	dw !map_node_klubbas_kiosk_w4_lower, !map_path_0068
 .text
-	db $01, ">A"
-	db $01, ">A"
+	%map_text("A")
+	%map_text("A")
 
 DATA_B4E67C:
-	db $9E, $00, $65, $00, $02, $00, $00 : dw .text
+	dw $009E, $0065
+	db $02, $00, $00 : dw .text
 	dw !null_pointer
-	dw $002F, $0069
+	dw !map_node_klubbas_kiosk_w5, !map_path_0069
 .text
-	db $01, ">A"
-	db $01, ">A"
+	%map_text("A")
+	%map_text("A")
 
 DATA_B4E691:
-	db $16, $00, $46, $01, $02, $00, $00 : dw .text
+	dw $0016, $0146
+	db $02, $00, $00 : dw .text
 	dw !null_pointer
-	dw $0038, $006A
+	dw !map_node_klubbas_kiosk_w6, !map_path_006A
 .text
-	db $01, ">A"
-	db $01, ">A"
+	%map_text("A")
+	%map_text("A")
 
 DATA_B4E6A6:
-	db $64, $00, $A0, $00, $32, $01, $01 : dw .text
+	dw $0064, $00A0
+	db $32, $01, $01 : dw .text
 	dw !null_pointer
-	dw $005B, $006B
+	dw !map_node_screechs_sprint, !map_path_006B
 .text
-	db $12, ">FUNKY'S FLIGHTS II"
-	db $0D, ">VOLS FUNKY II"
+	%map_text("FUNKY'S FLIGHTS II")
+	%map_text("VOLS FUNKY II")
 
 DATA_B4E6D8:
 	dw DATA_B4E7B0

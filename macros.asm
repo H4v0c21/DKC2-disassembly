@@ -197,3 +197,10 @@ macro vram_payload(data_address, vram_address, data_size, compressed)
 	dw <vram_address>|(<compressed><<15)
 	dw <data_size>
 endmacro
+
+macro map_text(text)
+	db ?end-?start, $3E
+	?start:
+	db "<text>"
+	?end:
+endmacro

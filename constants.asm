@@ -210,14 +210,14 @@
 !sound_k_rool_down			= $5A	;5A: K. Rool down
 !sound_k_rool_splash_1			= $5B	;5B: Kudgel/K. Rool falling into water (channel 1)
 !sound_k_rool_splash_2			= $5C	;5C: Kudgel/K. Rool falling into water (channel 2)
-!sound_kremling_hit_2 			= $5D	;5D: Klinger/Krook/Kloak defeated
+!sound_kremling_hit_2			= $5D	;5D: Klinger/Krook/Kloak defeated
 !sound_pause				= $5E	;5E: Pause/unpause game
-!sound_wrong_answer 	 		= $5F	;5F: Incorrect answer/unavailable option
+!sound_wrong_answer			= $5F	;5F: Incorrect answer/unavailable option
 
 ;Non-global sounds
 ;Roller Coaster/Kackle "Coaster"
-!sound_coaster_move 			= $60	;60: Roller coaster moving
-!sound_barrel_good 			= $61	;61: Breaking Check/+ Barrel
+!sound_coaster_move			= $60	;60: Roller coaster moving
+!sound_barrel_good			= $61	;61: Breaking Check/+ Barrel
 !sound_barrel_bad			= $62	;62: Breaking X/- Barrel
 !sound_coaster_race_rank_up		= $63	;63: Climbing in rank (Rickety Race)
 !sound_coaster_land			= $64	;64: Roller coaster landing on track
@@ -250,32 +250,32 @@
 !sound_ending_beam_die			= $73	;73: Krocodile Kore beam dying
 !sound_ending_fire_die			= $74	;74: Krocodile Kore beam dying (noise channel)
 !sound_ending_k_rool_laugh		= $75	;75: K. Rool laughing
-!sound_ending_k_rool_laugh_echo 	= $76	;76: K. Rool laughing (echo)
+!sound_ending_k_rool_laugh_echo		= $76	;76: K. Rool laughing (echo)
 
 ;Swamp/Enchanted Wood/Mine/Brambles/Wasp Hive "Nature"
-!sound_kloak_laugh 			= $64	;64: Kloak laughing
-!sound_wind 				= $65	;65: Wind
-!sound_splash_1_copy 			= $66	;66: Identical to 60
-!sound_splash_2_copy 			= $67	;67: Identical to 61
-!sound_stick_honey 			= $68	;68: Sticking to honey
+!sound_kloak_laugh			= $64	;64: Kloak laughing
+!sound_wind				= $65	;65: Wind
+!sound_splash_1_copy			= $66	;66: Identical to 60
+!sound_splash_2_copy			= $67	;67: Identical to 61
+!sound_stick_honey			= $68	;68: Sticking to honey
 !sound_krockhead_rise_sink		= $6D	;6D: Krockhead rising/sinking
-!sound_ghost_rope_appear 		= $70	;70: Ghost rope appearing
-!sound_ghost_rope_appear_echo 		= $71	;71: Ghost rope appearing (echo)
-!sound_ghost_rope_vanish 		= $72	;72: Ghost rope disappearing
-!sound_ghost_rope_vanish_echo 		= $73	;73: Ghost rope disappearing (echo)
+!sound_ghost_rope_appear		= $70	;70: Ghost rope appearing
+!sound_ghost_rope_appear_echo		= $71	;71: Ghost rope appearing (echo)
+!sound_ghost_rope_vanish		= $72	;72: Ghost rope disappearing
+!sound_ghost_rope_vanish_echo		= $73	;73: Ghost rope disappearing (echo)
 
 ;Coaster/Nature
 !sound_starting_light_1			= $6B	;6B: Red starting light (Rickety Race/)
 !sound_starting_light_2			= $6C	;6C: Green starting light
 
 ;Aquatic/Nature
-!sound_splash_1 			= $60	;60: Splash
-!sound_splash_2 			= $61	;61: Splash (deeper)
+!sound_splash_1				= $60	;60: Splash
+!sound_splash_2				= $61	;61: Splash (deeper)
 
 ;Jungle
-!sound_kong_tire_bounce 		= $60	;60: Kong bouncing off of tire
-!sound_tire_wall_bounce 		= $61	;61: Tire deflected off of a wall
-!sound_tire_appear 			= $62	;62: Tire spawning
+!sound_kong_tire_bounce			= $60	;60: Kong bouncing off of tire
+!sound_tire_wall_bounce			= $61	;61: Tire deflected off of a wall
+!sound_tire_appear			= $62	;62: Tire spawning
 !sound_tire_roll			= $63	;63: Tire rolling
 
 ;Krow/Kudgel/Kreepy Krow/K. Rool "Boss 1"
@@ -320,8 +320,8 @@
 !sound_king_zing_defeated		= $7F	;7F: King Zing defeated
 
 ;Nature/Boss 2
-!sound_krockhead_green 			= $6E	;6E: Landing on a Green Krockhead
-!sound_krockhead_brown 			= $6F	;6F: Bouncing on a Brown Krockhead
+!sound_krockhead_green			= $6E	;6E: Landing on a Green Krockhead
+!sound_krockhead_brown			= $6F	;6F: Bouncing on a Brown Krockhead
 
 ;Boss 1/Boss 2
 !sound_hooks_appear			= $66	;66: Hanging hooks appearing (Kleever's Kiln/Kreepy Krow)
@@ -487,6 +487,115 @@
 !map_node_w5_entrance_from_klubba		= $0075
 !map_node_w6_entrance_from_klubba		= $0076
 !map_node_funkys_flights_w7			= $0077
+
+!map_path_0000					= $0000
+!map_path_0001					= $0001
+!map_path_0002					= $0002
+!map_path_0003					= $0003
+!map_path_0004					= $0004
+!map_path_0005					= $0005
+!map_path_0006					= $0006
+!map_path_0007					= $0007
+!map_path_0008					= $0008
+!map_path_0009					= $0009
+!map_path_000A					= $000A
+!map_path_000B					= $000B
+!map_path_000C					= $000C
+!map_path_000D					= $000D
+!map_path_000E					= $000E
+!map_path_000F					= $000F
+!map_path_0010					= $0010
+!map_path_0011					= $0011
+!map_path_0012					= $0012
+!map_path_0013					= $0013
+!map_path_0014					= $0014
+!map_path_0015					= $0015
+!map_path_0016					= $0016
+!map_path_0017					= $0017
+!map_path_0018					= $0018
+!map_path_0019					= $0019
+!map_path_001A					= $001A
+!map_path_001B					= $001B
+!map_path_001C					= $001C
+!map_path_001D					= $001D
+!map_path_001E					= $001E
+!map_path_001F					= $001F
+!map_path_0020					= $0020
+!map_path_0021					= $0021
+!map_path_0022					= $0022
+!map_path_0023					= $0023
+!map_path_0024					= $0024
+!map_path_0025					= $0025
+!map_path_0026					= $0026
+!map_path_0027					= $0027
+!map_path_0028					= $0028
+!map_path_0029					= $0029
+!map_path_002A					= $002A
+!map_path_002B					= $002B
+!map_path_002C					= $002C
+!map_path_002D					= $002D
+!map_path_002E					= $002E
+!map_path_002F					= $002F
+!map_path_0030					= $0030
+!map_path_0031					= $0031
+!map_path_0032					= $0032
+!map_path_0033					= $0033
+!map_path_0034					= $0034
+!map_path_0035					= $0035
+!map_path_0036					= $0036
+!map_path_0037					= $0037
+!map_path_0038					= $0038
+!map_path_0039					= $0039
+!map_path_003A					= $003A
+!map_path_003B					= $003B
+!map_path_003C					= $003C
+!map_path_003D					= $003D
+!map_path_003E					= $003E
+!map_path_003F					= $003F
+!map_path_0040					= $0040
+!map_path_0041					= $0041
+!map_path_0042					= $0042
+!map_path_0043					= $0043
+!map_path_0044					= $0044
+!map_path_0045					= $0045
+!map_path_0046					= $0046
+!map_path_0047					= $0047
+!map_path_0048					= $0048
+!map_path_0049					= $0049
+!map_path_004A					= $004A
+!map_path_004B					= $004B
+!map_path_004C					= $004C
+!map_path_004D					= $004D
+!map_path_004E					= $004E
+!map_path_004F					= $004F
+!map_path_0050					= $0050
+!map_path_0051					= $0051
+!map_path_0052					= $0052
+!map_path_0053					= $0053
+!map_path_0054					= $0054
+!map_path_0055					= $0055
+!map_path_0056					= $0056
+!map_path_0057					= $0057
+!map_path_0058					= $0058
+!map_path_0059					= $0059
+!map_path_005A					= $005A
+!map_path_005B					= $005B
+!map_path_005C					= $005C
+!map_path_005D					= $005D
+!map_path_005E					= $005E
+!map_path_005F					= $005F
+!map_path_0060					= $0060
+!map_path_0061					= $0061
+!map_path_0062					= $0062
+!map_path_0063					= $0063
+!map_path_0064					= $0064
+!map_path_0065					= $0065
+!map_path_0066					= $0066
+!map_path_0067					= $0067
+!map_path_0068					= $0068
+!map_path_0069					= $0069
+!map_path_006A					= $006A
+!map_path_006B					= $006B
 
 !level_web_woods_unused					= $0000
 !level_glimmers_galleon					= $0001
@@ -760,7 +869,7 @@
 !sprite_krocodile_kore_sparkle		= $0050
 !sprite_krool_water_drips		= $0054
 !sprite_puftup_spikes			= $0058
-!sprite_lilypad		                = $005C
+!sprite_lilypad				= $005C
 !sprite_barrel_pieces			= $0060
 !sprite_unknown_0064			= $0064
 !sprite_king_zing_spikes		= $0068
