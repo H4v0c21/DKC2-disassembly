@@ -33,7 +33,7 @@ player_interaction_table:
 	dw CODE_B885D5				;001F: Stunned by K. Rool before being hit by his blunderbuss
 	dw CODE_B88A4C				;0020: 42
 	dw CODE_B88A92				;0021: 44
-	dw CODE_B88C9D				;0022: 46
+	dw CODE_B88C9D				;0022: Hurt by enemy/obstacle (Disables extra kong bit)
 	dw CODE_B88CA3				;0023: Hurt by enemy/obstacle
 	dw CODE_B8815F				;0024: Frozen by K. Rool's blue gas cloud
 	dw CODE_B885F5				;0025: Slowed down by K. Rool's red gas cloud/reversed by K. Rool's purple gas cloud
@@ -11466,7 +11466,7 @@ CODE_B8D4C3:					;	   |
 	STA $19C6				;$B8D4C3   |
 	LDA $0D54				;$B8D4C6   |
 	BMI CODE_B8D4D3				;$B8D4C9   |
-	CLC					;$B8D4CB   |
+	CLC					;$B8D4CB   | 
 	ADC #$00C0				;$B8D4CC   |
 	CMP $0A,x				;$B8D4CF   |
 	BCC CODE_B8D4D5				;$B8D4D1   |

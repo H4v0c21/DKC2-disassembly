@@ -4325,11 +4325,12 @@ CODE_B9EAAF:
 
 CODE_B9EABE:
 	LDA $10,x				;$B9EABE  \
-	BEQ turn_kloak_if_needed		;$B9EAC0   |
+	BEQ .turn_kloak_if_needed		;$B9EAC0   |
 	LDA #$02D2				;$B9EAC2   |
 	JSL set_sprite_animation		;$B9EAC5   |
 	RTS					;$B9EAC9  /
-turn_kloak_if_needed:
+	
+.turn_kloak_if_needed:
 	LDY #$02D1				;$B9EACA  \
 	JMP turn_sprite_if_needed		;$B9EACD  /
 

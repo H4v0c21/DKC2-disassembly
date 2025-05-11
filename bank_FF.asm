@@ -745,9 +745,9 @@ DATA_FF047E:
 	dw DATA_FF1626		;0068 barrel fragment
 	dw DATA_FF163A		;006A barrel fragment
 	dw DATA_FF164E		;006C ???
-	dw DATA_FF166A		;006E unknown_sprite_0014
-	dw DATA_FF1684		;0070 unknown_sprite_0014
-	dw DATA_FF169E		;0072 unknown_sprite_0014
+	dw DATA_FF166A		;006E large_smoke_puff_timestop
+	dw DATA_FF1684		;0070 large_smoke_puff_timestop
+	dw DATA_FF169E		;0072 large_smoke_puff_timestop
 	dw DATA_FF16BA		;0074 smoke puff
 	dw DATA_FF16D2		;0076 smoke puff
 	dw DATA_FF1714		;0078 ???
@@ -959,7 +959,7 @@ DATA_FF0620:
 	dw DATA_FF0B5C
 
 DATA_FF0690:
-	dw sprite.type, !sprite_npc_kong_credits
+	dw sprite.type, !sprite_credits_dummy
 	dw sprite.x_position, $00E0
 	dw sprite.y_position, $01A0
 	dw !initcommand_set_oam, $3000
@@ -1013,7 +1013,7 @@ DATA_FF0706:
 	dw !initcommand_success
 
 DATA_FF0718:
-	dw sprite.type, !sprite_npc_kong_credits
+	dw sprite.type, !sprite_credits_dummy
 	dw sprite.x_position, $00E0
 	dw sprite.y_position, $0180
 	dw sprite.unknown_28, $0100
@@ -1059,7 +1059,7 @@ DATA_FF077C:
 	dw !initcommand_success
 
 DATA_FF078A:
-	dw sprite.type, !sprite_npc_kong_credits
+	dw sprite.type, !sprite_credits_dummy
 	dw sprite.x_position, $00E0
 	dw sprite.y_position, $0170
 	dw !initcommand_set_alt_palette, $003A
@@ -1068,7 +1068,7 @@ DATA_FF078A:
 	dw !initcommand_success
 
 DATA_FF07A4:
-	dw sprite.type, !sprite_npc_kong_credits
+	dw sprite.type, !sprite_credits_dummy
 	dw sprite.x_position, $00E0
 	dw sprite.y_position, $01A0
 	dw sprite.unknown_22, $0068
@@ -1087,7 +1087,7 @@ DATA_FF07CE:
 	dw !initcommand_success
 
 DATA_FF07DC:
-	dw sprite.type, !sprite_npc_kong_credits
+	dw sprite.type, !sprite_credits_dummy
 	dw sprite.x_position, $00DD
 	dw sprite.y_position, $0170
 	dw !initcommand_set_alt_palette, $0001
@@ -1202,7 +1202,7 @@ DATA_FF08EC:
 	dw !initcommand_success
 
 DATA_FF08FE:
-	dw sprite.type, !sprite_npc_kong_credits
+	dw sprite.type, !sprite_credits_dummy
 	dw sprite.x_position, $00E0
 	dw sprite.y_position, $01A0
 	dw !initcommand_set_alt_palette, $0069
@@ -1211,7 +1211,7 @@ DATA_FF08FE:
 	dw !initcommand_success
 
 DATA_FF0918:
-	dw sprite.type, !sprite_npc_kong_credits
+	dw sprite.type, !sprite_credits_dummy
 	dw sprite.x_position, $00E0
 	dw sprite.y_position, $01A0
 	dw !initcommand_set_alt_palette, $006A
@@ -1220,7 +1220,7 @@ DATA_FF0918:
 	dw !initcommand_success
 
 DATA_FF0932:
-	dw sprite.type, !sprite_npc_kong_credits
+	dw sprite.type, !sprite_credits_dummy
 	dw sprite.x_position, $00E0
 	dw sprite.y_position, $01A0
 	dw sprite.render_order, $00F8
@@ -1230,7 +1230,7 @@ DATA_FF0932:
 	dw !initcommand_success
 
 DATA_FF0950:
-	dw sprite.type, !sprite_npc_kong_credits
+	dw sprite.type, !sprite_credits_dummy
 	dw sprite.x_position, $00E0
 	dw sprite.y_position, $01A0
 	dw !initcommand_set_alt_palette, $0043
@@ -1239,7 +1239,7 @@ DATA_FF0950:
 	dw !initcommand_success
 
 DATA_FF096A:
-	dw sprite.type, !sprite_npc_kong_credits
+	dw sprite.type, !sprite_credits_dummy
 	dw sprite.x_position, $00E0
 	dw sprite.y_position, $01A0
 	dw !initcommand_set_alt_palette, $0060
@@ -1248,7 +1248,7 @@ DATA_FF096A:
 	dw !initcommand_success
 
 DATA_FF0984:
-	dw sprite.type, !sprite_npc_kong_credits
+	dw sprite.type, !sprite_credits_dummy
 	dw sprite.x_position, $00E0
 	dw sprite.y_position, $01A0
 	dw !initcommand_set_alt_palette, $000D
@@ -1257,7 +1257,7 @@ DATA_FF0984:
 	dw !initcommand_success
 
 DATA_FF099E:
-	dw sprite.type, !sprite_npc_kong_credits
+	dw sprite.type, !sprite_credits_dummy
 	dw sprite.x_position, $00E0
 	dw sprite.y_position, $01A0
 	dw !initcommand_set_alt_palette, $0005
@@ -1266,7 +1266,7 @@ DATA_FF099E:
 	dw !initcommand_success
 
 DATA_FF09B8:
-	dw sprite.type, !sprite_npc_kong_credits
+	dw sprite.type, !sprite_credits_dummy
 	dw sprite.x_position, $00E0
 	dw sprite.y_position, $01A0
 	dw !initcommand_set_alt_palette, $006F
@@ -1275,7 +1275,7 @@ DATA_FF09B8:
 	dw !initcommand_success
 
 DATA_FF09D2:
-	dw sprite.type, !sprite_npc_kong_credits
+	dw sprite.type, !sprite_credits_dummy
 	dw sprite.x_position, $00E0
 	dw sprite.y_position, $0180
 	dw !initcommand_set_alt_palette, $000F
@@ -1284,7 +1284,7 @@ DATA_FF09D2:
 	dw !initcommand_success
 
 DATA_FF09EC:
-	dw sprite.type, !sprite_npc_kong_credits
+	dw sprite.type, !sprite_credits_dummy
 	dw sprite.x_position, $00E0
 	dw sprite.y_position, $01A0
 	dw !initcommand_set_alt_palette, $0049
@@ -1293,7 +1293,7 @@ DATA_FF09EC:
 	dw !initcommand_success
 
 DATA_FF0A06:
-	dw sprite.type, !sprite_npc_kong_credits
+	dw sprite.type, !sprite_credits_dummy
 	dw sprite.x_position, $00E0
 	dw sprite.y_position, $01A0
 	dw !initcommand_set_alt_palette, $0037
@@ -1302,7 +1302,7 @@ DATA_FF0A06:
 	dw !initcommand_success
 
 DATA_FF0A20:
-	dw sprite.type, !sprite_hero_kong_credits
+	dw sprite.type, !sprite_credits_npc_kong
 	dw sprite.x_position, $00E0
 	dw sprite.y_position, $0180
 	dw sprite.general_purpose_42, $0000
@@ -1313,7 +1313,7 @@ DATA_FF0A20:
 	dw !initcommand_success
 
 DATA_FF0A42:
-	dw sprite.type, !sprite_hero_kong_credits
+	dw sprite.type, !sprite_credits_npc_kong
 	dw sprite.x_position, $00E0
 	dw sprite.y_position, $0180
 	dw sprite.general_purpose_42, $0000
@@ -1324,7 +1324,7 @@ DATA_FF0A42:
 	dw !initcommand_success
 
 DATA_FF0A64:
-	dw sprite.type, !sprite_hero_kong_credits
+	dw sprite.type, !sprite_credits_npc_kong
 	dw sprite.x_position, $00E0
 	dw sprite.y_position, $01A0
 	dw sprite.general_purpose_42, $0000
@@ -1335,7 +1335,7 @@ DATA_FF0A64:
 	dw !initcommand_success
 
 DATA_FF0A86:
-	dw sprite.type, !sprite_hero_kong_credits
+	dw sprite.type, !sprite_credits_npc_kong
 	dw sprite.x_position, $00E0
 	dw sprite.y_position, $01A0
 	dw sprite.general_purpose_42, $0000
@@ -1346,7 +1346,7 @@ DATA_FF0A86:
 	dw !initcommand_success
 
 DATA_FF0AA8:
-	dw sprite.type, !sprite_hero_kong_credits
+	dw sprite.type, !sprite_credits_npc_kong
 	dw sprite.x_position, $00E0
 	dw sprite.y_position, $01A0
 	dw sprite.general_purpose_42, $0000
@@ -1357,7 +1357,7 @@ DATA_FF0AA8:
 	dw !initcommand_success
 
 DATA_FF0ACA:
-	dw sprite.type, !sprite_npc_kong_credits
+	dw sprite.type, !sprite_credits_dummy
 	dw sprite.x_position, $00E0
 	dw sprite.y_position, $0180
 	dw !initcommand_set_alt_palette, $00A8
@@ -1366,7 +1366,7 @@ DATA_FF0ACA:
 	dw !initcommand_success
 
 DATA_FF0AE4:
-	dw sprite.type, !sprite_npc_kong_credits
+	dw sprite.type, !sprite_credits_dummy
 	dw sprite.x_position, $00E0
 	dw sprite.y_position, $0180
 	dw !initcommand_set_alt_palette, $006A
@@ -1375,7 +1375,7 @@ DATA_FF0AE4:
 	dw !initcommand_success
 
 DATA_FF0AFE:
-	dw sprite.type, !sprite_npc_kong_credits
+	dw sprite.type, !sprite_credits_dummy
 	dw sprite.x_position, $00E0
 	dw sprite.y_position, $0138
 	dw !initcommand_set_alt_palette, $006A
@@ -1384,7 +1384,7 @@ DATA_FF0AFE:
 	dw !initcommand_success
 
 DATA_FF0B18:
-	dw sprite.type, !sprite_npc_kong_credits
+	dw sprite.type, !sprite_credits_dummy
 	dw sprite.x_position, $00E0
 	dw sprite.max_x_speed, $0180
 	dw sprite.x_speed, $0180
@@ -1395,7 +1395,7 @@ DATA_FF0B18:
 	dw !initcommand_success
 
 DATA_FF0B3A:
-	dw sprite.type, !sprite_npc_kong_credits
+	dw sprite.type, !sprite_credits_dummy
 	dw sprite.x_position, $00E0
 	dw sprite.max_x_speed, $0180
 	dw sprite.x_speed, $0180
@@ -2025,7 +2025,7 @@ DATA_FF124C:
 	dw !initcommand_success
 
 DATA_FF1260:
-	dw !initcommand_setup_static, !sprite_unknown_0014, global_sprite_palette : dl DATA_C02321 : db $20
+	dw !initcommand_setup_static, !sprite_large_smoke_puff_timestop, global_sprite_palette : dl DATA_C02321 : db $20
 	dw sprite.constants_address, DATA_FF021C
 	dw !initcommand_set_animation, $01F8
 	dw sprite.movement_state, $0001
@@ -3872,7 +3872,7 @@ DATA_FF2802:
 	dw !initcommand_success
 
 DATA_FF281C:
-	dw sprite.type, !sprite_unknown_0098
+	dw sprite.type, !sprite_kroc_kore_sparkle_spawner
 	dw sprite.x_position, $0200
 	dw sprite.y_position, $0170
 	dw sprite.general_purpose_42, $0001
@@ -4016,7 +4016,7 @@ DATA_FF29BC:
 	dw !initcommand_success
 
 DATA_FF29E8:
-	dw !initcommand_setup_static, !sprite_unknown_0050, global_sprite_palette : dl intro_sparkle_graphics : db $0D
+	dw !initcommand_setup_static, !sprite_krocodile_kore_sparkle, global_sprite_palette : dl intro_sparkle_graphics : db $0D
 	dw sprite.render_order, $00FA
 	dw sprite.unknown_1C, $0000
 	dw !initcommand_set_oam, $2000
@@ -4073,7 +4073,7 @@ DATA_FF2A66:
 	dw !initcommand_success
 
 DATA_FF2A94:
-	dw sprite.type, !sprite_unknown_0294
+	dw sprite.type, !sprite_tied_up_dk_spawner
 	dw sprite.state, $0003
 	dw sprite.x_speed, $0000
 	dw sprite.y_speed, $0000
@@ -17743,7 +17743,7 @@ DATA_FFC9B5:
 	dw !initcommand_success
 
 DATA_FFC9C3:
-	dw sprite.type, !sprite_unknown_02E8
+	dw sprite.type, !sprite_thrown_kloak_projectile
 	dw sprite.render_order, $00C8
 	dw sprite.constants_address, DATA_FF0214
 	dw !initcommand_set_oam, $6000

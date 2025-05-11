@@ -2575,6 +2575,8 @@ CODE_B49638:					;	   |
 	BNE CODE_B49629				;$B49644   |
 	RTS					;$B49646  /
 
+
+
 DATA_B49647:
 	db $07 : dw DATA_B4964F : db $00, $00, $0D : dw DATA_B49657
 
@@ -7010,7 +7012,7 @@ CODE_B4BB62:
 	LDA npc_screen_type			;$B4BB64   | get npc screen type
 	CMP #!npc_screen_type_klubba		;$B4BB67   | check if klubba
 	BNE CODE_B4BB71				;$B4BB6A   |
-	LDY #$1128				;$B4BB6C   |
+	LDY #$1128				;$B4BB6C   | set position for hud number?
 	BRA CODE_B4BB74				;$B4BB6F  /
 
 CODE_B4BB71:

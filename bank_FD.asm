@@ -5155,6 +5155,8 @@ DATA_FD618E:
 	dw coin_sprite_palette				;18 Banana Bunch
 	dw global_sprite_palette			;19 Banana
 
+
+;firework palettes
 DATA_FD61C2:
 	db $00, $00, $00, $0C, $00, $14, $00, $20
 	db $00, $28, $00, $34, $00, $40, $10, $62
@@ -9763,6 +9765,8 @@ endif
 	dw DATA_FDD3BC, DATA_FDD5F2, $0300, $0480  	;8th place klank
 	dw DATA_FDD3B6, DATA_FDD4EC, $0120, $0380  	;9th place klank
 
+
+;defeat prize related (indexed with player's rank in the race)
 %offset(DATA_FDD3AC, -1)
 	db $11, $0F, $03, $00, $00, $00, $19, $19
 	db $19

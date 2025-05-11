@@ -25,7 +25,7 @@ DATA_BEB806:
 	dw double_zingers_sprite_code		;0022 double_zingers_main
 
 
-;sprite handler, similar to CODE_B3A369
+;sprite state handler, similar to CODE_B3A369
 CODE_BEB82A:
 	PHK					;$BEB82A  \
 	PLB					;$BEB82B   |
@@ -2219,6 +2219,8 @@ CODE_BEC7FB:
 	STA $0977				;$BEC81B   |
 	RTS					;$BEC81E  /
 
+
+;this routine is used to draw OAM hud elements
 CODE_BEC81F:
 	LDY $70					;$BEC81F  \
 	CLC					;$BEC821   |
@@ -2416,6 +2418,8 @@ CODE_BEC96A:
 	PLY					;$BEC983   |
 	RTS					;$BEC984  /
 
+
+;hud related
 DATA_BEC985:
 	db $02, $00, $00, $00, $08, $00, $00, $00
 	db $20, $00, $00, $00, $80, $00, $00, $00
@@ -3026,13 +3030,13 @@ CODE_BECDDF:					;	   |
 
 gate_barrel_sprite_code:
 	JSR CODE_BEB82A				;$BECDE2  \
+	
+.state_table:
+	dw .state_0
+	dw .state_1
+	dw .state_2
 
-DATA_BECDE5:
-	dw CODE_BECDEB
-	dw CODE_BECE07
-	dw CODE_BECE4C
-
-CODE_BECDEB:
+.state_0:
 	LDA $004E,y				;$BECDEB  \
 	EOR #$8001				;$BECDEE   |
 	STA $0D58				;$BECDF1   |
@@ -3044,15 +3048,15 @@ CODE_BECDEB:
 	JSL CODE_B9D100				;$BECE00   |
 	JML [$05A9]				;$BECE04  /
 
-CODE_BECE07:
+.state_1:
 	JSL CODE_BCFB58				;$BECE07  \
 	LDA #$0000				;$BECE0B   |
 	JSL CODE_BEBE6D				;$BECE0E   |
-	BCS CODE_BECE1B				;$BECE12   |
+	BCS ..collision_happened		;$BECE12   |
 	JSL CODE_B9D100				;$BECE14   |
 	JMP CODE_BEB849				;$BECE18  /
 
-CODE_BECE1B:
+..collision_happened:
 	INC $2E,x				;$BECE1B  \
 	LDA #$0001				;$BECE1D   |
 	STA $42,x				;$BECE20   |
@@ -3071,35 +3075,35 @@ CODE_BECE1B:
 	LDX current_sprite			;$BECE3C   |
 	LDA #$0461				;$BECE3E   |
 	LDY $4E,x				;$BECE41   |
-	BNE CODE_BECE48				;$BECE43   |
+	BNE ..CODE_BECE48			;$BECE43   |
 	LDA #$0462				;$BECE45   |
-CODE_BECE48:					;	   |
+..CODE_BECE48:					;	   |
 	JSL queue_sound_effect			;$BECE48   |
-CODE_BECE4C:					;	   |
+.state_2:					;	   |
 	LDX current_sprite			;$BECE4C   |
 	DEC $42,x				;$BECE4E   |
 	LDA $42,x				;$BECE50   |
 	BIT #$0003				;$BECE52   |
-	BNE CODE_BECE7B				;$BECE55   |
+	BNE ..return				;$BECE55   |
 	TXY					;$BECE57   |
 	BIT $0D58				;$BECE58   |
-	BPL CODE_BECE61				;$BECE5B   |
+	BPL ..CODE_BECE61			;$BECE5B   |
 	STZ $00,x				;$BECE5D   |
-	BRA CODE_BECE72				;$BECE5F  /
+	BRA ..CODE_BECE72			;$BECE5F  /
 
-CODE_BECE61:
+..CODE_BECE61:
 	AND #$0004				;$BECE61  \
-	BNE CODE_BECE72				;$BECE64   |
+	BNE ..CODE_BECE72			;$BECE64   |
 	LDX $4A,y				;$BECE66   |
 	LDA $004C,y				;$BECE68   |
 	JSL CODE_B3A3B4				;$BECE6B   |
 	JML [$05A9]				;$BECE6F  /
 
-CODE_BECE72:
+..CODE_BECE72:
 	LDX $46,y				;$BECE72  \
 	LDA $0048,y				;$BECE74   |
 	JSL CODE_B3A3B4				;$BECE77   |
-CODE_BECE7B:					;	   |
+..return:					;	   |
 	JML [$05A9]				;$BECE7B  /
 
 CODE_BECE7E:
@@ -3112,24 +3116,24 @@ CODE_BECE7E:
 skull_cart_sparks_sprite_code:
 	JSR CODE_BEB82A				;$BECE8D  /
 
-DATA_BECE90:
-	dw CODE_BECE94
-	dw CODE_BECECD
+.state_table:
+	dw .state_0
+	dw .state_1
 
-CODE_BECE94:
+.state_0:
 	LDA $0046,y				;$BECE94  \
-	BEQ CODE_BECEAB				;$BECE97   |
+	BEQ ..CODE_BECEAB			;$BECE97   |
 	LDX $42,y				;$BECE99   |
 	LDA $36,x				;$BECE9B   |
 	CMP $40,x				;$BECE9D   |
-	BNE CODE_BECECD				;$BECE9F   |
+	BNE .state_1				;$BECE9F   |
 	LDA $0E,x				;$BECEA1   |
-	BNE CODE_BECECD				;$BECEA3   |
+	BNE .state_1				;$BECEA3   |
 	LDA #$0000				;$BECEA5   |
 	STA $0046,y				;$BECEA8   |
-CODE_BECEAB:					;	   |
+..CODE_BECEAB:					;	   |
 	JSR CODE_BEE010				;$BECEAB   |
-	BCS CODE_BECECD				;$BECEAE   |
+	BCS .state_1				;$BECEAE   |
 	LDX alternate_sprite			;$BECEB0   |
 	LDY current_sprite			;$BECEB2   |
 	LDA $002E,y				;$BECEB4   |
@@ -3143,17 +3147,17 @@ CODE_BECEAB:					;	   |
 	LDA #$0013				;$BECEC5   |
 	STA $44,x				;$BECEC8   |
 	JSR CODE_BECEE5				;$BECECA   |
-CODE_BECECD:					;	   |
+.state_1:					;	   |
 	JSL CODE_B9D100				;$BECECD   |
 	LDA $00,x				;$BECED1   |
-	BEQ CODE_BECEDF				;$BECED3   |
+	BEQ ..CODE_BECEDF			;$BECED3   |
 	LDA $42,x				;$BECED5   |
-	BNE CODE_BECEE2				;$BECED7   |
+	BNE ..return				;$BECED7   |
 	JSL CODE_BBBB8D				;$BECED9   |
-	BCC CODE_BECEE2				;$BECEDD   |
-CODE_BECEDF:					;	   |
+	BCC ..return				;$BECEDD   |
+..CODE_BECEDF:					;	   |
 	INC $19AD				;$BECEDF   |
-CODE_BECEE2:					;	   |
+..return:					;	   |
 	JML [$05A9]				;$BECEE2  /
 
 CODE_BECEE5:
@@ -3309,6 +3313,7 @@ CODE_BECFFD:
 CODE_BED023:					;	   |
 	RTS					;$BED023  /
 
+;DATA_FF047E indexes to klank spawn scripts
 DATA_BED024:
 	db $EA, $F0, $EE, $EA, $F0, $EC, $EE, $F6
 	db $EC, $EA
@@ -7424,7 +7429,7 @@ CODE_BEEE37:					;	   |
 camera_unlock_trigger_sprite_code:
 	LDX current_sprite			;$BEEE38  \
 	LDA $2E,x				;$BEEE3A   |
-	BNE CODE_BEEE9D				;$BEEE3C   |
+	BNE .CODE_BEEE9D			;$BEEE3C   |
 	LDY active_kong_sprite			;$BEEE3E   |
 	LDA $45,x				;$BEEE41   |
 	AND #$00FF				;$BEEE43   |
@@ -7432,24 +7437,24 @@ camera_unlock_trigger_sprite_code:
 	SEC					;$BEEE49   |
 	ADC $06,x				;$BEEE4A   |
 	CMP $0006,y				;$BEEE4C   |
-	BCS CODE_BEEE8B				;$BEEE4F   |
+	BCS .lock_camera			;$BEEE4F   |
 	LDA $44,x				;$BEEE51   |
 	AND #$00FF				;$BEEE53   |
 	ADC $06,x				;$BEEE56   |
 	CMP $0006,y				;$BEEE58   |
-	BCC CODE_BEEE8B				;$BEEE5B   |
+	BCC .lock_camera			;$BEEE5B   |
 	LDA $47,x				;$BEEE5D   |
 	AND #$00FF				;$BEEE5F   |
 	EOR #$FFFF				;$BEEE62   |
 	SEC					;$BEEE65   |
 	ADC $0A,x				;$BEEE66   |
 	CMP $000A,y				;$BEEE68   |
-	BCS CODE_BEEE8B				;$BEEE6B   |
+	BCS .lock_camera			;$BEEE6B   |
 	LDA $46,x				;$BEEE6D   |
 	AND #$00FF				;$BEEE6F   |
 	ADC $0A,x				;$BEEE72   |
 	CMP $000A,y				;$BEEE74   |
-	BCC CODE_BEEE8B				;$BEEE77   |
+	BCC .lock_camera			;$BEEE77   |
 	LDA $42,x				;$BEEE79   |
 	ASL A					;$BEEE7B   |
 	TAX					;$BEEE7C   |
@@ -7458,7 +7463,7 @@ camera_unlock_trigger_sprite_code:
 	STA $7E9128,x				;$BEEE84   |
 	JML [$05A9]				;$BEEE88  /
 
-CODE_BEEE8B:
+.lock_camera:
 	LDA $42,x				;$BEEE8B  \
 	ASL A					;$BEEE8D   |
 	TAX					;$BEEE8E   |
@@ -7467,27 +7472,27 @@ CODE_BEEE8B:
 	STA $7E9128,x				;$BEEE96   |
 	JMP CODE_BEB849				;$BEEE9A  /
 
-CODE_BEEE9D:
+.CODE_BEEE9D:
 	TXY					;$BEEE9D  \
 	LDA $0042,y				;$BEEE9E   |
 	ASL A					;$BEEEA1   |
 	STA $32					;$BEEEA2   |
 	LDA #$0500				;$BEEEA4   |
-	JSR CODE_BEEF00				;$BEEEA7   |
-	BEQ CODE_BEEEF9				;$BEEEAA   |
+	JSR .CODE_BEEF00			;$BEEEA7   |
+	BEQ .delete_camera_unlock_sprite	;$BEEEAA   |
 	LDA #$0600				;$BEEEAC   |
-	JSR CODE_BEEF00				;$BEEEAF   |
-	BEQ CODE_BEEEF9				;$BEEEB2   |
+	JSR .CODE_BEEF00			;$BEEEAF   |
+	BEQ .delete_camera_unlock_sprite	;$BEEEB2   |
 	LDA #$0700				;$BEEEB4   |
-	JSR CODE_BEEF00				;$BEEEB7   |
-	BNE CODE_BEEEC9				;$BEEEBA   |
+	JSR .CODE_BEEF00			;$BEEEB7   |
+	BNE .CODE_BEEEC9			;$BEEEBA   |
 	LDX $32					;$BEEEBC   |
 	LDA.l $7E9128,x				;$BEEEBE   |
 	DEC A					;$BEEEC2   |
 	STA $7E9128,x				;$BEEEC3   |
-	BRA CODE_BEEEF9				;$BEEEC7  /
+	BRA .delete_camera_unlock_sprite	;$BEEEC7  /
 
-CODE_BEEEC9:
+.CODE_BEEEC9:
 	LDX $32					;$BEEEC9  \
 	SEP #$20				;$BEEECB   |
 	LDA.l $7E9128,x				;$BEEECD   |
@@ -7495,41 +7500,41 @@ CODE_BEEEC9:
 	SBC #$04				;$BEEED2   |
 	STA $7E9128,x				;$BEEED4   |
 	AND #$0C				;$BEEED8   |
-	BNE CODE_BEEEE4				;$BEEEDA   |
+	BNE .CODE_BEEEE4			;$BEEEDA   |
 	LDA #$00				;$BEEEDC   |
 	STA $7E9129,x				;$BEEEDE   |
-	BRA CODE_BEEEF7				;$BEEEE2  /
+	BRA .delete_camera_unlock_sprite_2	;$BEEEE2  /
 
-CODE_BEEEE4:
+.CODE_BEEEE4:
 	LDA $0044,y				;$BEEEE4  \
 	SEC					;$BEEEE7   |
 	SBC $7E9129,x				;$BEEEE8   |
-	BNE CODE_BEEEF7				;$BEEEEC   |
+	BNE .delete_camera_unlock_sprite_2	;$BEEEEC   |
 	LDA.l $7E9128,x				;$BEEEEE   |
 	INC A					;$BEEEF2   |
 	STA $7E9128,x				;$BEEEF3   |
-CODE_BEEEF7:					;	   |
+.delete_camera_unlock_sprite_2:			;	   |
 	REP #$20				;$BEEEF7   |
-CODE_BEEEF9:					;	   |
+.delete_camera_unlock_sprite:			;	   |
 	LDX current_sprite			;$BEEEF9   |
 	STZ $00,x				;$BEEEFB   |
 	JML [$05A9]				;$BEEEFD  /
 
-CODE_BEEF00:
+.CODE_BEEF00:
 	CLC					;$BEEF00  \
 	ADC $32					;$BEEF01   |
 	TAX					;$BEEF03   |
 	SEP #$20				;$BEEF04   |
 	LDA $0044,y				;$BEEF06   |
 	CMP $7E8D28,x				;$BEEF09   |
-	BEQ CODE_BEEF16				;$BEEF0D   |
+	BEQ ..CODE_BEEF16			;$BEEF0D   |
 	INX					;$BEEF0F   |
 	CMP $7E8D28,x				;$BEEF10   |
-	BNE CODE_BEEF1C				;$BEEF14   |
-CODE_BEEF16:					;	   |
+	BNE ..return				;$BEEF14   |
+..CODE_BEEF16:					;	   |
 	LDA #$00				;$BEEF16   |
 	STA $7E8D28,x				;$BEEF18   |
-CODE_BEEF1C:					;	   |
+..return:					;	   |
 	REP #$20				;$BEEF1C   |
 	RTS					;$BEEF1E  /
 

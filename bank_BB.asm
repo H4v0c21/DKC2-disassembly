@@ -409,10 +409,10 @@ CODE_BB8269:
 	RTL					;$BB826E  /
 
 CODE_BB826F:
-	JSR CODE_BB8297				;$BB826F  \
+	JSR allocate_sprite_table_slot		;$BB826F  \
 	BCS CODE_BB8281				;$BB8272   |
 	PHY					;$BB8274   |
-	JSR CODE_BB8318				;$BB8275   |
+	JSR allocate_sprite_vram_slot		;$BB8275   |
 	PLY					;$BB8278   |
 	BCS CODE_BB8281				;$BB8279   |
 	STZ $16,x				;$BB827B   |
@@ -423,7 +423,7 @@ CODE_BB8281:					;	   |
 
 CODE_BB8282:
 	PHA					;$BB8282  \
-	JSR CODE_BB8297				;$BB8283   |
+	JSR allocate_sprite_table_slot		;$BB8283   |
 	PLA					;$BB8286   |
 	BCS CODE_BB8296				;$BB8287   |
 	PHY					;$BB8289   |
@@ -436,27 +436,27 @@ CODE_BB8282:
 CODE_BB8296:					;	   |
 	RTS					;$BB8296  /
 
-CODE_BB8297:
-	LDX #main_sprite_table			;$BB8297  \
-CODE_BB829A:					;	   |
-	LDA $00,x				;$BB829A   |
-	BEQ CODE_BB82B4				;$BB829C   |
+allocate_sprite_table_slot:
+	LDX #main_sprite_table			;$BB8297  \ Get base address of sprite table
+.resume_scanning:				;	   |
+	LDA $00,x				;$BB829A   | Get sprite ID in the slot
+	BEQ .free_slot_found			;$BB829C   | If none exists, we found a free slot
 	TXA					;$BB829E   |
 	CLC					;$BB829F   |
 	ADC.w #sizeof(sprite)			;$BB82A0   |
 	TAX					;$BB82A3   |
 	CPX #main_sprite_table_end		;$BB82A4   |
-	BNE CODE_BB829A				;$BB82A7   |
-	STZ alternate_sprite			;$BB82A9   |
+	BNE .resume_scanning			;$BB82A7   | If not at end of the table, continue scanning
+	STZ alternate_sprite			;$BB82A9   | Else clear alternate sprite index
 	LDA #$0007				;$BB82AB   |
-	JSL throw_exception			;$BB82AE   |
-	SEC					;$BB82B2   |
-	RTS					;$BB82B3  /
+	JSL throw_exception			;$BB82AE   | Throw exception...
+	SEC					;$BB82B2   | And tell caller we can't spawn the sprite
+	RTS					;$BB82B3  / Return
 
-CODE_BB82B4:
-	STX alternate_sprite			;$BB82B4  \
-	CLC					;$BB82B6   |
-	RTS					;$BB82B7  /
+.free_slot_found:
+	STX alternate_sprite			;$BB82B4  \ Save sprite to be spawned as alternate sprite
+	CLC					;$BB82B6   | Tell caller the sprite can spawn
+	RTS					;$BB82B7  / Return
 
 delete_sprite_handle_deallocation:
 	LDX current_sprite			;$BB82B8  \ Get current sprite
@@ -484,7 +484,7 @@ delete_sprite_handle_deallocation:
 	CMP #!large_sprite_type_range_end	;$BB82D7  \ Check if sprite not in big range...
 	BCS delete_sprite_no_deallocation	;$BB82DA   | or normal range, delete it without deallocation
 	CMP #!large_sprite_type_range_start	;$BB82DC   | Else check if sprite in static range/below big range
-	BCC .dereference_static_sprite		;$BB82DF   | If yes, start bullshit scanning
+	BCC .dereference_static_sprite		;$BB82DF   |
 	LDA $12,x				;$BB82E1   | Else its a big sprite, get its OAM info
 	JSR dereference_sprite_palette		;$BB82E3   | Dereference its palette
 	LDX current_sprite			;$BB82E6   |
@@ -517,36 +517,36 @@ delete_sprite_handle_deallocation:
 	BRA delete_sprite_no_deallocation_2	;$BB8312  / Delete sprite
 
 ;dead code
-	JSR CODE_BB8318				;$BB8314   |
+	JSR allocate_sprite_vram_slot		;$BB8314   |
 	RTL					;$BB8317  /
 
-CODE_BB8318:
-	LDY #$001A				;$BB8318  \
-CODE_BB831B:					;	   |
-	LDA $0B04,y				;$BB831B   |
-	BEQ CODE_BB832D				;$BB831E   |
+allocate_sprite_vram_slot:
+	LDY #$001A				;$BB8318  \  Get index to end of VRAM allocation table
+.scan_for_free_slot:				;	   |
+	LDA $0B04,y				;$BB831B   | Check if the slot being checked is free
+	BEQ .free_slot_found			;$BB831E   | If yes, allocate it
 	DEY					;$BB8320   |
-	DEY					;$BB8321   |
-	BPL CODE_BB831B				;$BB8322   |
-	LDA #$0006				;$BB8324   |
-	JSL throw_exception			;$BB8327   |
-	SEC					;$BB832B   |
-	RTS					;$BB832C  /
+	DEY					;$BB8321   | Else move to next slot
+	BPL .scan_for_free_slot			;$BB8322   | 
+	LDA #$0006				;$BB8324   | 
+	JSL throw_exception			;$BB8327   | If no free slots available, throw exception...
+	SEC					;$BB832B   | And tell caller we can't spawn the sprite
+	RTS					;$BB832C  / Return
 
-CODE_BB832D:
-	TXA					;$BB832D  \
-	STA $0B04,y				;$BB832E   |
-	TYA					;$BB8331   |
+.free_slot_found:
+	TXA					;$BB832D  \ Transfer sprite index to A
+	STA $0B04,y				;$BB832E   | Store index of sprite we want to spawn in the table
+	TYA					;$BB8331   | Transfer table index to A
 	ASL A					;$BB8332   |
 	ASL A					;$BB8333   |
-	ASL A					;$BB8334   |
+	ASL A					;$BB8334   | *8
 	ASL A					;$BB8335   |
 	EOR $12,x				;$BB8336   |
 	AND #$01FF				;$BB8338   |
 	EOR $12,x				;$BB833B   |
-	STA $12,x				;$BB833D   |
-	CLC					;$BB833F   |
-	RTS					;$BB8340  /
+	STA $12,x				;$BB833D   | Set sprite's OAM properties
+	CLC					;$BB833F   | Tell caller we can spawn the sprite
+	RTS					;$BB8340  / Return
 
 CODE_BB8341:
 	JSR CODE_BB8345				;$BB8341  \
@@ -676,7 +676,7 @@ CODE_BB83EF:
 	TAY					;$BB83F4   |
 CODE_BB83F5:					;	   |
 	PHY					;$BB83F5   |
-	JSR CODE_BB8297				;$BB83F6   |
+	JSR allocate_sprite_table_slot		;$BB83F6   |
 	PLY					;$BB83F9   |
 	BCS CODE_BB8411				;$BB83FA   |
 	STZ $56,x				;$BB83FC   |
@@ -698,7 +698,7 @@ CODE_BB8412:
 	TAY					;$BB8417   |
 CODE_BB8418:					;	   |
 	PHY					;$BB8418   |
-	JSR CODE_BB8297				;$BB8419   |
+	JSR allocate_sprite_table_slot		;$BB8419   |
 	PLY					;$BB841C   |
 	BCS CODE_BB842B				;$BB841D   |
 	STZ $56,x				;$BB841F   |
@@ -1155,7 +1155,7 @@ CODE_BB870B:					;	   |
 	BPL CODE_BB876F				;$BB8722   |
 	LDX alternate_sprite			;$BB8724   |
 	PHY					;$BB8726   |
-	JSR CODE_BB8318				;$BB8727   |
+	JSR allocate_sprite_vram_slot		;$BB8727   |
 	PLY					;$BB872A   |
 	BCS CODE_BB876F				;$BB872B   |
 	LDX $1730				;$BB872D   |
@@ -1268,7 +1268,7 @@ CODE_BB87D4:					;	   |
 	BPL CODE_BB8838				;$BB87EB   |
 	LDX alternate_sprite			;$BB87ED   |
 	PHY					;$BB87EF   |
-	JSR CODE_BB8318				;$BB87F0   |
+	JSR allocate_sprite_vram_slot		;$BB87F0   |
 	PLY					;$BB87F3   |
 	BCS CODE_BB8838				;$BB87F4   |
 	LDX $1730				;$BB87F6   |
@@ -3986,7 +3986,7 @@ CODE_BB9B1E:					;	   |
 	CMP #!bonus_level_type			;$BB9B55   |
 	BEQ CODE_BB9B62				;$BB9B58   |
 	LDY #$00D0				;$BB9B5A   |
-	JSL CODE_BB83EF				;$BB9B5D   |
+	JSL CODE_BB83EF				;$BB9B5D   | Spawn horizontal wind controller
 	RTS					;$BB9B61  /
 
 CODE_BB9B62:
@@ -3994,12 +3994,12 @@ CODE_BB9B62:
 	CMP #!level_gusty_glade_bonus_2		;$BB9B64   |
 	BEQ CODE_BB9B71				;$BB9B67   |
 	LDY #$007A				;$BB9B69   |
-	JSL CODE_BB83EF				;$BB9B6C   |
+	JSL CODE_BB83EF				;$BB9B6C   | Spawn horizontal wind controller
 	RTS					;$BB9B70  /
 
 CODE_BB9B71:
 	LDY #$0136				;$BB9B71  \
-	JSL CODE_BB83EF				;$BB9B74   |
+	JSL CODE_BB83EF				;$BB9B74   | Spawn horizontal wind controller
 	RTS					;$BB9B78  /
 
 CODE_BB9B79:
@@ -5485,19 +5485,20 @@ CODE_BBAD2C:
 	JSL CODE_BBC16B				;$BBAD2F   |
 	RTS					;$BBAD33  /
 
+;spawn kongs in level
 CODE_BBAD34:
 	LDA #global_sprite_palette		;$BBAD34  \
 	JSL request_palette_direct_global	;$BBAD37   |
 	LDA #main_sprite_table_end		;$BBAD3B   |
 	STA $66					;$BBAD3E   |
 	LDY #$000E				;$BBAD40   |
-	JSL CODE_BB842C				;$BBAD43   |
+	JSL CODE_BB842C				;$BBAD43   | Spawn diddy
 	LDX alternate_sprite			;$BBAD47   |
-	STX current_sprite			;$BBAD49   |
+	STX current_sprite			;$BBAD49   | Set diddy as current sprite
 	JSR CODE_BBAEB0				;$BBAD4B   |
 	LDA #$0004				;$BBAD4E   |
-	JSL CODE_B9D0B8				;$BBAD51   |
-	JSR CODE_BBAEBD				;$BBAD55   |
+	JSL CODE_B9D0B8				;$BBAD51   | Set kong animation (Run)
+	JSR CODE_BBAEBD				;$BBAD55   | Set kong palette?
 	LDA.l DATA_FF0040			;$BBAD58   |
 	STA $16BA				;$BBAD5C   |
 	LDA.l DATA_FF0042			;$BBAD5F   |
@@ -5505,20 +5506,20 @@ CODE_BBAD34:
 	LDA #$16D8				;$BBAD66   |
 	STA $66					;$BBAD69   |
 	LDY #$0010				;$BBAD6B   |
-	JSL CODE_BB842C				;$BBAD6E   |
+	JSL CODE_BB842C				;$BBAD6E   | Spawn dixie
 	LDX alternate_sprite			;$BBAD72   |
-	STX current_sprite			;$BBAD74   |
+	STX current_sprite			;$BBAD74   | Set dixie as current sprite
 	JSR CODE_BBAEB0				;$BBAD76   |
 	LDA #$0004				;$BBAD79   |
-	JSL CODE_B9D0B8				;$BBAD7C   |
-	JSR CODE_BBAEBD				;$BBAD80   |
+	JSL CODE_B9D0B8				;$BBAD7C   | Set kong animation (Run)
+	JSR CODE_BBAEBD				;$BBAD80   | Set kong palette?
 	LDA.l DATA_FF012A			;$BBAD83   |
 	STA $16E0				;$BBAD87   |
 	LDA.l DATA_FF012C			;$BBAD8A   |
 	STA $16E2				;$BBAD8E   |
 	JSR CODE_BBADDC				;$BBAD91   |
-	JSR CODE_BBAD98				;$BBAD94   |
-	RTS					;$BBAD97  /
+	JSR CODE_BBAD98				;$BBAD94   | Play boss entry cutscene if on a boss level
+	RTS					;$BBAD97  / Return
 
 CODE_BBAD98:
 	LDA level_number			;$BBAD98  \
@@ -6793,7 +6794,7 @@ CODE_BBB67D:
 CODE_BBB68A:
 	TYA					;$BBB68A  \
 	STA $000B9E				;$BBB68B   |
-	JSR CODE_BB8297				;$BBB68F   |
+	JSR allocate_sprite_table_slot		;$BBB68F   |
 	BCC CODE_BBB695				;$BBB692   |
 	RTS					;$BBB694  /
 
@@ -6872,7 +6873,7 @@ CODE_BBB70C:
 	%pea_engine_dbr()			;$BBB70E   |
 	PLB					;$BBB711   |
 	PLB					;$BBB712   |
-	JSR CODE_BB8297				;$BBB713   |
+	JSR allocate_sprite_table_slot		;$BBB713   |
 	PLB					;$BBB716   |
 	PLY					;$BBB717   |
 	BCS CODE_BBB70A				;$BBB718   |
@@ -6924,7 +6925,7 @@ CODE_BBB75D:					;	   |
 	BPL CODE_BBB77F				;$BBB774   |
 	LDX alternate_sprite			;$BBB776   |
 	PHY					;$BBB778   |
-	JSR CODE_BB8318				;$BBB779   |
+	JSR allocate_sprite_vram_slot		;$BBB779   |
 	PLY					;$BBB77C   |
 	BCC CODE_BBB7A6				;$BBB77D   |
 CODE_BBB77F:					;	   |
@@ -7041,7 +7042,7 @@ CODE_BBB847:
 	%pea_engine_dbr()			;$BBB849   |
 	PLB					;$BBB84C   |
 	PLB					;$BBB84D   |
-	JSR CODE_BB8297				;$BBB84E   |
+	JSR allocate_sprite_table_slot		;$BBB84E   |
 	PLB					;$BBB851   |
 	PLY					;$BBB852   |
 	BCS CODE_BBB8BB				;$BBB853   |
@@ -7618,7 +7619,7 @@ CODE_BBBC2B:					;	   |
 CODE_BBBC42:
 	JSL delete_sprite_handle_deallocation	;$BBBC42  \
 	LDX current_sprite			;$BBBC46   |
-	LDA #!sprite_unknown_00F0		;$BBBC48   |
+	LDA #!sprite_respawn_suppressor		;$BBBC48   |
 	STA $00,x				;$BBBC4B   |
 	STZ $1A,x				;$BBBC4D   |
 	STZ $16,x				;$BBBC4F   |
@@ -7628,7 +7629,7 @@ CODE_BBBC42:
 	SEC					;$BBBC57   |
 	RTL					;$BBBC58  /
 
-CODE_BBBC59:
+respawn_suppressor_sprite_code:
 	LDY current_sprite			;$BBBC59  \
 	LDA $002E,y				;$BBBC5B   |
 	BEQ CODE_BBBC67				;$BBBC5E   |
