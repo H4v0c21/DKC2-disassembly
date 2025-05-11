@@ -5664,6 +5664,7 @@ CODE_B5C3ED:					;	   |
 	STX $62					;$B5C3EF   |
 	JMP ($17B2)				;$B5C3F1  /
 
+;disable terrain collision for 2nd floor of kreepy krow if fight hasn't reached that stage yet
 CODE_B5C3F4:
 if !version == 1				;	  \
 	LDA $0A,x				;$B5C3F4   |
@@ -8446,7 +8447,7 @@ CODE_B5D96E:
 	BIT #$1000				;$B5D972   |
 	BEQ CODE_B5D988				;$B5D975   |
 	LDY #$011A				;$B5D977   |
-	JSL CODE_BB8412				;$B5D97A   |
+	JSL CODE_BB8412				;$B5D97A   | Spawn map plane
 	LDX alternate_sprite			;$B5D97E   |
 	STX active_kong_sprite			;$B5D980   |
 	STZ inactive_kong_sprite		;$B5D983   |
@@ -8475,10 +8476,11 @@ CODE_B5D9A9:					;	   |
 	BNE CODE_B5D9BD				;$B5D9B2   |
 	LDY inactive_kong_sprite		;$B5D9B4   |
 	LDA #$C000				;$B5D9B7   |
-	STA $001C,y				;$B5D9BA   |
+	STA $001C,y				;$B5D9BA   | Make follower map kong invisible
 CODE_B5D9BD:					;	   |
 	RTS					;$B5D9BD  /
 
+;spawn map dixie
 CODE_B5D9BE:
 	LDY #$0144				;$B5D9BE  \
 	JSL CODE_BB8412				;$B5D9C1   |
@@ -8487,6 +8489,7 @@ CODE_B5D9BE:
 	STA $000790				;$B5D9C9   |
 	RTS					;$B5D9CD  /
 
+;spawn map diddy
 CODE_B5D9CE:
 	LDY #$0146				;$B5D9CE  \
 	JSL CODE_BB8412				;$B5D9D1   |
@@ -8495,6 +8498,7 @@ CODE_B5D9CE:
 	STA $000790				;$B5D9D9   |
 	RTS					;$B5D9DD  /
 
+;some table used by island map zingers and bats
 DATA_B5D9DE:
 	db $00, $06, $0C, $12, $19, $1F, $25, $2B
 	db $31, $38, $3E, $44, $4A, $50, $56, $5C

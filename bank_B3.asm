@@ -217,23 +217,23 @@ unknown_sprite_0004_main:
 unknown_sprite_0090_main:
 	LDA $05BB				;$B3819B  \ \
 	AND #$0060				;$B3819E   | |
-	BEQ CODE_B381AA				;$B381A1   |/ If no debug flags are set
-	JSL CODE_BBBB99				;$B381A3   |
-	JML [$05A9]				;$B381A7  /
+	BEQ .no_debug_flags			;$B381A1   |/ If no debug flags are set
+	JSL CODE_BBBB99				;$B381A3   | Despawn sprite if offscreen
+	JML [$05A9]				;$B381A7  / Done processing sprite
 
-CODE_B381AA:
-	JSL CODE_BBBB44				;$B381AA  \
-	JML [$05A9]				;$B381AE  /
+.no_debug_flags:
+	JSL CODE_BBBB44				;$B381AA  \ Delete self and mark as defeated if spawned by level
+	JML [$05A9]				;$B381AE  / Done processing sprite
 
 debug_dummy_sprite_main:
 	LDA $05BB				;$B381B1  \
 	AND #$0060				;$B381B4   |
-	BEQ CODE_B381C3				;$B381B7   |
+	BEQ .no_debug_flags			;$B381B7   |
 	JSR CODE_B381CE				;$B381B9   |
 	JSL CODE_BBBB99				;$B381BC   |
 	JML [$05A9]				;$B381C0  /
 
-CODE_B381C3:
+.no_debug_flags:
 	JSL CODE_BBBB44				;$B381C3  \
 	JML [$05A9]				;$B381C7  /
 
@@ -244,6 +244,8 @@ CODE_B381CA:
 CODE_B381CE:
 	RTS					;$B381CE  /
 
+;Debug code? it never loads the sprite in X so it doesn't work. 
+;Called by debug dummy and kong states 13 and 7E (team bottom start and team bottom end)
 	CPX $05C3				;$B381CF   |
 	BNE CODE_B381E3				;$B381D2   |
 	LDA global_frame_counter		;$B381D4   |
@@ -288,31 +290,31 @@ invincibility_controller_main:
 	LDY $0595				;$B38217   |
 	LDA $0016,y				;$B3821A   |
 	CMP #$0010				;$B3821D   |
-	BMI CODE_B38251				;$B38220   |
+	BMI .CODE_B38251			;$B38220   |
 	LDA global_frame_counter		;$B38222   |
 	AND #$0001				;$B38224   |
-	BEQ CODE_B3822C				;$B38227   |
-CODE_B38229:					;	   |
+	BEQ .CODE_B3822C			;$B38227   |
+.CODE_B38229:					;	   |
 	JML [$05A9]				;$B38229  /
 
-CODE_B3822C:
+.CODE_B3822C:
 	LDA global_frame_counter		;$B3822C  \
 	AND #$0002				;$B3822E   |
-	BEQ CODE_B38242				;$B38231   |
+	BEQ .CODE_B38242			;$B38231   |
 	LDA $091B				;$B38233   |
 	ORA #$0080				;$B38236   |
 	STA $091B				;$B38239   |
 	JSL CODE_BB8C2C				;$B3823C   |
-	BRA CODE_B38229				;$B38240  /
+	BRA .CODE_B38229			;$B38240  /
 
-CODE_B38242:
+.CODE_B38242:
 	LDA $091B				;$B38242  \
 	AND #$FF7F				;$B38245   |
 	STA $091B				;$B38248   |
 	JSL CODE_BB8C2C				;$B3824B   |
-	BRA CODE_B38229				;$B3824F  /
+	BRA .CODE_B38229			;$B3824F  /
 
-CODE_B38251:
+.CODE_B38251:
 	LDA $091B				;$B38251  \
 	AND #$FF7F				;$B38254   |
 	STA $091B				;$B38257   |
@@ -435,30 +437,30 @@ sprite_main_table:
 	dw map_player_main,$0000		;0008
 	dw rock_main,$0000			;000C
 	dw squawks_egg_main,$0000		;0010
-	dw unknown_sprite_0014_main,$0001	;0014
+	dw large_smoke_puff_timestop_main,$0001	;0014 Large smoke puff but processes during timestop
 	dw canball_pieces1_main,$0000		;0018
 	dw canball_pieces2_main,$0000		;001C
 	dw egg_shell_pieces_main,$0000		;0020
 	dw kleever_dropping_hooks_main,$0000	;0024
 	dw air_bubble_generator_main,$0000	;0028
 	dw kleever_bone_pieces_main,$0000	;002C
-	dw unknown_sprite_0030_main,$0000	;0030
+	dw unknown_sprite_0030_main,$0000	;0030 Probably a kleever piece
 	dw kleever_pieces1_main,$0000		;0034
 	dw kleever_pieces2_main,$0000		;0038
 	dw kleever_pieces3_main,$0000		;003C
-	dw unknown_sprite_0040_main,$0000	;0040
+	dw unknown_sprite_0040_main,$0000	;0040 Probably a kleever piece
 	dw kleever_pieces4_main,$0000		;0044
 	dw kleever_pieces5_main,$0000		;0048
 	dw kreepy_krow_sparkle_main,$0000	;004C
-	dw unknown_sprite_0050_main,$0000	;0050
+	dw krocodile_kore_sparkle_main,$0000	;0050
 	dw krool_water_drips_main,$0000		;0054
 	dw puftup_spikes_main,$0000		;0058
 	dw lilypad_main,$0000			;005C
 	dw barrel_pieces_main,$0000		;0060
-	dw unknown_sprite_0064_main,$0000	;0064
+	dw unknown_sprite_0064_main,$0000	;0064 Barrel fragment?
 	dw king_zing_spikes_main,$0000		;0068
 	dw kannon_main,$0000			;006C
-	dw unknown_sprite_0070_main,$0000	;0070
+	dw unknown_sprite_0070_main,$0000	;0070 Something to do with kong slip velocity
 	dw klubba_main,$0000			;0074
 	dw kudgel_main,$0001			;0078
 	dw chasing_king_zing_main,$0000		;007C
@@ -468,11 +470,11 @@ sprite_main_table:
 	dw spawn_group_manager_main,$0000	;008C
 	dw unknown_sprite_0090_main,$0000	;0090
 	dw exit_door_main,$0001			;0094
-	dw unknown_sprite_0098_main,$0000	;0098
+	dw kroc_kore_sparkle_spawner_main,$0000	;0098
 	dw sparkle_spawner_main,$0000		;009C
 	dw sparkle_main,$0000			;00A0
 	dw sound_generator_main,$0000		;00A4
-	dw unknown_sprite_00A8_main,$0000	;00A8
+	dw unknown_sprite_00A8_main,$0000	;00A8 Would make the camera follow it and set kong anim 19
 	dw water_level_changer_main,$0000	;00AC
 	dw sprite_marker_main,$0000		;00B0
 	dw explosion_main,$0000			;00B4
@@ -489,8 +491,8 @@ sprite_main_table:
 	dw invincibility_controller_main,$0001	;00E0
 	dw diddy_kong_main,$0001		;00E4
 	dw dixie_kong_main,$0001		;00E8
-	dw unknown_sprite_00EC_main,$0000	;00EC
-	dw unknown_sprite_00F0_main,$0000	;00F0
+	dw unknown_sprite_00EC_main,$0000	;00EC spawn script uses dust particle graphic id
+	dw respawn_suppressor_main,$0000	;00F0
 	dw debug_dummy_sprite_main,$0000	;00F4
 	dw debug_spawn_group_manager_main,$0000	;00F8
 	dw dixie_hurt_tears_main,$0001		;00FC
@@ -499,7 +501,7 @@ sprite_main_table:
 	dw web_shot_main,$0000			;0108
 	dw water_surface_splash_main,$0000	;010C
 	dw rain_cloud_main,$0000		;0110
-	dw unknown_sprite_0114_main,$0000	;0114
+	dw unknown_sprite_0114_main,$0000	;0114 Would follow kong? Animates
 	dw web_platform_main,$0000		;0118
 	dw dkbarrel_letters_main,$0000		;011C
 	dw barrel_icons_main,$0000		;0120
@@ -544,7 +546,7 @@ sprite_main_table:
 	dw wooden_box_main,$0000		;01BC
 	dw chest_main,$0000			;01C0
 	dw kreepy_krows_eggs_main,$0000		;01C4
-	dw unknown_sprite_01C8_main,$0000	;01C8
+	dw unknown_sprite_01C8_main,$0000	;01C8 look into
 	dw kong_celebrate_prop_main,$0001	;01CC
 	dw shot_canball_or_barrel_main,$0000	;01D0
 	dw large_smoke_puff_main,$0000		;01D4
@@ -573,10 +575,10 @@ sprite_main_table:
 	dw kreepy_krows_head_main,$0000		;0230
 	dw shuri_main,$0000			;0234
 	dw burst_effect_main,$0001		;0238
-	dw unknown_sprite_023C_main,$0000	;023C
-	dw unknown_sprite_0240_main,$0000	;0240
-	dw unknown_sprite_0244_main,$0001	;0244
-	dw unknown_sprite_0248_main,$0001	;0248
+	dw unknown_sprite_023C_main,$0000	;023C explosion cloud/smoke
+	dw unknown_sprite_0240_main,$0000	;0240 barrel pieces
+	dw unknown_sprite_0244_main,$0001	;0244 barrel pieces but processes in timestop
+	dw unknown_sprite_0248_main,$0001	;0248 explosion cloud but processes in timestop
 	dw explosion_cloud_main,$0000		;024C
 	dw fireworks_main,$0000			;0250
 	dw ghost_rope_main,$0000		;0254
@@ -595,7 +597,7 @@ sprite_main_table:
 	dw tied_up_donkey_kong_main,$0000	;0288
 	dw shot_donkey_kong_main,$0000		;028C
 	dw defeated_krool_main,$0000		;0290
-	dw unknown_sprite_0294_main,$0000	;0294
+	dw tied_up_donkey_spawner_main,$0000	;0294
 	dw lava_splash_main,$0000		;0298
 	dw krools_blinking_eyes_main,$0000	;029C is also mario, link and yoshi
 	dw spiked_canballs_main,$0000		;02A0 also krool gas clouds
@@ -616,7 +618,7 @@ sprite_main_table:
 	dw chest_or_swanky_prize,$0000		;02DC
 	dw glimmer_main,$0000			;02E0
 	dw kloak_main,$0000			;02E4
-	dw unknown_sprite_02E8_main,$0000	;02E8
+	dw thrown_kloak_projectile_main,$0000	;02E8 Also thrown by target terror klanks
 	dw haunted_hall_door_main,$0001		;02EC
 	dw klank_main,$0000			;02F0
 	dw skull_cart_sparks_main,$0001		;02F4
@@ -627,8 +629,8 @@ sprite_main_table:
 	dw unknown_sprite_0308_main,$0001	;0308 smoke?
 	dw screech_main,$0000			;030C
 	dw racing_flag_main,$0000		;0310
-	dw npc_kong_credits_main,$0000		;0314
-	dw hero_kong_credits_main,$0000		;0318
+	dw credits_dummy_main,$0000		;0314
+	dw credits_npc_kong_main,$0000		;0318
 	dw double_zingers_main,$0000		;031C
 
 
@@ -672,7 +674,7 @@ krool_puddle_main:
 	LDA #$0012				;$B386A7  \
 	JML CODE_B68025				;$B386AA  /
 
-unknown_sprite_0294_main:
+tied_up_donkey_spawner_main:
 	LDA #$0014				;$B386AE  \
 	JML CODE_B68025				;$B386B1  /
 
@@ -836,7 +838,7 @@ krool_fish_main:
 	LDA #$0002				;$B387C6  \
 	JML CODE_BAB078				;$B387C9  /
 
-unknown_sprite_0098_main:
+kroc_kore_sparkle_spawner_main:
 	LDA #$0004				;$B387CD  \
 	JML CODE_BAB078				;$B387D0  /
 
@@ -856,7 +858,7 @@ sparkle_main:
 	LDA #$000C				;$B387E9  \
 	JML CODE_BAB078				;$B387EC  /
 
-unknown_sprite_0050_main:
+krocodile_kore_sparkle_main:
 	LDA #$000E				;$B387F0  \
 	JML CODE_BAB078				;$B387F3  /
 
@@ -976,8 +978,8 @@ double_zingers_main:
 	LDA #$0022				;$B388BB  \
 	JML CODE_BEB800				;$B388BE  /
 
-unknown_sprite_00F0_main:
-	JML CODE_BBBC59				;$B388C2  /
+respawn_suppressor_main:
+	JML respawn_suppressor_sprite_code	;$B388C2  /
 
 dixie_kong_main:
 	JML CODE_B89670				;$B388C6  /
@@ -1016,11 +1018,11 @@ sprite_fg_occluder_main:
 	STA $0012,y				;$B38902   |
 	RTS					;$B38905  /
 
-npc_kong_credits_main:
-	JML CODE_80FA11				;$B38906  /
+credits_dummy_main:
+	JML credits_dummy_sprite_code		;$B38906  /
 
-hero_kong_credits_main:
-	JML CODE_80FA40				;$B3890A  /
+credits_npc_kong_main:
+	JML credits_npc_kong_sprite_code	;$B3890A  /
 
 rain_cloud_main:
 	LDY active_kong_sprite			;$B3890E  \ Get kong sprite
@@ -1033,26 +1035,26 @@ rain_cloud_main:
 	JML [$05A9]				;$B38922  / Done processing sprite
 
 web_shot_main:
-	JSL CODE_BCFB58				;$B38925  \
+	JSL CODE_BCFB58				;$B38925  \ Populate sprite clipping
 	LDA #$0020				;$B38929   |
 	LDY #$0008				;$B3892C   |
-	JSL CODE_BEBD8E				;$B3892F   |
-	BCS CODE_B3894F				;$B38933   |
+	JSL CODE_BEBD8E				;$B3892F   | Check if collided with enemy
+	BCS .collision_happened			;$B38933   |
 	JSR update_web_velocity			;$B38935   |
 	JSL apply_position_from_velocity_global	;$B38938   |
-	JSL CODE_B9D100				;$B3893C   |
-	JSL CODE_BBBB8D				;$B38940   |
-	BCS CODE_B38949				;$B38944   |
-	JML [$05A9]				;$B38946  /
+	JSL CODE_B9D100				;$B3893C   | Process animation
+	JSL CODE_BBBB8D				;$B38940   | Despawn sprite if offscreen
+	BCS .web_shot_despawned			;$B38944   | If despawned, decrease number of onscreen shots
+	JML [$05A9]				;$B38946  / Else done processing sprite
 
-CODE_B38949:
-	DEC $19A6				;$B38949  \
-	JML [$05A9]				;$B3894C  /
+.web_shot_despawned:
+	DEC $19A6				;$B38949  \ Decrease number of onscreen shots
+	JML [$05A9]				;$B3894C  / Done processing sprite
 
-CODE_B3894F:
-	DEC $19A6				;$B3894F  \
-	JSL delete_sprite_handle_deallocation	;$B38952   |
-	JML [$05A9]				;$B38956  /
+.collision_happened:
+	DEC $19A6				;$B3894F  \ Decrease number of onscreen shots
+	JSL delete_sprite_handle_deallocation	;$B38952   | Delete web shot sprite
+	JML [$05A9]				;$B38956  / Done processing sprite
 
 ;web platform sprite variables:
 ;$42,x	time since web platform was stepped on
@@ -1217,6 +1219,7 @@ DATA_B38A46:
 	dw CODE_B38AE4
 	dw CODE_B38A6C
 
+;unused?
 	INC $5A8A				;$B38A57   |
 	TXA					;$B38A59   |
 	JSR CODE_B38CF8				;$B38A5A   |
@@ -1840,98 +1843,98 @@ CODE_B38EAC:					;	   |
 	RTS					;$B38EAC  /
 
 glimmer_main:
-	LDX current_sprite			;$B38EAD  \
-	LDA $2E,x				;$B38EAF   |
-	ASL A					;$B38EB1   |
-	TAX					;$B38EB2   |
-	JMP (DATA_B38EB6,x)			;$B38EB3  /
+	LDX current_sprite			;$B38EAD  \ Get glimmer sprite
+	LDA $2E,x				;$B38EAF   | Get current state
+	ASL A					;$B38EB1   | *2
+	TAX					;$B38EB2   | 
+	JMP (.state_table,x)			;$B38EB3  / Jump to state code
 
-DATA_B38EB6:
-	dw CODE_B38EBE
-	dw CODE_B38EF1
-	dw CODE_B38EF4
-	dw CODE_B38F04
+.state_table:
+	dw .follow_kong				;00
+	dw .dummy_state				;01
+	dw .state_02				;02
+	dw .init_state				;03
 
-CODE_B38EBE:
-	LDA current_sprite			;$B38EBE  \
-	STA $0989				;$B38EC0   |
-	JSR CODE_B38F40				;$B38EC3   |
+.follow_kong:
+	LDA current_sprite			;$B38EBE  \ Get Glimmer sprite
+	STA $0989				;$B38EC0   | Store index to it
+	JSR .update_movement			;$B38EC3   |
 	LDA #$0007				;$B38EC6   |
 	JSL interpolate_x_velocity_global	;$B38EC9   |
 	LDA #$0007				;$B38ECD   |
 	JSL interpolate_y_velocity_global	;$B38ED0   |
 	JSL apply_position_from_velocity_global	;$B38ED4   |
-	LDX current_sprite			;$B38ED8   |
-	LDA $17BA				;$B38EDA   |
+	LDX current_sprite			;$B38ED8   | Get Glimmer sprite
+	LDA $17BA				;$B38EDA   | Get camera X position
 	CLC					;$B38EDD   |
 	ADC #$0014				;$B38EDE   |
 	CMP $06,x				;$B38EE1   |
-	BMI CODE_B38EE7				;$B38EE3   |
-	STA $06,x				;$B38EE5   |
-CODE_B38EE7:					;	   |
-	JSR CODE_B38F16				;$B38EE7   |
-	JSL CODE_B9D100				;$B38EEA   |
-	JML [$05A9]				;$B38EEE  /
+	BMI .CODE_B38EE7			;$B38EE3   |
+	STA $06,x				;$B38EE5   | Update Glimmer X position
+.CODE_B38EE7:					;	   |
+	JSR .update_animation_speed		;$B38EE7   |
+	JSL CODE_B9D100				;$B38EEA   | Process animation
+	JML [$05A9]				;$B38EEE  / Done processing sprite
 
-CODE_B38EF1:
-	JML [$05A9]				;$B38EF1  /
+.dummy_state:
+	JML [$05A9]				;$B38EF1  / Done processing sprite
 
-CODE_B38EF4:
-	LDX current_sprite			;$B38EF4  \
-	LDA $17BA				;$B38EF6   |
+.state_02:
+	LDX current_sprite			;$B38EF4  \ Get Glimmer sprite
+	LDA $17BA				;$B38EF6   | Get camera X position
 	CLC					;$B38EF9   |
 	ADC #$0080				;$B38EFA   |
-	STA $06,x				;$B38EFD   |
-	STZ $2E,x				;$B38EFF   |
-	JML [$05A9]				;$B38F01  /
+	STA $06,x				;$B38EFD   | Update Glimmer X position
+	STZ $2E,x				;$B38EFF   | Set follow kong state
+	JML [$05A9]				;$B38F01  / Done processing sprite
 
-CODE_B38F04:
-	LDA $0989				;$B38F04  \
-	BNE CODE_B38F0F				;$B38F07   |
+.init_state:
+	LDA $0989				;$B38F04  \ Get index of Glimmer sprite
+	BNE .delete_glimmer_sprite		;$B38F07   | If one already exists, delete self
 	LDX current_sprite			;$B38F09   |
-	STZ $2E,x				;$B38F0B   |
-	BRA CODE_B38EBE				;$B38F0D  /
+	STZ $2E,x				;$B38F0B   | Else set follow kong state
+	BRA .follow_kong			;$B38F0D  / And run the state code
 
-CODE_B38F0F:
+.delete_glimmer_sprite:
 	JSL delete_sprite_handle_deallocation	;$B38F0F  \
-	JML [$05A9]				;$B38F13  /
+	JML [$05A9]				;$B38F13  / Done processing sprite
 
-CODE_B38F16:
-	LDA $20,x				;$B38F16  \
-	BPL CODE_B38F1E				;$B38F18   |
+.update_animation_speed:
+	LDA $20,x				;$B38F16  \ Get current X velocity
+	BPL ..skip_x_invert			;$B38F18   | If positive, don't invert
 	EOR #$FFFF				;$B38F1A   |
-	INC A					;$B38F1D   |
-CODE_B38F1E:					;	   |
-	STA $32					;$B38F1E   |
-	LDA $24,x				;$B38F20   |
-	BPL CODE_B38F28				;$B38F22   |
+	INC A					;$B38F1D   | Else invert X velocity
+..skip_x_invert:				;	   |
+	STA temp_32				;$B38F1E   | Store it to scratch RAM
+	LDA $24,x				;$B38F20   | Get current Y velocity
+	BPL ..skip_y_invert			;$B38F22   | If positive, don't invert
 	EOR #$FFFF				;$B38F24   |
-	INC A					;$B38F27   |
-CODE_B38F28:					;	   |
-	CMP $32					;$B38F28   |
-	BPL CODE_B38F2E				;$B38F2A   |
-	LDA $32					;$B38F2C   |
-CODE_B38F2E:					;	   |
+	INC A					;$B38F27   | Else invert Y velocity
+..skip_y_invert:				;	   |
+	CMP temp_32				;$B38F28   | 
+	BPL ..CODE_B38F2E			;$B38F2A   |
+	LDA temp_32				;$B38F2C   |
+..CODE_B38F2E:					;	   |
 	LSR A					;$B38F2E   |
 	STA $5E					;$B38F2F   |
 	LSR A					;$B38F31   |
 	CLC					;$B38F32   |
 	ADC $5E					;$B38F33   |
 	CMP #$0160				;$B38F35   |
-	BPL CODE_B38F3D				;$B38F38   |
+	BPL ..CODE_B38F3D			;$B38F38   |
 	LDA #$0160				;$B38F3A   |
-CODE_B38F3D:					;	   |
-	STA $3A,x				;$B38F3D   |
+..CODE_B38F3D:					;	   |
+	STA $3A,x				;$B38F3D   | Update Glimmer animation speed
 	RTS					;$B38F3F  /
 
-CODE_B38F40:
-	LDX active_kong_sprite			;$B38F40  \
+.update_movement:
+	LDX active_kong_sprite			;$B38F40  \ Get kong sprite
 	LDA #$FFC0				;$B38F43   |
 	BIT $12,x				;$B38F46   |
-	BVC CODE_B38F4E				;$B38F48   |
+	BVC .CODE_B38F4E			;$B38F48   |
 	EOR #$FFFF				;$B38F4A   |
 	INC A					;$B38F4D   |
-CODE_B38F4E:					;	   |
+.CODE_B38F4E:					;	   |
 	CLC					;$B38F4E   |
 	ADC $06,x				;$B38F4F   |
 	STA $5E					;$B38F51   |
@@ -1939,28 +1942,28 @@ CODE_B38F4E:					;	   |
 	CLC					;$B38F55   |
 	ADC #$FFF0				;$B38F56   |
 	STA $60					;$B38F59   |
-	JSR CODE_B38F62				;$B38F5B   |
-	JSR CODE_B38F91				;$B38F5E   |
+	JSR .update_target_x_velocity		;$B38F5B   |
+	JSR .update_target_y_velocity		;$B38F5E   |
 	RTS					;$B38F61  /
 
-CODE_B38F62:
+.update_target_x_velocity:
 	LDX current_sprite			;$B38F62  \
 	LDA $5E					;$B38F64   |
 	SEC					;$B38F66   |
 	SBC $06,x				;$B38F67   |
-	BMI CODE_B38F7A				;$B38F69   |
+	BMI ..CODE_B38F7A			;$B38F69   |
 	ASL A					;$B38F6B   |
 	ASL A					;$B38F6C   |
 	ASL A					;$B38F6D   |
 	ASL A					;$B38F6E   |
 	CMP #$0800				;$B38F6F   |
-	BMI CODE_B38F77				;$B38F72   |
+	BMI ..CODE_B38F77			;$B38F72   |
 	LDA #$0800				;$B38F74   |
-CODE_B38F77:					;	   |
+..CODE_B38F77:					;	   |
 	STA $26,x				;$B38F77   |
 	RTS					;$B38F79  /
 
-CODE_B38F7A:
+..CODE_B38F7A:
 	EOR #$FFFF				;$B38F7A  \
 	INC A					;$B38F7D   |
 	ASL A					;$B38F7E   |
@@ -1970,30 +1973,30 @@ CODE_B38F7A:
 	EOR #$FFFF				;$B38F82   |
 	INC A					;$B38F85   |
 	CMP #$F800				;$B38F86   |
-	BPL CODE_B38F8E				;$B38F89   |
+	BPL ..CODE_B38F8E			;$B38F89   |
 	LDA #$F800				;$B38F8B   |
-CODE_B38F8E:					;	   |
+..CODE_B38F8E:					;	   |
 	STA $26,x				;$B38F8E   |
 	RTS					;$B38F90  /
 
-CODE_B38F91:
-	LDX current_sprite			;$B38F91  \
+.update_target_y_velocity:
+	LDX current_sprite			;$B38F91  \ Get glimmer sprite
 	LDA $60					;$B38F93   |
 	SEC					;$B38F95   |
 	SBC $0A,x				;$B38F96   |
-	BMI CODE_B38FA9				;$B38F98   |
+	BMI ..CODE_B38FA9			;$B38F98   |
 	ASL A					;$B38F9A   |
 	ASL A					;$B38F9B   |
 	ASL A					;$B38F9C   |
 	ASL A					;$B38F9D   |
 	CMP #$0800				;$B38F9E   |
-	BMI CODE_B38FA6				;$B38FA1   |
+	BMI ..CODE_B38FA6			;$B38FA1   |
 	LDA #$0800				;$B38FA3   |
-CODE_B38FA6:					;	   |
+..CODE_B38FA6:					;	   |
 	STA $2A,x				;$B38FA6   |
 	RTS					;$B38FA8  /
 
-CODE_B38FA9:
+..CODE_B38FA9:
 	EOR #$FFFF				;$B38FA9  \
 	INC A					;$B38FAC   |
 	ASL A					;$B38FAD   |
@@ -2003,40 +2006,47 @@ CODE_B38FA9:
 	EOR #$FFFF				;$B38FB1   |
 	INC A					;$B38FB4   |
 	CMP #$F800				;$B38FB5   |
-	BPL CODE_B38FBD				;$B38FB8   |
+	BPL ..CODE_B38FBD			;$B38FB8   |
 	LDA #$F800				;$B38FBA   |
-CODE_B38FBD:					;	   |
+..CODE_B38FBD:					;	   |
 	STA $2A,x				;$B38FBD   |
 	RTS					;$B38FBF  /
 
+
+;Animal Icon sprite variables:
+;$42,x	X position mirror/Damage flash timer
+;$44,x  Y position mirror
+;$46,x  Animal ID
+;$48,x  Time before moves to position after init
+
 animal_icon_main:
-	LDX current_sprite			;$B38FC0  \
-	LDA $2E,x				;$B38FC2   |
-	ASL A					;$B38FC4   |
+	LDX current_sprite			;$B38FC0  \ Get animal icon sprite
+	LDA $2E,x				;$B38FC2   | Get current state
+	ASL A					;$B38FC4   | *2
 	TAX					;$B38FC5   |
-	JMP (DATA_B38FC9,x)			;$B38FC6  /
+	JMP (.state_table,x)			;$B38FC6  / Execute state code
 
-DATA_B38FC9:
-	dw CODE_B38FD5
-	dw CODE_B38FE8
-	dw CODE_B3903C
-	dw CODE_B3905B
-	dw CODE_B39090
-	dw CODE_B3909E
+.state_table:
+	dw .init
+	dw .move_to_screen_position
+	dw .idle
+	dw .flash_on_damage
+	dw .wait_after_init
+	dw .init_skip_moving
 
 
-CODE_B38FD5:
-	LDX current_sprite			;$B38FD5  \
+.init:
+	LDX current_sprite			;$B38FD5  \ Get animal icon sprite
 	LDA #$0004				;$B38FD7   |
-	STA $2E,x				;$B38FDA   |
-	LDA $6E					;$B38FDC   |
-	STA $46,x				;$B38FDE   |
+	STA $2E,x				;$B38FDA   | Set wait_after_init state
+	LDA $6E					;$B38FDC   | 
+	STA $46,x				;$B38FDE   | Store current animal ID
 	LDA #$0004				;$B38FE0   |
-	STA $48,x				;$B38FE3   |
-	JML [$05A9]				;$B38FE5  /
+	STA $48,x				;$B38FE3   | Set time before moving into position
+	JML [$05A9]				;$B38FE5  / Done processing sprite
 
-CODE_B38FE8:
-	LDX current_sprite			;$B38FE8  \
+.move_to_screen_position:
+	LDX current_sprite			;$B38FE8  \ Get animal icon sprite
 	LDA $04,x				;$B38FEA   |
 	STA $32					;$B38FEC   |
 	LDA $06,x				;$B38FEE   |
@@ -2045,7 +2055,7 @@ CODE_B38FE8:
 	STA $36					;$B38FF5   |
 	LDA $42,x				;$B38FF7   |
 	STA $38					;$B38FF9   |
-	JSR CODE_B390B4				;$B38FFB   |
+	JSR .CODE_B390B4			;$B38FFB   |
 	STA $5E					;$B38FFE   |
 	LDA $32					;$B39000   |
 	STA $04,x				;$B39002   |
@@ -2059,7 +2069,7 @@ CODE_B38FE8:
 	STA $36					;$B39013   |
 	LDA $44,x				;$B39015   |
 	STA $38					;$B39017   |
-	JSR CODE_B390B4				;$B39019   |
+	JSR .CODE_B390B4			;$B39019   |
 	STA $60					;$B3901C   |
 	LDA $32					;$B3901E   |
 	STA $08,x				;$B39020   |
@@ -2067,87 +2077,87 @@ CODE_B38FE8:
 	STA $0A,x				;$B39024   |
 	LDA $5E					;$B39026   |
 	ORA $60					;$B39028   |
-	BEQ CODE_B3902F				;$B3902A   |
-	JML [$05A9]				;$B3902C  /
+	BEQ ..CODE_B3902F			;$B3902A   |
+	JML [$05A9]				;$B3902C  / Done processng sprite
 
-CODE_B3902F:
+..CODE_B3902F:
 	LDA $42,x				;$B3902F  \
 	STA $06,x				;$B39031   |
 	LDA $44,x				;$B39033   |
 	STA $0A,x				;$B39035   |
-	INC $2E,x				;$B39037   |
-	JML [$05A9]				;$B39039  /
+	INC $2E,x				;$B39037   | Set idle state
+	JML [$05A9]				;$B39039  / Done processng sprite
 
-CODE_B3903C:
+.idle:
 	LDA $08C2				;$B3903C  \
-	AND #$4000				;$B3903F   |
-	BEQ CODE_B3904F				;$B39042   |
-	LDX current_sprite			;$B39044   |
-	LDA $46,x				;$B39046   |
-	CMP $6E					;$B39048   |
-	BNE CODE_B39089				;$B3904A   |
-	JML [$05A9]				;$B3904C  /
+	AND #$4000				;$B3903F   | Check if player has follower kong
+	BEQ ..no_follower			;$B39042   |
+	LDX current_sprite			;$B39044   | Else get animal icon sprite
+	LDA $46,x				;$B39046   | Get animal ID saved in init state
+	CMP $6E					;$B39048   | Check if its the same as the player's
+	BNE .delete_animal_icon_sprite		;$B3904A   | If mismatch, or no animal, delete self
+	JML [$05A9]				;$B3904C  / Done processing sprite
 
-CODE_B3904F:
-	LDX current_sprite			;$B3904F  \
+..no_follower:
+	LDX current_sprite			;$B3904F  \ Get animal icon sprite
 	INC $2E,x				;$B39051   |
 	LDA #$0040				;$B39053   |
 	STA $42,x				;$B39056   |
 	JML [$05A9]				;$B39058  /
 
-CODE_B3905B:
-	LDX current_sprite			;$B3905B  \
-	DEC $42,x				;$B3905D   |
-	BMI CODE_B39089				;$B3905F   |
-	LDA $42,x				;$B39061   |
+.flash_on_damage:
+	LDX current_sprite			;$B3905B  \ Get animal icon sprite
+	DEC $42,x				;$B3905D   | Decrease damage flash timer
+	BMI .delete_animal_icon_sprite		;$B3905F   | If timer done, delete self
+	LDA $42,x				;$B39061   | Else get timer
 	CMP #$000A				;$B39063   |
-	BMI CODE_B3907F				;$B39066   |
+	BMI ..flash				;$B39066   |
 	CMP #$0020				;$B39068   |
-	BMI CODE_B39076				;$B3906B   |
+	BMI ..every_other_frame			;$B3906B   |
 	LDA global_frame_counter		;$B3906D   |
 	AND #$0003				;$B3906F   |
-	BEQ CODE_B3907F				;$B39072   |
-	BRA CODE_B39086				;$B39074  /
+	BEQ ..flash				;$B39072   | Else flash every 4 frames
+	BRA ..return				;$B39074  / Done processng sprite
 
-CODE_B39076:
+..every_other_frame:
 	LDA global_frame_counter		;$B39076  \
 	AND #$0001				;$B39078   |
-	BEQ CODE_B3907F				;$B3907B   |
-	BRA CODE_B39086				;$B3907D  /
+	BEQ ..flash				;$B3907B   | Flash the sprite every other frame
+	BRA ..return				;$B3907D  / Done processng sprite
 
-CODE_B3907F:
-	LDA $1C,x				;$B3907F  \
+..flash:
+	LDA $1C,x				;$B3907F  \ Get sprite display properties
 	EOR #$4000				;$B39081   |
-	STA $1C,x				;$B39084   |
-CODE_B39086:					;	   |
-	JML [$05A9]				;$B39086  /
+	STA $1C,x				;$B39084   | Toggle visibility
+..return:					;	   |
+	JML [$05A9]				;$B39086  / Done processing sprite
 
-CODE_B39089:
+.delete_animal_icon_sprite:
 	JSL delete_sprite_handle_deallocation	;$B39089  \
-	JML [$05A9]				;$B3908D  /
+	JML [$05A9]				;$B3908D  / Done processing sprite
 
-CODE_B39090:
-	LDX current_sprite			;$B39090  \
-	DEC $48,x				;$B39092   |
-	BPL CODE_B3909B				;$B39094   |
-	LDA #$0001				;$B39096   |
-	STA $2E,x				;$B39099   |
-CODE_B3909B:					;	   |
-	JML [$05A9]				;$B3909B  /
+.wait_after_init:
+	LDX current_sprite			;$B39090  \ Get animal icon sprite
+	DEC $48,x				;$B39092   | Decrease wait timer
+	BPL ..return				;$B39094   | If not done yet, return
+	LDA #$0001				;$B39096   | 
+	STA $2E,x				;$B39099   | Else set move_to_screen_position state
+..return:					;	   |
+	JML [$05A9]				;$B3909B  / Done processing sprite
 
-CODE_B3909E:
-	LDX current_sprite			;$B3909E  \
+.init_skip_moving:
+	LDX current_sprite			;$B3909E  \ Get animal icon sprite
 	LDA $42,x				;$B390A0   |
-	STA $06,x				;$B390A2   |
+	STA $06,x				;$B390A2   | Set X position from mirror
 	LDA $44,x				;$B390A4   |
-	STA $0A,x				;$B390A6   |
+	STA $0A,x				;$B390A6   | Set Y position from mirror
 	LDA $6E					;$B390A8   |
-	STA $46,x				;$B390AA   |
+	STA $46,x				;$B390AA   | Set current animal ID
 	LDA #$0002				;$B390AC   |
-	STA $2E,x				;$B390AF   |
-	JML [$05A9]				;$B390B1  /
+	STA $2E,x				;$B390AF   | Set idle state
+	JML [$05A9]				;$B390B1  / Done processing sprite
 
-CODE_B390B4:
+.CODE_B390B4:
 	LDA $36					;$B390B4  \
 	SEC					;$B390B6   |
 	SBC $32					;$B390B7   |
@@ -2155,7 +2165,7 @@ CODE_B390B4:
 	LDA $38					;$B390BB   |
 	SBC $34					;$B390BD   |
 	STA $3C					;$B390BF   |
-	JSR CODE_B390D7				;$B390C1   |
+	JSR .CODE_B390D7			;$B390C1   |
 	LDA $3A					;$B390C4   |
 	CLC					;$B390C6   |
 	ADC $32					;$B390C7   |
@@ -2167,15 +2177,15 @@ CODE_B390B4:
 	AND #$FFF0				;$B390D3   |
 	RTS					;$B390D6  /
 
-CODE_B390D7:
+.CODE_B390D7:
 	LDA $3C					;$B390D7  \
-	BPL CODE_B390E5				;$B390D9   |
-	JSR CODE_B390FE				;$B390DB   |
-	JSR CODE_B390E5				;$B390DE   |
-	JSR CODE_B390FE				;$B390E1   |
+	BPL .CODE_B390E5			;$B390D9   |
+	JSR .CODE_B390FE			;$B390DB   |
+	JSR .CODE_B390E5			;$B390DE   |
+	JSR .CODE_B390FE			;$B390E1   |
 	RTS					;$B390E4  /
 
-CODE_B390E5:
+.CODE_B390E5:
 	LSR $3C					;$B390E5  \
 	ROR $3A					;$B390E7   |
 	LSR $3C					;$B390E9   |
@@ -2190,7 +2200,7 @@ CODE_B390E5:
 	STA $40					;$B390FB   |
 	RTS					;$B390FD  /
 
-CODE_B390FE:
+.CODE_B390FE:
 	LDA $3C					;$B390FE  \
 	EOR #$FFFF				;$B39100   |
 	STA $3C					;$B39103   |
@@ -2208,38 +2218,38 @@ spawn_follower_animal_icon:
 	LDA $6E					;$B39118  \
 	BEQ .return				;$B3911A   |
 	SEC					;$B3911C   |
-	SBC #!sprite_squitter			;$B3911D   |
-	LSR A					;$B39120   |
+	SBC #!animal_sprite_type_range_start	;$B3911D   | Subtract from start of animal sprite range
+	LSR A					;$B39120   | / 2 to get an index
 	TAX					;$B39121   |
-	LDA.l DATA_FF0D00,x			;$B39122   |
+	LDA.l DATA_FF0D00,x			;$B39122   | Get animal icon spawn script to use
 	TAY					;$B39126   |
-	JSL CODE_BB8432				;$B39127   |
-	BCS .return				;$B3912B   |
-	LDX current_sprite			;$B3912D   |
-	LDY alternate_sprite			;$B3912F   |
-	LDA $08A8				;$B39131   |
-	CMP #!level_castle_crush		;$B39134   |\
-	BNE .not_castle_crush			;$B39137   |/ If level isnt castle crush then use default icon Y position
-	LDA #$00B6				;$B39139   |\ Else use a different Y position for the icon
-	STA $0044,y				;$B3913C   |/
-.not_castle_crush				;	   |
-	LDA $06,x				;$B3913F   |
+	JSL CODE_BB8432				;$B39127   | Spawn animal icon
+	BCS .return				;$B3912B   | If spawn failed, return
+	LDX current_sprite			;$B3912D   | Get caller sprite
+	LDY alternate_sprite			;$B3912F   | Get animal icon sprite
+	LDA $08A8				;$B39131   | Get parent level number
+	CMP #!level_castle_crush		;$B39134   | Check if castle crush
+	BNE .not_castle_crush			;$B39137   | If not, don't set higher Y position
+	LDA #$00B6				;$B39139   |
+	STA $0044,y				;$B3913C   | Else set it to avoid being obscured by floor
+.not_castle_crush:				;	   |
+	LDA $06,x				;$B3913F   | Get caller X position
 	SEC					;$B39141   |
-	SBC $17BA				;$B39142   |
-	STA $0006,y				;$B39145   |
-	LDA $0A,x				;$B39148   |
+	SBC $17BA				;$B39142   | Subtract from camera X position
+	STA $0006,y				;$B39145   | Set icon screen space X position
+	LDA $0A,x				;$B39148   | Get caller Y position
 	SEC					;$B3914A   |
-	SBC $17C0				;$B3914B   |
-	STA $000A,y				;$B3914E   |
+	SBC $17C0				;$B3914B   | Subtract from camera Y position
+	STA $000A,y				;$B3914E   | Set icon screen space Y position
 	LDA #$8000				;$B39151   |
 	STA $0004,y				;$B39154   |
 	STA $0008,y				;$B39157   |
-	LDA $6E					;$B3915A   |
+	LDA $6E					;$B3915A   | Get current animal
 	CLC					;$B3915C   |
-	ADC #$1908				;$B3915D   |
-	STA $001A,y				;$B39160   |
-.return						;	   |
-	RTL					;$B39163  /
+	ADC #$1908				;$B3915D   | Offset graphic ID
+	STA $001A,y				;$B39160   | Set icon graphic
+.return:					;	   |
+	RTL					;$B39163  / Return
 
 unknown_sprite_0114_main:
 	LDX active_kong_sprite			;$B39164  \
@@ -2250,10 +2260,10 @@ unknown_sprite_0114_main:
 	STA $0012,y				;$B39172   |
 	LDA $0044,y				;$B39175   |
 	BIT $12,x				;$B39178   |
-	BVC CODE_B39180				;$B3917A   |
+	BVC .CODE_B39180			;$B3917A   |
 	EOR #$FFFF				;$B3917C   |
 	INC A					;$B3917F   |
-CODE_B39180:					;	   |
+.CODE_B39180:					;	   |
 	CLC					;$B39180   |
 	ADC $06,x				;$B39181   |
 	STA $0006,y				;$B39183   |
@@ -2264,6 +2274,7 @@ CODE_B39180:					;	   |
 	JSL CODE_B9D100				;$B3918F   |
 	JML [$05A9]				;$B39193  /
 
+;unused
 	JSL delete_sprite_handle_deallocation	;$B39196   |
 	JML [$05A9]				;$B3919A  /
 
@@ -2279,38 +2290,38 @@ egg_shell_pieces_main:
 	JSL CODE_B9D100				;$B391AD   |
 	LDX current_sprite			;$B391B1   |
 	LDA $24,x				;$B391B3   |
-	BPL CODE_B391BA				;$B391B5   |
-CODE_B391B7:					;	   |
+	BPL .CODE_B391BA			;$B391B5   |
+.return:					;	   |
 	JML [$05A9]				;$B391B7  /
 
-CODE_B391BA:
+.CODE_B391BA:
 	LDA $0A,x				;$B391BA  \
 	SEC					;$B391BC   |
 	SBC $17C2				;$B391BD   |
-	BMI CODE_B391B7				;$B391C0   |
+	BMI .return				;$B391C0   |
 	CMP #$00E0				;$B391C2   |
-	BMI CODE_B391B7				;$B391C5   |
+	BMI .return				;$B391C5   |
 	JSL delete_sprite_handle_deallocation	;$B391C7   |
 	JML [$05A9]				;$B391CB  /
 
 fireworks_main:
 	LDX current_sprite			;$B391CE  \
 	LDA $24,x				;$B391D0   |
-	BPL CODE_B391DA				;$B391D2   |
+	BPL .CODE_B391DA			;$B391D2   |
 	LDA $0A,x				;$B391D4   |
 	CMP $44,x				;$B391D6   |
-	BPL CODE_B391E2				;$B391D8   |
-CODE_B391DA:					;	   |
+	BPL .CODE_B391E2			;$B391D8   |
+.CODE_B391DA:					;	   |
 	LDA $24,x				;$B391DA   |
 	CLC					;$B391DC   |
 	ADC #$000C				;$B391DD   |
-	BRA CODE_B391E8				;$B391E0  /
+	BRA .CODE_B391E8			;$B391E0  /
 
-CODE_B391E2:
+.CODE_B391E2:
 	LDA $24,x				;$B391E2  \
 	SEC					;$B391E4   |
 	SBC #$000C				;$B391E5   |
-CODE_B391E8:					;	   |
+.CODE_B391E8:					;	   |
 	STA $24,x				;$B391E8   |
 	JSL apply_position_from_velocity_global	;$B391EA   |
 	JSL CODE_B9D100				;$B391EE   |
@@ -2330,29 +2341,29 @@ unknown_sprite_00B8_main:
 	PLB					;$B39205   |
 	LDX current_sprite			;$B39206   |
 	DEC $48,x				;$B39208   |
-	BPL CODE_B39213				;$B3920A   |
+	BPL .CODE_B39213			;$B3920A   |
 	LDA $46,x				;$B3920C   |
-	BEQ CODE_B39213				;$B3920E   |
-	JSR CODE_B392A9				;$B39210   |
-CODE_B39213:					;	   |
+	BEQ .CODE_B39213			;$B3920E   |
+	JSR CODE_B392A9				;$B39210   | This routine does nothing
+.CODE_B39213:					;	   |
 	LDX current_sprite			;$B39213   |
 	DEC $42,x				;$B39215   |
-	BMI CODE_B39223				;$B39217   |
-CODE_B39219:					;	   |
+	BMI .CODE_B39223			;$B39217   |
+.return:					;	   |
 	JML [$05A9]				;$B39219  /
 
-CODE_B3921C:
+.delete_explosion_sprite:
 	JSL delete_sprite_no_deallocation	;$B3921C  \
 	JML [$05A9]				;$B39220  /
 
-CODE_B39223:
+.CODE_B39223:
 	DEC $46,x				;$B39223  \
-	BMI CODE_B3921C				;$B39225   |
+	BMI .delete_explosion_sprite		;$B39225   |
 	LDA $4A,x				;$B39227   |
 	STA $42,x				;$B39229   |
 	LDY $2E,x				;$B3922B   |
 	JSL CODE_BB8432				;$B3922D   |
-	BCS CODE_B39219				;$B39231   |
+	BCS .return				;$B39231   | If spawn failed, return
 	PHK					;$B39233   |
 	PLB					;$B39234   |
 	LDX current_sprite			;$B39235   |
@@ -2363,22 +2374,22 @@ CODE_B39223:
 	ASL A					;$B3923F   |
 	ASL A					;$B39240   |
 	TAY					;$B39241   |
-	LDA DATA_B39289,y			;$B39242   |
+	LDA .DATA_B39289,y			;$B39242   |
 	LDX alternate_sprite			;$B39245   |
 	CLC					;$B39247   |
 	ADC $06,x				;$B39248   |
 	STA $06,x				;$B3924A   |
-	LDA DATA_B39289,y			;$B3924C   |
+	LDA .DATA_B39289,y			;$B3924C   |
 	LSR A					;$B3924F   |
 	EOR $12,x				;$B39250   |
 	AND #$4000				;$B39252   |
 	EOR $12,x				;$B39255   |
 	STA $12,x				;$B39257   |
-	LDA DATA_B3928B,y			;$B39259   |
+	LDA .DATA_B3928B,y			;$B39259   |
 	CLC					;$B3925C   |
 	ADC $0A,x				;$B3925D   |
 	STA $0A,x				;$B3925F   |
-	LDA DATA_B3928B,y			;$B39261   |
+	LDA .DATA_B3928B,y			;$B39261   |
 	EOR $12,x				;$B39264   |
 	AND #$8000				;$B39266   |
 	EOR $12,x				;$B39269   |
@@ -2386,22 +2397,22 @@ CODE_B39223:
 	LDY current_sprite			;$B3926D   |
 	LDA $0046,y				;$B3926F   |
 	LSR A					;$B39272   |
-	BCC CODE_B3927D				;$B39273   |
+	BCC .CODE_B3927D			;$B39273   |
 	LDA $24,x				;$B39275   |
 	CMP #$8000				;$B39277   |
 	ROR A					;$B3927A   |
 	STA $24,x				;$B3927B   |
-CODE_B3927D:					;	   |
+.CODE_B3927D:					;	   |
 	LDA $0020,y				;$B3927D   |
 	CMP #$8000				;$B39280   |
 	ROR A					;$B39283   |
 	STA $20,x				;$B39284   |
 	JML [$05A9]				;$B39286  /
 
-DATA_B39289:
+.DATA_B39289:
 	db $00, $00
 
-DATA_B3928B:
+.DATA_B3928B:
 	db $04, $00, $00, $00, $FC, $FF, $F8, $FF
 	db $04, $00, $08, $00, $F4, $FF, $08, $00
 	db $04, $00, $F8, $FF, $F4, $FF, $08, $00
@@ -2420,17 +2431,17 @@ sun_main:
 	LSR A					;$B392B3   |
 	LSR A					;$B392B4   |
 	LSR A					;$B392B5   |
-	STA $32					;$B392B6   |
+	STA temp_32				;$B392B6   |
 	LSR A					;$B392B8   |
 	LSR A					;$B392B9   |
 	CLC					;$B392BA   |
-	ADC $32					;$B392BB   |
+	ADC temp_32				;$B392BB   |
 	CLC					;$B392BD   |
 	ADC #$0010				;$B392BE   |
 	STA $0A,x				;$B392C1   |
 	LDA global_frame_counter		;$B392C3   |
 	AND #$0001				;$B392C5   |
-	STA $32					;$B392C8   |
+	STA temp_32				;$B392C8   |
 	LDA $0911				;$B392CA   |
 	XBA					;$B392CD   |
 	AND #$00FF				;$B392CE   |
@@ -2438,30 +2449,30 @@ sun_main:
 	CLC					;$B392D2   |
 	ADC #$0070				;$B392D3   |
 	CLC					;$B392D6   |
-	ADC $32					;$B392D7   |
+	ADC temp_32				;$B392D7   |
 	STA $06,x				;$B392D9   |
 	JML [$05A9]				;$B392DB  /
 
 rock_main:
-	JSL CODE_B9D100				;$B392DE  \
-	JML [$05A9]				;$B392E2  /
+	JSL CODE_B9D100				;$B392DE  \ Process animation
+	JML [$05A9]				;$B392E2  / Done processing sprite
 
 squawks_egg_main:
-	LDX current_sprite			;$B392E5  \
+	LDX current_sprite			;$B392E5  \ Get egg sprite
 	LDA $54,x				;$B392E7   |
-	STA $8E					;$B392E9   |
-	LDA $2E,x				;$B392EB   |
-	CMP #$0002				;$B392ED   |
-	BPL CODE_B392FB				;$B392F0   |
-	ASL A					;$B392F2   |
+	STA $8E					;$B392E9   | Set constants address
+	LDA $2E,x				;$B392EB   | Get current state
+	CMP #$0002				;$B392ED   | Check if state 02 (which doesn't exist)
+	BPL .dead_code				;$B392F0   | If yes, run dead code
+	ASL A					;$B392F2   | 
 	TAX					;$B392F3   |
-	JMP (DATA_B392F7,x)			;$B392F4  /
+	JMP (.state_table,x)			;$B392F4  / Else jump to actual state code
 
-DATA_B392F7:
-	dw CODE_B39314
-	dw CODE_B3935F
+.state_table:
+	dw .travel
+	dw .defeated
 
-CODE_B392FB:
+.dead_code:
 	NOP					;$B392FB  \
 	NOP					;$B392FC   |
 	NOP					;$B392FD   |
@@ -2469,64 +2480,64 @@ CODE_B392FB:
 
 	JML [$05A9]				;$B392FF  /
 
-CODE_B39302:
+.move_and_animate:
 	JSR apply_x_acceleration		;$B39302  \
-CODE_B39305:					;	   |
+.move_and_animate_no_acceleration:		;	   |
 	JSR apply_sprite_gravity_2		;$B39305   |
 	JSL apply_position_from_velocity_global	;$B39308   |
-	JSL CODE_B9D100				;$B3930C   |
-	JML CODE_B38000				;$B39310  /
+	JSL CODE_B9D100				;$B3930C   | Process animation
+	JML CODE_B38000				;$B39310  / Done processing sprite
 
-CODE_B39314:
+.travel:
 	LDA level_number			;$B39314  \
-	CMP #!level_king_zing_sting		;$B39316   |
-	BNE CODE_B39324				;$B39319   |
-	LDX current_sprite			;$B3931B   |
-	LDA $30,x				;$B3931D   |
-	ORA #$0200				;$B3931F   |
+	CMP #!level_king_zing_sting		;$B39316   | Check if level is King Zing Sting
+	BNE .skip_interaction_flag_set		;$B39319   |
+	LDX current_sprite			;$B3931B   | Get egg sprite
+	LDA $30,x				;$B3931D   | Get interaction flags
+	ORA #$0200				;$B3931F   | Set bit 9 (allows it to hurt king zing's stinger)
 	STA $30,x				;$B39322   |
-CODE_B39324:					;	   |
-	JSL CODE_BCFB58				;$B39324   |
+.skip_interaction_flag_set:			;	   |
+	JSL CODE_BCFB58				;$B39324   | Populate sprite clipping
 	LDA #$0020				;$B39328   |
 	LDY #$0008				;$B3932B   |
-	JSL CODE_BEBD8E				;$B3932E   |
-	BCS CODE_B39336				;$B39332   |
-	BRA CODE_B39302				;$B39334  /
+	JSL CODE_BEBD8E				;$B3932E   | Check if collided with enemy
+	BCS .collision_happened			;$B39332   | 
+	BRA .move_and_animate			;$B39334  /
 
-CODE_B39336:
+.collision_happened:
 	LDA level_number			;$B39336  \
-	CMP #!level_king_zing_sting		;$B39338   |
-	BNE CODE_B39344				;$B3933B   |
-	LDA #$067D				;$B3933D   |
+	CMP #!level_king_zing_sting		;$B39338   | Check if level is King Zing Sting
+	BNE .skip_bounce_sound			;$B3933B   | If not, skip bounce sound
+	LDA #$067D				;$B3933D   | If yes, play egg bounce sound effect
 	JSL queue_sound_effect			;$B39340   |
-CODE_B39344:					;	   |
-	LDX current_sprite			;$B39344   |
-	INC $2E,x				;$B39346   |
+.skip_bounce_sound:				;	   |
+	LDX current_sprite			;$B39344   | Get egg sprite
+	INC $2E,x				;$B39346   | Set state 01
 	LDA #$FC00				;$B39348   |
-	STA $24,x				;$B3934B   |
+	STA $24,x				;$B3934B   | Set current Y velocity
 	LDA $DB					;$B3934D   |
-	CMP $E3					;$B3934F   |
-	BMI CODE_B3935B				;$B39351   |
+	CMP $E3					;$B3934F   | Check which direction collision occured
+	BMI .no_flip				;$B39351   | If collided with top of sprite, don't flip
 	LDA $20,x				;$B39353   |
-	EOR #$FFFF				;$B39355   |
+	EOR #$FFFF				;$B39355   | Else flip X velocity
 	INC A					;$B39358   |
-	STA $20,x				;$B39359   |
-CODE_B3935B:					;	   |
-	STZ $26,x				;$B3935B   |
-	BRA CODE_B39302				;$B3935D  /
+	STA $20,x				;$B39359   | Update current X velocity
+.no_flip:					;	   |
+	STZ $26,x				;$B3935B   | Clear target X velocity
+	BRA .move_and_animate			;$B3935D  /
 
-CODE_B3935F:
+.defeated:
 	LDA #$0005				;$B3935F  \
 	JSL interpolate_x_velocity_global	;$B39362   |
-	BRA CODE_B39305				;$B39366  /
+	BRA .move_and_animate_no_acceleration	;$B39366  /
 
 npc_hud_coin_main:
-	JSL CODE_B9D100				;$B39368  \
-	JML [$05A9]				;$B3936C  /
+	JSL CODE_B9D100				;$B39368  \ Process animation
+	JML [$05A9]				;$B3936C  / Done processing sprite
 
 honey_splash_main:
-	JSL CODE_B9D100				;$B3936F  \
-	JML [$05A9]				;$B39373  /
+	JSL CODE_B9D100				;$B3936F  \ Process animation
+	JML [$05A9]				;$B39373  / Done processing sprite
 
 dkbarrel_main:
 	LDX current_sprite			;$B39376  \
@@ -2672,9 +2683,9 @@ dkbarrel_letters_main:
 	TAY					;$B394A4   | Transfer to Y
 	LDA $0000,y				;$B394A5   | Get sprite ID
 	CMP #!sprite_dkbarrel			;$B394A8   | Check if it was a DK barrel
-	BNE .parent_mismatched			;$B394AB   | If not, a mismatch happened, delete sprite
+	BNE .parent_mismatch			;$B394AB   | If not, a mismatch happened, delete sprite
 	LDA $0048,y				;$B394AD   | Else get index of letter sprite in DK barrel
-	BMI .parent_mismatched			;$B394B0   | If negative (mistake?), delete letter sprite
+	BMI .parent_mismatch			;$B394B0   | If negative (mistake?), delete letter sprite
 	LDA $0006,y				;$B394B2   | Else Get DK barrel's X position
 	STA $06,x				;$B394B5   | Copy to the letter's
 	LDA $000A,y				;$B394B7   | Get DK barrel's Y position
@@ -2682,7 +2693,7 @@ dkbarrel_letters_main:
 	JSL CODE_B9D100				;$B394BC   | Process animation
 	JMP CODE_B38000				;$B394C0  / Done processing sprite
 
-.parent_mismatched:
+.parent_mismatch:
 	JSL delete_sprite_handle_deallocation	;$B394C3  \ Delete letters sprite
 	JML [$05A9]				;$B394C7  / Done processing sprite
 
@@ -3019,11 +3030,11 @@ unknown_sprite_0244_main:
 	LDA #$0040				;$B3973B   |
 	CLC					;$B3973E   |
 	ADC $24,x				;$B3973F   |
-	BMI CODE_B3974B				;$B39741   |
+	BMI .CODE_B3974B			;$B39741   |
 	CMP #$0800				;$B39743   |
-	BMI CODE_B3974B				;$B39746   |
+	BMI .CODE_B3974B			;$B39746   |
 	LDA #$0800				;$B39748   |
-CODE_B3974B:					;	   |
+.CODE_B3974B:					;	   |
 	STA $24,x				;$B3974B   |
 	JSL apply_position_from_velocity_global	;$B3974D   |
 	JSL CODE_B9D100				;$B39751   |
@@ -3054,143 +3065,146 @@ CODE_B39779:					;	   |
 	RTS					;$B39787  /
 
 animal_box_main:
-	LDX current_sprite			;$B39788  \
-	LDA $2E,x				;$B3978A   |
-	ASL A					;$B3978C   |
+	LDX current_sprite			;$B39788  \ Get animal box sprite
+	LDA $2E,x				;$B3978A   | Get current state
+	ASL A					;$B3978C   | *2
 	TAX					;$B3978D   |
-	JMP (DATA_B39791,x)			;$B3978E  /
+	JMP (.state_table,x)			;$B3978E  / Jump to state code
 
-DATA_B39791:
-	dw CODE_B397F9
-	dw CODE_B39803
-	dw CODE_B3980A
-	dw CODE_B39815
-	dw CODE_B39803
+.state_table:
+	dw .idle
+	dw .break_open
+	dw .state_02
+	dw .state_03
+	dw .break_open
 
 
-CODE_B3979B:
-	LDX current_sprite			;$B3979B  \
-	LDA $10,x				;$B3979D   |
-	AND #$0100				;$B3979F   |
-	BNE CODE_B397BB				;$B397A2   |
+.check_collision:
+	LDX current_sprite			;$B3979B  \ Get animal box sprite
+	LDA $10,x				;$B3979D   | Get terrain tile attributes
+	AND #$0100				;$B3979F   | Check if in a damage tile?
+	BNE .collision_happened_set_state_04	;$B397A2   |
 	LDA #$0118				;$B397A4   |
-	JSR CODE_B3A364				;$B397A7   |
-	BCS CODE_B397C0				;$B397AA   |
-	JSL CODE_BCFB58				;$B397AC   |
+	JSR CODE_B3A364				;$B397A7   | Check throwable collision
+	BCS .collision_happened			;$B397AA   |
+	JSL CODE_BCFB58				;$B397AC   | Populate sprite clipping
 	LDA #$15CC				;$B397B0   |
-	JSL CODE_BEBE8B				;$B397B3   |
-	BCS CODE_B397C0				;$B397B7   |
+	JSL CODE_BEBE8B				;$B397B3   | Check complex player collision
+	BCS .collision_happened			;$B397B7   |
 	CLC					;$B397B9   |
-	RTS					;$B397BA  /
+	RTS					;$B397BA  / Return
 
-CODE_B397BB:
+.collision_happened_set_state_04:
 	LDA #$0004				;$B397BB  \
-	BRA CODE_B397C3				;$B397BE  /
+	BRA .collision_happened_skip_state_01	;$B397BE  /
 
-CODE_B397C0:
+.collision_happened:
 	LDA #$0001				;$B397C0  \
-CODE_B397C3:					;	   |
-	STA $2E,x				;$B397C3   |
-	STZ $30,x				;$B397C5   |
-	STZ $32,x				;$B397C7   |
-	LDA $36,x				;$B397C9   |
-	STA $42,x				;$B397CB   |
+.collision_happened_skip_state_01:		;	   |
+	STA $2E,x				;$B397C3   | Set state
+	STZ $30,x				;$B397C5   | Clear interaction flags
+	STZ $32,x				;$B397C7   | Clear pickup/damage flags
+	LDA $36,x				;$B397C9   | Get animation ID
+	STA $42,x				;$B397CB   | Copy it (will be used to spawn appropriate animal)
 	LDA #$02B1				;$B397CD   |
-	JSL set_sprite_animation		;$B397D0   |
+	JSL set_sprite_animation		;$B397D0   | Play animal_crate_open animation
 	LDA #$0439				;$B397D4   |
 	JSL queue_sound_effect			;$B397D7   |
 	LDA #$053B				;$B397DB   |
-	JSL queue_sound_effect			;$B397DE   |
+	JSL queue_sound_effect			;$B397DE   | Play crate open sound effect(s)
 	LDA #$063C				;$B397E2   |
 	JSL queue_sound_effect			;$B397E5   |
 	LDA #$073A				;$B397E9   |
 	JSL queue_sound_effect			;$B397EC   |
-	LDX current_sprite			;$B397F0   |
-	LDA $5C,x				;$B397F2   |
-	JSR CODE_B39845				;$B397F4   |
+	LDX current_sprite			;$B397F0   | Get animal box sprite
+	LDA $5C,x				;$B397F2   | Get camera number to lock after breaking
+	JSR .lock_camera			;$B397F4   |
 	CLC					;$B397F7   |
-	RTS					;$B397F8  /
+	RTS					;$B397F8  / Return
 
-CODE_B397F9:
-	JSR CODE_B3979B				;$B397F9  \
-	JSL CODE_B8D5E0				;$B397FC   |
-	JMP CODE_B38000				;$B39800  /
+.idle:
+	JSR .check_collision			;$B397F9  \
+	JSL CODE_B8D5E0				;$B397FC   | Process terrain collision
+	JMP CODE_B38000				;$B39800  / Done processing sprite
 
-CODE_B39803:
-	JSL CODE_B9D100				;$B39803  \
-	JML [$05A9]				;$B39807  /
+.break_open:
+	JSL CODE_B9D100				;$B39803  \ Process animation
+	JML [$05A9]				;$B39807  / Done processing sprite
 
-CODE_B3980A:
-	JSL CODE_B9D100				;$B3980A  \
-	JSL CODE_BBBB8D				;$B3980E   |
-	JML [$05A9]				;$B39812  /
+.state_02:
+	JSL CODE_B9D100				;$B3980A  \ Process animation
+	JSL CODE_BBBB8D				;$B3980E   | Despawn sprite if offscreen
+	JML [$05A9]				;$B39812  / Done processing sprite
 
-CODE_B39815:
-	JSL CODE_BCFB58				;$B39815  \
+.state_03:
+	JSL CODE_BCFB58				;$B39815  \ Populate sprite clipping
 	LDA #$0008				;$B39819   |
 	PHK					;$B3981C   |
-	%return(CODE_B39823)			;$B3981D   |
-	JML [$09F9]				;$B39820  /
+	%return(.CODE_B39823)			;$B3981D   | Set collision return address
+	JML [$09F9]				;$B39820  / Done processing sprite
 
-CODE_B39823:
-	BCS CODE_B3982C				;$B39823  \
-	JSL CODE_B8D5E0				;$B39825   |
-	JMP CODE_B38000				;$B39829  /
+.CODE_B39823:
+	BCS .CODE_B3982C			;$B39823  \
+	JSL CODE_B8D5E0				;$B39825   | Process terrain collision
+	JMP CODE_B38000				;$B39829  / Done processing sprite
 
-CODE_B3982C:
-	LDX current_sprite			;$B3982C  \
-	STZ $30,x				;$B3982E   |
-	STZ $32,x				;$B39830   |
+.CODE_B3982C:
+	LDX current_sprite			;$B3982C  \ Get animal box sprite
+	STZ $30,x				;$B3982E   | Clear interaction flags
+	STZ $32,x				;$B39830   | Clear pickup/damage flags
 	LDA #$0001				;$B39832   |
-	STA $2E,x				;$B39835   |
-	LDA $36,x				;$B39837   |
-	STA $42,x				;$B39839   |
+	STA $2E,x				;$B39835   | Set break open state
+	LDA $36,x				;$B39837   | Get animation ID
+	STA $42,x				;$B39839   | Copy it (will be used to spawn appropriate animal)
 	LDA #$02B1				;$B3983B   |
-	JSL set_sprite_animation		;$B3983E   |
-	JML [$05A9]				;$B39842  /
+	JSL set_sprite_animation		;$B3983E   | Play animal_crate_open animation
+	JML [$05A9]				;$B39842  / Done processing sprite
 
-CODE_B39845:
-	BEQ CODE_B39854				;$B39845  \
+.lock_camera:
+	BEQ ..return				;$B39845  \ If camera number doesn't exist, return
 	ASL A					;$B39847   |
 	TAX					;$B39848   |
 	LDA.l $7E9128,x				;$B39849   |
-	ORA #$0080				;$B3984D   |
+	ORA #$0080				;$B3984D   | Else lock the camera
 	STA $7E9128,x				;$B39850   |
-CODE_B39854:					;	   |
-	LDX current_sprite			;$B39854   |
-	RTS					;$B39856  /
+..return:					;	   |
+	LDX current_sprite			;$B39854   | Get animal box sprite
+	RTS					;$B39856  / Return
 
+
+;Hook sprite variables:
+;$4E,x	offset to apply to camera?
 hook_main:
 	LDX current_sprite			;$B39857  \
 	LDA $2E,x				;$B39859   |
 	ASL A					;$B3985B   |
 	TAX					;$B3985C   |
-	JMP (DATA_B39860,x)			;$B3985D  /
+	JMP (.state_table,x)			;$B3985D  /
 
-DATA_B39860:
-	dw CODE_B39866
-	dw CODE_B3986C
-	dw CODE_B3989A
+.state_table:
+	dw .state_00
+	dw .state_01
+	dw .state_02
 
-CODE_B39866:
+.state_00:
 	JSR CODE_B39986				;$B39866  \
 	JMP CODE_B38000				;$B39869  /
 
-CODE_B3986C:
+.state_01:
 	LDA $0D82				;$B3986C  \
 	CMP current_sprite			;$B3986F   |
-	BNE CODE_B39888				;$B39871   |
+	BNE ..CODE_B39888			;$B39871   |
 	LDX current_sprite			;$B39873   |
 	LDA $4E,x				;$B39875   |
-	BEQ CODE_B39885				;$B39877   |
+	BEQ ..return				;$B39877   |
 	LDA #$C000				;$B39879   |
 	ORA $0AB8				;$B3987C   |
 	STA $0AB8				;$B3987F   |
-	JSR CODE_B398AB				;$B39882   |
-CODE_B39885:					;	   |
+	JSR CODE_B398AB				;$B39882   | Does camera BS
+..return:					;	   |
 	JML [$05A9]				;$B39885  /
 
-CODE_B39888:
+..CODE_B39888:
 	STZ $0AEE				;$B39888  \
 	STZ $0AF2				;$B3988B   |
 	LDX current_sprite			;$B3988E   |
@@ -3199,16 +3213,16 @@ CODE_B39888:
 	INC $2E,x				;$B39895   |
 	JML [$05A9]				;$B39897  /
 
-CODE_B3989A:
+.state_02:
 	LDX current_sprite			;$B3989A  \
 	DEC $42,x				;$B3989C   |
-	BEQ CODE_B398A3				;$B3989E   |
-CODE_B398A0:					;	   |
+	BEQ ..CODE_B398A3			;$B3989E   |
+..CODE_B398A0:					;	   |
 	JMP CODE_B38000				;$B398A0  /
 
-CODE_B398A3:
+..CODE_B398A3:
 	STZ $2E,x				;$B398A3  \
-	BRA CODE_B398A0				;$B398A5  /
+	BRA ..CODE_B398A0			;$B398A5  /
 
 CODE_B398A7:
 	JSR CODE_B398AB				;$B398A7  \
@@ -3311,6 +3325,8 @@ CODE_B39982:
 	JSR CODE_B39986				;$B39982  \
 	RTL					;$B39985  /
 
+
+;handle kong collision if not holding object or is animal, might be particular to hooks?
 CODE_B39986:
 	LDA $0D7A				;$B39986  \
 	ORA $6E					;$B39989   |
@@ -3413,42 +3429,42 @@ CODE_B39A5F:
 	RTS					;$B39A6E  /
 
 invincibility_barrel_main:
-	JSL CODE_BCFB58				;$B39A6F  \
-	LDA #$0010				;$B39A73   |
+	JSL CODE_BCFB58				;$B39A6F  \ Populate sprite clipping
+	LDA #$0010				;$B39A73   | Get collision flags
 	PHK					;$B39A76   |
-	%return(CODE_B39A7D)			;$B39A77   |
-	JML [$09F9]				;$B39A7A  /
+	%return(.return_handler)		;$B39A77   | Set collision return handler address
+	JML [$09F9]				;$B39A7A  / Done processing sprite
 
-CODE_B39A7D:
-	BCS CODE_B39A86				;$B39A7D  \
-	JSL CODE_B9D100				;$B39A7F   |
-	JMP CODE_B38000				;$B39A83  /
+.return_handler:
+	BCS .collision_happened			;$B39A7D  \ If collision happened, spawn controller sprite
+	JSL CODE_B9D100				;$B39A7F   | Else process animations
+	JMP CODE_B38000				;$B39A83  / Done processing sprite
 
-CODE_B39A86:
-	LDA current_sprite			;$B39A86  \
-	STA $19A8				;$B39A88   |
-	PHA					;$B39A8B   |
-	TAX					;$B39A8C   |
-	JSL CODE_B8808E				;$B39A8D   |
-	LDX $19A8				;$B39A91   |
-	LDA $42,x				;$B39A94   |
+.collision_happened:
+	LDA current_sprite			;$B39A86  \ Get invincibility barrel sprite
+	STA $19A8				;$B39A88   | Store index (Pointless? Sprite will be deleted)
+	PHA					;$B39A8B   | Preserve it
+	TAX					;$B39A8C   | Transfer to X (Pointless, routine below uses X)
+	JSL CODE_B8808E				;$B39A8D   | Work on active kong
+	LDX $19A8				;$B39A91   | Get index of invincibility barrel sprite
+	LDA $42,x				;$B39A94   | 
 	JSL CODE_B8D1FB				;$B39A96   |
-	LDA $19CE				;$B39A9A   |
-	BNE CODE_B39AAB				;$B39A9D   |
+	LDA $19CE				;$B39A9A   | Get index of invincibility controller sprite
+	BNE .controller_exists			;$B39A9D   | If one already exists, skip spawning
 	LDY #$0000				;$B39A9F   |
-	JSL CODE_BB83EF				;$B39AA2   |
-	LDA alternate_sprite			;$B39AA6   |
-	STA $19CE				;$B39AA8   |
-CODE_B39AAB:					;	   |
-	PLA					;$B39AAB   |
-	STA current_sprite			;$B39AAC   |
-	JSL delete_sprite_handle_deallocation	;$B39AAE   |
+	JSL CODE_BB83EF				;$B39AA2   | Else spawn invincibility controller sprite
+	LDA alternate_sprite			;$B39AA6   | 
+	STA $19CE				;$B39AA8   | And store index to it
+.controller_exists:				;	   |
+	PLA					;$B39AAB   | Retrieve invincibility barrel sprite
+	STA current_sprite			;$B39AAC   | Set as current sprite
+	JSL delete_sprite_handle_deallocation	;$B39AAE   | And delete it
 	LDX current_sprite			;$B39AB2   |
 	INC $00,x				;$B39AB4   |
 	JSR spawn_barrel_parts_and_smoke	;$B39AB6   |
 	LDX current_sprite			;$B39AB9   |
-	STZ $00,x				;$B39ABB   |
-	JML [$05A9]				;$B39ABD  /
+	STZ $00,x				;$B39ABB   | ???
+	JML [$05A9]				;$B39ABD  / Done processing sprite
 
 unknown_sprite_01C8_main:
 	JMP CODE_B38000				;$B39AC0  /
@@ -4192,22 +4208,22 @@ update_held_sprite_position:
 	RTS					;$B3A036  /> Return
 
 unknown_sprite_0308_main:
-	JSL CODE_B9D100				;$B3A037  \
-	JML [$05A9]				;$B3A03B  /
+	JSL CODE_B9D100				;$B3A037  \ Process animations
+	JML [$05A9]				;$B3A03B  / Done processing sprite
 
 no_animal_buddy_sign_main:
 	LDA $08A8				;$B3A03E  \ Get parent level number
 	CMP #!level_toxic_tower			;$B3A041   |
 	BNE .dont_set_flag			;$B3A044   | If not toxic tower, skip setting flag
 	LDA #$0040				;$B3A046   |
-	TSB $052B				;$B3A049   | Else set some level effect flag (enables grabbing ropes)
+	TSB $052B				;$B3A049   | Else enable grabbing ropes
 .dont_set_flag:					;	   |
 if !version == 1				;	   |
 	JSR .CODE_B3A0C7			;$B3A04C   | Dead code
 endif						;	   |
 	LDX active_kong_sprite			;$B3A04F   | Get kong sprite
 	LDA $6E					;$B3A052   | Get current animal ID
-	BNE .sprite_found			;$B3A054   | If it exists, player is riding one or is transformed
+	BNE .sprite_found			;$B3A054   | If it exists, player is riding or is transformed
 	LDX #$0E9E				;$B3A056   | Else scan sprite table for standalone animal
 .continue_scanning:				;	   |
 	LDA $00,x				;$B3A059   |
@@ -6162,6 +6178,7 @@ CODE_B3AE5C:
 	LDA #$0001				;$B3AE6E   |
 	RTS					;$B3AE71  /
 
+;gets kong state flags
 CODE_B3AE72:
 	LDY active_kong_sprite			;$B3AE72  \
 	LDA $002E,y				;$B3AE75   |
@@ -6421,13 +6438,13 @@ CODE_B3B039:
 	RTS					;$B3B03A  /
 
 large_smoke_puff_main:
-unknown_sprite_0014_main:
-	LDY current_sprite			;$B3B03B  \
+large_smoke_puff_timestop_main:
+	LDY current_sprite			;$B3B03B  \ Get sprite index
 	LDA $0054,y				;$B3B03D   |
-	STA $8E					;$B3B040   |
+	STA $8E					;$B3B040   | Set constants address
 	JSL process_current_movement		;$B3B042   |
-	JSL CODE_B9D100				;$B3B046   |
-	JML [$05A9]				;$B3B04A  /
+	JSL CODE_B9D100				;$B3B046   | Process animation
+	JML [$05A9]				;$B3B04A  / Done processing sprite
 
 kruncha_main:
 	LDY current_sprite			;$B3B04D  \
@@ -8045,43 +8062,43 @@ sound_generator_main:
 	JSR CODE_B3A369				;$B3BBAF  /
 
 DATA_B3BBB2:
-	dw CODE_B3BBB8
-	dw CODE_B3BBC6
-	dw CODE_B3BBE3
+	dw .state_00
+	dw .state_01
+	dw .state_02
 
 
-CODE_B3BBB8:
+.state_00:
 	LDA $0042,y				;$B3BBB8  \
 	JSL queue_sound_effect			;$B3BBBB   |
 	JSL CODE_BBBB44				;$B3BBBF   |
 	JML [$05A9]				;$B3BBC3  /
 
-CODE_B3BBC6:
+.state_01:
 	TYX					;$B3BBC6  \
 	LDA $2E,x				;$B3BBC7   |
 	AND #$00FF				;$B3BBC9   |
-	BNE CODE_B3BBD2				;$B3BBCC   |
+	BNE ..CODE_B3BBD2			;$B3BBCC   |
 	INC $2F,x				;$B3BBCE   |
 	STZ $46,x				;$B3BBD0   |
-CODE_B3BBD2:					;	   |
+..CODE_B3BBD2:					;	   |
 	DEC $46,x				;$B3BBD2   |
-	BPL CODE_B3BBE0				;$B3BBD4   |
+	BPL ..return				;$B3BBD4   |
 	LDA $44,x				;$B3BBD6   |
 	STA $46,x				;$B3BBD8   |
 	LDA $42,x				;$B3BBDA   |
 	JSL queue_sound_effect			;$B3BBDC   |
-CODE_B3BBE0:					;	   |
+..return:					;	   |
 	JMP CODE_B38000				;$B3BBE0  /
 
-CODE_B3BBE3:
+.state_02:
 	JSL CODE_BBBB99				;$B3BBE3  \
 	LDY current_sprite			;$B3BBE7   |
-	BCS CODE_B3BBF4				;$B3BBE9   |
+	BCS ..CODE_B3BBF4			;$B3BBE9   |
 	LDA $0042,y				;$B3BBEB   |
 	JSR CODE_B3BC01				;$B3BBEE   |
 	JML [$05A9]				;$B3BBF1  /
 
-CODE_B3BBF4:
+..CODE_B3BBF4:
 	LDA $0042,y				;$B3BBF4  \
 	AND #$FF00				;$B3BBF7   |
 	JSL queue_sound_effect			;$B3BBFA   |
@@ -8094,63 +8111,63 @@ CODE_B3BC01:
 	XBA					;$B3BC05   |
 	CMP $0619,x				;$B3BC06   |
 	REP #$30				;$B3BC09   |
-	BEQ CODE_B3BC11				;$B3BC0B   |
+	BEQ .return				;$B3BC0B   |
 	JSL queue_sound_effect			;$B3BC0D   |
-CODE_B3BC11:					;	   |
+.return:					;	   |
 	RTS					;$B3BC11  /
 
 unknown_sprite_00A8_main:
 	JSR CODE_B3A369				;$B3BC12  /
 
-DATA_B3BC16:
-	dw CODE_B3BC19				;state 00
-	dw CODE_B3BC68				;state 01
+.state_table:
+	dw .handle_sub_state
+	dw .return
 
-CODE_B3BC19:
+.handle_sub_state:
 	TAX					;$B3BC19  \
-	JMP (DATA_B3BC1D,x)			;$B3BC1A  /
+	JMP (.sub_state_table,x)		;$B3BC1A  /
 
-DATA_B3BC1D:
-	dw CODE_B3BC2C				;sub state 00
-	dw CODE_B3BC25				;sub state 01
-	dw CODE_B3BC31				;sub state 02
-	dw CODE_B3BC4B				;sub state 03
+.sub_state_table:
+	dw .sub_state_00
+	dw .sub_state_01
+	dw .sub_state_02
+	dw .sub_state_03
 
-CODE_B3BC25:
+.sub_state_01:
 	LDX active_kong_sprite			;$B3BC25  \
 	LDA $0E,x				;$B3BC28   |
-	BNE CODE_B3BC56				;$B3BC2A   |
-CODE_B3BC2C:					;	   |
+	BNE .CODE_B3BC56			;$B3BC2A   |
+.sub_state_00:					;	   |
 	TYX					;$B3BC2C   |
 	INC $2F,x				;$B3BC2D   |
-	BRA CODE_B3BC56				;$B3BC2F  /
+	BRA .CODE_B3BC56			;$B3BC2F  /
 
-CODE_B3BC31:
+.sub_state_02:
 	TYX					;$B3BC31  \
 	DEC $50,x				;$B3BC32   |
-	BPL CODE_B3BC56				;$B3BC34   |
+	BPL .CODE_B3BC56			;$B3BC34   |
 	STZ $0A,x				;$B3BC36   |
 	JSL process_current_movement		;$B3BC38   |
-CODE_B3BC3C:					;	   |
+.CODE_B3BC3C:					;	   |
 	LDX current_sprite			;$B3BC3C   |
 	LDA $46,x				;$B3BC3E   |
 	CMP $06,x				;$B3BC40   |
-	BCS CODE_B3BC49				;$B3BC42   |
+	BCS .CODE_B3BC49			;$B3BC42   |
 if !version == 1				;	   |
 	JSR CODE_B3F265+1			;$B3BC44   |\ This is a glitch.
 else						;	   | | If this routine is called the game will crash.
 	JSR DATA_B3F31E-5			;$B3BC44   |/
-endif					;
-	BRA CODE_B3BC3C				;$B3BC47  /
+endif						;
+	BRA .CODE_B3BC3C			;$B3BC47  /
 
-CODE_B3BC49:
+.CODE_B3BC49:
 	INC $2F,x				;$B3BC49  \
-CODE_B3BC4B:					;	   |
+.sub_state_03:					;	   |
 	LDX current_sprite			;$B3BC4B   |
 	STZ $0A,x				;$B3BC4D   |
 	STX $0AE8				;$B3BC4F   |
 	JSL process_current_movement		;$B3BC52   |
-CODE_B3BC56:					;	   |
+.CODE_B3BC56:					;	   |
 	LDX current_sprite			;$B3BC56   |
 	LDY active_kong_sprite			;$B3BC58   |
 	LDA $000A,y				;$B3BC5B   |
@@ -8159,7 +8176,7 @@ CODE_B3BC56:					;	   |
 	STA $0E,x				;$B3BC63   |
 	JML [$05A9]				;$B3BC65  /
 
-CODE_B3BC68:
+.return:
 	JML [$05A9]				;$B3BC68  /
 
 mini_necky_main:
@@ -8407,7 +8424,7 @@ CODE_B3BE28:
 CODE_B3BE31:
 	JSL delete_sprite_handle_deallocation	;$B3BE31  \
 	LDX current_sprite			;$B3BE35   |
-	LDA #!sprite_unknown_00F0		;$B3BE37   |
+	LDA #!sprite_respawn_suppressor		;$B3BE37   |
 	STA $00,x				;$B3BE3A   |
 	LDA #$0001				;$B3BE3C   |
 	STA $2E,x				;$B3BE3F   |
@@ -8981,8 +8998,8 @@ water_level_changer_main:
 	LDA $2E,x				;$B3C276   |
 	CMP #$0100				;$B3C278   |
 	AND #$00FF				;$B3C27B   |
-	BNE CODE_B3C2BF				;$B3C27E   |
-	BCS CODE_B3C29D				;$B3C280   |
+	BNE .CODE_B3C2BF			;$B3C27E   |
+	BCS .CODE_B3C29D			;$B3C280   |
 	LDA $42,x				;$B3C282   |
 	AND #$00FF				;$B3C284   |
 	ADC $06,x				;$B3C287   |
@@ -8995,9 +9012,9 @@ water_level_changer_main:
 	ADC $06,x				;$B3C295   |
 	STA $42,x				;$B3C297   |
 	INC $2F,x				;$B3C299   |
-	BRA CODE_B3C2B2				;$B3C29B  /
+	BRA .CODE_B3C2B2			;$B3C29B  /
 
-CODE_B3C29D:
+.CODE_B3C29D:
 	LDA $000A,y				;$B3C29D  \
 	CMP $0A,x				;$B3C2A0   |
 	ROR $32					;$B3C2A2   |
@@ -9005,19 +9022,19 @@ CODE_B3C29D:
 	CMP $0A,x				;$B3C2A6   |
 	ROR A					;$B3C2A8   |
 	EOR $32					;$B3C2A9   |
-	BPL CODE_B3C2B2				;$B3C2AB   |
+	BPL .CODE_B3C2B2			;$B3C2AB   |
 	LDA $0006,y				;$B3C2AD   |
-	BRA CODE_B3C2EF				;$B3C2B0  /
+	BRA .CODE_B3C2EF			;$B3C2B0  /
 
-CODE_B3C2B2:
+.CODE_B3C2B2:
 	LDA $0006,y				;$B3C2B2  \
 	STA $46,x				;$B3C2B5   |
 	LDA $000A,y				;$B3C2B7   |
 	STA $48,x				;$B3C2BA   |
 	JMP CODE_B38000				;$B3C2BC  /
 
-CODE_B3C2BF:
-	BCS CODE_B3C2DC				;$B3C2BF  \
+.CODE_B3C2BF:
+	BCS .CODE_B3C2DC			;$B3C2BF  \
 	LDA $42,x				;$B3C2C1   |
 	AND #$00FF				;$B3C2C3   |
 	ADC $0A,x				;$B3C2C6   |
@@ -9030,9 +9047,9 @@ CODE_B3C2BF:
 	ADC $0A,x				;$B3C2D4   |
 	STA $42,x				;$B3C2D6   |
 	INC $2F,x				;$B3C2D8   |
-	BRA CODE_B3C2B2				;$B3C2DA  /
+	BRA .CODE_B3C2B2			;$B3C2DA  /
 
-CODE_B3C2DC:
+.CODE_B3C2DC:
 	LDA $0006,y				;$B3C2DC  \
 	CMP $06,x				;$B3C2DF   |
 	ROR $32					;$B3C2E1   |
@@ -9040,19 +9057,19 @@ CODE_B3C2DC:
 	CMP $06,x				;$B3C2E5   |
 	ROR A					;$B3C2E7   |
 	EOR $32					;$B3C2E8   |
-	BPL CODE_B3C2B2				;$B3C2EA   |
+	BPL .CODE_B3C2B2			;$B3C2EA   |
 	LDA $000A,y				;$B3C2EC   |
-CODE_B3C2EF:					;	   |
+.CODE_B3C2EF:					;	   |
 	CMP $42,x				;$B3C2EF   |
-	BCC CODE_B3C2B2				;$B3C2F1   |
+	BCC .CODE_B3C2B2			;$B3C2F1   |
 	DEC A					;$B3C2F3   |
 	CMP $44,x				;$B3C2F4   |
-	BCS CODE_B3C2B2				;$B3C2F6   |
+	BCS .CODE_B3C2B2			;$B3C2F6   |
 	LDA $4C,x				;$B3C2F8   |
-	BEQ CODE_B3C301				;$B3C2FA   |
+	BEQ .CODE_B3C301			;$B3C2FA   |
 	CMP $0D52				;$B3C2FC   |
-	BNE CODE_B3C33B				;$B3C2FF   |
-CODE_B3C301:					;	   | Piracy check
+	BNE .delete_water_level_changer_sprite	;$B3C2FF   |
+.CODE_B3C301:					;	   | Piracy check
 	LDY #$8080				;$B3C301   |\ Y = address to checksum (address so far: $??8080)
 	PHY					;$B3C304   | |
 	PLB					;$B3C305   |/ Also use Y as the bank for the checksum address (address so far: $808080)
@@ -9066,22 +9083,22 @@ CODE_B3C301:					;	   | Piracy check
 	BPL .next_byte				;$B3C310   |/ Move onto next byte if we haven't reached the end of the data
 	PLB					;$B3C312   |
 	CMP #$20CB				;$B3C313   |\ This is the checksum to check against
-	BNE CODE_B3C33B				;$B3C316   |/ If checksum doesn't match the anti-piracy routine was tampered. Delete water trigger sprite
+	BNE .delete_water_level_changer_sprite	;$B3C316   |/ If checksum doesn't match the anti-piracy routine was tampered. Delete water trigger sprite
 	LDX current_sprite			;$B3C318   |
 	LDA $4E,x				;$B3C31A   |
 	STA $0D52				;$B3C31C   |
 	LDA $24,x				;$B3C31F   |
 	STA $0D50				;$B3C321   |
 	LDA $52,x				;$B3C324   |
-	BNE CODE_B3C33B				;$B3C326   |
+	BNE .delete_water_level_changer_sprite	;$B3C326   |
 	LDA $0915				;$B3C328   |
-	BEQ CODE_B3C33B				;$B3C32B   |
+	BEQ .delete_water_level_changer_sprite	;$B3C32B   |
 	CMP #$001E				;$B3C32D   |
-	BCC CODE_B3C33B				;$B3C330   |
+	BCC .delete_water_level_changer_sprite	;$B3C330   |
 	LDA #$003C				;$B3C332   |
 	STZ $0915				;$B3C335   |
 	STA $0917				;$B3C338   |
-CODE_B3C33B:					;	   |
+.delete_water_level_changer_sprite:		;	   |
 	JSL delete_sprite_no_deallocation	;$B3C33B   |
 	JML [$05A9]				;$B3C33F  /
 
@@ -11188,7 +11205,7 @@ CODE_B3D2EC:
 	STA $40,x				;$B3D2F6   |
 	RTL					;$B3D2F8  /
 
-unknown_sprite_02E8_main:
+thrown_kloak_projectile_main:
 	JSR CODE_B3A369				;$B3D2F9  /
 
 DATA_B3D2FC:
@@ -11589,7 +11606,7 @@ rideable_balloon_main:
 	BCC ..CODE_B3D622			;$B3D5E6   |
 	LDA $8E					;$B3D5E8   |
 	CLC					;$B3D5EA   |
-	ADC #$0008				;$B3D5EB   |
+	ADC #$0008				;$B3D5EB   | If a sprite is on top, offset constants address
 	STA $8E					;$B3D5EE   |
 	LDX $34,y				;$B3D5F0   |
 	CPX active_kong_sprite			;$B3D5F2   |
@@ -11716,10 +11733,11 @@ DATA_B3D691:
 
 krockhead_main:
 	JSR CODE_B3A369				;$B3D6DD  \
-	dw CODE_B3D6E4
-	dw CODE_B3D709
+	
+	dw .init
+	dw .handle_sub_state
 
-CODE_B3D6E4:
+.init:
 	TYX					;$B3D6E4  \
 	LDA $06,x				;$B3D6E5   |
 	STA $22,x				;$B3D6E7   |
@@ -11731,36 +11749,36 @@ CODE_B3D6E4:
 	LDA $2F,x				;$B3D6F3   |
 	AND #$00FF				;$B3D6F5   |
 	ASL A					;$B3D6F8   |
-	BEQ CODE_B3D709				;$B3D6F9   |
-	JSR CODE_B3D741				;$B3D6FB   |
+	BEQ .handle_sub_state			;$B3D6F9   |
+	JSR .CODE_B3D741			;$B3D6FB   |
 	BEQ krockhead_main			;$B3D6FE   |
 	LDA #$02C9				;$B3D700   |
 	JSL set_sprite_animation		;$B3D703   |
 	BRA krockhead_main			;$B3D707  /
 
-CODE_B3D709:
+.handle_sub_state:
 	TAX					;$B3D709  \
-	JMP (DATA_B3D70D,x)			;$B3D70A  /
+	JMP (.sub_state_table,x)		;$B3D70A  /
 
-DATA_B3D70D:
-	dw CODE_B3D714
-	dw CODE_B3D711
+.sub_state_table:
+	dw .sub_state_00
+	dw .sub_state_01
 
 
-CODE_B3D711:
-	JSR CODE_B3D741				;$B3D711  \
-CODE_B3D714:					;	   |
+.sub_state_01:
+	JSR .CODE_B3D741			;$B3D711  \
+.sub_state_00:					;	   |
 	JSL CODE_BBBB7B				;$B3D714   |
-	BCC CODE_B3D71D				;$B3D718   |
+	BCC ..CODE_B3D71D			;$B3D718   |
 	JMP CODE_B38000				;$B3D71A  /
 
-CODE_B3D71D:
+..CODE_B3D71D:
 	JSL CODE_B9D100				;$B3D71D  \
-	LDA #CODE_B3D72B			;$B3D721   |
+	LDA #.CODE_B3D72B			;$B3D721   |
 	JSL CODE_B3D46C				;$B3D724   |
 	JML [$05A9]				;$B3D728  /
 
-CODE_B3D72B:
+.CODE_B3D72B:
 	LDX current_sprite			;$B3D72B  \
 	LDA $54,x				;$B3D72D   |
 	STA $8E					;$B3D72F   |
@@ -11772,25 +11790,25 @@ CODE_B3D72B:
 	STA $4E,x				;$B3D73E   |
 	RTL					;$B3D740  /
 
-CODE_B3D741:
+.CODE_B3D741:
 	LDX $0D58				;$B3D741  \
-	BEQ CODE_B3D75B				;$B3D744   |
+	BEQ ..CODE_B3D75B			;$B3D744   |
 	LDA $00,x				;$B3D746   |
 	CMP #!sprite_krochead_switch_barrel	;$B3D748   |
-	BNE CODE_B3D75B				;$B3D74B   |
+	BNE ..CODE_B3D75B			;$B3D74B   |
 	LDA $44,x				;$B3D74D   |
 	SEC					;$B3D74F   |
 	SBC $004A,y				;$B3D750   |
-	BPL CODE_B3D758				;$B3D753   |
+	BPL ..CODE_B3D758			;$B3D753   |
 	LDA #$0000				;$B3D755   |
-CODE_B3D758:					;	   |
+..CODE_B3D758:					;	   |
 	STA $0042,y				;$B3D758   |
-CODE_B3D75B:					;	   |
+..CODE_B3D75B:					;	   |
 	TYX					;$B3D75B   |
 	LDA $42,x				;$B3D75C   |
-	BEQ CODE_B3D762				;$B3D75E   |
+	BEQ ..return				;$B3D75E   |
 	DEC $42,x				;$B3D760   |
-CODE_B3D762:					;	   |
+..return:					;	   |
 	RTS					;$B3D762  /
 
 krochead_switch_barrel_main:
@@ -11798,27 +11816,27 @@ krochead_switch_barrel_main:
 	LDA $002E,y				;$B3D765   |
 	ASL A					;$B3D768   |
 	TAX					;$B3D769   |
-	JMP (DATA_B3D76D,x)			;$B3D76A  /
+	JMP (.state_table,x)			;$B3D76A  /
 
-DATA_B3D76D:
-	dw CODE_B3D777
-	dw CODE_B3D783
-	dw CODE_B3D7A6
-	dw CODE_B3D7F5
-	dw CODE_B3D7F1
+.state_table:
+	dw .state_0
+	dw .state_1
+	dw .state_2
+	dw .state_3
+	dw .state_4
 
 
-CODE_B3D777:
+.state_0:
 	JSL CODE_B9D100				;$B3D777  \
 	LDX current_sprite			;$B3D77B   |
 	DEC $46,x				;$B3D77D   |
-	BNE CODE_B3D7A6				;$B3D77F   |
+	BNE .state_2				;$B3D77F   |
 	INC $2E,x				;$B3D781   |
-CODE_B3D783:					;	   |
+.state_1:					;	   |
 	JSL CODE_B9D100				;$B3D783   |
 	JSL CODE_BCFB58				;$B3D787   |
 	JSL CODE_BEBE6D				;$B3D78B   |
-	BCC CODE_B3D7A6				;$B3D78F   |
+	BCC .state_2				;$B3D78F   |
 	LDA $42,x				;$B3D791   |
 	STA $44,x				;$B3D793   |
 	LDA #$001E				;$B3D795   |
@@ -11827,68 +11845,68 @@ CODE_B3D783:					;	   |
 	DEC $2E,x				;$B3D79D   |
 	LDA #$0616				;$B3D79F   |
 	JSL queue_sound_effect			;$B3D7A2   |
-CODE_B3D7A6:					;	   |
+.state_2:					;	   |
 	LDX current_sprite			;$B3D7A6   |
 	LDA $44,x				;$B3D7A8   |
-	BEQ CODE_B3D7B3				;$B3D7AA   |
+	BEQ ..CODE_B3D7B3			;$B3D7AA   |
 	DEC $44,x				;$B3D7AC   |
-	BNE CODE_B3D7B3				;$B3D7AE   |
+	BNE ..CODE_B3D7B3			;$B3D7AE   |
 	STZ $0D58				;$B3D7B0   |
-CODE_B3D7B3:					;	   |
+..CODE_B3D7B3:					;	   |
 	JSL CODE_BBBB69				;$B3D7B3   |
 	LDX current_sprite			;$B3D7B7   |
-	BCS CODE_B3D7D1				;$B3D7B9   |
+	BCS ..CODE_B3D7D1			;$B3D7B9   |
 	LDA $2E,x				;$B3D7BB   |
 	CMP #$0002				;$B3D7BD   |
-	BNE CODE_B3D7F5				;$B3D7C0   |
+	BNE .state_3				;$B3D7C0   |
 	DEC $2E,x				;$B3D7C2   |
 	LDA $36,x				;$B3D7C4   |
 	JSL set_sprite_animation		;$B3D7C6   |
 	JSL CODE_B9D100				;$B3D7CA   |
 	JML [$05A9]				;$B3D7CE  /
 
-CODE_B3D7D1:
+..CODE_B3D7D1:
 	LDY $48,x				;$B3D7D1  \
-	BEQ CODE_B3D7DD				;$B3D7D3   |
+	BEQ ..CODE_B3D7DD			;$B3D7D3   |
 	STZ $48,x				;$B3D7D5   |
 	LDA #$0004				;$B3D7D7   |
 	STA $002E,y				;$B3D7DA   |
-CODE_B3D7DD:					;	   |
+..CODE_B3D7DD:					;	   |
 	CPX $0D58				;$B3D7DD   |
-	BNE CODE_B3D7EE				;$B3D7E0   |
+	BNE ..CODE_B3D7EE			;$B3D7E0   |
 	LDA #$0002				;$B3D7E2   |
 	CMP $2E,x				;$B3D7E5   |
-	BEQ CODE_B3D7F5				;$B3D7E7   |
+	BEQ .state_3				;$B3D7E7   |
 	STA $2E,x				;$B3D7E9   |
 	JML [$05A9]				;$B3D7EB  /
 
-CODE_B3D7EE:
+..CODE_B3D7EE:
 	JMP CODE_B38000				;$B3D7EE  /
 
-CODE_B3D7F1:
+.state_4:
 	JSL delete_sprite_handle_deallocation	;$B3D7F1  \
-CODE_B3D7F5:					;	   |
+.state_3:					;	   |
 	JML [$05A9]				;$B3D7F5  /
 
 plus_and_minus_barrel_main:
 	JSR CODE_B3A369				;$B3D7F8  /
 
-DATA_B3D7FB:
-	dw CODE_B3D801
-	dw CODE_B3D881
-	dw CODE_B3D8B3
+.state_table:
+	dw .state_0
+	dw .state_1
+	dw .state_2
 
 
-CODE_B3D801:
+.state_0:
 	JSL CODE_BCFB58				;$B3D801  \
 	LDA #$1000				;$B3D805   |
 	LDY #$0010				;$B3D808   |
 	JSL CODE_BEBD8E				;$B3D80B   |
-	BCS CODE_B3D845				;$B3D80F   |
+	BCS ..collision_happened		;$B3D80F   |
 	LDX current_sprite			;$B3D811   |
 	LDA $42,x				;$B3D813   |
 	ORA $2E,x				;$B3D815   |
-	BMI CODE_B3D83E				;$B3D817   |
+	BMI ..return				;$B3D817   |
 	LDY $0D5A				;$B3D819   |
 	LDA $0002,y				;$B3D81C   |
 	TAY					;$B3D81F   |
@@ -11896,7 +11914,7 @@ CODE_B3D801:
 	SEC					;$B3D823   |
 	SBC #$0020				;$B3D824   |
 	CMP $06,x				;$B3D827   |
-	BCC CODE_B3D83E				;$B3D829   |
+	BCC ..return				;$B3D829   |
 	LDA $2E,x				;$B3D82B   |
 	ORA #$8000				;$B3D82D   |
 	STA $2E,x				;$B3D830   |
@@ -11905,27 +11923,27 @@ CODE_B3D801:
 	CLC					;$B3D837   |
 	ADC $0036,y				;$B3D838   |
 	STA $0036,y				;$B3D83B   |
-CODE_B3D83E:					;	   |
+..return:					;	   |
 	JSL CODE_B9D100				;$B3D83E   |
 	JMP CODE_B38000				;$B3D842  /
 
-CODE_B3D845:
+..collision_happened:
 	LDX current_sprite			;$B3D845  \
 	LDY $0D5A				;$B3D847   |
 	LDA $001C,y				;$B3D84A   |
-	BEQ CODE_B3D862				;$B3D84D   |
+	BEQ ..CODE_B3D862			;$B3D84D   |
 	TAY					;$B3D84F   |
 	LDA $42,x				;$B3D850   |
 	CLC					;$B3D852   |
-	BMI CODE_B3D865				;$B3D853   |
+	BMI ..CODE_B3D865			;$B3D853   |
 	ADC $0042,y				;$B3D855   |
 	STA $0042,y				;$B3D858   |
 	LDA #$0461				;$B3D85B   |
 	JSL queue_sound_effect			;$B3D85E   |
-CODE_B3D862:					;	   |
+..CODE_B3D862:					;	   |
 	JMP CODE_B3D8FD				;$B3D862  /
 
-CODE_B3D865:
+..CODE_B3D865:
 	ADC $0044,y				;$B3D865  \
 	STA $0044,y				;$B3D868   |
 	LDY $0D5A				;$B3D86B   |
@@ -11937,53 +11955,53 @@ CODE_B3D865:
 	JSL queue_sound_effect			;$B3D87A   |
 	JMP CODE_B3D8FD				;$B3D87E  /
 
-CODE_B3D881:
+.state_1:
 	JSL CODE_BCFB58				;$B3D881  \
 	JSL CODE_BEBE6D				;$B3D885   |
-	BCS CODE_B3D892				;$B3D889   |
+	BCS ..collision_happened		;$B3D889   |
 	JSL CODE_B9D100				;$B3D88B   |
 	JMP CODE_B38000				;$B3D88F  /
 
-CODE_B3D892:
+..collision_happened:
 	LDX current_sprite			;$B3D892  \
 	LDY $0D5E				;$B3D894   |
 	LDA $42,x				;$B3D897   |
 	CLC					;$B3D899   |
 	ADC $002A,y				;$B3D89A   |
-	STA $002A,y				;$B3D89D   |
+	STA $002A,y				;$B3D89D   | Bug: If skull kart sprite doesn't exist, this will write to the global frame counter
 	LDA $0026,y				;$B3D8A0   |
 	CLC					;$B3D8A3   |
 	ADC $42,x				;$B3D8A4   |
-	STA $0026,y				;$B3D8A6   |
+	STA $0026,y				;$B3D8A6   | And to the lower byte of temp_26
 	LDA #$0462				;$B3D8A9   |
 	JSL queue_sound_effect			;$B3D8AC   |
 	JMP CODE_B3D8FD				;$B3D8B0  /
 
-CODE_B3D8B3:
+.state_2:
 	JSL CODE_BCFB58				;$B3D8B3  \
 	JSL CODE_BEBE6D				;$B3D8B7   |
-	BCS CODE_B3D8C4				;$B3D8BB   |
+	BCS ..collision_happened		;$B3D8BB   |
 	JSL CODE_B9D100				;$B3D8BD   |
 	JMP CODE_B38000				;$B3D8C1  /
 
-CODE_B3D8C4:
+..collision_happened:
 	LDX current_sprite			;$B3D8C4  \
 	LDY $0D5E				;$B3D8C6   |
 	LDA $4E,x				;$B3D8C9   |
-	BEQ CODE_B3D8D7				;$B3D8CB   |
+	BEQ ..CODE_B3D8D7			;$B3D8CB   |
 	LDA #$0000				;$B3D8CD   |
 	SEC					;$B3D8D0   |
 	SBC $0AEC				;$B3D8D1   |
 	STA $0AEC				;$B3D8D4   |
-CODE_B3D8D7:					;	   |
+..CODE_B3D8D7:					;	   |
 	LDA $42,x				;$B3D8D7   |
 	STA $0022,y				;$B3D8D9   |
 	STA $002A,y				;$B3D8DC   |
 	LDA $44,x				;$B3D8DF   |
 	STA $0028,y				;$B3D8E1   |
-	BEQ CODE_B3D8E9				;$B3D8E4   |
+	BEQ ..CODE_B3D8E9			;$B3D8E4   |
 	STA $002A,y				;$B3D8E6   |
-CODE_B3D8E9:					;	   |
+..CODE_B3D8E9:					;	   |
 	LDA $0A,x				;$B3D8E9   |
 	STA $001C,y				;$B3D8EB   |
 	LDA #$0000				;$B3D8EE   |
@@ -11992,6 +12010,8 @@ CODE_B3D8E9:					;	   |
 	STA $002C,y				;$B3D8F7   |
 	JMP CODE_B3D8FD				;$B3D8FA  /
 
+
+;deletes the sprite and spawns two barrel break particles
 CODE_B3D8FD:
 	JSL delete_sprite_handle_deallocation	;$B3D8FD  \
 	JSR CODE_B3D907				;$B3D901   |
@@ -12381,6 +12401,7 @@ CODE_B3DB79:					;	   |\
 CODE_B3DB7B:					;	   |/
 	RTS					;$B3DB7B  / return
 
+;unused?
 DATA_B3DB7C:
 	dw CODE_B3DB9C
 	dw CODE_B3DB9C
@@ -12761,7 +12782,7 @@ CODE_B3DE26:
 	STA $097F				;$B3DE28   |
 	RTS					;$B3DE2B  /
 
-;timer digit table?
+;Timer sprite digit table, also used by file select screen.
 DATA_B3DE2C:
 	db $00, $00, $00, $01, $00, $02, $00, $03
 	db $00, $04, $00, $05, $00, $06, $00, $07
@@ -13462,6 +13483,8 @@ CODE_B3E392:					;	   |
 	JSL CODE_B8D1E4				;$B3E3AA   |
 	RTL					;$B3E3AE  /
 
+
+;Called by krool code, probably used for vaccuum effect
 CODE_B3E3AF:
 	JSR CODE_B3E3B3				;$B3E3AF  \
 	RTL					;$B3E3B2  /

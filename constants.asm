@@ -742,7 +742,7 @@
 !sprite_map_player			= $0008
 !sprite_rock				= $000C
 !sprite_squawks_egg			= $0010
-!sprite_unknown_0014			= $0014
+!sprite_large_smoke_puff_timestop	= $0014
 !sprite_canball_pieces1			= $0018
 !sprite_canball_pieces2			= $001C
 !sprite_egg_shell_pieces		= $0020
@@ -757,7 +757,7 @@
 !sprite_kleever_pieces4			= $0044
 !sprite_kleever_pieces5			= $0048
 !sprite_kreepy_krow_sparkle		= $004C
-!sprite_unknown_0050			= $0050
+!sprite_krocodile_kore_sparkle		= $0050
 !sprite_krool_water_drips		= $0054
 !sprite_puftup_spikes			= $0058
 !sprite_lilypad		                = $005C
@@ -775,7 +775,7 @@
 !sprite_spawn_group_manager		= $008C
 !sprite_unknown_0090			= $0090
 !sprite_exit_door			= $0094
-!sprite_unknown_0098			= $0098
+!sprite_kroc_kore_sparkle_spawner	= $0098
 !sprite_sparkle_spawner			= $009C
 !sprite_sparkle				= $00A0
 !sprite_sound_generator			= $00A4
@@ -797,7 +797,7 @@
 !sprite_diddy_kong			= $00E4
 !sprite_dixie_kong			= $00E8
 !sprite_unknown_00EC			= $00EC
-!sprite_unknown_00F0			= $00F0
+!sprite_respawn_suppressor		= $00F0
 !sprite_debug_dummy_sprite		= $00F4
 !sprite_debug_spawn_group_manager	= $00F8
 !sprite_dixie_hurt_tears		= $00FC
@@ -902,7 +902,7 @@
 !sprite_tied_up_donkey_kong		= $0288
 !sprite_shot_donkey_kong		= $028C
 !sprite_defeated_krool			= $0290
-!sprite_unknown_0294			= $0294
+!sprite_tied_up_dk_spawner		= $0294
 !sprite_lava_splash			= $0298
 !sprite_krools_blinking_eyes		= $029C
 !sprite_spiked_canballs			= $02A0
@@ -923,7 +923,7 @@
 !sprite_chest_or_swanky_prize		= $02DC
 !sprite_glimmer				= $02E0
 !sprite_kloak				= $02E4
-!sprite_unknown_02E8			= $02E8
+!sprite_thrown_kloak_projectile		= $02E8
 !sprite_haunted_hall_door		= $02EC
 !sprite_klank				= $02F0
 !sprite_skull_cart_sparks		= $02F4
@@ -934,8 +934,8 @@
 !sprite_unknown_0308			= $0308
 !sprite_screech				= $030C
 !sprite_racing_flag			= $0310
-!sprite_npc_kong_credits		= $0314
-!sprite_hero_kong_credits		= $0318
+!sprite_credits_dummy		        = $0314
+!sprite_credits_npc_kong		= $0318
 !sprite_double_zingers			= $031C
 
 !normal_sprite_type_range_start		= $00E4

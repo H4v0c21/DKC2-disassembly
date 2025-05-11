@@ -6421,7 +6421,7 @@ CODE_80BBD5:
 	ASL A					;$80BBEA   |
 	ASL A					;$80BBEB   |
 	CLC					;$80BBEC   |
-	ADC #DATA_FD61C2			;$80BBED   |
+	ADC #DATA_FD61C2			;$80BBED   | Base address of fireworks palettes
 	LDX #$0004				;$80BBF0   |
 	JSL DMA_palette				;$80BBF3   |
 CODE_80BBF7:					;	   |
@@ -9259,7 +9259,7 @@ CODE_80D61B:
 	JSL sprite_loader			;$80D620   |
 	JSL sprite_handler			;$80D624   |
 	JSL camera_handler			;$80D628   |
-	JSR CODE_80E472				;$80D62C   |
+	JSR handle_fireworks			;$80D62C   |
 	JSL horizontal_level_scroll_handler	;$80D62F   |
 	JSR render_sprites			;$80D633   |
 	JSR set_unused_oam_offscreen		;$80D636   |
@@ -10775,54 +10775,54 @@ DATA_80E372:
 	db $F0, $F1, $F2, $F3, $F4, $F5, $F6, $F7
 	db $F8, $F9, $FA, $FB, $FC, $FD, $FE, $FF
 
-CODE_80E472:
-	LDA $19BE				;$80E472  \
-	BEQ CODE_80E47B				;$80E475   |
-	DEC $19BE				;$80E477   |
-CODE_80E47A:					;	   |
-	RTS					;$80E47A  /
+handle_fireworks:
+	LDA $19BE				;$80E472  \ Get fireworks spawn timer
+	BEQ .spawn_fireworks			;$80E475   | If timer is done, spawn fireworks
+	DEC $19BE				;$80E477   | Else decrease it
+.return:					;	   |
+	RTS					;$80E47A  / Return
 
-CODE_80E47B:
+.spawn_fireworks:
 	BIT $0923				;$80E47B  \
-	BMI CODE_80E47A				;$80E47E   |
+	BMI .return				;$80E47E   |
 	LDA global_frame_counter		;$80E480   |
 	AND #$000F				;$80E482   |
-	BNE CODE_80E47A				;$80E485   |
+	BNE .return				;$80E485   |
 	SEP #$20				;$80E487   |
-	LDA $092E				;$80E489   |
-	CMP $092D				;$80E48C   |
+	LDA $092E				;$80E489   | Get number of onscreen fireworks
+	CMP $092D				;$80E48C   | Check if it exceeds the maximum amount
 	REP #$20				;$80E48F   |
-	BCS CODE_80E47A				;$80E491   |
-	DEC $19C0				;$80E493   |
-	BPL CODE_80E4B0				;$80E496   |
-	JSR CODE_808E53				;$80E498   |
+	BCS .return				;$80E491   | If yes, return.
+	DEC $19C0				;$80E493   | Else
+	BPL .CODE_80E4B0			;$80E496   |
+	JSR CODE_808E53				;$80E498   | Get RNG
 	AND #$007F				;$80E49B   |
 	CLC					;$80E49E   |
 	ADC #$00B4				;$80E49F   |
-	STA $19BE				;$80E4A2   |
-	JSR CODE_808E53				;$80E4A5   |
+	STA $19BE				;$80E4A2   | Set timer until next fireworks can spawn
+	JSR CODE_808E53				;$80E4A5   | Get RNG
 	AND #$0003				;$80E4A8   |
 	INC A					;$80E4AB   |
 	INC A					;$80E4AC   |
 	STA $19C0				;$80E4AD   |
-CODE_80E4B0:					;	   |
+.CODE_80E4B0:					;	   |
 	LDY #$005E				;$80E4B0   |
-	JSL CODE_BB842C				;$80E4B3   |
-	BCS CODE_80E47A				;$80E4B7   |
-	INC $092E				;$80E4B9   |
+	JSL CODE_BB842C				;$80E4B3   | Spawn fireworks sprite
+	BCS .return				;$80E4B7   | If sprite failed to spawn, return
+	INC $092E				;$80E4B9   | Increase number of onscreen fireworks
 	PHK					;$80E4BC   |
-	PLB					;$80E4BD   |
-	LDX alternate_sprite			;$80E4BE   |
+	PLB					;$80E4BD   | Set DB to bank 80
+	LDX alternate_sprite			;$80E4BE   | Get fireworks sprite
 	LDA $092B				;$80E4C0   |
 	STA $42,x				;$80E4C3   |
 	TAY					;$80E4C5   |
 	INC A					;$80E4C6   |
 	AND #$000F				;$80E4C7   |
 	STA $092B				;$80E4CA   |
-	LDA DATA_80E512,y			;$80E4CD   |
+	LDA fireworks_spawn_x_positions,y	;$80E4CD   |
 	AND #$00FF				;$80E4D0   |
 	STA $06,x				;$80E4D3   |
-	JSR CODE_808E53				;$80E4D5   |
+	JSR CODE_808E53				;$80E4D5   | Get RNG
 	AND #$003F				;$80E4D8   |
 	CLC					;$80E4DB   |
 	ADC #$0050				;$80E4DC   |
@@ -10841,19 +10841,19 @@ CODE_80E4B0:					;	   |
 	CLC					;$80E4F5   |
 	ADC #$0080				;$80E4F6   |
 	STA $0929				;$80E4F9   |
-	JSR CODE_808E53				;$80E4FC   |
+	JSR CODE_808E53				;$80E4FC   | Get RNG
 	LSR A					;$80E4FF   |
-	BCS CODE_80E50A				;$80E500   |
+	BCS .CODE_80E50A			;$80E500   |
 	LDA #$01BD				;$80E502   |
-	JSL CODE_B9D09B				;$80E505   |
+	JSL CODE_B9D09B				;$80E505   | Set alternate sprite animation
 	RTS					;$80E509  /
 
-CODE_80E50A:
+.CODE_80E50A:
 	LDA #$01BE				;$80E50A  \
-	JSL CODE_B9D09B				;$80E50D   |
+	JSL CODE_B9D09B				;$80E50D   | Set alternate sprite animation
 	RTS					;$80E511  /
 
-DATA_80E512:
+fireworks_spawn_x_positions:
 	db $50, $E0, $A0, $20, $70, $C0, $90, $10
 	db $40, $F0, $B0, $60, $30, $80, $C0, $A0
 
@@ -13291,61 +13291,61 @@ CODE_80F9C7:
 	PLB					;$80FA0F   |
 	RTS					;$80FA10  /
 
-CODE_80FA11:
-	LDX current_sprite			;$80FA11  \
+credits_dummy_sprite_code:
+	LDX current_sprite			;$80FA11  \ Get sprite index
 	LDA $06,x				;$80FA13   |
-	INC A					;$80FA15   |
+	INC A					;$80FA15   | Move sprite to the right 1 pixel
 	STA $06,x				;$80FA16   |
-	LDA $1A,x				;$80FA18   |
-	CMP #$14C4				;$80FA1A   |
-	BEQ CODE_80FA39				;$80FA1D   |
-	JSL CODE_B9D100				;$80FA1F   |
-	LDA global_frame_counter		;$80FA23   |
-	LDA $36,x				;$80FA25   |
-	CMP #$0196				;$80FA27   |
-	BEQ CODE_80FA36				;$80FA2A   |
-	CMP #$0230				;$80FA2C   |
-	BEQ CODE_80FA36				;$80FA2F   |
-	CMP #$019A				;$80FA31   |
-	BNE CODE_80FA39				;$80FA34   |
-CODE_80FA36:					;	   |
-	INC $19AA				;$80FA36   |
-CODE_80FA39:					;	   |
-	JSL CODE_BBBB8D				;$80FA39   |
-	JML [$05A9]				;$80FA3D  /
+	LDA $1A,x				;$80FA18   | Get graphic ID
+	CMP #$14C4				;$80FA1A   | Check if its the the skull cart
+	BEQ .check_despawn			;$80FA1D   | If yes, we're done
+	JSL CODE_B9D100				;$80FA1F   | Else process animation
+	LDA global_frame_counter		;$80FA23   | Dead instruction
+	LDA $36,x				;$80FA25   | Get animation ID
+	CMP #$0196				;$80FA27   | Check if its zinger_idle
+	BEQ .play_looping_sound			;$80FA2A   |
+	CMP #$0230				;$80FA2C   | Check if its flitter_idle
+	BEQ .play_looping_sound			;$80FA2F   |
+	CMP #$019A				;$80FA31   | Check if its king_zing_idle
+	BNE .check_despawn			;$80FA34   | If none of the above, skip playing looping sound
+.play_looping_sound:				;	   |
+	INC $19AA				;$80FA36   | Play looping sound
+.check_despawn:					;	   |
+	JSL CODE_BBBB8D				;$80FA39   | Despawn sprite if offscreen
+	JML [$05A9]				;$80FA3D  / Done processing sprite
 
-CODE_80FA40:
+credits_npc_kong_sprite_code:
 	PHB					;$80FA40  \
-	PHK					;$80FA41   |
+	PHK					;$80FA41   | Preserve DB
 	PLB					;$80FA42   |
 	LDX current_sprite			;$80FA43   |
 	LDA $06,x				;$80FA45   |
-	INC A					;$80FA47   |
+	INC A					;$80FA47   | Move sprite right by 1 pixel
 	STA $06,x				;$80FA48   |
 	LDA $42,x				;$80FA4A   |
-	BNE CODE_80FA70				;$80FA4C   |
+	BNE .done				;$80FA4C   |
 	INC $42,x				;$80FA4E   |
-	LDY $44,x				;$80FA50   |
-	%pea_use_dbr(DATA_BAC259)		;$80FA52   |
+	LDY $44,x				;$80FA50   | Get address of NPC kong animation sequence
+	%pea_use_dbr(DATA_BAC259)		;$80FA52   | Set DB to bank of NPC kong animation sequence
 	PLB					;$80FA55   |
 	LDA $0000,y				;$80FA56   |
 	PLB					;$80FA59   |
-	CMP #$0063				;$80FA5A   |
-	BNE CODE_80FA68				;$80FA5D   |
-	LDA $0002,y				;$80FA5F   |
-	STA $44,x				;$80FA62   |
-	TAY					;$80FA64   |
-	LDA $0000,y				;$80FA65   |
-CODE_80FA68:					;	   |
+	CMP #$0063				;$80FA5A   | Check if sequence has finished
+	BNE .next_animation			;$80FA5D   | If not, move to next animation
+	LDA $0002,y				;$80FA5F   | Else read next word (initial sequence address)
+	STA $44,x				;$80FA62   | Update address in sprite variable
+	TAY					;$80FA64   | Transfer to index
+	LDA $0000,y				;$80FA65   | And read the first word (sequence has reset)
+.next_animation:				;	   |
 	INY					;$80FA68   |
-	INY					;$80FA69   |
-	STY $44,x				;$80FA6A   |
+	INY					;$80FA69   | Move to next animation in the sequence
+	STY $44,x				;$80FA6A   | Update address
 	JSL set_sprite_animation		;$80FA6C   |
-CODE_80FA70:					;	   |
-	JSL CODE_B9D100				;$80FA70   |
-	JSL CODE_BBBB8D				;$80FA74   |
-	PLB					;$80FA78   |
-	JML [$05A9]				;$80FA79  /
+.done:						;	   |
+	JSL CODE_B9D100				;$80FA70   | Process animation
+	JSL CODE_BBBB8D				;$80FA74   | Despawn sprite if offscreen
+	PLB					;$80FA78   | Restore DB
+	JML [$05A9]				;$80FA79  / Done processing sprite
 
 CODE_80FA7C:
 	JSL disable_screen			;$80FA7C  \
