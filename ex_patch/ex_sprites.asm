@@ -461,7 +461,9 @@ handle_palette_loading:
 	CPX #$0010				; |
 	BNE .next_slot_after_free		; |
 	PLA					; |\
-	PLB					; |/ Pull return address from stack
+	SEP #$20				; | |
+	PLA					; | | Pull return address from stack
+	REP #$20				; |/
 	JML CODE_BB8AF6				;/> No matches found, create a new palette in free slot
 
 
