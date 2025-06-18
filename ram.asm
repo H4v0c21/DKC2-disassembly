@@ -95,9 +95,24 @@ screen_fade_timer = $0514
 ;level logic (starts at $0515)
 
 active_kong_sprite = $0593
+active_kong_control_variables = $0595
+
 inactive_kong_sprite = $0597
+inactive_kong_control_variables = $0599
 
 pending_dma_hdma_channels = $059B
+
+level_destination_number = $059D
+destination_level_entrance_number = $059F
+
+level_exit_trigger_x_position = $05A1
+
+returning_level_number = $05A3
+returning_entrance_number = $05A5
+
+debug_flags = $05BB
+
+cheat_enable_flags = $060B
 
 active_controller = $060F
 file_select_selection = $0611
@@ -107,8 +122,21 @@ file_select_file_to_copy = $0615
 language_select = $0617
 
 npc_screen_type = $0689
+returning_map_node_number = $06A9
 map_node_number = $06AB
 world_number = $06B1
+
+parent_level_number = $08A8
+
+banana_coin_count = $08CA
+kremcoin_count = $08CC
+dk_coin_count = $08CE
+
+completed_lost_world_levels = $08F9
+
+kiosk_returning_world_number = $0900
+
+game_completion_percentage = $0904 
 
 piracy_string_result = $0907
 enable_intro_bypass = $090F
@@ -117,12 +145,33 @@ intro_sparkle_x_position = $098F
 intro_sparkle_y_position = $0991
 player_skipped_demo = $099B
 
+sprite_vram_allocation_table = $0B04
+palette_upload_ring_buffer = $0B24
+active_sprite_palettes_table = $0B64
+sprite_palette_reference_count = $0B74
+
+water_current_y_velocity = $0D4A
+water_target_y_velocity = $0D50
+
 current_held_sprite = $0D7A
+held_sprite_x_offset = $0D7C
+held_sprite_y_offset = $0D7E
 
 aux_sprite_table = $0D84
 
 sprite_render_table = $16FE
 sprite_render_table_end = $16FE+$30
+
+next_sprite_dma_buffer_slot = $1730
+sprite_dma_buffer = $1732
+
+diddy_control_variables = $16B2
+dixie_control_variables = $16D8
+
+
+kong_cutscene_number = $19D0
+kong_cutscene_script_index = $19D2
+kong_cutscene_command_timer = $19D4
 
 ;;;
 ;;; End low WRAM region

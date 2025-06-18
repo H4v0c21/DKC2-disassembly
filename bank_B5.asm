@@ -716,7 +716,7 @@ assert pc() <= $B59C00 : padbyte $00 : pad $B59C00
 CODE_B59C00:
 	LDY current_sprite			;$B59C00  \ Y = current sprite
 	LDX $1A,y				;$B59C02   | X = current sprite graphic number
-	LDA $1730				;$B59C04   |\ Get next free slot in sprite DMA buffer
+	LDA next_sprite_dma_buffer_slot		;$B59C04   |\ Get next free slot in sprite DMA buffer
 	CMP $78					;$B59C07   | | Compare to DMA buffer cap
 	BCC .free_slot_in_buffer		;$B59C09   |/ If there are more slots in the DMA buffer then continue
 	RTL					;$B59C0B  /> Else return and dont queue sprite graphic for DMA
@@ -874,7 +874,7 @@ CODE_B59D14:
 	TXA					;$B59D14  \
 	CMP $0018,y				;$B59D15   |
 	BEQ CODE_B59D00				;$B59D18   |
-	LDA $1730				;$B59D1A   |
+	LDA next_sprite_dma_buffer_slot		;$B59D1A   |
 	CMP $78					;$B59D1D   |
 	BCC CODE_B59D26				;$B59D1F   |
 	LDX $16,y				;$B59D21   |
@@ -893,7 +893,7 @@ CODE_B59D26:
 	STA $46					;$B59D39   |
 	JSR CODE_B59DC5				;$B59D3B   |
 CODE_B59D3E:					;	   |
-	LDX $1730				;$B59D3E   |> Get next free slot in sprite graphic DMA buffer
+	LDX next_sprite_dma_buffer_slot		;$B59D3E   |> Get next free slot in sprite graphic DMA buffer
 	TYA					;$B59D41   |\
 	CLC					;$B59D42   | |
 	ADC $40					;$B59D43   |/ Offset graphic address by header size so we can find the actual tile data
@@ -905,7 +905,7 @@ CODE_B59D3E:					;	   |
 	ASL A					;$B59D4F   | |
 	ASL A					;$B59D50   | |
 	ASL A					;$B59D51   |/
-	STA $1732,x				;$B59D52   |> Save DMA transfer size of DMA group A to sprite DMA buffer
+	STA sprite_dma_buffer,x			;$B59D52   |> Save DMA transfer size of DMA group A to sprite DMA buffer
 	ADC $1736,x				;$B59D55   |\ Calculate end address of group A tile data/address of group B tile data
 	TAY					;$B59D58   |/ And store it in Y
 	LDA $32					;$B59D59   |\ Get VRAM destination address from sprites OAM render properties
@@ -923,7 +923,7 @@ CODE_B59D3E:					;	   |
 	BNE .handle_dma_group_b			;$B59D72   |/ Which doesnt really make sense...
 	TXA					;$B59D74   |\
 	ADC #$0008				;$B59D75   | |
-	STA $1730				;$B59D78   | | Update next free slot of sprite DMA buffer
+	STA next_sprite_dma_buffer_slot		;$B59D78   | | Update next free slot of sprite DMA buffer
 	STZ $1740,x				;$B59D7B   |/
 	RTS					;$B59D7E  /
 
@@ -936,7 +936,7 @@ CODE_B59D3E:					;	   |
 	STA $173A,x				;$B59D84   |> Save DMA transfer size of DMA group B to sprite DMA buffer
 	TXA					;$B59D87   |\
 	ADC #$0010				;$B59D88   | |
-	STA $1730				;$B59D8B   |/ Update next free slot of sprite DMA buffer
+	STA next_sprite_dma_buffer_slot		;$B59D8B   |/ Update next free slot of sprite DMA buffer
 	STZ $1748,x				;$B59D8E   |
 	LDA $3C					;$B59D91   |\ Get VRAM offset of DMA group B
 	AND #$00FF				;$B59D93   |/
@@ -1235,7 +1235,7 @@ CODE_B59F76:					;	   |
 	JMP CODE_B5A17C				;$B59F76  /
 
 CODE_B59F79:
-	LDA $1730				;$B59F79  \
+	LDA next_sprite_dma_buffer_slot		;$B59F79  \
 	CMP $78					;$B59F7C   |
 	BCS CODE_B59F84				;$B59F7E   |
 	LDX $1A,y				;$B59F80   |
@@ -1425,7 +1425,7 @@ CODE_B5A0CC:
 CODE_B5A0E1:
 	JSR CODE_B5A733				;$B5A0E1  \
 CODE_B5A0E4:					;	   |
-	LDA $1730				;$B5A0E4   |
+	LDA next_sprite_dma_buffer_slot		;$B5A0E4   |
 	CMP $78					;$B5A0E7   |
 	BCS CODE_B5A0F7				;$B5A0E9   |
 	LDX $62					;$B5A0EB   |
@@ -1439,7 +1439,7 @@ CODE_B5A0F7:					;	   |
 
 CODE_B5A0FA:
 	STA $16,x				;$B5A0FA  \
-	LDX $1730				;$B5A0FC   |
+	LDX next_sprite_dma_buffer_slot		;$B5A0FC   |
 	TYA					;$B5A0FF   |
 	CLC					;$B5A100   |
 	ADC $40					;$B5A101   |
@@ -1452,7 +1452,7 @@ CODE_B5A0FA:
 	ASL A					;$B5A10E   |
 	ASL A					;$B5A10F   |
 	ASL A					;$B5A110   |
-	STA $1732,x				;$B5A111   |
+	STA sprite_dma_buffer,x			;$B5A111   |
 	STA $54					;$B5A114   |
 	TYA					;$B5A116   |
 	CLC					;$B5A117   |
@@ -1482,7 +1482,7 @@ CODE_B5A0FA:
 	ASL A					;$B5A144   |
 	ASL A					;$B5A145   |
 	ASL A					;$B5A146   |
-	STA $1732,x				;$B5A147   |
+	STA sprite_dma_buffer,x			;$B5A147   |
 	LDA $3C					;$B5A14A   |
 	AND #$00FF				;$B5A14C   |
 	ASL A					;$B5A14F   |
@@ -1509,7 +1509,7 @@ CODE_B5A0FA:
 	ADC #$0008				;$B5A172   |
 	TAX					;$B5A175   |
 CODE_B5A176:					;	   |
-	STX $1730				;$B5A176   |
+	STX next_sprite_dma_buffer_slot		;$B5A176   |
 	STZ $1738,x				;$B5A179   |
 CODE_B5A17C:					;	   |
 	INC $62					;$B5A17C   |
@@ -2645,7 +2645,7 @@ update_sprite_graphics:
 	LDA $1738,x				;$B5A925   |
 	BPL .return				;$B5A928   |
 	STA DMA[0].source_bank			;$B5A92A   |
-	LDA $1732,x				;$B5A92D   |
+	LDA sprite_dma_buffer,x			;$B5A92D   |
 	STA DMA[0].size				;$B5A930   |
 	LDA $1734,x				;$B5A933   |
 	STA PPU.vram_address			;$B5A936   |
@@ -5127,6 +5127,7 @@ DATA_B5BB97:
 	dl carnival_collision
 	dl castle_collision
 
+;collision map related
 DATA_B5BBD6:
 	dw $00A3
 	dw $0082
@@ -5150,6 +5151,7 @@ DATA_B5BBD6:
 	dw $0090
 	dw $00E4
 
+;level collision routines
 DATA_B5BC00:
 	dw CODE_B5C82C
 	dw CODE_B5C60B
@@ -5196,30 +5198,31 @@ DATA_B5BC2A:
 	dw carnival_level_palette
 	dw castle_level_palette
 
+;32x32 tilemap compression flag
 DATA_B5BC54:
-	dw $0420
-	dw $0420
-	dw $0420
-	dw $0420
-	dw $0420
-	dw $0420
-	dw $0420
-	dw $0420
-	dw $0420
-	dw $0420
-	dw $0420
-	dw $0420
-	dw $0420
-	dw $0020
-	dw $0420
-	dw $0420
-	dw $0000
-	dw $0420
-	dw $0420
-	dw $0420
-	dw $0420
+	dw $0420				;forest
+	dw $0420				;ship_hold
+	dw $0420				;wasp_hive
+	dw $0420				;ship_deck
+	dw $0420				;ship_mast
+	dw $0420				;carnival
+	dw $0420				;lava
+	dw $0420				;wasp_hive
+	dw $0420				;mine
+	dw $0420				;swamp
+	dw $0420				;brables
+	dw $0420				;castle
+	dw $0420				;krool 2
+	dw $0020				;krool
+	dw $0420				;ice
+	dw $0420				;jungle
+	dw $0000				;null
+	dw $0420				;ice 2
+	dw $0420				;brambles 2
+	dw $0420				;carnival 2
+	dw $0420				;castle
 
-DATA_B5BC7E:
+level_dimensions_table:
 	dw DATA_B5BD05				;forest
 	dw DATA_B5BD79				;ship_hold
 	dw DATA_B5BDC5				;wasp_hive
@@ -5236,7 +5239,7 @@ DATA_B5BC7E:
 	dw DATA_B5C163				;k_rool
 	dw DATA_B5C173				;ice
 	dw DATA_B5C1C9				;jungle
-	dw DATA_B5BD05				;NULL
+	dw DATA_B5BD05				;NULL/forest copy
 	dw DATA_B5C21F				;ice_2
 	dw DATA_B5C22F				;brambles_2
 	dw DATA_B5C28F				;carnival_2
@@ -5252,261 +5255,271 @@ CODE_B5BCA8:
 	CLC					;$B5BCAF   |
 	ADC $32					;$B5BCB0   |
 	TAX					;$B5BCB2   |
-	LDA DATA_B5BAEF,x			;$B5BCB3   |
+	LDA DATA_B5BAEF,x			;$B5BCB3   | Get 32x32 tilemap address
 	STA $98					;$B5BCB6   |
 	SEP #$20				;$B5BCB8   |
 	LDA DATA_B5BB30,x			;$B5BCBA   |
 	XBA					;$B5BCBD   |
-	LDA DATA_B5BAF1,x			;$B5BCBE   |
+	LDA DATA_B5BAF1,x			;$B5BCBE   | Get 32x32 tilemap bank
 	REP #$20				;$B5BCC1   |
 	STA $9A					;$B5BCC3   |
-	LDA DATA_B5BB97,x			;$B5BCC5   |
+	LDA DATA_B5BB97,x			;$B5BCC5   | Get collision map address
 	STA $9C					;$B5BCC8   |
-	LDA DATA_B5BB99,x			;$B5BCCA   |
+	LDA DATA_B5BB99,x			;$B5BCCA   | Get collision map bank
 	AND #$00FF				;$B5BCCD   |
 	ORA #$8000				;$B5BCD0   |
 	STA $9E					;$B5BCD3   |
-	LDA DATA_B5BB2E,x			;$B5BCD5   |
+	LDA DATA_B5BB2E,x			;$B5BCD5   | Get 8x8 tilemap address
 	STA $17B4				;$B5BCD8   |
-	LDA DATA_B5BB6D,y			;$B5BCDB   |
+	LDA DATA_B5BB6D,y			;$B5BCDB   | Get tilemap VRAM address
 	STA $17B6				;$B5BCDE   |
-	LDA DATA_B5BBD6,y			;$B5BCE1   |
+	LDA DATA_B5BBD6,y			;$B5BCE1   | Get some shit
 	STA $A0					;$B5BCE4   |
-	LDA DATA_B5BC00,y			;$B5BCE6   |
+	LDA DATA_B5BC00,y			;$B5BCE6   | Get collision routine address
 	STA $17B2				;$B5BCE9   |
 	LDA $0A8E				;$B5BCEC   |\ get level palette address
-	BNE CODE_B5BCF7				;$B5BCEF   |/ if there's no palette address
+	BNE .alternate_palette			;$B5BCEF   |/ if there's no palette address
 	LDA DATA_B5BC2A,y			;$B5BCF1   |\ use the default tilemap palette
 	STA $0A8E				;$B5BCF4   |/
-CODE_B5BCF7:					;	   |
-	LDA DATA_B5BC7E,y			;$B5BCF7   |
+.alternate_palette:				;	   |
+	LDA level_dimensions_table,y		;$B5BCF7   |
 	STA $0B84				;$B5BCFA   |
-	LDA DATA_B5BC54,y			;$B5BCFD   |
+	LDA DATA_B5BC54,y			;$B5BCFD   | Get tilemap compression flags
 	STA $0B86				;$B5BD00   |
 	PLB					;$B5BD03   |
 	RTL					;$B5BD04  /
 
-;forest
+;Forest
 DATA_B5BD05:
 	dw $3000, $0200				;32x32 tilemap dimensions
-	dw $0020, $2F00, $0000, $0200, $0000	; 00 web woods
-	dw $2F20, $6000, $0000, $0200, $0000	; 01 gusty glade
-	dw $6020, $88E0, $0000, $0200, $0000	; 02 ghostly grove
+	dw $0020, $2F00, $0000, $0200, $0000	; 00 Web Woods/Beta Web Woods
+	dw $2F20, $6000, $0000, $0200, $0000	; 01 Gusty Glade
+	dw $6020, $88E0, $0000, $0200, $0000	; 02 Ghostly Grove
 	dw $9200, $9300, $0000, $0100, $0000	; 03
-	dw $9200, $9300, $0000, $0200, $0000	; 04 web woods room
-	dw $9200, $9300, $0000, $0200, $0000	; 05 ghostly grove bonus 1
+	dw $9200, $9300, $0000, $0200, $0000	; 04 Web Woods Squitter Room/Unused Web Woods Room
+	dw $9200, $9300, $0000, $0200, $0000	; 05 Ghostly Grove Bonus 1
 	dw $6000, $88E0, $0000, $0200, $0000	; 06
-	dw $88E0, $8C80, $0000, $0200, $0000	; 07 gusty glade bonus 2
-	dw $8C80, $9060, $0000, $0200, $0000	; 08 gusty glade bonus 1/ghostly grove bonus 2
-	dw $9060, $9200, $0000, $0200, $0000	; 09 web woods bonus 2
+	dw $88E0, $8C80, $0000, $0200, $0000	; 07 Gusty Glade Bonus 2
+	dw $8C80, $9060, $0000, $0200, $0000	; 08 Gusty Glade Bonus 1/Ghostly Grove Bonus 2
+	dw $9060, $9200, $0000, $0200, $0000	; 09 Web Woods Bonus 2
 	dw $9300, $96E0, $0000, $0200, $0000	; 0A
 	dw $FFFF
 
-;ship_hold
+;Ship Hold
 DATA_B5BD79:
 	dw $0A00, $4000				;32x32 tilemap dimensions
-	dw $0000, $0A00, $0000, $08A0, $0007	;00 glimmer's galleon
-	dw $0000, $0A00, $08A0, $1000, $0007	;01 lava lagoon
-	dw $0000, $0A00, $1000, $1700, $0007	;02 lockjaw's locker
-	dw $0000, $0300, $1700, $1A80, $0007	;03 lockjaw's locker bonus 1
-	dw $0300, $05C0, $1700, $19C0, $0007	;04 glimmer's galleon bonus 2
-	dw $05C0, $0940, $1700, $1900, $0007	;05 lockjaw's locker/lava lagoon warp room
-	dw $05C0, $0940, $1900, $1A80, $0007	;06 glimmer's galleon bonus 1
+	dw $0000, $0A00, $0000, $08A0, $0007	; 00 Glimmer's Galleon
+	dw $0000, $0A00, $08A0, $1000, $0007	; 01 Lava Lagoon
+	dw $0000, $0A00, $1000, $1700, $0007	; 02 Lockjaw's Locker
+	dw $0000, $0300, $1700, $1A80, $0007	; 03 Lockjaw's Locker Bonus 1
+	dw $0300, $05C0, $1700, $19C0, $0007	; 04 Glimmer's Galleon Bonus 2
+	dw $05C0, $0940, $1700, $1900, $0007	; 05 Lockjaw's Locker/Lava Lagoon Warp Room
+	dw $05C0, $0940, $1900, $1A80, $0007	; 06 Glimmer's Galleon Bonus 1
 	dw $FFFF
 
-;wasp_hive
+;Wasp Hive
 DATA_B5BDC5:
 	dw $0A00, $4000				;32x32 tilemap dimensions
-	dw $0000, $0A00, $0000, $0A20, $0007
-	dw $0000, $0A00, $0A80, $1680, $0007
-	dw $0480, $0580, $0920, $0A20, $0007
-	dw $0580, $0680, $0920, $0A20, $0007
-	dw $0000, $0580, $1680, $1780, $0007
-	dw $0000, $0480, $1780, $1880, $0007
-	dw $0580, $0680, $1680, $1880, $0007
-	dw $0680, $07A0, $1680, $1980, $0007
-	dw $07A0, $0A00, $1680, $1A40, $0007
+	dw $0000, $0A00, $0000, $0A20, $0007	; 00 Rambi Rumble
+	dw $0000, $0A00, $0A80, $1680, $0007	; 01 Hornet Hole
+	dw $0480, $0580, $0920, $0A20, $0007	; 02 Rambi Rumble Rambi Room
+	dw $0580, $0680, $0920, $0A20, $0007	; 03 Parrot Chute Panic Rare Room
+	dw $0000, $0580, $1680, $1780, $0007	; 04 Hornet Hole Bonus 1
+	dw $0000, $0480, $1780, $1880, $0007	; 05 Parrot Chute Panic Bonus 2
+	dw $0580, $0680, $1680, $1880, $0007	; 06 Hornet Hole Bonus 3 
+	dw $0680, $07A0, $1680, $1980, $0007	; 07 Parrot Chute Panic Bonus 1
+	dw $07A0, $0A00, $1680, $1A40, $0007	; 08 Rambi Rumble Bonus 2
 	dw $FFFF
 
-;ship_deck
+;Ship Deck
 DATA_B5BE25:
 	dw $3000, $0200				;32x32 tilemap dimensions
-	dw $0020, $1C00, $0000, $0200, $0000
-	dw $1C00, $3C00, $0000, $0200, $0000
-	dw $3C20, $64A0, $0000, $0200, $0000
-	dw $64A0, $65A0, $0000, $0200, $0000
-	dw $64A0, $65A0, $0000, $0200, $0000
-	dw $65A0, $67A0, $0000, $0200, $0000
-	dw $67A0, $6CA0, $0000, $0100, $0000
-	dw $6CA0, $6EA0, $0000, $0200, $0000
-	dw $6EA0, $71A0, $0000, $0200, $0000
-	dw $71A0, $7380, $0000, $0200, $0000
+	dw $0020, $1C00, $0000, $0200, $0000	; 00 Pirate Panic
+	dw $1C00, $3C00, $0000, $0200, $0000	; 01 Gangplank Galley
+	dw $3C20, $64A0, $0000, $0200, $0000	; 02 Rattle Battle
+	dw $64A0, $65A0, $0000, $0200, $0000	; 03 Glimmer's Galleon Exit Room
+	dw $64A0, $65A0, $0000, $0200, $0000	; 04 Pirate Panic/Gangplank Galley Warp Room
+	dw $65A0, $67A0, $0000, $0200, $0000	; 05 Pirate Panic Bonus 1
+	dw $67A0, $6CA0, $0000, $0100, $0000	; 06 Pirate Panic Bonus 2
+	dw $6CA0, $6EA0, $0000, $0200, $0000	; 07 Gangplank Galley Bonus 2
+	dw $6EA0, $71A0, $0000, $0200, $0000	; 08 Rattle Battle Bonus 1
+	dw $71A0, $7380, $0000, $0200, $0000	; 09 Rattle Battle Bonus 3
 	dw $FFFF
 
-;ship_mast
+;Ship Mast
 DATA_B5BE8F:
 	dw $0400, $4000				;32x32 tilemap dimensions
-	dw $0000, $0180, $0000, $0100, $0004
-	dw $0000, $0400, $0100, $1780, $0004
-	dw $0000, $0300, $1840, $2740, $0004
-	dw $0000, $0300, $2740, $3240, $0004
-	dw $0000, $0180, $3240, $3D80, $0004
-	dw $0140, $0240, $1920, $1A20, $0004
-	dw $0180, $03C0, $3240, $36A0, $0004
-	dw $0180, $0320, $36A0, $3840, $0004
-	dw $0180, $0280, $3840, $3960, $0004
-	dw $0180, $0360, $3960, $3B00, $0004
-	dw $0180, $02C0, $3B00, $3E40, $0004
-	dw $0000, $0120, $3D80, $3EA0, $0004
-	dw $0000, $0100, $40A0, $4400, $0004
-	dw $0000, $0400, $3EA0, $40A0, $0004
+	dw $0000, $0180, $0000, $0100, $0004	; 00 Krow's Nest
+	dw $0000, $0400, $0100, $1780, $0004	; 01 Slime Climb
+	dw $0000, $0300, $1840, $2740, $0004	; 02 Topsail Trouble
+	dw $0000, $0300, $2740, $3240, $0004	; 03 Mainbrace Mayhem
+	dw $0000, $0180, $3240, $3D80, $0004	; 04 Kreepy Krow
+	dw $0140, $0240, $1920, $1A20, $0004	; 05 Mainbrace Mayhem/Topsail Trouble Warp Room
+	dw $0180, $03C0, $3240, $36A0, $0004	; 06 Mainbrace Mayhem Bonus 1
+	dw $0180, $0320, $36A0, $3840, $0004	; 07 Mainbrace Mayhem Bonus 2
+	dw $0180, $0280, $3840, $3960, $0004	; 08 Slime Climb Bonus 1
+	dw $0180, $0360, $3960, $3B00, $0004	; 09 Topsail Trouble Bonus 1
+	dw $0180, $02C0, $3B00, $3E40, $0004	; 0A Mainbrace Mayhem Bonus 3/Topsail Trouble Bonus 2
+	dw $0000, $0120, $3D80, $3EA0, $0004	; 0B
+	dw $0000, $0100, $40A0, $4400, $0004	; 0C Slime Climb Bonus 2
+	dw $0000, $0400, $3EA0, $40A0, $0004	; 0D Rattle Battle Bonus 2
 	dw $FFFF
 
-;carnival
+;Carnival
 DATA_B5BF21:
 	dw $3000, $0200				;32x32 tilemap dimensions
-	dw $0000, $4340, $0000, $0200, $0008
-	dw $49C0, $A8C0, $0000, $0200, $0008
-	dw $4340, $49C0, $0000, $0200, $0008
+	dw $0000, $4340, $0000, $0200, $0008	; 00 Target Terror
+	dw $49C0, $A8C0, $0000, $0200, $0008	; 01 Rickety Race
+	dw $4340, $49C0, $0000, $0200, $0008	; 02 Haunted Hall Bonus 1
 	dw $FFFF
 
-;lava
+;Lava
 DATA_B5BF45:
 	dw $3000, $0200				;32x32 tilemap dimensions
-	dw $0000, $2380, $0000, $0200, $0000
-	dw $2380, $4C00, $0000, $0200, $0000
-	dw $4E00, $8000, $0000, $0200, $0000
-	dw $8000, $8100, $0000, $0200, $0000
-	dw $4C00, $4E00, $0000, $0200, $0000
-	dw $8100, $8700, $0000, $0200, $0000
-	dw $8700, $8980, $0000, $0200, $0000
-	dw $8980, $8BC0, $0000, $0200, $0000
-	dw $8BC0, $91C0, $0000, $0200, $0000
-	dw $91C0, $9360, $0000, $0200, $0000
+	dw $0000, $2380, $0000, $0200, $0000	; 01 Hot-Head Hop
+	dw $2380, $4C00, $0000, $0200, $0000	; 02 Red-Hot Ride
+	dw $4E00, $8000, $0000, $0200, $0000	; 03 Fiery Furnace
+	dw $8000, $8100, $0000, $0200, $0000	; 04 Hot-Head Hop Warp Room/Hot-Head Hop Bonus 2
+	dw $4C00, $4E00, $0000, $0200, $0000	; 05
+	dw $8100, $8700, $0000, $0200, $0000	; 06 Kleever's Kiln
+	dw $8700, $8980, $0000, $0200, $0000	; 07 Hot-Head Hop Bonus 3
+	dw $8980, $8BC0, $0000, $0200, $0000	; 08 Hot-Head Hop Bonus 1
+	dw $8BC0, $91C0, $0000, $0200, $0000	; 09 Red-Hot Ride Bonus 1
+	dw $91C0, $9360, $0000, $0200, $0000	; 0A Red-Hot Ride Bonus 2
 	dw $FFFF
 
-;wasp_hive
+;Wasp Hive
 DATA_B5BFAF:
 	dw $0200, $4000				;32x32 tilemap dimensions
-	dw $0000, $0200, $0220, $3520, $0005
-	dw $0000, $0200, $0000, $0220, $0005
-	dw $0000, $0100, $3520, $3780, $0005
-	dw $0100, $0200, $3520, $3820, $0005
+	dw $0000, $0200, $0220, $3520, $0005	; 00 Parrot Chute Panic
+	dw $0000, $0200, $0000, $0220, $0005	; 01 King Zing Sting
+	dw $0000, $0100, $3520, $3780, $0005	; 02 Hornet Hole Bonus 2
+	dw $0100, $0200, $3520, $3820, $0005	; 03 Rambi Rumble Bonus 1
 	dw $FFFF
 
-;mine
+;Mine
 DATA_B5BFDD:
 	dw $0300, $4000				;32x32 tilemap dimensions
-	dw $0000, $0300, $0000, $1A20, $0004
-	dw $0000, $0300, $1A20, $2CA0, $0004
-	dw $0000, $0100, $2BA0, $2CA0, $0004
-	dw $0000, $0300, $2CA0, $4CA0, $0004
-	dw $0000, $0300, $4CA0, $4EA0, $0004
-	dw $0000, $0300, $4EA0, $4FA0, $0004
-	dw $0000, $0200, $4FA0, $56E0, $0004
-	dw $0000, $0160, $56E0, $58C0, $0004
-	dw $01A0, $0300, $2E60, $32C0, $0004
+	dw $0000, $0300, $0000, $1A20, $0004	; 00 Squawks's Shaft
+	dw $0000, $0300, $1A20, $2CA0, $0004	; 01 Kannon's Klaim
+	dw $0000, $0100, $2BA0, $2CA0, $0004	; 02 Kannon's Klaim/Squawks's Shaft Warp Room
+	dw $0000, $0300, $2CA0, $4CA0, $0004	; 03
+	dw $0000, $0300, $4CA0, $4EA0, $0004	; 04 Windy Well
+	dw $0000, $0300, $4EA0, $4FA0, $0004	; 05 Squawks's Shaft Bonus 3/Windy Well Bonus 1
+	dw $0000, $0200, $4FA0, $56E0, $0004	; 06 Kannon's Klaim Bonus 3
+	dw $0000, $0160, $56E0, $58C0, $0004	; 07 Kannon's Klaim Bonus 1/Squawks's Shaft Bonus 1
+	dw $01A0, $0300, $2E60, $32C0, $0004	; 08 Kannon's Klaim Bonus 2/Squawks's Shaft Bonus 2
 	dw $FFFF
 
+;Swamp
 DATA_B5C03D:
 	dw $3000, $0200				;32x32 tilemap dimensions
-	dw $0000, $2E80, $0000, $0200, $0000
-	dw $2E80, $57A0, $0000, $0200, $0000
-	dw $32C0, $33C0, $0000, $0200, $0000
-	dw $57A0, $8A20, $0000, $0200, $0000
-	dw $32C0, $33C0, $0000, $0200, $0000
-	dw $8A20, $8B20, $0000, $0200, $0000
-	dw $8B20, $8F20, $0000, $0200, $0000
-	dw $8F20, $90A0, $0000, $0200, $0000
-	dw $90A0, $92A0, $0000, $0200, $0000
-	dw $92A0, $96A0, $0000, $0200, $0000
-	dw $96A0, $9A20, $0000, $0200, $0000
-	dw $5800, $5980, $0000, $0200, $0000
+	dw $0000, $2E80, $0000, $0200, $0000	; 00 Barrel Bayou
+	dw $2E80, $57A0, $0000, $0200, $0000	; 01 Krockhead Klamber
+	dw $32C0, $33C0, $0000, $0200, $0000	; 02 Barrel Bayou Warp Room
+	dw $57A0, $8A20, $0000, $0200, $0000	; 03 Mudhole Marsh
+	dw $32C0, $33C0, $0000, $0200, $0000	; 04
+	dw $8A20, $8B20, $0000, $0200, $0000	; 05 Barrel Bayou Bonus 1
+	dw $8B20, $8F20, $0000, $0200, $0000	; 06 Barrel Bayou Bonus 2
+	dw $8F20, $90A0, $0000, $0200, $0000	; 07 Krockhead Klamber Bonus 1
+	dw $90A0, $92A0, $0000, $0200, $0000	; 08 Mudhole Marsh Bonus 1
+	dw $92A0, $96A0, $0000, $0200, $0000	; 09 Mudhole Marsh Bonus 2
+	dw $96A0, $9A20, $0000, $0200, $0000	; 0A
+	dw $5800, $5980, $0000, $0200, $0000	; 0B Kudgel's Kontest
 	dw $FFFF
 
+;Bramble
 DATA_B5C0BB:
 	dw $0C00, $1000				;32x32 tilemap dimensions
-	dw $0000, $0860, $0000, $0B00, $0007
-	dw $0000, $0C00, $0B00, $1500, $0006
-	dw $0000, $0C00, $1500, $1F00, $0006
-	dw $0860, $0A20, $0000, $0930, $0006
-	dw $0A20, $0C00, $0000, $0680, $0006
+	dw $0000, $0860, $0000, $0B00, $0007	; 00 Bramble Blast
+	dw $0000, $0C00, $0B00, $1500, $0006	; 01 Bramble Scramble
+	dw $0000, $0C00, $1500, $1F00, $0006	; 02 Screech's Sprint
+	dw $0860, $0A20, $0000, $0930, $0006	; 03 Animal Antics Bonus 1
+	dw $0A20, $0C00, $0000, $0680, $0006	; 04 Fiery Furnace Bonus 1
 	dw $FFFF
 
+;Castle
 DATA_B5C0F3:
 	dw $0200, $1000				;32x32 tilemap dimensions
-	dw $0000, $0200, $0100, $30E0, $0005
-	dw $0000, $0200, $0000, $0100, $0005
-	dw $0000, $0200, $30E0, $57C0, $0005
-	dw $0000, $0200, $57C0, $7EA0, $0005
-	dw $0000, $0200, $7EA0, $8260, $0005
-	dw $0000, $0100, $8260, $8780, $0005
-	dw $0000, $0180, $8780, $8A80, $0005
-	dw $0000, $0180, $8A80, $9620, $0005
-	dw $0000, $0200, $9620, $9720, $0005
+	dw $0000, $0200, $0100, $30E0, $0005	; 00 Castle Crush
+	dw $0000, $0200, $0000, $0100, $0005	; 01 
+	dw $0000, $0200, $30E0, $57C0, $0005	; 02 Chain Link Chamber
+	dw $0000, $0200, $57C0, $7EA0, $0005	; 03 Toxic Tower
+	dw $0000, $0200, $7EA0, $8260, $0005	; 04 Chain Link Chamber Bonus 1
+	dw $0000, $0100, $8260, $8780, $0005	; 05 Chain Link Chamber Bonus 2
+	dw $0000, $0180, $8780, $8A80, $0005	; 06 Castle Crush Bonus 1
+	dw $0000, $0180, $8A80, $9620, $0005	; 07 Castle Crush Bonus 2
+	dw $0000, $0200, $9620, $9720, $0005	; 08 Stronghold Showdown
 	dw $FFFF
 
+;Lost World K.Rool
 DATA_B5C153:
 	dw $0200, $1000				;32x32 tilemap dimensions
-	dw $0000, $0200, $0000, $0100, $0005
+	dw $0000, $0200, $0000, $0100, $0005	; 00 Krocodile Kore
 	dw $FFFF
 
+;K.Rool
 DATA_B5C163:
 	dw $0200, $1000				;32x32 tilemap dimensions
-	dw $0000, $0200, $0000, $0100, $0005
+	dw $0000, $0200, $0000, $0100, $0005	; 00 K.Rool Duel
 	dw $FFFF
 
+;Ice
 DATA_B5C173:
 	dw $0A00, $1000				;32x32 tilemap dimensions
-	dw $0000, $0A00, $0000, $0680, $0007
-	dw $0000, $0A00, $0680, $0E40, $0007
-	dw $0000, $0A00, $0E40, $1320, $0007
-	dw $0000, $0360, $1320, $15C0, $0007
-	dw $0360, $0920, $1320, $1600, $0007
-	dw $0000, $0180, $1600, $1B80, $0007
-	dw $0180, $0360, $1600, $1A60, $0007
-	dw $0360, $0720, $1600, $18C0, $0007
+	dw $0000, $0A00, $0000, $0680, $0007	; 00 Arctic Abyss
+	dw $0000, $0A00, $0680, $0E40, $0007	; 01 Clapper's Cavern
+	dw $0000, $0A00, $0E40, $1320, $0007	; 02 Animal Antics - Enguarde Section
+	dw $0000, $0360, $1320, $15C0, $0007	; 03 Clapper's Cavern Bonus 1
+	dw $0360, $0920, $1320, $1600, $0007	; 04 Clapper's Cavern Bonus 2
+	dw $0000, $0180, $1600, $1B80, $0007	; 05 Arctic Abyss Bonus 1
+	dw $0180, $0360, $1600, $1A60, $0007	; 06 Black Ice Battle Bonus 1
+	dw $0360, $0720, $1600, $18C0, $0007	; 07 Arctic Abyss Bonus 2
 	dw $FFFF
 
+;Jungle
 DATA_B5C1C9:
 	dw $3000, $0200				;32x32 tilemap dimensions
-	dw $0200, $36E0, $0000, $0200, $0000
-	dw $0000, $0200, $0000, $0200, $0000
-	dw $36E0, $4180, $0000, $0200, $0000
-	dw $4180, $4980, $0000, $0100, $0000
-	dw $4180, $4460, $0100, $0200, $0000
-	dw $4980, $7740, $0000, $0200, $0000
-	dw $7740, $8320, $0000, $0200, $0000
-	dw $8320, $8F40, $0000, $0200, $0000
+	dw $0200, $36E0, $0000, $0200, $0000	; 00 Klobber Karnage
+	dw $0000, $0200, $0000, $0200, $0000	; 01 
+	dw $36E0, $4180, $0000, $0200, $0000	; 02 Animal Antics Rambi Section
+	dw $4180, $4980, $0000, $0100, $0000	; 03 Klobber Karnage Bonus 1
+	dw $4180, $4460, $0100, $0200, $0000	; 04 Jungle Jinx Bonus 1
+	dw $4980, $7740, $0000, $0200, $0000	; 05 Jungle Jinx
+	dw $7740, $8320, $0000, $0200, $0000	; 06 Animal Antics Squitter Section
+	dw $8320, $8F40, $0000, $0200, $0000	; 07 Animal Antics Rattly Section
 	dw $FFFF
 
+;Ice
 DATA_B5C21F:
 	dw $0200, $1000				;32x32 tilemap dimensions
-	dw $0000, $0200, $0000, $2460, $0005
+	dw $0000, $0200, $0000, $2460, $0005	; 00 Black Ice Battle
 	dw $FFFF
 
+;Brambles 2
 DATA_B5C22F:
 	dw $0C00, $1000				;32x32 tilemap dimensions
-	dw $0000, $0C00, $0420, $09A0, $0006
-	dw $0000, $0560, $0000, $0440, $0006
-	dw $0560, $0800, $0000, $0380, $0006
-	dw $0800, $0B80, $0000, $02A0, $0006
-	dw $0800, $0980, $02A0, $03C0, $0006
-	dw $0000, $04A0, $09A0, $0AE0, $0006
-	dw $0000, $0280, $0AE0, $0EC0, $0006
-	dw $02A0, $0700, $0B00, $0E60, $0006
-	dw $0700, $0A20, $09A0, $0F40, $0006
+	dw $0000, $0C00, $0420, $09A0, $0006	; 00 Animal Antics Squawks Section
+	dw $0000, $0560, $0000, $0440, $0006	; 01 Bramble Blast Bonus 2
+	dw $0560, $0800, $0000, $0380, $0006	; 02 Target Terror Bonus 1
+	dw $0800, $0B80, $0000, $02A0, $0006	; 03 Bramble Scramble Bonus 1
+	dw $0800, $0980, $02A0, $03C0, $0006	; 04 Windy Well Bonus 2
+	dw $0000, $04A0, $09A0, $0AE0, $0006	; 05 Web Woods Bonus 1
+	dw $0000, $0280, $0AE0, $0EC0, $0006	; 06 Toxic Tower Bonus 1
+	dw $02A0, $0700, $0B00, $0E60, $0006	; 07 Bramble Blast Bonus 1
+	dw $0700, $0A20, $09A0, $0F40, $0006	; 08 Screech's Sprint Bonus 1
 	dw $FFFF
 
+;Carnival 2
 DATA_B5C28F:
 	dw $3000, $0200				;32x32 tilemap dimensions
-	dw $0000, $5540, $0000, $0200, $0008
-	dw $5540, $56A0, $0000, $0200, $0008
-	dw $56A0, $5880, $0000, $0200, $0008
-	dw $5880, $6CA0, $0000, $0200, $0008
-	dw $6CA0, $7A40, $0000, $0200, $0008
-	dw $7A40, $8AE0, $0000, $0200, $0008
-	dw $8AE0, $9380, $0000, $0200, $0008
+	dw $0000, $5540, $0000, $0200, $0008	; 00 Haunted Hall
+	dw $5540, $56A0, $0000, $0200, $0008	; 01 Target Terror/Rickety Race Exit Room
+	dw $56A0, $5880, $0000, $0200, $0008	; 02 Haunted Hall Exit Room
+	dw $5880, $6CA0, $0000, $0200, $0008	; 03 Haunted Hall Bonus 3
+	dw $6CA0, $7A40, $0000, $0200, $0008	; 04 Target Terror Bonus 2
+	dw $7A40, $8AE0, $0000, $0200, $0008	; 05 Haunted Hall Bonus 2
+	dw $8AE0, $9380, $0000, $0200, $0008	; 06 Rickety Race Bonus 1
 	dw $FFFF
 
 CODE_B5C2DB:
@@ -5518,7 +5531,7 @@ CODE_B5C2DB:
 	SEC					;$B5C2E7   |
 	SBC $34					;$B5C2E8   |
 	STA $3C					;$B5C2EA   |
-	LDA $0D4A				;$B5C2EC   |
+	LDA water_current_y_velocity		;$B5C2EC   |
 	BMI CODE_B5C30B				;$B5C2EF   |
 	BEQ CODE_B5C30B				;$B5C2F1   |
 	LDX current_sprite			;$B5C2F3   |
@@ -7973,7 +7986,7 @@ CODE_B5D44A:
 
 CODE_B5D47A:
 	LDA level_number			;$B5D47A  \
-	STA $08A8				;$B5D47C   |
+	STA parent_level_number			;$B5D47C   |
 	LDA.l $0006A3				;$B5D47F   |
 	AND #$FFFE				;$B5D483   |
 	STA $0006A3				;$B5D486   |
@@ -7988,7 +8001,7 @@ CODE_B5D48E:
 	LDA #$0054				;$B5D499   |
 	STA $78					;$B5D49C   |
 	JSL CODE_B59F40				;$B5D49E   |
-	STZ $1730				;$B5D4A2   |
+	STZ next_sprite_dma_buffer_slot		;$B5D4A2   |
 	PLB					;$B5D4A5   |
 	RTS					;$B5D4A6  /
 

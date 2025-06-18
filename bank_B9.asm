@@ -5,7 +5,7 @@ CODE_B9D000:
 	PHA					;$B9D003   |
 	LDA current_sprite			;$B9D004   |
 	PHA					;$B9D006   |
-	LDA $0599				;$B9D007   |
+	LDA inactive_kong_control_variables	;$B9D007   |
 	STA $66					;$B9D00A   |
 	LDA inactive_kong_sprite		;$B9D00C   |
 	STA current_sprite			;$B9D00F   |
@@ -23,7 +23,7 @@ CODE_B9D01D:
 	PHA					;$B9D020   |
 	LDA current_sprite			;$B9D021   |
 	PHA					;$B9D023   |
-	LDA $0599				;$B9D024   |
+	LDA inactive_kong_control_variables	;$B9D024   |
 	STA $66					;$B9D027   |
 	LDA inactive_kong_sprite		;$B9D029   |
 	STA current_sprite			;$B9D02C   |
@@ -49,7 +49,7 @@ CODE_B9D03A:
 
 CODE_B9D04B:
 	STA $32					;$B9D04B  \
-	LDA $0595				;$B9D04D   |
+	LDA active_kong_control_variables	;$B9D04D   |
 	STA $66					;$B9D050   |
 	TAX					;$B9D052   |
 	LDA $00,x				;$B9D053   |
@@ -125,7 +125,7 @@ CODE_B9D0B0:
 CODE_B9D0B8:
 	LDY $66					;$B9D0B8  \
 	STA $0000,y				;$B9D0BA   |
-	CPY #main_sprite_table_end		;$B9D0BD   |
+	CPY #diddy_control_variables		;$B9D0BD   |
 	BEQ set_sprite_animation		;$B9D0C0   |
 	CLC					;$B9D0C2   |
 	ADC #$00A3				;$B9D0C3   |
@@ -237,7 +237,7 @@ animation_command_handler:
 	SBC #$0080				;$B9D158   |
 	ASL A					;$B9D15B   |
 	TAX					;$B9D15C   |
-	JMP (DATA_B9D4C5,x)			;$B9D15D  /
+	JMP (animation_command_table,x)		;$B9D15D  /
 
 CODE_B9D160:
 	LDX current_sprite			;$B9D160  \
@@ -815,7 +815,7 @@ CODE_B9D4BB:					;	   |
 	STA $3C,x				;$B9D4C0   |
 	JMP CODE_B9D13D				;$B9D4C2  /
 
-DATA_B9D4C5:
+animation_command_table:
 	dw CODE_B9D160				; 80
 	dw CODE_B9D172				; 81
 	dw CODE_B9D19B				; 82
@@ -1242,7 +1242,7 @@ CODE_B9D705:
 	LDX current_sprite			;$B9D705  \
 	CPX inactive_kong_sprite		;$B9D707   |
 	BEQ CODE_B9D724				;$B9D70A   |
-	LDA $0D7A				;$B9D70C   |
+	LDA current_held_sprite			;$B9D70C   |
 	BNE CODE_B9D74E				;$B9D70F   |
 	LDA $6E					;$B9D711   |
 	BNE CODE_B9D72D				;$B9D713   |
@@ -1302,7 +1302,7 @@ CODE_B9D76D:
 	LDX current_sprite			;$B9D76D  \
 	CPX inactive_kong_sprite		;$B9D76F   |
 	BEQ CODE_B9D78C				;$B9D772   |
-	LDA $0D7A				;$B9D774   |
+	LDA current_held_sprite			;$B9D774   |
 	BNE CODE_B9D7C7				;$B9D777   |
 	LDA $6E					;$B9D779   |
 	BNE CODE_B9D7A6				;$B9D77B   |
@@ -1371,7 +1371,7 @@ CODE_B9D7E6:
 	LDX current_sprite			;$B9D7E6  \
 	CPX inactive_kong_sprite		;$B9D7E8   |
 	BEQ CODE_B9D80C				;$B9D7EB   |
-	LDA $0D7A				;$B9D7ED   |
+	LDA current_held_sprite			;$B9D7ED   |
 	BNE CODE_B9D834				;$B9D7F0   |
 	LDA $6E					;$B9D7F2   |
 	BNE CODE_B9D813				;$B9D7F4   |
@@ -1447,7 +1447,7 @@ CODE_B9D86A:
 	RTS					;$B9D86A  /
 
 CODE_B9D86B:
-	LDA $0D7A				;$B9D86B  \
+	LDA current_held_sprite			;$B9D86B  \
 	BEQ CODE_B9D871				;$B9D86E   |
 	RTS					;$B9D870  /
 
@@ -1456,7 +1456,7 @@ CODE_B9D871:
 	JSL CODE_BB842C				;$B9D874   |
 	BCS CODE_B9D87F				;$B9D878   |
 	LDA alternate_sprite			;$B9D87A   |
-	STA $0D7A				;$B9D87C   |
+	STA current_held_sprite			;$B9D87C   |
 CODE_B9D87F:					;	   |
 	RTS					;$B9D87F  /
 
@@ -1480,18 +1480,18 @@ CODE_B9D891:
 	RTS					;$B9D895  /
 
 CODE_B9D896:
-	LDY $0D7A				;$B9D896  \
+	LDY current_held_sprite			;$B9D896  \
 	BEQ CODE_B9D8A1				;$B9D899   |
 	LDA #$0001				;$B9D89B   |
 	STA $0032,y				;$B9D89E   |
 CODE_B9D8A1:					;	   |
 	TYX					;$B9D8A1   |
 	JSL CODE_B8D4AE				;$B9D8A2   |
-	STZ $0D7A				;$B9D8A6   |
+	STZ current_held_sprite			;$B9D8A6   |
 	RTS					;$B9D8A9  /
 
 CODE_B9D8AA:
-	LDX $0D7A				;$B9D8AA  \
+	LDX current_held_sprite			;$B9D8AA  \
 	BEQ CODE_B9D8BB				;$B9D8AD   |
 	LDA #$0002				;$B9D8AF   |
 	STA $32,x				;$B9D8B2   |
@@ -1502,7 +1502,7 @@ CODE_B9D8BB:					;	   |
 	RTS					;$B9D8BB  /
 
 CODE_B9D8BC:
-	LDY $0D7A				;$B9D8BC  \
+	LDY current_held_sprite			;$B9D8BC  \
 	BEQ CODE_B9D91B				;$B9D8BF   |
 	LDX $66					;$B9D8C1   |
 	LDA $04,x				;$B9D8C3   |
@@ -1521,7 +1521,7 @@ CODE_B9D8BC:
 	STA $0030,y				;$B9D8E6   |
 	LDY #$0040				;$B9D8E9   |
 	LDA [$8E],y				;$B9D8EC   |
-	LDY $0D7A				;$B9D8EE   |
+	LDY current_held_sprite			;$B9D8EE   |
 	BIT $12,x				;$B9D8F1   |
 	BVC CODE_B9D8F9				;$B9D8F3   |
 	EOR #$FFFF				;$B9D8F5   |
@@ -1532,13 +1532,13 @@ CODE_B9D8F9:					;	   |
 	STA $0026,y				;$B9D8FF   |
 	LDY #$0042				;$B9D902   |
 	LDA [$8E],y				;$B9D905   |
-	LDY $0D7A				;$B9D907   |
+	LDY current_held_sprite			;$B9D907   |
 	STA $0024,y				;$B9D90A   |
 	LDA #$0000				;$B9D90D   |
 	STA $001E,y				;$B9D910   |
 	TYX					;$B9D913   |
 	JSL CODE_B8D4AE				;$B9D914   |
-	STZ $0D7A				;$B9D918   |
+	STZ current_held_sprite			;$B9D918   |
 CODE_B9D91B:					;	   |
 	RTS					;$B9D91B  /
 
@@ -1553,7 +1553,7 @@ CODE_B9D91C:
 	STA $0030,y				;$B9D92F   |
 	LDY #$003C				;$B9D932   |
 	LDA [$8E],y				;$B9D935   |
-	LDY $0D7A				;$B9D937   |
+	LDY current_held_sprite			;$B9D937   |
 	BIT $12,x				;$B9D93A   |
 	BVC CODE_B9D942				;$B9D93C   |
 	EOR #$FFFF				;$B9D93E   |
@@ -1564,19 +1564,19 @@ CODE_B9D942:					;	   |
 	STA $0026,y				;$B9D948   |
 	LDY #$003E				;$B9D94B   |
 	LDA [$8E],y				;$B9D94E   |
-	LDY $0D7A				;$B9D950   |
+	LDY current_held_sprite			;$B9D950   |
 	STA $0024,y				;$B9D953   |
 	LDA #$0000				;$B9D956   |
 	STA $001E,y				;$B9D959   |
 	TYX					;$B9D95C   |
 	JSL CODE_B8D4AE				;$B9D95D   |
-	STZ $0D7A				;$B9D961   |
+	STZ current_held_sprite			;$B9D961   |
 	RTS					;$B9D964  /
 
 CODE_B9D965:
 	LDA #$003F				;$B9D965  \
 	STA $2E,x				;$B9D968   |
-	LDY $0D7A				;$B9D96A   |
+	LDY current_held_sprite			;$B9D96A   |
 	BEQ CODE_B9D9AE				;$B9D96D   |
 	LDX $66					;$B9D96F   |> Get kong control variables for current kong
 	LDA $04,x				;$B9D971   |\
@@ -1587,7 +1587,7 @@ CODE_B9D965:
 	STA $0032,y				;$B9D97D   |/ Set sprite carry interaction to thrown upwards
 	LDY #$0038				;$B9D980   |
 	LDA [$8E],y				;$B9D983   |
-	LDY $0D7A				;$B9D985   |
+	LDY current_held_sprite			;$B9D985   |
 	BIT $12,x				;$B9D988   |
 	BVC .no_flip				;$B9D98A   |
 	EOR #$FFFF				;$B9D98C   |
@@ -1604,7 +1604,7 @@ CODE_B9D965:
 	STA $001E,y				;$B9D9A3   |
 	TYX					;$B9D9A6   |
 	JSL CODE_B8D4AE				;$B9D9A7   |
-	STZ $0D7A				;$B9D9AB   |
+	STZ current_held_sprite			;$B9D9AB   |
 CODE_B9D9AE:					;	   |
 	RTS					;$B9D9AE  /
 
@@ -1614,7 +1614,7 @@ CODE_B9D9AF:
 	STA $0032,y				;$B9D9B4   |/ Set sprite carry interaction to thrown sideways
 	LDY #$0034				;$B9D9B7   |
 	LDA [$8E],y				;$B9D9BA   |
-	LDY $0D7A				;$B9D9BC   |
+	LDY current_held_sprite			;$B9D9BC   |
 	BIT $12,x				;$B9D9BF   |
 	BVC CODE_B9D9C7				;$B9D9C1   |
 	EOR #$FFFF				;$B9D9C3   |
@@ -1631,7 +1631,7 @@ CODE_B9D9C7:					;	   |
 	STA $001E,y				;$B9D9DA   |
 	TYX					;$B9D9DD   |
 	JSL CODE_B8D4AE				;$B9D9DE   |
-	STZ $0D7A				;$B9D9E2   |
+	STZ current_held_sprite			;$B9D9E2   |
 	RTS					;$B9D9E5  /
 
 CODE_B9D9E6:
@@ -1721,7 +1721,7 @@ CODE_B9DA61:
 	LDA #$0002				;$B9DA68   |
 	TSB $08C2				;$B9DA6B   |
 	LDA #$FFFF				;$B9DA6E   |
-	STA $059D				;$B9DA71   |
+	STA level_destination_number		;$B9DA71   |
 	RTS					;$B9DA74  /
 
 CODE_B9DA75:
@@ -1739,9 +1739,9 @@ CODE_B9DA80:
 
 CODE_B9DA81:
 	LDA level_number			;$B9DA81  \
-	STA $059D				;$B9DA83   |
+	STA level_destination_number		;$B9DA83   |
 	LDA $08A6				;$B9DA86   |
-	STA $059F				;$B9DA89   |
+	STA destination_level_entrance_number	;$B9DA89   |
 	LDA #$002D				;$B9DA8C   |
 	JSL set_player_interaction_global	;$B9DA8F   |
 	RTS					;$B9DA93  /
@@ -2068,11 +2068,11 @@ CODE_B9DC93:
 	RTS					;$B9DC93  \
 
 CODE_B9DC94:
-	STZ $0D7A				;$B9DC94  \
+	STZ current_held_sprite			;$B9DC94  \
 	RTS					;$B9DC97  /
 
 CODE_B9DC98:
-	LDA $0D7A				;$B9DC98  \
+	LDA current_held_sprite			;$B9DC98  \
 	BEQ CODE_B9DC9E				;$B9DC9B   |
 	RTS					;$B9DC9D  /
 
@@ -2081,7 +2081,7 @@ CODE_B9DC9E:
 	JSL CODE_BB842C				;$B9DCA1   |
 	BCS CODE_B9DCAC				;$B9DCA5   |
 	LDA alternate_sprite			;$B9DCA7   |
-	STA $0D7A				;$B9DCA9   |
+	STA current_held_sprite			;$B9DCA9   |
 CODE_B9DCAC:					;	   |
 	RTS					;$B9DCAC  /
 
@@ -2449,7 +2449,7 @@ CODE_B9DEE7:
 	RTS					;$B9DEEE  /
 
 CODE_B9DEEF:
-	LDA $0D7A				;$B9DEEF  \
+	LDA current_held_sprite			;$B9DEEF  \
 	BNE CODE_B9DF32				;$B9DEF2   |
 	LDA $6E					;$B9DEF4   |
 	BNE CODE_B9DF13				;$B9DEF6   |
@@ -2499,7 +2499,7 @@ CODE_B9DF44:
 	RTS					;$B9DF50  /
 
 CODE_B9DF51:
-	LDA $0D7A				;$B9DF51  \
+	LDA current_held_sprite			;$B9DF51  \
 	BNE CODE_B9DF7A				;$B9DF54   |
 	LDA $6E					;$B9DF56   |
 	BNE CODE_B9DF6A				;$B9DF58   |
@@ -2631,7 +2631,7 @@ CODE_B9E021:
 	EOR $12,x				;$B9E028   |
 	AND #$4000				;$B9E02A   |
 	BEQ CODE_B9E06A				;$B9E02D   |
-	LDA $0D7A				;$B9E02F   |
+	LDA current_held_sprite			;$B9E02F   |
 	BNE CODE_B9E041				;$B9E032   |
 	LDA $6E					;$B9E034   |
 	BNE CODE_B9E058				;$B9E036   |
@@ -2848,7 +2848,7 @@ CODE_B9E15E:
 	RTS					;$B9E161  /
 
 CODE_B9E162:
-	STZ $0D7A				;$B9E162  \
+	STZ current_held_sprite			;$B9E162  \
 	LDX inactive_kong_sprite		;$B9E165   |
 	LDY active_kong_sprite			;$B9E168   |
 	LDA $000A,y				;$B9E16B   |
@@ -2920,7 +2920,7 @@ CODE_B9E1DA:					;	   |
 	JMP CODE_B9E198				;$B9E1DF  /
 
 CODE_B9E1E2:
-	STZ $0D7A				;$B9E1E2  \
+	STZ current_held_sprite			;$B9E1E2  \
 	LDX inactive_kong_sprite		;$B9E1E5   |
 	LDA $0A,x				;$B9E1E8   |
 	SEC					;$B9E1EA   |
@@ -2974,7 +2974,7 @@ CODE_B9E237:
 CODE_B9E23F:
 	LDA $26,x				;$B9E23F  \
 	BNE CODE_B9E24F				;$B9E241   |
-	LDY $0595				;$B9E243   |
+	LDY active_kong_control_variables	;$B9E243   |
 	LDA $0004,y				;$B9E246   |
 	AND #$0080				;$B9E249   |
 	BEQ CODE_B9E24F				;$B9E24C   |
@@ -2986,7 +2986,7 @@ CODE_B9E24F:
 CODE_B9E252:
 	LDA $26,x				;$B9E252  \
 	BNE CODE_B9E262				;$B9E254   |
-	LDY $0595				;$B9E256   |
+	LDY active_kong_control_variables	;$B9E256   |
 	LDA $0004,y				;$B9E259   |
 	AND #$0080				;$B9E25C   |
 	BEQ CODE_B9E26A				;$B9E25F   |
@@ -3174,7 +3174,7 @@ CODE_B9E385:
 CODE_B9E397:					;	   |
 	STA $3A,x				;$B9E397   |
 	STY $32					;$B9E399   |
-	LDY $0595				;$B9E39B   |
+	LDY active_kong_control_variables	;$B9E39B   |
 	LDA $0004,y				;$B9E39E   |
 	AND #$0080				;$B9E3A1   |
 	BEQ CODE_B9E3A7				;$B9E3A4   |
@@ -5325,7 +5325,7 @@ DATA_B9F0A5:
 	dw $0314
 
 ;level end target/chest reward frames
-DATA_B9F0C5:
+item_reward_frames_table:
 	dw $1944	;00 Banana Bunch
 	dw $23B0	;01 K
 	dw $23D0	;02 O

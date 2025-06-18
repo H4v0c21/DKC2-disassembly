@@ -235,7 +235,7 @@ set_this_level_kremcoin_collected:
 	RTL					;$BB8134  /
 
 is_current_level_dk_coin_collected:
-	LDA $08A8				;$BB8135  \
+	LDA parent_level_number			;$BB8135  \
 is_level_dk_coin_collected:			;	   |
 	JSR get_complete_bit_for_level		;$BB8138   |
 	LDA.l $7E59D2,x				;$BB813B   |
@@ -249,7 +249,7 @@ is_level_dk_coin_collected:			;	   |
 	RTL					;$BB8146  /
 
 set_current_level_dk_coin_collected:
-	LDA $08A8				;$BB8147  \
+	LDA parent_level_number			;$BB8147  \
 	JSR get_complete_bit_for_level		;$BB814A   |
 	LDA.l $7E59D2,x				;$BB814D   |
 	ORA $60					;$BB8151   |
@@ -257,7 +257,7 @@ set_current_level_dk_coin_collected:
 	RTL					;$BB8157  /
 
 set_current_level_as_cleared:
-	LDA $08A8				;$BB8158  \
+	LDA parent_level_number			;$BB8158  \
 	JSR get_complete_bit_for_level		;$BB815B   |
 	LDA.l $7E59F2,x				;$BB815E   |
 	ORA $60					;$BB8162   |
@@ -304,7 +304,7 @@ get_complete_bit_for_level:
 	dw $8000				;0F
 
 CODE_BB819F:
-	STZ $0904				;$BB819F  \
+	STZ game_completion_percentage		;$BB819F  \
 	LDA #$0001				;$BB81A2   |
 	STA $72					;$BB81A5   |
 CODE_BB81A7:					;	   |
@@ -315,7 +315,7 @@ CODE_BB81A7:					;	   |
 	BEQ CODE_BB81BC				;$BB81B2   |
 	AND #$00FF				;$BB81B4   |
 	BNE CODE_BB81BC				;$BB81B7   |
-	INC $0904				;$BB81B9   |
+	INC game_completion_percentage		;$BB81B9   |
 CODE_BB81BC:					;	   |
 	INC $72					;$BB81BC   |
 	LDA $72					;$BB81BE   |
@@ -346,8 +346,8 @@ CODE_BB81E3:					;	   |
 	BNE CODE_BB81DA				;$BB81EC   |
 	TYA					;$BB81EE   |
 	CLC					;$BB81EF   |
-	ADC $0904				;$BB81F0   |
-	STA $0904				;$BB81F3   |
+	ADC game_completion_percentage		;$BB81F0   |
+	STA game_completion_percentage		;$BB81F3   |
 	LDA #!level_krows_nest			;$BB81F6   |
 	LDY #$0001				;$BB81F9   |
 	JSR CODE_BB824B				;$BB81FC   |
@@ -374,7 +374,7 @@ CODE_BB81E3:					;	   |
 CODE_BB823B:					;	   |
 	LSR A					;$BB823B   |
 	BCC CODE_BB8241				;$BB823C   |
-	INC $0904				;$BB823E   |
+	INC game_completion_percentage		;$BB823E   |
 CODE_BB8241:					;	   |
 	DEX					;$BB8241   |
 	BNE CODE_BB823B				;$BB8242   |
@@ -387,8 +387,8 @@ CODE_BB824B:
 	BCC CODE_BB8259				;$BB824F   |
 	TYA					;$BB8251   |
 	CLC					;$BB8252   |
-	ADC $0904				;$BB8253   |
-	STA $0904				;$BB8256   |
+	ADC game_completion_percentage		;$BB8253   |
+	STA game_completion_percentage		;$BB8256   |
 CODE_BB8259:					;	   |
 	RTS					;$BB8259  /
 
@@ -523,7 +523,7 @@ delete_sprite_handle_deallocation:
 allocate_sprite_vram_slot:
 	LDY #$001A				;$BB8318  \  Get index to end of VRAM allocation table
 .scan_for_free_slot:				;	   |
-	LDA $0B04,y				;$BB831B   | Check if the slot being checked is free
+	LDA sprite_vram_allocation_table,y	;$BB831B   | Check if the slot being checked is free
 	BEQ .free_slot_found			;$BB831E   | If yes, allocate it
 	DEY					;$BB8320   |
 	DEY					;$BB8321   | Else move to next slot
@@ -535,7 +535,7 @@ allocate_sprite_vram_slot:
 
 .free_slot_found:
 	TXA					;$BB832D  \ Transfer sprite index to A
-	STA $0B04,y				;$BB832E   | Store index of sprite we want to spawn in the table
+	STA sprite_vram_allocation_table,y	;$BB832E   | Store index of sprite we want to spawn in the table
 	TYA					;$BB8331   | Transfer table index to A
 	ASL A					;$BB8332   |
 	ASL A					;$BB8333   |
@@ -561,7 +561,7 @@ CODE_BB8345:
 	STA $36					;$BB834E   |
 	LDY #$0018				;$BB8350   |
 CODE_BB8353:					;	   |
-	LDA $0B04,y				;$BB8353   |
+	LDA sprite_vram_allocation_table,y	;$BB8353   |
 	BEQ CODE_BB8372				;$BB8356   |
 CODE_BB8358:					;	   |
 	DEY					;$BB8358   |
@@ -579,7 +579,7 @@ CODE_BB8367:
 	BRA CODE_BB8358				;$BB836B  /
 
 CODE_BB836D:
-	LDA $0B04,y				;$BB836D  \
+	LDA sprite_vram_allocation_table,y	;$BB836D  \
 	BNE CODE_BB8367				;$BB8370   |
 CODE_BB8372:					;	   |
 	DEC $32					;$BB8372   |
@@ -605,7 +605,7 @@ CODE_BB838A:
 	INY					;$BB838B   |
 CODE_BB838C:					;	   |
 	TXA					;$BB838C   |
-	STA $0B04,y				;$BB838D   |
+	STA sprite_vram_allocation_table,y	;$BB838D   |
 	DEC $34					;$BB8390   |
 	BNE CODE_BB838A				;$BB8392   |
 	CLC					;$BB8394   |
@@ -614,7 +614,7 @@ CODE_BB838C:					;	   |
 	LDY #$001C				;$BB8396   |
 	LDX #$0000				;$BB8399   |
 CODE_BB839C:					;	   |
-	LDA $0B04,y				;$BB839C   |
+	LDA sprite_vram_allocation_table,y	;$BB839C   |
 	BNE CODE_BB83A2				;$BB839F   |
 	INX					;$BB83A1   |
 CODE_BB83A2:					;	   |
@@ -644,7 +644,7 @@ deallocate_sprite_vram_slot:
 	LSR A					;$BB83BC   |
 	TAY					;$BB83BD   |
 	LDA #$0000				;$BB83BE   |
-	STA $0B04,y				;$BB83C1   |
+	STA sprite_vram_allocation_table,y	;$BB83C1   |
 	RTS					;$BB83C4  /
 
 deallocate_big_sprite_vram_slot:
@@ -655,17 +655,17 @@ deallocate_big_sprite_vram_slot:
 	LSR A					;$BB83CC   |
 	LSR A					;$BB83CD   |
 	TAY					;$BB83CE   |
-	LDA $0B04,y				;$BB83CF   |
-	CMP $0B06,y				;$BB83D2   |
+	LDA sprite_vram_allocation_table,y	;$BB83CF   |
+	CMP sprite_vram_allocation_table+$2,y	;$BB83D2   |
 	BNE .slot_mismatch			;$BB83D5   |
 	LDA #$0000				;$BB83D7   |
-	STA $0B04,y				;$BB83DA   |
-	STA $0B06,y				;$BB83DD   |
+	STA sprite_vram_allocation_table,y	;$BB83DA   |
+	STA sprite_vram_allocation_table+$2,y	;$BB83DD   |
 	RTS					;$BB83E0  /
 
 .slot_mismatch:
 	LDA #$0000				;$BB83E1  \
-	STA $0B04,y				;$BB83E4   |
+	STA sprite_vram_allocation_table,y	;$BB83E4   |
 	LDA #$0004				;$BB83E7   |
 	JSL throw_exception			;$BB83EA   |
 	RTS					;$BB83EE  /
@@ -1150,7 +1150,7 @@ CODE_BB870B:					;	   |
 	TAX					;$BB8716   |
 	CPX #main_sprite_table_end		;$BB8717   |
 	BNE CODE_BB870B				;$BB871A   |
-	LDA $1730				;$BB871C   |
+	LDA next_sprite_dma_buffer_slot		;$BB871C   |
 	CMP #$0018				;$BB871F   |
 	BPL CODE_BB876F				;$BB8722   |
 	LDX alternate_sprite			;$BB8724   |
@@ -1158,7 +1158,7 @@ CODE_BB870B:					;	   |
 	JSR allocate_sprite_vram_slot		;$BB8727   |
 	PLY					;$BB872A   |
 	BCS CODE_BB876F				;$BB872B   |
-	LDX $1730				;$BB872D   |
+	LDX next_sprite_dma_buffer_slot		;$BB872D   |
 	LDA $36					;$BB8730   |
 	STA $1736,x				;$BB8732   |
 	LDA $38					;$BB8735   |
@@ -1170,7 +1170,7 @@ CODE_BB870B:					;	   |
 	LSR A					;$BB8745   |
 	LSR A					;$BB8746   |
 	LSR A					;$BB8747   |
-	STA $1732,x				;$BB8748   |
+	STA sprite_dma_buffer,x			;$BB8748   |
 	PHY					;$BB874B   |
 	LDY alternate_sprite			;$BB874C   |
 	LDA $0012,y				;$BB874E   |
@@ -1184,7 +1184,7 @@ CODE_BB870B:					;	   |
 	TXA					;$BB875C   |
 	CLC					;$BB875D   |
 	ADC #$0008				;$BB875E   |
-	STA $1730				;$BB8761   |
+	STA next_sprite_dma_buffer_slot		;$BB8761   |
 	LDX alternate_sprite			;$BB8764   |
 	LDA $32					;$BB8766   |
 	STA $00,x				;$BB8768   |
@@ -1263,7 +1263,7 @@ CODE_BB87D4:					;	   |
 	TAX					;$BB87DF   |
 	CPX #main_sprite_table_end		;$BB87E0   |
 	BNE CODE_BB87D4				;$BB87E3   |
-	LDA $1730				;$BB87E5   |
+	LDA next_sprite_dma_buffer_slot		;$BB87E5   |
 	CMP #$0018				;$BB87E8   |
 	BPL CODE_BB8838				;$BB87EB   |
 	LDX alternate_sprite			;$BB87ED   |
@@ -1271,7 +1271,7 @@ CODE_BB87D4:					;	   |
 	JSR allocate_sprite_vram_slot		;$BB87F0   |
 	PLY					;$BB87F3   |
 	BCS CODE_BB8838				;$BB87F4   |
-	LDX $1730				;$BB87F6   |
+	LDX next_sprite_dma_buffer_slot		;$BB87F6   |
 	LDA $36					;$BB87F9   |
 	STA $1736,x				;$BB87FB   |
 	LDA $38					;$BB87FE   |
@@ -1283,7 +1283,7 @@ CODE_BB87D4:					;	   |
 	LSR A					;$BB880E   |
 	LSR A					;$BB880F   |
 	LSR A					;$BB8810   |
-	STA $1732,x				;$BB8811   |
+	STA sprite_dma_buffer,x			;$BB8811   |
 	PHY					;$BB8814   |
 	LDY alternate_sprite			;$BB8815   |
 	LDA $0012,y				;$BB8817   |
@@ -1297,7 +1297,7 @@ CODE_BB87D4:					;	   |
 	TXA					;$BB8825   |
 	CLC					;$BB8826   |
 	ADC #$0008				;$BB8827   |
-	STA $1730				;$BB882A   |
+	STA next_sprite_dma_buffer_slot		;$BB882A   |
 	LDX alternate_sprite			;$BB882D   |
 	LDA $32					;$BB882F   |
 	STA $00,x				;$BB8831   |
@@ -1616,7 +1616,7 @@ request_palette_direct:				;	   |
 	STA $05A7				;$BB8A6F   |> Preserve requested palette address
 	LDX #$0000				;$BB8A72   |> Start with palette slot 0
 .next_slot					;	   |
-	LDA $0B64,x				;$BB8A75   |\
+	LDA active_sprite_palettes_table,x	;$BB8A75   |\
 	BEQ .free_slot_found			;$BB8A78   |/ If current slot is free
 	CMP $05A7				;$BB8A7A   |\ Else
 	BEQ .existing_palette_found		;$BB8A7D   |/ If current slot is requested palette
@@ -1630,7 +1630,7 @@ request_palette_direct:				;	   |
 	LDA $05A7				;$BB8A8D   |\
 	STA $05F7				;$BB8A90   |/ Save palette that caused the overflow
 	LDX #$0000				;$BB8A93   |> Use the palette in slot 0 instead
-	INC $0B74,x				;$BB8A96   |> Update reference count
+	INC sprite_palette_reference_count,x	;$BB8A96   |> Update reference count
 	TXA					;$BB8A99   |\
 	XBA					;$BB8A9A   | |
 	CLC					;$BB8A9B   | |
@@ -1639,7 +1639,7 @@ request_palette_direct:				;	   |
 	RTS					;$BB8AA0  /_/
 
 .existing_palette_found
-	LDA $0B74,x				;$BB8AA1  \ \ If palette slot isnt allowed to share
+	LDA sprite_palette_reference_count,x	;$BB8AA1  \ \ If palette slot isnt allowed to share
 	BMI .slot_not_free			;$BB8AA4   |/ Then find a new slot
 	BRA .slot_found				;$BB8AA6  /
 
@@ -1648,7 +1648,7 @@ request_palette_direct:				;	   |
 	BRA .scan_ahead_for_existing_palette	;$BB8AAA  /
 
 .next_slot_after
-	LDA $0B64,x				;$BB8AAC  \ \
+	LDA active_sprite_palettes_table,x	;$BB8AAC  \ \
 	CMP $05A7				;$BB8AAF   | | If requested address matches address in slot
 	BEQ .palette_found_after_free_slot	;$BB8AB2   |/ Then palette is already in the slot
 .scan_ahead_for_existing_palette		;	   |
@@ -1659,10 +1659,10 @@ request_palette_direct:				;	   |
 	BRA CODE_BB8AF6				;$BB8ABB  /> No matches found, create a new palette in free slot
 
 .palette_found_after_free_slot
-	LDA $0B74,x				;$BB8ABD  \ \ If palette slot isnt allowed to share
+	LDA sprite_palette_reference_count,x	;$BB8ABD  \ \ If palette slot isnt allowed to share
 	BMI .scan_ahead_for_existing_palette	;$BB8AC0   |/ Then find a new slot
 .slot_found					;	   |
-	INC $0B74,x				;$BB8AC2   |> Add reference to existing palette slot
+	INC sprite_palette_reference_count,x	;$BB8AC2   |> Add reference to existing palette slot
 	TXA					;$BB8AC5   |\
 	XBA					;$BB8AC6   |/ Convert palette slot to OAM bits
 	CLC					;$BB8AC7   |\ Return palette load success
@@ -1674,11 +1674,11 @@ request_palette_direct:				;	   |
 	AND #$000E				;$BB8ACF   |
 	STA $5E					;$BB8AD2   |
 	TAX					;$BB8AD4   |
-	LDA $0B64,x				;$BB8AD5   |
+	LDA active_sprite_palettes_table,x	;$BB8AD5   |
 	CMP $05A7				;$BB8AD8   |
 	BEQ CODE_BB8AE3				;$BB8ADB   |
 	JSR CODE_BB8AF6				;$BB8ADD   |
-	DEC $0B74,x				;$BB8AE0   |
+	DEC sprite_palette_reference_count,x	;$BB8AE0   |
 CODE_BB8AE3:					;	   |
 	RTL					;$BB8AE3  /
 
@@ -1689,7 +1689,7 @@ CODE_BB8AE4:
 	AND #$000E				;$BB8AEA   |
 	STA $5E					;$BB8AED   |
 	JSR CODE_BB8AF6				;$BB8AEF   |
-	DEC $0B74,x				;$BB8AF2   |
+	DEC sprite_palette_reference_count,x	;$BB8AF2   |
 	RTL					;$BB8AF5  /
 
 CODE_BB8AF6:
@@ -1701,7 +1701,7 @@ CODE_BB8AF6:
 	ASL A					;$BB8B01   |
 	TAX					;$BB8B02   |
 	JSR CODE_BB8B66				;$BB8B03   |
-	STA $0B24,x				;$BB8B06   |
+	STA palette_upload_ring_buffer,x	;$BB8B06   |
 	LDA $5E					;$BB8B09   |
 	ASL A					;$BB8B0B   |
 	ASL A					;$BB8B0C   |
@@ -1710,15 +1710,15 @@ CODE_BB8AF6:
 	ADC #$0081				;$BB8B0F   |
 	XBA					;$BB8B12   |
 	ORA.w #<:palette_data_bank		;$BB8B13   |
-	STA $0B26,x				;$BB8B16   |
+	STA palette_upload_ring_buffer+$2,x	;$BB8B16   |
 	LDA $F1					;$BB8B19   |
 	INC A					;$BB8B1B   |
 	AND #$000F				;$BB8B1C   |
 	STA $F1					;$BB8B1F   |
 	LDX $5E					;$BB8B21   |
-	INC $0B74,x				;$BB8B23   |
+	INC sprite_palette_reference_count,x	;$BB8B23   |
 	LDA $05A7				;$BB8B26   |
-	STA $0B64,x				;$BB8B29   |
+	STA active_sprite_palettes_table,x	;$BB8B29   |
 	TXA					;$BB8B2C   |
 	XBA					;$BB8B2D   |
 	CLC					;$BB8B2E   |
@@ -1732,7 +1732,7 @@ CODE_BB8B30:
 	JSR CODE_BB8B66				;$BB8B35   |
 	CLC					;$BB8B38   |
 	ADC #$3374				;$BB8B39   |
-	STA $0B24,x				;$BB8B3C   |
+	STA palette_upload_ring_buffer,x	;$BB8B3C   |
 	LDA $5E					;$BB8B3F   |
 	ASL A					;$BB8B41   |
 	ASL A					;$BB8B42   |
@@ -1741,15 +1741,15 @@ CODE_BB8B30:
 	ADC #$0081				;$BB8B45   |
 	XBA					;$BB8B48   |
 	ORA #$007F				;$BB8B49   |
-	STA $0B26,x				;$BB8B4C   |
+	STA palette_upload_ring_buffer+$2,x	;$BB8B4C   |
 	LDA $F1					;$BB8B4F   |
 	INC A					;$BB8B51   |
 	AND #$000F				;$BB8B52   |
 	STA $F1					;$BB8B55   |
 	LDX $5E					;$BB8B57   |
-	INC $0B74,x				;$BB8B59   |
+	INC sprite_palette_reference_count,x	;$BB8B59   |
 	LDA $05A7				;$BB8B5C   |
-	STA $0B64,x				;$BB8B5F   |
+	STA active_sprite_palettes_table,x	;$BB8B5F   |
 	TXA					;$BB8B62   |
 	XBA					;$BB8B63   |
 	CLC					;$BB8B64   |
@@ -1865,14 +1865,14 @@ dereference_sprite_palette:
 	XBA					;$BB8C06  \ \
 	AND #$000E				;$BB8C07   | | Extract palette slot from OAM info
 	TAX					;$BB8C0A   |/
-	DEC $0B74,x				;$BB8C0B   |> Decrease palette reference count
+	DEC sprite_palette_reference_count,x	;$BB8C0B   |> Decrease palette reference count
 	BMI .empty_slot				;$BB8C0E   | If reference count less than or equal to 0
 	BEQ .empty_slot				;$BB8C10   |
 	SEC					;$BB8C12   | Return slot still in use
 	RTS					;$BB8C13  /
 
 .empty_slot:
-	STZ $0B64,x				;$BB8C14  \ Clear palette address from table
+	STZ active_sprite_palettes_table,x	;$BB8C14  \ Clear palette address from table
 	CLC					;$BB8C17   | Return slot is empty
 	RTS					;$BB8C18  /
 
@@ -1882,7 +1882,7 @@ CODE_BB8C19:
 	XBA					;$BB8C1E   |
 	AND #$000E				;$BB8C1F   |
 	TAX					;$BB8C22   |
-	LDA $0B64,x				;$BB8C23   |
+	LDA active_sprite_palettes_table,x	;$BB8C23   |
 	LDX inactive_kong_sprite		;$BB8C26   |
 	JSR set_sprite_palette_direct		;$BB8C29   |
 CODE_BB8C2C:					;	   |
@@ -1891,7 +1891,7 @@ CODE_BB8C2C:					;	   |
 	XBA					;$BB8C31   |
 	AND #$000E				;$BB8C32   |
 	TAX					;$BB8C35   |
-	LDA $0B64,x				;$BB8C36   |
+	LDA active_sprite_palettes_table,x	;$BB8C36   |
 	LDX active_kong_sprite			;$BB8C39   |
 	JSR set_sprite_palette_direct		;$BB8C3C   |
 	RTL					;$BB8C3F  /
@@ -1917,10 +1917,10 @@ set_sprite_palette_direct:			;	   |
 	XBA					;$BB8C56   |
 	AND #$000E				;$BB8C57   |
 	TAX					;$BB8C5A   |
-	LDA $0B64,x				;$BB8C5B   |
+	LDA active_sprite_palettes_table,x	;$BB8C5B   |
 	CMP #global_sprite_palette		;$BB8C5E   |
 	BNE CODE_BB8C68				;$BB8C61   |
-	DEC $0B74,x				;$BB8C63   |
+	DEC sprite_palette_reference_count,x	;$BB8C63   |
 	BRA CODE_BB8C6E				;$BB8C66  /
 
 CODE_BB8C68:
@@ -2831,7 +2831,7 @@ else						;	   |
 endif						;	   |
 	TRB $08C4				;$BB9221   |
 	LDA $08A4				;$BB9224   |
-	JSL CODE_808837				;$BB9227   |
+	JSL CODE_808837				;$BB9227   | Setup kongs in sprite table
 	LDA global_frame_counter		;$BB922B   |
 	EOR $2F					;$BB922D   |
 	STA $2F					;$BB922F   |
@@ -2867,7 +2867,7 @@ CODE_BB9265:					;	   |
 	XBA					;$BB9280   |
 	ORA level_number			;$BB9281   |
 	JSL CODE_BBAF0C				;$BB9283   |
-	LDA $060B				;$BB9287   |
+	LDA cheat_enable_flags			;$BB9287   |
 	AND #$0001				;$BB928A   |
 	BEQ CODE_BB929D				;$BB928D   |
 	LDA $0515				;$BB928F   |
@@ -2876,10 +2876,10 @@ CODE_BB9265:					;	   |
 	LDA #$4000				;$BB9297   |
 	TSB $08C2				;$BB929A   |
 CODE_BB929D:					;	   |
-	LDA $0523				;$BB929D   |
+	LDA $0523				;$BB929D   | Get level 32x32 tilemap index
 	JSL CODE_B5BCA8				;$BB92A0   |
 	JSR CODE_BB886D				;$BB92A4   |
-	LDA $0517				;$BB92A7   |\
+	LDA $0517				;$BB92A7   |\ Get graphics init routine index
 	ASL A					;$BB92AA   | |
 	TAX					;$BB92AB   | |
 	JSR (DATA_BB9592,x)			;$BB92AC   |/ Run level graphics uploader
@@ -2896,13 +2896,13 @@ CODE_BB929D:					;	   |
 	LDX #$000A				;$BB92C9   |\
 	JSR ($0515,x)				;$BB92CC   |/ Setup terrain slope attributes
 	JSR CODE_BBB34D				;$BB92CF   |
-	LDA $052B				;$BB92D2   |
+	LDA $052B				;$BB92D2   | Get level effect flags
 	AND #$0004				;$BB92D5   |
 	BNE CODE_BB9310				;$BB92D8   |
-	LDA $0B86				;$BB92DA   |
+	LDA $0B86				;$BB92DA   | Get 32x32 tilemap compression flag
 	AND #$0400				;$BB92DD   |
-	BEQ CODE_BB92FF				;$BB92E0   |
-	LDA $98					;$BB92E2   |\ load address of 32x32 tilemap
+	BEQ .uncompressed_tilemap		;$BB92E0   | Skip decompression if flag not set
+	LDA $98					;$BB92E2   |\ Else load address of 32x32 tilemap
 	TAX					;$BB92E4   | |
 	LDA $9A					;$BB92E5   | | load bank of 32x32 tilemap
 	AND #$00FF				;$BB92E7   | |
@@ -2915,7 +2915,7 @@ CODE_BB929D:					;	   |
 	LDA #$7F				;$BB92F9   | |
 	STA $9A					;$BB92FB   | |
 	REP #$20				;$BB92FD   |/
-CODE_BB92FF:					;	   |
+.uncompressed_tilemap:				;	   |
 	JSR CODE_BB9493				;$BB92FF   |
 	JSR CODE_BBB0FB				;$BB9302   |
 	JSR CODE_BBB1E3				;$BB9305   |
@@ -2961,7 +2961,7 @@ endif						;	   |
 	JSR (DATA_BB95BC,x)			;$BB935D   |/ run hdma init routine
 	LDA #$002C				;$BB9360   |
 	STA $0B00				;$BB9363   |
-	STZ $1730				;$BB9366   |
+	STZ next_sprite_dma_buffer_slot		;$BB9366   |
 	JSR CODE_BB93E7				;$BB9369   |
 	LDA $0515				;$BB936C   |
 	CMP #!bonus_level_type			;$BB936F   |
@@ -5377,7 +5377,7 @@ CODE_BBABF4:					;	   |
 	BMI CODE_BBAC23				;$BBAC17   |
 	STA $0D52				;$BBAC19   |
 	LDA #$8000				;$BBAC1C   |
-	STA $0D4A				;$BBAC1F   |
+	STA water_current_y_velocity		;$BBAC1F   |
 	RTS					;$BBAC22  /
 
 CODE_BBAC23:
@@ -5385,8 +5385,8 @@ CODE_BBAC23:
 	INC A					;$BBAC26   |
 	STA $0D54				;$BBAC27   |
 	LDA #$FF40				;$BBAC2A   |
-	STA $0D4A				;$BBAC2D   |
-	STA $0D50				;$BBAC30   |
+	STA water_current_y_velocity		;$BBAC2D   |
+	STA water_target_y_velocity		;$BBAC30   |
 	LDA #$012B				;$BBAC33   |
 	STA $0D52				;$BBAC36   |
 	LDA $08C2				;$BBAC39   |
@@ -5396,7 +5396,7 @@ CODE_BBAC23:
 CODE_BBAC40:
 	LDA #$F000				;$BBAC40  \
 	STA $0D54				;$BBAC43   |
-	STZ $0D4A				;$BBAC46   |
+	STZ water_current_y_velocity		;$BBAC46   |
 	RTS					;$BBAC49  /
 
 DATA_BBAC4A:
@@ -5489,7 +5489,7 @@ CODE_BBAD2C:
 CODE_BBAD34:
 	LDA #global_sprite_palette		;$BBAD34  \
 	JSL request_palette_direct_global	;$BBAD37   |
-	LDA #main_sprite_table_end		;$BBAD3B   |
+	LDA #diddy_control_variables		;$BBAD3B   |
 	STA $66					;$BBAD3E   |
 	LDY #$000E				;$BBAD40   |
 	JSL CODE_BB842C				;$BBAD43   | Spawn diddy
@@ -5503,7 +5503,7 @@ CODE_BBAD34:
 	STA $16BA				;$BBAD5C   |
 	LDA.l DATA_FF0042			;$BBAD5F   |
 	STA $16BC				;$BBAD63   |
-	LDA #$16D8				;$BBAD66   |
+	LDA #dixie_control_variables		;$BBAD66   |
 	STA $66					;$BBAD69   |
 	LDY #$0010				;$BBAD6B   |
 	JSL CODE_BB842C				;$BBAD6E   | Spawn dixie
@@ -5675,18 +5675,18 @@ CODE_BBAEB0:
 
 CODE_BBAEBD:
 	LDA current_sprite			;$BBAEBD  \
-	CMP active_kong_sprite			;$BBAEBF   |
-	BNE CODE_BBAEC8				;$BBAEC2   |
-	LDA $6E					;$BBAEC4   |
-	BNE CODE_BBAEEB				;$BBAEC6   |
-CODE_BBAEC8:					;	   |
+	CMP active_kong_sprite			;$BBAEBF   | Check if sprite is the active kong
+	BNE .request_kong_palette		;$BBAEC2   | If not, skip animal check
+	LDA $6E					;$BBAEC4   | Else check if player is animal
+	BNE .request_animal_palette		;$BBAEC6   |
+.request_kong_palette:				;	   |
 	LDX current_sprite			;$BBAEC8   |
-	LDA $00,x				;$BBAECA   |
+	LDA $00,x				;$BBAECA   | Get sprite ID
 	CMP #!sprite_diddy_kong			;$BBAECC   |
-	BNE CODE_BBAEE3				;$BBAECF   |
-	LDA #$0001				;$BBAED1   |
+	BNE .dixie				;$BBAECF   |
+	LDA #!diddy_active_sprite_palette	;$BBAED1   |
 	JSR request_sprite_palette		;$BBAED4   |
-CODE_BBAED7:					;	   |
+.set_palette_slot:				;	   |
 	LDX current_sprite			;$BBAED7   |
 	EOR $12,x				;$BBAED9   |
 	AND #$0E00				;$BBAEDB   |
@@ -5694,27 +5694,30 @@ CODE_BBAED7:					;	   |
 	STA $12,x				;$BBAEE0   |
 	RTS					;$BBAEE2  /
 
-CODE_BBAEE3:
-	LDA #$0004				;$BBAEE3  \
+.dixie:
+	LDA #!dixie_active_sprite_palette	;$BBAEE3  \
 	JSR request_sprite_palette		;$BBAEE6   |
-	BRA CODE_BBAED7				;$BBAEE9  /
+	BRA .set_palette_slot			;$BBAEE9  /
 
-CODE_BBAEEB:
-	STA $32					;$BBAEEB  \
+.request_animal_palette:
+	STA temp_32				;$BBAEEB  \ Preserve animal ID
 	LDA current_player_mount		;$BBAEED   |
-	BNE CODE_BBAEC8				;$BBAEEF   |
-	LDA $32					;$BBAEF1   |
+	BNE .request_kong_palette		;$BBAEEF   |
+	LDA temp_32				;$BBAEF1   | Retrieve animal ID
 	SEC					;$BBAEF3   |
-	SBC #$0190				;$BBAEF4   |
+	SBC #!animal_sprite_type_range_start	;$BBAEF4   |
 	LSR A					;$BBAEF7   |
 	TAX					;$BBAEF8   |
-	LDA.l DATA_BBAF02,x			;$BBAEF9   |
+	LDA.l .animal_palettes_ids,x		;$BBAEF9   |
 	JSR request_sprite_palette		;$BBAEFD   |
-	BRA CODE_BBAED7				;$BBAF00  /
+	BRA .set_palette_slot			;$BBAF00  /
 
-DATA_BBAF02:
-	db $05, $00, $0D, $00, $0F, $00, $43, $00
-	db $60, $00
+.animal_palettes_ids:
+	dw !squitter_sprite_palette
+	dw !rattly_sprite_palette
+	dw !squawks_sprite_palette
+	dw !rambi_sprite_palette
+	dw !enguarde_sprite_palette
 
 
 CODE_BBAF0C:
@@ -6920,7 +6923,7 @@ CODE_BBB75D:					;	   |
 	TAX					;$BBB768   |
 	CPX #main_sprite_table_end		;$BBB769   |
 	BNE CODE_BBB75D				;$BBB76C   |
-	LDA $1730				;$BBB76E   |
+	LDA next_sprite_dma_buffer_slot		;$BBB76E   |
 	CMP #$0018				;$BBB771   |
 	BPL CODE_BBB77F				;$BBB774   |
 	LDX alternate_sprite			;$BBB776   |
@@ -6955,7 +6958,7 @@ CODE_BBB797:
 	BRA CODE_BBB7DD				;$BBB7A4  /
 
 CODE_BBB7A6:
-	LDX $1730				;$BBB7A6  \
+	LDX next_sprite_dma_buffer_slot		;$BBB7A6  \
 	LDA $36					;$BBB7A9   |
 	STA $1736,x				;$BBB7AB   |
 	LDA $38					;$BBB7AE   |
@@ -6967,7 +6970,7 @@ CODE_BBB7A6:
 	LSR A					;$BBB7BE   |
 	LSR A					;$BBB7BF   |
 	LSR A					;$BBB7C0   |
-	STA $1732,x				;$BBB7C1   |
+	STA sprite_dma_buffer,x			;$BBB7C1   |
 	PHY					;$BBB7C4   |
 	LDY alternate_sprite			;$BBB7C5   |
 	LDA $0012,y				;$BBB7C7   |
@@ -6981,7 +6984,7 @@ CODE_BBB7A6:
 	TXA					;$BBB7D5   |
 	CLC					;$BBB7D6   |
 	ADC #$0008				;$BBB7D7   |
-	STA $1730				;$BBB7DA   |
+	STA next_sprite_dma_buffer_slot		;$BBB7DA   |
 CODE_BBB7DD:					;	   |
 	LDA $3A					;$BBB7DD   |
 	PHA					;$BBB7DF   |
@@ -7539,7 +7542,7 @@ CODE_BBBBC6:
 	AND #$1F00				;$BBBBC9   | |
 	BNE CODE_BBBBFA				;$BBBBCC   |/ If sprite is in a spawn group
 CODE_BBBBCE:					;	   |
-	LDA $05BB				;$BBBBCE   |\
+	LDA debug_flags				;$BBBBCE   |\
 	BIT #$0040				;$BBBBD1   | | If debug sprite freeze is enabled
 	BNE CODE_BBBBEC				;$BBBBD4   |/
 CODE_BBBBD6:					;	   |
@@ -7680,7 +7683,7 @@ CODE_BBBCA3:
 	LDA.l $7E0000,x				;$BBBCAF   |
 	TAX					;$BBBCB3   |
 	STA $0B9C				;$BBBCB4   |
-	LDA $05BB				;$BBBCB7   |\
+	LDA debug_flags				;$BBBCB7   |\
 	AND #$0040				;$BBBCBA   | | If debug freeze sprites is active handle group managers
 	BNE CODE_BBBCC1				;$BBBCBD   |/
 CODE_BBBCBF:					;	   |
@@ -7860,7 +7863,7 @@ endif
 	STZ $06AF				;$BBBDE4   |
 	STZ $6E					;$BBBDE7   |
 	STZ current_player_mount		;$BBBDE9   |
-	LDA $08A8				;$BBBDEB   |
+	LDA parent_level_number			;$BBBDEB   |
 	STA $08C8				;$BBBDEE   |
 	STA level_number			;$BBBDF1   |
 	STZ $0902				;$BBBDF3   |
@@ -7882,7 +7885,7 @@ CODE_BBBE01:
 	CMP #$71AF				;$BBBE18   |\
 	BEQ CODE_BBBE24				;$BBBE1B   |/ If the reset vector matches the one specified continue as normal
 	LDA.l DATA_BBBE43			;$BBBE1D   |\ Else reset vector was tampered. Destroy exit number
-	STA $059D				;$BBBE21   |/ Making all exits send the player to the map screen
+	STA level_destination_number		;$BBBE21   |/ Making all exits send the player to the map screen
 CODE_BBBE24:					;	   |
 	JSR CODE_BBBE28				;$BBBE24   |
 	RTL					;$BBBE27  /
@@ -7898,7 +7901,7 @@ CODE_BBBE28:
 	JSL CODE_BBAF0C				;$BBBE34   |
 	LDA #$0001				;$BBBE38   |
 	STA $0006CF				;$BBBE3B   |
-	LDA $059D				;$BBBE3F   |
+	LDA level_destination_number		;$BBBE3F   |
 	%offset(DATA_BBBE43, 1)			;Todo: represent better maybe
 	CMP #$FFFF				;$BBBE42   |
 	BEQ CODE_BBBE54				;$BBBE45   |
@@ -7917,7 +7920,7 @@ CODE_BBBE54:
 	STZ $6E					;$BBBE5D   |
 	STZ current_player_mount		;$BBBE5F   |
 	STZ $0902				;$BBBE61   |
-	LDA $08A8				;$BBBE64   |
+	LDA parent_level_number			;$BBBE64   |
 	STA $08C8				;$BBBE67   |
 	STA level_number			;$BBBE6A   |
 	LDA #$0003				;$BBBE6C   |
@@ -7929,7 +7932,7 @@ CODE_BBBE54:
 CODE_BBBE7E:					;	   |
 	LDA #$0002				;$BBBE7E   |
 	TSB $06D1				;$BBBE81   |
-	STZ $059D				;$BBBE84   |
+	STZ level_destination_number		;$BBBE84   |
 	JSR CODE_BBBED7				;$BBBE87   |
 	LDA.l world_number			;$BBBE8A   |
 	JML CODE_B5CDFD				;$BBBE8E  /
@@ -7960,7 +7963,7 @@ CODE_BBBEA0:
 	TSB $06D1				;$BBBEBC   |
 	LDA #$0005				;$BBBEBF   |
 	TRB $06D1				;$BBBEC2   |
-	STZ $059D				;$BBBEC5   |
+	STZ level_destination_number		;$BBBEC5   |
 	JSR CODE_BBBED7				;$BBBEC8   |
 	LDA.l world_number			;$BBBECB   |
 	JML CODE_B5CDFD				;$BBBECF  /
@@ -7988,13 +7991,13 @@ CODE_BBBEEE:
 
 CODE_BBBEF8:
 	JSR CODE_BBC116				;$BBBEF8  \
-	LDA $059D				;$BBBEFB   |
+	LDA level_destination_number		;$BBBEFB   |
 	ASL A					;$BBBEFE   |
 	TAX					;$BBBEFF   |
 	LDA $053D,x				;$BBBF00   |
 	AND #$01FF				;$BBBF03   |
 	STA $08C8				;$BBBF06   |
-	LDA $059F				;$BBBF09   |
+	LDA destination_level_entrance_number	;$BBBF09   |
 	XBA					;$BBBF0C   |
 	ORA $08C8				;$BBBF0D   |
 	LDX #$0553				;$BBBF10   |
@@ -8024,21 +8027,21 @@ CODE_BBBF30:
 	STZ $08AC				;$BBBF3D   |
 	STZ $08AE				;$BBBF40   |
 	STZ $08B2				;$BBBF43   |
-	LDA $08A8				;$BBBF46   |
+	LDA parent_level_number			;$BBBF46   |
 	CMP $08C8				;$BBBF49   |
 	BEQ CODE_BBBF65				;$BBBF4C   |
 	LDA $08A4				;$BBBF4E   |
 	CLC					;$BBBF51   |
 	ADC #$0002				;$BBBF52   |
 	STA $0006CF				;$BBBF55   |
-	LDY $08A8				;$BBBF59   |
+	LDY parent_level_number			;$BBBF59   |
 	LDA $08C8				;$BBBF5C   |
 	JSR CODE_BBC0DD				;$BBBF5F   |
 	JSR CODE_BBC07E				;$BBBF62   |
 CODE_BBBF65:					;	   |
 	LDA $08C8				;$BBBF65   |
 	STA level_number			;$BBBF68   |
-	STA $08A8				;$BBBF6A   |
+	STA parent_level_number			;$BBBF6A   |
 	STZ $08A6				;$BBBF6D   |
 	LDA #$8000				;$BBBF70   |
 	TRB $08C6				;$BBBF73   |
@@ -8049,9 +8052,9 @@ CODE_BBBF65:					;	   |
 CODE_BBBF81:
 	JSR CODE_BBBD8E				;$BBBF81  \
 	LDA level_number			;$BBBF84   |
-	STA $05A3				;$BBBF86   |
-	LDA $059F				;$BBBF89   |
-	STA $05A5				;$BBBF8C   |
+	STA returning_level_number		;$BBBF86   |
+	LDA destination_level_entrance_number	;$BBBF89   |
+	STA returning_entrance_number		;$BBBF8C   |
 	LDA $08C8				;$BBBF8F   |
 	STA level_number			;$BBBF92   |
 	STZ $08A6				;$BBBF94   |
@@ -8093,9 +8096,9 @@ if !version == 1				;	   |
 CODE_BBBFE3:					;	   |
 	LDA #$8000				;$BBBFE3   |
 	TSB $08C6				;$BBBFE6   |
-	LDA $05A3				;$BBBFE9   |
+	LDA returning_level_number		;$BBBFE9   |
 	STA $08C8				;$BBBFEC   |
-	LDA $05A5				;$BBBFEF   |
+	LDA returning_entrance_number		;$BBBFEF   |
 	STA $08A6				;$BBBFF2   |
 	LDA $08C8				;$BBBFF5   |
 	STA level_number			;$BBBFF8   |
@@ -8123,9 +8126,9 @@ CODE_BBBFE3:					;	  \
 CODE_BBBFE6:					;	   |
 	LDA #$8000				;$BBC019   |
 	TSB $08C6				;$BBC01C   |
-	LDA $05A3				;$BBC01F   |
+	LDA returning_level_number		;$BBC01F   |
 	STA $08C8				;$BBC023   |
-	LDA $05A5				;$BBC026   |
+	LDA returning_entrance_number		;$BBC026   |
 	STA $08A6				;$BBC029   |
 	LDA $08C8				;$BBC02C   |
 	STA level_number			;$BBC02F   |
@@ -8275,14 +8278,14 @@ CODE_BBC103:
 	RTS					;$BBC115  /
 
 CODE_BBC116:
-	LDA $059D				;$BBC116  \
+	LDA level_destination_number		;$BBC116  \
 	CMP #$0008				;$BBC119   |
 	BMI CODE_BBC128				;$BBC11C   |
 	LDA #$0009				;$BBC11E   |
 	JSL throw_exception			;$BBC121   |
-	STZ $059D				;$BBC125   |
+	STZ level_destination_number		;$BBC125   |
 CODE_BBC128:					;	   |
-	LDA $059D				;$BBC128   |
+	LDA level_destination_number		;$BBC128   |
 	ASL A					;$BBC12B   |
 	TAX					;$BBC12C   |
 	LDA $053D,x				;$BBC12D   |
@@ -8290,7 +8293,7 @@ CODE_BBC128:					;	   |
 	BNE CODE_BBC13F				;$BBC133   |
 	LDA #$000A				;$BBC135   |
 	JSL throw_exception			;$BBC138   |
-	STZ $059D				;$BBC13C   |
+	STZ level_destination_number		;$BBC13C   |
 CODE_BBC13F:					;	   |
 	RTS					;$BBC13F  /
 
@@ -8298,42 +8301,42 @@ CODE_BBC140:
 	LDX current_sprite			;$BBC140  \
 	CPX inactive_kong_sprite		;$BBC142   |
 	BEQ CODE_BBC14F				;$BBC145   |
-	LDA $19D4				;$BBC147   |
+	LDA kong_cutscene_command_timer		;$BBC147   |
 	BEQ CODE_BBC174				;$BBC14A   |
-	DEC $19D4				;$BBC14C   |
+	DEC kong_cutscene_command_timer		;$BBC14C   |
 CODE_BBC14F:					;	   |
 	RTL					;$BBC14F  /
 
 CODE_BBC150:
-	INC $19D2				;$BBC150  \
-	INC $19D2				;$BBC153   |
-	INC $19D2				;$BBC156   |
-	INC $19D2				;$BBC159   |
+	INC kong_cutscene_script_index		;$BBC150  \
+	INC kong_cutscene_script_index		;$BBC153   |
+	INC kong_cutscene_script_index		;$BBC156   |
+	INC kong_cutscene_script_index		;$BBC159   |
 	RTL					;$BBC15C  /
 
 CODE_BBC15D:
-	INC $19D2				;$BBC15D  \
-	INC $19D2				;$BBC160   |
-	INC $19D2				;$BBC163   |
-	INC $19D2				;$BBC166   |
+	INC kong_cutscene_script_index		;$BBC15D  \
+	INC kong_cutscene_script_index		;$BBC160   |
+	INC kong_cutscene_script_index		;$BBC163   |
+	INC kong_cutscene_script_index		;$BBC166   |
 	BRA CODE_BBC174				;$BBC169  /
 
 CODE_BBC16B:
-	STA $19D0				;$BBC16B  \
-	STZ $19D2				;$BBC16E   |
-	STZ $19D4				;$BBC171   |
+	STA kong_cutscene_number		;$BBC16B  \
+	STZ kong_cutscene_script_index		;$BBC16E   |
+	STZ kong_cutscene_command_timer		;$BBC171   |
 CODE_BBC174:					;	   |
 	PHK					;$BBC174   |
 	PLB					;$BBC175   |
-	LDA $19D0				;$BBC176   |
+	LDA kong_cutscene_number		;$BBC176   |
 	ASL A					;$BBC179   |
 	TAX					;$BBC17A   |
 	LDA.l .DATA_BBC18D,x			;$BBC17B   |
 	CLC					;$BBC17F   |
-	ADC $19D2				;$BBC180   |
+	ADC kong_cutscene_script_index		;$BBC180   |
 	TAX					;$BBC183   |
 	LDA $0000,x				;$BBC184   |
-	STA $19D4				;$BBC187   |
+	STA kong_cutscene_command_timer		;$BBC187   |
 	JMP ($0002,x)				;$BBC18A  /
 
 .DATA_BBC18D
@@ -8671,7 +8674,7 @@ CODE_BBC174:					;	   |
 	RTS					;$BBC4C5  /
 
 .CODE_BBC4C6
-	STZ $0D7A				;$BBC4C6  \
+	STZ current_held_sprite			;$BBC4C6  \
 	JSL CODE_B8808E				;$BBC4C9   |
 	JSR .CODE_BBC4E2			;$BBC4CD   |
 	LDA $08C2				;$BBC4D0   |
@@ -8883,13 +8886,13 @@ CODE_BBC636:					;	   |
 	INY					;$BBC64C   |
 	STA [$D9],y				;$BBC64D   |
 	SEP #$20				;$BBC64F   |
-	LDA $0904				;$BBC651   |
+	LDA game_completion_percentage		;$BBC651   |
 	LDY #$0004				;$BBC654   |
 	STA [$D9],y				;$BBC657   |
-	LDA $08CC				;$BBC659   |
+	LDA kremcoin_count			;$BBC659   |
 	LDY #$0005				;$BBC65C   |
 	STA [$D9],y				;$BBC65F   |
-	LDA $08CE				;$BBC661   |
+	LDA dk_coin_count			;$BBC661   |
 	LDY #$0006				;$BBC664   |
 	STA [$D9],y				;$BBC667   |
 	LDA $08D0				;$BBC669   |
@@ -8919,7 +8922,7 @@ CODE_BBC686:					;	   |
 	LDA.l $0006A9				;$BBC6A3   |
 	LDY #$00B1				;$BBC6A7   |
 	STA [$D9],y				;$BBC6AA   |
-	LDA $060B				;$BBC6AC   |
+	LDA cheat_enable_flags			;$BBC6AC   |
 	LDY #$00E4				;$BBC6AF   |
 	STA [$D9],y				;$BBC6B2   |
 	LDA $08C2				;$BBC6B4   |
@@ -9034,13 +9037,13 @@ CODE_BBC776:
 	SEP #$20				;$BBC78B   |
 	LDY #$0004				;$BBC78D   |
 	LDA [$D9],y				;$BBC790   |
-	STA $0904				;$BBC792   |
+	STA game_completion_percentage		;$BBC792   |
 	LDY #$0005				;$BBC795   |
 	LDA [$D9],y				;$BBC798   |
-	STA $08CC				;$BBC79A   |
+	STA kremcoin_count			;$BBC79A   |
 	LDY #$0006				;$BBC79D   |
 	LDA [$D9],y				;$BBC7A0   |
-	STA $08CE				;$BBC7A2   |
+	STA dk_coin_count			;$BBC7A2   |
 	LDY #$0007				;$BBC7A5   |
 	LDA [$D9],y				;$BBC7A8   |
 	STA $08D0				;$BBC7AA   |
@@ -9071,7 +9074,7 @@ CODE_BBC7C2:					;	   |
 	LDY #$00E4				;$BBC7E8   |
 	LDA [$D9],y				;$BBC7EB   |
 	AND #$FFFD				;$BBC7ED   |
-	STA $060B				;$BBC7F0   |
+	STA cheat_enable_flags			;$BBC7F0   |
 	LDY #$002B				;$BBC7F3   |
 	LDX #$001E				;$BBC7F6   |
 CODE_BBC7F9:					;	   |

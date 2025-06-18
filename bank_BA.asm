@@ -357,12 +357,12 @@ DATA_BA9314:
 
 ;king zing stinger palette ID's
 DATA_BA9318:
-	dw $0098
-	dw $0099
-	dw $009A
-	dw $009B
-	dw $009A
-	dw $0099
+	dw !king_zing_stinger_1_sprite_palette
+	dw !king_zing_stinger_2_sprite_palette
+	dw !king_zing_stinger_3_sprite_palette
+	dw !king_zing_stinger_4_sprite_palette
+	dw !king_zing_stinger_3_sprite_palette
+	dw !king_zing_stinger_2_sprite_palette
 
 DATA_BA9324:
 
@@ -643,7 +643,7 @@ CODE_BA9540:
 	STX $0658				;$BA955A   |
 	LDA #$023F				;$BA955D   |
 	JSL CODE_B9D09B				;$BA9560   |
-	LDA #$0000				;$BA9564   |
+	LDA #!global_sprite_palette		;$BA9564   |
 	JSL request_sprite_palette_global	;$BA9567   |
 	LDY alternate_sprite			;$BA956B   |
 	EOR $0012,y				;$BA956D   |
@@ -666,7 +666,7 @@ CODE_BA9540:
 	STX $0658				;$BA9598   |
 	LDA #$023E				;$BA959B   |
 	JSL CODE_B9D09B				;$BA959E   |
-	LDA #$0014				;$BA95A2   |
+	LDA #!coins_sprite_palette		;$BA95A2   |
 	JSL request_sprite_palette_global	;$BA95A5   |
 	LDY alternate_sprite			;$BA95A9   |
 	EOR $0012,y				;$BA95AB   |
@@ -1658,7 +1658,7 @@ CODE_BA9E4D:
 	ORA #$1000				;$BA9E53   |
 	STA $0012,y				;$BA9E56   |
 	TYX					;$BA9E59   |
-	LDA #$0061				;$BA9E5A   |
+	LDA #!ghost_mini_necky_sprite_palette	;$BA9E5A   |
 	JSL set_sprite_palette_global		;$BA9E5D   |
 	LDA #$0532				;$BA9E61   |
 	JSL queue_sound_effect			;$BA9E64   |
@@ -1933,24 +1933,24 @@ CODE_BAA0B2:
 
 ;kreepy krow death flash palette ID's
 DATA_BAA0B8:
-	dw $00B8
-	dw $00B9
-	dw $0082
-	dw $0083
-	dw $00B8
-	dw $00B9
-	dw $0082
-	dw $0083
-	dw $0084
-	dw $0085
-	dw $0082
-	dw $0083
-	dw $0084
-	dw $0085
-	dw $0086
-	dw $0087
-	dw $0086
-	dw $0087
+	dw !kreepy_krows_head_sprite_palette
+	dw !kreepy_krows_body_sprite_palette
+	dw !kreepy_krow_dying_head_1_sprite_palette
+	dw !kreepy_krow_dying_body_1_sprite_palette
+	dw !kreepy_krows_head_sprite_palette
+	dw !kreepy_krows_body_sprite_palette
+	dw !kreepy_krow_dying_head_1_sprite_palette
+	dw !kreepy_krow_dying_body_1_sprite_palette
+	dw !kreepy_krow_dying_head_2_sprite_palette
+	dw !kreepy_krow_dying_body_2_sprite_palette
+	dw !kreepy_krow_dying_head_1_sprite_palette
+	dw !kreepy_krow_dying_body_1_sprite_palette
+	dw !kreepy_krow_dying_head_2_sprite_palette
+	dw !kreepy_krow_dying_body_2_sprite_palette
+	dw !kreepy_krow_dying_head_3_sprite_palette
+	dw !kreepy_krow_dying_body_3_sprite_palette
+	dw !kreepy_krow_dying_head_3_sprite_palette
+	dw !kreepy_krow_dying_body_3_sprite_palette
 	dw !null_pointer, !null_pointer
 
 

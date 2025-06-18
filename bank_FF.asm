@@ -690,7 +690,7 @@ DATA_FF0476:
 	dw $0040
 
 DATA_FF047E:
-	dw DATA_FF0C7E		;0000 invincibility_controller_main
+	dw DATA_FF0C7E		;0000 invincibility controller
 	dw DATA_FF0C88		;0002 sun
 	dw DATA_FF0CBA		;0004 diddy boom box
 	dw DATA_FF0CD2		;0006 dixie guitar
@@ -699,7 +699,7 @@ DATA_FF047E:
 	dw DATA_FF0EAE		;000C lava splash
 	dw DATA_FF0EC2		;000E diddy
 	dw DATA_FF0EE4		;0010 dixie
-	dw DATA_FF0F06		;0012 unknown_sprite_00EC_main
+	dw DATA_FF0F06		;0012 unknown sprite 00EC
 	dw DATA_FF0F18		;0014 dixie hurt tears
 	dw DATA_FF0F2C		;0016 diddy hurt stars
 	dw DATA_FF0F48		;0018 water surface splash (with upward Y offset)
@@ -744,19 +744,19 @@ DATA_FF047E:
 	dw DATA_FF15F2		;0066 barrel fragment
 	dw DATA_FF1626		;0068 barrel fragment
 	dw DATA_FF163A		;006A barrel fragment
-	dw DATA_FF164E		;006C ???
+	dw DATA_FF164E		;006C dk barrel letters
 	dw DATA_FF166A		;006E large_smoke_puff_timestop
 	dw DATA_FF1684		;0070 large_smoke_puff_timestop
 	dw DATA_FF169E		;0072 large_smoke_puff_timestop
 	dw DATA_FF16BA		;0074 smoke puff
 	dw DATA_FF16D2		;0076 smoke puff
-	dw DATA_FF1714		;0078 ???
+	dw DATA_FF1714		;0078 kannon projectile?
 	dw DATA_FF0C10		;007A horizontal wind changer
 	dw DATA_FF17AC		;007C unused honey splash
-	dw DATA_FF17C0		;007E ???
-	dw DATA_FF17E0		;0080 level target barrel
-	dw DATA_FF1804		;0082
-	dw DATA_FF1824		;0084
+	dw DATA_FF17C0		;007E level goal pole
+	dw DATA_FF17E0		;0080 level goal barrel
+	dw DATA_FF1804		;0082 level goal prize
+	dw DATA_FF1824		;0084 lilypad
 	dw DATA_FF1846		;0086 puftup spike?
 	dw DATA_FF245C		;0088 kleever bone
 	dw DATA_FF23D0		;008A kleever fragment
@@ -785,14 +785,14 @@ DATA_FF047E:
 	dw DATA_FF1E58		;00B8 kreepy krow barrel spawn smoke?
 	dw DATA_FF1E74		;00BA kreepy krow barrel?
 	dw DATA_FF1EAA		;00BC king zing spikes?
-	dw DATA_FF1EC8		;00BE ???
+	dw DATA_FF1EC8		;00BE king zing smoke effect
 	dw DATA_FF1EFE		;00C0 king zing ring zinger?
 	dw DATA_FF1F2C		;00C2 k. rool gun
 	dw DATA_FF1F8A		;00C4 k. rool cannon ball
 	dw DATA_FF1FFE		;00C6 k. rool gun fire
 	dw DATA_FF2020		;00C8 k. rool vacuum effect
-	dw DATA_FF0C60		;00CA timer?
-	dw DATA_FF0C60		;00CC timer?
+	dw DATA_FF0C60		;00CA timer
+	dw DATA_FF0C60		;00CC timer
 	dw DATA_FF0C2C		;00CE smoke puff?
 	dw DATA_FF0BF4		;00D0 horizontal wind changer
 	dw DATA_FF14B4		;00D2 explosion (kills enemies)
@@ -802,7 +802,7 @@ DATA_FF047E:
 	dw DATA_FF0BA4		;00DA vertical wind changer
 	dw DATA_FF0C02		;00DC horizontal wind changer
 	dw DATA_FF12DA		;00DE dust
-	dw DATA_FF0BC0		;00E0 ???
+	dw DATA_FF0BC0		;00E0 haunted hall timer handler
 	dw DATA_FF16F2		;00E2 smoke puff
 	dw DATA_FF14E0		;00E4 explosion (kills enemies)
 	dw DATA_FF14A6		;00E6 explosion (kills enemies)
@@ -824,82 +824,83 @@ DATA_FF047E:
 	dw DATA_FF24DE		;0106 npc kong?
 	dw DATA_FF2526		;0108 npc kong?
 	dw DATA_FF2548		;010A npc kong?
-	dw DATA_FF22BE		;010C klubbas club?
+	dw DATA_FF22BE		;010C klubbas club
 	dw DATA_FF229C		;010E klubba
-	dw DATA_FF2620		;0110 ???
+	dw DATA_FF2620		;0110 scroll and float barrel?
 	dw !null_pointer	;0112
 	dw DATA_FF2500		;0114 npc kong?
-	dw DATA_FF25BA		;0116 ???
-	dw DATA_FF25D0		;0118 ???
+	dw DATA_FF25BA		;0116 scroll and float barrel?
+	dw DATA_FF25D0		;0118 scroll and float barrel?
 	dw DATA_FF263A		;011A map plane
-	dw DATA_FF2716		;011C ???
-	dw DATA_FF26F8		;011E ???
+	dw DATA_FF2716		;011C donkey kong's bindings
+	dw DATA_FF26F8		;011E donkey kong's rope
 	dw DATA_FF0BB2		;0120 vertical wind changer
 	dw DATA_FF0B80		;0122 smoke puff
 	dw DATA_FF0B8C		;0124 smoke puff
 	dw DATA_FF0B98		;0126 smoke puff
-	dw DATA_FF1162		;0128
-	dw DATA_FF1182		;012A
-	dw DATA_FF11C8		;012C
-	dw DATA_FF11D2		;012E
-	dw DATA_FF11DC		;0130
-	dw DATA_FF11E6		;0132
-	dw DATA_FF11F0		;0134
-	dw DATA_FF0C1E		;0136
-	dw DATA_FF296E		;0138
-	dw DATA_FF299A		;013A
-	dw DATA_FF29BC		;013C
-	dw DATA_FF29E8		;013E
-	dw DATA_FF2734		;0140
-	dw DATA_FF2752		;0142
-	dw DATA_FF264C		;0144
-	dw DATA_FF265E		;0146
-	dw DATA_FF2670		;0148
-	dw DATA_FF2682		;014A
-	dw DATA_FF2694		;014C
-	dw DATA_FF26A6		;014E
-	dw DATA_FF26B8		;0150
-	dw DATA_FF2364		;0152
-	dw DATA_FF2388		;0154
-	dw DATA_FF23AC		;0156
-	dw DATA_FF21EE		;0158
-	dw DATA_FF1D1A		;015A
-	dw DATA_FF1CFA		;015C
-	dw DATA_FF22DC		;015E
-	dw DATA_FF2774		;0160
-	dw DATA_FF278E		;0162
-	dw DATA_FF27B4		;0164
-	dw DATA_FF27E8		;0166
-	dw DATA_FF27CE		;0168
-	dw DATA_FF281C		;016A
-	dw DATA_FF2802		;016C
-	dw DATA_FF213C		;016E
-	dw DATA_FF2090		;0170
-	dw DATA_FF20B4		;0172
-	dw DATA_FF20D8		;0174
-	dw DATA_FF20FC		;0176
-	dw DATA_FF2120		;0178
-	dw DATA_FF207A		;017A
-	dw DATA_FF206C		;017C
-	dw DATA_FF1FE8		;017E
-	dw DATA_FF1FD2		;0180
-	dw DATA_FF1FBC		;0182
-	dw DATA_FF1FAE		;0184
-	dw DATA_FF1F9C		;0186
-	dw DATA_FF1CBA		;0188
-	dw DATA_FF1D80		;018A
-	dw DATA_FF25A0		;018C
-	dw DATA_FF2842		;018E
-	dw DATA_FF287C		;0190
-	dw !null_pointer	;0192
-	dw DATA_FF2856		;0194
-	dw DATA_FF289C		;0196
-	dw DATA_FF28BC		;0198
-	dw DATA_FF28DC		;019A
-	dw DATA_FF2912		;019C
-	dw DATA_FF2926		;019E
-	dw DATA_FF2946		;01A0
+	dw DATA_FF1162		;0128 barrel icons
+	dw DATA_FF1182		;012A barrel icons
+	dw DATA_FF11C8		;012C barrel icons
+	dw DATA_FF11D2		;012E barrel icons
+	dw DATA_FF11DC		;0130 barrel icons
+	dw DATA_FF11E6		;0132 barrel icons
+	dw DATA_FF11F0		;0134 barrel icons
+	dw DATA_FF0C1E		;0136 horizontal wind changer
+	dw DATA_FF296E		;0138 lava splash
+	dw DATA_FF299A		;013A kreepy krow sparkles
+	dw DATA_FF29BC		;013C lava splash
+	dw DATA_FF29E8		;013E krocodile kore sparkles
+	dw DATA_FF2734		;0140 tied up donkey kong
+	dw DATA_FF2752		;0142 shot donkey kong
+	dw DATA_FF264C		;0144 map player
+	dw DATA_FF265E		;0146 map player
+	dw DATA_FF2670		;0148 map player
+	dw DATA_FF2682		;014A map player
+	dw DATA_FF2694		;014C map player
+	dw DATA_FF26A6		;014E map player
+	dw DATA_FF26B8		;0150 map player
+	dw DATA_FF2364		;0152 lava splash
+	dw DATA_FF2388		;0154 lava splash
+	dw DATA_FF23AC		;0156 lava splash
+	dw DATA_FF21EE		;0158 krool blinking eyes
+	dw DATA_FF1D1A		;015A kleever broken fire
+	dw DATA_FF1CFA		;015C kleever broken hilt
+	dw DATA_FF22DC		;015E kudgel's club
+	dw DATA_FF2774		;0160 krool puddle
+	dw DATA_FF278E		;0162 krool water drips
+	dw DATA_FF27B4		;0164 krool fish
+	dw DATA_FF27E8		;0166 krool blinking eyes
+	dw DATA_FF27CE		;0168 krool blinking eyes
+	dw DATA_FF281C		;016A krocodile kore sparkle spawner
+	dw DATA_FF2802		;016C krool blinking eyes
+	dw DATA_FF213C		;016E lava splash
+	dw DATA_FF2090		;0170 lava splash
+	dw DATA_FF20B4		;0172 lava splash
+	dw DATA_FF20D8		;0174 lava splash
+	dw DATA_FF20FC		;0176 lava splash
+	dw DATA_FF2120		;0178 lava splash
+	dw DATA_FF207A		;017A lava splash
+	dw DATA_FF206C		;017C lava splash
+	dw DATA_FF1FE8		;017E spiked canball
+	dw DATA_FF1FD2		;0180 spiked canball
+	dw DATA_FF1FBC		;0182 spiked canball
+	dw DATA_FF1FAE		;0184 spiked canball
+	dw DATA_FF1F9C		;0186 spiked canball
+	dw DATA_FF1CBA		;0188 kleever hand bubbles
+	dw DATA_FF1D80		;018A tnt barrel
+	dw DATA_FF25A0		;018C scroll and float barrel
+	dw DATA_FF2842		;018E burst effect
+	dw DATA_FF287C		;0190 title screen sparkle
+	dw !null_pointer	;0192 burst effect
+	dw DATA_FF2856		;0194 burst effect
+	dw DATA_FF289C		;0196 lava splash
+	dw DATA_FF28BC		;0198 lava splash
+	dw DATA_FF28DC		;019A lava splash
+	dw DATA_FF2912		;019C lava splash
+	dw DATA_FF2926		;019E lava splash
+	dw DATA_FF2946		;01A0 lava splash
 
+;credits dummy spawn scripts
 DATA_FF0620:
 	dw DATA_FF06A2
 	dw DATA_FF06B0
@@ -967,33 +968,33 @@ DATA_FF0690:
 
 DATA_FF06A2:
 	dw !initcommand_load_subconfig, DATA_FF0690
-	dw !initcommand_set_alt_palette, $001D
+	dw !initcommand_set_alt_palette, !cat_09_tails_sprite_palette
 	dw !initcommand_set_animation, $018D
 	dw !initcommand_success
 
 DATA_FF06B0:
 	dw !initcommand_load_subconfig, DATA_FF0690
-	dw !initcommand_set_alt_palette, $001C
+	dw !initcommand_set_alt_palette, !neek_sprite_palette
 	dw !initcommand_set_animation, $016F
 	dw !initcommand_success
 
 DATA_FF06BE:
 	dw !initcommand_load_subconfig, DATA_FF0690
 	dw sprite.terrain_interaction, $0001
-	dw !initcommand_set_alt_palette, $0010
+	dw !initcommand_set_alt_palette, !click_clack_credits_sprite_palette
 	dw !initcommand_set_animation, $0163
 	dw !initcommand_success
 
 DATA_FF06D0:
 	dw !initcommand_load_subconfig, DATA_FF0690
-	dw !initcommand_set_alt_palette, $0050
+	dw !initcommand_set_alt_palette, !spiny_sprite_palette
 	dw !initcommand_set_animation, $01A3
 	dw !initcommand_success
 
 DATA_FF06DE:
 	dw !initcommand_load_subconfig, DATA_FF0690
 	dw sprite.y_position, $0180
-	dw !initcommand_set_alt_palette, $003B
+	dw !initcommand_set_alt_palette, !flitter_blue_sprite_palette
 	dw !initcommand_set_animation, $019A
 	dw !initcommand_success
 
@@ -1001,14 +1002,14 @@ DATA_FF06F0:
 	dw !initcommand_load_subconfig, DATA_FF0690
 	dw sprite.max_y_speed, $8000
 	dw sprite.y_position, $0180
-	dw !initcommand_set_alt_palette, $001E
+	dw !initcommand_set_alt_palette, !mini_necky_sprite_palette
 	dw !initcommand_set_animation, $0193
 	dw !initcommand_success
 
 DATA_FF0706:
 	dw !initcommand_load_subconfig, DATA_FF0690
 	dw sprite.y_position, $0180
-	dw !initcommand_set_alt_palette, $0038
+	dw !initcommand_set_alt_palette, !zinger_yellow_sprite_palette
 	dw !initcommand_set_animation, $0196
 	dw !initcommand_success
 
@@ -1017,44 +1018,44 @@ DATA_FF0718:
 	dw sprite.x_position, $00E0
 	dw sprite.y_position, $0180
 	dw sprite.unknown_28, $0100
-	dw !initcommand_set_alt_palette, $0077
+	dw !initcommand_set_alt_palette, !screech_sprite_palette
 	dw !initcommand_set_oam, $3000
 	dw !initcommand_set_animation, $02DD
 	dw !initcommand_success
 
 DATA_FF0736:
 	dw !initcommand_load_subconfig, DATA_FF0690
-	dw !initcommand_set_alt_palette, $003C
+	dw !initcommand_set_alt_palette, !flotsam_blue_sprite_palette
 	dw !initcommand_set_animation, $01A9
 	dw !initcommand_success
 
 DATA_FF0744:
 	dw !initcommand_load_subconfig, DATA_FF0690
-	dw !initcommand_set_alt_palette, $000B
+	dw !initcommand_set_alt_palette, !shuri_orange_sprite_palette
 	dw !initcommand_set_animation, $0180
 	dw !initcommand_success
 
 DATA_FF0752:
 	dw !initcommand_load_subconfig, DATA_FF0690
-	dw !initcommand_set_alt_palette, $0032
+	dw !initcommand_set_alt_palette, !puftup_brown_sprite_palette
 	dw !initcommand_set_animation, $0183
 	dw !initcommand_success
 
 DATA_FF0760:
 	dw !initcommand_load_subconfig, DATA_FF0690
-	dw !initcommand_set_alt_palette, $000E
+	dw !initcommand_set_alt_palette, !lockjaw_sprite_palette
 	dw !initcommand_set_animation, $0177
 	dw !initcommand_success
 
 DATA_FF076E:
 	dw !initcommand_load_subconfig, DATA_FF0690
-	dw !initcommand_set_alt_palette, $00B2
+	dw !initcommand_set_alt_palette, !snapjaw_sprite_palette
 	dw !initcommand_set_animation, $0307
 	dw !initcommand_success
 
 DATA_FF077C:
 	dw !initcommand_load_subconfig, DATA_FF0690
-	dw !initcommand_set_alt_palette, $0007
+	dw !initcommand_set_alt_palette, !klomp_sprite_palette
 	dw !initcommand_set_animation, $0160
 	dw !initcommand_success
 
@@ -1062,7 +1063,7 @@ DATA_FF078A:
 	dw sprite.type, !sprite_credits_dummy
 	dw sprite.x_position, $00E0
 	dw sprite.y_position, $0170
-	dw !initcommand_set_alt_palette, $003A
+	dw !initcommand_set_alt_palette, !klinger_sprite_palette
 	dw !initcommand_set_oam, $3000
 	dw !initcommand_set_animation, $01A8
 	dw !initcommand_success
@@ -1075,14 +1076,14 @@ DATA_FF07A4:
 	dw sprite.ground_distance, $0000
 	dw sprite.parameter, $0000
 	dw sprite.max_y_speed, $FB80
-	dw !initcommand_set_alt_palette, $002F
+	dw !initcommand_set_alt_palette, !kaboing_grey_sprite_palette
 	dw !initcommand_set_oam, $3000
 	dw !initcommand_set_animation, $0191
 	dw !initcommand_success
 
 DATA_FF07CE:
 	dw !initcommand_load_subconfig, DATA_FF0690
-	dw !initcommand_set_alt_palette, $0053
+	dw !initcommand_set_alt_palette, !klampon_sprite_sprite_palette
 	dw !initcommand_set_animation, $019F
 	dw !initcommand_success
 
@@ -1090,34 +1091,34 @@ DATA_FF07DC:
 	dw sprite.type, !sprite_credits_dummy
 	dw sprite.x_position, $00DD
 	dw sprite.y_position, $0170
-	dw !initcommand_set_alt_palette, $0001
+	dw !initcommand_set_alt_palette, !diddy_active_sprite_palette
 	dw !initcommand_set_oam, $3000
 	dw !initcommand_set_animation, $024F
 	dw !initcommand_success
 
 DATA_FF07F6:
 	dw !initcommand_load_subconfig, DATA_FF0690
-	dw !initcommand_set_alt_palette, $001F
+	dw !initcommand_set_alt_palette, !klobber_green_sprite_palette
 	dw !initcommand_set_oam, $3000
 	dw !initcommand_set_animation, $01F5
 	dw !initcommand_success
 
 DATA_FF0808:
 	dw !initcommand_load_subconfig, DATA_FF0690
-	dw !initcommand_set_alt_palette, $0055
+	dw !initcommand_set_alt_palette, !krook_sprite_palette
 	dw !initcommand_set_animation, $01EE
 	dw !initcommand_success
 
 DATA_FF0816:
 	dw !initcommand_load_subconfig, DATA_FF0690
-	dw !initcommand_set_alt_palette, $0012
+	dw !initcommand_set_alt_palette, !kutlass_yellow_sprite_palette
 	dw !initcommand_set_animation, $0169
 	dw !initcommand_success
 
 DATA_FF0824:
 	dw !initcommand_load_subconfig, DATA_FF0690
 	dw sprite.y_position, $0180
-	dw !initcommand_set_alt_palette, $005C
+	dw !initcommand_set_alt_palette, !kloak_sprite_palette
 	dw !initcommand_set_animation, $02D0
 	dw !initcommand_success
 
@@ -1125,79 +1126,79 @@ DATA_FF0836:
 	dw !initcommand_load_subconfig, DATA_FF0690
 	dw sprite.parameter, $0080
 	dw sprite.sub_state, $0001
-	dw !initcommand_set_alt_palette, $0008
+	dw !initcommand_set_alt_palette, !kannon_sprite_palette
 	dw !initcommand_set_animation, $017D
 	dw !initcommand_success
 
 DATA_FF084C:
 	dw !initcommand_load_subconfig, DATA_FF0690
-	dw !initcommand_set_alt_palette, $000C
+	dw !initcommand_set_alt_palette, !kruncha_blue_sprite_palette
 	dw !initcommand_set_animation, $0172
 	dw !initcommand_success
 
 DATA_FF085A:
 	dw !initcommand_load_subconfig, DATA_FF0690
 	dw sprite.general_purpose_48, $0009
-	dw !initcommand_set_alt_palette, $0024
+	dw !initcommand_set_alt_palette, !klank_yellow_sprite_palette
 	dw !initcommand_set_animation, $01AF
 	dw !initcommand_success
 
 DATA_FF086C:
 	dw !initcommand_load_subconfig, DATA_FF0690
-	dw !initcommand_set_alt_palette, $005F
+	dw !initcommand_set_alt_palette, !klubba_sprite_palette
 	dw !initcommand_set_animation, $028C
 	dw !initcommand_success
 
 DATA_FF087A:
 	dw !initcommand_load_subconfig, DATA_FF0690
 	dw sprite.unknown_1A, $14C4
-	dw !initcommand_set_alt_palette, $0027
+	dw !initcommand_set_alt_palette, !skull_cart_sprite_palette
 	dw !initcommand_success
 
 DATA_FF0888:
 	dw !initcommand_load_subconfig, DATA_FF0690
-	dw !initcommand_set_alt_palette, $005E
+	dw !initcommand_set_alt_palette, !klubbas_club_sprite_palette
 	dw !initcommand_set_animation, $028D
 	dw !initcommand_success
 
 DATA_FF0896:
 	dw !initcommand_load_subconfig, DATA_FF0690
 	dw sprite.y_position, $0180
-	dw !initcommand_set_alt_palette, $0022
+	dw !initcommand_set_alt_palette, !krows_body_sprite_palette
 	dw !initcommand_set_animation, $01FD
 	dw !initcommand_success
 
 DATA_FF08A8:
 	dw !initcommand_load_subconfig, DATA_FF0690
 	dw sprite.y_position, $0180
-	dw !initcommand_set_alt_palette, $0021
+	dw !initcommand_set_alt_palette, !krows_head_sprite_palette
 	dw !initcommand_set_animation, $0204
 	dw !initcommand_success
 
 DATA_FF08BA:
 	dw !initcommand_load_subconfig, DATA_FF0690
 	dw sprite.y_position, $0180
-	dw !initcommand_set_alt_palette, $0051
+	dw !initcommand_set_alt_palette, !kleever_1_sprite_palette
 	dw !initcommand_set_oam, $7000
 	dw !initcommand_set_animation, $021A
 	dw !initcommand_success
 
 DATA_FF08D0:
 	dw !initcommand_load_subconfig, DATA_FF0690
-	dw !initcommand_set_alt_palette, $0096
+	dw !initcommand_set_alt_palette, !kudgel_sprite_palette
 	dw !initcommand_set_animation, $028C
 	dw !initcommand_success
 
 DATA_FF08DE:
 	dw !initcommand_load_subconfig, DATA_FF0690
-	dw !initcommand_set_alt_palette, $0097
+	dw !initcommand_set_alt_palette, !kudgels_club_sprite_palette
 	dw !initcommand_set_animation, $028D
 	dw !initcommand_success
 
 DATA_FF08EC:
 	dw !initcommand_load_subconfig, DATA_FF0690
 	dw sprite.y_position, $0180
-	dw !initcommand_set_alt_palette, $0038
+	dw !initcommand_set_alt_palette, !zinger_yellow_sprite_palette
 	dw !initcommand_set_animation, $0230
 	dw !initcommand_success
 
@@ -1205,7 +1206,7 @@ DATA_FF08FE:
 	dw sprite.type, !sprite_credits_dummy
 	dw sprite.x_position, $00E0
 	dw sprite.y_position, $01A0
-	dw !initcommand_set_alt_palette, $0069
+	dw !initcommand_set_alt_palette, !krool_sprite_palette
 	dw !initcommand_set_oam, $3000
 	dw !initcommand_set_animation, $0260
 	dw !initcommand_success
@@ -1214,7 +1215,7 @@ DATA_FF0918:
 	dw sprite.type, !sprite_credits_dummy
 	dw sprite.x_position, $00E0
 	dw sprite.y_position, $01A0
-	dw !initcommand_set_alt_palette, $006A
+	dw !initcommand_set_alt_palette, !krool_gun_sprite_palette
 	dw !initcommand_set_oam, $3000
 	dw !initcommand_set_animation, $0261
 	dw !initcommand_success
@@ -1224,7 +1225,7 @@ DATA_FF0932:
 	dw sprite.x_position, $00E0
 	dw sprite.y_position, $01A0
 	dw sprite.render_order, $00F8
-	dw !initcommand_set_alt_palette, $002B
+	dw !initcommand_set_alt_palette, !kleever_hand_sprite_palette
 	dw !initcommand_set_oam, $4000
 	dw !initcommand_set_animation, $0269
 	dw !initcommand_success
@@ -1233,7 +1234,7 @@ DATA_FF0950:
 	dw sprite.type, !sprite_credits_dummy
 	dw sprite.x_position, $00E0
 	dw sprite.y_position, $01A0
-	dw !initcommand_set_alt_palette, $0043
+	dw !initcommand_set_alt_palette, !rambi_sprite_palette
 	dw !initcommand_set_oam, $3000
 	dw !initcommand_set_animation, $009D
 	dw !initcommand_success
@@ -1242,7 +1243,7 @@ DATA_FF096A:
 	dw sprite.type, !sprite_credits_dummy
 	dw sprite.x_position, $00E0
 	dw sprite.y_position, $01A0
-	dw !initcommand_set_alt_palette, $0060
+	dw !initcommand_set_alt_palette, !enguarde_sprite_palette
 	dw !initcommand_set_oam, $3000
 	dw !initcommand_set_animation, $006C
 	dw !initcommand_success
@@ -1251,7 +1252,7 @@ DATA_FF0984:
 	dw sprite.type, !sprite_credits_dummy
 	dw sprite.x_position, $00E0
 	dw sprite.y_position, $01A0
-	dw !initcommand_set_alt_palette, $000D
+	dw !initcommand_set_alt_palette, !rattly_sprite_palette
 	dw !initcommand_set_oam, $3000
 	dw !initcommand_set_animation, $0309
 	dw !initcommand_success
@@ -1260,7 +1261,7 @@ DATA_FF099E:
 	dw sprite.type, !sprite_credits_dummy
 	dw sprite.x_position, $00E0
 	dw sprite.y_position, $01A0
-	dw !initcommand_set_alt_palette, $0005
+	dw !initcommand_set_alt_palette, !squitter_sprite_palette
 	dw !initcommand_set_oam, $3000
 	dw !initcommand_set_animation, $0308
 	dw !initcommand_success
@@ -1269,7 +1270,7 @@ DATA_FF09B8:
 	dw sprite.type, !sprite_credits_dummy
 	dw sprite.x_position, $00E0
 	dw sprite.y_position, $01A0
-	dw !initcommand_set_alt_palette, $006F
+	dw !initcommand_set_alt_palette, !clapper_sprite_palette
 	dw !initcommand_set_oam, $3000
 	dw !initcommand_set_animation, $01B7
 	dw !initcommand_success
@@ -1278,7 +1279,7 @@ DATA_FF09D2:
 	dw sprite.type, !sprite_credits_dummy
 	dw sprite.x_position, $00E0
 	dw sprite.y_position, $0180
-	dw !initcommand_set_alt_palette, $000F
+	dw !initcommand_set_alt_palette, !squawks_sprite_palette
 	dw !initcommand_set_oam, $3000
 	dw !initcommand_set_animation, $0149
 	dw !initcommand_success
@@ -1287,7 +1288,7 @@ DATA_FF09EC:
 	dw sprite.type, !sprite_credits_dummy
 	dw sprite.x_position, $00E0
 	dw sprite.y_position, $01A0
-	dw !initcommand_set_alt_palette, $0049
+	dw !initcommand_set_alt_palette, !glimmer_sprite_palette
 	dw !initcommand_set_oam, $3000
 	dw !initcommand_set_animation, $02CE
 	dw !initcommand_success
@@ -1296,7 +1297,7 @@ DATA_FF0A06:
 	dw sprite.type, !sprite_credits_dummy
 	dw sprite.x_position, $00E0
 	dw sprite.y_position, $01A0
-	dw !initcommand_set_alt_palette, $0037
+	dw !initcommand_set_alt_palette, !swanky_sprite_palette
 	dw !initcommand_set_oam, $3000
 	dw !initcommand_set_animation, $01D2
 	dw !initcommand_success
@@ -1307,7 +1308,7 @@ DATA_FF0A20:
 	dw sprite.y_position, $0180
 	dw sprite.general_purpose_42, $0000
 	dw sprite.general_purpose_44, DATA_BAC26F
-	dw !initcommand_set_alt_palette, $0023
+	dw !initcommand_set_alt_palette, !funky_sprite_palette
 	dw !initcommand_set_oam, $3000
 	dw !initcommand_set_animation, $01CA
 	dw !initcommand_success
@@ -1318,7 +1319,7 @@ DATA_FF0A42:
 	dw sprite.y_position, $0180
 	dw sprite.general_purpose_42, $0000
 	dw sprite.general_purpose_44, DATA_BAC28D
-	dw !initcommand_set_alt_palette, $0004
+	dw !initcommand_set_alt_palette, !dixie_active_sprite_palette
 	dw !initcommand_set_oam, $3000
 	dw !initcommand_set_animation, $01CB
 	dw !initcommand_success
@@ -1329,7 +1330,7 @@ DATA_FF0A64:
 	dw sprite.y_position, $01A0
 	dw sprite.general_purpose_42, $0000
 	dw sprite.general_purpose_44, DATA_BAC2C3
-	dw !initcommand_set_alt_palette, $00A3
+	dw !initcommand_set_alt_palette, !wrinkly_sprite_palette
 	dw !initcommand_set_oam, $3000
 	dw !initcommand_set_animation, $01D9
 	dw !initcommand_success
@@ -1340,7 +1341,7 @@ DATA_FF0A86:
 	dw sprite.y_position, $01A0
 	dw sprite.general_purpose_42, $0000
 	dw sprite.general_purpose_44, DATA_BAC2E3
-	dw !initcommand_set_alt_palette, $00A4
+	dw !initcommand_set_alt_palette, !wrinkly_book_sprite_palette
 	dw !initcommand_set_oam, $3000
 	dw !initcommand_set_animation, $01D9
 	dw !initcommand_success
@@ -1351,7 +1352,7 @@ DATA_FF0AA8:
 	dw sprite.y_position, $01A0
 	dw sprite.general_purpose_42, $0000
 	dw sprite.general_purpose_44, DATA_BAC259
-	dw !initcommand_set_alt_palette, $0026
+	dw !initcommand_set_alt_palette, !cranky_sprite_palette
 	dw !initcommand_set_oam, $3000
 	dw !initcommand_set_animation, $01D9
 	dw !initcommand_success
@@ -1360,7 +1361,7 @@ DATA_FF0ACA:
 	dw sprite.type, !sprite_credits_dummy
 	dw sprite.x_position, $00E0
 	dw sprite.y_position, $0180
-	dw !initcommand_set_alt_palette, $00A8
+	dw !initcommand_set_alt_palette, !donkey_kong_sprite_palette
 	dw !initcommand_set_oam, $3000
 	dw !initcommand_set_animation, $030B
 	dw !initcommand_success
@@ -1369,7 +1370,7 @@ DATA_FF0AE4:
 	dw sprite.type, !sprite_credits_dummy
 	dw sprite.x_position, $00E0
 	dw sprite.y_position, $0180
-	dw !initcommand_set_alt_palette, $006A
+	dw !initcommand_set_alt_palette, !krool_gun_sprite_palette
 	dw !initcommand_set_oam, $3000
 	dw !initcommand_set_animation, $0244
 	dw !initcommand_success
@@ -1378,7 +1379,7 @@ DATA_FF0AFE:
 	dw sprite.type, !sprite_credits_dummy
 	dw sprite.x_position, $00E0
 	dw sprite.y_position, $0138
-	dw !initcommand_set_alt_palette, $006A
+	dw !initcommand_set_alt_palette, !krool_gun_sprite_palette
 	dw !initcommand_set_oam, $3000
 	dw !initcommand_set_animation, $024F
 	dw !initcommand_success
@@ -1389,7 +1390,7 @@ DATA_FF0B18:
 	dw sprite.max_x_speed, $0180
 	dw sprite.x_speed, $0180
 	dw sprite.y_position, $01A0
-	dw !initcommand_set_alt_palette, $0004
+	dw !initcommand_set_alt_palette, !dixie_active_sprite_palette
 	dw !initcommand_set_oam, $3000
 	dw !initcommand_set_animation, $00A6
 	dw !initcommand_success
@@ -1400,14 +1401,14 @@ DATA_FF0B3A:
 	dw sprite.max_x_speed, $0180
 	dw sprite.x_speed, $0180
 	dw sprite.y_position, $01A0
-	dw !initcommand_set_alt_palette, $0001
+	dw !initcommand_set_alt_palette, !diddy_active_sprite_palette
 	dw !initcommand_set_oam, $3000
 	dw !initcommand_set_animation, $0003
 	dw !initcommand_success
 
 DATA_FF0B5C:
 	dw !initcommand_load_subconfig, DATA_FF0690
-	dw !initcommand_set_alt_palette, $0002
+	dw !initcommand_set_alt_palette, !barrel_sprite_palette
 	dw !initcommand_set_oam, $3000
 	dw !initcommand_set_animation, $030A
 	dw !initcommand_success
@@ -1538,7 +1539,7 @@ DATA_FF0CBA:
 	dw !initcommand_spawn_relative, $0000, $0000
 	dw sprite.unknown_1A, $0000
 	dw sprite.unknown_16, $0000
-	dw !initcommand_set_alt_palette, $0033
+	dw !initcommand_set_alt_palette, !boombox_sprite_palette
 	dw !initcommand_success
 
 DATA_FF0CD2:
@@ -1546,7 +1547,7 @@ DATA_FF0CD2:
 	dw !initcommand_spawn_relative, $0000, $0000
 	dw sprite.unknown_1A, $0000
 	dw sprite.unknown_16, $0000
-	dw !initcommand_set_alt_palette, $006C
+	dw !initcommand_set_alt_palette, !guitar_sprite_palette
 	dw !initcommand_success
 
 DATA_FF0CEA:
@@ -1568,35 +1569,35 @@ DATA_FF0D0A:
 	dw !initcommand_load_subconfig, DATA_FF0CEA
 	dw sprite.general_purpose_42, $0014
 	dw sprite.general_purpose_44, $00CD
-	dw !initcommand_set_alt_palette, $0005
+	dw !initcommand_set_alt_palette, !squitter_sprite_palette
 	dw !initcommand_success
 
 DATA_FF0D1C:
 	dw !initcommand_load_subconfig, DATA_FF0CEA
 	dw sprite.general_purpose_42, $0014
 	dw sprite.general_purpose_44, $00CD
-	dw !initcommand_set_alt_palette, $000D
+	dw !initcommand_set_alt_palette, !rattly_sprite_palette
 	dw !initcommand_success
 
 DATA_FF0D2E:
 	dw !initcommand_load_subconfig, DATA_FF0CEA
 	dw sprite.general_purpose_42, $0014
 	dw sprite.general_purpose_44, $00CD
-	dw !initcommand_set_alt_palette, $000F
+	dw !initcommand_set_alt_palette, !squawks_sprite_palette
 	dw !initcommand_success
 
 DATA_FF0D40:
 	dw !initcommand_load_subconfig, DATA_FF0CEA
 	dw sprite.general_purpose_42, $0014
 	dw sprite.general_purpose_44, $00CD
-	dw !initcommand_set_alt_palette, $0043
+	dw !initcommand_set_alt_palette, !rambi_sprite_palette
 	dw !initcommand_success
 
 DATA_FF0D52:
 	dw !initcommand_load_subconfig, DATA_FF0CEA
 	dw sprite.general_purpose_42, $0014
 	dw sprite.general_purpose_44, $00CD
-	dw !initcommand_set_alt_palette, $0060
+	dw !initcommand_set_alt_palette, !enguarde_sprite_palette
 	dw !initcommand_success
 
 
@@ -1618,7 +1619,7 @@ DATA_FF0D6E:
 	dw sprite.y_speed, $0000
 	dw sprite.despawn_time, $00FF
 	dw sprite.interaction_flags, $0002
-	dw !initcommand_set_alt_palette, $0005
+	dw !initcommand_set_alt_palette, !squitter_sprite_palette
 	dw !initcommand_set_animation, $0147
 	dw !initcommand_success
 
@@ -1633,7 +1634,7 @@ DATA_FF0DA2:
 	dw sprite.y_speed, $0000
 	dw sprite.despawn_time, $00FF
 	dw sprite.interaction_flags, $0002
-	dw !initcommand_set_alt_palette, $000D
+	dw !initcommand_set_alt_palette, !rattly_sprite_palette
 	dw !initcommand_set_animation, $0148
 	dw !initcommand_success
 
@@ -1649,7 +1650,7 @@ DATA_FF0DD6:
 	dw sprite.y_speed, $0000
 	dw sprite.interaction_flags, $0000
 	dw sprite.despawn_time, $00FF
-	dw !initcommand_set_alt_palette, $000F
+	dw !initcommand_set_alt_palette, !squawks_sprite_palette
 	dw !initcommand_set_animation, $0149
 	dw !initcommand_success
 
@@ -1664,7 +1665,7 @@ DATA_FF0E0E:
 	dw sprite.y_speed, $0000
 	dw sprite.despawn_time, $00FF
 	dw sprite.interaction_flags, $0002
-	dw !initcommand_set_alt_palette, $0043
+	dw !initcommand_set_alt_palette, !rambi_sprite_palette
 	dw !initcommand_set_animation, $014A
 	dw !initcommand_success
 
@@ -1681,7 +1682,7 @@ if !version == 1
 	dw sprite.despawn_time, $0088
 endif
 	dw sprite.interaction_flags, $0000
-	dw !initcommand_set_alt_palette, $0060
+	dw !initcommand_set_alt_palette, !enguarde_sprite_palette
 	dw !initcommand_set_animation, $014B
 	dw !initcommand_success
 
@@ -1699,14 +1700,14 @@ DATA_FF0E8E:
 	dw sprite.interaction_flags, $0020
 	dw !initcommand_spawn_relative, $0019, $FFF6
 	dw sprite.state, $0000
-	dw !initcommand_set_alt_palette, $0055
+	dw !initcommand_set_alt_palette, !krook_sprite_palette
 	dw !initcommand_set_animation, $01F3
 	dw !initcommand_success
 
 DATA_FF0EAE:
 	dw sprite.type, !sprite_ship_water_splash
 	dw !initcommand_set_position
-	dw !initcommand_set_alt_palette, $0052
+	dw !initcommand_set_alt_palette, !ship_water_splash_sprite_palette
 	dw !initcommand_set_oam, $3000
 	dw !initcommand_set_animation, $01F9
 	dw !initcommand_success
@@ -1773,14 +1774,14 @@ DATA_FF0F5C:
 DATA_FF0F70:
 	dw sprite.type, !sprite_rain_cloud
 	dw !initcommand_spawn_relative, $0000, $0000
-	dw !initcommand_set_alt_palette, $006E
+	dw !initcommand_set_alt_palette, !rain_cloud_sprite_palette
 	dw !initcommand_set_animation, $0152
 	dw !initcommand_success
 
 DATA_FF0F84:
 	dw sprite.type, !sprite_rain_cloud
 	dw !initcommand_spawn_relative, $0000, $0000
-	dw !initcommand_set_palette, $006E
+	dw !initcommand_set_palette, !rain_cloud_sprite_palette
 	dw !initcommand_set_animation, $0151
 	dw !initcommand_success
 
@@ -1808,7 +1809,7 @@ DATA_FF0FD2:
 	dw !initcommand_success
 
 DATA_FF0FDE:
-	dw !initcommand_setup_static2, !sprite_rock, $0002 : dl DATA_C01B21 : db $20
+	dw !initcommand_setup_static2, !sprite_rock, !barrel_sprite_palette : dl DATA_C01B21 : db $20
 	dw !initcommand_spawn_relative, $0000, $0000
 	dw sprite.render_order, $00C8
 	dw sprite.x_speed, $0000
@@ -1818,7 +1819,7 @@ DATA_FF0FDE:
 	dw !initcommand_success
 
 DATA_FF1004:
-	dw !initcommand_setup_static2, !sprite_squawks_egg, $000F : dl DATA_C01F21 : db $20
+	dw !initcommand_setup_static2, !sprite_squawks_egg, !squawks_sprite_palette : dl DATA_C01F21 : db $20
 	dw !initcommand_spawn_relative, $0008, $FFF0
 	dw sprite.constants_address, DATA_FF0244
 	dw sprite.state, $0000
@@ -1859,22 +1860,22 @@ DATA_FF1066:
 
 DATA_FF108A:
 	dw !initcommand_load_subconfig, DATA_FF1066
-	dw !initcommand_set_alt_palette, $001F
+	dw !initcommand_set_alt_palette, !klobber_green_sprite_palette
 	dw !initcommand_success
 
 DATA_FF1094:
 	dw !initcommand_load_subconfig, DATA_FF1066
-	dw !initcommand_set_alt_palette, $002A
+	dw !initcommand_set_alt_palette, !klobber_red_sprite_palette
 	dw !initcommand_success
 
 DATA_FF109E:
 	dw !initcommand_load_subconfig, DATA_FF1066
-	dw !initcommand_set_alt_palette, $0065
+	dw !initcommand_set_alt_palette, !klobber_yellow_sprite_palette
 	dw !initcommand_success
 
 DATA_FF10A8:
 	dw !initcommand_load_subconfig, DATA_FF1066
-	dw !initcommand_set_alt_palette, $0066
+	dw !initcommand_set_alt_palette, !klobber_black_sprite_palette
 	dw !initcommand_success
 
 DATA_FF10B2:
@@ -1916,7 +1917,7 @@ DATA_FF1122:
 	dw sprite.render_order, $00ED
 	dw sprite.state, $0000
 	dw sprite.general_purpose_4E, $2020
-	dw !initcommand_set_alt_palette, $0002
+	dw !initcommand_set_alt_palette, !barrel_sprite_palette
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_success
 
@@ -1926,7 +1927,7 @@ DATA_FF1142:
 	dw sprite.render_order, $00ED
 	dw sprite.state, $0000
 	dw sprite.general_purpose_4E, $2020
-	dw !initcommand_set_alt_palette, $0000
+	dw !initcommand_set_alt_palette, !global_sprite_palette
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_success
 
@@ -1966,27 +1967,27 @@ DATA_FF11BE:
 
 DATA_FF11C8:
 	dw !initcommand_load_subconfig, DATA_FF11A2
-	dw !initcommand_set_alt_palette, $0005
+	dw !initcommand_set_alt_palette, !squitter_sprite_palette
 	dw !initcommand_success
 
 DATA_FF11D2:
 	dw !initcommand_load_subconfig, DATA_FF11A2
-	dw !initcommand_set_alt_palette, $000D
+	dw !initcommand_set_alt_palette, !rattly_sprite_palette
 	dw !initcommand_success
 
 DATA_FF11DC:
 	dw !initcommand_load_subconfig, DATA_FF11A2
-	dw !initcommand_set_alt_palette, $000F
+	dw !initcommand_set_alt_palette, !squawks_sprite_palette
 	dw !initcommand_success
 
 DATA_FF11E6:
 	dw !initcommand_load_subconfig, DATA_FF11A2
-	dw !initcommand_set_alt_palette, $0043
+	dw !initcommand_set_alt_palette, !rambi_sprite_palette
 	dw !initcommand_success
 
 DATA_FF11F0:
 	dw !initcommand_load_subconfig, DATA_FF11A2
-	dw !initcommand_set_alt_palette, $0060
+	dw !initcommand_set_alt_palette, !enguarde_sprite_palette
 	dw !initcommand_success
 
 DATA_FF11FA:
@@ -2019,7 +2020,7 @@ DATA_FF122C:
 DATA_FF124C:
 	dw sprite.type, !sprite_ship_water_splash
 	dw !initcommand_set_position
-	dw !initcommand_set_alt_palette, $0011
+	dw !initcommand_set_alt_palette, !sprite_ship_water_splash_palette
 	dw !initcommand_set_oam, $3000
 	dw !initcommand_set_animation, $01B5
 	dw !initcommand_success
@@ -2077,7 +2078,7 @@ DATA_FF12F4:
 	dw sprite.y_position, $0060
 	dw sprite.render_order, $00F0
 	dw !initcommand_set_oam, $3000
-	dw !initcommand_set_alt_palette, $0014
+	dw !initcommand_set_alt_palette, !coins_sprite_palette
 	dw !initcommand_set_animation, $01C1
 	dw !initcommand_success
 
@@ -2087,7 +2088,7 @@ DATA_FF1312:
 	dw sprite.y_position, $00A0
 	dw sprite.render_order, $00F0
 	dw !initcommand_set_oam, $3000
-	dw !initcommand_set_alt_palette, $0014
+	dw !initcommand_set_alt_palette, !coins_sprite_palette
 	dw !initcommand_set_animation, $01C2
 	dw !initcommand_success
 
@@ -2148,27 +2149,27 @@ DATA_FF13C4:
 
 DATA_FF13E6:
 	dw !initcommand_load_subconfig, DATA_FF13C4
-	dw !initcommand_set_alt_palette, $006D
+	dw !initcommand_set_alt_palette, !klank_blue_sprite_palette
 	dw !initcommand_success
 
 DATA_FF13F0:
 	dw !initcommand_load_subconfig, DATA_FF13C4
-	dw !initcommand_set_alt_palette, $0024
+	dw !initcommand_set_alt_palette, !klank_yellow_sprite_palette
 	dw !initcommand_success
 
 DATA_FF13FA:
 	dw !initcommand_load_subconfig, DATA_FF13C4
-	dw !initcommand_set_alt_palette, $0012
+	dw !initcommand_set_alt_palette, !kutlass_yellow_sprite_palette
 	dw !initcommand_success
 
 DATA_FF1404:
 	dw !initcommand_load_subconfig, DATA_FF13C4
-	dw !initcommand_set_alt_palette, $00B4
+	dw !initcommand_set_alt_palette, !klank_green_sprite_palette
 	dw !initcommand_success
 
 DATA_FF140E:
 	dw !initcommand_load_subconfig, DATA_FF13C4
-	dw !initcommand_set_alt_palette, $0029
+	dw !initcommand_set_alt_palette, !klank_pink_sprite_palette
 	dw !initcommand_success
 
 DATA_FF1418:
@@ -2184,7 +2185,7 @@ DATA_FF1418:
 
 DATA_FF143A:
 	dw !initcommand_load_subconfig, DATA_FF1418
-	dw !initcommand_set_alt_palette, $0035
+	dw !initcommand_set_alt_palette, !racing_flag_sprite_palette
 	dw sprite.state, $0001
 	dw !initcommand_success
 
@@ -2201,7 +2202,7 @@ DATA_FF1462:
 	dw sprite.type, !sprite_racing_flag
 	dw !initcommand_set_oam, $3000
 	dw sprite.unknown_1A, $3304
-	dw !initcommand_set_alt_palette, $0036
+	dw !initcommand_set_alt_palette, !traffic_light_sprite_palette
 	dw sprite.render_order, $00EC
 	dw sprite.x_position, $00E4
 	dw sprite.y_position, $FFF8
@@ -2275,7 +2276,7 @@ DATA_FF152C:
 	dw sprite.x_speed, $0000
 	dw sprite.y_speed, $FF00
 	dw sprite.unknown_1C, $0000
-	dw !initcommand_set_palette, DATA_FD7166
+	dw !initcommand_set_palette, kleever_hand_sprite_palette
 	dw !initcommand_set_animation, $01BC
 	dw !initcommand_success
 
@@ -2291,7 +2292,7 @@ DATA_FF1554:
 	dw !initcommand_success
 
 DATA_FF1576:
-	dw !initcommand_setup_static2, !sprite_barrel_pieces, $0002 : dl DATA_FB0800 : db $17
+	dw !initcommand_setup_static2, !sprite_barrel_pieces, !barrel_sprite_palette : dl DATA_FB0800 : db $17
 	dw sprite.render_order, $00F4
 	dw sprite.state, $0000
 	dw sprite.interaction_flags, $0000
@@ -2300,7 +2301,7 @@ DATA_FF1576:
 	dw !initcommand_success
 
 DATA_FF1596:
-	dw !initcommand_setup_static2, !sprite_unknown_0064, $0002 : dl DATA_FA0660 : db $20
+	dw !initcommand_setup_static2, !sprite_unknown_0064, !barrel_sprite_palette : dl DATA_FA0660 : db $20
 	dw sprite.render_order, $00F4
 	dw sprite.state, $0000
 	dw sprite.interaction_flags, $0000
@@ -2337,7 +2338,7 @@ DATA_FF15F2:
 	dw !initcommand_success
 
 DATA_FF1606:
-	dw !initcommand_setup_static2, !sprite_unknown_0064, $0028 : dl DATA_FA0660 : db $20
+	dw !initcommand_setup_static2, !sprite_unknown_0064, !plus_minus_barrel_sprite_palette : dl DATA_FA0660 : db $20
 	dw sprite.render_order, $00F4
 	dw sprite.state, $0000
 	dw sprite.interaction_flags, $0000
@@ -2426,7 +2427,7 @@ DATA_FF1714:
 DATA_FF1718:
 	dw sprite.type, !sprite_shot_canball_or_barrel
 	dw sprite.interaction_flags, $0020
-	dw !initcommand_set_alt_palette, $0009
+	dw !initcommand_set_alt_palette, !canball_sprite_palette
 	dw !initcommand_set_animation, $02E3
 	dw sprite.state, $0000
 	dw sprite.general_purpose_4A, $0000
@@ -2442,7 +2443,7 @@ DATA_FF1742:
 	dw sprite.type, !sprite_shot_canball_or_barrel
 	dw sprite.constants_address, DATA_FF021C
 	dw sprite.interaction_flags, $0020
-	dw !initcommand_set_alt_palette, $0009
+	dw !initcommand_set_alt_palette, !canball_sprite_palette
 	dw !initcommand_set_animation, $02FD
 	dw sprite.state, $0001
 	dw sprite.general_purpose_4A, $0000
@@ -2453,7 +2454,7 @@ DATA_FF1766:
 	dw sprite.type, !sprite_shot_canball_or_barrel
 	dw sprite.constants_address, DATA_FF021C
 	dw sprite.interaction_flags, $0020
-	dw !initcommand_set_alt_palette, $0002
+	dw !initcommand_set_alt_palette, !barrel_sprite_palette
 	dw !initcommand_set_animation, $02FA
 	dw sprite.state, $0002
 	dw sprite.general_purpose_4A, $4008
@@ -2483,7 +2484,7 @@ DATA_FF17C0:
 	dw sprite.type, !sprite_level_goal_pole
 	dw sprite.render_order, $00C9
 	dw sprite.state, $0000
-	dw !initcommand_set_alt_palette, $0002
+	dw !initcommand_set_alt_palette, !barrel_sprite_palette
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_set_animation, $02C1
 	dw !initcommand_success
@@ -2494,7 +2495,7 @@ DATA_FF17E0:
 	dw sprite.render_order, $00CA
 	dw sprite.state, $0000
 	dw sprite.x_speed, $0000
-	dw !initcommand_set_alt_palette, $0002
+	dw !initcommand_set_alt_palette, !barrel_sprite_palette
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_set_animation, $02C2
 	dw !initcommand_success
@@ -2504,13 +2505,13 @@ DATA_FF1804:
 	dw sprite.type, !sprite_level_goal_prize
 	dw sprite.render_order, $00CA
 	dw sprite.state, $0000
-	dw !initcommand_set_alt_palette, $0000
+	dw !initcommand_set_alt_palette, !global_sprite_palette
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_set_animation, $02B2
 	dw !initcommand_success
 
 DATA_FF1824:
-	dw !initcommand_setup_static2, !sprite_lilypad, $0058 : dl DATA_C008E1 : db $12
+	dw !initcommand_setup_static2, !sprite_lilypad, !bullrush_sprite_palette : dl DATA_C008E1 : db $12
 	dw sprite.type, !sprite_lilypad
 	dw !initcommand_spawn_relative, $0000, $0000
 	dw sprite.state, $0000
@@ -2519,7 +2520,7 @@ DATA_FF1824:
 	dw !initcommand_success
 
 DATA_FF1846:
-	dw !initcommand_setup_static2, !sprite_puftup_spikes, $0032 : dl DATA_C006E1 : db $10
+	dw !initcommand_setup_static2, !sprite_puftup_spikes, !puftup_brown_sprite_palette : dl DATA_C006E1 : db $10
 	dw !initcommand_spawn_relative, $0000, $0000
 	dw sprite.constants_address, DATA_FF021C
 	dw sprite.movement_state, $0001
@@ -2599,174 +2600,174 @@ DATA_FF1904:
 
 DATA_FF1906:
 	dw !initcommand_load_subconfig, DATA_FF189A
-	dw !initcommand_set_alt_palette, $0000
+	dw !initcommand_set_alt_palette, !global_sprite_palette
 	dw !initcommand_set_animation, $02B2
 	dw !initcommand_success
 
 DATA_FF1914:
 	dw !initcommand_load_subconfig, DATA_FF189A
-	dw !initcommand_set_alt_palette, $0000
+	dw !initcommand_set_alt_palette, !global_sprite_palette
 	dw !initcommand_set_animation, $02BB
 	dw !initcommand_success
 
 DATA_FF1922:
 	dw !initcommand_load_subconfig, DATA_FF189A
-	dw !initcommand_set_alt_palette, $0000
+	dw !initcommand_set_alt_palette, !global_sprite_palette
 	dw !initcommand_set_animation, $02BC
 	dw !initcommand_success
 
 DATA_FF1930:
 	dw !initcommand_load_subconfig, DATA_FF189A
-	dw !initcommand_set_alt_palette, $0000
+	dw !initcommand_set_alt_palette, !global_sprite_palette
 	dw !initcommand_set_animation, $02BD
 	dw !initcommand_success
 
 DATA_FF193E:
 	dw !initcommand_load_subconfig, DATA_FF189A
-	dw !initcommand_set_alt_palette, $0000
+	dw !initcommand_set_alt_palette, !global_sprite_palette
 	dw !initcommand_set_animation, $02BE
 	dw !initcommand_success
 
 DATA_FF194C:
 	dw !initcommand_load_subconfig, DATA_FF189A
-	dw !initcommand_set_alt_palette, $0002
+	dw !initcommand_set_alt_palette, !barrel_sprite_palette
 	dw !initcommand_set_animation, $02E1
 	dw !initcommand_success
 
 DATA_FF195A:
 	dw !initcommand_load_subconfig, DATA_FF189A
-	dw !initcommand_set_alt_palette, $0002
+	dw !initcommand_set_alt_palette, !barrel_sprite_palette
 	dw !initcommand_set_animation, $02E5
 	dw !initcommand_success
 
 DATA_FF1968:
 	dw !initcommand_load_subconfig, DATA_FF189A
-	dw !initcommand_set_alt_palette, $0002
+	dw !initcommand_set_alt_palette, !barrel_sprite_palette
 	dw !initcommand_set_animation, $02CD
 	dw !initcommand_success
 
 DATA_FF1976:
 	dw !initcommand_load_subconfig, DATA_FF189A
-	dw !initcommand_set_alt_palette, $0018
+	dw !initcommand_set_alt_palette, !life_balloon_red_sprite_palette
 	dw !initcommand_set_animation, $02C0
 	dw !initcommand_success
 
 DATA_FF1984:
 	dw !initcommand_load_subconfig, DATA_FF189A
-	dw !initcommand_set_alt_palette, $0019
+	dw !initcommand_set_alt_palette, !life_balloon_green_sprite_palette
 	dw !initcommand_set_animation, $02C0
 	dw !initcommand_success
 
 DATA_FF1992:
 	dw !initcommand_load_subconfig, DATA_FF189A
-	dw !initcommand_set_alt_palette, $001A
+	dw !initcommand_set_alt_palette, !life_balloon_blue_sprite_palette
 	dw !initcommand_set_animation, $02C0
 	dw !initcommand_success
 
 DATA_FF19A0:
 	dw !initcommand_load_subconfig, DATA_FF189A
-	dw !initcommand_set_alt_palette, $0000
+	dw !initcommand_set_alt_palette, !global_sprite_palette
 	dw !initcommand_set_animation, $02B2
 	dw !initcommand_success
 
 DATA_FF19AE:
 	dw !initcommand_load_subconfig, DATA_FF189A
-	dw !initcommand_set_alt_palette, $0014
+	dw !initcommand_set_alt_palette, !coins_sprite_palette
 	dw !initcommand_set_animation, $01C1
 	dw !initcommand_success
 
 DATA_FF19BC:
 	dw !initcommand_load_subconfig, DATA_FF189A
-	dw !initcommand_set_alt_palette, $0014
+	dw !initcommand_set_alt_palette, !coins_sprite_palette
 	dw !initcommand_set_animation, $01C1
 	dw !initcommand_success
 
 DATA_FF19CA:
 	dw !initcommand_load_subconfig, DATA_FF189A
-	dw !initcommand_set_alt_palette, $0014
+	dw !initcommand_set_alt_palette, !coins_sprite_palette
 	dw !initcommand_set_animation, $01C1
 	dw !initcommand_success
 
 DATA_FF19D8:
 	dw !initcommand_load_subconfig, DATA_FF189A
-	dw !initcommand_set_alt_palette, $0014
+	dw !initcommand_set_alt_palette, !coins_sprite_palette
 	dw !initcommand_set_animation, $01C1
 	dw !initcommand_success
 
 DATA_FF19E6:
 	dw !initcommand_load_subconfig, DATA_FF189A
-	dw !initcommand_set_alt_palette, $0014
+	dw !initcommand_set_alt_palette, !coins_sprite_palette
 	dw !initcommand_set_animation, $01C2
 	dw !initcommand_success
 
 DATA_FF19F4:
 	dw !initcommand_load_subconfig, DATA_FF189A
-	dw !initcommand_set_alt_palette, $0014
+	dw !initcommand_set_alt_palette, !coins_sprite_palette
 	dw !initcommand_set_animation, $01C3
 	dw !initcommand_success
 
 DATA_FF1A02:
 	dw !initcommand_load_subconfig, DATA_FF189A
-	dw !initcommand_set_alt_palette, $0009
+	dw !initcommand_set_alt_palette, !canball_sprite_palette
 	dw !initcommand_set_animation, $02E3
 	dw !initcommand_success
 
 DATA_FF1A10:
 	dw !initcommand_load_subconfig, DATA_FF189A
-	dw !initcommand_set_alt_palette, $0002
+	dw !initcommand_set_alt_palette, !barrel_sprite_palette
 	dw !initcommand_set_animation, $02E7
 	dw !initcommand_success
 
 DATA_FF1A1E:
 	dw !initcommand_load_subconfig, DATA_FF189A
-	dw !initcommand_set_alt_palette, $0000
+	dw !initcommand_set_alt_palette, !global_sprite_palette
 	dw !initcommand_set_animation, $02B2
 	dw !initcommand_success
 
 DATA_FF1A2C:
 	dw !initcommand_load_subconfig, DATA_FF189A
-	dw !initcommand_set_alt_palette, $0000
+	dw !initcommand_set_alt_palette, !global_sprite_palette
 	dw !initcommand_set_animation, $02B2
 	dw !initcommand_success
 
 DATA_FF1A3A:
 	dw !initcommand_load_subconfig, DATA_FF189A
-	dw !initcommand_set_alt_palette, $0000
+	dw !initcommand_set_alt_palette, !global_sprite_palette
 	dw !initcommand_set_animation, $02B2
 	dw !initcommand_success
 
 DATA_FF1A48:
 	dw !initcommand_load_subconfig, DATA_FF189A
-	dw !initcommand_set_alt_palette, $0000
+	dw !initcommand_set_alt_palette, !global_sprite_palette
 	dw !initcommand_set_animation, $02B2
 	dw !initcommand_success
 
 DATA_FF1A56:
 	dw !initcommand_load_subconfig, DATA_FF189A
-	dw !initcommand_set_alt_palette, $0000
+	dw !initcommand_set_alt_palette, !global_sprite_palette
 	dw !initcommand_set_animation, $02B2
 	dw !initcommand_success
 
 DATA_FF1A64:
 	dw !initcommand_load_subconfig, DATA_FF189A
-	dw !initcommand_set_alt_palette, $0000
+	dw !initcommand_set_alt_palette, !global_sprite_palette
 	dw !initcommand_set_animation, $02DF
 	dw !initcommand_success
 
 DATA_FF1A72:
 	dw !initcommand_load_subconfig, DATA_FF189A
-	dw !initcommand_set_alt_palette, $0014
+	dw !initcommand_set_alt_palette, !coins_sprite_palette
 	dw !initcommand_set_animation, $01C5
 	dw !initcommand_success
 
 DATA_FF1A80:
 	dw !initcommand_load_subconfig, DATA_FF189A
-	dw !initcommand_set_alt_palette, $0014
+	dw !initcommand_set_alt_palette, !coins_sprite_palette
 	dw !initcommand_set_animation, $01C2
 	dw !initcommand_success
 
 ;level end target/chest reward sprites
-DATA_FF1A8E:
+item_reward_init_scripts_table:
 	dw DATA_FFC584			;00 Banana Bunch
 	dw DATA_FF97EA			;01 K
 	dw DATA_FF9816			;02 O
@@ -2801,7 +2802,7 @@ DATA_FF1AC6:
 	dw sprite.constants_address, DATA_FF021C
 	dw sprite.render_order, $00C8
 	dw !initcommand_set_oam, $2000
-	dw !initcommand_set_alt_palette, $0000
+	dw !initcommand_set_alt_palette, !global_sprite_palette
 	dw !initcommand_set_animation, $02DF
 	dw sprite.state, $0000
 	dw sprite.general_purpose_4E, $0001
@@ -2847,13 +2848,13 @@ DATA_FF1B56:
 	dw sprite.type, !sprite_skull_cart_sparks
 	dw !initcommand_spawn_relative, $0000, $0000
 	dw !initcommand_set_oam, $2000
-	dw !initcommand_set_alt_palette, $0027
+	dw !initcommand_set_alt_palette, !skull_cart_sprite_palette
 	dw !initcommand_set_animation, $01B1
 	dw sprite.state, $0000
 	dw !initcommand_success
 
 DATA_FF1B72:
-	dw !initcommand_setup_static2, !sprite_canball_pieces1, $0020 : dl DATA_C01021 : db $20
+	dw !initcommand_setup_static2, !sprite_canball_pieces1, !krows_eggs_sprite_palette : dl DATA_C01021 : db $20
 	dw !initcommand_spawn_relative, $0000, $0000
 	dw sprite.constants_address, DATA_FF0252
 	dw sprite.render_order, $00C8
@@ -2865,7 +2866,7 @@ DATA_FF1B72:
 	dw !initcommand_success
 
 DATA_FF1BA0:
-	dw !initcommand_setup_static2, !sprite_canball_pieces2, $0020 : dl DATA_C01421 : db $19
+	dw !initcommand_setup_static2, !sprite_canball_pieces2, !krows_eggs_sprite_palette : dl DATA_C01421 : db $19
 	dw !initcommand_spawn_relative, $0000, $0000
 	dw sprite.constants_address, DATA_FF0252
 	dw sprite.render_order, $00C8
@@ -2877,7 +2878,7 @@ DATA_FF1BA0:
 	dw !initcommand_success
 
 DATA_FF1BCE:
-	dw !initcommand_setup_static2, !sprite_egg_shell_pieces, $0020 : dl DATA_C01741 : db $1F
+	dw !initcommand_setup_static2, !sprite_egg_shell_pieces, !krows_eggs_sprite_palette : dl DATA_C01741 : db $1F
 	dw !initcommand_spawn_relative, $0000, $0000
 	dw sprite.constants_address, DATA_FF0252
 	dw sprite.render_order, $00C8
@@ -2893,7 +2894,7 @@ DATA_FF1BFC:
 	dw sprite.interaction_flags, $0020
 	dw !initcommand_spawn_relative, $0000, $0000
 	dw !initcommand_set_oam, $7000
-	dw !initcommand_set_alt_palette, $0021
+	dw !initcommand_set_alt_palette, !krows_head_sprite_palette
 	dw !initcommand_set_animation, $0204
 	dw !initcommand_success
 
@@ -2902,7 +2903,7 @@ DATA_FF1C18:
 	dw sprite.interaction_flags, $0020
 	dw !initcommand_spawn_relative, $0000, $0000
 	dw !initcommand_set_oam, $1000
-	dw !initcommand_set_alt_palette, $00B8
+	dw !initcommand_set_alt_palette, !kreepy_krows_head_sprite_palette
 	dw !initcommand_set_animation, $0204
 	dw !initcommand_success
 
@@ -2912,7 +2913,7 @@ DATA_FF1C34:
 	dw sprite.interaction_flags, $0200
 	dw !initcommand_spawn_relative, $0000, $0000
 	dw !initcommand_set_oam, $3000
-	dw !initcommand_set_alt_palette, $0038
+	dw !initcommand_set_alt_palette, !zinger_yellow_sprite_palette
 	dw !initcommand_set_animation, $0232
 	dw !initcommand_success
 
@@ -2924,7 +2925,7 @@ DATA_FF1C54:
 	dw sprite.interaction_flags, $0000
 	dw sprite.terrain_interaction, $1001
 	dw !initcommand_set_oam, $2000
-	dw !initcommand_set_alt_palette, $0020
+	dw !initcommand_set_alt_palette, !krows_eggs_sprite_palette
 	dw !initcommand_set_animation, $02E4
 	dw !initcommand_success
 
@@ -2935,7 +2936,7 @@ DATA_FF1C7A:
 	dw sprite.interaction_flags, $0020
 	dw sprite.placement_parameter, $0020
 	dw !initcommand_set_oam, $2000
-	dw !initcommand_set_alt_palette, $0020
+	dw !initcommand_set_alt_palette, !krows_eggs_sprite_palette
 	dw !initcommand_set_animation, $0303
 	dw !initcommand_success
 
@@ -2945,7 +2946,7 @@ DATA_FF1C9C:
 	dw sprite.interaction_flags, $0020
 	dw sprite.state, $0000
 	dw !initcommand_set_oam, $2000
-	dw !initcommand_set_alt_palette, $002B
+	dw !initcommand_set_alt_palette, !kleever_hand_sprite_palette
 	dw !initcommand_set_animation, $0211
 	dw !initcommand_success
 
@@ -2956,7 +2957,7 @@ DATA_FF1CBA:
 	dw sprite.state, $0000
 	dw sprite.unknown_1C, $C000
 	dw !initcommand_set_oam, $2000
-	dw !initcommand_set_palette, DATA_FD7166
+	dw !initcommand_set_palette, kleever_hand_sprite_palette
 	dw !initcommand_set_animation, $0218
 	dw !initcommand_success
 
@@ -2966,7 +2967,7 @@ DATA_FF1CDC:
 	dw sprite.interaction_flags, $0000
 	dw sprite.state, $0000
 	dw !initcommand_set_oam, $2000
-	dw !initcommand_set_alt_palette, $002B
+	dw !initcommand_set_alt_palette, !kleever_hand_sprite_palette
 	dw !initcommand_set_animation, $020F
 	dw !initcommand_success
 
@@ -2976,7 +2977,7 @@ DATA_FF1CFA:
 	dw sprite.render_order, $00FA
 	dw sprite.general_purpose_48, $0001
 	dw !initcommand_set_oam, $2000
-	dw !initcommand_set_alt_palette, $0051
+	dw !initcommand_set_alt_palette, !kleever_1_sprite_palette
 	dw !initcommand_set_animation, $022E
 	dw !initcommand_success
 
@@ -2985,7 +2986,7 @@ DATA_FF1D1A:
 	dw !initcommand_spawn_relative, $0000, $0000
 	dw sprite.render_order, $00F8
 	dw !initcommand_set_oam, $2000
-	dw !initcommand_set_alt_palette, $002B
+	dw !initcommand_set_alt_palette, !kleever_hand_sprite_palette
 	dw !initcommand_set_animation, $022F
 	dw !initcommand_success
 
@@ -2995,7 +2996,7 @@ DATA_FF1D36:
 	dw sprite.interaction_flags, $0020
 	dw sprite.state, $0000
 	dw !initcommand_set_oam, $2000
-	dw !initcommand_set_alt_palette, $002B
+	dw !initcommand_set_alt_palette, !kleever_hand_sprite_palette
 	dw !initcommand_set_animation, $0214
 	dw !initcommand_success
 
@@ -3032,14 +3033,14 @@ DATA_FF1D8E:
 	dw sprite.general_purpose_4A, $0000
 	dw sprite.interaction_flags, $0000
 	dw !initcommand_set_oam, $2000
-	dw !initcommand_set_alt_palette, $0009
+	dw !initcommand_set_alt_palette, !canball_sprite_palette
 	dw !initcommand_set_animation, $02E3
 	dw sprite.movement_state, $0020
 	dw sprite.general_purpose_4E, DATA_FF1D54
 	dw !initcommand_success
 
 DATA_FF1DC8:
-	dw !initcommand_setup_static2, !sprite_kleever_dropping_hooks, $0009 : dl DATA_C00DA1 : db $14
+	dw !initcommand_setup_static2, !sprite_kleever_dropping_hooks, !canball_sprite_palette : dl DATA_C00DA1 : db $14
 	dw sprite.render_order, $00D4
 	dw sprite.y_position, $0100
 	dw sprite.general_purpose_42, $0000
@@ -3101,12 +3102,12 @@ DATA_FF1E74:
 	dw sprite.placement_parameter, $0022
 	dw sprite.unknown_1C, $0000
 	dw !initcommand_set_oam, $2000
-	dw !initcommand_set_alt_palette, $0002
+	dw !initcommand_set_alt_palette, !barrel_sprite_palette
 	dw !initcommand_set_animation, $02E0
 	dw !initcommand_success
 
 DATA_FF1EAA:
-	dw !initcommand_setup_static2, !sprite_king_zing_spikes, $0032 : dl DATA_C006E1 : db $10
+	dw !initcommand_setup_static2, !sprite_king_zing_spikes, !puftup_brown_sprite_palette : dl DATA_C006E1 : db $10
 	dw !initcommand_spawn_relative, $0000, $FFF6
 	dw sprite.render_order, $00D3
 	dw sprite.unknown_1C, $0000
@@ -3139,7 +3140,7 @@ DATA_FF1EFE:
 	dw sprite.interaction_flags, $0020
 	dw sprite.unknown_1C, $C000
 	dw !initcommand_set_oam, $2000
-	dw !initcommand_set_alt_palette, $0038
+	dw !initcommand_set_alt_palette, !zinger_yellow_sprite_palette
 	dw !initcommand_set_animation, $0240
 	dw !initcommand_success
 
@@ -3151,7 +3152,7 @@ DATA_FF1F2C:
 	dw sprite.unknown_1C, $0000
 	dw !initcommand_spawn_relative, $0000, $0000
 	dw !initcommand_set_oam, $6000
-	dw !initcommand_set_alt_palette, $006A
+	dw !initcommand_set_alt_palette, !krool_gun_sprite_palette
 	dw !initcommand_set_animation, $025F
 	dw !initcommand_success
 
@@ -3174,27 +3175,27 @@ DATA_FF1F54:
 DATA_FF1F8A:
 	dw !initcommand_load_subconfig, DATA_FF1F54
 	dw sprite.type, !sprite_krool_canball
-	dw !initcommand_set_alt_palette, $0009
+	dw !initcommand_set_alt_palette, !canball_sprite_palette
 	dw !initcommand_set_animation, $02FD
 	dw !initcommand_success
 
 DATA_FF1F9C:
 	dw !initcommand_load_subconfig, DATA_FF1F54
 	dw sprite.type, !sprite_spiked_canballs
-	dw !initcommand_set_alt_palette, $0009
+	dw !initcommand_set_alt_palette, !canball_sprite_palette
 	dw !initcommand_set_animation, $02FD
 	dw !initcommand_success
 
 DATA_FF1FAE:
 	dw !initcommand_load_subconfig, DATA_FF1F54
 	dw sprite.type, !sprite_spiked_canballs
-	dw !initcommand_set_alt_palette, $0002
+	dw !initcommand_set_alt_palette, !barrel_sprite_palette
 	dw !initcommand_success
 
 DATA_FF1FBC:
 	dw !initcommand_load_subconfig, DATA_FF1F54
 	dw sprite.type, !sprite_spiked_canballs
-	dw !initcommand_set_alt_palette, $0071
+	dw !initcommand_set_alt_palette, !krool_blue_gas_sprite_palette
 	dw !initcommand_set_animation, $027E
 	dw !initcommand_set_oam, $1000
 	dw !initcommand_success
@@ -3202,7 +3203,7 @@ DATA_FF1FBC:
 DATA_FF1FD2:
 	dw !initcommand_load_subconfig, DATA_FF1F54
 	dw sprite.type, !sprite_spiked_canballs
-	dw !initcommand_set_alt_palette, $0072
+	dw !initcommand_set_alt_palette, !krool_red_gas_sprite_palette
 	dw !initcommand_set_animation, $027E
 	dw !initcommand_set_oam, $1000
 	dw !initcommand_success
@@ -3210,7 +3211,7 @@ DATA_FF1FD2:
 DATA_FF1FE8:
 	dw !initcommand_load_subconfig, DATA_FF1F54
 	dw sprite.type, !sprite_spiked_canballs
-	dw !initcommand_set_alt_palette, $0073
+	dw !initcommand_set_alt_palette, !krool_purple_gas_sprite_palette
 	dw !initcommand_set_animation, $027E
 	dw !initcommand_set_oam, $1000
 	dw !initcommand_success
@@ -3222,7 +3223,7 @@ DATA_FF1FFE:
 	dw sprite.state, $0000
 	dw sprite.unknown_1C, $C000
 	dw !initcommand_set_oam, $1000
-	dw !initcommand_set_alt_palette, $002B
+	dw !initcommand_set_alt_palette, !kleever_hand_sprite_palette
 	dw !initcommand_set_animation, $0269
 	dw !initcommand_success
 
@@ -3233,7 +3234,7 @@ DATA_FF2020:
 	dw sprite.state, $0000
 	dw !initcommand_set_oam, $2000
 	dw sprite.unknown_1C, $0000
-	dw !initcommand_set_alt_palette, $0070
+	dw !initcommand_set_alt_palette, !krool_gun_vacuum_sprite_palette
 	dw !initcommand_set_animation, $026C
 	dw !initcommand_success
 
@@ -3252,13 +3253,13 @@ DATA_FF2042:
 
 DATA_FF206C:
 	dw !initcommand_load_subconfig, DATA_FF2042
-	dw !initcommand_set_alt_palette, $0000
+	dw !initcommand_set_alt_palette, !global_sprite_palette
 	dw sprite.render_order, $00F8
 	dw !initcommand_success
 
 DATA_FF207A:
 	dw !initcommand_load_subconfig, DATA_FF2042
-	dw !initcommand_set_alt_palette, $0042
+	dw !initcommand_set_alt_palette, !kudgel_water_splash_sprite_palette
 	dw sprite.render_order, $00F8
 	dw !initcommand_set_animation, $029E
 	dw !initcommand_set_oam, $1000
@@ -3266,7 +3267,7 @@ DATA_FF207A:
 
 DATA_FF2090:
 	dw !initcommand_load_subconfig, DATA_FF2042
-	dw !initcommand_set_alt_palette, $002B
+	dw !initcommand_set_alt_palette, !kleever_hand_sprite_palette
 	dw sprite.render_order, $00F8
 	dw sprite.general_purpose_42, $0002
 	dw sprite.general_purpose_44, $0002
@@ -3277,7 +3278,7 @@ DATA_FF2090:
 
 DATA_FF20B4:
 	dw !initcommand_load_subconfig, DATA_FF2042
-	dw !initcommand_set_alt_palette, $001B
+	dw !initcommand_set_alt_palette, !no_animal_buddy_sign_sprite_palette
 	dw sprite.render_order, $00F8
 	dw sprite.general_purpose_42, $0002
 	dw sprite.general_purpose_44, $0002
@@ -3288,7 +3289,7 @@ DATA_FF20B4:
 
 DATA_FF20D8:
 	dw !initcommand_load_subconfig, DATA_FF2042
-	dw !initcommand_set_alt_palette, $001B
+	dw !initcommand_set_alt_palette, !no_animal_buddy_sign_sprite_palette
 	dw sprite.render_order, $00F8
 	dw sprite.general_purpose_42, $0002
 	dw sprite.general_purpose_44, $0002
@@ -3299,7 +3300,7 @@ DATA_FF20D8:
 
 DATA_FF20FC:
 	dw !initcommand_load_subconfig, DATA_FF2042
-	dw !initcommand_set_alt_palette, $002B
+	dw !initcommand_set_alt_palette, !kleever_hand_sprite_palette
 	dw sprite.render_order, $00F8
 	dw sprite.general_purpose_42, $0002
 	dw sprite.general_purpose_44, $0002
@@ -3310,7 +3311,7 @@ DATA_FF20FC:
 
 DATA_FF2120:
 	dw !initcommand_load_subconfig, DATA_FF2042
-	dw !initcommand_set_alt_palette, $002B
+	dw !initcommand_set_alt_palette, !kleever_hand_sprite_palette
 	dw sprite.render_order, $00F8
 	dw !initcommand_spawn_relative, $0000, $FFEC
 	dw !initcommand_set_animation, $0275
@@ -3319,7 +3320,7 @@ DATA_FF2120:
 
 DATA_FF213C:
 	dw !initcommand_load_subconfig, DATA_FF2042
-	dw !initcommand_set_alt_palette, $002B
+	dw !initcommand_set_alt_palette, !kleever_hand_sprite_palette
 	dw sprite.render_order, $00F8
 	dw !initcommand_success
 
@@ -3375,7 +3376,7 @@ DATA_FF21EE:
 	dw sprite.interaction_flags, $0000
 	dw sprite.render_order, $00D6
 	dw !initcommand_set_oam, $6000
-	dw !initcommand_set_alt_palette, $006B
+	dw !initcommand_set_alt_palette, !krool_blinking_eyes_sprite_palette
 	dw !initcommand_set_animation, $0273
 	dw !initcommand_spawn_relative, $0000, $0000
 	dw sprite.unknown_1C, $0000
@@ -3388,12 +3389,12 @@ DATA_FF2216:
 	dw sprite.state, $0004
 	dw sprite.interaction_flags, $0000
 	dw !initcommand_set_oam, $2000
-	dw !initcommand_set_alt_palette, $0002
+	dw !initcommand_set_alt_palette, !barrel_sprite_palette
 	dw !initcommand_set_animation, $02E1
 	dw !initcommand_success
 
 DATA_FF2238:
-	dw !initcommand_setup_static2, !sprite_canball_pieces1, $0074 : dl DATA_C01021 : db $20
+	dw !initcommand_setup_static2, !sprite_canball_pieces1, !krow_egg_fragment_sprite_palette : dl DATA_C01021 : db $20
 	dw !initcommand_spawn_relative, $0000, $0000
 	dw sprite.constants_address, DATA_FF0252
 	dw sprite.render_order, $00C8
@@ -3406,7 +3407,7 @@ DATA_FF2238:
 	dw !initcommand_success
 
 DATA_FF226A:
-	dw !initcommand_setup_static2, !sprite_canball_pieces2, $0074 : dl DATA_C01421 : db $19
+	dw !initcommand_setup_static2, !sprite_canball_pieces2, !krow_egg_fragment_sprite_palette : dl DATA_C01421 : db $19
 	dw !initcommand_spawn_relative, $0000, $0000
 	dw sprite.constants_address, DATA_FF0252
 	dw sprite.render_order, $00C8
@@ -3425,7 +3426,7 @@ DATA_FF229C:
 	dw sprite.general_purpose_42, $0000
 	dw sprite.render_order, $00D4
 	dw !initcommand_set_oam, $6000
-	dw !initcommand_set_alt_palette, $005F
+	dw !initcommand_set_alt_palette, !klubba_sprite_palette
 	dw !initcommand_set_animation, $028C
 	dw !initcommand_success
 
@@ -3435,7 +3436,7 @@ DATA_FF22BE:
 	dw sprite.y_position, $009A
 	dw sprite.render_order, $00D4
 	dw !initcommand_set_oam, $6000
-	dw !initcommand_set_alt_palette, $005E
+	dw !initcommand_set_alt_palette, !klubbas_club_sprite_palette
 	dw !initcommand_set_animation, $028D
 	dw !initcommand_success
 
@@ -3448,7 +3449,7 @@ DATA_FF22DC:
 	dw !initcommand_spawn_relative, $0000, $0000
 	dw sprite.placement_parameter, $0022
 	dw !initcommand_set_oam, $6000
-	dw !initcommand_set_alt_palette, $0097
+	dw !initcommand_set_alt_palette, !kudgels_club_sprite_palette
 	dw !initcommand_set_animation, $028D
 	dw !initcommand_success
 
@@ -3481,7 +3482,7 @@ DATA_FF2334:
 
 DATA_FF2364:
 	dw !initcommand_load_subconfig, DATA_FF2042
-	dw !initcommand_set_alt_palette, $0041
+	dw !initcommand_set_alt_palette, !lava_splash_sprite_palette
 	dw !initcommand_spawn_relative, $0000, $0000
 	dw sprite.y_position, $02C0
 	dw sprite.render_order, $00F8
@@ -3492,7 +3493,7 @@ DATA_FF2364:
 
 DATA_FF2388:
 	dw !initcommand_load_subconfig, DATA_FF2042
-	dw !initcommand_set_alt_palette, $0041
+	dw !initcommand_set_alt_palette, !lava_splash_sprite_palette
 	dw !initcommand_spawn_relative, $FFFB, $0005
 	dw sprite.y_position, $02CA
 	dw sprite.render_order, $00F8
@@ -3503,7 +3504,7 @@ DATA_FF2388:
 
 DATA_FF23AC:
 	dw !initcommand_load_subconfig, DATA_FF2042
-	dw !initcommand_set_alt_palette, $0041
+	dw !initcommand_set_alt_palette, !lava_splash_sprite_palette
 	dw !initcommand_spawn_relative, $0006, $0008
 	dw sprite.y_position, $02CF
 	dw sprite.render_order, $00F8
@@ -3513,7 +3514,7 @@ DATA_FF23AC:
 	dw !initcommand_success
 
 DATA_FF23D0:
-	dw !initcommand_setup_static2, !sprite_kleever_pieces1, $0051 : dl DATA_FB64E0 : db $17
+	dw !initcommand_setup_static2, !sprite_kleever_pieces1, !kleever_1_sprite_palette : dl DATA_FB64E0 : db $17
 	dw sprite.render_order, $00F9
 	dw sprite.general_purpose_46, $0000
 	dw !initcommand_set_oam, $2000
@@ -3521,7 +3522,7 @@ DATA_FF23D0:
 	dw !initcommand_success
 
 DATA_FF23EC:
-	dw !initcommand_setup_static2, !sprite_kleever_pieces2, $0051 : dl DATA_FB67C0 : db $20
+	dw !initcommand_setup_static2, !sprite_kleever_pieces2, !kleever_1_sprite_palette : dl DATA_FB67C0 : db $20
 	dw sprite.render_order, $00F9
 	dw sprite.general_purpose_46, $0000
 	dw !initcommand_set_oam, $2000
@@ -3529,7 +3530,7 @@ DATA_FF23EC:
 	dw !initcommand_success
 
 DATA_FF2408:
-	dw !initcommand_setup_static2, !sprite_kleever_pieces3, $0051 : dl DATA_FB6BC0 : db $20
+	dw !initcommand_setup_static2, !sprite_kleever_pieces3, !kleever_1_sprite_palette : dl DATA_FB6BC0 : db $20
 	dw sprite.render_order, $00F9
 	dw sprite.general_purpose_46, $0000
 	dw !initcommand_set_oam, $2000
@@ -3537,7 +3538,7 @@ DATA_FF2408:
 	dw !initcommand_success
 
 DATA_FF2424:
-	dw !initcommand_setup_static2, !sprite_kleever_pieces4, $0051 : dl DATA_FA0360 : db $18
+	dw !initcommand_setup_static2, !sprite_kleever_pieces4, !kleever_1_sprite_palette : dl DATA_FA0360 : db $18
 	dw sprite.render_order, $00F9
 	dw sprite.general_purpose_46, $0000
 	dw !initcommand_set_oam, $2000
@@ -3545,7 +3546,7 @@ DATA_FF2424:
 	dw !initcommand_success
 
 DATA_FF2440:
-	dw !initcommand_setup_static2, !sprite_kleever_pieces5, $0051 : dl DATA_FC5680 : db $14
+	dw !initcommand_setup_static2, !sprite_kleever_pieces5, !kleever_1_sprite_palette : dl DATA_FC5680 : db $14
 	dw sprite.render_order, $00F9
 	dw sprite.general_purpose_46, $0000
 	dw !initcommand_set_oam, $2000
@@ -3553,7 +3554,7 @@ DATA_FF2440:
 	dw !initcommand_success
 
 DATA_FF245C:
-	dw !initcommand_setup_static2, !sprite_kleever_bone_pieces, $0051 : dl DATA_FA0000 : db $1B
+	dw !initcommand_setup_static2, !sprite_kleever_bone_pieces, !kleever_1_sprite_palette : dl DATA_FA0000 : db $1B
 	dw sprite.render_order, $00F9
 	dw sprite.general_purpose_46, $0000
 	dw !initcommand_set_oam, $2000
@@ -3568,7 +3569,7 @@ DATA_FF2478:
 	dw sprite.general_purpose_42, $0000
 	dw sprite.general_purpose_44, DATA_BAC259
 	dw !initcommand_set_oam, $6000
-	dw !initcommand_set_alt_palette, $0026
+	dw !initcommand_set_alt_palette, !cranky_sprite_palette
 	dw !initcommand_success
 
 DATA_FF249A:
@@ -3579,7 +3580,7 @@ DATA_FF249A:
 	dw sprite.general_purpose_42, $0000
 	dw sprite.general_purpose_44, DATA_BAC26F
 	dw !initcommand_set_oam, $6000
-	dw !initcommand_set_alt_palette, $0023
+	dw !initcommand_set_alt_palette, !funky_sprite_palette
 	dw !initcommand_success
 
 DATA_FF24BC:
@@ -3590,7 +3591,7 @@ DATA_FF24BC:
 	dw sprite.general_purpose_42, $0000
 	dw sprite.general_purpose_44, DATA_BAC28D
 	dw !initcommand_set_oam, $6000
-	dw !initcommand_set_alt_palette, $0004
+	dw !initcommand_set_alt_palette, !dixie_active_sprite_palette
 	dw !initcommand_success
 
 DATA_FF24DE:
@@ -3601,7 +3602,7 @@ DATA_FF24DE:
 	dw sprite.general_purpose_42, $0000
 	dw sprite.general_purpose_44, DATA_BAC2AB
 	dw !initcommand_set_oam, $2000
-	dw !initcommand_set_alt_palette, $0037
+	dw !initcommand_set_alt_palette, !swanky_sprite_palette
 	dw !initcommand_success
 
 DATA_FF2500:
@@ -3613,7 +3614,7 @@ DATA_FF2500:
 	dw sprite.general_purpose_44, DATA_BAC2BD
 	dw sprite.unknown_1C, $C000
 	dw !initcommand_set_oam, $2000
-	dw !initcommand_set_alt_palette, $0037
+	dw !initcommand_set_alt_palette, !swanky_sprite_palette
 	dw !initcommand_success
 
 DATA_FF2526:
@@ -3624,7 +3625,7 @@ DATA_FF2526:
 	dw sprite.general_purpose_42, $0000
 	dw sprite.general_purpose_44, DATA_BAC2C3
 	dw !initcommand_set_oam, $2000
-	dw !initcommand_set_alt_palette, $00A3
+	dw !initcommand_set_alt_palette, !wrinkly_sprite_palette
 	dw !initcommand_success
 
 DATA_FF2548:
@@ -3635,7 +3636,7 @@ DATA_FF2548:
 	dw sprite.general_purpose_42, $0000
 	dw sprite.general_purpose_44, DATA_BAC2E3
 	dw !initcommand_set_oam, $2000
-	dw !initcommand_set_alt_palette, $00A4
+	dw !initcommand_set_alt_palette, !wrinkly_book_sprite_palette
 	dw !initcommand_success
 
 DATA_FF256A:
@@ -3660,7 +3661,7 @@ DATA_FF25A0:
 	dw sprite.render_order, $00D4
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_set_animation, $01E9
-	dw !initcommand_set_alt_palette, $005D
+	dw !initcommand_set_alt_palette, !funky_barrel_wings_sprite_palette
 	dw !initcommand_success
 
 DATA_FF25BA:
@@ -3668,7 +3669,7 @@ DATA_FF25BA:
 	dw !initcommand_load_subconfig, DATA_FF256A
 	dw sprite.render_order, $00D2
 	dw !initcommand_set_oam, $2000
-	dw !initcommand_set_alt_palette, $0002
+	dw !initcommand_set_alt_palette, !barrel_sprite_palette
 	dw !initcommand_success
 
 DATA_FF25D0:
@@ -3677,7 +3678,7 @@ DATA_FF25D0:
 	dw sprite.render_order, $00D4
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_set_animation, $01EB
-	dw !initcommand_set_alt_palette, $005D
+	dw !initcommand_set_alt_palette, !funky_barrel_wings_sprite_palette
 	dw !initcommand_success
 
 DATA_FF25EA:
@@ -3701,7 +3702,7 @@ DATA_FF2620:
 	dw sprite.x_position, $00C8
 	dw sprite.y_position, $0050
 	dw sprite.render_order, $00D4
-	dw !initcommand_set_alt_palette, $0014
+	dw !initcommand_set_alt_palette, !coins_sprite_palette
 	dw !initcommand_set_animation, $01D8
 	dw !initcommand_success
 
@@ -3782,7 +3783,7 @@ DATA_FF26F8:
 	dw sprite.render_order, $00D2
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_set_animation, $024F
-	dw !initcommand_set_alt_palette, $006A
+	dw !initcommand_set_alt_palette, !krool_gun_sprite_palette
 	dw !initcommand_success
 
 DATA_FF2716:
@@ -3792,7 +3793,7 @@ DATA_FF2716:
 	dw sprite.render_order, $00D9
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_set_animation, $0244
-	dw !initcommand_set_alt_palette, $006A
+	dw !initcommand_set_alt_palette, !krool_gun_sprite_palette
 	dw !initcommand_success
 
 DATA_FF2734:
@@ -3802,7 +3803,7 @@ DATA_FF2734:
 	dw sprite.render_order, $00D9
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_set_animation, $0243
-	dw !initcommand_set_alt_palette, $00A8
+	dw !initcommand_set_alt_palette, !donkey_kong_sprite_palette
 	dw !initcommand_success
 
 DATA_FF2752:
@@ -3812,7 +3813,7 @@ DATA_FF2752:
 	dw sprite.general_purpose_44, $0007
 	dw sprite.general_purpose_42, $0000
 	dw sprite.render_order, $00DA
-	dw !initcommand_set_alt_palette, $0009
+	dw !initcommand_set_alt_palette, !canball_sprite_palette
 	dw !initcommand_set_animation, $02FD
 	dw !initcommand_success
 
@@ -3822,11 +3823,11 @@ DATA_FF2774:
 	dw !initcommand_set_animation, $0224
 	dw !initcommand_set_oam, $6000
 	dw sprite.unknown_1C, $0000
-	dw !initcommand_set_alt_palette, $00AF
+	dw !initcommand_set_alt_palette, !krool_puddle_sprite_palette
 	dw !initcommand_success
 
 DATA_FF278E:
-	dw !initcommand_setup_static2, !sprite_krool_water_drips, $00AF : dl DATA_FC54E0 : db $0D
+	dw !initcommand_setup_static2, !sprite_krool_water_drips, !krool_puddle_sprite_palette : dl DATA_FC54E0 : db $0D
 	dw !initcommand_spawn_relative, $0000, $0000
 	dw sprite.render_order, $00F8
 	dw sprite.x_speed, $0000
@@ -3841,7 +3842,7 @@ DATA_FF27B4:
 	dw sprite.state, $0000
 	dw !initcommand_set_oam, $3000
 	dw !initcommand_set_animation, $0259
-	dw !initcommand_set_alt_palette, $00A9
+	dw !initcommand_set_alt_palette, !krool_fish_sprite_palette
 	dw !initcommand_success
 
 DATA_FF27CE:
@@ -3850,7 +3851,7 @@ DATA_FF27CE:
 	dw sprite.unknown_1C, $0000
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_set_animation, $022A
-	dw !initcommand_set_alt_palette, $0075
+	dw !initcommand_set_alt_palette, !yoshi_sprite_palette
 	dw !initcommand_success
 
 DATA_FF27E8:
@@ -3859,7 +3860,7 @@ DATA_FF27E8:
 	dw sprite.unknown_1C, $0000
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_set_animation, $022B
-	dw !initcommand_set_alt_palette, $0076
+	dw !initcommand_set_alt_palette, !mario_sprite_palette
 	dw !initcommand_success
 
 DATA_FF2802:
@@ -3868,7 +3869,7 @@ DATA_FF2802:
 	dw sprite.unknown_1C, $0000
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_set_animation, $022C
-	dw !initcommand_set_alt_palette, $0081
+	dw !initcommand_set_alt_palette, !link_sprite_palette
 	dw !initcommand_success
 
 DATA_FF281C:
@@ -3916,7 +3917,7 @@ DATA_FF287C:
 DATA_FF289C:
 	dw !initcommand_load_subconfig, DATA_FF2042
 	dw !initcommand_spawn_relative, $FFF0, $FFF5
-	dw !initcommand_set_alt_palette, $0000
+	dw !initcommand_set_alt_palette, !global_sprite_palette
 	dw sprite.render_order, $00F8
 	dw sprite.y_speed, $FFA0
 	dw !initcommand_set_animation, $026F
@@ -3926,7 +3927,7 @@ DATA_FF289C:
 DATA_FF28BC:
 	dw !initcommand_load_subconfig, DATA_FF2042
 	dw !initcommand_spawn_relative, $0008, $000A
-	dw !initcommand_set_alt_palette, $0000
+	dw !initcommand_set_alt_palette, !global_sprite_palette
 	dw sprite.render_order, $00F8
 	dw sprite.y_speed, $FF70
 	dw !initcommand_set_animation, $027F
@@ -3936,7 +3937,7 @@ DATA_FF28BC:
 DATA_FF28DC:
 	dw !initcommand_load_subconfig, DATA_FF2042
 	dw !initcommand_spawn_relative, $0010, $FFFC
-	dw !initcommand_set_alt_palette, $0000
+	dw !initcommand_set_alt_palette, !global_sprite_palette
 	dw sprite.render_order, $00F8
 	dw sprite.y_speed, $FFA0
 	dw !initcommand_set_animation, $029F
@@ -4053,7 +4054,7 @@ DATA_FF2A38:
 	dw sprite.general_purpose_46, DATA_B69097
 	dw sprite.general_purpose_42, $0000
 	dw !initcommand_set_oam, $6000
-	dw !initcommand_set_alt_palette, $0069
+	dw !initcommand_set_alt_palette, !krool_sprite_palette
 	dw !initcommand_set_animation, $025E
 	dw !initcommand_success
 
@@ -4068,7 +4069,7 @@ DATA_FF2A66:
 	dw sprite.general_purpose_46, DATA_B684D4
 	dw sprite.general_purpose_42, $0000
 	dw !initcommand_set_oam, $6000
-	dw !initcommand_set_alt_palette, $0096
+	dw !initcommand_set_alt_palette, !kudgel_sprite_palette
 	dw !initcommand_set_animation, $01FB
 	dw !initcommand_success
 
@@ -4089,7 +4090,7 @@ DATA_FF2A94:
 	dw sprite.render_order, $00D4
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_set_animation, $0243
-	dw !initcommand_set_alt_palette, $00A8
+	dw !initcommand_set_alt_palette, !donkey_kong_sprite_palette
 	dw !initcommand_success
 
 DATA_FF2ADA:
@@ -4100,11 +4101,10 @@ DATA_FF2ADA:
 	dw sprite.interaction_flags, $0020
 	dw sprite.state, $0000
 	dw !initcommand_set_oam, $2000
-	dw !initcommand_set_alt_palette, $0051
+	dw !initcommand_set_alt_palette, !kleever_1_sprite_palette
 	dw !initcommand_set_animation, $0210
 	dw !initcommand_success
 
-;klomp
 DATA_FF2B00:
 	dw sprite.type, !sprite_klomp
 	dw sprite.constants_address, DATA_FF0294
@@ -4114,7 +4114,7 @@ DATA_FF2B00:
 	dw sprite.y_speed, $0000
 	dw sprite.interaction_flags, $0120
 	dw !initcommand_set_oam, $2000
-	dw !initcommand_set_alt_palette, $0007
+	dw !initcommand_set_alt_palette, !klomp_sprite_palette
 	dw !initcommand_set_animation, $0160
 	dw sprite.movement_state, $0023
 	dw !initcommand_success
@@ -4368,12 +4368,12 @@ DATA_FF2D6E:
 
 DATA_FF2D98:
 	dw !initcommand_load_subconfig, DATA_FF2D6E
-	dw !initcommand_set_alt_palette, $00B7
+	dw !initcommand_set_alt_palette, !click_clack_sprite_palette
 	dw !initcommand_success
 
 DATA_FF2DA2:
 	dw !initcommand_load_subconfig, DATA_FF2D6E
-	dw !initcommand_set_alt_palette, $00B7
+	dw !initcommand_set_alt_palette, !click_clack_sprite_palette
 	dw !initcommand_success
 
 DATA_FF2DAC:
@@ -4391,12 +4391,12 @@ DATA_FF2DAC:
 
 DATA_FF2DD6:
 	dw !initcommand_load_subconfig, DATA_FF2DAC
-	dw !initcommand_set_alt_palette, $00B7
+	dw !initcommand_set_alt_palette, !click_clack_sprite_palette
 	dw !initcommand_success
 
 DATA_FF2DE0:
 	dw !initcommand_load_subconfig, DATA_FF2DAC
-	dw !initcommand_set_alt_palette, $00B7
+	dw !initcommand_set_alt_palette, !click_clack_sprite_palette
 	dw !initcommand_success
 
 DATA_FF2DEA:
@@ -4725,7 +4725,7 @@ DATA_FF30EC:
 	dw sprite.y_speed, $0000
 	dw sprite.interaction_flags, $0120
 	dw !initcommand_set_oam, $2000
-	dw !initcommand_set_alt_palette, $001C
+	dw !initcommand_set_alt_palette, !neek_sprite_palette
 	dw !initcommand_set_animation, $016F
 	dw sprite.movement_state, $0022
 	dw !initcommand_success
@@ -4870,7 +4870,7 @@ DATA_FF3266:
 	dw sprite.type, !sprite_klobber
 	dw sprite.render_order, $00D4
 	dw !initcommand_set_oam, $6000
-	dw !initcommand_set_alt_palette, $0002
+	dw !initcommand_set_alt_palette, !barrel_sprite_palette
 	dw sprite.state, $0100
 	dw sprite.x_speed, $0000
 	dw sprite.y_speed, $0000
@@ -5087,7 +5087,7 @@ DATA_FF344E:
 	dw sprite.y_speed, $0000
 	dw sprite.interaction_flags, $0001
 	dw !initcommand_set_oam, $2000
-	dw !initcommand_set_alt_palette, $0002
+	dw !initcommand_set_alt_palette, !barrel_sprite_palette
 	dw !initcommand_set_animation, $02E0
 	dw !initcommand_success
 
@@ -5104,7 +5104,7 @@ DATA_FF3482:
 	dw sprite.parameter, $0000
 	dw sprite.interaction_flags, $0400
 	dw !initcommand_set_oam, $2000
-	dw !initcommand_set_alt_palette, $000A
+	dw !initcommand_set_alt_palette, !cannon_sprite_palette
 	dw !initcommand_set_animation, $015E
 	dw !initcommand_success
 
@@ -5115,7 +5115,7 @@ DATA_FF34AC:
 	dw sprite.interaction_flags, $0000
 	dw sprite.general_purpose_42, $01E0
 	dw !initcommand_set_oam, $2000
-	dw !initcommand_set_alt_palette, $0002
+	dw !initcommand_set_alt_palette, !barrel_sprite_palette
 	dw !initcommand_set_animation, $02CD
 	dw !initcommand_success
 
@@ -5236,12 +5236,12 @@ DATA_FF35F0:
 
 DATA_FF360E:
 	dw !initcommand_load_subconfig, DATA_FF35F0
-	dw !initcommand_set_alt_palette, $0002
+	dw !initcommand_set_alt_palette, !barrel_sprite_palette
 	dw !initcommand_success
 
 DATA_FF3618:
 	dw !initcommand_load_subconfig, DATA_FF35F0
-	dw !initcommand_set_alt_palette, $0000
+	dw !initcommand_set_alt_palette, !global_sprite_palette
 	dw !initcommand_success
 
 ;click_clack
@@ -5253,7 +5253,7 @@ DATA_FF3622:
 	dw sprite.unknown_5C, $0000
 	dw sprite.parameter, $0000
 	dw !initcommand_set_oam, $0000
-	dw !initcommand_set_alt_palette, $0000
+	dw !initcommand_set_alt_palette, !global_sprite_palette
 	dw sprite.unknown_1A, $08CC
 	dw !initcommand_success
 
@@ -7704,12 +7704,12 @@ DATA_FF6404:
 
 DATA_FF6422:
 	dw !initcommand_load_subconfig, DATA_FF6404
-	dw !initcommand_set_alt_palette, $0009
+	dw !initcommand_set_alt_palette, !canball_sprite_palette
 	dw !initcommand_success
 
 DATA_FF642C:
 	dw !initcommand_load_subconfig, DATA_FF6404
-	dw !initcommand_set_alt_palette, $00B6
+	dw !initcommand_set_alt_palette, !hook_sprite_palette
 	dw !initcommand_success
 
 DATA_FF6436:
@@ -7936,7 +7936,7 @@ DATA_FF65EA:
 	dw sprite.y_speed, $0000
 	dw sprite.interaction_flags, $0001
 	dw !initcommand_set_oam, $2000
-	dw !initcommand_set_alt_palette, $0009
+	dw !initcommand_set_alt_palette, !canball_sprite_palette
 	dw !initcommand_set_animation, $02E3
 	dw !initcommand_success
 
@@ -7953,7 +7953,7 @@ DATA_FF6618:
 	dw sprite.general_purpose_4E, $0001
 	dw sprite.parameter, $0000
 	dw !initcommand_set_oam, $2000
-	dw !initcommand_set_alt_palette, $0008
+	dw !initcommand_set_alt_palette, !kannon_sprite_palette
 	dw !initcommand_success
 
 DATA_FF664E:
@@ -8562,7 +8562,7 @@ DATA_FF6C8E:
 	dw sprite.y_speed, $0000
 	dw sprite.interaction_flags, $0000
 	dw !initcommand_set_oam, $2000
-	dw !initcommand_set_alt_palette, $0060
+	dw !initcommand_set_alt_palette, !enguarde_sprite_palette
 	dw !initcommand_set_animation, $014B
 	dw !initcommand_success
 
@@ -8575,7 +8575,7 @@ DATA_FF6CBC:
 	dw sprite.x_speed, $0000
 	dw sprite.y_speed, $0000
 	dw sprite.interaction_flags, $0000
-	dw !initcommand_set_alt_palette, $0043
+	dw !initcommand_set_alt_palette, !rambi_sprite_palette
 	dw !initcommand_set_animation, $014A
 	dw !initcommand_success
 
@@ -8598,7 +8598,7 @@ DATA_FF6CFA:
 	dw sprite.x_speed, $0000
 	dw sprite.y_speed, $0000
 	dw sprite.interaction_flags, $0000
-	dw !initcommand_set_alt_palette, $000D
+	dw !initcommand_set_alt_palette, !rattly_sprite_palette
 	dw !initcommand_set_animation, $0148
 	dw !initcommand_success
 
@@ -8621,7 +8621,7 @@ DATA_FF6D38:
 	dw sprite.x_speed, $0000
 	dw sprite.y_speed, $0000
 	dw sprite.interaction_flags, $0000
-	dw !initcommand_set_alt_palette, $0005
+	dw !initcommand_set_alt_palette, !squitter_sprite_palette
 	dw !initcommand_set_animation, $0147
 	dw !initcommand_success
 
@@ -8650,12 +8650,12 @@ DATA_FF6D76:
 
 DATA_FF6DA0:
 	dw !initcommand_load_subconfig, DATA_FF6D76
-	dw !initcommand_set_alt_palette, $0054
+	dw !initcommand_set_alt_palette, !quawks_sprite_palette
 	dw !initcommand_success
 
 DATA_FF6DAA:
 	dw !initcommand_load_subconfig, DATA_FF6D76
-	dw !initcommand_set_alt_palette, $000F
+	dw !initcommand_set_alt_palette, !squawks_sprite_palette
 	dw sprite.general_purpose_4A, $0000
 	dw !initcommand_success
 
@@ -8745,7 +8745,7 @@ DATA_FF6E64:
 	dw sprite.y_speed, $0000
 	dw sprite.interaction_flags, $0020
 	dw !initcommand_set_oam, $6000
-	dw !initcommand_set_alt_palette, $000E
+	dw !initcommand_set_alt_palette, !lockjaw_sprite_palette
 	dw !initcommand_set_animation, $0177
 	dw !initcommand_success
 
@@ -8902,7 +8902,7 @@ DATA_FF6FF4:
 	dw sprite.max_y_speed, $0040
 	dw sprite.general_purpose_4A, $0202
 	dw !initcommand_set_oam, $6000
-	dw !initcommand_set_alt_palette, $00B2
+	dw !initcommand_set_alt_palette, !snapjaw_sprite_palette
 	dw !initcommand_set_animation, $0177
 	dw !initcommand_success
 
@@ -8952,7 +8952,7 @@ DATA_FF7076:
 	dw sprite.y_speed, $0000
 	dw sprite.movement_state, $0025
 	dw !initcommand_set_oam, $2000
-	dw !initcommand_set_alt_palette, $002F
+	dw !initcommand_set_alt_palette, !kaboing_grey_sprite_palette
 	dw !initcommand_set_animation, $0191
 	dw !initcommand_success
 
@@ -8965,7 +8965,7 @@ DATA_FF70A4:
 	dw sprite.x_speed, $0000
 	dw sprite.y_speed, $0000
 	dw !initcommand_set_oam, $2000
-	dw !initcommand_set_alt_palette, $004D
+	dw !initcommand_set_alt_palette, !kaboing_green_sprite_palette
 	dw !initcommand_set_animation, $0190
 	dw sprite.movement_state, $0025
 	dw !initcommand_success
@@ -9322,7 +9322,7 @@ DATA_FF74D0:
 	dw sprite.type, !sprite_mini_necky
 	dw sprite.constants_address, DATA_FF021C
 	dw !initcommand_set_animation, $0193
-	dw !initcommand_set_alt_palette, $001E
+	dw !initcommand_set_alt_palette, !mini_necky_sprite_palette
 	dw sprite.interaction_flags, $0120
 	dw sprite.render_order, $00D4
 	dw sprite.y_speed, $0000
@@ -9547,7 +9547,7 @@ DATA_FF7728:
 	dw sprite.type, !sprite_double_zingers
 	dw sprite.render_order, $00D4
 	dw sprite.constants_address, DATA_FF021C
-	dw !initcommand_set_alt_palette, $0038
+	dw !initcommand_set_alt_palette, !zinger_yellow_sprite_palette
 	dw !initcommand_set_animation, $0197
 	dw !initcommand_set_oam, $2000
 	dw sprite.unknown_22, $2000
@@ -9699,7 +9699,7 @@ DATA_FF7922:
 	dw sprite.type, !sprite_screech
 	dw sprite.render_order, $00D4
 	dw sprite.constants_address, DATA_FF021C
-	dw !initcommand_set_alt_palette, $0077
+	dw !initcommand_set_alt_palette, !screech_sprite_palette
 	dw !initcommand_set_oam, $6000
 	dw sprite.unknown_22, $6000
 	dw sprite.interaction_flags, $0000
@@ -9835,7 +9835,7 @@ DATA_FF7B7A:
 	dw sprite.type, !sprite_chasing_king_zing
 	dw sprite.render_order, $00D4
 	dw sprite.constants_address, DATA_FF021C
-	dw !initcommand_set_alt_palette, $0038
+	dw !initcommand_set_alt_palette, !zinger_yellow_sprite_palette
 	dw !initcommand_set_animation, $02DB
 	dw !initcommand_set_oam, $2000
 	dw sprite.unknown_22, $2000
@@ -9916,7 +9916,7 @@ DATA_FF7C8C:
 	dw sprite.max_x_speed, $0040
 	dw sprite.general_purpose_4A, $0203
 	dw sprite.max_y_speed, $0060
-	dw !initcommand_set_alt_palette, $0038
+	dw !initcommand_set_alt_palette, !zinger_yellow_sprite_palette
 	dw !initcommand_success
 
 DATA_FF7CAA:
@@ -9969,7 +9969,7 @@ DATA_FF7D1A:
 	dw sprite.general_purpose_4A, $0203
 	dw sprite.max_y_speed, $0060
 	dw !initcommand_set_oam, $2000
-	dw !initcommand_set_alt_palette, $0038
+	dw !initcommand_set_alt_palette, !zinger_yellow_sprite_palette
 	dw !initcommand_success
 
 DATA_FF7D38:
@@ -9999,7 +9999,7 @@ DATA_FF7D68:
 	dw !initcommand_set_animation, $0197
 	dw sprite.general_purpose_46, $0202
 	dw sprite.max_x_speed, $0040
-	dw !initcommand_set_alt_palette, $0038
+	dw !initcommand_set_alt_palette, !zinger_yellow_sprite_palette
 	dw !initcommand_success
 
 DATA_FF7D7E:
@@ -10391,7 +10391,7 @@ DATA_FF8144:
 	dw !initcommand_set_animation, $0196
 	dw sprite.general_purpose_4A, $0203
 	dw sprite.max_y_speed, $0060
-	dw !initcommand_set_alt_palette, $0038
+	dw !initcommand_set_alt_palette, !zinger_yellow_sprite_palette
 	dw !initcommand_success
 
 DATA_FF815A:
@@ -10793,7 +10793,7 @@ DATA_FF8520:
 	dw !initcommand_set_animation, $0196
 	dw sprite.movement_state, $000A
 	dw !initcommand_set_oam, $2000
-	dw !initcommand_set_alt_palette, $0038
+	dw !initcommand_set_alt_palette, !zinger_yellow_sprite_palette
 	dw !initcommand_success
 
 DATA_FF8536:
@@ -11172,7 +11172,7 @@ DATA_FF891C:
 	dw !initcommand_load_subconfig, DATA_FF7706
 	dw !initcommand_set_animation, $0196
 	dw sprite.movement_state, $000B
-	dw !initcommand_set_alt_palette, $0038
+	dw !initcommand_set_alt_palette, !zinger_yellow_sprite_palette
 	dw !initcommand_success
 
 DATA_FF892E:
@@ -11256,13 +11256,13 @@ DATA_FF89F2:
 DATA_FF8A0C:
 	dw !initcommand_load_subconfig, DATA_FF76E0
 	dw sprite.constants_address, DATA_FF0302
-	dw !initcommand_set_alt_palette, $0048
+	dw !initcommand_set_alt_palette, !zinger_red_sprite_palette
 	dw !initcommand_success
 
 DATA_FF8A1A:
 	dw !initcommand_load_subconfig, DATA_FF7706
 	dw sprite.constants_address, DATA_FF0302
-	dw !initcommand_set_alt_palette, $0048
+	dw !initcommand_set_alt_palette, !zinger_red_sprite_palette
 	dw !initcommand_success
 
 DATA_FF8A28:
@@ -11824,7 +11824,7 @@ DATA_FF9000:
 	dw sprite.y_speed, $0000
 	dw sprite.interaction_flags, $0120
 	dw !initcommand_set_oam, $2000
-	dw !initcommand_set_alt_palette, $0053
+	dw !initcommand_set_alt_palette, !klampon_sprite_sprite_palette
 	dw !initcommand_set_animation, $019F
 	dw !initcommand_success
 
@@ -12116,7 +12116,7 @@ DATA_FF92D4:
 	dw sprite.y_speed, $0000
 	dw sprite.interaction_flags, $0001
 	dw !initcommand_set_oam, $2000
-	dw !initcommand_set_alt_palette, $0020
+	dw !initcommand_set_alt_palette, !krows_eggs_sprite_palette
 	dw !initcommand_set_animation, $02E4
 	dw !initcommand_success
 
@@ -12129,7 +12129,7 @@ DATA_FF9302:
 	dw sprite.unknown_5C, $0000
 	dw sprite.interaction_flags, $0120
 	dw !initcommand_set_oam, $2000
-	dw !initcommand_set_alt_palette, $0002
+	dw !initcommand_set_alt_palette, !barrel_sprite_palette
 	dw !initcommand_success
 
 DATA_FF9328:
@@ -12201,7 +12201,7 @@ DATA_FF93B6:
 	dw sprite.state, $0000
 	dw sprite.unknown_5C, $0000
 	dw !initcommand_set_oam, $2000
-	dw !initcommand_set_alt_palette, $0002
+	dw !initcommand_set_alt_palette, !barrel_sprite_palette
 	dw !initcommand_set_animation, $02B5
 	dw !initcommand_success
 
@@ -12226,7 +12226,7 @@ DATA_FF93EC:
 	dw sprite.y_speed, $0000
 	dw sprite.interaction_flags, $0001
 	dw !initcommand_set_oam, $2000
-	dw !initcommand_set_alt_palette, $0002
+	dw !initcommand_set_alt_palette, !barrel_sprite_palette
 	dw !initcommand_set_animation, $02E6
 	dw !initcommand_success
 
@@ -12235,7 +12235,7 @@ DATA_FF941A:
 	dw sprite.render_order, $00D4
 	dw sprite.constants_address, DATA_FF9434
 	dw !initcommand_set_oam, $2000
-	dw !initcommand_set_alt_palette, $002E
+	dw !initcommand_set_alt_palette, !ghost_rope_sprite_palette
 	dw !initcommand_set_animation, $02A6
 	dw !initcommand_success
 
@@ -12463,7 +12463,7 @@ DATA_FF968E:
 	dw sprite.type, !sprite_coins
 	dw sprite.render_order, $00C8
 	dw !initcommand_set_oam, $2000
-	dw !initcommand_set_alt_palette, $0014
+	dw !initcommand_set_alt_palette, !coins_sprite_palette
 	dw !initcommand_set_animation, $01C1
 	dw sprite.state, $0000
 	dw sprite.parameter, $F820
@@ -12488,7 +12488,7 @@ DATA_FF96D4:
 	dw sprite.type, !sprite_coins
 	dw sprite.render_order, $00C8
 	dw !initcommand_set_oam, $2000
-	dw !initcommand_set_alt_palette, $0014
+	dw !initcommand_set_alt_palette, !coins_sprite_palette
 	dw !initcommand_set_animation, $01C2
 	dw sprite.state, $0003
 	dw sprite.parameter, $F828
@@ -12504,7 +12504,7 @@ DATA_FF970A:
 	dw sprite.type, !sprite_coins
 	dw sprite.render_order, $00C8
 	dw !initcommand_set_oam, $2000
-	dw !initcommand_set_alt_palette, $0014
+	dw !initcommand_set_alt_palette, !coins_sprite_palette
 	dw !initcommand_set_animation, $01C3
 	dw sprite.state, $0003
 	dw sprite.parameter, $F828
@@ -12520,7 +12520,7 @@ DATA_FF9740:
 	dw sprite.type, !sprite_coins
 	dw sprite.render_order, $00C8
 	dw !initcommand_set_oam, $2000
-	dw !initcommand_set_alt_palette, $0014
+	dw !initcommand_set_alt_palette, !coins_sprite_palette
 	dw !initcommand_set_animation, $01C2
 	dw sprite.state, $000A
 	dw sprite.parameter, $F828
@@ -12549,12 +12549,12 @@ DATA_FF9776:
 
 DATA_FF97A8:
 	dw !initcommand_load_subconfig, DATA_FF9776
-	dw !initcommand_set_alt_palette, $0014
+	dw !initcommand_set_alt_palette, !coins_sprite_palette
 	dw !initcommand_success
 
 DATA_FF97B2:
 	dw !initcommand_load_subconfig, DATA_FF9776
-	dw !initcommand_set_alt_palette, $0014
+	dw !initcommand_set_alt_palette, !coins_sprite_palette
 	dw !initcommand_success
 
 DATA_FF97BC:
@@ -12562,7 +12562,7 @@ DATA_FF97BC:
 	dw sprite.render_order, $00D4
 	dw sprite.state, $0000
 	dw !initcommand_set_oam, $2000
-	dw !initcommand_set_alt_palette, $0000
+	dw !initcommand_set_alt_palette, !global_sprite_palette
 	dw sprite.parameter, $F818
 	dw sprite.general_purpose_42, $F85D
 	dw sprite.general_purpose_44, $F86F
@@ -12640,7 +12640,7 @@ DATA_FF987C:
 	dw sprite.render_order, $00C0
 	dw sprite.general_purpose_42, $0000
 	dw !initcommand_set_oam, $2000
-	dw !initcommand_set_alt_palette, $001B
+	dw !initcommand_set_alt_palette, !no_animal_buddy_sign_sprite_palette
 	dw !initcommand_success
 
 DATA_FF9892:
@@ -12916,7 +12916,7 @@ DATA_FF9B18:
 
 DATA_FF9B2A:
 	dw sprite.constants_address, DATA_FF0340
-	dw !initcommand_set_alt_palette, $004A
+	dw !initcommand_set_alt_palette, !kruncha_red_sprite_palette
 	dw sprite.movement_state, $0022
 	dw !initcommand_set_oam, $6000
 	dw sprite.max_x_speed, $FEC0
@@ -12925,7 +12925,7 @@ DATA_FF9B2A:
 
 DATA_FF9B44:
 	dw sprite.constants_address, DATA_FF032E
-	dw !initcommand_set_alt_palette, $000C
+	dw !initcommand_set_alt_palette, !kruncha_blue_sprite_palette
 	dw sprite.movement_state, $0023
 	dw !initcommand_set_oam, $2000
 	dw sprite.max_x_speed, $0140
@@ -13134,7 +13134,7 @@ DATA_FF9D3C:
 	dw sprite.x_speed, $0000
 	dw sprite.y_speed, $0000
 	dw !initcommand_set_oam, $6000
-	dw !initcommand_set_alt_palette, $003B
+	dw !initcommand_set_alt_palette, !flitter_blue_sprite_palette
 	dw !initcommand_success
 
 DATA_FF9D62:
@@ -13146,7 +13146,7 @@ DATA_FF9D62:
 	dw sprite.x_speed, $0000
 	dw sprite.y_speed, $0000
 	dw !initcommand_set_oam, $2000
-	dw !initcommand_set_alt_palette, $003B
+	dw !initcommand_set_alt_palette, !flitter_blue_sprite_palette
 	dw !initcommand_success
 
 DATA_FF9D88:
@@ -13390,7 +13390,7 @@ DATA_FF9FC2:
 	dw sprite.y_speed, $0000
 	dw sprite.interaction_flags, $0020
 	dw !initcommand_set_oam, $6000
-	dw !initcommand_set_alt_palette, $0050
+	dw !initcommand_set_alt_palette, !spiny_sprite_palette
 	dw !initcommand_set_animation, $01A3
 	dw !initcommand_success
 
@@ -13695,7 +13695,7 @@ DATA_FFA2A6:
 	dw sprite.y_speed, $0000
 	dw sprite.interaction_flags, $0120
 	dw !initcommand_set_oam, $2000
-	dw !initcommand_set_alt_palette, $003A
+	dw !initcommand_set_alt_palette, !klinger_sprite_palette
 	dw !initcommand_set_animation, $01A6
 	dw sprite.movement_state, $0006
 	dw sprite.general_purpose_48, $0000
@@ -13887,7 +13887,7 @@ DATA_FFA4C6:
 	dw sprite.movement_state, $0008
 	dw sprite.max_y_speed, $0060
 	dw sprite.general_purpose_4A, $0606
-	dw !initcommand_set_alt_palette, $003C
+	dw !initcommand_set_alt_palette, !flotsam_blue_sprite_palette
 	dw !initcommand_success
 
 DATA_FFA4DC:
@@ -13936,7 +13936,7 @@ DATA_FFA532:
 
 DATA_FFA53C:
 	dw !initcommand_load_subconfig, DATA_FFA49C
-	dw !initcommand_set_alt_palette, $004F
+	dw !initcommand_set_alt_palette, !flotsam_green_sprite_palette
 	dw sprite.movement_state, $0007
 	dw !initcommand_success
 
@@ -14123,7 +14123,7 @@ DATA_FFA73E:
 	dw sprite.movement_state, $0029
 	dw sprite.unknown_5C, $0000
 	dw !initcommand_set_oam, $2000
-	dw !initcommand_set_alt_palette, $000B
+	dw !initcommand_set_alt_palette, !shuri_orange_sprite_palette
 	dw !initcommand_set_animation, $0181
 	dw !initcommand_success
 
@@ -14323,7 +14323,7 @@ DATA_FFA946:
 	dw sprite.type, !sprite_shuri
 	dw sprite.render_order, $00D4
 	dw sprite.constants_address, DATA_FF021C
-	dw !initcommand_set_alt_palette, $00B0
+	dw !initcommand_set_alt_palette, !shuri_pink_sprite_palette
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_set_animation, $0180
 	dw sprite.state, $0001
@@ -14486,7 +14486,7 @@ DATA_FFAAE8:
 	dw sprite.y_speed, $0000
 	dw sprite.interaction_flags, $0001
 	dw !initcommand_set_oam, $2000
-	dw !initcommand_set_alt_palette, $0002
+	dw !initcommand_set_alt_palette, !barrel_sprite_palette
 	dw !initcommand_set_animation, $02E5
 	dw !initcommand_success
 
@@ -14495,7 +14495,7 @@ DATA_FFAB16:
 	dw !initcommand_load_subconfig, DATA_FF25EA
 	dw sprite.render_order, $00C8
 	dw !initcommand_set_oam, $6000
-	dw !initcommand_set_alt_palette, $002C
+	dw !initcommand_set_alt_palette, !krool_letter_sprite_palette
 	dw !initcommand_set_animation, $02C3
 	dw !initcommand_success
 
@@ -14509,7 +14509,7 @@ DATA_FFAB30:
 	dw sprite.y_speed, $0000
 	dw sprite.interaction_flags, $0001
 	dw !initcommand_set_oam, $2000
-	dw !initcommand_set_alt_palette, $0002
+	dw !initcommand_set_alt_palette, !barrel_sprite_palette
 	dw !initcommand_set_animation, $02E1
 	dw !initcommand_success
 
@@ -14520,7 +14520,7 @@ DATA_FFAB5E:
 	dw sprite.state, $0004
 	dw sprite.interaction_flags, $0000
 	dw !initcommand_set_oam, $2000
-	dw !initcommand_set_alt_palette, $0002
+	dw !initcommand_set_alt_palette, !barrel_sprite_palette
 	dw !initcommand_set_animation, $02E1
 	dw !initcommand_success
 
@@ -15229,20 +15229,20 @@ DATA_FFB274:
 
 DATA_FFB27A:
 	dw !initcommand_load_subconfig, DATA_FFB2A6
-	dw !initcommand_set_alt_palette, $0019
+	dw !initcommand_set_alt_palette, !life_balloon_green_sprite_palette
 	dw sprite.max_y_speed, $FF00
 	dw sprite.general_purpose_42, $0002
 	dw !initcommand_success
 
 DATA_FFB28C:
 	dw !initcommand_load_subconfig, DATA_FFB2A6
-	dw !initcommand_set_alt_palette, $001A
+	dw !initcommand_set_alt_palette, !life_balloon_blue_sprite_palette
 	dw sprite.max_y_speed, $FEC0
 	dw sprite.general_purpose_42, $0003
 	dw !initcommand_success
 
 DATA_FFB29E:
-	dw !initcommand_set_alt_palette, $0018
+	dw !initcommand_set_alt_palette, !life_balloon_red_sprite_palette
 	dw sprite.general_purpose_42, $0001
 DATA_FFB2A6:
 	dw sprite.type, !sprite_extra_life_balloon
@@ -15368,17 +15368,17 @@ DATA_FFB3A4:
 
 DATA_FFB3D6:
 	dw !initcommand_load_subconfig, DATA_FFB3A4
-	dw !initcommand_set_alt_palette, $0032
+	dw !initcommand_set_alt_palette, !puftup_brown_sprite_palette
 	dw !initcommand_success
 
 DATA_FFB3E0:
 	dw !initcommand_load_subconfig, DATA_FFB3A4
-	dw !initcommand_set_alt_palette, $00B1
+	dw !initcommand_set_alt_palette, !puftup_purple_sprite_palette
 	dw !initcommand_success
 
 DATA_FFB3EA:
 	dw !initcommand_load_subconfig, DATA_FFB3A4
-	dw !initcommand_set_alt_palette, $00BA
+	dw !initcommand_set_alt_palette, !puftup_green_sprite_palette
 	dw !initcommand_success
 
 DATA_FFB3F4:
@@ -16019,7 +16019,7 @@ DATA_FFB966:
 	dw sprite.y_speed, $0000
 	dw sprite.interaction_flags, $0001
 	dw !initcommand_set_oam, $2000
-	dw !initcommand_set_alt_palette, $0002
+	dw !initcommand_set_alt_palette, !barrel_sprite_palette
 	dw !initcommand_set_animation, $02E7
 	dw !initcommand_success
 
@@ -16156,7 +16156,7 @@ DATA_FFBA8E:
 DATA_FFBA98:
 	dw !initcommand_load_subconfig, DATA_FFB966
 	dw sprite.general_purpose_42, $0009
-	dw !initcommand_set_alt_palette, $005B
+	dw !initcommand_set_alt_palette, !chest_dark_sprite_palette
 	dw !initcommand_success
 
 DATA_FFBAA6:
@@ -16174,7 +16174,7 @@ DATA_FFBAB4:
 	dw sprite.state, $0004
 	dw sprite.unknown_1C, $F000
 	dw !initcommand_set_oam, $2000
-	dw !initcommand_set_alt_palette, $0058
+	dw !initcommand_set_alt_palette, !bullrush_sprite_palette
 	dw !initcommand_set_animation, $02C4
 	dw !initcommand_success
 
@@ -16226,7 +16226,7 @@ DATA_FFBB3C:
 	dw sprite.interaction_flags, $0120
 	dw sprite.render_order, $00D4
 	dw sprite.constants_address, DATA_FF021C
-	dw !initcommand_set_alt_palette, $0055
+	dw !initcommand_set_alt_palette, !krook_sprite_palette
 	dw sprite.state, $0000
 	dw sprite.x_speed, $0000
 	dw sprite.parameter, $0000
@@ -16731,19 +16731,19 @@ endif
 DATA_FFC154:
 	dw !initcommand_load_subconfig, DATA_FFC116
 	dw sprite.movement_state, $0022
-	dw !initcommand_set_alt_palette, $0012
+	dw !initcommand_set_alt_palette, !kutlass_yellow_sprite_palette
 	dw !initcommand_success
 
 DATA_FFC162:
 	dw !initcommand_load_subconfig, DATA_FFC116
 	dw sprite.movement_state, $0023
-	dw !initcommand_set_alt_palette, $0012
+	dw !initcommand_set_alt_palette, !kutlass_yellow_sprite_palette
 	dw !initcommand_success
 
 DATA_FFC170:
 	dw !initcommand_load_subconfig, DATA_FFC116
 	dw sprite.movement_state, $0023
-	dw !initcommand_set_alt_palette, $00B4
+	dw !initcommand_set_alt_palette, !klank_green_sprite_palette
 	dw !initcommand_success
 
 DATA_FFC17E:
@@ -16949,7 +16949,7 @@ DATA_FFC39C:
 	dw sprite.render_order, $00C8
 	dw sprite.state, $0000
 	dw !initcommand_set_oam, $2000
-	dw !initcommand_set_alt_palette, $0017
+	dw !initcommand_set_alt_palette, !level_goal_sprite_palette
 	dw !initcommand_set_animation, $02B3
 	dw !initcommand_success
 
@@ -17231,7 +17231,7 @@ DATA_FFC562:
 	dw sprite.constants_address, DATA_FF021C
 	dw sprite.render_order, $00C8
 	dw !initcommand_set_oam, $2000
-	dw !initcommand_set_alt_palette, $0000
+	dw !initcommand_set_alt_palette, !global_sprite_palette
 	dw !initcommand_set_animation, $02B2
 	dw sprite.state, $0000
 	dw sprite.general_purpose_4E, $000A
@@ -17251,7 +17251,7 @@ DATA_FFC594:
 	dw sprite.interaction_flags, $0120
 	dw sprite.render_order, $00D4
 	dw sprite.constants_address, DATA_FF021C
-	dw !initcommand_set_alt_palette, $005C
+	dw !initcommand_set_alt_palette, !kloak_sprite_palette
 	dw sprite.terrain_attributes, $0000
 	dw sprite.state, $0000
 	dw sprite.max_x_speed, $0000
@@ -17753,7 +17753,7 @@ DATA_FFC9C3:
 DATA_FFC9D9:
 	dw !initcommand_load_subconfig, DATA_FFC9C3
 	dw !initcommand_set_animation, $02FA
-	dw !initcommand_set_alt_palette, $0002
+	dw !initcommand_set_alt_palette, !barrel_sprite_palette
 	dw sprite.state, $0000
 	dw sprite.y_speed, $FC40
 	dw sprite.x_speed, $FE00
@@ -17763,7 +17763,7 @@ DATA_FFC9D9:
 DATA_FFC9F7:
 	dw !initcommand_load_subconfig, DATA_FFC9C3
 	dw !initcommand_set_animation, $02FA
-	dw !initcommand_set_alt_palette, $0002
+	dw !initcommand_set_alt_palette, !barrel_sprite_palette
 	dw sprite.state, $0000
 	dw sprite.y_speed, $FC40
 	dw sprite.x_speed, $FE00
@@ -17773,7 +17773,7 @@ DATA_FFC9F7:
 DATA_FFCA15:
 	dw !initcommand_load_subconfig, DATA_FFC9C3
 	dw !initcommand_set_animation, $02FF
-	dw !initcommand_set_alt_palette, $0002
+	dw !initcommand_set_alt_palette, !barrel_sprite_palette
 	dw sprite.state, $0001
 	dw sprite.y_speed, $FD00
 	dw sprite.x_speed, $FC00
@@ -17783,7 +17783,7 @@ DATA_FFCA15:
 DATA_FFCA33:
 	dw !initcommand_load_subconfig, DATA_FFC9C3
 	dw !initcommand_set_animation, $02E6
-	dw !initcommand_set_alt_palette, $0002
+	dw !initcommand_set_alt_palette, !barrel_sprite_palette
 	dw sprite.state, $0002
 	dw sprite.y_speed, $FD00
 	dw sprite.x_speed, $FC00
@@ -17793,7 +17793,7 @@ DATA_FFCA33:
 DATA_FFCA51:
 	dw !initcommand_load_subconfig, DATA_FFC9C3
 	dw !initcommand_set_animation, $02E7
-	dw !initcommand_set_alt_palette, $0002
+	dw !initcommand_set_alt_palette, !barrel_sprite_palette
 	dw sprite.state, $0003
 	dw sprite.y_speed, $FD00
 	dw sprite.x_speed, $FC00
@@ -17804,7 +17804,7 @@ DATA_FFCA51:
 DATA_FFCA73:
 	dw !initcommand_load_subconfig, DATA_FFC9C3
 	dw !initcommand_set_animation, $02E7
-	dw !initcommand_set_alt_palette, $0002
+	dw !initcommand_set_alt_palette, !barrel_sprite_palette
 	dw sprite.state, $0003
 	dw sprite.y_speed, $FD00
 	dw sprite.x_speed, $FC00
@@ -17815,7 +17815,7 @@ DATA_FFCA73:
 DATA_FFCA95:
 	dw !initcommand_load_subconfig, DATA_FFC9C3
 	dw !initcommand_set_animation, $02E7
-	dw !initcommand_set_alt_palette, $0002
+	dw !initcommand_set_alt_palette, !barrel_sprite_palette
 	dw sprite.state, $0003
 	dw sprite.y_speed, $FD00
 	dw sprite.x_speed, $FC00
@@ -17826,7 +17826,7 @@ DATA_FFCA95:
 DATA_FFCAB7:
 	dw !initcommand_load_subconfig, DATA_FFC9C3
 	dw !initcommand_set_animation, $02E7
-	dw !initcommand_set_alt_palette, $0002
+	dw !initcommand_set_alt_palette, !barrel_sprite_palette
 	dw sprite.state, $0003
 	dw sprite.y_speed, $FD00
 	dw sprite.x_speed, $FC00
@@ -17837,7 +17837,7 @@ DATA_FFCAB7:
 DATA_FFCAD9:
 	dw !initcommand_load_subconfig, DATA_FFC9C3
 	dw !initcommand_set_animation, $02FD
-	dw !initcommand_set_alt_palette, $0009
+	dw !initcommand_set_alt_palette, !canball_sprite_palette
 	dw sprite.state, $0004
 	dw sprite.y_speed, $FD00
 	dw sprite.x_speed, $FC00
@@ -17876,7 +17876,7 @@ DATA_FFCB4C:
 	dw sprite.x_speed, $0000
 	dw sprite.y_speed, $0000
 	dw !initcommand_set_oam, $2000
-	dw !initcommand_set_alt_palette, $005A
+	dw !initcommand_set_alt_palette, !hot_air_balloon_sprite_palette
 	dw !initcommand_set_animation, $02D4
 	dw sprite.general_purpose_46, $0203
 	dw sprite.max_x_speed, $0020
@@ -17890,7 +17890,7 @@ DATA_FFCB8A:
 	dw sprite.interaction_flags, $0120
 	dw sprite.render_order, $00D4
 	dw sprite.constants_address, DATA_FF021C
-	dw !initcommand_set_alt_palette, $001D
+	dw !initcommand_set_alt_palette, !cat_09_tails_sprite_palette
 	dw sprite.state, $0000
 	dw sprite.max_x_speed, $0000
 	dw sprite.x_speed, $0000
@@ -18002,7 +18002,7 @@ DATA_FFCCE8:
 	db $10, $10, $80, $07, $00, $00, $80, $F8
 
 DATA_FFCCF0:
-	dw !initcommand_setup_static2, !sprite_kleever_dropping_hooks, $0009 : dl DATA_C00DA1 : db $14
+	dw !initcommand_setup_static2, !sprite_kleever_dropping_hooks, !canball_sprite_palette : dl DATA_C00DA1 : db $14
 	dw sprite.render_order, $00D4
 	dw sprite.y_position, $0100
 	dw sprite.general_purpose_42, $0000
@@ -18031,7 +18031,7 @@ DATA_FFCD34:
 	dw sprite.general_purpose_42, $0000
 	dw sprite.general_purpose_4C, $0000
 	dw !initcommand_set_oam, $7000
-	dw !initcommand_set_alt_palette, $0022
+	dw !initcommand_set_alt_palette, !krows_body_sprite_palette
 	dw !initcommand_set_animation, $0200
 	dw !initcommand_success
 
@@ -18046,7 +18046,7 @@ DATA_FFCD66:
 	dw sprite.general_purpose_42, $0000
 	dw sprite.general_purpose_4C, $0000
 	dw !initcommand_set_oam, $1000
-	dw !initcommand_set_alt_palette, $00B9
+	dw !initcommand_set_alt_palette, !kreepy_krows_body_sprite_palette
 	dw !initcommand_set_animation, $0200
 	dw !initcommand_success
 
@@ -18062,7 +18062,7 @@ DATA_FFCD94:
 	dw sprite.general_purpose_42, $0000
 	dw sprite.general_purpose_4C, $0000
 	dw !initcommand_set_oam, $2000
-	dw !initcommand_set_alt_palette, $0038
+	dw !initcommand_set_alt_palette, !zinger_yellow_sprite_palette
 	dw !initcommand_set_animation, $0230
 	dw !initcommand_success
 
@@ -18075,7 +18075,7 @@ DATA_FFCDC6:
 	dw sprite.y_speed, $0000
 	dw sprite.max_y_speed, $0000
 	dw sprite.interaction_flags, $0000
-	dw !initcommand_set_alt_palette, $0049
+	dw !initcommand_set_alt_palette, !glimmer_sprite_palette
 	dw !initcommand_set_animation, $02CE
 	dw !initcommand_success
 
@@ -18102,12 +18102,12 @@ endif
 
 DATA_FFCE1E:
 	dw !initcommand_load_subconfig, DATA_FFCE04
-	dw !initcommand_set_alt_palette, $0056
+	dw !initcommand_set_alt_palette, !krockhead_green_sprite_palette
 	dw !initcommand_success
 
 DATA_FFCE28:
 	dw !initcommand_load_subconfig, DATA_FFCE04
-	dw !initcommand_set_alt_palette, $0064
+	dw !initcommand_set_alt_palette, !krockhead_brown_sprite_palette
 	dw !initcommand_success
 
 DATA_FFCE32:
@@ -18165,7 +18165,7 @@ DATA_FFCEAA:
 	dw sprite.type, !sprite_krochead_switch_barrel
 	dw sprite.render_order, $00C8
 	dw !initcommand_set_oam, $2000
-	dw !initcommand_set_alt_palette, $0056
+	dw !initcommand_set_alt_palette, !krockhead_green_sprite_palette
 	dw sprite.state, $0001
 	dw sprite.general_purpose_44, $0000
 	dw sprite.general_purpose_46, $0000
@@ -18179,7 +18179,7 @@ DATA_FFCED4:
 	dw sprite.state, $0003
 	dw sprite.render_order, $00C7
 	dw !initcommand_set_oam, $2000
-	dw !initcommand_set_alt_palette, $0002
+	dw !initcommand_set_alt_palette, !barrel_sprite_palette
 	dw !initcommand_success
 
 DATA_FFCEF0:
@@ -18472,7 +18472,7 @@ DATA_FFD18A:
 	dw sprite.general_purpose_44, $0004
 	dw sprite.general_purpose_4A, $0030
 	dw sprite.unknown_1A, $2FD8
-	dw !initcommand_set_alt_palette, $003E
+	dw !initcommand_set_alt_palette, !ship_deck_wall_left_sprite_palette
 	dw !initcommand_set_oam, $3000
 	dw !initcommand_success
 
@@ -18482,7 +18482,7 @@ DATA_FFD1A8:
 	dw sprite.general_purpose_44, $0004
 	dw sprite.general_purpose_4A, $0030
 	dw sprite.unknown_1A, $2FDC
-	dw !initcommand_set_alt_palette, $003F
+	dw !initcommand_set_alt_palette, !wasp_hive_wall_right_sprite_palette
 	dw sprite.general_purpose_48, $0009
 	dw !initcommand_set_oam, $3000
 	dw !initcommand_success
@@ -18493,7 +18493,7 @@ DATA_FFD1CA:
 	dw sprite.general_purpose_44, $0003
 	dw sprite.general_purpose_4A, $0018
 	dw sprite.unknown_1A, $2FE0
-	dw !initcommand_set_alt_palette, $0040
+	dw !initcommand_set_alt_palette, !forest_wall_left_sprite_palette
 	dw sprite.general_purpose_48, $0001
 	dw !initcommand_set_oam, $3000
 	dw !initcommand_success
@@ -18504,7 +18504,7 @@ DATA_FFD1EC:
 	dw sprite.general_purpose_44, $0004
 	dw sprite.general_purpose_4A, $0018
 	dw sprite.unknown_1A, $2FE0
-	dw !initcommand_set_alt_palette, $0040
+	dw !initcommand_set_alt_palette, !forest_wall_left_sprite_palette
 	dw sprite.general_purpose_48, $0001
 	dw !initcommand_set_oam, $3000
 	dw !initcommand_success
@@ -18515,7 +18515,7 @@ DATA_FFD20E:
 	dw sprite.general_purpose_44, $0002
 	dw sprite.general_purpose_4A, $0030
 	dw sprite.unknown_1A, $2FE8
-	dw !initcommand_set_alt_palette, $0039
+	dw !initcommand_set_alt_palette, !forest_wall_right_sprite_palette
 	dw sprite.general_purpose_48, $0001
 	dw !initcommand_set_oam, $3000
 	dw !initcommand_success
@@ -18526,7 +18526,7 @@ DATA_FFD230:
 	dw sprite.general_purpose_44, $0002
 	dw sprite.general_purpose_4A, $0030
 	dw sprite.unknown_1A, $2FFC
-	dw !initcommand_set_alt_palette, $007B
+	dw !initcommand_set_alt_palette, !ship_hold_wall_high_sprite_palette
 	dw sprite.general_purpose_48, $FFE7
 	dw !initcommand_success
 
@@ -18536,7 +18536,7 @@ DATA_FFD24E:
 	dw sprite.general_purpose_44, $0002
 	dw sprite.general_purpose_4A, $0020
 	dw sprite.unknown_1A, $3000
-	dw !initcommand_set_alt_palette, $00B3
+	dw !initcommand_set_alt_palette, !ship_hold_wall_low_sprite_palette
 	dw sprite.general_purpose_48, $0024
 	dw !initcommand_success
 
@@ -18546,7 +18546,7 @@ DATA_FFD26C:
 	dw sprite.general_purpose_44, $0002
 	dw sprite.general_purpose_4A, $0020
 	dw sprite.unknown_1A, $2FF8
-	dw !initcommand_set_alt_palette, $007C
+	dw !initcommand_set_alt_palette, !ice_wall_sprite_palette
 	dw sprite.general_purpose_48, $0012
 	dw !initcommand_success
 
@@ -18556,7 +18556,7 @@ DATA_FFD28A:
 	dw sprite.general_purpose_44, $0003
 	dw sprite.general_purpose_4A, $0020
 	dw sprite.unknown_1A, $2FF8
-	dw !initcommand_set_alt_palette, $007C
+	dw !initcommand_set_alt_palette, !ice_wall_sprite_palette
 	dw sprite.general_purpose_48, $0012
 	dw !initcommand_success
 
@@ -18567,7 +18567,7 @@ DATA_FFD2A8:
 	dw sprite.general_purpose_4A, $0020
 	dw sprite.unknown_1A, $2FF8
 	dw !initcommand_set_oam, $7000
-	dw !initcommand_set_alt_palette, $007C
+	dw !initcommand_set_alt_palette, !ice_wall_sprite_palette
 	dw sprite.general_purpose_48, $0012
 	dw !initcommand_success
 
@@ -18578,7 +18578,7 @@ DATA_FFD2CA:
 	dw sprite.general_purpose_4A, $0020
 	dw sprite.unknown_1A, $2FF8
 	dw !initcommand_set_oam, $7000
-	dw !initcommand_set_alt_palette, $007C
+	dw !initcommand_set_alt_palette, !ice_wall_sprite_palette
 	dw sprite.general_purpose_48, $0012
 	dw !initcommand_success
 
@@ -18590,7 +18590,7 @@ DATA_FFD2EC:
 	dw sprite.unknown_1A, $2FF4
 	dw sprite.unknown_1C, $8001
 	dw sprite.parameter, $0008
-	dw !initcommand_set_alt_palette, $007A
+	dw !initcommand_set_alt_palette, !lava_wall_sprite_palette
 	dw sprite.general_purpose_48, $001D
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_success
@@ -18601,7 +18601,7 @@ DATA_FFD316:
 	dw sprite.general_purpose_44, $0002
 	dw sprite.general_purpose_4A, $0030
 	dw sprite.unknown_1A, $2FEC
-	dw !initcommand_set_alt_palette, $0078
+	dw !initcommand_set_alt_palette, !castle_wall_left_sprite_palette
 	dw sprite.general_purpose_48, $0022
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_success
@@ -18612,7 +18612,7 @@ DATA_FFD338:
 	dw sprite.general_purpose_44, $0003
 	dw sprite.general_purpose_4A, $0030
 	dw sprite.unknown_1A, $2FEC
-	dw !initcommand_set_alt_palette, $0078
+	dw !initcommand_set_alt_palette, !castle_wall_left_sprite_palette
 	dw sprite.general_purpose_48, $0022
 	dw !initcommand_set_oam, $2000
 	dw !initcommand_success
@@ -18948,7 +18948,7 @@ clapper_water_into_ice_base_init:
 	dw sprite.interaction_flags, $0020
 	dw sprite.state, $0001
 	dw !initcommand_set_oam, $2000
-	dw !initcommand_set_alt_palette, $006F
+	dw !initcommand_set_alt_palette, !clapper_sprite_palette
 	dw !initcommand_set_animation, $01B7
 	dw !initcommand_success
 
@@ -18958,7 +18958,7 @@ clapper_lava_into_water_base_init:
 	dw sprite.interaction_flags, $0020
 	dw sprite.state, $0000
 	dw !initcommand_set_oam, $2000
-	dw !initcommand_set_alt_palette, $006F
+	dw !initcommand_set_alt_palette, !clapper_sprite_palette
 	dw !initcommand_set_animation, $01B7
 	dw !initcommand_success
 
@@ -19329,7 +19329,7 @@ DATA_FFDB16:
 	dw sprite.state, $0000
 	dw sprite.parameter, $0014
 	dw !initcommand_set_oam, $3000
-	dw !initcommand_set_alt_palette, $0002
+	dw !initcommand_set_alt_palette, !barrel_sprite_palette
 	dw sprite.unknown_1A, $08CC
 	dw !initcommand_success
 
@@ -21189,7 +21189,7 @@ skull_kart_base_init:
 	dw sprite.render_order, $00D0
 	dw sprite.constants_address, DATA_FF046E
 	dw !initcommand_set_oam, $2000
-	dw !initcommand_set_alt_palette, $0027
+	dw !initcommand_set_alt_palette, !skull_cart_sprite_palette
 	dw sprite.unknown_3E, $0010
 	dw sprite.x_force, $0000
 	dw sprite.parameter, $0000
@@ -21656,7 +21656,7 @@ DATA_FFFA29:
 DATA_FFFA6B:
 	dw !initcommand_load_subconfig, DATA_FFC9C3
 	dw !initcommand_set_animation, $02FA
-	dw !initcommand_set_alt_palette, $0002
+	dw !initcommand_set_alt_palette, !barrel_sprite_palette
 	dw sprite.state, $0000
 	dw sprite.y_speed, $FD00
 	dw sprite.x_speed, $FC00
@@ -21670,7 +21670,7 @@ DATA_FFFA89:
 	dw sprite.constants_address, DATA_FF0214
 	dw !initcommand_set_oam, $6000
 	dw sprite.interaction_flags, $0020
-	dw !initcommand_set_alt_palette, $0002
+	dw !initcommand_set_alt_palette, !barrel_sprite_palette
 	dw !initcommand_set_animation, $02FA
 	dw sprite.general_purpose_4A, $4008
 	dw sprite.state, $0002
@@ -21691,7 +21691,7 @@ DATA_FFFACD:
 	dw sprite.constants_address, DATA_FF021C
 	dw sprite.state, $0000
 	dw !initcommand_set_oam, $2000
-	dw !initcommand_set_alt_palette, $0030
+	dw !initcommand_set_alt_palette, !haunted_hall_door_sprite_palette
 	dw !initcommand_set_animation, $01AC
 	dw sprite.general_purpose_42, $0000
 	dw sprite.general_purpose_44, DATA_FFFAF7
@@ -21707,7 +21707,7 @@ DATA_FFFAF7:
 	dw sprite.general_purpose_42, $FFFF
 	dw sprite.general_purpose_46, $0000
 	dw !initcommand_set_oam, $2000
-	dw !initcommand_set_alt_palette, $0030
+	dw !initcommand_set_alt_palette, !haunted_hall_door_sprite_palette
 	dw !initcommand_set_animation, $01AD
 	dw !initcommand_success
 
@@ -21759,7 +21759,7 @@ DATA_FFFB7B:
 	dw sprite.render_order, $00C4
 	dw sprite.constants_address, DATA_FF021C
 	dw !initcommand_set_oam, $2000
-	dw !initcommand_set_alt_palette, $002D
+	dw !initcommand_set_alt_palette, !target_terror_gate_sprite_palette
 	dw !initcommand_set_animation, $01AE
 	dw sprite.state, $0002
 	dw sprite.general_purpose_46, $0050
@@ -21788,7 +21788,7 @@ DATA_FFFBCD:
 	dw sprite.type, !sprite_gate_barrel
 	dw sprite.render_order, $00C8
 	dw !initcommand_set_oam, $2000
-	dw !initcommand_set_alt_palette, $0028
+	dw !initcommand_set_alt_palette, !plus_minus_barrel_sprite_palette
 	dw sprite.state, $0000
 	dw sprite.general_purpose_4A, $1852
 	dw sprite.general_purpose_4C, $71FD
@@ -21805,7 +21805,7 @@ DATA_FFFBEF:
 
 DATA_FFFC09:
 	dw sprite.type, !sprite_plus_and_minus_barrel
-	dw !initcommand_set_alt_palette, $0028
+	dw !initcommand_set_alt_palette, !plus_minus_barrel_sprite_palette
 	dw sprite.render_order, $00C8
 	dw !initcommand_set_oam, $2000
 	dw sprite.general_purpose_4E, $0000
@@ -21990,7 +21990,7 @@ DATA_FFFDD2:
 	dw sprite.type, !sprite_giant_tire
 	dw sprite.state, $0200
 	dw sprite.unknown_1C, $0000
-	dw !initcommand_set_alt_palette, $00B5
+	dw !initcommand_set_alt_palette, !giant_tire_sprite_palette
 	dw !initcommand_set_animation, $01C6
 	dw !initcommand_set_oam, $2000
 	dw sprite.constants_address, DATA_FF021C

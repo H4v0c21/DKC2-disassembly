@@ -693,32 +693,32 @@ CODE_80883B:
 	BNE CODE_808863				;$80883B  \
 	LDA #main_sprite_table			;$80883D   |
 	STA active_kong_sprite			;$808840   |
-	LDA #main_sprite_table_end		;$808843   |
-	STA $0595				;$808846   |
+	LDA #diddy_control_variables		;$808843   |
+	STA active_kong_control_variables	;$808846   |
 	STZ $08A4				;$808849   |
 	LDA $08A4				;$80884C   |
 	INC A					;$80884F   |
 	STA $08A2				;$808850   |
 	LDA #$0E40				;$808853   |
 	STA inactive_kong_sprite		;$808856   |
-	LDA #$16D8				;$808859   |
-	STA $0599				;$80885C   |
+	LDA #dixie_control_variables		;$808859   |
+	STA inactive_kong_control_variables	;$80885C   |
 	JSR CODE_808889				;$80885F   |
 	RTS					;$808862  /
 
 CODE_808863:
 	LDA #$0E40				;$808863  \
 	STA active_kong_sprite			;$808866   |
-	LDA #$16D8				;$808869   |
-	STA $0595				;$80886C   |
+	LDA #dixie_control_variables		;$808869   |
+	STA active_kong_control_variables	;$80886C   |
 	LDA #$0001				;$80886F   |
 	STA $08A4				;$808872   |
 	INC A					;$808875   |
 	STA $08A2				;$808876   |
 	LDA #main_sprite_table			;$808879   |
 	STA inactive_kong_sprite		;$80887C   |
-	LDA #main_sprite_table_end		;$80887F   |
-	STA $0599				;$808882   |
+	LDA #diddy_control_variables		;$80887F   |
+	STA inactive_kong_control_variables	;$808882   |
 	JSR CODE_808889				;$808885   |
 	RTS					;$808888  /
 
@@ -805,19 +805,19 @@ clear_wram_tables:
 
 .wram_tables
 	dw aux_sprite_table, $092E
-	dw $16B2, $0026
-	dw $16D8, $0026
-	dw $0D7A, $0002
+	dw diddy_control_variables, $0026
+	dw dixie_control_variables, $0026
+	dw current_held_sprite, $0002
 	dw $0BA0, $0002
 	dw $0BA2, $0002
 	dw $0A36, $0002
 	dw $0A38, $0002
-	dw $0B04, $0020
-	dw $0B24, $0040
+	dw sprite_vram_allocation_table, $0020
+	dw palette_upload_ring_buffer, $0040
 	dw $00EF, $0002
 	dw $00F1, $0002
-	dw $0B64, $0010
-	dw $0B74, $0010
+	dw active_sprite_palettes_table, $0010
+	dw sprite_palette_reference_count, $0010
 	dw $0A42, $0040
 	dw $0929, $0002
 	dw $092B, $0002
@@ -826,7 +826,7 @@ clear_wram_tables:
 	dw $0515, $003E
 	dw $095B, $0008
 	dw $0963, $0008
-	dw $0D4A, $0002
+	dw water_current_y_velocity, $0002
 	dw $0989, $0002
 	dw $091B, $0002
 	dw $0919, $0002
@@ -1008,7 +1008,7 @@ CODE_808AB4:					;	   |
 	LDA player_active_pressed		;$808ACB   |\ Get the players current buttons
 	AND #$2000				;$808ACE   |/ Check if select is currently being pressed
 	BEQ .handle_debug_exit_cheat		;$808AD1   |> If not then we should start checking for the cheat
-	LDA $08A8				;$808AD3   |\ Get current level id
+	LDA parent_level_number			;$808AD3   |\ Get current level id
 	JSL is_current_level_cleared		;$808AD6   |/ Check if the level was completed
 	BCC .handle_debug_exit_cheat		;$808ADA   |> If not then see if the debug exit cheat was attempted
 	LDA #$0040				;$808ADC   |\
@@ -1377,7 +1377,7 @@ CODE_808D8A:
 	ORA $30,x				;$808D9D   |
 	STA $30,x				;$808D9F   | set interaction flags
 	JSR CODE_808E29				;$808DA1   | spawn and setup diddy variables
-	LDA #$16D8				;$808DA4   | load address of dixie's control variables
+	LDA #dixie_control_variables		;$808DA4   | load address of dixie's control variables
 	STA $66					;$808DA7   | update pointer to control variables of currently processed kong
 	LDY #DATA_FF136E			;$808DA9   |
 	JSL CODE_BB8432				;$808DAC   | spawn dixie
@@ -1435,7 +1435,7 @@ CODE_808DFB:
 	RTL					;$808E28  /
 
 CODE_808E29:
-	LDA #main_sprite_table_end		;$808E29  \
+	LDA #diddy_control_variables		;$808E29  \
 	STA $66					;$808E2C   |
 	LDY.w #DATA_FF1330			;$808E2E   |
 	JSL CODE_BB8432				;$808E31   |
@@ -1592,7 +1592,7 @@ CODE_808F6C:
 	STA level_number			;$808F6F   |
 	STA $05BD				;$808F71   |
 	LDA #!level_pirate_panic		;$808F74   |
-	STA $08A8				;$808F77   |
+	STA parent_level_number			;$808F77   |
 	LDA #$FFFC				;$808F7A   |
 	STA $0BA4				;$808F7D   |
 	STZ $08C6				;$808F80   |
@@ -1608,7 +1608,7 @@ CODE_808F6C:
 	STZ $08BC				;$808F9A   |
 	STZ $096B				;$808F9D   |
 	LDX #$0004				;$808FA0   |
-	LDA $060B				;$808FA3   |
+	LDA cheat_enable_flags			;$808FA3   |
 	AND #$0002				;$808FA6   |
 	BEQ CODE_808FAE				;$808FA9   |
 	LDX #$0032				;$808FAB   |
@@ -2549,7 +2549,7 @@ CODE_8097CD:
 	JSL init_registers_global		;$8097D6   |
 	JSL clear_noncritical_wram		;$8097DA   |
 	JSL set_all_oam_offscreen		;$8097DE   |
-	STZ $060B				;$8097E2   |
+	STZ cheat_enable_flags			;$8097E2   |
 	LDX #$001E				;$8097E5   |
 	LDA #$0000				;$8097E8   |
 CODE_8097EB:					;	   |
@@ -2908,7 +2908,7 @@ CODE_809B82:					;	   |
 	LDA $060D				;$809B82   |
 	CMP #$0004				;$809B85   |
 	BNE CODE_809BC2				;$809B88   |
-	LDA $060B				;$809B8A   |
+	LDA cheat_enable_flags			;$809B8A   |
 	BIT #$0001				;$809B8D   |
 	BNE CODE_809BC2				;$809B90   |
 	LDX $3A					;$809B92   |
@@ -2924,7 +2924,7 @@ CODE_809B82:					;	   |
 	LDA #$0505				;$809BAA   |
 	JSL play_high_priority_sound		;$809BAD   |
 	LDA #$0001				;$809BB1   |
-	TSB $060B				;$809BB4   |
+	TSB cheat_enable_flags			;$809BB4   |
 	SEP #$20				;$809BB7   |
 	STZ PPU.screen				;$809BB9   |
 	REP #$20				;$809BBC   |
@@ -2936,7 +2936,7 @@ CODE_809BC2:					;	   |
 	LDA $060D				;$809BC2   |
 	CMP #$0004				;$809BC5   |
 	BNE CODE_809C02				;$809BC8   |
-	LDA $060B				;$809BCA   |
+	LDA cheat_enable_flags			;$809BCA   |
 	BIT #$0002				;$809BCD   |
 	BNE CODE_809C02				;$809BD0   |
 	LDX $3C					;$809BD2   |
@@ -2952,7 +2952,7 @@ CODE_809BC2:					;	   |
 	LDA #$0505				;$809BEA   |
 	JSL play_high_priority_sound		;$809BED   |
 	LDA #$0002				;$809BF1   |
-	TSB $060B				;$809BF4   |
+	TSB cheat_enable_flags			;$809BF4   |
 	SEP #$20				;$809BF7   |
 	STZ PPU.screen				;$809BF9   |
 	REP #$20				;$809BFC   |
@@ -3031,131 +3031,131 @@ CODE_809C96:
 	WAI					;$809C96  \
 	BRA CODE_809C96				;$809C97  /
 
-DATA_809C99:
+music_test_text_table:
 	dw !null_pointer
-	dw DATA_809CD9
-	dw DATA_809CE4
-	dw DATA_809CEF
-	dw DATA_809CF5
-	dw DATA_809CFC
-	dw DATA_809D0B
-	dw DATA_809D15
-	dw DATA_809D1A
-	dw DATA_809D20
-	dw DATA_809D29
-	dw DATA_809D30
-	dw DATA_809D3A
-	dw DATA_809D42
-	dw DATA_809D47
-	dw DATA_809D56
-	dw DATA_809D5C
-	dw DATA_809D66
-	dw DATA_809D6E
-	dw DATA_809D7A
-	dw DATA_809D86
-	dw DATA_809D90
-	dw DATA_809D99
-	dw DATA_809DA0
-	dw DATA_809DA8
-	dw DATA_809DAF
-	dw DATA_809DB6
-	dw DATA_809DBA
-	dw DATA_809DC1
-	dw DATA_809DCC
-	dw DATA_809DD4
-	dw DATA_809DDC
+	dw .island_map
+	dw .main_theme
+	dw .swamp
+	dw .swanky
+	dw .enchanted_wood
+	dw .ship_deck
+	dw .mine
+	dw .funky
+	dw .brambles
+	dw .klubba
+	dw .wasp_hive
+	dw .wrinkly
+	dw .lava
+	dw .roller_coaster
+	dw .bonus
+	dw .ship_hold
+	dw .fanfare
+	dw .ship_deck_2
+	dw .rescue_kong
+	dw .game_over
+	dw .big_boss
+	dw .castle
+	dw .haunted
+	dw .select
+	dw .cranky
+	dw .ice
+	dw .jungle
+	dw .lost_world
+	dw .rigging
+	dw .credits
+	dw .krool
 
-DATA_809CD9:
+.island_map:
 	db "ISLAND MAP", $00
 
-DATA_809CE4:
+.main_theme:
 	db "MAIN THEME", $00
 
-DATA_809CEF:
+.swamp:
 	db "SWAMP", $00
 
-DATA_809CF5:
+.swanky:
 	db "SWANKY", $00
 
-DATA_809CFC:
+.enchanted_wood:
 	db "ENCHANTED WOOD", $00
 
-DATA_809D0B:
+.ship_deck:
 	db "SHIP DECK", $00
 
-DATA_809D15:
+.mine:
 	db "MINE", $00
 
-DATA_809D1A:
+.funky:
 	db "FUNKY", $00
 
-DATA_809D20:
+.brambles:
 	db "BRAMBLES", $00
 
-DATA_809D29:
+.klubba:
 	db "KLUBBA", $00
 
-DATA_809D30:
+.wasp_hive:
 	db "WASP HIVE", $00
 
-DATA_809D3A:
+.wrinkly:
 	db "WRINKLY", $00
 
-DATA_809D42:
+.lava:
 	db "LAVA", $00
 
-DATA_809D47:
+.roller_coaster:
 	db "ROLLER COASTER", $00
 
-DATA_809D56:
+.bonus:
 	db "BONUS", $00
 
-DATA_809D5C:
+.ship_hold:
 	db "SHIP HOLD", $00
 
-DATA_809D66:
+.fanfare:
 	db "FANFARE", $00
 
-DATA_809D6E:
+.ship_deck_2:
 	db "SHIP DECK 2", $00
 
-DATA_809D7A:
+.rescue_kong:
 	db "RESCUE KONG", $00
 
-DATA_809D86:
+.game_over:
 	db "GAME OVER", $00
 
-DATA_809D90:
+.big_boss:
 	db "BIG BOSS", $00
 
-DATA_809D99:
+.castle:
 	db "CASTLE", $00
 
-DATA_809DA0:
+.haunted:
 	db "HAUNTED", $00
 
-DATA_809DA8:
+.select:
 	db "SELECT", $00
 
-DATA_809DAF:
+.cranky:
 	db "CRANKY", $00
 
-DATA_809DB6:
+.ice:
 	db "ICE", $00
 
-DATA_809DBA:
+.jungle:
 	db "JUNGLE", $00
 
-DATA_809DC1:
+.lost_world:
 	db "LOST WORLD", $00
 
-DATA_809DCC:
+.rigging:
 	db "RIGGING", $00
 
-DATA_809DD4:
+.credits:
 	db "CREDITS", $00
 
-DATA_809DDC:
+.krool:
 	db "KROOL", $00
 
 
@@ -3164,9 +3164,9 @@ CODE_809DE2:
 	BEQ CODE_809E59				;$809DE4   |
 	ASL A					;$809DE6   |
 	TAX					;$809DE7   |
-	LDA.l DATA_809C99,x			;$809DE8   |
+	LDA.l music_test_text_table,x		;$809DE8   |
 	STA $3A					;$809DEC   |
-	LDA.w #<:DATA_809C99			;$809DEE   |
+	LDA.w #<:music_test_text_table		;$809DEE   |
 	STA $3C					;$809DF1   |
 	LDY #$0000				;$809DF3   |
 	LDA #$0100				;$809DF6   |
@@ -3770,7 +3770,7 @@ CODE_80A44D:					;	   |
 	LDA #$0044				;$80A486   |
 	STA $78					;$80A489   |
 	JSL CODE_B59F40				;$80A48B   |
-	STZ $1730				;$80A48F   |
+	STZ next_sprite_dma_buffer_slot		;$80A48F   |
 	JSL set_unused_oam_offscreen_global	;$80A492   |
 	JSR prepare_oam_dma_channel		;$80A496   |
 	LDA #CODE_80A2CF			;$80A499   |
@@ -5512,7 +5512,7 @@ init_title_screen:
 	PHK					;$80B3DB   |\ Swap to current data bank
 	PLB					;$80B3DC   |/
 	STZ player_skipped_demo			;$80B3DD   | Reset the demo skip status
-	STZ $060B				;$80B3E0   |
+	STZ cheat_enable_flags			;$80B3E0   |
 	JSR clear_VRAM				;$80B3E3   | Clear all of VRAM
 	JSL init_registers_global		;$80B3E6   | Do some basic initializations of hardware
 	JSL clear_wram_tables			;$80B3EA   | Clear some basic tables used by core systems
@@ -5641,7 +5641,7 @@ run_title_screen:				;	  \
 	LDA #$001C				;$80B504   |\
 	STA $78					;$80B507   |/
 	JSL CODE_B59F40				;$80B509   |
-	STZ $1730				;$80B50D   |
+	STZ next_sprite_dma_buffer_slot		;$80B50D   |
 	JSR set_unused_oam_offscreen		;$80B510   | Place any unused OAM tiles off the screen
 	JSR prepare_oam_dma_channel		;$80B513   | Prepare channel 1 for the OAM DMA
 	LDA screen_brightness			;$80B516   |\ If the brightness isn't full, run the fadeout routine
@@ -9131,10 +9131,10 @@ CODE_80D4FA:
 	LDA $08C2				;$80D4FA  \
 	AND #$0140				;$80D4FD   |
 	BNE CODE_80D556				;$80D500   |
-	LDA $0D50				;$80D502   |
-	ORA $0D4A				;$80D505   |
+	LDA water_target_y_velocity		;$80D502   |
+	ORA water_current_y_velocity		;$80D505   |
 	BEQ CODE_80D556				;$80D508   |
-	LDA $0D4A				;$80D50A   |
+	LDA water_current_y_velocity		;$80D50A   |
 	CMP #$8000				;$80D50D   |
 	BEQ CODE_80D547				;$80D510   |
 	LDA #$0D26				;$80D512   |
@@ -9142,7 +9142,7 @@ CODE_80D4FA:
 	LDA #$0007				;$80D517   |
 	JSL interpolate_y_velocity_global	;$80D51A   |
 	LDX #$0000				;$80D51E   |
-	LDA $0D4A				;$80D521   |
+	LDA water_current_y_velocity		;$80D521   |
 	BPL CODE_80D527				;$80D524   |
 	DEX					;$80D526   |
 CODE_80D527:					;	   |
@@ -9158,13 +9158,13 @@ CODE_80D527:					;	   |
 	SEC					;$80D53C   |
 	SBC $0D4E				;$80D53D   |
 	BEQ CODE_80D547				;$80D540   |
-	EOR $0D4A				;$80D542   |
+	EOR water_current_y_velocity		;$80D542   |
 	BPL CODE_80D556				;$80D545   |
 CODE_80D547:					;	   |
 	LDA $0D52				;$80D547   |
 	STA $0D4E				;$80D54A   |
-	STZ $0D50				;$80D54D   |
-	STZ $0D4A				;$80D550   |
+	STZ water_target_y_velocity		;$80D54D   |
+	STZ water_current_y_velocity		;$80D550   |
 	STZ $0D4C				;$80D553   |
 CODE_80D556:					;	   |
 	RTS					;$80D556  /
@@ -9670,10 +9670,10 @@ CODE_80D941:
 CODE_80D97D:
 	TSB $0D56				;$80D97D  \
 CODE_80D980:					;	   |
-	LDA $0D50				;$80D980   |
-	ORA $0D4A				;$80D983   |
+	LDA water_target_y_velocity		;$80D980   |
+	ORA water_current_y_velocity		;$80D983   |
 	BEQ CODE_80D9B2				;$80D986   |
-	LDA $0D4A				;$80D988   |
+	LDA water_current_y_velocity		;$80D988   |
 	BPL CODE_80D992				;$80D98B   |
 	CMP #$9000				;$80D98D   |
 	BCC CODE_80D9D4				;$80D990   |
@@ -9682,13 +9682,13 @@ CODE_80D992:					;	   |
 	STA current_sprite			;$80D995   |
 	LDA #$0007				;$80D997   |
 	JSL interpolate_y_velocity_global	;$80D99A   |
-	LDA $0D4A				;$80D99E   |
+	LDA water_current_y_velocity		;$80D99E   |
 	JSR CODE_80D9FB				;$80D9A1   |
 	LDA $0D52				;$80D9A4   |
 	SEC					;$80D9A7   |
 	SBC $0D54				;$80D9A8   |
 	BEQ CODE_80D9E8				;$80D9AB   |
-	EOR $0D4A				;$80D9AD   |
+	EOR water_current_y_velocity		;$80D9AD   |
 	BMI CODE_80D9E8				;$80D9B0   |
 CODE_80D9B2:					;	   |
 	RTS					;$80D9B2  /
@@ -9698,7 +9698,7 @@ CODE_80D9B3:
 	BRA CODE_80D9FB				;$80D9B6  /
 
 CODE_80D9B8:
-	LDA $0D4A				;$80D9B8  \
+	LDA water_current_y_velocity		;$80D9B8  \
 	BPL CODE_80D9C2				;$80D9BB   |
 	CMP #$9000				;$80D9BD   |
 	BCC CODE_80D9D4				;$80D9C0   |
@@ -9707,7 +9707,7 @@ CODE_80D9C2:					;	   |
 	BRA CODE_80D9D4				;$80D9C5  /
 
 CODE_80D9C7:
-	LDA $0D4A				;$80D9C7  \
+	LDA water_current_y_velocity		;$80D9C7  \
 	BPL CODE_80D9D1				;$80D9CA   |
 	CMP #$9000				;$80D9CC   |
 	BCC CODE_80D9D4				;$80D9CF   |
@@ -9716,22 +9716,22 @@ CODE_80D9D1:					;	   |
 CODE_80D9D4:					;	   |
 	DEC A					;$80D9D4   |
 	BPL CODE_80D9E4				;$80D9D5   |
-	STA $0D4A				;$80D9D7   |
+	STA water_current_y_velocity		;$80D9D7   |
 	CMP #$8078				;$80D9DA   |
 	BCC CODE_80D9B2				;$80D9DD   |
 	LDA #$0100				;$80D9DF   |
 	BRA CODE_80D9FB				;$80D9E2  /
 
 CODE_80D9E4:
-	STZ $0D4A				;$80D9E4  \
+	STZ water_current_y_velocity		;$80D9E4  \
 	RTS					;$80D9E7  /
 
 CODE_80D9E8:
 	LDA $0D52				;$80D9E8  \
 	STA $0D54				;$80D9EB   |
 	STA $0AFE				;$80D9EE   |
-	STZ $0D50				;$80D9F1   |
-	STZ $0D4A				;$80D9F4   |
+	STZ water_target_y_velocity		;$80D9F1   |
+	STZ water_current_y_velocity		;$80D9F4   |
 	STZ $0D4C				;$80D9F7   |
 	RTS					;$80D9FA  /
 
@@ -12655,9 +12655,9 @@ update_sprite_palettes:
 	STA DMA[0].settings			;$80F338   |
 	LDA #$001E				;$80F33B   |
 	STA DMA[0].size				;$80F33E   |
-	LDA $0B24,x				;$80F341   |
+	LDA palette_upload_ring_buffer,x	;$80F341   |
 	STA DMA[0].source			;$80F344   |
-	LDA $0B26,x				;$80F347   |
+	LDA palette_upload_ring_buffer+$2,x	;$80F347   |
 	SEP #$20				;$80F34A   |
 	STA DMA[0].source_bank			;$80F34C   |
 	XBA					;$80F34F   |
@@ -12699,7 +12699,7 @@ render_sprites:
 	BEQ CODE_80F3B0				;$80F3AA   |
 	JSL CODE_B59C52				;$80F3AC   |
 CODE_80F3B0:					;	   |
-	STZ $1730				;$80F3B0   |
+	STZ next_sprite_dma_buffer_slot		;$80F3B0   |
 	RTS					;$80F3B3  /
 
 CODE_80F3B4:
@@ -12757,7 +12757,7 @@ CODE_80F3FB:
 	JSL init_sprite_render_order_global	;$80F411   |
 	LDA #!music_credits			;$80F415   |
 	JSL play_song				;$80F418   |
-	STZ $1730				;$80F41C   |
+	STZ next_sprite_dma_buffer_slot		;$80F41C   |
 	LDA #$000E				;$80F41F   |
 	JSL set_PPU_registers_global		;$80F422   |
 	LDA #$003A				;$80F426   |
@@ -12870,7 +12870,7 @@ CODE_80F51A:
 	JSL CODE_808837				;$80F51E   |
 	JSL CODE_B8808E				;$80F522   |
 CODE_80F526:					;	   |
-	LDY $0595				;$80F526   |
+	LDY active_kong_control_variables	;$80F526   |
 	LDA $0006,y				;$80F529   |
 	ORA #$0004				;$80F52C   |
 	STA $0006,y				;$80F52F   |
@@ -12980,216 +12980,215 @@ DATA_80F57C:
 	dw $0040, $0000, $0000
 	dw $FFFF, $0000
 
-;ending parade text table
-DATA_80F70C:
+ending_parade_text_table:
 	dw !null_pointer
-	dw DATA_80F776
-	dw DATA_80F789
-	dw DATA_80F79A
-	dw DATA_80F79F
-	dw DATA_80F7AB
-	dw DATA_80F7B1
-	dw DATA_80F7C0
-	dw DATA_80F7C8
-	dw DATA_80F7D3
-	dw DATA_80F7DA
-	dw DATA_80F7E2
-	dw DATA_80F7F4
-	dw DATA_80F7FC
-	dw DATA_80F802
-	dw DATA_80F809
-	dw DATA_80F811
-	dw DATA_80F819
-	dw DATA_80F82C
-	dw DATA_80F832
-	dw DATA_80F83A
-	dw DATA_80F842
-	dw DATA_80F84A
-	dw DATA_80F852
-	dw DATA_80F858
-	dw DATA_80F860
-	dw DATA_80F866
-	dw DATA_80F86D
-	dw DATA_80F875
-	dw DATA_80F87B
-	dw DATA_80F882
-	dw DATA_80F889
-	dw DATA_80F89A
-	dw DATA_80F89F
-	dw DATA_80F8A7
-	dw DATA_80F8AE
-	dw DATA_80F8B8
-	dw DATA_80F8C7
-	dw DATA_80F8D6
-	dw DATA_80F8DC
-	dw DATA_80F8E5
-	dw DATA_80F8EC
-	dw DATA_80F8F5
-	dw DATA_80F8FD
-	dw DATA_80F905
-	dw DATA_80F90D
-	dw DATA_80F917
-	dw DATA_80F91E
-	dw DATA_80F924
-	dw DATA_80F92C
-	dw DATA_80F933
-	dw DATA_80F93A
-	dw DATA_80F940
+	dw .cast_of_characters_text
+	dw .lazy_landlubbers_text
+	dw .neek_text
+	dw .click_clack_text
+	dw .spiny_text
+	dw .cat_09_tails_text
+	dw .flitter_text
+	dw .mini_necky_text
+	dw .zinger_text
+	dw .screech_text
+	dw .submerged_seadogs_text
+	dw .flotsam_text
+	dw .shuri_text
+	dw .puftup_text
+	dw .lockjaw_text
+	dw .snapjaw_text
+	dw .kremling_kuthroats_text
+	dw .klomp_text
+	dw .klinger_text
+	dw .kaboing_text
+	dw .klampon_text
+	dw .klobber_text
+	dw .krook_text
+	dw .kutlass_text
+	dw .kloak_text
+	dw .kannon_text
+	dw .kruncha_text
+	dw .klank_text
+	dw .kackle_text
+	dw .klubba_text
+	dw .barnacled_bosses_text
+	dw .krow_text
+	dw .kleever_text
+	dw .kudgel_text
+	dw .king_zing_text
+	dw .kaptain_krool_text
+	dw .animal_buddies_text
+	dw .rambi_text
+	dw .enguarde_text
+	dw .rattly_text
+	dw .squitter_text
+	dw .clapper_text
+	dw .squawks_text
+	dw .glimmer_text
+	dw .kong_klan_text
+	dw .swanky_text
+	dw .funky_text
+	dw .wrinkly_text
+	dw .cranky_text
+	dw .donkey_text
+	dw .dixie_text
+	dw .diddy_text
 
-DATA_80F776:
+.cast_of_characters_text:
 	db "CAST OF CHARACTERS", $00
 
-DATA_80F789:
+.lazy_landlubbers_text:
 	db "LAZY LANDLUBBERS", $00
 
-DATA_80F79A:
+.neek_text:
 	db "NEEK", $00
 
-DATA_80F79F:
+.click_clack_text:
 	db "CLICK-CLACK", $00
 
-DATA_80F7AB:
+.spiny_text:
 	db "SPINY", $00
 
-DATA_80F7B1:
+.cat_09_tails_text:
 	db "CAT O' 9 TAILS", $00
 
-DATA_80F7C0:
+.flitter_text:
 	db "FLITTER", $00
 
-DATA_80F7C8:
+.mini_necky_text:
 	db "MINI-NECKY", $00
 
-DATA_80F7D3:
+.zinger_text:
 	db "ZINGER", $00
 
-DATA_80F7DA:
+.screech_text:
 	db "SCREECH", $00
 
-DATA_80F7E2:
+.submerged_seadogs_text:
 	db "SUBMERGED SEADOGS", $00
 
-DATA_80F7F4:
+.flotsam_text:
 	db "FLOTSAM", $00
 
-DATA_80F7FC:
+.shuri_text:
 	db "SHURI", $00
 
-DATA_80F802:
+.puftup_text:
 	db "PUFTUP", $00
 
-DATA_80F809:
+.lockjaw_text:
 	db "LOCKJAW", $00
 
-DATA_80F811:
+.snapjaw_text:
 	db "SNAPJAW", $00
 
-DATA_80F819:
+.kremling_kuthroats_text:
 	db "KREMLING KUTHROATS", $00
 
-DATA_80F82C:
+.klomp_text:
 	db "KLOMP", $00
 
-DATA_80F832:
+.klinger_text:
 	db "KLINGER", $00
 
-DATA_80F83A:
+.kaboing_text:
 	db "KABOING", $00
 
-DATA_80F842:
+.klampon_text:
 	db "KLAMPON", $00
 
-DATA_80F84A:
+.klobber_text:
 	db "KLOBBER", $00
 
-DATA_80F852:
+.krook_text:
 	db "KROOK", $00
 
-DATA_80F858:
+.kutlass_text:
 	db "KUTLASS", $00
 
-DATA_80F860:
+.kloak_text:
 	db "KLOAK", $00
 
-DATA_80F866:
+.kannon_text:
 	db "KANNON", $00
 
-DATA_80F86D:
+.kruncha_text:
 	db "KRUNCHA", $00
 
-DATA_80F875:
+.klank_text:
 	db "KLANK", $00
 
-DATA_80F87B:
+.kackle_text:
 	db "KACKLE", $00
 
-DATA_80F882:
+.klubba_text:
 	db "KLUBBA", $00
 
-DATA_80F889:
+.barnacled_bosses_text:
 	db "BARNACLED BOSSES", $00
 
-DATA_80F89A:
+.krow_text:
 	db "KROW", $00
 
-DATA_80F89F:
+.kleever_text:
 	db "KLEEVER", $00
 
-DATA_80F8A7:
+.kudgel_text:
 	db "KUDGEL", $00
 
-DATA_80F8AE:
+.king_zing_text:
 	db "KING ZING", $00
 
-DATA_80F8B8:
+.kaptain_krool_text:
 	db "KAPTAIN K.ROOL", $00
 
-DATA_80F8C7:
+.animal_buddies_text:
 	db "ANIMAL BUDDIES", $00
 
-DATA_80F8D6:
+.rambi_text:
 	db "RAMBI", $00
 
-DATA_80F8DC:
+.enguarde_text:
 	db "ENGUARDE", $00
 
-DATA_80F8E5:
+.rattly_text:
 	db "RATTLY", $00
 
-DATA_80F8EC:
+.squitter_text:
 	db "SQUITTER", $00
 
-DATA_80F8F5:
+.clapper_text:
 	db "CLAPPER", $00
 
-DATA_80F8FD:
+.squawks_text:
 	db "SQUAWKS", $00
 
-DATA_80F905:
+.glimmer_text:
 	db "GLIMMER", $00
 
-DATA_80F90D:
+.kong_klan_text:
 	db "KONG KLAN", $00
 
-DATA_80F917:
+.swanky_text:
 	db "SWANKY", $00
 
-DATA_80F91E:
+.funky_text:
 	db "FUNKY", $00
 
-DATA_80F924:
+.wrinkly_text:
 	db "WRINKLY", $00
 
-DATA_80F92C:
+.cranky_text:
 	db "CRANKY", $00
 
-DATA_80F933:
+.donkey_text:
 	db "DONKEY", $00
 
-DATA_80F93A:
+.dixie_text:
 	db "DIXIE", $00
 
-DATA_80F940:
+.diddy_text:
 	db "DIDDY", $00
 
 CODE_80F946:
@@ -13201,9 +13200,9 @@ CODE_80F946:
 	BEQ CODE_80F9C7				;$80F94E   |
 	ASL A					;$80F950   |
 	TAX					;$80F951   |
-	LDA.l DATA_80F70C,x			;$80F952   |
+	LDA.l ending_parade_text_table,x	;$80F952   |
 	STA $3A					;$80F956   |
-	LDA.w #<:DATA_80F70C			;$80F958   |
+	LDA.w #<:ending_parade_text_table	;$80F958   |
 	STA $3C					;$80F95B   |
 	LDY #$0000				;$80F95D   |
 CODE_80F960:					;	   |
@@ -13288,7 +13287,7 @@ CODE_80F9C7:
 	LDA #$0054				;$80FA03   |
 	STA $78					;$80FA06   |
 	JSL CODE_B59F40				;$80FA08   |
-	STZ $1730				;$80FA0C   |
+	STZ next_sprite_dma_buffer_slot		;$80FA0C   |
 	PLB					;$80FA0F   |
 	RTS					;$80FA10  /
 
