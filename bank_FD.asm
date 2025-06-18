@@ -4956,7 +4956,7 @@ DATA_FD5FEE:
 	dw klobber_red_sprite_palette			;002A
 
 DATA_FD6044:
-	dw DATA_FD7166					;002B
+	dw kleever_hand_sprite_palette			;002B
 	dw k_rool_letter_sprite_palette			;002C
 	dw roller_coaster_gate_sprite_palette		;002D
 	dw ghost_rope_sprite_palette			;002E
@@ -5088,14 +5088,14 @@ DATA_FD6044:
 	dw roof_piece_sprite_palette			;00AC
 	dw map_cranky_wrinkly_sprite_palette		;00AD
 	dw map_funky_swanky_sprite_palette		;00AE
-	dw DATA_FD776A					;00AF
+	dw krool_puddle_sprite_palette			;00AF
 	dw shuri_pink_sprite_palette			;00B0
 	dw puftup_purple_sprite_palette			;00B1
 	dw snapjaw_sprite_palette			;00B2
 	dw wall_ship_hold_low_sprite_palette		;00B3
 	dw kutlass_green_sprite_palette			;00B4
 	dw giant_tire_sprite_palette			;00B5
-	dw DATA_FD77C4					;00B6
+	dw hook_sprite_palette				;00B6
 	dw click_clack_sprite_palette			;00B7
 	dw kreepy_krow_head_sprite_palette		;00B8
 	dw kreepy_krow_body_sprite_palette		;00B9
@@ -5127,7 +5127,7 @@ DATA_FD6170:
 	dw !null_pointer				;00CF
 
 ;level end target/chest reward palettes
-DATA_FD618E:
+item_reward_palettes_table:
 	dw global_sprite_palette			;00 Banana Bunch
 	dw global_sprite_palette			;01 K
 	dw global_sprite_palette			;02 O
@@ -5936,7 +5936,7 @@ shuri_pink_sprite_palette:
 	db $DD, $28, $FD, $38, $FF, $34, $5D, $39
 	db $7D, $4D, $FE, $5D, $BD, $73
 
-DATA_FD7166:
+kleever_hand_sprite_palette:
 	db $28, $00, $4C, $00, $70, $00, $74, $00
 	db $98, $00, $BC, $00, $DF, $00, $1F, $01
 	db $7F, $01, $BF, $01, $1F, $02, $7F, $02
@@ -6237,7 +6237,7 @@ roof_piece_sprite_palette:
 	db $A6, $21, $E9, $29, $4C, $36, $A9, $08
 	db $60, $2A, $40, $37, $7E, $0C
 
-DATA_FD776A:
+krool_puddle_sprite_palette:
 	db $6B, $10, $AC, $14, $EE, $24, $51, $35
 	db $92, $35, $0B, $15, $96, $3E, $35, $3A
 	db $D3, $35, $47, $2D, $CB, $3D, $4F, $4A
@@ -6255,7 +6255,7 @@ giant_tire_sprite_palette:
 	db $63, $0C, $84, $10, $84, $10, $08, $21
 	db $6B, $2D, $EF, $3D, $52, $4A
 
-DATA_FD77C4:
+hook_sprite_palette:
 	db $FF, $7F, $BE, $7B, $7C, $73, $5B, $6F
 	db $19, $67, $F7, $5E, $B6, $5A, $73, $4E
 	db $31, $46, $EF, $3D, $8C, $31, $2A, $25

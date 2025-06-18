@@ -242,7 +242,7 @@ CODE_BEB9C6:
 CODE_BEB9C9:					;	   |
 	JSL set_sprite_animation		;$BEB9C9   |
 	LDX current_sprite			;$BEB9CD   |
-	LDA #$0003				;$BEB9CF   |
+	LDA #!coins_2_sprite_palette		;$BEB9CF   |
 	JSL set_sprite_palette_global		;$BEB9D2   |
 CODE_BEB9D6:					;	   |
 	LDY #$00CE				;$BEB9D6   |
@@ -438,9 +438,9 @@ CODE_BEBB2A:
 	LDY #DATA_C02501			;$BEBB4D   | kong letters bottom tiledata
 	JSR CODE_BEBD5C				;$BEBB50   |
 	BCC CODE_BEBB61				;$BEBB53   |
-	LDA $1730				;$BEBB55   |
+	LDA next_sprite_dma_buffer_slot		;$BEBB55   |
 	SBC #$0008				;$BEBB58   |
-	STA $1730				;$BEBB5B   |
+	STA next_sprite_dma_buffer_slot		;$BEBB5B   |
 CODE_BEBB5E:					;	   |
 	JML [$05A9]				;$BEBB5E  /
 
@@ -732,7 +732,7 @@ DATA_BEBD4C:
 
 CODE_BEBD5C:
 	STX $32					;$BEBD5C  \
-	LDX $1730				;$BEBD5E   |
+	LDX next_sprite_dma_buffer_slot		;$BEBD5E   |
 	CPX $78					;$BEBD61   |
 	BCS CODE_BEBD8D				;$BEBD63   |
 	STA $1734,x				;$BEBD65   |
@@ -747,11 +747,11 @@ CODE_BEBD5C:
 	LSR A					;$BEBD7C   |
 	LSR A					;$BEBD7D   |
 	LSR A					;$BEBD7E   |
-	STA $1732,x				;$BEBD7F   |
+	STA sprite_dma_buffer,x			;$BEBD7F   |
 	TXA					;$BEBD82   |
 	CLC					;$BEBD83   |
 	ADC #$0008				;$BEBD84   |
-	STA $1730				;$BEBD87   |
+	STA next_sprite_dma_buffer_slot		;$BEBD87   |
 	STZ $1740,x				;$BEBD8A   |
 CODE_BEBD8D:					;	   |
 	RTS					;$BEBD8D  /
@@ -2039,7 +2039,7 @@ CODE_BEC694:					;	   |
 CODE_BEC695:
 	LDA #diddy_active_sprite_palette	;$BEC695  \
 	JSL request_palette_direct_global	;$BEC698   |
-	DEC $0B74,x				;$BEC69C   |
+	DEC sprite_palette_reference_count,x	;$BEC69C   |
 	AND #$0E00				;$BEC69F   |
 	ORA #$3000				;$BEC6A2   |
 	STA $60					;$BEC6A5   |
@@ -4419,7 +4419,7 @@ CODE_BED859:
 	LDA $6A					;$BED865   |
 	STA $0A88				;$BED867   |
 	STA $42,x				;$BED86A   |
-	LDY $0595				;$BED86C   |
+	LDY active_kong_control_variables	;$BED86C   |
 	LDA global_frame_counter		;$BED86F   |
 	SEC					;$BED871   |
 	SBC #$0020				;$BED872   |
@@ -4489,7 +4489,7 @@ CODE_BED8DA:
 	STZ $44,x				;$BED8F1   |
 	LDA global_frame_counter		;$BED8F3   |
 	SBC #$0020				;$BED8F5   |
-	LDY $0595				;$BED8F8   |
+	LDY active_kong_control_variables	;$BED8F8   |
 	STA $0022,y				;$BED8FB   |
 	LDA #$0000				;$BED8FE   |
 	SEC					;$BED901   |
@@ -4514,7 +4514,7 @@ CODE_BED914:
 	BCS CODE_BED92D				;$BED917   |
 	LDX current_sprite			;$BED919   |
 	STZ $42,x				;$BED91B   |
-	LDY $0595				;$BED91D   |
+	LDY active_kong_control_variables	;$BED91D   |
 	LDA global_frame_counter		;$BED920   |
 	SBC #$0020				;$BED922   |
 	STA $0022,y				;$BED925   |
@@ -4779,7 +4779,7 @@ CODE_BEDB50:
 	LDA #$0005				;$BEDB73   |
 	STA $2E,x				;$BEDB76   |
 CODE_BEDB78:					;	   |
-	LDY $0595				;$BEDB78   |
+	LDY active_kong_control_variables	;$BEDB78   |
 	LDA $3E,x				;$BEDB7B   |
 	AND #$0C00				;$BEDB7D   |
 	BNE CODE_BEDB90				;$BEDB80   |
@@ -4792,14 +4792,14 @@ CODE_BEDB8F:					;	   |
 	RTS					;$BEDB8F  /
 
 CODE_BEDB90:
-	LDY $0595				;$BEDB90  \
+	LDY active_kong_control_variables	;$BEDB90  \
 	LDA global_frame_counter		;$BEDB93   |
 	SBC #$0020				;$BEDB95   |
 	STA $0022,y				;$BEDB98   |
 	RTS					;$BEDB9B  /
 
 CODE_BEDB9C:
-	LDY $0595				;$BEDB9C  \
+	LDY active_kong_control_variables	;$BEDB9C  \
 	LDA global_frame_counter		;$BEDB9F   |
 	SEC					;$BEDBA1   |
 	SBC $0022,y				;$BEDBA2   |
@@ -4832,7 +4832,7 @@ CODE_BEDBE1:					;	   |
 	RTS					;$BEDBE1  /
 
 CODE_BEDBE2:
-	LDY $0595				;$BEDBE2  \
+	LDY active_kong_control_variables	;$BEDBE2  \
 	LDA global_frame_counter		;$BEDBE5   |
 	SEC					;$BEDBE7   |
 	SBC $0022,y				;$BEDBE8   |
@@ -4874,7 +4874,7 @@ CODE_BEDC2B:
 
 CODE_BEDC31:
 	LDY current_sprite			;$BEDC31  \
-	LDX $0595				;$BEDC33   |
+	LDX active_kong_control_variables	;$BEDC33   |
 	LDA $04,x				;$BEDC36   |
 	LDX #$0000				;$BEDC38   |
 	BIT #$0300				;$BEDC3B   |
@@ -4914,7 +4914,7 @@ CODE_BEDC77:					;	   |
 	BNE CODE_BEDC9C				;$BEDC7E   |
 	LDA $24,x				;$BEDC80   |
 	BPL CODE_BEDCC0				;$BEDC82   |
-	LDY $0595				;$BEDC84   |
+	LDY active_kong_control_variables	;$BEDC84   |
 	LDA $0004,y				;$BEDC87   |
 	AND #$8000				;$BEDC8A   |
 	BEQ CODE_BEDCC0				;$BEDC8D   |
@@ -6864,7 +6864,7 @@ racing_flag_sprite_code:
 .sub_state_3
 	LDA #dixie_active_sprite_palette	;$BEEA03  \  get dixie palette address
 	JSL request_palette_direct_global	;$BEEA06   | use dixie's slot for flag palette
-	DEC $0B74,x				;$BEEA0A   | decrease reference count to palette
+	DEC sprite_palette_reference_count,x	;$BEEA0A   | decrease reference count to palette
 	LDX current_sprite			;$BEEA0D   | get flag sprite
 	EOR $12,x				;$BEEA0F   |
 	AND #$0E00				;$BEEA11   |
@@ -6911,7 +6911,7 @@ racing_flag_sprite_code:
 	LDA $13,x				;$BEEA66  \
 	AND #$000E				;$BEEA68   | get index of palette in reference count table
 	TAX					;$BEEA6B   |
-	INC $0B74,x				;$BEEA6C   | increase reference count
+	INC sprite_palette_reference_count,x	;$BEEA6C   | increase reference count
 	LDA #dixie_active_sprite_palette	;$BEEA6F   | get dixie palette address
 	LDX current_sprite			;$BEEA72   | get flag sprite
 	JSL CODE_BB8AE4				;$BEEA74   | restore dixie's palette
@@ -7413,8 +7413,8 @@ CODE_BEEE14:					;	   |
 	LSR A					;$BEEE1C   |
 	LSR A					;$BEEE1D   |
 	TAX					;$BEEE1E   |
-	STZ $0B04,x				;$BEEE1F   |
-	STZ $0B06,x				;$BEEE22   |
+	STZ sprite_vram_allocation_table,x	;$BEEE1F   |
+	STZ sprite_vram_allocation_table+$2,x	;$BEEE22   |
 	LDA #$0000				;$BEEE25   |
 	STA $19B2,y				;$BEEE28   |
 	DEY					;$BEEE2B   |
