@@ -383,11 +383,11 @@ start_engine:					;	  \
 	LDX #$0000				;$8085BB   | | Set up MVN
 	LDY #$0001				;$8085BE   | |
 	LDA #$FFFF				;$8085C1   | | 64K
-	MVN $7E, $7E				;$8085C4   |/ Copy first byte of WRAM across bank 7E (zero bank 7E)
+	MVN <:wram_base, <:wram_base		;$8085C4   |/ Copy first byte of WRAM across bank 7E (zero bank 7E)
 	LDY #$0000				;$8085C7   |\ Set up another MVN
 	TYX					;$8085CA   | |
 	LDA #$FFFF				;$8085CB   | |
-	MVN $7F, $7E				;$8085CE   |/ Copy 64K from bank 7E to 7F (zero bank 7F)
+	MVN <:wram_base_high, <:wram_base	;$8085CE   |/ Copy 64K from bank 7E to 7F (zero bank 7F)
 	PHK					;$8085D1   |\ Set the program bank to the data bank
 	PLB					;$8085D2   |/
 	LDX #$0006				;$8085D3   |\ Number of bytes minus one to copy (due to 16 bit)
@@ -419,11 +419,11 @@ simple_gamemode_nmi:				;	  \
 CODE_80860C:					;	   |
 	LDA #incomplete_frame_nmi		;$80860C   |\ Setup a dummy NMI pointer for lag frames
 	STA NMI_pointer				;$80860F   |/
-	INC global_frame_counter		;$808611   | Increment the frame counter
+	INC active_frame_counter		;$808611   | Increment the frame counter
 	JMP.w (gamemode_pointer)		;$808613  / Run the active gamemode
 
 CODE_808616:
-	LDA #$0100				;$808616   |
+	LDA #$0100				;$808616  \
 	CLC					;$808619   |
 	ADC $0985				;$80861A   |
 	STA $0985				;$80861D   |
@@ -444,11 +444,11 @@ DATA_808633:
 
 
 CODE_808636:
-	INC $D5					;$808636  \
+	INC gameplay_frame_counter		;$808636   |
 	BNE CODE_808640				;$808638   |
-	INC $D7					;$80863A   |
+	INC gameplay_frame_counter_high		;$80863A   |
 	BNE CODE_808640				;$80863C   |
-	DEC $D7					;$80863E   |
+	DEC gameplay_frame_counter_high		;$80863E   |
 CODE_808640:					;	   |
 	LDA #simple_gamemode_nmi		;$808640   |
 	STA NMI_pointer				;$808643   |
@@ -991,20 +991,20 @@ CODE_808A8D:
 	JSL play_high_priority_sound		;$808AA4   |
 	LDA #$045E				;$808AA8   |
 	JSL play_high_priority_sound		;$808AAB   |
-	LDA global_frame_counter		;$808AAF   |
+	LDA active_frame_counter		;$808AAF   |
 	STA $0636				;$808AB1   |
 endif						;	   |
 CODE_808AB4:					;	   |
 	LDA player_active_pressed		;$808AB4   |\ Get the players current buttons
 	AND #$1000				;$808AB7   | | Check if start is currently being pressed
 	BNE .unpause_game			;$808ABA   |/ If start was pressed then we should unpause the game
-	LDA $D5					;$808ABC   |
+	LDA gameplay_frame_counter		;$808ABC   |
 	SEC					;$808ABE   |
 	SBC #$0001				;$808ABF   |
-	STA $D5					;$808AC2   |
-	LDA $D7					;$808AC4   |
+	STA gameplay_frame_counter		;$808AC2   |
+	LDA gameplay_frame_counter_high		;$808AC4   |
 	SBC #$0000				;$808AC6   |
-	STA $D7					;$808AC9   |
+	STA gameplay_frame_counter_high		;$808AC9   |
 	LDA player_active_pressed		;$808ACB   |\ Get the players current buttons
 	AND #$2000				;$808ACE   |/ Check if select is currently being pressed
 	BEQ .handle_debug_exit_cheat		;$808AD1   |> If not then we should start checking for the cheat
@@ -1268,7 +1268,7 @@ prepare_oam_dma_channel:			;	  \
 CODE_808CC9:
 	LDX #stack				;$808CC9  \
 	TXS					;$808CCC   |
-	INC global_frame_counter		;$808CCD   |
+	INC active_frame_counter		;$808CCD   |
 	JSL CODE_BAB31B				;$808CCF   |
 	JSL CODE_80897C				;$808CD3   |
 	BRA CODE_808D1C				;$808CD7  /
@@ -1276,7 +1276,7 @@ CODE_808CC9:
 CODE_808CD9:
 	LDX #stack				;$808CD9  \
 	TXS					;$808CDC   |
-	INC global_frame_counter		;$808CDD   |
+	INC active_frame_counter		;$808CDD   |
 	JSL CODE_B4BE60				;$808CDF   |
 	JSL CODE_80897C				;$808CE3   |
 	BRA CODE_808D1C				;$808CE7  /
@@ -1293,21 +1293,21 @@ CODE_808CF1:
 CODE_808CF5:
 	LDX #stack				;$808CF5  \
 	TXS					;$808CF8   |
-	INC global_frame_counter		;$808CF9   |
+	INC active_frame_counter		;$808CF9   |
 	JSL CODE_B491D7				;$808CFB   |
 	BRL CODE_808D1C				;$808CFF  /
 
 CODE_808D02:
 	LDX #stack				;$808D02  \
 	TXS					;$808D05   |
-	INC global_frame_counter		;$808D06   |
+	INC active_frame_counter		;$808D06   |
 	JSL CODE_B48B15				;$808D08   |
 	BRA CODE_808D1C				;$808D0C  /
 
 CODE_808D0E:
 	LDX #stack				;$808D0E  \
 	TXS					;$808D11   |
-	INC global_frame_counter		;$808D12   |
+	INC active_frame_counter		;$808D12   |
 	JSL CODE_B4935E				;$808D14   |
 	JSL CODE_80897C				;$808D18   |
 CODE_808D1C:					;	   |
@@ -1317,7 +1317,7 @@ CODE_808D1C:					;	   |
 CODE_808D1F:
 	LDX #stack				;$808D1F  \
 	TXS					;$808D22   |
-	INC global_frame_counter		;$808D23   |
+	INC active_frame_counter		;$808D23   |
 	JSL CODE_B49978				;$808D25   |
 	JSL CODE_80897C				;$808D29   |
 	BRL CODE_808D1C				;$808D2D  /
@@ -1325,14 +1325,14 @@ CODE_808D1F:
 CODE_808D30:
 	LDX #stack				;$808D30  \
 	TXS					;$808D33   |
-	INC global_frame_counter		;$808D34   |
+	INC active_frame_counter		;$808D34   |
 	JSL CODE_B49886				;$808D36   |
 	BRL CODE_808D1C				;$808D3A  /
 
 CODE_808D3D:
 	LDX #stack				;$808D3D  \
 	TXS					;$808D40   |
-	INC global_frame_counter		;$808D41   |
+	INC active_frame_counter		;$808D41   |
 	JSL CODE_B49F1D				;$808D43   |
 	JSL CODE_80897C				;$808D47   |
 	BRL CODE_808D1C				;$808D4B  /
@@ -1340,7 +1340,7 @@ CODE_808D3D:
 CODE_808D4E:
 	LDX #stack				;$808D4E  \
 	TXS					;$808D51   |
-	INC global_frame_counter		;$808D52   |
+	INC active_frame_counter		;$808D52   |
 	JSL CODE_B49ED7				;$808D54   |
 	JSL CODE_80897C				;$808D58   |
 	BRL CODE_808D1C				;$808D5C  /
@@ -1348,7 +1348,7 @@ CODE_808D4E:
 CODE_808D5F:
 	LDX #stack				;$808D5F  \
 	TXS					;$808D62   |
-	INC global_frame_counter		;$808D63   |
+	INC active_frame_counter		;$808D63   |
 	JSL CODE_B4AB6E				;$808D65   |
 	JSL CODE_80897C				;$808D69   |
 	BRL CODE_808D1C				;$808D6D  /
@@ -1356,14 +1356,14 @@ CODE_808D5F:
 CODE_808D70:
 	LDX #stack				;$808D70  \
 	TXS					;$808D73   |
-	INC global_frame_counter		;$808D74   |
+	INC active_frame_counter		;$808D74   |
 	JSL CODE_B4990F				;$808D76   |
 	BRL CODE_808D1C				;$808D7A  /
 
 CODE_808D7D:
 	LDX #stack				;$808D7D  \
 	TXS					;$808D80   |
-	INC global_frame_counter		;$808D81   |
+	INC active_frame_counter		;$808D81   |
 	JSL CODE_B49B63				;$808D83   |
 	BRL CODE_808D1C				;$808D87  /
 
@@ -1380,7 +1380,7 @@ CODE_808D8A:
 	LDA #dixie_control_variables		;$808DA4   | load address of dixie's control variables
 	STA $66					;$808DA7   | update pointer to control variables of currently processed kong
 	LDY #DATA_FF136E			;$808DA9   |
-	JSL CODE_BB8432				;$808DAC   | spawn dixie
+	JSL spawn_special_sprite_address	;$808DAC   | spawn dixie
 	LDX alternate_sprite			;$808DB0   |
 	STX current_sprite			;$808DB2   |
 	LDA #$0004				;$808DB4   | load run animation
@@ -1438,7 +1438,7 @@ CODE_808E29:
 	LDA #diddy_control_variables		;$808E29  \
 	STA $66					;$808E2C   |
 	LDY.w #DATA_FF1330			;$808E2E   |
-	JSL CODE_BB8432				;$808E31   |
+	JSL spawn_special_sprite_address	;$808E31   |
 	LDX alternate_sprite			;$808E35   |
 	STX current_sprite			;$808E37   |
 	LDA #$0001				;$808E39   |
@@ -1597,8 +1597,8 @@ CODE_808F6C:
 	STA $0BA4				;$808F7D   |
 	STZ $08C6				;$808F80   |
 	STZ $08C2				;$808F83   |
-	STZ $D5					;$808F86   |
-	STZ $D7					;$808F88   |
+	STZ gameplay_frame_counter		;$808F86   |
+	STZ gameplay_frame_counter_high		;$808F88   |
 	STZ current_player_mount		;$808F8A   |
 	STZ $6E					;$808F8C   |
 	STZ $08A6				;$808F8E   |
@@ -1772,7 +1772,7 @@ init_rareware_logo:
 	STA $78					;$8090E0   |/
 	JSR init_registers			;$8090E2   | Reset registers to a known state
 	JSR clear_VRAM				;$8090E5   | Nuke VRAM
-	STZ global_frame_counter		;$8090E8   | Reset effective frame counter
+	STZ active_frame_counter		;$8090E8   | Reset effective frame counter
 	LDA #$AA55				;$8090EA   |\ Initialize the random number generator
 	STA rng_result				;$8090ED   | |
 	LDA #$3765				;$8090EF   | |
@@ -2044,12 +2044,12 @@ run_rareware_logo:				;	  \
 	REP #$20				;$8093E0   |
 	LDA #$1C00				;$8093E2   |\ Enable HDMA on channels 3, 4, 5
 	STA CPU.enable_dma			;$8093E5   |/
-	LDA global_frame_counter		;$8093E8   |\ Check if the frame count is less than $E0
+	LDA active_frame_counter		;$8093E8   |\ Check if the frame count is less than $E0
 	CMP #$00E0				;$8093EA   | |
 	BCC .skip_mode_7_update			;$8093ED   |/ If so, skip mode 7 updates
 	JSL update_mode_7			;$8093EF   | Run mode 7 update.
 .skip_mode_7_update				;	   |
-	LDA global_frame_counter		;$8093F3   |\ If the frame count is not exactly $E0
+	LDA active_frame_counter		;$8093F3   |\ If the frame count is not exactly $E0
 	CMP #$00E0				;$8093F5   | |
 	BNE .skip_mode_7_enable			;$8093F8   |/ Skip enabling mode 7
 	SEP #$20				;$8093FA   |
@@ -2065,7 +2065,7 @@ namespace off					;	   |
 	STA PPU.screens				;$809411   |/
 	REP #$20				;$809414   |
 .skip_mode_7_enable				;	   |
-	LDA global_frame_counter		;$809416   |\ If the frame count is not exactly $0110
+	LDA active_frame_counter		;$809416   |\ If the frame count is not exactly $0110
 	CMP #$0110				;$809418   | |
 	BNE .skip_nintendo_presents_upload	;$80941B   |/ Skip uploading the first half of Nintendo Presents
 namespace vram					;	   |\
@@ -2077,7 +2077,7 @@ namespace off					;	   | |
 	LDY #$1440				;$809429   | |
 	JSL DMA_to_VRAM				;$80942C   |/ DMA the payload
 .skip_nintendo_presents_upload			;	   |
-	LDA global_frame_counter		;$809430   |\ If the frame count is not exactly $0111
+	LDA active_frame_counter		;$809430   |\ If the frame count is not exactly $0111
 	CMP #$0111				;$809432   | |
 	BNE .skip_nintendo_presents_upload2	;$809435   |/ Skip uploading the second half of Nintendo Presents
 namespace vram					;	   |\
@@ -2096,7 +2096,7 @@ namespace off					;	   | |
 	DEX					;$809455   | |
 	BNE .clear_palette			;$809456   |/ Loop until all clear
 .skip_nintendo_presents_upload2			;	   |
-	LDA global_frame_counter		;$809458   |\ If the frame count is not exactly $0112
+	LDA active_frame_counter		;$809458   |\ If the frame count is not exactly $0112
 	CMP #$0112				;$80945A   | |
 	BNE .skip_sparkle_upload		;$80945D   |/ Skip uploading the sparkle tilemap
 	LDA #vram_intro_sparkle_tilemap		;$80945F   |\ Set VRAM address to $6000
@@ -2133,7 +2133,7 @@ namespace off					;	   |
 	LDA screen_brightness			;$8094B4   |\ Set screen brightness
 	STA PPU.screen				;$8094B7   |/
 	REP #$20				;$8094BA   |
-	LDA global_frame_counter		;$8094BC   |\ Subtract $E0 from the frame counter
+	LDA active_frame_counter		;$8094BC   |\ Subtract $E0 from the frame counter
 	SEC					;$8094BE   | | This results in frame counter relative to mode 7 start
 	SBC #$00E0				;$8094BF   |/
 	CMP #$002F				;$8094C2   |\ Skip the mode 7 shrink calculation, its finished
@@ -2152,13 +2152,13 @@ namespace off					;	   |
 	STA $7A					;$8094DA   |/
 .skip_mode_7_scale				;	   |
 	JSR intro_controller_read		;$8094DC   | Read controller data (So that the intro can be skipped later)
-	INC global_frame_counter		;$8094DF   | Increment the frame counter
-	LDA global_frame_counter		;$8094E1   |\ Check if this is the first frame of the logo
+	INC active_frame_counter		;$8094DF   | Increment the frame counter
+	LDA active_frame_counter		;$8094E1   |\ Check if this is the first frame of the logo
 	CMP #$0001				;$8094E3   | |
 	BNE .song_already_playing		;$8094E6   |/
 	JSL play_queued_song			;$8094E8   | And start playing music if it is the first frame
 .song_already_playing				;	   |
-	LDA global_frame_counter		;$8094EC   |\ On the frame that mode 7 scaling ends initiate a copy
+	LDA active_frame_counter		;$8094EC   |\ On the frame that mode 7 scaling ends initiate a copy
 	CMP #$00F0				;$8094EE   | | of the yellow/gold logo palette
 	BNE .skip_palette_copy			;$8094F1   |/
 	LDX #$003E				;$8094F3   |\ Copy the yellow/gold logo palette
@@ -2169,7 +2169,7 @@ namespace off					;	   |
 	DEX					;$8094FF   | |
 	BPL .copy_palette			;$809500   |/
 .skip_palette_copy				;	   |
-	LDA global_frame_counter		;$809502   |\ If we are between 0x0121 and 0x017C frames
+	LDA active_frame_counter		;$809502   |\ If we are between 0x0121 and 0x017C frames
 	SEC					;$809504   | |
 	SBC #$0121				;$809505   | |
 	CMP #$005B				;$809508   | |
@@ -2265,7 +2265,7 @@ CODE_80959F:					;	   |
 	CPY #$0010				;$8095AE   |
 	BNE CODE_809574				;$8095B1   |
 CODE_8095B3:					;	   |
-	LDA global_frame_counter		;$8095B3   |
+	LDA active_frame_counter		;$8095B3   |
 	SEC					;$8095B5   |
 	SBC #$0118				;$8095B6   |
 	CMP #$0068				;$8095B9   |
@@ -2347,7 +2347,7 @@ CODE_809636:					;	   |
 	PLB					;$80964B   |
 CODE_80964C:					;	   |
 	LDX #$00A0				;$80964C   |
-	LDA global_frame_counter		;$80964F   |
+	LDA active_frame_counter		;$80964F   |
 	SEC					;$809651   |
 	SBC #$0110				;$809652   |
 	CMP #$0040				;$809655   |
@@ -2356,7 +2356,7 @@ CODE_80964C:					;	   |
 	BCS CODE_809670				;$80965D   |
 CODE_80965F:					;	   |
 	LDX #$0000				;$80965F   |
-	LDA global_frame_counter		;$809662   |
+	LDA active_frame_counter		;$809662   |
 	SEC					;$809664   |
 	SBC #$0078				;$809665   |
 	CMP #$0029				;$809668   |
@@ -2440,7 +2440,7 @@ CODE_8096E2:					;	   |
 	BNE CODE_80969B				;$8096F8   |
 	PLB					;$8096FA   |
 CODE_8096FB:					;	   |
-	LDA global_frame_counter		;$8096FB   |
+	LDA active_frame_counter		;$8096FB   |
 	CMP #$0072				;$8096FD   |
 	BCS CODE_80973E				;$809700   |
 	AND #$00FF				;$809702   |
@@ -2469,7 +2469,7 @@ CODE_809729:					;	   |
 	LDA #$01C0				;$809737   |
 	STA $7E8A48,x				;$80973A   |
 CODE_80973E:					;	   |
-	LDA global_frame_counter		;$80973E   |
+	LDA active_frame_counter		;$80973E   |
 	SEC					;$809740   |
 	SBC #$0098				;$809741   |
 	CMP #$0040				;$809744   |
@@ -2516,7 +2516,7 @@ CODE_80978E:					;	   |
 	BIT #$D0C0				;$80979F   | | was released
 	BNE .fade_init				;$8097A2   |/
 .skip_bypass_check				;	   |
-	LDA global_frame_counter		;$8097A4   |\ Only run the fade out routine once on frame 01A0
+	LDA active_frame_counter		;$8097A4   |\ Only run the fade out routine once on frame 01A0
 	CMP #$01A0				;$8097A6   | | (The end of the nintendo sparkle screen)
 	BNE .skip_fade_init			;$8097A9   |/
 .fade_init					;	   |
@@ -2527,7 +2527,7 @@ CODE_80978E:					;	   |
 .skip_fade_init					;	   |
 	LDA screen_brightness			;$8097B4   |\ If the screen is not off skip to the fade routine
 	BNE .fade				;$8097B7   |/
-	LDA global_frame_counter		;$8097B9   |\ If we are after frame #$01A0 the player didn't skip
+	LDA active_frame_counter		;$8097B9   |\ If we are after frame #$01A0 the player didn't skip
 	CMP #$01A0				;$8097BB   | | the intro so continue to the nintendo copyright screen
 	BCS .transition_to_nintendo_copyright	;$8097BE   |/
 	JML setup_title_screen_transition	;$8097C0  / If the player skipped the intro, run the title screen
@@ -2729,7 +2729,7 @@ CODE_8099C3:
 	STA PPU.screen				;$8099E4   |
 	REP #$20				;$8099E7   |
 	JSR fade_screen				;$8099E9   |
-	INC global_frame_counter		;$8099EC   |
+	INC active_frame_counter		;$8099EC   |
 	JSR intro_controller_read		;$8099EE   |
 	JSR prepare_oam_dma_channel		;$8099F1   |
 	LDA #$4102				;$8099F4   |
@@ -3294,7 +3294,7 @@ CODE_809F85:
 	JSL init_registers_global		;$809F8E   |
 	JSL clear_noncritical_wram		;$809F92   |
 	JSL init_sprite_render_order_global	;$809F96   |
-	STZ global_frame_counter		;$809F9A   |
+	STZ active_frame_counter		;$809F9A   |
 	LDA #$CCCC				;$809F9C   |
 	LDX #$0032				;$809F9F   |
 CODE_809FA2:					;	   |
@@ -3572,7 +3572,7 @@ CODE_80A0E9:					;	   |
 	LDA #$01				;$80A2B7   |
 	STA CPU.rom_speed			;$80A2B9   |
 	REP #$20				;$80A2BC   |
-	STZ global_frame_counter		;$80A2BE   |
+	STZ active_frame_counter		;$80A2BE   |
 	LDA #$0300				;$80A2C0   |
 	JSR set_fade				;$80A2C3   |
 	JSR prepare_oam_dma_channel		;$80A2C6   |
@@ -3585,7 +3585,7 @@ CODE_80A2CF:
 	STZ PPU.oam_address			;$80A2D3   |
 	LDA #$FE01				;$80A2D6   |
 	STA CPU.enable_dma			;$80A2D9   |
-	LDA global_frame_counter		;$80A2DC   |
+	LDA active_frame_counter		;$80A2DC   |
 	LSR A					;$80A2DE   |
 	LSR A					;$80A2DF   |
 	AND #$0007				;$80A2E0   |
@@ -3610,10 +3610,10 @@ CODE_80A2CF:
 	STA NMI_pointer				;$80A316   |
 	JSR fade_screen				;$80A318   |
 	JSR CODE_808988				;$80A31B   |
-	INC global_frame_counter		;$80A31E   |
+	INC active_frame_counter		;$80A31E   |
 	BNE CODE_80A327				;$80A320   |
 	LDA $1000				;$80A322   |
-	STA global_frame_counter		;$80A325   |
+	STA active_frame_counter		;$80A325   |
 CODE_80A327:					;	   |
 	LDX #aux_sprite_table			;$80A327   |
 	JSR CODE_80A545				;$80A32A   |
@@ -3621,7 +3621,7 @@ CODE_80A327:					;	   |
 	JSR CODE_80A518				;$80A330   |
 	LDX #$0EFC				;$80A333   |
 	JSR CODE_80A4B7				;$80A336   |
-	LDA global_frame_counter		;$80A339   |
+	LDA active_frame_counter		;$80A339   |
 	CMP #$0500				;$80A33B   |
 	BCC CODE_80A350				;$80A33E   |
 	LDA screen_brightness			;$80A340   |
@@ -3637,7 +3637,7 @@ CODE_80A350:					;	   |
 	JMP restart_rareware_logo		;$80A358  /
 
 CODE_80A35B:
-	LDA global_frame_counter		;$80A35B  \
+	LDA active_frame_counter		;$80A35B  \
 	CMP #$0040				;$80A35D   |
 	BEQ CODE_80A367				;$80A360   |
 	CMP #$0080				;$80A362   |
@@ -3648,17 +3648,17 @@ CODE_80A367:					;	   |
 	LDA #$0670				;$80A36E   |
 	JSL play_high_priority_sound		;$80A371   |
 CODE_80A375:					;	   |
-	LDA global_frame_counter		;$80A375   |
+	LDA active_frame_counter		;$80A375   |
 	SEC					;$80A377   |
 	SBC #$0040				;$80A378   |
 	CMP #$0010				;$80A37B   |
 	BCC CODE_80A399				;$80A37E   |
-	LDA global_frame_counter		;$80A380   |
+	LDA active_frame_counter		;$80A380   |
 	SEC					;$80A382   |
 	SBC #$0080				;$80A383   |
 	CMP #$0020				;$80A386   |
 	BCC CODE_80A399				;$80A389   |
-	LDA global_frame_counter		;$80A38B   |
+	LDA active_frame_counter		;$80A38B   |
 	SEC					;$80A38D   |
 	SBC #$00B0				;$80A38E   |
 	CMP #$0060				;$80A391   |
@@ -3668,7 +3668,7 @@ CODE_80A399:					;	   |
 	AND #$0003				;$80A399   |
 	DEC A					;$80A39C   |
 	STA $17C0				;$80A39D   |
-	LDA global_frame_counter		;$80A3A0   |
+	LDA active_frame_counter		;$80A3A0   |
 	CMP #$00B0				;$80A3A2   |
 	BEQ CODE_80A3AC				;$80A3A5   |
 	CMP #$00F0				;$80A3A7   |
@@ -3679,7 +3679,7 @@ CODE_80A3AC:					;	   |
 	LDA #$0619				;$80A3B3   |
 	JSL play_high_priority_sound		;$80A3B6   |
 CODE_80A3BA:					;	   |
-	LDA global_frame_counter		;$80A3BA   |
+	LDA active_frame_counter		;$80A3BA   |
 	CMP #$00B2				;$80A3BC   |
 	BNE CODE_80A3CF				;$80A3BF   |
 	LDA #$0771				;$80A3C1   |
@@ -3687,7 +3687,7 @@ CODE_80A3BA:					;	   |
 	LDA #$0472				;$80A3C8   |
 	JSL play_high_priority_sound		;$80A3CB   |
 CODE_80A3CF:					;	   |
-	LDA global_frame_counter		;$80A3CF   |
+	LDA active_frame_counter		;$80A3CF   |
 	BIT #$000F				;$80A3D1   |
 	BNE CODE_80A41F				;$80A3D4   |
 	SEC					;$80A3D6   |
@@ -3716,14 +3716,14 @@ CODE_80A3CF:					;	   |
 	STA $06,x				;$80A40C   |
 	LDA #$0001				;$80A40E   |
 	STA $00,x				;$80A411   |
-	LDA global_frame_counter		;$80A413   |
+	LDA active_frame_counter		;$80A413   |
 	ASL A					;$80A415   |
 	AND #$00E0				;$80A416   |
 	CLC					;$80A419   |
 	ADC #$2AE0				;$80A41A   |
 	STA $12,x				;$80A41D   |
 CODE_80A41F:					;	   |
-	LDA global_frame_counter		;$80A41F   |
+	LDA active_frame_counter		;$80A41F   |
 	BIT #$0003				;$80A421   |
 	BNE CODE_80A44D				;$80A424   |
 	LDX #aux_sprite_table			;$80A426   |
@@ -3795,7 +3795,7 @@ CODE_80A4B6:					;	   |
 	RTS					;$80A4B6  /
 
 CODE_80A4B7:
-	LDA global_frame_counter		;$80A4B7  \
+	LDA active_frame_counter		;$80A4B7  \
 	CMP #$0340				;$80A4B9   |
 	BNE CODE_80A4CC				;$80A4BC   |
 	LDA #$0675				;$80A4BE   |
@@ -3803,7 +3803,7 @@ CODE_80A4B7:
 	LDA #$0776				;$80A4C5   |
 	JSL play_high_priority_sound		;$80A4C8   |
 CODE_80A4CC:					;	   |
-	LDA global_frame_counter		;$80A4CC   |
+	LDA active_frame_counter		;$80A4CC   |
 	SEC					;$80A4CE   |
 	SBC #$0120				;$80A4CF   |
 	BMI CODE_80A4E5				;$80A4D2   |
@@ -3818,7 +3818,7 @@ CODE_80A4E1:					;	   |
 	BNE CODE_80A4E5				;$80A4E1   |
 	INC $06,x				;$80A4E3   |
 CODE_80A4E5:					;	   |
-	LDA global_frame_counter		;$80A4E5   |
+	LDA active_frame_counter		;$80A4E5   |
 	SEC					;$80A4E7   |
 	SBC #$03E0				;$80A4E8   |
 	BMI CODE_80A517				;$80A4EB   |
@@ -3839,7 +3839,7 @@ CODE_80A505:
 	ADC #$3558				;$80A509   |
 CODE_80A50C:					;	   |
 	STA $1A,x				;$80A50C   |
-	LDA global_frame_counter		;$80A50E   |
+	LDA active_frame_counter		;$80A50E   |
 	BIT #$003F				;$80A510   |
 	BNE CODE_80A517				;$80A513   |
 	DEC $0A,x				;$80A515   |
@@ -3847,7 +3847,7 @@ CODE_80A517:					;	   |
 	RTS					;$80A517  /
 
 CODE_80A518:
-	LDA global_frame_counter		;$80A518  \
+	LDA active_frame_counter		;$80A518  \
 	AND #$001C				;$80A51A   |
 	CLC					;$80A51D   |
 	ADC #$3538				;$80A51E   |
@@ -3858,7 +3858,7 @@ CODE_80A518:
 	BEQ CODE_80A544				;$80A526   |
 	CMP #$3520				;$80A528   |
 	BEQ CODE_80A544				;$80A52B   |
-	LDA global_frame_counter		;$80A52D   |
+	LDA active_frame_counter		;$80A52D   |
 	BIT #$0003				;$80A52F   |
 	BNE CODE_80A544				;$80A532   |
 	LDA $1A,x				;$80A534   |
@@ -3875,13 +3875,13 @@ CODE_80A544:					;	   |
 CODE_80A545:
 	LDA $1A,x				;$80A545  \
 	STA $32					;$80A547   |
-	LDA global_frame_counter		;$80A549   |
+	LDA active_frame_counter		;$80A549   |
 	CMP #$00C0				;$80A54B   |
 	BCC CODE_80A5C2				;$80A54E   |
 	BNE CODE_80A55A				;$80A550   |
 	LDA #$0000				;$80A552   |
 	STA $0E40				;$80A555   |
-	LDA global_frame_counter		;$80A558   |
+	LDA active_frame_counter		;$80A558   |
 CODE_80A55A:					;	   |
 	BIT #$0003				;$80A55A   |
 	BNE CODE_80A574				;$80A55D   |
@@ -3897,7 +3897,7 @@ CODE_80A566:					;	   |
 CODE_80A572:					;	   |
 	STA $1A,x				;$80A572   |
 CODE_80A574:					;	   |
-	LDA global_frame_counter		;$80A574   |
+	LDA active_frame_counter		;$80A574   |
 	BIT #$000F				;$80A576   |
 	BNE CODE_80A57F				;$80A579   |
 	INC $0A,x				;$80A57B   |
@@ -4224,7 +4224,7 @@ run_file_select:				;	  \
 	LDA file_select_action			;$80A879   |\ If doing a confirmation, skip updating DK/kremkoin icons
 	BIT #$00E4				;$80A87C   | |
 	BNE .skip_kremkoin_update		;$80A87F   |/
-	LDA global_frame_counter		;$80A881   |\ Check if we are on a frame divisible by 4
+	LDA active_frame_counter		;$80A881   |\ Check if we are on a frame divisible by 4
 	BIT #$0003				;$80A883   | |
 	BNE .skip_dk_coin_update		;$80A886   |/ Otherwise skip cycling the DK coin frame
 	AND #$001C				;$80A888   |\ Calculate the current DK coin frame
@@ -4249,7 +4249,7 @@ run_file_select:				;	  \
 	STA CPU.enable_dma			;$80A8B2   |/
 	REP #$20				;$80A8B5   |
 .skip_dk_coin_update				;	   |
-	LDA global_frame_counter		;$80A8B7   |\ Check if we are on a frame divisible by 4
+	LDA active_frame_counter		;$80A8B7   |\ Check if we are on a frame divisible by 4
 	CLC					;$80A8B9   | | Offset the frame count by 2 so that the DK coin and
 	ADC #$0002				;$80A8BA   | | kremkoin are slightly out of phase
 	BIT #$0003				;$80A8BD   | |
@@ -4383,7 +4383,7 @@ namespace off					;	   |
 	LDA file_select_action			;$80A9DE   |\ Check if a copy or erase action is active
 	BIT #$000A				;$80A9E1   | |
 	BEQ .skip_window_flashing		;$80A9E4   |/
-	LDA global_frame_counter		;$80A9E6   |\ Flashing happens on a 4 frame interval, 4 on, 4 off
+	LDA active_frame_counter		;$80A9E6   |\ Flashing happens on a 4 frame interval, 4 on, 4 off
 	BIT #$0004				;$80A9E8   | |
 	BEQ .skip_windowing			;$80A9EB   |/ If bit 2 is clear, it is an off cycle and HDMA is skipped
 .skip_window_flashing				;	   |
@@ -4431,7 +4431,7 @@ namespace off					;	   |/
 	LDA file_select_action			;$80AA35   |\ Check if the player has selected the copy option
 	BIT #$0008				;$80AA38   | |
 	BEQ .skip_copy_windowing		;$80AA3B   |/ If not, no need to flash the copy option
-	LDA global_frame_counter		;$80AA3D   |\ Flashing happens on a 8 frame interval, 8 on, 8 off
+	LDA active_frame_counter		;$80AA3D   |\ Flashing happens on a 8 frame interval, 8 on, 8 off
 	BIT #$0008				;$80AA3F   | | This controls flashing the copy option and initial file
 	BEQ .skip_copy_windowing		;$80AA42   |/ If bit 3 is clear, we are in an off cycle, skip windowing
 	LDA #$FF80				;$80AA44   |\ Enable windowing on the copy option (left half)
@@ -4454,7 +4454,7 @@ namespace off					;	   |/
 	LDA file_select_action			;$80AA63   |\ Check if the player has selected the erase option
 	BIT #$0002				;$80AA66   | |
 	BEQ .skip_erase_windowing		;$80AA69   |/ If not, no need to flash the erase option
-	LDA global_frame_counter		;$80AA6B   |\ Flashing happens on a 8 frame interval, 8 on, 8 off
+	LDA active_frame_counter		;$80AA6B   |\ Flashing happens on a 8 frame interval, 8 on, 8 off
 	BIT #$0008				;$80AA6D   | | This controls flashing the erase
 	BEQ .skip_erase_windowing		;$80AA70   |/ If bit 3 is clear, we are in an off cycle, skip windowing
 	LDA #$8000				;$80AA72   |\ Enable windowing on the erase option (right half)
@@ -4566,7 +4566,7 @@ namespace off					;	   |/
 	STA file_select_action			;$80AB55   |/
 .finish_file_select_frame			;	   |
 	JSR intro_controller_read		;$80AB58   | Populate the controller data
-	INC global_frame_counter		;$80AB5B   | Increment the frame counter
+	INC active_frame_counter		;$80AB5B   | Increment the frame counter
 	LDA screen_brightness			;$80AB5D   |\ Check if the screen is done fading out.
 	CMP #$8201				;$80AB60   | |
 	BNE .prepare_file_select_nmi		;$80AB63   |/ If not, setup NMI for the next frame
@@ -5519,7 +5519,7 @@ init_title_screen:
 	JSL init_sprite_render_order_global	;$80B3EE   |
 	LDA #!music_main_theme			;$80B3F2   |\ Play the title screen music
 	JSL play_song				;$80B3F5   |/
-	STZ global_frame_counter		;$80B3F9   | Reset the frame counter
+	STZ active_frame_counter		;$80B3F9   | Reset the frame counter
 	JSR setup_title_screen_screen		;$80B3FB   | Configure the screen and do basic uploads
 	LDA #$55AA				;$80B3FE   |\ Seed the random number generator
 	STA rng_result				;$80B401   | |
@@ -5577,8 +5577,8 @@ run_title_screen:				;	  \
 	STA PPU.screen				;$80B472   |/
 	REP #$20				;$80B475   | Whoo back to 16 bit
 	JSR intro_controller_read		;$80B477   | Parse the autojoy results
-	INC global_frame_counter		;$80B47A   |\ Increment the frame counter and if the frame is divisible
-	LDA global_frame_counter		;$80B47C   | | by four update the animations, otherwise skip the update
+	INC active_frame_counter		;$80B47A   |\ Increment the frame counter and if the frame is divisible
+	LDA active_frame_counter		;$80B47C   | | by four update the animations, otherwise skip the update
 	AND #$0003				;$80B47E   | |
 	BNE .skip_sprite_update			;$80B481   |/
 	LDX #main_sprite_table			;$80B483   |
@@ -5650,7 +5650,7 @@ run_title_screen:				;	  \
 	LDA player_1_held			;$80B51E   |\
 	AND #$D080				;$80B521   | | Check if B, Y, Start, or A are being help
 	BNE .trigger_file_select_transition	;$80B524   |/
-	LDA global_frame_counter		;$80B526   |\ If we are on frame $0960 set the screen to fadeout.
+	LDA active_frame_counter		;$80B526   |\ If we are on frame $0960 set the screen to fadeout.
 	CMP #$0960				;$80B528   | | This will then transition to the demo.
 	BNE .run_fadeout			;$80B52B   |/
 	BRA .trigger_demo_transition		;$80B52D  /
@@ -5778,7 +5778,7 @@ namespace off					;	   | |
 	LDA #$01				;$80B672   |\ Enable fastrom
 	STA CPU.rom_speed			;$80B674   |/
 	REP #$20				;$80B677   |\ Return to 16 bit mode and reset the frame counter
-	STZ global_frame_counter		;$80B679   |/
+	STZ active_frame_counter		;$80B679   |/
 	LDA #run_nintendo_copyright		;$80B67B   |
 	JMP set_and_wait_for_nmi		;$80B67E  /
 
@@ -5795,10 +5795,10 @@ run_nintendo_copyright:				;	  \
 	LDA screen_brightness			;$80B698   |\ And the developers said let there be brightness!
 	STA PPU.screen				;$80B69B   |/
 	REP #$20				;$80B69E   |\ Return to the 16 bit realm and increment the frame counter
-	INC global_frame_counter		;$80B6A0   |/
+	INC active_frame_counter		;$80B6A0   |/
 	JSR intro_controller_read		;$80B6A2   | Read the autojoy registers
 	JSR fade_screen				;$80B6A5   | Run the screen fade routine
-	LDA global_frame_counter		;$80B6A8   |\ Check if we are on frame $0070 to start fade out
+	LDA active_frame_counter		;$80B6A8   |\ Check if we are on frame $0070 to start fade out
 	CMP #$0070				;$80B6AA   | |
 	BNE .skip_fadeout_start			;$80B6AD   |/
 	LDA #$0082				;$80B6AF   |\ Set the screen to fade out with speed 2
@@ -5937,7 +5937,7 @@ CODE_80B7A6:
 	EOR #$FFFF				;$80B7BF   |
 	AND #$001E				;$80B7C2   |
 	TAX					;$80B7C5   |
-	LDA global_frame_counter		;$80B7C6   |
+	LDA active_frame_counter		;$80B7C6   |
 	EOR #$FFFF				;$80B7C8   |
 	LSR A					;$80B7CB   |
 	LSR A					;$80B7CC   |
@@ -5992,7 +5992,7 @@ CODE_80B7E6:					;	   |
 	RTS					;$80B83C  /
 
 CODE_80B83D:
-	LDA global_frame_counter		;$80B83D  \
+	LDA active_frame_counter		;$80B83D  \
 	LSR A					;$80B83F   |
 	CLC					;$80B840   |
 	ADC $17BA				;$80B841   |
@@ -6030,7 +6030,7 @@ CODE_80B86E:
 	JMP CODE_80B8BD				;$80B899  /
 
 CODE_80B89C:
-	LDA global_frame_counter		;$80B89C  \
+	LDA active_frame_counter		;$80B89C  \
 	BIT #$0001				;$80B89E   |
 	BEQ CODE_80B8B1				;$80B8A1   |
 	LDX #$8552				;$80B8A3   |
@@ -6054,7 +6054,7 @@ CODE_80B8BD:					;	   |
 	BRA CODE_80B8D2				;$80B8CD  /
 
 CODE_80B8CF:
-	LDA global_frame_counter		;$80B8CF  \
+	LDA active_frame_counter		;$80B8CF  \
 	LSR A					;$80B8D1   |
 CODE_80B8D2:					;	   |
 	SEC					;$80B8D2   |
@@ -6089,7 +6089,7 @@ CODE_80B8F4:					;	   |
 	BRA CODE_80B916				;$80B912  /
 
 CODE_80B914:
-	LDA global_frame_counter		;$80B914  \
+	LDA active_frame_counter		;$80B914  \
 CODE_80B916:					;	   |
 	SEC					;$80B916   |
 	SBC $0D4E				;$80B917   |
@@ -6198,12 +6198,12 @@ CODE_80B9F2:					;	   |
 	RTS					;$80B9FE  /
 
 update_lava_palette_glow_effect:
-	LDA global_frame_counter		;$80B9FF  \
+	LDA active_frame_counter		;$80B9FF  \
 	LSR A					;$80BA01   |
 	LSR A					;$80BA02   |
 	LSR A					;$80BA03   |
 	CLC					;$80BA04   |
-	ADC global_frame_counter		;$80BA05   |
+	ADC active_frame_counter		;$80BA05   |
 	LSR A					;$80BA07   |
 	LSR A					;$80BA08   |
 	LSR A					;$80BA09   |
@@ -6214,7 +6214,7 @@ update_lava_palette_glow_effect:
 	EOR #$0007				;$80BA13   |
 CODE_80BA16:					;	   |
 	STA $32					;$80BA16   |
-	LDA global_frame_counter		;$80BA18   |
+	LDA active_frame_counter		;$80BA18   |
 	LSR A					;$80BA1A   |
 	LSR A					;$80BA1B   |
 	LSR A					;$80BA1C   |
@@ -6241,7 +6241,7 @@ update_lava_fall_effect:
 	SEP #$30				;$80BA44  \
 	LDA #$05				;$80BA46   |
 	STA PPU.cgram_address			;$80BA48   |
-	LDA global_frame_counter		;$80BA4B   |
+	LDA active_frame_counter		;$80BA4B   |
 	BIT #$03				;$80BA4D   |
 	BNE CODE_80BA8E				;$80BA4F   |
 	LSR A					;$80BA51   |
@@ -6370,7 +6370,7 @@ CODE_80BB49:					;	   |
 CODE_80BB77:
 	JSR update_level_and_sprite_graphics	;$80BB77  \
 	JSR update_rigging_graphics		;$80BB7A   |
-	LDA global_frame_counter		;$80BB7D   |
+	LDA active_frame_counter		;$80BB7D   |
 	LSR A					;$80BB7F   |
 	CLC					;$80BB80   |
 	ADC $17BA				;$80BB81   |
@@ -6385,7 +6385,7 @@ CODE_80BB77:
 	STA PPU.layer_2_scroll_y		;$80BB95   |
 	STZ PPU.layer_2_scroll_y		;$80BB98   |
 	REP #$20				;$80BB9B   |
-	LDA global_frame_counter		;$80BB9D   |
+	LDA active_frame_counter		;$80BB9D   |
 	CLC					;$80BB9F   |
 	ADC $17BA				;$80BBA0   |
 	LSR A					;$80BBA3   |
@@ -6414,10 +6414,10 @@ CODE_80BBD5:
 	LDA $0929				;$80BBD8   |
 	BEQ CODE_80BBF7				;$80BBDB   |
 	TAY					;$80BBDD   |
-	LDA global_frame_counter		;$80BBDE   |
+	LDA active_frame_counter		;$80BBDE   |
 	AND #$0007				;$80BBE0   |
 	BNE CODE_80BBF7				;$80BBE3   |
-	LDA global_frame_counter		;$80BBE5   |
+	LDA active_frame_counter		;$80BBE5   |
 	AND #$0018				;$80BBE7   |
 	ASL A					;$80BBEA   |
 	ASL A					;$80BBEB   |
@@ -6532,7 +6532,7 @@ DATA_80BCC8:
 	db $AC, $C4, $C3, $BE, $47, $DE, $3F, $67
 
 update_mine_sparkle_effect:
-	LDA global_frame_counter		;$80BD08  \
+	LDA active_frame_counter		;$80BD08  \
 	CLC					;$80BD0A   |
 	ADC #$0010				;$80BD0B   |
 	AND #$001F				;$80BD0E   |
@@ -6667,7 +6667,7 @@ CODE_80BE46:
 	LDA #$FFFF				;$80BE4F   |
 	STA $0006D5				;$80BE52   |
 CODE_80BE56:					;	   |
-	LDA global_frame_counter		;$80BE56   |
+	LDA active_frame_counter		;$80BE56   |
 	CLC					;$80BE58   |
 	ADC $17BA				;$80BE59   |
 	SEP #$20				;$80BE5C   |
@@ -6677,7 +6677,7 @@ CODE_80BE56:					;	   |
 	STA PPU.layer_2_scroll_y		;$80BE66   |
 	STZ PPU.layer_2_scroll_y		;$80BE69   |
 	REP #$20				;$80BE6C   |
-	LDA global_frame_counter		;$80BE6E   |
+	LDA active_frame_counter		;$80BE6E   |
 	ASL A					;$80BE70   |
 	ASL A					;$80BE71   |
 	CLC					;$80BE72   |
@@ -6800,7 +6800,7 @@ CODE_80BF82:
 	JSR update_level_and_sprite_graphics	;$80BF82  \
 	LDA $17BA				;$80BF85   |
 	CLC					;$80BF88   |
-	ADC global_frame_counter		;$80BF89   |
+	ADC active_frame_counter		;$80BF89   |
 	LSR A					;$80BF8B   |
 	LSR A					;$80BF8C   |
 	SEP #$20				;$80BF8D   |
@@ -6878,7 +6878,7 @@ CODE_80C027:					;	   |
 	LDY #$2740				;$80C027   |
 CODE_80C02A:					;	   |
 	STY HDMA[2].settings			;$80C02A   |
-	LDA global_frame_counter		;$80C02D   |
+	LDA active_frame_counter		;$80C02D   |
 	AND #$0001				;$80C02F   |
 	EOR #$0001				;$80C032   |
 	XBA					;$80C035   |
@@ -6921,7 +6921,7 @@ CODE_80C083:
 	LDA #$01				;$80C085   |
 	STA PPU.cgram_address			;$80C087   |
 	REP #$20				;$80C08A   |
-	LDA global_frame_counter		;$80C08C   |
+	LDA active_frame_counter		;$80C08C   |
 	LSR A					;$80C08E   |
 	LSR A					;$80C08F   |
 	AND #$001F				;$80C090   |
@@ -6980,7 +6980,7 @@ CODE_80C0BC:					;	   |
 CODE_80C0FB:					;	   |
 	LDA #$7010				;$80C0FB   |
 	STA PPU.vram_address			;$80C0FE   |
-	LDA global_frame_counter		;$80C101   |
+	LDA active_frame_counter		;$80C101   |
 	BIT #$0007				;$80C103   |
 	BNE CODE_80C134				;$80C106   |
 	LSR A					;$80C108   |
@@ -7065,7 +7065,7 @@ CODE_80C1A9:
 	RTS					;$80C1B1  /
 
 CODE_80C1B2:
-	LDA global_frame_counter		;$80C1B2  \
+	LDA active_frame_counter		;$80C1B2  \
 	BIT #$0003				;$80C1B4   |
 	BNE CODE_80C1E5				;$80C1B7   |
 	LDA $091D				;$80C1B9   |
@@ -7094,7 +7094,7 @@ CODE_80C1E5:
 	LDA #$0014				;$80C1EB   |
 	STA $78					;$80C1EE   |
 CODE_80C1F0:					;	   |
-	LDA global_frame_counter		;$80C1F0   |
+	LDA active_frame_counter		;$80C1F0   |
 	LSR A					;$80C1F2   |
 	LSR A					;$80C1F3   |
 	AND #$0003				;$80C1F4   |
@@ -7251,14 +7251,14 @@ update_kackle_graphics_global:
 	RTL					;$80C320  /
 
 update_kackle_graphics:
-	LDA global_frame_counter		;$80C321  \
+	LDA active_frame_counter		;$80C321  \
 	AND #$0001				;$80C323   |
 	BEQ CODE_80C329				;$80C326   |
 	RTS					;$80C328  /
 
 CODE_80C329:
 	LDY #$7010				;$80C329  \
-	LDA global_frame_counter		;$80C32C   |
+	LDA active_frame_counter		;$80C32C   |
 	LSR A					;$80C32E   |
 	AND #$007E				;$80C32F   |
 	TAX					;$80C332   |
@@ -7277,7 +7277,7 @@ CODE_80C329:
 	STA CPU.enable_dma			;$80C355   |
 	REP #$20				;$80C358   |
 	LDY #$7190				;$80C35A   |
-	LDA global_frame_counter		;$80C35D   |
+	LDA active_frame_counter		;$80C35D   |
 	LSR A					;$80C35F   |
 	AND #$001E				;$80C360   |
 	TAX					;$80C363   |
@@ -7573,7 +7573,7 @@ CODE_80C584:
 	LDA screen_brightness			;$80C5C4   |
 	STA PPU.screen				;$80C5C7   |
 	REP #$20				;$80C5CA   |
-	LDA global_frame_counter		;$80C5CC   |
+	LDA active_frame_counter		;$80C5CC   |
 	CLC					;$80C5CE   |
 	ADC $17BA				;$80C5CF   |
 	SEP #$20				;$80C5D2   |
@@ -7860,7 +7860,7 @@ CODE_80C847:
 	JSR update_forest_leaves_effect		;$80C85C   |
 	LDA $17BA				;$80C85F   |
 	CLC					;$80C862   |
-	ADC global_frame_counter		;$80C863   |
+	ADC active_frame_counter		;$80C863   |
 	LSR A					;$80C865   |
 	LSR A					;$80C866   |
 	SEP #$20				;$80C867   |
@@ -7936,7 +7936,7 @@ CODE_80C8FF:
 	STX HDMA[1].source			;$80C917   |
 	LDX #$8012				;$80C91A   |
 	STX HDMA[2].source			;$80C91D   |
-	LDA global_frame_counter		;$80C920   |
+	LDA active_frame_counter		;$80C920   |
 	BIT #$0001				;$80C922   |
 	BNE CODE_80C933				;$80C925   |
 	LDX #$810A				;$80C927   |
@@ -7984,7 +7984,7 @@ CODE_80C97C:
 	CLC					;$80C97F   |
 	ADC $19BE				;$80C980   |
 	STA $17C6				;$80C983   |
-	LDA global_frame_counter		;$80C986   |
+	LDA active_frame_counter		;$80C986   |
 	ASL A					;$80C988   |
 	ASL A					;$80C989   |
 	AND #$01FE				;$80C98A   |
@@ -8006,7 +8006,7 @@ CODE_80C97C:
 	AND #$FFF0				;$80C9AB   |
 	ASL A					;$80C9AE   |
 	CLC					;$80C9AF   |
-	ADC global_frame_counter		;$80C9B0   |
+	ADC active_frame_counter		;$80C9B0   |
 	ASL A					;$80C9B2   |
 CODE_80C9B3:					;	   |
 	AND #$01FE				;$80C9B3   |
@@ -8035,7 +8035,7 @@ CODE_80C9B3:					;	   |
 	INC A					;$80C9E1   |
 	STA $7E8012				;$80C9E2   |
 	REP #$20				;$80C9E6   |
-	LDA global_frame_counter		;$80C9E8   |
+	LDA active_frame_counter		;$80C9E8   |
 	BIT #$0001				;$80C9EA   |
 	BEQ CODE_80CA1A				;$80C9ED   |
 	AND #$000E				;$80C9EF   |
@@ -8187,7 +8187,7 @@ CODE_80CB13:					;	   |
 	SEP #$20				;$80CB13   |
 	STA $7E8043				;$80CB15   |
 	REP #$20				;$80CB19   |
-	LDA global_frame_counter		;$80CB1B   |
+	LDA active_frame_counter		;$80CB1B   |
 	AND #$0038				;$80CB1D   |
 	LSR A					;$80CB20   |
 	LSR A					;$80CB21   |
@@ -8235,7 +8235,7 @@ CODE_80CB89:					;	   |
 	BEQ CODE_80CBA0				;$80CB8C   |
 	BIT #$4000				;$80CB8E   |
 	BNE CODE_80CB9D				;$80CB91   |
-	LDA global_frame_counter		;$80CB93   |
+	LDA active_frame_counter		;$80CB93   |
 	AND #$0003				;$80CB95   |
 	BNE CODE_80CBA0				;$80CB98   |
 	LDA $095B,x				;$80CB9A   |
@@ -8255,7 +8255,7 @@ CODE_80CBA0:					;	   |
 CODE_80CBB1:
 	PHX					;$80CBB1  \
 	STA $32					;$80CBB2   |
-	LDA global_frame_counter		;$80CBB4   |
+	LDA active_frame_counter		;$80CBB4   |
 	AND #$000C				;$80CBB6   |
 	TAX					;$80CBB9   |
 	LDA #$0014				;$80CBBA   |
@@ -8320,7 +8320,7 @@ update_forest_leaves_effect:
 	RTS					;$80CC3E  /
 
 CODE_80CC3F:
-	LDA global_frame_counter		;$80CC3F  \
+	LDA active_frame_counter		;$80CC3F  \
 	BIT #$0003				;$80CC41   |
 	BNE CODE_80CC72				;$80CC44   |
 	LSR A					;$80CC46   |
@@ -8345,7 +8345,7 @@ CODE_80CC72:					;	   |
 	CLC					;$80CC75   |
 	ADC $19BE				;$80CC76   |
 	STA $17C6				;$80CC79   |
-	LDA global_frame_counter		;$80CC7C   |
+	LDA active_frame_counter		;$80CC7C   |
 	ASL A					;$80CC7E   |
 	ASL A					;$80CC7F   |
 	AND #$01FE				;$80CC80   |
@@ -8355,7 +8355,7 @@ CODE_80CC72:					;	   |
 	LSR A					;$80CC89   |
 	LSR A					;$80CC8A   |
 	SEC					;$80CC8B   |
-	SBC global_frame_counter		;$80CC8C   |
+	SBC active_frame_counter		;$80CC8C   |
 	LSR A					;$80CC8E   |
 	CLC					;$80CC8F   |
 	ADC $17C0				;$80CC90   |
@@ -8367,7 +8367,7 @@ CODE_80CC72:					;	   |
 	AND #$FFF0				;$80CCA0   |
 	ASL A					;$80CCA3   |
 	CLC					;$80CCA4   |
-	ADC global_frame_counter		;$80CCA5   |
+	ADC active_frame_counter		;$80CCA5   |
 	ASL A					;$80CCA7   |
 CODE_80CCA8:					;	   |
 	AND #$01FE				;$80CCA8   |
@@ -8413,7 +8413,7 @@ DATA_80CCE8:
 	dw DATA_F57AF3
 
 CODE_80CCF8:
-	LDA global_frame_counter		;$80CCF8  \
+	LDA active_frame_counter		;$80CCF8  \
 	AND #$0003				;$80CCFA   |
 	BEQ CODE_80CD28				;$80CCFD   |
 	CMP #$0001				;$80CCFF   |
@@ -8424,14 +8424,14 @@ CODE_80CCF8:
 
 CODE_80CD0A:
 	LDY #$2100				;$80CD0A  \
-	LDA global_frame_counter		;$80CD0D   |
+	LDA active_frame_counter		;$80CD0D   |
 	CLC					;$80CD0F   |
 	ADC #$0020				;$80CD10   |
 	BRA CODE_80CD1A				;$80CD13  /
 
 CODE_80CD15:
 	LDY #$20B0				;$80CD15  \
-	LDA global_frame_counter		;$80CD18   |
+	LDA active_frame_counter		;$80CD18   |
 CODE_80CD1A:					;	   |
 	LSR A					;$80CD1A   |
 	AND #$003E				;$80CD1B   |
@@ -8442,7 +8442,7 @@ CODE_80CD1A:					;	   |
 
 CODE_80CD28:
 	LDY #$2010				;$80CD28  \
-	LDA global_frame_counter		;$80CD2B   |
+	LDA active_frame_counter		;$80CD2B   |
 	LSR A					;$80CD2D   |
 	CLC					;$80CD2E   |
 	ADC #$0008				;$80CD2F   |
@@ -8510,7 +8510,7 @@ DATA_80CD6E:
 	dw DATA_F51CC7
 
 update_lava_bubble_graphics:
-	LDA global_frame_counter		;$80CDAE  \
+	LDA active_frame_counter		;$80CDAE  \
 	AND #$0003				;$80CDB0   |
 	BNE CODE_80CDC7				;$80CDB3   |
 	LDA $0957				;$80CDB5   |
@@ -8522,7 +8522,7 @@ update_lava_bubble_graphics:
 CODE_80CDC4:					;	   |
 	STA $0957				;$80CDC4   |
 CODE_80CDC7:					;	   |
-	LDA global_frame_counter		;$80CDC7   |
+	LDA active_frame_counter		;$80CDC7   |
 	AND #$0003				;$80CDC9   |
 	BEQ CODE_80CE09				;$80CDCC   |
 	CMP #$0001				;$80CDCE   |
@@ -8696,7 +8696,7 @@ DATA_80CF11:
 
 
 update_ship_mast_flag_graphics:
-	LDA global_frame_counter		;$80CF21  \
+	LDA active_frame_counter		;$80CF21  \
 	BIT #$0007				;$80CF23   |
 	BNE CODE_80CF57				;$80CF26   |
 	LSR A					;$80CF28   |
@@ -8730,7 +8730,7 @@ update_rigging_graphics:
 	LDA $052B				;$80CF62   |
 	AND #$1000				;$80CF65   |
 	BNE CODE_80CF9F				;$80CF68   |
-	LDA global_frame_counter		;$80CF6A   |
+	LDA active_frame_counter		;$80CF6A   |
 	BIT #$0001				;$80CF6C   |
 	BNE CODE_80CF9F				;$80CF6F   |
 	AND #$000E				;$80CF71   |
@@ -8756,7 +8756,7 @@ CODE_80CF9F:
 	LDA $0515				;$80CF9F  \
 	CMP #!boss_level_type			;$80CFA2   |
 	BEQ CODE_80CFDB				;$80CFA5   |
-	LDA global_frame_counter		;$80CFA7   |
+	LDA active_frame_counter		;$80CFA7   |
 	BIT #$0001				;$80CFA9   |
 	BEQ CODE_80CFDB				;$80CFAC   |
 	AND #$000E				;$80CFAE   |
@@ -8780,7 +8780,7 @@ CODE_80CFDB:					;	   |
 	RTS					;$80CFDB  /
 
 update_forest_light_shaft_effect:
-	LDA global_frame_counter		;$80CFDC  \
+	LDA active_frame_counter		;$80CFDC  \
 	LSR A					;$80CFDE   |
 	LSR A					;$80CFDF   |
 	CLC					;$80CFE0   |
@@ -8837,7 +8837,7 @@ CODE_80D04B:					;	   |
 	STA $7E8336				;$80D051   |
 	REP #$20				;$80D055   |
 	LDX #DATA_BBA40F			;$80D057   |
-	LDA global_frame_counter		;$80D05A   |
+	LDA active_frame_counter		;$80D05A   |
 	BIT #$0001				;$80D05C   |
 	BEQ CODE_80D064				;$80D05F   |
 	LDX #DATA_BBA408			;$80D061   |
@@ -9061,7 +9061,7 @@ CODE_80D45A:
 	JMP CODE_808CA2				;$80D45A  /
 
 CODE_80D45D:
-	DEC global_frame_counter		;$80D45D  \
+	DEC active_frame_counter		;$80D45D  \
 	JMP CODE_808CA2				;$80D45F  /
 
 CODE_80D462:
@@ -9108,8 +9108,8 @@ CODE_80D4B7:
 	BNE CODE_80D4F9				;$80D4C7   |
 	LDX active_kong_sprite			;$80D4C9   |
 	STX current_sprite			;$80D4CC   |
-	LDY #$0018				;$80D4CE   |
-	JSL CODE_BB842C				;$80D4D1   |
+	LDY #!special_sprite_spawn_id_0018	;$80D4CE   |
+	JSL spawn_special_sprite_index		;$80D4D1   |
 	LDA #$0662				;$80D4D5   |
 	JSL queue_sound_effect			;$80D4D8   |
 	BRA CODE_80D4F9				;$80D4DC  /
@@ -9120,8 +9120,8 @@ CODE_80D4DE:
 	BEQ CODE_80D4F9				;$80D4E4   |
 	LDX active_kong_sprite			;$80D4E6   |
 	STX current_sprite			;$80D4E9   |
-	LDY #$001A				;$80D4EB   |
-	JSL CODE_BB842C				;$80D4EE   |
+	LDY #!special_sprite_spawn_id_001A	;$80D4EB   |
+	JSL spawn_special_sprite_index		;$80D4EE   |
 	LDA #$0662				;$80D4F2   |
 	JSL queue_sound_effect			;$80D4F5   |
 CODE_80D4F9:					;	   |
@@ -9235,7 +9235,7 @@ CODE_80D5E7:
 	JSR CODE_808988				;$80D5E7  \
 	BNE CODE_80D618				;$80D5EA   |
 	LDX #$002C				;$80D5EC   |
-	LDA global_frame_counter		;$80D5EF   |
+	LDA active_frame_counter		;$80D5EF   |
 	INC A					;$80D5F1   |
 	AND #$0007				;$80D5F2   |
 	BNE CODE_80D5FA				;$80D5F5   |
@@ -9307,7 +9307,7 @@ CODE_80D692:
 	JMP CODE_80D45D				;$80D692  /
 
 CODE_80D695:
-	LDA global_frame_counter		;$80D695  \
+	LDA active_frame_counter		;$80D695  \
 	ASL A					;$80D697   |
 	AND #$003F				;$80D698   |
 	BIT #$0020				;$80D69B   |
@@ -9365,7 +9365,7 @@ CODE_80D6F8:					;	   |
 	INX					;$80D6FF   |
 	CPX #$001E				;$80D700   |
 	BNE CODE_80D6BB				;$80D703   |
-	LDA global_frame_counter		;$80D705   |
+	LDA active_frame_counter		;$80D705   |
 	AND #$0020				;$80D707   |
 	BEQ CODE_80D716				;$80D70A   |
 	JSR get_random_number			;$80D70C   |
@@ -9951,13 +9951,13 @@ CODE_80DBEF:
 CODE_80DBF2:
 	LDA $17C0				;$80DBF2  \
 	CLC					;$80DBF5   |
-	ADC global_frame_counter		;$80DBF6   |
+	ADC active_frame_counter		;$80DBF6   |
 	LSR A					;$80DBF8   |
 	LSR A					;$80DBF9   |
 	CLC					;$80DBFA   |
 	ADC $17C0				;$80DBFB   |
 	STA $32					;$80DBFE   |
-	LDA global_frame_counter		;$80DC00   |
+	LDA active_frame_counter		;$80DC00   |
 	LSR A					;$80DC02   |
 	SEC					;$80DC03   |
 	SBC $32					;$80DC04   |
@@ -9974,11 +9974,11 @@ CODE_80DBF2:
 	TAX					;$80DC1E   |
 	LDA $17BA				;$80DC1F   |
 	CLC					;$80DC22   |
-	ADC global_frame_counter		;$80DC23   |
+	ADC active_frame_counter		;$80DC23   |
 	STA $54					;$80DC25   |
 	%pea_use_dbr(DATA_B3F4D8)		;$80DC27   |
 	PLB					;$80DC2A   |
-	LDA global_frame_counter		;$80DC2B   |
+	LDA active_frame_counter		;$80DC2B   |
 	BIT #$0001				;$80DC2D   |
 	BEQ CODE_80DC67				;$80DC30   |
 	LDY #$0000				;$80DC32   |
@@ -10035,7 +10035,7 @@ CODE_80DC6A:					;	   |
 	CMP #$0200				;$80DC95   |
 	BNE CODE_80DC6A				;$80DC98   |
 CODE_80DC9A:					;	   |
-	LDA global_frame_counter		;$80DC9A   |
+	LDA active_frame_counter		;$80DC9A   |
 	LSR A					;$80DC9C   |
 	LSR A					;$80DC9D   |
 	STA $54					;$80DC9E   |
@@ -10048,7 +10048,7 @@ CODE_80DC9A:					;	   |
 	ASL A					;$80DCAA   |
 	AND #$003E				;$80DCAB   |
 	TAX					;$80DCAE   |
-	LDA global_frame_counter		;$80DCAF   |
+	LDA active_frame_counter		;$80DCAF   |
 	BIT #$0001				;$80DCB1   |
 	BEQ CODE_80DCEF				;$80DCB4   |
 	LDY #$0000				;$80DCB6   |
@@ -10430,7 +10430,7 @@ DATA_80DF34:
 CODE_80DF94:
 	LDY $0989				;$80DF94  \
 	BNE CODE_80DFB6				;$80DF97   |
-	LDA global_frame_counter		;$80DF99   |
+	LDA active_frame_counter		;$80DF99   |
 	AND #$0001				;$80DF9B   |
 	XBA					;$80DF9E   |
 	TAX					;$80DF9F   |
@@ -10451,7 +10451,7 @@ CODE_80DFB6:
 	LDA $001A,y				;$80DFC2   |
 	CMP #$1C1C				;$80DFC5   |
 	BNE CODE_80DFE7				;$80DFC8   |
-	LDA global_frame_counter		;$80DFCA   |
+	LDA active_frame_counter		;$80DFCA   |
 	AND #$0001				;$80DFCC   |
 	XBA					;$80DFCF   |
 	TAX					;$80DFD0   |
@@ -10537,13 +10537,13 @@ CODE_80E06D:					;	   |
 	LDA #$00FC				;$80E072   |
 CODE_80E075:					;	   |
 	STA $34					;$80E075   |
-	LDA global_frame_counter		;$80E077   |
+	LDA active_frame_counter		;$80E077   |
 	AND #$0001				;$80E079   |
 	ASL A					;$80E07C   |
 	CLC					;$80E07D   |
 	ADC $34					;$80E07E   |
 	STA $34					;$80E080   |
-	LDA global_frame_counter		;$80E082   |
+	LDA active_frame_counter		;$80E082   |
 	AND #$0001				;$80E084   |
 	XBA					;$80E087   |
 	TAX					;$80E088   |
@@ -10786,7 +10786,7 @@ handle_fireworks:
 .spawn_fireworks:
 	BIT $0923				;$80E47B  \
 	BMI .return				;$80E47E   |
-	LDA global_frame_counter		;$80E480   |
+	LDA active_frame_counter		;$80E480   |
 	AND #$000F				;$80E482   |
 	BNE .return				;$80E485   |
 	SEP #$20				;$80E487   |
@@ -10807,8 +10807,8 @@ handle_fireworks:
 	INC A					;$80E4AC   |
 	STA $19C0				;$80E4AD   |
 .CODE_80E4B0:					;	   |
-	LDY #$005E				;$80E4B0   |
-	JSL CODE_BB842C				;$80E4B3   | Spawn fireworks sprite
+	LDY #!special_sprite_spawn_id_005E	;$80E4B0   |
+	JSL spawn_special_sprite_index		;$80E4B3   | Spawn fireworks sprite
 	BCS .return				;$80E4B7   | If sprite failed to spawn, return
 	INC $092E				;$80E4B9   | Increase number of onscreen fireworks
 	PHK					;$80E4BC   |
@@ -10915,7 +10915,7 @@ CODE_80E55A:					;	   |
 	RTS					;$80E57F  /
 
 CODE_80E580:
-	LDA global_frame_counter		;$80E580  \
+	LDA active_frame_counter		;$80E580  \
 	LSR A					;$80E582   |
 	STA $7E8013				;$80E583   |
 	LSR A					;$80E587   |
@@ -10925,7 +10925,7 @@ CODE_80E580:
 	STA $7E8019				;$80E58E   |
 	LDA $17BA				;$80E592   |
 	CLC					;$80E595   |
-	ADC global_frame_counter		;$80E596   |
+	ADC active_frame_counter		;$80E596   |
 	STA $36					;$80E598   |
 	LSR A					;$80E59A   |
 	STA $32					;$80E59B   |
@@ -10968,7 +10968,7 @@ CODE_80E5B5:					;	   |
 	BPL CODE_80E5B5				;$80E5F0   |
 	%pea_use_dbr($7E807E)			;$80E5F2   |
 	PLB					;$80E5F5   |
-	LDA.l global_frame_counter		;$80E5F6   |
+	LDA.l active_frame_counter		;$80E5F6   |
 	LSR A					;$80E5FA   |
 	AND #$000E				;$80E5FB   |
 	CLC					;$80E5FE   |
@@ -11210,7 +11210,7 @@ CODE_80E6DC:					;	   |
 	STZ $3C					;$80E7DA   |
 	LDX #$0000				;$80E7DC   |
 	TXY					;$80E7DF   |
-	LDA global_frame_counter		;$80E7E0   |
+	LDA active_frame_counter		;$80E7E0   |
 	AND #$0001				;$80E7E2   |
 	BEQ CODE_80E7ED				;$80E7E5   |
 	LDX #$0160				;$80E7E7   |
@@ -11944,7 +11944,7 @@ CODE_80ED24:
 	STA $884C				;$80ED7A   |
 	LDA #$80F3				;$80ED7D   |
 	STA $884F				;$80ED80   |
-	LDA global_frame_counter		;$80ED83   |
+	LDA active_frame_counter		;$80ED83   |
 	CLC					;$80ED85   |
 	ADC $17BA				;$80ED86   |
 	LSR A					;$80ED89   |
@@ -12080,7 +12080,7 @@ CODE_80EE18:
 	LDA #$0000				;$80EEB6   |
 	STA $8857				;$80EEB9   |
 CODE_80EEBC:					;	   |
-	LDA global_frame_counter		;$80EEBC   |
+	LDA active_frame_counter		;$80EEBC   |
 	CLC					;$80EEBE   |
 	ADC $17BA				;$80EEBF   |
 	LSR A					;$80EEC2   |
@@ -12128,7 +12128,7 @@ CODE_80EEE5:					;	   |
 	TAX					;$80EF14   |
 	CPX #$0050				;$80EF15   |
 	BCC CODE_80EEE5				;$80EF18   |
-	LDA global_frame_counter		;$80EF1A   |
+	LDA active_frame_counter		;$80EF1A   |
 	LSR A					;$80EF1C   |
 	AND #$000E				;$80EF1D   |
 	CLC					;$80EF20   |
@@ -12313,7 +12313,7 @@ CODE_80EF8C:					;	   |
 	BRA CODE_80F0AD				;$80F0A9  /
 
 CODE_80F0AB:
-	LDA global_frame_counter		;$80F0AB  \
+	LDA active_frame_counter		;$80F0AB  \
 CODE_80F0AD:					;	   |
 	CLC					;$80F0AD   |
 	ADC $17BA				;$80F0AE   |
@@ -12367,7 +12367,7 @@ CODE_80F0D4:					;	   |
 	LDA $0915				;$80F10E   |
 	BNE CODE_80F156				;$80F111   |
 CODE_80F113:					;	   |
-	LDA global_frame_counter		;$80F113   |
+	LDA active_frame_counter		;$80F113   |
 	LSR A					;$80F115   |
 	AND #$000E				;$80F116   |
 	CLC					;$80F119   |
@@ -12432,7 +12432,7 @@ CODE_80F157:
 	ADC #$01C0				;$80F191   |
 	STA $56					;$80F194   |
 	PHP					;$80F196   |
-	LDA global_frame_counter		;$80F197   |
+	LDA active_frame_counter		;$80F197   |
 	BIT #$0001				;$80F199   |
 	BNE CODE_80F1F1				;$80F19C   |
 	PLP					;$80F19E   |
@@ -12724,9 +12724,9 @@ NMI_start:
 	LDA #$8F				;$80F3D2   |\ Enable F-Blank, prevents glitches on overflow
 	STA.l PPU.screen			;$80F3D4   |/
 	REP #$20				;$80F3D8   |
-	LDA.l active_frame_counter		;$80F3DA   |\ Increment the active frame counter
+	LDA.l global_frame_counter		;$80F3DA   |\ Increment the global frame counter
 	INC A					;$80F3DE   | | It is never actually used. But it counts all frames
-	STA.l active_frame_counter		;$80F3DF   |/
+	STA.l global_frame_counter		;$80F3DF   |/
 	JMP.w (NMI_pointer)			;$80F3E3  / Jump to the true NMI payload
 
 incomplete_frame_nmi:
@@ -12876,12 +12876,12 @@ CODE_80F526:					;	   |
 	STA $0006,y				;$80F52F   |
 	PLY					;$80F532   |
 CODE_80F533:					;	   |
-	JSL CODE_BB842C				;$80F533   |
+	JSL spawn_special_sprite_index		;$80F533   |
 	LDA alternate_sprite			;$80F537   |
 	BRA CODE_80F541				;$80F539  /
 
 CODE_80F53B:
-	JSL CODE_BB8443				;$80F53B  \
+	JSL spawn_big_special_sprite_address	;$80F53B  \
 	LDA alternate_sprite			;$80F53F   |
 CODE_80F541:					;	   |
 	INC $7A					;$80F541   |
@@ -12912,128 +12912,128 @@ CODE_80F567:
 ;ending parade table
 ;display duration, init script table index (DATA_FF047E), text table index
 DATA_80F57C:
-	dw $0030, $0000, $0000
-	dw $00A0, $0000, $0001
-	dw $00A0, $0000, $0002
-	dw $0140, $01A4, $0003
-	dw $0140, $01A6, $0004
-	dw $0140, $01A8, $0005
-	dw $0140, $01A2, $0006
-	dw $0140, $01AA, $0007
-	dw $0140, $01AC, $0008
-	dw $0140, $01AE, $0009
-	dw $0140, $01B0, $000A
-	dw $00A0, $0000, $000B
-	dw $0140, $01B2, $000C
-	dw $0140, $01B4, $000D
-	dw $0140, $01B6, $000E
-	dw $0140, $01B8, $000F
-	dw $0140, $01BA, $0010
-	dw $00A0, $0000, $0011
-	dw $0140, $01BC, $0012
-	dw $0000, $01BE, $0013
-	dw $0140, $01C4, $0013
-	dw $0140, $01C0, $0014
-	dw $0140, $01C2, $0015
-	dw $0000, $01C6, $0016
-	dw $0140, $0210, $0016
-	dw $0140, $01C8, $0017
-	dw $0140, $01CA, $0018
-	dw $0140, $01CC, $0019
-	dw $0140, $01CE, $001A
-	dw $0140, $01D0, $001B
-	dw $0000, $01D2, $001C
-	dw $0140, $01D6, $001C
-	dw $0180, $0000, $001D
-	dw $0000, $01D4, $001E
-	dw $0140, $01D8, $001E
-	dw $00A0, $0000, $001F
-	dw $0000, $01DC, $0020
-	dw $0140, $01DA, $0020
-	dw $0140, $01DE, $0021
-	dw $0000, $01E0, $0022
-	dw $0140, $01E2, $0022
-	dw $0140, $01E4, $0023
-	dw $0000, $01E6, $0024
-	dw $0000, $01E8, $0024
-	dw $0140, $01EA, $0024
-	dw $00A0, $0000, $0025
-	dw $0140, $01EC, $0026
-	dw $0140, $01EE, $0027
-	dw $0140, $01F0, $0028
-	dw $0140, $01F2, $0029
-	dw $0140, $01F4, $002A
-	dw $0140, $01F6, $002B
-	dw $0140, $01F8, $002C
-	dw $00A0, $0000, $002D
-	dw $0140, $01FA, $002E
-	dw $0000, $01FC, $002F
-	dw $0140, $01FE, $002F
-	dw $0000, $0200, $0030
-	dw $0140, $0202, $0030
-	dw $0140, $0204, $0031
-	dw $0000, $0206, $0032
-	dw $0000, $020A, $0032
-	dw $0140, $0208, $0032
-	dw $0140, $020C, $0033
-	dw $0140, $020E, $0034
-	dw $0040, $0000, $0000
+	dw $0030, !null_pointer, $0000
+	dw $00A0, !null_pointer, $0001
+	dw $00A0, !null_pointer, $0002
+	dw $0140, !credits_sprite_spawn_id_01A4, $0003
+	dw $0140, !credits_sprite_spawn_id_01A6, $0004
+	dw $0140, !credits_sprite_spawn_id_01A8, $0005
+	dw $0140, !credits_sprite_spawn_id_01A2, $0006
+	dw $0140, !credits_sprite_spawn_id_01AA, $0007
+	dw $0140, !credits_sprite_spawn_id_01AC, $0008
+	dw $0140, !credits_sprite_spawn_id_01AE, $0009
+	dw $0140, !credits_sprite_spawn_id_01B0, $000A
+	dw $00A0, !null_pointer, $000B
+	dw $0140, !credits_sprite_spawn_id_01B2, $000C
+	dw $0140, !credits_sprite_spawn_id_01B4, $000D
+	dw $0140, !credits_sprite_spawn_id_01B6, $000E
+	dw $0140, !credits_sprite_spawn_id_01B8, $000F
+	dw $0140, !credits_sprite_spawn_id_01BA, $0010
+	dw $00A0, !null_pointer, $0011
+	dw $0140, !credits_sprite_spawn_id_01BC, $0012
+	dw $0000, !credits_sprite_spawn_id_01BE, $0013
+	dw $0140, !credits_sprite_spawn_id_01C4, $0013
+	dw $0140, !credits_sprite_spawn_id_01C0, $0014
+	dw $0140, !credits_sprite_spawn_id_01C2, $0015
+	dw $0000, !credits_sprite_spawn_id_01C6, $0016
+	dw $0140, !credits_sprite_spawn_id_0210, $0016
+	dw $0140, !credits_sprite_spawn_id_01C8, $0017
+	dw $0140, !credits_sprite_spawn_id_01CA, $0018
+	dw $0140, !credits_sprite_spawn_id_01CC, $0019
+	dw $0140, !credits_sprite_spawn_id_01CE, $001A
+	dw $0140, !credits_sprite_spawn_id_01D0, $001B
+	dw $0000, !credits_sprite_spawn_id_01D2, $001C
+	dw $0140, !credits_sprite_spawn_id_01D6, $001C
+	dw $0180, !null_pointer, $001D
+	dw $0000, !credits_sprite_spawn_id_01D4, $001E
+	dw $0140, !credits_sprite_spawn_id_01D8, $001E
+	dw $00A0, !null_pointer, $001F
+	dw $0000, !credits_sprite_spawn_id_01DC, $0020
+	dw $0140, !credits_sprite_spawn_id_01DA, $0020
+	dw $0140, !credits_sprite_spawn_id_01DE, $0021
+	dw $0000, !credits_sprite_spawn_id_01E0, $0022
+	dw $0140, !credits_sprite_spawn_id_01E2, $0022
+	dw $0140, !credits_sprite_spawn_id_01E4, $0023
+	dw $0000, !credits_sprite_spawn_id_01E6, $0024
+	dw $0000, !credits_sprite_spawn_id_01E8, $0024
+	dw $0140, !credits_sprite_spawn_id_01EA, $0024
+	dw $00A0, !null_pointer, $0025
+	dw $0140, !credits_sprite_spawn_id_01EC, $0026
+	dw $0140, !credits_sprite_spawn_id_01EE, $0027
+	dw $0140, !credits_sprite_spawn_id_01F0, $0028
+	dw $0140, !credits_sprite_spawn_id_01F2, $0029
+	dw $0140, !credits_sprite_spawn_id_01F4, $002A
+	dw $0140, !credits_sprite_spawn_id_01F6, $002B
+	dw $0140, !credits_sprite_spawn_id_01F8, $002C
+	dw $00A0, !null_pointer, $002D
+	dw $0140, !credits_sprite_spawn_id_01FA, $002E
+	dw $0000, !credits_sprite_spawn_id_01FC, $002F
+	dw $0140, !credits_sprite_spawn_id_01FE, $002F
+	dw $0000, !credits_sprite_spawn_id_0200, $0030
+	dw $0140, !credits_sprite_spawn_id_0202, $0030
+	dw $0140, !credits_sprite_spawn_id_0204, $0031
+	dw $0000, !credits_sprite_spawn_id_0206, $0032
+	dw $0000, !credits_sprite_spawn_id_020A, $0032
+	dw $0140, !credits_sprite_spawn_id_0208, $0032
+	dw $0140, !credits_sprite_spawn_id_020C, $0033
+	dw $0140, !credits_sprite_spawn_id_020E, $0034
+	dw $0040, !null_pointer, $0000
 	dw $FFFF, $0000
 
 ending_parade_text_table:
-	dw !null_pointer
-	dw .cast_of_characters_text
-	dw .lazy_landlubbers_text
-	dw .neek_text
-	dw .click_clack_text
-	dw .spiny_text
-	dw .cat_09_tails_text
-	dw .flitter_text
-	dw .mini_necky_text
-	dw .zinger_text
-	dw .screech_text
-	dw .submerged_seadogs_text
-	dw .flotsam_text
-	dw .shuri_text
-	dw .puftup_text
-	dw .lockjaw_text
-	dw .snapjaw_text
-	dw .kremling_kuthroats_text
-	dw .klomp_text
-	dw .klinger_text
-	dw .kaboing_text
-	dw .klampon_text
-	dw .klobber_text
-	dw .krook_text
-	dw .kutlass_text
-	dw .kloak_text
-	dw .kannon_text
-	dw .kruncha_text
-	dw .klank_text
-	dw .kackle_text
-	dw .klubba_text
-	dw .barnacled_bosses_text
-	dw .krow_text
-	dw .kleever_text
-	dw .kudgel_text
-	dw .king_zing_text
-	dw .kaptain_krool_text
-	dw .animal_buddies_text
-	dw .rambi_text
-	dw .enguarde_text
-	dw .rattly_text
-	dw .squitter_text
-	dw .clapper_text
-	dw .squawks_text
-	dw .glimmer_text
-	dw .kong_klan_text
-	dw .swanky_text
-	dw .funky_text
-	dw .wrinkly_text
-	dw .cranky_text
-	dw .donkey_text
-	dw .dixie_text
-	dw .diddy_text
+	dw !null_pointer			;0000
+	dw .cast_of_characters_text		;0001 "CAST OF CHARACTERS"
+	dw .lazy_landlubbers_text		;0002 "LAZY LANDLUBBERS"
+	dw .neek_text				;0003 "NEEK"
+	dw .click_clack_text			;0004 "CLICK-CLACK"
+	dw .spiny_text				;0005 "SPINY"
+	dw .cat_09_tails_text			;0006 "CAT O' 9 TAILS"
+	dw .flitter_text			;0007 "FLITTER"
+	dw .mini_necky_text			;0008 "MINI-NECKY"
+	dw .zinger_text				;0009 "ZINGER"
+	dw .screech_text			;000A "SCREECH"
+	dw .submerged_seadogs_text		;000B "SUBMERGED SEADOGS"
+	dw .flotsam_text			;000C "FLOTSAM"
+	dw .shuri_text				;000D "SHURI"
+	dw .puftup_text				;000E "PUFTUP"
+	dw .lockjaw_text			;000F "LOCKJAW"
+	dw .snapjaw_text			;0010 "SNAPJAW"
+	dw .kremling_kuthroats_text		;0011 "KREMLING KUTHROATS"
+	dw .klomp_text				;0012 "KLOMP"
+	dw .klinger_text			;0013 "KLINGER"
+	dw .kaboing_text			;0014 "KABOING"
+	dw .klampon_text			;0015 "KLAMPON"
+	dw .klobber_text			;0016 "KLOBBER"
+	dw .krook_text				;0017 "KROOK"
+	dw .kutlass_text			;0018 "KUTLASS"
+	dw .kloak_text				;0019 "KLOAK"
+	dw .kannon_text				;001A "KANNON"
+	dw .kruncha_text			;001B "KRUNCHA"
+	dw .klank_text				;001C "KLANK"
+	dw .kackle_text				;001D "KACKLE"
+	dw .klubba_text				;001E "KLUBBA"
+	dw .barnacled_bosses_text		;001F "BARNACLED BOSSES"
+	dw .krow_text				;0020 "KROW"
+	dw .kleever_text			;0021 "KLEEVER"
+	dw .kudgel_text				;0022 "KUDGEL"
+	dw .king_zing_text			;0023 "KING ZING"
+	dw .kaptain_krool_text			;0024 "KAPTAIN K.ROOL"
+	dw .animal_buddies_text			;0025 "ANIMAL BUDDIES"
+	dw .rambi_text				;0026 "RAMBI"
+	dw .enguarde_text			;0027 "ENGUARDE"
+	dw .rattly_text				;0028 "RATTLY"
+	dw .squitter_text			;0029 "SQUITTER"
+	dw .clapper_text			;002A "CLAPPER"
+	dw .squawks_text			;002B "SQUAWKS"
+	dw .glimmer_text			;002C "GLIMMER"
+	dw .kong_klan_text			;002D "KONG KLAN"
+	dw .swanky_text				;002E "SWANKY"
+	dw .funky_text				;002F "FUNKY"
+	dw .wrinkly_text			;0030 "WRINKLY"
+	dw .cranky_text				;0031 "CRANKY"
+	dw .donkey_text				;0032 "DONKEY"
+	dw .dixie_text				;0033 "DIXIE"
+	dw .diddy_text				;0034 "DIDDY"
 
 .cast_of_characters_text:
 	db "CAST OF CHARACTERS", $00
@@ -13300,7 +13300,7 @@ credits_dummy_sprite_code:
 	CMP #$14C4				;$80FA1A   | Check if its the the skull cart
 	BEQ .check_despawn			;$80FA1D   | If yes, we're done
 	JSL CODE_B9D100				;$80FA1F   | Else process animation
-	LDA global_frame_counter		;$80FA23   | Dead instruction
+	LDA active_frame_counter		;$80FA23   | Dead instruction
 	LDA $36,x				;$80FA25   | Get animation ID
 	CMP #$0196				;$80FA27   | Check if its zinger_idle
 	BEQ .play_looping_sound			;$80FA2A   |
@@ -13311,7 +13311,7 @@ credits_dummy_sprite_code:
 .play_looping_sound:				;	   |
 	INC $19AA				;$80FA36   | Play looping sound
 .check_despawn:					;	   |
-	JSL CODE_BBBB8D				;$80FA39   | Despawn sprite if offscreen
+	JSL delete_sprite_if_offscreen		;$80FA39   | Despawn sprite if offscreen
 	JML [$05A9]				;$80FA3D  / Done processing sprite
 
 credits_npc_kong_sprite_code:
@@ -13343,7 +13343,7 @@ credits_npc_kong_sprite_code:
 	JSL set_sprite_animation		;$80FA6C   |
 .done:						;	   |
 	JSL CODE_B9D100				;$80FA70   | Process animation
-	JSL CODE_BBBB8D				;$80FA74   | Despawn sprite if offscreen
+	JSL delete_sprite_if_offscreen		;$80FA74   | Despawn sprite if offscreen
 	PLB					;$80FA78   | Restore DB
 	JML [$05A9]				;$80FA79  / Done processing sprite
 
@@ -13365,7 +13365,7 @@ CODE_80FA7C:
 	LDY #$0000				;$80FAA8   |
 	LDX #$0020				;$80FAAB   |
 	JSL DMA_palette				;$80FAAE   |
-	STZ global_frame_counter		;$80FAB2   |
+	STZ active_frame_counter		;$80FAB2   |
 	LDA #$0001				;$80FAB4   |
 	STA pending_dma_hdma_channels		;$80FAB7   |
 	LDA #CODE_80FAC0			;$80FABA   |
@@ -13374,7 +13374,7 @@ CODE_80FA7C:
 CODE_80FAC0:
 	LDA pending_dma_hdma_channels		;$80FAC0  \
 	STA CPU.enable_dma			;$80FAC3   |
-	LDA global_frame_counter		;$80FAC6   |
+	LDA active_frame_counter		;$80FAC6   |
 	SEC					;$80FAC8   |
 	SBC #$0300				;$80FAC9   |
 	LSR A					;$80FACC   |
@@ -13388,13 +13388,13 @@ CODE_80FAC0:
 CODE_80FADC:					;	   |
 	LDA #$0200				;$80FADC   |
 	SEC					;$80FADF   |
-	SBC global_frame_counter		;$80FAE0   |
+	SBC active_frame_counter		;$80FAE0   |
 	CMP #$0200				;$80FAE2   |
 	BCS CODE_80FB3D				;$80FAE5   |
 	CLC					;$80FAE7   |
 	ADC #$0010				;$80FAE8   |
 	STA $32					;$80FAEB   |
-	LDA global_frame_counter		;$80FAED   |
+	LDA active_frame_counter		;$80FAED   |
 	ASL A					;$80FAEF   |
 	CLC					;$80FAF0   |
 	ADC #$0040				;$80FAF1   |
@@ -13417,7 +13417,7 @@ CODE_80FADC:					;	   |
 	XBA					;$80FB15   |
 	STA PPU.layer_1_scroll_y		;$80FB16   |
 	REP #$20				;$80FB19   |
-	LDA global_frame_counter		;$80FB1B   |
+	LDA active_frame_counter		;$80FB1B   |
 	AND #$00FF				;$80FB1D   |
 	ASL A					;$80FB20   |
 	TAX					;$80FB21   |
@@ -13434,7 +13434,7 @@ CODE_80FADC:					;	   |
 	STA PPU.layer_1_scroll_x		;$80FB38   |
 	REP #$20				;$80FB3B   |
 CODE_80FB3D:					;	   |
-	LDA global_frame_counter		;$80FB3D   |
+	LDA active_frame_counter		;$80FB3D   |
 	SEC					;$80FB3F   |
 	SBC #$0100				;$80FB40   |
 	CMP #$0100				;$80FB43   |
@@ -13457,7 +13457,7 @@ CODE_80FB62:					;	   |
 	LDA screen_brightness			;$80FB67   |
 	STA PPU.screen				;$80FB6A   |
 	REP #$20				;$80FB6D   |
-	LDA global_frame_counter		;$80FB6F   |
+	LDA active_frame_counter		;$80FB6F   |
 	CMP #$00F0				;$80FB71   |
 	BCC CODE_80FB93				;$80FB74   |
 	LDA screen_fade_speed			;$80FB76   |
@@ -13466,7 +13466,7 @@ CODE_80FB62:					;	   |
 	LDA player_active_held			;$80FB7E   |
 	AND #$D080				;$80FB81   |
 	BNE CODE_80FB8D				;$80FB84   |
-	LDA global_frame_counter		;$80FB86   |
+	LDA active_frame_counter		;$80FB86   |
 	CMP #$0480				;$80FB88   |
 	BNE CODE_80FB93				;$80FB8B   |
 CODE_80FB8D:					;	   |

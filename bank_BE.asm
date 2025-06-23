@@ -151,7 +151,7 @@ CODE_BEB90B:					;	   |
 	LDA $48,x				;$BEB918   |
 	CMP $44,x				;$BEB91A   |
 	BNE CODE_BEB94A				;$BEB91C   |
-	LDA global_frame_counter		;$BEB91E   |
+	LDA active_frame_counter		;$BEB91E   |
 	AND #$0007				;$BEB920   |
 	BNE CODE_BEB94A				;$BEB923   |
 	DEC $42,x				;$BEB925   |
@@ -245,8 +245,8 @@ CODE_BEB9C9:					;	   |
 	LDA #!coins_2_sprite_palette		;$BEB9CF   |
 	JSL set_sprite_palette_global		;$BEB9D2   |
 CODE_BEB9D6:					;	   |
-	LDY #$00CE				;$BEB9D6   |
-	JSL CODE_BB842C				;$BEB9D9   |
+	LDY #!special_sprite_spawn_id_00CE	;$BEB9D6   |
+	JSL spawn_special_sprite_index		;$BEB9D9   |
 	LDX current_sprite			;$BEB9DD   |
 	INC $2E,x				;$BEB9DF   |
 	JML [$05A9]				;$BEB9E1  /
@@ -267,7 +267,7 @@ CODE_BEB9F5:
 	JSL CODE_BEBE4D				;$BEB9FF   |
 	BCS CODE_BEB9F2				;$BEBA03   |
 	JSL set_this_level_kremcoin_collected	;$BEBA05   |
-	JSL CODE_BB819F				;$BEBA09   |
+	JSL calculate_completion_percentage	;$BEBA09   |
 	LDA #$0002				;$BEBA0D   |
 	TSB $08C4				;$BEBA10   |
 	LDX current_sprite			;$BEBA13   |
@@ -318,8 +318,8 @@ CODE_BEBA5A:
 	JSL queue_sound_effect			;$BEBA64   |
 	LDA #$0735				;$BEBA68   |
 	JSL queue_sound_effect			;$BEBA6B   |
-	LDY #$00CE				;$BEBA6F   |
-	JSL CODE_BB842C				;$BEBA72   |
+	LDY #!special_sprite_spawn_id_00CE	;$BEBA6F   |
+	JSL spawn_special_sprite_index		;$BEBA72   |
 	LDX current_sprite			;$BEBA76   |
 	INC $2E,x				;$BEBA78   |
 	JML [$05A9]				;$BEBA7A  /
@@ -819,8 +819,8 @@ CODE_BEBE01:					;	   |
 
 CODE_BEBE06:
 	JSL CODE_B3A334				;$BEBE06  \
-	LDY #$0034				;$BEBE0A   |
-	JSL CODE_BB842C				;$BEBE0D   |
+	LDY #!special_sprite_spawn_id_0034	;$BEBE0A   |
+	JSL spawn_special_sprite_index		;$BEBE0D   |
 	LDX current_sprite			;$BEBE11   |
 	RTS					;$BEBE13  /
 
@@ -1068,8 +1068,8 @@ CODE_BEBF97:					;	   |
 	STA $0A3E				;$BEBFAF   |
 	LDA $0C,x				;$BEBFB2   |
 	STA $0A40				;$BEBFB4   |
-	LDY #$0034				;$BEBFB7   |
-	JSL CODE_BB842C				;$BEBFBA   |
+	LDY #!special_sprite_spawn_id_0034	;$BEBFB7   |
+	JSL spawn_special_sprite_index		;$BEBFBA   |
 	STZ $09E7				;$BEBFBE   |
 	JMP CODE_BEC452				;$BEBFC1  /
 
@@ -1898,8 +1898,8 @@ CODE_BEC5A4:
 	BCS CODE_BEC5B9				;$BEC5A8   |
 	JSL CODE_BCFEC0				;$BEC5AA   |
 	JSL CODE_B3A334				;$BEC5AE   |
-	LDY #$0034				;$BEC5B2   |
-	JSL CODE_BB842C				;$BEC5B5   |
+	LDY #!special_sprite_spawn_id_0034	;$BEC5B2   |
+	JSL spawn_special_sprite_index		;$BEC5B5   |
 CODE_BEC5B9:					;	   |
 	LDX current_sprite			;$BEC5B9   |
 	RTS					;$BEC5BB  /
@@ -2050,7 +2050,7 @@ CODE_BEC695:
 	JSR CODE_BEC719				;$BEC6B2   |
 	JSR CODE_BEC84B				;$BEC6B5   |
 	JSR CODE_BEC6D6				;$BEC6B8   |
-	LDA global_frame_counter		;$BEC6BB   |
+	LDA active_frame_counter		;$BEC6BB   |
 	AND #$0010				;$BEC6BD   |
 	BNE CODE_BEC6CC				;$BEC6C0   |
 	JSR CODE_BEC702				;$BEC6C2   |
@@ -2133,7 +2133,7 @@ CODE_BEC748:					;	   |
 	TAY					;$BEC758   |
 	LDA $60					;$BEC759   |
 	JSR CODE_BEC7FB				;$BEC75B   |
-	LDA global_frame_counter		;$BEC75E   |
+	LDA active_frame_counter		;$BEC75E   |
 	AND #$000F				;$BEC760   |
 	BNE CODE_BEC7B9				;$BEC763   |
 	LDA $0971				;$BEC765   |
@@ -2276,7 +2276,7 @@ CODE_BEC87B:
 	STA $096F				;$BEC883   |
 CODE_BEC886:					;	   |
 	BCS CODE_BEC894				;$BEC886   |
-	LDA global_frame_counter		;$BEC888   |
+	LDA active_frame_counter		;$BEC888   |
 	AND #$0003				;$BEC88A   |
 	BNE CODE_BEC8A7				;$BEC88D   |
 	LDA #$9999				;$BEC88F   |
@@ -2297,7 +2297,7 @@ CODE_BEC8A7:					;	   |
 	LDY $70					;$BEC8AA   |
 	LDA #$0808				;$BEC8AC   |
 	STA $0000,y				;$BEC8AF   |
-	LDA global_frame_counter		;$BEC8B2   |
+	LDA active_frame_counter		;$BEC8B2   |
 	AND #$001C				;$BEC8B4   |
 	LSR A					;$BEC8B7   |
 	ADC $0D2C				;$BEC8B8   |
@@ -2588,7 +2588,7 @@ CODE_BECAB3:
 	RTS					;$BECAB6  /
 
 CODE_BECAB7:
-	LDA global_frame_counter		;$BECAB7  \
+	LDA active_frame_counter		;$BECAB7  \
 	AND #$0003				;$BECAB9   |
 	BNE CODE_BECB1E				;$BECABC   |
 	LDX #$0000				;$BECABE   |
@@ -2634,7 +2634,7 @@ CODE_BECAD8:					;	   |
 	AND #$0007				;$BECB09   |
 	CMP #$0006				;$BECB0C   |
 	BCC CODE_BECB18				;$BECB0F   |
-	LDA global_frame_counter		;$BECB11   |
+	LDA active_frame_counter		;$BECB11   |
 	AND #$000C				;$BECB13   |
 	LSR A					;$BECB16   |
 	LSR A					;$BECB17   |
@@ -2756,7 +2756,7 @@ CODE_BECBCE:
 CODE_BECBD1:					;	   |
 	TYX					;$BECBD1   |
 	LDY $44,x				;$BECBD2   |
-	JSL CODE_BB8432				;$BECBD4   |
+	JSL spawn_special_sprite_address	;$BECBD4   |
 	BCS CODE_BECBCE				;$BECBD8   |
 	LDX current_sprite			;$BECBDA   |
 	LDA alternate_sprite			;$BECBDC   |
@@ -3107,10 +3107,10 @@ gate_barrel_sprite_code:
 	JML [$05A9]				;$BECE7B  /
 
 CODE_BECE7E:
-	LDY #$0068				;$BECE7E  \
-	JSL CODE_BB8412				;$BECE81   |
-	LDY #$006A				;$BECE85   |
-	JSL CODE_BB8412				;$BECE88   |
+	LDY #!special_sprite_spawn_id_0068	;$BECE7E  \
+	JSL spawn_no_gfx_special_sprite_index	;$BECE81   |
+	LDY #!special_sprite_spawn_id_006A	;$BECE85   |
+	JSL spawn_no_gfx_special_sprite_index	;$BECE88   |
 	RTS					;$BECE8C  /
 
 skull_cart_sparks_sprite_code:
@@ -3153,7 +3153,7 @@ skull_cart_sparks_sprite_code:
 	BEQ ..CODE_BECEDF			;$BECED3   |
 	LDA $42,x				;$BECED5   |
 	BNE ..return				;$BECED7   |
-	JSL CODE_BBBB8D				;$BECED9   |
+	JSL delete_sprite_if_offscreen		;$BECED9   |
 	BCC ..return				;$BECEDD   |
 ..CODE_BECEDF:					;	   |
 	INC $19AD				;$BECEDF   |
@@ -3298,7 +3298,7 @@ CODE_BECFFD:
 	LDA.l DATA_BED024,x			;$BECFFE   |
 	AND #$00FF				;$BED002   |
 	TAY					;$BED005   |
-	JSL CODE_BB842C				;$BED006   | spawn klank
+	JSL spawn_special_sprite_index		;$BED006   | spawn klank
 	BCS CODE_BED023				;$BED00A   |
 	LDX current_sprite			;$BED00C   |
 	LDY alternate_sprite			;$BED00E   |
@@ -3672,14 +3672,14 @@ CODE_BED2D8:					;	   |
 	BCC CODE_BED2FA				;$BED2EB   |
 	LDA #$0032				;$BED2ED   |
 	JSL CODE_B58012				;$BED2F0   |
-	LDA global_frame_counter		;$BED2F4   |
+	LDA active_frame_counter		;$BED2F4   |
 	STA $0636				;$BED2F6   |
 	RTS					;$BED2F9  /
 
 CODE_BED2FA:
 	LDA #$00C8				;$BED2FA  \
 	JSL CODE_B58012				;$BED2FD   |
-	LDA global_frame_counter		;$BED301   |
+	LDA active_frame_counter		;$BED301   |
 	STA $0636				;$BED303   |
 	RTS					;$BED306  /
 
@@ -3690,12 +3690,12 @@ CODE_BED307:
 	BCC CODE_BED34C				;$BED30F   |
 	BNE CODE_BED34C				;$BED311   |
 	STY $19B0				;$BED313   |
-	LDA global_frame_counter		;$BED316   |
+	LDA active_frame_counter		;$BED316   |
 	STA $0636				;$BED318   |
 	RTS					;$BED31B  /
 
 CODE_BED31C:
-	LDA global_frame_counter		;$BED31C  \
+	LDA active_frame_counter		;$BED31C  \
 	AND #$0003				;$BED31E   |
 	BNE CODE_BED34C				;$BED321   |
 	LDX current_sprite			;$BED323   |
@@ -3717,7 +3717,7 @@ CODE_BED33D:					;	   |
 	LSR A					;$BED33F   |
 	SBC #$0080				;$BED340   |
 	JSL CODE_B5801B				;$BED343   |
-	LDA global_frame_counter		;$BED347   |
+	LDA active_frame_counter		;$BED347   |
 	STA $0636				;$BED349   |
 CODE_BED34C:					;	   |
 	RTS					;$BED34C  /
@@ -3783,7 +3783,7 @@ CODE_BED3A6:
 	ADC #$14A0				;$BED3BF   |
 	STA $1A,x				;$BED3C2   |
 CODE_BED3C4:					;	   |
-	JSL CODE_BBBB8D				;$BED3C4   |
+	JSL delete_sprite_if_offscreen		;$BED3C4   |
 	JML [$05A9]				;$BED3C8  /
 
 CODE_BED3CB:
@@ -4162,7 +4162,7 @@ CODE_BED6A9:
 	LDX current_sprite			;$BED6A9  \
 	LDA $0D5B				;$BED6AB   |
 	BPL CODE_BED6BE				;$BED6AE   |
-	LDA global_frame_counter		;$BED6B0   |
+	LDA active_frame_counter		;$BED6B0   |
 	AND #$007F				;$BED6B2   |
 	BNE CODE_BED6BE				;$BED6B5   |
 	LDA $3E,x				;$BED6B7   |
@@ -4420,7 +4420,7 @@ CODE_BED859:
 	STA $0A88				;$BED867   |
 	STA $42,x				;$BED86A   |
 	LDY active_kong_control_variables	;$BED86C   |
-	LDA global_frame_counter		;$BED86F   |
+	LDA active_frame_counter		;$BED86F   |
 	SEC					;$BED871   |
 	SBC #$0020				;$BED872   |
 	STA $0022,y				;$BED875   |
@@ -4487,7 +4487,7 @@ CODE_BED8DA:
 	BNE CODE_BED903				;$BED8ED   |
 	STZ $42,x				;$BED8EF   |
 	STZ $44,x				;$BED8F1   |
-	LDA global_frame_counter		;$BED8F3   |
+	LDA active_frame_counter		;$BED8F3   |
 	SBC #$0020				;$BED8F5   |
 	LDY active_kong_control_variables	;$BED8F8   |
 	STA $0022,y				;$BED8FB   |
@@ -4515,7 +4515,7 @@ CODE_BED914:
 	LDX current_sprite			;$BED919   |
 	STZ $42,x				;$BED91B   |
 	LDY active_kong_control_variables	;$BED91D   |
-	LDA global_frame_counter		;$BED920   |
+	LDA active_frame_counter		;$BED920   |
 	SBC #$0020				;$BED922   |
 	STA $0022,y				;$BED925   |
 	STZ $30,x				;$BED928   |
@@ -4786,21 +4786,21 @@ CODE_BEDB78:					;	   |
 	LDA $0002,y				;$BEDB82   |
 	AND #$8000				;$BEDB85   |
 	BEQ CODE_BEDB8F				;$BEDB88   |
-	LDA global_frame_counter		;$BEDB8A   |
+	LDA active_frame_counter		;$BEDB8A   |
 	STA $0022,y				;$BEDB8C   |
 CODE_BEDB8F:					;	   |
 	RTS					;$BEDB8F  /
 
 CODE_BEDB90:
 	LDY active_kong_control_variables	;$BEDB90  \
-	LDA global_frame_counter		;$BEDB93   |
+	LDA active_frame_counter		;$BEDB93   |
 	SBC #$0020				;$BEDB95   |
 	STA $0022,y				;$BEDB98   |
 	RTS					;$BEDB9B  /
 
 CODE_BEDB9C:
 	LDY active_kong_control_variables	;$BEDB9C  \
-	LDA global_frame_counter		;$BEDB9F   |
+	LDA active_frame_counter		;$BEDB9F   |
 	SEC					;$BEDBA1   |
 	SBC $0022,y				;$BEDBA2   |
 	CMP #$0010				;$BEDBA5   |
@@ -4823,7 +4823,7 @@ CODE_BEDBC8:					;	   |
 	LDY $42,x				;$BEDBCA   |
 	LDA #$3000				;$BEDBCC   |
 	STA $0040,y				;$BEDBCF   |
-	LDA global_frame_counter		;$BEDBD2   |
+	LDA active_frame_counter		;$BEDBD2   |
 	SBC #$0020				;$BEDBD4   |
 	STA $0022,y				;$BEDBD7   |
 	LDA #$066A				;$BEDBDA   |
@@ -4833,7 +4833,7 @@ CODE_BEDBE1:					;	   |
 
 CODE_BEDBE2:
 	LDY active_kong_control_variables	;$BEDBE2  \
-	LDA global_frame_counter		;$BEDBE5   |
+	LDA active_frame_counter		;$BEDBE5   |
 	SEC					;$BEDBE7   |
 	SBC $0022,y				;$BEDBE8   |
 	CMP #$0010				;$BEDBEB   |
@@ -5447,8 +5447,8 @@ CODE_BEE010:
 	DEC A					;$BEE013   |
 	ASL A					;$BEE014   |
 	BCS CODE_BEE023				;$BEE015   |
-	LDY #$009A				;$BEE017   |
-	JSL CODE_BB842C				;$BEE01A   |
+	LDY #!special_sprite_spawn_id_009A	;$BEE017   |
+	JSL spawn_special_sprite_index		;$BEE01A   |
 	BCS CODE_BEE023				;$BEE01E   |
 	DEC $19AD				;$BEE020   |
 CODE_BEE023:					;	   |
@@ -5559,8 +5559,8 @@ CODE_BEE0CA:
 	JML [$05A9]				;$BEE0DA  /
 
 CODE_BEE0DD:
-	LDY #$00E0				;$BEE0DD  \
-	JSL CODE_BB842C				;$BEE0E0   |
+	LDY #!special_sprite_spawn_id_00E0	;$BEE0DD  \
+	JSL spawn_special_sprite_index		;$BEE0E0   |
 	BCS CODE_BEE102				;$BEE0E4   |
 	LDX current_sprite			;$BEE0E6   |
 	LDY alternate_sprite			;$BEE0E8   |
@@ -5610,7 +5610,7 @@ CODE_BEE13C:
 	BCC CODE_BEE16F				;$BEE146   |
 	BCS CODE_BEE17F				;$BEE148   |
 CODE_BEE14A:					;	   |
-	LDA global_frame_counter		;$BEE14A   |
+	LDA active_frame_counter		;$BEE14A   |
 	LSR A					;$BEE14C   |
 	BCC CODE_BEE156				;$BEE14D   |
 	LDA $12,x				;$BEE14F   |
@@ -5906,8 +5906,8 @@ haunted_hall_timer_handler_code:		;	  \
 	JML [$05A9]				;$BEE325  / Done processing sprite
 
 .init_state:
-	LDY #$00CC				;$BEE328  \ Get index of timer spawn script
-	JSL CODE_BB842C				;$BEE32B   | Spawn it
+	LDY #!special_sprite_spawn_id_00CC	;$BEE328  \ Get index of timer spawn script
+	JSL spawn_special_sprite_index		;$BEE32B   | Spawn it
 	BCS ..return				;$BEE32F   | If spawn failed return
 	LDX current_sprite			;$BEE331   | Else get handler sprite
 	LDY alternate_sprite			;$BEE333   | Get timer sprite that just spawned
@@ -6040,7 +6040,7 @@ CODE_BEE405:
 	BCC CODE_BEE41D				;$BEE418   |
 	LDA #$0007				;$BEE41A   |
 CODE_BEE41D:					;	   |
-	AND global_frame_counter		;$BEE41D   |
+	AND active_frame_counter		;$BEE41D   |
 	BNE CODE_BEE42E				;$BEE41F   |
 	LDA $097F				;$BEE421   |
 	EOR current_sprite			;$BEE424   |
@@ -6176,8 +6176,8 @@ CODE_BEE4F4:
 	JML [$05A9]				;$BEE501  /
 
 CODE_BEE504:
-	LDY #$00E8				;$BEE504  \
-	JSL CODE_BB842C				;$BEE507   |
+	LDY #!special_sprite_spawn_id_00E8	;$BEE504  \
+	JSL spawn_special_sprite_index		;$BEE507   |
 	BCS CODE_BEE4F1				;$BEE50B   |
 	LDX current_sprite			;$BEE50D   |
 	LDY $42,x				;$BEE50F   |
@@ -6200,7 +6200,7 @@ CODE_BEE529:
 	STA $8E					;$BEE52D   |
 	LDA [$8E]				;$BEE52F   |
 	TAY					;$BEE531   |
-	JSL CODE_BB8432				;$BEE532   |
+	JSL spawn_special_sprite_address	;$BEE532   |
 	BCS CODE_BEE54A				;$BEE536   |
 	JSR CODE_BEE5B8				;$BEE538   |
 	LDX current_sprite			;$BEE53B   |
@@ -6260,7 +6260,7 @@ CODE_BEE591:
 CODE_BEE5A1:
 	JSL process_current_movement		;$BEE5A1  \
 	JSL CODE_B9D100				;$BEE5A5   |
-	JSL CODE_BBBB8D				;$BEE5A9   |
+	JSL delete_sprite_if_offscreen		;$BEE5A9   |
 	BCC CODE_BEE5B5				;$BEE5AD   |
 	LDA #$0002				;$BEE5AF   |
 	TRB $0923				;$BEE5B2   |
@@ -6391,7 +6391,7 @@ CODE_BEE6A2:					;	   |
 	TAX					;$BEE6A8   |
 	LDA.l DATA_FF18CE,x			;$BEE6A9   |
 	TAY					;$BEE6AD   |
-	JSL CODE_BB8432				;$BEE6AE   |
+	JSL spawn_special_sprite_address	;$BEE6AE   |
 	PLA					;$BEE6B2   |
 	BCS CODE_BEE6EA				;$BEE6B3   |
 	LDY alternate_sprite			;$BEE6B5   |
@@ -6445,8 +6445,8 @@ race_handler_sprite_code:
 .wait_for_player_state
 	LDA $0D5E				;$BEE714  \  get index of skull kart player is riding
 	BEQ ..return				;$BEE717   | if the player isn't riding one yet return
-	LDY #$00F4				;$BEE719   | else spawn the traffic light sprite
-	JSL CODE_BB842C				;$BEE71C   |
+	LDY #!special_sprite_spawn_id_00F4	;$BEE719   | else spawn the traffic light sprite
+	JSL spawn_special_sprite_index		;$BEE71C   |
 	BCS ..return				;$BEE720   |
 	LDY alternate_sprite			;$BEE722   | get traffic light sprite
 	LDX current_sprite			;$BEE724   | get race handler sprite
@@ -6565,8 +6565,8 @@ update_race_flag:
 	RTS					;$BEE80C  /  return
 
 .spawn_flag
-	LDY #$00F2				;$BEE80D  \
-	JSL CODE_BB842C				;$BEE810   | spawn the flag sprite
+	LDY #!special_sprite_spawn_id_00F2	;$BEE80D  \
+	JSL spawn_special_sprite_index		;$BEE810   | spawn the flag sprite
 	BCS .return				;$BEE814   |
 	LDY alternate_sprite			;$BEE816   | get flag sprite
 	LDX current_sprite			;$BEE818   | get race handler sprite
@@ -6640,7 +6640,7 @@ spawn_and_setup_klank_kart:
 	LDA $32					;$BEE87E   |
 	PHA					;$BEE880   | preserve address of klank kart spawn data
 	LDY $36,x				;$BEE881   | get address of kart init script
-	JSL CODE_BB8432				;$BEE883   | spawn the klank's kart
+	JSL spawn_special_sprite_address	;$BEE883   | spawn the klank's kart
 	PLA					;$BEE887   | restore address of klank kart spawn data
 	STA $32					;$BEE888   |
 	LDA.w #<:klank_race_data_bank		;$BEE88A   | get bank of klank race data
@@ -7066,8 +7066,8 @@ CODE_BEEB85:					;	   |
 CODE_BEEB88:
 	JSL CODE_B9D100				;$BEEB88  \
 	JSL process_current_movement		;$BEEB8C   |
-	LDY #$00F8				;$BEEB90   |
-	JSL CODE_BB842C				;$BEEB93   |
+	LDY #!special_sprite_spawn_id_00F8	;$BEEB90   |
+	JSL spawn_special_sprite_index		;$BEEB93   |
 	BCS CODE_BEEBA1				;$BEEB97   |
 	LDX current_sprite			;$BEEB99   |
 	LDY alternate_sprite			;$BEEB9B   |
@@ -7108,8 +7108,8 @@ CODE_BEEBE4:					;	   |
 	JML [$05A9]				;$BEEBE4  /
 
 CODE_BEEBE7:
-	LDY #$00FA				;$BEEBE7  \
-	JSL CODE_BB842C				;$BEEBEA   |
+	LDY #!special_sprite_spawn_id_00FA	;$BEEBE7  \
+	JSL spawn_special_sprite_index		;$BEEBEA   |
 	BCS CODE_BEEBFA				;$BEEBEE   |
 	LDX current_sprite			;$BEEBF0   |
 	INC $2E,x				;$BEEBF2   |
@@ -7126,8 +7126,8 @@ CODE_BEEC05:
 	JMP CODE_BEB849				;$BEEC0D  /
 
 CODE_BEEC10:
-	LDY #$00FA				;$BEEC10  \
-	JSL CODE_BB842C				;$BEEC13   |
+	LDY #!special_sprite_spawn_id_00FA	;$BEEC10  \
+	JSL spawn_special_sprite_index		;$BEEC13   |
 	BCS CODE_BEEC23				;$BEEC17   |
 	LDX current_sprite			;$BEEC19   |
 	INC $2E,x				;$BEEC1B   |
@@ -7218,7 +7218,7 @@ CODE_BEEC9B:
 CODE_BEECA7:					;	   |
 	LDA #$0002				;$BEECA7   |
 	PHY					;$BEECAA   |
-	JSL CODE_BB8341				;$BEECAB   |
+	JSL allocate_sprite_vram_multi_slot_global				;$BEECAB   |
 	PLY					;$BEECAF   |
 	BCS CODE_BEECCA				;$BEECB0   |
 	LDA $12,x				;$BEECB2   |
@@ -7269,7 +7269,7 @@ CODE_BEECFD:
 	LDA $42,x				;$BEECFD  \
 	BEQ CODE_BEED2B				;$BEECFF   |
 	LDY $48,x				;$BEED01   |
-	JSL CODE_BB83F5				;$BEED03   |
+	JSL spawn_BB83EF_special_sprite_address	;$BEED03   |
 	BCS CODE_BEED2B				;$BEED07   |
 	LDX current_sprite			;$BEED09   |
 	DEC $42,x				;$BEED0B   |
@@ -7361,7 +7361,7 @@ CODE_BEEDB4:
 	SBC #$0100				;$BEEDB5   |
 	BMI CODE_BEEDED				;$BEEDB8   |
 CODE_BEEDBA:					;	   |
-	JSL CODE_BBBB69				;$BEEDBA   |
+	JSL check_if_sprite_offscreen_global	;$BEEDBA   |
 	BCC CODE_BEEDED				;$BEEDBE   |
 	LDY current_sprite			;$BEEDC0   |
 	LDX $50,y				;$BEEDC2   |
@@ -7567,7 +7567,7 @@ chest_spawner_sprite_code:
 	STA $4A,x				;$BEEF45   | Increase it by 1 and store it for later
 .spawn_chest:					;	   |
 	LDY $42,x				;$BEEF47   | Load chest spawn script to use
-	JSL CODE_BB8432				;$BEEF49   | And spawn the sprite
+	JSL spawn_special_sprite_address	;$BEEF49   | And spawn the sprite
 	BCS .return				;$BEEF4D   | If the spawn failed, return
 	LDX alternate_sprite			;$BEEF4F   | Else get chest we just spawned
 	LDA [$8E]				;$BEEF51   | Read first word of spawner constants (X position)

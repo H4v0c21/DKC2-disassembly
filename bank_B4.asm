@@ -104,7 +104,7 @@ CODE_B480CD:
 	LDA #$0078				;$B480E2   |
 	JSR CODE_B4B4D3				;$B480E5   |
 	JSR CODE_B4B208				;$B480E8   |
-	JSL CODE_BB819F				;$B480EB   |
+	JSL calculate_completion_percentage	;$B480EB   |
 	LDA completed_lost_world_levels		;$B480EF   |
 	AND #$00FF				;$B480F2   |
 	CMP #$0005				;$B480F5   |
@@ -114,15 +114,15 @@ CODE_B480CD:
 	BNE CODE_B48147				;$B48100   |
 	LDA #$001E				;$B48102   |
 	STA $07B0				;$B48105   |
-	LDA #$0061				;$B48108   |
+	LDA #!map_node_kroc_kore_w2_lost_world	;$B48108   |
 	JSR CODE_B4B3B8				;$B4810B   |
-	LDA #$0065				;$B4810E   |
+	LDA #!map_node_kroc_kore_w3_lost_world	;$B4810E   |
 	JSR CODE_B4B3B8				;$B48111   |
-	LDA #$0069				;$B48114   |
+	LDA #!map_node_kroc_kore_w4_lost_world	;$B48114   |
 	JSR CODE_B4B3B8				;$B48117   |
-	LDA #$006D				;$B4811A   |
+	LDA #!map_node_kroc_kore_w5_lost_world	;$B4811A   |
 	JSR CODE_B4B3B8				;$B4811D   |
-	LDA #$0071				;$B48120   |
+	LDA #!map_node_kroc_kore_w6_lost_world	;$B48120   |
 	JSR CODE_B4B3B8				;$B48123   |
 	LDA #$2B64				;$B48126   |
 	JSR CODE_B48360				;$B48129   |
@@ -345,7 +345,7 @@ CODE_B48305:					;	   |
 CODE_B4830B:					;	   |
 	LDY DATA_B4CE1F,x			;$B4830B   |
 	PHX					;$B4830E   |
-	JSL CODE_BB8412				;$B4830F   |
+	JSL spawn_no_gfx_special_sprite_index	;$B4830F   |
 	PLX					;$B48313   |
 	LDY alternate_sprite			;$B48314   |
 	LDA #$0080				;$B48316   |
@@ -406,7 +406,7 @@ CODE_B48374:					;	   |
 	LDA screen_brightness			;$B4837C   |
 	BIT #$8000				;$B4837F   |
 	BNE CODE_B483BB				;$B48382   |
-	LDA global_frame_counter		;$B48384   |
+	LDA active_frame_counter		;$B48384   |
 	BIT #$0007				;$B48386   |
 	BNE CODE_B483BB				;$B48389   |
 	LDA #$0000				;$B4838B   |
@@ -442,7 +442,7 @@ CODE_B483BB:					;	   |
 	BIT #$8000				;$B483C6   |
 	BNE CODE_B48418				;$B483C9   |
 	SEP #$20				;$B483CB   |
-	LDA global_frame_counter		;$B483CD   |
+	LDA active_frame_counter		;$B483CD   |
 	LSR A					;$B483CF   |
 	LSR A					;$B483D0   |
 	STA $32					;$B483D1   |
@@ -1406,7 +1406,7 @@ CODE_B48B7B:					;	   |
 	CPX #!npc_screen_type_funky		;$B48B99   |
 	BNE CODE_B48BDF				;$B48B9C   |
 	LDY #DATA_FF12F4			;$B48B9E   |
-	JSL CODE_BB83F5				;$B48BA1   |
+	JSL spawn_BB83EF_special_sprite_address	;$B48BA1   |
 	LDX alternate_sprite			;$B48BA5   |
 	STX $0798				;$B48BA7   |
 	LDA #$FFE5				;$B48BAA   |
@@ -1434,7 +1434,7 @@ CODE_B48BDF:					;	   |
 	CPX #!npc_screen_type_klubba		;$B48BE2   |
 	BNE CODE_B48BEE				;$B48BE5   |
 	LDY #DATA_FF286A			;$B48BE7   |
-	JSL CODE_BB83F5				;$B48BEA   |
+	JSL spawn_BB83EF_special_sprite_address	;$B48BEA   |
 CODE_B48BEE:					;	   |
 	JSR spawn_npc_hud_coin			;$B48BEE   |
 	LDA #CODE_808CF5			;$B48BF1   |
@@ -1491,7 +1491,7 @@ CODE_B48C6B:
 spawn_npc_hud_coin:
 	LDX npc_screen_type			;$B48C76  \ Get NPC screen type
 	LDY DATA_B4CD47,x			;$B48C79   | Index table with hud coin spawn scripts using it
-	JSL CODE_BB8432				;$B48C7C   | Spawn the hud coin
+	JSL spawn_special_sprite_address	;$B48C7C   | Spawn the hud coin
 	LDX alternate_sprite			;$B48C80   |
 	LDA #$0014				;$B48C82   |
 	STA $06,x				;$B48C85   | Set coin X position
@@ -1607,11 +1607,11 @@ CODE_B48D94:					;	   |
 	LDA $0002,x				;$B48D9A   |
 	AND #$00FF				;$B48D9D   |
 	BEQ CODE_B48DA8				;$B48DA0   |
-	JSL CODE_BB8443				;$B48DA2   |
+	JSL spawn_big_special_sprite_address	;$B48DA2   |
 	BRA CODE_B48DAC				;$B48DA6  /
 
 CODE_B48DA8:
-	JSL CODE_BB842C				;$B48DA8  \
+	JSL spawn_special_sprite_index		;$B48DA8  \
 CODE_B48DAC:					;	   |
 	PLA					;$B48DAC   |
 	CLC					;$B48DAD   |
@@ -3785,8 +3785,8 @@ CODE_B4A02D:
 	BNE CODE_B4A050				;$B4A03B   |
 	LDA #CODE_B4A088			;$B4A03D   |
 	STA $079C				;$B4A040   |
-	LDY #$018E				;$B4A043   |
-	JSL CODE_BB842C				;$B4A046   |
+	LDY #!special_sprite_spawn_id_018E	;$B4A043   |
+	JSL spawn_special_sprite_index		;$B4A046   |
 	LDA #$003C				;$B4A04A   |
 	STA $064E				;$B4A04D   |
 CODE_B4A050:					;	   |
@@ -4065,7 +4065,7 @@ CODE_B4A288:
 
 CODE_B4A292:
 	JSL disable_screen			;$B4A292  \
-	JSL CODE_BBC5F4				;$B4A296   |
+	JSL save_game				;$B4A296   |
 	LDA #$0001				;$B4A29A   |
 	STA file_select_action			;$B4A29D   |
 	JML init_file_select			;$B4A2A0  /
@@ -4143,8 +4143,8 @@ CODE_B4A333:
 	BNE CODE_B4A390				;$B4A341   |
 	LDA #CODE_B4A371			;$B4A343   |
 	STA $079C				;$B4A346   |
-	LDY #$018E				;$B4A349   |
-	JSL CODE_BB842C				;$B4A34C   |
+	LDY #!special_sprite_spawn_id_018E	;$B4A349   |
+	JSL spawn_special_sprite_index		;$B4A34C   |
 	LDA #$003C				;$B4A350   |
 	STA $064E				;$B4A353   |
 	RTS					;$B4A356  /
@@ -4637,7 +4637,7 @@ spawn_swanky_prize:
 	TAX					;$B4A7A1   |
 	LDA.l DATA_FF18CE,x			;$B4A7A2   | Index table of prize spawn scripts with it
 	TAY					;$B4A7A6   |
-	JSL CODE_BB8432				;$B4A7A7   | Spawn the prize
+	JSL spawn_special_sprite_address	;$B4A7A7   | Spawn the prize
 	PLA					;$B4A7AB   | Retrieve game number index
 	BCS .return				;$B4A7AC   | If the spawn failed, return
 	LDY alternate_sprite			;$B4A7AE   | Else get prize sprite
@@ -6538,7 +6538,7 @@ CODE_B4B7C5:					;	   |
 	BRA CODE_B4B75B				;$B4B7C8  /
 
 update_swanky_lights:
-	LDA global_frame_counter		;$B4B7CA  \ Get frame counter value
+	LDA active_frame_counter		;$B4B7CA  \ Get frame counter value
 	BIT #$0007				;$B4B7CC   | Check if we're on a frame divisible by 8
 	BNE .return				;$B4B7CF   | If not, return
 	LDA $091D				;$B4B7D1   | Else get index into color value table
@@ -6601,7 +6601,7 @@ CODE_B4B82A:
 	RTS					;$B4B82A  /
 
 CODE_B4B82B:
-	LDA global_frame_counter		;$B4B82B  \
+	LDA active_frame_counter		;$B4B82B  \
 	SEP #$20				;$B4B82D   |
 	STA PPU.layer_2_scroll_x		;$B4B82F   |
 	STZ PPU.layer_2_scroll_x		;$B4B832   |
@@ -7557,16 +7557,16 @@ CODE_B4BF3A:					;	   |
 	STA $06,x				;$B4BFD4   |
 	LDA #$00C3				;$B4BFD6   |
 	STA $0A,x				;$B4BFD9   |
-	LDY #$0168				;$B4BFDB   |
-	JSL CODE_BB842C				;$B4BFDE   | Spawn Yoshi
+	LDY #!special_sprite_spawn_id_0168	;$B4BFDB   |
+	JSL spawn_special_sprite_index		;$B4BFDE   | Spawn Yoshi
 	LDX alternate_sprite			;$B4BFE2   |
 	STX $0668				;$B4BFE4   |
-	LDY #$0166				;$B4BFE7   |
-	JSL CODE_BB842C				;$B4BFEA   | Spawn Mario
+	LDY #!special_sprite_spawn_id_0166	;$B4BFE7   |
+	JSL spawn_special_sprite_index		;$B4BFEA   | Spawn Mario
 	LDX alternate_sprite			;$B4BFEE   |
 	STX $066A				;$B4BFF0   |
-	LDY #$016C				;$B4BFF3   |
-	JSL CODE_BB842C				;$B4BFF6   | Spawn Link
+	LDY #!special_sprite_spawn_id_016C	;$B4BFF3   |
+	JSL spawn_special_sprite_index		;$B4BFF6   | Spawn Link
 	LDX alternate_sprite			;$B4BFFA   |
 	STX $066C				;$B4BFFC   |
 	LDX #DATA_B4BED1			;$B4BFFF   |
@@ -7958,11 +7958,11 @@ DATA_B4C18B:
 	db !map_node_monkey_museum_w4_lost_world	;CB
 	db !map_node_monkey_museum_w5_lost_world	;CC
 	db !map_node_monkey_museum_w6_lost_world	;CD
-	db !map_node_krocodile_kore_w2_lost_world	;CE
-	db !map_node_krocodile_kore_w3_lost_world	;CF
-	db !map_node_krocodile_kore_w4_lost_world	;D0
-	db !map_node_krocodile_kore_w5_lost_world	;D1
-	db !map_node_krocodile_kore_w6_lost_world	;D2
+	db !map_node_kroc_kore_w2_lost_world		;CE
+	db !map_node_kroc_kore_w3_lost_world		;CF
+	db !map_node_kroc_kore_w4_lost_world		;D0
+	db !map_node_kroc_kore_w5_lost_world		;D1
+	db !map_node_kroc_kore_w6_lost_world		;D2
 
 DATA_B4C25E:
 	dw .crocodile_isle			;00
@@ -8162,7 +8162,7 @@ DATA_B4C25E:
 	dw !map_node_return_to_w2
 	dw !map_node_monkey_museum_w2_lost_world
 	dw !map_node_jungle_jinx
-	dw !map_node_krocodile_kore_w2_lost_world
+	dw !map_node_kroc_kore_w2_lost_world
 	dw !map_node_w2_entrance_from_klubba
 
 .lost_world_w3:
@@ -8174,7 +8174,7 @@ DATA_B4C25E:
 	dw !map_node_return_to_w3
 	dw !map_node_monkey_museum_w3_lost_world
 	dw !map_node_black_ice_battle
-	dw !map_node_krocodile_kore_w3_lost_world
+	dw !map_node_kroc_kore_w3_lost_world
 	dw !map_node_w3_entrance_from_klubba
 
 .lost_world_w4:
@@ -8186,7 +8186,7 @@ DATA_B4C25E:
 	dw !map_node_return_to_w4
 	dw !map_node_monkey_museum_w4_lost_world
 	dw !map_node_klobber_karnage
-	dw !map_node_krocodile_kore_w4_lost_world
+	dw !map_node_kroc_kore_w4_lost_world
 	dw !map_node_w4_entrance_from_klubba
 
 .lost_world_w5:
@@ -8198,7 +8198,7 @@ DATA_B4C25E:
 	dw !map_node_return_to_w5
 	dw !map_node_monkey_museum_w5_lost_world
 	dw !map_node_fiery_furnace
-	dw !map_node_krocodile_kore_w5_lost_world
+	dw !map_node_kroc_kore_w5_lost_world
 	dw !map_node_w5_entrance_from_klubba
 
 .lost_world_w6:
@@ -8210,7 +8210,7 @@ DATA_B4C25E:
 	dw !map_node_return_to_w6
 	dw !map_node_monkey_museum_w6_lost_world
 	dw !map_node_animal_antics_rambi_area
-	dw !map_node_krocodile_kore_w6_lost_world
+	dw !map_node_kroc_kore_w6_lost_world
 	dw !map_node_w6_entrance_from_klubba
 
 ;world entrance node ID's
@@ -8239,20 +8239,20 @@ initial_unlocked_nodes:
 	dw !map_node_target_terror
 
 	dw $0005
-	dw !level_jungle_jinx, !level_krocodile_kore_crocodile_cauldron_lost_world
-	dw !level_black_ice_battle, !level_krocodile_kore_krem_quay_lost_world
-	dw !level_klobber_karnage, !level_krocodile_kore_krazy_kremland_lost_world
-	dw !level_fiery_furnace, !level_krocodile_kore_gloomy_gulch_lost_world
-	dw !level_animal_antics_rambi_area, !level_krocodile_kore_k_rools_keep_lost_world
+	dw !level_jungle_jinx, !level_kroc_kore_crocodile_cauldron_lost_world
+	dw !level_black_ice_battle, !level_kroc_kore_krem_quay_lost_world
+	dw !level_klobber_karnage, !level_kroc_kore_krazy_kremland_lost_world
+	dw !level_fiery_furnace, !level_kroc_kore_gloomy_gulch_lost_world
+	dw !level_animal_antics_rambi_area, !level_kroc_kore_k_rools_keep_lost_world
 	dw !null_pointer, !null_pointer
 
 ;Krocodile kore node ID's (read immediately after beating krocodile kore)
 DATA_B4C48C:
-	db !map_node_krocodile_kore_w2_lost_world
-	db !map_node_krocodile_kore_w3_lost_world
-	db !map_node_krocodile_kore_w4_lost_world
-	db !map_node_krocodile_kore_w5_lost_world
-	db !map_node_krocodile_kore_w6_lost_world
+	db !map_node_kroc_kore_w2_lost_world
+	db !map_node_kroc_kore_w3_lost_world
+	db !map_node_kroc_kore_w4_lost_world
+	db !map_node_kroc_kore_w5_lost_world
+	db !map_node_kroc_kore_w6_lost_world
 
 ;Map icons OAM properties
 DATA_B4C491:
@@ -9570,43 +9570,43 @@ npc_screen_init_data:
 
 ;Monkey Museum spawn script indexes
 DATA_B4CDF1:
-	dw $0100 : db $00			;Cranky
+	dw !special_sprite_spawn_id_0100 : db $00	;Cranky
 	dw $0000
 
 ;Funky's Flights II spawn script indexes
 DATA_B4CDF6:
-	dw $0104 : db $00			;Funky Surf Board
-	dw $0102 : db $01			;Funky
-	dw $018C : db $00			;Plane Barrel Wings
-	dw $0116 : db $00			;Plane Barrel
-	dw $0118 : db $00			;Plane Barrel Propeller
+	dw !special_sprite_spawn_id_0104 : db $00	;Funky Surf Board
+	dw !special_sprite_spawn_id_0102 : db $01	;Funky
+	dw !special_sprite_spawn_id_018C : db $00	;Plane Barrel Wings
+	dw !special_sprite_spawn_id_0116 : db $00	;Plane Barrel
+	dw !special_sprite_spawn_id_0118 : db $00	;Plane Barrel Propeller
 	dw $0000
 
 ;Swanky's Bonus Bonanza spawn script indexes
 DATA_B4CE07:
-	dw $0114 : db $00			;Swanky Teeth Shine
-	dw $0106 : db $00			;Swanky
+	dw !special_sprite_spawn_id_0114 : db $00	;Swanky Teeth Shine
+	dw !special_sprite_spawn_id_0106 : db $00	;Swanky
 	dw $0000
 
 ;Kong Kollege spawn script indexes
 DATA_B4CE0F:
-	dw $0108 : db $00			;Wrinkly
-	dw $010A : db $00			;Wrinkly Shirt/Book
+	dw !special_sprite_spawn_id_0108 : db $00	;Wrinkly
+	dw !special_sprite_spawn_id_010A : db $00	;Wrinkly Shirt/Book
 	dw $0000
 
 ;Klubba's Kiosk spawn script indexes
 DATA_B4CE17:
-	dw $010E : db $01			;Klubba
-	dw $0110 : db $00			;Golden Barrel
+	dw !special_sprite_spawn_id_010E : db $01	;Klubba
+	dw !special_sprite_spawn_id_0110 : db $00	;Golden Barrel
 	dw $0000
 
 ;Lost world rocks spawn script indexes
 DATA_B4CE1F:
-	dw $0148
-	dw $014A
-	dw $014C
-	dw $014E
-	dw $0150
+	dw !special_sprite_spawn_id_0148
+	dw !special_sprite_spawn_id_014A
+	dw !special_sprite_spawn_id_014C
+	dw !special_sprite_spawn_id_014E
+	dw !special_sprite_spawn_id_0150
 
 ;Some data for the DK coin icon for the island worlds
 DATA_B4CE29:
@@ -10717,7 +10717,7 @@ DATA_B4E26C:
 	db $32, $09, $01 : dw .text
 	dw !level_jungle_jinx
 	dw !map_node_return_to_w2, !map_path_0058
-	dw !map_node_krocodile_kore_w2_lost_world, !map_path_0059
+	dw !map_node_kroc_kore_w2_lost_world, !map_path_0059
 .text
 	%map_text("JUNGLE JINX")
 	%map_text("JUNGLE ENSORCEL?E")
@@ -10755,7 +10755,7 @@ DATA_B4E33A:
 	db $32, $0C, $04 : dw .text
 	dw !level_black_ice_battle
 	dw !map_node_return_to_w3, !map_path_005B
-	dw !map_node_krocodile_kore_w3_lost_world, !map_path_005C
+	dw !map_node_kroc_kore_w3_lost_world, !map_path_005C
 .text
 	%map_text("BLACK ICE BATTLE")
 	%map_text("BATAILLE DE LA GLACE NOIRE")
@@ -10793,7 +10793,7 @@ DATA_B4E41F:
 	db $32, $0C, $04 : dw .text
 	dw !level_klobber_karnage
 	dw !map_node_return_to_w4, !map_path_005E
-	dw !map_node_krocodile_kore_w4_lost_world, !map_path_005F
+	dw !map_node_kroc_kore_w4_lost_world, !map_path_005F
 .text
 	%map_text("KLOBBER KARNAGE")
 	%map_text("CH$TAIGNES ET MARRONS")
@@ -10831,7 +10831,7 @@ DATA_B4E4F9:
 	db $32, $0A, $02 : dw .text
 	dw !level_fiery_furnace
 	dw !map_node_return_to_w5, !map_path_0061
-	dw !map_node_krocodile_kore_w5_lost_world, !map_path_0062
+	dw !map_node_kroc_kore_w5_lost_world, !map_path_0062
 .text
 	%map_text("FIERY FURNACE")
 	%map_text("FOURNAISE FURIEUSE")
@@ -10869,7 +10869,7 @@ DATA_B4E5D5:
 	db $32, $0A, $02 : dw .text
 	dw !level_animal_antics_rambi_area
 	dw !map_node_return_to_w6, !map_path_0064
-	dw !map_node_krocodile_kore_w6_lost_world, !map_path_0065
+	dw !map_node_kroc_kore_w6_lost_world, !map_path_0065
 .text
 	%map_text("ANIMAL ANTICS")
 	%map_text("FAC?TIES ANIMALI&RES")

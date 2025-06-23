@@ -50,7 +50,8 @@ struct sprite $0000
 	.constants_address:	skip 2	;54
 	.placement_number:	skip 2	;56
 	.placement_parameter:	skip 2	;58
-	.despawn_time:		skip 2	;5A
+	.despawn_time:		skip 1	;5A
+	.despawn_countdown:	skip 1	;5B
 	.unknown_5C:		skip 2	;5C
 endstruct
 

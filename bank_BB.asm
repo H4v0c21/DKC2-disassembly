@@ -161,7 +161,7 @@ VRAM_payload_handler_global:
 	RTL					;$BB80B3  /
 
 CODE_BB80B4:
-	CMP #$009A				;$BB80B4  \
+	CMP #!level_animal_antics_rambi_area	;$BB80B4  \
 	BNE CODE_BB80BA				;$BB80B7   |
 	INC A					;$BB80B9   |
 CODE_BB80BA:					;	   |
@@ -303,26 +303,26 @@ get_complete_bit_for_level:
 	dw $4000				;0E
 	dw $8000				;0F
 
-CODE_BB819F:
-	STZ game_completion_percentage		;$BB819F  \
+calculate_completion_percentage:
+	STZ completion_percentage		;$BB819F  \
 	LDA #$0001				;$BB81A2   |
 	STA $72					;$BB81A5   |
-CODE_BB81A7:					;	   |
+.CODE_BB81A7:					;	   |
 	LDA $72					;$BB81A7   |
-	CMP #$009B				;$BB81A9   |
-	BEQ CODE_BB81BC				;$BB81AC   |
+	CMP #!level_animal_antics_squitter_area	;$BB81A9   |
+	BEQ .CODE_BB81BC			;$BB81AC   |
 	JSL CODE_BB80B4				;$BB81AE   |
-	BEQ CODE_BB81BC				;$BB81B2   |
+	BEQ .CODE_BB81BC			;$BB81B2   |
 	AND #$00FF				;$BB81B4   |
-	BNE CODE_BB81BC				;$BB81B7   |
-	INC game_completion_percentage		;$BB81B9   |
-CODE_BB81BC:					;	   |
+	BNE .CODE_BB81BC			;$BB81B7   |
+	INC completion_percentage		;$BB81B9   |
+.CODE_BB81BC:					;	   |
 	INC $72					;$BB81BC   |
 	LDA $72					;$BB81BE   |
 	ASL A					;$BB81C0   |
 	TAX					;$BB81C1   |
 	LDA.l DATA_FD0000,x			;$BB81C2   |
-	BNE CODE_BB81A7				;$BB81C6   |
+	BNE .CODE_BB81A7			;$BB81C6   |
 	LDA #$59F2				;$BB81C8   |
 	STA $26					;$BB81CB   |
 	LDA #$007E				;$BB81CD   |
@@ -330,66 +330,66 @@ CODE_BB81BC:					;	   |
 	LDY #$0000				;$BB81D2   |
 	LDA #$0010				;$BB81D5   |
 	STA $5E					;$BB81D8   |
-CODE_BB81DA:					;	   |
+.CODE_BB81DA:					;	   |
 	LDA [$26]				;$BB81DA   |
 	LDX #$0010				;$BB81DC   |
-CODE_BB81DF:					;	   |
+.CODE_BB81DF:					;	   |
 	LSR A					;$BB81DF   |
-	BCC CODE_BB81E3				;$BB81E0   |
+	BCC .CODE_BB81E3			;$BB81E0   |
 	INY					;$BB81E2   |
-CODE_BB81E3:					;	   |
+.CODE_BB81E3:					;	   |
 	DEX					;$BB81E3   |
-	BNE CODE_BB81DF				;$BB81E4   |
+	BNE .CODE_BB81DF			;$BB81E4   |
 	INC $26					;$BB81E6   |
 	INC $26					;$BB81E8   |
 	DEC $5E					;$BB81EA   |
-	BNE CODE_BB81DA				;$BB81EC   |
+	BNE .CODE_BB81DA			;$BB81EC   |
 	TYA					;$BB81EE   |
 	CLC					;$BB81EF   |
-	ADC game_completion_percentage		;$BB81F0   |
-	STA game_completion_percentage		;$BB81F3   |
+	ADC completion_percentage		;$BB81F0   |
+	STA completion_percentage		;$BB81F3   |
 	LDA #!level_krows_nest			;$BB81F6   |
 	LDY #$0001				;$BB81F9   |
-	JSR CODE_BB824B				;$BB81FC   |
+	JSR apply_percentage_if_boss_cleared	;$BB81FC   |
 	LDA #!level_kleevers_kiln		;$BB81FF   |
 	LDY #$0001				;$BB8202   |
-	JSR CODE_BB824B				;$BB8205   |
+	JSR apply_percentage_if_boss_cleared	;$BB8205   |
 	LDA #!level_kreepy_krow			;$BB8208   |
 	LDY #$0001				;$BB820B   |
-	JSR CODE_BB824B				;$BB820E   |
+	JSR apply_percentage_if_boss_cleared	;$BB820E   |
 	LDA #!level_king_zing_sting		;$BB8211   |
 	LDY #$0001				;$BB8214   |
-	JSR CODE_BB824B				;$BB8217   |
+	JSR apply_percentage_if_boss_cleared	;$BB8217   |
 	LDA #!level_kudgels_kontest		;$BB821A   |
 	LDY #$0001				;$BB821D   |
-	JSR CODE_BB824B				;$BB8220   |
+	JSR apply_percentage_if_boss_cleared	;$BB8220   |
 	LDA #!level_k_rool_duel			;$BB8223   |
 	LDY #$0004				;$BB8226   |
-	JSR CODE_BB824B				;$BB8229   |
+	JSR apply_percentage_if_boss_cleared	;$BB8229   |
 	LDA #!level_krocodile_kore		;$BB822C   |
 	LDY #$0004				;$BB822F   |
-	JSR CODE_BB824B				;$BB8232   |
+	JSR apply_percentage_if_boss_cleared	;$BB8232   |
 	LDA $08FB				;$BB8235   |
-	LDX #$0004				;$BB8238   |
-CODE_BB823B:					;	   |
+	LDX #$0004				;$BB8238   |> Get number of kong family members that need to be visited for 102%
+.next_kong_family_visit_bit:			;	   |
 	LSR A					;$BB823B   |
-	BCC CODE_BB8241				;$BB823C   |
-	INC game_completion_percentage		;$BB823E   |
-CODE_BB8241:					;	   |
+	BCC .not_visited			;$BB823C   |
+	INC completion_percentage		;$BB823E   |
+.not_visited:					;	   |
 	DEX					;$BB8241   |
-	BNE CODE_BB823B				;$BB8242   |
+	BNE .next_kong_family_visit_bit		;$BB8242   |
 	LDA level_number			;$BB8244   |
 	JSL CODE_BBAF0C				;$BB8246   |
 	RTL					;$BB824A  /
 
-CODE_BB824B:
-	JSL is_current_level_cleared		;$BB824B  \
-	BCC CODE_BB8259				;$BB824F   |
-	TYA					;$BB8251   |
-	CLC					;$BB8252   |
-	ADC game_completion_percentage		;$BB8253   |
-	STA game_completion_percentage		;$BB8256   |
-CODE_BB8259:					;	   |
+apply_percentage_if_boss_cleared:
+	JSL is_current_level_cleared		;$BB824B  \ \
+	BCC .not_cleared			;$BB824F   |/ If the boss isnt cleared then dont add the percentage
+	TYA					;$BB8251   |\ Get percentage to add for current boss
+	CLC					;$BB8252   | |
+	ADC completion_percentage		;$BB8253   | | Add to completion percentage of game
+	STA completion_percentage		;$BB8256   |/ Update completion percentage
+.not_cleared:					;	   |
 	RTS					;$BB8259  /
 
 	LDA level_number			;$BB825A   |
@@ -405,20 +405,21 @@ CODE_BB8269:
 	SEC					;$BB8269  \
 	RTL					;$BB826A  /
 
-	JSR CODE_BB826F				;$BB826B   |
+;unused wrapper
+	JSR handle_sprite_allocation		;$BB826B   |
 	RTL					;$BB826E  /
 
-CODE_BB826F:
+handle_sprite_allocation:
 	JSR allocate_sprite_table_slot		;$BB826F  \
-	BCS CODE_BB8281				;$BB8272   |
+	BCS .return				;$BB8272   |
 	PHY					;$BB8274   |
 	JSR allocate_sprite_vram_slot		;$BB8275   |
 	PLY					;$BB8278   |
-	BCS CODE_BB8281				;$BB8279   |
-	STZ $16,x				;$BB827B   |
-	STZ $1C,x				;$BB827D   |
-	STZ $10,x				;$BB827F   |
-CODE_BB8281:					;	   |
+	BCS .return				;$BB8279   |
+	STZ sprite.unknown_16,x			;$BB827B   |
+	STZ sprite.unknown_1C,x			;$BB827D   |
+	STZ sprite.terrain_attributes,x		;$BB827F   |
+.return:					;	   |
 	RTS					;$BB8281  /
 
 CODE_BB8282:
@@ -427,19 +428,19 @@ CODE_BB8282:
 	PLA					;$BB8286   |
 	BCS CODE_BB8296				;$BB8287   |
 	PHY					;$BB8289   |
-	JSR CODE_BB8345				;$BB828A   |
+	JSR allocate_sprite_vram_multi_slot	;$BB828A   |
 	PLY					;$BB828D   |
 	BCS CODE_BB8296				;$BB828E   |
-	STZ $16,x				;$BB8290   |
-	STZ $1C,x				;$BB8292   |
-	STZ $10,x				;$BB8294   |
+	STZ sprite.unknown_16,x			;$BB8290   |
+	STZ sprite.unknown_1C,x			;$BB8292   |
+	STZ sprite.terrain_attributes,x		;$BB8294   |
 CODE_BB8296:					;	   |
 	RTS					;$BB8296  /
 
 allocate_sprite_table_slot:
 	LDX #main_sprite_table			;$BB8297  \ Get base address of sprite table
 .resume_scanning:				;	   |
-	LDA $00,x				;$BB829A   | Get sprite ID in the slot
+	LDA sprite.type,x			;$BB829A   | Get sprite ID in the slot
 	BEQ .free_slot_found			;$BB829C   | If none exists, we found a free slot
 	TXA					;$BB829E   |
 	CLC					;$BB829F   |
@@ -460,24 +461,24 @@ allocate_sprite_table_slot:
 
 delete_sprite_handle_deallocation:
 	LDX current_sprite			;$BB82B8  \ Get current sprite
-	LDA $00,x				;$BB82BA   | Get sprite ID
+	LDA sprite.type,x			;$BB82BA   | Get sprite ID
 	BEQ .return				;$BB82BC   | If it doesn't exist, return
 	CMP #!normal_sprite_type_range_start	;$BB82BE   | Else check if its a normal sprite
 	BCC .handle_big_or_static		;$BB82C1   | If it isn't, handle big or static sprite
 #delete_sprite_force_deallocation:		;	   |
-	LDA $12,x				;$BB82C3   | Else get sprite's OAM info
+	LDA sprite.oam_property,x		;$BB82C3   | Else get sprite's OAM info
 	JSR dereference_sprite_palette		;$BB82C5   | Dereference palette
 	LDX current_sprite			;$BB82C8   |
 	JSR deallocate_sprite_vram_slot		;$BB82CA   | Deallocate vram slot
 #delete_sprite_no_deallocation_2:		;	   |
 	LDX current_sprite			;$BB82CD   | Get current sprite
-	STZ $00,x				;$BB82CF   | Clear sprite ID
+	STZ sprite.type,x			;$BB82CF   | Clear sprite ID
 .return:					;	   |
 	RTL					;$BB82D1  / Return
 
 #delete_sprite_no_deallocation:
 	LDX current_sprite			;$BB82D2  \
-	STZ $00,x				;$BB82D4   | Clear sprite ID
+	STZ sprite.type,x			;$BB82D4   | Clear sprite ID
 	RTL					;$BB82D6  /
 
 .handle_big_or_static:
@@ -485,7 +486,7 @@ delete_sprite_handle_deallocation:
 	BCS delete_sprite_no_deallocation	;$BB82DA   | or normal range, delete it without deallocation
 	CMP #!large_sprite_type_range_start	;$BB82DC   | Else check if sprite in static range/below big range
 	BCC .dereference_static_sprite		;$BB82DF   |
-	LDA $12,x				;$BB82E1   | Else its a big sprite, get its OAM info
+	LDA sprite.oam_property,x		;$BB82E1   | Else its a big sprite, get its OAM info
 	JSR dereference_sprite_palette		;$BB82E3   | Dereference its palette
 	LDX current_sprite			;$BB82E6   |
 	JSR deallocate_big_sprite_vram_slot	;$BB82E8   | Deallocate 2 VRAM slots instead of 1
@@ -496,7 +497,7 @@ delete_sprite_handle_deallocation:
 	LDX #!non_kong_sprite_slot_start	;$BB82EF   | Load first non-kong sprite slot
 .next_slot:					;	   |
 	LDA $32					;$BB82F2   | Get type of sprite to delete
-	CMP $00,x				;$BB82F4   | Compare with current slot's type
+	CMP sprite.type,x			;$BB82F4   | Compare with current slot's type
 	BEQ .found_same_sprite_type		;$BB82F6   | If same sprite type was found
 .get_next_slot:					;	   |
 	TXA					;$BB82F8   |\
@@ -512,7 +513,7 @@ delete_sprite_handle_deallocation:
 	CPX current_sprite			;$BB8307  \ Check if the sprite is the one to delete
 	BEQ .get_next_slot			;$BB8309   | If slot contains sprite to delete, next slot
 	LDX current_sprite			;$BB830B   | Else get current sprite
-	LDA $12,x				;$BB830D   | Get OAM info
+	LDA sprite.oam_property,x		;$BB830D   | Get OAM info
 	JSR dereference_sprite_palette		;$BB830F   | Dereference palette
 	BRA delete_sprite_no_deallocation_2	;$BB8312  / Delete sprite
 
@@ -541,18 +542,18 @@ allocate_sprite_vram_slot:
 	ASL A					;$BB8333   |
 	ASL A					;$BB8334   | *8
 	ASL A					;$BB8335   |
-	EOR $12,x				;$BB8336   |
+	EOR sprite.oam_property,x		;$BB8336   |
 	AND #$01FF				;$BB8338   |
-	EOR $12,x				;$BB833B   |
-	STA $12,x				;$BB833D   | Set sprite's OAM properties
+	EOR sprite.oam_property,x		;$BB833B   |
+	STA sprite.oam_property,x		;$BB833D   | Set sprite's OAM properties
 	CLC					;$BB833F   | Tell caller we can spawn the sprite
 	RTS					;$BB8340  / Return
 
-CODE_BB8341:
-	JSR CODE_BB8345				;$BB8341  \
+#allocate_sprite_vram_multi_slot_global:
+	JSR allocate_sprite_vram_multi_slot	;$BB8341  \
 	RTL					;$BB8344  /
 
-CODE_BB8345:
+#allocate_sprite_vram_multi_slot:
 	STA $32					;$BB8345  \
 	STA $34					;$BB8347   |
 	ASL A					;$BB8349   |
@@ -560,54 +561,54 @@ CODE_BB8345:
 	ADC #$FFFE				;$BB834B   |
 	STA $36					;$BB834E   |
 	LDY #$0018				;$BB8350   |
-CODE_BB8353:					;	   |
+.CODE_BB8353:					;	   |
 	LDA sprite_vram_allocation_table,y	;$BB8353   |
-	BEQ CODE_BB8372				;$BB8356   |
-CODE_BB8358:					;	   |
+	BEQ .free_slot_found_2			;$BB8356   |
+.CODE_BB8358:					;	   |
 	DEY					;$BB8358   |
 	DEY					;$BB8359   |
 	CPY $36					;$BB835A   |
-	BPL CODE_BB8353				;$BB835C   |
+	BPL .CODE_BB8353			;$BB835C   |
 	LDA #$0003				;$BB835E   |
 	JSL throw_exception			;$BB8361   |
 	SEC					;$BB8365   |
 	RTS					;$BB8366  /
 
-CODE_BB8367:
+.CODE_BB8367:
 	LDA $34					;$BB8367  \
 	STA $32					;$BB8369   |
-	BRA CODE_BB8358				;$BB836B  /
+	BRA .CODE_BB8358			;$BB836B  /
 
-CODE_BB836D:
+.CODE_BB836D:
 	LDA sprite_vram_allocation_table,y	;$BB836D  \
-	BNE CODE_BB8367				;$BB8370   |
-CODE_BB8372:					;	   |
+	BNE .CODE_BB8367			;$BB8370   |
+.free_slot_found_2:				;	   |
 	DEC $32					;$BB8372   |
-	BEQ CODE_BB837A				;$BB8374   |
+	BEQ .CODE_BB837A			;$BB8374   |
 	DEY					;$BB8376   |
 	DEY					;$BB8377   |
-	BRA CODE_BB836D				;$BB8378  /
+	BRA .CODE_BB836D			;$BB8378  /
 
-CODE_BB837A:
+.CODE_BB837A:
 	TYA					;$BB837A  \
 	ASL A					;$BB837B   |
 	ASL A					;$BB837C   |
 	ASL A					;$BB837D   |
 	ASL A					;$BB837E   |
-	EOR $12,x				;$BB837F   |
+	EOR sprite.oam_property,x		;$BB837F   |
 	AND #$01FF				;$BB8381   |
-	EOR $12,x				;$BB8384   |
-	STA $12,x				;$BB8386   |
-	BRA CODE_BB838C				;$BB8388  /
+	EOR sprite.oam_property,x		;$BB8384   |
+	STA sprite.oam_property,x		;$BB8386   |
+	BRA .CODE_BB838C			;$BB8388  /
 
-CODE_BB838A:
+.CODE_BB838A:
 	INY					;$BB838A  \
 	INY					;$BB838B   |
-CODE_BB838C:					;	   |
+.CODE_BB838C:					;	   |
 	TXA					;$BB838C   |
 	STA sprite_vram_allocation_table,y	;$BB838D   |
 	DEC $34					;$BB8390   |
-	BNE CODE_BB838A				;$BB8392   |
+	BNE .CODE_BB838A			;$BB8392   |
 	CLC					;$BB8394   |
 	RTS					;$BB8395  /
 
@@ -636,7 +637,7 @@ CODE_BB83AE:
 	RTL					;$BB83B3  /
 
 deallocate_sprite_vram_slot:
-	LDA $12,x				;$BB83B4  \
+	LDA sprite.oam_property,x		;$BB83B4  \
 	AND #$01E0				;$BB83B6   |
 	LSR A					;$BB83B9   |
 	LSR A					;$BB83BA   |
@@ -648,7 +649,7 @@ deallocate_sprite_vram_slot:
 	RTS					;$BB83C4  /
 
 deallocate_big_sprite_vram_slot:
-	LDA $12,x				;$BB83C5  \
+	LDA sprite.oam_property,x		;$BB83C5  \
 	AND #$01E0				;$BB83C7   |
 	LSR A					;$BB83CA   |
 	LSR A					;$BB83CB   |
@@ -670,76 +671,76 @@ deallocate_big_sprite_vram_slot:
 	JSL throw_exception			;$BB83EA   |
 	RTS					;$BB83EE  /
 
-CODE_BB83EF:
+spawn_BB83EF_special_sprite_index:
 	TYX					;$BB83EF  \
 	LDA.l DATA_FF047E,x			;$BB83F0   |
 	TAY					;$BB83F4   |
-CODE_BB83F5:					;	   |
+spawn_BB83EF_special_sprite_address:		;	   |
 	PHY					;$BB83F5   |
 	JSR allocate_sprite_table_slot		;$BB83F6   |
 	PLY					;$BB83F9   |
 	BCS CODE_BB8411				;$BB83FA   |
-	STZ $56,x				;$BB83FC   |
+	STZ sprite.placement_number,x		;$BB83FC   |
 	LDA #$000F				;$BB83FE   |
-	STA $58,x				;$BB8401   |
+	STA sprite.placement_parameter,x	;$BB8401   |
 	LDA #$C000				;$BB8403   |
-	STA $1C,x				;$BB8406   |
-	STZ $1A,x				;$BB8408   |
-	STZ $16,x				;$BB840A   |
-	STZ $40,x				;$BB840C   |
-	BRL CODE_BB8468				;$BB840E  /
+	STA sprite.unknown_1C,x			;$BB8406   |
+	STZ sprite.unknown_1A,x			;$BB8408   |
+	STZ sprite.unknown_16,x			;$BB840A   |
+	STZ sprite.unknown_40,x			;$BB840C   |
+	BRL spawn_BB8462_special_sprite_address	;$BB840E  /
 
 CODE_BB8411:
 	RTL					;$BB8411  /
 
-CODE_BB8412:
+spawn_no_gfx_special_sprite_index:
 	TYX					;$BB8412  \
 	LDA.l DATA_FF047E,x			;$BB8413   |
 	TAY					;$BB8417   |
-CODE_BB8418:					;	   |
+spawn_no_gfx_special_sprite_address:		;	   |
 	PHY					;$BB8418   |
 	JSR allocate_sprite_table_slot		;$BB8419   |
 	PLY					;$BB841C   |
 	BCS CODE_BB842B				;$BB841D   |
-	STZ $56,x				;$BB841F   |
+	STZ sprite.placement_number,x		;$BB841F   |
 	LDA #$000F				;$BB8421   |
-	STA $58,x				;$BB8424   |
-	STZ $1C,x				;$BB8426   |
-	BRL CODE_BB8468				;$BB8428  /
+	STA sprite.placement_parameter,x	;$BB8424   |
+	STZ sprite.unknown_1C,x			;$BB8426   |
+	BRL spawn_BB8462_special_sprite_address	;$BB8428  /
 
 CODE_BB842B:
 	RTL					;$BB842B  /
 
-CODE_BB842C:
+spawn_special_sprite_index:
 	TYX					;$BB842C  \
 	LDA.l DATA_FF047E,x			;$BB842D   |
 	TAY					;$BB8431   |
-CODE_BB8432:					;	   |
+spawn_special_sprite_address:			;	   |
 	PHY					;$BB8432   |
-	JSR CODE_BB826F				;$BB8433   |
+	JSR handle_sprite_allocation		;$BB8433   |
 	PLY					;$BB8436   |
 	BCS CODE_BB8442				;$BB8437   |
-	STZ $56,x				;$BB8439   |
+	STZ sprite.placement_number,x		;$BB8439   |
 	LDA #$000F				;$BB843B   |
-	STA $58,x				;$BB843E   |
-	BRA CODE_BB8468				;$BB8440  /
+	STA sprite.placement_parameter,x	;$BB843E   |
+	BRA spawn_BB8462_special_sprite_address	;$BB8440  /
 
 CODE_BB8442:
 	RTL					;$BB8442  /
 
-CODE_BB8443:
+spawn_big_special_sprite_address:
 	TYX					;$BB8443  \
 	LDA.l DATA_FF047E,x			;$BB8444   |
 	TAY					;$BB8448   |
-	LDA #$0002				;$BB8449   |
-	PHY					;$BB844C   |
+	LDA #$0002				;$BB8449   |\
+	PHY					;$BB844C   |/
 	JSR CODE_BB8282				;$BB844D   |
 	PLY					;$BB8450   |
 	BCS CODE_BB845C				;$BB8451   |
-	STZ $56,x				;$BB8453   |
+	STZ sprite.placement_number,x		;$BB8453   |
 	LDA #$000F				;$BB8455   |
-	STA $58,x				;$BB8458   |
-	BRA CODE_BB8468				;$BB845A  /
+	STA sprite.placement_parameter,x	;$BB8458   |
+	BRA spawn_BB8462_special_sprite_address	;$BB845A  /
 
 CODE_BB845C:
 	RTL					;$BB845C  /
@@ -748,17 +749,18 @@ apply_spawn_script_to_slot_global:
 	JSL apply_spawn_script_to_slot		;$BB845D  \
 	RTL					;$BB8461  /
 
-CODE_BB8462:
+;only used once to spawn group manager sprite
+spawn_BB8462_special_sprite_index:
 	TYX					;$BB8462  \
 	LDA.l DATA_FF047E,x			;$BB8463   |
 	TAY					;$BB8467   |
-CODE_BB8468:					;	   |
+spawn_BB8462_special_sprite_address:		;	   |
 	LDX alternate_sprite			;$BB8468   |
-	STZ $1E,x				;$BB846A   |
-	STZ $30,x				;$BB846C   |
-	STZ $2C,x				;$BB846E   |
-	STZ $56,x				;$BB8470   |
-	STZ $32,x				;$BB8472   |
+	STZ sprite.terrain_interaction,x	;$BB846A   |
+	STZ sprite.interaction_flags,x		;$BB846C   |
+	STZ sprite.x_force,x			;$BB846E   |
+	STZ sprite.placement_number,x		;$BB8470   |
+	STZ sprite.unknown_32,x			;$BB8472   |
 apply_spawn_script_to_slot:			;	   |
 	PHB					;$BB8474   |
 	%pea_shift_dbr(DATA_FF0000)		;$BB8475   |
@@ -773,7 +775,7 @@ parse_initscript:
 set_sprite_config:
 	TCD					;$BB847F  \
 	LDA.w DATA_FF0002,y			;$BB8480   |
-	STA $00,x				;$BB8483   |
+	STA sprite.type,x			;$BB8483   |
 initscript_next:				;	   |
 	INY					;$BB8485   |
 	INY					;$BB8486   |
@@ -859,10 +861,10 @@ init_command_set_palette:
 	JSR request_palette_direct		;$BB84F9   |
 	PLY					;$BB84FC   |
 	LDX alternate_sprite			;$BB84FD   |
-	EOR $12,x				;$BB84FF   |
+	EOR sprite.oam_property,x		;$BB84FF   |
 	AND #$0E00				;$BB8501   |
-	EOR $12,x				;$BB8504   |
-	STA $12,x				;$BB8506   |
+	EOR sprite.oam_property,x		;$BB8504   |
+	STA sprite.oam_property,x		;$BB8506   |
 	PLB					;$BB8508   |
 	JMP initscript_next			;$BB8509  /
 
@@ -871,10 +873,10 @@ init_command_set_oam_properties:
 	TCD					;$BB850F   |
 	LDX alternate_sprite			;$BB8510   |
 	LDA.w DATA_FF0002,y			;$BB8512   |
-	EOR $12,x				;$BB8515   |
+	EOR sprite.oam_property,x		;$BB8515   |
 	AND #$F000				;$BB8517   |
-	EOR $12,x				;$BB851A   |
-	STA $12,x				;$BB851C   |
+	EOR sprite.oam_property,x		;$BB851A   |
+	STA sprite.oam_property,x		;$BB851C   |
 	JMP initscript_next			;$BB851E  /
 
 init_command_spawn_relative:
@@ -882,49 +884,49 @@ init_command_spawn_relative:
 	TCD					;$BB8524   |
 	LDA.w DATA_FF0002,y			;$BB8525   |
 	LDX current_sprite			;$BB8528   |
-	BIT $12,x				;$BB852A   |
+	BIT sprite.oam_property,x		;$BB852A   |
 	BVC CODE_BB8532				;$BB852C   |
 	EOR #$FFFF				;$BB852E   |
 	INC A					;$BB8531   |
 CODE_BB8532:					;	   |
 	CLC					;$BB8532   |
-	ADC $06,x				;$BB8533   |
+	ADC sprite.x_position,x			;$BB8533   |
 	LDX alternate_sprite			;$BB8535   |
-	STA $06,x				;$BB8537   |
+	STA sprite.x_position,x			;$BB8537   |
 	LDA.w DATA_FF0004,y			;$BB8539   |
 	LDX current_sprite			;$BB853C   |
-	BIT $12,x				;$BB853E   |
+	BIT sprite.oam_property,x		;$BB853E   |
 	BPL CODE_BB8546				;$BB8540   |
 	EOR #$FFFF				;$BB8542   |
 	INC A					;$BB8545   |
 CODE_BB8546:					;	   |
 	CLC					;$BB8546   |
-	ADC $0A,x				;$BB8547   |
+	ADC sprite.y_position,x			;$BB8547   |
 	LDX alternate_sprite			;$BB8549   |
-	STA $0A,x				;$BB854B   |
+	STA sprite.y_position,x			;$BB854B   |
 	PHB					;$BB854D   |
 	PHK					;$BB854E   |
 	PLB					;$BB854F   |
 	PHY					;$BB8550   |
 	LDY current_sprite			;$BB8551   |
 	LDX alternate_sprite			;$BB8553   |
-	LDA $0002,y				;$BB8555   |
+	LDA.w sprite.render_order,y		;$BB8555   |
 	INC A					;$BB8558   |
-	STA $02,x				;$BB8559   |
-	LDA $001C,y				;$BB855B   |
+	STA sprite.render_order,x		;$BB8559   |
+	LDA.w sprite.unknown_1C,y		;$BB855B   |
 	CMP #$C000				;$BB855E   |
 	BNE CODE_BB8565				;$BB8561   |
-	STA $1C,x				;$BB8563   |
+	STA sprite.unknown_1C,x			;$BB8563   |
 CODE_BB8565:					;	   |
-	LDA $0004,y				;$BB8565   |
-	STA $04,x				;$BB8568   |
-	LDA $0008,y				;$BB856A   |
-	STA $08,x				;$BB856D   |
-	LDA $0012,y				;$BB856F   |
-	EOR $12,x				;$BB8572   |
+	LDA.w sprite.x_sub_position,y		;$BB8565   |
+	STA sprite.x_sub_position,x		;$BB8568   |
+	LDA.w sprite.y_sub_position,y		;$BB856A   |
+	STA sprite.y_sub_position,x		;$BB856D   |
+	LDA.w sprite.oam_property,y		;$BB856F   |
+	EOR sprite.oam_property,x		;$BB8572   |
 	AND #$F000				;$BB8574   |
-	EOR $12,x				;$BB8577   |
-	STA $12,x				;$BB8579   |
+	EOR sprite.oam_property,x		;$BB8577   |
+	STA sprite.oam_property,x		;$BB8579   |
 	PLY					;$BB857B   |
 	PLB					;$BB857C   |
 	INY					;$BB857D   |
@@ -936,7 +938,7 @@ init_command_set_directional:
 	TCD					;$BB8585   |
 	LDA.w DATA_FF0004,y			;$BB8586   |
 	LDX current_sprite			;$BB8589   |
-	BIT $12,x				;$BB858B   |
+	BIT sprite.oam_property,x		;$BB858B   |
 	BVC CODE_BB8593				;$BB858D   |
 	EOR #$FFFF				;$BB858F   |
 	INC A					;$BB8592   |
@@ -946,7 +948,7 @@ CODE_BB8593:					;	   |
 	LDA.w DATA_FF0002,y			;$BB8596   |
 	TCD					;$BB8599   |
 	PLA					;$BB859A   |
-	STA $00,x				;$BB859B   |
+	STA sprite.type,x			;$BB859B   |
 	INY					;$BB859D   |
 	INY					;$BB859E   |
 	JMP initscript_next			;$BB859F  /
@@ -956,44 +958,44 @@ init_command_set_position:
 	TCD					;$BB85A5   |
 	LDX alternate_sprite			;$BB85A6   |
 	LDA.l $000A3E				;$BB85A8   |
-	STA $06,x				;$BB85AC   |
+	STA sprite.x_position,x			;$BB85AC   |
 	LDA.l $000A40				;$BB85AE   |
-	STA $0A,x				;$BB85B2   |
+	STA sprite.y_position,x			;$BB85B2   |
 	LDA #$00F8				;$BB85B4   |
-	STA $02,x				;$BB85B7   |
+	STA sprite.render_order,x		;$BB85B7   |
 	JMP initscript_next_no_operand		;$BB85B9  /
 
 init_command_bulk_set:
 	LDA #$0000				;$BB85BC  \
 	TCD					;$BB85BF   |
 	LDX alternate_sprite			;$BB85C0   |
-	STZ $5C,x				;$BB85C2   |
+	STZ sprite.unknown_5C,x			;$BB85C2   |
 	LDA.w DATA_FF0002,y			;$BB85C4   |
-	STA $46,x				;$BB85C7   |
+	STA sprite.general_purpose_46,x		;$BB85C7   |
 	LDA.w DATA_FF0004,y			;$BB85C9   |
-	STA $42,x				;$BB85CC   |
+	STA sprite.general_purpose_42,x		;$BB85CC   |
 	LDA.w DATA_FF0006,y			;$BB85CE   |
-	STA $4C,x				;$BB85D1   |
+	STA sprite.general_purpose_4C,x		;$BB85D1   |
 	LDA.w DATA_FF0008,y			;$BB85D3   |
-	STA $4E,x				;$BB85D6   |
+	STA sprite.general_purpose_4E,x		;$BB85D6   |
 	LDA.w DATA_FF000A,y			;$BB85D8   |
-	STA $52,x				;$BB85DB   |
+	STA sprite.movement_state,x		;$BB85DB   |
 	LDA.w DATA_FF000C,y			;$BB85DD   |
-	STA $28,x				;$BB85E0   |
+	STA sprite.unknown_28,x			;$BB85E0   |
 	LDA.w DATA_FF000E,y			;$BB85E2   |
-	STA $22,x				;$BB85E5   |
+	STA sprite.unknown_22,x			;$BB85E5   |
 	LDA.w DATA_FF0010,y			;$BB85E7   |
-	STA $2C,x				;$BB85EA   |
+	STA sprite.x_force,x			;$BB85EA   |
 	LDA.w DATA_FF0012,y			;$BB85EC   |
-	STA $20,x				;$BB85EF   |
+	STA sprite.x_speed,x			;$BB85EF   |
 	LDA.w DATA_FF0014,y			;$BB85F1   |
-	STA $24,x				;$BB85F4   |
+	STA sprite.y_speed,x			;$BB85F4   |
 	LDA.w DATA_FF0016,y			;$BB85F6   |
-	STA $26,x				;$BB85F9   |
+	STA sprite.max_x_speed,x		;$BB85F9   |
 	LDA.w DATA_FF0018,y			;$BB85FB   |
-	STA $3A,x				;$BB85FE   |
+	STA sprite.animation_control,x		;$BB85FE   |
 	LDA.w DATA_FF001A,y			;$BB8600   |
-	STA $36,x				;$BB8603   |
+	STA sprite.animation_id,x		;$BB8603   |
 	TYA					;$BB8605   |
 	CLC					;$BB8606   |
 	ADC #$001C				;$BB8607   |
@@ -1005,14 +1007,14 @@ init_command_set_oam_special:
 	TCD					;$BB8611   |
 	LDX alternate_sprite			;$BB8612   |
 	LDA.w DATA_FF0002,y			;$BB8614   |
-	EOR $12,x				;$BB8617   |
+	EOR sprite.oam_property,x		;$BB8617   |
 	AND #$F000				;$BB8619   |
-	EOR $12,x				;$BB861C   |
-	STA $12,x				;$BB861E   |
+	EOR sprite.oam_property,x		;$BB861C   |
+	STA sprite.oam_property,x		;$BB861E   |
 	LDA.l $00052B				;$BB8620   |
 	AND #$0002				;$BB8624   |
 	BEQ CODE_BB8633				;$BB8627   |
-	LDA $12,x				;$BB8629   |
+	LDA sprite.oam_property,x		;$BB8629   |
 	AND #$3000				;$BB862B   |
 	CMP #$3000				;$BB862E   |
 	BNE CODE_BB8636				;$BB8631   |
@@ -1022,10 +1024,10 @@ CODE_BB8633:					;	   |
 CODE_BB8636:
 	CLC					;$BB8636  \
 	ADC #$1000				;$BB8637   |
-	EOR $12,x				;$BB863A   |
+	EOR sprite.oam_property,x		;$BB863A   |
 	AND #$3000				;$BB863C   |
-	EOR $12,x				;$BB863F   |
-	STA $12,x				;$BB8641   |
+	EOR sprite.oam_property,x		;$BB863F   |
+	STA sprite.oam_property,x		;$BB8641   |
 	JMP initscript_next			;$BB8643  /
 
 init_command_set_palette_copy:
@@ -1049,10 +1051,10 @@ CODE_BB865C:					;	   |
 	JSR request_palette_direct		;$BB8665   |
 	PLY					;$BB8668   |
 	LDX alternate_sprite			;$BB8669   |
-	EOR $12,x				;$BB866B   |
+	EOR sprite.oam_property,x		;$BB866B   |
 	AND #$0E00				;$BB866D   |
-	EOR $12,x				;$BB8670   |
-	STA $12,x				;$BB8672   |
+	EOR sprite.oam_property,x		;$BB8670   |
+	STA sprite.oam_property,x		;$BB8672   |
 	PLB					;$BB8674   |
 	JMP initscript_next			;$BB8675  /
 
@@ -1067,10 +1069,10 @@ init_command_set_alt_palette:
 	JSR request_sprite_palette		;$BB8683   |
 	PLY					;$BB8686   |
 	LDX alternate_sprite			;$BB8687   |
-	EOR $12,x				;$BB8689   |
+	EOR sprite.oam_property,x		;$BB8689   |
 	AND #$0E00				;$BB868B   |
-	EOR $12,x				;$BB868E   |
-	STA $12,x				;$BB8690   |
+	EOR sprite.oam_property,x		;$BB868E   |
+	STA sprite.oam_property,x		;$BB8690   |
 	PLB					;$BB8692   |
 	JMP initscript_next			;$BB8693  /
 
@@ -1135,14 +1137,14 @@ CODE_BB86D5:
 	PLY					;$BB86FA   |
 	BCS CODE_BB876C				;$BB86FB   |
 	LDX alternate_sprite			;$BB86FD   |
-	EOR $12,x				;$BB86FF   |
+	EOR sprite.oam_property,x		;$BB86FF   |
 	AND #$0E00				;$BB8701   |
-	EOR $12,x				;$BB8704   |
-	STA $12,x				;$BB8706   |
-	LDX #$0E9E				;$BB8708   |
+	EOR sprite.oam_property,x		;$BB8704   |
+	STA sprite.oam_property,x		;$BB8706   |
+	LDX #!non_kong_sprite_slot_start	;$BB8708   |
 CODE_BB870B:					;	   |
 	LDA $32					;$BB870B   |
-	CMP $00,x				;$BB870D   |
+	CMP sprite.type,x			;$BB870D   |
 	BEQ CODE_BB8783				;$BB870F   |
 	TXA					;$BB8711   |
 	CLC					;$BB8712   |
@@ -1173,7 +1175,7 @@ CODE_BB870B:					;	   |
 	STA sprite_dma_buffer,x			;$BB8748   |
 	PHY					;$BB874B   |
 	LDY alternate_sprite			;$BB874C   |
-	LDA $0012,y				;$BB874E   |
+	LDA.w sprite.oam_property,y		;$BB874E   |
 	AND #$01FF				;$BB8751   |
 	ASL A					;$BB8754   |
 	ASL A					;$BB8755   |
@@ -1187,7 +1189,7 @@ CODE_BB870B:					;	   |
 	STA next_sprite_dma_buffer_slot		;$BB8761   |
 	LDX alternate_sprite			;$BB8764   |
 	LDA $32					;$BB8766   |
-	STA $00,x				;$BB8768   |
+	STA sprite.type,x			;$BB8768   |
 	BRA CODE_BB8790				;$BB876A  /
 
 CODE_BB876C:
@@ -1195,7 +1197,7 @@ CODE_BB876C:
 
 CODE_BB876F:
 	LDX alternate_sprite			;$BB876F  \
-	LDA $12,x				;$BB8771   |
+	LDA sprite.oam_property,x		;$BB8771   |
 	JSR dereference_sprite_palette		;$BB8773   |
 	BCS CODE_BB8780				;$BB8776   |
 	LDA $F1					;$BB8778   |
@@ -1206,12 +1208,12 @@ CODE_BB8780:					;	   |
 	JMP CODE_BB84B9				;$BB8780  /
 
 CODE_BB8783:
-	LDA $12,x				;$BB8783  \
+	LDA sprite.oam_property,x		;$BB8783  \
 	LDX alternate_sprite			;$BB8785   |
 	AND #$FFE0				;$BB8787   |
-	STA $12,x				;$BB878A   |
+	STA sprite.oam_property,x		;$BB878A   |
 	LDA $32					;$BB878C   |
-	STA $00,x				;$BB878E   |
+	STA sprite.type,x			;$BB878E   |
 CODE_BB8790:					;	   |
 	LDA $3A					;$BB8790   |
 	PHA					;$BB8792   |
@@ -1248,14 +1250,14 @@ CODE_BB879E:
 	PLY					;$BB87C3   |
 	BCS CODE_BB8835				;$BB87C4   |
 	LDX alternate_sprite			;$BB87C6   |
-	EOR $12,x				;$BB87C8   |
+	EOR sprite.oam_property,x		;$BB87C8   |
 	AND #$0E00				;$BB87CA   |
-	EOR $12,x				;$BB87CD   |
-	STA $12,x				;$BB87CF   |
+	EOR sprite.oam_property,x		;$BB87CD   |
+	STA sprite.oam_property,x		;$BB87CF   |
 	LDX #$0E9E				;$BB87D1   |
 CODE_BB87D4:					;	   |
 	LDA $32					;$BB87D4   |
-	CMP $00,x				;$BB87D6   |
+	CMP sprite.type,x			;$BB87D6   |
 	BEQ CODE_BB884C				;$BB87D8   |
 	TXA					;$BB87DA   |
 	CLC					;$BB87DB   |
@@ -1286,7 +1288,7 @@ CODE_BB87D4:					;	   |
 	STA sprite_dma_buffer,x			;$BB8811   |
 	PHY					;$BB8814   |
 	LDY alternate_sprite			;$BB8815   |
-	LDA $0012,y				;$BB8817   |
+	LDA.w sprite.oam_property,y		;$BB8817   |
 	AND #$01FF				;$BB881A   |
 	ASL A					;$BB881D   |
 	ASL A					;$BB881E   |
@@ -1300,7 +1302,7 @@ CODE_BB87D4:					;	   |
 	STA next_sprite_dma_buffer_slot		;$BB882A   |
 	LDX alternate_sprite			;$BB882D   |
 	LDA $32					;$BB882F   |
-	STA $00,x				;$BB8831   |
+	STA sprite.type,x			;$BB8831   |
 	BRA CODE_BB885F				;$BB8833  /
 
 CODE_BB8835:
@@ -1308,7 +1310,7 @@ CODE_BB8835:
 
 CODE_BB8838:
 	LDX alternate_sprite			;$BB8838  \
-	LDA $12,x				;$BB883A   |
+	LDA sprite.oam_property,x		;$BB883A   |
 	JSR dereference_sprite_palette		;$BB883C   |
 	BCS CODE_BB8849				;$BB883F   |
 	LDA $F1					;$BB8841   |
@@ -1319,15 +1321,15 @@ CODE_BB8849:					;	   |
 	JMP CODE_BB84B9				;$BB8849  /
 
 CODE_BB884C:
-	LDA $12,x				;$BB884C  \
+	LDA sprite.oam_property,x		;$BB884C  \
 	LDX alternate_sprite			;$BB884E   |
 	AND #$FFE0				;$BB8850   |
-	STA $12,x				;$BB8853   |
+	STA sprite.oam_property,x		;$BB8853   |
 	LDA $32					;$BB8855   |
-	STA $00,x				;$BB8857   |
-	STZ $16,x				;$BB8859   |
-	STZ $1C,x				;$BB885B   |
-	STZ $10,x				;$BB885D   |
+	STA sprite.type,x			;$BB8857   |
+	STZ sprite.unknown_16,x			;$BB8859   |
+	STZ sprite.unknown_1C,x			;$BB885B   |
+	STZ sprite.terrain_attributes,x		;$BB885D   |
 CODE_BB885F:					;	   |
 	LDA $3A					;$BB885F   |
 	PHA					;$BB8861   |
@@ -1356,6 +1358,7 @@ CODE_BB8879:					;	   |
 	BNE CODE_BB8879				;$BB8889   |
 	RTS					;$BB888B  /
 
+;most likely unused, probably was used to correct breakable wall palettes in gangplank galley for sunset effect
 	LDX #$0000				;$BB888C   |
 CODE_BB888F:					;	   |
 	LDA.l wall_ship_deck_sprite_palette,x	;$BB888F   |
@@ -1398,6 +1401,7 @@ CODE_BB88C9:					;	   |
 	JSR CODE_BB896A				;$BB88DC   |
 	RTS					;$BB88DF  /
 
+;
 	LDX #$0000				;$BB88E0   |
 CODE_BB88E3:					;	   |
 	LDA.l wall_ship_deck_sprite_palette,x	;$BB88E3   |
@@ -1474,7 +1478,7 @@ CODE_BB895A:
 	RTS					;$BB8969  /
 
 CODE_BB896A:
-	LDA #$6318				;$BB896A  \
+	LDA #wall_forest_left_sprite_palette	;$BB896A  \
 	STA $7F9814				;$BB896D   |
 	STA $7F9904				;$BB8971   |
 	RTS					;$BB8975  /
@@ -1669,7 +1673,7 @@ request_palette_direct:				;	   |
 	RTS					;$BB8AC8  /_/
 
 	STA $05A7				;$BB8AC9   |
-	LDA $12,x				;$BB8ACC   |
+	LDA sprite.oam_property,x		;$BB8ACC   |
 	XBA					;$BB8ACE   |
 	AND #$000E				;$BB8ACF   |
 	STA $5E					;$BB8AD2   |
@@ -1684,7 +1688,7 @@ CODE_BB8AE3:					;	   |
 
 CODE_BB8AE4:
 	STA $05A7				;$BB8AE4  \
-	LDA $12,x				;$BB8AE7   |
+	LDA sprite.oam_property,x		;$BB8AE7   |
 	XBA					;$BB8AE9   |
 	AND #$000E				;$BB8AEA   |
 	STA $5E					;$BB8AED   |
@@ -1758,7 +1762,7 @@ CODE_BB8B30:
 CODE_BB8B66:
 	STZ $60					;$BB8B66  \
 	LDA $060D				;$BB8B68   |
-	CMP #$0002				;$BB8B6B   |
+	CMP #!gamemode_2_player_contest		;$BB8B6B   |
 	BNE .CODE_BB8B7C			;$BB8B6E   |
 	SEC					;$BB8B70   |
 	SBC $060F				;$BB8B71   |
@@ -1840,7 +1844,7 @@ CODE_BB8B66:
 
 get_sprite_position_in_level_data:
 	LDX current_sprite			;$BB8BE9  \
-	LDA $56,x				;$BB8BEB   | Get sprite level placement number
+	LDA sprite.placement_number,x		;$BB8BEB   | Get sprite level placement number
 	DEC A					;$BB8BED   | -1
 	ASL A					;$BB8BEE   |
 	ASL A					;$BB8BEF   | *8
@@ -1878,7 +1882,7 @@ dereference_sprite_palette:
 
 CODE_BB8C19:
 	LDX inactive_kong_sprite		;$BB8C19  \
-	LDA $12,x				;$BB8C1C   |
+	LDA sprite.oam_property,x		;$BB8C1C   |
 	XBA					;$BB8C1E   |
 	AND #$000E				;$BB8C1F   |
 	TAX					;$BB8C22   |
@@ -1887,7 +1891,7 @@ CODE_BB8C19:
 	JSR set_sprite_palette_direct		;$BB8C29   |
 CODE_BB8C2C:					;	   |
 	LDX active_kong_sprite			;$BB8C2C   |
-	LDA $12,x				;$BB8C2F   |
+	LDA sprite.oam_property,x		;$BB8C2F   |
 	XBA					;$BB8C31   |
 	AND #$000E				;$BB8C32   |
 	TAX					;$BB8C35   |
@@ -1913,7 +1917,7 @@ set_sprite_palette:
 set_sprite_palette_direct:			;	   |
 	TXY					;$BB8C50   |
 	STA $05A7				;$BB8C51   |
-	LDA $12,x				;$BB8C54   |
+	LDA sprite.oam_property,x		;$BB8C54   |
 	XBA					;$BB8C56   |
 	AND #$000E				;$BB8C57   |
 	TAX					;$BB8C5A   |
@@ -1924,16 +1928,16 @@ set_sprite_palette_direct:			;	   |
 	BRA CODE_BB8C6E				;$BB8C66  /
 
 CODE_BB8C68:
-	LDA $0012,y				;$BB8C68  \
+	LDA.w sprite.oam_property,y		;$BB8C68  \
 	JSR dereference_sprite_palette		;$BB8C6B   |
 CODE_BB8C6E:					;	   |
 	LDA $05A7				;$BB8C6E   |
 	JSR request_palette_direct		;$BB8C71   |
 	TYX					;$BB8C74   |
-	EOR $12,x				;$BB8C75   |
+	EOR sprite.oam_property,x		;$BB8C75   |
 	AND #$0E00				;$BB8C77   |
-	EOR $12,x				;$BB8C7A   |
-	STA $12,x				;$BB8C7C   |
+	EOR sprite.oam_property,x		;$BB8C7A   |
+	STA sprite.oam_property,x		;$BB8C7C   |
 	RTS					;$BB8C7E  /
 
 set_PPU_registers:
@@ -2079,7 +2083,7 @@ VRAM_payload_handler:
 	SEP #$20				;$BB8D8C   |
 	BRL .DMA_payload			;$BB8D8E  / Launch the DMA to VRAM
 
-;$38  -- destination
+;$38 -- destination
 ;$34 -- source
 ;$32 -- run dma after upload (always #$FFFF so never)
 ;The follow two tables map to the opposite intended nibbles.
@@ -2102,16 +2106,16 @@ VRAM_payload_handler:
 ;Extra notes
 ;All commands are return addresses - 1 so RTS can be used
 
-decompress_data:			;
+decompress_data:
 	STA $38					;$BB8D91  \ Set decompression parameters
 	LDA #$007F				;$BB8D93   |
 	STA $3A					;$BB8D96   | Bank 7F + address from A
 	STX $34					;$BB8D98   | Source from X
 	STY $36					;$BB8D9A   |
 	BRA start_decompression			;$BB8D9C  /
-					;
-decompress_data_default:			;	  \
-	TXA					;$BB8D9E   |\ Set decompression parameters
+
+decompress_data_default:
+	TXA					;$BB8D9E  \ \ Set decompression parameters
 	TYX					;$BB8D9F   | |
 	STA $34					;$BB8DA0   | |
 	STX $36					;$BB8DA2   | |
@@ -2171,8 +2175,8 @@ execute_command_set_1:				;	   |
 	STA $4E					;$BB8E0B   |/
 	PEI ($4E)				;$BB8E0D   | Push command address onto the stack
 	RTS					;$BB8E0F  / Return to execute command
-					;
-execute_command_set_2_wide:		;
+
+execute_command_set_2_wide:
 	LDA $46					;$BB8E10  \ Read next command byte
 	AND #$0F				;$BB8E12   |\ Command = (byte & 0xF0) >> 2
 	ASL A					;$BB8E14   | | Range $3F-$7B
@@ -2181,8 +2185,8 @@ execute_command_set_2_wide:		;
 	STA $4A					;$BB8E18   |
 	PEI ($4A)				;$BB8E1A   | Push command address onto the stack
 	RTS					;$BB8E1C  / Return to execute command
-					;
-execute_command_set_2:			;
+
+execute_command_set_2:
 	LDA $42					;$BB8E1D  \ Read next command byte
 	AND #$0F				;$BB8E1F   |\ Command = (byte & 0xF0) >> 2
 	ASL A					;$BB8E21   | | Range $3F-$7B
@@ -2191,9 +2195,9 @@ execute_command_set_2:			;
 	STA $4A					;$BB8E25   |/
 	PEI ($4A)				;$BB8E27   | Push command address onto the stack
 	RTS					;$BB8E29  / Return to execute command
-					;
-copy_or_return_1:				;	  \
-	LDA $46					;$BB8E2A   |\ Read number of bytes to copy
+
+copy_or_return_1:
+	LDA $46					;$BB8E2A  \ \ Read number of bytes to copy
 	AND #$0F				;$BB8E2C   | |
 	BEQ finalize_decompression		;$BB8E2E   |/ If zero bytes, conclude decompression
 	STA $3C					;$BB8E30   | Store number of bytes to copy
@@ -2205,9 +2209,9 @@ copy_or_return_1:				;	  \
 	DEC $3C					;$BB8E39   | |
 	BNE .copy_byte				;$BB8E3B   |/
 	JMP execute_command_set_1		;$BB8E3D  / Read new command
-						;
-finalize_decompression:				;	  \
-	REP #$20				;$BB8E40   |\ Restore 16 bit A, data bank and Y
+
+finalize_decompression:
+	REP #$20				;$BB8E40  \ \ Restore 16 bit A, data bank and Y
 	PLY					;$BB8E42   | |
 	PLB					;$BB8E43   |/
 	TXA					;$BB8E44   |\ Calculate the number of decompressed bytes (stored in X)
@@ -2231,9 +2235,9 @@ finalize_decompression:				;	  \
 	REP #$20				;$BB8E6C   |/
 .skip_DMA					;	   |
 	RTL					;$BB8E6E  / Done with decompression
-						;
-copy_or_return_2:				;	  \
-	LDA [$34],y				;$BB8E6F   |\ Load next operand
+
+copy_or_return_2:
+	LDA [$34],y				;$BB8E6F  \ \ Load next operand
 	INY					;$BB8E71   |/
 	STA $42					;$BB8E72   |\ Store in nibble lookup tables
 	STA $46					;$BB8E74   |/
@@ -2254,9 +2258,9 @@ copy_or_return_2:				;	  \
 	DEC $3C					;$BB8E8F   | |
 	BNE .copy_byte				;$BB8E91   |/
 	JMP execute_command_set_2_wide		;$BB8E93  / Run next command
-						;
-stream_byte_1:					;	  \
-	LDA [$46]				;$BB8E96   |\ Load operand high nibble
+
+stream_byte_1:
+	LDA [$46]				;$BB8E96  \ \ Load operand high nibble
 	STA $3E					;$BB8E98   |/
 	LDA [$34],y				;$BB8E9A   |\ Load next operand
 	INY					;$BB8E9C   | |
@@ -2266,16 +2270,16 @@ stream_byte_1:					;	  \
 	STA $0000,x				;$BB8EA3   | |
 	INX					;$BB8EA6   |/
 	JMP execute_command_set_2		;$BB8EA7  / Run next command
-						;
-stream_byte_2:					;	  \
-	LDA [$34],y				;$BB8EAA   |\ Copy one byte from the compression stream
+
+stream_byte_2:
+	LDA [$34],y				;$BB8EAA  \ \ Copy one byte from the compression stream
 	INY					;$BB8EAC   | |
 	STA $0000,x				;$BB8EAD   | |
 	INX					;$BB8EB0   |/
 	JMP execute_command_set_1		;$BB8EB1  / Run next command
-						;
-stream_word_1:					;	  \
-	LDA [$46]				;$BB8EB4   |\ Load operand high nibble into operand2
+
+stream_word_1:
+	LDA [$46]				;$BB8EB4  \ \ Load operand high nibble into operand2
 	STA $3E					;$BB8EB6   |/
 	LDA [$34],y				;$BB8EB8   |\ Load next operand
 	INY					;$BB8EBA   |/
@@ -2295,9 +2299,9 @@ stream_word_1:					;	  \
 	STA $0000,x				;$BB8ED4   | |
 	INX					;$BB8ED7   |/
 	JMP execute_command_set_2		;$BB8ED8  / Run next command
-						;
-stream_word_2:					;	  \
-	REP #$20				;$BB8EDB   |\ Copy one word from the compression stream
+
+stream_word_2:
+	REP #$20				;$BB8EDB  \ \ Copy one word from the compression stream
 	LDA [$34],y				;$BB8EDD   | |
 	STA $0000,x				;$BB8EDF   | |
 	INY					;$BB8EE2   | |
@@ -2306,9 +2310,9 @@ stream_word_2:					;	  \
 	INX					;$BB8EE5   | |
 	SEP #$20				;$BB8EE6   |/
 	JMP execute_command_set_1		;$BB8EE8  / Run next command
-						;
-stream_byte_fill_1:				;	  \
-	LDA $46					;$BB8EEB   |\ Load operand
+
+stream_byte_fill_1:
+	LDA $46					;$BB8EEB  \ \ Load operand
 	AND #$0F				;$BB8EED   | | Count = operand & 0x0F + 3
 	ADC #$03				;$BB8EEF   | |
 	STA $3C					;$BB8EF1   |/
@@ -2320,9 +2324,9 @@ stream_byte_fill_1:				;	  \
 	DEC $3C					;$BB8EFA   | |
 	BNE .fill_byte				;$BB8EFC   |/
 	JMP execute_command_set_1		;$BB8EFE  / Run next command
-						;
-stream_byte_fill_2:				;	  \
-	LDA [$34],y				;$BB8F01   |\ Load next operand
+
+stream_byte_fill_2:
+	LDA [$34],y				;$BB8F01  \ \ Load next operand
 	INY					;$BB8F03   |/
 	STA $42					;$BB8F04   |\ Store in nibble lookup tables
 	STA $46					;$BB8F06   |/
@@ -2342,9 +2346,9 @@ stream_byte_fill_2:				;	  \
 	DEC $3C					;$BB8F1F   | |
 	BNE .fill_byte				;$BB8F21   |/
 	JMP execute_command_set_2		;$BB8F23  / Run next command
-						;
-direct_byte_1_fill_1:				;	  \
-	LDA $46					;$BB8F26   |\ Load operand
+
+direct_byte_1_fill_1:
+	LDA $46					;$BB8F26  \ \ Load operand
 	AND #$0F				;$BB8F28   | | Count = operand & 0x0F + 3
 	ADC #$03				;$BB8F2A   | |
 	STA $3C					;$BB8F2C   |/
@@ -2355,9 +2359,9 @@ direct_byte_1_fill_1:				;	  \
 	DEC $3C					;$BB8F34   | |
 	BNE .fill_byte				;$BB8F36   |/
 	JMP execute_command_set_1		;$BB8F38  / Run next command
-						;
-direct_byte_1_fill_2:				;	  \
-	LDA [$34],y				;$BB8F3B   |\ Load next operand
+
+direct_byte_1_fill_2:
+	LDA [$34],y				;$BB8F3B  \ \ Load next operand
 	INY					;$BB8F3D   | |
 	STA $42					;$BB8F3E   |/ Store in low nibble lookup
 	LDA [$42]				;$BB8F40   |\ Count = low nibble + 3
@@ -2370,9 +2374,9 @@ direct_byte_1_fill_2:				;	  \
 	DEC $3C					;$BB8F4C   | |
 	BNE .fill_byte				;$BB8F4E   |/
 	JMP execute_command_set_2		;$BB8F50  / Run next command
-						;
-direct_byte_2_fill_1:				;	  \
-	LDA $46					;$BB8F53   |\  Load operand
+
+direct_byte_2_fill_1:
+	LDA $46					;$BB8F53  \ \  Load operand
 	AND #$0F				;$BB8F55   | | Count = (operand & 0x0F) + 3
 	ADC #$03				;$BB8F57   | |
 	STA $3C					;$BB8F59   |/
@@ -2383,9 +2387,9 @@ direct_byte_2_fill_1:				;	  \
 	DEC $3C					;$BB8F61   | |
 	BNE .fill_byte				;$BB8F63   |/
 	JMP execute_command_set_1		;$BB8F65  / Run next command
-						;
-direct_byte_2_fill_2:				;	  \
-	LDA [$34],y				;$BB8F68   |\ Load next operand
+
+direct_byte_2_fill_2:
+	LDA [$34],y				;$BB8F68  \ \ Load next operand
 	INY					;$BB8F6A   | |
 	STA $42					;$BB8F6B   |/ Store in low nibble lookup
 	LDA [$42]				;$BB8F6D   |\ Count = low nibble + 3
@@ -2398,50 +2402,50 @@ direct_byte_2_fill_2:				;	  \
 	DEC $3C					;$BB8F79   | |
 	BNE .fill_byte				;$BB8F7B   |/
 	JMP execute_command_set_2		;$BB8F7D  / Run next command
-						;
-direct_word_put_1:				;	  \
-	REP #$20				;$BB8F80   |\ Store direct word
+
+direct_word_put_1:
+	REP #$20				;$BB8F80  \ \ Store direct word
 	LDA $54					;$BB8F82   | |
 	STA $0000,x				;$BB8F84   | |
 	INX					;$BB8F87   | |
 	INX					;$BB8F88   | |
 	SEP #$20				;$BB8F89   |/
 	JMP execute_command_set_2_wide		;$BB8F8B  / Run next command
-						;
-direct_word_put_2:				;	  \
-	REP #$20				;$BB8F8E   |\ Store direct word
+
+direct_word_put_2:
+	REP #$20				;$BB8F8E  \ \ Store direct word
 	LDA $54					;$BB8F90   | |
 	STA $0000,x				;$BB8F92   | |
 	INX					;$BB8F95   | |
 	INX					;$BB8F96   | |
 	SEP #$20				;$BB8F97   |/
 	JMP execute_command_set_1		;$BB8F99  / Run next command
-						;
-direct_byte_1_put_1:				;	  \
-	LDA $56					;$BB8F9C   |\ Store direct byte 1
+
+direct_byte_1_put_1:
+	LDA $56					;$BB8F9C  \ \ Store direct byte 1
 	STA $0000,x				;$BB8F9E   | |
 	INX					;$BB8FA1   |/
 	JMP execute_command_set_2_wide		;$BB8FA2  / Run next command
-						;
-direct_byte_1_put_2:				;	  \
-	LDA $56					;$BB8FA5   |\ Store direct byte 1
+
+direct_byte_1_put_2:
+	LDA $56					;$BB8FA5  \ \ Store direct byte 1
 	STA $0000,x				;$BB8FA7   | |
 	INX					;$BB8FAA   |/
 	JMP execute_command_set_1		;$BB8FAB  / Run next command
-						;
-direct_byte_2_put_1:				;	  \
-	LDA $57					;$BB8FAE   |\ Store direct byte 2
+
+direct_byte_2_put_1:
+	LDA $57					;$BB8FAE  \ \ Store direct byte 2
 	STA $0000,x				;$BB8FB0   | |
 	INX					;$BB8FB3   |/
 	JMP execute_command_set_2_wide		;$BB8FB4  / Run next command
-						;
-direct_byte_2_put_2:				;	  \
-	LDA $57					;$BB8FB7   |\ Store direct byte 2
+
+direct_byte_2_put_2:
+	LDA $57					;$BB8FB7  \ \ Store direct byte 2
 	STA $0000,x				;$BB8FB9   | |
 	INX					;$BB8FBC   |/
 	JMP execute_command_set_1		;$BB8FBD  / Run next command
-						;
-back_copy_word_1:				;
+
+back_copy_word_1:
 	PHY					;$BB8FC0  \ Preserve compression index
 	LDA $46					;$BB8FC1   | Load operand
 	AND #$0F				;$BB8FC3   |\  Offset = (operand & 0x0F) + 2
@@ -2459,9 +2463,9 @@ back_copy_word_1:				;
 	SEP #$20				;$BB8FD8   | Return to 8 bit A
 	PLY					;$BB8FDA   | Restore compression index
 	JMP execute_command_set_1		;$BB8FDB  / Run next command
-						;
-back_copy_word_2:				;	  \
-	LDA [$34],y				;$BB8FDE   |\ Load next operand
+
+back_copy_word_2:
+	LDA [$34],y				;$BB8FDE  \ \ Load next operand
 	INY					;$BB8FE0   | |
 	STA $42					;$BB8FE1   |/
 	LDA [$42]				;$BB8FE3   |\  Offset = low nibble + 2
@@ -2480,8 +2484,8 @@ back_copy_word_2:				;	  \
 	SEP #$20				;$BB8FF9   | Return to 8 bit A
 	PLY					;$BB8FFB   | Restore compression index
 	JMP execute_command_set_2		;$BB8FFC  / Run next command
-						;
-back_copy_1:					;
+
+back_copy_1:
 	LDA $46					;$BB8FFF  \ Load next operand
 	AND #$0F				;$BB9001   |\  Count = (operand & 0x0F) + 3
 	ADC #$03				;$BB9003   | |
@@ -2507,9 +2511,9 @@ back_copy_1:					;
 	BNE .byte_copy				;$BB9023   |/
 	PLY					;$BB9025   | Restore compression index
 	JMP execute_command_set_1		;$BB9026  / Run next command
-						;
-back_copy_2:					;	  \
-	LDA [$34],y				;$BB9029   |\ Load next operand
+
+back_copy_2:
+	LDA [$34],y				;$BB9029  \ \ Load next operand
 	INY					;$BB902B   |/
 	STA $42					;$BB902C   |\ Store in nibble look up tables
 	STA $46					;$BB902E   |/
@@ -2542,8 +2546,8 @@ back_copy_2:					;	  \
 	BNE .byte_copy				;$BB905C   |/
 	PLY					;$BB905E   | Restore compression index
 	JMP execute_command_set_2		;$BB905F  / Run next command
-						;
-back_copy_far_1:				;
+
+back_copy_far_1:
 	LDA $46					;$BB9062  \ Load next operand
 	AND #$0F				;$BB9064   |\  Count = (operand & 0x0F) + 3
 	ADC #$03				;$BB9066   | |
@@ -2577,9 +2581,9 @@ back_copy_far_1:				;
 	BNE .byte_copy				;$BB9091   |/
 	PLY					;$BB9093   | Restore compression index
 	JMP execute_command_set_2_wide		;$BB9094  / Run next command
-						;
-back_copy_far_2:				;	  \
-	LDA [$34],y				;$BB9097   |\ Load next operand
+
+back_copy_far_2:
+	LDA [$34],y				;$BB9097  \ \ Load next operand
 	INY					;$BB9099   | |
 	STA $42					;$BB909A   |/ Store in low nibble look up table
 	LDA [$42]				;$BB909C   |\ Count = low nibble + 3
@@ -2608,8 +2612,8 @@ back_copy_far_2:				;	  \
 	BNE .byte_copy				;$BB90C3   |/
 	PLY					;$BB90C5   | Restore compression index
 	JMP execute_command_set_1		;$BB90C6  / Run next command
-						;
-back_copy_arbitrary_1:				;
+
+back_copy_arbitrary_1:
 	LDA $46					;$BB90C9  \ Load next operand
 	AND #$0F				;$BB90CB   |\  Count = (operand & 0x0F) + 3
 	ADC #$03				;$BB90CD   | |
@@ -2635,9 +2639,9 @@ back_copy_arbitrary_1:				;
 	BNE .byte_copy				;$BB90EC   |/
 	PLY					;$BB90EE   | Restore compression index
 	JMP execute_command_set_1		;$BB90EF  / Run next command
-						;
-back_copy_arbitrary_2:				;	  \
-	LDA [$34],y				;$BB90F2   |\ Load next operand
+
+back_copy_arbitrary_2:
+	LDA [$34],y				;$BB90F2  \ \ Load next operand
 	INY					;$BB90F4   | |
 	STA $42					;$BB90F5   |/ Store in low nibble look up table
 	LDA [$42]				;$BB90F7   |\ Count = low nibble + 3
@@ -2678,25 +2682,25 @@ back_copy_arbitrary_2:				;	  \
 	BNE .copy_byte				;$BB9132   |/
 	PLY					;$BB9134   | Restore compression index
 	JMP execute_command_set_2		;$BB9135  / Run next command Run next command
-						;
-duplicate_byte_1:				;	  \
-	DEX					;$BB9138   |\ Copy previous byte to the decompression stream
+
+duplicate_byte_1:
+	DEX					;$BB9138  \ \ Copy previous byte to the decompression stream
 	LDA $0000,x				;$BB9139   | |
 	STA $0001,x				;$BB913C   | |
 	INX					;$BB913F   | |
 	INX					;$BB9140   |/
 	JMP execute_command_set_2_wide		;$BB9141  / Run next command
-						;
-duplicate_byte_2:				;	  \
-	DEX					;$BB9144   |\ Copy previous byte to the decompression stream
+
+duplicate_byte_2:
+	DEX					;$BB9144  \ \ Copy previous byte to the decompression stream
 	LDA $0000,x				;$BB9145   | |
 	STA $0001,x				;$BB9148   | |
 	INX					;$BB914B   | |
 	INX					;$BB914C   |/
 	JMP execute_command_set_1		;$BB914D  / Run next command
-						;
-duplicate_word_1:				;	  \
-	REP #$20				;$BB9150   |\ Copy the previous word to the decompression stream
+
+duplicate_word_1:
+	REP #$20				;$BB9150  \ \ Copy the previous word to the decompression stream
 	DEX					;$BB9152   | |
 	DEX					;$BB9153   | | First go back two bytes
 	LDA $0000,x				;$BB9154   | |
@@ -2707,9 +2711,9 @@ duplicate_word_1:				;	  \
 	INX					;$BB915E   | |
 	INX					;$BB915F   |/
 	JMP execute_command_set_2_wide		;$BB9160  / Run next command
-						;
-duplicate_word_2:				;	  \
-	REP #$20				;$BB9163   |\ Copy the previous word to the decompression stream
+
+duplicate_word_2:
+	REP #$20				;$BB9163  \ \ Copy the previous word to the decompression stream
 	DEX					;$BB9165   | |
 	DEX					;$BB9166   | | First go back two bytes
 	LDA $0000,x				;$BB9167   | |
@@ -2720,8 +2724,8 @@ duplicate_word_2:				;	  \
 	INX					;$BB9171   | |
 	INX					;$BB9172   |/
 	JMP execute_command_set_1		;$BB9173  / Run next command
-						;
-copy_future_word_1:				;
+
+copy_future_word_1:
 	PHY					;$BB9176  \ Preserve compression index
 	LDA $46					;$BB9177   | Load next operand
 	REP #$20				;$BB9179   | Set A to 16 bit
@@ -2736,9 +2740,9 @@ copy_future_word_1:				;
 	INX					;$BB918B   |/
 	PLY					;$BB918C   | Restore compression index
 	JMP execute_command_set_1		;$BB918D  / Run next command
-						;
-copy_future_word_2:				;	  \
-	LDA [$34],y				;$BB9190   |\ Load next operand
+
+copy_future_word_2:
+	LDA [$34],y				;$BB9190  \ \ Load next operand
 	INY					;$BB9192   | |
 	STA $46					;$BB9193   |/ Store to high nibble look up table
 	REP #$20				;$BB9195   | Set A to 16 bit
@@ -2756,8 +2760,8 @@ copy_future_word_2:				;	  \
 	INX					;$BB91AA   |/
 	PLY					;$BB91AB   | Restore compression index
 	JMP execute_command_set_2_wide		;$BB91AC  / Run next command
-						;
-build_decompression_lookup:			;
+
+build_decompression_lookup:
 	LDY #$0100				;$BB91AF  \ Prepare to generate the high nibble table
 	TDC					;$BB91B2   |\ Zero A and X and set 8 bit A
 	TAX					;$BB91B3   | |
@@ -2816,7 +2820,7 @@ init_sprite_render_order:			;	  \
 	RTS					;$BB920F  / The slots are filled, run away
 
 CODE_BB9210:
-	JSL CODE_BB819F				;$BB9210  \
+	JSL calculate_completion_percentage	;$BB9210  \
 	JSL clear_noncritical_wram		;$BB9214   |
 if !version == 0				;	   |
 	LDA #$0104				;$BB9218   |
@@ -2832,7 +2836,7 @@ endif						;	   |
 	TRB $08C4				;$BB9221   |
 	LDA $08A4				;$BB9224   |
 	JSL CODE_808837				;$BB9227   | Setup kongs in sprite table
-	LDA global_frame_counter		;$BB922B   |
+	LDA active_frame_counter		;$BB922B   |
 	EOR $2F					;$BB922D   |
 	STA $2F					;$BB922F   |
 	JSR CODE_BB938B				;$BB9231   |
@@ -3001,7 +3005,7 @@ CODE_BB93A2:					;	   |
 	LDA $08AA				;$BB93AC   |
 	STA $08A6				;$BB93AF   |
 	LDA $08AE				;$BB93B2   |
-	STA $6E					;$BB93B5   |
+	STA animal_type				;$BB93B5   |
 	STZ current_player_mount		;$BB93B7   |
 	LDA $08B2				;$BB93B9   |
 	STA $0902				;$BB93BC   |
@@ -3985,21 +3989,21 @@ CODE_BB9B1E:					;	   |
 	LDA $0515				;$BB9B52   |
 	CMP #!bonus_level_type			;$BB9B55   |
 	BEQ CODE_BB9B62				;$BB9B58   |
-	LDY #$00D0				;$BB9B5A   |
-	JSL CODE_BB83EF				;$BB9B5D   | Spawn horizontal wind controller
+	LDY #!special_sprite_spawn_id_00D0	;$BB9B5A   |
+	JSL spawn_BB83EF_special_sprite_index	;$BB9B5D   | Spawn horizontal wind controller
 	RTS					;$BB9B61  /
 
 CODE_BB9B62:
 	LDA level_number			;$BB9B62  \
 	CMP #!level_gusty_glade_bonus_2		;$BB9B64   |
 	BEQ CODE_BB9B71				;$BB9B67   |
-	LDY #$007A				;$BB9B69   |
-	JSL CODE_BB83EF				;$BB9B6C   | Spawn horizontal wind controller
+	LDY #!special_sprite_spawn_id_007A	;$BB9B69   |
+	JSL spawn_BB83EF_special_sprite_index	;$BB9B6C   | Spawn horizontal wind controller
 	RTS					;$BB9B70  /
 
 CODE_BB9B71:
-	LDY #$0136				;$BB9B71  \
-	JSL CODE_BB83EF				;$BB9B74   | Spawn horizontal wind controller
+	LDY #!special_sprite_spawn_id_0136	;$BB9B71  \
+	JSL spawn_BB83EF_special_sprite_index	;$BB9B74   | Spawn horizontal wind controller
 	RTS					;$BB9B78  /
 
 CODE_BB9B79:
@@ -4222,13 +4226,13 @@ CODE_BB9E18:					;	   |
 	LDA level_number			;$BB9E42   |
 	CMP #!level_windy_well_bonus_1		;$BB9E44   |
 	BEQ CODE_BB9E51				;$BB9E47   |
-	LDY #$00DA				;$BB9E49   |
-	JSL CODE_BB83EF				;$BB9E4C   |
+	LDY #!special_sprite_spawn_id_00DA	;$BB9E49   |
+	JSL spawn_BB83EF_special_sprite_index	;$BB9E4C   |
 	RTS					;$BB9E50  /
 
 CODE_BB9E51:
-	LDY #$0120				;$BB9E51  \
-	JSL CODE_BB83EF				;$BB9E54   |
+	LDY #!special_sprite_spawn_id_0120	;$BB9E51  \
+	JSL spawn_BB83EF_special_sprite_index	;$BB9E54   |
 	RTS					;$BB9E58  /
 
 CODE_BB9E59:
@@ -4378,7 +4382,7 @@ CODE_BB9F4A:					;	   |
 	STZ HDMA[7].indirect_source_bank	;$BB9FF7   |
 	REP #$20				;$BB9FFA   |
 	LDY #DATA_FF0FD2			;$BB9FFC   |
-	JSL CODE_BB8418				;$BB9FFF   |
+	JSL spawn_no_gfx_special_sprite_address	;$BB9FFF   |
 	JSR CODE_BBABE2				;$BBA003   |
 	LDA #$DC01				;$BBA006   |
 	STA pending_dma_hdma_channels		;$BBA009   |
@@ -4520,8 +4524,8 @@ CODE_BBA213:					;	   |
 	REP #$20				;$BBA23F   |
 	LDA #$0201				;$BBA241   |
 	STA pending_dma_hdma_channels		;$BBA244   |
-	LDY #$00DC				;$BBA247   |
-	JSL CODE_BB83EF				;$BBA24A   |
+	LDY #!special_sprite_spawn_id_00DC	;$BBA247   |
+	JSL spawn_BB83EF_special_sprite_index	;$BBA24A   |
 	RTS					;$BBA24E  /
 
 CODE_BBA24F:
@@ -4790,7 +4794,7 @@ CODE_BBA4E0:					;	   |
 	STA $0D4E				;$BBA595   |
 	JSR CODE_BBABE2				;$BBA598   |
 	LDY #DATA_FF0FD2			;$BBA59B   |
-	JSL CODE_BB8418				;$BBA59E   |
+	JSL spawn_no_gfx_special_sprite_address	;$BBA59E   |
 	LDA #$DC01				;$BBA5A2   |
 	STA pending_dma_hdma_channels		;$BBA5A5   |
 	RTS					;$BBA5A8  /
@@ -4818,8 +4822,8 @@ CODE_BBA5C9:
 	RTS					;$BBA5CF  /
 
 CODE_BBA5D0:
-	LDY #$0002				;$BBA5D0  \
-	JSL CODE_BB842C				;$BBA5D3   |
+	LDY #!special_sprite_spawn_id_0002	;$BBA5D0  \
+	JSL spawn_special_sprite_index		;$BBA5D3   |
 	JSR CODE_BBA5E1				;$BBA5D7   |
 CODE_BBA5DA:					;	   |
 	JSR CODE_BBA8DD				;$BBA5DA   |
@@ -5084,7 +5088,7 @@ CODE_BBA817:					;	   |
 	REP #$20				;$BBA8CA   |
 	JSR CODE_BBABE2				;$BBA8CC   |
 	LDY #DATA_FF0FD2			;$BBA8CF   |
-	JSL CODE_BB8418				;$BBA8D2   |
+	JSL spawn_no_gfx_special_sprite_address	;$BBA8D2   |
 	LDA #$6E01				;$BBA8D6   |
 	STA pending_dma_hdma_channels		;$BBA8D9   |
 	RTS					;$BBA8DC  /
@@ -5186,7 +5190,7 @@ CODE_BBA9E0:
 	JSR CODE_BBA9F7				;$BBA9E3   |
 	JSR CODE_BBABE2				;$BBA9E6   |
 	LDY #DATA_FF0FD2			;$BBA9E9   |
-	JSL CODE_BB8418				;$BBA9EC   |
+	JSL spawn_no_gfx_special_sprite_address	;$BBA9EC   |
 	LDA #$FE01				;$BBA9F0   |
 	STA pending_dma_hdma_channels		;$BBA9F3   |
 	RTS					;$BBA9F6  /
@@ -5491,8 +5495,8 @@ CODE_BBAD34:
 	JSL request_palette_direct_global	;$BBAD37   |
 	LDA #diddy_control_variables		;$BBAD3B   |
 	STA $66					;$BBAD3E   |
-	LDY #$000E				;$BBAD40   |
-	JSL CODE_BB842C				;$BBAD43   | Spawn diddy
+	LDY #!special_sprite_spawn_id_000E	;$BBAD40   |
+	JSL spawn_special_sprite_index		;$BBAD43   | Spawn diddy
 	LDX alternate_sprite			;$BBAD47   |
 	STX current_sprite			;$BBAD49   | Set diddy as current sprite
 	JSR CODE_BBAEB0				;$BBAD4B   |
@@ -5505,8 +5509,8 @@ CODE_BBAD34:
 	STA $16BC				;$BBAD63   |
 	LDA #dixie_control_variables		;$BBAD66   |
 	STA $66					;$BBAD69   |
-	LDY #$0010				;$BBAD6B   |
-	JSL CODE_BB842C				;$BBAD6E   | Spawn dixie
+	LDY #!special_sprite_spawn_id_0010	;$BBAD6B   |
+	JSL spawn_special_sprite_index		;$BBAD6E   | Spawn dixie
 	LDX alternate_sprite			;$BBAD72   |
 	STX current_sprite			;$BBAD74   | Set dixie as current sprite
 	JSR CODE_BBAEB0				;$BBAD76   |
@@ -5572,7 +5576,7 @@ CODE_BBADDC:
 	STA $30,x				;$BBADF2   |
 	LDA #$00E4				;$BBADF4   |
 	STA $02,x				;$BBADF7   |
-	LDA $6E					;$BBADF9   |
+	LDA animal_type				;$BBADF9   |
 	BNE CODE_BBAE28				;$BBADFB   |
 CODE_BBADFD:					;	   |
 	LDX inactive_kong_sprite		;$BBADFD   |
@@ -5598,7 +5602,7 @@ CODE_BBAE23:
 CODE_BBAE28:
 	LDA current_player_mount		;$BBAE28  \
 	BEQ CODE_BBAE62				;$BBAE2A   |
-	LDA $6E					;$BBAE2C   |
+	LDA animal_type				;$BBAE2C   |
 	SEC					;$BBAE2E   |
 	SBC #!sprite_squitter			;$BBAE2F   |
 	LSR A					;$BBAE32   |
@@ -5606,7 +5610,7 @@ CODE_BBAE28:
 	TAX					;$BBAE36   |
 	LDA.l DATA_FF0D64,x			;$BBAE37   |
 	TAY					;$BBAE3B   |
-	JSL CODE_BB8432				;$BBAE3C   |
+	JSL spawn_special_sprite_address	;$BBAE3C   |
 	BCC CODE_BBAE4A				;$BBAE40   |
 	LDA #$0010				;$BBAE42   |
 	JSL throw_exception			;$BBAE45   |
@@ -5625,7 +5629,7 @@ CODE_BBAE4A:
 
 CODE_BBAE62:
 	JSL CODE_B8808E				;$BBAE62  \
-	LDA $6E					;$BBAE66   |
+	LDA animal_type				;$BBAE66   |
 	CMP #!sprite_enguarde			;$BBAE68   |
 	BEQ CODE_BBAE73				;$BBAE6B   |
 	JSL CODE_B8B9B8				;$BBAE6D   |
@@ -5677,21 +5681,21 @@ CODE_BBAEBD:
 	LDA current_sprite			;$BBAEBD  \
 	CMP active_kong_sprite			;$BBAEBF   | Check if sprite is the active kong
 	BNE .request_kong_palette		;$BBAEC2   | If not, skip animal check
-	LDA $6E					;$BBAEC4   | Else check if player is animal
+	LDA animal_type				;$BBAEC4   | Else check if player is animal
 	BNE .request_animal_palette		;$BBAEC6   |
 .request_kong_palette:				;	   |
 	LDX current_sprite			;$BBAEC8   |
-	LDA $00,x				;$BBAECA   | Get sprite ID
+	LDA sprite.type,x			;$BBAECA   | Get sprite ID
 	CMP #!sprite_diddy_kong			;$BBAECC   |
 	BNE .dixie				;$BBAECF   |
 	LDA #!diddy_active_sprite_palette	;$BBAED1   |
 	JSR request_sprite_palette		;$BBAED4   |
 .set_palette_slot:				;	   |
 	LDX current_sprite			;$BBAED7   |
-	EOR $12,x				;$BBAED9   |
+	EOR sprite.oam_property,x		;$BBAED9   |
 	AND #$0E00				;$BBAEDB   |
-	EOR $12,x				;$BBAEDE   |
-	STA $12,x				;$BBAEE0   |
+	EOR sprite.oam_property,x		;$BBAEDE   |
+	STA sprite.oam_property,x		;$BBAEE0   |
 	RTS					;$BBAEE2  /
 
 .dixie:
@@ -5718,7 +5722,6 @@ CODE_BBAEBD:
 	dw !squawks_sprite_palette
 	dw !rambi_sprite_palette
 	dw !enguarde_sprite_palette
-
 
 CODE_BBAF0C:
 	LDX #$0515				;$BBAF0C  \
@@ -6211,14 +6214,16 @@ CODE_BBB227:
 	BRA CODE_BBB225				;$BBB23F  /
 
 DATA_BBB241:
-	db $00, $02
-
-DATA_BBB243:
-	db $10, $00, $00, $01, $20, $00, $80, $00
-	db $40, $00, $40, $00, $80, $00, $20, $00
-	db $00, $01, $10, $00, $00, $02, $60, $00
-	db $50, $00, $50, $00, $60, $00, $00, $03
-	db $10, $00
+	%offset(DATA_BBB243, 2)
+	dw $0200, $0010
+	dw $0100, $0020
+	dw $0080, $0040
+	dw $0040, $0080
+	dw $0020, $0100
+	dw $0010, $0200
+	dw $0060, $0050
+	dw $0050, $0060
+	dw $0300, $0010
 
 DATA_BBB265:
 	dw CODE_BBB277
@@ -6361,11 +6366,11 @@ CODE_BBB368:					;	   |
 	BPL CODE_BBB368				;$BBB36D   |
 	LDX #$01FE				;$BBB36F   |
 	LDA #$0000				;$BBB372   |
-CODE_BBB375:					;	   |
+.next_word					;	   |
 	STA $7E7E12,x				;$BBB375   |
 	DEX					;$BBB379   |
 	DEX					;$BBB37A   |
-	BPL CODE_BBB375				;$BBB37B   |
+	BPL .next_word				;$BBB37B   |
 	LDA #$0004				;$BBB37D   |
 	STA $7F0000				;$BBB380   |
 	LDA #$0001				;$BBB384   |
@@ -6400,13 +6405,13 @@ CODE_BBB39D:
 	PLB					;$BBB3BE   |
 	LDA.w DATA_FE0000,y			;$BBB3BF   |
 	AND #$1F00				;$BBB3C2   |
-	BEQ CODE_BBB3CE				;$BBB3C5   |
+	BEQ .group_handling_done		;$BBB3C5   |
 	PHB					;$BBB3C7   |
 	PHY					;$BBB3C8   |
 	JSR CODE_BBB4FE				;$BBB3C9   |
 	PLY					;$BBB3CC   |
 	PLB					;$BBB3CD   |
-CODE_BBB3CE:					;	   |
+.group_handling_done				;	   |
 	LDA.l $000B98				;$BBB3CE   |
 	INC A					;$BBB3D2   |
 	STA $000B98				;$BBB3D3   |
@@ -6433,7 +6438,7 @@ CODE_BBB3F6:
 	RTS					;$BBB3F6  /
 
 CODE_BBB3F7:
-	%pea_shift_dbr(DATA_BBB93C)		;$BBB3F7  \
+	%pea_shift_dbr(spawn_radius_left_table)	;$BBB3F7  \
 	PLB					;$BBB3FA   |
 	PLB					;$BBB3FB   |
 	LDX $32					;$BBB3FC   |
@@ -6442,7 +6447,7 @@ CODE_BBB3F7:
 	SEC					;$BBB404   |
 	SBC #$0100				;$BBB405   |
 	SEC					;$BBB408   |
-	SBC.l DATA_BBB93C,x			;$BBB409   |
+	SBC.l spawn_radius_left_table,x		;$BBB409   |
 	BPL CODE_BBB412				;$BBB40D   |
 	LDA #$0000				;$BBB40F   |
 CODE_BBB412:					;	   |
@@ -6454,7 +6459,7 @@ CODE_BBB412:					;	   |
 	STA $0B8E				;$BBB41D   |
 	LDA $36					;$BBB420   |
 	CLC					;$BBB422   |
-	ADC.l DATA_BBB93E,x			;$BBB423   |
+	ADC.l spawn_radius_right_table,x	;$BBB423   |
 	AND #$FF00				;$BBB427   |
 	XBA					;$BBB42A   |
 	CMP $0B88				;$BBB42B   |
@@ -6468,7 +6473,7 @@ CODE_BBB434:					;	   |
 	SEC					;$BBB43D   |
 	SBC #$00E0				;$BBB43E   |
 	SEC					;$BBB441   |
-	SBC.l DATA_BBB940,x			;$BBB442   |
+	SBC.l spawn_radius_top_table,x		;$BBB442   |
 	BPL CODE_BBB44B				;$BBB446   |
 	LDA #$0000				;$BBB448   |
 CODE_BBB44B:					;	   |
@@ -6480,7 +6485,7 @@ CODE_BBB44B:					;	   |
 	STA $0B94				;$BBB456   |
 	LDA $36					;$BBB459   |
 	CLC					;$BBB45B   |
-	ADC.l DATA_BBB942			;$BBB45C   |
+	ADC.l spawn_radius_bottom_table		;$BBB45C   |
 	AND #$FF00				;$BBB460   |
 	XBA					;$BBB463   |
 	CMP $0B8A				;$BBB464   |
@@ -6556,30 +6561,30 @@ CODE_BBB4DD:
 	RTS					;$BBB4FD  /
 
 CODE_BBB4FE:
-	XBA					;$BBB4FE  \
-	DEC A					;$BBB4FF   |
-	ASL A					;$BBB500   |
-	ASL A					;$BBB501   |
-	ASL A					;$BBB502   |
-	ASL A					;$BBB503   |
-	TAX					;$BBB504   |
-	BRA CODE_BBB509				;$BBB505  /
+	XBA					;$BBB4FE  \ \ Move group id to lower half of A
+	DEC A					;$BBB4FF   | | group id -1 because group ids start at 1, make it start at 0 instead
+	ASL A					;$BBB500   | | *16 because 16 bytes are reserved for a total of 8 possible sprites
+	ASL A					;$BBB501   | |
+	ASL A					;$BBB502   | |
+	ASL A					;$BBB503   |/
+	TAX					;$BBB504   |> Transfer index into group data into X
+	BRA .find_free_slot_in_group_data	;$BBB505  /
 
-CODE_BBB507:
-	INX					;$BBB507  \
-	INX					;$BBB508   |
-CODE_BBB509:					;	   |
-	LDA.l $7E7E12,x				;$BBB509   |
-	BNE CODE_BBB507				;$BBB50D   |
-	LDA.l $000B98				;$BBB50F   |
-	STA $7E7E12,x				;$BBB513   |
-	RTS					;$BBB517  /
+.try_next_slot
+	INX					;$BBB507  \ \ Move to next group slot
+	INX					;$BBB508   |/
+.find_free_slot_in_group_data			;	   |
+	LDA.l $7E7E12,x				;$BBB509   |\ Get group slot
+	BNE .try_next_slot			;$BBB50D   |/ If the slot is already occupied then move to next slot and try again
+	LDA.l $000B98				;$BBB50F   |\ Get the sprites placement number
+	STA $7E7E12,x				;$BBB513   |/ Store it in the group slot
+	RTS					;$BBB517  /> Return
 
 CODE_BBB518:
-	PHB					;$BBB518  \
-	%pea_shift_dbr($7E5A12)			;$BBB519   |
-	PLB					;$BBB51C   |
-	PLB					;$BBB51D   |
+	PHB					;$BBB518  \ \
+	%pea_shift_dbr($7E5A12)			;$BBB519   | | Set data bank to bank where $7E5A12 data is, aka work RAM
+	PLB					;$BBB51C   | |
+	PLB					;$BBB51D   |/
 	LDA.l $7E5A12				;$BBB51E   |
 	CLC					;$BBB522   |
 	ADC #$5A12				;$BBB523   |
@@ -6677,66 +6682,66 @@ CODE_BBB5B9:					;	   |
 	RTS					;$BBB5C3  /
 
 sprite_loader:
-	PHB					;$BBB5C4  \
-	LDA level_number			;$BBB5C5   |
-	ASL A					;$BBB5C7   |
-	TAX					;$BBB5C8   |
-	LDA.l DATA_FE0000,x			;$BBB5C9   |
-	BEQ CODE_BBB61E				;$BBB5CD   |
-	STA $0000F3				;$BBB5CF   |
-	INC A					;$BBB5D3   |
-	INC A					;$BBB5D4   |
-	STA $0000F5				;$BBB5D5   |
-	INC A					;$BBB5D9   |
-	INC A					;$BBB5DA   |
-	STA $0000F7				;$BBB5DB   |
-	INC A					;$BBB5DF   |
-	INC A					;$BBB5E0   |
-	STA $0000F9				;$BBB5E1   |
-	LDA $17BA				;$BBB5E5   |
-	XBA					;$BBB5E8   |
-	AND #$00FF				;$BBB5E9   |
-	DEC A					;$BBB5EC   |
-	BPL CODE_BBB5F0				;$BBB5ED   |
-	INC A					;$BBB5EF   |
-CODE_BBB5F0:					;	   |
-	STA $32					;$BBB5F0   |
-	LDA $17C0				;$BBB5F2   |
-	AND #$FF00				;$BBB5F5   |
-	SEC					;$BBB5F8   |
-	SBC #$0100				;$BBB5F9   |
-	BPL CODE_BBB602				;$BBB5FC   |
-	CLC					;$BBB5FE   |
-	ADC #$0100				;$BBB5FF   |
-CODE_BBB602:					;	   |
-	ORA $0B88				;$BBB602   |
-	STA CPU.multiply_A			;$BBB605   |
-	LDA CPU.multiply_result			;$BBB608   |
-	LDA CPU.multiply_result			;$BBB60B   |
-	CLC					;$BBB60E   |
-	ADC $32					;$BBB60F   |
-	ASL A					;$BBB611   |
-	TAX					;$BBB612   |
-	LDA $0BA6,x				;$BBB613   |
-	%pea_shift_dbr(DATA_FE0000)		;$BBB616   |
-	PLB					;$BBB619   |
-	PLB					;$BBB61A   |
-	TAX					;$BBB61B   |
-	BNE CODE_BBB627				;$BBB61C   |
-CODE_BBB61E:					;	   |
-	PLB					;$BBB61E   |
-	RTL					;$BBB61F  /
+	PHB					;$BBB5C4  \> Preserve data bank
+	LDA level_number			;$BBB5C5   |\ Get level number
+	ASL A					;$BBB5C7   | |
+	TAX					;$BBB5C8   | |
+	LDA.l DATA_FE0000,x			;$BBB5C9   | | Get sprite placement data address from table
+	BEQ .return				;$BBB5CD   |/ If placement data is null then return
+	STA $0000F3				;$BBB5CF   |> Store spawn parameter base address
+	INC A					;$BBB5D3   |\
+	INC A					;$BBB5D4   | |
+	STA $0000F5				;$BBB5D5   |/ Store spawn x position base address
+	INC A					;$BBB5D9   |\
+	INC A					;$BBB5DA   | |
+	STA $0000F7				;$BBB5DB   |/ Store spawn y position base address
+	INC A					;$BBB5DF   |\
+	INC A					;$BBB5E0   | |
+	STA $0000F9				;$BBB5E1   |/ Store spawn id base address
+	LDA $17BA				;$BBB5E5   |> Get camera x position
+	XBA					;$BBB5E8   |\ Get only x screen number in A
+	AND #$00FF				;$BBB5E9   | |
+	DEC A					;$BBB5EC   |/ -1
+	BPL .positive_x_screen			;$BBB5ED   |> If x screen is positive then dont increment it
+	INC A					;$BBB5EF   |> Else add 1 to the x screen number
+.positive_x_screen:				;	   |
+	STA $32					;$BBB5F0   |> Store x screen number in scratch
+	LDA $17C0				;$BBB5F2   |> Get camera y position
+	AND #$FF00				;$BBB5F5   |\ Get only y screen number in upper half of A
+	SEC					;$BBB5F8   | |
+	SBC #$0100				;$BBB5F9   |/ -1
+	BPL .positive_y_screen			;$BBB5FC   |> If y screen is positive then dont increment it
+	CLC					;$BBB5FE   |\ Else add 1 to the y screen number
+	ADC #$0100				;$BBB5FF   |/
+.positive_y_screen:				;	   |
+	ORA $0B88				;$BBB602   |\ OR against some level dimension or something
+	STA CPU.multiply_A			;$BBB605   | | Then multiply it
+	LDA CPU.multiply_result			;$BBB608   | |
+	LDA CPU.multiply_result			;$BBB60B   | |
+	CLC					;$BBB60E   | |
+	ADC $32					;$BBB60F   | | Add it to the x screen to get an index
+	ASL A					;$BBB611   |/ *2 because each entry in the table were indexing is a word
+	TAX					;$BBB612   |\
+	LDA $0BA6,x				;$BBB613   |/ Lookup where to look for spawns in sprite placement RAM
+	%pea_shift_dbr(DATA_FE0000)		;$BBB616   |\ Use bank FE which contains sprite placement data
+	PLB					;$BBB619   | |
+	PLB					;$BBB61A   |/
+	TAX					;$BBB61B   |\
+	BNE .valid_spawning_region		;$BBB61C   |/
+.return:					;	   |
+	PLB					;$BBB61E   |\ Retrieve bank
+	RTL					;$BBB61F  / / Return
 
-CODE_BBB620:
-	PHX					;$BBB620  \
-	JSR CODE_BBB62F				;$BBB621   |
-	PLX					;$BBB624   |
-	INX					;$BBB625   |
-	INX					;$BBB626   |
-CODE_BBB627:					;	   |
-	LDA.l $7E5A12,x				;$BBB627   |
-	BNE CODE_BBB620				;$BBB62B   |
-	BRA CODE_BBB61E				;$BBB62D  /
+.valid_spawn:
+	PHX					;$BBB620  \ \ Preserve spawning region index
+	JSR CODE_BBB62F				;$BBB621   |/ Spawn the sprite
+	PLX					;$BBB624   |\ Retrieve spawning region index
+	INX					;$BBB625   | | Move to next placement number in region
+	INX					;$BBB626   |/
+.valid_spawning_region:				;	   |
+	LDA.l $7E5A12,x				;$BBB627   |\ Get placement number of potential sprite
+	BNE .valid_spawn			;$BBB62B   |/ If not 0 then it is a valid placement number, spawn the sprite
+	BRA .return				;$BBB62D  /> Else we there are no more sprites in the region to spawn return
 
 CODE_BBB62F:
 	STA $0000FB				;$BBB62F  \
@@ -6746,29 +6751,29 @@ CODE_BBB62F:
 	ASL A					;$BBB636   |
 	ASL A					;$BBB637   |
 	TAY					;$BBB638   |
-	LDA ($F3),y				;$BBB639   |
-	AND #$1F00				;$BBB63B   |
-	BEQ CODE_BBB648				;$BBB63E   |
-	STA $32					;$BBB640   |
-	LDA.l $7E7A12,x				;$BBB642   |
-	BPL CODE_BBB668				;$BBB646   |
-CODE_BBB648:					;	   |
-	LDA.l $7E7A12,x				;$BBB648   |
-	STA $000B9C				;$BBB64C   |
-	AND #$3FFF				;$BBB650   |
-	BEQ CODE_BBB656				;$BBB653   |
+	LDA ($F3),y				;$BBB639   |\ Get sprite spawn parameter
+	AND #$1F00				;$BBB63B   | | Get group id
+	BEQ .done_handling_group		;$BBB63E   |/ If the sprite is in a spawning group then
+	STA $32					;$BBB640   |> Store group id in scratch
+	LDA.l $7E7A12,x				;$BBB642   |\ Get sprite spawning status
+	BPL CODE_BBB668				;$BBB646   |/ If is alive
+.done_handling_group:				;	   |
+	LDA.l $7E7A12,x				;$BBB648   |\ Get sprite status
+	STA $000B9C				;$BBB64C   |/ Store sprite status
+	AND #$3FFF				;$BBB650   |\
+	BEQ .sprite_not_spawned_yet		;$BBB653   |/ If sprite doesnt already exist then spawn it
 	RTS					;$BBB655  /
 
-CODE_BBB656:
-	LDA ($F3),y				;$BBB656  \
-	AND #$000F				;$BBB658   |
-	ASL A					;$BBB65B   |
-	TAX					;$BBB65C   |
-	PHX					;$BBB65D   |
-	JSR (DATA_BBB9AC,x)			;$BBB65E   |
+.sprite_not_spawned_yet:
+	LDA ($F3),y				;$BBB656  \ \ Get sprite spawn parameters
+	AND #$000F				;$BBB658   |/
+	ASL A					;$BBB65B   |\
+	TAX					;$BBB65C   | |
+	PHX					;$BBB65D   | |
+	JSR (DATA_BBB9AC,x)			;$BBB65E   |/ Execute spawn radius code based on parameter
 	PLX					;$BBB661   |> Retrieve X
-	BCS CODE_BBB665				;$BBB662   |\ If anti-piracy/reset routine XOR passed spawn sprite
-	RTS					;$BBB664  / / Else anti-piracy/reset routine was tampered, skip sprite spawning
+	BCS CODE_BBB665				;$BBB662   |\ If sprite spawn radius check passed, then continue spawning the sprite
+	RTS					;$BBB664  / / Else sprite shouldnt spawn, return
 
 CODE_BBB665:
 	JMP (DATA_BBBA0C,x)			;$BBB665  /
@@ -6803,8 +6808,8 @@ CODE_BBB68A:
 
 
 CODE_BBB695:
-	LDY #$0022				;$BBB695  \ \ Spawn group manager sprite
-	JSL CODE_BB8462				;$BBB698   |/
+	LDY #!special_sprite_spawn_id_0022	;$BBB695  \ \ Spawn group manager sprite
+	JSL spawn_BB8462_special_sprite_index	;$BBB698   |/
 	LDA.l $0005BB				;$BBB69C   |\
 	AND #$0040				;$BBB6A0   | | If debug sprite freeze isnt active continue
 	BEQ CODE_BBB6AC				;$BBB6A3   |/
@@ -6870,7 +6875,7 @@ CODE_BBB70A:
 	SEC					;$BBB70A  \
 	RTS					;$BBB70B  /
 
-CODE_BBB70C:
+kleever_hook_sprite_spawn:
 	PHY					;$BBB70C  \
 	PHB					;$BBB70D   |
 	%pea_engine_dbr()			;$BBB70E   |
@@ -6908,14 +6913,14 @@ CODE_BBB70C:
 	PLY					;$BBB74C   |
 	BCS CODE_BBB790				;$BBB74D   |
 	LDX alternate_sprite			;$BBB74F   |
-	EOR $12,x				;$BBB751   |
+	EOR sprite.oam_property,x		;$BBB751   |
 	AND #$0E00				;$BBB753   |
-	EOR $12,x				;$BBB756   |
-	STA $12,x				;$BBB758   |
-	LDX #$0E9E				;$BBB75A   |
+	EOR sprite.oam_property,x		;$BBB756   |
+	STA sprite.oam_property,x		;$BBB758   |
+	LDX #!non_kong_sprite_slot_start	;$BBB75A   |
 CODE_BBB75D:					;	   |
 	LDA $32					;$BBB75D   |
-	CMP $00,x				;$BBB75F   |
+	CMP sprite.type,x			;$BBB75F   |
 	BEQ CODE_BBB797				;$BBB761   |
 	TXA					;$BBB763   |
 	CLC					;$BBB764   |
@@ -6933,7 +6938,7 @@ CODE_BBB75D:					;	   |
 	BCC CODE_BBB7A6				;$BBB77D   |
 CODE_BBB77F:					;	   |
 	LDX alternate_sprite			;$BBB77F   |
-	LDA $12,x				;$BBB781   |
+	LDA sprite.oam_property,x		;$BBB781   |
 	JSR dereference_sprite_palette		;$BBB783   |
 	BCS CODE_BBB790				;$BBB786   |
 	LDA $F1					;$BBB788   |
@@ -6949,12 +6954,12 @@ CODE_BBB790:					;	   |
 	RTS					;$BBB796  /
 
 CODE_BBB797:
-	LDA $12,x				;$BBB797  \
+	LDA sprite.oam_property,x		;$BBB797  \
 	LDX alternate_sprite			;$BBB799   |
 	AND #$FFE0				;$BBB79B   |
-	STA $12,x				;$BBB79E   |
+	STA sprite.oam_property,x		;$BBB79E   |
 	LDA $32					;$BBB7A0   |
-	STA $00,x				;$BBB7A2   |
+	STA sprite.type,x			;$BBB7A2   |
 	BRA CODE_BBB7DD				;$BBB7A4  /
 
 CODE_BBB7A6:
@@ -6973,7 +6978,7 @@ CODE_BBB7A6:
 	STA sprite_dma_buffer,x			;$BBB7C1   |
 	PHY					;$BBB7C4   |
 	LDY alternate_sprite			;$BBB7C5   |
-	LDA $0012,y				;$BBB7C7   |
+	LDA.w sprite.oam_property,y		;$BBB7C7   |
 	AND #$01FF				;$BBB7CA   |
 	ASL A					;$BBB7CD   |
 	ASL A					;$BBB7CE   |
@@ -6992,26 +6997,26 @@ CODE_BBB7DD:					;	   |
 	PLB					;$BBB7E1   |
 	LDX alternate_sprite			;$BBB7E2   |
 	LDA $32					;$BBB7E4   |
-	STA $00,x				;$BBB7E6   |
+	STA sprite.type,x			;$BBB7E6   |
 	LDA ($F5),y				;$BBB7E8   |
-	STA $06,x				;$BBB7EA   |
+	STA sprite.x_position,x			;$BBB7EA   |
 	LDA ($F7),y				;$BBB7EC   |
-	STA $0A,x				;$BBB7EE   |
+	STA sprite.y_position,x			;$BBB7EE   |
 	LDA #$00EC				;$BBB7F0   |
-	STA $02,x				;$BBB7F3   |
+	STA sprite.render_order,x		;$BBB7F3   |
 	LDA #$8000				;$BBB7F5   |
-	STA $04,x				;$BBB7F8   |
-	STA $08,x				;$BBB7FA   |
-	STZ $2C,x				;$BBB7FC   |
-	STZ $32,x				;$BBB7FE   |
-	STZ $30,x				;$BBB800   |
-	STZ $1E,x				;$BBB802   |
-	STZ $5A,x				;$BBB804   |
+	STA sprite.x_sub_position,x		;$BBB7F8   |
+	STA sprite.y_sub_position,x		;$BBB7FA   |
+	STZ sprite.x_force,x			;$BBB7FC   |
+	STZ sprite.unknown_32,x			;$BBB7FE   |
+	STZ sprite.interaction_flags,x		;$BBB800   |
+	STZ sprite.terrain_interaction,x	;$BBB802   |
+	STZ sprite.despawn_time,x		;$BBB804   |
 	LDA ($F3),y				;$BBB806   |
-	STA $58,x				;$BBB808   |
-	STZ $16,x				;$BBB80A   |
-	STZ $1C,x				;$BBB80C   |
-	STZ $10,x				;$BBB80E   |
+	STA sprite.placement_parameter,x	;$BBB808   |
+	STZ sprite.unknown_16,x			;$BBB80A   |
+	STZ sprite.unknown_1C,x			;$BBB80C   |
+	STZ sprite.terrain_attributes,x		;$BBB80E   |
 	LDA ($F9),y				;$BBB810   |
 	TAX					;$BBB812   |
 	LDA.l DATA_FBE800,x			;$BBB813   |
@@ -7022,7 +7027,7 @@ CODE_BBB7DD:					;	   |
 	JSL apply_spawn_script_to_slot		;$BBB81E   |
 	LDX alternate_sprite			;$BBB822   |
 	LDA.l $0000FB				;$BBB824   |
-	STA $56,x				;$BBB828   |
+	STA sprite.placement_number,x		;$BBB828   |
 	DEC A					;$BBB82A   |
 	ASL A					;$BBB82B   |
 	STA $32					;$BBB82C   |
@@ -7039,7 +7044,7 @@ CODE_BBB7DD:					;	   |
 	CLC					;$BBB845   |
 	RTS					;$BBB846  /
 
-CODE_BBB847:
+hidden_sprite_spawn:
 	PHY					;$BBB847  \
 	PHB					;$BBB848   |
 	%pea_engine_dbr()			;$BBB849   |
@@ -7050,24 +7055,24 @@ CODE_BBB847:
 	PLY					;$BBB852   |
 	BCS CODE_BBB8BB				;$BBB853   |
 	LDA ($F5),y				;$BBB855   |
-	STA $06,x				;$BBB857   |
+	STA sprite.x_position,x			;$BBB857   |
 	LDA ($F7),y				;$BBB859   |
-	STA $0A,x				;$BBB85B   |
+	STA sprite.y_position,x			;$BBB85B   |
 	LDA #$00EC				;$BBB85D   |
-	STA $02,x				;$BBB860   |
+	STA sprite.render_order,x		;$BBB860   |
 	LDA #$8000				;$BBB862   |
-	STA $04,x				;$BBB865   |
-	STA $08,x				;$BBB867   |
-	STZ $1A,x				;$BBB869   |
-	STZ $16,x				;$BBB86B   |
-	STZ $2C,x				;$BBB86D   |
-	STZ $32,x				;$BBB86F   |
-	STZ $30,x				;$BBB871   |
-	STZ $1E,x				;$BBB873   |
-	STZ $5A,x				;$BBB875   |
-	STZ $1C,x				;$BBB877   |
+	STA sprite.x_sub_position,x		;$BBB865   |
+	STA sprite.y_sub_position,x		;$BBB867   |
+	STZ sprite.unknown_1A,x			;$BBB869   |
+	STZ sprite.unknown_16,x			;$BBB86B   |
+	STZ sprite.x_force,x			;$BBB86D   |
+	STZ sprite.unknown_32,x			;$BBB86F   |
+	STZ sprite.interaction_flags,x		;$BBB871   |
+	STZ sprite.terrain_interaction,x	;$BBB873   |
+	STZ sprite.despawn_time,x		;$BBB875   |
+	STZ sprite.unknown_1C,x			;$BBB877   |
 	LDA ($F3),y				;$BBB879   |
-	STA $58,x				;$BBB87B   |
+	STA sprite.placement_parameter,x	;$BBB87B   |
 	LDA ($F9),y				;$BBB87D   |
 	TAX					;$BBB87F   |
 	LDA.l DATA_FBE800,x			;$BBB880   |
@@ -7076,7 +7081,7 @@ CODE_BBB847:
 	JSL apply_spawn_script_to_slot		;$BBB887   |
 	LDX alternate_sprite			;$BBB88B   |
 	LDA.l $0000FB				;$BBB88D   |
-	STA $56,x				;$BBB891   |
+	STA sprite.placement_number,x		;$BBB891   |
 	DEC A					;$BBB893   |
 	ASL A					;$BBB894   |
 	STA $32					;$BBB895   |
@@ -7090,8 +7095,8 @@ CODE_BBB847:
 	AND #$0040				;$BBB8AD   |
 	BEQ CODE_BBB8B9				;$BBB8B0   |
 	LDX alternate_sprite			;$BBB8B2   |
-	LDA #!sprite_unknown_0090		;$BBB8B4   |
-	STA $00,x				;$BBB8B7   |
+	LDA #!sprite_hidden_debug_dummy_sprite	;$BBB8B4   |
+	STA sprite.type,x			;$BBB8B7   |
 CODE_BBB8B9:					;	   |
 	CLC					;$BBB8B9   |
 	RTS					;$BBB8BA  /
@@ -7100,7 +7105,7 @@ CODE_BBB8BB:
 	SEC					;$BBB8BB  \
 	RTS					;$BBB8BC  /
 
-CODE_BBB8BD:
+big_sprite_spawn:
 	LDA #$0002				;$BBB8BD  \
 	PHY					;$BBB8C0   |
 	PHB					;$BBB8C1   |
@@ -7110,33 +7115,33 @@ CODE_BBB8BD:
 	JSR CODE_BB8282				;$BBB8C7   |
 	BRA CODE_BBB8D6				;$BBB8CA  /
 
-CODE_BBB8CC:
+normal_sprite_spawn:
 	PHY					;$BBB8CC  \
 	PHB					;$BBB8CD   |
 	%pea_engine_dbr()			;$BBB8CE   |
 	PLB					;$BBB8D1   |
 	PLB					;$BBB8D2   |
-	JSR CODE_BB826F				;$BBB8D3   |
+	JSR handle_sprite_allocation		;$BBB8D3   |
 CODE_BBB8D6:					;	   |
 	PLB					;$BBB8D6   |
 	PLY					;$BBB8D7   |
-	BCS CODE_BBB93A				;$BBB8D8   |
+	BCS .sprite_allocation_failed		;$BBB8D8   |
 	LDA ($F5),y				;$BBB8DA   |
-	STA $06,x				;$BBB8DC   |
+	STA sprite.x_position,x			;$BBB8DC   |
 	LDA ($F7),y				;$BBB8DE   |
-	STA $0A,x				;$BBB8E0   |
+	STA sprite.y_position,x			;$BBB8E0   |
 	LDA #$00EC				;$BBB8E2   |
-	STA $02,x				;$BBB8E5   |
+	STA sprite.render_order,x		;$BBB8E5   |
 	LDA #$8000				;$BBB8E7   |
-	STA $04,x				;$BBB8EA   |
-	STA $08,x				;$BBB8EC   |
-	STZ $2C,x				;$BBB8EE   |
-	STZ $32,x				;$BBB8F0   |
-	STZ $30,x				;$BBB8F2   |
-	STZ $1E,x				;$BBB8F4   |
-	STZ $5A,x				;$BBB8F6   |
+	STA sprite.x_sub_position,x		;$BBB8EA   |
+	STA sprite.y_sub_position,x		;$BBB8EC   |
+	STZ sprite.x_force,x			;$BBB8EE   |
+	STZ sprite.unknown_32,x			;$BBB8F0   |
+	STZ sprite.interaction_flags,x		;$BBB8F2   |
+	STZ sprite.terrain_interaction,x	;$BBB8F4   |
+	STZ sprite.despawn_time,x		;$BBB8F6   |
 	LDA ($F3),y				;$BBB8F8   |
-	STA $58,x				;$BBB8FA   |
+	STA sprite.placement_parameter,x	;$BBB8FA   |
 	LDA ($F9),y				;$BBB8FC   |
 	TAX					;$BBB8FE   |
 	LDA.l DATA_FBE800,x			;$BBB8FF   |
@@ -7145,7 +7150,7 @@ CODE_BBB8D6:					;	   |
 	JSL apply_spawn_script_to_slot		;$BBB906   |
 	LDX alternate_sprite			;$BBB90A   |
 	LDA.l $0000FB				;$BBB90C   |
-	STA $56,x				;$BBB910   |
+	STA sprite.placement_number,x		;$BBB910   |
 	DEC A					;$BBB912   |
 	ASL A					;$BBB913   |
 	STA $32					;$BBB914   |
@@ -7157,116 +7162,113 @@ CODE_BBB8D6:					;	   |
 	STA $7E7A12,x				;$BBB924   |
 	LDA.l $0005BB				;$BBB928   |\
 	AND #$0040				;$BBB92C   | | If debug sprite freeze is disabled then continue
-	BEQ CODE_BBB938				;$BBB92F   |/
+	BEQ .sprite_spawn_succeeded		;$BBB92F   |/
 	LDX alternate_sprite			;$BBB931   |\ Else replace sprite with frozen dummy sprite
 	LDA #!sprite_debug_dummy_sprite		;$BBB933   | |
-	STA $00,x				;$BBB936   |/
-CODE_BBB938:					;	   |
+	STA sprite.type,x			;$BBB936   |/
+.sprite_spawn_succeeded:			;	   |
 	CLC					;$BBB938   |
 	RTS					;$BBB939  /
 
-CODE_BBB93A:
+.sprite_allocation_failed:
 	SEC					;$BBB93A  \
 	RTS					;$BBB93B  /
 
-DATA_BBB93C:
-	%offset(DATA_BBB93E, 2)
-	%offset(DATA_BBB940, 4)
-	%offset(DATA_BBB942, 6)
-	dw $0020, $0140, $0020, $0140
-	dw $0028, $0150, $0028, $0150
-	dw $0010, $0120, $0010, $0100
-	dw $0018, $0130, $0018, $0110
-	dw $0060, $01C0, $0040, $0180
-	dw $0068, $01D0, $0048, $0190
-	dw $0020, $0140, $0040, $0180
-	dw $0028, $0150, $0048, $0190
-	dw $0020, $0140, $00F8, $02D0
-	dw $0028, $0150, $0100, $02E0
-	dw $00F8, $02F0, $00F8, $02D0
-	dw $0100, $0300, $0100, $02E0
-	dw $00F8, $02F0, $0020, $0140
-	dw $0100, $0300, $0028, $0150
+; Sprite spawn/despawn radius
+; Words are ordered as follows:
+; The first 4 words are for spawning the the second 4 are for despawning
+; In the order: left, top, right, bottom
+spawn_radius_left_table:
+	%offset(spawn_radius_right_table, 2)
+	%offset(spawn_radius_top_table, 4)
+	%offset(spawn_radius_bottom_table, 6)
+	dw $0020, $0140, $0020, $0140, $0028, $0150, $0028, $0150	;00
+	dw $0010, $0120, $0010, $0100, $0018, $0130, $0018, $0110	;01
+	dw $0060, $01C0, $0040, $0180, $0068, $01D0, $0048, $0190	;02
+	dw $0020, $0140, $0040, $0180, $0028, $0150, $0048, $0190	;03
+	dw $0020, $0140, $00F8, $02D0, $0028, $0150, $0100, $02E0	;04
+	dw $00F8, $02F0, $00F8, $02D0, $0100, $0300, $0100, $02E0	;05
+	dw $00F8, $02F0, $0020, $0140, $0100, $0300, $0028, $0150	;06
 
 DATA_BBB9AC:
-	dw CODE_BBBA2C				;00
-	dw CODE_BBBA7F				;02
-	dw CODE_BBBA7F				;04
-	dw CODE_BBBA2C				;06
-	dw CODE_BBBA2C				;08
-	dw CODE_BBBA2C				;0A
-	dw CODE_BBBA2C				;0C
-	dw CODE_BBBA7F				;0E
-	dw CODE_BBBA90				;10
-	dw CODE_BBBA7F				;12
-	dw CODE_BBBA5E				;14
-	dw CODE_BBBA69				;16
-	dw CODE_BBBA74				;18
-	dw CODE_BBBA53				;1A
-	dw CODE_BBBA2E				;1C
-	dw CODE_BBBA7F				;1E
+	dw no_spawn				;00
+	dw default_spawn_radius_check		;01
+	dw default_spawn_radius_check		;02
+	dw no_spawn				;03
+	dw no_spawn				;04
+	dw no_spawn				;05
+	dw no_spawn				;06
+	dw default_spawn_radius_check		;07
+	dw no_spawn_2				;08
+	dw default_spawn_radius_check		;09
+	dw conditional_spawn_1b_radius_check	;0A
+	dw conditional_spawn_2_radius_check	;0B
+	dw conditional_spawn_3_radius_check	;0C
+	dw conditional_spawn_1a_radius_check	;0D
+	dw anti_piracy_spawn_radius_check	;0E
+	dw default_spawn_radius_check		;0F
 
 DATA_BBB9CC:
-	dw CODE_BBBA2C				;00
-	dw CODE_BBBAB8				;02
-	dw CODE_BBBA92				;04
-	dw CODE_BBBA2C				;06
-	dw CODE_BBBA2C				;08
-	dw CODE_BBBA2C				;0A
-	dw CODE_BBBA2C				;0C
-	dw CODE_BBBAB8				;0E
-	dw CODE_BBBA90				;10
-	dw CODE_BBBAB8				;12
-	dw CODE_BBBAB8				;14
-	dw CODE_BBBAB8				;16
-	dw CODE_BBBAB8				;18
-	dw CODE_BBBAB8				;1A
-	dw CODE_BBBAB8				;1C
-	dw CODE_BBBAA2				;1E
+	dw no_spawn				;00/00
+	dw CODE_BBBAB8				;01/02
+	dw CODE_BBBA92				;02/04
+	dw no_spawn				;03/06
+	dw no_spawn				;04/08
+	dw no_spawn				;05/0A
+	dw no_spawn				;06/0C
+	dw CODE_BBBAB8				;07/0E
+	dw no_spawn_2				;08/10
+	dw CODE_BBBAB8				;09/12
+	dw CODE_BBBAB8				;0A/14
+	dw CODE_BBBAB8				;0B/16
+	dw CODE_BBBAB8				;0C/18
+	dw CODE_BBBAB8				;0D/1A
+	dw CODE_BBBAB8				;0E/1C
+	dw default_despawn_radius_check		;0F/1E
 
 DATA_BBB9EC:
-	dw CODE_BBBA2C				;00
-	dw CODE_BBBA2C				;02
-	dw CODE_BBBAF3				;04
-	dw CODE_BBBA2C				;06
-	dw CODE_BBBA2C				;08
-	dw CODE_BBBA2C				;0A
-	dw CODE_BBBA2C				;0C
-	dw CODE_BBBA2C				;0E
-	dw CODE_BBBA90				;10
-	dw CODE_BBBA2C				;12
-	dw CODE_BBBA2C				;14
-	dw CODE_BBBA2C				;16
-	dw CODE_BBBA2C				;18
-	dw CODE_BBBA2C				;1A
-	dw CODE_BBBA2C				;1C
-	dw CODE_BBBAF3				;1E
+	dw no_spawn				;00
+	dw no_spawn				;01
+	dw CODE_BBBAF3				;02
+	dw no_spawn				;03
+	dw no_spawn				;04
+	dw no_spawn				;05
+	dw no_spawn				;06
+	dw no_spawn				;07
+	dw no_spawn_2				;08
+	dw no_spawn				;09
+	dw no_spawn				;0A
+	dw no_spawn				;0B
+	dw no_spawn				;0C
+	dw no_spawn				;0D
+	dw no_spawn				;0E
+	dw CODE_BBBAF3				;0F
 
 DATA_BBBA0C:
-	dw CODE_BBBA2C				;00
-	dw CODE_BBB8CC				;02
-	dw CODE_BBB8CC				;04
-	dw CODE_BBBA2C				;06
-	dw CODE_BBBA2C				;08
-	dw CODE_BBBA2C				;0A
-	dw CODE_BBBA2C				;0C
-	dw CODE_BBB8BD				;0E
-	dw CODE_BBBA2C				;10
-	dw CODE_BBB847				;12
-	dw CODE_BBB8CC				;14
-	dw CODE_BBB8CC				;16
-	dw CODE_BBB8CC				;18
-	dw CODE_BBB70C				;1A
-	dw CODE_BBB847				;1C
-	dw CODE_BBB8CC				;1E
+	dw no_spawn				;00
+	dw normal_sprite_spawn			;01
+	dw normal_sprite_spawn			;02
+	dw no_spawn				;03
+	dw no_spawn				;04
+	dw no_spawn				;05
+	dw no_spawn				;06
+	dw big_sprite_spawn			;07
+	dw no_spawn				;08
+	dw hidden_sprite_spawn			;09
+	dw normal_sprite_spawn			;0A
+	dw normal_sprite_spawn			;0B
+	dw normal_sprite_spawn			;0C
+	dw kleever_hook_sprite_spawn		;0D
+	dw hidden_sprite_spawn			;0E
+	dw normal_sprite_spawn			;0F
 
-CODE_BBBA2C:
+no_spawn:
 	CLC					;$BBBA2C  \
 	RTS					;$BBBA2D  /
 
-CODE_BBBA2E:
-	JSR CODE_BBBA7F				;$BBBA2E  \
-	BCC CODE_BBBA52				;$BBBA31   |
+anti_piracy_spawn_radius_check:
+	JSR default_spawn_radius_check		;$BBBA2E  \
+	BCC .no_spawn				;$BBBA31   |
 	PHB					;$BBBA33   |> Piracy check, preserve bank
 	%pea_engine_dbr()			;$BBBA34   |\
 	PLB					;$BBBA37   | | Get bank of anti piracy routine (80)
@@ -7286,88 +7288,88 @@ CODE_BBBA2E:
 	CMP #$FFFF				;$BBBA4D   |/ Our answer should be FFFF, if so carry will be set
 	PLY					;$BBBA50   |> Retrieve Y
 	PLB					;$BBBA51   |> Retrieve bank
-CODE_BBBA52:					;	   |
+.no_spawn:					;	   |
 	RTS					;$BBBA52  /> Return, a carry check will happen after to make sure the XOR was correct
 
-CODE_BBBA53:
+conditional_spawn_1a_radius_check:
 	LDA.l $000923				;$BBBA53  \
 	AND #$0001				;$BBBA57   |
-	BNE CODE_BBBA7F				;$BBBA5A   |
-	BRA CODE_BBBA90				;$BBBA5C  /
+	BNE default_spawn_radius_check		;$BBBA5A   |
+	BRA no_spawn_2				;$BBBA5C  /
 
-CODE_BBBA5E:
+conditional_spawn_1b_radius_check:
 	LDA.l $000923				;$BBBA5E  \
 	AND #$0001				;$BBBA62   |
-	BNE CODE_BBBA7F				;$BBBA65   |
-	BRA CODE_BBBA90				;$BBBA67  /
+	BNE default_spawn_radius_check		;$BBBA65   |
+	BRA no_spawn_2				;$BBBA67  /
 
-CODE_BBBA69:
+conditional_spawn_2_radius_check:
 	LDA.l $000923				;$BBBA69  \
 	AND #$0002				;$BBBA6D   |
-	BNE CODE_BBBA7F				;$BBBA70   |
-	BRA CODE_BBBA90				;$BBBA72  /
+	BNE default_spawn_radius_check		;$BBBA70   |
+	BRA no_spawn_2				;$BBBA72  /
 
-CODE_BBBA74:
+conditional_spawn_3_radius_check:
 	LDA.l $000923				;$BBBA74  \
 	AND #$0004				;$BBBA78   |
-	BNE CODE_BBBA7F				;$BBBA7B   |
-	BRA CODE_BBBA90				;$BBBA7D  /
+	BNE default_spawn_radius_check		;$BBBA7B   |
+	BRA no_spawn_2				;$BBBA7D  /
 
-CODE_BBBA7F:
-	LDA ($F5),y				;$BBBA7F  \
-	STA $72					;$BBBA81   |
-	LDA ($F7),y				;$BBBA83   |
-	STA $74					;$BBBA85   |
-	LDA ($F3),y				;$BBBA87   |
-	AND #$00F0				;$BBBA89   |
-	TAX					;$BBBA8C   |
-	JMP CODE_BBBB14				;$BBBA8D  /
+default_spawn_radius_check:
+	LDA ($F5),y				;$BBBA7F  \ \ Get sprite placement x position
+	STA $72					;$BBBA81   | | Store it
+	LDA ($F7),y				;$BBBA83   | | Get sprite placement y position
+	STA $74					;$BBBA85   |/ Store it
+	LDA ($F3),y				;$BBBA87   |\
+	AND #$00F0				;$BBBA89   | | Get spawning radius from spawn parameters
+	TAX					;$BBBA8C   |/
+	JMP check_placement_spawning_radius	;$BBBA8D  /
 
-CODE_BBBA90:
+no_spawn_2:
 	CLC					;$BBBA90  \
 	RTS					;$BBBA91  /
 
 CODE_BBBA92:
 	TYX					;$BBBA92  \
-	LDA $06,x				;$BBBA93   |
+	LDA sprite.x_position,x			;$BBBA93   |
 	STA $72					;$BBBA95   |
-	LDA $0A,x				;$BBBA97   |
+	LDA sprite.y_position,x			;$BBBA97   |
 	STA $74					;$BBBA99   |
 	LDA #$0050				;$BBBA9B   |
 	TAX					;$BBBA9E   |
-	JMP CODE_BBBB14				;$BBBA9F  /
+	JMP check_placement_spawning_radius	;$BBBA9F  /
 
-CODE_BBBAA2:
-	TYX					;$BBBAA2  \
-	LDA $06,x				;$BBBAA3   |
-	STA $72					;$BBBAA5   |
-	LDA $0A,x				;$BBBAA7   |
-	STA $74					;$BBBAA9   |
-	LDA $58,x				;$BBBAAB   |
-	AND #$00F0				;$BBBAAD   |
-	CLC					;$BBBAB0   |
-	ADC #$0008				;$BBBAB1   |
+default_despawn_radius_check:
+	TYX					;$BBBAA2  \ 
+	LDA sprite.x_position,x			;$BBBAA3   |\ Get sprite placement x position
+	STA $72					;$BBBAA5   | | Store it
+	LDA sprite.y_position,x			;$BBBAA7   | | Get sprite placement y position
+	STA $74					;$BBBAA9   |/ Store it
+	LDA sprite.placement_parameter,x	;$BBBAAB   |\
+	AND #$00F0				;$BBBAAD   | | Get spawning radius from spawn parameters
+	CLC					;$BBBAB0   | |
+	ADC #$0008				;$BBBAB1   |/ +8 to get despawn radius
 	TAX					;$BBBAB4   |
-	JMP CODE_BBBB14				;$BBBAB5  /
+	JMP check_placement_spawning_radius	;$BBBAB5  /
 
 CODE_BBBAB8:
 	TYX					;$BBBAB8  \
-	LDA $06,x				;$BBBAB9   |
+	LDA sprite.x_position,x			;$BBBAB9   |
 	STA $72					;$BBBABB   |
-	LDA $0A,x				;$BBBABD   |
+	LDA sprite.y_position,x			;$BBBABD   |
 	STA $74					;$BBBABF   |
-	LDA $58,x				;$BBBAC1   |
+	LDA sprite.placement_parameter,x	;$BBBAC1   |
 	AND #$00F0				;$BBBAC3   |
 	CLC					;$BBBAC6   |
 	ADC #$0008				;$BBBAC7   |
 	TAX					;$BBBACA   |
-	JSR CODE_BBBB14				;$BBBACB   |
+	JSR check_placement_spawning_radius	;$BBBACB   |
 	BCC CODE_BBBAD1				;$BBBACE   |
 	RTS					;$BBBAD0  /
 
 CODE_BBBAD1:
 	TYX					;$BBBAD1  \
-	LDA $56,x				;$BBBAD2   |
+	LDA sprite.placement_number,x		;$BBBAD2   |
 	DEC A					;$BBBAD4   |
 	ASL A					;$BBBAD5   |
 	ASL A					;$BBBAD6   |
@@ -7383,16 +7385,16 @@ CODE_BBBAD1:
 	STA $74					;$BBBAE5   |
 	PLB					;$BBBAE7   |
 	TXY					;$BBBAE8   |
-	LDA $58,x				;$BBBAE9   |
+	LDA sprite.placement_parameter,x	;$BBBAE9   |
 	AND #$00F0				;$BBBAEB   |
 	TAX					;$BBBAEE   |
-	JMP CODE_BBBB14				;$BBBAEF  /
+	JMP check_placement_spawning_radius	;$BBBAEF  /
 
 	RTS					;$BBBAF2  /
 
 CODE_BBBAF3:
 	TYX					;$BBBAF3  \
-	LDA $56,x				;$BBBAF4   |
+	LDA sprite.placement_number,x		;$BBBAF4   |
 	DEC A					;$BBBAF6   |
 	ASL A					;$BBBAF7   |
 	ASL A					;$BBBAF8   |
@@ -7408,49 +7410,49 @@ CODE_BBBAF3:
 	STA $74					;$BBBB07   |
 	PLB					;$BBBB09   |
 	TXY					;$BBBB0A   |
-	LDA $58,x				;$BBBB0B   |
+	LDA sprite.placement_parameter,x	;$BBBB0B   |
 	AND #$00F0				;$BBBB0D   |
 	TAX					;$BBBB10   |
-	JMP CODE_BBBB14				;$BBBB11  /
+	JMP check_placement_spawning_radius	;$BBBB11  /
 
-CODE_BBBB14:
+check_placement_spawning_radius:
 	LDA.l $0017BA				;$BBBB14  \
 	SEC					;$BBBB18   |
-	SBC.l DATA_BBB93C,x			;$BBBB19   |
+	SBC.l spawn_radius_left_table,x		;$BBBB19   |
 	CMP $72					;$BBBB1D   |
-	BCS CODE_BBBB42				;$BBBB1F   |
+	BCS .out_of_spawn_range			;$BBBB1F   |
 	CLC					;$BBBB21   |
-	ADC.l DATA_BBB93E,x			;$BBBB22   |
+	ADC.l spawn_radius_right_table,x	;$BBBB22   |
 	CMP $72					;$BBBB26   |
-	BCC CODE_BBBB42				;$BBBB28   |
+	BCC .out_of_spawn_range			;$BBBB28   |
 	LDA.l $0017C0				;$BBBB2A   |
 	SEC					;$BBBB2E   |
-	SBC.l DATA_BBB940,x			;$BBBB2F   |
+	SBC.l spawn_radius_top_table,x		;$BBBB2F   |
 	CMP $74					;$BBBB33   |
-	BCS CODE_BBBB42				;$BBBB35   |
+	BCS .out_of_spawn_range			;$BBBB35   |
 	CLC					;$BBBB37   |
-	ADC.l DATA_BBB942,x			;$BBBB38   |
+	ADC.l spawn_radius_bottom_table,x	;$BBBB38   |
 	CMP $74					;$BBBB3C   |
-	BCC CODE_BBBB42				;$BBBB3E   |
+	BCC .out_of_spawn_range			;$BBBB3E   |
 	SEC					;$BBBB40   |
 	RTS					;$BBBB41  /
 
-CODE_BBBB42:
+.out_of_spawn_range:
 	CLC					;$BBBB42  \
 	RTS					;$BBBB43  /
 
 CODE_BBBB44:
 	LDX current_sprite			;$BBBB44  \
-	LDA $56,x				;$BBBB46   |
+	LDA sprite.placement_number,x		;$BBBB46   |
 	BEQ CODE_BBBB63				;$BBBB48   |
-	LDA $58,x				;$BBBB4A   |
+	LDA sprite.placement_parameter,x	;$BBBB4A   |
 	AND #$1F00				;$BBBB4C   |
 	BEQ CODE_BBBB53				;$BBBB4F   |
 	CLC					;$BBBB51   |
 	RTL					;$BBBB52  /
 
 CODE_BBBB53:
-	LDA $56,x				;$BBBB53  \
+	LDA sprite.placement_number,x		;$BBBB53  \
 	DEC A					;$BBBB55   |
 	ASL A					;$BBBB56   |
 	TAX					;$BBBB57   |
@@ -7462,19 +7464,19 @@ CODE_BBBB63:					;	   |
 	SEC					;$BBBB67   |
 	RTL					;$BBBB68  /
 
-CODE_BBBB69:
-	JSR CODE_BBBB6D				;$BBBB69  \
+check_if_sprite_offscreen_global:
+	JSR check_if_sprite_offscreen		;$BBBB69  \
 	RTL					;$BBBB6C  /
 
-CODE_BBBB6D:
+check_if_sprite_offscreen:
 	LDY current_sprite			;$BBBB6D  \
 	LDX #$001E				;$BBBB6F   |
 	JSR (DATA_BBB9CC,x)			;$BBBB72   |
-	BCC CODE_BBBB79				;$BBBB75   |
+	BCC .offscreen				;$BBBB75   |
 	CLC					;$BBBB77   |
 	RTS					;$BBBB78  /
 
-CODE_BBBB79:
+.offscreen:
 	SEC					;$BBBB79  \
 	RTS					;$BBBB7A  /
 
@@ -7486,129 +7488,129 @@ CODE_BBBB7F:
 	LDY current_sprite			;$BBBB7F  \
 	LDX #$0002				;$BBBB81   |
 	JSR (DATA_BBB9CC,x)			;$BBBB84   |
-	BCC CODE_BBBB8B				;$BBBB87   |
+	BCC .despawn				;$BBBB87   |
 	CLC					;$BBBB89   |
 	RTS					;$BBBB8A  /
 
-CODE_BBBB8B:
+.despawn:
 	SEC					;$BBBB8B  \
 	RTS					;$BBBB8C  /
 
-CODE_BBBB8D:
-	JSR CODE_BBBB6D				;$BBBB8D  \
-	BCS CODE_BBBB93				;$BBBB90   |
+delete_sprite_if_offscreen:
+	JSR check_if_sprite_offscreen		;$BBBB8D  \
+	BCS .despawn				;$BBBB90   |
 	RTL					;$BBBB92  /
 
-CODE_BBBB93:
+.despawn:
 	JSL delete_sprite_handle_deallocation	;$BBBB93  \
 	SEC					;$BBBB97   |
 	RTL					;$BBBB98  /
 
 CODE_BBBB99:
 	LDX current_sprite			;$BBBB99  \ \
-	LDA $56,x				;$BBBB9B   | |
-	BNE CODE_BBBBC6				;$BBBB9D   |/ If the current sprite was spawned by the level
+	LDA sprite.placement_number,x		;$BBBB9B   | |
+	BNE .placed_by_level			;$BBBB9D   |/ If the current sprite was spawned by the level
 	TXY					;$BBBB9F   |
-	LDA $58,x				;$BBBBA0   |
+	LDA sprite.placement_parameter,x	;$BBBBA0   |
 	AND #$000F				;$BBBBA2   |
 	ASL A					;$BBBBA5   |
 	TAX					;$BBBBA6   |
 	JSR (DATA_BBB9CC,x)			;$BBBBA7   |
-	BCC CODE_BBBBB3				;$BBBBAA   |
+	BCC .offscreen				;$BBBBAA   |
 	TYX					;$BBBBAC   |
-	LDA $5A,x				;$BBBBAD   |
-	BNE CODE_BBBC0A				;$BBBBAF   |
+	LDA sprite.despawn_time,x		;$BBBBAD   |
+	BNE .onscreen_reset_despawn_timer	;$BBBBAF   |
 	CLC					;$BBBBB1   |
 	RTL					;$BBBBB2  /
 
-CODE_BBBBB3:
+.offscreen:
 	TYX					;$BBBBB3  \
-	LDA $5A,x				;$BBBBB4   |
+	LDA sprite.despawn_time,x		;$BBBBB4   |
 	SEC					;$BBBBB6   |
 	SBC #$0100				;$BBBBB7   |
-	BCC CODE_BBBBC0				;$BBBBBA   |
-	STA $5A,x				;$BBBBBC   |
+	BCC .delete_sprite			;$BBBBBA   |
+	STA sprite.despawn_time,x		;$BBBBBC   |
 	CLC					;$BBBBBE   |
 	RTL					;$BBBBBF  /
 
-CODE_BBBBC0:
+.delete_sprite:
 	JSL delete_sprite_handle_deallocation	;$BBBBC0  \
 	SEC					;$BBBBC4   |
 	RTL					;$BBBBC5  /
 
-CODE_BBBBC6:
+.placed_by_level:
 	TXY					;$BBBBC6  \
-	LDA $58,x				;$BBBBC7   |\
+	LDA sprite.placement_parameter,x	;$BBBBC7   |\
 	AND #$1F00				;$BBBBC9   | |
-	BNE CODE_BBBBFA				;$BBBBCC   |/ If sprite is in a spawn group
-CODE_BBBBCE:					;	   |
+	BNE .grouped_sprite			;$BBBBCC   |/ If sprite is in a spawn group
+.CODE_BBBBCE:					;	   |
 	LDA debug_flags				;$BBBBCE   |\
 	BIT #$0040				;$BBBBD1   | | If debug sprite freeze is enabled
-	BNE CODE_BBBBEC				;$BBBBD4   |/
-CODE_BBBBD6:					;	   |
-	LDA $58,x				;$BBBBD6   |
+	BNE .debug_freeze_enabled		;$BBBBD4   |/
+.CODE_BBBBD6:					;	   |
+	LDA sprite.placement_parameter,x	;$BBBBD6   |
 	AND #$000F				;$BBBBD8   |
 	ASL A					;$BBBBDB   |
 	TAX					;$BBBBDC   |
 	JSR (DATA_BBB9CC,x)			;$BBBBDD   |
-	BCC CODE_BBBC12				;$BBBBE0   |
+	BCC .offscreen_placed_by_level		;$BBBBE0   |
 	TYX					;$BBBBE2   |
-	LDA $5A,x				;$BBBBE3   |
-	BNE CODE_BBBC0A				;$BBBBE5   |
+	LDA sprite.despawn_time,x		;$BBBBE3   |
+	BNE .onscreen_reset_despawn_timer	;$BBBBE5   |
 	CLC					;$BBBBE7   |
 	RTL					;$BBBBE8  /
 
-CODE_BBBBE9:
+.CODE_BBBBE9:
 	TYX					;$BBBBE9  \
 	CLC					;$BBBBEA   |
 	RTL					;$BBBBEB  /
 
-CODE_BBBBEC:
-	LDA $00,x				;$BBBBEC  \
-	CMP #!sprite_unknown_0090		;$BBBBEE   |
-	BEQ CODE_BBBBD6				;$BBBBF1   |
+.debug_freeze_enabled:
+	LDA sprite.type,x			;$BBBBEC  \
+	CMP #!sprite_hidden_debug_dummy_sprite	;$BBBBEE   |
+	BEQ .CODE_BBBBD6			;$BBBBF1   |
 	CMP #!sprite_debug_dummy_sprite		;$BBBBF3   |
-	BNE CODE_BBBC2B				;$BBBBF6   |
-	BRA CODE_BBBBD6				;$BBBBF8  /
+	BNE .CODE_BBBC2B			;$BBBBF6   |
+	BRA .CODE_BBBBD6			;$BBBBF8  /
 
-CODE_BBBBFA:
-	LDA $56,x				;$BBBBFA  \
-	BMI CODE_BBBBE9				;$BBBBFC   |
+.grouped_sprite:
+	LDA sprite.placement_number,x		;$BBBBFA  \
+	BMI .CODE_BBBBE9			;$BBBBFC   |
 	DEC A					;$BBBBFE   |
 	ASL A					;$BBBBFF   |
 	TAX					;$BBBC00   |
 	LDA.l $7E7A12,x				;$BBBC01   |
-	BPL CODE_BBBBE9				;$BBBC05   |
+	BPL .CODE_BBBBE9			;$BBBC05   |
 	TYX					;$BBBC07   |
-	BRA CODE_BBBBCE				;$BBBC08  /
+	BRA .CODE_BBBBCE			;$BBBC08  /
 
-CODE_BBBC0A:
+.onscreen_reset_despawn_timer:
 	SEP #$20				;$BBBC0A  \
-	STA $5B,x				;$BBBC0C   |
+	STA sprite.despawn_countdown,x		;$BBBC0C   |
 	REP #$20				;$BBBC0E   |
 	CLC					;$BBBC10   |
 	RTL					;$BBBC11  /
 
-CODE_BBBC12:
+.offscreen_placed_by_level:
 	TYX					;$BBBC12  \
-	LDA $5A,x				;$BBBC13   |
+	LDA sprite.despawn_time,x		;$BBBC13   |
 	SEC					;$BBBC15   |
 	SBC #$0100				;$BBBC16   |
-	BCC CODE_BBBC1F				;$BBBC19   |
-	STA $5A,x				;$BBBC1B   |
+	BCC .CODE_BBBC1F			;$BBBC19   |
+	STA sprite.despawn_time,x		;$BBBC1B   |
 	CLC					;$BBBC1D   |
 	RTL					;$BBBC1E  /
 
-CODE_BBBC1F:
-	LDA $58,x				;$BBBC1F  \
+.CODE_BBBC1F:
+	LDA sprite.placement_parameter,x	;$BBBC1F  \
 	AND #$000F				;$BBBC21   |
 	ASL A					;$BBBC24   |
 	TAX					;$BBBC25   |
 	JSR (DATA_BBB9EC,x)			;$BBBC26   |
-	BCS CODE_BBBC42				;$BBBC29   |
-CODE_BBBC2B:					;	   |
+	BCS .CODE_BBBC42			;$BBBC29   |
+.CODE_BBBC2B:					;	   |
 	TYX					;$BBBC2B   |
-	LDA $56,x				;$BBBC2C   |
+	LDA sprite.placement_number,x		;$BBBC2C   |
 	DEC A					;$BBBC2E   |
 	ASL A					;$BBBC2F   |
 	TAX					;$BBBC30   |
@@ -7619,36 +7621,36 @@ CODE_BBBC2B:					;	   |
 	SEC					;$BBBC40   |
 	RTL					;$BBBC41  /
 
-CODE_BBBC42:
+.CODE_BBBC42:
 	JSL delete_sprite_handle_deallocation	;$BBBC42  \
 	LDX current_sprite			;$BBBC46   |
 	LDA #!sprite_respawn_suppressor		;$BBBC48   |
-	STA $00,x				;$BBBC4B   |
-	STZ $1A,x				;$BBBC4D   |
-	STZ $16,x				;$BBBC4F   |
-	STZ $06,x				;$BBBC51   |
-	STZ $0A,x				;$BBBC53   |
-	STZ $2E,x				;$BBBC55   |
+	STA sprite.type,x			;$BBBC4B   |
+	STZ sprite.unknown_1A,x			;$BBBC4D   |
+	STZ sprite.unknown_16,x			;$BBBC4F   |
+	STZ sprite.x_position,x			;$BBBC51   |
+	STZ sprite.y_position,x			;$BBBC53   |
+	STZ sprite.state,x			;$BBBC55   |
 	SEC					;$BBBC57   |
 	RTL					;$BBBC58  /
 
 respawn_suppressor_sprite_code:
 	LDY current_sprite			;$BBBC59  \
-	LDA $002E,y				;$BBBC5B   |
+	LDA.w sprite.state,y			;$BBBC5B   |
 	BEQ CODE_BBBC67				;$BBBC5E   |
 	TYX					;$BBBC60   |
-	DEC $42,x				;$BBBC61   |
+	DEC sprite.general_purpose_42,x		;$BBBC61   |
 	BNE CODE_BBBC8A				;$BBBC63   |
-	STZ $2E,x				;$BBBC65   |
+	STZ sprite.state,x			;$BBBC65   |
 CODE_BBBC67:					;	   |
-	LDA $0058,y				;$BBBC67   |
+	LDA.w sprite.placement_parameter,y	;$BBBC67   |
 	AND #$000F				;$BBBC6A   |
 	ASL A					;$BBBC6D   |
 	TAX					;$BBBC6E   |
 	JSR (DATA_BBB9EC,x)			;$BBBC6F   |
 	BCS CODE_BBBC8A				;$BBBC72   |
 	LDX current_sprite			;$BBBC74   |
-	LDA $56,x				;$BBBC76   |
+	LDA sprite.placement_number,x		;$BBBC76   |
 	DEC A					;$BBBC78   |
 	ASL A					;$BBBC79   |
 	TAX					;$BBBC7A   |
@@ -7661,7 +7663,7 @@ CODE_BBBC8A:					;	   |
 
 CODE_BBBC8D:
 	LDX current_sprite			;$BBBC8D  \
-	LDA $42,x				;$BBBC8F   |
+	LDA sprite.general_purpose_42,x		;$BBBC8F   |
 	DEC A					;$BBBC91   |
 	ASL A					;$BBBC92   |
 	CLC					;$BBBC93   |
@@ -7674,7 +7676,7 @@ CODE_BBBC8D:
 
 CODE_BBBCA3:
 	LDX current_sprite			;$BBBCA3  \
-	LDA $42,x				;$BBBCA5   |
+	LDA sprite.general_purpose_42,x		;$BBBCA5   |
 	DEC A					;$BBBCA7   |
 	ASL A					;$BBBCA8   |
 	CLC					;$BBBCA9   |
@@ -7708,7 +7710,7 @@ CODE_BBBCCD:
 	BMI CODE_BBBCEB				;$BBBCD8   |
 	AND #$1FFF				;$BBBCDA   |
 	TAY					;$BBBCDD   |
-	LDA $0058,y				;$BBBCDE   |
+	LDA.w sprite.placement_parameter,y	;$BBBCDE   |
 	AND #$000F				;$BBBCE1   |
 	ASL A					;$BBBCE4   |
 	TAX					;$BBBCE5   |
@@ -7737,7 +7739,7 @@ CODE_BBBCFA:
 	BMI CODE_BBBD18				;$BBBD05   |
 	AND #$1FFF				;$BBBD07   |
 	TAY					;$BBBD0A   |
-	LDA $0058,y				;$BBBD0B   |
+	LDA.w sprite.placement_parameter,y	;$BBBD0B   |
 	AND #$000F				;$BBBD0E   |
 	ASL A					;$BBBD11   |
 	TAX					;$BBBD12   |
@@ -7798,12 +7800,12 @@ CODE_BBBD69:
 CODE_BBBD6B:
 	DEC $19BA				;$BBBD6B  \
 	LDX current_sprite			;$BBBD6E   |> Get current sprite
-	LDA $58,x				;$BBBD70   |\
+	LDA sprite.placement_parameter,x	;$BBBD70   |\
 	AND #$1F00				;$BBBD72   | | Get sprite group id
 	BEQ .return				;$BBBD75   |/ If sprite isnt in a group then return
-	EOR $58,x				;$BBBD77   |\ Else remove sprite from the group
-	STA $58,x				;$BBBD79   |/
-	LDA $56,x				;$BBBD7B   |> Get sprite index in level data
+	EOR sprite.placement_parameter,x	;$BBBD77   |\ Else remove sprite from the group
+	STA sprite.placement_parameter,x	;$BBBD79   |/
+	LDA sprite.placement_number,x		;$BBBD7B   |> Get sprite index in level data
 	BEQ .return				;$BBBD7D   |> If sprite isnt from level data then return
 	DEC A					;$BBBD7F   |\
 	ASL A					;$BBBD80   | |
@@ -7836,7 +7838,7 @@ CODE_BBBDA4:					;	   |
 	RTS					;$BBBDB0  /
 
 	LDX current_sprite			;$BBBDB1   |
-	LDA $56,x				;$BBBDB3   |
+	LDA sprite.placement_number,x		;$BBBDB3   |
 	DEC A					;$BBBDB5   |
 	ASL A					;$BBBDB6   |
 	TAX					;$BBBDB7   |
@@ -7861,7 +7863,7 @@ endif
 	TSB $06A3				;$BBBDDE   |
 	STZ $06AD				;$BBBDE1   |
 	STZ $06AF				;$BBBDE4   |
-	STZ $6E					;$BBBDE7   |
+	STZ animal_type				;$BBBDE7   |
 	STZ current_player_mount		;$BBBDE9   |
 	LDA parent_level_number			;$BBBDEB   |
 	STA $08C8				;$BBBDEE   |
@@ -7917,7 +7919,7 @@ CODE_BBBE54:
 	LDA #$8000				;$BBBE54  \
 	TSB $08C6				;$BBBE57   |
 	STZ $08A6				;$BBBE5A   |
-	STZ $6E					;$BBBE5D   |
+	STZ animal_type				;$BBBE5D   |
 	STZ current_player_mount		;$BBBE5F   |
 	STZ $0902				;$BBBE61   |
 	LDA parent_level_number			;$BBBE64   |
@@ -7952,7 +7954,7 @@ endif
 
 CODE_BBBEA0:
 	LDA $060D				;$BBBEA0  \
-	CMP #$0002				;$BBBEA3   |
+	CMP #!gamemode_2_player_contest		;$BBBEA3   |
 	BNE CODE_BBBED3				;$BBBEA6   |
 	JSL CODE_BBC85B				;$BBBEA8   |
 	LDA $08BE				;$BBBEAC   |
@@ -7973,7 +7975,7 @@ CODE_BBBED3:
 
 CODE_BBBED7:
 	LDA $060D				;$BBBED7  \
-	CMP #$0002				;$BBBEDA   |
+	CMP #!gamemode_2_player_contest		;$BBBEDA   |
 	BNE CODE_BBBEEE				;$BBBEDD   |
 	LDA $08C2				;$BBBEDF   |
 	AND #$1000				;$BBBEE2   |
@@ -7984,7 +7986,7 @@ CODE_BBBEED:					;	   |
 	RTS					;$BBBEED  /
 
 CODE_BBBEEE:
-	CMP #$0001				;$BBBEEE  \
+	CMP #!gamemode_2_player_team		;$BBBEEE  \
 	BNE CODE_BBBEED				;$BBBEF1   |
 	JSL CODE_80889C				;$BBBEF3   |
 	RTS					;$BBBEF7  /
@@ -8021,7 +8023,7 @@ DATA_BBBF22:
 CODE_BBBF30:
 	STZ $0902				;$BBBF30  \
 	STZ $08A6				;$BBBF33   |
-	STZ $6E					;$BBBF36   |
+	STZ animal_type				;$BBBF36   |
 	STZ current_player_mount		;$BBBF38   |
 	STZ $08AA				;$BBBF3A   |
 	STZ $08AC				;$BBBF3D   |
@@ -8145,7 +8147,7 @@ CODE_BBC019:
 	STA $0006CF				;$BBC020   |
 	LDA #$0001				;$BBC024   |
 	STA $0006D1				;$BBC027   |
-	STZ $6E					;$BBC02B   |
+	STZ animal_type				;$BBC02B   |
 	STZ current_player_mount		;$BBC02D   |
 	JSR CODE_BBC07E				;$BBC02F   |
 	LDA.l $0006D9				;$BBC032   |
@@ -8177,7 +8179,7 @@ CODE_BBC062:
 	ASL A					;$BBC063   |
 	TAX					;$BBC064   |
 	LDA.l DATA_BBC070,x			;$BBC065   |
-	STA $6E					;$BBC069   |
+	STA animal_type				;$BBC069   |
 	BNE CODE_BBC061				;$BBC06B   |
 	STZ current_player_mount		;$BBC06D   |
 	RTS					;$BBC06F  /
@@ -8478,16 +8480,16 @@ CODE_BBC174:					;	   |
 	JMP CODE_BBC150				;$BBC31E  /
 
 .CODE_BBC321
-	LDY #$0E9E				;$BBC321  \
+	LDY #!non_kong_sprite_slot_start	;$BBC321  \
 	LDX active_kong_sprite			;$BBC324   |
-	LDA $0006,y				;$BBC327   |
+	LDA.w sprite.x_position,y		;$BBC327   |
 	SEC					;$BBC32A   |
-	SBC $06,x				;$BBC32B   |
+	SBC sprite.x_position,x			;$BBC32B   |
 	LSR A					;$BBC32D   |
-	EOR $12,x				;$BBC32E   |
+	EOR sprite.oam_property,x		;$BBC32E   |
 	AND #$4000				;$BBC330   |
-	EOR $12,x				;$BBC333   |
-	STA $12,x				;$BBC335   |
+	EOR sprite.oam_property,x		;$BBC333   |
+	STA sprite.oam_property,x		;$BBC335   |
 	JMP CODE_BBC15D				;$BBC337  /
 
 .CODE_BBC33A
@@ -8515,25 +8517,25 @@ CODE_BBC174:					;	   |
 .lift_dk_off_screen
 	LDX $075F				;$BBC368  \
 	LDA #$0002				;$BBC36B   |
-	STA $2E,x				;$BBC36E   |
+	STA sprite.state,x			;$BBC36E   |
 	JMP CODE_BBC150				;$BBC370  /
 
 .CODE_BBC373
 	LDX active_kong_sprite			;$BBC373  \
 	LDA #$0180				;$BBC376   |
-	STA $06,x				;$BBC379   |
+	STA sprite.x_position,x			;$BBC379   |
 	JMP CODE_BBC15D				;$BBC37B  /
 
 .CODE_BBC37E
 	LDX active_kong_sprite			;$BBC37E  \
 	LDA #$0350				;$BBC381   |
-	STA $06,x				;$BBC384   |
+	STA sprite.x_position,x			;$BBC384   |
 	JMP CODE_BBC15D				;$BBC386  /
 
 .move_active_kong_to_left_of_level
 	LDX active_kong_sprite			;$BBC389  \
 	LDA #$0100				;$BBC38C   |
-	STA $06,x				;$BBC38F   |
+	STA sprite.x_position,x			;$BBC38F   |
 	JMP CODE_BBC15D				;$BBC391  /> Cutscene code done
 
 .move_inactive_kong_left_of_active
@@ -8542,22 +8544,22 @@ CODE_BBC174:					;	   |
 	BEQ ..done				;$BBC39A   |/ If there is a no follower kong then were done
 	LDY inactive_kong_sprite		;$BBC39C   |\ Get follower kong in Y
 	LDX active_kong_sprite			;$BBC39F   |/ Get main kong in X
-	LDA $06,x				;$BBC3A2   |\ Get main kong x position
+	LDA sprite.x_position,x			;$BBC3A2   |\ Get main kong x position
 	SEC					;$BBC3A4   | |
 	SBC #$001C				;$BBC3A5   | | Set follower kong to the left of main kong
-	STA $0006,y				;$BBC3A8   |/
+	STA.w sprite.x_position,y		;$BBC3A8   |/
 ..done						;	   |
 	JMP CODE_BBC15D				;$BBC3AB  /> Cutscene code done
 
 .stop_kongs_and_celebrate
 	JSL CODE_B8808E				;$BBC3AE  \> Work on active kong
-	LDA $0A,x				;$BBC3B2   |\ Get kongs y position
-	STA $0C,x				;$BBC3B4   | | Set ground position to current y
-	STZ $0E,x				;$BBC3B6   |/ Set distance from ground to 0
-	STZ $26,x				;$BBC3B8   |\ Clear x velocities and stop kong
-	STZ $20,x				;$BBC3BA   |/
+	LDA sprite.y_position,x			;$BBC3B2   |\ Get kongs y position
+	STA sprite.ground_y_position,x		;$BBC3B4   | | Set ground position to current y
+	STZ sprite.ground_distance,x		;$BBC3B6   |/ Set distance from ground to 0
+	STZ sprite.max_x_speed,x		;$BBC3B8   |\ Clear x velocities and stop kong
+	STZ sprite.x_speed,x			;$BBC3BA   |/
 	LDA #$0074				;$BBC3BC   |\ Set kong state to cutscene idle
-	STA $2E,x				;$BBC3BF   |/
+	STA sprite.state,x			;$BBC3BF   |/
 	LDA #$0045				;$BBC3C1   |\ Set kong animation to celebrate
 	JSL CODE_B9D0B0				;$BBC3C4   |/
 	LDA $08C2				;$BBC3C8   |\
@@ -8565,8 +8567,8 @@ CODE_BBC174:					;	   |
 	BEQ .CODE_BBC42C			;$BBC3CE   |/ If there is no follower kong then were done
 	JSL CODE_B880A2				;$BBC3D0   |> Else work on inactive kong
 	LDA #$0074				;$BBC3D4   |\ Load cutscene idle kong state
-	STZ $26,x				;$BBC3D7   | | Clear x velocities and stop kong
-	STA $2E,x				;$BBC3D9   |/ Apply kong state
+	STZ sprite.max_x_speed,x		;$BBC3D7   | | Clear x velocities and stop kong
+	STA sprite.state,x			;$BBC3D9   |/ Apply kong state
 	LDA #$0001				;$BBC3DB   |\ Set kong animation to idle
 	JSL CODE_B9D0B0				;$BBC3DE   |/
 	JMP CODE_BBC150				;$BBC3E2  /> Cutscene code done
@@ -8583,8 +8585,8 @@ CODE_BBC174:					;	   |
 
 ..set_kong_state_to_cutscene_move
 	LDA #$0075				;$BBC3FE  \
-	STA $2E,x				;$BBC401   |
-	STZ $26,x				;$BBC403   |
+	STA sprite.state,x			;$BBC401   |
+	STZ sprite.max_x_speed,x		;$BBC403   |
 	RTS					;$BBC405  /
 
 .CODE_BBC406
@@ -8592,16 +8594,16 @@ CODE_BBC174:					;	   |
 	JSL CODE_B88EB8				;$BBC40A   |
 	LDX current_sprite			;$BBC40E   |
 	LDA #$007C				;$BBC410   |
-	STA $2E,x				;$BBC413   |
-	STZ $26,x				;$BBC415   |
-	STZ $24,x				;$BBC417   |
-	STZ $1C,x				;$BBC419   |
+	STA sprite.state,x			;$BBC413   |
+	STZ sprite.max_x_speed,x		;$BBC415   |
+	STZ sprite.y_speed,x			;$BBC417   |
+	STZ sprite.unknown_1C,x			;$BBC419   |
 	LDA $08C2				;$BBC41B   |
 	AND #$4000				;$BBC41E   |
 	BEQ .CODE_BBC42C			;$BBC421   |
 	JSL CODE_B880A2				;$BBC423   |
 	LDA #$0022				;$BBC427   |
-	STA $2E,x				;$BBC42A   |
+	STA sprite.state,x			;$BBC42A   |
 .CODE_BBC42C					;	   |
 	JMP CODE_BBC150				;$BBC42C  /
 
@@ -8617,8 +8619,8 @@ CODE_BBC174:					;	   |
 
 .CODE_BBC448
 	LDA #$0074				;$BBC448  \
-	STZ $26,x				;$BBC44B   |
-	STA $2E,x				;$BBC44D   |
+	STZ sprite.max_x_speed,x		;$BBC44B   |
+	STA sprite.state,x			;$BBC44D   |
 	LDA #$0001				;$BBC44F   |
 	JSL CODE_B9D0B0				;$BBC452   |
 	RTS					;$BBC456  /
@@ -8634,14 +8636,14 @@ CODE_BBC174:					;	   |
 	JMP CODE_BBC150				;$BBC46D  /> Cutscene code done
 
 .set_kong_walking_right
-	LDA $0A,x				;$BBC470  \ \ Get kongs y position
-	STA $0C,x				;$BBC472   | | Set ground position to current y
-	STZ $0E,x				;$BBC474   |/ Set distance from ground to 0
+	LDA sprite.y_position,x			;$BBC470  \ \ Get kongs y position
+	STA sprite.ground_y_position,x		;$BBC472   | | Set ground position to current y
+	STZ sprite.ground_distance,x		;$BBC474   |/ Set distance from ground to 0
 	LDA #$0200				;$BBC476   |\ Lead right walking x velocity
-	STA $26,x				;$BBC479   | | Set x velocities for kong
-	STA $20,x				;$BBC47B   |/
+	STA sprite.max_x_speed,x		;$BBC479   | | Set x velocities for kong
+	STA sprite.x_speed,x			;$BBC47B   |/
 	LDA #$0075				;$BBC47D   |\ Set kong state to cutscene moving
-	STA $2E,x				;$BBC480   |/
+	STA sprite.state,x			;$BBC480   |/
 	LDA #$0003				;$BBC482   |\ Set kong animation to walking
 	JSL CODE_B9D0B0				;$BBC485   |/
 	RTS					;$BBC489  /> Return
@@ -8658,17 +8660,17 @@ CODE_BBC174:					;	   |
 	JMP CODE_BBC150				;$BBC4A0  /
 
 .CODE_BBC4A3
-	LDA $0A,x				;$BBC4A3  \
-	STA $0C,x				;$BBC4A5   |
-	STZ $0E,x				;$BBC4A7   |
+	LDA sprite.y_position,x			;$BBC4A3  \
+	STA sprite.ground_y_position,x		;$BBC4A5   |
+	STZ sprite.ground_distance,x		;$BBC4A7   |
 	LDA #$0400				;$BBC4A9   |
-	STA $26,x				;$BBC4AC   |
-	STA $20,x				;$BBC4AE   |
+	STA sprite.max_x_speed,x		;$BBC4AC   |
+	STA sprite.x_speed,x			;$BBC4AE   |
 	LDA #$0075				;$BBC4B0   |
-	STA $2E,x				;$BBC4B3   |
-	LDA $0006,y				;$BBC4B5   |
+	STA sprite.state,x			;$BBC4B3   |
+	LDA.w sprite.x_position,y		;$BBC4B5   |
 	ORA #$0004				;$BBC4B8   |
-	STA $0006,y				;$BBC4BB   |
+	STA.w sprite.x_position,y		;$BBC4BB   |
 	LDA #$0004				;$BBC4BE   |
 	JSL CODE_B9D0B0				;$BBC4C1   |
 	RTS					;$BBC4C5  /
@@ -8689,41 +8691,43 @@ CODE_BBC174:					;	   |
 	CMP #!level_k_rool_duel			;$BBC4E4   |
 	BNE .CODE_BBC4FC			;$BBC4E7   |
 	LDY $0654				;$BBC4E9   |
-	LDA $0006,y				;$BBC4EC   |
+	LDA.w sprite.x_position,y		;$BBC4EC   |
 	SEC					;$BBC4EF   |
-	SBC $06,x				;$BBC4F0   |
+	SBC sprite.x_position,x			;$BBC4F0   |
 	LSR A					;$BBC4F2   |
-	EOR $12,x				;$BBC4F3   |
+	EOR sprite.oam_property,x		;$BBC4F3   |
 	AND #$4000				;$BBC4F5   |
-	EOR $12,x				;$BBC4F8   |
-	STA $12,x				;$BBC4FA   |
+	EOR sprite.oam_property,x		;$BBC4F8   |
+	STA sprite.oam_property,x		;$BBC4FA   |
 .CODE_BBC4FC					;	   |
-	LDA $0A,x				;$BBC4FC   |
-	STA $0C,x				;$BBC4FE   |
-	STZ $0E,x				;$BBC500   |
-	STZ $26,x				;$BBC502   |
-	STZ $20,x				;$BBC504   |
+	LDA sprite.y_position,x			;$BBC4FC   |
+	STA sprite.ground_y_position,x		;$BBC4FE   |
+	STZ sprite.ground_distance,x		;$BBC500   |
+	STZ sprite.max_x_speed,x		;$BBC502   |
+	STZ sprite.x_speed,x			;$BBC504   |
 	LDA #$0074				;$BBC506   |
-	STA $2E,x				;$BBC509   |
+	STA sprite.state,x			;$BBC509   |
 	LDA #$009F				;$BBC50B   |
 	JSL CODE_B9D0B0				;$BBC50E   |
 	RTS					;$BBC512  /
 
 .CODE_BBC513
 	JSL CODE_B8808E				;$BBC513  \
-	STZ $2E,x				;$BBC517   |
+	STZ sprite.state,x			;$BBC517   |
 	LDA $08C2				;$BBC519   |
 	AND #$4000				;$BBC51C   |
 	BEQ .CODE_BBC537			;$BBC51F   |
 	JSL CODE_B880A2				;$BBC521   |
 	LDA #$0022				;$BBC525   |
-	STA $2E,x				;$BBC528   |
+	STA sprite.state,x			;$BBC528   |
 	LDA #$001F				;$BBC52A   |
 	LDX #$0003				;$BBC52D   |
 	LDY #$0000				;$BBC530   |
 	JSL CODE_B8D8D1				;$BBC533   |
 .CODE_BBC537					;	   |
 	JMP CODE_BBC150				;$BBC537  /
+
+;SAVE MANAGEMENT CODE
 
 validate_save_file:				;	  \
 %local(.sram_pointer, temp_26)			;	   |
@@ -8739,12 +8743,12 @@ validate_save_file:				;	  \
 	STA .sram_pointer_bank			;$BBC547   |/
 	LDY.w #save_file.file_signature		;$BBC549   |\ Load the file signature
 	LDA [.sram_pointer],y			;$BBC54C   | |
-	AND #$FFFE				;$BBC54E   |/ Mask off which player is active
-	CMP #$0052				;$BBC551   |\ Check for single player game type
+	AND #$FFFE				;$BBC54E   |/ Mask off which game mode if active
+	CMP #(!gamemode_1_player<<8)|$52	;$BBC551   |\ Check for single player game type
 	BEQ .valid_file_signature		;$BBC554   |/ If so, verify the checksum
-	CMP #$0152				;$BBC556   |\ Check for cooperative player game type
+	CMP #(!gamemode_2_player_team<<8)|$52	;$BBC556   |\ Check for cooperative player game type
 	BEQ .valid_file_signature		;$BBC559   |/ If so, verify the checksum
-	CMP #$0252				;$BBC55B   |\ Check for competitive player game type
+	CMP #(!gamemode_2_player_contest<<8)|$52;$BBC55B   |\ Check for competitive player game type
 	BNE .invalid_file			;$BBC55E   |/ If not, the file cannot be valid, return such
 .valid_file_signature				;	   |
 	JSR calculate_checksum			;$BBC560   | Calculate the checksums of the save file payload
@@ -8804,46 +8808,46 @@ calculate_checksum:				;	  \
 CODE_BBC5AB:
 	PHB					;$BBC5AB  \
 	LDA $060D				;$BBC5AC   |
-	CMP #$0002				;$BBC5AF   |
+	CMP #!gamemode_2_player_contest		;$BBC5AF   |
 	BNE CODE_BBC5C3				;$BBC5B2   |
 	JSL CODE_BBC85B				;$BBC5B4   |
-	JSL CODE_BBC5F4				;$BBC5B8   |
-	JSR CODE_BBC5CC				;$BBC5BC   |
+	JSL save_game				;$BBC5B8   |
+	JSR copy_save_to_SRAM			;$BBC5BC   |
 	JSL CODE_BBC85B				;$BBC5BF   |
 CODE_BBC5C3:					;	   |
-	JSL CODE_BBC5F4				;$BBC5C3   |
-	JSR CODE_BBC5CC				;$BBC5C7   |
+	JSL save_game				;$BBC5C3   |
+	JSR copy_save_to_SRAM			;$BBC5C7   |
 	PLB					;$BBC5CA   |
 	RTL					;$BBC5CB  /
 
-CODE_BBC5CC:
-	LDA file_select_selection		;$BBC5CC  \
-	ASL A					;$BBC5CF   |
-	TAX					;$BBC5D0   |
-	LDA.l DATA_BBC5EE,x			;$BBC5D1   |
-	STA $32					;$BBC5D5   |
-	LDA.w #<:sram_base			;$BBC5D7   |
-	STA $34					;$BBC5DA   |
-	%pea_use_dbr(sram_file_buffer)		;$BBC5DC   |
-	PLB					;$BBC5DF   |
-	LDY #$02A6				;$BBC5E0   |
-CODE_BBC5E3:					;	   |
-	LDA.w sram_file_buffer,y		;$BBC5E3   |
-	STA [$32],y				;$BBC5E6   |
-	DEY					;$BBC5E8   |
-	DEY					;$BBC5E9   |
-	BPL CODE_BBC5E3				;$BBC5EA   |
-	PLB					;$BBC5EC   |
-	RTS					;$BBC5ED  /
+copy_save_to_SRAM:
+	LDA file_select_selection		;$BBC5CC  \ \
+	ASL A					;$BBC5CF   | |
+	TAX					;$BBC5D0   | |
+	LDA.l save_file_addresses,x		;$BBC5D1   |/ Get write address for current save file number
+	STA $32					;$BBC5D5   |\ Store the SRAM write address to scratch
+	LDA.w #<:sram_base			;$BBC5D7   | |
+	STA $34					;$BBC5DA   |/
+	%pea_use_dbr(sram_file_buffer)		;$BBC5DC   |\ Use SRAM bank
+	PLB					;$BBC5DF   |/
+	LDY.w #(sizeof(save_file)-2)		;$BBC5E0   |> Load number of bytes to copy to SRAM
+-						;	   |
+	LDA.w sram_file_buffer,y		;$BBC5E3   |\ Copy word to SRAM
+	STA [$32],y				;$BBC5E6   |/
+	DEY					;$BBC5E8   |\
+	DEY					;$BBC5E9   | |
+	BPL -					;$BBC5EA   |/ If there is more to copy then copy another word
+	PLB					;$BBC5EC   |> Retrieve bank
+	RTS					;$BBC5ED  /> Return
 
 
-DATA_BBC5EE:
+save_file_addresses:
 	dw save_file1
 	dw save_file2
 	dw save_file3
 
-CODE_BBC5F4:
-	JSL CODE_BB819F				;$BBC5F4  \
+save_game:
+	JSL calculate_completion_percentage	;$BBC5F4  \
 	LDA #sram_file_buffer			;$BBC5F8   |
 	STA $26					;$BBC5FB   |
 	LDA.w #<:sram_file_buffer		;$BBC5FD   |
@@ -8861,32 +8865,32 @@ CODE_BBC5F4:
 	STA [$26],y				;$BBC61A   |
 	REP #$20				;$BBC61C   |
 	LDA $060D				;$BBC61E   |
-	CMP #$0002				;$BBC621   |
-	BNE CODE_BBC633				;$BBC624   |
+	CMP #!gamemode_2_player_contest		;$BBC621   |
+	BNE .player_1_save			;$BBC624   |
 	LDA $060F				;$BBC626   |
 	AND #$0001				;$BBC629   |
-	BEQ CODE_BBC633				;$BBC62C   |
+	BEQ .player_1_save			;$BBC62C   |
 	LDA #$0154				;$BBC62E   |
-	BRA CODE_BBC636				;$BBC631  /
+	BRA .player_2_save			;$BBC631  /
 
-CODE_BBC633:
+.player_1_save:
 	LDA #$0006				;$BBC633  \
-CODE_BBC636:					;	   |
+.player_2_save:					;	   |
 	CLC					;$BBC636   |
 	ADC $26					;$BBC637   |
 	STA $D9					;$BBC639   |
 	LDA #$0000				;$BBC63B   |
 	ADC $28					;$BBC63E   |
 	STA $DB					;$BBC640   |
-	LDA $D5					;$BBC642   |
+	LDA gameplay_frame_counter		;$BBC642   |
 	LDY #$0000				;$BBC644   |
 	STA [$D9],y				;$BBC647   |
-	LDA $D7					;$BBC649   |
+	LDA gameplay_frame_counter_high		;$BBC649   |
 	INY					;$BBC64B   |
 	INY					;$BBC64C   |
 	STA [$D9],y				;$BBC64D   |
 	SEP #$20				;$BBC64F   |
-	LDA game_completion_percentage		;$BBC651   |
+	LDA completion_percentage		;$BBC651   |
 	LDY #$0004				;$BBC654   |
 	STA [$D9],y				;$BBC657   |
 	LDA kremcoin_count			;$BBC659   |
@@ -8906,12 +8910,12 @@ CODE_BBC636:					;	   |
 	STA [$D9],y				;$BBC67E   |
 	LDY #$00E3				;$BBC680   |
 	LDX #$002F				;$BBC683   |
-CODE_BBC686:					;	   |
+-						;	   |
 	LDA $08D2,x				;$BBC686   |
 	STA [$D9],y				;$BBC689   |
 	DEY					;$BBC68B   |
 	DEX					;$BBC68C   |
-	BPL CODE_BBC686				;$BBC68D   |
+	BPL -					;$BBC68D   |
 	REP #$20				;$BBC68F   |
 	LDA.l world_number			;$BBC691   |
 	LDY #$00AD				;$BBC695   |
@@ -8935,54 +8939,54 @@ CODE_BBC686:					;	   |
 	STA [$D9],y				;$BBC6C8   |
 	LDY #$002B				;$BBC6CA   |
 	LDX #$001E				;$BBC6CD   |
-CODE_BBC6D0:					;	   |
+-						;	   |
 	LDA.l $7E5972,x				;$BBC6D0   |
 	STA [$D9],y				;$BBC6D4   |
 	DEY					;$BBC6D6   |
 	DEY					;$BBC6D7   |
 	DEX					;$BBC6D8   |
 	DEX					;$BBC6D9   |
-	BPL CODE_BBC6D0				;$BBC6DA   |
+	BPL -					;$BBC6DA   |
 	LDY #$004B				;$BBC6DC   |
 	LDX #$001E				;$BBC6DF   |
-CODE_BBC6E2:					;	   |
+-						;	   |
 	LDA.l $7E5992,x				;$BBC6E2   |
 	STA [$D9],y				;$BBC6E6   |
 	DEY					;$BBC6E8   |
 	DEY					;$BBC6E9   |
 	DEX					;$BBC6EA   |
 	DEX					;$BBC6EB   |
-	BPL CODE_BBC6E2				;$BBC6EC   |
+	BPL -					;$BBC6EC   |
 	LDY #$006B				;$BBC6EE   |
 	LDX #$001E				;$BBC6F1   |
-CODE_BBC6F4:					;	   |
+-						;	   |
 	LDA.l $7E59B2,x				;$BBC6F4   |
 	STA [$D9],y				;$BBC6F8   |
 	DEY					;$BBC6FA   |
 	DEY					;$BBC6FB   |
 	DEX					;$BBC6FC   |
 	DEX					;$BBC6FD   |
-	BPL CODE_BBC6F4				;$BBC6FE   |
+	BPL -					;$BBC6FE   |
 	LDY #$008B				;$BBC700   |
 	LDX #$001E				;$BBC703   |
-CODE_BBC706:					;	   |
+-						;	   |
 	LDA.l $7E59D2,x				;$BBC706   |
 	STA [$D9],y				;$BBC70A   |
 	DEY					;$BBC70C   |
 	DEY					;$BBC70D   |
 	DEX					;$BBC70E   |
 	DEX					;$BBC70F   |
-	BPL CODE_BBC706				;$BBC710   |
+	BPL -					;$BBC710   |
 	LDY #$00AB				;$BBC712   |
 	LDX #$001E				;$BBC715   |
-CODE_BBC718:					;	   |
+-						;	   |
 	LDA.l $7E59F2,x				;$BBC718   |
 	STA [$D9],y				;$BBC71C   |
 	DEY					;$BBC71E   |
 	DEY					;$BBC71F   |
 	DEX					;$BBC720   |
 	DEX					;$BBC721   |
-	BPL CODE_BBC718				;$BBC722   |
+	BPL -					;$BBC722   |
 	JSR calculate_checksum			;$BBC724   |
 	LDY #$0000				;$BBC727   |
 	LDA $5E					;$BBC72A   |
@@ -8999,7 +9003,7 @@ CODE_BBC736:
 	LDA #$007E				;$BBC73F   |
 	STA $28					;$BBC742   |
 	LDA $060D				;$BBC744   |
-	CMP #$0002				;$BBC747   |
+	CMP #!gamemode_2_player_contest		;$BBC747   |
 	BNE CODE_BBC759				;$BBC74A   |
 	LDA $060F				;$BBC74C   |
 	AND #$0001				;$BBC74F   |
@@ -9029,15 +9033,15 @@ CODE_BBC776:
 	STA $08C4				;$BBC77B   |
 	LDY #$0000				;$BBC77E   |
 	LDA [$D9],y				;$BBC781   |
-	STA $D5					;$BBC783   |
+	STA gameplay_frame_counter		;$BBC783   |
 	INY					;$BBC785   |
 	INY					;$BBC786   |
 	LDA [$D9],y				;$BBC787   |
-	STA $D7					;$BBC789   |
+	STA gameplay_frame_counter_high		;$BBC789   |
 	SEP #$20				;$BBC78B   |
 	LDY #$0004				;$BBC78D   |
 	LDA [$D9],y				;$BBC790   |
-	STA game_completion_percentage		;$BBC792   |
+	STA completion_percentage		;$BBC792   |
 	LDY #$0005				;$BBC795   |
 	LDA [$D9],y				;$BBC798   |
 	STA kremcoin_count			;$BBC79A   |
@@ -9055,12 +9059,12 @@ CODE_BBC776:
 	STA $08A4				;$BBC7B9   |
 	LDY #$00E3				;$BBC7BC   |
 	LDX #$002F				;$BBC7BF   |
-CODE_BBC7C2:					;	   |
+-						;	   |
 	LDA [$D9],y				;$BBC7C2   |
 	STA $08D2,x				;$BBC7C4   |
 	DEY					;$BBC7C7   |
 	DEX					;$BBC7C8   |
-	BPL CODE_BBC7C2				;$BBC7C9   |
+	BPL -					;$BBC7C9   |
 	REP #$20				;$BBC7CB   |
 	LDY #$00AD				;$BBC7CD   |
 	LDA [$D9],y				;$BBC7D0   |
@@ -9077,54 +9081,54 @@ CODE_BBC7C2:					;	   |
 	STA cheat_enable_flags			;$BBC7F0   |
 	LDY #$002B				;$BBC7F3   |
 	LDX #$001E				;$BBC7F6   |
-CODE_BBC7F9:					;	   |
+-						;	   |
 	LDA [$D9],y				;$BBC7F9   |
 	STA $7E5972,x				;$BBC7FB   |
 	DEY					;$BBC7FF   |
 	DEY					;$BBC800   |
 	DEX					;$BBC801   |
 	DEX					;$BBC802   |
-	BPL CODE_BBC7F9				;$BBC803   |
+	BPL -					;$BBC803   |
 	LDY #$004B				;$BBC805   |
 	LDX #$001E				;$BBC808   |
-CODE_BBC80B:					;	   |
+-						;	   |
 	LDA [$D9],y				;$BBC80B   |
 	STA $7E5992,x				;$BBC80D   |
 	DEY					;$BBC811   |
 	DEY					;$BBC812   |
 	DEX					;$BBC813   |
 	DEX					;$BBC814   |
-	BPL CODE_BBC80B				;$BBC815   |
+	BPL -					;$BBC815   |
 	LDY #$006B				;$BBC817   |
 	LDX #$001E				;$BBC81A   |
-CODE_BBC81D:					;	   |
+-						;	   |
 	LDA [$D9],y				;$BBC81D   |
 	STA $7E59B2,x				;$BBC81F   |
 	DEY					;$BBC823   |
 	DEY					;$BBC824   |
 	DEX					;$BBC825   |
 	DEX					;$BBC826   |
-	BPL CODE_BBC81D				;$BBC827   |
+	BPL -					;$BBC827   |
 	LDY #$008B				;$BBC829   |
 	LDX #$001E				;$BBC82C   |
-CODE_BBC82F:					;	   |
+-						;	   |
 	LDA [$D9],y				;$BBC82F   |
 	STA $7E59D2,x				;$BBC831   |
 	DEY					;$BBC835   |
 	DEY					;$BBC836   |
 	DEX					;$BBC837   |
 	DEX					;$BBC838   |
-	BPL CODE_BBC82F				;$BBC839   |
+	BPL -					;$BBC839   |
 	LDY #$00AB				;$BBC83B   |
 	LDX #$001E				;$BBC83E   |
-CODE_BBC841:					;	   |
+-						;	   |
 	LDA [$D9],y				;$BBC841   |
 	STA $7E59F2,x				;$BBC843   |
 	DEY					;$BBC847   |
 	DEY					;$BBC848   |
 	DEX					;$BBC849   |
 	DEX					;$BBC84A   |
-	BPL CODE_BBC841				;$BBC84B   |
+	BPL -					;$BBC84B   |
 	LDA #$0040				;$BBC84D   |
 	TSB $06A3				;$BBC850   |
 	LDA $08A4				;$BBC853   |
@@ -9137,7 +9141,7 @@ CODE_BBC85B:
 	EOR #$0001				;$BBC861   |
 	STA $060F				;$BBC864   |
 	JSR CODE_BBC8B7				;$BBC867   |
-	STZ $6E					;$BBC86A   |
+	STZ animal_type				;$BBC86A   |
 	STZ current_player_mount		;$BBC86C   |
 	RTL					;$BBC86E  /
 
@@ -9154,29 +9158,29 @@ CODE_BBC880:					;	   |
 	SEP #$20				;$BBC882   |
 	LDX #$0000				;$BBC884   |
 	LDY #$0000				;$BBC887   |
-CODE_BBC88A:					;	   |
+-						;	   |
 	LDA $D1,x				;$BBC88A   |
 	STA [$26],y				;$BBC88C   |
 	INY					;$BBC88E   |
 	INX					;$BBC88F   |
 	CPX #$0008				;$BBC890   |
-	BNE CODE_BBC88A				;$BBC893   |
+	BNE -					;$BBC893   |
 	LDX #$0000				;$BBC895   |
-CODE_BBC898:					;	   |
+-						;	   |
 	LDA $064A,x				;$BBC898   |
 	STA [$26],y				;$BBC89B   |
 	INY					;$BBC89D   |
 	INX					;$BBC89E   |
 	CPX #$02BD				;$BBC89F   |
-	BNE CODE_BBC898				;$BBC8A2   |
+	BNE -					;$BBC8A2   |
 	LDX #$0000				;$BBC8A4   |
-CODE_BBC8A7:					;	   |
+-						;	   |
 	LDA.l $7E5972,x				;$BBC8A7   |
 	STA [$26],y				;$BBC8AB   |
 	INY					;$BBC8AD   |
 	INX					;$BBC8AE   |
 	CPX #$00A0				;$BBC8AF   |
-	BNE CODE_BBC8A7				;$BBC8B2   |
+	BNE -					;$BBC8B2   |
 	REP #$20				;$BBC8B4   |
 	RTS					;$BBC8B6  /
 
@@ -9193,29 +9197,29 @@ CODE_BBC8C8:					;	   |
 	SEP #$20				;$BBC8CA   |
 	LDX #$0000				;$BBC8CC   |
 	LDY #$0000				;$BBC8CF   |
-CODE_BBC8D2:					;	   |
+-						;	   |
 	LDA [$26],y				;$BBC8D2   |
 	STA $D1,x				;$BBC8D4   |
 	INY					;$BBC8D6   |
 	INX					;$BBC8D7   |
 	CPX #$0008				;$BBC8D8   |
-	BNE CODE_BBC8D2				;$BBC8DB   |
+	BNE -					;$BBC8DB   |
 	LDX #$0000				;$BBC8DD   |
-CODE_BBC8E0:					;	   |
+-						;	   |
 	LDA [$26],y				;$BBC8E0   |
 	STA $064A,x				;$BBC8E2   |
 	INY					;$BBC8E5   |
 	INX					;$BBC8E6   |
 	CPX #$02BD				;$BBC8E7   |
-	BNE CODE_BBC8E0				;$BBC8EA   |
+	BNE -					;$BBC8EA   |
 	LDX #$0000				;$BBC8EC   |
-CODE_BBC8EF:					;	   |
+-						;	   |
 	LDA [$26],y				;$BBC8EF   |
 	STA $7E5972,x				;$BBC8F1   |
 	INY					;$BBC8F5   |
 	INX					;$BBC8F6   |
 	CPX #$00A0				;$BBC8F7   |
-	BNE CODE_BBC8EF				;$BBC8FA   |
+	BNE -					;$BBC8FA   |
 	REP #$20				;$BBC8FC   |
 	RTS					;$BBC8FE  /
 

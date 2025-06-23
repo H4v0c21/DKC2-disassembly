@@ -62,8 +62,8 @@ king_zing_sprite_code:
 	STA $000652				;$BA906D   |
 	LDA #$0002				;$BA9071   |
 	STA $00070B				;$BA9074   |
-	LDY #$00A0				;$BA9078   |
-	JSL CODE_BB842C				;$BA907B   |
+	LDY #!special_sprite_spawn_id_00A0	;$BA9078   |
+	JSL spawn_special_sprite_index		;$BA907B   |
 	LDA alternate_sprite			;$BA907F   |
 	LDX current_sprite			;$BA9081   |
 	STX $0654				;$BA9083   |
@@ -150,28 +150,28 @@ CODE_BA912B:
 	LDA #$2800				;$BA9142   |
 	STA $4E,x				;$BA9145   |
 	STZ $4C,x				;$BA9147   |
-	LDY #$00C0				;$BA9149   |
-	JSL CODE_BB842C				;$BA914C   |
+	LDY #!special_sprite_spawn_id_00C0	;$BA9149   |
+	JSL spawn_special_sprite_index		;$BA914C   |
 	LDX alternate_sprite			;$BA9150   |
 	STZ $4A,x				;$BA9152   |
 	LDA #$0001				;$BA9154   |
 	STA $1E,x				;$BA9157   |
-	LDY #$00C0				;$BA9159   |
-	JSL CODE_BB842C				;$BA915C   |
+	LDY #!special_sprite_spawn_id_00C0	;$BA9159   |
+	JSL spawn_special_sprite_index		;$BA915C   |
 	LDX alternate_sprite			;$BA9160   |
 	LDA #$4000				;$BA9162   |
 	STA $4A,x				;$BA9165   |
 	LDA #$000F				;$BA9167   |
 	STA $1E,x				;$BA916A   |
-	LDY #$00C0				;$BA916C   |
-	JSL CODE_BB842C				;$BA916F   |
+	LDY #!special_sprite_spawn_id_00C0	;$BA916C   |
+	JSL spawn_special_sprite_index		;$BA916F   |
 	LDX alternate_sprite			;$BA9173   |
 	LDA #$8000				;$BA9175   |
 	STA $4A,x				;$BA9178   |
 	LDA #$001E				;$BA917A   |
 	STA $1E,x				;$BA917D   |
-	LDY #$00C0				;$BA917F   |
-	JSL CODE_BB842C				;$BA9182   |
+	LDY #!special_sprite_spawn_id_00C0	;$BA917F   |
+	JSL spawn_special_sprite_index		;$BA9182   |
 	LDX alternate_sprite			;$BA9186   |
 	LDA #$C000				;$BA9188   |
 	STA $4A,x				;$BA918B   |
@@ -307,7 +307,7 @@ CODE_BA9274:
 CODE_BA92AE:					;	   |
 	PHA					;$BA92AE   |
 	LDY #DATA_FF1EAA			;$BA92AF   |
-	JSL CODE_BB8418				;$BA92B2   |
+	JSL spawn_no_gfx_special_sprite_address	;$BA92B2   |
 	LDY alternate_sprite			;$BA92B6   |
 	PLX					;$BA92B8   |
 	LDA $0000,x				;$BA92B9   |
@@ -746,12 +746,12 @@ CODE_BA960F:
 	JSL CODE_B9D09B				;$BA965C   |
 	LDA #$047F				;$BA9660   |
 	JSL queue_sound_effect			;$BA9663   |
-	LDY #$0196				;$BA9667   |
-	JSL CODE_BB842C				;$BA966A   |
-	LDY #$0198				;$BA966E   |
-	JSL CODE_BB842C				;$BA9671   |
-	LDY #$019A				;$BA9675   |
-	JSL CODE_BB842C				;$BA9678   |
+	LDY #!special_sprite_spawn_id_0196	;$BA9667   |
+	JSL spawn_special_sprite_index		;$BA966A   |
+	LDY #!special_sprite_spawn_id_0198	;$BA966E   |
+	JSL spawn_special_sprite_index		;$BA9671   |
+	LDY #!special_sprite_spawn_id_019A	;$BA9675   |
+	JSL spawn_special_sprite_index		;$BA9678   |
 	BRA CODE_BA9696				;$BA967C  /
 
 CODE_BA967E:
@@ -857,12 +857,12 @@ CODE_BA9751:
 
 CODE_BA9762:
 	PHX					;$BA9762  \
-	JSL CODE_BB8418				;$BA9763   |
+	JSL spawn_no_gfx_special_sprite_address	;$BA9763   |
 	BRA CODE_BA976E				;$BA9767  /
 
 CODE_BA9769:
 	PHX					;$BA9769  \
-	JSL CODE_BB8432				;$BA976A   |
+	JSL spawn_special_sprite_address	;$BA976A   |
 CODE_BA976E:					;	   |
 	PLX					;$BA976E   |
 	LDY alternate_sprite			;$BA976F   |
@@ -942,7 +942,7 @@ king_zing_ring_zinger_sprite_code:
 	STA $30,x				;$BA980A   |
 	JSR .CODE_BA9884			;$BA980C   |
 	LDY.w #DATA_FF16BA			;$BA980F   |
-	JSL CODE_BB8432				;$BA9812   |
+	JSL spawn_special_sprite_address	;$BA9812   |
 	LDA #$0242				;$BA9816   |
 	JSL CODE_B9D09B				;$BA9819   |
 	LDX alternate_sprite			;$BA981D   |
@@ -1007,7 +1007,7 @@ king_zing_ring_zinger_sprite_code:
 .state_3:
 	JSL process_current_movement		;$BA98A5  \
 	JSL CODE_B9D100				;$BA98A9   |
-	JSL CODE_BBBB69				;$BA98AD   |
+	JSL check_if_sprite_offscreen_global	;$BA98AD   |
 	BCC ..return				;$BA98B1   |
 	LDX current_sprite			;$BA98B3   |
 	LDA #$C000				;$BA98B5   |
@@ -1037,20 +1037,18 @@ king_zing_ring_zinger_sprite_code:
 	BRA ..return				;$BA98E4  /
 
 DATA_BA98E6:
-	db $04, $00, $EA, $FF, $DD, $FF, $80, $FF
-	db $00, $00, $02, $00, $51, $00, $19, $00
-	db $F2, $FF, $C0, $FF, $00, $00, $02, $00
-	db $51, $00, $FC, $FF, $E7, $FF, $A0, $FF
-	db $00, $00, $02, $00, $51, $00, $14, $00
-	db $E2, $FF, $A0, $FF, $00, $00, $02, $00
-	db $51, $00
+	dw $0004
+	dw $FFEA, $FFDD, $FF80, $0000, $0002, $0051
+	dw $0019, $FFF2, $FFC0, $0000, $0002, $0051
+	dw $FFFC, $FFE7, $FFA0, $0000, $0002, $0051
+	dw $0014, $FFE2, $FFA0, $0000, $0002, $0051
 
 DATA_BA9918:
-	db $03, $00, $00, $00, $D6, $FF, $80, $FF
-	db $00, $00, $02, $00, $51, $00, $E7, $FF
-	db $F2, $FF, $C0, $FF, $00, $00, $01, $00
-	db $51, $00, $00, $00, $FA, $FF, $A0, $FF
-	db $00, $00, $01, $00, $51, $00
+	dw $0003
+	dw $0000, $FFD6, $FF80, $0000, $0002, $0051
+	dw $FFE7, $FFF2, $FFC0, $0000, $0001, $0051
+	dw $0000, $FFFA, $FFA0, $0000, $0001, $0051
+
 
 king_zing_smoke_effect_sprite_code:
 	LDX $0654				;$BA993E  \
@@ -1329,8 +1327,8 @@ kreepy_krows_body_sprite_code:
 	STA $00065A				;$BA9B6D   |
 	LDA #$0003				;$BA9B71   |
 	STA $000652				;$BA9B74   |
-	LDY #$009E				;$BA9B78   |
-	JSL CODE_BB842C				;$BA9B7B   | Spawn Krow Head sprite
+	LDY #!special_sprite_spawn_id_009E	;$BA9B78   |
+	JSL spawn_special_sprite_index		;$BA9B7B   | Spawn Krow Head sprite
 	LDA alternate_sprite			;$BA9B7F   |
 	LDX current_sprite			;$BA9B81   |
 	STX $0654				;$BA9B83   | Store index of self
@@ -1431,7 +1429,7 @@ kreepy_krows_eggs_sprite_code:
 	LDA $44,x				;$BA9C4F   |
 	JSL interpolate_y_velocity_global	;$BA9C51   |
 	JSL apply_position_from_velocity_global	;$BA9C55   |
-	JSL CODE_BBBB8D				;$BA9C59   |
+	JSL delete_sprite_if_offscreen		;$BA9C59   |
 	JSL CODE_B9D100				;$BA9C5D   |
 .return:					;	   |
 	JML [$05A9]				;$BA9C61  /
@@ -1530,7 +1528,7 @@ CODE_BA9D14:
 	LDA #$073A				;$BA9D29   |
 	JSL queue_sound_effect			;$BA9D2C   |
 	LDY.w #DATA_FF1E74			;$BA9D30   | Spawn barrel
-	JSL CODE_BB8432				;$BA9D33   |
+	JSL spawn_special_sprite_address	;$BA9D33   |
 	LDY $06FD				;$BA9D37   |
 	JSL CODE_B4C175				;$BA9D3A   | Get RNG
 	STA $000650				;$BA9D3E   |
@@ -1570,7 +1568,7 @@ CODE_BA9D64:					;	   |
 	STA $12,x				;$BA9D83   |
 	STX current_sprite			;$BA9D85   |
 	LDY.w #DATA_FF1E58			;$BA9D87   |
-	JSL CODE_BB8432				;$BA9D8A   |
+	JSL spawn_special_sprite_address	;$BA9D8A   |
 	LDX $0654				;$BA9D8E   |
 	STX current_sprite			;$BA9D91   |
 	STZ $06FB				;$BA9D93   |
@@ -1611,7 +1609,7 @@ CODE_BA9DAE:
 CODE_BA9DD6:
 	LDY.w #DATA_FF1E0C			;$BA9DD6  \
 CODE_BA9DD9:					;	   |
-	JSL CODE_BB8432				;$BA9DD9   |
+	JSL spawn_special_sprite_address	;$BA9DD9   |
 	PLX					;$BA9DDD   |
 	LDY alternate_sprite			;$BA9DDE   |
 	LDA $0000,x				;$BA9DE0   |
@@ -1808,8 +1806,8 @@ CODE_BA9F88:					;	   |
 CODE_BA9F8C:
 	LDA #$0565				;$BA9F8C  \
 	JSL queue_sound_effect			;$BA9F8F   |
-	LDY #$00A4				;$BA9F93   |
-	JSL CODE_BB842C				;$BA9F96   |
+	LDY #!special_sprite_spawn_id_00A4	;$BA9F93   |
+	JSL spawn_special_sprite_index		;$BA9F96   |
 	LDX alternate_sprite			;$BA9F9A   |
 	LDY active_kong_sprite			;$BA9F9C   |
 	RTS					;$BA9F9F  /
@@ -1854,16 +1852,16 @@ CODE_BA9FE2:
 	INC $065C				;$BA9FE2  \
 	LDA #$057C				;$BA9FE5   | play kreepy krow destroyed sound effect
 	JSL queue_sound_effect			;$BA9FE8   |
-	LDY #$0138				;$BA9FEC   |
-	JSL CODE_BB842C				;$BA9FEF   |
-	LDY #$019C				;$BA9FF3   |
-	JSL CODE_BB842C				;$BA9FF6   |
-	LDY #$019E				;$BA9FFA   |
-	JSL CODE_BB842C				;$BA9FFD   |
-	LDY #$01A0				;$BAA001   |
-	JSL CODE_BB842C				;$BAA004   |
-	LDY #$013C				;$BAA008   |
-	JSL CODE_BB842C				;$BAA00B   |
+	LDY #!special_sprite_spawn_id_0138	;$BA9FEC   |
+	JSL spawn_special_sprite_index		;$BA9FEF   |
+	LDY #!special_sprite_spawn_id_019C	;$BA9FF3   |
+	JSL spawn_special_sprite_index		;$BA9FF6   |
+	LDY #!special_sprite_spawn_id_019E	;$BA9FFA   |
+	JSL spawn_special_sprite_index		;$BA9FFD   |
+	LDY #!special_sprite_spawn_id_01A0	;$BAA001   |
+	JSL spawn_special_sprite_index		;$BAA004   |
+	LDY #!special_sprite_spawn_id_013C	;$BAA008   |
+	JSL spawn_special_sprite_index		;$BAA00B   |
 	LDX $0654				;$BAA00F   | get index of body sprite
 	LDA #$C000				;$BAA012   |
 	STA $1C,x				;$BAA015   | make it invisible
@@ -1873,8 +1871,8 @@ CODE_BA9FE2:
 	STZ $3A,x				;$BAA01E   |
 	STZ $0658				;$BAA020   |
 CODE_BAA023:					;	   |
-	LDY #$013A				;$BAA023   |
-	JSL CODE_BB8412				;$BAA026   |
+	LDY #!special_sprite_spawn_id_013A	;$BAA023   |
+	JSL spawn_no_gfx_special_sprite_index	;$BAA026   |
 	LDX $0654				;$BAA02A   |
 	LDY alternate_sprite			;$BAA02D   |
 	LDA $06,x				;$BAA02F   |
@@ -3085,8 +3083,8 @@ CODE_BAB0BE:
 	SEC					;$BAB0DB   |
 	SBC #$012C				;$BAB0DC   |
 	STA $4E,x				;$BAB0DF   |
-	LDY #$013E				;$BAB0E1   |
-	JSL CODE_BB8412				;$BAB0E4   |
+	LDY #!special_sprite_spawn_id_013E	;$BAB0E1   |
+	JSL spawn_no_gfx_special_sprite_index	;$BAB0E4   |
 	JSL CODE_B4C175				;$BAB0E8   |
 	LDY #$0020				;$BAB0EC   |
 	JSL divide_a_by_y			;$BAB0EF   |
@@ -3125,7 +3123,7 @@ CODE_BAB129:					;	   |
 kore_sparkle_sprite_code:
 	JSL apply_position_from_velocity_global	;$BAB12C  \
 	JSL CODE_B9D100				;$BAB130   | process animation
-	JSL CODE_BBBB8D				;$BAB134   | despawn sprite if offscreen
+	JSL delete_sprite_if_offscreen		;$BAB134   | despawn sprite if offscreen
 	JML [$05A9]				;$BAB138  / done processing sprite
 
 sparkle_spawner_sprite_code:
@@ -3134,8 +3132,8 @@ sparkle_spawner_sprite_code:
 	BNE CODE_BAB18A				;$BAB13F   |
 	LDA #$0008				;$BAB141   |
 	STA $42,x				;$BAB144   |
-	LDY #$0190				;$BAB146   |
-	JSL CODE_BB8412				;$BAB149   |
+	LDY #!special_sprite_spawn_id_0190	;$BAB146   |
+	JSL spawn_no_gfx_special_sprite_index	;$BAB149   |
 	JSL CODE_B4C175				;$BAB14D   |
 	LDY #$001E				;$BAB151   |
 	JSL divide_a_by_y			;$BAB154   |
@@ -4096,8 +4094,8 @@ krool_water_drips_sprite_code:
 	JML [$05A9]				;$BAC0F7  / done processing sprite
 
 .state_1:
-	LDY #$0162				;$BAC0FA  \
-	JSL CODE_BB8412				;$BAC0FD   | spawn another water drop
+	LDY #!special_sprite_spawn_id_0162	;$BAC0FA  \
+	JSL spawn_no_gfx_special_sprite_index	;$BAC0FD   | spawn another water drop
 	LDX current_sprite			;$BAC101   |
 	INC $2E,x				;$BAC103   |
 	LDA $42,x				;$BAC105   |
@@ -4186,7 +4184,7 @@ krool_fish_sprite_code:
 .fall_state:
 	JSR .interpolate_fish_velocities	;$BAC1B4  \
 	JSL CODE_B9D100				;$BAC1B7   | process animation
-	JSL CODE_BBBB8D				;$BAC1BB   | kill sprite if offscreen
+	JSL delete_sprite_if_offscreen		;$BAC1BB   | kill sprite if offscreen
 	JML [$05A9]				;$BAC1BF  / done processing sprite
 
 .interpolate_fish_velocities:

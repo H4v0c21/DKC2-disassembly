@@ -456,8 +456,8 @@ CODE_B8838D:					;	   |
 	LDA current_song			;$B8838D   |
 	CMP #!music_swamp			;$B8838F   |
 	BNE CODE_B883AA				;$B88392   |
-	LDY #$0018				;$B88394   |
-	JSL CODE_BB842C				;$B88397   |
+	LDY #!special_sprite_spawn_id_0018	;$B88394   |
+	JSL spawn_special_sprite_index		;$B88397   |
 	LDY alternate_sprite			;$B8839B   |
 	LDA #$02C0				;$B8839D   |
 	STA $000A,y				;$B883A0   |
@@ -1262,8 +1262,8 @@ CODE_B88A27:
 	STA $26,x				;$B88A36   |
 	LDA #$0072				;$B88A38   |
 	STA $2E,x				;$B88A3B   |
-	LDY #$0036				;$B88A3D   |
-	JSL CODE_BB842C				;$B88A40   |
+	LDY #!special_sprite_spawn_id_0036	;$B88A3D   |
+	JSL spawn_special_sprite_index		;$B88A40   |
 	LDA #$00A0				;$B88A44   |
 	JSL CODE_B9D0B8				;$B88A47   |
 	RTS					;$B88A4B  /
@@ -1475,7 +1475,7 @@ CODE_B88BD9:
 	TAX					;$B88BF6   |
 	LDA.l DATA_FF18CE,x			;$B88BF7   |
 	TAY					;$B88BFB   |
-	JSL CODE_BB8432				;$B88BFC   |
+	JSL spawn_special_sprite_address	;$B88BFC   |
 	LDX alternate_sprite			;$B88C00   |
 	LDA $0A86				;$B88C02   |
 	STA $42,x				;$B88C05   |
@@ -1494,10 +1494,10 @@ CODE_B88C1F:					;	   |
 	STA $20,x				;$B88C1F   |
 	STA $26,x				;$B88C21   |
 CODE_B88C23:					;	   |
-	LDY #$0124				;$B88C23   |
-	JSL CODE_BB842C				;$B88C26   |
-	LDY #$0126				;$B88C2A   |
-	JSL CODE_BB842C				;$B88C2D   |
+	LDY #!special_sprite_spawn_id_0124	;$B88C23   |
+	JSL spawn_special_sprite_index		;$B88C26   |
+	LDY #!special_sprite_spawn_id_0126	;$B88C2A   |
+	JSL spawn_special_sprite_index		;$B88C2D   |
 	SEC					;$B88C31   |
 	RTS					;$B88C32  /
 
@@ -3182,7 +3182,7 @@ kong_state_02:
 	JSR process_player_action		;$B89A1A   |
 	JSR face_moving_direction		;$B89A1D   |
 	LDX $66					;$B89A20   |
-	LDA global_frame_counter		;$B89A22   |
+	LDA active_frame_counter		;$B89A22   |
 	SEC					;$B89A24   |
 	SBC $10,x				;$B89A25   |
 	CMP $24,x				;$B89A27   |
@@ -3544,8 +3544,8 @@ CODE_B89CCD:
 	LDA $30,x				;$B89CD4   |
 	AND #$0080				;$B89CD6   |
 	BNE .CODE_B89CEB			;$B89CD9   |
-	LDY #$0036				;$B89CDB   |
-	JSL CODE_BB842C				;$B89CDE   |
+	LDY #!special_sprite_spawn_id_0036	;$B89CDB   |
+	JSL spawn_special_sprite_index		;$B89CDE   |
 	LDA #$0023				;$B89CE2   |
 	JSL set_player_interaction_global	;$B89CE5   |
 	SEC					;$B89CE9   |
@@ -4222,7 +4222,7 @@ kong_state_24:
 kong_state_25:
 	LDA #$0001				;$B8A1B0  \
 	TSB $08C2				;$B8A1B3   |
-	JSL CODE_BBBB69				;$B8A1B6   |
+	JSL check_if_sprite_offscreen_global	;$B8A1B6   |
 	BCS CODE_B8A1E8				;$B8A1BA   |
 	LDX current_sprite			;$B8A1BC   |
 	STZ $30,x				;$B8A1BE   |
@@ -4390,7 +4390,7 @@ CODE_B8A2FD:
 
 kong_state_28:
 	LDX current_sprite			;$B8A312  \
-	JSL CODE_BBBB69				;$B8A314   |
+	JSL check_if_sprite_offscreen_global	;$B8A314   |
 	BCS CODE_B8A327				;$B8A318   |
 	JSR apply_position_from_velocity	;$B8A31A   |
 	JSR update_damaged_invincibility	;$B8A31D   |
@@ -5970,7 +5970,7 @@ CODE_B8AF85:
 	LDA #$0008				;$B8AF8F   |
 	TSB $0B02				;$B8AF92   |
 CODE_B8AF95:					;	   |
-	LDA global_frame_counter		;$B8AF95   |
+	LDA active_frame_counter		;$B8AF95   |
 	AND #$0003				;$B8AF97   |
 	BNE CODE_B8AFA9				;$B8AF9A   |
 	LDA #$0008				;$B8AF9C   |
@@ -6011,7 +6011,7 @@ CODE_B8AFD4:
 	JMP CODE_B89979				;$B8AFDF  /
 
 kong_state_5F:
-	JSL CODE_BBBB69				;$B8AFE2  \
+	JSL check_if_sprite_offscreen_global	;$B8AFE2  \
 	BCS CODE_B8B002				;$B8AFE6   |
 	LDX current_sprite			;$B8AFE8   |
 	STZ $30,x				;$B8AFEA   |
@@ -6067,7 +6067,7 @@ kong_state_63:
 	JSR process_player_action		;$B8B054   |
 	JSR update_damaged_invincibility	;$B8B057   |
 	JSR CODE_B8AF85				;$B8B05A   |
-	LDA global_frame_counter		;$B8B05D   |
+	LDA active_frame_counter		;$B8B05D   |
 	AND #$0003				;$B8B05F   |
 	BNE CODE_B8B072				;$B8B062   |
 	LDX current_sprite			;$B8B064   |
@@ -6077,7 +6077,7 @@ kong_state_63:
 	EOR #$0400				;$B8B06D   |
 	STA $50,x				;$B8B070   |
 CODE_B8B072:					;	   |
-	LDA global_frame_counter		;$B8B072   |
+	LDA active_frame_counter		;$B8B072   |
 	AND #$0003				;$B8B074   |
 	BNE CODE_B8B07C				;$B8B077   |
 	DEC $091F				;$B8B079   |
@@ -6292,7 +6292,7 @@ kong_state_6F:
 CODE_B8B219:					;	   |
 	LDA #$0100				;$B8B219   |
 	TSB $08C2				;$B8B21C   |
-	DEC global_frame_counter		;$B8B21F   |
+	DEC active_frame_counter		;$B8B21F   |
 	LDX current_sprite			;$B8B221   |
 	LDA $4A,x				;$B8B223   |
 	STA $32					;$B8B225   |
@@ -6530,7 +6530,7 @@ CODE_B8B40A:					;	   |
 	BCS CODE_B8B434				;$B8B40E   |
 	LDA.l DATA_FF1904			;$B8B410   |\
 	TAY					;$B8B414   | |
-	JSL CODE_BB8432				;$B8B415   |/ Spawn a kremcoin
+	JSL spawn_special_sprite_address	;$B8B415   |/ Spawn a kremcoin
 	BCS CODE_B8B434				;$B8B419   |
 	LDX alternate_sprite			;$B8B41B   |
 	LDA #$001B				;$B8B41D   |
@@ -6551,7 +6551,7 @@ CODE_B8B435:
 	BCS CODE_B8B434				;$B8B439   |
 	LDA.l DATA_FF18F0			;$B8B43B   |
 	TAY					;$B8B43F   |
-	JSL CODE_BB8432				;$B8B440   |
+	JSL spawn_special_sprite_address	;$B8B440   |
 	BCS CODE_B8B434				;$B8B444   |
 	LDX alternate_sprite			;$B8B446   |
 	LDA $12,x				;$B8B448   |
@@ -6715,8 +6715,8 @@ CODE_B8B56E:					;	   |
 	LDA $30,x				;$B8B56E   |
 	AND #$0080				;$B8B570   |
 	BNE CODE_B8B5A6				;$B8B573   |
-	LDY #$0036				;$B8B575   |
-	JSL CODE_BB842C				;$B8B578   |
+	LDY #!special_sprite_spawn_id_0036	;$B8B575   |
+	JSL spawn_special_sprite_index		;$B8B578   |
 	LDA #$0023				;$B8B57C   |
 	JSL set_player_interaction_global	;$B8B57F   |
 	RTS					;$B8B583  /
@@ -6818,8 +6818,8 @@ CODE_B8B62B:					;	   |
 	RTS					;$B8B62C  /
 
 CODE_B8B62D:
-	LDY #$0036				;$B8B62D  \
-	JSL CODE_BB842C				;$B8B630   |
+	LDY #!special_sprite_spawn_id_0036	;$B8B62D  \
+	JSL spawn_special_sprite_index		;$B8B630   |
 	LDA #$0023				;$B8B634   |
 	JSL set_player_interaction_global	;$B8B637   |
 	LDA #$066D				;$B8B63B   |
@@ -7503,14 +7503,14 @@ CODE_B8BAB4:
 	BEQ CODE_B8BAC6				;$B8BABB   |
 	LDA $1A,x				;$B8BABD   |
 	STA $1C,x				;$B8BABF   |
-	LDA global_frame_counter		;$B8BAC1   |
+	LDA active_frame_counter		;$B8BAC1   |
 	STA $1A,x				;$B8BAC3   |
 	RTS					;$B8BAC5  /
 
 CODE_B8BAC6:
 	LDA $1E,x				;$B8BAC6  \
 	STA $20,x				;$B8BAC8   |
-	LDA global_frame_counter		;$B8BACA   |
+	LDA active_frame_counter		;$B8BACA   |
 	STA $1E,x				;$B8BACC   |
 	RTS					;$B8BACE  /
 
@@ -8426,7 +8426,7 @@ check_for_rope_hanging_from_floor:
 	AND #$1000				;$B8C116   |
 	BNE .rope_below				;$B8C119   |
 	LDY #$0004				;$B8C11B   |
-	LDA global_frame_counter		;$B8C11E   |
+	LDA active_frame_counter		;$B8C11E   |
 	LSR A					;$B8C120   |
 	BCS .CODE_B8C129			;$B8C121   |
 	TYA					;$B8C123   |
@@ -9110,13 +9110,13 @@ jump_action:
 	AND #$8000				;$B8C564   |
 	BEQ .no_b_press_this_frame		;$B8C567   |
 	LDY $66					;$B8C569   |
-	LDA global_frame_counter		;$B8C56B   |
+	LDA active_frame_counter		;$B8C56B   |
 	STA $0022,y				;$B8C56D   |
 	BRA .jump				;$B8C570  /
 
 .no_b_press_this_frame
 	LDY $66					;$B8C572  \
-	LDA global_frame_counter		;$B8C574   |
+	LDA active_frame_counter		;$B8C574   |
 	SEC					;$B8C576   |
 	SBC $0022,y				;$B8C577   |
 	CMP #$0010				;$B8C57A   |
@@ -9143,7 +9143,7 @@ jump_action:
 start_player_jumping:
 	JSR set_player_jumping_gravity		;$B8C59B  \
 	LDY $66					;$B8C59E   |\
-	LDA global_frame_counter		;$B8C5A0   | | record the current time
+	LDA active_frame_counter		;$B8C5A0   | | record the current time
 	STA $0012,y				;$B8C5A2   |/ save the time as the last time player jumped
 	LDA current_held_sprite			;$B8C5A5   |
 	BNE .holding_sprite			;$B8C5A8   |
@@ -9193,7 +9193,7 @@ update_b_press_event_action:
 	AND #$8000				;$B8C5FD   | | if b wasnt pressed do nothing and return
 	BEQ .no_b_press				;$B8C600   |/
 	LDY $66					;$B8C602   |\
-	LDA global_frame_counter		;$B8C604   | | if b was pressed this frame record the current time
+	LDA active_frame_counter		;$B8C604   | | if b was pressed this frame record the current time
 	STA $0022,y				;$B8C606   |/ save the time as the last time b was pressed
 .no_b_press					;	   |
 	RTS					;$B8C609  /
@@ -9617,14 +9617,14 @@ shoot_web_platform:
 	AND #$0080				;$B8C91F   |
 	BNE .return				;$B8C922   |
 	LDY $66					;$B8C924   |
-	LDA global_frame_counter		;$B8C926   |\
+	LDA active_frame_counter		;$B8C926   |\
 	SEC					;$B8C928   | | check how long since last platform shot
 	SBC $19A4				;$B8C929   |/
 	STA $32					;$B8C92C   |\
 	LDA #$000C				;$B8C92E   | | check if enough time has passed since last shot
 	CMP $32					;$B8C931   | |
 	BCS .return				;$B8C933   |/
-	LDA global_frame_counter		;$B8C935   |\ if enough time has passed
+	LDA active_frame_counter		;$B8C935   |\ if enough time has passed
 	STA $19A4				;$B8C937   | | update the last shot time to the current time
 	JSR scan_for_web_platforms		;$B8C93A   |/ scan for existing web platforms
 	CMP #$0002				;$B8C93D   |\ if we have less than 3 web platforms
@@ -9633,8 +9633,8 @@ shoot_web_platform:
 	LDA #$0001				;$B8C944   | | otherwise flag the oldest platform to despawn
 	STA $44,x				;$B8C947   |/ before we spawn a new one
 .less_than_max_platforms			;	   |
-	LDY #$0098				;$B8C949   |\ spawn new platform sprite
-	JSL CODE_BB842C				;$B8C94C   |/
+	LDY #!special_sprite_spawn_id_0098	;$B8C949   |\ spawn new platform sprite
+	JSL spawn_special_sprite_index		;$B8C94C   |/
 	BCS .spawn_done				;$B8C950   |
 	LDA #$0040				;$B8C952   |\ flag platform state as being shot
 	TSB $0B02				;$B8C955   |/
@@ -9723,7 +9723,7 @@ roll_or_pickup_object_action:
 	AND #$4000				;$B8C9E3   | | if y was pressed this frame start roll
 	BNE .start_roll				;$B8C9E6   |/
 	LDY $66					;$B8C9E8   |\
-	LDA global_frame_counter		;$B8C9EA   | |
+	LDA active_frame_counter		;$B8C9EA   | |
 	SEC					;$B8C9EC   | | check if enough has has elapsed since last roll
 	SBC $001A,y				;$B8C9ED   | |
 	CMP #$000C				;$B8C9F0   | |
@@ -9784,7 +9784,7 @@ glide_action:
 	RTS					;$B8CA44  / > not dixie dont glide
 
 .is_dixie
-	LDA global_frame_counter		;$B8CA45  \ \
+	LDA active_frame_counter		;$B8CA45  \ \
 	SEC					;$B8CA47   | |
 	SBC $1A,x				;$B8CA48   | | check if enough time has elapsed since last glide
 	CMP #$0010				;$B8CA4A   | |
@@ -9835,7 +9835,7 @@ land_animal_attack_action:
 	CMP #!sprite_squitter			;$B8CA9A   |\
 	BNE .return				;$B8CA9D   |/
 	LDY $66					;$B8CA9F   |> get kong control variables address
-	LDA global_frame_counter		;$B8CAA1   |\
+	LDA active_frame_counter		;$B8CAA1   |\
 	SEC					;$B8CAA3   | |
 	SBC $19A2				;$B8CAA4   | | get time since last web shot
 	STA $32					;$B8CAA7   |/
@@ -9843,7 +9843,7 @@ land_animal_attack_action:
 	LDA [$8E],y				;$B8CAAC   |/ get web shot cooldown time
 	CMP $32					;$B8CAAE   |\
 	BCS .return				;$B8CAB0   |/ if not enough time has past since last shot dont shoot
-	LDA global_frame_counter		;$B8CAB2   |\
+	LDA active_frame_counter		;$B8CAB2   |\
 	STA $19A2				;$B8CAB4   |/ update last shot time to now
 	LDY #$008A				;$B8CAB7   |\
 	LDA [$8E],y				;$B8CABA   | |
@@ -9851,7 +9851,7 @@ land_animal_attack_action:
 	CMP $19A6				;$B8CABD   | | if too many web shots already exist dont shoot a new one
 	BMI .return				;$B8CAC0   |/
 	LDY.w #DATA_FF1B06			;$B8CAC2   |\ spawn new web shot sprite
-	JSL CODE_BB8432				;$B8CAC5   |/
+	JSL spawn_special_sprite_address	;$B8CAC5   |/
 	BCS .return				;$B8CAC9   |> if spawn failed return
 	INC $19A6				;$B8CACB   |> increase number of shots that exist by 1
 	LDA #$0546				;$B8CACE   |\
@@ -10048,7 +10048,7 @@ start_player_roll:
 	AND #$0300				;$B8CC42   | | if no direction is held apply standing roll velocity
 	BEQ .apply_roll_velocity		;$B8CC45   |/
 	LDY #$0020				;$B8CC47   |> prepare walking roll velocity constant
-	LDA global_frame_counter		;$B8CC4A   |\
+	LDA active_frame_counter		;$B8CC4A   |\
 	SEC					;$B8CC4C   | |
 	SBC $1E,x				;$B8CC4D   | |
 	BMI .apply_roll_velocity		;$B8CC4F   | |
@@ -10172,7 +10172,7 @@ if !version == 0				;	   |
 	JSL $B58021				;$B8CD17   |
 	LDA #$045E				;$B8CD1B   |
 	JSL $B58021				;$B8CD1E   |
-	LDA global_frame_counter		;$B8CD22   |
+	LDA active_frame_counter		;$B8CD22   |
 	STA $0636				;$B8CD24   |
 else						;	   |
 	LDA #$0010				;$B8CD00   |
@@ -11052,7 +11052,7 @@ update_damaged_invincibility:
 	DEC A					;$B8D1BD   |
 	STA $0014,y				;$B8D1BE   |
 	BEQ .reset_sprite_visibility		;$B8D1C1   |
-	LDA global_frame_counter		;$B8D1C3   |
+	LDA active_frame_counter		;$B8D1C3   |
 	AND #$0002				;$B8D1C5   |
 	BNE .show_sprite			;$B8D1C8   |
 	LDA $1C,x				;$B8D1CA   |

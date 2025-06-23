@@ -336,7 +336,7 @@ CODE_B9D1D5:
 	PLB					;$B9D1DE   |
 	PHY					;$B9D1DF   |
 	PHA					;$B9D1E0   |
-	JSL CODE_BBBB69				;$B9D1E1   |
+	JSL check_if_sprite_offscreen_global	;$B9D1E1   |
 	PLA					;$B9D1E5   |
 	BCS .CODE_B9D1EC			;$B9D1E6   |
 	JSL queue_sound_effect			;$B9D1E8   |
@@ -1097,7 +1097,7 @@ CODE_B9D658:
 	LDA $0004,y				;$B9D65B   |
 	AND #$4000				;$B9D65E   |
 	BEQ CODE_B9D671				;$B9D661   |
-	LDA global_frame_counter		;$B9D663   |
+	LDA active_frame_counter		;$B9D663   |
 	SEC					;$B9D665   |
 	SBC $001A,y				;$B9D666   |
 	CMP #$0015				;$B9D669   |
@@ -1452,8 +1452,8 @@ CODE_B9D86B:
 	RTS					;$B9D870  /
 
 CODE_B9D871:
-	LDY #$0004				;$B9D871  \
-	JSL CODE_BB842C				;$B9D874   |
+	LDY #!special_sprite_spawn_id_0004	;$B9D871  \
+	JSL spawn_special_sprite_index		;$B9D874   |
 	BCS CODE_B9D87F				;$B9D878   |
 	LDA alternate_sprite			;$B9D87A   |
 	STA current_held_sprite			;$B9D87C   |
@@ -1461,8 +1461,8 @@ CODE_B9D87F:					;	   |
 	RTS					;$B9D87F  /
 
 CODE_B9D880:
-	LDY #$001E				;$B9D880  \
-	JSL CODE_BB842C				;$B9D883   |
+	LDY #!special_sprite_spawn_id_001E	;$B9D880  \
+	JSL spawn_special_sprite_index		;$B9D883   |
 	RTS					;$B9D887  /
 
 CODE_B9D888:
@@ -1749,8 +1749,8 @@ CODE_B9DA81:
 CODE_B9DA94:
 	LDA #$050A				;$B9DA94  \
 	JSL queue_sound_effect			;$B9DA97   |
-	LDY #$0016				;$B9DA9B   |
-	JSL CODE_BB842C				;$B9DA9E   |
+	LDY #!special_sprite_spawn_id_0016	;$B9DA9B   |
+	JSL spawn_special_sprite_index		;$B9DA9E   |
 	RTS					;$B9DAA2  /
 
 CODE_B9DAA3:
@@ -2007,20 +2007,20 @@ CODE_B9DC2E:
 	RTS					;$B9DC35  /
 
 CODE_B9DC36:
-	LDY #$002A				;$B9DC36  \
-	JSL CODE_BB8412				;$B9DC39   |
+	LDY #!special_sprite_spawn_id_002A	;$B9DC36  \
+	JSL spawn_no_gfx_special_sprite_index	;$B9DC39   |
 	BCC CODE_B9DC54				;$B9DC3D   |
 	RTS					;$B9DC3F  /
 
 CODE_B9DC40:
-	LDY #$0028				;$B9DC40  \
-	JSL CODE_BB8412				;$B9DC43   |
+	LDY #!special_sprite_spawn_id_0028	;$B9DC40  \
+	JSL spawn_no_gfx_special_sprite_index	;$B9DC43   |
 	BCC CODE_B9DC54				;$B9DC47   |
 	RTS					;$B9DC49  /
 
 CODE_B9DC4A:
-	LDY #$002C				;$B9DC4A  \
-	JSL CODE_BB8412				;$B9DC4D   |
+	LDY #!special_sprite_spawn_id_002C	;$B9DC4A  \
+	JSL spawn_no_gfx_special_sprite_index	;$B9DC4D   |
 	BCC CODE_B9DC54				;$B9DC51   |
 	RTS					;$B9DC53  /
 
@@ -2043,8 +2043,8 @@ CODE_B9DC68:
 CODE_B9DC70:					;	   |
 	CMP #$0600				;$B9DC70   |
 	BMI CODE_B9DC7C				;$B9DC73   |
-	LDY #$0054				;$B9DC75   |
-	JSL CODE_BB8412				;$B9DC78   |
+	LDY #!special_sprite_spawn_id_0054	;$B9DC75   |
+	JSL spawn_no_gfx_special_sprite_index	;$B9DC78   |
 CODE_B9DC7C:					;	   |
 	RTS					;$B9DC7C  /
 
@@ -2077,8 +2077,8 @@ CODE_B9DC98:
 	RTS					;$B9DC9D  /
 
 CODE_B9DC9E:
-	LDY #$0006				;$B9DC9E  \
-	JSL CODE_BB842C				;$B9DCA1   |
+	LDY #!special_sprite_spawn_id_0006	;$B9DC9E  \
+	JSL spawn_special_sprite_index		;$B9DCA1   |
 	BCS CODE_B9DCAC				;$B9DCA5   |
 	LDA alternate_sprite			;$B9DCA7   |
 	STA current_held_sprite			;$B9DCA9   |
@@ -2086,8 +2086,8 @@ CODE_B9DCAC:					;	   |
 	RTS					;$B9DCAC  /
 
 CODE_B9DCAD:
-	LDY #$0020				;$B9DCAD  \
-	JSL CODE_BB842C				;$B9DCB0   |
+	LDY #!special_sprite_spawn_id_0020	;$B9DCAD  \
+	JSL spawn_special_sprite_index		;$B9DCB0   |
 	RTS					;$B9DCB4  /
 
 CODE_B9DCB5:
@@ -2173,8 +2173,8 @@ CODE_B9DD21:
 CODE_B9DD2B:
 	LDA #$0520				;$B9DD2B  \
 	JSL queue_sound_effect			;$B9DD2E   |
-	LDY #$0014				;$B9DD32   |
-	JSL CODE_BB842C				;$B9DD35   |
+	LDY #!special_sprite_spawn_id_0014	;$B9DD32   |
+	JSL spawn_special_sprite_index		;$B9DD35   |
 	RTS					;$B9DD39  /
 
 CODE_B9DD3A:
@@ -2967,8 +2967,8 @@ CODE_B9E22C:
 	RTS					;$B9E236  /
 
 CODE_B9E237:
-	LDY #$0054				;$B9E237  \
-	JSL CODE_BB8412				;$B9E23A   |
+	LDY #!special_sprite_spawn_id_0054	;$B9E237  \
+	JSL spawn_no_gfx_special_sprite_index	;$B9E23A   |
 	RTS					;$B9E23E  /
 
 CODE_B9E23F:
@@ -3125,7 +3125,7 @@ CODE_B9E33E:
 	LDA $0004,y				;$B9E340   |
 	AND #$4000				;$B9E343   |
 	BEQ CODE_B9E354				;$B9E346   |
-	LDA global_frame_counter		;$B9E348   |
+	LDA active_frame_counter		;$B9E348   |
 	SEC					;$B9E34A   |
 	SBC $001A,y				;$B9E34B   |
 	CMP #$0014				;$B9E34E   |
@@ -3196,7 +3196,7 @@ CODE_B9E3AF:
 	LDA #$0062				;$B9E3B8   |
 	STA $2E,x				;$B9E3BB   |
 	LDY $66					;$B9E3BD   |
-	LDA global_frame_counter		;$B9E3BF   |
+	LDA active_frame_counter		;$B9E3BF   |
 	STA $0012,y				;$B9E3C1   |
 	LDA #$0072				;$B9E3C4   |
 	JSL CODE_B9D08C				;$B9E3C7   |
@@ -3353,7 +3353,7 @@ CODE_B9E4AC:					;	   |
 	BRL CODE_B9D12B				;$B9E4B7  /
 
 CODE_B9E4BA:
-	LDA global_frame_counter		;$B9E4BA  \
+	LDA active_frame_counter		;$B9E4BA  \
 	AND #$000F				;$B9E4BC   |
 	BNE CODE_B9E4AC				;$B9E4BF   |
 	JSL CODE_B4C175				;$B9E4C1   |
@@ -3510,7 +3510,7 @@ CODE_B9E59F:					;	   |
 	RTS					;$B9E5AA  /
 
 CODE_B9E5AB:
-	LDA global_frame_counter		;$B9E5AB  \
+	LDA active_frame_counter		;$B9E5AB  \
 	AND #$003F				;$B9E5AD   |
 	BNE turn_neek_if_needed			;$B9E5B0   |
 	LDA #$0524				;$B9E5B2   |
@@ -3531,8 +3531,8 @@ CODE_B9E5C5:
 	LDA $0A,x				;$B9E5CF   |
 	SBC #$0008				;$B9E5D1   |
 	STA $0A40				;$B9E5D4   |
-	LDY #$0034				;$B9E5D7   |
-	JSL CODE_BB842C				;$B9E5DA   |
+	LDY #!special_sprite_spawn_id_0034	;$B9E5D7   |
+	JSL spawn_special_sprite_index		;$B9E5DA   |
 	RTS					;$B9E5DE  /
 
 CODE_B9E5DF:
@@ -3605,15 +3605,15 @@ CODE_B9E650:					;	   |
 	CMP #$0200				;$B9E650   |
 	BCS CODE_B9E613				;$B9E653   |
 CODE_B9E655:					;	   |
-	JSL CODE_BBBB69				;$B9E655   |
+	JSL check_if_sprite_offscreen_global	;$B9E655   |
 	BCS CODE_B9E613				;$B9E659   |
 	LDX current_sprite			;$B9E65B   |
 	LDY #$004E				;$B9E65D   |
 	BIT $12,x				;$B9E660   |
 	BVC CODE_B9E667				;$B9E662   |
-	LDY #$0050				;$B9E664   |
+	LDY #!special_sprite_spawn_id_0050	;$B9E664   |
 CODE_B9E667:					;	   |
-	JSL CODE_BB8412				;$B9E667   |
+	JSL spawn_no_gfx_special_sprite_index	;$B9E667   |
 	LDX current_sprite			;$B9E66B   |
 	DEC $50,x				;$B9E66D   |
 	BNE CODE_B9E613				;$B9E66F   |
@@ -4064,11 +4064,11 @@ CODE_B9E91E:
 	RTS					;$B9E927  /
 
 CODE_B9E928:
-	LDA global_frame_counter		;$B9E928  \
+	LDA active_frame_counter		;$B9E928  \
 	AND #$0007				;$B9E92A   |
 	BNE CODE_B9E936				;$B9E92D   |
-	LDY #$0052				;$B9E92F   |
-	JSL CODE_BB8412				;$B9E932   |
+	LDY #!special_sprite_spawn_id_0052	;$B9E92F   |
+	JSL spawn_no_gfx_special_sprite_index	;$B9E932   |
 CODE_B9E936:					;	   |
 	RTS					;$B9E936  /
 
@@ -4176,8 +4176,8 @@ turn_krook_if_needed:
 	JMP turn_sprite_if_needed		;$B9E9CE  /
 
 CODE_B9E9D1:
-	LDY #$000A				;$B9E9D1  \
-	JSL CODE_BB842C				;$B9E9D4   |
+	LDY #!special_sprite_spawn_id_000A	;$B9E9D1  \
+	JSL spawn_special_sprite_index		;$B9E9D4   |
 	LDY alternate_sprite			;$B9E9D8   |
 	LDX current_sprite			;$B9E9DA   |
 	STY $50,x				;$B9E9DC   |
@@ -4257,8 +4257,8 @@ CODE_B9EA38:
 	RTS					;$B9EA3D  /
 
 CODE_B9EA3E:
-	LDY #$0094				;$B9EA3E  \
-	JSL CODE_BB842C				;$B9EA41   |
+	LDY #!special_sprite_spawn_id_0094	;$B9EA3E  \
+	JSL spawn_special_sprite_index		;$B9EA41   |
 	LDX current_sprite			;$B9EA45   |
 	BCS CODE_B9EA4D				;$B9EA47   |
 	LDA alternate_sprite			;$B9EA49   |
@@ -4380,7 +4380,7 @@ CODE_B9EB08:
 
 CODE_B9EB0F:
 	LDY $4E,x				;$B9EB0F  \
-	JSL CODE_BB8432				;$B9EB11   |
+	JSL spawn_special_sprite_address	;$B9EB11   |
 	BCS CODE_B9EB23				;$B9EB15   |
 	LDY alternate_sprite			;$B9EB17   |
 	LDA #$0854				;$B9EB19   |
@@ -4904,7 +4904,7 @@ CODE_B9EE5F:
 
 CODE_B9EE72:
 	LDY.w #DATA_FF164E			;$B9EE72  \
-	JSL CODE_BB8432				;$B9EE75   |
+	JSL spawn_special_sprite_address	;$B9EE75   |
 	BCS CODE_B9EE98				;$B9EE79   |
 	LDY alternate_sprite			;$B9EE7B   |
 	LDA current_sprite			;$B9EE7D   |
@@ -4929,8 +4929,8 @@ CODE_B9EE99:
 	RTS					;$B9EE9E  /
 
 CODE_B9EE9F:
-	LDY #$0048				;$B9EE9F  \
-	JSL CODE_BB842C				;$B9EEA2   |
+	LDY #!special_sprite_spawn_id_0048	;$B9EE9F  \
+	JSL spawn_special_sprite_index		;$B9EEA2   |
 	RTS					;$B9EEA6  /
 
 CODE_B9EEA7:
@@ -4948,7 +4948,7 @@ CODE_B9EEA7:
 	TAX					;$B9EEBF   |
 	LDA.l DATA_FF0D64,x			;$B9EEC0   |
 	TAY					;$B9EEC4   |
-	JSL CODE_BB8432				;$B9EEC5   |
+	JSL spawn_special_sprite_address	;$B9EEC5   |
 CODE_B9EEC9:					;	   |
 	RTS					;$B9EEC9  /
 
@@ -4978,8 +4978,8 @@ CODE_B9EEE8:
 	JMP CODE_B9E511				;$B9EEE8  |
 
 CODE_B9EEEB:
-	LDY #$001C				;$B9EEEB  \
-	JSL CODE_BB842C				;$B9EEEE   |
+	LDY #!special_sprite_spawn_id_001C	;$B9EEEB  \
+	JSL spawn_special_sprite_index		;$B9EEEE   |
 	RTS					;$B9EEF2  /
 
 CODE_B9EEF3:
@@ -5004,8 +5004,8 @@ endif						;	   |
 	RTS					;$B9EF11  /
 
 spawn_clapper_breath:
-	LDY #$00DE				;$B9EF12  \
-	JSL CODE_BB8412				;$B9EF15   |
+	LDY #!special_sprite_spawn_id_00DE	;$B9EF12  \
+	JSL spawn_no_gfx_special_sprite_index	;$B9EF15   |
 	RTS					;$B9EF19  /
 
 set_clapper_idle_animation:

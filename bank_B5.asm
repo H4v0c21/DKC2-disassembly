@@ -72,7 +72,7 @@ upload_spc_engine:
 	PHB					;$B58053  \
 	PHK					;$B58054   |\ Use current databank
 	PLB					;$B58055   |/
-	LDA global_frame_counter		;$B58056   |\ If a sound effect was already uploaded this frame
+	LDA active_frame_counter		;$B58056   |\ If a sound effect was already uploaded this frame
 	CMP $0636				;$B58058   | |
 	BEQ ..return				;$B5805B   |/ return -- one effect per frame
 	LDX $0632				;$B5805D   |\ If the sound effect slot is empty
@@ -92,7 +92,7 @@ upload_spc_engine:
 	INC A					;$B5807A   | |
 	AND #$000E				;$B5807B   | |
 	STA $0632				;$B5807E   |/
-	LDA global_frame_counter		;$B58081   |\ Write the frame of the last sound effect upload
+	LDA active_frame_counter		;$B58081   |\ Write the frame of the last sound effect upload
 	STA $0636				;$B58083   |/
 ..return					;	   |
 	PLB					;$B58086   | restore data bank
@@ -5273,7 +5273,7 @@ CODE_B5BCA8:
 	STA $17B4				;$B5BCD8   |
 	LDA DATA_B5BB6D,y			;$B5BCDB   | Get tilemap VRAM address
 	STA $17B6				;$B5BCDE   |
-	LDA DATA_B5BBD6,y			;$B5BCE1   | Get some shit
+	LDA DATA_B5BBD6,y			;$B5BCE1   | Get number of collision tiles
 	STA $A0					;$B5BCE4   |
 	LDA DATA_B5BC00,y			;$B5BCE6   | Get collision routine address
 	STA $17B2				;$B5BCE9   |
@@ -7556,7 +7556,7 @@ CODE_B5CFD3:
 	LDA #$000F				;$B5CFE4   |
 	STA screen_brightness			;$B5CFE7   |
 	JSL prepare_oam_dma_channel_global	;$B5CFEA   |
-	STZ global_frame_counter		;$B5CFEE   |
+	STZ active_frame_counter		;$B5CFEE   |
 	LDA #CODE_808CED			;$B5CFF0   |
 	JMP CODE_B5CFF6				;$B5CFF3  /
 
@@ -7698,7 +7698,7 @@ CODE_B5D1D0:					;	   |
 
 CODE_B5D1F5:
 	JSL CODE_80897C				;$B5D1F5  \
-	INC global_frame_counter		;$B5D1F9   |
+	INC active_frame_counter		;$B5D1F9   |
 	LDA.l map_node_number			;$B5D1FB   |
 	CMP #!map_node_w2_entrance_from_klubba	;$B5D1FF   |
 	BEQ CODE_B5D229				;$B5D202   |
@@ -7860,7 +7860,7 @@ CODE_B5D334:
 CODE_B5D349:
 	LDA #$6390				;$B5D349  \
 	STA PPU.vram_address			;$B5D34C   |
-	LDA global_frame_counter		;$B5D34F   |
+	LDA active_frame_counter		;$B5D34F   |
 	BIT #$0007				;$B5D351   |
 	BNE CODE_B5D37F				;$B5D354   |
 	LSR A					;$B5D356   |
@@ -7884,7 +7884,7 @@ CODE_B5D37F:					;	   |
 	LDA $08FC				;$B5D37F   |
 	AND #$0004				;$B5D382   |
 	BEQ CODE_B5D3D4				;$B5D385   |
-	LDA global_frame_counter		;$B5D387   |
+	LDA active_frame_counter		;$B5D387   |
 	BIT #$0007				;$B5D389   |
 	BNE CODE_B5D3D4				;$B5D38C   |
 	LDA #$0013				;$B5D38E   |
@@ -7958,7 +7958,7 @@ CODE_B5D424:					;	   |
 	STA PPU.screen				;$B5D429   |
 	REP #$20				;$B5D42C   |
 	JSL CODE_80897C				;$B5D42E   |
-	INC global_frame_counter		;$B5D432   |
+	INC active_frame_counter		;$B5D432   |
 	JSL sprite_handler			;$B5D434   |
 	JSL CODE_B5A8DA				;$B5D438   |
 	JSR CODE_B5D48E				;$B5D43C   |
@@ -8049,7 +8049,7 @@ CODE_B5D4E3:					;	   |
 	LDA screen_brightness			;$B5D505   |
 	STA PPU.screen				;$B5D508   |
 	REP #$20				;$B5D50B   |
-	INC global_frame_counter		;$B5D50D   |
+	INC active_frame_counter		;$B5D50D   |
 	JSL CODE_BAC7C0				;$B5D50F   |
 	JSR CODE_B5DA3D				;$B5D513   |
 	LDX #$1364				;$B5D516   |
@@ -8471,8 +8471,8 @@ CODE_B5D96E:
 	LDA.l $0006A3				;$B5D96E  \
 	BIT #$1000				;$B5D972   |
 	BEQ CODE_B5D988				;$B5D975   |
-	LDY #$011A				;$B5D977   |
-	JSL CODE_BB8412				;$B5D97A   | Spawn map plane
+	LDY #!special_sprite_spawn_id_011A	;$B5D977   |
+	JSL spawn_no_gfx_special_sprite_index	;$B5D97A   | Spawn map plane
 	LDX alternate_sprite			;$B5D97E   |
 	STX active_kong_sprite			;$B5D980   |
 	STZ inactive_kong_sprite		;$B5D983   |
@@ -8507,8 +8507,8 @@ CODE_B5D9BD:					;	   |
 
 ;spawn map dixie
 CODE_B5D9BE:
-	LDY #$0144				;$B5D9BE  \
-	JSL CODE_BB8412				;$B5D9C1   |
+	LDY #!special_sprite_spawn_id_0144	;$B5D9BE  \
+	JSL spawn_no_gfx_special_sprite_index	;$B5D9C1   |
 	LDX alternate_sprite			;$B5D9C5   |
 	LDA $12,x				;$B5D9C7   |
 	STA $000790				;$B5D9C9   |
@@ -8516,8 +8516,8 @@ CODE_B5D9BE:
 
 ;spawn map diddy
 CODE_B5D9CE:
-	LDY #$0146				;$B5D9CE  \
-	JSL CODE_BB8412				;$B5D9D1   |
+	LDY #!special_sprite_spawn_id_0146	;$B5D9CE  \
+	JSL spawn_no_gfx_special_sprite_index	;$B5D9D1   |
 	LDX alternate_sprite			;$B5D9D5   |
 	LDA $12,x				;$B5D9D7   |
 	STA $000790				;$B5D9D9   |
@@ -8558,7 +8558,7 @@ CODE_B5DA3D:
 	BEQ CODE_B5DA48				;$B5DA43   |
 	JSR CODE_B5DCBB				;$B5DA45   |
 CODE_B5DA48:					;	   |
-	LDA global_frame_counter		;$B5DA48   |
+	LDA active_frame_counter		;$B5DA48   |
 	AND #$001C				;$B5DA4A   |
 	CLC					;$B5DA4D   |
 	ADC #$0B98				;$B5DA4E   |
@@ -8576,26 +8576,26 @@ CODE_B5DA6B:					;	   |
 	BEQ CODE_B5DA8C				;$B5DA6E   |
 	CPY #$0FB8				;$B5DA70   |
 	BEQ CODE_B5DA7F				;$B5DA73   |
-	LDA global_frame_counter		;$B5DA75   |
+	LDA active_frame_counter		;$B5DA75   |
 	LSR A					;$B5DA77   |
 	LSR A					;$B5DA78   |
 	LSR A					;$B5DA79   |
 	CLC					;$B5DA7A   |
-	ADC global_frame_counter		;$B5DA7B   |
+	ADC active_frame_counter		;$B5DA7B   |
 	BRA CODE_B5DA8E				;$B5DA7D  /
 
 CODE_B5DA7F:
-	LDA global_frame_counter		;$B5DA7F  \
+	LDA active_frame_counter		;$B5DA7F  \
 	LSR A					;$B5DA81   |
 	LSR A					;$B5DA82   |
 	SEC					;$B5DA83   |
-	SBC global_frame_counter		;$B5DA84   |
+	SBC active_frame_counter		;$B5DA84   |
 	CLC					;$B5DA86   |
 	ADC #$0020				;$B5DA87   |
 	BRA CODE_B5DA8E				;$B5DA8A  /
 
 CODE_B5DA8C:
-	LDA global_frame_counter		;$B5DA8C  \
+	LDA active_frame_counter		;$B5DA8C  \
 CODE_B5DA8E:					;	   |
 	STA $54					;$B5DA8E   |
 	LDA $54					;$B5DA90   |
@@ -8653,7 +8653,7 @@ CODE_B5DAEB:					;	   |
 	LSR A					;$B5DB00   |
 	LSR A					;$B5DB01   |
 	CLC					;$B5DB02   |
-	ADC global_frame_counter		;$B5DB03   |
+	ADC active_frame_counter		;$B5DB03   |
 	CLC					;$B5DB05   |
 	ADC #$0020				;$B5DB06   |
 	ASL A					;$B5DB09   |
@@ -8688,7 +8688,7 @@ CODE_B5DAEB:					;	   |
 	JMP CODE_B5DA6B				;$B5DB40  /
 
 CODE_B5DB43:
-	LDA global_frame_counter		;$B5DB43  \
+	LDA active_frame_counter		;$B5DB43  \
 	BIT #$0001				;$B5DB45   |
 	BEQ CODE_B5DB5C				;$B5DB48   |
 	LDA $11A8				;$B5DB4A   |
@@ -8712,7 +8712,7 @@ CODE_B5DB64:					;	   |
 	CLC					;$B5DB6B   |
 	ADC $32					;$B5DB6C   |
 	CLC					;$B5DB6E   |
-	ADC global_frame_counter		;$B5DB6F   |
+	ADC active_frame_counter		;$B5DB6F   |
 	STA $32					;$B5DB71   |
 	ASL A					;$B5DB73   |
 	AND #$001C				;$B5DB74   |
@@ -8795,7 +8795,7 @@ CODE_B5DBD5:					;	   |
 CODE_B5DC0B:
 	LDX #$0000				;$B5DC0B  \
 CODE_B5DC0E:					;	   |
-	LDA global_frame_counter		;$B5DC0E   |
+	LDA active_frame_counter		;$B5DC0E   |
 	AND #$0007				;$B5DC10   |
 	BNE CODE_B5DC3D				;$B5DC13   |
 	LDA $0D9E,x				;$B5DC15   |
@@ -8839,10 +8839,10 @@ CODE_B5DC3D:					;	   |
 	TAX					;$B5DC63   |
 	CPX #$0178				;$B5DC64   |
 	BNE CODE_B5DC0E				;$B5DC67   |
-	LDA global_frame_counter		;$B5DC69   |
+	LDA active_frame_counter		;$B5DC69   |
 	LSR A					;$B5DC6B   |
 	CLC					;$B5DC6C   |
-	ADC global_frame_counter		;$B5DC6D   |
+	ADC active_frame_counter		;$B5DC6D   |
 	LSR A					;$B5DC6F   |
 	LSR A					;$B5DC70   |
 	LSR A					;$B5DC71   |
@@ -8852,7 +8852,7 @@ CODE_B5DC3D:					;	   |
 	EOR #$0007				;$B5DC7A   |
 CODE_B5DC7D:					;	   |
 	STA $32					;$B5DC7D   |
-	LDA global_frame_counter		;$B5DC7F   |
+	LDA active_frame_counter		;$B5DC7F   |
 	LSR A					;$B5DC81   |
 	LSR A					;$B5DC82   |
 	LSR A					;$B5DC83   |
@@ -8897,7 +8897,7 @@ CODE_B5DCBB:
 	LDA $44,x				;$B5DCC9   |
 	BEQ CODE_B5DCF4				;$B5DCCB   |
 	LDX #$1364				;$B5DCCD   |
-	LDA global_frame_counter		;$B5DCD0   |
+	LDA active_frame_counter		;$B5DCD0   |
 	AND #$001C				;$B5DCD2   |
 	BIT #$0010				;$B5DCD5   |
 	BEQ CODE_B5DCDD				;$B5DCD8   |
@@ -8906,7 +8906,7 @@ CODE_B5DCDD:					;	   |
 	CLC					;$B5DCDD   |
 	ADC #$3154				;$B5DCDE   |
 	STA $1A,x				;$B5DCE1   |
-	LDA global_frame_counter		;$B5DCE3   |
+	LDA active_frame_counter		;$B5DCE3   |
 	BIT #$0001				;$B5DCE5   |
 	BNE CODE_B5DCF4				;$B5DCE8   |
 	DEC $0A,x				;$B5DCEA   |
@@ -8920,37 +8920,37 @@ CODE_B5DCF4:					;	   |
 	JMP CODE_B5DE9D				;$B5DCFC  /
 
 CODE_B5DCFF:
-	LDA global_frame_counter		;$B5DCFF  \
+	LDA active_frame_counter		;$B5DCFF  \
 	CMP #$00F0				;$B5DD01   |
 	BNE CODE_B5DD0D				;$B5DD04   |
 	LDA #$0716				;$B5DD06   |
 	JSL queue_sound_effect			;$B5DD09   |
 CODE_B5DD0D:					;	   |
-	LDA global_frame_counter		;$B5DD0D   |
+	LDA active_frame_counter		;$B5DD0D   |
 	CMP #$0100				;$B5DD0F   |
 	BNE CODE_B5DD1B				;$B5DD12   |
 	LDA #$0716				;$B5DD14   |
 	JSL queue_sound_effect			;$B5DD17   |
 CODE_B5DD1B:					;	   |
-	LDA global_frame_counter		;$B5DD1B   |
+	LDA active_frame_counter		;$B5DD1B   |
 	CMP #$0125				;$B5DD1D   |
 	BNE CODE_B5DD29				;$B5DD20   |
 	LDA #$0716				;$B5DD22   |
 	JSL queue_sound_effect			;$B5DD25   |
 CODE_B5DD29:					;	   |
-	LDA global_frame_counter		;$B5DD29   |
+	LDA active_frame_counter		;$B5DD29   |
 	CMP #$0130				;$B5DD2B   |
 	BNE CODE_B5DD37				;$B5DD2E   |
 	LDA #$0716				;$B5DD30   |
 	JSL queue_sound_effect			;$B5DD33   |
 CODE_B5DD37:					;	   |
-	LDA global_frame_counter		;$B5DD37   |
+	LDA active_frame_counter		;$B5DD37   |
 	CMP #$0160				;$B5DD39   |
 	BNE CODE_B5DD45				;$B5DD3C   |
 	LDA #$0716				;$B5DD3E   |
 	JSL queue_sound_effect			;$B5DD41   |
 CODE_B5DD45:					;	   |
-	LDA global_frame_counter		;$B5DD45   |
+	LDA active_frame_counter		;$B5DD45   |
 	CMP #$01A0				;$B5DD47   |
 	BNE CODE_B5DD53				;$B5DD4A   |
 	LDA #$810F				;$B5DD4C   |
@@ -8984,7 +8984,7 @@ CODE_B5DD7D:
 	TYA					;$B5DD7D  \
 	ASL A					;$B5DD7E   |
 	CLC					;$B5DD7F   |
-	ADC global_frame_counter		;$B5DD80   |
+	ADC active_frame_counter		;$B5DD80   |
 	BIT #$0001				;$B5DD82   |
 	BNE CODE_B5DD99				;$B5DD85   |
 	LSR A					;$B5DD87   |
@@ -9020,7 +9020,7 @@ CODE_B5DD99:					;	   |
 
 CODE_B5DDC7:
 	LDX #$1364				;$B5DDC7  \
-	LDA global_frame_counter		;$B5DDCA   |
+	LDA active_frame_counter		;$B5DDCA   |
 	AND #$001C				;$B5DDCC   |
 	BIT #$0010				;$B5DDCF   |
 	BEQ CODE_B5DDD7				;$B5DDD2   |
@@ -9043,7 +9043,7 @@ CODE_B5DDE5:
 	JMP CODE_B5DE9D				;$B5DDF4  /
 
 CODE_B5DDF7:
-	LDA global_frame_counter		;$B5DDF7  \
+	LDA active_frame_counter		;$B5DDF7  \
 	BIT #$0003				;$B5DDF9   |
 	BNE CODE_B5DE12				;$B5DDFC   |
 	LDA $15B2				;$B5DDFE   |
@@ -9056,7 +9056,7 @@ CODE_B5DDF7:
 CODE_B5DE0F:					;	   |
 	STA $15B2				;$B5DE0F   |
 CODE_B5DE12:					;	   |
-	LDA global_frame_counter		;$B5DE12   |
+	LDA active_frame_counter		;$B5DE12   |
 	ASL A					;$B5DE14   |
 	AND #$001C				;$B5DE15   |
 	BIT #$0010				;$B5DE18   |
@@ -9126,7 +9126,7 @@ CODE_B5DE9D:					;	   |
 	LDX #$13C2				;$B5DE9D   |
 	LDA $44,x				;$B5DEA0   |
 	BEQ CODE_B5DEBC				;$B5DEA2   |
-	LDA global_frame_counter		;$B5DEA4   |
+	LDA active_frame_counter		;$B5DEA4   |
 	LSR A					;$B5DEA6   |
 	LSR A					;$B5DEA7   |
 	LSR A					;$B5DEA8   |
@@ -9227,7 +9227,7 @@ CODE_B5DF22:					;	   |
 	RTS					;$B5DF4E  /
 
 CODE_B5DF4F:
-	LDA global_frame_counter		;$B5DF4F  \
+	LDA active_frame_counter		;$B5DF4F  \
 	LSR A					;$B5DF51   |
 	LSR A					;$B5DF52   |
 	STA $7E8136				;$B5DF53   |
@@ -9243,7 +9243,7 @@ CODE_B5DF6C:					;	   |
 	LDY #$00A0				;$B5DF6F   |
 	JSL DMA_palette				;$B5DF72   |
 	LDX #$0000				;$B5DF76   |
-	LDA global_frame_counter		;$B5DF79   |
+	LDA active_frame_counter		;$B5DF79   |
 	BIT #$0080				;$B5DF7B   |
 	BEQ CODE_B5DF8A				;$B5DF7E   |
 	AND #$004A				;$B5DF80   |
@@ -9265,13 +9265,13 @@ CODE_B5DF92:					;	   |
 	XBA					;$B5DF9E   |
 	STA PPU.cgram_write			;$B5DF9F   |
 	REP #$20				;$B5DFA2   |
-	LDA global_frame_counter		;$B5DFA4   |
+	LDA active_frame_counter		;$B5DFA4   |
 	JSR CODE_B5E054				;$B5DFA6   |
-	LDA global_frame_counter		;$B5DFA9   |
+	LDA active_frame_counter		;$B5DFA9   |
 	CLC					;$B5DFAB   |
 	ADC #$0015				;$B5DFAC   |
 	JSR CODE_B5E054				;$B5DFAF   |
-	LDA global_frame_counter		;$B5DFB2   |
+	LDA active_frame_counter		;$B5DFB2   |
 	CLC					;$B5DFB4   |
 	ADC #$002B				;$B5DFB5   |
 	JSR CODE_B5E054				;$B5DFB8   |
@@ -9290,7 +9290,7 @@ CODE_B5DFC5:					;	   |
 	STZ PPU.layer_1_scroll_y		;$B5DFD8   |
 	STA PPU.layer_3_scroll_y		;$B5DFDB   |
 	STZ PPU.layer_3_scroll_y		;$B5DFDE   |
-	LDA global_frame_counter		;$B5DFE1   |
+	LDA active_frame_counter		;$B5DFE1   |
 	LSR A					;$B5DFE3   |
 	LSR A					;$B5DFE4   |
 	AND #$07				;$B5DFE5   |
@@ -9328,7 +9328,7 @@ CODE_B5E02B:					;	   |
 	SEC					;$B5E033   |
 	SBC #$0018				;$B5E034   |
 	STA $32					;$B5E037   |
-	LDA global_frame_counter		;$B5E039   |
+	LDA active_frame_counter		;$B5E039   |
 	LSR A					;$B5E03B   |
 	LSR A					;$B5E03C   |
 	AND #$0007				;$B5E03D   |
@@ -10065,7 +10065,7 @@ CODE_B5E5F5:
 	RTS					;$B5E5F9  /
 
 CODE_B5E5FA:
-	LDA.l global_frame_counter		;$B5E5FA  \
+	LDA.l active_frame_counter		;$B5E5FA  \
 	LSR A					;$B5E5FE   |
 	LSR A					;$B5E5FF   |
 	AND #$003E				;$B5E600   |
@@ -10257,7 +10257,7 @@ CODE_B5E72F:
 	RTS					;$B5E748  /
 
 CODE_B5E749:
-	LDA.l global_frame_counter		;$B5E749  \
+	LDA.l active_frame_counter		;$B5E749  \
 	LSR A					;$B5E74D   |
 	CLC					;$B5E74E   |
 	ADC $00002A				;$B5E74F   |
@@ -11421,7 +11421,7 @@ CODE_B5EE78:					;	   |
 	RTS					;$B5EE78  /
 
 CODE_B5EE79:
-	LDA.l global_frame_counter		;$B5EE79  \
+	LDA.l active_frame_counter		;$B5EE79  \
 	AND #$0003				;$B5EE7D   |
 	BNE CODE_B5EEBA				;$B5EE80   |
 	LDA $F6					;$B5EE82   |
@@ -12678,7 +12678,7 @@ CODE_B5F653:					;	   |
 	LDA.l $7FA63C,x				;$B5F655   |
 	STA $39					;$B5F659   |
 CODE_B5F65B:					;	   |
-	LDA global_frame_counter		;$B5F65B   |
+	LDA active_frame_counter		;$B5F65B   |
 	LSR A					;$B5F65D   |
 	ASL A					;$B5F65E   |
 	ASL A					;$B5F65F   |
@@ -13240,7 +13240,7 @@ CODE_B5FA00:					;	   |
 	STA.l WRAM.data				;$B5FA22   |
 	LDA $D6B5,x				;$B5FA26   |
 	STA.l WRAM.data				;$B5FA29   |
-	LDA global_frame_counter		;$B5FA2D   |
+	LDA active_frame_counter		;$B5FA2D   |
 	AND #$0E				;$B5FA2F   |
 	CLC					;$B5FA31   |
 	ADC $000D2C				;$B5FA32   |

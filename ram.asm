@@ -20,8 +20,8 @@ temp_27 = $27
 temp_28 = $28
 temp_29 = $29
 
-global_frame_counter = $2A
-active_frame_counter = $2C
+active_frame_counter = $2A
+global_frame_counter = $2C
 rng_result = $2E
 rng_seed_1 = $2F
 rng_seed_2 = $30
@@ -57,14 +57,15 @@ UNKNOWN_66 = $66		;This is two bytes for some table at 16B2
 alternate_sprite = $68
 UNKNOWN_6A = $6A		;same as $66
 current_player_mount = $6C
-
+animal_type = $6E
 next_oam_slot = $70
 
 nmi_submode = $94
 gamemode_submode = $96
 
 level_number = $D3
-
+gameplay_frame_counter = $D5
+gameplay_frame_counter_high = $D7
 
 ;;;
 ;;; End direct page
@@ -96,17 +97,12 @@ screen_fade_timer = $0514
 
 active_kong_sprite = $0593
 active_kong_control_variables = $0595
-
 inactive_kong_sprite = $0597
 inactive_kong_control_variables = $0599
-
 pending_dma_hdma_channels = $059B
-
 level_destination_number = $059D
 destination_level_entrance_number = $059F
-
 level_exit_trigger_x_position = $05A1
-
 returning_level_number = $05A3
 returning_entrance_number = $05A5
 
@@ -118,7 +114,6 @@ active_controller = $060F
 file_select_selection = $0611
 file_select_action = $0613
 file_select_file_to_copy = $0615
-
 language_select = $0617
 
 npc_screen_type = $0689
@@ -136,7 +131,7 @@ completed_lost_world_levels = $08F9
 
 kiosk_returning_world_number = $0900
 
-game_completion_percentage = $0904 
+completion_percentage = $0904
 
 piracy_string_result = $0907
 enable_intro_bypass = $090F
