@@ -1625,7 +1625,7 @@ CODE_B38D27:
 	JSL CODE_BCFB58				;$B38D32   |
 	LDA $00,x				;$B38D36   |
 	SEC					;$B38D38   |
-	SBC #!sprite_squitter			;$B38D39   |
+	SBC #!animal_sprite_type_range_start	;$B38D39   |
 	LSR A					;$B38D3C   |
 	LSR A					;$B38D3D   |
 	CLC					;$B38D3E   |
@@ -3265,7 +3265,7 @@ CODE_B398D7:
 	AND #$BFFF				;$B398F1   |
 	STA $12,x				;$B398F4   |
 	JSL CODE_B3DF3C				;$B398F6   |
-	JSL CODE_B880A2				;$B398FA   |
+	JSL work_on_inactive_kong_global	;$B398FA   |
 	LDA #$0071				;$B398FE   |
 	STA $2E,x				;$B39901   |
 	LDA #$00D8				;$B39903   |
@@ -3281,7 +3281,7 @@ CODE_B398D7:
 	STA $0A,x				;$B3991C   |
 	LDA #$0042				;$B3991E   |
 	JSL CODE_B9D0B8				;$B39921   |
-	JSL CODE_B8808E				;$B39925   |
+	JSL work_on_active_kong_global		;$B39925   |
 	JSL CODE_B8A57C				;$B39929   |
 	RTL					;$B3992D  /
 
@@ -3294,7 +3294,7 @@ CODE_B3992E:
 	LDA $12,x				;$B3993C   |
 	AND #$BFFF				;$B3993E   |
 	STA $12,x				;$B39941   |
-	JSL CODE_B8808E				;$B39943   |
+	JSL work_on_active_kong_global		;$B39943   |
 	LDA #$003C				;$B39947   |
 	STA $2E,x				;$B3994A   |
 	LDY $0D82				;$B3994C   |
@@ -3445,7 +3445,7 @@ invincibility_barrel_main:
 	STA $19A8				;$B39A88   | Store index (Pointless? Sprite will be deleted)
 	PHA					;$B39A8B   | Preserve it
 	TAX					;$B39A8C   | Transfer to X (Pointless, routine below uses X)
-	JSL CODE_B8808E				;$B39A8D   | Work on active kong
+	JSL work_on_active_kong_global		;$B39A8D   | Work on active kong
 	LDX $19A8				;$B39A91   | Get index of invincibility barrel sprite
 	LDA $42,x				;$B39A94   | 
 	JSL CODE_B8D1FB				;$B39A96   |
@@ -4796,6 +4796,7 @@ CODE_B3A3FC:
 	JSR CODE_B3A400				;$B3A3FC  \
 	RTL					;$B3A3FF  /
 
+;queue sound effect if sprite is not offscreen
 CODE_B3A400:
 	PHY					;$B3A400  \
 	PHX					;$B3A401   |
@@ -9108,43 +9109,43 @@ sprite_marker_main:
 bananas_main:
 	JSR CODE_B3A369				;$B3C345  /
 
-DATA_B3C348:
-	dw CODE_B3C350				;00
-	dw CODE_B3C364				;01
-	dw CODE_B3C398				;02
-	dw CODE_B3C3C3				;03
+.state_table:
+	dw CODE_B3C350				;00  Idle
+	dw CODE_B3C364				;01  Collected
+	dw CODE_B3C398				;02  Move (spawned by yellow klobber)
+	dw CODE_B3C3C3				;03  Idle (after landing from the above)
 
 CODE_B3C350:
-	JSL CODE_B9D100				;$B3C350  \
-	JSL CODE_BCFB58				;$B3C354   |
+	JSL CODE_B9D100				;$B3C350  \ Process animation
+	JSL CODE_BCFB58				;$B3C354   | Populate sprite clipping
 	LDA #$1529				;$B3C358   |
-	JSL CODE_BEBE6D				;$B3C35B   |
-	BCS CODE_B3C3AC				;$B3C35F   |
-	JMP CODE_B38000				;$B3C361  /
+	JSL CODE_BEBE6D				;$B3C35B   | Check simple player collision
+	BCS CODE_B3C3AC				;$B3C35F   | 
+	JMP CODE_B38000				;$B3C361  / Return
 
 CODE_B3C364:
 	LDA active_frame_counter		;$B3C364  \
-	AND #$0003				;$B3C366   |
-	BNE CODE_B3C391				;$B3C369   |
+	AND #$0003				;$B3C366   | Check if we're on a frame divisible by 4
+	BNE .return				;$B3C369   | If not, return
 	LDX #$F8F8				;$B3C36B   |
-	JSL CODE_B5F94C				;$B3C36E   |
-	LDX current_sprite			;$B3C372   |
+	JSL CODE_B5F94C				;$B3C36E   | Else award banana
+	LDX current_sprite			;$B3C372   | Get banana/bunch sprite
 	LDA $1C,x				;$B3C374   |
 	AND #$C000				;$B3C376   |
-	EOR #$C000				;$B3C379   |
+	EOR #$C000				;$B3C379   | Toggle visibility
 	STA $1C,x				;$B3C37C   |
-	LDA $4E,x				;$B3C37E   |
-	SEP #$09				;$B3C380   |
+	LDA $4E,x				;$B3C37E   | Get # of bananas to give
+	SEP #$09				;$B3C380   | Set decimal flag for BCD format
 	SBC #$0001				;$B3C382   |
-	STA $4E,x				;$B3C385   |
-	CLD					;$B3C387   |
-	BNE CODE_B3C391				;$B3C388   |
-	JSL delete_sprite_handle_deallocation	;$B3C38A   |
-	JML [$05A9]				;$B3C38E  /
+	STA $4E,x				;$B3C385   | Update it
+	CLD					;$B3C387   | Clear decimal flag
+	BNE .return				;$B3C388   | If we still have more bananas to give, return
+	JSL delete_sprite_handle_deallocation	;$B3C38A   | Else delete banana/bunch sprite
+	JML [$05A9]				;$B3C38E  / Return
 
-CODE_B3C391:
-	JSL CODE_B9D100				;$B3C391  \
-	JML [$05A9]				;$B3C395  /
+.return:
+	JSL CODE_B9D100				;$B3C391  \ Process animation
+	JML [$05A9]				;$B3C395  / Return
 
 CODE_B3C398:
 	JSL process_current_movement		;$B3C398  \
@@ -9158,20 +9159,20 @@ CODE_B3C3A5:					;	   |
 
 CODE_B3C3AC:
 	LDA #$0001				;$B3C3AC  \
-	STA $2E,x				;$B3C3AF   |
-	LDA $4E,x				;$B3C3B1   |
-	SED					;$B3C3B3   |
+	STA $2E,x				;$B3C3AF   | Set collected state
+	LDA $4E,x				;$B3C3B1   | Get # of bananas to give
+	SED					;$B3C3B3   | Set decimal flag for BCD format
 	CLC					;$B3C3B4   |
 	ADC $08BC				;$B3C3B5   |
-	STA $08BC				;$B3C3B8   |
-	CLD					;$B3C3BB   |
-	JSL CODE_BEC689				;$B3C3BC   |
-	JML [$05A9]				;$B3C3C0  /
+	STA $08BC				;$B3C3B8   | Update player banana count
+	CLD					;$B3C3BB   | Exit decimal mode
+	JSL CODE_BEC689				;$B3C3BC   | Update banana hud timer
+	JML [$05A9]				;$B3C3C0  / Return
 
 CODE_B3C3C3:
-	TYX					;$B3C3C3  \
-	DEC $50,x				;$B3C3C4   |
-	BMI CODE_B3C3FC				;$B3C3C6   |
+	TYX					;$B3C3C3  \ Get banana bunch sprite
+	DEC $50,x				;$B3C3C4   | Decrease despawn timer
+	BMI CODE_B3C3FC				;$B3C3C6   | If done, despawn banana bunch
 	LDA $50,x				;$B3C3C8   |
 	CMP #$0078				;$B3C3CA   |
 	BCS CODE_B3C3E8				;$B3C3CD   |
@@ -9184,15 +9185,15 @@ CODE_B3C3C3:
 CODE_B3C3DE:					;	   |
 	LDA $1C,x				;$B3C3DE   |
 	AND #$C000				;$B3C3E0   |
-	EOR #$C000				;$B3C3E3   |
+	EOR #$C000				;$B3C3E3   | Toggle visibility
 	STA $1C,x				;$B3C3E6   |
 CODE_B3C3E8:					;	   |
-	JSL CODE_B9D100				;$B3C3E8   |
-	JSL CODE_BCFB58				;$B3C3EC   |
+	JSL CODE_B9D100				;$B3C3E8   | Process animation
+	JSL CODE_BCFB58				;$B3C3EC   | Populate sprite clipping
 	LDA #$1529				;$B3C3F0   |
-	JSL CODE_BEBE6D				;$B3C3F3   |
+	JSL CODE_BEBE6D				;$B3C3F3   | Check simple player collision
 	BCS CODE_B3C3AC				;$B3C3F7   |
-	JML [$05A9]				;$B3C3F9  /
+	JML [$05A9]				;$B3C3F9  / Return
 
 CODE_B3C3FC:
 	JSL delete_sprite_handle_deallocation	;$B3C3FC  \
@@ -12516,18 +12517,18 @@ timer_sprite_code:
 	JMP (DATA_B3DC2B,x)			;$B3DC28  /
 
 DATA_B3DC2B:
-	dw CODE_B3DC43
-	dw CODE_B3DC77
-	dw CODE_B3DCB4
-	dw CODE_B3DCB7
-	dw CODE_B3DCBA
-	dw CODE_B3DCBD
-	dw CODE_B3DCC0
-	dw CODE_B3DCF0
-	dw CODE_B3DD00
-	dw CODE_B3DD38
-	dw CODE_B3DD48
-	dw CODE_B3DD6A
+	dw CODE_B3DC43				;00
+	dw CODE_B3DC77				;01
+	dw CODE_B3DCB4				;02
+	dw CODE_B3DCB7				;03
+	dw CODE_B3DCBA				;04
+	dw CODE_B3DCBD				;05
+	dw CODE_B3DCC0				;06
+	dw CODE_B3DCF0				;07
+	dw CODE_B3DD00				;08
+	dw CODE_B3DD38				;09
+	dw CODE_B3DD48				;0A
+	dw CODE_B3DD6A				;0B
 
 CODE_B3DC43:
 	LDY #!special_sprite_spawn_id_00CC	;$B3DC43  \
@@ -12575,7 +12576,7 @@ CODE_B3DC89:					;	   |
 CODE_B3DCA0:
 	LDA #$001F				;$B3DCA0  \
 	LDY #$0004				;$B3DCA3   |
-	JSL CODE_B8D1E4				;$B3DCA6   |
+	JSL enable_bullet_time_global		;$B3DCA6   |
 	LDX current_sprite			;$B3DCAA   |
 	LDA #$0008				;$B3DCAC   |
 	STA $2E,x				;$B3DCAF   |
@@ -12629,7 +12630,7 @@ CODE_B3DD00:
 	BCS CODE_B3DD21				;$B3DD06   |
 	LDA #$001F				;$B3DD08   |
 	LDY #$0400				;$B3DD0B   |
-	JSL CODE_B8D1E4				;$B3DD0E   |
+	JSL enable_bullet_time_global		;$B3DD0E   |
 	LDX current_sprite			;$B3DD12   |
 	LDA #$000A				;$B3DD14   |
 	STA $2E,x				;$B3DD17   |
@@ -13268,7 +13269,7 @@ CODE_B3E1E0:					;	   |
 	RTS					;$B3E1E1  /
 
 CODE_B3E1E2:
-	JSL CODE_B8808E				;$B3E1E2  \
+	JSL work_on_active_kong_global		;$B3E1E2  \
 	JSL CODE_B881B4				;$B3E1E6   |
 	JSR CODE_B3E28B				;$B3E1EA   |
 	LDA $6E					;$B3E1ED   |
@@ -13337,7 +13338,7 @@ CODE_B3E25F:					;	   |
 	STA destination_level_entrance_number	;$B3E279   |
 	LDA #$0003				;$B3E27C   |
 	LDY #$0280				;$B3E27F   |
-	JSL CODE_B8D1E4				;$B3E282   |
+	JSL enable_bullet_time_global		;$B3E282   |
 	RTL					;$B3E286  /
 
 CODE_B3E287:
@@ -13402,7 +13403,7 @@ CODE_B3E2EC:
 	RTS					;$B3E2F3  /
 
 CODE_B3E2F4:
-	JSL CODE_B8808E				;$B3E2F4  \
+	JSL work_on_active_kong_global		;$B3E2F4  \
 	LDA $2E,x				;$B3E2F8   |
 	ASL A					;$B3E2FA   |
 	ASL A					;$B3E2FB   |
@@ -13480,7 +13481,7 @@ CODE_B3E392:					;	   |
 	STA destination_level_entrance_number	;$B3E3A1   |
 	LDA #$0003				;$B3E3A4   |
 	LDY #$0280				;$B3E3A7   |
-	JSL CODE_B8D1E4				;$B3E3AA   |
+	JSL enable_bullet_time_global		;$B3E3AA   |
 	RTL					;$B3E3AE  /
 
 
@@ -14452,13 +14453,13 @@ endif						;	   |
 	PHY					;$B3EA9C   |
 	LDA #$0003				;$B3EA9D   |
 	LDY #$0280				;$B3EAA0   |
-	JSL CODE_B8D1E4				;$B3EAA3   |
+	JSL enable_bullet_time_global		;$B3EAA3   |
 	PLY					;$B3EAA7   |
 	PLX					;$B3EAA8   |
 	BRA .CODE_B3EA39			;$B3EAA9  /
 
 .CODE_B3EAAB
-	JSL spawn_barrel_parts_global				;$B3EAAB  \
+	JSL spawn_barrel_parts_global		;$B3EAAB  \
 .CODE_B3EAAF					;	   |
 	JSL delete_sprite_handle_deallocation	;$B3EAAF   |
 	JML [$05A9]				;$B3EAB3  /
@@ -15153,7 +15154,7 @@ CODE_B3EF81:
 	BRL CODE_B3EF44				;$B3EF81  /
 
 CODE_B3EF84:
-	JSL CODE_B8808E				;$B3EF84  \
+	JSL work_on_active_kong_global		;$B3EF84  \
 	JSL CODE_B88EB8				;$B3EF88   |
 	LDX active_kong_control_variables	;$B3EF8C   |
 	STZ $14,x				;$B3EF8F   |
@@ -15265,7 +15266,7 @@ CODE_B3F069:
 	STA $0A40				;$B3F072   |
 	LDY #!special_sprite_spawn_id_0034	;$B3F075   |
 	JSL spawn_special_sprite_index		;$B3F078   |
-	JSL CODE_B880A2				;$B3F07C   |
+	JSL work_on_inactive_kong_global	;$B3F07C   |
 	LDA #$002F				;$B3F080   |
 	STA $2E,x				;$B3F083   |
 	LDA $0A84				;$B3F085   |
@@ -15287,7 +15288,7 @@ CODE_B3F069:
 	LDX $0A84				;$B3F0A7   |
 	STX current_sprite			;$B3F0AA   |
 	JSR CODE_B3F01D				;$B3F0AC   |
-	JSL CODE_B8808E				;$B3F0AF   |
+	JSL work_on_active_kong_global		;$B3F0AF   |
 	JSL CODE_B8A57C				;$B3F0B3   |
 	RTL					;$B3F0B7  /
 
@@ -15473,6 +15474,7 @@ CODE_B3F1F3:
 	STX current_sprite			;$B3F204   |
 	RTS					;$B3F206  /
 
+;sets up kong for barrel cannon
 CODE_B3F207:
 	LDX active_kong_sprite			;$B3F207  \
 	STX current_sprite			;$B3F20A   |
@@ -15498,7 +15500,7 @@ CODE_B3F207:
 	LDA current_player_mount		;$B3F23C   |
 	BEQ CODE_B3F25F				;$B3F23E   |
 CODE_B3F240:					;	   |
-	JSL CODE_B880A2				;$B3F240   |
+	JSL work_on_inactive_kong_global	;$B3F240   |
 	LDA #$0022				;$B3F244   |
 	STA $2E,x				;$B3F247   |
 	LDA #$0001				;$B3F249   |
@@ -15509,7 +15511,7 @@ CODE_B3F240:					;	   |
 	LDA #$001C				;$B3F258   |
 	JSL CODE_B9D0B8				;$B3F25B   |
 CODE_B3F25F:					;	   |
-	JSL CODE_B8808E				;$B3F25F   |
+	JSL work_on_active_kong_global		;$B3F25F   |
 	LDA $6E					;$B3F263   |
 CODE_B3F265:					;	   |
 	BNE CODE_B3F273				;$B3F265   |
@@ -15533,7 +15535,7 @@ CODE_B3F287:					;	   |
 CODE_B3F289:
 	LDA #$0025				;$B3F289  \
 	JSL CODE_B9D0B8				;$B3F28C   |
-	JSL CODE_B880A2				;$B3F290   |
+	JSL work_on_inactive_kong_global	;$B3F290   |
 	LDA #$0018				;$B3F294   |
 	STA $2E,x				;$B3F297   |
 	LDA #$0020				;$B3F299   |

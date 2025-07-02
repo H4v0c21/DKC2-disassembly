@@ -494,7 +494,7 @@ delete_sprite_handle_deallocation:
 
 .dereference_static_sprite:
 	STA $32					;$BB82ED  \ Preserve sprite type in scratch ram
-	LDX #!non_kong_sprite_slot_start	;$BB82EF   | Load first non-kong sprite slot
+	LDX #non_kong_sprite_slots		;$BB82EF   | Load first non-kong sprite slot
 .next_slot:					;	   |
 	LDA $32					;$BB82F2   | Get type of sprite to delete
 	CMP sprite.type,x			;$BB82F4   | Compare with current slot's type
@@ -5628,7 +5628,7 @@ CODE_BBAE4A:
 	BRA CODE_BBADFD				;$BBAE60  /
 
 CODE_BBAE62:
-	JSL CODE_B8808E				;$BBAE62  \
+	JSL work_on_active_kong_global		;$BBAE62  \
 	LDA animal_type				;$BBAE66   |
 	CMP #!sprite_enguarde			;$BBAE68   |
 	BEQ CODE_BBAE73				;$BBAE6B   |
@@ -5712,11 +5712,11 @@ CODE_BBAEBD:
 	SBC #!animal_sprite_type_range_start	;$BBAEF4   |
 	LSR A					;$BBAEF7   |
 	TAX					;$BBAEF8   |
-	LDA.l .animal_palettes_ids,x		;$BBAEF9   |
+	LDA.l .animal_palette_ids,x		;$BBAEF9   |
 	JSR request_sprite_palette		;$BBAEFD   |
 	BRA .set_palette_slot			;$BBAF00  /
 
-.animal_palettes_ids:
+.animal_palette_ids:
 	dw !squitter_sprite_palette
 	dw !rattly_sprite_palette
 	dw !squawks_sprite_palette
@@ -8475,7 +8475,7 @@ CODE_BBC174:					;	   |
 	JMP CODE_BBC15D				;$BBC313  /
 
 .give_reward_to_player
-	JSL CODE_B8808E				;$BBC316  \
+	JSL work_on_active_kong_global		;$BBC316  \
 	JSL CODE_B8B3EC				;$BBC31A   |
 	JMP CODE_BBC150				;$BBC31E  /
 
@@ -8552,7 +8552,7 @@ CODE_BBC174:					;	   |
 	JMP CODE_BBC15D				;$BBC3AB  /> Cutscene code done
 
 .stop_kongs_and_celebrate
-	JSL CODE_B8808E				;$BBC3AE  \> Work on active kong
+	JSL work_on_active_kong_global		;$BBC3AE  \> Work on active kong
 	LDA sprite.y_position,x			;$BBC3B2   |\ Get kongs y position
 	STA sprite.ground_y_position,x		;$BBC3B4   | | Set ground position to current y
 	STZ sprite.ground_distance,x		;$BBC3B6   |/ Set distance from ground to 0
@@ -8565,7 +8565,7 @@ CODE_BBC174:					;	   |
 	LDA $08C2				;$BBC3C8   |\
 	AND #$4000				;$BBC3CB   | |
 	BEQ .CODE_BBC42C			;$BBC3CE   |/ If there is no follower kong then were done
-	JSL CODE_B880A2				;$BBC3D0   |> Else work on inactive kong
+	JSL work_on_inactive_kong_global	;$BBC3D0   |> Else work on inactive kong
 	LDA #$0074				;$BBC3D4   |\ Load cutscene idle kong state
 	STZ sprite.max_x_speed,x		;$BBC3D7   | | Clear x velocities and stop kong
 	STA sprite.state,x			;$BBC3D9   |/ Apply kong state
@@ -8574,12 +8574,12 @@ CODE_BBC174:					;	   |
 	JMP CODE_BBC150				;$BBC3E2  /> Cutscene code done
 
 .set_kong_states_to_cutscene_move
-	JSL CODE_B8808E				;$BBC3E5  \ \ Work on active kong
+	JSL work_on_active_kong_global		;$BBC3E5  \ \ Work on active kong
 	JSR ..set_kong_state_to_cutscene_move	;$BBC3E9   |/ Set active kong state to cutscene move
 	LDA $08C2				;$BBC3EC   |\
 	AND #$4000				;$BBC3EF   | |
 	BEQ .CODE_BBC42C			;$BBC3F2   |/ If there is no follower kong then were done
-	JSL CODE_B880A2				;$BBC3F4   |\ Else work on inactive kong
+	JSL work_on_inactive_kong_global	;$BBC3F4   |\ Else work on inactive kong
 	JSR ..set_kong_state_to_cutscene_move	;$BBC3F8   |/ Set inactive kong state to cutscene move
 	JMP CODE_BBC150				;$BBC3FB  /> Cutscene code done
 
@@ -8590,7 +8590,7 @@ CODE_BBC174:					;	   |
 	RTS					;$BBC405  /
 
 .CODE_BBC406
-	JSL CODE_B8808E				;$BBC406  \
+	JSL work_on_active_kong_global		;$BBC406  \
 	JSL CODE_B88EB8				;$BBC40A   |
 	LDX current_sprite			;$BBC40E   |
 	LDA #$007C				;$BBC410   |
@@ -8601,19 +8601,19 @@ CODE_BBC174:					;	   |
 	LDA $08C2				;$BBC41B   |
 	AND #$4000				;$BBC41E   |
 	BEQ .CODE_BBC42C			;$BBC421   |
-	JSL CODE_B880A2				;$BBC423   |
+	JSL work_on_inactive_kong_global	;$BBC423   |
 	LDA #$0022				;$BBC427   |
 	STA sprite.state,x			;$BBC42A   |
 .CODE_BBC42C					;	   |
 	JMP CODE_BBC150				;$BBC42C  /
 
 .CODE_BBC42F
-	JSL CODE_B8808E				;$BBC42F  \
+	JSL work_on_active_kong_global		;$BBC42F  \
 	JSR .CODE_BBC448			;$BBC433   |
 	LDA $08C2				;$BBC436   |
 	AND #$4000				;$BBC439   |
 	BEQ .CODE_BBC42C			;$BBC43C   |
-	JSL CODE_B880A2				;$BBC43E   |
+	JSL work_on_inactive_kong_global	;$BBC43E   |
 	JSR .CODE_BBC448			;$BBC442   |
 	JMP CODE_BBC150				;$BBC445  /
 
@@ -8626,12 +8626,12 @@ CODE_BBC174:					;	   |
 	RTS					;$BBC456  /
 
 .set_kongs_walking_right
-	JSL CODE_B8808E				;$BBC457  \ \ Work on active kong
+	JSL work_on_active_kong_global		;$BBC457  \ \ Work on active kong
 	JSR .set_kong_walking_right		;$BBC45B   |/ Make active kong walk to the right
 	LDA $08C2				;$BBC45E   |\
 	AND #$4000				;$BBC461   | |
 	BEQ .CODE_BBC4A0			;$BBC464   |/ If there is no follower kong then were done
-	JSL CODE_B880A2				;$BBC466   |\ Else work on inactive kong
+	JSL work_on_inactive_kong_global	;$BBC466   |\ Else work on inactive kong
 	JSR .set_kong_walking_right		;$BBC46A   |/ Make inactive kong walk to the right
 	JMP CODE_BBC150				;$BBC46D  /> Cutscene code done
 
@@ -8649,12 +8649,12 @@ CODE_BBC174:					;	   |
 	RTS					;$BBC489  /> Return
 
 .CODE_BBC48A
-	JSL CODE_B8808E				;$BBC48A  \
+	JSL work_on_active_kong_global		;$BBC48A  \
 	JSR .CODE_BBC4A3			;$BBC48E   |
 	LDA $08C2				;$BBC491   |
 	AND #$4000				;$BBC494   |
 	BEQ .CODE_BBC4A0			;$BBC497   |
-	JSL CODE_B880A2				;$BBC499   |
+	JSL work_on_inactive_kong_global	;$BBC499   |
 	JSR .CODE_BBC4A3			;$BBC49D   |
 .CODE_BBC4A0					;	   |
 	JMP CODE_BBC150				;$BBC4A0  /
@@ -8677,12 +8677,12 @@ CODE_BBC174:					;	   |
 
 .CODE_BBC4C6
 	STZ current_held_sprite			;$BBC4C6  \
-	JSL CODE_B8808E				;$BBC4C9   |
+	JSL work_on_active_kong_global		;$BBC4C9   |
 	JSR .CODE_BBC4E2			;$BBC4CD   |
 	LDA $08C2				;$BBC4D0   |
 	AND #$4000				;$BBC4D3   |
 	BEQ .CODE_BBC4A0			;$BBC4D6   |
-	JSL CODE_B880A2				;$BBC4D8   |
+	JSL work_on_inactive_kong_global	;$BBC4D8   |
 	JSR .CODE_BBC4E2			;$BBC4DC   |
 	JMP CODE_BBC150				;$BBC4DF  /
 
@@ -8712,12 +8712,12 @@ CODE_BBC174:					;	   |
 	RTS					;$BBC512  /
 
 .CODE_BBC513
-	JSL CODE_B8808E				;$BBC513  \
+	JSL work_on_active_kong_global		;$BBC513  \
 	STZ sprite.state,x			;$BBC517   |
 	LDA $08C2				;$BBC519   |
 	AND #$4000				;$BBC51C   |
 	BEQ .CODE_BBC537			;$BBC51F   |
-	JSL CODE_B880A2				;$BBC521   |
+	JSL work_on_inactive_kong_global	;$BBC521   |
 	LDA #$0022				;$BBC525   |
 	STA sprite.state,x			;$BBC528   |
 	LDA #$001F				;$BBC52A   |

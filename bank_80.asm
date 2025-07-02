@@ -3232,6 +3232,7 @@ CODE_809E59:
 	STZ oam_attribute[$10].size		;$809E71   |
 	RTS					;$809E74  /
 
+;File select cheat inputs?
 DATA_809E75:
 	db $00, $80, $80, $00, $00, $01, $00, $01
 	db $80, $00, $00, $02, $80, $00, $40, $00
@@ -9039,7 +9040,7 @@ level_logic_table:
 	dw CODE_80D886				;11 Ship Hold (Dark)
 	dw CODE_80D8B7				;12 Lava (Geyser)
 	dw CODE_80D8DE				;13 Krocodile Kore
-	dw CODE_80D902				;14 Castle
+	dw CODE_80D902				;14 Castle (Crush)
 	dw CODE_80DA21				;15 Haunted
 	dw CODE_80DA45				;16 Ship Mast (Water)
 	dw CODE_80DA76				;17 K. Rool Duel
@@ -9667,6 +9668,7 @@ CODE_80D941:
 	TRB $0D56				;$80D978   |
 	BRA CODE_80D9B8				;$80D97B  /
 
+;Unhinged routine that marks $0D26 as a sprite and uses it for handling castle crush floor
 CODE_80D97D:
 	TSB $0D56				;$80D97D  \
 CODE_80D980:					;	   |
@@ -12861,14 +12863,14 @@ CODE_80F50C:
 	PHY					;$80F50C  \
 	LDA #$0000				;$80F50D   |
 	JSL CODE_808837				;$80F510   |
-	JSL CODE_B8808E				;$80F514   |
+	JSL work_on_active_kong_global		;$80F514   |
 	BRA CODE_80F526				;$80F518  /
 
 CODE_80F51A:
 	PHY					;$80F51A  \
 	LDA #$0001				;$80F51B   |
 	JSL CODE_808837				;$80F51E   |
-	JSL CODE_B8808E				;$80F522   |
+	JSL work_on_active_kong_global		;$80F522   |
 CODE_80F526:					;	   |
 	LDY active_kong_control_variables	;$80F526   |
 	LDA $0006,y				;$80F529   |

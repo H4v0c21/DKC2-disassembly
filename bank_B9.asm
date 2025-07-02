@@ -40,7 +40,7 @@ CODE_B9D03A:
 	LDX current_sprite			;$B9D03C   |
 	LDA $00,x				;$B9D03E   |
 	SEC					;$B9D040   |
-	SBC #!sprite_barrel			;$B9D041   |> Throwable base sprite id
+	SBC #!throwable_sprite_range_start	;$B9D041   |> Throwable base sprite id
 	LSR A					;$B9D044   |
 	LSR A					;$B9D045   |
 	CLC					;$B9D046   |
@@ -63,7 +63,7 @@ CODE_B9D04B:
 	LDX current_sprite			;$B9D060   |
 	LDA $00,x				;$B9D062   |
 	SEC					;$B9D064   |
-	SBC #!sprite_squitter			;$B9D065   |> Animal buddy base sprite id
+	SBC #!animal_sprite_type_range_start	;$B9D065   |
 	LSR A					;$B9D068   |
 	LSR A					;$B9D069   |
 	CLC					;$B9D06A   |
@@ -83,7 +83,7 @@ CODE_B9D07B:
 	LDX current_sprite			;$B9D07D   |
 	LDA $00,x				;$B9D07F   |
 	SEC					;$B9D081   |
-	SBC #!sprite_squitter			;$B9D082   |
+	SBC #!animal_sprite_type_range_start	;$B9D082   |
 	LSR A					;$B9D085   |
 	LSR A					;$B9D086   |
 	CLC					;$B9D087   |
@@ -94,7 +94,7 @@ CODE_B9D08C:
 	STA $26					;$B9D08C  \
 	LDA $6E					;$B9D08E   |
 	SEC					;$B9D090   |
-	SBC #!sprite_squitter			;$B9D091   |
+	SBC #!animal_sprite_type_range_start	;$B9D091   |
 	LSR A					;$B9D094   |
 	LSR A					;$B9D095   |
 	CLC					;$B9D096   |
@@ -327,7 +327,7 @@ CODE_B9D1C2:
 	LDX current_sprite			;$B9D1D0   |> Get current sprite
 	JMP process_anim_script			;$B9D1D2  /> Continue processing animation script
 
-;animation command 93 (play sound effect unknown)
+;animation command 93 (play sound effect if not offscreen)
 CODE_B9D1D5:
 	LDX current_sprite			;$B9D1D5  \
 	INY					;$B9D1D7   |
@@ -840,7 +840,7 @@ animation_command_table:
 
 CODE_B9D4EF:
 	LDA.l $000515				;$B9D4EF   |
-	CMP #$0003				;$B9D4F3   |
+	CMP #!boss_level_type			;$B9D4F3   |
 	BNE CODE_B9D4FB				;$B9D4F6   |
 	JMP CODE_B9D12B				;$B9D4F8  /
 
@@ -858,7 +858,7 @@ CODE_B9D50B:
 	JMP process_anim_script			;$B9D50B  /
 
 CODE_B9D50E:
-	LDA.l $000593				;$B9D50E  \
+	LDA.l active_kong_sprite		;$B9D50E  \
 	TAX					;$B9D512   |
 	LDA $24,x				;$B9D513   |
 	BPL CODE_B9D51C				;$B9D515   |
@@ -879,7 +879,7 @@ CODE_B9D52B:
 	JMP process_anim_script			;$B9D52B  /
 
 CODE_B9D52E:
-	LDA.l $000593				;$B9D52E  \
+	LDA.l active_kong_sprite		;$B9D52E  \
 	TAX					;$B9D532   |
 	LDA $24,x				;$B9D533   |
 	BMI CODE_B9D53C				;$B9D535   |
@@ -986,7 +986,7 @@ CODE_B9D5D0:
 	JMP process_anim_script			;$B9D5D0  /
 
 CODE_B9D5D3:
-	LDA.l $000593				;$B9D5D3  \
+	LDA.l active_kong_sprite		;$B9D5D3  \
 	TAX					;$B9D5D7   |
 	LDA $26,x				;$B9D5D8   |
 	BNE CODE_B9D5E1				;$B9D5DA   |
@@ -1007,7 +1007,7 @@ CODE_B9D5E9:					;	   |
 
 CODE_B9D5F3:
 	LDA.l $000515				;$B9D5F3  \
-	CMP #$0003				;$B9D5F7   |
+	CMP #!boss_level_type			;$B9D5F7   |
 	BNE CODE_B9D5FE				;$B9D5FA   |
 	CLC					;$B9D5FC   |
 	RTS					;$B9D5FD  /
@@ -1018,9 +1018,9 @@ CODE_B9D5FE:
 
 CODE_B9D600:
 	LDA.l $000515				;$B9D600  \
-	CMP #$0002				;$B9D604   |
+	CMP #!small_level_type			;$B9D604   |
 	BEQ CODE_B9D614				;$B9D607   |
-	CMP #$0001				;$B9D609   |
+	CMP #!bonus_level_type			;$B9D609   |
 	BNE CODE_B9D616				;$B9D60C   |
 	LDA.l $00052D				;$B9D60E   |
 	BEQ CODE_B9D616				;$B9D612   |
@@ -1044,7 +1044,7 @@ CODE_B9D623:
 	RTS					;$B9D624  /
 
 CODE_B9D625:
-	LDA.l $00006C				;$B9D625  \
+	LDA.l current_player_mount		;$B9D625  \
 	BNE CODE_B9D62D				;$B9D629   |
 	SEC					;$B9D62B   |
 	RTS					;$B9D62C  /
@@ -1064,7 +1064,7 @@ CODE_B9D637:
 	RTS					;$B9D638  /
 
 CODE_B9D639:
-	LDA.l $000593				;$B9D639  \
+	LDA.l active_kong_sprite		;$B9D639  \
 	TAX					;$B9D63D   |
 	LDA $26,x				;$B9D63E   |
 	BNE CODE_B9D644				;$B9D640   |
@@ -1111,6 +1111,7 @@ CODE_B9D671:
 	CLC					;$B9D672   |
 	RTS					;$B9D673  /
 
+;Called by kong rolling animations
 CODE_B9D674:
 	LDA $1E,x				;$B9D674  \
 	AND #$1001				;$B9D676   |
@@ -1446,23 +1447,23 @@ CODE_B9D85D:
 CODE_B9D86A:
 	RTS					;$B9D86A  /
 
-CODE_B9D86B:
-	LDA current_held_sprite			;$B9D86B  \
-	BEQ CODE_B9D871				;$B9D86E   |
-	RTS					;$B9D870  /
+spawn_diddy_boombox:
+	LDA current_held_sprite			;$B9D86B  \ Check if a sprite is being held
+	BEQ .spawn				;$B9D86E   | If not, spawn the boombox
+	RTS					;$B9D870  / Else return
 
-CODE_B9D871:
+.spawn:
 	LDY #!special_sprite_spawn_id_0004	;$B9D871  \
-	JSL spawn_special_sprite_index		;$B9D874   |
-	BCS CODE_B9D87F				;$B9D878   |
+	JSL spawn_special_sprite_index		;$B9D874   | Spawn diddy boombox
+	BCS .return				;$B9D878   | If spawn failed, return
 	LDA alternate_sprite			;$B9D87A   |
-	STA current_held_sprite			;$B9D87C   |
-CODE_B9D87F:					;	   |
-	RTS					;$B9D87F  /
+	STA current_held_sprite			;$B9D87C   | Else set boombox as current held sprite
+.return:					;	   |
+	RTS					;$B9D87F  / Return
 
 CODE_B9D880:
 	LDY #!special_sprite_spawn_id_001E	;$B9D880  \
-	JSL spawn_special_sprite_index		;$B9D883   |
+	JSL spawn_special_sprite_index		;$B9D883   | Spawn rain cloud (spawn animation)
 	RTS					;$B9D887  /
 
 CODE_B9D888:
@@ -1715,7 +1716,7 @@ CODE_B9DA5C:
 	JSL CODE_B883D5				;$B9DA5C  \
 	RTS					;$B9DA60  /
 
-CODE_B9DA61:
+exit_level_on_death:
 	LDA #$810F				;$B9DA61  \
 	JSL set_fade_global			;$B9DA64   |
 	LDA #$0002				;$B9DA68   |
@@ -1731,12 +1732,13 @@ if !version == 0				;	   |
 else						;	   |
 	LDY #$0100				;$B9DA78   |
 endif						;	   |
-	JSL CODE_B8D1E4				;$B9DA7B   |
+	JSL enable_bullet_time_global		;$B9DA7B   |
 	RTS					;$B9DA7F  /
 
 CODE_B9DA80:
 	RTS					;$B9DA80  |
 
+;Unreferenced, would essentially exit the level keeping entrance + no fadeout
 CODE_B9DA81:
 	LDA level_number			;$B9DA81  \
 	STA level_destination_number		;$B9DA83   |
@@ -1746,11 +1748,11 @@ CODE_B9DA81:
 	JSL set_player_interaction_global	;$B9DA8F   |
 	RTS					;$B9DA93  /
 
-CODE_B9DA94:
+spawn_diddy_hurt_stars:
 	LDA #$050A				;$B9DA94  \
-	JSL queue_sound_effect			;$B9DA97   |
+	JSL queue_sound_effect			;$B9DA97   | Play dizzy stars sound effect
 	LDY #!special_sprite_spawn_id_0016	;$B9DA9B   |
-	JSL spawn_special_sprite_index		;$B9DA9E   |
+	JSL spawn_special_sprite_index		;$B9DA9E   | Spawn diddy hurt stars
 	RTS					;$B9DAA2  /
 
 CODE_B9DAA3:
@@ -2071,23 +2073,24 @@ CODE_B9DC94:
 	STZ current_held_sprite			;$B9DC94  \
 	RTS					;$B9DC97  /
 
-CODE_B9DC98:
-	LDA current_held_sprite			;$B9DC98  \
-	BEQ CODE_B9DC9E				;$B9DC9B   |
-	RTS					;$B9DC9D  /
+spawn_dixie_guitar:
+	LDA current_held_sprite			;$B9DC98  \ Check if a sprite is being held
+	BEQ .spawn				;$B9DC9B   | If not, spawn guitar
+	RTS					;$B9DC9D  / Else return
 
-CODE_B9DC9E:
+.spawn:
 	LDY #!special_sprite_spawn_id_0006	;$B9DC9E  \
-	JSL spawn_special_sprite_index		;$B9DCA1   |
-	BCS CODE_B9DCAC				;$B9DCA5   |
+	JSL spawn_special_sprite_index		;$B9DCA1   | Spawn dixie guitar
+	BCS .return				;$B9DCA5   | If spawn failed, return
 	LDA alternate_sprite			;$B9DCA7   |
-	STA current_held_sprite			;$B9DCA9   |
-CODE_B9DCAC:					;	   |
-	RTS					;$B9DCAC  /
+	STA current_held_sprite			;$B9DCA9   | Else set guitar as current held sprite
+.return:					;	   |
+	RTS					;$B9DCAC  / Return
 
+;Unreferenced
 CODE_B9DCAD:
 	LDY #!special_sprite_spawn_id_0020	;$B9DCAD  \
-	JSL spawn_special_sprite_index		;$B9DCB0   |
+	JSL spawn_special_sprite_index		;$B9DCB0   | Spawn unused dixie hurt tears
 	RTS					;$B9DCB4  /
 
 CODE_B9DCB5:
@@ -2170,11 +2173,11 @@ CODE_B9DD21:
 	STZ $26,x				;$B9DD28   |
 	RTS					;$B9DD2A  /
 
-CODE_B9DD2B:
+spawn_dixie_hurt_tears:
 	LDA #$0520				;$B9DD2B  \
-	JSL queue_sound_effect			;$B9DD2E   |
+	JSL queue_sound_effect			;$B9DD2E   | Play dixie crying sound effect
 	LDY #!special_sprite_spawn_id_0014	;$B9DD32   |
-	JSL spawn_special_sprite_index		;$B9DD35   |
+	JSL spawn_special_sprite_index		;$B9DD35   | Spawn dixie hurt tears
 	RTS					;$B9DD39  /
 
 CODE_B9DD3A:
@@ -2947,6 +2950,7 @@ CODE_B9E20F:
 	JSL CODE_B8D1FB				;$B9E214   |
 	RTS					;$B9E218  /
 
+;Rambi attack related, possible special hitbox injection
 CODE_B9E219:
 	LDA #$0008				;$B9E219  \
 	JSL CODE_BCFA9A				;$B9E21C   |
@@ -3394,7 +3398,7 @@ CODE_B9E4F5:
 
 CODE_B9E4FE:
 	TXA					;$B9E4FE  \
-	CMP $000593				;$B9E4FF   |
+	CMP.l active_kong_sprite		;$B9E4FF   |
 	BNE CODE_B9E4A5				;$B9E503   |
 	BRL process_anim_script			;$B9E505  /
 
@@ -3404,7 +3408,7 @@ CODE_B9E508:
 	BCS CODE_B9E4F5				;$B9E50D   |
 	BRA CODE_B9E4EC				;$B9E50F  /
 
-CODE_B9E511:
+anim_delete_sprite:
 	JSL delete_sprite_handle_deallocation	;$B9E511  \
 	RTS					;$B9E515  /
 
@@ -3496,6 +3500,7 @@ CODE_B9E592:
 	SEC					;$B9E592  \
 	RTS					;$B9E593  /
 
+;Ship water splash related
 CODE_B9E594:
 	LDA $46,x				;$B9E594  \
 	LSR A					;$B9E596   |
@@ -3621,7 +3626,8 @@ CODE_B9E667:					;	   |
 	JSL queue_sound_effect			;$B9E674   |
 	RTS					;$B9E678  /
 
-CODE_B9E679:
+;This will effectively ASL/LSR his current X velocity twice, depending if moving left/right respectively.
+delay_klomp_walk:
 	LDA $20,x				;$B9E679  \
 	CMP #$8000				;$B9E67B   |
 	ROR $20,x				;$B9E67E   |
@@ -3629,6 +3635,7 @@ CODE_B9E679:
 	ROR $20,x				;$B9E683   |
 	RTS					;$B9E685  /
 
+;Similar to above.
 CODE_B9E686:
 	LDA $20,x				;$B9E686  \
 	CMP #$8000				;$B9E688   |
@@ -3686,15 +3693,15 @@ turn_spiny_if_needed:
 	LDY #$01A4				;$B9E6D2  \
 	JMP turn_sprite_if_needed		;$B9E6D5  /
 
-CODE_B9E6D8:
+set_credits_snapjaw_animation:
 	LDA $06,x				;$B9E6D8  \
-	CMP #$0160				;$B9E6DA   |
-	BCC CODE_B9E6E6				;$B9E6DD   |
-	STZ $3E,x				;$B9E6DF   |
+	CMP #$0160				;$B9E6DA   | Check if snapjaw has reached target X position
+	BCC .return				;$B9E6DD   | If not, return
+	STZ $3E,x				;$B9E6DF   | Else clear anim subroutine pointer
 	LDA #DATA_F956E6			;$B9E6E1   |
-	STA $3C,x				;$B9E6E4   |
-CODE_B9E6E6:					;	   |
-	RTS					;$B9E6E6  /
+	STA $3C,x				;$B9E6E4   | Set new animation script pointer
+.return:					;	   |
+	RTS					;$B9E6E6  / Return
 
 turn_lockjaw_if_needed:
 	LDY #$0178				;$B9E6E7  \
@@ -3813,7 +3820,7 @@ CODE_B9E781:
 CODE_B9E794:
 	LDA.l $000915				;$B9E794  \
 	BNE CODE_B9E7B0				;$B9E798   |
-	LDA.l $000593				;$B9E79A   |
+	LDA.l active_kong_sprite		;$B9E79A   |
 	TAX					;$B9E79E   |
 	LDA $06,x				;$B9E79F   |
 	LDX current_sprite			;$B9E7A1   |
@@ -3835,7 +3842,7 @@ CODE_B9E7BC:					;	   |
 	LDA $1C,x				;$B9E7BC   |
 	LSR A					;$B9E7BE   |
 	BCS CODE_B9E7B0				;$B9E7BF   |
-	LDA.l $000593				;$B9E7C1   |
+	LDA.l active_kong_sprite		;$B9E7C1   |
 	TAX					;$B9E7C5   |
 	LDA $0A,x				;$B9E7C6   |
 	CMP $000D4E				;$B9E7C8   |
@@ -4175,14 +4182,14 @@ turn_krook_if_needed:
 	LDY #$01EF				;$B9E9CB  \
 	JMP turn_sprite_if_needed		;$B9E9CE  /
 
-CODE_B9E9D1:
+spawn_krooks_hook:
 	LDY #!special_sprite_spawn_id_000A	;$B9E9D1  \
-	JSL spawn_special_sprite_index		;$B9E9D4   |
-	LDY alternate_sprite			;$B9E9D8   |
-	LDX current_sprite			;$B9E9DA   |
-	STY $50,x				;$B9E9DC   |
-	STX $50,y				;$B9E9DE   |
-	RTS					;$B9E9E0  /
+	JSL spawn_special_sprite_index		;$B9E9D4   | Spawn krook's hook
+	LDY alternate_sprite			;$B9E9D8   | Get hook sprite
+	LDX current_sprite			;$B9E9DA   | Get krook sprite
+	STY $50,x				;$B9E9DC   | Store pointer of hook into krook
+	STX $50,y				;$B9E9DE   | Vice versa
+	RTS					;$B9E9E0  / Return
 
 CODE_B9E9E1:
 	LDA $50,x				;$B9E9E1  \
@@ -4256,15 +4263,15 @@ CODE_B9EA38:
 	STA $52,x				;$B9EA3B   |
 	RTS					;$B9EA3D  /
 
-CODE_B9EA3E:
+spawn_cat_o9_tails_dizzy_stars:
 	LDY #!special_sprite_spawn_id_0094	;$B9EA3E  \
-	JSL spawn_special_sprite_index		;$B9EA41   |
-	LDX current_sprite			;$B9EA45   |
-	BCS CODE_B9EA4D				;$B9EA47   |
-	LDA alternate_sprite			;$B9EA49   |
-	STA $4E,x				;$B9EA4B   |
-CODE_B9EA4D:					;	   |
-	RTS					;$B9EA4D  /
+	JSL spawn_special_sprite_index		;$B9EA41   | Spawn stars
+	LDX current_sprite			;$B9EA45   | Get cat sprite
+	BCS .return				;$B9EA47   | If spawn failed, return
+	LDA alternate_sprite			;$B9EA49   | Else get stars sprite
+	STA $4E,x				;$B9EA4B   | Store pointer to it in cat
+.return:					;	   |
+	RTS					;$B9EA4D  / Return
 
 CODE_B9EA4E:
 	LDY $4E,x				;$B9EA4E  \
@@ -4323,14 +4330,14 @@ CODE_B9EAAF:
 	STA $2E,x				;$B9EABB   |
 	RTS					;$B9EABD  /
 
-CODE_B9EABE:
+turn_kloak_if_needed:
 	LDA $10,x				;$B9EABE  \
-	BEQ .turn_kloak_if_needed		;$B9EAC0   |
-	LDA #$02D2				;$B9EAC2   |
+	BEQ .turn				;$B9EAC0   |
+	LDA #$02D2				;$B9EAC2   | If shouldn't turn, set throw animation
 	JSL set_sprite_animation		;$B9EAC5   |
 	RTS					;$B9EAC9  /
 	
-.turn_kloak_if_needed:
+.turn:
 	LDY #$02D1				;$B9EACA  \
 	JMP turn_sprite_if_needed		;$B9EACD  /
 
@@ -4390,7 +4397,7 @@ CODE_B9EB0F:
 CODE_B9EB23:					;	   |
 	RTS					;$B9EB23  /
 
-CODE_B9EB24:
+set_krochead_bounce_interaction:
 	LDA #$0009				;$B9EB24  \
 	JSL set_player_interaction_global	;$B9EB27   |
 	RTS					;$B9EB2B  /
@@ -4403,7 +4410,7 @@ CODE_B9EB2C:
 	BRL CODE_B9EB90				;$B9EB36  /
 
 CODE_B9EB39:
-	LDA.l $000593				;$B9EB39  \
+	LDA.l active_kong_sprite		;$B9EB39  \
 	TAX					;$B9EB3D   |
 	LDA $2E,x				;$B9EB3E   |
 	LDX current_sprite			;$B9EB40   |
@@ -4604,7 +4611,7 @@ CODE_B9EC9C:
 	LDA $06,x				;$B9EC9C  \
 	CMP $04,x				;$B9EC9E   |
 	BCS CODE_B9ECCE				;$B9ECA0   |
-	LDA.l $000593				;$B9ECA2   |
+	LDA.l active_kong_sprite		;$B9ECA2   |
 	TAX					;$B9ECA6   |
 	LDA $06,x				;$B9ECA7   |
 	SEC					;$B9ECA9   |
@@ -4667,7 +4674,7 @@ CODE_B9ED06:
 	STA $0046,y				;$B9ED06  \
 	RTS					;$B9ED09  /
 
-CODE_B9ED0A:
+turn_screech_if_needed:
 	LDA $22,x				;$B9ED0A  \
 	EOR $12,x				;$B9ED0C   |
 	AND #$4000				;$B9ED0E   |
@@ -4814,7 +4821,7 @@ CODE_B9EDDB:
 	BNE CODE_B9EDE9				;$B9EDE4   |
 	STA $0929				;$B9EDE6   |
 CODE_B9EDE9:					;	   |
-	JMP CODE_B9E511				;$B9EDE9  /
+	JMP anim_delete_sprite			;$B9EDE9  /
 
 CODE_B9EDEC:
 	DEC $44,x				;$B9EDEC  \
@@ -4860,15 +4867,15 @@ CODE_B9EE1E:
 	JSL set_sprite_animation		;$B9EE25   |
 	RTS					;$B9EE29  /
 
-CODE_B9EE2A:
+turn_glimmer_if_needed:
 	LDY active_kong_sprite			;$B9EE2A  \
 	LDA $0012,y				;$B9EE2D   |
 	EOR $12,x				;$B9EE30   |
 	AND #$4000				;$B9EE32   |
-	BNE CODE_B9EE38				;$B9EE35   |
+	BNE .turn				;$B9EE35   |
 	RTS					;$B9EE37  /
 
-CODE_B9EE38:
+.turn:
 	LDA #$02CF				;$B9EE38  \
 	JSL set_sprite_animation		;$B9EE3B   |
 	RTS					;$B9EE3F  /
@@ -4879,16 +4886,16 @@ CODE_B9EE40:
 	JSL set_sprite_animation		;$B9EE46   |
 	RTS					;$B9EE4A  /
 
-CODE_B9EE4B:
+play_dk_barrel_sound_if_one_kong:
 	LDA $08C2				;$B9EE4B  \
 	AND #$4000				;$B9EE4E   |
-	BEQ CODE_B9EE54				;$B9EE51   |
+	BEQ .one_kong				;$B9EE51   |
 	RTS					;$B9EE53  /
 
-CODE_B9EE54:
+.one_kong:
 	LDX #$051B				;$B9EE54  \
 	LDY #$051B				;$B9EE57   |
-	JSL CODE_B89182				;$B9EE5A   |
+	JSL play_kong_dependant_sound_global	;$B9EE5A   |
 	RTS					;$B9EE5E  /
 
 CODE_B9EE5F:
@@ -4928,30 +4935,31 @@ CODE_B9EE99:
 	STA $2E,x				;$B9EE9C   |
 	RTS					;$B9EE9E  /
 
-CODE_B9EE9F:
+spawn_animal_crate_smoke:
 	LDY #!special_sprite_spawn_id_0048	;$B9EE9F  \
 	JSL spawn_special_sprite_index		;$B9EEA2   |
 	RTS					;$B9EEA6  /
 
-CODE_B9EEA7:
-	JSL delete_sprite_handle_deallocation	;$B9EEA7  \
-	LDA $6E					;$B9EEAB   |
-	BNE CODE_B9EEC9				;$B9EEAD   |
-	LDX current_sprite			;$B9EEAF   |
-	LDA $2E,x				;$B9EEB1   |
-	CMP #$0004				;$B9EEB3   |
-	BEQ CODE_B9EEC9				;$B9EEB6   |
-	LDA $42,x				;$B9EEB8   |
+spawn_animal_crate_animal:
+	JSL delete_sprite_handle_deallocation	;$B9EEA7  \ Delete crate sprite
+	LDA $6E					;$B9EEAB   | Check if we're already an animal
+	BNE .return				;$B9EEAD   | If yes, return
+	LDX current_sprite			;$B9EEAF   | Else get crate sprite
+	LDA $2E,x				;$B9EEB1   | Get crate state
+	CMP #$0004				;$B9EEB3   | Check if in state 04 (which points to state 02)
+	BEQ .return				;$B9EEB6   | If yes, return
+	LDA $42,x				;$B9EEB8   | Get animal animation ID (copied from $36,x)
 	SEC					;$B9EEBA   |
-	SBC #$02AC				;$B9EEBB   |
-	ASL A					;$B9EEBE   |
-	TAX					;$B9EEBF   |
-	LDA.l DATA_FF0D64,x			;$B9EEC0   |
-	TAY					;$B9EEC4   |
-	JSL spawn_special_sprite_address	;$B9EEC5   |
-CODE_B9EEC9:					;	   |
-	RTS					;$B9EEC9  /
+	SBC #$02AC				;$B9EEBB   | Subtract base animal anim ID to get table index
+	ASL A					;$B9EEBE   | *2
+	TAX					;$B9EEBF   | Transfer to X
+	LDA.l DATA_FF0D64,x			;$B9EEC0   | Get animal buddy spawn script address from table
+	TAY					;$B9EEC4   | Transfer to Y
+	JSL spawn_special_sprite_address	;$B9EEC5   | Spawn animal buddy
+.return:					;	   |
+	RTS					;$B9EEC9  / Return
 
+;Unreferenced
 CODE_B9EECA:
 	RTL					;$B9EECA  |
 
@@ -4975,18 +4983,18 @@ CODE_B9EEE2:
 	RTS					;$B9EEE7  /
 
 CODE_B9EEE8:
-	JMP CODE_B9E511				;$B9EEE8  |
+	JMP anim_delete_sprite			;$B9EEE8  |
 
 CODE_B9EEEB:
 	LDY #!special_sprite_spawn_id_001C	;$B9EEEB  \
-	JSL spawn_special_sprite_index		;$B9EEEE   |
+	JSL spawn_special_sprite_index		;$B9EEEE   | Spawn rain cloud (loop)
 	RTS					;$B9EEF2  /
 
-CODE_B9EEF3:
+anim_delete_sprite_2:
 	JSL delete_sprite_handle_deallocation	;$B9EEF3  \
 	RTS					;$B9EEF7  /
 
-CODE_B9EEF8:
+set_rattly_idle_no_player_animation:
 	LDA #$014B				;$B9EEF8  \
 	JSL set_sprite_animation		;$B9EEFB   |
 	RTS					;$B9EEFF  /
@@ -5017,7 +5025,7 @@ CODE_B9EF22:
 	STZ $20,x				;$B9EF22  \
 	RTS					;$B9EF24  /
 
-CODE_B9EF25:
+set_hit_by_klubba_interaction:
 	LDA #$0026				;$B9EF25  \
 	JSL set_player_interaction_global	;$B9EF28   |
 	RTS					;$B9EF2C  /
@@ -5056,6 +5064,7 @@ CODE_B9EF55:
 	JSL CODE_B6A838				;$B9EF55  \
 	RTS					;$B9EF59  /
 
+;Related to krool on final hit (both versions)
 CODE_B9EF5A:
 	LDX active_kong_sprite			;$B9EF5A  \
 	LDA $2E,x				;$B9EF5D   |
@@ -5272,12 +5281,13 @@ CODE_B9F06A:
 	JSL CODE_B6F904				;$B9F06A  \
 	RTS					;$B9F06E  /
 
-CODE_B9F06F:
+set_celebrate_interaction_and_clear_level:
 	JSL set_current_level_as_cleared	;$B9F06F  \
 	LDA #$0027				;$B9F073   |
 	JSL set_player_interaction_global	;$B9F076   |
 	RTS					;$B9F07A  /
 
+;Unreferenced, would have set level end states on kongs and triggered fadeout.
 CODE_B9F07B:
 	JSL CODE_B8A691				;$B9F07B  \
 	RTS					;$B9F07F  /

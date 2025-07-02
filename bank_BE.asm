@@ -756,6 +756,7 @@ CODE_BEBD5C:
 CODE_BEBD8D:					;	   |
 	RTS					;$BEBD8D  /
 
+;CHECK SPRITE COLLISION
 CODE_BEBD8E:
 	JSR CODE_BEBD92				;$BEBD8E  \
 	RTL					;$BEBD91  /
@@ -906,6 +907,8 @@ CODE_BEBE6D:
 	LDA #$0000				;$BEBE87   |
 	RTL					;$BEBE8A  /
 
+;Check complex player collision
+;Eventually loads #$0020 and checks it against kong jank flags
 CODE_BEBE8B:
 	LDY #$0000				;$BEBE8B  \
 CODE_BEBE8E:					;	   |

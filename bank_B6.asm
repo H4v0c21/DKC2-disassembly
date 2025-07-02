@@ -314,6 +314,7 @@ CODE_B68268:
 	BEQ CODE_B6824A				;$B68288   |
 	BRA CODE_B68267				;$B6828A  /
 
+;Manually injects kudgel's special hitbox for destroying held TNT
 CODE_B6828C:
 	LDA $12,x				;$B6828C  \
 	BIT #$4000				;$B6828E   |
@@ -7644,7 +7645,7 @@ boss_command_code_09:
 	PHY					;$B6C7E0  \
 	LDA #$0001				;$B6C7E1   |
 	LDY #$0000				;$B6C7E4   |
-	JSL CODE_B8D1E4				;$B6C7E7   |
+	JSL enable_bullet_time_global		;$B6C7E7   |
 	STZ $44,x				;$B6C7EB   |
 	PLY					;$B6C7ED   |
 	RTS					;$B6C7EE  /
@@ -9037,7 +9038,7 @@ CODE_B6D1B4:
 	STA $001C,y				;$B6D275   |
 	STZ $54,x				;$B6D278   |
 	LDY #!special_sprite_spawn_id_00A6	;$B6D27A   |
-	JSL spawn_special_sprite_index		;$B6D27D   |
+	JSL spawn_special_sprite_index		;$B6D27D   | Spawn kleever canball
 	LDX current_sprite			;$B6D281   |
 	LDY alternate_sprite			;$B6D283   |
 	STY $0656				;$B6D285   |
@@ -9235,9 +9236,9 @@ CODE_B6D424:
 	STA CPU.divisor				;$B6D43A   |
 	REP #$20				;$B6D43D   |
 	LDA #$0008				;$B6D43F   |
-CODE_B6D442:					;	   |
+.stall_cpu:					;	   |
 	DEC A					;$B6D442   |
-	BNE CODE_B6D442				;$B6D443   |
+	BNE .stall_cpu				;$B6D443   |
 	LDA CPU.multiply_result			;$B6D445   |
 	BRA CODE_B6D44E				;$B6D448  /
 
@@ -12521,7 +12522,7 @@ CODE_B6EDCC:
 	BEQ CODE_B6EDEC				;$B6EDD8   |
 	AND #$BFFF				;$B6EDDA   |
 	STA $0006A1				;$B6EDDD   |
-	JSL CODE_B8D1F0				;$B6EDE1   |
+	JSL disable_bullet_time_global		;$B6EDE1   |
 	LDA $2E,x				;$B6EDE5   |
 	AND #$F7FF				;$B6EDE7   |
 	STA $2E,x				;$B6EDEA   |
@@ -13824,7 +13825,7 @@ CODE_B6F82D:
 	LDA $2E,x				;$B6F835   |
 	AND #$FFEF				;$B6F837   |
 	STA $2E,x				;$B6F83A   |
-	JSL CODE_B8D1F0				;$B6F83C   |
+	JSL disable_bullet_time_global		;$B6F83C   |
 	LDA.l $000652				;$B6F840   |
 	CMP #$0003				;$B6F844   |
 	BCS CODE_B6F84C				;$B6F847   |

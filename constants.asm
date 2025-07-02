@@ -1055,7 +1055,8 @@
 !animal_sprite_type_range_start		= $0190
 !animal_sprite_type_range_end		= $01A0
 
-!non_kong_sprite_slot_start		= $0E9E
+!throwable_sprite_range_start           = $01A4
+
 
 !special_sprite_spawn_id_0000		= $0000
 !special_sprite_spawn_id_0002		= $0002
