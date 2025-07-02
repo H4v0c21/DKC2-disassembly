@@ -1141,7 +1141,7 @@ CODE_BB86D5:
 	AND #$0E00				;$BB8701   |
 	EOR sprite.oam_property,x		;$BB8704   |
 	STA sprite.oam_property,x		;$BB8706   |
-	LDX #!non_kong_sprite_slot_start	;$BB8708   |
+	LDX #non_kong_sprite_slots		;$BB8708   |
 CODE_BB870B:					;	   |
 	LDA $32					;$BB870B   |
 	CMP sprite.type,x			;$BB870D   |
@@ -6917,7 +6917,7 @@ kleever_hook_sprite_spawn:
 	AND #$0E00				;$BBB753   |
 	EOR sprite.oam_property,x		;$BBB756   |
 	STA sprite.oam_property,x		;$BBB758   |
-	LDX #!non_kong_sprite_slot_start	;$BBB75A   |
+	LDX #non_kong_sprite_slots		;$BBB75A   |
 CODE_BBB75D:					;	   |
 	LDA $32					;$BBB75D   |
 	CMP sprite.type,x			;$BBB75F   |
@@ -8480,7 +8480,7 @@ CODE_BBC174:					;	   |
 	JMP CODE_BBC150				;$BBC31E  /
 
 .CODE_BBC321
-	LDY #!non_kong_sprite_slot_start	;$BBC321  \
+	LDY #non_kong_sprite_slots		;$BBC321  \
 	LDX active_kong_sprite			;$BBC324   |
 	LDA.w sprite.x_position,y		;$BBC327   |
 	SEC					;$BBC32A   |
