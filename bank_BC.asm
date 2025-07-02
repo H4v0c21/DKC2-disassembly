@@ -9104,6 +9104,7 @@ CODE_BCFC59:					;	   |
 	PLB					;$BCFCA3   |> Retrieve bank
 	RTS					;$BCFCA4  /> Return
 
+;Inactive kong collision routine
 CODE_BCFCA5:
 	STA $EB					;$BCFCA5  \
 	LDX inactive_kong_sprite		;$BCFCA7   |
@@ -9113,6 +9114,7 @@ CODE_BCFCA5:
 	BCC CODE_BCFCC5				;$BCFCB2   |
 	RTL					;$BCFCB4  /
 
+;Active kong collision routine
 CODE_BCFCB5:
 	STA $EB					;$BCFCB5  \
 	LDX active_kong_sprite			;$BCFCB7   |

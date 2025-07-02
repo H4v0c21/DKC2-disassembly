@@ -152,7 +152,13 @@ current_held_sprite = $0D7A
 held_sprite_x_offset = $0D7C
 held_sprite_y_offset = $0D7E
 
+
 aux_sprite_table = $0D84
+
+sprite_slots = $0DE2
+diddy_sprite_slot = $0DE2
+dixie_sprite_slot = $0E40
+non_kong_sprite_slots = $0E9E
 
 sprite_render_table = $16FE
 sprite_render_table_end = $16FE+$30

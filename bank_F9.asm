@@ -347,8 +347,8 @@ endif
 	dw DATA_F970CB : db $00, $00		;0150	$F970CB	enguarde_hurt_run
 	dw DATA_F97006 : db $00, $00		;0151	$F97006	rain_cloud_spawn
 	dw DATA_F96FF5 : db $00, $00		;0152	$F96FF5	rain_cloud_loop
-	dw DATA_F97026 : db $00, $00		;0153	$F97026	DATA_F97026
-	dw DATA_F966DB : db $00, $00		;0154	$F966DB	DATA_F966DB
+	dw DATA_F97026 : db $00, $00		;0153	$F97026	DATA_F97026 (unused tears)
+	dw DATA_F966DB : db $00, $00		;0154	$F966DB	DATA_F966DB (unused rock)
 	dw DATA_F966F8 : db $00, $00		;0155	$F966F8	DATA_F966F8
 	dw DATA_F96712 : db $00, $00		;0156	$F96712	squawks_egg_projectile
 	dw DATA_F9672C : db $00, $00		;0157	$F9672C	cannon_ball_fragment
@@ -422,7 +422,7 @@ endif
 	dw DATA_F95B01 : db $00, $00		;019B	$F95B01	flitter_idle
 	dw DATA_F95B38 : db $00, $00		;019C	$F95B38	flitter_turn
 	dw DATA_F95B57 : db $00, $00		;019D	$F95B57	flitter_death
-	dw DATA_F96DA7 : db $00, $00		;019E	$F96DA7	DATA_F96DA7
+	dw DATA_F96DA7 : db $00, $00		;019E	$F96DA7	DATA_F96DA7 (unused honey splash)
 	dw DATA_F955AB : db $00, $00		;019F	$F955AB	klampon_walk
 	dw DATA_F955D7 : db $00, $00		;01A0	$F955D7	klampon_turn
 	dw DATA_F955F0 : db $00, $00		;01A1	$F955F0	klampon_death
@@ -645,7 +645,7 @@ endif
 	dw DATA_F97E6B : db $00, $00		;027A	$F97E6B	krool_stun_recover
 	dw DATA_F97E91 : db $00, $00		;027B	$F97E91	krool_blunderbuss_stun_recover
 	dw DATA_F97A46 : db $00, $00		;027C	$F97A46	krool_blunderbuss_recovered_wait
-	dw DATA_F98069 : db $00, $00		;027D	$F98069	DATA_F98069
+	dw DATA_F98069 : db $00, $00		;027D	$F98069	DATA_F98069 (reversed barrel spin)
 	dw DATA_F9809D : db $00, $00		;027E	$F9809D	krool_gas_cloud
 	dw DATA_F98285 : db $00, $00		;027F	$F98285	smoke_cloud_5
 	dw DATA_F9805B : db $00, $00		;0280	$F9805B	krool_cannon_ball_from_barrel
@@ -1153,7 +1153,7 @@ DATA_F91062:
 	db $04 : dw $29A8
 	db $04 : dw $29AC
 	db $14 : dw $29B0
-	db !animation_command_81 : dw CODE_B9D86B
+	db !animation_command_81 : dw spawn_diddy_boombox
 	db !animation_command_89, $10 : dw $29B4, $29E8
 	db !animation_command_89, $03 : dw $29B8, $29EC
 	db !animation_command_89, $03 : dw $29BC, $29F0
@@ -2072,7 +2072,7 @@ DATA_F91E1A:
 	db !animation_command_81 : dw CODE_B9DEBE
 	db $06 : dw $078C
 	db $06 : dw $0790
-	db !animation_command_81 : dw CODE_B9DA94
+	db !animation_command_81 : dw spawn_diddy_hurt_stars
 	db $06 : dw $0794
 	db $06 : dw $0798
 	db $06 : dw $079C
@@ -2090,7 +2090,7 @@ DATA_F91E1A:
 	db $04 : dw $079C
 	db $04 : dw $0798
 	db $04 : dw $0798
-	db !animation_command_81 : dw CODE_B9DA61
+	db !animation_command_81 : dw exit_level_on_death
 	db $04 : dw $079C
 	db $04 : dw $07A0
 	db $04 : dw $07A0
@@ -3507,7 +3507,7 @@ DATA_F93470:
 	db $04 : dw $28B4
 	db $04 : dw $28B8
 	db $14 : dw $282C
-	db !animation_command_81 : dw CODE_B9DC98
+	db !animation_command_81 : dw spawn_dixie_guitar
 	db !animation_command_8F : dw CODE_B9D5F3, DATA_F9348A
 	db $20 : dw $282C
 
@@ -4426,7 +4426,7 @@ DATA_F940F3:
 	db $14 : dw $05AC
 	db $04 : dw $05B0
 	db $04 : dw $05B4
-	db !animation_command_81 : dw CODE_B9DD2B
+	db !animation_command_81 : dw spawn_dixie_hurt_tears
 	db $04 : dw $05B8
 	db $04 : dw $05BC
 	db $04 : dw $05C0
@@ -4441,7 +4441,7 @@ DATA_F940F3:
 	db $04 : dw $05BC
 	db $04 : dw $05B8
 	db $04 : dw $05BC
-	db !animation_command_81 : dw CODE_B9DA61
+	db !animation_command_81 : dw exit_level_on_death
 	db $04 : dw $05C0
 	db $04 : dw $05BC
 	db $04 : dw $05B8
@@ -5406,7 +5406,7 @@ DATA_F94DB3:
 	db $04 : dw $05D0
 	db $04 : dw $05D4
 	db $04 : dw $05D8
-	db !animation_command_81 : dw CODE_B9E511
+	db !animation_command_81 : dw anim_delete_sprite
 	db !animation_command_80, $00
 
 DATA_F94DDC:
@@ -5511,7 +5511,7 @@ DATA_F94E95:
 	db $02 : dw $170C
 	db $01 : dw $1710
 	db $02 : dw $1714
-	db !animation_command_81 : dw CODE_B9E511
+	db !animation_command_81 : dw anim_delete_sprite
 	db !animation_command_80, $00
 
 DATA_F94ECA:
@@ -5522,7 +5522,7 @@ DATA_F94ECA:
 	db $04 : dw $0014
 	db $04 : dw $0018
 	db $04 : dw $001C
-	db !animation_command_81 : dw CODE_B9E511
+	db !animation_command_81 : dw anim_delete_sprite
 	db !animation_command_80, $00
 
 DATA_F94EE4:
@@ -5544,7 +5544,7 @@ DATA_F94EE4:
 	db $03 : dw $0F44
 	db $03 : dw $0F48
 	db $03 : dw $0F4C
-	db !animation_command_81 : dw CODE_B9E511
+	db !animation_command_81 : dw anim_delete_sprite
 	db !animation_command_80, $00
 
 DATA_F94F1F:
@@ -5866,7 +5866,7 @@ DATA_F953CE:
 	db !animation_command_84 : dw turn_klomp_if_needed
 	db $04 : dw $0920
 	db $04 : dw $0924
-	db !animation_command_81 : dw CODE_B9E679
+	db !animation_command_81 : dw delay_klomp_walk
 	db !animation_command_8E, $02, $05
 	db $06 : dw $0928
 	db $05 : dw $092C
@@ -6152,7 +6152,7 @@ DATA_F956A2:
 	db !animation_command_80, $00
 
 DATA_F956BC:
-	db !animation_command_84 : dw CODE_B9E6D8
+	db !animation_command_84 : dw set_credits_snapjaw_animation
 
 DATA_F956BF:
 	db $04 : dw $0DE4
@@ -6773,7 +6773,7 @@ DATA_F95CB8:
 	db $03 : dw $1EB0
 	db $03 : dw $1EB4
 	db $03 : dw $1EB8
-	db !animation_command_81 : dw CODE_B9E511
+	db !animation_command_81 : dw anim_delete_sprite
 	db !animation_command_80, $00
 
 DATA_F95CE4:
@@ -6781,7 +6781,7 @@ DATA_F95CE4:
 	db $04 : dw $2034
 	db $04 : dw $2038
 	db $04 : dw $203C
-	db !animation_command_81 : dw CODE_B9E511
+	db !animation_command_81 : dw anim_delete_sprite
 	db !animation_command_80, $00
 
 DATA_F95CF5:
@@ -6797,7 +6797,7 @@ DATA_F95CF5:
 	db $04 : dw $2084
 	db $04 : dw $2088
 	db $04 : dw $208C
-	db !animation_command_81 : dw CODE_B9E511
+	db !animation_command_81 : dw anim_delete_sprite
 	db !animation_command_80, $00
 
 DATA_F95D1E:
@@ -6979,7 +6979,7 @@ DATA_F95EB3:
 	db $03 : dw $21CC
 	db $03 : dw $21D0
 	db $03 : dw $21D4
-	db !animation_command_81 : dw CODE_B9E9D1
+	db !animation_command_81 : dw spawn_krooks_hook
 	db !animation_command_84 : dw CODE_B9E9E1
 
 DATA_F95EE0:
@@ -7151,7 +7151,7 @@ DATA_F9606E:
 	db $04 : dw $24FC
 	db $04 : dw $2500
 	db $04 : dw $2504
-	db !animation_command_81 : dw CODE_B9EA3E
+	db !animation_command_81 : dw spawn_cat_o9_tails_dizzy_stars
 	db !animation_command_81 : dw CODE_B9EA32
 	db $30 : dw $2508
 	db $04 : dw $250C
@@ -7253,7 +7253,7 @@ DATA_F9618F:
 	db $03 : dw $2574
 	db $03 : dw $2548
 	db $03 : dw $254C
-	db !animation_command_84 : dw CODE_B9EABE
+	db !animation_command_84 : dw turn_kloak_if_needed
 	db $03 : dw $2550
 	db $03 : dw $2554
 	db $03 : dw $2558
@@ -7491,7 +7491,7 @@ DATA_F963C4:
 DATA_F9640B:
 	db $04 : dw $22DC
 	db !animation_command_83 : dw CODE_B9EB2C
-	db !animation_command_81 : dw CODE_B9EB24
+	db !animation_command_81 : dw set_krochead_bounce_interaction
 	db $02 : dw $22D8
 	db $02 : dw $22D4
 	db $02 : dw $22D8
@@ -7645,7 +7645,7 @@ DATA_F96571:
 	db $03 : dw $2CD8
 	db $03 : dw $2CDC
 	db $03 : dw $2CE0
-	db !animation_command_81 : dw CODE_B9E511
+	db !animation_command_81 : dw anim_delete_sprite
 	db !animation_command_80, $00
 
 DATA_F965A0:
@@ -7661,7 +7661,7 @@ DATA_F965AA:
 	db !animation_command_80, $00
 
 DATA_F965AF:
-	db !animation_command_84 : dw CODE_B9ED0A
+	db !animation_command_84 : dw turn_screech_if_needed
 	db $02 : dw $2F04
 	db $02 : dw $2F08
 	db $02 : dw $2F0C
@@ -7802,7 +7802,7 @@ DATA_F966DB:
 	db $04 : dw $0034
 	db $04 : dw $0038
 	db $04 : dw $003C
-	db !animation_command_81 : dw CODE_B9E511
+	db !animation_command_81 : dw anim_delete_sprite
 	db !animation_command_80, $00
 
 DATA_F966F8:
@@ -8207,7 +8207,7 @@ DATA_F96AFC:
 	db $05 : dw $11C8
 	db $05 : dw $11CC
 	db $05 : dw $11D0
-	db !animation_command_81 : dw CODE_B9E511
+	db !animation_command_81 : dw anim_delete_sprite
 	db !animation_command_80, $00
 
 DATA_F96B19:
@@ -8371,7 +8371,7 @@ DATA_F96C9A:
 	db $03 : dw $0D90
 	db $03 : dw $0D8C
 	db $03 : dw $0D88
-	db !animation_command_81 : dw CODE_B9E511
+	db !animation_command_81 : dw anim_delete_sprite
 	db !animation_command_80, $00
 
 DATA_F96CB1:
@@ -8525,7 +8525,7 @@ DATA_F96DA7:
 	db $04 : dw $20B4
 	db $04 : dw $20B8
 	db $04 : dw $20BC
-	db !animation_command_81 : dw CODE_B9E511
+	db !animation_command_81 : dw anim_delete_sprite
 	db !animation_command_80, $00
 
 DATA_F96DBB:
@@ -8534,7 +8534,7 @@ DATA_F96DBB:
 
 DATA_F96DC0:
 	db $04 : dw $1BCC
-	db !animation_command_84 : dw CODE_B9EE2A
+	db !animation_command_84 : dw turn_glimmer_if_needed
 	db $04 : dw $1BD0
 	db $04 : dw $1BD4
 	db $04 : dw $1BD8
@@ -8572,7 +8572,7 @@ DATA_F96E12:
 	db $05 : dw $0894
 	db $05 : dw $0898
 	db $05 : dw $089C
-	db !animation_command_81 : dw CODE_B9EE4B
+	db !animation_command_81 : dw play_dk_barrel_sound_if_one_kong
 	db $05 : dw $08A0
 	db $05 : dw $08A4
 	db $05 : dw $08A8
@@ -8601,9 +8601,9 @@ DATA_F96E53:
 	db !animation_command_80, $00
 
 DATA_F96E70:
-	db !animation_command_81 : dw CODE_B9EE9F
+	db !animation_command_81 : dw spawn_animal_crate_smoke
 	db $10 : dw $097C
-	db !animation_command_81 : dw CODE_B9EEA7
+	db !animation_command_81 : dw spawn_animal_crate_animal
 	db $18 : dw $097C
 	db !animation_command_81 : dw CODE_B9EE99
 	db !animation_command_83 : dw CODE_B9D12B
@@ -8736,7 +8736,7 @@ DATA_F96FDE:
 	db $03 : dw $2BA4
 	db $03 : dw $2BA8
 	db $03 : dw $2BAC
-	db !animation_command_81 : dw CODE_B9E511
+	db !animation_command_81 : dw anim_delete_sprite
 	db !animation_command_80, $00
 
 DATA_F96FF5:
@@ -8816,7 +8816,7 @@ DATA_F97088:
 	db $02 : dw $2310
 	db $01 : dw $230C
 	db $02 : dw $2308
-	db !animation_command_81 : dw CODE_B9EEF3
+	db !animation_command_81 : dw anim_delete_sprite_2
 	db !animation_command_80, $00
 
 DATA_F970B1:
@@ -8832,7 +8832,7 @@ DATA_F970B1:
 
 DATA_F970CB:
 	db $04 : dw $26E8
-	db !animation_command_81 : dw CODE_B9EEF8
+	db !animation_command_81 : dw set_rattly_idle_no_player_animation
 	db !animation_command_80, $00
 
 clapper_idle:
@@ -9007,7 +9007,7 @@ DATA_F97292:
 	db $04 : dw $0114
 	db $04 : dw $0118
 	db $04 : dw $011C
-	db !animation_command_81 : dw CODE_B9E511
+	db !animation_command_81 : dw anim_delete_sprite
 	db !animation_command_80, $00
 
 DATA_F972AF:
@@ -9040,7 +9040,7 @@ DATA_F972DC:
 	db $04 : dw $2F48
 	db $03 : dw $2F4C
 	db $02 : dw $2F50
-	db !animation_command_81 : dw CODE_B9EF25
+	db !animation_command_81 : dw set_hit_by_klubba_interaction
 	db $02 : dw $2F54
 	db $02 : dw $2F58
 	db $05 : dw $2F5C
@@ -9248,7 +9248,7 @@ DATA_F974BB:
 	db $02 : dw $0F44
 	db $03 : dw $0F48
 	db $02 : dw $0F4C
-	db !animation_command_81 : dw CODE_B9E511
+	db !animation_command_81 : dw anim_delete_sprite
 	db !animation_command_80, $00
 
 DATA_F974F0:
@@ -9265,7 +9265,7 @@ DATA_F974F0:
 	db $05 : dw $1EB0
 	db $05 : dw $1EB4
 	db $05 : dw $1EB8
-	db !animation_command_81 : dw CODE_B9E511
+	db !animation_command_81 : dw anim_delete_sprite
 	db !animation_command_80, $00
 
 DATA_F9751C:
@@ -9276,7 +9276,7 @@ DATA_F9751C:
 	db $02 : dw $2FCC
 	db $03 : dw $2FD0
 	db $03 : dw $2FD4
-	db !animation_command_81 : dw CODE_B9E511
+	db !animation_command_81 : dw anim_delete_sprite
 	db !animation_command_80, $00
 
 DATA_F97536:
@@ -9287,7 +9287,7 @@ DATA_F97536:
 	db $06 : dw $0014
 	db $06 : dw $0018
 	db $06 : dw $001C
-	db !animation_command_81 : dw CODE_B9E511
+	db !animation_command_81 : dw anim_delete_sprite
 	db !animation_command_80, $00
 
 DATA_F97550:
@@ -9377,7 +9377,7 @@ DATA_F97604:
 	db $05 : dw $02B8
 	db $05 : dw $02BC
 	db $05 : dw $02C0
-	db !animation_command_81 : dw CODE_B9E511
+	db !animation_command_81 : dw anim_delete_sprite
 	db !animation_command_80, $00
 
 DATA_F97627:
@@ -9997,7 +9997,7 @@ DATA_F97C16:
 	db $02 : dw $1EB0
 	db $02 : dw $1EB4
 	db $02 : dw $1EB8
-	db !animation_command_81 : dw CODE_B9E511
+	db !animation_command_81 : dw anim_delete_sprite
 	db !animation_command_80, $00
 
 DATA_F97C42:
@@ -10106,7 +10106,7 @@ DATA_F97D34:
 	db $02 : dw $170C
 	db $03 : dw $1710
 	db $02 : dw $1714
-	db !animation_command_81 : dw CODE_B9E511
+	db !animation_command_81 : dw anim_delete_sprite
 	db !animation_command_80, $00
 
 DATA_F97D66:
@@ -10156,7 +10156,7 @@ DATA_F97DB2:
 	db $03 : dw $0C9C
 	db $03 : dw $0CA0
 	db $03 : dw $0CA4
-	db !animation_command_81 : dw CODE_B9E511
+	db !animation_command_81 : dw anim_delete_sprite
 	db !animation_command_80, $00
 
 DATA_F97DE7:
@@ -10175,7 +10175,7 @@ DATA_F97DE7:
 	db $02 : dw $2D98
 	db $02 : dw $2D9C
 	db $02 : dw $2DA0
-	db !animation_command_81 : dw CODE_B9E511
+	db !animation_command_81 : dw anim_delete_sprite
 	db !animation_command_80, $00
 
 DATA_F97E19:
@@ -10626,7 +10626,7 @@ DATA_F98259:
 	db $02 : dw $1EB0
 	db $03 : dw $1EB4
 	db $03 : dw $1EB8
-	db !animation_command_81 : dw CODE_B9E511
+	db !animation_command_81 : dw anim_delete_sprite
 	db !animation_command_80, $00
 
 DATA_F98285:
@@ -10643,7 +10643,7 @@ DATA_F98285:
 	db $03 : dw $1EB0
 	db $03 : dw $1EB4
 	db $03 : dw $1EB8
-	db !animation_command_81 : dw CODE_B9E511
+	db !animation_command_81 : dw anim_delete_sprite
 	db !animation_command_80, $00
 
 DATA_F982B1:
@@ -11025,7 +11025,7 @@ DATA_F9864F:
 	db $03 : dw $0D94
 	db $03 : dw $0D98
 	db $03 : dw $0D9C
-	db !animation_command_81 : dw CODE_B9E511
+	db !animation_command_81 : dw anim_delete_sprite
 	db !animation_command_80, $00
 
 DATA_F98684:
@@ -11431,7 +11431,7 @@ DATA_F98A6F:
 	db $06 : dw $1A8C
 	db $05 : dw $1A90
 	db $05 : dw $1A94
-	db !animation_command_81 : dw CODE_B9F06F
+	db !animation_command_81 : dw set_celebrate_interaction_and_clear_level
 	db !animation_command_90 : dw CODE_B9E575, $020E
 	db !animation_command_80, $00
 
@@ -11474,12 +11474,12 @@ DATA_F98AC6:
 	db $03 : dw $1E20
 	db $07 : dw $1E24
 	db $02 : dw $1E20
-DATA_F98AF6:
+.loop_point:
 	db $23 : dw $1A94
 	db $07 : dw $1E20
 	db $0A : dw $1E24
 	db $03 : dw $1E20
-	db !animation_command_82 : dw DATA_F98AF6
+	db !animation_command_82 : dw .loop_point
 	db !animation_command_80, $00
 
 DATA_F98B07:

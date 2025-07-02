@@ -801,7 +801,7 @@ DATA_FF047E:
 	dw DATA_FF2334		;00D8 explosion (kills enemies)
 	dw DATA_FF0BA4		;00DA vertical wind changer
 	dw DATA_FF0C02		;00DC horizontal wind changer
-	dw DATA_FF12DA		;00DE dust
+	dw DATA_FF12DA		;00DE dust/clapper breath
 	dw DATA_FF0BC0		;00E0 haunted hall timer handler
 	dw DATA_FF16F2		;00E2 smoke puff
 	dw DATA_FF14E0		;00E4 explosion (kills enemies)
@@ -1558,6 +1558,7 @@ DATA_FF0CEA:
 	dw !initcommand_set_oam, $3000
 	dw !initcommand_success
 
+;Animal buddy spawn script addresses (inherited)
 DATA_FF0D00:
 	dw DATA_FF0D0A
 	dw DATA_FF0D1C
@@ -1600,7 +1601,7 @@ DATA_FF0D52:
 	dw !initcommand_set_alt_palette, !enguarde_sprite_palette
 	dw !initcommand_success
 
-
+;Animal buddy spawn script addresses (base)
 DATA_FF0D64:
 	dw DATA_FF0D6E
 	dw DATA_FF0DA2
@@ -1897,6 +1898,7 @@ DATA_FF10B2:
 	dw sprite.y_speed, $FA00
 	dw !initcommand_success
 
+;Banana bunch spawned by yellow Klobber
 DATA_FF10F4:
 	dw sprite.type, !sprite_bananas
 	dw sprite.constants_address, DATA_FF021C
@@ -1963,7 +1965,11 @@ DATA_FF11A2:
 
 ;DATA_FF047E indexes of animal icons, used by barrel cannons when spawning the icon
 DATA_FF11BE:
-	dw $012C, $012E, $0130, $0132, $0134
+	dw $012C
+	dw $012E
+	dw $0130
+	dw $0132
+	dw $0134
 
 DATA_FF11C8:
 	dw !initcommand_load_subconfig, DATA_FF11A2

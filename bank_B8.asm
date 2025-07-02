@@ -8,62 +8,62 @@ player_interaction_table:
 	dw CODE_B884EC				;0006: Canceling team-up
 	dw CODE_B88623				;0007: Getting stuck to honey on ground
 	dw CODE_B885B8				;0008: Getting stuck to honey on wall
-	dw CODE_B8871B				;0009: 14
-	dw CODE_B8865B				;000A: 16
+	dw CODE_B8871B				;0009: Brown krochead bounce
+	dw CODE_B8865B				;000A: Attach kong to horsetail or ghost rope
 	dw CODE_B8811E				;000B: Stunned by enemy on ground (Kudgel)
-	dw CODE_B880D2				;000C: 1A
-	dw CODE_B89385				;000D: 1C
+	dw CODE_B880D2				;000C: Set upwards wind float
+	dw CODE_B89385				;000D: Entering barrel/cannon
 	dw CODE_B88755				;000E: Bouncing off of tire
-	dw CODE_B89385				;000F: 20
-	dw CODE_B89385				;0010: Entering barrel/cannon
+	dw CODE_B89385				;000F: Entering barrel/cannon 2
+	dw CODE_B89385				;0010: Entering barrel/cannon 3
 	dw CODE_B886F3				;0011: Grabbing horizontal rope
 	dw CODE_B8869E				;0012: Grabbing vertical rope
-	dw CODE_B89319				;0013: 28
-	dw CODE_B8934A				;0014: 2A
+	dw CODE_B89319				;0013: Grabbed by cat 09 tails
+	dw CODE_B8934A				;0014: Thrown by cat 09 tails
 	dw CODE_B881E9				;0015: Mounting skull cart
 	dw CODE_B88228				;0016: Jumping off skull cart
 	dw CODE_B893AA				;0017: Mounting Animal Buddy
 	dw CODE_B894C2				;0018: Dismounting Animal Buddy
 	dw CODE_B88B15				;0019: Transforming Animal Buddy into item (crossing No-Animal sign)
-	dw CODE_B8874D				;001A: 36
+	dw CODE_B8874D				;001A: Unknown (Makes kongs visible and contains 4 NOPs)
 	dw CODE_B887D2				;001B: Defeating enemy by stomping
 	dw CODE_B8857E				;001C: Defeating enemy by rolling
 	dw CODE_B88911				;001D: Defeating enemy by team throw
 	dw CODE_B88929				;001E: Knocked back by enemy
 	dw CODE_B885D5				;001F: Stunned by K. Rool before being hit by his blunderbuss
-	dw CODE_B88A4C				;0020: 42
-	dw CODE_B88A92				;0021: 44
+	dw CODE_B88A4C				;0020: Stunned from teamthrow getting hurt by enemy
+	dw CODE_B88A92				;0021: Crashed into Target Terror door
 	dw CODE_B88C9D				;0022: Hurt by enemy/obstacle (Disables extra kong bit)
 	dw CODE_B88CA3				;0023: Hurt by enemy/obstacle
 	dw CODE_B8815F				;0024: Frozen by K. Rool's blue gas cloud
 	dw CODE_B885F5				;0025: Slowed down by K. Rool's red gas cloud/reversed by K. Rool's purple gas cloud
-	dw CODE_B8899C				;0026: Hurt by being hit by K. Rool's blunderbuss
+	dw CODE_B8899C				;0026: Hurt by being hit by Klubba or K. Rool's blunderbuss
 	dw CODE_B88269				;0027: Collecting Kremkoin
-	dw CODE_B88340				;0028: 52
+	dw CODE_B88340				;0028: Losing bonus
 	dw CODE_B88379				;0029: Falling into pit
 	dw CODE_B88864				;002A: Hitting goal target
 	dw CODE_B89385				;002B: Walking through an entrance/running off screen after hitting target
-	dw CODE_B88421				;002C: 5A
-	dw CODE_B8841C				;002D: Leaving level
+	dw CODE_B88421				;002C: Leaving level (Takes straight to map)
+	dw CODE_B8841C				;002D: Leaving level (Takes to currently set destination)
 
 process_interactions_with_player:
 	LDA $08C2				;$B8805E  \
 	AND #$0002				;$B88061   |
-	BNE CODE_B8806A				;$B88064   |
-CODE_B88066:					;	   |
-	JSR CODE_B8807D				;$B88066   |
+	BNE .level_transition_happening		;$B88064   |
+.handle_interaction_and_return:			;	   |
+	JSR .get_and_process_interaction	;$B88066   |
 	RTL					;$B88069  /
 
-CODE_B8806A:
+.level_transition_happening:
 	LDA screen_brightness			;$B8806A  \
-	BNE CODE_B88066				;$B8806D   |
+	BNE .handle_interaction_and_return	;$B8806D   |
 	LDA #$0002				;$B8806F   |
 	TRB $08C2				;$B88072   |
 	LDA #$002D				;$B88075   |
 	JSR set_player_interaction		;$B88078   |
-	BRA CODE_B88066				;$B8807B  /
+	BRA .handle_interaction_and_return	;$B8807B  /
 
-CODE_B8807D:
+.get_and_process_interaction:
 	PHK					;$B8807D  \
 	PLB					;$B8807E   |
 	LDA $0A82				;$B8807F   |
@@ -77,7 +77,7 @@ CODE_B8807D:
 	TAX					;$B8808A   |
 	JMP (player_interaction_table,x)	;$B8808B  /
 
-CODE_B8808E:
+work_on_active_kong_global:
 	JSR work_on_active_kong			;$B8808E  \
 	RTL					;$B88091  /
 
@@ -91,7 +91,7 @@ work_on_active_kong:
 	STA $8E					;$B8809F   |
 	RTS					;$B880A1  /
 
-CODE_B880A2:
+work_on_inactive_kong_global:
 	JSR work_on_inactive_kong		;$B880A2  \
 	RTL					;$B880A5  /
 
@@ -110,16 +110,16 @@ work_on_inactive_kong:				;	   |
 
 	RTS					;$B880BB  /
 
-CODE_B880BC:
+set_kongs_visible_if_not_in_barrel:
 	LDX active_kong_sprite			;$B880BC  \
 	LDY inactive_kong_sprite		;$B880BF   |
 	LDA $2E,x				;$B880C2   |
 	CMP #$0011				;$B880C4   |
-	BNE CODE_B880D1				;$B880C7   |
+	BNE .return				;$B880C7   |
 	LDA #$0000				;$B880C9   |
 	STA $1C,x				;$B880CC   |
 	STA $001C,y				;$B880CE   |
-CODE_B880D1:					;	   |
+.return:					;	   |
 	RTS					;$B880D1  /
 
 CODE_B880D2:
@@ -321,7 +321,7 @@ if !version == 1				;	  \
 	LDA #$0010				;$B88269   |
 	TRB $08C4				;$B8826C   |
 endif						;	   |
-	JSR CODE_B880BC				;$B8826F   |
+	JSR set_kongs_visible_if_not_in_barrel	;$B8826F   |
 	JSL CODE_B881B4				;$B88272   |
 	LDA $0515				;$B88276   |
 	CMP #!boss_level_type			;$B88279   |
@@ -416,7 +416,7 @@ CODE_B8830E:
 
 CODE_B88340:
 if !version == 0				;	  \
-	JSR CODE_B880BC				;$B88340   |
+	JSR set_kongs_visible_if_not_in_barrel	;$B88340   |
 	JSR work_on_active_kong			;$B88343   |
 	LDA #$001F				;$B88346   |
 	LDY #$0280				;$B88349   |
@@ -438,14 +438,14 @@ CODE_B88364:					;	   |
 	LDA #$001F				;$B88364   |
 	LDY #$0100				;$B88367   |
 endif						;	   |
-	JSL CODE_B8D1E4				;$B8836A   |
+	JSL enable_bullet_time_global		;$B8836A   |
 	LDA #$0002				;$B8836E   |
 	JSL transition_song			;$B88371   |
 	JSR CODE_B8A699				;$B88375   |
 	RTS					;$B88378  /
 
 CODE_B88379:
-	JSR CODE_B880BC				;$B88379  \
+	JSR set_kongs_visible_if_not_in_barrel	;$B88379  \
 	JSR work_on_active_kong			;$B8837C   |
 	LDA current_song			;$B8837F   |
 	CMP #!music_lava			;$B88381   |
@@ -533,7 +533,7 @@ CODE_B8842B:
 	BCS CODE_B8848D				;$B8842E   |
 	LDX #$0540				;$B88430   |
 	LDY #$0540				;$B88433   |
-	JSR CODE_B89186				;$B88436   |
+	JSR play_kong_dependant_sound		;$B88436   |
 	LDA inactive_kong_sprite		;$B88439   |
 	STA current_held_sprite			;$B8843C   |
 	STZ held_sprite_x_offset		;$B8843F   |
@@ -546,7 +546,7 @@ if !version == 0				;	   |
 else						;	   |
 	LDY #$0100				;$B8844E   |
 endif						;	   |
-	JSL CODE_B8D1E4				;$B88451   |
+	JSL enable_bullet_time_global		;$B88451   |
 	JSR work_on_active_kong			;$B88455   |
 	LDA #$0013				;$B88458   |
 	STA $2E,x				;$B8845B   |
@@ -573,7 +573,7 @@ CODE_B8848D:
 CODE_B8848E:
 	JSR CODE_B8851B				;$B8848E  \
 	BNE CODE_B884D6				;$B88491   |
-	JSR CODE_B880BC				;$B88493   |
+	JSR set_kongs_visible_if_not_in_barrel	;$B88493   |
 	LDA current_player_mount		;$B88496   |
 	BNE CODE_B884D7				;$B88498   |
 	LDA inactive_kong_sprite		;$B8849A   |
@@ -643,7 +643,7 @@ CODE_B8851B:
 	RTS					;$B8852A  /
 
 CODE_B8852B:
-	JSR CODE_B880BC				;$B8852B  \
+	JSR set_kongs_visible_if_not_in_barrel	;$B8852B  \
 	LDX active_kong_sprite			;$B8852E   |
 	LDA $2E,x				;$B88531   |
 	CMP #$002C				;$B88533   |
@@ -822,6 +822,7 @@ CODE_B88670:					;	   |
 	JSL CODE_B9D0B8				;$B88699   |
 	RTS					;$B8869D  /
 
+;Rope related
 CODE_B8869E:
 	JSR work_on_active_kong			;$B8869E  \
 	JSR CODE_B8B793				;$B886A1   |
@@ -913,7 +914,7 @@ CODE_B8873C:
 	RTS					;$B8874C  /
 
 CODE_B8874D:
-	JSR CODE_B880BC				;$B8874D  \
+	JSR set_kongs_visible_if_not_in_barrel	;$B8874D  \
 	NOP					;$B88750   |
 	NOP					;$B88751   |
 	NOP					;$B88752   |
@@ -921,7 +922,7 @@ CODE_B8874D:
 	RTS					;$B88754  /
 
 CODE_B88755:
-	JSR CODE_B880BC				;$B88755  \
+	JSR set_kongs_visible_if_not_in_barrel	;$B88755  \
 	JSR work_on_active_kong			;$B88758   |
 	LDX current_sprite			;$B8875B   |
 	LDA $0A86				;$B8875D   |
@@ -1045,7 +1046,7 @@ CODE_B8885C:
 	RTS					;$B88863  /
 
 CODE_B88864:
-	JSR CODE_B880BC				;$B88864  \
+	JSR set_kongs_visible_if_not_in_barrel	;$B88864  \
 	JSR CODE_B8939C				;$B88867   |
 	JSR CODE_B881BB				;$B8886A   |
 	JSR CODE_B88EBC				;$B8886D   |
@@ -1117,7 +1118,7 @@ CODE_B8889A:					;	   |
 	RTS					;$B88910  /
 
 CODE_B88911:
-	JSR CODE_B880BC				;$B88911  \
+	JSR set_kongs_visible_if_not_in_barrel	;$B88911  \
 	JSR work_on_inactive_kong		;$B88914   |
 	LDA $2E,x				;$B88917   |
 	CMP #$0021				;$B88919   |
@@ -1138,7 +1139,7 @@ if !version == 1
 	JSR CODE_B881BB				;$B88933   |
 endif						;	   |
 CODE_B88936:					;	   |
-	JSR CODE_B880BC				;$B88936   |
+	JSR set_kongs_visible_if_not_in_barrel	;$B88936   |
 	JSR work_on_active_kong			;$B88939   |
 	JSR set_player_terminal_velocity	;$B8893C   |
 	JSR set_player_normal_gravity		;$B8893F   |
@@ -1269,7 +1270,7 @@ CODE_B88A27:
 	RTS					;$B88A4B  /
 
 CODE_B88A4C:
-	JSR CODE_B880BC				;$B88A4C  \
+	JSR set_kongs_visible_if_not_in_barrel	;$B88A4C  \
 	JSR work_on_active_kong			;$B88A4F   |
 	LDA $2E,x				;$B88A52   |
 	CMP #$002C				;$B88A54   |
@@ -1571,7 +1572,7 @@ CODE_B88C9D:
 	LDA #$4000				;$B88C9D  \
 	TRB $08C2				;$B88CA0   |
 CODE_B88CA3:					;	   |
-	JSR CODE_B880BC				;$B88CA3   |
+	JSR set_kongs_visible_if_not_in_barrel	;$B88CA3   |
 	JSR CODE_B88C50				;$B88CA6   |
 	BCS CODE_B88C9C				;$B88CA9   |
 	JSR work_on_active_kong			;$B88CAB   |
@@ -2178,21 +2179,21 @@ CODE_B8917C:
 	JSL transition_song			;$B8917D   |
 	RTS					;$B89181  /
 
-CODE_B89182:
-	JSR CODE_B89186				;$B89182  \
+play_kong_dependant_sound_global:
+	JSR play_kong_dependant_sound		;$B89182  \
 	RTL					;$B89185  /
 
-CODE_B89186:
-	LDA $08A4				;$B89186  \
-	BEQ CODE_B89191				;$B89189   |
-	TYA					;$B8918B   |
-	JSL queue_sound_effect			;$B8918C   |
-	RTS					;$B89190  /
+play_kong_dependant_sound:
+	LDA $08A4				;$B89186  \ Get current kong number
+	BEQ .diddy				;$B89189   | If 0 we're diddy
+	TYA					;$B8918B   | Else transfer loaded sound effect to A
+	JSL queue_sound_effect			;$B8918C   | Play dixie sound effect
+	RTS					;$B89190  / Return
 
-CODE_B89191:
-	TXA					;$B89191  \
-	JSL queue_sound_effect			;$B89192   |
-	RTS					;$B89196  /
+.diddy:
+	TXA					;$B89191  \ Transfer loaded sound effect to A
+	JSL queue_sound_effect			;$B89192   | Play diddy sound effect
+	RTS					;$B89196  / Return
 
 CODE_B89197:
 	LDA #$0002				;$B89197  \
@@ -2236,7 +2237,7 @@ CODE_B891A0:
 	JSL CODE_B9D0B8				;$B891F3   |
 	LDX #$0505				;$B891F7   |
 	LDY #$0505				;$B891FA   |
-	JSR CODE_B89186				;$B891FD   |
+	JSR play_kong_dependant_sound		;$B891FD   |
 	RTS					;$B89200  /
 
 CODE_B89201:
@@ -2381,11 +2382,11 @@ endif						;	   |
 	JSL CODE_BB8C19				;$B8930B   |
 	LDX #$0505				;$B8930F   |
 	LDY #$0505				;$B89312   |
-	JSR CODE_B89186				;$B89315   |
+	JSR play_kong_dependant_sound		;$B89315   |
 	RTS					;$B89318  /
 
 CODE_B89319:
-	JSR CODE_B880BC				;$B89319  \
+	JSR set_kongs_visible_if_not_in_barrel	;$B89319  \
 	JSR work_on_active_kong			;$B8931C   |
 	LDA #$0048				;$B8931F   |
 	STA $2E,x				;$B89322   |
@@ -2462,7 +2463,7 @@ CODE_B893B0:
 	JSR CODE_B8939C				;$B893B0  \
 	LDX #$0540				;$B893B3   |
 	LDY #$0540				;$B893B6   |
-	JSR CODE_B89186				;$B893B9   |
+	JSR play_kong_dependant_sound		;$B893B9   |
 	STZ $0AEE				;$B893BC   |
 	STZ $0AF2				;$B893BF   |
 	LDX $0A84				;$B893C2   |
@@ -2599,7 +2600,7 @@ CODE_B894C2:
 CODE_B894C7:
 	LDX #$0502				;$B894C7  \
 	LDY #$0502				;$B894CA   |
-	JSR CODE_B89186				;$B894CD   |
+	JSR play_kong_dependant_sound		;$B894CD   |
 	JSR work_on_active_kong			;$B894D0   |
 	LDA $2E,x				;$B894D3   |
 	STA $08B6				;$B894D5   |
@@ -5269,7 +5270,7 @@ CODE_B8A98E:
 	TSB $08C2				;$B8A9DF   |
 	LDA current_sprite			;$B8A9E2   |
 	PHA					;$B8A9E4   |
-	JSL CODE_B880A2				;$B8A9E5   |
+	JSL work_on_inactive_kong_global	;$B8A9E5   |
 	LDA #$0006				;$B8A9E9   |
 	JSL CODE_B9D0B8				;$B8A9EC   |
 	JSR CODE_B8AA00				;$B8A9F0   |
@@ -11073,7 +11074,7 @@ update_damaged_invincibility:
 .return						;	   |
 	RTS					;$B8D1E3  /
 
-CODE_B8D1E4:
+enable_bullet_time_global:
 	JSR enable_bullet_time			;$B8D1E4  \
 	RTL					;$B8D1E7  /
 
@@ -11083,7 +11084,7 @@ enable_bullet_time:
 	STA $0A38				;$B8D1EC   |
 	RTS					;$B8D1EF  /
 
-CODE_B8D1F0:
+disable_bullet_time_global:
 	JSR disable_bullet_time			;$B8D1F0  \
 	RTL					;$B8D1F3  /
 
