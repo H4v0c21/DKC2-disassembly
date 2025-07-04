@@ -982,10 +982,10 @@ respawn_suppressor_main:
 	JML respawn_suppressor_sprite_code	;$B388C2  /
 
 dixie_kong_main:
-	JML CODE_B89670				;$B388C6  /
+	JML dixie_kong_sprite_code		;$B388C6  /
 
 diddy_kong_main:
-	JML CODE_B8967D				;$B388CA  /
+	JML diddy_kong_sprite_code		;$B388CA  /
 
 unknown_sprite_00EC_main:
 	JML [$05A9]				;$B388CE  /
@@ -1201,646 +1201,647 @@ kong_celebrate_prop_main:
 rambi_main:
 squitter_main:
 	LDX current_sprite			;$B38A38  \
-	LDA $54,x				;$B38A3A   |
+	LDA sprite.constants_address,x		;$B38A3A   |
 	STA $8E					;$B38A3C   |
 	TXY					;$B38A3E   |
-	LDA $2E,x				;$B38A3F   |
+	LDA sprite.state,x			;$B38A3F   |
 	ASL A					;$B38A41   |
 	TAX					;$B38A42   |
-	JMP (DATA_B38A46,x)			;$B38A43  /
+	JMP (.state_table,x)			;$B38A43  /
 
-DATA_B38A46:
-	dw CODE_B38A6F
-	dw CODE_B38A8E
-	dw CODE_B38A97
-	dw CODE_B38AE2
-	dw CODE_B38AE4
-	dw CODE_B38AE4
-	dw CODE_B38AE4
-	dw CODE_B38A6C
+.state_table:
+	dw .idle_state				;00
+	dw .riding_state			;01
+	dw .flee_state				;02
+	dw .none_state				;03
+	dw .animate_state			;04
+	dw .animate_state			;05
+	dw .animate_state			;06
+	dw .sprite_done				;07
 
-;unused?
-	INC $5A8A				;$B38A57   |
+;unused
+	INC $5A8A				;$B38A57  \
 	TXA					;$B38A59   |
-	JSR CODE_B38CF8				;$B38A5A   |
+	JSR apply_animal_gravity		;$B38A5A   |
 	JSL apply_position_from_velocity_global	;$B38A5D   |
 	LDA #$0007				;$B38A61   |
 	JSL interpolate_x_velocity_global	;$B38A64   |
 	JML CODE_B38000				;$B38A68  /
 
-CODE_B38A6C:
+.sprite_done:
 	JML [$05A9]				;$B38A6C  /
 
-CODE_B38A6F:
-	JSR CODE_B38BB4				;$B38A6F  \
-	BCS CODE_B38A6C				;$B38A72   |
-	JSR CODE_B38BEA				;$B38A74   |
-	BCS CODE_B38A6C				;$B38A77   |
-	JSR CODE_B38D1D				;$B38A79   |
-	JSR CODE_B38CF8				;$B38A7C   |
+.idle_state:
+	JSR handle_animal_sign_deletion		;$B38A6F  \
+	BCS .sprite_done			;$B38A72   |
+	JSR handle_animal_crushing		;$B38A74   |
+	BCS .sprite_done			;$B38A77   |
+	JSR handle_animal_mounting		;$B38A79   |
+	JSR apply_animal_gravity		;$B38A7C   |
 	JSL CODE_B8D5E0				;$B38A7F   |
 	JSL process_sprite_animation		;$B38A83   |
 	JSL CODE_BBBB99				;$B38A87   |
 	JML [$05A9]				;$B38A8B  /
 
-CODE_B38A8E:
-	JSR CODE_B38CC5				;$B38A8E  \
+.riding_state:
+	JSR snap_riding_kong_to_animal		;$B38A8E  \
 	JSL process_sprite_animation		;$B38A91   |
-	BRA CODE_B38A6C				;$B38A95  /
+	BRA .sprite_done			;$B38A95  /
 
-CODE_B38A97:
-	JSR CODE_B38BB4				;$B38A97  \
-	BCS CODE_B38A6C				;$B38A9A   |
-	JSR CODE_B38BEA				;$B38A9C   |
-	BCS CODE_B38A6C				;$B38A9F   |
-	JSR CODE_B38D1D				;$B38AA1   |
-	BCS CODE_B38A6C				;$B38AA4   |
-	JSR CODE_B38CF8				;$B38AA6   |
+.flee_state:
+	JSR handle_animal_sign_deletion		;$B38A97  \
+	BCS .sprite_done			;$B38A9A   |
+	JSR handle_animal_crushing		;$B38A9C   |
+	BCS .sprite_done			;$B38A9F   |
+	JSR handle_animal_mounting		;$B38AA1   |
+	BCS .sprite_done			;$B38AA4   |
+	JSR apply_animal_gravity		;$B38AA6   |
 	LDA #$0007				;$B38AA9   |
 	JSL interpolate_x_velocity_global	;$B38AAC   |
 	JSL CODE_B8D5E0				;$B38AB0   |
-	JSR CODE_B38AC2				;$B38AB4   |
+	JSR .turn_if_touching_wall		;$B38AB4   |
 	JSL process_sprite_animation		;$B38AB7   |
 	JSL CODE_BBBB99				;$B38ABB   |
 	JML [$05A9]				;$B38ABF  /
 
-CODE_B38AC2:
-	LDX current_sprite			;$B38AC2  \
-	LDA $1E,x				;$B38AC4   |
-	AND #$0002				;$B38AC6   |
-	BNE CODE_B38ACC				;$B38AC9   |
-	RTS					;$B38ACB  /
+.turn_if_touching_wall:
+	LDX current_sprite			;$B38AC2  \ \ Get animal sprite
+	LDA sprite.terrain_interaction,x	;$B38AC4   | | Get terrain interaction
+	AND #$0002				;$B38AC6   | |
+	BNE .touching_wall			;$B38AC9   |/ If the animal ran into a wall then turn it around
+	RTS					;$B38ACB  /> Else not touching a wall, return
 
-CODE_B38ACC:
-	LDA $12,x				;$B38ACC  \
-	EOR #$4000				;$B38ACE   |
-	STA $12,x				;$B38AD1   |
-	LDA $44,x				;$B38AD3   |
-	BIT $12,x				;$B38AD5   |
-	BVC CODE_B38ADD				;$B38AD7   |
-	EOR #$FFFF				;$B38AD9   |
-	INC A					;$B38ADC   |
-CODE_B38ADD:					;	   |
-	STA $20,x				;$B38ADD   |
-	STA $26,x				;$B38ADF   |
-	RTS					;$B38AE1  /
+.touching_wall:
+	LDA sprite.oam_property,x		;$B38ACC  \ \ Get facing direction
+	EOR #$4000				;$B38ACE   | | Flip facing direction
+	STA sprite.oam_property,x		;$B38AD1   |/ Update facing direction
+	LDA sprite.general_purpose_44,x		;$B38AD3   |\ Get x flee speed
+	BIT sprite.oam_property,x		;$B38AD5   | |
+	BVC .apply_speed			;$B38AD7   |/ If animal is facing direction that flee speed will move them, dont invert speed
+	EOR #$FFFF				;$B38AD9   |\
+	INC A					;$B38ADC   |/ Flip fleeing speed
+.apply_speed:					;	   |
+	STA sprite.x_speed,x			;$B38ADD   |\ Apply x speed
+	STA sprite.max_x_speed,x		;$B38ADF   |/ Apply max x speed
+	RTS					;$B38AE1  /> Return
 
-CODE_B38AE2:
-	BRA CODE_B38A6C				;$B38AE2  /
+.none_state:
+	BRA .sprite_done			;$B38AE2  /
 
-CODE_B38AE4:
-	JSR CODE_B38CC5				;$B38AE4  \
+.animate_state:
+	JSR snap_riding_kong_to_animal		;$B38AE4  \
 	JSL process_sprite_animation		;$B38AE7   |
-	BRL CODE_B38A6C				;$B38AEB  /
+	BRL .sprite_done			;$B38AEB  /
 
-	LDA $0515				;$B38AEE   |
-	CMP #!bonus_level_type			;$B38AF1   |
-	BEQ CODE_B38AFD				;$B38AF4   |
-CODE_B38AF6:					;	   |
-	LDX current_sprite			;$B38AF6   |
-	STZ $2E,x				;$B38AF8   |
-	BRL CODE_B38A6C				;$B38AFA  /
+;unused
+	LDA $0515				;$B38AEE  \ \ Get level type
+	CMP #!bonus_level_type			;$B38AF1   | |
+	BEQ .in_bonus_level			;$B38AF4   |/ If level is a bonus then ensure the kong only has one animal
+.no_animal:					;	   |
+	LDX current_sprite			;$B38AF6   |> Get animal sprite
+	STZ $2E,x				;$B38AF8   |\ Return to idle state
+	BRL .sprite_done			;$B38AFA  / / Sprite done
 
-CODE_B38AFD:
-	LDA animal_type				;$B38AFD  \
-	BEQ CODE_B38AF6				;$B38AFF   |
-	JSL delete_sprite_handle_deallocation	;$B38B01   |
-	JML [$05A9]				;$B38B05  /
+.in_bonus_level:
+	LDA animal_type				;$B38AFD  \ \
+	BEQ .no_animal				;$B38AFF   |/ If the kong doesnt have an animal then return to idle state
+	JSL delete_sprite_handle_deallocation	;$B38B01   |\ Else delete this animal because kong already has it for the bonus
+	JML [$05A9]				;$B38B05  / / Sprite done
 
 rattly_main:
 	LDX current_sprite			;$B38B08  \
-	LDA $54,x				;$B38B0A   |
+	LDA sprite.constants_address,x		;$B38B0A   |
 	STA $8E					;$B38B0C   |
 	TXY					;$B38B0E   |
-	LDA $2E,x				;$B38B0F   |
+	LDA sprite.state,x			;$B38B0F   |
 	ASL A					;$B38B11   |
 	TAX					;$B38B12   |
-	JMP (DATA_B38B16,x)			;$B38B13  /
+	JMP (.state_table,x)			;$B38B13  /
 
-DATA_B38B16:
-	dw CODE_B38B2D
-	dw CODE_B38B47
-	dw CODE_B38B4C
-	dw CODE_B38B92
-	dw CODE_B38B94
-	dw CODE_B38B94
-	dw CODE_B38B94
-	dw CODE_B38B99
-	dw CODE_B38B9B
-	dw CODE_B38B2A
+.state_table:
+	dw .idle_state				;00
+	dw .riding_state			;01
+	dw .flee_state				;02
+	dw .none_2_state			;03
+	dw .snap_kong_state			;04
+	dw .snap_kong_state			;05
+	dw .snap_kong_state			;06
+	dw .none_7_state			;07
+	dw .bonus_handler_state			;08
+	dw .sprite_done				;09
 
-
-CODE_B38B2A:
+.sprite_done:
 	JML [$05A9]				;$B38B2A  /
 
-CODE_B38B2D:
-	JSR CODE_B38BB4				;$B38B2D  \
-	BCS CODE_B38B2A				;$B38B30   |
-	JSR CODE_B38D1D				;$B38B32   |
-	JSR CODE_B38CF8				;$B38B35   |
+.idle_state:
+	JSR handle_animal_sign_deletion		;$B38B2D  \
+	BCS .sprite_done			;$B38B30   |
+	JSR handle_animal_mounting		;$B38B32   |
+	JSR apply_animal_gravity		;$B38B35   |
 	JSL CODE_B8D5E0				;$B38B38   |
 	JSL process_sprite_animation		;$B38B3C   |
 	JSL CODE_BBBB99				;$B38B40   |
 	JML [$05A9]				;$B38B44  /
 
-CODE_B38B47:
-	JSR CODE_B38CC5				;$B38B47  \
-	BRA CODE_B38B2A				;$B38B4A  /
+.riding_state:
+	JSR snap_riding_kong_to_animal		;$B38B47  \
+	BRA .sprite_done			;$B38B4A  /
 
-CODE_B38B4C:
-	JSR CODE_B38BB4				;$B38B4C  \
-	BCS CODE_B38B2A				;$B38B4F   |
-	JSR CODE_B38D1D				;$B38B51   |
-	BCS CODE_B38B2A				;$B38B54   |
-	JSR CODE_B38CF8				;$B38B56   |
+.flee_state:
+	JSR handle_animal_sign_deletion		;$B38B4C  \
+	BCS .sprite_done			;$B38B4F   |
+	JSR handle_animal_mounting		;$B38B51   |
+	BCS .sprite_done			;$B38B54   |
+	JSR apply_animal_gravity		;$B38B56   |
 	LDA #$0007				;$B38B59   |
 	JSL interpolate_x_velocity_global	;$B38B5C   |
 	JSL CODE_B8D5E0				;$B38B60   |
-	JSR CODE_B38B72				;$B38B64   |
+	JSR .turn_if_touching_wall		;$B38B64   |
 	JSL process_sprite_animation		;$B38B67   |
 	JSL CODE_BBBB99				;$B38B6B   |
 	JML [$05A9]				;$B38B6F  /
 
-CODE_B38B72:
-	LDX current_sprite			;$B38B72  \
-	LDA $1E,x				;$B38B74   |
-	AND #$0002				;$B38B76   |
-	BNE CODE_B38B7C				;$B38B79   |
-	RTS					;$B38B7B  /
+.turn_if_touching_wall:
+	LDX current_sprite			;$B38B72  \ \ Get animal sprite
+	LDA sprite.terrain_interaction,x	;$B38B74   | | Get terrain interaction
+	AND #$0002				;$B38B76   | |
+	BNE .touching_wall			;$B38B79   |/ If the animal ran into a wall then turn it around
+	RTS					;$B38B7B  /> Else not touching a wall, return
 
-CODE_B38B7C:
-	LDA $12,x				;$B38B7C  \
-	EOR #$4000				;$B38B7E   |
-	STA $12,x				;$B38B81   |
-	LDA $44,x				;$B38B83   |
-	BIT $12,x				;$B38B85   |
-	BVC CODE_B38B8D				;$B38B87   |
-	EOR #$FFFF				;$B38B89   |
-	INC A					;$B38B8C   |
-CODE_B38B8D:					;	   |
-	STA $20,x				;$B38B8D   |
-	STA $26,x				;$B38B8F   |
-	RTS					;$B38B91  /
+.touching_wall:
+	LDA sprite.oam_property,x		;$B38B7C  \ \ Get facing direction
+	EOR #$4000				;$B38B7E   | | Flip facing direction
+	STA sprite.oam_property,x		;$B38B81   |/ Update facing direction
+	LDA sprite.general_purpose_44,x		;$B38B83   |\ Get x flee speed
+	BIT sprite.oam_property,x		;$B38B85   | |
+	BVC .apply_speed			;$B38B87   |/ If animal is facing direction that flee speed will move them, dont invert speed
+	EOR #$FFFF				;$B38B89   |\
+	INC A					;$B38B8C   |/ Flip fleeing speed
+.apply_speed:					;	   |
+	STA sprite.x_speed,x			;$B38B8D   |\ Apply x speed
+	STA sprite.max_x_speed,x		;$B38B8F   |/ Apply max x speed
+	RTS					;$B38B91  /> Return
 
-CODE_B38B92:
-	BRA CODE_B38B2A				;$B38B92  /
+.none_2_state:
+	BRA .sprite_done			;$B38B92  /
 
-CODE_B38B94:
-	JSR CODE_B38CC5				;$B38B94  \
-	BRA CODE_B38B2A				;$B38B97  /
+.snap_kong_state:
+	JSR snap_riding_kong_to_animal		;$B38B94  \
+	BRA .sprite_done			;$B38B97  /
 
-CODE_B38B99:
-	BRA CODE_B38B2A				;$B38B99  /
+.none_7_state:
+	BRA .sprite_done			;$B38B99  /
 
-CODE_B38B9B:
-	LDA $0515				;$B38B9B  \
-	CMP #!bonus_level_type			;$B38B9E   |
-	BEQ CODE_B38BA9				;$B38BA1   |
-CODE_B38BA3:					;	   |
-	LDX current_sprite			;$B38BA3   |
-	STZ $2E,x				;$B38BA5   |
-	BRA CODE_B38B2A				;$B38BA7  /
+.bonus_handler_state:
+	LDA $0515				;$B38B9B  \ \ Get level type
+	CMP #!bonus_level_type			;$B38B9E   | |
+	BEQ .in_bonus_level			;$B38BA1   |/ If level is a bonus then ensure the kong only has one animal
+.no_animal:					;	   |
+	LDX current_sprite			;$B38BA3   |> Get animal sprite
+	STZ sprite.state,x			;$B38BA5   |\ Return to idle state
+	BRA .sprite_done			;$B38BA7  / / Sprite done
 
-CODE_B38BA9:
-	LDA animal_type				;$B38BA9  \
-	BEQ CODE_B38BA3				;$B38BAB   |
-	JSL delete_sprite_handle_deallocation	;$B38BAD   |
-	JML [$05A9]				;$B38BB1  /
+.in_bonus_level:
+	LDA animal_type				;$B38BA9  \ \
+	BEQ .no_animal				;$B38BAB   |/ If the kong doesnt have an animal then return to idle state
+	JSL delete_sprite_handle_deallocation	;$B38BAD   |\ Else delete this animal because kong already has it for the bonus
+	JML [$05A9]				;$B38BB1  / / Sprite done
 
-CODE_B38BB4:
+;this routine handles if an animal passes a no animal sign without the player
+handle_animal_sign_deletion:
 	LDX current_sprite			;$B38BB4  \
-	LDA $32,x				;$B38BB6   |
-	CMP #$0002				;$B38BB8   |
-	BEQ CODE_B38BBF				;$B38BBB   |
+	LDA $32,x				;$B38BB6   |\
+	CMP #$0002				;$B38BB8   | |
+	BEQ .delete_animal			;$B38BBB   |/ If an animal sign wants to kill this animal
 	CLC					;$B38BBD   |
 	RTS					;$B38BBE  /
 
-CODE_B38BBF:
-	JSL delete_sprite_handle_deallocation	;$B38BBF  \
-	LDX current_sprite			;$B38BC3   |
-	LDA $0A,x				;$B38BC5   |
-	SEC					;$B38BC7   |
-	SBC #$0018				;$B38BC8   |
-	STA $0A,x				;$B38BCB   |
-	INC $00,x				;$B38BCD   |
-	LDY #!special_sprite_spawn_id_0122	;$B38BCF   |
-	JSL spawn_special_sprite_index		;$B38BD2   |
-	LDY #!special_sprite_spawn_id_0124	;$B38BD6   |
-	JSL spawn_special_sprite_index		;$B38BD9   |
-	LDY #!special_sprite_spawn_id_0126	;$B38BDD   |
-	JSL spawn_special_sprite_index		;$B38BE0   |
-	LDX current_sprite			;$B38BE4   |
-	STZ $00,x				;$B38BE6   |
-	SEC					;$B38BE8   |
-	RTS					;$B38BE9  /
+.delete_animal:
+	JSL delete_sprite_handle_deallocation	;$B38BBF  \> Delete the animal buddy
+	LDX current_sprite			;$B38BC3   |\
+	LDA sprite.y_position,x			;$B38BC5   | | Get the animals last y position
+	SEC					;$B38BC7   | |
+	SBC #$0018				;$B38BC8   | | Move it downward
+	STA sprite.y_position,x			;$B38BCB   |/ Update y position
+	INC sprite.type,x			;$B38BCD   |> Resurrect the animal? so smoke spawns relative to it maybe?
+	LDY #!special_sprite_spawn_id_0122	;$B38BCF   |\ Spawn 3 smoke puffs
+	JSL spawn_special_sprite_index		;$B38BD2   | |
+	LDY #!special_sprite_spawn_id_0124	;$B38BD6   | |
+	JSL spawn_special_sprite_index		;$B38BD9   | |
+	LDY #!special_sprite_spawn_id_0126	;$B38BDD   | |
+	JSL spawn_special_sprite_index		;$B38BE0   |/
+	LDX current_sprite			;$B38BE4   |\ Get the current sprite
+	STZ sprite.type,x			;$B38BE6   |/ Delete it
+	SEC					;$B38BE8   |\ Report back that the animal was deleted
+	RTS					;$B38BE9  / / Return
 
-CODE_B38BEA:
-	LDA $10,x				;$B38BEA  \
-	AND #$0100				;$B38BEC   |
-	BEQ CODE_B38C04				;$B38BEF   |
-	LDA #$0009				;$B38BF1   |
-	STA $2E,x				;$B38BF4   |
-	LDA #$FB00				;$B38BF6   |
-	STA $24,x				;$B38BF9   |
-	LDA #$014C				;$B38BFB   |
-	JSL set_anim_handle_animal		;$B38BFE   |
-	SEC					;$B38C02   |
-	RTS					;$B38C03  /
+handle_animal_crushing:
+	LDA sprite.terrain_attributes,x		;$B38BEA  \ \
+	AND #$0100				;$B38BEC   | | Check if the animal is being crushed
+	BEQ .not_being_crushed			;$B38BEF   |/ If the animal isnt being crushed then return
+	LDA #$0009				;$B38BF1   |\
+	STA sprite.state,x			;$B38BF4   |/ Set animal state to hurt
+	LDA #$FB00				;$B38BF6   |\
+	STA sprite.y_speed,x			;$B38BF9   |/ Make animal fly upward
+	LDA #$014C				;$B38BFB   |\
+	JSL set_anim_handle_animal		;$B38BFE   |/ Set animal hurt animation
+	SEC					;$B38C02   |\ Report back that the animal is being crushed
+	RTS					;$B38C03  / / Return
 
-CODE_B38C04:
-	CLC					;$B38C04  \
-	RTS					;$B38C05  /
+.not_being_crushed:
+	CLC					;$B38C04  \ \ Report back that the animal is not being crushed
+	RTS					;$B38C05  / / Return
 
 squawks_main:
 	LDX current_sprite			;$B38C06  \
-	LDA $54,x				;$B38C08   |
+	LDA sprite.constants_address,x		;$B38C08   |
 	STA $8E					;$B38C0A   |
 	TXY					;$B38C0C   |
-	LDA $2E,x				;$B38C0D   |
+	LDA sprite.state,x			;$B38C0D   |
 	ASL A					;$B38C0F   |
 	TAX					;$B38C10   |
-	JMP (DATA_B38C14,x)			;$B38C11  /
+	JMP (.state_table,x)			;$B38C11  /
 
-DATA_B38C14:
-	dw CODE_B38C54
-	dw CODE_B38C77
-	dw CODE_B38C83
-	dw CODE_B38C8E
-	dw CODE_B38C90
-	dw CODE_B38C90
-	dw CODE_B38C90
-	dw CODE_B38C51
-	dw CODE_B38C92
-	dw CODE_B38C3F
-	dw CODE_B38C2A
+.state_table:
+	dw .idle_state				;00
+	dw .riding_state			;01
+	dw .flee_state				;02
+	dw .none_3_state			;03
+	dw .none_4_state			;04
+	dw .none_4_state			;05
+	dw .none_4_state			;06
+	dw .sprite_done				;07
+	dw .bonus_handler_state			;08
+	dw .state_09				;09 Might be unused
+	dw .fly_away_state			;0A Used after purple squawks drops off the kong
 
-
-
-CODE_B38C2A:
-	LDX current_sprite			;$B38C2A  \
-	LDA #$FE70				;$B38C2C   |
-	STA $24,x				;$B38C2F   |
-	STZ $20,x				;$B38C31   |
+.fly_away_state:
+	LDX current_sprite			;$B38C2A  \> Get animal sprite
+	LDA #$FE70				;$B38C2C   |\
+	STA sprite.y_speed,x			;$B38C2F   | | Make purple squawks fly upwards and away
+	STZ sprite.x_speed,x			;$B38C31   |/
 	JSL apply_position_from_velocity_global	;$B38C33   |
 	JSL process_sprite_animation		;$B38C37   |
 	JML CODE_B38000				;$B38C3B  /
 
-CODE_B38C3F:
-	JSR CODE_B38CF8				;$B38C3F  \
+.state_09:
+	JSR apply_animal_gravity		;$B38C3F  \
 	JSL apply_position_from_velocity_global	;$B38C42   |
 	LDA #$0007				;$B38C46   |
 	JSL interpolate_x_velocity_global	;$B38C49   |
 	JML CODE_B38000				;$B38C4D  /
 
-CODE_B38C51:
+.sprite_done:
 	JML [$05A9]				;$B38C51  /
 
-CODE_B38C54:
-	JSR CODE_B38BB4				;$B38C54  \
-	BCS CODE_B38C51				;$B38C57   |
-	JSR CODE_B38BEA				;$B38C59   |
-	BCS CODE_B38C51				;$B38C5C   |
-	JSR CODE_B38D1D				;$B38C5E   |
+.idle_state:
+	JSR handle_animal_sign_deletion		;$B38C54  \
+	BCS .sprite_done			;$B38C57   |
+	JSR handle_animal_crushing		;$B38C59   |
+	BCS .sprite_done			;$B38C5C   |
+	JSR handle_animal_mounting		;$B38C5E   |
 	JSL CODE_B8D5E0				;$B38C61   |
 	JSL process_sprite_animation		;$B38C65   |
 	LDA level_number			;$B38C69   |
 	CMP #!level_squawks_shaft		;$B38C6B   |
-	BEQ CODE_B38C51				;$B38C6E   |
+	BEQ .sprite_done			;$B38C6E   |
 	JSL CODE_BBBB99				;$B38C70   |
 	JML [$05A9]				;$B38C74  /
 
-CODE_B38C77:
-	JSR CODE_B38CC5				;$B38C77  \
-	JSR CODE_B38CAB				;$B38C7A   |
+.riding_state:
+	JSR snap_riding_kong_to_animal		;$B38C77  \
+	JSR snap_follower_kong_to_animal	;$B38C7A   |
 	JSL process_sprite_animation		;$B38C7D   |
-	BRA CODE_B38C51				;$B38C81  /
+	BRA .sprite_done			;$B38C81  /
 
-CODE_B38C83:
-	JSR CODE_B38BB4				;$B38C83  \
-	BCS CODE_B38C51				;$B38C86   |
+.flee_state:
+	JSR handle_animal_sign_deletion		;$B38C83  \
+	BCS .sprite_done			;$B38C86   |
 	LDX current_sprite			;$B38C88   |
-	STZ $2E,x				;$B38C8A   |
-	BRA CODE_B38C51				;$B38C8C  /
+	STZ sprite.state,x			;$B38C8A   |
+	BRA .sprite_done			;$B38C8C  /
 
-CODE_B38C8E:
-	BRA CODE_B38C51				;$B38C8E  /
+.none_3_state:
+	BRA .sprite_done			;$B38C8E  /
 
-CODE_B38C90:
-	BRA CODE_B38C51				;$B38C90  /
+.none_4_state:
+	BRA .sprite_done			;$B38C90  /
 
-CODE_B38C92:
-	LDA $0515				;$B38C92  \
-	CMP #!bonus_level_type			;$B38C95   |
-	BEQ CODE_B38CA0				;$B38C98   |
-CODE_B38C9A:					;	   |
-	LDX current_sprite			;$B38C9A   |
-	STZ $2E,x				;$B38C9C   |
-	BRA CODE_B38C51				;$B38C9E  /
+.bonus_handler_state:
+	LDA $0515				;$B38C92  \ \ Get level type
+	CMP #!bonus_level_type			;$B38C95   | |
+	BEQ .in_bonus_level			;$B38C98   |/ If level is a bonus then ensure the kong only has one animal
+.no_animal:					;	   |
+	LDX current_sprite			;$B38C9A   |> Get animal sprite
+	STZ sprite.state,x			;$B38C9C   |\ Return to idle state
+	BRA .sprite_done			;$B38C9E  / / Sprite done
 
-CODE_B38CA0:
-	LDA animal_type				;$B38CA0  \
-	BEQ CODE_B38C9A				;$B38CA2   |
-	JSL delete_sprite_handle_deallocation	;$B38CA4   |
-	JML [$05A9]				;$B38CA8  /
+.in_bonus_level:
+	LDA animal_type				;$B38CA0  \ \
+	BEQ .no_animal				;$B38CA2   |/ If the kong doesnt have an animal then return to idle state
+	JSL delete_sprite_handle_deallocation	;$B38CA4   |\ Else delete this animal because kong already has it for the bonus
+	JML [$05A9]				;$B38CA8  / / Sprite done
 
-CODE_B38CAB:
-	LDA $08C2				;$B38CAB  \
-	AND #$4000				;$B38CAE   |
-	BEQ CODE_B38CC4				;$B38CB1   |
+snap_follower_kong_to_animal:
+	LDA $08C2				;$B38CAB  \ \
+	AND #$4000				;$B38CAE   | |
+	BEQ .return				;$B38CB1   |/ If player only has one kong then dont snap follower to animal
 	LDY inactive_kong_sprite		;$B38CB3   |
 	LDX current_player_mount		;$B38CB6   |
-	BEQ CODE_B38CC4				;$B38CB8   |
-	LDA $06,x				;$B38CBA   |
-	STA $0006,y				;$B38CBC   |
-	LDA $0A,x				;$B38CBF   |
-	STA $000A,y				;$B38CC1   |
-CODE_B38CC4:					;	   |
+	BEQ .return				;$B38CB8   |
+	LDA $06,x				;$B38CBA   |\ Copy follower kongs position to current animal mount
+	STA $0006,y				;$B38CBC   | |
+	LDA $0A,x				;$B38CBF   | |
+	STA $000A,y				;$B38CC1   |/
+.return:					;	   |
 	RTS					;$B38CC4  /
 
-CODE_B38CC5:
-	LDX current_sprite			;$B38CC5  \
-	LDY active_kong_sprite			;$B38CC7   |
-	BIT $12,x				;$B38CCA   |
-	BVS CODE_B38CD9				;$B38CCC   |
-	LDA $0006,y				;$B38CCE   |
-	CLC					;$B38CD1   |
-	ADC $0D76				;$B38CD2   |
-	STA $06,x				;$B38CD5   |
-	BRA CODE_B38CE2				;$B38CD7  /
+snap_riding_kong_to_animal:
+	LDX current_sprite			;$B38CC5  \ \ Get animal sprite (pretending to be kong)
+	LDY active_kong_sprite			;$B38CC7   |/ Get kong sprite (pretending to be animal)
+	BIT $12,x				;$B38CCA   |\
+	BVS .facing_left			;$B38CCC   |/ If the animal is facing left then subtract the x riding offset
+	LDA $0006,y				;$B38CCE   |\ Else, the animal is facing right, get kong x position
+	CLC					;$B38CD1   | |
+	ADC $0D76				;$B38CD2   | | Add x riding offset
+	STA $06,x				;$B38CD5   |/ Update animal position
+	BRA .snap_to_y_position			;$B38CD7  /> Snap the y position of animal to kong
 
-CODE_B38CD9:
-	LDA $0006,y				;$B38CD9  \
-	SEC					;$B38CDC   |
-	SBC $0D76				;$B38CDD   |
-	STA $06,x				;$B38CE0   |
-CODE_B38CE2:					;	   |
-	LDA $000A,y				;$B38CE2   |
-	CLC					;$B38CE5   |
-	ADC $0D78				;$B38CE6   |
-	STA $0A,x				;$B38CE9   |
-	LDA $0012,y				;$B38CEB   |
-	EOR $12,x				;$B38CEE   |
-	AND #$C000				;$B38CF0   |
-	EOR $12,x				;$B38CF3   |
-	STA $12,x				;$B38CF5   |
+.facing_left:
+	LDA $0006,y				;$B38CD9  \ \ Get kong x position
+	SEC					;$B38CDC   | |
+	SBC $0D76				;$B38CDD   | | Subtract x riding offset
+	STA $06,x				;$B38CE0   |/ Update animal position
+.snap_to_y_position:				;	   |
+	LDA $000A,y				;$B38CE2   |\ Get kong y position
+	CLC					;$B38CE5   | |
+	ADC $0D78				;$B38CE6   | | Add y riding offset
+	STA $0A,x				;$B38CE9   |/ Update animal position
+	LDA $0012,y				;$B38CEB   |\
+	EOR $12,x				;$B38CEE   | |
+	AND #$C000				;$B38CF0   | |
+	EOR $12,x				;$B38CF3   | |
+	STA $12,x				;$B38CF5   |/ Face animal in the same direction as kong
 	RTS					;$B38CF7  /
 
-CODE_B38CF8:
+apply_animal_gravity:
 	LDX current_sprite			;$B38CF8  \
 	LDY #$0000				;$B38CFA   |
 	LDA [$8E],y				;$B38CFD   |
 	LDY #$0002				;$B38CFF   |
 	CLC					;$B38D02   |
-	ADC $24,x				;$B38D03   |
-	BMI CODE_B38D0D				;$B38D05   |
+	ADC sprite.y_speed,x			;$B38D03   |
+	BMI .apply_y_speed			;$B38D05   |
 	CMP [$8E],y				;$B38D07   |
-	BCC CODE_B38D0D				;$B38D09   |
+	BCC .apply_y_speed			;$B38D09   |
 	LDA [$8E],y				;$B38D0B   |
-CODE_B38D0D:					;	   |
-	STA $24,x				;$B38D0D   |
+.apply_y_speed:					;	   |
+	STA sprite.y_speed,x			;$B38D0D   |
 	RTS					;$B38D0F  /
 
-CODE_B38D10:
+get_state_death_and_mounting_flags:
 	LDX active_kong_sprite			;$B38D10  \
-	LDA $2E,x				;$B38D13   |
+	LDA sprite.state,x			;$B38D13   |
 	ASL A					;$B38D15   |
 	ASL A					;$B38D16   |
 	TAX					;$B38D17   |
 	LDA.l DATA_B896B7,x			;$B38D18   |
 	RTS					;$B38D1C  /
 
-CODE_B38D1D:
-	LDX current_sprite			;$B38D1D  \
-	LDA $42,x				;$B38D1F   |
-	BEQ CODE_B38D27				;$B38D21   |
-	DEC $42,x				;$B38D23   |
-	BRA CODE_B38D4F				;$B38D25  /
+handle_animal_mounting:
+	LDX current_sprite			;$B38D1D  \> Get animal sprite
+	LDA sprite.general_purpose_42,x		;$B38D1F   |\
+	BEQ .can_remount_animal			;$B38D21   |/ If dismount timer is 0 then this animal can be mounted again
+	DEC sprite.general_purpose_42,x		;$B38D23   |\ Else update the dismount timer
+	BRA .return				;$B38D25  / / Return
 
-CODE_B38D27:
-	LDA $0A,x				;$B38D27  \
-	SEC					;$B38D29   |
-	SBC $17C0				;$B38D2A   |
-	CMP #$0110				;$B38D2D   |
-	BPL CODE_B38D4F				;$B38D30   |
-	JSL CODE_BCFB58				;$B38D32   |
-	LDA $00,x				;$B38D36   |
-	SEC					;$B38D38   |
-	SBC #!animal_sprite_type_range_start	;$B38D39   |
-	LSR A					;$B38D3C   |
-	LSR A					;$B38D3D   |
-	CLC					;$B38D3E   |
-	ADC #$0001				;$B38D3F   |
-	JSL CODE_BCFB7A				;$B38D42   |
-	LDA #$0004				;$B38D46   |
-	JSL CODE_BCFCB5				;$B38D49   |
-	BCS CODE_B38D51				;$B38D4D   |
-CODE_B38D4F:					;	   |
-	CLC					;$B38D4F   |
-	RTS					;$B38D50  /
+.can_remount_animal:
+	LDA sprite.y_position,x			;$B38D27  \ \
+	SEC					;$B38D29   | |
+	SBC $17C0				;$B38D2A   | |
+	CMP #$0110				;$B38D2D   | |
+	BPL .return				;$B38D30   |/ If the animal is offscreen then dont allow mounting
+	JSL CODE_BCFB58				;$B38D32   |> Get sprite clipping
+	LDA sprite.type,x			;$B38D36   |\ Get sprite type
+	SEC					;$B38D38   | |
+	SBC #!animal_sprite_type_range_start	;$B38D39   | | Subtract animal base sprite id to generate index
+	LSR A					;$B38D3C   | | Divide by 4 because each sprite index increments by 4
+	LSR A					;$B38D3D   | |
+	CLC					;$B38D3E   | |
+	ADC #$0001				;$B38D3F   | | + 1
+	JSL CODE_BCFB7A				;$B38D42   |/ Inject animal mount range into hitbox RAM
+	LDA #$0004				;$B38D46   |\
+	JSL CODE_BCFCB5				;$B38D49   | | Check sprite collision
+	BCS .collided_with_mount_range		;$B38D4D   |/ If a sprite collided with mount range then see if player should mount
+.return:					;	   |
+	CLC					;$B38D4F   |\ No collision
+	RTS					;$B38D50  / / Return
 
-CODE_B38D51:
-	LDA animal_type				;$B38D51  \
-	BNE CODE_B38D4F				;$B38D53   |
-	LDA current_held_sprite			;$B38D55   |
-	BNE CODE_B38D4F				;$B38D58   |
-	LDY $6A					;$B38D5A   |
-	CPY active_kong_sprite			;$B38D5C   |
-	BNE CODE_B38D4F				;$B38D5F   |
-	JSR CODE_B38D10				;$B38D61   |
-	AND #$0009				;$B38D64   |
-	BNE CODE_B38D4F				;$B38D67   |
-	LDX current_sprite			;$B38D69   |
-	LDA $00,x				;$B38D6B   |
-	CMP #!sprite_squawks			;$B38D6D   |
-	BEQ CODE_B38D95				;$B38D70   |
-	CMP #!sprite_enguarde			;$B38D72   |
-	BEQ CODE_B38D7C				;$B38D75   |
-	LDA $0024,y				;$B38D77   |
-	BMI CODE_B38D4F				;$B38D7A   |
-CODE_B38D7C:					;	   |
-	LDA $0A,x				;$B38D7C   |
-	SEC					;$B38D7E   |
-	SBC $000A,y				;$B38D7F   |
-	BMI CODE_B38D4F				;$B38D82   |
-	LDA $001E,y				;$B38D84   |
-	AND #$0100				;$B38D87   |
-	BNE CODE_B38D4F				;$B38D8A   |
-	LDA #$0017				;$B38D8C   |
-	JSL set_player_interaction_global	;$B38D8F   |
-	SEC					;$B38D93   |
-	RTS					;$B38D94  /
+.collided_with_mount_range:
+	LDA animal_type				;$B38D51  \ \ Get current animal type
+	BNE .return				;$B38D53   |/ If the kong is already riding an animal then dont mount
+	LDA current_held_sprite			;$B38D55   |\ Get currently held sprite
+	BNE .return				;$B38D58   |/ If the kong is holding a sprite then dont mount
+	LDY $6A					;$B38D5A   |\ Get colliding sprite
+	CPY active_kong_sprite			;$B38D5C   | | See if colliding sprite is active kong
+	BNE .return				;$B38D5F   |/ If the colliding sprite isn't the active kong so dont mount
+	JSR get_state_death_and_mounting_flags	;$B38D61   |\ Get the state flags for the kongs current state
+	AND #$0009				;$B38D64   | |
+	BNE .return				;$B38D67   |/ If the kongs current state doesnt allow mounting then dont mount
+	LDX current_sprite			;$B38D69   |\
+	LDA sprite.type,x			;$B38D6B   |/ Get this animals type
+	CMP #!sprite_squawks			;$B38D6D   |\
+	BEQ .handle_squawks_mounting		;$B38D70   |/ If the animal is squawks then handle mounting squawks
+	CMP #!sprite_enguarde			;$B38D72   |\
+	BEQ .upward_speed_check_done		;$B38D75   |/ If the animal is enguarde then skip upward velocity check
+	LDA.w sprite.y_speed,y			;$B38D77   |\ Else get kongs upward speed
+	BMI .return				;$B38D7A   |/ If the kong is moving upward then dont mount
+.upward_speed_check_done:			;	   |
+	LDA sprite.y_position,x			;$B38D7C   |\
+	SEC					;$B38D7E   | |
+	SBC.w sprite.y_position,y		;$B38D7F   | |
+	BMI .return				;$B38D82   |/ If the kong is below the animal then dont mount
+	LDA.w sprite.terrain_interaction,y	;$B38D84   |\ Get kong terrain interaction
+	AND #$0100				;$B38D87   | |
+	BNE .return				;$B38D8A   |/ If the kong was grounded last frame then dont mount
+	LDA #!player_interaction_17		;$B38D8C   |\ Set player interaction to mounting animal buddy
+	JSL set_player_interaction_global	;$B38D8F   |/
+	SEC					;$B38D93   |\ Tell the calling routine that the animal was mounted
+	RTS					;$B38D94  / / Return
 
-CODE_B38D95:
-	LDA $001E,y				;$B38D95  \
-	AND #$1001				;$B38D98   |
-	BNE CODE_B38D4F				;$B38D9B   |
-	LDA #$0017				;$B38D9D   |
-	JSL set_player_interaction_global	;$B38DA0   |
-	SEC					;$B38DA4   |
-	RTS					;$B38DA5  /
+.handle_squawks_mounting:
+	LDA $001E,y				;$B38D95  \ \
+	AND #$1001				;$B38D98   | |
+	BNE .return				;$B38D9B   |/ If kong was on platform sprite last frame or grounded this frame, dont mount
+	LDA #!player_interaction_17		;$B38D9D   |\ Set player interaction to mounting animal buddy
+	JSL set_player_interaction_global	;$B38DA0   |/
+	SEC					;$B38DA4   |\ Tell the calling routine that the animal was mounted
+	RTS					;$B38DA5  / / Return
 
 enguarde_main:
 	LDX current_sprite			;$B38DA6  \
-	LDA $54,x				;$B38DA8   |
+	LDA sprite.constants_address,x		;$B38DA8   |
 	STA $8E					;$B38DAA   |
-	LDA $2E,x				;$B38DAC   |
+	LDA sprite.state,x			;$B38DAC   |
 	ASL A					;$B38DAE   |
 	TAX					;$B38DAF   |
-	JMP (DATA_B38DB3,x)			;$B38DB0  /
+	JMP (.state_table,x)			;$B38DB0  /
 
-DATA_B38DB3:
-	dw CODE_B38DC7
-	dw CODE_B38DE1
-	dw CODE_B38DEA
-	dw CODE_B38DEF
-	dw CODE_B38DF1
-	dw CODE_B38E19
-	dw CODE_B38E1B
-	dw CODE_B38E61
-	dw CODE_B38E64
-	dw CODE_B38DC7
+.state_table:
+	dw .idle_state				;00
+	dw .riding_state			;01
+	dw .none_2_state			;02
+	dw .none_3_state			;03
+	dw .idle_4_state			;04
+	dw .none_5_state			;05
+	dw .flee_state				;06
+	dw .none_7_state			;07
+	dw .bonus_handler_state			;08
+	dw .idle_state				;09
 
-CODE_B38DC7:
-	JSR CODE_B38BB4				;$B38DC7  \
-	BCS CODE_B38DEC				;$B38DCA   |
-	JSR CODE_B38D1D				;$B38DCC   |
-	JSR CODE_B38CF8				;$B38DCF   |
+.idle_state:
+	JSR handle_animal_sign_deletion		;$B38DC7  \
+	BCS .sprite_done			;$B38DCA   |
+	JSR handle_animal_mounting		;$B38DCC   |
+	JSR apply_animal_gravity		;$B38DCF   |
 	JSL CODE_B8D5E0				;$B38DD2   |
 	JSL process_sprite_animation		;$B38DD6   |
 	JSL CODE_BBBB99				;$B38DDA   |
 	JML [$05A9]				;$B38DDE  /
 
-CODE_B38DE1:
-	JSR CODE_B38CC5				;$B38DE1  \
+.riding_state:
+	JSR snap_riding_kong_to_animal		;$B38DE1  \
 	JSL process_sprite_animation		;$B38DE4   |
-	BRA CODE_B38DEC				;$B38DE8  /
+	BRA .sprite_done			;$B38DE8  /
 
-CODE_B38DEA:
-	BRA CODE_B38DEC				;$B38DEA  /
+.none_2_state:
+	BRA .sprite_done			;$B38DEA  /
 
-CODE_B38DEC:
+.sprite_done:
 	JML [$05A9]				;$B38DEC  /
 
-CODE_B38DEF:
-	BRA CODE_B38DEC				;$B38DEF  /
+.none_3_state:
+	BRA .sprite_done			;$B38DEF  /
 
-CODE_B38DF1:
-	JSR CODE_B38D1D				;$B38DF1  \
-	JSR CODE_B38E9A				;$B38DF4   |
+.idle_4_state:
+	JSR handle_animal_mounting		;$B38DF1  \
+	JSR .handle_enguarde_on_land		;$B38DF4   |
 	JSL CODE_B8D5E0				;$B38DF7   |
 	JSL process_sprite_animation		;$B38DFB   |
 if !version == 0				;	   |
-	BRA CODE_B38DEC				;$B38DFF   |
+	BRA .sprite_done			;$B38DFF   |
 else						;	   |
-	LDA level_number			;$B38DFF   |
-	CMP #!level_clappers_cavern		;$B38E01   |
-	BNE CODE_B38E12				;$B38E04   |
-	LDA $0915				;$B38E06   |
-	BEQ CODE_B38E12				;$B38E09   |
-	JSL delete_sprite_handle_deallocation	;$B38E0B   |
-	JML [$05A9]				;$B38E0F  /
+	LDA level_number			;$B38DFF   |\
+	CMP #!level_clappers_cavern		;$B38E01   | |
+	BNE .sprite_done_handle_offscreen	;$B38E04   |/ If the level isnt clappers cavern then dont check if water is frozen
+	LDA $0915				;$B38E06   |\
+	BEQ .sprite_done_handle_offscreen	;$B38E09   |/ If the water is thawed then dont delete enguarde
+	JSL delete_sprite_handle_deallocation	;$B38E0B   |\ Enguarde somehow made survived with frozen water, delete him
+	JML [$05A9]				;$B38E0F  / / Sprite done
 
-CODE_B38E12:
+.sprite_done_handle_offscreen:
 	JSL CODE_BBBB99				;$B38E12  \
-	JML [$05A9]				;$B38E16   |
-endif						;	   |
-CODE_B38E19:					;	   |
-	BRA CODE_B38DEC				;$B38E19   |
-CODE_B38E1B:					;	   |
-	JSR CODE_B38BB4				;$B38E18   |
-	BCS CODE_B38DEC				;$B38E1E   |
-	JSR CODE_B38D1D				;$B38E20   |
-	BCC CODE_B38E27				;$B38E23   |
-	BRA CODE_B38DEC				;$B38E25   |
+	JML [$05A9]				;$B38E16  /
+endif
+
+.none_5_state:
+	BRA .sprite_done			;$B38E19  /
+
+.flee_state:
+	JSR handle_animal_sign_deletion		;$B38E18  \
+	BCS .sprite_done			;$B38E1E   |
+	JSR handle_animal_mounting		;$B38E20   |
+	BCC .kong_didnt_mount			;$B38E23   |
+	BRA .sprite_done			;$B38E25   |
 						;	   |
-CODE_B38E27:					;	   |
-	JSR CODE_B38E81				;$B38E27   |
-	BCC CODE_B38E33				;$B38E2A   |
-	JSL delete_sprite_handle_deallocation	;$B38E2C   |
-	JML [$05A9]				;$B38E30  /
+.kong_didnt_mount:				;	   |
+	JSR .handle_enguarde_despawn_timer	;$B38E27   |\
+	BCC .turn_if_touching_wall		;$B38E2A   |/ If enguardes despawn timer is still counting then he can live
+	JSL delete_sprite_handle_deallocation	;$B38E2C   |\ Else he was offscreen for too long, delete him
+	JML [$05A9]				;$B38E30  / / Sprite done
 
-CODE_B38E33:
-	LDX current_sprite			;$B38E33  \
-	LDA $1E,x				;$B38E35   |
-	AND #$0002				;$B38E37   |
-	BNE CODE_B38E3E				;$B38E3A   |
-	BRA CODE_B38E54				;$B38E3C  /
+.turn_if_touching_wall:
+	LDX current_sprite			;$B38E33  \ \ Get animal sprite
+	LDA sprite.terrain_interaction,x	;$B38E35   | | Get terrain interaction
+	AND #$0002				;$B38E37   | |
+	BNE .touching_wall			;$B38E3A   |/ If the animal ran into a wall then turn it around
+	BRA .continue_fleeing			;$B38E3C  /> Else not touching a wall
 
-CODE_B38E3E:
-	LDA $12,x				;$B38E3E  \
-	EOR #$4000				;$B38E40   |
-	STA $12,x				;$B38E43   |
-	LDA #$0200				;$B38E45   |
-	BIT $12,x				;$B38E48   |
-	BVC CODE_B38E50				;$B38E4A   |
-	EOR #$FFFF				;$B38E4C   |
-	INC A					;$B38E4F   |
-CODE_B38E50:					;	   |
-	STA $20,x				;$B38E50   |
-	STA $26,x				;$B38E52   |
-CODE_B38E54:					;	   |
-	JSR CODE_B38E9A				;$B38E54   |
+.touching_wall:
+	LDA sprite.oam_property,x		;$B38E3E  \ \ Get facing direction
+	EOR #$4000				;$B38E40   | | Flip facing direction
+	STA sprite.oam_property,x		;$B38E43   |/ Update facing direction
+	LDA #$0200				;$B38E45   |\ Get x flee speed
+	BIT sprite.oam_property,x		;$B38E48   | |
+	BVC .apply_speed			;$B38E4A   |/ If animal is facing direction that flee speed will move them, dont invert speed
+	EOR #$FFFF				;$B38E4C   |\
+	INC A					;$B38E4F   |/ Flip fleeing speed
+.apply_speed:					;	   |
+	STA sprite.x_speed,x			;$B38E50   |\ Apply x speed
+	STA sprite.max_x_speed,x		;$B38E52   |/ Apply max x speed
+.continue_fleeing:				;	   |
+	JSR .handle_enguarde_on_land		;$B38E54   |
 	JSL CODE_B8D5E0				;$B38E57   |
 	JSL process_sprite_animation		;$B38E5B   |
-	BRA CODE_B38DEC				;$B38E5F  /
+	BRA .sprite_done			;$B38E5F  /
 
-CODE_B38E61:
+.none_7_state:
 if !version == 0				;	  \
-	BRA CODE_B38DEC				;$B38E61   |
+	BRA .sprite_done			;$B38E61   |
 else						;	   |
-	JML [$05A9]				;$B38E61  /
-endif
+	JML [$05A9]				;$B38E61   |
+endif						;	  /
 
-CODE_B38E64:
-	LDA $0515				;$B38E64  \
-	CMP #!bonus_level_type			;$B38E67   |
-	BEQ CODE_B38E76				;$B38E6A   |
-CODE_B38E6C:					;	   |
-	LDX current_sprite			;$B38E6C   |
-	LDA #$0004				;$B38E6E   |
-	STA $2E,x				;$B38E71   |
+.bonus_handler_state:
+	LDA $0515				;$B38E64  \ \ Get level type
+	CMP #!bonus_level_type			;$B38E67   | |
+	BEQ .in_bonus_level			;$B38E6A   |/ If level is a bonus then ensure the kong only has one animal
+.no_animal:					;	   |
+	LDX current_sprite			;$B38E6C   |> Get animal sprite
+	LDA #$0004				;$B38E6E   |\ Return to idle state
+	STA sprite.state,x			;$B38E71   |/
 if !version == 0				;	   |
-	BRA CODE_B38DEC				;$B38E73   |
+	BRA .sprite_done			;$B38E73   |> Sprite done
 else						;	   |
-	JML [$05A9]				;$B38E73  /
+	JML [$05A9]				;$B38E73  /> Sprite done
 endif
 
-CODE_B38E76:
-	LDA animal_type				;$B38E76  \
-	BEQ CODE_B38E6C				;$B38E78   |
-	JSL delete_sprite_handle_deallocation	;$B38E7A   |
-	JML [$05A9]				;$B38E7E  /
+.in_bonus_level:
+	LDA animal_type				;$B38E76  \ \
+	BEQ .no_animal				;$B38E78   |/ If the kong doesnt have an animal then return to idle state
+	JSL delete_sprite_handle_deallocation	;$B38E7A   |\ Else delete this animal because kong already has it for the bonus
+	JML [$05A9]				;$B38E7E  / / Sprite done
 
-CODE_B38E81:
-	JSL check_if_sprite_offscreen_global	;$B38E81  \
-	BCC CODE_B38E91				;$B38E85   |
-	LDX current_sprite			;$B38E87   |
-	DEC $4A,x				;$B38E89   |
-	BMI CODE_B38E8F				;$B38E8B   |
-	CLC					;$B38E8D   |
-	RTS					;$B38E8E  /
+.handle_enguarde_despawn_timer:
+	JSL check_if_sprite_offscreen_global	;$B38E81  \ \
+	BCC .reset_despawn_timer		;$B38E85   |/ If enguarde is onscreen then reset offscreen despawn timer
+	LDX current_sprite			;$B38E87   |\ Get enguarde sprite
+	DEC sprite.general_purpose_4A,x		;$B38E89   | | Update offscreen despawn timer
+	BMI .should_despawn			;$B38E8B   |/ If the timer ran out then return that enguarde should despawn
+	CLC					;$B38E8D   |\ Return that enguarde can still live
+	RTS					;$B38E8E  / / Return
 
-CODE_B38E8F:
-	SEC					;$B38E8F  \
-	RTS					;$B38E90  /
+.should_despawn:
+	SEC					;$B38E8F  \ \ Return that enguarde should despawn
+	RTS					;$B38E90  / / Return
 
-CODE_B38E91:
-	LDX current_sprite			;$B38E91  \
-	LDA #$012C				;$B38E93   |
-	STA $4A,x				;$B38E96   |
-	CLC					;$B38E98   |
-	RTS					;$B38E99  /
+.reset_despawn_timer:
+	LDX current_sprite			;$B38E91  \> Get enguarde sprite
+	LDA #$012C				;$B38E93   |\
+	STA sprite.general_purpose_4A,x		;$B38E96   |/ Reset offscreen despawn timer
+	CLC					;$B38E98   |\ Return that enguarde can still live
+	RTS					;$B38E99  / / Return
 
-CODE_B38E9A:
-	LDX current_sprite			;$B38E9A  \
-	STZ $24,x				;$B38E9C   |
-	JSL CODE_B8B6A3				;$B38E9E   |
-	CMP #$0001				;$B38EA2   |
-	BNE CODE_B38EAC				;$B38EA5   |
-	LDA #$0400				;$B38EA7   |
-	STA $24,x				;$B38EAA   |
-CODE_B38EAC:					;	   |
-	RTS					;$B38EAC  /
+.handle_enguarde_on_land:
+	LDX current_sprite			;$B38E9A  \> Get enguarde sprite
+	STZ sprite.y_speed,x			;$B38E9C   |> Clear y speed
+	JSL check_sprite_underwater_global	;$B38E9E   |\
+	CMP #$0001				;$B38EA2   | |
+	BNE .return				;$B38EA5   |/ If enguarde is in the water than keep his y speed at 0 so he floats
+	LDA #$0400				;$B38EA7   |\ Else give enguarde a constant downward speed so he sticks to the ground
+	STA sprite.y_speed,x			;$B38EAA   |/ Apply y speed
+.return:					;	   |
+	RTS					;$B38EAC  /> Return
 
 glimmer_main:
 	LDX current_sprite			;$B38EAD  \ Get glimmer sprite
@@ -3354,7 +3355,7 @@ CODE_B399A8:
 	BEQ CODE_B399EE				;$B399B7   |
 	JSR CODE_B39A5F				;$B399B9   |
 	BNE CODE_B399EC				;$B399BC   |
-	LDA #$000D				;$B399BE   |
+	LDA #!player_interaction_0D		;$B399BE   |
 	JSL set_player_interaction_global	;$B399C1   |
 	BCS CODE_B399EC				;$B399C5   |
 	LDA #CODE_B3992E			;$B399C7   |
@@ -3376,7 +3377,7 @@ CODE_B399EC:
 	RTS					;$B399ED  /
 
 CODE_B399EE:
-	LDA #$000D				;$B399EE  \
+	LDA #!player_interaction_0D		;$B399EE  \
 	JSL set_player_interaction_global	;$B399F1   |
 	BCS CODE_B399EC				;$B399F5   |
 	LDA #CODE_B398D7			;$B399F7   |
@@ -3401,7 +3402,7 @@ CODE_B39A1C:
 	LDA $09F5				;$B39A29   |
 	AND #$0406				;$B39A2C   |
 	BEQ CODE_B399EC				;$B39A2F   |
-	LDA #$000D				;$B39A31   |
+	LDA #!player_interaction_0D		;$B39A31   |
 	JSL set_player_interaction_global	;$B39A34   |
 	BCS CODE_B399EC				;$B39A38   |
 	LDA #CODE_B3992E			;$B39A3A   |
@@ -4120,7 +4121,7 @@ CODE_B39F8F:
 	CMP #!sprite_dkbarrel			;$B39F91   |
 	BNE CODE_B39FD4				;$B39F94   |
 	PHX					;$B39F96   |
-	JSR CODE_B38D10				;$B39F97   |
+	JSR get_state_death_and_mounting_flags	;$B39F97   |
 	PLX					;$B39F9A   |
 	AND #$0001				;$B39F9B   |
 	BEQ CODE_B39FD4				;$B39F9E   |
@@ -4260,7 +4261,7 @@ endif						;	   |
 	BPL .return				;$B3A094   | If not, return
 	LDA animal_type				;$B3A096   | Else get current animal ID
 	BEQ .despawn_standalone_animal		;$B3A098   | If it doesn't exist its a standalone animal
-	LDA #$0019				;$B3A09A   |
+	LDA #!player_interaction_19		;$B3A09A   |
 	JSL set_player_interaction_global	;$B3A09D   | Else set player interaction to "transform animal into item"
 	BCS .return				;$B3A0A1   |
 	LDX current_sprite			;$B3A0A3   | Get sign sprite
@@ -4625,7 +4626,7 @@ level_goal_main:
 ..dont_drop_prize:				;	   |
 	LDA #$02B4				;$B3A2EB   |
 	JSL set_sprite_animation		;$B3A2EE   | Play level_target_trigger animation
-	LDA #$002A				;$B3A2F2   |
+	LDA #!player_interaction_2A		;$B3A2F2   |
 	JSL set_player_interaction_global	;$B3A2F5   | Set player interaction to "hitting goal target"
 	BCS ...return				;$B3A2F9   |
 	LDX current_sprite			;$B3A2FB   | Get goal sprite
@@ -6700,7 +6701,7 @@ CODE_B3B1FE:					;	   |
 	RTS					;$B3B218  /
 
 CODE_B3B219:
-	LDA #$001E				;$B3B219  \
+	LDA #!player_interaction_1E		;$B3B219  \
 	CMP $0A82				;$B3B21C   |
 	CLC					;$B3B21F   |
 	BNE CODE_B3B231				;$B3B220   |
@@ -10562,18 +10563,18 @@ CODE_B3CDC0:
 CODE_B3CDDF:
 	JSR CODE_B3CF7F				;$B3CDDF  \
 	STZ $0AE8				;$B3CDE2   |
-	LDA #$001B				;$B3CDE5   |
+	LDA #!player_interaction_1B		;$B3CDE5   |
 	JSL set_player_interaction_global	;$B3CDE8   |
 	JML [$05A9]				;$B3CDEC  /
 
 CODE_B3CDEF:
-	LDA #$0029				;$B3CDEF  \
+	LDA #!player_interaction_29		;$B3CDEF  \
 	JSL set_player_interaction_global	;$B3CDF2   |
 	JSL delete_sprite_handle_deallocation	;$B3CDF6   |
 	JML [$05A9]				;$B3CDFA  /
 
 CODE_B3CDFD:
-	LDA #$0014				;$B3CDFD  \
+	LDA #!player_interaction_14		;$B3CDFD  \
 	JSL set_player_interaction_global	;$B3CE00   |
 	BCS CODE_B3CE48				;$B3CE04   |
 	LDX current_sprite			;$B3CE06   |
@@ -10796,7 +10797,7 @@ CODE_B3CFD6:					;	   |
 
 CODE_B3CFE6:
 	LDA $0A82				;$B3CFE6  \
-	CMP #$0013				;$B3CFE9   |
+	CMP #!player_interaction_13		;$B3CFE9   |
 	BEQ CODE_B3D006				;$B3CFEC   |
 	LDY active_kong_sprite			;$B3CFEE   |
 	LDA $002E,y				;$B3CFF1   |
@@ -12101,7 +12102,7 @@ clapper_sprite_code:
 	LDX current_sprite			;$B3D99D  \ \
 	LDA $46,x				;$B3D99F   | | Restore the previously copied OAM properties
 	STA $12,x				;$B3D9A1   |/
-	LDA #$001E				;$B3D9A3   |\
+	LDA #!player_interaction_1E		;$B3D9A3   |\
 	CMP $0A82				;$B3D9A6   |/ Check if the kong is being knocked back
 	BEQ .kong_knocked_back			;$B3D9A9   |\ If kong is being knocked back
 	BRA .set_clapping_animation		;$B3D9AB  /_/ Play clapping animation
@@ -12184,7 +12185,7 @@ CODE_B3DA25:					;	   |
 	LDA.l DATA_B896B7,x			;$B3DA34   |
 	AND #$0004				;$B3DA38   |
 	BNE CODE_B3DA46				;$B3DA3B   |
-	LDA #$000C				;$B3DA3D   |
+	LDA #!player_interaction_0C		;$B3DA3D   |
 	JSL set_player_interaction_global	;$B3DA40   |
 	BRA CODE_B3DA4C				;$B3DA44  /
 
@@ -12641,7 +12642,7 @@ CODE_B3DD00:
 CODE_B3DD21:
 	LDX current_sprite			;$B3DD21  \
 	INC $2E,x				;$B3DD23   |
-	LDA #$0027				;$B3DD25   |
+	LDA #!player_interaction_27		;$B3DD25   |
 	JSL set_player_interaction_global	;$B3DD28   |
 	BCS CODE_B3DD35				;$B3DD2C   |
 	LDX current_sprite			;$B3DD2E   |
@@ -12666,7 +12667,7 @@ CODE_B3DD48:
 
 CODE_B3DD54:
 	INC $2E,x				;$B3DD54  \
-	LDA #$0028				;$B3DD56   |
+	LDA #!player_interaction_28		;$B3DD56   |
 	JSL set_player_interaction_global	;$B3DD59   |
 	JSR CODE_B3DE26				;$B3DD5D   |
 	JSR CODE_B3DE0A				;$B3DD60   |
@@ -12938,7 +12939,7 @@ CODE_B3DF9E:					;	   |
 	JMP CODE_B3D916				;$B3DF9E  /
 
 CODE_B3DFA1:
-	LDA #$002B				;$B3DFA1  \
+	LDA #!player_interaction_2B		;$B3DFA1  \
 	JSL set_player_interaction_global	;$B3DFA4   |
 	BCS CODE_B3DFBD				;$B3DFA8   |
 	LDA #CODE_B3E1E2			;$B3DFAA   |
@@ -12966,7 +12967,7 @@ CODE_B3DFDA:					;	   |
 	JMP CODE_B3D916				;$B3DFDA  /
 
 CODE_B3DFDD:
-	LDA #$002B				;$B3DFDD  \
+	LDA #!player_interaction_2B		;$B3DFDD  \
 	JSL set_player_interaction_global	;$B3DFE0   |
 	BCS CODE_B3DFF9				;$B3DFE4   |
 	LDA #CODE_B3E2F4			;$B3DFE6   |
@@ -13553,7 +13554,7 @@ CODE_B3E413:
 	ORA #$0300				;$B3E41F   |
 	STA $091B				;$B3E422   |
 	JSL CODE_BB8C19				;$B3E425   |
-	LDA #$0025				;$B3E429   |
+	LDA #!player_interaction_25		;$B3E429   |
 	JSL set_player_interaction_global	;$B3E42C   |
 	BCS CODE_B3E43D				;$B3E430   |
 	LDX active_kong_sprite			;$B3E432   |
@@ -13586,7 +13587,7 @@ CODE_B3E45B:
 	ORA #$0200				;$B3E46A   |
 	STA $091B				;$B3E46D   |
 	JSL CODE_BB8C19				;$B3E470   |
-	LDA #$0025				;$B3E474   |
+	LDA #!player_interaction_25		;$B3E474   |
 	JSL set_player_interaction_global	;$B3E477   |
 	BCS CODE_B3E488				;$B3E47B   |
 	LDX active_kong_sprite			;$B3E47D   |
@@ -15100,7 +15101,7 @@ CODE_B3EF0E:					;	   |
 	CMP inactive_kong_sprite		;$B3EF10   |
 	BEQ CODE_B3EF6A				;$B3EF13   |
 CODE_B3EF15:					;	   |
-	LDA #$0010				;$B3EF15   |
+	LDA #!player_interaction_10		;$B3EF15   |
 	JSL set_player_interaction_global	;$B3EF18   |
 	BCS CODE_B3EF44				;$B3EF1C   |
 	LDA #CODE_B3EF84			;$B3EF1E   |
@@ -15141,7 +15142,7 @@ CODE_B3EF5D:
 	BRL CODE_B3EF15				;$B3EF67  /
 
 CODE_B3EF6A:
-	LDA #$000F				;$B3EF6A  \
+	LDA #!player_interaction_0F		;$B3EF6A  \
 	JSL set_player_interaction_global	;$B3EF6D   |
 	BCS CODE_B3EF44				;$B3EF71   |
 	LDA #CODE_B3F069			;$B3EF73   |

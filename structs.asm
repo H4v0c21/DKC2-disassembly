@@ -66,13 +66,13 @@ struct kong_control $0000
 	.input_held:		skip 2	;04 Copy of the active players inputs that are pressed or held down
 	.fast_flag:		skip 2	;06 04 if a direction was held with Y
 	.gravity_force:		skip 2	;08 Gravity force
-	.max_fall_velocity:	skip 2	;0A Terminal velocity
+	.max_fall_speed:	skip 2	;0A Terminal velocity
 	.unknown_0C:		skip 2	;0C Appears to be used for dixie, something to do with rolling/gliding, checked by animation code
 	.roll_speed:		skip 2	;0E Roll speed
 	.roll_event_time:	skip 2	;10 A record of the time that a roll was triggered
 	.jump_event_time:	skip 2	;12 A record of the time that a jump was triggered
 	.flash_timer:		skip 2	;14 Invincibility flash timer
-	.invincibility_timer:	skip 2	;16 Invincibility timer
+	.invincible_timer:	skip 2	;16 Invincibility timer
 	.input_held_y_event:	skip 2	;18 A record of the held input state when Y was pressed
 	.y_press_time:		skip 2	;1A A record of the latest time that Y was pressed
 	.y_old_press_time:	skip 2	;1C A record of the previous time that Y was pressed

@@ -1692,7 +1692,7 @@ CODE_BEC41D:
 	BRL CODE_BEBEA3				;$BEC41D  /
 
 CODE_BEC420:
-	LDA #$000E				;$BEC420  \
+	LDA #!player_interaction_0E		;$BEC420  \
 	JSL set_player_interaction_global	;$BEC423   |
 	BCS CODE_BEC43F				;$BEC427   |
 	LDA #$0560				;$BEC429   |
@@ -1709,7 +1709,7 @@ CODE_BEC43F:
 	BRL CODE_BEBEA3				;$BEC43F  /
 
 CODE_BEC442:
-	LDA #$0013				;$BEC442  \
+	LDA #!player_interaction_13		;$BEC442  \
 	JSL set_player_interaction_global	;$BEC445   |
 	LDX current_sprite			;$BEC449   |
 	LDY $6A					;$BEC44B   |
@@ -1730,10 +1730,10 @@ CODE_BEC452:
 	CMP #$5004				;$BEC468   |
 	BEQ CODE_BEC4B7				;$BEC46B   |
 CODE_BEC46D:					;	   |
-	LDY #$0020				;$BEC46D   |
+	LDY #!player_interaction_20		;$BEC46D   |
 	CPX inactive_kong_sprite		;$BEC470   |
 	BEQ CODE_BEC485				;$BEC473   |
-	LDY #$0023				;$BEC475   |
+	LDY #!player_interaction_23		;$BEC475   |
 	LDA $08C2				;$BEC478   |
 	AND #$4000				;$BEC47B   |
 	BNE CODE_BEC485				;$BEC47E   |
@@ -1777,7 +1777,7 @@ CODE_BEC4BA:
 	RTS					;$BEC4C7  /
 
 CODE_BEC4C8:
-	LDA #$0028				;$BEC4C8  \
+	LDA #!player_interaction_28		;$BEC4C8  \
 	JSL set_player_interaction_global	;$BEC4CB   |
 	LDA #$0003				;$BEC4CF   |
 	STA $0A36				;$BEC4D2   |
@@ -1792,7 +1792,7 @@ CODE_BEC4D6:
 	LDA $09F5				;$BEC4E0   |
 	BIT #$0001				;$BEC4E3   |
 	BEQ CODE_BEC4EF				;$BEC4E6   |
-	LDA #$0002				;$BEC4E8   |
+	LDA #!player_interaction_02		;$BEC4E8   |
 	STA $32,x				;$BEC4EB   |
 	SEC					;$BEC4ED   |
 	RTS					;$BEC4EE  /
@@ -2996,7 +2996,7 @@ CODE_BECD7A:
 	STZ $42,x				;$BECD9B   |
 	LDA $06,x				;$BECD9D   |
 	STA $38,x				;$BECD9F   |
-	LDA #$0021				;$BECDA1   |
+	LDA #!player_interaction_21		;$BECDA1   |
 	JSL set_player_interaction_global	;$BECDA4   |
 	BCC CODE_BECDB3				;$BECDA8   |
 	JMP CODE_BEB849				;$BECDAA  /
@@ -3415,7 +3415,7 @@ CODE_BED0D4:					;	   |
 	TYA					;$BED0E3   |
 	ORA #$8000				;$BED0E4   |
 	STA $42,x				;$BED0E7   |
-	LDA #$0016				;$BED0E9   |
+	LDA #!player_interaction_16		;$BED0E9   |
 	JSL set_player_interaction_global	;$BED0EC   |
 	BCS CODE_BED0F6				;$BED0F0   |
 	LDX current_sprite			;$BED0F2   |
@@ -4403,7 +4403,7 @@ CODE_BED81B:
 	BEQ CODE_BED887				;$BED83A   |
 	CMP #$0021				;$BED83C   |
 	BEQ CODE_BED887				;$BED83F   |
-	LDA #$0015				;$BED841   |
+	LDA #!player_interaction_15		;$BED841   |
 	JSL set_player_interaction_global	;$BED844   |
 	BCS CODE_BED887				;$BED848   |
 	STX $0A86				;$BED84A   |
@@ -4415,7 +4415,7 @@ CODE_BED81B:
 	RTS					;$BED858  /
 
 CODE_BED859:
-	LDA #$0015				;$BED859  \
+	LDA #!player_interaction_15		;$BED859  \
 	JSL set_player_interaction_global	;$BED85C   |
 	BCS CODE_BED887				;$BED860   |
 	STX $0A86				;$BED862   |
@@ -4466,7 +4466,7 @@ CODE_BED8B5:					;	   |
 	LDY inactive_kong_sprite		;$BED8B5   |
 	JSL CODE_BEBDC1				;$BED8B8   |
 	BCC CODE_BED887				;$BED8BC   |
-	LDA #$0015				;$BED8BE   |
+	LDA #!player_interaction_15		;$BED8BE   |
 	JSL set_player_interaction_global	;$BED8C1   |
 	BCS CODE_BED887				;$BED8C5   |
 	STX $0A86				;$BED8C7   |
@@ -4775,7 +4775,7 @@ CODE_BEDB50:
 	LDA $42,x				;$BEDB64   |
 	DEC A					;$BEDB66   |
 	BMI CODE_BEDB78				;$BEDB67   |
-	LDY #$0029				;$BEDB69   |
+	LDY #!player_interaction_29		;$BEDB69   |
 	JSR CODE_BEC4BA				;$BEDB6C   |
 	LDX current_sprite			;$BEDB6F   |
 	BCS CODE_BEDB78				;$BEDB71   |
@@ -4841,7 +4841,7 @@ CODE_BEDBE2:
 	SBC $0022,y				;$BEDBE8   |
 	CMP #$0010				;$BEDBEB   |
 	BPL CODE_BEDC2A				;$BEDBEE   |
-	LDA #$0016				;$BEDBF0   |
+	LDA #!player_interaction_16		;$BEDBF0   |
 	JSL set_player_interaction_global	;$BEDBF3   |
 	BCS CODE_BEDC2A				;$BEDBF7   |
 	STZ $0D5E				;$BEDBF9   |
@@ -7144,7 +7144,7 @@ CODE_BEEC23:					;	   |
 CODE_BEEC2E:
 	JSR CODE_BED92E				;$BEEC2E  \
 	BCC CODE_BEEC3C				;$BEEC31   |
-	LDA #$0022				;$BEEC33   |
+	LDA #!player_interaction_22		;$BEEC33   |
 	JSL set_player_interaction_global	;$BEEC36   |
 	BCS CODE_BEEC43				;$BEEC3A   |
 CODE_BEEC3C:					;	   |

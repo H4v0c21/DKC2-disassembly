@@ -112,7 +112,7 @@ returning_entrance_number = $05A5
 debug_flags = $05BB
 
 cheat_enable_flags = $060B
-
+current_game_mode = $060D
 active_controller = $060F
 file_select_selection = $0611
 file_select_action = $0613

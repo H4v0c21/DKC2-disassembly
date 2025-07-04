@@ -1750,7 +1750,7 @@ CODE_B9DA81:
 	STA level_destination_number		;$B9DA83   |
 	LDA $08A6				;$B9DA86   |
 	STA destination_level_entrance_number	;$B9DA89   |
-	LDA #$002D				;$B9DA8C   |
+	LDA #!player_interaction_2D		;$B9DA8C   |
 	JSL set_player_interaction_global	;$B9DA8F   |
 	RTS					;$B9DA93  /
 
@@ -4404,7 +4404,7 @@ CODE_B9EB23:					;	   |
 	RTS					;$B9EB23  /
 
 set_krochead_bounce_interaction:
-	LDA #$0009				;$B9EB24  \
+	LDA #!player_interaction_09		;$B9EB24  \
 	JSL set_player_interaction_global	;$B9EB27   |
 	RTS					;$B9EB2B  /
 
@@ -4425,7 +4425,7 @@ CODE_B9EB39:
 	PHB					;$B9EB47   |
 	PHK					;$B9EB48   |
 	PLB					;$B9EB49   |
-	LDA #$000E				;$B9EB4A   |
+	LDA #!player_interaction_0E		;$B9EB4A   |
 	JSL set_player_interaction_global	;$B9EB4D   |
 	PLB					;$B9EB51   |
 	BCS CODE_B9EB93				;$B9EB52   |
@@ -5032,7 +5032,7 @@ CODE_B9EF22:
 	RTS					;$B9EF24  /
 
 set_hit_by_klubba_interaction:
-	LDA #$0026				;$B9EF25  \
+	LDA #!player_interaction_26		;$B9EF25  \
 	JSL set_player_interaction_global	;$B9EF28   |
 	RTS					;$B9EF2C  /
 
@@ -5289,7 +5289,7 @@ CODE_B9F06A:
 
 set_celebrate_interaction_and_clear_level:
 	JSL set_current_level_as_cleared	;$B9F06F  \
-	LDA #$0027				;$B9F073   |
+	LDA #!player_interaction_27		;$B9F073   |
 	JSL set_player_interaction_global	;$B9F076   |
 	RTS					;$B9F07A  /
 

@@ -599,7 +599,7 @@ CODE_BA94EF:					;	   |
 	DEC $0757				;$BA94EF   |
 	BNE CODE_BA94FF				;$BA94F2   |
 	JSL set_current_level_as_cleared	;$BA94F4   |
-	LDA #$0027				;$BA94F8   |
+	LDA #!player_interaction_27		;$BA94F8   |
 	JSL set_player_interaction_global	;$BA94FB   |
 CODE_BA94FF:					;	   |
 	BRL CODE_BA926C				;$BA94FF  /
@@ -1919,7 +1919,7 @@ CODE_BAA099:					;	   |
 	BCC CODE_BAA0AF				;$BAA09F   |
 	DEC $065A				;$BAA0A1   |
 	JSL set_current_level_as_cleared	;$BAA0A4   |
-	LDA #$0027				;$BAA0A8   |
+	LDA #!player_interaction_27		;$BAA0A8   |
 	JSL set_player_interaction_global	;$BAA0AB   |
 CODE_BAA0AF:					;	   |
 	BRL CODE_BA9C06				;$BAA0AF  /

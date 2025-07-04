@@ -235,7 +235,7 @@ CODE_B681C7:					;	   |
 	BIT #$0001				;$B681E1   |
 	BEQ CODE_B681FE				;$B681E4   |
 	STZ $074D				;$B681E6   |
-	LDA #$000B				;$B681E9   |
+	LDA #!player_interaction_0B		;$B681E9   |
 	JSL set_player_interaction_global	;$B681EC   |
 	BCS CODE_B681FE				;$B681F0   |
 	LDA.l $000652				;$B681F2   |
@@ -518,7 +518,7 @@ CODE_B68446:					;	   |
 	BIT #$0080				;$B68456   |
 	BNE CODE_B68488				;$B68459   |
 	JSR CODE_B6800D				;$B6845B   |
-	LDA #$0026				;$B6845E   |
+	LDA #!player_interaction_26		;$B6845E   |
 	JSL set_player_interaction_global	;$B68461   |
 	BCS CODE_B68488				;$B68465   |
 	LDX $0654				;$B68467   |
@@ -1071,7 +1071,7 @@ CODE_B68C6B:
 	DEC $0747				;$B68C71   |
 	BNE CODE_B68C81				;$B68C74   |
 	JSL set_current_level_as_cleared	;$B68C76   |
-	LDA #$0027				;$B68C7A   |
+	LDA #!player_interaction_27		;$B68C7A   |
 	JSL set_player_interaction_global	;$B68C7D   |
 CODE_B68C81:					;	   |
 	RTS					;$B68C81  /
@@ -1848,7 +1848,7 @@ CODE_B69419:					;	   |
 	BIT #$0080				;$B69429   |
 	BNE CODE_B6945B				;$B6942C   |
 	JSR CODE_B6800D				;$B6942E   |
-	LDA #$0026				;$B69431   |
+	LDA #!player_interaction_26		;$B69431   |
 	JSL set_player_interaction_global	;$B69434   |
 	BCS CODE_B6945B				;$B69438   |
 	LDX $0654				;$B6943A   |
@@ -3121,7 +3121,7 @@ CODE_B69F32:
 	LDA $2E,x				;$B69F3D   |
 	BIT #$0400				;$B69F3F   |
 	BEQ CODE_B69F71				;$B69F42   |
-	LDA #$0024				;$B69F44   |
+	LDA #!player_interaction_24		;$B69F44   |
 	JSL set_player_interaction_global	;$B69F47   |
 	BCS CODE_B69F6E				;$B69F4B   |
 	LDA #$0013				;$B69F4D   |
@@ -6774,7 +6774,7 @@ CODE_B6C153:
 	LDA $0030,y				;$B6C167   |
 	BIT #$0080				;$B6C16A   |
 	BNE CODE_B6C186				;$B6C16D   |
-	LDA #$001F				;$B6C16F   |
+	LDA #!player_interaction_1F		;$B6C16F   |
 	JSL set_player_interaction_global	;$B6C172   |
 	BCS CODE_B6C186				;$B6C176   |
 	LDX $0654				;$B6C178   |
