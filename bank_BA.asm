@@ -278,7 +278,7 @@ CODE_BA924E:					;	   |
 CODE_BA9269:					;	   |
 	STZ $071F				;$BA9269   |
 CODE_BA926C:					;	   |
-	JSL CODE_B9D100				;$BA926C   |
+	JSL process_sprite_animation		;$BA926C   |
 	PLB					;$BA9270   |
 	JML [$05A9]				;$BA9271  /
 
@@ -324,7 +324,7 @@ CODE_BA92AE:					;	   |
 	STA $0044,y				;$BA92DA   |
 	LDA $000C,x				;$BA92DD   |
 	PHX					;$BA92E0   |
-	JSL CODE_B9D09B				;$BA92E1   |
+	JSL set_alt_sprite_animation		;$BA92E1   |
 	PLA					;$BA92E5   |
 	CLC					;$BA92E6   |
 	ADC #$000E				;$BA92E7   |
@@ -642,7 +642,7 @@ CODE_BA9540:
 	LDX alternate_sprite			;$BA9558   |
 	STX $0658				;$BA955A   |
 	LDA #$023F				;$BA955D   |
-	JSL CODE_B9D09B				;$BA9560   |
+	JSL set_alt_sprite_animation		;$BA9560   |
 	LDA #!global_sprite_palette		;$BA9564   |
 	JSL request_sprite_palette_global	;$BA9567   |
 	LDY alternate_sprite			;$BA956B   |
@@ -665,7 +665,7 @@ CODE_BA9540:
 	LDX alternate_sprite			;$BA9596   |
 	STX $0658				;$BA9598   |
 	LDA #$023E				;$BA959B   |
-	JSL CODE_B9D09B				;$BA959E   |
+	JSL set_alt_sprite_animation		;$BA959E   |
 	LDA #!coins_sprite_palette		;$BA95A2   |
 	JSL request_sprite_palette_global	;$BA95A5   |
 	LDY alternate_sprite			;$BA95A9   |
@@ -743,7 +743,7 @@ CODE_BA960F:
 	LDA.l $000654				;$BA9653   |
 	STA alternate_sprite			;$BA9657   |
 	LDA #$02A1				;$BA9659   |
-	JSL CODE_B9D09B				;$BA965C   |
+	JSL set_alt_sprite_animation		;$BA965C   |
 	LDA #$047F				;$BA9660   |
 	JSL queue_sound_effect			;$BA9663   |
 	LDY #!special_sprite_spawn_id_0196	;$BA9667   |
@@ -944,7 +944,7 @@ king_zing_ring_zinger_sprite_code:
 	LDY.w #DATA_FF16BA			;$BA980F   |
 	JSL spawn_special_sprite_address	;$BA9812   |
 	LDA #$0242				;$BA9816   |
-	JSL CODE_B9D09B				;$BA9819   |
+	JSL set_alt_sprite_animation		;$BA9819   |
 	LDX alternate_sprite			;$BA981D   |
 	INC $02,x				;$BA981F   |
 	LDA.l $0006A5				;$BA9821   |
@@ -985,7 +985,7 @@ king_zing_ring_zinger_sprite_code:
 
 ..CODE_BA987A:
 	JSR .CODE_BA9884			;$BA987A  \
-	JSL CODE_B9D100				;$BA987D   |
+	JSL process_sprite_animation		;$BA987D   |
 	JML [$05A9]				;$BA9881  /
 
 .CODE_BA9884:
@@ -1006,7 +1006,7 @@ king_zing_ring_zinger_sprite_code:
 
 .state_3:
 	JSL process_current_movement		;$BA98A5  \
-	JSL CODE_B9D100				;$BA98A9   |
+	JSL process_sprite_animation		;$BA98A9   |
 	JSL check_if_sprite_offscreen_global	;$BA98AD   |
 	BCC ..return				;$BA98B1   |
 	LDX current_sprite			;$BA98B3   |
@@ -1101,7 +1101,7 @@ king_zing_smoke_effect_sprite_code:
 	BRA .return_skip_animation		;$BA99A0  /
 
 .return:
-	JSL CODE_B9D100				;$BA99A2  \
+	JSL process_sprite_animation		;$BA99A2  \
 .return_skip_animation:				;	   |
 	JML [$05A9]				;$BA99A6  /
 
@@ -1210,7 +1210,7 @@ CODE_BA9A8D:					;	   |
 	LDX current_sprite			;$BA9A90   |
 	JSL set_sprite_palette_global		;$BA9A92   |
 CODE_BA9A96:					;	   |
-	JSL CODE_B9D100				;$BA9A96   | Process animation
+	JSL process_sprite_animation		;$BA9A96   | Process animation
 	PLB					;$BA9A9A   |
 	JML [$05A9]				;$BA9A9B  / Done processing sprite
 
@@ -1391,7 +1391,7 @@ kreepy_krows_body_sprite_code:
 	JSR CODE_BA9D02				;$BA9C00   |
 	JSR CODE_BA9E91				;$BA9C03   |
 CODE_BA9C06:					;	   |
-	JSL CODE_B9D100				;$BA9C06   |
+	JSL process_sprite_animation		;$BA9C06   |
 	PLB					;$BA9C0A   |
 	JML [$05A9]				;$BA9C0B  /
 
@@ -1430,7 +1430,7 @@ kreepy_krows_eggs_sprite_code:
 	JSL interpolate_y_velocity_global	;$BA9C51   |
 	JSL apply_position_from_velocity_global	;$BA9C55   |
 	JSL delete_sprite_if_offscreen		;$BA9C59   |
-	JSL CODE_B9D100				;$BA9C5D   |
+	JSL process_sprite_animation		;$BA9C5D   |
 .return:					;	   |
 	JML [$05A9]				;$BA9C61  /
 
@@ -1452,7 +1452,7 @@ CODE_BA9C64:
 	LDY $0656				;$BA9C85   |
 	LDA #$01FC				;$BA9C88   |
 	STY alternate_sprite			;$BA9C8B   |
-	JSL CODE_B9D09B				;$BA9C8D   |
+	JSL set_alt_sprite_animation		;$BA9C8D   |
 	LDA #DATA_BAA0B8			;$BA9C91   |
 	STA $000658				;$BA9C94   |
 	LDA #$000A				;$BA9C98   |
@@ -2112,7 +2112,7 @@ kreepy_krows_head_sprite_code:
 	STA $04,x				;$BAA217   |
 .return:					;	   |
 	LDX current_sprite			;$BAA219   |
-	JSL CODE_B9D100				;$BAA21B   |
+	JSL process_sprite_animation		;$BAA21B   |
 	JML [$05A9]				;$BAA21F  /
 
 
@@ -3122,7 +3122,7 @@ CODE_BAB129:					;	   |
 
 kore_sparkle_sprite_code:
 	JSL apply_position_from_velocity_global	;$BAB12C  \
-	JSL CODE_B9D100				;$BAB130   | process animation
+	JSL process_sprite_animation		;$BAB130   | process animation
 	JSL delete_sprite_if_offscreen		;$BAB134   | despawn sprite if offscreen
 	JML [$05A9]				;$BAB138  / done processing sprite
 
@@ -3179,7 +3179,7 @@ sparkle_sprite_code:
 	STA $42,x				;$BAB1AB   |
 	LDA $000A,y				;$BAB1AD   |
 	STA $44,x				;$BAB1B0   |
-	JSL CODE_B9D100				;$BAB1B2   |
+	JSL process_sprite_animation		;$BAB1B2   |
 	JML [$05A9]				;$BAB1B6  /
 
 CODE_BAB1B9:
@@ -4090,7 +4090,7 @@ krool_water_drips_sprite_code:
 
 
 .dummy_animated_state:
-	JSL CODE_B9D100				;$BAC0F3  \ process animations
+	JSL process_sprite_animation		;$BAC0F3  \ process animations
 	JML [$05A9]				;$BAC0F7  / done processing sprite
 
 .state_1:
@@ -4101,7 +4101,7 @@ krool_water_drips_sprite_code:
 	LDA $42,x				;$BAC105   |
 	LDY alternate_sprite			;$BAC107   |
 	STA $0042,y				;$BAC109   |
-	JSL CODE_B9D09B				;$BAC10C   |
+	JSL set_alt_sprite_animation		;$BAC10C   |
 	JML [$05A9]				;$BAC110  /
 
 .state_2:
@@ -4116,7 +4116,7 @@ krool_water_drips_sprite_code:
 	CMP #$01C0				;$BAC125   |
 	BCC .return				;$BAC128   |
 	STZ $2E,x				;$BAC12A   |
-	JSL CODE_B9D100				;$BAC12C   | process animations
+	JSL process_sprite_animation		;$BAC12C   | process animations
 .return:					;	   |
 	JML [$05A9]				;$BAC130  / done processing sprite
 
@@ -4178,12 +4178,12 @@ krool_fish_sprite_code:
 	BEQ .return				;$BAC1A9   | if timer finished, return
 	DEC $46,x				;$BAC1AB   | else count it down
 .return:					;	   |
-	JSL CODE_B9D100				;$BAC1AD   | process animation
+	JSL process_sprite_animation		;$BAC1AD   | process animation
 	JML [$05A9]				;$BAC1B1  / done processing sprite
 
 .fall_state:
 	JSR .interpolate_fish_velocities	;$BAC1B4  \
-	JSL CODE_B9D100				;$BAC1B7   | process animation
+	JSL process_sprite_animation		;$BAC1B7   | process animation
 	JSL delete_sprite_if_offscreen		;$BAC1BB   | kill sprite if offscreen
 	JML [$05A9]				;$BAC1BF  / done processing sprite
 
@@ -4257,7 +4257,7 @@ kong_npc_sprite_code:
 .CODE_BAC24C:					;	   |
 	STA $0A,x				;$BAC24C   |
 .return:					;	   |
-	JSL CODE_B9D100				;$BAC24E   |
+	JSL process_sprite_animation		;$BAC24E   |
 	PLB					;$BAC252   |
 	JML [$05A9]				;$BAC253  /
 
@@ -4393,7 +4393,7 @@ scroll_and_float_barrel_sprite_code:
 	PLA					;$BAC32F   |
 	JSL interpolate_y_velocity_global	;$BAC330   |
 	JSL apply_position_from_velocity_global	;$BAC334   |
-	JSL CODE_B9D100				;$BAC338   | Process animation
+	JSL process_sprite_animation		;$BAC338   | Process animation
 	LDA level_number			;$BAC33C   |
 	CMP #!level_pirate_panic_k_rools_cabin	;$BAC33E   | Check if we're in k.rool's cabin
 	BEQ .handle_state			;$BAC341   | If yes handle states

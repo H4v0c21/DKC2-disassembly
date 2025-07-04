@@ -8850,7 +8850,7 @@ CODE_BCFAFD:					;	   |
 	PLD					;$BCFB06   |
 	LDX $0D5E				;$BCFB07   |
 	BNE CODE_BCFB1D				;$BCFB0A   |
-	LDA $6E					;$BCFB0C   |
+	LDA animal_type				;$BCFB0C   |
 	BEQ CODE_BCFB1C				;$BCFB0E   |
 	LDX current_player_mount		;$BCFB10   |
 	BEQ CODE_BCFB1C				;$BCFB12   |
@@ -9106,7 +9106,7 @@ CODE_BCFC59:					;	   |
 
 ;Inactive kong collision routine
 CODE_BCFCA5:
-	STA $EB					;$BCFCA5  \
+	STA collision_mask_result		;$BCFCA5  \
 	LDX inactive_kong_sprite		;$BCFCA7   |
 	STX $6A					;$BCFCAA   |
 	LDY #$0018				;$BCFCAC   |
@@ -9116,7 +9116,7 @@ CODE_BCFCA5:
 
 ;Active kong collision routine
 CODE_BCFCB5:
-	STA $EB					;$BCFCB5  \
+	STA collision_mask_result		;$BCFCB5  \
 	LDX active_kong_sprite			;$BCFCB7   |
 	STX $6A					;$BCFCBA   |
 	LDY #$0000				;$BCFCBC   |
@@ -9125,7 +9125,7 @@ CODE_BCFCB5:
 	RTL					;$BCFCC4  /
 
 CODE_BCFCC5:
-	LDA $EB					;$BCFCC5  \
+	LDA collision_mask_result		;$BCFCC5  \
 	BEQ CODE_BCFCDB				;$BCFCC7   |
 	LDX active_kong_sprite			;$BCFCC9   |
 	CPX $6A					;$BCFCCC   |
@@ -9142,7 +9142,7 @@ CODE_BCFCDB:
 
 CODE_BCFCDD:
 	STZ $09F5				;$BCFCDD  \
-	LDA $EB					;$BCFCE0   |
+	LDA collision_mask_result		;$BCFCE0   |
 	AND $30,x				;$BCFCE2   |
 	BEQ CODE_BCFD56				;$BCFCE4   |
 	LDA $09EF				;$BCFCE6   |
@@ -9190,7 +9190,7 @@ CODE_BCFD50:					;	   |
 	LDA #$0400				;$BCFD50   |
 	TSB $09F5				;$BCFD53   |
 CODE_BCFD56:					;	   |
-	STZ $EB					;$BCFD56   |
+	STZ collision_mask_result		;$BCFD56   |
 	LDA $09F5				;$BCFD58   |
 	CMP #$0001				;$BCFD5B   |
 	RTL					;$BCFD5E  /
@@ -9201,7 +9201,7 @@ no_contact_return:
 
 check_for_collision:
 	STZ $09F5				;$BCFD61  \ Clear previous collision event
-	LDA $EB					;$BCFD64   |
+	LDA collision_mask_result		;$BCFD64   |
 	AND $30,x				;$BCFD66   |
 	BEQ no_contact_return			;$BCFD68   |
 	LDA $09B7,y				;$BCFD6A   | Compare the right of the kong
@@ -9281,7 +9281,7 @@ CODE_BCFE07:
 ;$6A will contain the sprite that the calling sprite collided with
 
 CODE_BCFE0A:
-	STA $EB					;$BCFE0A  \
+	STA collision_mask_result		;$BCFE0A  \
 	LDA #main_sprite_table_end		;$BCFE0C   |
 	STA $6A					;$BCFE0F   |
 	LDA $09E3				;$BCFE11   |
@@ -9308,7 +9308,7 @@ CODE_BCFE0A:
 	LDA $00,x				;$BCFE3A   |\ Get sprite type
 	BEQ .next_sprite			;$BCFE3C   |/ If sprite doesn't exist skip to next sprite
 	LDA $30,x				;$BCFE3E   |\ Get interaction flags from potential target sprite
-	AND $EB					;$BCFE40   | | Compare to current sprites interaction flags
+	AND collision_mask_result		;$BCFE40   | | Compare to current sprites interaction flags
 	BEQ .next_sprite			;$BCFE42   |/ If the sprites can't interact then skip to next sprite
 	LDA $1A,x				;$BCFE44   |\
 	LSR A					;$BCFE46   | |
@@ -9450,7 +9450,7 @@ CODE_BCFF1B:
 ;probably exclusively used for platform sprites
 
 CODE_BCFF1D:
-	STA $EB					;$BCFF1D  \
+	STA collision_mask_result		;$BCFF1D  \
 	LDA #main_sprite_table_end		;$BCFF1F   |
 	STA $6A					;$BCFF22   |
 	LDA $09E3				;$BCFF24   |
@@ -9477,7 +9477,7 @@ CODE_BCFF38:					;	   |
 	LDA $00,x				;$BCFF4C   |
 	BEQ .next_sprite			;$BCFF4E   |
 	LDA $30,x				;$BCFF50   |
-	AND $EB					;$BCFF52   |
+	AND collision_mask_result		;$BCFF52   |
 	BEQ .next_sprite			;$BCFF54   |
 	LDA $0A,x				;$BCFF56   |
 	CMP $DB					;$BCFF58   |

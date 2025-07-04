@@ -41,6 +41,10 @@
 !animation_command_93 = $93
 !animation_command_94 = $94
 
+!dixie_animation_id_start = $00A3
+
+!default_animation_speed = $0100
+
 !boss_command_fly_to = $00
 !boss_command_01 = $01
 !boss_command_goto_or_reset = $02
@@ -1056,7 +1060,6 @@
 !animal_sprite_type_range_end		= $01A0
 
 !throwable_sprite_range_start           = $01A4
-
 
 !special_sprite_spawn_id_0000		= $0000
 !special_sprite_spawn_id_0002		= $0002

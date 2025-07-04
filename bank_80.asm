@@ -1384,7 +1384,7 @@ CODE_808D8A:
 	LDX alternate_sprite			;$808DB0   |
 	STX current_sprite			;$808DB2   |
 	LDA #$0004				;$808DB4   | load run animation
-	JSL CODE_B9D0B8				;$808DB7   | set kong animation
+	JSL set_anim_handle_dixie		;$808DB7   | set kong animation
 	LDA.l DATA_FF012A			;$808DBB   |
 	STA $16E0				;$808DBF   | set dixie's gravity constant
 	LDA.l DATA_FF012C			;$808DC2   |
@@ -1442,7 +1442,7 @@ CODE_808E29:
 	LDX alternate_sprite			;$808E35   |
 	STX current_sprite			;$808E37   |
 	LDA #$0001				;$808E39   |
-	JSL CODE_B9D0B8				;$808E3C   |
+	JSL set_anim_handle_dixie		;$808E3C   |
 	LDA.l DATA_FF0040			;$808E40   |
 	STA $16BA				;$808E44   |
 	LDA.l DATA_FF0042			;$808E47   |
@@ -1600,7 +1600,7 @@ CODE_808F6C:
 	STZ gameplay_frame_counter		;$808F86   |
 	STZ gameplay_frame_counter_high		;$808F88   |
 	STZ current_player_mount		;$808F8A   |
-	STZ $6E					;$808F8C   |
+	STZ animal_type				;$808F8C   |
 	STZ $08A6				;$808F8E   |
 	STZ $08AA				;$808F91   |
 	STZ $08AC				;$808F94   |
@@ -10848,12 +10848,12 @@ handle_fireworks:
 	LSR A					;$80E4FF   |
 	BCS .CODE_80E50A			;$80E500   |
 	LDA #$01BD				;$80E502   |
-	JSL CODE_B9D09B				;$80E505   | Set alternate sprite animation
+	JSL set_alt_sprite_animation		;$80E505   | Set alternate sprite animation
 	RTS					;$80E509  /
 
 .CODE_80E50A:
 	LDA #$01BE				;$80E50A  \
-	JSL CODE_B9D09B				;$80E50D   | Set alternate sprite animation
+	JSL set_alt_sprite_animation		;$80E50D   | Set alternate sprite animation
 	RTS					;$80E511  /
 
 fireworks_spawn_x_positions:
@@ -13301,7 +13301,7 @@ credits_dummy_sprite_code:
 	LDA $1A,x				;$80FA18   | Get graphic ID
 	CMP #$14C4				;$80FA1A   | Check if its the the skull cart
 	BEQ .check_despawn			;$80FA1D   | If yes, we're done
-	JSL CODE_B9D100				;$80FA1F   | Else process animation
+	JSL process_sprite_animation		;$80FA1F   | Else process animation
 	LDA active_frame_counter		;$80FA23   | Dead instruction
 	LDA $36,x				;$80FA25   | Get animation ID
 	CMP #$0196				;$80FA27   | Check if its zinger_idle
@@ -13344,7 +13344,7 @@ credits_npc_kong_sprite_code:
 	STY $44,x				;$80FA6A   | Update address
 	JSL set_sprite_animation		;$80FA6C   |
 .done:						;	   |
-	JSL CODE_B9D100				;$80FA70   | Process animation
+	JSL process_sprite_animation		;$80FA70   | Process animation
 	JSL delete_sprite_if_offscreen		;$80FA74   | Despawn sprite if offscreen
 	PLB					;$80FA78   | Restore DB
 	JML [$05A9]				;$80FA79  / Done processing sprite

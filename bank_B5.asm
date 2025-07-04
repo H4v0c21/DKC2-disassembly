@@ -5538,7 +5538,7 @@ CODE_B5C2DB:
 	LDA $00,x				;$B5C2F5   |
 	CMP #!sprite_dixie_kong+1		;$B5C2F7   |
 	BCS CODE_B5C30B				;$B5C2FA   |
-	LDA $6E					;$B5C2FC   |
+	LDA animal_type				;$B5C2FC   |
 	CMP #!sprite_squawks			;$B5C2FE   |
 	BEQ CODE_B5C30B				;$B5C301   |
 	BIT $24,x				;$B5C303   |
@@ -7281,7 +7281,7 @@ CODE_B5CDEE:					;	   |
 
 CODE_B5CDEF:
 	STX current_sprite			;$B5CDEF  \
-	JSL CODE_B9D100				;$B5CDF1   |
+	JSL process_sprite_animation		;$B5CDF1   |
 	RTS					;$B5CDF5  /
 
 	STX current_sprite			;$B5CDF6   |
@@ -9829,7 +9829,7 @@ CODE_B5E435:					;	   |
 
 CODE_B5E43E:
 	LDA current_player_mount		;$B5E43E  \
-	ORA $6E					;$B5E440   |
+	ORA animal_type				;$B5E440   |
 	CMP #$0001				;$B5E442   |
 	LDA $0AB6				;$B5E445   |
 	BCC CODE_B5E44B				;$B5E448   |

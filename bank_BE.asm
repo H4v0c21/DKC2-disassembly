@@ -67,7 +67,7 @@ DATA_BEB853:
 
 
 CODE_BEB86B:
-	JSL CODE_B9D100				;$BEB86B  \
+	JSL process_sprite_animation		;$BEB86B  \
 	JSL CODE_BCFB58				;$BEB86F   |
 	JSL CODE_BEBE6D				;$BEB873   |
 	BCS CODE_BEB87C				;$BEB877   |
@@ -129,7 +129,7 @@ CODE_BEB8B2:					;	   | |
 	JML [$05A9]				;$BEB8EC  / return from sprite code
 
 CODE_BEB8EF:
-	JSL CODE_B9D100				;$BEB8EF  \
+	JSL process_sprite_animation		;$BEB8EF  \
 	LDX current_sprite			;$BEB8F3   |
 	LDA $097D				;$BEB8F5   |
 	BNE CODE_BEB8FD				;$BEB8F8   |
@@ -211,7 +211,7 @@ CODE_BEB984:
 	LDX current_sprite			;$BEB984  \
 	CPX $097D				;$BEB986   |
 	BNE CODE_BEB97D				;$BEB989   |
-	JSL CODE_B9D100				;$BEB98B   |
+	JSL process_sprite_animation		;$BEB98B   |
 	JML [$05A9]				;$BEB98F  /
 
 CODE_BEB992:
@@ -252,7 +252,7 @@ CODE_BEB9D6:					;	   |
 	JML [$05A9]				;$BEB9E1  /
 
 CODE_BEB9E4:
-	JSL CODE_B9D100				;$BEB9E4  \
+	JSL process_sprite_animation		;$BEB9E4  \
 	JSL CODE_BCFB58				;$BEB9E8   |
 	JSL CODE_BEBE6D				;$BEB9EC   |
 	BCS CODE_BEB9F5				;$BEB9F0   |
@@ -325,7 +325,7 @@ CODE_BEBA5A:
 	JML [$05A9]				;$BEBA7A  /
 
 CODE_BEBA7D:
-	JSL CODE_B9D100				;$BEBA7D  \
+	JSL process_sprite_animation		;$BEBA7D  \
 	JSL CODE_BCFB58				;$BEBA81   |
 	JSL CODE_BEBE6D				;$BEBA85   |
 	BCC CODE_BEBA96				;$BEBA89   |
@@ -361,7 +361,7 @@ CODE_BEBAAA:
 	JML [$05A9]				;$BEBAB6  /
 
 CODE_BEBAB9:
-	JSL CODE_B9D100				;$BEBAB9  \
+	JSL process_sprite_animation		;$BEBAB9  \
 	JSL CODE_BCFB58				;$BEBABD   |
 	JSL CODE_BEBE6D				;$BEBAC1   |
 	BCS CODE_BEBACA				;$BEBAC5   |
@@ -414,7 +414,7 @@ CODE_BEBB1C:					;	   |
 	JML [$05A9]				;$BEBB1C  / return from sprite code
 
 CODE_BEBB1F:
-	JSL CODE_B9D100				;$BEBB1F  \
+	JSL process_sprite_animation		;$BEBB1F  \
 	JSL move_sprite_to_target_hud_position	;$BEBB23   |
 	JML [$05A9]				;$BEBB27  /
 
@@ -1505,7 +1505,7 @@ CODE_BEC2B1:
 
 CODE_BEC2C0:
 	LDX $6A					;$BEC2C0  \
-	LDA $6E					;$BEC2C2   |
+	LDA animal_type				;$BEC2C2   |
 	CMP #!sprite_enguarde			;$BEC2C4   |
 	BEQ CODE_BEC2D1				;$BEC2C7   |
 	JSR CODE_BEC141				;$BEC2C9   |
@@ -1571,7 +1571,7 @@ CODE_BEC33F:
 	BRL CODE_BEC52D				;$BEC342  /
 
 CODE_BEC345:
-	LDA $6E					;$BEC345  \
+	LDA animal_type				;$BEC345  \
 	CMP #!sprite_enguarde			;$BEC347   |
 	BEQ CODE_BEC34F				;$BEC34A   |
 	BRL CODE_BEC500				;$BEC34C  /
@@ -2881,7 +2881,7 @@ CODE_BECCB1:					;	   |
 	JML [$05A9]				;$BECCC1  /
 
 CODE_BECCC4:
-	JSL CODE_B9D100				;$BECCC4  \
+	JSL process_sprite_animation		;$BECCC4  \
 	JML [$05A9]				;$BECCC8  /
 
 CODE_BECCCB:
@@ -2891,7 +2891,7 @@ CODE_BECCCB:
 	JML [$05A9]				;$BECCD3  /
 
 CODE_BECCD6:
-	JSL CODE_B9D100				;$BECCD6  \
+	JSL process_sprite_animation		;$BECCD6  \
 	JML [$05A9]				;$BECCDA  /
 
 CODE_BECCDD:
@@ -2975,7 +2975,7 @@ CODE_BECD58:					;	   |
 
 CODE_BECD71:
 	BCS CODE_BECDAD				;$BECD71  \
-	JSL CODE_B9D100				;$BECD73   |
+	JSL process_sprite_animation		;$BECD73   |
 	JMP CODE_BEB849				;$BECD77  /
 
 CODE_BECD7A:
@@ -3048,7 +3048,7 @@ gate_barrel_sprite_code:
 	LDX $42,y				;$BECDF7   |
 	LDA $0044,y				;$BECDF9   |
 	JSL CODE_B3A3B4				;$BECDFC   |
-	JSL CODE_B9D100				;$BECE00   |
+	JSL process_sprite_animation		;$BECE00   |
 	JML [$05A9]				;$BECE04  /
 
 .state_1:
@@ -3056,7 +3056,7 @@ gate_barrel_sprite_code:
 	LDA #$0000				;$BECE0B   |
 	JSL CODE_BEBE6D				;$BECE0E   |
 	BCS ..collision_happened		;$BECE12   |
-	JSL CODE_B9D100				;$BECE14   |
+	JSL process_sprite_animation		;$BECE14   |
 	JMP CODE_BEB849				;$BECE18  /
 
 ..collision_happened:
@@ -3151,7 +3151,7 @@ skull_cart_sparks_sprite_code:
 	STA $44,x				;$BECEC8   |
 	JSR CODE_BECEE5				;$BECECA   |
 .state_1:					;	   |
-	JSL CODE_B9D100				;$BECECD   |
+	JSL process_sprite_animation		;$BECECD   |
 	LDA $00,x				;$BECED1   |
 	BEQ ..CODE_BECEDF			;$BECED3   |
 	LDA $42,x				;$BECED5   |
@@ -6171,7 +6171,7 @@ CODE_BEE4F1:					;	   |
 	JML [$05A9]				;$BEE4F1  /
 
 CODE_BEE4F4:
-	JSL CODE_B9D100				;$BEE4F4  \
+	JSL process_sprite_animation		;$BEE4F4  \
 	LDX current_sprite			;$BEE4F8   |
 	LDA $2F,x				;$BEE4FA   |
 	AND #$00FF				;$BEE4FC   |
@@ -6257,12 +6257,12 @@ CODE_BEE591:
 	LDA #$00				;$BEE593   |
 	STA $002F,y				;$BEE595   |
 	REP #$20				;$BEE598   |
-	JSL CODE_B9D100				;$BEE59A   |
+	JSL process_sprite_animation		;$BEE59A   |
 	JML [$05A9]				;$BEE59E  /
 
 CODE_BEE5A1:
 	JSL process_current_movement		;$BEE5A1  \
-	JSL CODE_B9D100				;$BEE5A5   |
+	JSL process_sprite_animation		;$BEE5A5   |
 	JSL delete_sprite_if_offscreen		;$BEE5A9   |
 	BCC CODE_BEE5B5				;$BEE5AD   |
 	LDA #$0002				;$BEE5AF   |
@@ -6372,7 +6372,7 @@ CODE_BEE680:
 	LDX current_sprite			;$BEE680  \
 	LDA $40,x				;$BEE682   |
 	PHA					;$BEE684   |
-	JSL CODE_B9D100				;$BEE685   |
+	JSL process_sprite_animation		;$BEE685   |
 	PLA					;$BEE689   |
 	STA $40,x				;$BEE68A   |
 	RTL					;$BEE68C  /
@@ -6966,7 +6966,7 @@ CODE_BEEABC:					;	   |
 
 CODE_BEEABF:
 	JSR CODE_BEEB42				;$BEEABF  \
-	JSL CODE_B9D100				;$BEEAC2   |
+	JSL process_sprite_animation		;$BEEAC2   |
 	JSL process_current_movement		;$BEEAC6   |
 	LDA $5C,x				;$BEEACA   |
 	LDY $50,x				;$BEEACC   |
@@ -7010,7 +7010,7 @@ CODE_BEEB19:					;	   |
 
 CODE_BEEB1C:
 	JSR CODE_BEEB42				;$BEEB1C  \
-	JSL CODE_B9D100				;$BEEB1F   |
+	JSL process_sprite_animation		;$BEEB1F   |
 	JSL process_current_movement		;$BEEB23   |
 	LDA $52,x				;$BEEB27   |
 	BNE CODE_BEEB33				;$BEEB29   |
@@ -7022,7 +7022,7 @@ CODE_BEEB33:					;	   |
 
 CODE_BEEB34:
 	JSR CODE_BEEB42				;$BEEB34  \
-	JSL CODE_B9D100				;$BEEB37   |
+	JSL process_sprite_animation		;$BEEB37   |
 	JSL process_current_movement		;$BEEB3B   |
 	JMP CODE_BEB849				;$BEEB3F  /
 
@@ -7055,7 +7055,7 @@ CODE_BEEB63:
 	STA $28,x				;$BEEB6B   |
 	INC $2E,x				;$BEEB6D   |
 CODE_BEEB6F:					;	   |
-	JSL CODE_B9D100				;$BEEB6F   |
+	JSL process_sprite_animation		;$BEEB6F   |
 	JSL process_current_movement		;$BEEB73   |
 	LDA $5C,x				;$BEEB77   |
 	LDY $50,x				;$BEEB79   |
@@ -7067,7 +7067,7 @@ CODE_BEEB85:					;	   |
 	JML [$05A9]				;$BEEB85  /
 
 CODE_BEEB88:
-	JSL CODE_B9D100				;$BEEB88  \
+	JSL process_sprite_animation		;$BEEB88  \
 	JSL process_current_movement		;$BEEB8C   |
 	LDY #!special_sprite_spawn_id_00F8	;$BEEB90   |
 	JSL spawn_special_sprite_index		;$BEEB93   |
@@ -7080,7 +7080,7 @@ CODE_BEEBA1:					;	   |
 	JML [$05A9]				;$BEEBA1  /
 
 CODE_BEEBA4:
-	JSL CODE_B9D100				;$BEEBA4  \
+	JSL process_sprite_animation		;$BEEBA4  \
 	JSL process_current_movement		;$BEEBA8   |
 	LDX current_sprite			;$BEEBAC   |
 	LDY $5C,x				;$BEEBAE   |
@@ -7098,7 +7098,7 @@ CODE_BEEBC3:
 	LDX current_sprite			;$BEEBC6   |
 	LDA #$0005				;$BEEBC8   |
 	BCS CODE_BEEBDC				;$BEEBCB   |
-	JSL CODE_B9D100				;$BEEBCD   |
+	JSL process_sprite_animation		;$BEEBCD   |
 	JSL process_current_movement		;$BEEBD1   |
 	LDA $52,x				;$BEEBD5   |
 	BNE CODE_BEEBE4				;$BEEBD7   |
@@ -7119,12 +7119,12 @@ CODE_BEEBE7:
 	LDA #$0101				;$BEEBF4   |
 	STA $0D5C				;$BEEBF7   |
 CODE_BEEBFA:					;	   |
-	JSL CODE_B9D100				;$BEEBFA   |
+	JSL process_sprite_animation		;$BEEBFA   |
 	JSL process_current_movement		;$BEEBFE   |
 	JML [$05A9]				;$BEEC02  /
 
 CODE_BEEC05:
-	JSL CODE_B9D100				;$BEEC05  \
+	JSL process_sprite_animation		;$BEEC05  \
 	JSL process_current_movement		;$BEEC09   |
 	JMP CODE_BEB849				;$BEEC0D  /
 
@@ -7137,7 +7137,7 @@ CODE_BEEC10:
 	LDA #$0202				;$BEEC1D   |
 	STA $0D5C				;$BEEC20   |
 CODE_BEEC23:					;	   |
-	JSL CODE_B9D100				;$BEEC23   |
+	JSL process_sprite_animation		;$BEEC23   |
 	JSL process_current_movement		;$BEEC27   |
 	JML [$05A9]				;$BEEC2B  /
 
@@ -7310,7 +7310,7 @@ CODE_BEED3A:
 	JML [$05A9]				;$BEED57  /
 
 CODE_BEED5A:
-	JSL CODE_B9D100				;$BEED5A  \
+	JSL process_sprite_animation		;$BEED5A  \
 	LDX current_sprite			;$BEED5E   |
 	LDA $1A,x				;$BEED60   |
 	BEQ CODE_BEED97				;$BEED62   |

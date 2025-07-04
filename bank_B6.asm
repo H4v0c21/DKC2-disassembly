@@ -167,7 +167,7 @@ CODE_B68152:
 CODE_B6815E:					;	   |
 	JSR CODE_B68186				;$B6815E   |
 	JSR CODE_B6819C				;$B68161   |
-	JSL CODE_B9D100				;$B68164   |
+	JSL process_sprite_animation		;$B68164   |
 	JSR CODE_B6820D				;$B68168   |
 CODE_B6816B:					;	   |
 	LDX current_sprite			;$B6816B   |
@@ -290,7 +290,7 @@ CODE_B6824A:					;	   |
 	LDA.l $000656				;$B68251   |
 	STA alternate_sprite			;$B68255   |
 	LDA #$0297				;$B68257   |
-	JSL CODE_B9D09B				;$B6825A   |
+	JSL set_alt_sprite_animation		;$B6825A   |
 	LDX current_sprite			;$B6825E   |
 	LDA $2E,x				;$B68260   |
 	ORA #$2000				;$B68262   |
@@ -372,7 +372,7 @@ CODE_B682F4:
 	BRL CODE_B684B6				;$B682FD  /
 
 CODE_B68300:
-	JSL CODE_B9D100				;$B68300  \
+	JSL process_sprite_animation		;$B68300  \
 	LDX $0654				;$B68304   |
 	LDA $2E,x				;$B68307   |
 	BIT #$0100				;$B68309   |
@@ -561,7 +561,7 @@ CODE_B684B7:					;	   |
 CODE_B684BA:
 	LDX current_sprite			;$B684BA  \
 	JSR ($0044,x)				;$B684BC   |
-	JSL CODE_B9D100				;$B684BF   |
+	JSL process_sprite_animation		;$B684BF   |
 	BRL CODE_B6816B				;$B684C3  /
 
 DATA_B684C6:
@@ -869,11 +869,11 @@ CODE_B68A16:					;	   |
 	LDA.l $000654				;$B68A46   |
 	STA alternate_sprite			;$B68A4A   |
 	LDA #$0298				;$B68A4C   |
-	JSL CODE_B9D09B				;$B68A4F   |
+	JSL set_alt_sprite_animation		;$B68A4F   |
 	LDA.l $000656				;$B68A53   |
 	STA alternate_sprite			;$B68A57   |
 	LDA #$0299				;$B68A59   |
-	JSL CODE_B9D09B				;$B68A5C   |
+	JSL set_alt_sprite_animation		;$B68A5C   |
 CODE_B68A60:					;	   |
 	RTS					;$B68A60  /
 
@@ -897,11 +897,11 @@ CODE_B68A61:
 	LDA.l $000654				;$B68A8F   |
 	STA alternate_sprite			;$B68A93   |
 	LDA #$0298				;$B68A95   |
-	JSL CODE_B9D09B				;$B68A98   |
+	JSL set_alt_sprite_animation		;$B68A98   |
 	LDA.l $000656				;$B68A9C   |
 	STA alternate_sprite			;$B68AA0   |
 	LDA #$0299				;$B68AA2   |
-	JSL CODE_B9D09B				;$B68AA5   |
+	JSL set_alt_sprite_animation		;$B68AA5   |
 	BRA CODE_B68A60				;$B68AA9  /
 
 CODE_B68AAB:
@@ -1020,7 +1020,7 @@ CODE_B68BBB:
 	LDA.l $000656				;$B68BF3   |
 	STA alternate_sprite			;$B68BF7   |
 	LDA #$029D				;$B68BF9   |
-	JSL CODE_B9D09B				;$B68BFC   |
+	JSL set_alt_sprite_animation		;$B68BFC   |
 	LDA #$077A				;$B68C00   |
 	JSL queue_sound_effect			;$B68C03   |
 	LDX current_sprite			;$B68C07   |
@@ -1115,7 +1115,7 @@ CODE_B68CC2:
 	LDA.l $000656				;$B68CCC   |
 	STA alternate_sprite			;$B68CD0   |
 	LDA #$028D				;$B68CD2   |
-	JSL CODE_B9D09B				;$B68CD5   |
+	JSL set_alt_sprite_animation		;$B68CD5   |
 	LDX $0654				;$B68CD9   |
 	JSR parse_boss_command			;$B68CDC   |
 	PLB					;$B68CDF   |
@@ -1147,7 +1147,7 @@ CODE_B68D0B:					;	   |
 	LDA.l $000656				;$B68D12   |
 	STA alternate_sprite			;$B68D16   |
 	LDA #$028F				;$B68D18   |
-	JSL CODE_B9D09B				;$B68D1B   |
+	JSL set_alt_sprite_animation		;$B68D1B   |
 	BRA CODE_B68D35				;$B68D1F  /
 
 CODE_B68D21:
@@ -1156,7 +1156,7 @@ CODE_B68D21:
 	LDA.l $000656				;$B68D28   |
 	STA alternate_sprite			;$B68D2C   |
 	LDA #$028D				;$B68D2E   |
-	JSL CODE_B9D09B				;$B68D31   |
+	JSL set_alt_sprite_animation		;$B68D31   |
 CODE_B68D35:					;	   |
 	PLB					;$B68D35   |
 	RTL					;$B68D36  /
@@ -1169,7 +1169,7 @@ CODE_B68D37:
 	LDA #$3EAC				;$B68D42   |
 	STA $004A,y				;$B68D45   |
 	LDA #$02E5				;$B68D48   |
-	JSL CODE_B9D09B				;$B68D4B   |
+	JSL set_alt_sprite_animation		;$B68D4B   |
 	LDX alternate_sprite			;$B68D4F   |
 	LDA #!barrel_sprite_palette		;$B68D51   |
 	JSL set_sprite_palette_global		;$B68D54   |
@@ -1242,7 +1242,7 @@ CODE_B68DB3:
 	LDA #$0257				;$B68DDE   |
 	JSL set_sprite_animation		;$B68DE1   |
 	LDA #$0258				;$B68DE5   |
-	JSL CODE_B9D09B				;$B68DE8   |
+	JSL set_alt_sprite_animation		;$B68DE8   |
 	LDX current_sprite			;$B68DEC   |
 	LDA #DATA_B69355			;$B68DEE   |
 	STA $46,x				;$B68DF1   |
@@ -1277,7 +1277,7 @@ CODE_B68E1A:					;	   |
 	LDA $0004,x				;$B68E3E   |
 	STA $0042,y				;$B68E41   |
 	PHX					;$B68E44   |
-	JSL CODE_B9D09B				;$B68E45   |
+	JSL set_alt_sprite_animation		;$B68E45   |
 	PLX					;$B68E49   |
 	TXA					;$B68E4A   |
 	CLC					;$B68E4B   |
@@ -1385,7 +1385,7 @@ CODE_B68F1F:					;	   |
 	JSR CODE_B68FD8				;$B68F25   |
 	JSR CODE_B68F9B				;$B68F28   |
 CODE_B68F2B:					;	   |
-	JSL CODE_B9D100				;$B68F2B   |
+	JSL process_sprite_animation		;$B68F2B   |
 	JSL CODE_B3E3E3				;$B68F2F   |
 CODE_B68F33:					;	   |
 	PLB					;$B68F33   |
@@ -1401,7 +1401,7 @@ CODE_B68F37:
 CODE_B68F44:
 	LDX current_sprite			;$B68F44  \
 	JSR ($0044,x)				;$B68F46   |
-	JSL CODE_B9D100				;$B68F49   |
+	JSL process_sprite_animation		;$B68F49   |
 	BRL CODE_B68F2B				;$B68F4D  /
 
 CODE_B68F50:
@@ -1532,7 +1532,7 @@ CODE_B69043:
 	LDA.l $000656				;$B6904F   |
 	STA alternate_sprite			;$B69053   |
 	LDA #$025F				;$B69055   |
-	JSL CODE_B9D09B				;$B69058   |
+	JSL set_alt_sprite_animation		;$B69058   |
 	RTL					;$B6905C  /
 
 
@@ -1886,7 +1886,7 @@ CODE_B6945B:					;	   |
 	BRA CODE_B6948B				;$B69489  /
 
 CODE_B6948B:
-	JSL CODE_B9D100				;$B6948B  \
+	JSL process_sprite_animation		;$B6948B  \
 	PLB					;$B6948F   |
 CODE_B69490:					;	   |
 	JML [$05A9]				;$B69490  /
@@ -1971,7 +1971,7 @@ CODE_B6952E:					;	   |
 	LDA #$001A				;$B69549   |
 	STA $0046,y				;$B6954C   |
 	LDA #$0289				;$B6954F   |
-	JSL CODE_B9D09B				;$B69552   |
+	JSL set_alt_sprite_animation		;$B69552   |
 	RTS					;$B69556  /
 
 CODE_B69557:
@@ -2034,7 +2034,7 @@ CODE_B695CA:					;	   |
 	LDA #$0200				;$B695DF   |
 	STA $002A,y				;$B695E2   |
 	LDA #$0289				;$B695E5   |
-	JSL CODE_B9D09B				;$B695E8   |
+	JSL set_alt_sprite_animation		;$B695E8   |
 	RTS					;$B695EC  /
 
 CODE_B695ED:
@@ -2049,7 +2049,7 @@ CODE_B695FB:					;	   |
 	LDY #!special_sprite_spawn_id_0186	;$B69602   |
 	JSL spawn_special_sprite_index		;$B69605   |
 	LDA #$0282				;$B69609   |
-	JSL CODE_B9D09B				;$B6960C   |
+	JSL set_alt_sprite_animation		;$B6960C   |
 CODE_B69610:					;	   |
 	JSR CODE_B699C5				;$B69610   |
 	LDA level_number			;$B69613   |
@@ -2119,7 +2119,7 @@ CODE_B69687:
 CODE_B696AA:
 	LDA #$0281				;$B696AA  \
 CODE_B696AD:					;	   |
-	JSL CODE_B9D09B				;$B696AD   |
+	JSL set_alt_sprite_animation		;$B696AD   |
 	CLC					;$B696B1   |
 	RTS					;$B696B2  /
 
@@ -2139,7 +2139,7 @@ CODE_B696C3:					;	   |
 	LDY #!special_sprite_spawn_id_0186	;$B696CA   |
 	JSL spawn_special_sprite_index		;$B696CD   |
 	LDA #$0282				;$B696D1   |
-	JSL CODE_B9D09B				;$B696D4   |
+	JSL set_alt_sprite_animation		;$B696D4   |
 CODE_B696D8:					;	   |
 	JSR CODE_B699C5				;$B696D8   |
 	LDA $002E,y				;$B696DB   |
@@ -2199,7 +2199,7 @@ CODE_B69755:					;	   |
 	LDY #!special_sprite_spawn_id_0186	;$B6975C   |
 	JSL spawn_special_sprite_index		;$B6975F   |
 	LDA #$0282				;$B69763   |
-	JSL CODE_B9D09B				;$B69766   |
+	JSL set_alt_sprite_animation		;$B69766   |
 CODE_B6976A:					;	   |
 	JSR CODE_B699C5				;$B6976A   |
 	LDA $002E,y				;$B6976D   |
@@ -2429,7 +2429,7 @@ CODE_B6995A:					;	   |
 	ADC #$0012				;$B69997   |
 	STA $000737				;$B6999A   |
 	LDA #$0282				;$B6999E   |
-	JSL CODE_B9D09B				;$B699A1   |
+	JSL set_alt_sprite_animation		;$B699A1   |
 	PHK					;$B699A5   |
 	PLB					;$B699A6   |
 	RTS					;$B699A7  /
@@ -2491,11 +2491,11 @@ shot_donkey_kong_sprite_code:
 	LDA #$A609				;$B69A20   |
 	STA $0042,y				;$B69A23   |
 	LDA #$0252				;$B69A26   |
-	JSL CODE_B9D09B				;$B69A29   |
+	JSL set_alt_sprite_animation		;$B69A29   |
 	LDA.l $00075B				;$B69A2D   |
 	STA alternate_sprite			;$B69A31   |
 	LDA #$0253				;$B69A33   |
-	JSL CODE_B9D09B				;$B69A36   |
+	JSL set_alt_sprite_animation		;$B69A36   |
 	LDX current_sprite			;$B69A3A   |
 	INC $46,x				;$B69A3C   |
 	LDA #$0300				;$B69A3E   |
@@ -2506,7 +2506,7 @@ shot_donkey_kong_sprite_code:
 	LDA #$0A00				;$B69A4A   |
 	STA $2A,x				;$B69A4D   |
 .return:					;	   |
-	JSL CODE_B9D100				;$B69A4F   |
+	JSL process_sprite_animation		;$B69A4F   |
 	JSL delete_sprite_if_offscreen		;$B69A53   |
 	JML [$05A9]				;$B69A57  /
 
@@ -2741,7 +2741,7 @@ CODE_B69BFB:					;	   |
 	LDA #$0268				;$B69C19   |
 	JSL set_sprite_animation		;$B69C1C   |
 CODE_B69C20:					;	   |
-	JSL CODE_B9D100				;$B69C20   |
+	JSL process_sprite_animation		;$B69C20   |
 CODE_B69C24:					;	   |
 	LDX current_sprite			;$B69C24   |
 	LDY #$0000				;$B69C26   |
@@ -2881,7 +2881,7 @@ CODE_B69D0E:					;	   |
 	ORA #$2000				;$B69D2D   |
 	STA $2E,x				;$B69D30   |
 	LDA #$025A				;$B69D32   |
-	JSL CODE_B9D09B				;$B69D35   |
+	JSL set_alt_sprite_animation		;$B69D35   |
 	LDA.l $000656				;$B69D39   |
 	STA alternate_sprite			;$B69D3D   |
 	LDA #$025B				;$B69D3F   |
@@ -2894,7 +2894,7 @@ CODE_B69D44:
 	CMP #$0001				;$B69D4E   |
 	BEQ CODE_B69D65				;$B69D51   |
 	LDA #$0270				;$B69D53   |
-	JSL CODE_B9D09B				;$B69D56   |
+	JSL set_alt_sprite_animation		;$B69D56   |
 	LDA.l $000656				;$B69D5A   |
 	STA alternate_sprite			;$B69D5E   |
 	LDA #$0271				;$B69D60   |
@@ -2902,12 +2902,12 @@ CODE_B69D44:
 
 CODE_B69D65:
 	LDA #$0283				;$B69D65  \
-	JSL CODE_B9D09B				;$B69D68   |
+	JSL set_alt_sprite_animation		;$B69D68   |
 	LDA.l $000656				;$B69D6C   |
 	STA alternate_sprite			;$B69D70   |
 	LDA #$0284				;$B69D72   |
 CODE_B69D75:					;	   |
-	JSL CODE_B9D09B				;$B69D75   |
+	JSL set_alt_sprite_animation		;$B69D75   |
 	LDX current_sprite			;$B69D79   |
 	PHX					;$B69D7B   |
 	JSR CODE_B6C0FF				;$B69D7C   |
@@ -2969,7 +2969,7 @@ CODE_B69DC2:
 	LDA #$C000				;$B69E0B   |
 	STA $1C,x				;$B69E0E   |
 	LDA #$025C				;$B69E10   |
-	JSL CODE_B9D09B				;$B69E13   |
+	JSL set_alt_sprite_animation		;$B69E13   |
 	LDX current_sprite			;$B69E17   |
 	LDY $0656				;$B69E19   |
 	LDA #$0280				;$B69E1C   |
@@ -3411,7 +3411,7 @@ CODE_B6A166:					;	   |
 	BRL CODE_B6A193				;$B6A175  /
 
 CODE_B6A178:
-	JSL CODE_B9D100				;$B6A178  \
+	JSL process_sprite_animation		;$B6A178  \
 CODE_B6A17C:					;	   |
 	LDX current_sprite			;$B6A17C   |
 	LDY #$0000				;$B6A17E   |
@@ -3789,7 +3789,7 @@ endif						;	   |
 	BNE CODE_B6A39A				;$B6A395   |
 	STZ $0735				;$B6A397   |
 CODE_B6A39A:					;	   |
-	JSL CODE_B9D100				;$B6A39A   |
+	JSL process_sprite_animation		;$B6A39A   |
 	BRL CODE_B6A18F				;$B6A39E  /
 
 CODE_B6A3A1:
@@ -3822,7 +3822,7 @@ CODE_B6A3CE:
 	RTL					;$B6A3D5  /
 
 krool_misc_sprite_code:
-	JSL CODE_B9D100				;$B6A3D6  \
+	JSL process_sprite_animation		;$B6A3D6  \
 	JML [$05A9]				;$B6A3DA  /
 
 krool_puddle_sprite_code:
@@ -3833,18 +3833,18 @@ krool_puddle_sprite_code:
 	JML [$05A9]				;$B6A3EA  /
 
 .return:
-	JSL CODE_B9D100				;$B6A3ED  \
+	JSL process_sprite_animation		;$B6A3ED  \
 	JML [$05A9]				;$B6A3F1  /
 
 CODE_B6A3F4:
 	LDA.l $00075F				;$B6A3F4  \
 	STA alternate_sprite			;$B6A3F8   |
 	LDA #$0247				;$B6A3FA   |
-	JSL CODE_B9D09B				;$B6A3FD   |
+	JSL set_alt_sprite_animation		;$B6A3FD   |
 	LDA.l $00075B				;$B6A401   |
 	STA alternate_sprite			;$B6A405   |
 	LDA #$0248				;$B6A407   |
-	JSL CODE_B9D09B				;$B6A40A   |
+	JSL set_alt_sprite_animation		;$B6A40A   |
 	RTL					;$B6A40E  /
 
 CODE_B6A40F:
@@ -3977,7 +3977,7 @@ CODE_B6A50E:					;	   |
 	STA $42,x				;$B6A50E   |
 CODE_B6A510:					;	   |
 	JSR CODE_B6A51B				;$B6A510   |
-	JSL CODE_B9D100				;$B6A513   |
+	JSL process_sprite_animation		;$B6A513   |
 	JML [$05A9]				;$B6A517  /
 
 	RTS					;$B6A51A  /
@@ -4049,7 +4049,7 @@ CODE_B6A57C:					;	   |
 	STA $2E,x				;$B6A5A4   |
 CODE_B6A5A6:					;	   |
 	JSR CODE_B6A51B				;$B6A5A6   |
-	JSL CODE_B9D100				;$B6A5A9   |
+	JSL process_sprite_animation		;$B6A5A9   |
 	JML [$05A9]				;$B6A5AD  /
 
 CODE_B6A5B0:
@@ -4130,7 +4130,7 @@ CODE_B6A637:
 	LDA.l $00075B				;$B6A644   |
 	STA alternate_sprite			;$B6A648   |
 	LDA #$0244				;$B6A64A   |
-	JSL CODE_B9D09B				;$B6A64D   |
+	JSL set_alt_sprite_animation		;$B6A64D   |
 	LDX current_sprite			;$B6A651   |
 	LDA #$0140				;$B6A653   |
 	STA $3A,x				;$B6A656   |
@@ -4141,7 +4141,7 @@ CODE_B6A637:
 CODE_B6A665:					;	   |
 	JSR CODE_B6A51B				;$B6A665   |
 CODE_B6A668:					;	   |
-	JSL CODE_B9D100				;$B6A668   |
+	JSL process_sprite_animation		;$B6A668   |
 	JML [$05A9]				;$B6A66C  /
 
 CODE_B6A66F:
@@ -4200,11 +4200,11 @@ CODE_B6A6CE:
 	LDA #$024A				;$B6A6E8   |
 	JSL set_sprite_animation		;$B6A6EB   |
 CODE_B6A6EF:					;	   |
-	JSL CODE_B9D100				;$B6A6EF   |
+	JSL process_sprite_animation		;$B6A6EF   |
 	JML [$05A9]				;$B6A6F3  /
 
 CODE_B6A6F6:
-	JSL CODE_B9D100				;$B6A6F6  \
+	JSL process_sprite_animation		;$B6A6F6  \
 	JML [$05A9]				;$B6A6FA  /
 
 	JSR CODE_B6A701				;$B6A6FD   |
@@ -4271,7 +4271,7 @@ defeated_krool_sprite_code:
 	STA $000747				;$B6A77A   |
 ..return:					;	   |
 	JSR CODE_B68D5D				;$B6A77E   |
-	JSL CODE_B9D100				;$B6A781   |
+	JSL process_sprite_animation		;$B6A781   |
 	JML [$05A9]				;$B6A785  /
 
 .state_1:
@@ -4328,11 +4328,11 @@ CODE_B6A80A:					;	   |
 	STX $20,y				;$B6A80A   |
 	STY alternate_sprite			;$B6A80C   |
 	LDA #$0254				;$B6A80E   |
-	JSL CODE_B9D09B				;$B6A811   |
+	JSL set_alt_sprite_animation		;$B6A811   |
 	LDA.l $000656				;$B6A815   |
 	STA alternate_sprite			;$B6A819   |
 	LDA #$0255				;$B6A81B   |
-	JSL CODE_B9D09B				;$B6A81E   |
+	JSL set_alt_sprite_animation		;$B6A81E   |
 	LDY #!special_sprite_spawn_id_0194	;$B6A822   |
 	JSL spawn_special_sprite_index		;$B6A825   |
 	RTL					;$B6A829  /
@@ -4341,7 +4341,7 @@ donkey_kong_rope_sprite_code:
 	LDX $075F				;$B6A82A  \
 	LDA $2E,x				;$B6A82D   |
 	BEQ .return				;$B6A82F   |
-	JSL CODE_B9D100				;$B6A831   |
+	JSL process_sprite_animation		;$B6A831   |
 .return:					;	   |
 	JML [$05A9]				;$B6A835  /
 
@@ -4362,11 +4362,11 @@ CODE_B6A853:					;	   |
 	LDA.l $00075F				;$B6A85C   |
 	STA alternate_sprite			;$B6A860   |
 	LDA #$0245				;$B6A862   |
-	JSL CODE_B9D09B				;$B6A865   |
+	JSL set_alt_sprite_animation		;$B6A865   |
 	LDA.l $00075B				;$B6A869   |
 	STA alternate_sprite			;$B6A86D   |
 	LDA #$0246				;$B6A86F   |
-	JSL CODE_B9D09B				;$B6A872   |
+	JSL set_alt_sprite_animation		;$B6A872   |
 	RTL					;$B6A876  /
 
 boss_splash_and_sparkle_sprite_code:
@@ -4377,7 +4377,7 @@ boss_splash_and_sparkle_sprite_code:
 	LDA $44,x				;$B6A881   | Get Y interpolation preset
 	JSL interpolate_y_velocity_global	;$B6A883   |
 	JSL apply_position_from_velocity_global	;$B6A887   |
-	JSL CODE_B9D100				;$B6A88B   | Process animation
+	JSL process_sprite_animation		;$B6A88B   | Process animation
 	JML [$05A9]				;$B6A88F  / Return
 
 CODE_B6A892:
@@ -4412,7 +4412,7 @@ CODE_B6A8CC:					;	   |
 	ADC #$FFE4				;$B6A8D2   |
 	STA $000A,y				;$B6A8D5   |
 	LDA #$0276				;$B6A8D8   |
-	JSL CODE_B9D09B				;$B6A8DB   |
+	JSL set_alt_sprite_animation		;$B6A8DB   |
 	RTL					;$B6A8DF  /
 
 CODE_B6A8E0:
@@ -4455,7 +4455,7 @@ CODE_B6A8F0:
 	STA $0044,y				;$B6A93C   |
 	JSR CODE_B6AA27				;$B6A93F   |
 	LDA #$01BF				;$B6A942   |
-	JSL CODE_B9D09B				;$B6A945   |
+	JSL set_alt_sprite_animation		;$B6A945   |
 	LDA #global_sprite_palette		;$B6A949   |
 	JSR CODE_B6AA78				;$B6A94C   |
 	LDA $000A,y				;$B6A94F   |
@@ -4498,7 +4498,7 @@ CODE_B6A968:
 	STA $0044,y				;$B6A9B4   |
 	JSR CODE_B6AA49				;$B6A9B7   |
 	LDA #$01BF				;$B6A9BA   |
-	JSL CODE_B9D09B				;$B6A9BD   |
+	JSL set_alt_sprite_animation		;$B6A9BD   |
 	LDA #global_sprite_palette		;$B6A9C1   |
 	JSR CODE_B6AA78				;$B6A9C4   |
 	LDA $000A,y				;$B6A9C7   |
@@ -4548,7 +4548,7 @@ CODE_B6AA1C:					;	   |
 CODE_B6AA27:
 	JSR CODE_B6AA6B				;$B6AA27  \
 	LDA #$0272				;$B6AA2A   |
-	JSL CODE_B9D09B				;$B6AA2D   |
+	JSL set_alt_sprite_animation		;$B6AA2D   |
 	LDY alternate_sprite			;$B6AA31   |
 	LDX $0654				;$B6AA33   |
 	LDA $06,x				;$B6AA36   |
@@ -4564,7 +4564,7 @@ CODE_B6AA27:
 CODE_B6AA49:
 	JSR CODE_B6AA6B				;$B6AA49  \
 	LDA #$0272				;$B6AA4C   |
-	JSL CODE_B9D09B				;$B6AA4F   |
+	JSL set_alt_sprite_animation		;$B6AA4F   |
 	LDY alternate_sprite			;$B6AA53   |
 	LDX $0654				;$B6AA55   |
 	LDA $06,x				;$B6AA58   |
@@ -4677,7 +4677,7 @@ CODE_B6AABE:
 	BEQ CODE_B6AB5E				;$B6AB53   |
 	STA alternate_sprite			;$B6AB55   |
 	LDA #$0274				;$B6AB57   |
-	JSL CODE_B9D09B				;$B6AB5A   |
+	JSL set_alt_sprite_animation		;$B6AB5A   |
 CODE_B6AB5E:					;	   |
 	RTL					;$B6AB5E  /
 
@@ -4704,7 +4704,7 @@ CODE_B6AB79:					;	   |
 	LDA #global_sprite_palette		;$B6AB86   |
 	JSR CODE_B6AA78				;$B6AB89   |
 	LDA #$01BF				;$B6AB8C   |
-	JSL CODE_B9D09B				;$B6AB8F   |
+	JSL set_alt_sprite_animation		;$B6AB8F   |
 	RTS					;$B6AB93  /
 
 CODE_B6AB94:
@@ -4815,7 +4815,7 @@ CODE_B6AC68:
 	STZ $1C,x				;$B6AC74   |
 	LDA #$0279				;$B6AC76   |
 CODE_B6AC79:					;	   |
-	JSL CODE_B9D09B				;$B6AC79   |
+	JSL set_alt_sprite_animation		;$B6AC79   |
 	BRA CODE_B6AC97				;$B6AC7D  /
 
 CODE_B6AC7F:
@@ -4826,7 +4826,7 @@ CODE_B6AC7F:
 	STX alternate_sprite			;$B6AC8C   |
 	STZ $1C,x				;$B6AC8E   |
 	LDA #$025F				;$B6AC90   |
-	JSL CODE_B9D09B				;$B6AC93   |
+	JSL set_alt_sprite_animation		;$B6AC93   |
 CODE_B6AC97:					;	   |
 	PLB					;$B6AC97   |
 	RTL					;$B6AC98  /
@@ -4853,7 +4853,7 @@ CODE_B6ACC1:
 	STA alternate_sprite			;$B6ACCC   |
 	LDA #$027B				;$B6ACCE   |
 CODE_B6ACD1:					;	   |
-	JSL CODE_B9D09B				;$B6ACD1   |
+	JSL set_alt_sprite_animation		;$B6ACD1   |
 	BRA CODE_B6ACD7				;$B6ACD5  /
 
 CODE_B6ACD7:
@@ -4869,7 +4869,7 @@ CODE_B6ACD8:
 	LDX $0656				;$B6ACE5   |
 	STX alternate_sprite			;$B6ACE8   |
 	LDA #$027C				;$B6ACEA   |
-	JSL CODE_B9D09B				;$B6ACED   |
+	JSL set_alt_sprite_animation		;$B6ACED   |
 	PLB					;$B6ACF1   |
 	RTL					;$B6ACF2  /
 
@@ -4899,7 +4899,7 @@ CODE_B6AD0D:
 	LDA.l $000656				;$B6AD1A   |
 	STA alternate_sprite			;$B6AD1E   |
 	LDA #$025F				;$B6AD20   |
-	JSL CODE_B9D09B				;$B6AD23   |
+	JSL set_alt_sprite_animation		;$B6AD23   |
 	PLB					;$B6AD27   |
 	RTL					;$B6AD28  /
 
@@ -5633,7 +5633,7 @@ boss_command_code_49:
 	STZ $44,x				;$B6B7C9   |
 	JSR CODE_B6C28F				;$B6B7CB   |
 	LDA #$027F				;$B6B7CE   |
-	JSL CODE_B9D09B				;$B6B7D1   |
+	JSL set_alt_sprite_animation		;$B6B7D1   |
 	LDA #$0774				;$B6B7D5   |
 	JSL queue_sound_effect			;$B6B7D8   |
 	LDA #$0266				;$B6B7DC   |
@@ -5641,7 +5641,7 @@ boss_command_code_49:
 	LDA.l $000656				;$B6B7E3   |
 	STA alternate_sprite			;$B6B7E7   |
 	LDA #$0267				;$B6B7E9   |
-	JSL CODE_B9D09B				;$B6B7EC   |
+	JSL set_alt_sprite_animation		;$B6B7EC   |
 	LDA.l DATA_BAC869			;$B6B7F0   |
 	STA $000650				;$B6B7F4   |
 	JSR CODE_B6D923				;$B6B7F8   |
@@ -5708,13 +5708,13 @@ CODE_B6B874:
 CODE_B6B87C:
 	JSR CODE_B6C28F				;$B6B87C  \
 	LDA #$026F				;$B6B87F   |
-	JSL CODE_B9D09B				;$B6B882   |
+	JSL set_alt_sprite_animation		;$B6B882   |
 	LDA #$0264				;$B6B886   |
 	JSL set_sprite_animation		;$B6B889   |
 	LDA.l $000656				;$B6B88D   |
 	STA alternate_sprite			;$B6B891   |
 	LDA #$0265				;$B6B893   |
-	JSL CODE_B9D09B				;$B6B896   |
+	JSL set_alt_sprite_animation		;$B6B896   |
 	JSR CODE_B6D923				;$B6B89A   |
 	LDX $0737				;$B6B89D   |
 	LDA $0000,x				;$B6B8A0   |
@@ -5740,7 +5740,7 @@ boss_command_code_47:
 	LDA.l $000656				;$B6B8CE   |
 	STA alternate_sprite			;$B6B8D2   |
 	LDA #$0251				;$B6B8D4   |
-	JSL CODE_B9D09B				;$B6B8D7   |
+	JSL set_alt_sprite_animation		;$B6B8D7   |
 	LDY #!special_sprite_spawn_id_0142	;$B6B8DB   |
 	JSL spawn_special_sprite_index		;$B6B8DE   |
 	JSR CODE_B699C5				;$B6B8E2   |
@@ -5752,7 +5752,7 @@ boss_command_code_47:
 	STA $002A,y				;$B6B8F4   |
 	JSR CODE_B6C28F				;$B6B8F7   |
 	LDA #$026F				;$B6B8FA   |
-	JSL CODE_B9D09B				;$B6B8FD   |
+	JSL set_alt_sprite_animation		;$B6B8FD   |
 	PLY					;$B6B901   |
 	RTS					;$B6B902  /
 
@@ -5766,7 +5766,7 @@ boss_command_code_46:
 	LDA.l $000656				;$B6B914   |
 	STA alternate_sprite			;$B6B918   |
 	LDA #$024E				;$B6B91A   |
-	JSL CODE_B9D09B				;$B6B91D   |
+	JSL set_alt_sprite_animation		;$B6B91D   |
 	BRA CODE_B6B937				;$B6B921  /
 
 CODE_B6B923:
@@ -5775,7 +5775,7 @@ CODE_B6B923:
 	LDA.l $000656				;$B6B92A   |
 	STA alternate_sprite			;$B6B92E   |
 	LDA #$024C				;$B6B930   |
-	JSL CODE_B9D09B				;$B6B933   |
+	JSL set_alt_sprite_animation		;$B6B933   |
 CODE_B6B937:					;	   |
 	LDX current_sprite			;$B6B937   |
 	STZ $44,x				;$B6B939   |
@@ -5799,7 +5799,7 @@ CODE_B6B953:					;	   |
 	LDA $0008,y				;$B6B95C   |
 	BEQ CODE_B6B967				;$B6B95F   |
 	PHY					;$B6B961   |
-	JSL CODE_B9D09B				;$B6B962   |
+	JSL set_alt_sprite_animation		;$B6B962   |
 	PLY					;$B6B966   |
 CODE_B6B967:					;	   |
 	LDX $075B				;$B6B967   |
@@ -5807,7 +5807,7 @@ CODE_B6B967:					;	   |
 	LDA $000A,y				;$B6B96C   |
 	BEQ CODE_B6B977				;$B6B96F   |
 	PHY					;$B6B971   |
-	JSL CODE_B9D09B				;$B6B972   |
+	JSL set_alt_sprite_animation		;$B6B972   |
 	PLY					;$B6B976   |
 CODE_B6B977:					;	   |
 	LDX current_sprite			;$B6B977   |
@@ -5895,7 +5895,7 @@ CODE_B6BA1F:					;	   |
 	LDA.l $000656				;$B6BA2B   |
 	STA alternate_sprite			;$B6BA2F   |
 	LDA #$029B				;$B6BA31   |
-	JSL CODE_B9D09B				;$B6BA34   |
+	JSL set_alt_sprite_animation		;$B6BA34   |
 	PLA					;$B6BA38   |
 	CLC					;$B6BA39   |
 	ADC #$0008				;$B6BA3A   |
@@ -5927,7 +5927,7 @@ CODE_B6BA4A:					;	   |
 	LDA.l $000656				;$B6BA78   |
 	STA alternate_sprite			;$B6BA7C   |
 	LDA #$0291				;$B6BA7E   |
-	JSL CODE_B9D09B				;$B6BA81   |
+	JSL set_alt_sprite_animation		;$B6BA81   |
 	LDY #DATA_FF217A			;$B6BA85   |
 	JSL spawn_no_gfx_special_sprite_address	;$B6BA88   |
 	LDY #DATA_FF21B4			;$B6BA8C   |
@@ -6014,7 +6014,7 @@ boss_command_code_40:
 	LDA.l $000656				;$B6BB17   |
 	STA alternate_sprite			;$B6BB1B   |
 	LDA #$0293				;$B6BB1D   |
-	JSL CODE_B9D09B				;$B6BB20   |
+	JSL set_alt_sprite_animation		;$B6BB20   |
 	PLA					;$B6BB24   |
 	CLC					;$B6BB25   |
 	ADC #$0006				;$B6BB26   |
@@ -6042,7 +6042,7 @@ CODE_B6BB36:					;	   |
 	LDA.l $000656				;$B6BB5B   |
 	STA alternate_sprite			;$B6BB5F   |
 	LDA #$0291				;$B6BB61   |
-	JSL CODE_B9D09B				;$B6BB64   |
+	JSL set_alt_sprite_animation		;$B6BB64   |
 CODE_B6BB68:					;	   |
 	JSR CODE_B68D5D				;$B6BB68   |
 	RTS					;$B6BB6B  /
@@ -6106,7 +6106,7 @@ boss_command_code_3C:
 	LDA.l $000656				;$B6BBD3   |
 	STA alternate_sprite			;$B6BBD7   |
 	LDA #$0295				;$B6BBD9   |
-	JSL CODE_B9D09B				;$B6BBDC   |
+	JSL set_alt_sprite_animation		;$B6BBDC   |
 	PLY					;$B6BBE0   |
 	RTS					;$B6BBE1  /
 
@@ -6141,7 +6141,7 @@ boss_command_code_3B:
 	LDA.l $000656				;$B6BC2A   |
 	STA alternate_sprite			;$B6BC2E   |
 	LDA #$0293				;$B6BC30   |
-	JSL CODE_B9D09B				;$B6BC33   |
+	JSL set_alt_sprite_animation		;$B6BC33   |
 CODE_B6BC37:					;	   |
 	PLA					;$B6BC37   |
 	CLC					;$B6BC38   |
@@ -6212,7 +6212,7 @@ CODE_B6BC91:					;	   |
 	LDA.l $000656				;$B6BCBB   |
 	STA alternate_sprite			;$B6BCBF   |
 	LDA #$028F				;$B6BCC1   |
-	JSL CODE_B9D09B				;$B6BCC4   |
+	JSL set_alt_sprite_animation		;$B6BCC4   |
 CODE_B6BCC8:					;	   |
 	PLA					;$B6BCC8   |
 	CLC					;$B6BCC9   |
@@ -6252,7 +6252,7 @@ CODE_B6BCE9:					;	   |
 	LDA.l $000656				;$B6BD17   |
 	STA alternate_sprite			;$B6BD1B   |
 	LDA #$0291				;$B6BD1D   |
-	JSL CODE_B9D09B				;$B6BD20   |
+	JSL set_alt_sprite_animation		;$B6BD20   |
 	LDY #DATA_FF217A			;$B6BD24   |
 	JSL spawn_no_gfx_special_sprite_address	;$B6BD27   |
 	LDY #DATA_FF21B4			;$B6BD2B   |
@@ -6545,13 +6545,13 @@ CODE_B6BF51:					;	   |
 	LDA #$0006				;$B6BF69   |
 	STA $0044,y				;$B6BF6C   |
 	LDA #$0242				;$B6BF6F   |
-	JSL CODE_B9D09B				;$B6BF72   |
+	JSL set_alt_sprite_animation		;$B6BF72   |
 	LDA #$0264				;$B6BF76   |
 	JSL set_sprite_animation		;$B6BF79   |
 	LDA.l $000656				;$B6BF7D   |
 	STA alternate_sprite			;$B6BF81   |
 	LDA #$0265				;$B6BF83   |
-	JSL CODE_B9D09B				;$B6BF86   |
+	JSL set_alt_sprite_animation		;$B6BF86   |
 	LDY #!special_sprite_spawn_id_0180	;$B6BF8A   |
 	JSL spawn_special_sprite_index		;$B6BF8D   |
 	JSR CODE_B699C5				;$B6BF91   |
@@ -6631,7 +6631,7 @@ CODE_B6C018:					;	   |
 	ADC $000A,y				;$B6C03C   |
 	STA $0A,x				;$B6C03F   |
 	LDA #$026F				;$B6C041   |
-	JSL CODE_B9D09B				;$B6C044   |
+	JSL set_alt_sprite_animation		;$B6C044   |
 	LDA $01,s				;$B6C048   |
 	TAY					;$B6C04A   |
 	LDA $0000,y				;$B6C04B   |
@@ -6682,7 +6682,7 @@ boss_command_code_2C:
 CODE_B6C095:					;	   |
 	STX alternate_sprite			;$B6C095   |
 	LDA #$0277				;$B6C097   |
-	JSL CODE_B9D09B				;$B6C09A   |
+	JSL set_alt_sprite_animation		;$B6C09A   |
 	PLY					;$B6C09E   |
 	RTS					;$B6C09F  /
 
@@ -6706,7 +6706,7 @@ CODE_B6C0BC:					;	   |
 	LDA.l $000656				;$B6C0C3   |
 	STA alternate_sprite			;$B6C0C7   |
 	LDA #$026B				;$B6C0C9   |
-	JSL CODE_B9D09B				;$B6C0CC   |
+	JSL set_alt_sprite_animation		;$B6C0CC   |
 	LDY #!special_sprite_spawn_id_00C8	;$B6C0D0   |
 	JSL spawn_special_sprite_index		;$B6C0D3   |
 	LDX current_sprite			;$B6C0D7   |
@@ -6760,7 +6760,7 @@ CODE_B6C12A:
 	LDA.l $000656				;$B6C140   |
 	STA alternate_sprite			;$B6C144   |
 	LDA #$025F				;$B6C146   |
-	JSL CODE_B9D09B				;$B6C149   |
+	JSL set_alt_sprite_animation		;$B6C149   |
 	JSR CODE_B6C0FF				;$B6C14D   |
 	BRL CODE_B6C20A				;$B6C150  /
 
@@ -6788,7 +6788,7 @@ CODE_B6C186:					;	   |
 	LDA.l $000656				;$B6C18D   |
 	STA alternate_sprite			;$B6C191   |
 	LDA #$026E				;$B6C193   |
-	JSL CODE_B9D09B				;$B6C196   |
+	JSL set_alt_sprite_animation		;$B6C196   |
 	LDX current_sprite			;$B6C19A   |
 	LDA #CODE_B6C20B			;$B6C19C   |
 	STA $44,x				;$B6C19F   |
@@ -6896,13 +6896,13 @@ CODE_B6C256:
 CODE_B6C25E:					;	   |
 	JSR CODE_B6C28F				;$B6C25E   |
 	LDA #$027F				;$B6C261   |
-	JSL CODE_B9D09B				;$B6C264   |
+	JSL set_alt_sprite_animation		;$B6C264   |
 	LDA #$0264				;$B6C268   |
 	JSL set_sprite_animation		;$B6C26B   |
 	LDA.l $000656				;$B6C26F   |
 	STA alternate_sprite			;$B6C273   |
 	LDA #$0265				;$B6C275   |
-	JSL CODE_B9D09B				;$B6C278   |
+	JSL set_alt_sprite_animation		;$B6C278   |
 	LDA.l $000652				;$B6C27C   |
 	ASL A					;$B6C280   |
 	TAX					;$B6C281   |
@@ -6982,7 +6982,7 @@ CODE_B6C311:					;	   |
 	LDA.l $000656				;$B6C321   |
 	STA alternate_sprite			;$B6C325   |
 	LDA #$0261				;$B6C327   |
-	JSL CODE_B9D09B				;$B6C32A   |
+	JSL set_alt_sprite_animation		;$B6C32A   |
 	LDY #!special_sprite_spawn_id_00C6	;$B6C32E   |
 	JSL spawn_special_sprite_index		;$B6C331   |
 	LDX current_sprite			;$B6C335   |
@@ -7064,11 +7064,11 @@ CODE_B6C3BE:
 	LDA.l $000654				;$B6C3D6   |
 	STA alternate_sprite			;$B6C3DA   |
 	LDA #$0262				;$B6C3DC   |
-	JSL CODE_B9D09B				;$B6C3DF   |
+	JSL set_alt_sprite_animation		;$B6C3DF   |
 	LDA.l $000656				;$B6C3E3   |
 	STA alternate_sprite			;$B6C3E7   |
 	LDA #$0263				;$B6C3E9   |
-	JSL CODE_B9D09B				;$B6C3EC   |
+	JSL set_alt_sprite_animation		;$B6C3EC   |
 	LDA #$076C				;$B6C3F0   |
 	CLC					;$B6C3F3   |
 	JSL CODE_B3814F				;$B6C3F4   |
@@ -8806,9 +8806,9 @@ klubba_sprite_code:
 	LDA $42,x				;$B6D05B   |\ Get club sprite
 	STA alternate_sprite			;$B6D05D   |/
 	LDA #$01E8				;$B6D05F   |\ Play klubbas club attack animation
-	JSL CODE_B9D09B				;$B6D062   |/
+	JSL set_alt_sprite_animation		;$B6D062   |/
 .dont_attack					;	   |
-	JSL CODE_B9D100				;$B6D066   |
+	JSL process_sprite_animation		;$B6D066   |
 	PLB					;$B6D06A   |
 	JML [$05A9]				;$B6D06B  /
 
@@ -8816,7 +8816,7 @@ klubbas_club_sprite_code:
 	PHB					;$B6D06E  \
 	PHK					;$B6D06F   |
 	PLB					;$B6D070   |
-	JSL CODE_B9D100				;$B6D071   |> Process animation
+	JSL process_sprite_animation		;$B6D071   |> Process animation
 	PLB					;$B6D075   |
 	JML [$05A9]				;$B6D076  /
 
@@ -9086,7 +9086,7 @@ CODE_B6D2C0:					;	   |
 	AND #$FDFF				;$B6D2EF   |
 	STA $2E,x				;$B6D2F2   |
 CODE_B6D2F4:					;	   |
-	JSL CODE_B9D100				;$B6D2F4   |
+	JSL process_sprite_animation		;$B6D2F4   |
 CODE_B6D2F8:					;	   |
 	PLB					;$B6D2F8   |
 	JML [$05A9]				;$B6D2F9  /
@@ -9907,7 +9907,7 @@ CODE_B6D929:
 	STA $0006F1				;$B6D99A   |
 	DEC $06EF				;$B6D99E   |
 	LDA $0014,y				;$B6D9A1   |
-	JSL CODE_B9D09B				;$B6D9A4   |
+	JSL set_alt_sprite_animation		;$B6D9A4   |
 CODE_B6D9A8:					;	   |
 	PLX					;$B6D9A8   |
 CODE_B6D9A9:					;	   |
@@ -10749,7 +10749,7 @@ CODE_B6DF90:
 	LDA #$066C				;$B6DF90  \
 	SEC					;$B6DF93   |
 	JSL CODE_B3814F				;$B6DF94   |
-	JSL CODE_B9D100				;$B6DF98   |
+	JSL process_sprite_animation		;$B6DF98   |
 CODE_B6DF9C:					;	   |
 	JML [$05A9]				;$B6DF9C  /
 
@@ -11396,7 +11396,7 @@ CODE_B6E4CF:
 	LDA #$0004				;$B6E4D6   |
 	JSL interpolate_y_velocity_global	;$B6E4D9   |
 	JSL apply_position_from_velocity_global	;$B6E4DD   |
-	JSL CODE_B9D100				;$B6E4E1   |
+	JSL process_sprite_animation		;$B6E4E1   |
 	LDX current_sprite			;$B6E4E5   |
 	LDA $0A,x				;$B6E4E7   |
 	CMP #$02C7				;$B6E4E9   |
@@ -11439,7 +11439,7 @@ CODE_B6E523:
 	JSL apply_sprite_gravity_global		;$B6E528   |
 	JSL CODE_B39EBA				;$B6E52C   |
 	JSL CODE_B8D5E0				;$B6E530   |
-	JSL CODE_B9D100				;$B6E534   |
+	JSL process_sprite_animation		;$B6E534   |
 	PLB					;$B6E538   |
 	JML [$05A9]				;$B6E539  /
 
@@ -11455,7 +11455,7 @@ CODE_B6E54C:					;	   |
 	JSR CODE_B6E591				;$B6E54C   |
 	BCS CODE_B6E559				;$B6E54F   |
 	JSL update_held_sprite_position_global	;$B6E551   |
-	JSL CODE_B9D100				;$B6E555   |
+	JSL process_sprite_animation		;$B6E555   |
 CODE_B6E559:					;	   |
 	PLB					;$B6E559   |
 	JML [$05A9]				;$B6E55A  /
@@ -11629,7 +11629,7 @@ CODE_B6E688:					;	   |
 	BRL CODE_B6E559				;$B6E694  /
 
 CODE_B6E697:
-	JSL CODE_B9D100				;$B6E697  \
+	JSL process_sprite_animation		;$B6E697  \
 CODE_B6E69B:					;	   |
 	PLB					;$B6E69B   |
 	JML [$05A9]				;$B6E69C  /
@@ -11759,14 +11759,14 @@ CODE_B6E788:					;	   |
 	RTS					;$B6E79D  /
 
 kleever_hand_bubbles_sprite_code:
-	JSL CODE_B9D100				;$B6E79E  \ Process animation
+	JSL process_sprite_animation		;$B6E79E  \ Process animation
 	JML [$05A9]				;$B6E7A2  / Done processing sprite
 
 kleever_hand_sprite_code:
 	PHB					;$B6E7A5  \
 	PHK					;$B6E7A6   |
 	PLB					;$B6E7A7   |
-	JSL CODE_B9D100				;$B6E7A8   |
+	JSL process_sprite_animation		;$B6E7A8   |
 	LDY active_kong_sprite			;$B6E7AC   |
 	LDA $002E,y				;$B6E7AF   |
 	CMP #$0005				;$B6E7B2   |
@@ -11974,7 +11974,7 @@ CODE_B6E994:
 	LDA #$064C				;$B6E9A8   |
 	JSL queue_sound_effect			;$B6E9AB   |
 CODE_B6E9AF:					;	   |
-	JSL CODE_B9D100				;$B6E9AF   |
+	JSL process_sprite_animation		;$B6E9AF   |
 	JML [$05A9]				;$B6E9B3  /
 
 CODE_B6E9B6:
@@ -11987,7 +11987,7 @@ CODE_B6E9B6:
 	LDA #$064C				;$B6E9C5   |
 	JSL queue_sound_effect			;$B6E9C8   |
 CODE_B6E9CC:					;	   |
-	JSL CODE_B9D100				;$B6E9CC   |
+	JSL process_sprite_animation		;$B6E9CC   |
 	JML [$05A9]				;$B6E9D0  /
 
 CODE_B6E9D3:
@@ -11997,7 +11997,7 @@ CODE_B6E9D3:
 	JML [$05A9]				;$B6E9DA  /
 
 kleever_attack_effect_sprite_code:
-	JSL CODE_B9D100				;$B6E9DD  \ Process animation
+	JSL process_sprite_animation		;$B6E9DD  \ Process animation
 	JML [$05A9]				;$B6E9E1  / Return
 
 broken_kleever_hilt_sprite_code:
@@ -12012,7 +12012,7 @@ broken_kleever_hilt_sprite_code:
 	PLB					;$B6E9F2   |
 	LDX current_sprite			;$B6E9F3   |
 	STZ $1C,x				;$B6E9F5   |
-	JSL CODE_B9D100				;$B6E9F7   |
+	JSL process_sprite_animation		;$B6E9F7   |
 	LDX current_sprite			;$B6E9FB   |
 	DEC $44,x				;$B6E9FD   |
 	BNE .CODE_B6EA11			;$B6E9FF   |
@@ -12095,7 +12095,7 @@ broken_kleever_fire_sprite_code:
 	BEQ .return				;$B6EAAB   |
 	LDX current_sprite			;$B6EAAD   |
 	STZ $1C,x				;$B6EAAF   |
-	JSL CODE_B9D100				;$B6EAB1   |
+	JSL process_sprite_animation		;$B6EAB1   |
 .return:					;	   |
 	JML [$05A9]				;$B6EAB5  /
 
@@ -12204,7 +12204,7 @@ kleever_and_roof_pieces_sprite_code:
 	LDA $44,x				;$B6EB87   |
 	JSL interpolate_y_velocity_global	;$B6EB89   |
 	JSL apply_position_from_velocity_global	;$B6EB8D   |
-	JSL CODE_B9D100				;$B6EB91   |
+	JSL process_sprite_animation		;$B6EB91   |
 	LDX current_sprite			;$B6EB95   |
 	LDA $24,x				;$B6EB97   |
 	BMI .return				;$B6EB99   |
@@ -12842,7 +12842,7 @@ CODE_B6F038:					;	   |
 	BRA CODE_B6F055				;$B6F04F  /
 
 CODE_B6F051:
-	JSL CODE_B9D100				;$B6F051  \
+	JSL process_sprite_animation		;$B6F051  \
 CODE_B6F055:					;	   |
 	PLB					;$B6F055   |
 	JML [$05A9]				;$B6F056  /
@@ -13481,7 +13481,7 @@ if !version == 1				;	   |
 	JSL CODE_BAC949				;$B6F574   |
 endif						;	   |
 	LDX current_sprite			;$B6F578   |
-	JSL CODE_B9D100				;$B6F57A   |
+	JSL process_sprite_animation		;$B6F57A   |
 	LDX current_sprite			;$B6F57E   |
 	LDA $42,x				;$B6F580   |\
 	BNE .head_exists			;$B6F582   |/ If head sprite exists then skip spawning head
@@ -13814,7 +13814,7 @@ CODE_B6F7FC:
 	STA $04,x				;$B6F822   |
 CODE_B6F824:					;	   |
 	LDX current_sprite			;$B6F824   |
-	JSL CODE_B9D100				;$B6F826   |
+	JSL process_sprite_animation		;$B6F826   |
 	JML [$05A9]				;$B6F82A  /
 
 CODE_B6F82D:

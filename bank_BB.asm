@@ -417,7 +417,7 @@ handle_sprite_allocation:
 	PLY					;$BB8278   |
 	BCS .return				;$BB8279   |
 	STZ sprite.unknown_16,x			;$BB827B   |
-	STZ sprite.unknown_1C,x			;$BB827D   |
+	STZ sprite.display_mode,x		;$BB827D   |
 	STZ sprite.terrain_attributes,x		;$BB827F   |
 .return:					;	   |
 	RTS					;$BB8281  /
@@ -432,7 +432,7 @@ CODE_BB8282:
 	PLY					;$BB828D   |
 	BCS CODE_BB8296				;$BB828E   |
 	STZ sprite.unknown_16,x			;$BB8290   |
-	STZ sprite.unknown_1C,x			;$BB8292   |
+	STZ sprite.display_mode,x		;$BB8292   |
 	STZ sprite.terrain_attributes,x		;$BB8294   |
 CODE_BB8296:					;	   |
 	RTS					;$BB8296  /
@@ -684,8 +684,8 @@ spawn_BB83EF_special_sprite_address:		;	   |
 	LDA #$000F				;$BB83FE   |
 	STA sprite.placement_parameter,x	;$BB8401   |
 	LDA #$C000				;$BB8403   |
-	STA sprite.unknown_1C,x			;$BB8406   |
-	STZ sprite.unknown_1A,x			;$BB8408   |
+	STA sprite.display_mode,x		;$BB8406   |
+	STZ sprite.current_graphic,x		;$BB8408   |
 	STZ sprite.unknown_16,x			;$BB840A   |
 	STZ sprite.unknown_40,x			;$BB840C   |
 	BRL spawn_BB8462_special_sprite_address	;$BB840E  /
@@ -705,7 +705,7 @@ spawn_no_gfx_special_sprite_address:		;	   |
 	STZ sprite.placement_number,x		;$BB841F   |
 	LDA #$000F				;$BB8421   |
 	STA sprite.placement_parameter,x	;$BB8424   |
-	STZ sprite.unknown_1C,x			;$BB8426   |
+	STZ sprite.display_mode,x		;$BB8426   |
 	BRL spawn_BB8462_special_sprite_address	;$BB8428  /
 
 CODE_BB842B:
@@ -758,7 +758,7 @@ spawn_BB8462_special_sprite_address:		;	   |
 	LDX alternate_sprite			;$BB8468   |
 	STZ sprite.terrain_interaction,x	;$BB846A   |
 	STZ sprite.interaction_flags,x		;$BB846C   |
-	STZ sprite.x_force,x			;$BB846E   |
+	STZ sprite.unknown_2C,x			;$BB846E   |
 	STZ sprite.placement_number,x		;$BB8470   |
 	STZ sprite.unknown_32,x			;$BB8472   |
 apply_spawn_script_to_slot:			;	   |
@@ -830,7 +830,7 @@ initcommand_set_animation:
 	TCD					;$BB84CA   |
 	LDA.w DATA_FF0002,y			;$BB84CB   |
 	PHY					;$BB84CE   |
-	JSL CODE_B9D09B				;$BB84CF   |
+	JSL set_alt_sprite_animation		;$BB84CF   |
 	PLY					;$BB84D3   |
 	LDX alternate_sprite			;$BB84D4   |
 	BRA initscript_next			;$BB84D6  /
@@ -913,10 +913,10 @@ CODE_BB8546:					;	   |
 	LDA.w sprite.render_order,y		;$BB8555   |
 	INC A					;$BB8558   |
 	STA sprite.render_order,x		;$BB8559   |
-	LDA.w sprite.unknown_1C,y		;$BB855B   |
+	LDA.w sprite.display_mode,y		;$BB855B   |
 	CMP #$C000				;$BB855E   |
 	BNE CODE_BB8565				;$BB8561   |
-	STA sprite.unknown_1C,x			;$BB8563   |
+	STA sprite.display_mode,x		;$BB8563   |
 CODE_BB8565:					;	   |
 	LDA.w sprite.x_sub_position,y		;$BB8565   |
 	STA sprite.x_sub_position,x		;$BB8568   |
@@ -985,7 +985,7 @@ init_command_bulk_set:
 	LDA.w DATA_FF000E,y			;$BB85E2   |
 	STA sprite.unknown_22,x			;$BB85E5   |
 	LDA.w DATA_FF0010,y			;$BB85E7   |
-	STA sprite.x_force,x			;$BB85EA   |
+	STA sprite.unknown_2C,x			;$BB85EA   |
 	LDA.w DATA_FF0012,y			;$BB85EC   |
 	STA sprite.x_speed,x			;$BB85EF   |
 	LDA.w DATA_FF0014,y			;$BB85F1   |
@@ -993,7 +993,7 @@ init_command_bulk_set:
 	LDA.w DATA_FF0016,y			;$BB85F6   |
 	STA sprite.max_x_speed,x		;$BB85F9   |
 	LDA.w DATA_FF0018,y			;$BB85FB   |
-	STA sprite.animation_control,x		;$BB85FE   |
+	STA sprite.animation_speed,x		;$BB85FE   |
 	LDA.w DATA_FF001A,y			;$BB8600   |
 	STA sprite.animation_id,x		;$BB8603   |
 	TYA					;$BB8605   |
@@ -1328,7 +1328,7 @@ CODE_BB884C:
 	LDA $32					;$BB8855   |
 	STA sprite.type,x			;$BB8857   |
 	STZ sprite.unknown_16,x			;$BB8859   |
-	STZ sprite.unknown_1C,x			;$BB885B   |
+	STZ sprite.display_mode,x		;$BB885B   |
 	STZ sprite.terrain_attributes,x		;$BB885D   |
 CODE_BB885F:					;	   |
 	LDA $3A					;$BB885F   |
@@ -5501,7 +5501,7 @@ CODE_BBAD34:
 	STX current_sprite			;$BBAD49   | Set diddy as current sprite
 	JSR CODE_BBAEB0				;$BBAD4B   |
 	LDA #$0004				;$BBAD4E   |
-	JSL CODE_B9D0B8				;$BBAD51   | Set kong animation (Run)
+	JSL set_anim_handle_dixie		;$BBAD51   | Set kong animation (Run)
 	JSR CODE_BBAEBD				;$BBAD55   | Set kong palette?
 	LDA.l DATA_FF0040			;$BBAD58   |
 	STA $16BA				;$BBAD5C   |
@@ -5515,7 +5515,7 @@ CODE_BBAD34:
 	STX current_sprite			;$BBAD74   | Set dixie as current sprite
 	JSR CODE_BBAEB0				;$BBAD76   |
 	LDA #$0004				;$BBAD79   |
-	JSL CODE_B9D0B8				;$BBAD7C   | Set kong animation (Run)
+	JSL set_anim_handle_dixie		;$BBAD7C   | Set kong animation (Run)
 	JSR CODE_BBAEBD				;$BBAD80   | Set kong palette?
 	LDA.l DATA_FF012A			;$BBAD83   |
 	STA $16E0				;$BBAD87   |
@@ -5623,7 +5623,7 @@ CODE_BBAE4A:
 	LDA #$0001				;$BBAE50   |
 	STA $2E,x				;$BBAE53   |
 	LDA #$004F				;$BBAE55   |
-	JSL CODE_B9D04B				;$BBAE58   |
+	JSL set_riding_kong_anim_handle_dixie	;$BBAE58   |
 	JSL CODE_B893DB				;$BBAE5C   |
 	BRA CODE_BBADFD				;$BBAE60  /
 
@@ -7007,7 +7007,7 @@ CODE_BBB7DD:					;	   |
 	LDA #$8000				;$BBB7F5   |
 	STA sprite.x_sub_position,x		;$BBB7F8   |
 	STA sprite.y_sub_position,x		;$BBB7FA   |
-	STZ sprite.x_force,x			;$BBB7FC   |
+	STZ sprite.unknown_2C,x			;$BBB7FC   |
 	STZ sprite.unknown_32,x			;$BBB7FE   |
 	STZ sprite.interaction_flags,x		;$BBB800   |
 	STZ sprite.terrain_interaction,x	;$BBB802   |
@@ -7015,7 +7015,7 @@ CODE_BBB7DD:					;	   |
 	LDA ($F3),y				;$BBB806   |
 	STA sprite.placement_parameter,x	;$BBB808   |
 	STZ sprite.unknown_16,x			;$BBB80A   |
-	STZ sprite.unknown_1C,x			;$BBB80C   |
+	STZ sprite.display_mode,x		;$BBB80C   |
 	STZ sprite.terrain_attributes,x		;$BBB80E   |
 	LDA ($F9),y				;$BBB810   |
 	TAX					;$BBB812   |
@@ -7063,14 +7063,14 @@ hidden_sprite_spawn:
 	LDA #$8000				;$BBB862   |
 	STA sprite.x_sub_position,x		;$BBB865   |
 	STA sprite.y_sub_position,x		;$BBB867   |
-	STZ sprite.unknown_1A,x			;$BBB869   |
+	STZ sprite.current_graphic,x		;$BBB869   |
 	STZ sprite.unknown_16,x			;$BBB86B   |
-	STZ sprite.x_force,x			;$BBB86D   |
+	STZ sprite.unknown_2C,x			;$BBB86D   |
 	STZ sprite.unknown_32,x			;$BBB86F   |
 	STZ sprite.interaction_flags,x		;$BBB871   |
 	STZ sprite.terrain_interaction,x	;$BBB873   |
 	STZ sprite.despawn_time,x		;$BBB875   |
-	STZ sprite.unknown_1C,x			;$BBB877   |
+	STZ sprite.display_mode,x		;$BBB877   |
 	LDA ($F3),y				;$BBB879   |
 	STA sprite.placement_parameter,x	;$BBB87B   |
 	LDA ($F9),y				;$BBB87D   |
@@ -7135,7 +7135,7 @@ CODE_BBB8D6:					;	   |
 	LDA #$8000				;$BBB8E7   |
 	STA sprite.x_sub_position,x		;$BBB8EA   |
 	STA sprite.y_sub_position,x		;$BBB8EC   |
-	STZ sprite.x_force,x			;$BBB8EE   |
+	STZ sprite.unknown_2C,x			;$BBB8EE   |
 	STZ sprite.unknown_32,x			;$BBB8F0   |
 	STZ sprite.interaction_flags,x		;$BBB8F2   |
 	STZ sprite.terrain_interaction,x	;$BBB8F4   |
@@ -7626,7 +7626,7 @@ CODE_BBBB99:
 	LDX current_sprite			;$BBBC46   |
 	LDA #!sprite_respawn_suppressor		;$BBBC48   |
 	STA sprite.type,x			;$BBBC4B   |
-	STZ sprite.unknown_1A,x			;$BBBC4D   |
+	STZ sprite.current_graphic,x		;$BBBC4D   |
 	STZ sprite.unknown_16,x			;$BBBC4F   |
 	STZ sprite.x_position,x			;$BBBC51   |
 	STZ sprite.y_position,x			;$BBBC53   |
@@ -8561,7 +8561,7 @@ CODE_BBC174:					;	   |
 	LDA #$0074				;$BBC3BC   |\ Set kong state to cutscene idle
 	STA sprite.state,x			;$BBC3BF   |/
 	LDA #$0045				;$BBC3C1   |\ Set kong animation to celebrate
-	JSL CODE_B9D0B0				;$BBC3C4   |/
+	JSL set_anim_once_handle_dixie		;$BBC3C4   |/
 	LDA $08C2				;$BBC3C8   |\
 	AND #$4000				;$BBC3CB   | |
 	BEQ .CODE_BBC42C			;$BBC3CE   |/ If there is no follower kong then were done
@@ -8570,7 +8570,7 @@ CODE_BBC174:					;	   |
 	STZ sprite.max_x_speed,x		;$BBC3D7   | | Clear x velocities and stop kong
 	STA sprite.state,x			;$BBC3D9   |/ Apply kong state
 	LDA #$0001				;$BBC3DB   |\ Set kong animation to idle
-	JSL CODE_B9D0B0				;$BBC3DE   |/
+	JSL set_anim_once_handle_dixie		;$BBC3DE   |/
 	JMP CODE_BBC150				;$BBC3E2  /> Cutscene code done
 
 .set_kong_states_to_cutscene_move
@@ -8597,7 +8597,7 @@ CODE_BBC174:					;	   |
 	STA sprite.state,x			;$BBC413   |
 	STZ sprite.max_x_speed,x		;$BBC415   |
 	STZ sprite.y_speed,x			;$BBC417   |
-	STZ sprite.unknown_1C,x			;$BBC419   |
+	STZ sprite.display_mode,x		;$BBC419   |
 	LDA $08C2				;$BBC41B   |
 	AND #$4000				;$BBC41E   |
 	BEQ .CODE_BBC42C			;$BBC421   |
@@ -8622,7 +8622,7 @@ CODE_BBC174:					;	   |
 	STZ sprite.max_x_speed,x		;$BBC44B   |
 	STA sprite.state,x			;$BBC44D   |
 	LDA #$0001				;$BBC44F   |
-	JSL CODE_B9D0B0				;$BBC452   |
+	JSL set_anim_once_handle_dixie		;$BBC452   |
 	RTS					;$BBC456  /
 
 .set_kongs_walking_right
@@ -8645,7 +8645,7 @@ CODE_BBC174:					;	   |
 	LDA #$0075				;$BBC47D   |\ Set kong state to cutscene moving
 	STA sprite.state,x			;$BBC480   |/
 	LDA #$0003				;$BBC482   |\ Set kong animation to walking
-	JSL CODE_B9D0B0				;$BBC485   |/
+	JSL set_anim_once_handle_dixie		;$BBC485   |/
 	RTS					;$BBC489  /> Return
 
 .CODE_BBC48A
@@ -8672,7 +8672,7 @@ CODE_BBC174:					;	   |
 	ORA #$0004				;$BBC4B8   |
 	STA.w sprite.x_position,y		;$BBC4BB   |
 	LDA #$0004				;$BBC4BE   |
-	JSL CODE_B9D0B0				;$BBC4C1   |
+	JSL set_anim_once_handle_dixie		;$BBC4C1   |
 	RTS					;$BBC4C5  /
 
 .CODE_BBC4C6
@@ -8708,7 +8708,7 @@ CODE_BBC174:					;	   |
 	LDA #$0074				;$BBC506   |
 	STA sprite.state,x			;$BBC509   |
 	LDA #$009F				;$BBC50B   |
-	JSL CODE_B9D0B0				;$BBC50E   |
+	JSL set_anim_once_handle_dixie		;$BBC50E   |
 	RTS					;$BBC512  /
 
 .CODE_BBC513

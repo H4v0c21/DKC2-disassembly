@@ -3,56 +3,83 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 struct sprite $0000
-	.type:			skip 2	;00
-	.render_order:		skip 2	;02
-	.x_sub_position:	skip 2	;04
-	.x_position:		skip 2	;06
-	.y_sub_position:	skip 2	;08
-	.y_position:		skip 2	;0A
-	.ground_y_position:	skip 2	;0C
-	.ground_distance:	skip 2	;0E
-	.terrain_attributes:	skip 2	;10
-	.oam_property:		skip 2	;12
-	.unknown_14:		skip 2	;14
-	.unknown_16:		skip 2	;16
-	.unknown_18:		skip 2	;18
-	.unknown_1A:		skip 2	;1A
-	.unknown_1C:		skip 2	;1C
-	.terrain_interaction:	skip 2	;1E
-	.x_speed:		skip 2	;20
-	.unknown_22:		skip 2	;22
-	.y_speed:		skip 2	;24
-	.max_x_speed:		skip 2	;26
-	.unknown_28:		skip 2	;28
-	.max_y_speed:		skip 2	;2A
-	.x_force:		skip 2	;2C
-	.state:			skip 1	;2E \ This is a pair in most cases, but a couple sprites use 2F alone
-	.sub_state:		skip 1	;2F /
-	.interaction_flags:	skip 2	;30
-	.unknown_32:		skip 2	;32
-	.unknown_34:		skip 2	;34
-	.animation_id:		skip 2	;36
-	.animation_timer:	skip 2	;38
-	.animation_control:	skip 2	;3A
-	.animation_address:	skip 2	;3C
-	.unknown_3E:		skip 2	;3E
-	.unknown_40:		skip 2	;40
-	.general_purpose_42:	skip 2	;42
-	.general_purpose_44:	skip 2	;44
-	.general_purpose_46:	skip 2	;46
-	.general_purpose_48:	skip 2	;48
-	.general_purpose_4A:	skip 2	;4A
-	.general_purpose_4C:	skip 2	;4C
-	.general_purpose_4E:	skip 2	;4E
-	.parameter:		skip 2	;50
-	.movement_state:	skip 1	;52
-	.movement_sub_state:	skip 1	;53
-	.constants_address:	skip 2	;54
-	.placement_number:	skip 2	;56
-	.placement_parameter:	skip 2	;58
-	.despawn_time:		skip 1	;5A
-	.despawn_countdown:	skip 1	;5B
-	.unknown_5C:		skip 2	;5C
+	.type:				skip 2	;00
+	.render_order:			skip 2	;02
+	.x_sub_position:		skip 2	;04
+	.x_position:			skip 2	;06
+	.y_sub_position:		skip 2	;08
+	.y_position:			skip 2	;0A
+	.ground_y_position:		skip 2	;0C
+	.ground_distance:		skip 2	;0E
+	.terrain_attributes:		skip 1	;10
+	.terrain_attributes_high:	skip 1	;11
+	.oam_property:			skip 2	;12
+	.unknown_14:			skip 2	;14
+	.unknown_16:			skip 2	;16
+	.unknown_18:			skip 2	;18
+	.current_graphic:		skip 2	;1A
+	.display_mode:			skip 1	;1C
+	.display_mode_high:		skip 1	;1D
+	.terrain_interaction:		skip 2	;1E
+	.x_speed:			skip 2	;20
+	.unknown_22:			skip 2	;22
+	.y_speed:			skip 2	;24
+	.max_x_speed:			skip 2	;26
+	.unknown_28:			skip 2	;28
+	.max_y_speed:			skip 2	;2A
+	.unknown_2C:			skip 2	;2C
+	.state:				skip 1	;2E \ This is a pair in most cases, but a couple sprites use 2F alone
+	.sub_state:			skip 1	;2F /
+	.interaction_flags:		skip 2	;30
+	.unknown_32:			skip 2	;32
+	.unknown_34:			skip 2	;34
+	.animation_id:			skip 2	;36
+	.animation_timer:		skip 2	;38
+	.animation_speed:		skip 2	;3A
+	.animation_address:		skip 2	;3C
+	.animation_routine:		skip 2	;3E
+	.unknown_40:			skip 2	;40
+	.general_purpose_42:		skip 2	;42
+	.general_purpose_44:		skip 2	;44
+	.general_purpose_46:		skip 2	;46
+	.general_purpose_48:		skip 2	;48
+	.general_purpose_4A:		skip 1	;4A
+	.general_purpose_4B:		skip 1	;4B
+	.general_purpose_4C:		skip 2	;4C
+	.general_purpose_4E:		skip 2	;4E
+	.parameter:
+		.unknown_50:		skip 2	;50
+	
+	.movement_state:		skip 1	;52
+	.movement_sub_state:		skip 1	;53
+	.constants_address:		skip 2	;54
+	.placement_number:		skip 2	;56
+	.placement_parameter:		skip 2	;58
+	.despawn_time:			skip 1	;5A
+	.despawn_countdown:		skip 1	;5B
+	.unknown_5C:			skip 2	;5C
+endstruct
+
+struct kong_control $0000
+	.animation_id:		skip 2	;00 animation number (no kong offset)
+	.input_pressed:		skip 2	;02 Copy of the active players inputs that were just pressed
+	.input_held:		skip 2	;04 Copy of the active players inputs that are pressed or held down
+	.fast_flag:		skip 2	;06 04 if a direction was held with Y
+	.gravity_force:		skip 2	;08 Gravity force
+	.max_fall_velocity:	skip 2	;0A Terminal velocity
+	.unknown_0C:		skip 2	;0C Appears to be used for dixie, something to do with rolling/gliding, checked by animation code
+	.roll_speed:		skip 2	;0E Roll speed
+	.roll_event_time:	skip 2	;10 A record of the time that a roll was triggered
+	.jump_event_time:	skip 2	;12 A record of the time that a jump was triggered
+	.flash_timer:		skip 2	;14 Invincibility flash timer
+	.invincibility_timer:	skip 2	;16 Invincibility timer
+	.input_held_y_event:	skip 2	;18 A record of the held input state when Y was pressed
+	.y_press_time:		skip 2	;1A A record of the latest time that Y was pressed
+	.y_old_press_time:	skip 2	;1C A record of the previous time that Y was pressed
+	.y_release_time:	skip 2	;1E A record of the time that the latest Y press was released
+	.y_old_release_time:	skip 2	;20 A record of the time that the previous Y press was released
+	.b_press_time:		skip 2	;22 A record of the last time B was pressed
+	.roll_gravity_delay:	skip 2	;24 Amount of time before gravity force should be applied when rolling off a ledge
 endstruct
 
 ; FIXME: these are here because they need to be after `struct sprite`,

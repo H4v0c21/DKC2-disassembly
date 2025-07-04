@@ -53,7 +53,7 @@ temp_60 = $60
 temp_61 = $61
 
 current_sprite = $64
-UNKNOWN_66 = $66		;This is two bytes for some table at 16B2
+current_kong_control_variables = $66
 alternate_sprite = $68
 UNKNOWN_6A = $6A		;same as $66
 current_player_mount = $6C
@@ -66,6 +66,9 @@ gamemode_submode = $96
 level_number = $D3
 gameplay_frame_counter = $D5
 gameplay_frame_counter_high = $D7
+
+
+collision_mask_result = $EB
 
 ;;;
 ;;; End direct page
