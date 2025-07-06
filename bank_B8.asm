@@ -88,7 +88,7 @@ work_on_active_kong:
 	LDX active_kong_sprite			;$B88098   |
 	STX current_sprite			;$B8809B   |
 	LDA sprite.constants_address,x		;$B8809D   |
-	STA $8E					;$B8809F   |
+	STA current_sprite_constants		;$B8809F   |
 	RTS					;$B880A1  /
 
 work_on_inactive_kong_global:
@@ -105,7 +105,7 @@ work_on_inactive_kong:				;	   |
 	LDX inactive_kong_sprite		;$B880B1   |
 	STX current_sprite			;$B880B4   |
 	LDA sprite.constants_address,x		;$B880B6   |
-	STA $8E					;$B880B8   |
+	STA current_sprite_constants		;$B880B8   |
 	RTS					;$B880BA  /
 
 	RTS					;$B880BB  /
@@ -481,7 +481,7 @@ CODE_B883B8:					;	   |
 	STA $42,x				;$B883C6   |
 	STZ $30,x				;$B883C8   |
 	LDA #$0003				;$B883CA   |
-	STA $0A36				;$B883CD   |
+	STA time_stop_flags			;$B883CD   |
 	JSL CODE_B883D5				;$B883D0   |
 	RTS					;$B883D4  /
 
@@ -702,7 +702,7 @@ CODE_B8857E:
 CODE_B885A3:					;	   |
 	STA.w kong_control.roll_speed,y		;$B885A3   |
 	LDY #$0032				;$B885A6   |
-	LDA [$8E],y				;$B885A9   |
+	LDA [current_sprite_constants],y	;$B885A9   |
 	STA $24,x				;$B885AB   |
 	JSR apply_roll_animation		;$B885AD   |
 	LDX current_sprite			;$B885B0   |
@@ -971,7 +971,7 @@ CODE_B887AA:
 CODE_B887BC:					;	   |
 	LDX current_sprite			;$B887BC   |
 	LDY #$0008				;$B887BE   |
-	LDA [$8E],y				;$B887C1   |
+	LDA [current_sprite_constants],y	;$B887C1   |
 	STA $24,x				;$B887C3   |
 	LDA #$001C				;$B887C5   |
 	STA sprite.state,x			;$B887C8   |
@@ -1290,7 +1290,7 @@ CODE_B88A5B:					;	   |
 	JSR set_player_normal_gravity		;$B88A74   |
 	JSR set_player_terminal_velocity	;$B88A77   |
 	LDY #$002A				;$B88A7A   |
-	LDA [$8E],y				;$B88A7D   |
+	LDA [current_sprite_constants],y	;$B88A7D   |
 	STA $24,x				;$B88A7F   |
 	LDA $12,x				;$B88A81   |
 	AND #$BFFF				;$B88A83   |
@@ -1336,7 +1336,7 @@ CODE_B88AB8:
 	LDX current_sprite			;$B88AD8   |
 	LDA #$0067				;$B88ADA   |
 	STA sprite.state,x			;$B88ADD   |
-	JSL CODE_BCFA78				;$B88ADF   |
+	JSL init_sprite_collision		;$B88ADF   |
 	RTS					;$B88AE3  /
 
 CODE_B88AE4:
@@ -1675,7 +1675,7 @@ CODE_B88D52:					;	   |
 	JSR set_player_terminal_velocity	;$B88D85   |
 	LDX current_sprite			;$B88D88   |
 	LDY #$002A				;$B88D8A   |
-	LDA [$8E],y				;$B88D8D   |
+	LDA [current_sprite_constants],y	;$B88D8D   |
 	STA $24,x				;$B88D8F   |
 	LDA $12,x				;$B88D91   |
 	AND #$BFFF				;$B88D93   |
@@ -1730,11 +1730,11 @@ CODE_B88DDD:					;	   |
 
 CODE_B88DF7:
 	LDY #$0024				;$B88DF7  \
-	LDA [$8E],y				;$B88DFA   |
+	LDA [current_sprite_constants],y	;$B88DFA   |
 	LDY current_kong_control_variables	;$B88DFC   |
 	STA.w kong_control.gravity_force,y	;$B88DFE   |
 	LDY #$0026				;$B88E01   |
-	LDA [$8E],y				;$B88E04   |
+	LDA [current_sprite_constants],y	;$B88E04   |
 	LDX current_sprite			;$B88E06   |
 	STA $24,x				;$B88E08   |
 	RTS					;$B88E0A  /
@@ -1781,15 +1781,15 @@ endif						;	   |
 	JSR enable_bullet_time			;$B88E5F   |
 	LDY active_kong_control_variables	;$B88E62   |
 	LDY #$0024				;$B88E65   |
-	LDA [$8E],y				;$B88E68   |
+	LDA [current_sprite_constants],y	;$B88E68   |
 	LDY current_kong_control_variables	;$B88E6A   |
 	STA.w kong_control.gravity_force,y	;$B88E6C   |
 	LDY #$0026				;$B88E6F   |
-	LDA [$8E],y				;$B88E72   |
+	LDA [current_sprite_constants],y	;$B88E72   |
 	LDX current_sprite			;$B88E74   |
 	STA $24,x				;$B88E76   |
 	LDY #$0002				;$B88E78   |
-	LDA [$8E],y				;$B88E7B   |
+	LDA [current_sprite_constants],y	;$B88E7B   |
 	LDY current_kong_control_variables	;$B88E7D   |
 	STA.w kong_control.max_fall_speed,y	;$B88E7F   |
 	LDA #$0100				;$B88E82   |
@@ -2705,7 +2705,7 @@ CODE_B8958F:
 	LDX current_player_mount		;$B8959B   |
 	STX current_sprite			;$B8959D   |
 	LDA $0A,x				;$B8959F   |
-	JSL CODE_B5C3E3				;$B895A1   |
+	JSL get_sprite_terrain_info_define_y	;$B895A1   |
 	CMP #$0000				;$B895A5   |
 	BMI CODE_B895BD				;$B895A8   |
 	EOR #$FFFF				;$B895AA   |
@@ -2832,7 +2832,7 @@ kong_state_handler:
 	AND #$F7FF				;$B896A2   |
 	STA $30,x				;$B896A5   |
 	LDA sprite.constants_address,x		;$B896A7   |\
-	STA $8E					;$B896A9   |/
+	STA current_sprite_constants		;$B896A9   |/
 	PHK					;$B896AB   |
 	PLB					;$B896AC   |
 	LDA sprite.state,x			;$B896AD   |
@@ -3051,7 +3051,7 @@ CODE_B89928:
 CODE_B89933:
 	JSR apply_player_gravity		;$B89933  \
 	JSR get_x_acceleration			;$B89936   |
-	LDA [$8E],y				;$B89939   |
+	LDA [current_sprite_constants],y	;$B89939   |
 	JSR interpolate_x_velocity		;$B8993B   |
 	JSR handle_slope_sliding_velocity	;$B8993E   |
 	JSR CODE_B8D5E6				;$B89941   |
@@ -3063,7 +3063,7 @@ handle_player_physics:
 	JSR apply_player_gravity		;$B8994C  \
 CODE_B8994F:					;	   |
 	JSR get_x_acceleration			;$B8994F   |
-	LDA [$8E],y				;$B89952   |
+	LDA [current_sprite_constants],y	;$B89952   |
 	JSR interpolate_x_velocity		;$B89954   |
 CODE_B89957:					;	   |
 	JSR handle_slope_sliding_velocity	;$B89957   |
@@ -3087,7 +3087,7 @@ CODE_B89975:					;	   |
 CODE_B89979:					;	   |
 	PHK					;$B89979   |
 	PLB					;$B8997A   |
-	JML [$05A9]				;$B8997B  /
+	JML [sprite_return_address]		;$B8997B  /
 
 CODE_B8997E:
 	LDX current_sprite			;$B8997E  \
@@ -3471,7 +3471,7 @@ CODE_B89C3C:
 CODE_B89C4C:
 	JSR apply_player_gravity		;$B89C4C  \
 	JSR get_x_acceleration			;$B89C4F   |
-	LDA [$8E],y				;$B89C52   |
+	LDA [current_sprite_constants],y	;$B89C52   |
 	JSR interpolate_x_velocity		;$B89C54   |
 	JSR handle_slope_sliding_velocity	;$B89C57   |
 	JSR CODE_B8D5E6				;$B89C5A   |
@@ -3599,7 +3599,7 @@ kong_state_11:
 	LDA #$000E				;$B89D38   |
 	JSR process_player_action		;$B89D3B   |
 	LDY #$0050				;$B89D3E   |
-	LDA [$8E],y				;$B89D41   |
+	LDA [current_sprite_constants],y	;$B89D41   |
 	PHA					;$B89D43   |
 	JSR interpolate_x_velocity		;$B89D44   |
 	PLA					;$B89D47   |
@@ -3628,7 +3628,7 @@ kong_state_12:
 if !version == 1				;	  \
 	LDX #main_sprite_table			;$B89D69   |
 	LDA sprite.constants_address,x		;$B89D6C   |
-	STA $8E					;$B89D6E   |
+	STA current_sprite_constants		;$B89D6E   |
 endif						;	   |
 	LDA #$C000				;$B89D70   |
 	ORA $0AB8				;$B89D73   |
@@ -3660,7 +3660,7 @@ CODE_B89DA4:					;	   |
 	BNE CODE_B89E28				;$B89DAE   |
 	STZ $46,x				;$B89DB0   |
 	LDY #$004A				;$B89DB2   |
-	LDA [$8E],y				;$B89DB5   |
+	LDA [current_sprite_constants],y	;$B89DB5   |
 	LDY current_kong_control_variables	;$B89DB7   |
 	STA.w kong_control.gravity_force,y	;$B89DB9   |
 	JSR apply_player_gravity		;$B89DBC   |
@@ -3753,7 +3753,7 @@ CODE_B89E44:
 
 CODE_B89E51:
 	LDY #$004C				;$B89E51  \
-	LDA [$8E],y				;$B89E54   |
+	LDA [current_sprite_constants],y	;$B89E54   |
 	RTS					;$B89E56  /
 
 CODE_B89E57:
@@ -3990,11 +3990,11 @@ CODE_B89FE8:
 
 kong_state_1F:
 	LDY #$0000				;$B89FEA  \
-	LDA [$8E],y				;$B89FED   |
+	LDA [current_sprite_constants],y	;$B89FED   |
 	LDY current_kong_control_variables	;$B89FEF   |
 	STA.w kong_control.gravity_force,y	;$B89FF1   |
 	LDY #$0002				;$B89FF4   |
-	LDA [$8E],y				;$B89FF7   |
+	LDA [current_sprite_constants],y	;$B89FF7   |
 	LDY current_kong_control_variables	;$B89FF9   |
 	STA.w kong_control.max_fall_speed,y	;$B89FFB   |
 	JSR apply_player_gravity		;$B89FFE   |
@@ -4235,7 +4235,7 @@ kong_state_25:
 	STA $24,x				;$B8A1CD   |
 CODE_B8A1CF:					;	   |
 	LDY #$002C				;$B8A1CF   |
-	LDA [$8E],y				;$B8A1D2   |
+	LDA [current_sprite_constants],y	;$B8A1D2   |
 	STA $20,x				;$B8A1D4   |
 	STA $26,x				;$B8A1D6   |
 	JSR CODE_B89933				;$B8A1D8   |
@@ -4359,7 +4359,7 @@ CODE_B8A27A:
 	LDX current_sprite			;$B8A2C2   |
 	JSL CODE_80889C				;$B8A2C4   |
 	JSL CODE_BB8C19				;$B8A2C8   |
-	JSL CODE_BCFA78				;$B8A2CC   |
+	JSL init_sprite_collision		;$B8A2CC   |
 	JSR start_damaged_invincibility		;$B8A2D0   |
 	JSR disable_bullet_time			;$B8A2D3   |
 	LDX active_kong_sprite			;$B8A2D6   |
@@ -4396,22 +4396,22 @@ kong_state_28:
 	JSR apply_position_from_velocity	;$B8A31A   |
 	JSR update_damaged_invincibility	;$B8A31D   |
 	JSL process_sprite_animation		;$B8A320   |
-	JML [$05A9]				;$B8A324  /
+	JML [sprite_return_address]		;$B8A324  /
 
 CODE_B8A327:
 	JSR CODE_B8B831				;$B8A327  \
-	JML [$05A9]				;$B8A32A  /
+	JML [sprite_return_address]		;$B8A32A  /
 
 kong_state_29:
 	LDA #$0002				;$B8A32D  \
 	TSB $0933				;$B8A330   |
 	JSR CODE_B8D99E				;$B8A333   |
 	JSL process_sprite_animation		;$B8A336   |
-	LDA $099F				;$B8A33A   |
+	LDA kong_follow_buffer_playback_index	;$B8A33A   |
 	INC A					;$B8A33D   |
 	INC A					;$B8A33E   |
 	AND #$003F				;$B8A33F   |
-	CMP $099D				;$B8A342   |
+	CMP kong_follow_buffer_recording_index	;$B8A342   |
 	BEQ CODE_B8A34A				;$B8A345   |
 	JMP CODE_B89979				;$B8A347  /
 
@@ -4422,11 +4422,11 @@ CODE_B8A34A:
 
 kong_state_2A:
 	LDY #$0000				;$B8A352  \
-	LDA [$8E],y				;$B8A355   |
+	LDA [current_sprite_constants],y	;$B8A355   |
 	LDY current_kong_control_variables	;$B8A357   |
 	STA.w kong_control.gravity_force,y	;$B8A359   |
 	LDY #$0002				;$B8A35C   |
-	LDA [$8E],y				;$B8A35F   |
+	LDA [current_sprite_constants],y	;$B8A35F   |
 	LDY current_kong_control_variables	;$B8A361   |
 	STA.w kong_control.max_fall_speed,y	;$B8A363   |
 	JSR apply_player_gravity		;$B8A366   |
@@ -4442,7 +4442,7 @@ CODE_B8A376:					;	   |
 	JSR CODE_B8D5E6				;$B8A379   |
 	JSL process_sprite_animation		;$B8A37C   |
 	LDA $0D6E				;$B8A380   |
-	CMP $099D				;$B8A383   |
+	CMP kong_follow_buffer_recording_index	;$B8A383   |
 	BNE CODE_B8A394				;$B8A386   |
 	LDX current_sprite			;$B8A388   |
 	LDA $0D66				;$B8A38A   |
@@ -4469,11 +4469,11 @@ CODE_B8A3AA:
 
 kong_state_2B:
 	LDY #$0044				;$B8A3B3  \
-	LDA [$8E],y				;$B8A3B6   |
+	LDA [current_sprite_constants],y	;$B8A3B6   |
 	LDY current_kong_control_variables	;$B8A3B8   |
 	STA.w kong_control.gravity_force,y	;$B8A3BA   |
 	LDY #$0002				;$B8A3BD   |
-	LDA [$8E],y				;$B8A3C0   |
+	LDA [current_sprite_constants],y	;$B8A3C0   |
 	LDY current_kong_control_variables	;$B8A3C2   |
 	STA.w kong_control.max_fall_speed,y	;$B8A3C4   |
 	JSR apply_player_gravity		;$B8A3C7   |
@@ -4486,13 +4486,13 @@ kong_state_2B:
 	LDY #$0046				;$B8A3DA   |
 	AND #$0200				;$B8A3DD   |
 	BEQ CODE_B8A3EA				;$B8A3E0   |
-	LDA [$8E],y				;$B8A3E2   |
+	LDA [current_sprite_constants],y	;$B8A3E2   |
 	EOR #$FFFF				;$B8A3E4   |
 	INC A					;$B8A3E7   |
 	BRA CODE_B8A3EC				;$B8A3E8  /
 
 CODE_B8A3EA:
-	LDA [$8E],y				;$B8A3EA  \
+	LDA [current_sprite_constants],y	;$B8A3EA  \
 CODE_B8A3EC:					;	   |
 	STA $26,x				;$B8A3EC   |
 	BRA CODE_B8A3F4				;$B8A3EE  /
@@ -4502,7 +4502,7 @@ CODE_B8A3F0:
 	STZ $26,x				;$B8A3F2   |
 CODE_B8A3F4:					;	   |
 	LDY #$0048				;$B8A3F4   |
-	LDA [$8E],y				;$B8A3F7   |
+	LDA [current_sprite_constants],y	;$B8A3F7   |
 	JSR interpolate_x_velocity		;$B8A3F9   |
 	JSR CODE_B8A049				;$B8A3FC   |
 	LDA parent_level_number			;$B8A3FF   |
@@ -4631,13 +4631,13 @@ kong_state_2E:
 	JSL process_sprite_animation		;$B8A4F4  \
 	LDA #$0001				;$B8A4F8   |
 	TSB $08C2				;$B8A4FB   |
-	LDA $099D				;$B8A4FE   |
+	LDA kong_follow_buffer_recording_index	;$B8A4FE   |
 	DEC A					;$B8A501   |
 	DEC A					;$B8A502   |
 	AND #$003F				;$B8A503   |
-	CMP $099F				;$B8A506   |
+	CMP kong_follow_buffer_playback_index	;$B8A506   |
 	BEQ CODE_B8A522				;$B8A509   |
-	STA $099D				;$B8A50B   |
+	STA kong_follow_buffer_recording_index	;$B8A50B   |
 	TAX					;$B8A50E   |
 	LDY current_sprite			;$B8A50F   |
 	LDA.l $7FA532,x				;$B8A511   |
@@ -4797,11 +4797,11 @@ kong_state_32:
 	JSR CODE_B8D99E				;$B8A63F  \
 	JSR CODE_B8DA84				;$B8A642   |
 	JSL process_sprite_animation		;$B8A645   |
-	LDA $099F				;$B8A649   |
+	LDA kong_follow_buffer_playback_index	;$B8A649   |
 	INC A					;$B8A64C   |
 	INC A					;$B8A64D   |
 	AND #$003F				;$B8A64E   |
-	CMP $099D				;$B8A651   |
+	CMP kong_follow_buffer_recording_index	;$B8A651   |
 	BNE CODE_B8A66B				;$B8A654   |
 	LDX active_kong_sprite			;$B8A656   |
 	LDA sprite.state,x			;$B8A659   |
@@ -5084,7 +5084,7 @@ kong_state_3A:
 	JSR set_normal_gravity_if_falling	;$B8A86F   |
 	JSR apply_player_gravity		;$B8A872   |
 	JSR get_x_acceleration			;$B8A875   |
-	LDA [$8E],y				;$B8A878   |
+	LDA [current_sprite_constants],y	;$B8A878   |
 	JSR interpolate_x_velocity		;$B8A87A   |
 	JSR handle_slope_sliding_velocity	;$B8A87D   |
 	JSR apply_position_from_velocity	;$B8A880   |
@@ -5327,11 +5327,11 @@ kong_state_40:
 	TSB $0933				;$B8AA53   |
 	JSR CODE_B8D99E				;$B8AA56   |
 	JSL process_sprite_animation		;$B8AA59   |
-	LDA $099F				;$B8AA5D   |
+	LDA kong_follow_buffer_playback_index	;$B8AA5D   |
 	INC A					;$B8AA60   |
 	INC A					;$B8AA61   |
 	AND #$003F				;$B8AA62   |
-	CMP $099D				;$B8AA65   |
+	CMP kong_follow_buffer_recording_index	;$B8AA65   |
 	BEQ CODE_B8AA6D				;$B8AA68   |
 	JMP CODE_B89979				;$B8AA6A  /
 
@@ -5816,7 +5816,7 @@ kong_state_58:
 	JSR process_player_action		;$B8AE66   |
 	JSR apply_player_gravity		;$B8AE69   |
 	JSR get_x_acceleration			;$B8AE6C   |
-	LDA [$8E],y				;$B8AE6F   |
+	LDA [current_sprite_constants],y	;$B8AE6F   |
 	JSR interpolate_x_velocity		;$B8AE71   |
 	JSR handle_slope_sliding_velocity	;$B8AE74   |
 	JSR apply_position_from_velocity	;$B8AE77   |
@@ -5829,7 +5829,7 @@ kong_state_59:
 	JSR process_player_action		;$B8AE86   |
 	JSR apply_player_gravity		;$B8AE89   |
 	JSR get_x_acceleration			;$B8AE8C   |
-	LDA [$8E],y				;$B8AE8F   |
+	LDA [current_sprite_constants],y	;$B8AE8F   |
 	JSR interpolate_x_velocity		;$B8AE91   |
 	JSR handle_slope_sliding_velocity	;$B8AE94   |
 	JSR apply_position_from_velocity	;$B8AE97   |
@@ -5994,7 +5994,7 @@ DATA_B8AFAB:
 kong_state_5E:
 	LDX current_sprite			;$B8AFBC  \
 	LDY #$002C				;$B8AFBE   |
-	LDA [$8E],y				;$B8AFC1   |
+	LDA [current_sprite_constants],y	;$B8AFC1   |
 	STA $20,x				;$B8AFC3   |
 	STA $26,x				;$B8AFC5   |
 	JSR CODE_B89933				;$B8AFC7   |
@@ -6017,7 +6017,7 @@ kong_state_5F:
 	LDX current_sprite			;$B8AFE8   |
 	STZ $30,x				;$B8AFEA   |
 	LDY #$002C				;$B8AFEC   |
-	LDA [$8E],y				;$B8AFEF   |
+	LDA [current_sprite_constants],y	;$B8AFEF   |
 	STA $20,x				;$B8AFF1   |
 	STA $26,x				;$B8AFF3   |
 	JSR apply_position_from_velocity	;$B8AFF5   |
@@ -6196,7 +6196,7 @@ kong_state_69:
 	STA $24,x				;$B8B14E   |
 	JSR apply_player_gravity		;$B8B150   |
 	LDY #$006E				;$B8B153   |
-	LDA [$8E],y				;$B8B156   |
+	LDA [current_sprite_constants],y	;$B8B156   |
 	JSR interpolate_x_velocity		;$B8B158   |
 	JSR CODE_B89957				;$B8B15B   |
 	LDY $19C4				;$B8B15E   |
@@ -6304,7 +6304,7 @@ CODE_B8B219:					;	   |
 	AND #$0010				;$B8B22F   |
 	BNE CODE_B8B237				;$B8B232   |
 CODE_B8B234:					;	   |
-	JML [$05A9]				;$B8B234  /
+	JML [sprite_return_address]		;$B8B234  /
 
 CODE_B8B237:
 	LDA $32					;$B8B237  \
@@ -6480,7 +6480,7 @@ kong_state_7B:
 	JSR process_player_action		;$B8B39B   |
 	JSR apply_player_gravity		;$B8B39E   |
 	JSR get_x_acceleration			;$B8B3A1   |
-	LDA [$8E],y				;$B8B3A4   |
+	LDA [current_sprite_constants],y	;$B8B3A4   |
 	JSR interpolate_x_velocity		;$B8B3A6   |
 	JSR handle_slope_sliding_velocity	;$B8B3A9   |
 	JSR CODE_B8D5E6				;$B8B3AC   |
@@ -6624,7 +6624,7 @@ CODE_B8B4CF:
 	LDX $0BA0				;$B8B4CF  \
 	LDA sprite.constants_address,x		;$B8B4D2   |
 	STA $5E					;$B8B4D4   |
-	LDA $90					;$B8B4D6   |
+	LDA current_sprite_constants_bank	;$B8B4D6   |
 	STA $60					;$B8B4D8   |
 	LDY #$0000				;$B8B4DA   |
 	LDA [$5E],y				;$B8B4DD   |
@@ -6748,7 +6748,7 @@ CODE_B8B5A7:
 	JSL set_player_interaction_global	;$B8B5AA   |
 	LDX current_sprite			;$B8B5AE   |
 	LDA #$0003				;$B8B5B0   |
-	STA $0A36				;$B8B5B3   |
+	STA time_stop_flags			;$B8B5B3   |
 	RTS					;$B8B5B6  /
 
 CODE_B8B5B7:
@@ -6879,7 +6879,7 @@ CODE_B8B686:
 CODE_B8B689:					;	   |
 	CLC					;$B8B689   |
 	ADC $06,x				;$B8B68A   |
-	JSL CODE_B5C3D5				;$B8B68C   |
+	JSL get_sprite_terrain_info_y_origin_0	;$B8B68C   |
 	JSR CODE_B8D484				;$B8B690   |
 	SEC					;$B8B693   |
 	SBC $0A,x				;$B8B694   |
@@ -6922,11 +6922,11 @@ check_sprite_underwater:
 
 CODE_B8B6C7:
 	LDY #$0076				;$B8B6C7  \
-	LDA [$8E],y				;$B8B6CA   |
+	LDA [current_sprite_constants],y	;$B8B6CA   |
 	LDY current_kong_control_variables	;$B8B6CC   |
 	STA.w kong_control.gravity_force,y	;$B8B6CE   |
 	LDY #$0078				;$B8B6D1   |
-	LDA [$8E],y				;$B8B6D4   |
+	LDA [current_sprite_constants],y	;$B8B6D4   |
 	LDY current_kong_control_variables	;$B8B6D6   |
 	STA.w kong_control.max_fall_speed,y	;$B8B6D8   |
 	RTS					;$B8B6DB  /
@@ -7052,7 +7052,7 @@ CODE_B8B7A0:
 CODE_B8B7B1:					;	   |
 	INC $5E					;$B8B7B1   |
 	LDA $5E					;$B8B7B3   |
-	JSL CODE_B5C3E3				;$B8B7B5   |
+	JSL get_sprite_terrain_info_define_y	;$B8B7B5   |
 	LDA $AE					;$B8B7B9   |
 	AND #$1000				;$B8B7BB   |
 	BEQ CODE_B8B7C8				;$B8B7BE   |
@@ -7235,7 +7235,7 @@ CODE_B8B8AB:
 
 .CODE_B8B8CF
 	LDY #$0032				;$B8B8CF  \
-	LDA [$8E],y				;$B8B8D2   |
+	LDA [current_sprite_constants],y	;$B8B8D2   |
 	LDY current_kong_control_variables	;$B8B8D4   |
 	STA.w kong_control.roll_gravity_delay,y	;$B8B8D6   |
 	RTS					;$B8B8D9  /
@@ -7364,7 +7364,7 @@ CODE_B8B9B8:
 	JSR start_player_falling		;$B8B9B8  \
 	RTL					;$B8B9BB  /
 
-	JSL CODE_B5C3E1				;$B8B9BC   |
+	JSL get_sprite_terrain_info		;$B8B9BC   |
 	RTL					;$B8B9C0  /
 
 	LDX current_sprite			;$B8B9C1   |
@@ -8311,7 +8311,7 @@ squawks_hold_up_action:
 move_barrel_cannon_up_action:
 	LDX current_sprite			;$B8C052  \
 	LDY #$004E				;$B8C054   |
-	LDA [$8E],y				;$B8C057   |
+	LDA [current_sprite_constants],y	;$B8C057   |
 	EOR #$FFFF				;$B8C059   |
 	INC A					;$B8C05C   |
 	STA $2A,x				;$B8C05D   |
@@ -8324,12 +8324,12 @@ climb_up_single_rope_action:
 	AND #$0004				;$B8C067   |
 	BNE .fast_climb				;$B8C06A   |
 	LDY #$0054				;$B8C06C   |
-	LDA [$8E],y				;$B8C06F   |
+	LDA [current_sprite_constants],y	;$B8C06F   |
 	BRA .update_y_velocity			;$B8C071  /
 
 .fast_climb
 	LDY #$0058				;$B8C073  \
-	LDA [$8E],y				;$B8C076   |
+	LDA [current_sprite_constants],y	;$B8C076   |
 .update_y_velocity				;	   |
 	EOR #$FFFF				;$B8C078   |
 	INC A					;$B8C07B   |
@@ -8343,12 +8343,12 @@ climb_up_double_rope_action:
 	AND #$0004				;$B8C086   |
 	BNE .fast_climb				;$B8C089   |
 	LDY #$005C				;$B8C08B   |
-	LDA [$8E],y				;$B8C08E   |
+	LDA [current_sprite_constants],y	;$B8C08E   |
 	BRA .update_y_velocity			;$B8C090  /
 
 .fast_climb
 	LDY #$0060				;$B8C092  \
-	LDA [$8E],y				;$B8C095   |
+	LDA [current_sprite_constants],y	;$B8C095   |
 .update_y_velocity				;	   |
 	EOR #$FFFF				;$B8C097   |
 	INC A					;$B8C09A   |
@@ -8380,7 +8380,7 @@ move_enguarde_up_action:
 wind_float_up_fast_action:
 	LDX current_sprite			;$B8C0BD  \
 	LDY #$0068				;$B8C0BF   |
-	LDA [$8E],y				;$B8C0C2   |
+	LDA [current_sprite_constants],y	;$B8C0C2   |
 	STA $2A,x				;$B8C0C4   |
 	RTS					;$B8C0C6  /
 
@@ -8439,7 +8439,7 @@ check_for_rope_hanging_from_floor:
 	CLC					;$B8C12A   |
 	ADC $5E					;$B8C12B   |
 	STA $5E					;$B8C12D   |
-	JSL CODE_B5C3D5				;$B8C12F   |
+	JSL get_sprite_terrain_info_y_origin_0	;$B8C12F   |
 	LDA $AE					;$B8C133   |
 	AND #$1000				;$B8C135   |
 	BNE .rope_below				;$B8C138   |
@@ -8469,7 +8469,7 @@ squawks_holding_down_action:
 move_barrel_cannon_down_action:
 	LDX current_sprite			;$B8C153  \
 	LDY #$004E				;$B8C155   |
-	LDA [$8E],y				;$B8C158   |
+	LDA [current_sprite_constants],y	;$B8C158   |
 	STA $2A,x				;$B8C15A   |
 	RTS					;$B8C15C  /
 
@@ -8480,12 +8480,12 @@ climb_down_single_rope_action:
 	AND #$0004				;$B8C164   | | if fast move flag is enabled climb down rope faster
 	BNE .fast_climb				;$B8C167   |/
 	LDY #$0056				;$B8C169   |\
-	LDA [$8E],y				;$B8C16C   | | otherwise use normal climb velocity
+	LDA [current_sprite_constants],y	;$B8C16C   | | otherwise use normal climb velocity
 	BRA .update_y_velocity			;$B8C16E  / /
 
 .fast_climb
 	LDY #$005A				;$B8C170  \ \
-	LDA [$8E],y				;$B8C173   |/ use fast climb velocity
+	LDA [current_sprite_constants],y	;$B8C173   |/ use fast climb velocity
 .update_y_velocity				;	   |
 	STA $2A,x				;$B8C175   |
 	RTS					;$B8C177  /
@@ -8497,12 +8497,12 @@ climb_down_double_rope_action:
 	AND #$0004				;$B8C17F   |
 	BNE .fast_climb				;$B8C182   |
 	LDY #$005E				;$B8C184   |
-	LDA [$8E],y				;$B8C187   |
+	LDA [current_sprite_constants],y	;$B8C187   |
 	BRA .update_y_velocity			;$B8C189  /
 
 .fast_climb
 	LDY #$0062				;$B8C18B  \
-	LDA [$8E],y				;$B8C18E   |
+	LDA [current_sprite_constants],y	;$B8C18E   |
 .update_y_velocity				;	   |
 	STA $2A,x				;$B8C190   |
 	RTS					;$B8C192  /
@@ -8512,7 +8512,7 @@ horizontal_rope_down_action:
 
 swim_sink_fast_action:
 	LDY #$007A				;$B8C194  \
-	LDA [$8E],y				;$B8C197   |
+	LDA [current_sprite_constants],y	;$B8C197   |
 	LDY current_kong_control_variables	;$B8C199   |
 	STA.w kong_control.max_fall_speed,y	;$B8C19B   |
 	RTS					;$B8C19E  /
@@ -8539,7 +8539,7 @@ move_enguarde_down_action:
 wind_float_up_slow_action:
 	LDX current_sprite			;$B8C1BD  \
 	LDY #$006A				;$B8C1BF   |
-	LDA [$8E],y				;$B8C1C2   |
+	LDA [current_sprite_constants],y	;$B8C1C2   |
 	STA $2A,x				;$B8C1C4   |
 	RTS					;$B8C1C6  /
 
@@ -8579,7 +8579,7 @@ get_player_x_move_speed:
 	LDA animal_type				;$B8C1FA   |
 	BNE .has_animal_walking			;$B8C1FC   |
 	LDY #$000C				;$B8C1FE   |
-	LDA [$8E],y				;$B8C201   |
+	LDA [current_sprite_constants],y	;$B8C201   |
 	RTS					;$B8C203  /
 
 .has_animal_walking
@@ -8587,14 +8587,14 @@ get_player_x_move_speed:
 	SBC #$FFF8				;$B8C205   |
 	LSR A					;$B8C208   |
 	TAY					;$B8C209   |
-	LDA [$8E],y				;$B8C20A   |
+	LDA [current_sprite_constants],y	;$B8C20A   |
 	RTS					;$B8C20C  /
 
 .running
 	LDA animal_type				;$B8C20D  \
 	BNE .has_animal_running			;$B8C20F   |
 	LDY #$000E				;$B8C211   |
-	LDA [$8E],y				;$B8C214   |
+	LDA [current_sprite_constants],y	;$B8C214   |
 	RTS					;$B8C216  /
 
 .has_animal_running
@@ -8602,7 +8602,7 @@ get_player_x_move_speed:
 	SBC #$FFE4				;$B8C218   |
 	LSR A					;$B8C21B   |
 	TAY					;$B8C21C   |
-	LDA [$8E],y				;$B8C21D   |
+	LDA [current_sprite_constants],y	;$B8C21D   |
 	RTS					;$B8C21F  /
 
 CODE_B8C220:
@@ -8655,12 +8655,12 @@ shot_from_cannon_move_left_action:
 move_barrel_cannon_left_action:
 	LDX current_sprite			;$B8C268  \
 	LDY #$004E				;$B8C26A   |
-	LDA [$8E],y				;$B8C26D   |
+	LDA [current_sprite_constants],y	;$B8C26D   |
 	EOR #$FFFF				;$B8C26F   |
 	INC A					;$B8C272   |
 	STA $26,x				;$B8C273   |
 	LDY #$0052				;$B8C275   |
-	LDA [$8E],y				;$B8C278   |
+	LDA [current_sprite_constants],y	;$B8C278   |
 	EOR #$FFFF				;$B8C27A   |
 	INC A					;$B8C27D   |
 	STA $28,x				;$B8C27E   |
@@ -8678,7 +8678,7 @@ single_rope_climb_left_action:
 	LDA $06,x				;$B8C292   | |
 	SEC					;$B8C294   | |
 	SBC #$0020				;$B8C295   | |
-	JSL CODE_B5C3E7				;$B8C298   |/
+	JSL get_sprite_terrain_info_define_x	;$B8C298   |/
 	JSR CODE_B8D484				;$B8C29C   |
 	STA $5E					;$B8C29F   |
 	LDA $AE					;$B8C2A1   |
@@ -8697,7 +8697,7 @@ single_rope_climb_left_action:
 	LDA $06,x				;$B8C2BA   |
 	SEC					;$B8C2BC   |
 	SBC #$0004				;$B8C2BD   |
-	JSL CODE_B5C3E7				;$B8C2C0   |
+	JSL get_sprite_terrain_info_define_x	;$B8C2C0   |
 	JSR CODE_B8D484				;$B8C2C4   |
 	STA $5E					;$B8C2C7   |
 	LDA $AE					;$B8C2C9   |
@@ -8761,12 +8761,12 @@ horizontal_rope_climb_left_action:
 	AND #$0004				;$B8C331   |
 	BNE CODE_B8C33D				;$B8C334   |
 	LDY #$0064				;$B8C336   |
-	LDA [$8E],y				;$B8C339   |
+	LDA [current_sprite_constants],y	;$B8C339   |
 	BRA CODE_B8C342				;$B8C33B  /
 
 CODE_B8C33D:
 	LDY #$0066				;$B8C33D  \
-	LDA [$8E],y				;$B8C340   |
+	LDA [current_sprite_constants],y	;$B8C340   |
 CODE_B8C342:					;	   |
 	EOR #$FFFF				;$B8C342   |
 	INC A					;$B8C345   |
@@ -8780,12 +8780,12 @@ swim_left_action:
 	AND #$0004				;$B8C350   |
 	BNE .fast_swim				;$B8C353   |
 	LDY #$007C				;$B8C355   |
-	LDA [$8E],y				;$B8C358   |
+	LDA [current_sprite_constants],y	;$B8C358   |
 	BRA .update_x_velocity			;$B8C35A  /
 
 .fast_swim
 	LDY #$007E				;$B8C35C  \
-	LDA [$8E],y				;$B8C35F   |
+	LDA [current_sprite_constants],y	;$B8C35F   |
 .update_x_velocity				;	   |
 	EOR #$FFFF				;$B8C361   |
 	INC A					;$B8C364   |
@@ -8815,7 +8815,7 @@ move_enguarde_left_action:
 wind_float_move_left_action:
 	LDX current_sprite			;$B8C386  \
 	LDY #$006C				;$B8C388   |
-	LDA [$8E],y				;$B8C38B   |
+	LDA [current_sprite_constants],y	;$B8C38B   |
 	EOR #$FFFF				;$B8C38D   |
 	INC A					;$B8C390   |
 	STA $26,x				;$B8C391   |
@@ -8899,10 +8899,10 @@ shot_from_cannon_move_right_action:
 move_barrel_cannon_right_action:
 	LDX current_sprite			;$B8C401  \
 	LDY #$004E				;$B8C403   |
-	LDA [$8E],y				;$B8C406   |
+	LDA [current_sprite_constants],y	;$B8C406   |
 	STA $26,x				;$B8C408   |
 	LDY #$0052				;$B8C40A   |
-	LDA [$8E],y				;$B8C40D   |
+	LDA [current_sprite_constants],y	;$B8C40D   |
 	STA $28,x				;$B8C40F   |
 	RTS					;$B8C411  /
 
@@ -8918,7 +8918,7 @@ single_rope_climb_right_action:
 	LDA $06,x				;$B8C423   |
 	CLC					;$B8C425   |
 	ADC #$0020				;$B8C426   |
-	JSL CODE_B5C3E7				;$B8C429   |
+	JSL get_sprite_terrain_info_define_x	;$B8C429   |
 	JSR CODE_B8D484				;$B8C42D   |
 	STA $5E					;$B8C430   |
 	LDA $AE					;$B8C432   |
@@ -8936,7 +8936,7 @@ CODE_B8C443:					;	   |
 	STA $34					;$B8C449   |
 	LDA $06,x				;$B8C44B   |
 	INC A					;$B8C44D   |
-	JSL CODE_B5C3E7				;$B8C44E   |
+	JSL get_sprite_terrain_info_define_x	;$B8C44E   |
 	JSR CODE_B8D484				;$B8C452   |
 	STA $5E					;$B8C455   |
 	LDA $AE					;$B8C457   |
@@ -8997,12 +8997,12 @@ horizontal_rope_climb_right_action:
 	AND #$0004				;$B8C4BD   |
 	BNE CODE_B8C4C9				;$B8C4C0   |
 	LDY #$0064				;$B8C4C2   |
-	LDA [$8E],y				;$B8C4C5   |
+	LDA [current_sprite_constants],y	;$B8C4C5   |
 	BRA CODE_B8C4CE				;$B8C4C7  /
 
 CODE_B8C4C9:
 	LDY #$0066				;$B8C4C9  \
-	LDA [$8E],y				;$B8C4CC   |
+	LDA [current_sprite_constants],y	;$B8C4CC   |
 CODE_B8C4CE:					;	   |
 	STA $26,x				;$B8C4CE   |
 	RTS					;$B8C4D0  /
@@ -9014,12 +9014,12 @@ swim_right_action:
 	AND #$0004				;$B8C4D8   |
 	BNE CODE_B8C4E4				;$B8C4DB   |
 	LDY #$007C				;$B8C4DD   |
-	LDA [$8E],y				;$B8C4E0   |
+	LDA [current_sprite_constants],y	;$B8C4E0   |
 	BRA CODE_B8C4E9				;$B8C4E2  /
 
 CODE_B8C4E4:
 	LDY #$007E				;$B8C4E4  \
-	LDA [$8E],y				;$B8C4E7   |
+	LDA [current_sprite_constants],y	;$B8C4E7   |
 CODE_B8C4E9:					;	   |
 	STA $26,x				;$B8C4E9   |
 	RTS					;$B8C4EB  /
@@ -9047,7 +9047,7 @@ move_enguarde_right_action:
 wind_float_move_right_action:
 	LDX current_sprite			;$B8C50A  \
 	LDY #$006C				;$B8C50C   |
-	LDA [$8E],y				;$B8C50F   |
+	LDA [current_sprite_constants],y	;$B8C50F   |
 	STA $26,x				;$B8C511   |
 	RTS					;$B8C513  /
 
@@ -9232,7 +9232,7 @@ squawks_fly_up_action:
 	BEQ .is_animal				;$B8C644   |
 .slower_ascent					;	   |
 	LDY #$00C6				;$B8C646   |\
-	LDA [$8E],y				;$B8C649   | | return slower ascent velocity
+	LDA [current_sprite_constants],y	;$B8C649   | | return slower ascent velocity
 	RTS					;$B8C64B  / /
 
 .is_animal
@@ -9240,7 +9240,7 @@ squawks_fly_up_action:
 	CMP #$0062				;$B8C64F   | | if level is castle crush
 	BEQ .slower_ascent			;$B8C652   |/ use slower upward velocity when flying up
 	LDY #$0084				;$B8C654   |\
-	LDA [$8E],y				;$B8C657   | | return faster ascent velocity
+	LDA [current_sprite_constants],y	;$B8C657   | | return faster ascent velocity
 	RTS					;$B8C659  / /
 
 jump_off_vertical_rope_action:
@@ -9298,7 +9298,7 @@ jump_off_horizontal_rope_action:
 	AND #$0400				;$B8C6B5   |
 	BNE .down_pressed			;$B8C6B8   |
 	LDY #$0008				;$B8C6BA   |\
-	LDA [$8E],y				;$B8C6BD   | | update jump velocity
+	LDA [current_sprite_constants],y	;$B8C6BD   | | update jump velocity
 	STA $24,x				;$B8C6BF   |/
 	LDA #$006E				;$B8C6C1   |\
 	STA sprite.state,x			;$B8C6C4   |/ set kong behavior to jumping up from horizontal rope
@@ -9346,7 +9346,7 @@ jump_off_hook_action:
 	BNE .down_pressed			;$B8C723   |
 	LDX current_sprite			;$B8C725   |
 	LDY #$0008				;$B8C727   |
-	LDA [$8E],y				;$B8C72A   |
+	LDA [current_sprite_constants],y	;$B8C72A   |
 	STA $24,x				;$B8C72C   |
 	LDA #$0006				;$B8C72E   |
 	STA sprite.state,x			;$B8C731   |
@@ -9388,7 +9388,7 @@ swim_up_action:
 	JSL queue_sound_effect			;$B8C783   |/ queue swim sound effect
 	LDX current_sprite			;$B8C787   |
 	JSR .get_swim_constant_offset		;$B8C789   |
-	LDA [$8E],y				;$B8C78C   |\ set player y velocity
+	LDA [current_sprite_constants],y	;$B8C78C   |\ set player y velocity
 	STA $24,x				;$B8C78E   |/
 	LDA current_player_mount		;$B8C790   |
 	BNE .return				;$B8C792   |
@@ -9400,7 +9400,7 @@ swim_up_action:
 .jump_out_of_water
 	LDX current_sprite			;$B8C79A  \
 	LDY #$0008				;$B8C79C   |
-	LDA [$8E],y				;$B8C79F   |
+	LDA [current_sprite_constants],y	;$B8C79F   |
 	STA $24,x				;$B8C7A1   |
 	LDA #$0006				;$B8C7A3   |
 	STA sprite.state,x			;$B8C7A6   |
@@ -9445,7 +9445,7 @@ jump_off_honey_wall_action:
 	STA $20,x				;$B8C7EC   |
 	LDX current_sprite			;$B8C7EE   |
 	LDY #$0008				;$B8C7F0   |
-	LDA [$8E],y				;$B8C7F3   |
+	LDA [current_sprite_constants],y	;$B8C7F3   |
 	STA $24,x				;$B8C7F5   |
 	LDA #$0042				;$B8C7F7   |
 	STA sprite.state,x			;$B8C7FA   |
@@ -9463,7 +9463,7 @@ jump_off_honey_wall_action:
 
 .get_honey_wall_x_velocity
 	LDY #$000E				;$B8C81B  \
-	LDA [$8E],y				;$B8C81E   |
+	LDA [current_sprite_constants],y	;$B8C81E   |
 	LDX current_sprite			;$B8C820   |
 	BIT $12,x				;$B8C822   |
 	BVC .invert_x_velocity			;$B8C824   |
@@ -9649,7 +9649,7 @@ shoot_web_platform:
 
 .set_platform_velocity
 	LDY #$0092				;$B8C96A  \ \
-	LDA [$8E],y				;$B8C96D   |/ load web platform x velocity constant
+	LDA [current_sprite_constants],y	;$B8C96D   |/ load web platform x velocity constant
 	LDX current_sprite			;$B8C96F   |\
 	BIT $12,x				;$B8C971   | | check if player is facing right
 	BVC .no_flip				;$B8C973   |/
@@ -9664,13 +9664,13 @@ shoot_web_platform:
 	AND #$0800				;$B8C985   |\ if up is pressed
 	BEQ .shot_upwards			;$B8C988   |/ make web platform move up
 	LDY #$0094				;$B8C98A   |\
-	LDA [$8E],y				;$B8C98D   | | otherwise make platform move down
+	LDA [current_sprite_constants],y	;$B8C98D   | | otherwise make platform move down
 	STA $48,x				;$B8C98F   |/
 	RTS					;$B8C991  /
 
 .shot_upwards
 	LDY #$0096				;$B8C992  \
-	LDA [$8E],y				;$B8C995   |
+	LDA [current_sprite_constants],y	;$B8C995   |
 	STA $48,x				;$B8C997   |
 .spawn_done					;	   |
 	RTS					;$B8C999  /
@@ -9794,11 +9794,11 @@ glide_action:
 
 .start_glide
 	LDY #$002E				;$B8CA50  \
-	LDA [$8E],y				;$B8CA53   |
+	LDA [current_sprite_constants],y	;$B8CA53   |
 	STA $0A,x				;$B8CA55   |
 	LDX current_sprite			;$B8CA57   |
 	LDY #$0030				;$B8CA59   |
-	LDA [$8E],y				;$B8CA5C   |
+	LDA [current_sprite_constants],y	;$B8CA5C   |
 	STA $24,x				;$B8CA5E   |
 	LDA #$000B				;$B8CA60   |
 	JSL set_anim_handle_dixie		;$B8CA63   |
@@ -9841,13 +9841,13 @@ land_animal_attack_action:
 	SBC $19A2				;$B8CAA4   | | get time since last web shot
 	STA $32					;$B8CAA7   |/
 	LDY #$0088				;$B8CAA9   |\
-	LDA [$8E],y				;$B8CAAC   |/ get web shot cooldown time
+	LDA [current_sprite_constants],y	;$B8CAAC   |/ get web shot cooldown time
 	CMP $32					;$B8CAAE   |\
 	BCS .return				;$B8CAB0   |/ if not enough time has past since last shot dont shoot
 	LDA active_frame_counter		;$B8CAB2   |\
 	STA $19A2				;$B8CAB4   |/ update last shot time to now
 	LDY #$008A				;$B8CAB7   |\
-	LDA [$8E],y				;$B8CABA   | |
+	LDA [current_sprite_constants],y	;$B8CABA   | |
 	DEC A					;$B8CABC   | |
 	CMP $19A6				;$B8CABD   | | if too many web shots already exist dont shoot a new one
 	BMI .return				;$B8CAC0   |/
@@ -9858,7 +9858,7 @@ land_animal_attack_action:
 	LDA #$0546				;$B8CACE   |\
 	JSL queue_sound_effect			;$B8CAD1   |/ queue web shot sound effect
 	LDY #$008C				;$B8CAD5   |\
-	LDA [$8E],y				;$B8CAD8   |/ get x velocity constant of web shot
+	LDA [current_sprite_constants],y	;$B8CAD8   |/ get x velocity constant of web shot
 	LDX current_sprite			;$B8CADA   |\ check if we need to invert the x velocity
 	BIT $12,x				;$B8CADC   | | depending on the players facing direction
 	BVC .facing_right			;$B8CADE   |/
@@ -9873,13 +9873,13 @@ land_animal_attack_action:
 	AND #$0800				;$B8CAF0   |\
 	BEQ .up_pressed				;$B8CAF3   |/ if up is pressed apply upward velocity to web
 	LDY #$008E				;$B8CAF5   |\
-	LDA [$8E],y				;$B8CAF8   | | apply downward y velocity to web
+	LDA [current_sprite_constants],y	;$B8CAF8   | | apply downward y velocity to web
 	STA $48,x				;$B8CAFA   |/
 	RTS					;$B8CAFC  /
 
 .up_pressed
 	LDY #$0090				;$B8CAFD  \ \
-	LDA [$8E],y				;$B8CB00   | | apply upward y velocity to web
+	LDA [current_sprite_constants],y	;$B8CB00   | | apply upward y velocity to web
 	STA $48,x				;$B8CB02   |/
 	RTS					;$B8CB04  /
 
@@ -10065,7 +10065,7 @@ start_player_roll:
 	STA.w sprite.state,y			;$B8CC65   |/
 	LDY #$0022				;$B8CC68   |> prepare running roll velocity constant
 .apply_roll_velocity:				;	   |
-	LDA [$8E],y				;$B8CC6B   |\
+	LDA [current_sprite_constants],y	;$B8CC6B   |\
 	STA kong_control.roll_speed,x		;$B8CC6D   | | apply roll velocity from constant
 	RTS					;$B8CC6F  / /
 
@@ -10280,7 +10280,7 @@ CODE_B8CDAD:					;	   |
 	LDA $74					;$B8CDAD   |
 	STA $34					;$B8CDAF   |
 	LDA $72					;$B8CDB1   |
-	JSL CODE_B5C3E7				;$B8CDB3   |
+	JSL get_sprite_terrain_info_define_x	;$B8CDB3   |
 	CMP #$0000				;$B8CDB7   |
 	BMI CODE_B8CDE6				;$B8CDBA   |
 	EOR #$FFFF				;$B8CDBC   |
@@ -10399,7 +10399,7 @@ stop_vertical_rope_climb_action:
 
 CODE_B8CE4C:
 	LDY #$0078				;$B8CE4C  \
-	LDA [$8E],y				;$B8CE4F   |
+	LDA [current_sprite_constants],y	;$B8CE4F   |
 	LDY current_kong_control_variables	;$B8CE51   |
 	STA.w kong_control.max_fall_speed,y	;$B8CE53   |
 	RTS					;$B8CE56  /
@@ -10433,7 +10433,7 @@ set_player_jumping_gravity:
 	LDA animal_type				;$B8CE78  \
 	BNE .has_animal				;$B8CE7A   |
 	LDY #$0004				;$B8CE7C   |
-	LDA [$8E],y				;$B8CE7F   |
+	LDA [current_sprite_constants],y	;$B8CE7F   |
 	LDY current_kong_control_variables	;$B8CE81   |
 	STA.w kong_control.gravity_force,y	;$B8CE83   |
 	RTS					;$B8CE86  /
@@ -10443,7 +10443,7 @@ set_player_jumping_gravity:
 	SBC #$0034				;$B8CE88   |
 	LSR A					;$B8CE8B   |
 	TAY					;$B8CE8C   |
-	LDA [$8E],y				;$B8CE8D   |
+	LDA [current_sprite_constants],y	;$B8CE8D   |
 	LDY current_kong_control_variables	;$B8CE8F   |
 	STA.w kong_control.gravity_force,y	;$B8CE91   |
 	RTS					;$B8CE94  /
@@ -10456,7 +10456,7 @@ set_player_normal_gravity:
 	LDA animal_type				;$B8CE99  \ \ check if player has an animal
 	BNE .has_animal				;$B8CE9B   |/
 	LDY #$0000				;$B8CE9D   |\
-	LDA [$8E],y				;$B8CEA0   | | update gravity for kong player
+	LDA [current_sprite_constants],y	;$B8CEA0   | | update gravity for kong player
 	LDY current_kong_control_variables	;$B8CEA2   | |
 	STA.w kong_control.gravity_force,y	;$B8CEA4   |/
 	RTS					;$B8CEA7  /
@@ -10466,7 +10466,7 @@ set_player_normal_gravity:
 	SBC #$005C				;$B8CEA9   |
 	LSR A					;$B8CEAC   |
 	TAY					;$B8CEAD   |\
-	LDA [$8E],y				;$B8CEAE   | | update gravity for animal player
+	LDA [current_sprite_constants],y	;$B8CEAE   | | update gravity for animal player
 	LDY current_kong_control_variables	;$B8CEB0   | |
 	STA.w kong_control.gravity_force,y	;$B8CEB2   |/
 	RTS					;$B8CEB5  /
@@ -10479,7 +10479,7 @@ set_player_terminal_velocity:
 	LDA animal_type				;$B8CEBA  \ \ check if player has an animal
 	BNE .has_animal				;$B8CEBC   |/
 	LDY #$0002				;$B8CEBE   |\
-	LDA [$8E],y				;$B8CEC1   | | update terminal velocity for kong player
+	LDA [current_sprite_constants],y	;$B8CEC1   | | update terminal velocity for kong player
 	LDY current_kong_control_variables	;$B8CEC3   | |
 	STA.w kong_control.max_fall_speed,y	;$B8CEC5   | |
 	RTS					;$B8CEC8  / /
@@ -10492,7 +10492,7 @@ set_player_terminal_velocity:
 	SBC #$0048				;$B8CECF   |
 	LSR A					;$B8CED2   |
 	TAY					;$B8CED3   |
-	LDA [$8E],y				;$B8CED4   |
+	LDA [current_sprite_constants],y	;$B8CED4   |
 .store_terminal_velocity			;	   |\
 	LDY current_kong_control_variables	;$B8CED6   | | update terminal velocity for animal player
 	STA.w kong_control.max_fall_speed,y	;$B8CED8   | |
@@ -10502,14 +10502,14 @@ set_player_terminal_velocity:
 	LDY current_player_mount		;$B8CEDC  \ \
 	BNE .riding_animal			;$B8CEDE   | |
 	LDY #$0080				;$B8CEE0   | | use alternate terminal velocity for squawks
-	LDA [$8E],y				;$B8CEE3   | |
+	LDA [current_sprite_constants],y	;$B8CEE3   | |
 	BRA .store_terminal_velocity		;$B8CEE5  / /
 
 set_player_terminal_velocity_down:
 	LDA animal_type				;$B8CEE7  \
 	BNE .has_animal				;$B8CEE9   |
 	LDY #$0006				;$B8CEEB   |
-	LDA [$8E],y				;$B8CEEE   |
+	LDA [current_sprite_constants],y	;$B8CEEE   |
 	LDY current_kong_control_variables	;$B8CEF0   |
 	STA.w kong_control.max_fall_speed,y	;$B8CEF2   |
 	RTS					;$B8CEF5  /
@@ -10522,7 +10522,7 @@ set_player_terminal_velocity_down:
 	SBC #$0020				;$B8CEFC   |
 	LSR A					;$B8CEFF   |
 	TAY					;$B8CF00   |
-	LDA [$8E],y				;$B8CF01   |
+	LDA [current_sprite_constants],y	;$B8CF01   |
 .apply_terminal_velocity			;	   |
 	LDY current_kong_control_variables	;$B8CF03   |
 	STA.w kong_control.max_fall_speed,y	;$B8CF05   |
@@ -10532,7 +10532,7 @@ set_player_terminal_velocity_down:
 	LDY current_player_mount		;$B8CF09  \
 	BNE .riding_animal			;$B8CF0B   |
 	LDY #$0082				;$B8CF0D   |
-	LDA [$8E],y				;$B8CF10   |
+	LDA [current_sprite_constants],y	;$B8CF10   |
 	BRA .apply_terminal_velocity		;$B8CF12  /
 
 no_b_action:
@@ -11079,9 +11079,9 @@ enable_bullet_time_global:
 	RTL					;$B8D1E7  /
 
 enable_bullet_time:
-	STA $0A36				;$B8D1E8  \
+	STA time_stop_flags			;$B8D1E8  \
 	TYA					;$B8D1EB   |
-	STA $0A38				;$B8D1EC   |
+	STA time_stop_timer			;$B8D1EC   |
 	RTS					;$B8D1EF  /
 
 disable_bullet_time_global:
@@ -11089,8 +11089,8 @@ disable_bullet_time_global:
 	RTL					;$B8D1F3  /
 
 disable_bullet_time:
-	STZ $0A36				;$B8D1F4  \
-	STZ $0A38				;$B8D1F7   |
+	STZ time_stop_flags			;$B8D1F4  \
+	STZ time_stop_timer			;$B8D1F7   |
 	RTS					;$B8D1FA  /
 
 CODE_B8D1FB:
@@ -11286,7 +11286,7 @@ CODE_B8D378:
 	LDA $0A,x				;$B8D37C   |
 	SEC					;$B8D37E   |
 	SBC #$0008				;$B8D37F   |
-	JSL CODE_B5C3E3				;$B8D382   |
+	JSL get_sprite_terrain_info_define_y	;$B8D382   |
 	JSR CODE_B8D484				;$B8D386   |
 	CLC					;$B8D389   |
 	ADC #$0027				;$B8D38A   |
@@ -11314,7 +11314,7 @@ CODE_B8D3B3:
 	SEC					;$B8D3B3  \
 	SBC #$0020				;$B8D3B4   |
 CODE_B8D3B7:					;	   |
-	JSL CODE_B5C3E7				;$B8D3B7   |
+	JSL get_sprite_terrain_info_define_x	;$B8D3B7   |
 	JSR CODE_B8D484				;$B8D3BB   |
 	CLC					;$B8D3BE   |
 	ADC #$0027				;$B8D3BF   |
@@ -11340,7 +11340,7 @@ CODE_B8D3E2:
 	LDA $0A,x				;$B8D3E4   |
 	SEC					;$B8D3E6   |
 	SBC #$0028				;$B8D3E7   |
-	JSL CODE_B5C3E3				;$B8D3EA   |
+	JSL get_sprite_terrain_info_define_y	;$B8D3EA   |
 	JSR CODE_B8D484				;$B8D3EE   |
 	STA $5E					;$B8D3F1   |
 	LDA $AE					;$B8D3F3   |
@@ -11358,7 +11358,7 @@ CODE_B8D3E2:
 	LDA $0A,x				;$B8D40D   |
 	SEC					;$B8D40F   |
 	SBC #$0008				;$B8D410   |
-	JSL CODE_B5C3E3				;$B8D413   |
+	JSL get_sprite_terrain_info_define_y	;$B8D413   |
 	JSR CODE_B8D484				;$B8D417   |
 	STA $5E					;$B8D41A   |
 	LDA $AE					;$B8D41C   |
@@ -11404,7 +11404,7 @@ CODE_B8D455:
 	LDA $0A,x				;$B8D457   |
 	SEC					;$B8D459   |
 	SBC #$0008				;$B8D45A   |
-	JSL CODE_B5C3E3				;$B8D45D   |
+	JSL get_sprite_terrain_info_define_y	;$B8D45D   |
 	JSR CODE_B8D484				;$B8D461   |
 	STA $5E					;$B8D464   |
 	LDA $AE					;$B8D466   |
@@ -11424,7 +11424,7 @@ CODE_B8D47C:
 	RTL					;$B8D47F  /
 
 CODE_B8D480:
-	JSL CODE_B5C3E1				;$B8D480  \
+	JSL get_sprite_terrain_info		;$B8D480  \
 CODE_B8D484:					;	   |
 	CMP #$0000				;$B8D484   |
 	BMI CODE_B8D492				;$B8D487   |
@@ -11440,7 +11440,7 @@ CODE_B8D492:
 	RTS					;$B8D496  /
 
 CODE_B8D497:
-	JSL CODE_B5C3D5				;$B8D497  \
+	JSL get_sprite_terrain_info_y_origin_0	;$B8D497  \
 	CMP #$0000				;$B8D49B   |
 	BMI CODE_B8D4A9				;$B8D49E   |
 	EOR #$FFFF				;$B8D4A0   |
@@ -11587,7 +11587,7 @@ CODE_B8D5A5:					;	   |
 
 CODE_B8D5AF:
 	STY $34					;$B8D5AF  \
-	JSL CODE_B5C3E7				;$B8D5B1   |
+	JSL get_sprite_terrain_info_define_x	;$B8D5B1   |
 	EOR #$FFFF				;$B8D5B5   |
 	BPL CODE_B8D5C0				;$B8D5B8   |
 	CLC					;$B8D5BA   |
@@ -11601,20 +11601,20 @@ CODE_B8D5C0:
 
 CODE_B8D5C2:
 	LDA $B0					;$B8D5C2  \
-	STA $06,x				;$B8D5C4   |
+	STA sprite.x_position,x			;$B8D5C4   |
 	LDA $B2					;$B8D5C6   |
-	STZ $04,x				;$B8D5C8   |
-	LDA $1E,x				;$B8D5CA   |
+	STZ sprite.x_sub_position,x		;$B8D5C8   |
+	LDA sprite.terrain_interaction,x	;$B8D5CA   |
 	AND #$1000				;$B8D5CC   |
-	BEQ CODE_B8D5DF				;$B8D5CF   |
+	BEQ .return				;$B8D5CF   |
 	JSR CODE_B8D480				;$B8D5D1   |
 	STA $74					;$B8D5D4   |
 	SEC					;$B8D5D6   |
-	SBC $0A,x				;$B8D5D7   |
-	BPL CODE_B8D5DF				;$B8D5D9   |
+	SBC sprite.y_position,x			;$B8D5D7   |
+	BPL .return				;$B8D5D9   |
 	LDA $FD					;$B8D5DB   |
-	STA $0A,x				;$B8D5DD   |
-CODE_B8D5DF:					;	   |
+	STA sprite.y_position,x			;$B8D5DD   |
+.return:					;	   |
 	RTS					;$B8D5DF  /
 
 CODE_B8D5E0:
@@ -11630,28 +11630,28 @@ CODE_B8D5E6:
 	AND #$00FF				;$B8D5EB   |\ Get this frames interaction
 	XBA					;$B8D5EE   | | Swap it to high byte so we can record it as the previous frame
 	STA temp_5E				;$B8D5EF   |/
-	TYA					;$B8D5F1   |
-	LSR A					;$B8D5F2   |
-	LSR A					;$B8D5F3   |
-	LSR A					;$B8D5F4   |
-	LSR A					;$B8D5F5   |
-	AND #$000F				;$B8D5F6   |
-	ORA temp_5E				;$B8D5F9   |
+	TYA					;$B8D5F1   |\
+	LSR A					;$B8D5F2   | |
+	LSR A					;$B8D5F3   | |
+	LSR A					;$B8D5F4   | |
+	LSR A					;$B8D5F5   | |
+	AND #$000F				;$B8D5F6   | |
+	ORA temp_5E				;$B8D5F9   |/ 
 	STA sprite.terrain_interaction,x	;$B8D5FB   |
-	LDX current_sprite			;$B8D5FD   |> Get current sprite (Useless)
+	LDX current_sprite			;$B8D5FD   |> Get current sprite
 	LDA sprite.x_position,x			;$B8D5FF   |\
-	STA $B0					;$B8D601   | | Record sprites x position
+	STA $B0					;$B8D601   | | Record sprite x position
 	LDA sprite.x_sub_position,x		;$B8D603   | |
 	STA $B2					;$B8D605   |/
 	STZ $E5					;$B8D607   |
 	LDA sprite.terrain_interaction,x	;$B8D609   |
 	AND #$0400				;$B8D60B   |
 	BNE CODE_B8D675				;$B8D60E   |
-	JSR CODE_B8D830				;$B8D610   |
-	JSR CODE_B8D480				;$B8D613   |
+	JSR CODE_B8D830				;$B8D610   |> Update position from speed
+	JSR CODE_B8D480				;$B8D613   |> Get terrain info and do other stuff
 	STA $74					;$B8D616   |
 	SEC					;$B8D618   |
-	SBC $0A,x				;$B8D619   |
+	SBC sprite.y_position,x			;$B8D619   |
 	BPL CODE_B8D673				;$B8D61B   |
 	CMP $0BA4				;$B8D61D   |
 	BPL CODE_B8D691				;$B8D620   |
@@ -11662,7 +11662,7 @@ CODE_B8D5E6:
 	AND #$3800				;$B8D62B   |
 	BNE CODE_B8D68E				;$B8D62E   |
 CODE_B8D630:					;	   |
-	LDA $20,x				;$B8D630   |
+	LDA sprite.x_speed,x			;$B8D630   |
 	AND #$8000				;$B8D632   |
 	EOR $AE					;$B8D635   |
 	BMI CODE_B8D642				;$B8D637   |
@@ -11671,10 +11671,10 @@ CODE_B8D630:					;	   |
 	CMP #$003C				;$B8D63D   |
 	BEQ CODE_B8D68E				;$B8D640   |
 CODE_B8D642:					;	   |
-	LDA $0A,x				;$B8D642   |
+	LDA sprite.y_position,x			;$B8D642   |
 	DEC A					;$B8D644   |
-	JSL CODE_B5C3E3				;$B8D645   |
-	LDA $20,x				;$B8D649   |
+	JSL get_sprite_terrain_info_define_y	;$B8D645   |
+	LDA sprite.x_speed,x			;$B8D649   |
 	AND #$8000				;$B8D64B   |
 	EOR $AE					;$B8D64E   |
 	BMI CODE_B8D65B				;$B8D650   |
@@ -11683,8 +11683,8 @@ CODE_B8D642:					;	   |
 	CMP #$003C				;$B8D656   |
 	BEQ CODE_B8D68E				;$B8D659   |
 CODE_B8D65B:					;	   |
-	STZ $26,x				;$B8D65B   |
-	STZ $20,x				;$B8D65D   |
+	STZ sprite.max_x_speed,x		;$B8D65B   |
+	STZ sprite.x_speed,x			;$B8D65D   |
 	JSR CODE_B8D5C2				;$B8D65F   |
 	BIT $AE					;$B8D662   |
 	BVS CODE_B8D66C				;$B8D664   |
@@ -11954,44 +11954,44 @@ CODE_B8D821:					;	   |
 
 CODE_B8D830:
 	LDX current_sprite			;$B8D830  \
-	LDA $1E,x				;$B8D832   |
+	LDA sprite.terrain_interaction,x	;$B8D832   |
 	AND #$1000				;$B8D834   |
-	BNE CODE_B8D850				;$B8D837   |
-CODE_B8D839:					;	   |
+	BNE .on_platform_sprite			;$B8D837   |
+.get_sprite_moving_direction:			;	   |
 	LDY #$0000				;$B8D839   |
-	LDA $20,x				;$B8D83C   |
-	BPL CODE_B8D841				;$B8D83E   |
+	LDA sprite.x_speed,x			;$B8D83C   |
+	BPL ..apply_velocity_to_position	;$B8D83E   |
 	DEY					;$B8D840   |
-CODE_B8D841:					;	   |
+..apply_velocity_to_position:			;	   |
 	CLC					;$B8D841   |
-	ADC $05,x				;$B8D842   |
-	STA $05,x				;$B8D844   |
+	ADC sprite.x_sub_position+1,x		;$B8D842   |
+	STA sprite.x_sub_position+1,x		;$B8D844   |
 	TYA					;$B8D846   |
-	ADC $07,x				;$B8D847   |
+	ADC sprite.x_position+1,x		;$B8D847   |
 	SEP #$20				;$B8D849   |
-	STA $07,x				;$B8D84B   |
+	STA sprite.x_position+1,x		;$B8D84B   |
 	REP #$20				;$B8D84D   |
 	RTS					;$B8D84F  /
 
-CODE_B8D850:
-	LDA $24,x				;$B8D850  \
-	BMI CODE_B8D839				;$B8D852   |
-	LDA $0A,x				;$B8D854   |
+.on_platform_sprite:
+	LDA sprite.y_speed,x			;$B8D850  \
+	BMI .get_sprite_moving_direction	;$B8D852   |
+	LDA sprite.y_position,x			;$B8D854   |
 	STA $FD					;$B8D856   |
-	LDA $0C,x				;$B8D858   |
-	STA $0A,x				;$B8D85A   |
+	LDA sprite.ground_y_position,x		;$B8D858   |
+	STA sprite.y_position,x			;$B8D85A   |
 	LDA #$FFFF				;$B8D85C   |
-	STA $08,x				;$B8D85F   |
-	LDA $5C,x				;$B8D861   |
+	STA sprite.y_sub_position,x		;$B8D85F   |
+	LDA sprite.unknown_5C,x			;$B8D861   |
 	CLC					;$B8D863   |
-	ADC $06,x				;$B8D864   |
-	STA $06,x				;$B8D866   |
-	STZ $5C,x				;$B8D868   |
+	ADC sprite.x_position,x			;$B8D864   |
+	STA sprite.x_position,x			;$B8D866   |
+	STZ sprite.unknown_5C,x			;$B8D868   |
 	LDY #$0000				;$B8D86A   |
-	LDA $20,x				;$B8D86D   |
-	BPL CODE_B8D872				;$B8D86F   |
+	LDA sprite.x_speed,x			;$B8D86D   |
+	BPL ..apply_velocity_to_position	;$B8D86F   |
 	DEY					;$B8D871   |
-CODE_B8D872:					;	   |
+..apply_velocity_to_position:			;	   |
 	CLC					;$B8D872   |
 	ADC $05,x				;$B8D873   |
 	STA $05,x				;$B8D875   |
@@ -12038,15 +12038,15 @@ set_player_interaction_global:
 
 set_player_interaction:
 	CMP $0A82				;$B8D8BE  \
-	BEQ CODE_B8D8CF				;$B8D8C1   |
-	BMI CODE_B8D8CF				;$B8D8C3   |
+	BEQ .interaction_already_applied	;$B8D8C1   |
+	BMI .interaction_already_applied	;$B8D8C3   |
 	STA $0A82				;$B8D8C5   |
 	LDA current_sprite			;$B8D8C8   |
 	STA $0A84				;$B8D8CA   |
 	CLC					;$B8D8CD   |
 	RTS					;$B8D8CE  /
 
-CODE_B8D8CF:
+.interaction_already_applied:
 	SEC					;$B8D8CF  \
 	RTS					;$B8D8D0  /
 
@@ -12143,8 +12143,8 @@ CODE_B8D8D7:					;	   |
 	TAX					;$B8D95F   |
 	DEC $3A					;$B8D960   |
 	BNE .next_waypoint			;$B8D962   |
-	STA $099D				;$B8D964   |
-	STZ $099F				;$B8D967   |
+	STA kong_follow_buffer_recording_index	;$B8D964   |
+	STZ kong_follow_buffer_playback_index	;$B8D967   |
 	RTS					;$B8D96A  /
 
 .divide_distance
@@ -12175,7 +12175,7 @@ CODE_B8D8D7:					;	   |
 	RTS					;$B8D99D  / /
 
 CODE_B8D99E:
-	LDA $099F				;$B8D99E  \
+	LDA kong_follow_buffer_playback_index	;$B8D99E  \
 	AND #$003F				;$B8D9A1   |
 	TAX					;$B8D9A4   |
 	LDY current_sprite			;$B8D9A5   |
@@ -12187,7 +12187,7 @@ CODE_B8D99E:
 	STA $092F				;$B8D9B9   |
 	LDA.l $7FA5B2,x				;$B8D9BC   |
 	STA $0931				;$B8D9C0   |
-	LDA $099D				;$B8D9C3   |
+	LDA kong_follow_buffer_recording_index	;$B8D9C3   |
 	DEC A					;$B8D9C6   |
 	DEC A					;$B8D9C7   |
 	AND #$003F				;$B8D9C8   |
@@ -12245,31 +12245,31 @@ CODE_B8DA23:
 	BRA CODE_B8DA44				;$B8DA30  /
 
 CODE_B8DA32:
-	LDA $099F				;$B8DA32  \
+	LDA kong_follow_buffer_playback_index	;$B8DA32  \
 	INC A					;$B8DA35   |
 	INC A					;$B8DA36   |
 	AND #$003F				;$B8DA37   |
-	CMP $099D				;$B8DA3A   |
+	CMP kong_follow_buffer_recording_index	;$B8DA3A   |
 	BEQ CODE_B8DA64				;$B8DA3D   |
-	STA $099F				;$B8DA3F   |
+	STA kong_follow_buffer_playback_index	;$B8DA3F   |
 	BRA CODE_B8DA64				;$B8DA42  /
 
 CODE_B8DA44:
-	LDA $099F				;$B8DA44  \
+	LDA kong_follow_buffer_playback_index	;$B8DA44  \
 	INC A					;$B8DA47   |
 	INC A					;$B8DA48   |
 	AND #$003F				;$B8DA49   |
-	CMP $099D				;$B8DA4C   |
+	CMP kong_follow_buffer_recording_index	;$B8DA4C   |
 	BEQ CODE_B8DA64				;$B8DA4F   |
-	STA $099F				;$B8DA51   |
+	STA kong_follow_buffer_playback_index	;$B8DA51   |
 CODE_B8DA54:					;	   |
-	LDA $099F				;$B8DA54   |
+	LDA kong_follow_buffer_playback_index	;$B8DA54   |
 	INC A					;$B8DA57   |
 	INC A					;$B8DA58   |
 	AND #$003F				;$B8DA59   |
-	CMP $099D				;$B8DA5C   |
+	CMP kong_follow_buffer_recording_index	;$B8DA5C   |
 	BEQ CODE_B8DA64				;$B8DA5F   |
-	STA $099F				;$B8DA61   |
+	STA kong_follow_buffer_playback_index	;$B8DA61   |
 CODE_B8DA64:					;	   |
 	RTS					;$B8DA64  /
 
@@ -12916,7 +12916,7 @@ CODE_B8DE56:					;	   |
 	STZ $24,x				;$B8DE61   |
 	LDA #$002A				;$B8DE63   |
 	STA sprite.state,x			;$B8DE66   |
-	LDA $099D				;$B8DE68   |
+	LDA kong_follow_buffer_recording_index	;$B8DE68   |
 	STA $0D6E				;$B8DE6B   |
 	LDA #$003B				;$B8DE6E   |
 	JSR CODE_B8DA8F				;$B8DE71   |

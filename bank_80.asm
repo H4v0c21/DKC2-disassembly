@@ -810,8 +810,8 @@ clear_wram_tables:
 	dw current_held_sprite, $0002
 	dw $0BA0, $0002
 	dw $0BA2, $0002
-	dw $0A36, $0002
-	dw $0A38, $0002
+	dw time_stop_flags, $0002
+	dw time_stop_timer, $0002
 	dw sprite_vram_allocation_table, $0020
 	dw palette_upload_ring_buffer, $0040
 	dw $00EF, $0002
@@ -9643,7 +9643,7 @@ CODE_80D93E:
 	JMP CODE_80D45D				;$80D93E  /
 
 CODE_80D941:
-	LDA $0A36				;$80D941  \
+	LDA time_stop_flags			;$80D941  \
 	BIT #$0082				;$80D944   |
 	BNE CODE_80D9B2				;$80D947   |
 	LDY active_kong_sprite			;$80D949   |
@@ -13311,10 +13311,10 @@ credits_dummy_sprite_code:
 	CMP #$019A				;$80FA31   | Check if its king_zing_idle
 	BNE .check_despawn			;$80FA34   | If none of the above, skip playing looping sound
 .play_looping_sound:				;	   |
-	INC $19AA				;$80FA36   | Play looping sound
+	INC zinger_loop_sound_enabler		;$80FA36   | Play looping sound
 .check_despawn:					;	   |
 	JSL delete_sprite_if_offscreen		;$80FA39   | Despawn sprite if offscreen
-	JML [$05A9]				;$80FA3D  / Done processing sprite
+	JML [sprite_return_address]		;$80FA3D  / Done processing sprite
 
 credits_npc_kong_sprite_code:
 	PHB					;$80FA40  \
@@ -13347,7 +13347,7 @@ credits_npc_kong_sprite_code:
 	JSL process_sprite_animation		;$80FA70   | Process animation
 	JSL delete_sprite_if_offscreen		;$80FA74   | Despawn sprite if offscreen
 	PLB					;$80FA78   | Restore DB
-	JML [$05A9]				;$80FA79  / Done processing sprite
+	JML [sprite_return_address]		;$80FA79  / Done processing sprite
 
 CODE_80FA7C:
 	JSL disable_screen			;$80FA7C  \

@@ -8783,7 +8783,7 @@ DATA_BCFA00:
 	dw $0008, $FFF8, $0024, $0010		;0D kutlass attack range
 	dw $FFD0, $FFA8, $0050, $0060		;0E
 
-CODE_BCFA78:
+init_sprite_collision:
 	STZ $09A7				;$BCFA78  \
 	STZ $09AF				;$BCFA7B   |
 	STZ $09B7				;$BCFA7E   |

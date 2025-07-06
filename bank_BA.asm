@@ -1,10 +1,10 @@
-CODE_BA9000:
+bank_BA_sprite_main_handler_1:
 	TAX					;$BA9000  \
 	PHK					;$BA9001   |
 	PLB					;$BA9002   |
-	JMP (DATA_BA9006,x)			;$BA9003  /
+	JMP (.main_table,x)			;$BA9003  /
 
-DATA_BA9006:
+.main_table:
 	dw king_zing_sprite_code		;0000 king_zing_main
 	dw king_zing_ring_zinger_sprite_code	;0002 king_zing_ring_zinger_main
 	dw king_zing_smoke_effect_sprite_code	;0004 king_zing_smoke_effect_main
@@ -81,7 +81,7 @@ CODE_BA909F:					;	   |
 	BRL CODE_BA94CF				;$BA90A5  /
 
 CODE_BA90A8:
-	INC $19AA				;$BA90A8  \
+	INC zinger_loop_sound_enabler		;$BA90A8  \
 	LDA.l $000709				;$BA90AB   |
 	BEQ CODE_BA90D5				;$BA90AF   |
 	DEC $0709				;$BA90B1   |
@@ -280,7 +280,7 @@ CODE_BA9269:					;	   |
 CODE_BA926C:					;	   |
 	JSL process_sprite_animation		;$BA926C   |
 	PLB					;$BA9270   |
-	JML [$05A9]				;$BA9271  /
+	JML [sprite_return_address]		;$BA9271  /
 
 CODE_BA9274:
 	LDX current_sprite			;$BA9274  \
@@ -885,7 +885,7 @@ king_zing_ring_zinger_sprite_code:
 	BEQ .delete_ring_zinger_sprite		;$BA979A   | If King Zing dead, delete self
 	LDY current_sprite			;$BA979C   | Else handle states
 	LDA $0054,y				;$BA979E   |
-	STA $8E					;$BA97A1   |
+	STA current_sprite_constants		;$BA97A1   |
 	LDA $002E,y				;$BA97A3   |
 	AND #$00FF				;$BA97A6   |
 	ASL A					;$BA97A9   |
@@ -926,7 +926,7 @@ king_zing_ring_zinger_sprite_code:
 	STA $0A,x				;$BA97EB   |
 	JSR .CODE_BA9884			;$BA97ED   |
 .return:					;	   |
-	JML [$05A9]				;$BA97F0  /
+	JML [sprite_return_address]		;$BA97F0  /
 
 .state_1:
 	TYX					;$BA97F3  \
@@ -981,12 +981,12 @@ king_zing_ring_zinger_sprite_code:
 	LDA #$0004				;$BA9870   |
 	STA $52,x				;$BA9873   |
 	INC $2E,x				;$BA9875   |
-	JML [$05A9]				;$BA9877  /
+	JML [sprite_return_address]		;$BA9877  /
 
 ..CODE_BA987A:
 	JSR .CODE_BA9884			;$BA987A  \
 	JSL process_sprite_animation		;$BA987D   |
-	JML [$05A9]				;$BA9881  /
+	JML [sprite_return_address]		;$BA9881  /
 
 .CODE_BA9884:
 	LDY $0654				;$BA9884  \
@@ -1016,7 +1016,7 @@ king_zing_ring_zinger_sprite_code:
 	LDA #$0168				;$BA98BC   |
 	STA $4C,x				;$BA98BF   |
 ..return:					;	   |
-	JML [$05A9]				;$BA98C1  /
+	JML [sprite_return_address]		;$BA98C1  /
 
 .state_4:
 	TYX					;$BA98C4  \
@@ -1030,7 +1030,7 @@ king_zing_ring_zinger_sprite_code:
 	LDA #$0240				;$BA98D6   |
 	JSL set_sprite_animation		;$BA98D9   |
 ..return:					;	   |
-	JML [$05A9]				;$BA98DD  /
+	JML [sprite_return_address]		;$BA98DD  /
 
 ..return_delete_self:
 	JSL delete_sprite_handle_deallocation	;$BA98E0  \
@@ -1103,7 +1103,7 @@ king_zing_smoke_effect_sprite_code:
 .return:
 	JSL process_sprite_animation		;$BA99A2  \
 .return_skip_animation:				;	   |
-	JML [$05A9]				;$BA99A6  /
+	JML [sprite_return_address]		;$BA99A6  /
 
 	%offset(DATA_BA99A7, -2)
 DATA_BA99A9:
@@ -1212,7 +1212,7 @@ CODE_BA9A8D:					;	   |
 CODE_BA9A96:					;	   |
 	JSL process_sprite_animation		;$BA9A96   | Process animation
 	PLB					;$BA9A9A   |
-	JML [$05A9]				;$BA9A9B  / Done processing sprite
+	JML [sprite_return_address]		;$BA9A9B  / Done processing sprite
 
 king_zing_spikes_sprite_code:
 	LDX current_sprite			;$BA9A9E  \ Get spike sprite
@@ -1270,7 +1270,7 @@ king_zing_spikes_sprite_code:
 .CODE_BA9B09:
 	DEC $0A,x				;$BA9B09  \
 .return:					;	   |
-	JML [$05A9]				;$BA9B0B  /
+	JML [sprite_return_address]		;$BA9B0B  /
 
 CODE_BA9B0E:
 	JSR CODE_BA9B16				;$BA9B0E  \
@@ -1393,7 +1393,7 @@ kreepy_krows_body_sprite_code:
 CODE_BA9C06:					;	   |
 	JSL process_sprite_animation		;$BA9C06   |
 	PLB					;$BA9C0A   |
-	JML [$05A9]				;$BA9C0B  /
+	JML [sprite_return_address]		;$BA9C0B  /
 
 kreepy_krows_eggs_sprite_code:
 	LDX active_kong_sprite			;$BA9C0E  \
@@ -1432,7 +1432,7 @@ kreepy_krows_eggs_sprite_code:
 	JSL delete_sprite_if_offscreen		;$BA9C59   |
 	JSL process_sprite_animation		;$BA9C5D   |
 .return:					;	   |
-	JML [$05A9]				;$BA9C61  /
+	JML [sprite_return_address]		;$BA9C61  /
 
 CODE_BA9C64:
 	PHY					;$BA9C64  \
@@ -2113,7 +2113,7 @@ kreepy_krows_head_sprite_code:
 .return:					;	   |
 	LDX current_sprite			;$BAA219   |
 	JSL process_sprite_animation		;$BAA21B   |
-	JML [$05A9]				;$BAA21F  /
+	JML [sprite_return_address]		;$BAA21F  /
 
 
 ;amount of kleever fragments to spawn
@@ -3025,13 +3025,13 @@ DATA_BAB052:
 	dw DATA_FF1BA0 : db $00, $00, $F6, $FF, $00, $01, $30, $01, $60, $FA
 	dw DATA_FF1BA0 : db $0A, $00, $00, $00, $80, $02, $C0, $02, $70, $FB
 
-CODE_BAB078:
+bank_BA_sprite_main_handler_2:
 	TAX					;$BAB078  \
 	PHK					;$BAB079   |
 	PLB					;$BAB07A   |
-	JMP (DATA_BAB07E,x)			;$BAB07B  /
+	JMP (.main_table,x)			;$BAB07B  /
 
-DATA_BAB07E:
+.main_table:
 	dw krool_water_drips_sprite_code 	;00 krool_water_drips_main
 	dw krool_fish_sprite_code		;02 krool_fish_main
 	dw kore_sparkle_spawner_sprite_code	;04 kroc_kore_sparkle_spawner_main
@@ -3118,13 +3118,13 @@ CODE_BAB11F:					;	   |
 	LDA #$0768				;$BAB122   |
 	JSL queue_sound_effect			;$BAB125   |
 CODE_BAB129:					;	   |
-	JML [$05A9]				;$BAB129  /
+	JML [sprite_return_address]		;$BAB129  /
 
 kore_sparkle_sprite_code:
 	JSL apply_position_from_velocity_global	;$BAB12C  \
 	JSL process_sprite_animation		;$BAB130   | process animation
 	JSL delete_sprite_if_offscreen		;$BAB134   | despawn sprite if offscreen
-	JML [$05A9]				;$BAB138  / done processing sprite
+	JML [sprite_return_address]		;$BAB138  / done processing sprite
 
 sparkle_spawner_sprite_code:
 	LDX current_sprite			;$BAB13B  \
@@ -3158,7 +3158,7 @@ sparkle_spawner_sprite_code:
 	SBC CPU.multiply_result			;$BAB184   |
 	STA $000A,y				;$BAB187   |
 CODE_BAB18A:					;	   |
-	JML [$05A9]				;$BAB18A  /
+	JML [sprite_return_address]		;$BAB18A  /
 
 sparkle_sprite_code:
 	LDX current_sprite			;$BAB18D  \
@@ -3180,7 +3180,7 @@ sparkle_sprite_code:
 	LDA $000A,y				;$BAB1AD   |
 	STA $44,x				;$BAB1B0   |
 	JSL process_sprite_animation		;$BAB1B2   |
-	JML [$05A9]				;$BAB1B6  /
+	JML [sprite_return_address]		;$BAB1B6  /
 
 CODE_BAB1B9:
 	STZ CPU.enable_interrupts		;$BAB1B9  \
@@ -4072,7 +4072,7 @@ krool_water_drips_sprite_code:
 	BIT #$4000				;$BAC0D6   |
 	BEQ .handle_state			;$BAC0D9   |
 	JSL delete_sprite_handle_deallocation	;$BAC0DB   |
-	JML [$05A9]				;$BAC0DF  /
+	JML [sprite_return_address]		;$BAC0DF  /
 
 .handle_state:
 	LDX current_sprite			;$BAC0E2  \
@@ -4091,7 +4091,7 @@ krool_water_drips_sprite_code:
 
 .dummy_animated_state:
 	JSL process_sprite_animation		;$BAC0F3  \ process animations
-	JML [$05A9]				;$BAC0F7  / done processing sprite
+	JML [sprite_return_address]		;$BAC0F7  / done processing sprite
 
 .state_1:
 	LDY #!special_sprite_spawn_id_0162	;$BAC0FA  \
@@ -4102,7 +4102,7 @@ krool_water_drips_sprite_code:
 	LDY alternate_sprite			;$BAC107   |
 	STA $0042,y				;$BAC109   |
 	JSL set_alt_sprite_animation		;$BAC10C   |
-	JML [$05A9]				;$BAC110  /
+	JML [sprite_return_address]		;$BAC110  /
 
 .state_2:
 	LDX current_sprite			;$BAC113  \
@@ -4118,7 +4118,7 @@ krool_water_drips_sprite_code:
 	STZ $2E,x				;$BAC12A   |
 	JSL process_sprite_animation		;$BAC12C   | process animations
 .return:					;	   |
-	JML [$05A9]				;$BAC130  / done processing sprite
+	JML [sprite_return_address]		;$BAC130  / done processing sprite
 
 krool_fish_sprite_code:
 	LDX current_sprite			;$BAC133  \
@@ -4179,13 +4179,13 @@ krool_fish_sprite_code:
 	DEC $46,x				;$BAC1AB   | else count it down
 .return:					;	   |
 	JSL process_sprite_animation		;$BAC1AD   | process animation
-	JML [$05A9]				;$BAC1B1  / done processing sprite
+	JML [sprite_return_address]		;$BAC1B1  / done processing sprite
 
 .fall_state:
 	JSR .interpolate_fish_velocities	;$BAC1B4  \
 	JSL process_sprite_animation		;$BAC1B7   | process animation
 	JSL delete_sprite_if_offscreen		;$BAC1BB   | kill sprite if offscreen
-	JML [$05A9]				;$BAC1BF  / done processing sprite
+	JML [sprite_return_address]		;$BAC1BF  / done processing sprite
 
 .interpolate_fish_velocities:
 	LDX current_sprite			;$BAC1C2  \ get fish sprite
@@ -4259,7 +4259,7 @@ kong_npc_sprite_code:
 .return:					;	   |
 	JSL process_sprite_animation		;$BAC24E   |
 	PLB					;$BAC252   |
-	JML [$05A9]				;$BAC253  /
+	JML [sprite_return_address]		;$BAC253  /
 
 CODE_BAC256:
 	STZ $42,x				;$BAC256  \
@@ -4397,7 +4397,7 @@ scroll_and_float_barrel_sprite_code:
 	LDA level_number			;$BAC33C   |
 	CMP #!level_pirate_panic_k_rools_cabin	;$BAC33E   | Check if we're in k.rool's cabin
 	BEQ .handle_state			;$BAC341   | If yes handle states
-	JML [$05A9]				;$BAC343  / Else done processing sprite
+	JML [sprite_return_address]		;$BAC343  / Else done processing sprite
 
 .handle_state:
 	LDY current_sprite			;$BAC346  \
@@ -4418,7 +4418,7 @@ scroll_and_float_barrel_sprite_code:
 	JSL CODE_BCFCB5				;$BAC35D   | Check collision with kong
 	BCS ..collision_happened		;$BAC361   | If collision happened display text
 	JSL CODE_BBBB99				;$BAC363   | Else despawn sprite if offscreen
-	JML [$05A9]				;$BAC367  / Done processing sprite
+	JML [sprite_return_address]		;$BAC367  / Done processing sprite
 
 ..collision_happened:
 	SEP #$20				;$BAC36A  \ 8-Bit A
@@ -4431,7 +4431,7 @@ scroll_and_float_barrel_sprite_code:
 	STA $4E,x				;$BAC37A   | Set time until text goes away
 	LDA #$062E				;$BAC37C   |
 	JSL queue_sound_effect			;$BAC37F   | Play krool note sound effect
-	JML [$05A9]				;$BAC383  / Done processing sprite
+	JML [sprite_return_address]		;$BAC383  / Done processing sprite
 
 .display_text:
 	LDX current_sprite			;$BAC386  \ Get scroll sprite
@@ -4443,7 +4443,7 @@ scroll_and_float_barrel_sprite_code:
 	REP #$20				;$BAC393   | 16-Bit A
 	INC $2E,x				;$BAC395   | Set idle state
 .idle:					;	   |
-	JML [$05A9]				;$BAC397  /
+	JML [sprite_return_address]		;$BAC397  /
 
 ;likely a k rool projectile (seems to be unused)
 DATA_BAC39A:

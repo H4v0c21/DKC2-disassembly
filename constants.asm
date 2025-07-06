@@ -167,7 +167,7 @@
 !sound_lose_life			= $2B	;2B: Lose life/balloon popping
 !sound_life_balloon			= $2C	;2C: Collect Extra Life Balloon
 !sound_banana_coin			= $2D	;2D: Collect Banana Coin
-!sound_k_rool_note			= $2E	;2E: Read K. Rool's note
+!sound_krool_note			= $2E	;2E: Read K. Rool's note
 !sound_squawks_spit			= $2F	;2F: Squawks spitting
 !sound_squawks_flap_1			= $30	;30: Squawks flapping wings 1
 !sound_squawks_flap_2			= $31	;31: Squawks flapping wings 2 (lower pitch)
@@ -211,9 +211,9 @@
 !sound_necky_hit			= $57	;57: Necky defeated
 !sound_cat_o_9_tails_hit		= $58	;58: Cat O' 9 Tails defeated
 !sound_kudgel_hit			= $59	;59: Kudgel hit
-!sound_k_rool_down			= $5A	;5A: K. Rool down
-!sound_k_rool_splash_1			= $5B	;5B: Kudgel/K. Rool falling into water (channel 1)
-!sound_k_rool_splash_2			= $5C	;5C: Kudgel/K. Rool falling into water (channel 2)
+!sound_krool_down			= $5A	;5A: K. Rool down
+!sound_krool_splash_1			= $5B	;5B: Kudgel/K. Rool falling into water (channel 1)
+!sound_krool_splash_2			= $5C	;5C: Kudgel/K. Rool falling into water (channel 2)
 !sound_kremling_hit_2			= $5D	;5D: Klinger/Krook/Kloak defeated
 !sound_pause				= $5E	;5E: Pause/unpause game
 !sound_wrong_answer			= $5F	;5F: Incorrect answer/unavailable option
@@ -253,8 +253,8 @@
 !sound_ending_fire			= $72	;72: Krocodile Kore beam (noise channel)
 !sound_ending_beam_die			= $73	;73: Krocodile Kore beam dying
 !sound_ending_fire_die			= $74	;74: Krocodile Kore beam dying (noise channel)
-!sound_ending_k_rool_laugh		= $75	;75: K. Rool laughing
-!sound_ending_k_rool_laugh_echo		= $76	;76: K. Rool laughing (echo)
+!sound_ending_krool_laugh		= $75	;75: K. Rool laughing
+!sound_ending_krool_laugh_echo		= $76	;76: K. Rool laughing (echo)
 
 ;Swamp/Enchanted Wood/Mine/Brambles/Wasp Hive "Nature"
 !sound_kloak_laugh			= $64	;64: Kloak laughing
@@ -289,20 +289,20 @@
 !sound_krow_defeated			= $63	;63: Krow defeated
 !sound_krow_grab_egg			= $64	;64: Krow pulling egg from nest
 !sound_egg_kudgel_fall			= $65	;65: Egg/Kudgel falling
-!sound_k_rool_gun_exhaust		= $68	;68: Blunderbuss flame (short)
-!sound_k_rool_cannonball_spikes		= $69	;69: Spikes protruding from/retracting into cannonball
-!sound_k_rool_ammo_swirl		= $6A	;6A: K.Rool projectile swirling
-!sound_k_rool_ammo_bounce		= $6B	;6B: K.Rool projectile bouncing
-!sound_k_rool_gun_exhaust_loop		= $6C	;6C: Blunderbuss flame (repeats indefinitely)
+!sound_krool_gun_exhaust		= $68	;68: Blunderbuss flame (short)
+!sound_krool_cannonball_spikes		= $69	;69: Spikes protruding from/retracting into cannonball
+!sound_krool_ammo_swirl			= $6A	;6A: K.Rool projectile swirling
+!sound_krool_ammo_bounce		= $6B	;6B: K.Rool projectile bouncing
+!sound_krool_exhaust			= $6C	;6C: Blunderbuss flame (repeats indefinitely)
 !sound_kudgel_land			= $6D	;6D: Kudgel landing
 !sound_klubba_kudgel_swing		= $6F	;6F: Klubba/Kudgel swinging club
-!sound_k_rool_gun_suck_whoosh		= $70	;70: K. Rool using blunderbuss as a vacuum (whoosh channel)
-!sound_dk_punch_k_rool			= $71	;71: D.K. punching K. Rool
+!sound_krool_suck_whoosh		= $70	;70: K. Rool using blunderbuss as a vacuum (whoosh channel)
+!sound_dk_punch_krool			= $71	;71: D.K. punching K. Rool
 !sound_dk_oof				= $72	;72: D.K. hit
-!sound_k_rool_blink			= $73	;73: K. Rool blinking eyes
-!sound_k_rool_gun_backfire		= $74	;74: K. Rool's blunderbuss backfiring
+!sound_krool_blink			= $73	;73: K. Rool blinking eyes
+!sound_krool_backfire			= $74	;74: K. Rool's blunderbuss backfiring
 !sound_dk_grunt				= $75	;75: Donkey Kong struggling
-!sound_k_rool_gun_suck_vroom		= $76	;76: K. Rool using blunderbuss as a vacuum (vroom channel)
+!sound_krool_suck_vroom			= $76	;76: K. Rool using blunderbuss as a vacuum (vroom channel)
 !sound_krow_caw				= $79	;79: Krow cawing
 !sound_kudgel_defeat_airborne		= $7A	;7A: Kudgel/K. Rool (Krocodile Kore) airborne after defeat
 !sound_boss_1_7B			= $7B	;7B: Similar to 1A (unused?)
@@ -313,7 +313,7 @@
 !sound_lava_bubble_1			= $69	;69: Lava bubbling 1
 !sound_lava_bubble_2			= $6A	;6A: Lava bubbling 2
 !sound_kleever_hit			= $6B	;6B: Kleever hit with cannonball
-!sound_kleever_fireball_1		= $6C	;6C: Fireball flying
+!sound_kleever_fireball			= $6C	;6C: Fireball flying
 !sound_lava_bubble_3			= $6D	;6D: Lava bubbling 3
 !sound_kleever_fireball_2		= $79	;79: Fireball sound
 !sound_king_zing_hit			= $7A	;7A: King Zing hit

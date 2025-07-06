@@ -7659,7 +7659,7 @@ CODE_BBBC67:					;	   |
 	STA $7E7A12,x				;$BBBC82   |
 	JSL delete_sprite_no_deallocation	;$BBBC86   |
 CODE_BBBC8A:					;	   |
-	JML [$05A9]				;$BBBC8A  /
+	JML [sprite_return_address]		;$BBBC8A  /
 
 CODE_BBBC8D:
 	LDX current_sprite			;$BBBC8D  \

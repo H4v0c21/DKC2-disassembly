@@ -5666,24 +5666,24 @@ CODE_B5C3C8:					;	   |
 	CLC					;$B5C3D3   |
 	RTL					;$B5C3D4  /
 
-CODE_B5C3D5:
+get_sprite_terrain_info_y_origin_0:
 	SEC					;$B5C3D5  \
 	SBC #$0100				;$B5C3D6   |
 	STA $32					;$B5C3D9   |
-	LDA $0A,x				;$B5C3DB   |
+	LDA sprite.y_position,x			;$B5C3DB   |
 	STA $34					;$B5C3DD   |
-	BRA CODE_B5C3ED				;$B5C3DF  /
+	BRA .get_terrain_info			;$B5C3DF  /
 
-CODE_B5C3E1:
-	LDA $0A,x				;$B5C3E1  \
-CODE_B5C3E3:					;	   |
-	STA $34					;$B5C3E3   |
-	LDA $06,x				;$B5C3E5   |
-CODE_B5C3E7:					;	   |
-	SEC					;$B5C3E7   |
-	SBC #$0100				;$B5C3E8   |
-	STA $32					;$B5C3EB   |
-CODE_B5C3ED:					;	   |
+#get_sprite_terrain_info:
+	LDA sprite.y_position,x			;$B5C3E1  \> Get sprite y position
+#get_sprite_terrain_info_define_y:		;	   |
+	STA $34					;$B5C3E3   |> Save sprite y position for terrain tile return
+	LDA sprite.x_position,x			;$B5C3E5   |> Get sprite x position
+#get_sprite_terrain_info_define_x:		;	   |
+	SEC					;$B5C3E7   |\
+	SBC #$0100				;$B5C3E8   |/ Offset x position so origin point is 0
+	STA $32					;$B5C3EB   |> Save sprite x position for terrain tile return
+.get_terrain_info:				;	   |
 	PHK					;$B5C3ED   |
 	PLB					;$B5C3EE   |
 	STX $62					;$B5C3EF   |
@@ -11283,14 +11283,14 @@ CODE_B5ED70:
 	DEC $FD					;$B5ED93   | Else anti piracy routine was tampered, decrease level camera count by 1
 .continue					;	   |
 	STZ $92					;$B5ED95   |
-	LDA $0A36				;$B5ED97   |
+	LDA time_stop_flags			;$B5ED97   |
 	BIT #$0080				;$B5ED9A   |
 	BEQ CODE_B5EDA0				;$B5ED9D   |
 	RTS					;$B5ED9F  /
 
 CODE_B5EDA0:
 	JSR CODE_B5EE79				;$B5EDA0  \
-	LDA $0A36				;$B5EDA3   |
+	LDA time_stop_flags			;$B5EDA3   |
 	BIT #$0002				;$B5EDA6   |
 	BNE CODE_B5EE0A				;$B5EDA9   |
 	JSR CODE_B5EF97				;$B5EDAB   |
@@ -11356,7 +11356,7 @@ CODE_B5EDF8:					;	   |
 	DEC A					;$B5EE06   |
 	STA $17C2				;$B5EE07   |
 CODE_B5EE0A:					;	   |
-	LDA $0A36				;$B5EE0A   |
+	LDA time_stop_flags			;$B5EE0A   |
 	BIT #$0001				;$B5EE0D   |
 	BNE CODE_B5EE78				;$B5EE10   |
 	JSR CODE_B5EEBF				;$B5EE12   |

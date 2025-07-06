@@ -1527,7 +1527,7 @@ CODE_B9D8BC:
 	ORA.w sprite.interaction_flags,y	;$B9D8E3   |
 	STA.w sprite.interaction_flags,y	;$B9D8E6   |
 	LDY #$0040				;$B9D8E9   |
-	LDA [$8E],y				;$B9D8EC   |
+	LDA [current_sprite_constants],y	;$B9D8EC   |
 	LDY current_held_sprite			;$B9D8EE   |
 	BIT sprite.oam_property,x		;$B9D8F1   |
 	BVC CODE_B9D8F9				;$B9D8F3   |
@@ -1538,7 +1538,7 @@ CODE_B9D8F9:					;	   |
 	LDA #$0000				;$B9D8FC   |
 	STA.w sprite.max_x_speed,y		;$B9D8FF   |
 	LDY #$0042				;$B9D902   |
-	LDA [$8E],y				;$B9D905   |
+	LDA [current_sprite_constants],y	;$B9D905   |
 	LDY current_held_sprite			;$B9D907   |
 	STA.w sprite.y_speed,y			;$B9D90A   |
 	LDA #$0000				;$B9D90D   |
@@ -1559,7 +1559,7 @@ CODE_B9D91C:
 	ORA.w sprite.interaction_flags,y	;$B9D92C   |
 	STA.w sprite.interaction_flags,y	;$B9D92F   |
 	LDY #$003C				;$B9D932   |
-	LDA [$8E],y				;$B9D935   |
+	LDA [current_sprite_constants],y	;$B9D935   |
 	LDY current_held_sprite			;$B9D937   |
 	BIT sprite.oam_property,x		;$B9D93A   |
 	BVC CODE_B9D942				;$B9D93C   |
@@ -1570,7 +1570,7 @@ CODE_B9D942:					;	   |
 	LDA #$0000				;$B9D945   |
 	STA.w sprite.max_x_speed,y		;$B9D948   |
 	LDY #$003E				;$B9D94B   |
-	LDA [$8E],y				;$B9D94E   |
+	LDA [current_sprite_constants],y	;$B9D94E   |
 	LDY current_held_sprite			;$B9D950   |
 	STA.w sprite.y_speed,y			;$B9D953   |
 	LDA #$0000				;$B9D956   |
@@ -1593,7 +1593,7 @@ CODE_B9D965:
 	LDA #$0006				;$B9D97A   |\
 	STA.w sprite.unknown_32,y		;$B9D97D   |/ Set sprite carry interaction to thrown upwards
 	LDY #$0038				;$B9D980   |
-	LDA [$8E],y				;$B9D983   |
+	LDA [current_sprite_constants],y	;$B9D983   |
 	LDY current_held_sprite			;$B9D985   |
 	BIT sprite.oam_property,x		;$B9D988   |
 	BVC .no_flip				;$B9D98A   |
@@ -1604,7 +1604,7 @@ CODE_B9D965:
 	STA.w sprite.max_x_speed,y		;$B9D993   |
 	PHY					;$B9D996   |
 	LDY #$003A				;$B9D997   |
-	LDA [$8E],y				;$B9D99A   |
+	LDA [current_sprite_constants],y	;$B9D99A   |
 	PLY					;$B9D99C   |
 	STA.w sprite.y_speed,y			;$B9D99D   |
 	LDA #$0000				;$B9D9A0   |
@@ -1620,7 +1620,7 @@ CODE_B9D9AF:
 	LDA #$0004				;$B9D9B1   |\
 	STA.w sprite.unknown_32,y		;$B9D9B4   |/ Set sprite carry interaction to thrown sideways
 	LDY #$0034				;$B9D9B7   |
-	LDA [$8E],y				;$B9D9BA   |
+	LDA [current_sprite_constants],y	;$B9D9BA   |
 	LDY current_held_sprite			;$B9D9BC   |
 	BIT sprite.oam_property,x		;$B9D9BF   |
 	BVC CODE_B9D9C7				;$B9D9C1   |
@@ -1631,7 +1631,7 @@ CODE_B9D9C7:					;	   |
 	STA.w sprite.max_x_speed,y		;$B9D9CA   |
 	PHY					;$B9D9CD   |
 	LDY #$0036				;$B9D9CE   |
-	LDA [$8E],y				;$B9D9D1   |
+	LDA [current_sprite_constants],y	;$B9D9D1   |
 	PLY					;$B9D9D3   |
 	STA.w sprite.y_speed,y			;$B9D9D4   |
 	LDA #$0000				;$B9D9D7   |
@@ -1956,7 +1956,7 @@ CODE_B9DBC8:
 	LDA #$FB80				;$B9DBD4   |
 	STA sprite.y_speed,x			;$B9DBD7   |
 	LDY #$009C				;$B9DBD9   |
-	LDA [$8E],y				;$B9DBDC   |
+	LDA [current_sprite_constants],y	;$B9DBDC   |
 	LDX current_kong_control_variables	;$B9DBDE   |
 	STA kong_control.gravity_force,x	;$B9DBE0   |
 	RTS					;$B9DBE2  /
@@ -1966,7 +1966,7 @@ CODE_B9DBE3:
 	LDA #$FB00				;$B9DBE5   |
 	STA sprite.y_speed,x			;$B9DBE8   |
 	LDY #$009C				;$B9DBEA   |
-	LDA [$8E],y				;$B9DBED   |
+	LDA [current_sprite_constants],y	;$B9DBED   |
 	LDX current_kong_control_variables	;$B9DBEF   |
 	STA kong_control.gravity_force,x	;$B9DBF1   |
 	RTS					;$B9DBF3  /
@@ -2174,7 +2174,7 @@ CODE_B9DD1A:
 
 CODE_B9DD21:
 	LDY #$0028				;$B9DD21  \
-	LDA [$8E],y				;$B9DD24   |
+	LDA [current_sprite_constants],y	;$B9DD24   |
 	STA sprite.y_speed,x			;$B9DD26   |
 	STZ sprite.max_x_speed,x		;$B9DD28   |
 	RTS					;$B9DD2A  /
@@ -2536,7 +2536,7 @@ CODE_B9DF7A:
 	STA $0D80				;$B9DF87   |
 CODE_B9DF8A:					;	   |
 	LDY #$0008				;$B9DF8A   |
-	LDA [$8E],y				;$B9DF8D   |
+	LDA [current_sprite_constants],y	;$B9DF8D   |
 	STA sprite.y_speed,x			;$B9DF8F   |
 	LDA #$000E				;$B9DF91   |
 	STA sprite.state,x			;$B9DF94   |
@@ -2546,7 +2546,7 @@ CODE_B9DF8A:					;	   |
 
 CODE_B9DF9E:
 	LDY #$0008				;$B9DF9E  \
-	LDA [$8E],y				;$B9DFA1   |
+	LDA [current_sprite_constants],y	;$B9DFA1   |
 	STA sprite.y_speed,x			;$B9DFA3   |
 	LDA #$001B				;$B9DFA5   |
 	STA sprite.state,x			;$B9DFA8   |
@@ -2563,7 +2563,7 @@ CODE_B9DFB6:
 	LDA animal_type				;$B9DFB8   |
 	BNE CODE_B9DFC4				;$B9DFBA   |
 	LDY #$0008				;$B9DFBC   |
-	LDA [$8E],y				;$B9DFBF   |
+	LDA [current_sprite_constants],y	;$B9DFBF   |
 	STA sprite.y_speed,x			;$B9DFC1   |
 	RTS					;$B9DFC3  /
 
@@ -2572,7 +2572,7 @@ CODE_B9DFC4:
 	SBC #$000C				;$B9DFC5   |
 	LSR A					;$B9DFC8   |
 	TAY					;$B9DFC9   |
-	LDA [$8E],y				;$B9DFCA   |
+	LDA [current_sprite_constants],y	;$B9DFCA   |
 	STA sprite.y_speed,x			;$B9DFCC   |
 	RTS					;$B9DFCE  /
 
@@ -3201,7 +3201,7 @@ CODE_B9E3AE:
 CODE_B9E3AF:
 	LDX current_sprite			;$B9E3AF  \
 	LDY #$0098				;$B9E3B1   |
-	LDA [$8E],y				;$B9E3B4   |
+	LDA [current_sprite_constants],y	;$B9E3B4   |
 	STA sprite.y_speed,x			;$B9E3B6   |
 	LDA #$0062				;$B9E3B8   |
 	STA sprite.state,x			;$B9E3BB   |
@@ -3425,7 +3425,7 @@ CODE_B9E516:
 	RTS					;$B9E51D  /
 
 CODE_B9E51E:
-	LDA $0A36				;$B9E51E  \
+	LDA time_stop_flags			;$B9E51E  \
 	BIT #$0004				;$B9E521   |
 	BNE CODE_B9E534				;$B9E524   |
 	JSL CODE_BCFB58				;$B9E526   |
@@ -3580,7 +3580,7 @@ CODE_B9E613:					;	   |
 
 CODE_B9E614:
 	LDY #$0006				;$B9E614  \
-	LDA [$8E],y				;$B9E617   |
+	LDA [current_sprite_constants],y	;$B9E617   |
 	BIT sprite.oam_property,x		;$B9E619   |
 	BVC CODE_B9E621				;$B9E61B   |
 	EOR #$FFFF				;$B9E61D   |
@@ -3792,7 +3792,7 @@ CODE_B9E73F:
 CODE_B9E75F:
 	TYX					;$B9E75F  \
 	LDY #$0010				;$B9E760   |
-	LDA [$8E],y				;$B9E763   |
+	LDA [current_sprite_constants],y	;$B9E763   |
 	TXY					;$B9E765   |
 	LDX current_sprite			;$B9E766   |
 	STA sprite.general_purpose_4E,x		;$B9E768   |
@@ -4442,17 +4442,17 @@ CODE_B9EB6C:
 	LDA sprite.general_purpose_4A,x		;$B9EB6C  \
 	INC sprite.general_purpose_4A,x		;$B9EB6E   |
 	INC sprite.general_purpose_4A,x		;$B9EB70   |
-	STA $8E					;$B9EB72   |
-	LDA [$8E]				;$B9EB74   |
+	STA current_sprite_constants		;$B9EB72   |
+	LDA [current_sprite_constants]		;$B9EB74   |
 	BMI CODE_B9EB7F				;$B9EB76   |
 	STA sprite.general_purpose_42,x		;$B9EB78   |
 	LDA sprite.constants_address,x		;$B9EB7A   |
-	STA $8E					;$B9EB7C   |
+	STA current_sprite_constants		;$B9EB7C   |
 	RTS					;$B9EB7E  /
 
 CODE_B9EB7F:
 	LDY #$0002				;$B9EB7F  \
-	LDA [$8E],y				;$B9EB82   |
+	LDA [current_sprite_constants],y	;$B9EB82   |
 	STA sprite.general_purpose_4A,x		;$B9EB84   |
 	BRA CODE_B9EB6C				;$B9EB86  /
 

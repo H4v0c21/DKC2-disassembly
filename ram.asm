@@ -55,10 +55,13 @@ temp_61 = $61
 current_sprite = $64
 current_kong_control_variables = $66
 alternate_sprite = $68
-UNKNOWN_6A = $6A		;same as $66
+UNKNOWN_6A = $6A
 current_player_mount = $6C
 animal_type = $6E
 next_oam_slot = $70
+
+current_sprite_constants = $8E
+current_sprite_constants_bank = $90
 
 nmi_submode = $94
 gamemode_submode = $96
@@ -109,6 +112,9 @@ level_exit_trigger_x_position = $05A1
 returning_level_number = $05A3
 returning_entrance_number = $05A5
 
+sprite_return_address = $05A9
+sprite_return_bank = $05AB
+
 debug_flags = $05BB
 
 cheat_enable_flags = $060B
@@ -142,6 +148,17 @@ enable_intro_bypass = $090F
 intro_sparkle_x_position = $098F
 intro_sparkle_y_position = $0991
 player_skipped_demo = $099B
+kong_follow_buffer_recording_index = $099D
+kong_follow_buffer_playback_index = $099F
+
+kong_follow_last_rec_x_position = $0A2A
+kong_follow_last_rec_y_position = $0A2C
+kong_follow_last_rec_animation = $0A2E
+kong_follow_last_rec_x_speed = $0A30
+kong_follow_last_rec_max_x_speed = $0A32
+kong_follow_last_rec_ground_dist = $0A34
+time_stop_flags = $0A36
+time_stop_timer = $0A38
 
 sprite_vram_allocation_table = $0B04
 palette_upload_ring_buffer = $0B24
@@ -172,6 +189,15 @@ sprite_dma_buffer = $1732
 diddy_control_variables = $16B2
 dixie_control_variables = $16D8
 
+
+
+zinger_loop_sound_enabler = $19AA
+flitter_loop_sound_enabler = $19AB
+wind_loop_sound_enabler = $19AC
+flotsam_loop_sound_enabler = $19AC
+unknown_19AD = $19AD
+invincible_loop_sound_enabler = $19AE
+barrel_roll_loop_sound_enabler = $19AF
 
 kong_cutscene_number = $19D0
 kong_cutscene_script_index = $19D2
