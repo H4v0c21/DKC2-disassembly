@@ -41,6 +41,7 @@ temp_3C = $3C
 temp_3D = $3D
 temp_3E = $3E
 temp_3F = $3F
+temp_40 = $40
 ;the amount of temps here I have documented as 30, but I will reserve filling that out pending more evidence
 ;I suspect the latter are used rare enough that they may effectively be dedicated addresses
 
