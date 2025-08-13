@@ -1,5 +1,58 @@
 !null_pointer = $000000
 
+;Mapping Modes
+!LoROM_slow_mapping_mode = $20
+!HiROM_slow_mapping_mode = $21
+!SA1_slow_mapping_mode = $23
+!ExHiROM_slow_mapping_mode = $25
+!LoROM_fast_mapping_mode = $30
+!HiROM_fast_mapping_mode = $31
+!ExHiROM_fast_mapping_mode = $35
+
+;Cartridge Types
+!ROM_cart_type = $00
+!ROM_RAM_cart_type = $01
+!ROM_RAM_battery_cart_type = $02
+!ROM_SA1_cart_type = $33
+!ROM_RAM_SA1_cart_type = $34
+!ROM_RAM_battery_SA1_cart_type = $35
+
+;ROM Regions
+!japan_region = $00
+!north_america_region = $01
+!europe_region = $02
+!scandinavia_region = $03
+!europe_french_region = $06
+!dutch_region = $07
+!spanish_region = $08
+!germany_region = $09
+!italy_region = $0A
+!china_region = $0B
+!korea_region = $0D
+!common_region = $0E
+!canada_region = $0F
+!brazil_region = $10
+!australia_region = $11
+!other_a_region = $12
+!other_b_region = $13
+!other_c_region = $14
+
+;RAM and RAM Sizes:
+!size_0KB = $00
+!size_2KB = $01
+!size_4KB = $02
+!size_8KB = $03
+!size_16KB = $04
+!size_32KB = $05
+!size_64KB = $06
+!size_128KB = $07
+!size_256KB = $08
+!size_512KB = $09
+!size_1MB = $0A
+!size_2MB = $0B
+!size_4MB = $0C
+!size_8MB = $0D
+
 ;sprite init command constants
 !initcommand_success = $8000
 !initcommand_set_animation = $8100
