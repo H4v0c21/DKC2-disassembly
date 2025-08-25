@@ -50,7 +50,7 @@ org $80F4B0
 org $808000
 	incsrc "bank_80.asm"
 	assert pc() <= $80FFB0
-	org $80FFB0
+org $80FFB0
 	incsrc "header.asm"
 org $C10000
 	check bankcross full

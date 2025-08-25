@@ -1942,17 +1942,17 @@ CODE_BB8C6E:					;	   |
 
 set_PPU_registers:
 	PHB					;$BB8C7F  \ Preserve current data bank
-	%pea_shift_dbr(DATA_FD79E2)		;$BB8C80   |\ Change data bank to FD
+	%pea_shift_dbr(ppu_config_table)	;$BB8C80   |\ Change data bank to FD
 	PLB					;$BB8C83   | |
 	PLB					;$BB8C84   |/
 	SEP #$20				;$BB8C85   |
 	STA $000D70				;$BB8C87   | Store index to current VRAM setting id
 	ASL A					;$BB8C8B   |\ Double the VRAM setting id for use as an index
 	TAY					;$BB8C8C   |/
-	LDX.w DATA_FD79E2,y			;$BB8C8D   |\ Load relative offset to register config index
+	LDX.w ppu_config_table,y		;$BB8C8D   |\ Load relative offset to register config index
 	TXY					;$BB8C90   |/
 .next_register					;	   |
-	LDX.w DATA_FD79E2,y			;$BB8C91   |\ A value of zero terminates the table
+	LDX.w ppu_config_table,y		;$BB8C91   |\ A value of zero terminates the table
 	BEQ .return				;$BB8C94   |/
 	INY					;$BB8C96   |\ Move the settings index forward two byets
 	INY					;$BB8C97   |/
@@ -1961,12 +1961,12 @@ set_PPU_registers:
 	BCC .single_register			;$BB8C9C   |/ If the high bit is clear, then the destination is one byte
 	LSR $77					;$BB8C9E   | Undo the bit test shift
 	LDX $76					;$BB8CA0   | Reload masked register to set
-	LDA.w DATA_FD79E2,y			;$BB8CA2   |\ Load the byte for the register and set it
+	LDA.w ppu_config_table,y		;$BB8CA2   |\ Load the byte for the register and set it
 	STA $00,x				;$BB8CA5   |/
 	INX					;$BB8CA7   | Move to the next register
 	INY					;$BB8CA8   | Increment the settings index
 .single_register				;	   |
-	LDA.w DATA_FD79E2,y			;$BB8CA9   |\ Load the byte for the register and set it
+	LDA.w ppu_config_table,y		;$BB8CA9   |\ Load the byte for the register and set it
 	STA $00,x				;$BB8CAC   |/
 	INY					;$BB8CAE   | Increment the settings index
 	BRA .next_register			;$BB8CAF  /
@@ -1978,15 +1978,15 @@ set_PPU_registers:
 
 VRAM_payload_handler:
 	PHB					;$BB8CB5  \ Preserve current data bank
-	%pea_shift_dbr(DATA_FD819A)		;$BB8CB6   |\ Change data bank to FD
+	%pea_shift_dbr(vram_payload_table)	;$BB8CB6   |\ Change data bank to FD
 	PLB					;$BB8CB9   | |
 	PLB					;$BB8CBA   |/
 	ASL A					;$BB8CBB   |\ Double the VRAM payload id an index to the relative pointer
 	TAY					;$BB8CBC   |/
-	LDX.w DATA_FD819A,y			;$BB8CBD   | Load relative offset to VRAM payload
+	LDX.w vram_payload_table,y		;$BB8CBD   | Load relative offset to VRAM payload
 .next_payload					;	   |
 	SEP #$20				;$BB8CC0   |
-	LDA.w DATA_FD819A,x			;$BB8CC2   |\ If the payload data is zero, we are done uploadingh
+	LDA.w vram_payload_table,x		;$BB8CC2   |\ If the payload data is zero, we are done uploadingh
 	BEQ .return				;$BB8CC5   |/
 	LDA.w DATA_FD819E,x			;$BB8CC7   |\ If the payload data is negative handle compressed data
 	BMI .compressed_payload			;$BB8CCA   |/
@@ -1995,7 +1995,7 @@ VRAM_payload_handler:
 
 .raw_pointer_payload
 	SEP #$20				;$BB8CD1   |\ Dead code as far as I can tell, but here is what it could do
-	LDA.w DATA_FD819A,x			;$BB8CD3   | |\ Set the DMA source bank
+	LDA.w vram_payload_table,x		;$BB8CD3   | |\ Set the DMA source bank
 	STA.l DMA[0].source_bank		;$BB8CD6   | |/
 	REP #$20				;$BB8CDA   | |
 	LDA.w DATA_FD819B,x			;$BB8CDC   | |\ Set the DMA source word
@@ -2028,7 +2028,7 @@ VRAM_payload_handler:
 .compressed_payload
 	REP #$20				;$BB8D18  \
 	LDY.w DATA_FD819B,x			;$BB8D1A   |\ Load pointer to data to decompress
-	LDA.w DATA_FD819A,x			;$BB8D1D   |/
+	LDA.w vram_payload_table,x		;$BB8D1D   |/
 	AND #$00FF				;$BB8D20   |
 	PHX					;$BB8D23   | Preserve the payload index
 	TYX					;$BB8D24   | Move pointer word to X
@@ -2055,7 +2055,7 @@ VRAM_payload_handler:
 
 .static_payload
 	SEP #$20				;$BB8D54  \
-	LDA.w DATA_FD819A,x			;$BB8D56   |\ Get and set the bank of the source pointer
+	LDA.w vram_payload_table,x		;$BB8D56   |\ Get and set the bank of the source pointer
 	STA $28					;$BB8D59   |/
 	LDA #$7F				;$BB8D5B   |\ Set DMA source bank to 7F
 	STA.l DMA[0].source_bank		;$BB8D5D   |/
@@ -2886,7 +2886,7 @@ CODE_BB929D:					;	   |
 	LDA $0517				;$BB92A7   |\ Get graphics init routine index
 	ASL A					;$BB92AA   | |
 	TAX					;$BB92AB   | |
-	JSR (DATA_BB9592,x)			;$BB92AC   |/ Run level graphics uploader
+	JSR (tileset_init_table,x)		;$BB92AC   |/ Run level graphics uploader
 	LDA $0515				;$BB92AF   |\ Get level type
 	CMP #!bonus_level_type			;$BB92B2   | |
 	BNE .done_handling_stars		;$BB92B5   |/ If level isnt a bonus skip handling star graphics
@@ -2894,7 +2894,7 @@ CODE_BB929D:					;	   |
 	AND #$00FF				;$BB92BA   | |
 	CMP #!collect_the_stars_bonus_type	;$BB92BD   | | Check if its collect the stars
 	BNE .done_handling_stars		;$BB92C0   |/ If not dont upload star graphics
-	LDA #$0016				;$BB92C2   |\ Upload star collectible graphics
+	LDA #!stars_only_vram_payload_id	;$BB92C2   |\ Upload star collectible graphics
 	JSL VRAM_payload_handler_global		;$BB92C5   |/
 .done_handling_stars:				;	   |
 	LDX #$000A				;$BB92C9   |\
@@ -2962,7 +2962,7 @@ endif						;	   |
 	LDA $0519				;$BB9358   |\
 	ASL A					;$BB935B   | |
 	TAX					;$BB935C   | |
-	JSR (DATA_BB95BC,x)			;$BB935D   |/ run hdma init routine
+	JSR (tileset_HDMA_init_table,x)		;$BB935D   |/ run hdma init routine
 	LDA #$002C				;$BB9360   |
 	STA $0B00				;$BB9363   |
 	STZ next_sprite_dma_buffer_slot		;$BB9366   |
@@ -3360,61 +3360,61 @@ DATA_BB94C4:
 	db !music_null				;CC
 	db !music_null				;CD
 
-DATA_BB9592:
-	dw CODE_BB9788
-	dw CODE_BB966F
-	dw CODE_BB9650
-	dw CODE_BB9631
-	dw CODE_BB96F8
-	dw CODE_BB971B
-	dw CODE_BB9761
-	dw CODE_BB960B
-	dw CODE_BB9874
-	dw CODE_BB99DB
-	dw CODE_BB9828
-	dw CODE_BB9993
-	dw CODE_BB97B4
-	dw CODE_BB973E
-	dw CODE_BB97F9
-	dw CODE_BB96BC
-	dw CODE_BB96D5
-	dw CODE_BB95F2
-	dw CODE_BB98B4
-	dw CODE_BB9885
-	dw CODE_BB97DA
+tileset_init_table:
+	dw CODE_BB9788				;00
+	dw CODE_BB966F				;01
+	dw CODE_BB9650				;02
+	dw CODE_BB9631				;03
+	dw CODE_BB96F8				;04
+	dw CODE_BB971B				;05
+	dw CODE_BB9761				;06
+	dw CODE_BB960B				;07
+	dw CODE_BB9874				;08
+	dw CODE_BB99DB				;09
+	dw CODE_BB9828				;0A
+	dw CODE_BB9993				;0B
+	dw CODE_BB97B4				;0C
+	dw CODE_BB973E				;0D
+	dw CODE_BB97F9				;0E
+	dw CODE_BB96BC				;0F
+	dw CODE_BB96D5				;10
+	dw CODE_BB95F2				;11
+	dw CODE_BB98B4				;12
+	dw CODE_BB9885				;13
+	dw CODE_BB97DA				;14
 
-DATA_BB95BC:
-	dw CODE_BB9E6A
-	dw CODE_BBA20B
-	dw CODE_BBA1FF
-	dw CODE_BB9ACA
-	dw CODE_BBA5DA
-	dw CODE_BBA5A9
-	dw CODE_BBA416
-	dw CODE_BB9E59
-	dw CODE_BB9A93
-	dw CODE_BB9B79
-	dw CODE_BB9D1D
-	dw CODE_BB9E74
-	dw CODE_BBA5C9
-	dw CODE_BBA00D
-	dw CODE_BB9E80
-	dw CODE_BBA031
-	dw CODE_BBA031
-	dw CODE_BBA726
-	dw CODE_BBA9D2
-	dw CODE_BBA9E0
-	dw CODE_BB9B18
-	dw CODE_BBA2E2
-	dw CODE_BBA24F
-	dw CODE_BBA5D0
-	dw CODE_BB9E0F
-	dw CODE_BBA8E3
-	dw CODE_BBA8F3
+tileset_HDMA_init_table:
+	dw CODE_BB9E6A				;00
+	dw CODE_BBA20B				;01
+	dw CODE_BBA1FF				;02
+	dw CODE_BB9ACA				;03
+	dw CODE_BBA5DA				;04
+	dw CODE_BBA5A9				;05
+	dw CODE_BBA416				;06
+	dw CODE_BB9E59				;07
+	dw CODE_BB9A93				;08
+	dw CODE_BB9B79				;09
+	dw CODE_BB9D1D				;0A
+	dw CODE_BB9E74				;0B
+	dw CODE_BBA5C9				;0C
+	dw CODE_BBA00D				;0D
+	dw CODE_BB9E80				;0E
+	dw CODE_BBA031				;0F
+	dw CODE_BBA031				;10
+	dw CODE_BBA726				;11
+	dw CODE_BBA9D2				;12
+	dw CODE_BBA9E0				;13
+	dw CODE_BB9B18				;14
+	dw CODE_BBA2E2				;15
+	dw CODE_BBA24F				;16
+	dw CODE_BBA5D0				;17
+	dw CODE_BB9E0F				;18
+	dw CODE_BBA8E3				;19
+	dw CODE_BBA8F3				;1A
 
 
 CODE_BB95F2:
-	LDA #$0001				;$BB95F2  \
+	LDA #!hud_only_vram_payload_id		;$BB95F2  \
 	JSL VRAM_payload_handler_global		;$BB95F5   |
 	LDA $0539				;$BB95F9   |
 	JSL VRAM_payload_handler_global		;$BB95FC   |
@@ -3424,7 +3424,7 @@ CODE_BB95F2:
 	RTS					;$BB960A  /
 
 CODE_BB960B:
-	LDA #$0001				;$BB960B  \
+	LDA #!hud_only_vram_payload_id		;$BB960B  \
 	JSL VRAM_payload_handler_global		;$BB960E   |
 	LDA $0539				;$BB9612   |
 	JSL VRAM_payload_handler_global		;$BB9615   |
@@ -3438,7 +3438,7 @@ CODE_BB960B:
 	RTS					;$BB9630  /
 
 CODE_BB9631:
-	LDA #$0001				;$BB9631  \
+	LDA #!hud_only_vram_payload_id		;$BB9631  \
 	JSL VRAM_payload_handler_global		;$BB9634   |
 	LDA $0539				;$BB9638   |
 	JSL VRAM_payload_handler_global		;$BB963B   |
@@ -3450,7 +3450,7 @@ CODE_BB9631:
 	RTS					;$BB964F  /
 
 CODE_BB9650:
-	LDA #$0001				;$BB9650  \
+	LDA #!hud_only_vram_payload_id		;$BB9650  \
 	JSL VRAM_payload_handler_global		;$BB9653   |
 	LDA $0539				;$BB9657   |
 	JSL VRAM_payload_handler_global		;$BB965A   |
@@ -3462,7 +3462,7 @@ CODE_BB9650:
 	RTS					;$BB966E  /
 
 CODE_BB966F:
-	LDA #$0001				;$BB966F  \
+	LDA #!hud_only_vram_payload_id		;$BB966F  \
 	JSL VRAM_payload_handler_global		;$BB9672   |
 	LDA $0539				;$BB9676   |
 	JSL VRAM_payload_handler_global		;$BB9679   |
@@ -3491,7 +3491,7 @@ CODE_BB96AA:					;	   |
 	RTS					;$BB96BB  /
 
 CODE_BB96BC:
-	LDA #$0001				;$BB96BC  \
+	LDA #!hud_only_vram_payload_id		;$BB96BC  \
 	JSL VRAM_payload_handler_global		;$BB96BF   |
 	LDA $0539				;$BB96C3   |
 	JSL VRAM_payload_handler_global		;$BB96C6   |
@@ -3501,7 +3501,7 @@ CODE_BB96BC:
 	RTS					;$BB96D4  /
 
 CODE_BB96D5:
-	LDA #$0001				;$BB96D5  \
+	LDA #!hud_only_vram_payload_id		;$BB96D5  \
 	JSL VRAM_payload_handler_global		;$BB96D8   |
 	LDA $0539				;$BB96DC   |
 	JSL VRAM_payload_handler_global		;$BB96DF   |
@@ -3514,7 +3514,7 @@ CODE_BB96D5:
 	RTS					;$BB96F7  /
 
 CODE_BB96F8:
-	LDA #$0001				;$BB96F8  \
+	LDA #!hud_only_vram_payload_id		;$BB96F8  \
 	JSL VRAM_payload_handler_global		;$BB96FB   |
 	LDA $0539				;$BB96FF   |
 	JSL VRAM_payload_handler_global		;$BB9702   |
@@ -3527,7 +3527,7 @@ CODE_BB96F8:
 	RTS					;$BB971A  /
 
 CODE_BB971B:
-	LDA #$0001				;$BB971B  \
+	LDA #!hud_only_vram_payload_id		;$BB971B  \
 	JSL VRAM_payload_handler_global		;$BB971E   |
 	LDA $0539				;$BB9722   |
 	JSL VRAM_payload_handler_global		;$BB9725   |
@@ -3540,7 +3540,7 @@ CODE_BB971B:
 	RTS					;$BB973D  /
 
 CODE_BB973E:
-	LDA #$0001				;$BB973E  \
+	LDA #!hud_only_vram_payload_id		;$BB973E  \
 	JSL VRAM_payload_handler_global		;$BB9741   |
 	LDA $0539				;$BB9745   |
 	JSL VRAM_payload_handler_global		;$BB9748   |
@@ -3553,7 +3553,7 @@ CODE_BB973E:
 	RTS					;$BB9760  /
 
 CODE_BB9761:
-	LDA #$0001				;$BB9761  \
+	LDA #!hud_only_vram_payload_id		;$BB9761  \
 	JSL VRAM_payload_handler_global		;$BB9764   |
 	LDA $0539				;$BB9768   |
 	JSL VRAM_payload_handler_global		;$BB976B   |
@@ -3588,7 +3588,7 @@ CODE_BB97AB:					;	   |
 	RTS					;$BB97B3  /
 
 CODE_BB97B4:
-	LDA #$0001				;$BB97B4  \
+	LDA #!hud_only_vram_payload_id		;$BB97B4  \
 	JSL VRAM_payload_handler_global		;$BB97B7   |
 	LDA $0539				;$BB97BB   |
 	JSL VRAM_payload_handler_global		;$BB97BE   |
@@ -3602,7 +3602,7 @@ CODE_BB97B4:
 	RTS					;$BB97D9  /
 
 CODE_BB97DA:
-	LDA #$0001				;$BB97DA  \
+	LDA #!hud_only_vram_payload_id		;$BB97DA  \
 	JSL VRAM_payload_handler_global		;$BB97DD   |
 	LDA $0539				;$BB97E1   |
 	JSL VRAM_payload_handler_global		;$BB97E4   |
@@ -3614,7 +3614,7 @@ CODE_BB97DA:
 	RTS					;$BB97F8  /
 
 CODE_BB97F9:
-	LDA #$0001				;$BB97F9  \
+	LDA #!hud_only_vram_payload_id		;$BB97F9  \
 	JSL VRAM_payload_handler_global		;$BB97FC   |
 	LDA $0539				;$BB9800   |
 	JSL VRAM_payload_handler_global		;$BB9803   |
@@ -8718,7 +8718,7 @@ CODE_BBC174:					;	   |
 	AND #$4000				;$BBC51C   |
 	BEQ .CODE_BBC537			;$BBC51F   |
 	JSL work_on_inactive_kong_global	;$BBC521   |
-	LDA #$0022				;$BBC525   |
+	LDA #!kong_state_22			;$BBC525   |
 	STA sprite.state,x			;$BBC528   |
 	LDA #$001F				;$BBC52A   |
 	LDX #$0003				;$BBC52D   |

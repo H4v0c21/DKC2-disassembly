@@ -1011,89 +1011,90 @@ CODE_B9D5E9:					;	   |
 	LDX current_sprite			;$B9D5EE   |
 	JMP process_anim_script			;$B9D5F0  /
 
-CODE_B9D5F3:
+check_if_boss_level:
 	LDA.l $000515				;$B9D5F3  \
 	CMP #!boss_level_type			;$B9D5F7   |
-	BNE CODE_B9D5FE				;$B9D5FA   |
+	BNE .boss_level				;$B9D5FA   |
 	CLC					;$B9D5FC   |
 	RTS					;$B9D5FD  /
 
-CODE_B9D5FE:
+.boss_level:
 	SEC					;$B9D5FE  \
 	RTS					;$B9D5FF  /
 
-CODE_B9D600:
+check_if_not_bonus_or_sub_level:
 	LDA.l $000515				;$B9D600  \
 	CMP #!small_level_type			;$B9D604   |
-	BEQ CODE_B9D614				;$B9D607   |
+	BEQ .bonus_or_sub_level			;$B9D607   |
 	CMP #!bonus_level_type			;$B9D609   |
-	BNE CODE_B9D616				;$B9D60C   |
+	BNE .normal_level			;$B9D60C   |
 	LDA.l $00052D				;$B9D60E   |
-	BEQ CODE_B9D616				;$B9D612   |
-CODE_B9D614:					;	   |
+	BEQ .normal_level			;$B9D612   |
+.bonus_or_sub_level:				;	   |
 	CLC					;$B9D614   |
 	RTS					;$B9D615  /
 
-CODE_B9D616:
+.normal_level:
 	SEC					;$B9D616  \
 	RTS					;$B9D617  /
 
-CODE_B9D618:
+check_if_no_web_platforms_are_shooting:
 	LDA.l $000B02				;$B9D618  \
 	AND #$0040				;$B9D61C   |
-	BEQ CODE_B9D623				;$B9D61F   |
+	BEQ .no_web_platforms_shooting		;$B9D61F   |
 	CLC					;$B9D621   |
 	RTS					;$B9D622  /
 
-CODE_B9D623:
+.no_web_platforms_shooting:
 	SEC					;$B9D623  \
 	RTS					;$B9D624  /
 
-CODE_B9D625:
+check_if_player_not_mounted:
 	LDA.l current_player_mount		;$B9D625  \
-	BNE CODE_B9D62D				;$B9D629   |
+	BNE .not_mounted			;$B9D629   |
 	SEC					;$B9D62B   |
 	RTS					;$B9D62C  /
 
-CODE_B9D62D:
+.not_mounted:
 	CLC					;$B9D62D  \
 	RTS					;$B9D62E  /
 
-CODE_B9D62F:
+check_if_current_kong_is_diddy:
 	LDA.l $0008A4				;$B9D62F  \
-	BNE CODE_B9D637				;$B9D633   |
+	BNE .player_is_dixie			;$B9D633   |
 	SEC					;$B9D635   |
 	RTS					;$B9D636  /
 
-CODE_B9D637:
+.player_is_dixie:
 	CLC					;$B9D637  \
 	RTS					;$B9D638  /
 
-CODE_B9D639:
+check_if_active_kong_has_no_max_x_speed:
 	LDA.l active_kong_sprite		;$B9D639  \
 	TAX					;$B9D63D   |
 	LDA sprite.max_x_speed,x		;$B9D63E   |
-	BNE CODE_B9D644				;$B9D640   |
+	BNE .has_target_x_speed			;$B9D640   |
 	SEC					;$B9D642   |
 	RTS					;$B9D643  /
 
-CODE_B9D644:
+.has_target_x_speed:
 	CLC					;$B9D644  \
 	RTS					;$B9D645  /
 
-CODE_B9D646:
+;unused
+.check_if_away_from_ground:
 	LDA sprite.ground_y_position,x		;$B9D646  \
-	BMI CODE_B9D656				;$B9D648   |
+	BMI .away_from_ground			;$B9D648   |
 	SEC					;$B9D64A   |
 	SBC sprite.y_position,x			;$B9D64B   |
-	BMI CODE_B9D654				;$B9D64D   |
+	BMI .close_to_ground			;$B9D64D   |
 	CMP #$0030				;$B9D64F   |
-	BPL CODE_B9D656				;$B9D652   |
-CODE_B9D654:					;	   |
+	BPL .away_from_ground			;$B9D652   |
+.close_to_ground:				;	   |
 	CLC					;$B9D654   |
 	RTS					;$B9D655  /
 
-CODE_B9D656:
+.away_from_ground:
 	SEC					;$B9D656  \
 	RTS					;$B9D657  /
 
@@ -1129,18 +1130,19 @@ CODE_B9D67D:
 	SEC					;$B9D67D  \
 	RTS					;$B9D67E  /
 
-CODE_B9D67F:
+check_for_vertical_wind_stop:
 	LDA.l $0019C4				;$B9D67F  \
 	TAX					;$B9D683   |
 	LDA sprite.general_purpose_46,x		;$B9D684   |
-	BEQ CODE_B9D68A				;$B9D686   |
+	BEQ .no_wind				;$B9D686   |
 	CLC					;$B9D688   |
 	RTS					;$B9D689  /
 
-CODE_B9D68A:
+.no_wind:
 	SEC					;$B9D68A  \
 	RTS					;$B9D68B  /
 
+;unused
 CODE_B9D68C:
 	LDA sprite.terrain_interaction,x	;$B9D68C  \
 	AND #$1000				;$B9D68E   |
@@ -1160,6 +1162,7 @@ CODE_B9D6A3:
 	SEC					;$B9D6A3  \
 	RTS					;$B9D6A4  /
 
+;Called by dixie rolling animation
 CODE_B9D6A5:
 	LDA sprite.terrain_interaction,x	;$B9D6A5  \
 	AND #$1001				;$B9D6A7   |
@@ -1171,14 +1174,14 @@ CODE_B9D6AE:
 	CLC					;$B9D6AE  \
 	RTS					;$B9D6AF  /
 
-CODE_B9D6B0:
+check_if_moving_down:
 	LDX current_sprite			;$B9D6B0  \
 	LDA sprite.y_speed,x			;$B9D6B2   |
-	BMI CODE_B9D6B8				;$B9D6B4   |
+	BMI .moving_up				;$B9D6B4   |
 	SEC					;$B9D6B6   |
 	RTS					;$B9D6B7  /
 
-CODE_B9D6B8:
+.moving_up:
 	CLC					;$B9D6B8  \
 	RTS					;$B9D6B9  /
 
@@ -3232,7 +3235,9 @@ CODE_B9E3E5:					;	   |
 	CMP #$0009				;$B9E3E7   |
 	BEQ CODE_B9E401				;$B9E3EA   |
 CODE_B9E3EC:					;	   |
-	LDA #DATA_F94C82			;$B9E3EC   |
+namespace animation
+	LDA #dixie_skull_cart			;$B9E3EC   |
+namespace off
 	STA sprite.animation_address,x		;$B9E3EF   |
 	STZ sprite.animation_routine,x		;$B9E3F1   |
 	STZ sprite.animation_timer,x		;$B9E3F3   |
@@ -3269,7 +3274,9 @@ CODE_B9E41C:					;	   |
 	CMP #$0009				;$B9E41E   |
 	BEQ CODE_B9E438				;$B9E421   |
 CODE_B9E423:					;	   |
-	LDA #DATA_F94D19			;$B9E423   |
+namespace animation
+	LDA #diddy_skull_cart			;$B9E423   |
+namespace off
 	STA sprite.animation_address,x		;$B9E426   |
 	STZ sprite.animation_routine,x		;$B9E428   |
 	STZ sprite.animation_timer,x		;$B9E42A   |
@@ -3704,7 +3711,9 @@ set_credits_snapjaw_animation:
 	CMP #$0160				;$B9E6DA   | Check if snapjaw has reached target X position
 	BCC .return				;$B9E6DD   | If not, return
 	STZ sprite.animation_routine,x		;$B9E6DF   | Else clear anim subroutine pointer
+namespace animation
 	LDA #DATA_F956E6			;$B9E6E1   |
+namespace off
 	STA sprite.animation_address,x		;$B9E6E4   | Set new animation script pointer
 .return:					;	   |
 	RTS					;$B9E6E6  / Return
@@ -3723,7 +3732,9 @@ CODE_B9E6ED:
 CODE_B9E6F4:
 	LDA sprite.max_x_speed,x		;$B9E6F4  \
 	BNE CODE_B9E704				;$B9E6F6   |
+namespace animation
 	LDA #DATA_F95798			;$B9E6F8   |
+namespace off
 	STA sprite.animation_address,x		;$B9E6FB   |
 	LDA #CODE_B9E705			;$B9E6FD   |
 	STA sprite.animation_routine,x		;$B9E700   |
@@ -3736,7 +3747,9 @@ CODE_B9E705:
 	BEQ CODE_B9E704				;$B9E707   |
 	STZ sprite.animation_routine,x		;$B9E709   |
 	STZ sprite.animation_timer,x		;$B9E70B   |
+namespace animation
 	LDA #DATA_F957AA			;$B9E70D   |
+namespace off
 	STA sprite.animation_address,x		;$B9E710   |
 	RTS					;$B9E712  /
 
@@ -3905,7 +3918,9 @@ CODE_B9E816:
 	LDA sprite.movement_state,x		;$B9E816  \
 	AND #$FF00				;$B9E818   |
 	BNE CODE_B9E824				;$B9E81B   |
+namespace animation
 	LDA #DATA_F9596D			;$B9E81D   |
+namespace off
 	STA sprite.animation_address,x		;$B9E820   |
 	STZ sprite.animation_routine,x		;$B9E822   |
 CODE_B9E824:					;	   |
@@ -4200,7 +4215,9 @@ spawn_krooks_hook:
 CODE_B9E9E1:
 	LDA sprite.parameter,x			;$B9E9E1  \
 	BNE CODE_B9E9EE				;$B9E9E3   |
+namespace animation
 	LDA #DATA_F95EF2			;$B9E9E5   |
+namespace off
 	STA sprite.animation_address,x		;$B9E9E8   |
 	STZ sprite.animation_timer,x		;$B9E9EA   |
 	STZ sprite.animation_routine,x		;$B9E9EC   |
@@ -4351,7 +4368,9 @@ CODE_B9EAD0:
 	LDA sprite.general_purpose_4E,x		;$B9EAD0  \
 	LSR A					;$B9EAD2   |
 	BCC CODE_B9EAFB				;$B9EAD3   |
+namespace animation
 	LDA #DATA_F96266			;$B9EAD5   |
+namespace off
 	STA sprite.animation_address,x		;$B9EAD8   |
 	STZ sprite.animation_routine,x		;$B9EADA   |
 	RTS					;$B9EADC  /
@@ -4360,7 +4379,9 @@ CODE_B9EADD:
 	LDA sprite.general_purpose_4E,x		;$B9EADD  \
 	LSR A					;$B9EADF   |
 	BCS CODE_B9EAFB				;$B9EAE0   |
+namespace animation
 	LDA #DATA_F962EC			;$B9EAE2   |
+namespace off
 	STA sprite.animation_address,x		;$B9EAE5   |
 	STZ sprite.animation_routine,x		;$B9EAE7   |
 	RTS					;$B9EAE9  /
@@ -4381,7 +4402,9 @@ CODE_B9EAFC:
 	LDA sprite.general_purpose_44,x		;$B9EAFC  \
 	BEQ CODE_B9EB23				;$B9EAFE   |
 	STZ sprite.animation_routine,x		;$B9EB00   |
+namespace animation
 	LDA #DATA_F96320			;$B9EB02   |
+namespace off
 	STA sprite.animation_address,x		;$B9EB05   |
 	RTS					;$B9EB07  /
 
@@ -4561,7 +4584,9 @@ CODE_B9EC36:
 	LDA sprite.general_purpose_4A,x		;$B9EC36  \
 	BIT #$0080				;$B9EC38   |
 	BEQ CODE_B9EC4A				;$B9EC3B   |
+namespace animation
 	LDA #DATA_F9654C			;$B9EC3D   |
+namespace off
 	STA sprite.animation_address,x		;$B9EC40   |
 	STZ sprite.animation_timer,x		;$B9EC42   |
 	LDA #CODE_B9EC4A			;$B9EC44   |
@@ -4572,7 +4597,9 @@ CODE_B9EC4A:
 	LDA sprite.general_purpose_48,x		;$B9EC4A  \
 	CMP #$0009				;$B9EC4C   |
 	BEQ CODE_B9EC66				;$B9EC4F   |
+namespace animation
 	LDA #DATA_F96504			;$B9EC51   |
+namespace off
 	STA sprite.animation_address,x		;$B9EC54   |
 	STZ sprite.animation_routine,x		;$B9EC56   |
 	STZ sprite.animation_timer,x		;$B9EC58   |
@@ -4709,7 +4736,9 @@ CODE_B9ED2B:					;	   |
 CODE_B9ED34:					;	   |
 	STA sprite.animation_speed,x		;$B9ED34   |
 	LDA sprite.animation_address,x		;$B9ED36   |
+namespace animation
 	CMP #DATA_F96600			;$B9ED38   |
+namespace off
 	ROR A					;$B9ED3B   |
 	EOR sprite.max_x_speed,x		;$B9ED3C   |
 	BPL CODE_B9ED6E				;$B9ED3E   |
@@ -4725,7 +4754,9 @@ CODE_B9ED34:					;	   |
 	ADC $5E					;$B9ED4F   |
 	EOR #$FFFF				;$B9ED51   |
 	SEC					;$B9ED54   |
+namespace animation
 	ADC #DATA_F96609			;$B9ED55   |
+namespace off
 	STA sprite.animation_address,x		;$B9ED58   |
 	RTS					;$B9ED5A  /
 
@@ -4739,7 +4770,9 @@ CODE_B9ED5B:
 	CLC					;$B9ED65   |
 	ADC $5E					;$B9ED66   |
 	CLC					;$B9ED68   |
+namespace animation
 	ADC #DATA_F965F4			;$B9ED69   |
+namespace off
 	STA sprite.animation_address,x		;$B9ED6C   |
 CODE_B9ED6E:					;	   |
 	RTS					;$B9ED6E  /

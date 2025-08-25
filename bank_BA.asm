@@ -3246,7 +3246,7 @@ CODE_BAB1B9:
 	LDA #$0000				;$BAB257   |
 	STA $000654				;$BAB25A   |
 	STA $000658				;$BAB25E   |
-	LDA #$00B4				;$BAB262   |
+	LDA #$00B4				;$BAB262   | Might be an address
 	JSR CODE_BAB48B				;$BAB265   |
 	LDA.l $00065B				;$BAB268   |
 	AND #$00FF				;$BAB26C   |
@@ -3427,16 +3427,28 @@ DATA_BAB3FE:
 	dw DATA_BAB461
 
 DATA_BAB404:
-	db $35, $36 : dw destroy_them_all_layer_1_palette : db $0F, $00
-	db $11, ">DESTROY THEM ALL!", $13, ">D?TRUISEZ-LES TOUS!"
+	db !bonus_destroy_them_all_vram_payload_id
+	db !bonus_generic_ppu_config_id
+	dw destroy_them_all_layer_1_palette
+	db $0F, $00
+	%string("DESTROY THEM ALL!")
+	%string("D?TRUISEZ-LES TOUS!")
 
 DATA_BAB432:
-	db $36, $36 : dw collect_the_stars_layer_1_palette : db $0F, $00
-	db $12, ">COLLECT THE STARS!", $13, ">% VOUS LES ?TOILES!"
+	db !bonus_collect_the_stars_vram_payload_id
+	db !bonus_generic_ppu_config_id
+	dw collect_the_stars_layer_1_palette
+	db $0F, $00
+	%string("COLLECT THE STARS!")
+	%string("% VOUS LES ?TOILES!")
 
 DATA_BAB461:
-	db $37, $36 : dw find_the_token_layer_1_palette : db $0F, $00
-	db $0F, ">FIND THE TOKEN!", $11, ">TROUVEZ LE JETON!"
+	db !bonus_find_the_token_vram_payload_id
+	db !bonus_generic_ppu_config_id
+	dw find_the_token_layer_1_palette
+	db $0F, $00
+	%string("FIND THE TOKEN!")
+	%string("TROUVEZ LE JETON!")
 
 CODE_BAB48B:
 	PHB					;$BAB48B  \
@@ -3690,9 +3702,9 @@ CODE_BAB671:					;	   |
 	STA PPU.vram_write			;$BAB671   |
 	DEC $0650				;$BAB674   |
 	BNE CODE_BAB671				;$BAB677   |
-	LDA #$0038				;$BAB679   |
+	LDA #!credits_vram_payload_id		;$BAB679   |
 	JSL VRAM_payload_handler_global		;$BAB67C   |
-	LDA #$0037				;$BAB680   |
+	LDA #!credits_ppu_config_id		;$BAB680   |
 	JSL set_PPU_registers_global		;$BAB683   |
 	LDA #DATA_BAB90B			;$BAB687   |
 	STA $000662				;$BAB68A   |

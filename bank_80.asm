@@ -141,7 +141,7 @@ display_error_message:
 	LDY #$0000				;$8083E5   | |
 	LDX #$0001				;$8083E8   | |
 	JSL DMA_palette				;$8083EB   |/
-	LDA #$0039				;$8083EF   |\ Load PPU settings for anti-piracy screen
+	LDA #!error_generic_ppu_config_id	;$8083EF   |\ Load PPU settings for anti-piracy screen
 	JSL set_PPU_registers_global		;$8083F2   |/
 	STP					;$8083F6  /
 
@@ -495,9 +495,9 @@ CODE_808684:
 	LDY #$0000				;$808697   |
 	LDX #$0040				;$80869A   |
 	JSL DMA_palette				;$80869D   |
-	LDA #$0008				;$8086A1   |
+	LDA #!monkey_museum_vram_payload_id	;$8086A1   |
 	JSL VRAM_payload_handler_global		;$8086A4   |
-	LDA #$0007				;$8086A8   |
+	LDA #!npc_generic_ppu_config_id		;$8086A8   |
 	JSL set_PPU_registers_global		;$8086AB   |
 	LDA #$7000				;$8086AF   |
 	STA PPU.vram_address			;$8086B2   |
@@ -672,7 +672,7 @@ CODE_808819:
 	LDA nmi_submode				;$808819  \
 	ASL A					;$80881B   |
 	TAX					;$80881C   |
-	JSR (level_nmi_table,x)			;$80881D   |
+	JSR (tileset_NMI_table,x)		;$80881D   |
 	SEP #$20				;$808820   |
 	LDA CPU.ppu_status			;$808822   |
 	REP #$20				;$808825   |
@@ -683,7 +683,7 @@ CODE_808830:					;	   |
 	LDA gamemode_submode			;$808830   |
 	ASL A					;$808832   |
 	TAX					;$808833   |
-	JMP (level_logic_table,x)		;$808834  /
+	JMP (tileset_logic_table,x)		;$808834  /
 
 CODE_808837:
 	JSR CODE_80883B				;$808837  \
@@ -5814,7 +5814,7 @@ run_nintendo_copyright:				;	  \
 	BRA .wait_for_next_frame		;$80B6BF  / you are messing with dark magic. I sympathize.
 
 ;$80B6C1
-level_nmi_table:
+tileset_NMI_table:
 	dw CODE_80B705				;00
 	dw CODE_80B746				;01 Forest (Unused)
 	dw CODE_80B779				;02 Ship Hold
@@ -9019,7 +9019,7 @@ DATA_80D3ED:
 	dl DATA_80D1D1 : db $00
 
 ;$80D411
-level_logic_table:
+tileset_logic_table:
 	dw CODE_80D45A				;00
 	dw CODE_80D462				;01 Forest (Unused)
 	dw CODE_80D486				;02 Ship Hold
@@ -12760,9 +12760,9 @@ CODE_80F3FB:
 	LDA #!music_credits			;$80F415   |
 	JSL play_song				;$80F418   |
 	STZ next_sprite_dma_buffer_slot		;$80F41C   |
-	LDA #$000E				;$80F41F   |
+	LDA #!end_parade_ppu_config_id		;$80F41F   |
 	JSL set_PPU_registers_global		;$80F422   |
-	LDA #$003A				;$80F426   |
+	LDA #!end_parade_vram_payload_id	;$80F426   |
 	JSL VRAM_payload_handler_global		;$80F429   |
 	LDY #$0000				;$80F42D   |
 	LDA #klubbas_kiosk_palette		;$80F430   |
@@ -13355,9 +13355,9 @@ CODE_80FA7C:
 	PLB					;$80FA81   |
 	JSL clear_VRAM_global			;$80FA82   |
 	JSL init_registers_global		;$80FA86   |
-	LDA #$001F				;$80FA8A   |
+	LDA #!gameover_vram_payload_id		;$80FA8A   |
 	JSL VRAM_payload_handler_global		;$80FA8D   |
-	LDA #$001F				;$80FA91   |
+	LDA #!gameover_ppu_config_id		;$80FA91   |
 	JSL set_PPU_registers_global		;$80FA94   |
 	LDA #!music_game_over			;$80FA98   |
 	JSL play_song				;$80FA9B   |
