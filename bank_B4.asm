@@ -1607,7 +1607,7 @@ CODE_B48D94:					;	   |
 	LDA $0002,x				;$B48D9A   |
 	AND #$00FF				;$B48D9D   |
 	BEQ CODE_B48DA8				;$B48DA0   |
-	JSL spawn_big_special_sprite_address	;$B48DA2   |
+	JSL spawn_big_special_sprite_index	;$B48DA2   |
 	BRA CODE_B48DAC				;$B48DA6  /
 
 CODE_B48DA8:

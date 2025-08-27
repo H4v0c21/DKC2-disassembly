@@ -64,7 +64,7 @@ kudgel_sprite_code:
 	LDA #$0006				;$B68075   | Set Kudgel HP
 	STA $000652				;$B68078   |
 	LDY #!special_sprite_spawn_id_015E	;$B6807C   |
-	JSL spawn_big_special_sprite_address	;$B6807F   | Spawn Kudgel's Club sprite
+	JSL spawn_big_special_sprite_index	;$B6807F   | Spawn Kudgel's Club sprite
 	LDY alternate_sprite			;$B68083   |
 	LDX current_sprite			;$B68085   |
 	STX $0654				;$B68087   | Store Kudgel in boss RAM
@@ -9026,7 +9026,7 @@ CODE_B6D1B4:
 	STX $0654				;$B6D255   |
 	JSR CODE_B6DC9B				;$B6D258   |
 	LDY #!special_sprite_spawn_id_00A8	;$B6D25B   |
-	JSL spawn_big_special_sprite_address	;$B6D25E   |
+	JSL spawn_big_special_sprite_index	;$B6D25E   |
 	LDX current_sprite			;$B6D262   |
 	LDY alternate_sprite			;$B6D264   |
 	STY $42,x				;$B6D266   |

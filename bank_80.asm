@@ -1009,7 +1009,7 @@ CODE_808AB4:					;	   |
 	AND #$2000				;$808ACE   |/ Check if select is currently being pressed
 	BEQ .handle_debug_exit_cheat		;$808AD1   |> If not then we should start checking for the cheat
 	LDA parent_level_number			;$808AD3   |\ Get current level id
-	JSL is_current_level_cleared		;$808AD6   |/ Check if the level was completed
+	JSL is_level_cleared			;$808AD6   |/ Check if the level was completed
 	BCC .handle_debug_exit_cheat		;$808ADA   |> If not then see if the debug exit cheat was attempted
 	LDA #$0040				;$808ADC   |\
 	TRB $08C2				;$808ADF   | | Reset the paused flag
@@ -12883,7 +12883,7 @@ CODE_80F533:					;	   |
 	BRA CODE_80F541				;$80F539  /
 
 CODE_80F53B:
-	JSL spawn_big_special_sprite_address	;$80F53B  \
+	JSL spawn_big_special_sprite_index	;$80F53B  \
 	LDA alternate_sprite			;$80F53F   |
 CODE_80F541:					;	   |
 	INC $7A					;$80F541   |

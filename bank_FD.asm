@@ -1654,7 +1654,7 @@ lava_hot_head_hop_tileset_config:
 	db !lava_generic_vram_payload_id
 	dw !tileset_NMI_0007
 	dw !tileset_logic_0007
-	db !lava_layout_id	
+	db !lava_layout_id
 	%bit_flags_word(!offscreen_water_splash_effect)
 
 lava_fiery_furnace_tileset_config:
@@ -1997,7 +1997,7 @@ swamp_barrel_bayou_tileset_config:
 web_woods_unused_level_config:
 	dw !normal_level_type
 	dw forest_generic_tileset_config
-	db $00
+	db !level_layout_00
 	db $00
 	db $00
 	db $00
@@ -2023,7 +2023,7 @@ web_woods_unused_level_config:
 glimmers_galleon_level_config:
 	dw !normal_level_type
 	dw ship_hold_dark_tileset_config
-	db $00
+	db !level_layout_00
 	db $00
 	db $00
 	db $00
@@ -2047,7 +2047,7 @@ glimmers_galleon_level_config:
 rambi_rumble_level_config:
 	dw !normal_level_type
 	dw wasp_hive_generic_1_tileset_config
-	db $00
+	db !level_layout_00
 	db $00
 	db $00
 	db $00
@@ -2072,7 +2072,7 @@ rambi_rumble_level_config:
 pirate_panic_level_config:
 	dw !normal_level_type
 	dw ship_deck_pirate_panic_tileset_config
-	db $00
+	db !level_layout_00
 	db $00
 	db $00
 	db $00
@@ -2099,7 +2099,7 @@ pirate_panic_level_config:
 gangplank_galley_level_config:
 	dw !normal_level_type
 	dw ship_deck_gangplank_galley_tileset_config
-	db $01
+	db !level_layout_01
 	db $00
 	db $00
 	db $00
@@ -2125,7 +2125,7 @@ gangplank_galley_level_config:
 rattle_battle_level_config:
 	dw !normal_level_type
 	dw ship_deck_rattle_battle_tileset_config
-	db $02
+	db !level_layout_02
 	db $00
 	db $00
 	db $00
@@ -2153,7 +2153,7 @@ rattle_battle_level_config:
 glimmers_galleon_exit_room_level_config:
 	dw !sub_level_type
 	dw ship_deck_rattle_battle_tileset_config
-	db $03
+	db !level_layout_03
 	db $00
 	db $00
 	db $00
@@ -2174,7 +2174,7 @@ glimmers_galleon_exit_room_level_config:
 hot_head_hop_level_config:
 	dw !normal_level_type
 	dw lava_hot_head_hop_tileset_config
-	db $00
+	db !level_layout_00
 	db $00
 	db $00
 	db $00
@@ -2203,7 +2203,7 @@ hot_head_hop_level_config:
 red_hot_ride_level_config:
 	dw !normal_level_type
 	dw lava_red_hot_ride_tileset_config
-	db $01
+	db !level_layout_01
 	db $00
 	db $00
 	db $00
@@ -2229,7 +2229,7 @@ red_hot_ride_level_config:
 krows_nest_level_config:
 	dw !boss_level_type
 	dw ship_mast_krows_nest_tileset_config
-	db $00
+	db !level_layout_00
 	db $00
 	db $00
 	db $00
@@ -2249,7 +2249,7 @@ krows_nest_level_config:
 slime_climb_level_config:
 	dw !normal_level_type
 	dw ship_mast_slime_climb_tileset_config
-	db $01
+	db !level_layout_01
 	db $00
 	db $00
 	db $00
@@ -2273,7 +2273,7 @@ slime_climb_level_config:
 topsail_trouble_level_config:
 	dw !normal_level_type
 	dw ship_mast_topsail_trouble_tileset_config
-	db $02
+	db !level_layout_02
 	db $00
 	db $00
 	db $00
@@ -2299,7 +2299,7 @@ topsail_trouble_level_config:
 mainbrace_mayhem_level_config:
 	dw !normal_level_type
 	dw ship_mast_mainbrace_mayhem_tileset_config
-	db $03
+	db !level_layout_03
 	db $00
 	db $00
 	db $00
@@ -2337,7 +2337,7 @@ mainbrace_mayhem_level_config:
 kreepy_krow_level_config:
 	dw !boss_level_type
 	dw ship_mast_kreepy_krow_tileset_config
-	db $04
+	db !level_layout_04
 	db $00
 	db $00
 	db $00
@@ -2357,7 +2357,7 @@ kreepy_krow_level_config:
 target_terror_level_config:
 	dw !normal_level_type
 	dw carnival_generic_1_tileset_config
-	db $00
+	db !level_layout_00
 	db $00
 	db $00
 	db $00
@@ -2381,7 +2381,7 @@ target_terror_level_config:
 rickety_race_level_config:
 	dw !normal_level_type
 	dw carnival_generic_1_tileset_config
-	db $01
+	db !level_layout_01
 	db $00
 	db $00
 	db $00
@@ -2403,7 +2403,7 @@ rickety_race_level_config:
 haunted_hall_level_config:
 	dw !normal_level_type
 	dw haunted_generic_1_tileset_config
-	db $00
+	db !level_layout_00
 	db $00
 	db $00
 	db $00
@@ -2429,7 +2429,7 @@ haunted_hall_level_config:
 hornet_hole_level_config:
 	dw !normal_level_type
 	dw wasp_hive_generic_1_tileset_config
-	db $01
+	db !level_layout_01
 	db $00
 	db $00
 	db $00
@@ -2456,7 +2456,7 @@ hornet_hole_level_config:
 rambi_rumble_rambi_room_level_config:
 	dw !small_level_type
 	dw wasp_hive_generic_1_tileset_config
-	db $02
+	db !level_layout_02
 	db $00
 	db $00
 	db $00
@@ -2475,7 +2475,7 @@ rambi_rumble_rambi_room_level_config:
 parrot_chute_panic_level_config:
 	dw !normal_level_type
 	dw wasp_hive_generic_2_tileset_config
-	db $00
+	db !level_layout_00
 	db $00
 	db $00
 	db $00
@@ -2503,7 +2503,7 @@ parrot_chute_panic_level_config:
 lava_lagoon_level_config:
 	dw !normal_level_type
 	dw ship_hold_hot_tileset_config
-	db $01
+	db !level_layout_01
 	db $00
 	db $00
 	db $00
@@ -2527,7 +2527,7 @@ lava_lagoon_level_config:
 lockjaws_locker_level_config:
 	dw !normal_level_type
 	dw ship_hold_generic_tileset_config
-	db $02
+	db !level_layout_02
 	db $00
 	db $00
 	db $00
@@ -2551,7 +2551,7 @@ lockjaws_locker_level_config:
 fiery_furnace_level_config:
 	dw !normal_level_type
 	dw lava_fiery_furnace_tileset_config
-	db $02
+	db !level_layout_02
 	db $00
 	db $00
 	db $00
@@ -2572,7 +2572,7 @@ fiery_furnace_level_config:
 web_woods_level_config:
 	dw !normal_level_type
 	dw forest_misty_tileset_config
-	db $00
+	db !level_layout_00
 	db $00
 	db $00
 	db $00
@@ -2597,7 +2597,7 @@ web_woods_level_config:
 gusty_glade_level_config:
 	dw !normal_level_type
 	dw forest_windy_tileset_config
-	db $01
+	db !level_layout_01
 	db $00
 	db $00
 	db $00
@@ -2623,7 +2623,7 @@ gusty_glade_level_config:
 ghostly_grove_level_config:
 	dw !normal_level_type
 	dw forest_light_shafts_tileset_config
-	db $02
+	db !level_layout_02
 	db $00
 	db $00
 	db $00
@@ -2646,9 +2646,9 @@ ghostly_grove_level_config:
 ;$FD519B
 topsail_trouble_warp_room_level_config:
 	dw !bonus_level_type
-	db $00
+	db !no_bonus_type
 	dw ship_mast_topsail_trouble_tileset_config
-	db $05
+	db !level_layout_05
 	db $00
 	db $00
 	db $01
@@ -2664,9 +2664,9 @@ topsail_trouble_warp_room_level_config:
 ;$FD51B5
 pirate_panic_k_rools_cabin_level_config:
 	dw !bonus_level_type
-	db $00
+	db !no_bonus_type
 	dw ship_cabin_tileset_config
-	db $00
+	db !level_layout_00
 	db $00
 	db $00
 	db $00
@@ -2687,7 +2687,7 @@ hot_head_hop_bonus_2_level_config:
 	dw !bonus_level_type
 	db !find_the_token_bonus_type
 	dw lava_hot_head_hop_tileset_config
-	db $03
+	db !level_layout_03
 	db $00
 	db $00
 	db $00
@@ -2703,9 +2703,9 @@ hot_head_hop_bonus_2_level_config:
 ;$FD51F5
 pirate_panic_warp_room_level_config:
 	dw !bonus_level_type
-	db $00
+	db !no_bonus_type
 	dw ship_deck_pirate_panic_tileset_config
-	db $04
+	db !level_layout_04
 	db $00
 	db $00
 	db $01
@@ -2724,7 +2724,7 @@ pirate_panic_warp_room_level_config:
 target_terror_exit_room_level_config:
 	dw !sub_level_type
 	dw carnival_generic_2_tileset_config
-	db $01
+	db !level_layout_01
 	db $00
 	db $00
 	db $00
@@ -2740,9 +2740,9 @@ target_terror_exit_room_level_config:
 ;$FD5232
 web_woods_room_unused_level_config:
 	dw !bonus_level_type
-	db $00
+	db !no_bonus_type
 	dw forest_generic_tileset_config
-	db $04
+	db !level_layout_04
 	db $00
 	db $00
 	db $00
@@ -2760,9 +2760,9 @@ web_woods_room_unused_level_config:
 ;$FD5256
 mainbrace_mayhem_warp_room_level_config:
 	dw !bonus_level_type
-	db $00
+	db !no_bonus_type
 	dw ship_mast_mainbrace_mayhem_tileset_config
-	db $05
+	db !level_layout_05
 	db $00
 	db $00
 	db $01
@@ -2779,7 +2779,7 @@ mainbrace_mayhem_warp_room_level_config:
 kleevers_kiln_level_config:
 	dw !boss_level_type
 	dw lava_hot_head_hop_tileset_config
-	db $05
+	db !level_layout_05
 	db $00
 	db $00
 	db $00
@@ -2797,7 +2797,7 @@ kleevers_kiln_level_config:
 rattle_battle_rattly_room_level_config:
 	dw !small_level_type
 	dw ship_cabin_tileset_config
-	db $00
+	db !level_layout_00
 	db $00
 	db $00
 	db $00
@@ -2814,7 +2814,7 @@ rattle_battle_rattly_room_level_config:
 windy_well_level_config:
 	dw !normal_level_type
 	dw mine_windy_well_tileset_config
-	db $03
+	db !level_layout_03
 	db $00
 	db $00
 	db $00
@@ -2838,7 +2838,7 @@ windy_well_level_config:
 squawks_shaft_level_config:
 	dw !normal_level_type
 	dw mine_squawks_shaft_tileset_config
-	db $00
+	db !level_layout_00
 	db $00
 	db $00
 	db $00
@@ -2865,7 +2865,7 @@ squawks_shaft_level_config:
 kannons_klaim_level_config:
 	dw !normal_level_type
 	dw mine_kannons_klaim_tileset_config
-	db $01
+	db !level_layout_01
 	db $00
 	db $00
 	db $00
@@ -2892,9 +2892,9 @@ kannons_klaim_level_config:
 ;$FD535D
 parrot_chute_panic_warp_room_level_config:
 	dw !bonus_level_type
-	db $00
+	db !no_bonus_type
 	dw wasp_hive_generic_1_tileset_config
-	db $03
+	db !level_layout_03
 	db $00
 	db $00
 	db $00
@@ -2910,9 +2910,9 @@ parrot_chute_panic_warp_room_level_config:
 ;$FD5377
 kannons_klaim_warp_room_level_config:
 	dw !bonus_level_type
-	db $00
+	db !no_bonus_type
 	dw mine_kannons_klaim_tileset_config
-	db $02
+	db !level_layout_02
 	db $00
 	db $00
 	db $01
@@ -2929,7 +2929,7 @@ kannons_klaim_warp_room_level_config:
 barrel_bayou_level_config:
 	dw !normal_level_type
 	dw swamp_barrel_bayou_tileset_config
-	db $00
+	db !level_layout_00
 	db $00
 	db $00
 	db $00
@@ -2952,7 +2952,7 @@ barrel_bayou_level_config:
 krockhead_klamber_level_config:
 	dw !normal_level_type
 	dw swamp_krockhead_klamber_tileset_config
-	db $01
+	db !level_layout_01
 	db $00
 	db $00
 	db $00
@@ -2973,7 +2973,7 @@ krockhead_klamber_level_config:
 web_woods_squitter_room_level_config:
 	dw !small_level_type
 	dw forest_misty_tileset_config
-	db $04
+	db !level_layout_04
 	db $00
 	db $00
 	db $00
@@ -2989,9 +2989,9 @@ web_woods_squitter_room_level_config:
 ;$FD5405
 barrel_bayou_warp_room_level_config:
 	dw !bonus_level_type
-	db $00
+	db !no_bonus_type
 	dw swamp_barrel_bayou_tileset_config
-	db $02
+	db !level_layout_02
 	db $00
 	db $00
 	db $00
@@ -3008,7 +3008,7 @@ barrel_bayou_warp_room_level_config:
 mudhole_marsh_level_config:
 	dw !normal_level_type
 	dw swamp_mudhole_marsh_tileset_config
-	db $03
+	db !level_layout_03
 	db $00
 	db $00
 	db $00
@@ -3032,7 +3032,7 @@ mudhole_marsh_level_config:
 bramble_blast_level_config:
 	dw !normal_level_type
 	dw bramble_light_1_tileset_config
-	db $00
+	db !level_layout_00
 	db $00
 	db $00
 	db $00
@@ -3055,7 +3055,7 @@ bramble_blast_level_config:
 bramble_scramble_level_config:
 	dw !normal_level_type
 	dw bramble_dark_1_tileset_config
-	db $01
+	db !level_layout_01
 	db $00
 	db $00
 	db $00
@@ -3077,7 +3077,7 @@ bramble_scramble_level_config:
 screechs_sprint_level_config:
 	dw !normal_level_type
 	dw bramble_brown_1_tileset_config
-	db $02
+	db !level_layout_02
 	db $00
 	db $00
 	db $00
@@ -3292,7 +3292,7 @@ level_5F_level_config:
 king_zing_sting_level_config:
 	dw !boss_level_type
 	dw wasp_hive_king_zing_sting_tileset_config
-	db $01
+	db !level_layout_01
 	db $00
 	db $00
 	db $00
@@ -3310,7 +3310,7 @@ king_zing_sting_level_config:
 k_rool_duel_level_config:
 	dw !boss_level_type
 	dw k_rool_duel_tileset_config
-	db $00
+	db !level_layout_00
 	db $00
 	db $00
 	db $00
@@ -3327,7 +3327,7 @@ k_rool_duel_level_config:
 castle_crush_level_config:
 	dw !normal_level_type
 	dw castle_crush_tileset_config
-	db $00
+	db !level_layout_00
 	db $00
 	db $00
 	db $00
@@ -3350,7 +3350,7 @@ castle_crush_level_config:
 kudgels_kontest_level_config:
 	dw !boss_level_type
 	dw swamp_barrel_bayou_tileset_config
-	db $0B
+	db !level_layout_0B
 	db $00
 	db $00
 	db $00
@@ -3383,9 +3383,9 @@ krazy_kremland_lower_to_upper_right_level_config:
 ;$FD55D1
 lockjaws_locker_warp_room_level_config:
 	dw !bonus_level_type
-	db $00
+	db !no_bonus_type
 	dw ship_hold_generic_tileset_config
-	db $05
+	db !level_layout_05
 	db $00
 	db $00
 	db $01
@@ -3401,9 +3401,9 @@ lockjaws_locker_warp_room_level_config:
 ;$FD55EB
 lava_lagoon_warp_room_level_config:
 	dw !bonus_level_type
-	db $00
+	db !no_bonus_type
 	dw ship_hold_hot_tileset_config
-	db $05
+	db !level_layout_05
 	db $00
 	db $00
 	db $01
@@ -3419,9 +3419,9 @@ lava_lagoon_warp_room_level_config:
 ;$FD5605
 squawks_shaft_warp_room_level_config:
 	dw !bonus_level_type
-	db $00
+	db !no_bonus_type
 	dw mine_squawks_shaft_tileset_config
-	db $02
+	db !level_layout_02
 	db $00
 	db $00
 	db $01
@@ -3438,7 +3438,7 @@ squawks_shaft_warp_room_level_config:
 krocodile_kore_level_config:
 	dw !boss_level_type
 	dw krocodile_kore_tileset_config
-	db $00
+	db !level_layout_00
 	db $00
 	db $00
 	db $00
@@ -3456,7 +3456,7 @@ krocodile_kore_level_config:
 arctic_abyss_level_config:
 	dw !normal_level_type
 	dw ice_flooded_tileset_config
-	db $00
+	db !level_layout_00
 	db $00
 	db $00
 	db $00
@@ -3481,7 +3481,7 @@ arctic_abyss_level_config:
 chain_link_chamber_level_config:
 	dw !normal_level_type
 	dw castle_chain_link_chamber_tileset_config
-	db $02
+	db !level_layout_02
 	db $00
 	db $00
 	db $00
@@ -3506,7 +3506,7 @@ chain_link_chamber_level_config:
 toxic_tower_level_config:
 	dw !normal_level_type
 	dw castle_toxic_tower_tileset_config
-	db $03
+	db !level_layout_03
 	db $00
 	db $00
 	db $00
@@ -3528,7 +3528,7 @@ pirate_panic_bonus_1_level_config:
 	dw !bonus_level_type
 	db !find_the_token_bonus_type
 	dw ship_deck_pirate_panic_tileset_config
-	db $05
+	db !level_layout_05
 	db $00
 	db $00
 	db $00
@@ -3546,7 +3546,7 @@ pirate_panic_bonus_2_level_config:
 	dw !bonus_level_type
 	db !destroy_them_all_bonus_type
 	dw ship_deck_pirate_panic_tileset_config
-	db $06
+	db !level_layout_06
 	db $00
 	db $00
 	db $00
@@ -3564,7 +3564,7 @@ gangplank_galley_bonus_2_level_config:
 	dw !bonus_level_type
 	db !find_the_token_bonus_type
 	dw ship_deck_gangplank_galley_tileset_config
-	db $07
+	db !level_layout_07
 	db $00
 	db $00
 	db $00
@@ -3582,7 +3582,7 @@ rattle_battle_bonus_1_level_config:
 	dw !bonus_level_type
 	db !find_the_token_bonus_type
 	dw ship_deck_rattle_battle_tileset_config
-	db $08
+	db !level_layout_08
 	db $00
 	db $00
 	db $00
@@ -3600,7 +3600,7 @@ rattle_battle_bonus_3_level_config:
 	dw !bonus_level_type
 	db !collect_the_stars_bonus_type
 	dw ship_deck_rattle_battle_tileset_config
-	db $09
+	db !level_layout_09
 	db $00
 	db $00
 	db $00
@@ -3618,7 +3618,7 @@ hot_head_hop_bonus_3_level_config:
 	dw !bonus_level_type
 	db !find_the_token_bonus_type
 	dw lava_hot_head_hop_tileset_config
-	db $06
+	db !level_layout_06
 	db $00
 	db $00
 	db $00
@@ -3636,7 +3636,7 @@ hot_head_hop_bonus_1_level_config:
 	dw !bonus_level_type
 	db !collect_the_stars_bonus_type
 	dw lava_hot_head_hop_tileset_config
-	db $07
+	db !level_layout_07
 	db $00
 	db $00
 	db $00
@@ -3654,7 +3654,7 @@ red_hot_ride_bonus_1_level_config:
 	dw !bonus_level_type
 	db !destroy_them_all_bonus_type
 	dw lava_hot_head_hop_tileset_config
-	db $08
+	db !level_layout_08
 	db $00
 	db $00
 	db $00
@@ -3672,7 +3672,7 @@ red_hot_ride_bonus_2_level_config:
 	dw !bonus_level_type
 	db !collect_the_stars_bonus_type
 	dw lava_red_hot_ride_tileset_config
-	db $09
+	db !level_layout_09
 	db $00
 	db $00
 	db $00
@@ -3690,7 +3690,7 @@ mainbrace_mayhem_bonus_1_level_config:
 	dw !bonus_level_type
 	db !find_the_token_bonus_type
 	dw ship_mast_mainbrace_mayhem_tileset_config
-	db $06
+	db !level_layout_06
 	db $00
 	db $00
 	db $00
@@ -3708,7 +3708,7 @@ mainbrace_mayhem_bonus_2_level_config:
 	dw !bonus_level_type
 	db !destroy_them_all_bonus_type
 	dw ship_mast_mainbrace_mayhem_tileset_config
-	db $07
+	db !level_layout_07
 	db $00
 	db $00
 	db $00
@@ -3726,7 +3726,7 @@ slime_climb_bonus_1_level_config:
 	dw !bonus_level_type
 	db !collect_the_stars_bonus_type
 	dw ship_mast_slime_climb_tileset_config
-	db $08
+	db !level_layout_08
 	db $00
 	db $00
 	db $00
@@ -3744,7 +3744,7 @@ topsail_trouble_bonus_1_level_config:
 	dw !bonus_level_type
 	db !destroy_them_all_bonus_type
 	dw ship_mast_topsail_trouble_tileset_config
-	db $09
+	db !level_layout_09
 	db $00
 	db $00
 	db $00
@@ -3762,7 +3762,7 @@ topsail_trouble_bonus_2_level_config:
 	dw !bonus_level_type
 	db !find_the_token_bonus_type
 	dw ship_mast_topsail_trouble_tileset_config
-	db $0A
+	db !level_layout_0A
 	db $00
 	db $00
 	db $00
@@ -3780,7 +3780,7 @@ mainbrace_mayhem_bonus_3_level_config:
 	dw !bonus_level_type
 	db !collect_the_stars_bonus_type
 	dw ship_mast_mainbrace_mayhem_tileset_config
-	db $0A
+	db !level_layout_0A
 	db $00
 	db $00
 	db $00
@@ -3798,7 +3798,7 @@ slime_climb_bonus_2_level_config:
 	dw !bonus_level_type
 	db !destroy_them_all_bonus_type
 	dw ship_mast_slime_climb_tileset_config
-	db $0C
+	db !level_layout_0C
 	db $00
 	db $00
 	db $00
@@ -3816,7 +3816,7 @@ rattle_battle_bonus_2_level_config:
 	dw !bonus_level_type
 	db !find_the_token_bonus_type
 	dw ship_mast_slime_climb_tileset_config
-	db $0D
+	db !level_layout_0D
 	db $00
 	db $00
 	db $00
@@ -3833,7 +3833,7 @@ rattle_battle_bonus_2_level_config:
 klobber_karnage_level_config:
 	dw !normal_level_type
 	dw jungle_klobber_karnage_tileset_config
-	db $00
+	db !level_layout_00
 	db $00
 	db $00
 	db $00
@@ -3855,7 +3855,7 @@ lockjaws_locker_bonus_1_level_config:
 	dw !bonus_level_type
 	db !find_the_token_bonus_type
 	dw ship_hold_generic_tileset_config
-	db $03
+	db !level_layout_03
 	db $00
 	db $00
 	db $00
@@ -3873,7 +3873,7 @@ glimmers_galleon_bonus_2_level_config:
 	dw !bonus_level_type
 	db !find_the_token_bonus_type
 	dw ship_hold_dark_tileset_config
-	db $04
+	db !level_layout_04
 	db $00
 	db $00
 	db $00
@@ -3891,7 +3891,7 @@ lava_lagoon_bonus_1_level_config:
 	dw !bonus_level_type
 	db !destroy_them_all_bonus_type
 	dw ship_hold_generic_tileset_config
-	db $05
+	db !level_layout_05
 	db $00
 	db $00
 	db $01
@@ -3909,7 +3909,7 @@ glimmers_galleon_bonus_1_level_config:
 	dw !bonus_level_type
 	db !find_the_token_bonus_type
 	dw ship_hold_dark_tileset_config
-	db $06
+	db !level_layout_06
 	db $00
 	db $00
 	db $00
@@ -3927,7 +3927,7 @@ ghostly_grove_bonus_1_level_config:
 	dw !bonus_level_type
 	db !find_the_token_bonus_type
 	dw forest_generic_tileset_config
-	db $05
+	db !level_layout_05
 	db $00
 	db $00
 	db $00
@@ -3945,7 +3945,7 @@ gusty_glade_bonus_1_level_config:
 	dw !bonus_level_type
 	db !find_the_token_bonus_type
 	dw forest_windy_tileset_config
-	db $08
+	db !level_layout_08
 	db $00
 	db $00
 	db $00
@@ -3963,7 +3963,7 @@ gusty_glade_bonus_2_level_config:
 	dw !bonus_level_type
 	db !collect_the_stars_bonus_type
 	dw forest_windy_tileset_config
-	db $07
+	db !level_layout_07
 	db $00
 	db $00
 	db $00
@@ -3981,7 +3981,7 @@ ghostly_grove_bonus_2_level_config:
 	dw !bonus_level_type
 	db !find_the_token_bonus_type
 	dw forest_generic_tileset_config
-	db $08
+	db !level_layout_08
 	db $00
 	db $00
 	db $00
@@ -3999,7 +3999,7 @@ barrel_bayou_bonus_1_level_config:
 	dw !bonus_level_type
 	db !destroy_them_all_bonus_type
 	dw swamp_barrel_bayou_tileset_config
-	db $05
+	db !level_layout_05
 	db $00
 	db $00
 	db $00
@@ -4017,7 +4017,7 @@ barrel_bayou_bonus_2_level_config:
 	dw !bonus_level_type
 	db !find_the_token_bonus_type
 	dw swamp_barrel_bayou_tileset_config
-	db $06
+	db !level_layout_06
 	db $00
 	db $00
 	db $00
@@ -4035,7 +4035,7 @@ krockhead_klamber_bonus_1_level_config:
 	dw !bonus_level_type
 	db !destroy_them_all_bonus_type
 	dw swamp_krockhead_klamber_tileset_config
-	db $07
+	db !level_layout_07
 	db $00
 	db $00
 	db $00
@@ -4053,7 +4053,7 @@ mudhole_marsh_bonus_1_level_config:
 	dw !bonus_level_type
 	db !collect_the_stars_bonus_type
 	dw swamp_mudhole_marsh_tileset_config
-	db $08
+	db !level_layout_08
 	db $00
 	db $00
 	db $00
@@ -4071,7 +4071,7 @@ mudhole_marsh_bonus_2_level_config:
 	dw !bonus_level_type
 	db !destroy_them_all_bonus_type
 	dw swamp_mudhole_marsh_tileset_config
-	db $09
+	db !level_layout_09
 	db $00
 	db $00
 	db $00
@@ -4087,9 +4087,9 @@ mudhole_marsh_bonus_2_level_config:
 ;$FD5A0E
 hot_head_hop_warp_room_level_config:
 	dw !bonus_level_type
-	db $00
+	db !no_bonus_type
 	dw lava_hot_head_hop_tileset_config
-	db $03
+	db !level_layout_03
 	db $00
 	db $00
 	db $01
@@ -4106,7 +4106,7 @@ hot_head_hop_warp_room_level_config:
 clappers_cavern_level_config:
 	dw !normal_level_type
 	dw ice_flooded_tileset_config
-	db $01
+	db !level_layout_01
 	db $00
 	db $00
 	db $00
@@ -4129,7 +4129,7 @@ clappers_cavern_level_config:
 animal_antics_enguarde_area_level_config:
 	dw !sub_level_type
 	dw ice_flooded_tileset_config
-	db $02
+	db !level_layout_02
 	db $00
 	db $00
 	db $00
@@ -4147,7 +4147,7 @@ clappers_cavern_bonus_1_level_config:
 	dw !bonus_level_type
 	db !find_the_token_bonus_type
 	dw ice_translucent_1_tileset_config
-	db $03
+	db !level_layout_03
 	db $00
 	db $00
 	db $00
@@ -4165,7 +4165,7 @@ clappers_cavern_bonus_2_level_config:
 	dw !bonus_level_type
 	db !find_the_token_bonus_type
 	dw ice_flooded_tileset_config
-	db $04
+	db !level_layout_04
 	db $00
 	db $00
 	db $00
@@ -4183,7 +4183,7 @@ arctic_abyss_bonus_1_level_config:
 	dw !bonus_level_type
 	db !collect_the_stars_bonus_type
 	dw ice_flooded_tileset_config
-	db $05
+	db !level_layout_05
 	db $00
 	db $00
 	db $00
@@ -4201,7 +4201,7 @@ black_ice_battle_bonus_1_level_config:
 	dw !bonus_level_type
 	db !find_the_token_bonus_type
 	dw ice_translucent_1_tileset_config
-	db $06
+	db !level_layout_06
 	db $00
 	db $00
 	db $00
@@ -4219,7 +4219,7 @@ arctic_abyss_bonus_2_level_config:
 	dw !bonus_level_type
 	db !find_the_token_bonus_type
 	dw ice_translucent_1_tileset_config
-	db $07
+	db !level_layout_07
 	db $00
 	db $00
 	db $00
@@ -4236,7 +4236,7 @@ arctic_abyss_bonus_2_level_config:
 black_ice_battle_level_config:
 	dw !normal_level_type
 	dw ice_translucent_2_tileset_config
-	db $00
+	db !level_layout_00
 	db $00
 	db $00
 	db $00
@@ -4262,7 +4262,7 @@ if !version == 0
 else
 	dw jungle_klobber_karnage_tileset_config
 endif
-	db $03
+	db !level_layout_03
 	db $00
 	db $00
 	db $00
@@ -4284,7 +4284,7 @@ if !version == 0
 else
 	dw jungle_jinx_tileset_config
 endif
-	db $04
+	db !level_layout_04
 	db $00
 	db $00
 	db $00
@@ -4301,7 +4301,7 @@ endif
 jungle_jinx_level_config:
 	dw !normal_level_type
 	dw jungle_jinx_tileset_config
-	db $05
+	db !level_layout_05
 	db $00
 	db $00
 	db $00
@@ -4322,7 +4322,7 @@ jungle_jinx_level_config:
 animal_antics_rambi_area_level_config:
 	dw !sub_level_type
 	dw jungle_animal_antics_tileset_config
-	db $02
+	db !level_layout_02
 	db $00
 	db $00
 	db $00
@@ -4339,7 +4339,7 @@ animal_antics_rambi_area_level_config:
 animal_antics_squitter_area_level_config:
 	dw !sub_level_type
 	dw jungle_animal_antics_tileset_config
-	db $06
+	db !level_layout_06
 	db $00
 	db $00
 	db $00
@@ -4359,7 +4359,7 @@ animal_antics_squitter_area_level_config:
 animal_antics_rattly_area_level_config:
 	dw !sub_level_type
 	dw jungle_animal_antics_tileset_config
-	db $07
+	db !level_layout_07
 	db $00
 	db $00
 	db $00
@@ -4378,7 +4378,7 @@ animal_antics_bonus_1_level_config:
 	dw !bonus_level_type
 	db !destroy_them_all_bonus_type
 	dw bramble_light_1_tileset_config
-	db $03
+	db !level_layout_03
 	db $00
 	db $00
 	db $02
@@ -4396,7 +4396,7 @@ fiery_furnace_bonus_1_level_config:
 	dw !bonus_level_type
 	db !find_the_token_bonus_type
 	dw bramble_brown_1_tileset_config
-	db $04
+	db !level_layout_04
 	db $00
 	db $00
 	db $00
@@ -4413,7 +4413,7 @@ fiery_furnace_bonus_1_level_config:
 animal_antics_squawks_area_level_config:
 	dw !sub_level_type
 	dw bramble_light_windy_tileset_config
-	db $00
+	db !level_layout_00
 	db $00
 	db $00
 	db $00
@@ -4431,7 +4431,7 @@ bramble_blast_bonus_2_level_config:
 	dw !bonus_level_type
 	db !find_the_token_bonus_type
 	dw bramble_light_2_tileset_config
-	db $01
+	db !level_layout_01
 	db $00
 	db $00
 	db $01
@@ -4449,7 +4449,7 @@ target_terror_bonus_1_level_config:
 	dw !bonus_level_type
 	db !destroy_them_all_bonus_type
 	dw bramble_dark_2_tileset_config
-	db $02
+	db !level_layout_02
 	db $00
 	db $00
 	db $01
@@ -4467,7 +4467,7 @@ bramble_scramble_bonus_1_level_config:
 	dw !bonus_level_type
 	db !collect_the_stars_bonus_type
 	dw bramble_dark_2_tileset_config
-	db $03
+	db !level_layout_03
 	db $00
 	db $00
 	db $01
@@ -4485,7 +4485,7 @@ windy_well_bonus_2_level_config:
 	dw !bonus_level_type
 	db !collect_the_stars_bonus_type
 	dw bramble_dark_2_tileset_config
-	db $04
+	db !level_layout_04
 	db $00
 	db $00
 	db $00
@@ -4503,7 +4503,7 @@ web_woods_bonus_1_level_config:
 	dw !bonus_level_type
 	db !find_the_token_bonus_type
 	dw bramble_dark_2_tileset_config
-	db $05
+	db !level_layout_05
 	db $00
 	db $00
 	db $00
@@ -4521,7 +4521,7 @@ toxic_tower_bonus_1_level_config:
 	dw !bonus_level_type
 	db !find_the_token_bonus_type
 	dw bramble_light_2_tileset_config
-	db $06
+	db !level_layout_06
 	db $00
 	db $00
 	db $00
@@ -4539,7 +4539,7 @@ bramble_blast_bonus_1_level_config:
 	dw !bonus_level_type
 	db !find_the_token_bonus_type
 	dw bramble_light_2_tileset_config
-	db $07
+	db !level_layout_07
 	db $00
 	db $00
 	db $00
@@ -4557,7 +4557,7 @@ screechs_sprint_bonus_1_level_config:
 	dw !bonus_level_type
 	db !find_the_token_bonus_type
 	dw bramble_brown_2_tileset_config
-	db $08
+	db !level_layout_08
 	db $00
 	db $00
 	db $00
@@ -4575,7 +4575,7 @@ gangplank_galley_bonus_1_level_config:
 	dw !bonus_level_type
 	db !find_the_token_bonus_type
 	dw ship_cabin_tileset_config
-	db $00
+	db !level_layout_00
 	db $00
 	db $00
 	db $00
@@ -4593,7 +4593,7 @@ squawks_shaft_bonus_3_level_config:
 	dw !bonus_level_type
 	db !destroy_them_all_bonus_type
 	dw mine_squawks_shaft_tileset_config
-	db $04
+	db !level_layout_04
 	db $00
 	db $00
 	db $00
@@ -4611,7 +4611,7 @@ kannons_klaim_bonus_3_level_config:
 	dw !bonus_level_type
 	db !find_the_token_bonus_type
 	dw mine_kannons_klaim_tileset_config
-	db $05
+	db !level_layout_05
 	db $00
 	db $00
 	db $00
@@ -4629,7 +4629,7 @@ kannons_klaim_bonus_1_level_config:
 	dw !bonus_level_type
 	db !find_the_token_bonus_type
 	dw mine_kannons_klaim_tileset_config
-	db $06
+	db !level_layout_06
 	db $00
 	db $00
 	db $00
@@ -4647,7 +4647,7 @@ squawks_shaft_bonus_1_level_config:
 	dw !bonus_level_type
 	db !find_the_token_bonus_type
 	dw mine_squawks_shaft_tileset_config
-	db $07
+	db !level_layout_07
 	db $00
 	db $00
 	db $00
@@ -4665,7 +4665,7 @@ kannons_klaim_bonus_2_level_config:
 	dw !bonus_level_type
 	db !find_the_token_bonus_type
 	dw mine_kannons_klaim_tileset_config
-	db $08
+	db !level_layout_08
 	db $00
 	db $00
 	db $00
@@ -4683,7 +4683,7 @@ hornet_hole_bonus_1_level_config:
 	dw !bonus_level_type
 	db !find_the_token_bonus_type
 	dw wasp_hive_generic_1_tileset_config
-	db $04
+	db !level_layout_04
 	db $00
 	db $00
 	db $00
@@ -4701,7 +4701,7 @@ parrot_chute_panic_bonus_2_level_config:
 	dw !bonus_level_type
 	db !destroy_them_all_bonus_type
 	dw wasp_hive_generic_1_tileset_config
-	db $05
+	db !level_layout_05
 	db $00
 	db $00
 	db $01
@@ -4719,7 +4719,7 @@ hornet_hole_bonus_3_level_config:
 	dw !bonus_level_type
 	db !find_the_token_bonus_type
 	dw wasp_hive_generic_1_tileset_config
-	db $06
+	db !level_layout_06
 	db $00
 	db $00
 	db $00
@@ -4737,7 +4737,7 @@ parrot_chute_panic_bonus_1_level_config:
 	dw !bonus_level_type
 	db !find_the_token_bonus_type
 	dw wasp_hive_generic_1_tileset_config
-	db $07
+	db !level_layout_07
 	db $00
 	db $00
 	db $00
@@ -4755,7 +4755,7 @@ rambi_rumble_bonus_2_level_config:
 	dw !bonus_level_type
 	db !destroy_them_all_bonus_type
 	dw wasp_hive_generic_1_tileset_config
-	db $08
+	db !level_layout_08
 	db $00
 	db $00
 	db $00
@@ -4773,7 +4773,7 @@ hornet_hole_bonus_2_level_config:
 	dw !bonus_level_type
 	db !find_the_token_bonus_type
 	dw wasp_hive_generic_2_tileset_config
-	db $02
+	db !level_layout_02
 	db $00
 	db $00
 	db $00
@@ -4791,7 +4791,7 @@ rambi_rumble_bonus_1_level_config:
 	dw !bonus_level_type
 	db !find_the_token_bonus_type
 	dw wasp_hive_generic_2_tileset_config
-	db $03
+	db !level_layout_03
 	db $00
 	db $00
 	db $00
@@ -4809,7 +4809,7 @@ chain_link_chamber_bonus_1_level_config:
 	dw !bonus_level_type
 	db !find_the_token_bonus_type
 	dw castle_chain_link_chamber_tileset_config
-	db $04
+	db !level_layout_04
 	db $00
 	db $00
 	db $00
@@ -4827,7 +4827,7 @@ chain_link_chamber_bonus_2_level_config:
 	dw !bonus_level_type
 	db !find_the_token_bonus_type
 	dw castle_chain_link_chamber_tileset_config
-	db $05
+	db !level_layout_05
 	db $00
 	db $00
 	db $00
@@ -4845,7 +4845,7 @@ castle_crush_bonus_1_level_config:
 	dw !bonus_level_type
 	db !destroy_them_all_bonus_type
 	dw castle_crush_tileset_config
-	db $06
+	db !level_layout_06
 	db $00
 	db $00
 	db $00
@@ -4863,7 +4863,7 @@ castle_crush_bonus_2_level_config:
 	dw !bonus_level_type
 	db !find_the_token_bonus_type
 	dw castle_crush_tileset_config
-	db $07
+	db !level_layout_07
 	db $00
 	db $00
 	db $00
@@ -4880,7 +4880,7 @@ castle_crush_bonus_2_level_config:
 stronghold_showdown_level_config:
 	dw !boss_level_type
 	dw castle_stronghold_showdown_tileset_config
-	db $08
+	db !level_layout_08
 	db $00
 	db $00
 	db $00
@@ -4899,7 +4899,7 @@ squawks_shaft_bonus_2_level_config:
 	dw !bonus_level_type
 	db !find_the_token_bonus_type
 	dw mine_squawks_shaft_tileset_config
-	db $08
+	db !level_layout_08
 	db $00
 	db $00
 	db $00
@@ -4917,7 +4917,7 @@ windy_well_bonus_1_level_config:
 	dw !bonus_level_type
 	db !destroy_them_all_bonus_type
 	dw mine_windy_well_tileset_config
-	db $04
+	db !level_layout_04
 	db $00
 	db $00
 	db $00
@@ -4935,7 +4935,7 @@ web_woods_bonus_2_level_config:
 	dw !bonus_level_type
 	db !collect_the_stars_bonus_type
 	dw forest_misty_tileset_config
-	db $09
+	db !level_layout_09
 	db $00
 	db $00
 	db $00
@@ -4953,7 +4953,7 @@ haunted_hall_bonus_1_level_config:
 	dw !bonus_level_type
 	db !find_the_token_bonus_type
 	dw haunted_generic_2_tileset_config
-	db $02
+	db !level_layout_02
 	db $00
 	db $00
 	db $00
@@ -4970,7 +4970,7 @@ haunted_hall_bonus_1_level_config:
 rickety_race_exit_level_config:
 	dw !sub_level_type
 	dw carnival_generic_2_tileset_config
-	db $01
+	db !level_layout_01
 	db $00
 	db $00
 	db $00
@@ -4990,7 +4990,7 @@ rickety_race_exit_level_config:
 haunted_hall_exit_level_config:
 	dw !sub_level_type
 	dw haunted_generic_1_tileset_config
-	db $02
+	db !level_layout_02
 	db $00
 	db $00
 	db $00
@@ -5008,7 +5008,7 @@ haunted_hall_bonus_3_level_config:
 	dw !bonus_level_type
 	db !find_the_token_bonus_type
 	dw haunted_generic_1_tileset_config
-	db $03
+	db !level_layout_03
 	db $00
 	db $00
 	db $00
@@ -5026,7 +5026,7 @@ target_terror_bonus_2_level_config:
 	dw !bonus_level_type
 	db !find_the_token_bonus_type
 	dw carnival_generic_2_tileset_config
-	db $04
+	db !level_layout_04
 	db $00
 	db $00
 	db $00
@@ -5044,7 +5044,7 @@ haunted_hall_bonus_2_level_config:
 	dw !bonus_level_type
 	db !collect_the_stars_bonus_type
 	dw haunted_generic_1_tileset_config
-	db $05
+	db !level_layout_05
 	db $00
 	db $00
 	db $00
@@ -5062,7 +5062,7 @@ rickety_race_bonus_1_level_config:
 	dw !bonus_level_type
 	db !destroy_them_all_bonus_type
 	dw carnival_generic_2_tileset_config
-	db $06
+	db !level_layout_06
 	db $00
 	db $00
 	db $00
@@ -5412,6 +5412,12 @@ klubba_sprite_palette:
 	db $14, $43, $FA, $57, $68, $04, $D1, $0C
 	db $57, $15, $B0, $2D, $FF, $7F
 
+;The following label marks the start address of the sprite palette data that gets copied into work RAM and inverted.
+;Any sprite palettes within this block can be used in levels with the darkness effect (Glimmer's Galleon).
+;In the vanilla game a total of 3752 (0x0EA8) bytes are copied.
+writable_palette_data_start:
+
+door_sprite_palettes_start:
 wall_ship_deck_sprite_palette:
 	db $21, $00, $43, $04, $65, $08, $87, $0C
 	db $C9, $10, $EB, $10, $2D, $15, $4F, $19
@@ -5477,6 +5483,7 @@ DATA_FD6408:
 	db $65, $04, $86, $04, $A7, $08, $EA, $0C
 	db $0C, $0D, $4E, $11, $91, $15, $D4, $19
 	db $A0, $00, $80, $00, $63, $04
+door_sprite_palettes_end:
 
 map_p1_kong_and_text_sprite_palette:
 	%offset(map_p1_kong_and_text_no_bg_sprite_palette, 2)
@@ -6141,12 +6148,17 @@ shuri_pink_sprite_palette:
 	db $C7, $20, $10, $31, $CE, $41, $98, $20
 	db $DD, $28, $FD, $38, $FF, $34, $5D, $39
 	db $7D, $4D, $FE, $5D, $BD, $73
+unused_writable_palette_data_end:
 
 kleever_hand_sprite_palette:
 	db $28, $00, $4C, $00, $70, $00, $74, $00
 	db $98, $00, $BC, $00, $DF, $00, $1F, $01
 	db $7F, $01, $BF, $01, $1F, $02, $7F, $02
 	db $BF, $02, $1F, $03, $7F, $03
+writable_palette_data_end:
+;The above label marks the end address of the sprite palette data that gets copied into work RAM and inverted.
+;Any sprite palettes within this block can be used in levels with the darkness effect (Glimmer's Galleon).
+;In the vanilla game a total of 3752 (0x0EA8) bytes are copied.
 
 racing_flag_sprite_palette:
 	db $B6, $1D, $11, $11, $8B, $04, $46, $08

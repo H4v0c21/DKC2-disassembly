@@ -1677,6 +1677,7 @@
 !npc_screen_type_wrinkly		= $0006
 !npc_screen_type_klubba			= $0008
 
+!no_bonus_type				= $0000
 !destroy_them_all_bonus_type		= $0001
 !collect_the_stars_bonus_type		= $0002
 !find_the_token_bonus_type		= $0003
@@ -1966,6 +1967,21 @@
 !brambles_2_layout_id		= $0012
 !carnival_2_layout_id		= $0013
 !castle_2_layout_id		= $0014
+
+!level_layout_00		= $00
+!level_layout_01		= $01
+!level_layout_02		= $02
+!level_layout_03		= $03
+!level_layout_04		= $04
+!level_layout_05		= $05
+!level_layout_06		= $06
+!level_layout_07		= $07
+!level_layout_08		= $08
+!level_layout_09		= $09
+!level_layout_0A		= $0A
+!level_layout_0B		= $0B
+!level_layout_0C		= $0C
+!level_layout_0D		= $0D
 
 !sprite_null_sprite			= $0000
 !sprite_unknown_0004			= $0004
@@ -2849,3 +2865,13 @@
 !icey_acceleration_effect		= $2000 ;use slower x acceleration (used in ice levels)
 !unknown_4000_effect			= $4000 ;unknown
 !wind_sound_effect			= $8000 ;enable wind sound effect
+
+!door_sprite_palettes_size = door_sprite_palettes_end-door_sprite_palettes_start
+!writable_palette_data_size = writable_palette_data_end-writable_palette_data_start
+!unused_writable_palette_data_size = unused_writable_palette_data_end-writable_palette_data_start
+
+!writable_palette_data_addr_offset = writable_palette_RAM-writable_palette_data_start
+
+!red_color_channel = $001F
+!green_color_channel = $03E0
+!blue_color_channel = $7C00

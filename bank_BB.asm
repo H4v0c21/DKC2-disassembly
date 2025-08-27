@@ -226,7 +226,7 @@ is_krem_coin_collected:				;	   |
 	SEC					;$BB8123  \
 	RTL					;$BB8124  /
 
-set_this_level_kremcoin_collected:
+set_this_level_krem_coin_collected:
 	LDA level_number			;$BB8125  \
 	JSR get_complete_bit_for_level		;$BB8127   |
 	LDA.l $7E59B2,x				;$BB812A   |
@@ -383,7 +383,7 @@ calculate_completion_percentage:
 	RTL					;$BB824A  /
 
 apply_percentage_if_boss_cleared:
-	JSL is_current_level_cleared		;$BB824B  \ \
+	JSL is_level_cleared			;$BB824B  \ \
 	BCC .not_cleared			;$BB824F   |/ If the boss isnt cleared then dont add the percentage
 	TYA					;$BB8251   |\ Get percentage to add for current boss
 	CLC					;$BB8252   | |
@@ -393,7 +393,7 @@ apply_percentage_if_boss_cleared:
 	RTS					;$BB8259  /
 
 	LDA level_number			;$BB825A   |
-is_current_level_cleared:			;	   |
+is_level_cleared:				;	   |
 	JSR get_complete_bit_for_level		;$BB825C   |
 	LDA.l $7E59F2,x				;$BB825F   |
 	AND $60					;$BB8263   |
@@ -422,19 +422,19 @@ handle_sprite_allocation:
 .return:					;	   |
 	RTS					;$BB8281  /
 
-CODE_BB8282:
+handle_multi_vram_sprite_allocation:
 	PHA					;$BB8282  \
 	JSR allocate_sprite_table_slot		;$BB8283   |
 	PLA					;$BB8286   |
-	BCS CODE_BB8296				;$BB8287   |
+	BCS .return				;$BB8287   |
 	PHY					;$BB8289   |
 	JSR allocate_sprite_vram_multi_slot	;$BB828A   |
 	PLY					;$BB828D   |
-	BCS CODE_BB8296				;$BB828E   |
+	BCS .return				;$BB828E   |
 	STZ sprite.unknown_16,x			;$BB8290   |
 	STZ sprite.display_mode,x		;$BB8292   |
 	STZ sprite.terrain_attributes,x		;$BB8294   |
-CODE_BB8296:					;	   |
+.return:					;	   |
 	RTS					;$BB8296  /
 
 allocate_sprite_table_slot:
@@ -679,7 +679,7 @@ spawn_BB83EF_special_sprite_address:		;	   |
 	PHY					;$BB83F5   |
 	JSR allocate_sprite_table_slot		;$BB83F6   |
 	PLY					;$BB83F9   |
-	BCS CODE_BB8411				;$BB83FA   |
+	BCS .sprite_spawn_failed		;$BB83FA   |
 	STZ sprite.placement_number,x		;$BB83FC   |
 	LDA #$000F				;$BB83FE   |
 	STA sprite.placement_parameter,x	;$BB8401   |
@@ -690,7 +690,7 @@ spawn_BB83EF_special_sprite_address:		;	   |
 	STZ sprite.unknown_40,x			;$BB840C   |
 	BRL spawn_BB8462_special_sprite_address	;$BB840E  /
 
-CODE_BB8411:
+.sprite_spawn_failed:
 	RTL					;$BB8411  /
 
 spawn_no_gfx_special_sprite_index:
@@ -701,14 +701,14 @@ spawn_no_gfx_special_sprite_address:		;	   |
 	PHY					;$BB8418   |
 	JSR allocate_sprite_table_slot		;$BB8419   |
 	PLY					;$BB841C   |
-	BCS CODE_BB842B				;$BB841D   |
+	BCS .sprite_spawn_failed		;$BB841D   |
 	STZ sprite.placement_number,x		;$BB841F   |
 	LDA #$000F				;$BB8421   |
 	STA sprite.placement_parameter,x	;$BB8424   |
 	STZ sprite.display_mode,x		;$BB8426   |
 	BRL spawn_BB8462_special_sprite_address	;$BB8428  /
 
-CODE_BB842B:
+.sprite_spawn_failed:
 	RTL					;$BB842B  /
 
 spawn_special_sprite_index:
@@ -719,30 +719,30 @@ spawn_special_sprite_address:			;	   |
 	PHY					;$BB8432   |
 	JSR handle_sprite_allocation		;$BB8433   |
 	PLY					;$BB8436   |
-	BCS CODE_BB8442				;$BB8437   |
+	BCS .sprite_spawn_failed		;$BB8437   |
 	STZ sprite.placement_number,x		;$BB8439   |
 	LDA #$000F				;$BB843B   |
 	STA sprite.placement_parameter,x	;$BB843E   |
 	BRA spawn_BB8462_special_sprite_address	;$BB8440  /
 
-CODE_BB8442:
+.sprite_spawn_failed:
 	RTL					;$BB8442  /
 
-spawn_big_special_sprite_address:
+spawn_big_special_sprite_index:
 	TYX					;$BB8443  \
 	LDA.l DATA_FF047E,x			;$BB8444   |
 	TAY					;$BB8448   |
 	LDA #$0002				;$BB8449   |\
 	PHY					;$BB844C   |/
-	JSR CODE_BB8282				;$BB844D   |
+	JSR handle_multi_vram_sprite_allocation	;$BB844D   |
 	PLY					;$BB8450   |
-	BCS CODE_BB845C				;$BB8451   |
+	BCS .sprite_spawn_failed		;$BB8451   |
 	STZ sprite.placement_number,x		;$BB8453   |
 	LDA #$000F				;$BB8455   |
 	STA sprite.placement_parameter,x	;$BB8458   |
 	BRA spawn_BB8462_special_sprite_address	;$BB845A  /
 
-CODE_BB845C:
+.sprite_spawn_failed:
 	RTL					;$BB845C  /
 
 apply_spawn_script_to_slot_global:
@@ -1345,67 +1345,67 @@ CODE_BB885F:					;	   |
 
 CODE_BB886D:
 	LDX #$0000				;$BB886D  \
-	JSR CODE_BB895A				;$BB8870   |
+	JSR copy_writable_palettes_to_RAM	;$BB8870   |
 	JSR CODE_BB896A				;$BB8873   |
 	LDX #$0000				;$BB8876   |
-CODE_BB8879:					;	   |
-	LDA.l $7F9650,x				;$BB8879   |
+.next_word:					;	   |
+	LDA.l writable_palette_RAM,x		;$BB8879   |
 	EOR #$FFFF				;$BB887D   |
-	STA $7F9650,x				;$BB8880   |
+	STA writable_palette_RAM,x		;$BB8880   |
 	INX					;$BB8884   |
 	INX					;$BB8885   |
-	CPX #$0EA8				;$BB8886   |
-	BNE CODE_BB8879				;$BB8889   |
+	CPX #!writable_palette_data_size	;$BB8886   |
+	BNE .next_word				;$BB8889   |
 	RTS					;$BB888B  /
 
-;most likely unused, probably was used to correct breakable wall palettes in gangplank galley for sunset effect
+;unused, bluish darkened sprite palettes
 	LDX #$0000				;$BB888C   |
 CODE_BB888F:					;	   |
-	LDA.l wall_ship_deck_sprite_palette,x	;$BB888F   |
-	AND #$001F				;$BB8893   |
+	LDA.l writable_palette_data_start,x	;$BB888F   |
+	AND #!red_color_channel			;$BB8893   |
 	STA $32					;$BB8896   |
 	LSR A					;$BB8898   |
 	CLC					;$BB8899   |
 	ADC $32					;$BB889A   |
 	LSR A					;$BB889C   |
 	STA $34					;$BB889D   |
-	LDA.l wall_ship_deck_sprite_palette,x	;$BB889F   |
-	AND #$03E0				;$BB88A3   |
+	LDA.l writable_palette_data_start,x	;$BB889F   |
+	AND #!green_color_channel		;$BB88A3   |
 	STA $32					;$BB88A6   |
 	LSR A					;$BB88A8   |
 	LSR A					;$BB88A9   |
 	CLC					;$BB88AA   |
 	ADC $32					;$BB88AB   |
 	LSR A					;$BB88AD   |
-	AND #$03E0				;$BB88AE   |
+	AND #!green_color_channel		;$BB88AE   |
 	TSB $34					;$BB88B1   |
-	LDA.l wall_ship_deck_sprite_palette,x	;$BB88B3   |
-	AND #$7C00				;$BB88B7   |
+	LDA.l writable_palette_data_start,x	;$BB88B3   |
+	AND #!blue_color_channel		;$BB88B7   |
 	STA $32					;$BB88BA   |
 	LSR A					;$BB88BC   |
 	LSR A					;$BB88BD   |
 	CLC					;$BB88BE   |
 	ADC $32					;$BB88BF   |
-	CMP #$7C00				;$BB88C1   |
+	CMP #!blue_color_channel		;$BB88C1   |
 	BCC CODE_BB88C9				;$BB88C4   |
-	LDA #$7C00				;$BB88C6   |
+	LDA #!blue_color_channel		;$BB88C6   |
 CODE_BB88C9:					;	   |
-	AND #$7C00				;$BB88C9   |
+	AND #!blue_color_channel		;$BB88C9   |
 	ORA $34					;$BB88CC   |
-	STA $7F9650,x				;$BB88CE   |
+	STA writable_palette_RAM,x		;$BB88CE   |
 	INX					;$BB88D2   |
 	INX					;$BB88D3   |
-	CPX #$0E8A				;$BB88D4   |
+	CPX #!unused_writable_palette_data_size	;$BB88D4   |
 	BNE CODE_BB888F				;$BB88D7   |
-	JSR CODE_BB895A				;$BB88D9   |
+	JSR copy_writable_palettes_to_RAM	;$BB88D9   |
 	JSR CODE_BB896A				;$BB88DC   |
 	RTS					;$BB88DF  /
 
-;
+;unused, darkened sprite palettes
 	LDX #$0000				;$BB88E0   |
 CODE_BB88E3:					;	   |
 	LDA.l wall_ship_deck_sprite_palette,x	;$BB88E3   |
-	AND #$001F				;$BB88E7   |
+	AND #!red_color_channel			;$BB88E7   |
 	XBA					;$BB88EA   |
 	LSR A					;$BB88EB   |
 	LSR A					;$BB88EC   |
@@ -1415,10 +1415,10 @@ CODE_BB88E3:					;	   |
 	CLC					;$BB88F1   |
 	ADC $34					;$BB88F2   |
 	XBA					;$BB88F4   |
-	AND #$001F				;$BB88F5   |
+	AND #!red_color_channel			;$BB88F5   |
 	STA $32					;$BB88F8   |
 	LDA.l wall_ship_deck_sprite_palette,x	;$BB88FA   |
-	AND #$03E0				;$BB88FE   |
+	AND #!green_color_channel		;$BB88FE   |
 	LSR A					;$BB8901   |
 	STA $34					;$BB8902   |
 	LSR A					;$BB8904   |
@@ -1433,14 +1433,14 @@ CODE_BB88E3:					;	   |
 	ASL A					;$BB8911   |
 	ASL A					;$BB8912   |
 	ORA $32					;$BB8913   |
-	STA $7F9650,x				;$BB8915   |
+	STA writable_palette_RAM,x		;$BB8915   |
 	INX					;$BB8919   |
 	INX					;$BB891A   |
-	CPX #$014A				;$BB891B   |
+	CPX #!door_sprite_palettes_size		;$BB891B   |> Number of bytes
 	BNE CODE_BB88E3				;$BB891E   |
 CODE_BB8920:					;	   |
 	LDA.l wall_ship_deck_sprite_palette,x	;$BB8920   |
-	AND #$001F				;$BB8924   |
+	AND #!red_color_channel			;$BB8924   |
 	LSR A					;$BB8927   |
 	STA $32					;$BB8928   |
 	LDA.l wall_ship_deck_sprite_palette,x	;$BB892A   |
@@ -1459,22 +1459,22 @@ CODE_BB8920:					;	   |
 	CLC					;$BB8943   |
 	ADC $34					;$BB8944   |
 	ORA $32					;$BB8946   |
-	STA $7F9650,x				;$BB8948   |
+	STA writable_palette_RAM,x		;$BB8948   |
 	INX					;$BB894C   |
 	INX					;$BB894D   |
-	CPX #$0E8A				;$BB894E   |
+	CPX #!unused_writable_palette_data_size	;$BB894E   |
 	BNE CODE_BB8920				;$BB8951   |
-	JSR CODE_BB895A				;$BB8953   |
+	JSR copy_writable_palettes_to_RAM	;$BB8953   |
 	JSR CODE_BB896A				;$BB8956   |
 	RTS					;$BB8959  /
 
-CODE_BB895A:
-	LDA.l wall_ship_deck_sprite_palette,x	;$BB895A  \
-	STA $7F9650,x				;$BB895E   |
+copy_writable_palettes_to_RAM:
+	LDA.l writable_palette_data_start,x	;$BB895A  \
+	STA writable_palette_RAM,x		;$BB895E   |
 	INX					;$BB8962   |
 	INX					;$BB8963   |
-	CPX #$0EA8				;$BB8964   |
-	BNE CODE_BB895A				;$BB8967   |
+	CPX #!writable_palette_data_size	;$BB8964   |
+	BNE copy_writable_palettes_to_RAM	;$BB8967   |
 	RTS					;$BB8969  /
 
 CODE_BB896A:
@@ -1483,10 +1483,11 @@ CODE_BB896A:
 	STA $7F9904				;$BB8971   |
 	RTS					;$BB8975  /
 
+;unused, redish darkened sprite palettes
 	LDX #$0000				;$BB8976   |
 CODE_BB8979:					;	   |
 	LDA.l wall_ship_deck_sprite_palette,x	;$BB8979   |
-	AND #$001F				;$BB897D   |
+	AND #!red_color_channel			;$BB897D   |
 	LSR A					;$BB8980   |
 	LSR A					;$BB8981   |
 	STA $32					;$BB8982   |
@@ -1500,25 +1501,25 @@ CODE_BB8979:					;	   |
 	ASL A					;$BB8991   |
 	ASL A					;$BB8992   |
 	ORA $32					;$BB8993   |
-	STA $7F9650,x				;$BB8995   |
+	STA writable_palette_RAM,x		;$BB8995   |
 	INX					;$BB8999   |
 	INX					;$BB899A   |
-	CPX #$014A				;$BB899B   |
+	CPX #!door_sprite_palettes_size		;$BB899B   |> Number of bytes
 	BNE CODE_BB8979				;$BB899E   |
 CODE_BB89A0:					;	   |
 	LDA.l wall_ship_deck_sprite_palette,x	;$BB89A0   |
-	AND #$001F				;$BB89A4   |
+	AND #!red_color_channel			;$BB89A4   |
 	LSR A					;$BB89A7   |
 	STA $32					;$BB89A8   |
 	LDA.l wall_ship_deck_sprite_palette,x	;$BB89AA   |
-	AND #$03E0				;$BB89AE   |
+	AND #!green_color_channel		;$BB89AE   |
 	LSR A					;$BB89B1   |
 	STA $34					;$BB89B2   |
 	LSR A					;$BB89B4   |
 	CLC					;$BB89B5   |
 	ADC $34					;$BB89B6   |
 	LSR A					;$BB89B8   |
-	AND #$03E0				;$BB89B9   |
+	AND #!green_color_channel		;$BB89B9   |
 	TSB $32					;$BB89BC   |
 	LDA.l wall_ship_deck_sprite_palette,x	;$BB89BE   |
 	LSR A					;$BB89C2   |
@@ -1529,19 +1530,20 @@ CODE_BB89A0:					;	   |
 	LSR A					;$BB89C9   |
 	AND #$1C00				;$BB89CA   |
 	ORA $32					;$BB89CD   |
-	STA $7F9650,x				;$BB89CF   |
+	STA writable_palette_RAM,x		;$BB89CF   |
 	INX					;$BB89D3   |
 	INX					;$BB89D4   |
-	CPX #$0E8A				;$BB89D5   |
+	CPX #!unused_writable_palette_data_size	;$BB89D5   |
 	BNE CODE_BB89A0				;$BB89D8   |
-	JSR CODE_BB895A				;$BB89DA   |
+	JSR copy_writable_palettes_to_RAM	;$BB89DA   |
 	JSR CODE_BB896A				;$BB89DD   |
 	RTS					;$BB89E0  /
 
+;unused, grayish sprite palettes
 	LDX #$0000				;$BB89E1   |
 CODE_BB89E4:					;	   |
 	LDA.l wall_ship_deck_sprite_palette,x	;$BB89E4   |
-	AND #$001F				;$BB89E8   |
+	AND #!red_color_channel			;$BB89E8   |
 	LSR A					;$BB89EB   |
 	LSR A					;$BB89EC   |
 	STA $32					;$BB89ED   |
@@ -1555,14 +1557,14 @@ CODE_BB89E4:					;	   |
 	ASL A					;$BB89FC   |
 	ASL A					;$BB89FD   |
 	ORA $32					;$BB89FE   |
-	STA $7F9650,x				;$BB8A00   |
+	STA writable_palette_RAM,x		;$BB8A00   |
 	INX					;$BB8A04   |
 	INX					;$BB8A05   |
-	CPX #$014A				;$BB8A06   |
+	CPX #!door_sprite_palettes_size		;$BB8A06   |> Number of bytes
 	BNE CODE_BB89E4				;$BB8A09   |
 CODE_BB8A0B:					;	   |
 	LDA.l wall_ship_deck_sprite_palette,x	;$BB8A0B   |
-	AND #$001F				;$BB8A0F   |
+	AND #!red_color_channel			;$BB8A0F   |
 	LSR A					;$BB8A12   |
 	STA $32					;$BB8A13   |
 	LSR A					;$BB8A15   |
@@ -1572,7 +1574,7 @@ CODE_BB8A0B:					;	   |
 	ADC #$0004				;$BB8A1A   |
 	STA $32					;$BB8A1D   |
 	LDA.l wall_ship_deck_sprite_palette,x	;$BB8A1F   |
-	AND #$03E0				;$BB8A23   |
+	AND #!green_color_channel		;$BB8A23   |
 	LSR A					;$BB8A26   |
 	STA $34					;$BB8A27   |
 	LSR A					;$BB8A29   |
@@ -1581,10 +1583,10 @@ CODE_BB8A0B:					;	   |
 	ADC $34					;$BB8A2C   |
 	CLC					;$BB8A2E   |
 	ADC #$0060				;$BB8A2F   |
-	AND #$03E0				;$BB8A32   |
+	AND #!green_color_channel		;$BB8A32   |
 	TSB $32					;$BB8A35   |
 	LDA.l wall_ship_deck_sprite_palette,x	;$BB8A37   |
-	AND #$7C00				;$BB8A3B   |
+	AND #!blue_color_channel		;$BB8A3B   |
 	LSR A					;$BB8A3E   |
 	STA $34					;$BB8A3F   |
 	LSR A					;$BB8A41   |
@@ -1593,14 +1595,14 @@ CODE_BB8A0B:					;	   |
 	ADC $34					;$BB8A44   |
 	CLC					;$BB8A46   |
 	ADC #$0C00				;$BB8A47   |
-	AND #$7C00				;$BB8A4A   |
+	AND #!blue_color_channel		;$BB8A4A   |
 	ORA $32					;$BB8A4D   |
-	STA $7F9650,x				;$BB8A4F   |
+	STA writable_palette_RAM,x		;$BB8A4F   |
 	INX					;$BB8A53   |
 	INX					;$BB8A54   |
-	CPX #$0E8A				;$BB8A55   |
+	CPX #!unused_writable_palette_data_size	;$BB8A55   |
 	BNE CODE_BB8A0B				;$BB8A58   |
-	JSR CODE_BB895A				;$BB8A5A   |
+	JSR copy_writable_palettes_to_RAM	;$BB8A5A   |
 	JSR CODE_BB896A				;$BB8A5D   |
 	RTS					;$BB8A60  /
 
@@ -1698,8 +1700,8 @@ CODE_BB8AE4:
 
 CODE_BB8AF6:
 	LDA $052B				;$BB8AF6  \
-	AND #$0010				;$BB8AF9   |
-	BNE CODE_BB8B30				;$BB8AFC   |
+	AND #!inverted_sprite_palette_effect	;$BB8AF9   |
+	BNE .use_inverted_sprite_palette	;$BB8AFC   |
 	LDA $F1					;$BB8AFE   |
 	ASL A					;$BB8B00   |
 	ASL A					;$BB8B01   |
@@ -1728,14 +1730,14 @@ CODE_BB8AF6:
 	CLC					;$BB8B2E   |
 	RTS					;$BB8B2F  /
 
-CODE_BB8B30:
+.use_inverted_sprite_palette:
 	LDA $F1					;$BB8B30  \
 	ASL A					;$BB8B32   |
 	ASL A					;$BB8B33   |
 	TAX					;$BB8B34   |
 	JSR CODE_BB8B66				;$BB8B35   |
 	CLC					;$BB8B38   |
-	ADC #$3374				;$BB8B39   |
+	ADC #!writable_palette_data_addr_offset	;$BB8B39   |> Writable palette ROM start address - writable palette RAM address
 	STA palette_upload_ring_buffer,x	;$BB8B3C   |
 	LDA $5E					;$BB8B3F   |
 	ASL A					;$BB8B41   |
@@ -1744,7 +1746,7 @@ CODE_BB8B30:
 	CLC					;$BB8B44   |
 	ADC #$0081				;$BB8B45   |
 	XBA					;$BB8B48   |
-	ORA #$007F				;$BB8B49   |
+	ORA.w #<:writable_palette_RAM		;$BB8B49   |> Bank of writable palette RAM
 	STA palette_upload_ring_buffer+$2,x	;$BB8B4C   |
 	LDA $F1					;$BB8B4F   |
 	INC A					;$BB8B51   |
@@ -5723,6 +5725,13 @@ CODE_BBAEBD:
 	dw !rambi_sprite_palette
 	dw !enguarde_sprite_palette
 
+;$32 byte ??? (passed by upper byte of A)
+;$34 word level number
+;$36 word tileset config pointer
+;$38 byte layout number
+;$39 word unknown camera parameter
+;$3B byte unknown camera parameter
+
 CODE_BBAF0C:
 	LDX #$0515				;$BBAF0C  \
 CODE_BBAF0F:					;	   |
@@ -5730,52 +5739,52 @@ CODE_BBAF0F:					;	   |
 	XBA					;$BBAF11   |
 	AND #$00FF				;$BBAF12   |
 	STA $32					;$BBAF15   |
-	LDA $34					;$BBAF17   |
-	AND #$00FF				;$BBAF19   |
-	ASL A					;$BBAF1C   |
-	TAY					;$BBAF1D   |
-	PHB					;$BBAF1E   |
-	%pea_shift_dbr(DATA_FD0000)		;$BBAF1F   |
-	PLB					;$BBAF22   |
-	PLB					;$BBAF23   |
-	LDA.w DATA_FD0000,y			;$BBAF24   |
-	TAY					;$BBAF27   |
-	LDA.w DATA_FD0000,y			;$BBAF28   |
-	INY					;$BBAF2B   |
-	INY					;$BBAF2C   |
-	STA $00,x				;$BBAF2D   |
+	LDA $34					;$BBAF17   |\ Get level number
+	AND #$00FF				;$BBAF19   | |
+	ASL A					;$BBAF1C   | | *2 to index level config table, each entry is a 16 bit pointer
+	TAY					;$BBAF1D   |/
+	PHB					;$BBAF1E   |\ Preserve current data bank
+	%pea_shift_dbr(DATA_FD0000)		;$BBAF1F   | | Use level config bank
+	PLB					;$BBAF22   | |
+	PLB					;$BBAF23   |/
+	LDA.w DATA_FD0000,y			;$BBAF24   |\ Get pointer to level config
+	TAY					;$BBAF27   |/ Y = level config read index
+	LDA.w DATA_FD0000,y			;$BBAF28   |\ Get level type
+	INY					;$BBAF2B   | |
+	INY					;$BBAF2C   | |
+	STA level.type,x			;$BBAF2D   |/ Store level type
 	CMP #!normal_level_type			;$BBAF2F   |
-	BEQ CODE_BBAF65				;$BBAF32   |
+	BEQ .handle_normal_level		;$BBAF32   |
 	CMP #!bonus_level_type			;$BBAF34   |
-	BEQ CODE_BBAF58				;$BBAF37   |
+	BEQ .handle_bonus_level			;$BBAF37   |
 	CMP #!small_level_type			;$BBAF39   |
-	BEQ CODE_BBAF65				;$BBAF3C   |
+	BEQ .handle_normal_level		;$BBAF3C   |
 	CMP #!boss_level_type			;$BBAF3E   |
-	BEQ CODE_BBAF65				;$BBAF41   |
+	BEQ .handle_normal_level		;$BBAF41   |
 	CMP #!npc_level_type			;$BBAF43   |
 	BEQ CODE_BBAF55				;$BBAF46   |
 	CMP #!map_level_type			;$BBAF48   |
 	BEQ CODE_BBAF55				;$BBAF4B   |
 	CMP #!sub_level_type			;$BBAF4D   |
-	BEQ CODE_BBAF65				;$BBAF50   |
-CODE_BBAF52:					;	   |
+	BEQ .handle_normal_level		;$BBAF50   |
+#CODE_BBAF52:					;	   |
 	PLB					;$BBAF52   |
 	CLC					;$BBAF53   |
 	RTL					;$BBAF54  /
 
-CODE_BBAF55:
+#CODE_BBAF55:
 	PLB					;$BBAF55  \
 	SEC					;$BBAF56   |
 	RTL					;$BBAF57  /
 
-CODE_BBAF58:
-	LDA.w DATA_FD0000,y			;$BBAF58  \
-	INY					;$BBAF5B   |
-	AND #$00FF				;$BBAF5C   |
-	SEP #$20				;$BBAF5F   |
-	STA $18,x				;$BBAF61   |
-	REP #$20				;$BBAF63   |
-CODE_BBAF65:					;	   |
+.handle_bonus_level:
+	LDA.w DATA_FD0000,y			;$BBAF58  \ \ Get bonus type
+	INY					;$BBAF5B   |/ Next value
+	AND #$00FF				;$BBAF5C   |\ Single byte
+	SEP #$20				;$BBAF5F   | |
+	STA level.bonus_type,x			;$BBAF61   | | Store bonus type
+	REP #$20				;$BBAF63   |/
+.handle_normal_level:				;	   |
 	JSR CODE_BBAFE1				;$BBAF65   |
 	JSR CODE_BBB05C				;$BBAF68   |
 	JSR CODE_BBB066				;$BBAF6B   |
@@ -5840,13 +5849,13 @@ CODE_BBAFC3:					;	   |
 	BRL CODE_BBAF52				;$BBAFDE  /
 
 CODE_BBAFE1:
-	LDA.w DATA_FD0000,y			;$BBAFE1  \
-	INY					;$BBAFE4   |
-	INY					;$BBAFE5   |
-	STA $36					;$BBAFE6   |
-	LDA.w DATA_FD0000,y			;$BBAFE8   |
-	INY					;$BBAFEB   |
-	STA $38					;$BBAFEC   |
+	LDA.w DATA_FD0000,y			;$BBAFE1  \ \ Get tileset config address
+	INY					;$BBAFE4   | | Next value
+	INY					;$BBAFE5   | |
+	STA $36					;$BBAFE6   |/ Store tileset config address
+	LDA.w DATA_FD0000,y			;$BBAFE8   |\ Get layout number
+	INY					;$BBAFEB   | |
+	STA $38					;$BBAFEC   |/ Store layout number
 CODE_BBAFEE:					;	   |
 	LDA.w DATA_FD0000,y			;$BBAFEE   |
 	BEQ CODE_BBAFFF				;$BBAFF1   |
@@ -6438,7 +6447,7 @@ CODE_BBB3F6:
 	RTS					;$BBB3F6  /
 
 CODE_BBB3F7:
-	%pea_shift_dbr(spawn_radius_left_table)	;$BBB3F7  \
+	%pea_shift_dbr(activation_radius_left_table)	;$BBB3F7  \
 	PLB					;$BBB3FA   |
 	PLB					;$BBB3FB   |
 	LDX $32					;$BBB3FC   |
@@ -6447,7 +6456,7 @@ CODE_BBB3F7:
 	SEC					;$BBB404   |
 	SBC #$0100				;$BBB405   |
 	SEC					;$BBB408   |
-	SBC.l spawn_radius_left_table,x		;$BBB409   |
+	SBC.l activation_radius_left_table,x	;$BBB409   |
 	BPL CODE_BBB412				;$BBB40D   |
 	LDA #$0000				;$BBB40F   |
 CODE_BBB412:					;	   |
@@ -6459,7 +6468,7 @@ CODE_BBB412:					;	   |
 	STA $0B8E				;$BBB41D   |
 	LDA $36					;$BBB420   |
 	CLC					;$BBB422   |
-	ADC.l spawn_radius_right_table,x	;$BBB423   |
+	ADC.l activation_radius_right_table,x	;$BBB423   |
 	AND #$FF00				;$BBB427   |
 	XBA					;$BBB42A   |
 	CMP $0B88				;$BBB42B   |
@@ -6473,7 +6482,7 @@ CODE_BBB434:					;	   |
 	SEC					;$BBB43D   |
 	SBC #$00E0				;$BBB43E   |
 	SEC					;$BBB441   |
-	SBC.l spawn_radius_top_table,x		;$BBB442   |
+	SBC.l activation_radius_top_table,x	;$BBB442   |
 	BPL CODE_BBB44B				;$BBB446   |
 	LDA #$0000				;$BBB448   |
 CODE_BBB44B:					;	   |
@@ -6485,7 +6494,7 @@ CODE_BBB44B:					;	   |
 	STA $0B94				;$BBB456   |
 	LDA $36					;$BBB459   |
 	CLC					;$BBB45B   |
-	ADC.l spawn_radius_bottom_table		;$BBB45C   |
+	ADC.l activation_radius_bottom_table	;$BBB45C   |
 	AND #$FF00				;$BBB460   |
 	XBA					;$BBB463   |
 	CMP $0B8A				;$BBB464   |
@@ -7053,7 +7062,7 @@ hidden_sprite_spawn:
 	JSR allocate_sprite_table_slot		;$BBB84E   |
 	PLB					;$BBB851   |
 	PLY					;$BBB852   |
-	BCS CODE_BBB8BB				;$BBB853   |
+	BCS .sprite_spawn_failed		;$BBB853   |
 	LDA ($F5),y				;$BBB855   |
 	STA sprite.x_position,x			;$BBB857   |
 	LDA ($F7),y				;$BBB859   |
@@ -7093,17 +7102,17 @@ hidden_sprite_spawn:
 	STA $7E7A12,x				;$BBB8A5   |
 	LDA.l $0005BB				;$BBB8A9   |
 	AND #$0040				;$BBB8AD   |
-	BEQ CODE_BBB8B9				;$BBB8B0   |
+	BEQ .sprite_spawn_succeeded		;$BBB8B0   |
 	LDX alternate_sprite			;$BBB8B2   |
 	LDA #!sprite_hidden_debug_dummy_sprite	;$BBB8B4   |
 	STA sprite.type,x			;$BBB8B7   |
-CODE_BBB8B9:					;	   |
-	CLC					;$BBB8B9   |
-	RTS					;$BBB8BA  /
+.sprite_spawn_succeeded:			;	   |
+	CLC					;$BBB8B9   |\ Return carry clear to indicate successful sprite spawn
+	RTS					;$BBB8BA  /_/
 
-CODE_BBB8BB:
-	SEC					;$BBB8BB  \
-	RTS					;$BBB8BC  /
+.sprite_spawn_failed:
+	SEC					;$BBB8BB  \ \ Return carry set to indicate failed sprite spawn
+	RTS					;$BBB8BC  /_/
 
 big_sprite_spawn:
 	LDA #$0002				;$BBB8BD  \
@@ -7112,40 +7121,40 @@ big_sprite_spawn:
 	%pea_engine_dbr()			;$BBB8C2   |
 	PLB					;$BBB8C5   |
 	PLB					;$BBB8C6   |
-	JSR CODE_BB8282				;$BBB8C7   |
-	BRA CODE_BBB8D6				;$BBB8CA  /
+	JSR handle_multi_vram_sprite_allocation	;$BBB8C7   |
+	BRA .sprite_spawn_start			;$BBB8CA  /
 
-normal_sprite_spawn:
+#normal_sprite_spawn:
 	PHY					;$BBB8CC  \
 	PHB					;$BBB8CD   |
 	%pea_engine_dbr()			;$BBB8CE   |
 	PLB					;$BBB8D1   |
 	PLB					;$BBB8D2   |
 	JSR handle_sprite_allocation		;$BBB8D3   |
-CODE_BBB8D6:					;	   |
+.sprite_spawn_start:				;	   |
 	PLB					;$BBB8D6   |
 	PLY					;$BBB8D7   |
-	BCS .sprite_allocation_failed		;$BBB8D8   |
-	LDA ($F5),y				;$BBB8DA   |
-	STA sprite.x_position,x			;$BBB8DC   |
-	LDA ($F7),y				;$BBB8DE   |
-	STA sprite.y_position,x			;$BBB8E0   |
-	LDA #$00EC				;$BBB8E2   |
-	STA sprite.render_order,x		;$BBB8E5   |
-	LDA #$8000				;$BBB8E7   |
-	STA sprite.x_sub_position,x		;$BBB8EA   |
-	STA sprite.y_sub_position,x		;$BBB8EC   |
-	STZ sprite.unknown_2C,x			;$BBB8EE   |
-	STZ sprite.unknown_32,x			;$BBB8F0   |
-	STZ sprite.interaction_flags,x		;$BBB8F2   |
-	STZ sprite.terrain_interaction,x	;$BBB8F4   |
-	STZ sprite.despawn_time,x		;$BBB8F6   |
-	LDA ($F3),y				;$BBB8F8   |
-	STA sprite.placement_parameter,x	;$BBB8FA   |
-	LDA ($F9),y				;$BBB8FC   |
-	TAX					;$BBB8FE   |
-	LDA.l DATA_FBE800,x			;$BBB8FF   |
-	TAY					;$BBB903   |
+	BCS .sprite_spawn_failed		;$BBB8D8   |
+	LDA ($F5),y				;$BBB8DA   |\ Setup sprites x and y position
+	STA sprite.x_position,x			;$BBB8DC   | |
+	LDA ($F7),y				;$BBB8DE   | |
+	STA sprite.y_position,x			;$BBB8E0   |/
+	LDA #$00EC				;$BBB8E2   |\ Setup sprites render order
+	STA sprite.render_order,x		;$BBB8E5   |/
+	LDA #$8000				;$BBB8E7   |\ Setup sprites x and y sub pixel position
+	STA sprite.x_sub_position,x		;$BBB8EA   | |
+	STA sprite.y_sub_position,x		;$BBB8EC   |/
+	STZ sprite.unknown_2C,x			;$BBB8EE   |\ Init critical sprite variables to zero
+	STZ sprite.unknown_32,x			;$BBB8F0   | |
+	STZ sprite.interaction_flags,x		;$BBB8F2   | |
+	STZ sprite.terrain_interaction,x	;$BBB8F4   | |
+	STZ sprite.despawn_time,x		;$BBB8F6   |/
+	LDA ($F3),y				;$BBB8F8   |\ Store placement parameter into sprite
+	STA sprite.placement_parameter,x	;$BBB8FA   |/
+	LDA ($F9),y				;$BBB8FC   |\
+	TAX					;$BBB8FE   | |
+	LDA.l DATA_FBE800,x			;$BBB8FF   | | Get spawn script address from sprite spawn table
+	TAY					;$BBB903   |/
 	LDX alternate_sprite			;$BBB904   |
 	JSL apply_spawn_script_to_slot		;$BBB906   |
 	LDX alternate_sprite			;$BBB90A   |
@@ -7167,21 +7176,21 @@ CODE_BBB8D6:					;	   |
 	LDA #!sprite_debug_dummy_sprite		;$BBB933   | |
 	STA sprite.type,x			;$BBB936   |/
 .sprite_spawn_succeeded:			;	   |
-	CLC					;$BBB938   |
-	RTS					;$BBB939  /
+	CLC					;$BBB938   |\ Return carry clear to indicate successful sprite spawn
+	RTS					;$BBB939  /_/
 
-.sprite_allocation_failed:
-	SEC					;$BBB93A  \
-	RTS					;$BBB93B  /
+.sprite_spawn_failed:
+	SEC					;$BBB93A  \ \ Return carry set to indicate failed sprite spawn
+	RTS					;$BBB93B  /_/
 
 ; Sprite spawn/despawn radius
 ; Words are ordered as follows:
 ; The first 4 words are for spawning the the second 4 are for despawning
 ; In the order: left, top, right, bottom
-spawn_radius_left_table:
-	%offset(spawn_radius_right_table, 2)
-	%offset(spawn_radius_top_table, 4)
-	%offset(spawn_radius_bottom_table, 6)
+activation_radius_left_table:
+	%offset(activation_radius_right_table, 2)
+	%offset(activation_radius_top_table, 4)
+	%offset(activation_radius_bottom_table, 6)
 	dw $0020, $0140, $0020, $0140, $0028, $0150, $0028, $0150	;00
 	dw $0010, $0120, $0010, $0100, $0018, $0130, $0018, $0110	;01
 	dw $0060, $01C0, $0040, $0180, $0068, $01D0, $0048, $0190	;02
@@ -7191,69 +7200,69 @@ spawn_radius_left_table:
 	dw $00F8, $02F0, $0020, $0140, $0100, $0300, $0028, $0150	;06
 
 DATA_BBB9AC:
-	dw no_spawn				;00
-	dw default_spawn_radius_check		;01
-	dw default_spawn_radius_check		;02
-	dw no_spawn				;03
-	dw no_spawn				;04
-	dw no_spawn				;05
-	dw no_spawn				;06
-	dw default_spawn_radius_check		;07
-	dw no_spawn_2				;08
-	dw default_spawn_radius_check		;09
+	dw return_sprite_loader_false		;00
+	dw default_activation_radius_check	;01
+	dw default_activation_radius_check	;02
+	dw return_sprite_loader_false		;03
+	dw return_sprite_loader_false		;04
+	dw return_sprite_loader_false		;05
+	dw return_sprite_loader_false		;06
+	dw default_activation_radius_check	;07
+	dw return_sprite_loader_false_2		;08
+	dw default_activation_radius_check	;09
 	dw conditional_spawn_1b_radius_check	;0A
 	dw conditional_spawn_2_radius_check	;0B
 	dw conditional_spawn_3_radius_check	;0C
 	dw conditional_spawn_1a_radius_check	;0D
-	dw anti_piracy_spawn_radius_check	;0E
-	dw default_spawn_radius_check		;0F
+	dw anti_piracy_activation_radius_check	;0E
+	dw default_activation_radius_check	;0F
 
 DATA_BBB9CC:
-	dw no_spawn				;00/00
+	dw return_sprite_loader_false		;00/00
 	dw CODE_BBBAB8				;01/02
 	dw CODE_BBBA92				;02/04
-	dw no_spawn				;03/06
-	dw no_spawn				;04/08
-	dw no_spawn				;05/0A
-	dw no_spawn				;06/0C
+	dw return_sprite_loader_false		;03/06
+	dw return_sprite_loader_false		;04/08
+	dw return_sprite_loader_false		;05/0A
+	dw return_sprite_loader_false		;06/0C
 	dw CODE_BBBAB8				;07/0E
-	dw no_spawn_2				;08/10
+	dw return_sprite_loader_false_2		;08/10
 	dw CODE_BBBAB8				;09/12
 	dw CODE_BBBAB8				;0A/14
 	dw CODE_BBBAB8				;0B/16
 	dw CODE_BBBAB8				;0C/18
 	dw CODE_BBBAB8				;0D/1A
 	dw CODE_BBBAB8				;0E/1C
-	dw default_despawn_radius_check		;0F/1E
+	dw default_deactivation_radius_check	;0F/1E
 
 DATA_BBB9EC:
-	dw no_spawn				;00
-	dw no_spawn				;01
+	dw return_sprite_loader_false		;00
+	dw return_sprite_loader_false		;01
 	dw CODE_BBBAF3				;02
-	dw no_spawn				;03
-	dw no_spawn				;04
-	dw no_spawn				;05
-	dw no_spawn				;06
-	dw no_spawn				;07
-	dw no_spawn_2				;08
-	dw no_spawn				;09
-	dw no_spawn				;0A
-	dw no_spawn				;0B
-	dw no_spawn				;0C
-	dw no_spawn				;0D
-	dw no_spawn				;0E
+	dw return_sprite_loader_false		;03
+	dw return_sprite_loader_false		;04
+	dw return_sprite_loader_false		;05
+	dw return_sprite_loader_false		;06
+	dw return_sprite_loader_false		;07
+	dw return_sprite_loader_false_2		;08
+	dw return_sprite_loader_false		;09
+	dw return_sprite_loader_false		;0A
+	dw return_sprite_loader_false		;0B
+	dw return_sprite_loader_false		;0C
+	dw return_sprite_loader_false		;0D
+	dw return_sprite_loader_false		;0E
 	dw CODE_BBBAF3				;0F
 
 DATA_BBBA0C:
-	dw no_spawn				;00
+	dw return_sprite_loader_false		;00
 	dw normal_sprite_spawn			;01
 	dw normal_sprite_spawn			;02
-	dw no_spawn				;03
-	dw no_spawn				;04
-	dw no_spawn				;05
-	dw no_spawn				;06
+	dw return_sprite_loader_false		;03
+	dw return_sprite_loader_false		;04
+	dw return_sprite_loader_false		;05
+	dw return_sprite_loader_false		;06
 	dw big_sprite_spawn			;07
-	dw no_spawn				;08
+	dw return_sprite_loader_false		;08
 	dw hidden_sprite_spawn			;09
 	dw normal_sprite_spawn			;0A
 	dw normal_sprite_spawn			;0B
@@ -7262,13 +7271,13 @@ DATA_BBBA0C:
 	dw hidden_sprite_spawn			;0E
 	dw normal_sprite_spawn			;0F
 
-no_spawn:
+return_sprite_loader_false:
 	CLC					;$BBBA2C  \
 	RTS					;$BBBA2D  /
 
-anti_piracy_spawn_radius_check:
-	JSR default_spawn_radius_check		;$BBBA2E  \
-	BCC .no_spawn				;$BBBA31   |
+anti_piracy_activation_radius_check:
+	JSR default_activation_radius_check	;$BBBA2E  \
+	BCC .return				;$BBBA31   |
 	PHB					;$BBBA33   |> Piracy check, preserve bank
 	%pea_engine_dbr()			;$BBBA34   |\
 	PLB					;$BBBA37   | | Get bank of anti piracy routine (80)
@@ -7288,34 +7297,34 @@ anti_piracy_spawn_radius_check:
 	CMP #$FFFF				;$BBBA4D   |/ Our answer should be FFFF, if so carry will be set
 	PLY					;$BBBA50   |> Retrieve Y
 	PLB					;$BBBA51   |> Retrieve bank
-.no_spawn:					;	   |
+.return:					;	   |
 	RTS					;$BBBA52  /> Return, a carry check will happen after to make sure the XOR was correct
 
 conditional_spawn_1a_radius_check:
 	LDA.l $000923				;$BBBA53  \
 	AND #$0001				;$BBBA57   |
-	BNE default_spawn_radius_check		;$BBBA5A   |
-	BRA no_spawn_2				;$BBBA5C  /
+	BNE default_activation_radius_check	;$BBBA5A   |
+	BRA return_sprite_loader_false_2	;$BBBA5C  /
 
 conditional_spawn_1b_radius_check:
 	LDA.l $000923				;$BBBA5E  \
 	AND #$0001				;$BBBA62   |
-	BNE default_spawn_radius_check		;$BBBA65   |
-	BRA no_spawn_2				;$BBBA67  /
+	BNE default_activation_radius_check	;$BBBA65   |
+	BRA return_sprite_loader_false_2	;$BBBA67  /
 
 conditional_spawn_2_radius_check:
 	LDA.l $000923				;$BBBA69  \
 	AND #$0002				;$BBBA6D   |
-	BNE default_spawn_radius_check		;$BBBA70   |
-	BRA no_spawn_2				;$BBBA72  /
+	BNE default_activation_radius_check	;$BBBA70   |
+	BRA return_sprite_loader_false_2	;$BBBA72  /
 
 conditional_spawn_3_radius_check:
 	LDA.l $000923				;$BBBA74  \
 	AND #$0004				;$BBBA78   |
-	BNE default_spawn_radius_check		;$BBBA7B   |
-	BRA no_spawn_2				;$BBBA7D  /
+	BNE default_activation_radius_check	;$BBBA7B   |
+	BRA return_sprite_loader_false_2	;$BBBA7D  /
 
-default_spawn_radius_check:
+default_activation_radius_check:
 	LDA ($F5),y				;$BBBA7F  \ \ Get sprite placement x position
 	STA $72					;$BBBA81   | | Store it
 	LDA ($F7),y				;$BBBA83   | | Get sprite placement y position
@@ -7325,7 +7334,7 @@ default_spawn_radius_check:
 	TAX					;$BBBA8C   |/
 	JMP check_placement_spawning_radius	;$BBBA8D  /
 
-no_spawn_2:
+return_sprite_loader_false_2:
 	CLC					;$BBBA90  \
 	RTS					;$BBBA91  /
 
@@ -7339,7 +7348,7 @@ CODE_BBBA92:
 	TAX					;$BBBA9E   |
 	JMP check_placement_spawning_radius	;$BBBA9F  /
 
-default_despawn_radius_check:
+default_deactivation_radius_check:
 	TYX					;$BBBAA2  \ 
 	LDA sprite.x_position,x			;$BBBAA3   |\ Get sprite placement x position
 	STA $72					;$BBBAA5   | | Store it
@@ -7418,20 +7427,20 @@ CODE_BBBAF3:
 check_placement_spawning_radius:
 	LDA.l $0017BA				;$BBBB14  \
 	SEC					;$BBBB18   |
-	SBC.l spawn_radius_left_table,x		;$BBBB19   |
+	SBC.l activation_radius_left_table,x	;$BBBB19   |
 	CMP $72					;$BBBB1D   |
 	BCS .out_of_spawn_range			;$BBBB1F   |
 	CLC					;$BBBB21   |
-	ADC.l spawn_radius_right_table,x	;$BBBB22   |
+	ADC.l activation_radius_right_table,x	;$BBBB22   |
 	CMP $72					;$BBBB26   |
 	BCC .out_of_spawn_range			;$BBBB28   |
 	LDA.l $0017C0				;$BBBB2A   |
 	SEC					;$BBBB2E   |
-	SBC.l spawn_radius_top_table,x		;$BBBB2F   |
+	SBC.l activation_radius_top_table,x	;$BBBB2F   |
 	CMP $74					;$BBBB33   |
 	BCS .out_of_spawn_range			;$BBBB35   |
 	CLC					;$BBBB37   |
-	ADC.l spawn_radius_bottom_table,x	;$BBBB38   |
+	ADC.l activation_radius_bottom_table,x	;$BBBB38   |
 	CMP $74					;$BBBB3C   |
 	BCC .out_of_spawn_range			;$BBBB3E   |
 	SEC					;$BBBB40   |
@@ -8011,13 +8020,13 @@ CODE_BBBEF8:
 	JMP (DATA_BBBF22,x)			;$BBBF1F  /
 
 DATA_BBBF22:
-	dw CODE_BBBF30
-	dw CODE_BBBF81
-	dw CODE_BBBF81
-	dw CODE_BBBF30
-	dw CODE_BBBF30
-	dw CODE_BBBF30
-	dw CODE_BBBFC8
+	dw CODE_BBBF30				;00
+	dw CODE_BBBF81				;01
+	dw CODE_BBBF81				;02
+	dw CODE_BBBF30				;03
+	dw CODE_BBBF30				;04
+	dw CODE_BBBF30				;05
+	dw CODE_BBBFC8				;06
 
 
 CODE_BBBF30:
@@ -8558,7 +8567,7 @@ CODE_BBC174:					;	   |
 	STZ sprite.ground_distance,x		;$BBC3B6   |/ Set distance from ground to 0
 	STZ sprite.max_x_speed,x		;$BBC3B8   |\ Clear x velocities and stop kong
 	STZ sprite.x_speed,x			;$BBC3BA   |/
-	LDA #$0074				;$BBC3BC   |\ Set kong state to cutscene idle
+	LDA #!kong_state_74			;$BBC3BC   |\ Set kong state to cutscene idle
 	STA sprite.state,x			;$BBC3BF   |/
 	LDA #$0045				;$BBC3C1   |\ Set kong animation to celebrate
 	JSL set_anim_once_handle_dixie		;$BBC3C4   |/
@@ -8566,7 +8575,7 @@ CODE_BBC174:					;	   |
 	AND #$4000				;$BBC3CB   | |
 	BEQ .CODE_BBC42C			;$BBC3CE   |/ If there is no follower kong then were done
 	JSL work_on_inactive_kong_global	;$BBC3D0   |> Else work on inactive kong
-	LDA #$0074				;$BBC3D4   |\ Load cutscene idle kong state
+	LDA #!kong_state_74			;$BBC3D4   |\ Load cutscene idle kong state
 	STZ sprite.max_x_speed,x		;$BBC3D7   | | Clear x velocities and stop kong
 	STA sprite.state,x			;$BBC3D9   |/ Apply kong state
 	LDA #$0001				;$BBC3DB   |\ Set kong animation to idle
@@ -8584,7 +8593,7 @@ CODE_BBC174:					;	   |
 	JMP CODE_BBC150				;$BBC3FB  /> Cutscene code done
 
 ..set_kong_state_to_cutscene_move
-	LDA #$0075				;$BBC3FE  \
+	LDA #!kong_state_75			;$BBC3FE  \
 	STA sprite.state,x			;$BBC401   |
 	STZ sprite.max_x_speed,x		;$BBC403   |
 	RTS					;$BBC405  /
@@ -8602,7 +8611,7 @@ CODE_BBC174:					;	   |
 	AND #$4000				;$BBC41E   |
 	BEQ .CODE_BBC42C			;$BBC421   |
 	JSL work_on_inactive_kong_global	;$BBC423   |
-	LDA #$0022				;$BBC427   |
+	LDA #!kong_state_22			;$BBC427   |
 	STA sprite.state,x			;$BBC42A   |
 .CODE_BBC42C					;	   |
 	JMP CODE_BBC150				;$BBC42C  /
@@ -8618,7 +8627,7 @@ CODE_BBC174:					;	   |
 	JMP CODE_BBC150				;$BBC445  /
 
 .CODE_BBC448
-	LDA #$0074				;$BBC448  \
+	LDA #!kong_state_74			;$BBC448  \
 	STZ sprite.max_x_speed,x		;$BBC44B   |
 	STA sprite.state,x			;$BBC44D   |
 	LDA #$0001				;$BBC44F   |
@@ -8642,7 +8651,7 @@ CODE_BBC174:					;	   |
 	LDA #$0200				;$BBC476   |\ Lead right walking x velocity
 	STA sprite.max_x_speed,x		;$BBC479   | | Set x velocities for kong
 	STA sprite.x_speed,x			;$BBC47B   |/
-	LDA #$0075				;$BBC47D   |\ Set kong state to cutscene moving
+	LDA #!kong_state_75			;$BBC47D   |\ Set kong state to cutscene moving
 	STA sprite.state,x			;$BBC480   |/
 	LDA #$0003				;$BBC482   |\ Set kong animation to walking
 	JSL set_anim_once_handle_dixie		;$BBC485   |/
@@ -8705,7 +8714,7 @@ CODE_BBC174:					;	   |
 	STZ sprite.ground_distance,x		;$BBC500   |
 	STZ sprite.max_x_speed,x		;$BBC502   |
 	STZ sprite.x_speed,x			;$BBC504   |
-	LDA #$0074				;$BBC506   |
+	LDA #!kong_state_74			;$BBC506   |
 	STA sprite.state,x			;$BBC509   |
 	LDA #$009F				;$BBC50B   |
 	JSL set_anim_once_handle_dixie		;$BBC50E   |
