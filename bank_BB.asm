@@ -803,12 +803,12 @@ initscript_commands:
 	dw init_command_spawn_relative
 	dw init_command_set_directional
 	dw init_command_set_position
-	dw CODE_BB86D5
+	dw init_command_setup_static
 	dw init_command_bulk_set
 	dw init_command_set_oam_special
 	dw init_command_set_palette_copy
 	dw init_command_set_alt_palette
-	dw CODE_BB879E
+	dw init_command_setup_static_2
 
 
 CODE_BB84B9:
@@ -1114,7 +1114,7 @@ CODE_BB86C7:					;	   |
 	STA $0A40				;$BB86D1   |
 	RTL					;$BB86D4  /
 
-CODE_BB86D5:
+init_command_setup_static:
 	LDA #$0000				;$BB86D5  \
 	TCD					;$BB86D8   |
 	LDA.w DATA_FF0002,y			;$BB86D9   |
@@ -1227,7 +1227,7 @@ CODE_BB8790:					;	   |
 	INY					;$BB879A   |
 	JMP initscript_next			;$BB879B  /
 
-CODE_BB879E:
+init_command_setup_static_2:
 	LDA #$0000				;$BB879E  \
 	TCD					;$BB87A1   |
 	LDA.w DATA_FF0002,y			;$BB87A2   |
@@ -5606,7 +5606,7 @@ CODE_BBAE28:
 	BEQ CODE_BBAE62				;$BBAE2A   |
 	LDA animal_type				;$BBAE2C   |
 	SEC					;$BBAE2E   |
-	SBC #!sprite_squitter			;$BBAE2F   |
+	SBC #!animal_sprite_type_range_start	;$BBAE2F   |
 	LSR A					;$BBAE32   |
 	AND #$000E				;$BBAE33   |
 	TAX					;$BBAE36   |

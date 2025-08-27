@@ -64,6 +64,8 @@ next_oam_slot = $70
 current_sprite_constants = $8E
 current_sprite_constants_bank = $90
 
+current_player_action = $92
+
 nmi_submode = $94
 gamemode_submode = $96
 

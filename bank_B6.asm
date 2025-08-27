@@ -1081,7 +1081,7 @@ CODE_B68C82:
 	JSL interpolate_x_velocity_global	;$B68C85   |
 	LDA #$0004				;$B68C89   |
 	JSL interpolate_y_velocity_global	;$B68C8C   |
-	JSL CODE_B8D5E0				;$B68C90   |
+	JSL process_terrain_interaction_global	;$B68C90   |
 	LDX current_sprite			;$B68C94   |
 	LDA $2E,x				;$B68C96   |
 	BIT #$4000				;$B68C98   |
@@ -2723,7 +2723,7 @@ CODE_B69BE2:					;	   |
 	BRL CODE_B69C37				;$B69BF4  /
 
 CODE_B69BF7:
-	JSL CODE_B8D5E0				;$B69BF7  \
+	JSL process_terrain_interaction_global	;$B69BF7  \
 CODE_B69BFB:					;	   |
 	LDA $20,x				;$B69BFB   |
 	BNE CODE_B69C20				;$B69BFD   |
@@ -3399,7 +3399,7 @@ CODE_B6A14D:					;	   |
 	BRL CODE_B6A18F				;$B6A15F  /
 
 CODE_B6A162:
-	JSL CODE_B8D5E0				;$B6A162  \
+	JSL process_terrain_interaction_global	;$B6A162  \
 CODE_B6A166:					;	   |
 	LDA $20,x				;$B6A166   |
 	BNE CODE_B6A178				;$B6A168   |
@@ -5910,7 +5910,7 @@ CODE_B6BA3F:
 CODE_B6BA4A:					;	   |
 	LDA.l $000749				;$B6BA4A   |
 	JSL interpolate_y_velocity_global	;$B6BA4E   |
-	JSL CODE_B8D5E0				;$B6BA52   |
+	JSL process_terrain_interaction_global	;$B6BA52   |
 	LDX current_sprite			;$B6BA56   |
 	LDA $0A,x				;$B6BA58   |
 	CMP #$0225				;$B6BA5A   |> Kudgel floor position
@@ -6029,7 +6029,7 @@ CODE_B6BB2B:
 CODE_B6BB36:					;	   |
 	LDA.l $000749				;$B6BB36   |
 	JSL interpolate_y_velocity_global	;$B6BB3A   |
-	JSL CODE_B8D5E0				;$B6BB3E   |
+	JSL process_terrain_interaction_global	;$B6BB3E   |
 	LDX current_sprite			;$B6BB42   |
 	LDA $0A,x				;$B6BB44   |
 	CMP #$0225				;$B6BB46   |> Kudgel floor position
@@ -6235,7 +6235,7 @@ CODE_B6BCDD:
 CODE_B6BCE9:					;	   |
 	LDA.l $000749				;$B6BCE9   |
 	JSL interpolate_y_velocity_global	;$B6BCED   |
-	JSL CODE_B8D5E0				;$B6BCF1   |
+	JSL process_terrain_interaction_global	;$B6BCF1   |
 	LDX current_sprite			;$B6BCF5   |
 	LDA $0A,x				;$B6BCF7   |
 	CMP #$0225				;$B6BCF9   |> Kudgel floor position
@@ -11438,7 +11438,7 @@ CODE_B6E523:
 	BCS CODE_B6E559				;$B6E526   |
 	JSL apply_sprite_gravity_global		;$B6E528   |
 	JSL CODE_B39EBA				;$B6E52C   |
-	JSL CODE_B8D5E0				;$B6E530   |
+	JSL process_terrain_interaction_global	;$B6E530   |
 	JSL process_sprite_animation		;$B6E534   |
 	PLB					;$B6E538   |
 	JML [sprite_return_address]		;$B6E539  /
@@ -11562,7 +11562,7 @@ CODE_B6E604:
 	STZ $26,x				;$B6E606   |
 	JSL apply_sprite_gravity_global		;$B6E608   |
 	JSL CODE_B39EBA				;$B6E60C   |
-	JSL CODE_B8D5E0				;$B6E610   |
+	JSL process_terrain_interaction_global	;$B6E610   |
 	LDX current_sprite			;$B6E614   |
 	LDA $0A,x				;$B6E616   |
 	CMP #$02C7				;$B6E618   |

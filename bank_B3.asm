@@ -213,7 +213,7 @@ process_looping_sounds:
 	RTS					;$B3819A  /_/
 
 null_sprite_main:
-unknown_sprite_0004_main:
+crocodile_isle_props_main:
 hidden_debug_dummy_sprite_main:
 	LDA debug_flags				;$B3819B  \ \
 	AND #$0060				;$B3819E   | |
@@ -433,8 +433,8 @@ process_platform_sprites:
 sprite_main_table:
 	%offset(sprite_time_stop_flags_table, 2)
 	dw null_sprite_main,$0000		;0000
-	dw unknown_sprite_0004_main,$0000	;0004
-	dw map_player_main,$0000		;0008
+	dw crocodile_isle_props_main,$0000	;0004 Never actually executes
+	dw map_player_main,$0000		;0008 Is also the lost world rocks
 	dw rock_main,$0000			;000C
 	dw squawks_egg_main,$0000		;0010
 	dw large_smoke_puff_timestop_main,$0001	;0014 Large smoke puff but processes during timestop
@@ -615,7 +615,7 @@ sprite_main_table:
 	dw kleever_hand_bubbles_main,$0000	;02D0
 	dw krockhead_main,$0000			;02D4
 	dw horsetail_main,$0000			;02D8
-	dw chest_or_swanky_prize,$0000		;02DC
+	dw chest_or_swanky_prize,$0000		;02DC Also boss kremcoin
 	dw glimmer_main,$0000			;02E0
 	dw kloak_main,$0000			;02E4
 	dw thrown_kloak_projectile_main,$0000	;02E8 Also thrown by target terror klanks
@@ -626,7 +626,7 @@ sprite_main_table:
 	dw gate_barrel_main,$0000		;02FC
 	dw haunted_hall_timer_handler_main,$0001;0300
 	dw clapper_main,$0000			;0304
-	dw unknown_sprite_0308_main,$0001	;0308 smoke?
+	dw animal_despawn_smoke_main,$0001	;0308 smoke?
 	dw screech_main,$0000			;030C
 	dw racing_flag_main,$0000		;0310
 	dw credits_dummy_main,$0000		;0314
@@ -1238,7 +1238,7 @@ squitter_main:
 	BCS .sprite_done			;$B38A77   |
 	JSR handle_animal_mounting		;$B38A79   |
 	JSR apply_animal_gravity		;$B38A7C   |
-	JSL CODE_B8D5E0				;$B38A7F   |
+	JSL process_terrain_interaction_global	;$B38A7F   |
 	JSL process_sprite_animation		;$B38A83   |
 	JSL CODE_BBBB99				;$B38A87   |
 	JML [sprite_return_address]		;$B38A8B  /
@@ -1258,7 +1258,7 @@ squitter_main:
 	JSR apply_animal_gravity		;$B38AA6   |
 	LDA #$0007				;$B38AA9   |
 	JSL interpolate_x_velocity_global	;$B38AAC   |
-	JSL CODE_B8D5E0				;$B38AB0   |
+	JSL process_terrain_interaction_global	;$B38AB0   |
 	JSR .turn_if_touching_wall		;$B38AB4   |
 	JSL process_sprite_animation		;$B38AB7   |
 	JSL CODE_BBBB99				;$B38ABB   |
@@ -1338,7 +1338,7 @@ rattly_main:
 	BCS .sprite_done			;$B38B30   |
 	JSR handle_animal_mounting		;$B38B32   |
 	JSR apply_animal_gravity		;$B38B35   |
-	JSL CODE_B8D5E0				;$B38B38   |
+	JSL process_terrain_interaction_global	;$B38B38   |
 	JSL process_sprite_animation		;$B38B3C   |
 	JSL CODE_BBBB99				;$B38B40   |
 	JML [sprite_return_address]		;$B38B44  /
@@ -1355,7 +1355,7 @@ rattly_main:
 	JSR apply_animal_gravity		;$B38B56   |
 	LDA #$0007				;$B38B59   |
 	JSL interpolate_x_velocity_global	;$B38B5C   |
-	JSL CODE_B8D5E0				;$B38B60   |
+	JSL process_terrain_interaction_global	;$B38B60   |
 	JSR .turn_if_touching_wall		;$B38B64   |
 	JSL process_sprite_animation		;$B38B67   |
 	JSL CODE_BBBB99				;$B38B6B   |
@@ -1435,6 +1435,12 @@ handle_animal_sign_deletion:
 	SEC					;$B38BE8   |\ Report back that the animal was deleted
 	RTS					;$B38BE9  / / Return
 
+
+;This routine will never execute. There are no rideable animals in Castle Crush except for bonus 1...
+;...but you can't get there as a kong without null sprite manipulation.
+
+;It's also impossible to get crushed there.
+;This is probably a remnant of an earlier version which had you ride Rambi instead of transforming.
 handle_animal_crushing:
 	LDA sprite.terrain_attributes,x		;$B38BEA  \ \
 	AND #$0100				;$B38BEC   | | Check if the animal is being crushed
@@ -1465,7 +1471,7 @@ squawks_main:
 .state_table:
 	dw .idle_state				;00
 	dw .riding_state			;01
-	dw .flee_state				;02
+	dw .flee_state				;02 Unused? Can't get knocked out of squawks
 	dw .none_3_state			;03
 	dw .none_4_state			;04
 	dw .none_4_state			;05
@@ -1500,7 +1506,7 @@ squawks_main:
 	JSR handle_animal_crushing		;$B38C59   |
 	BCS .sprite_done			;$B38C5C   |
 	JSR handle_animal_mounting		;$B38C5E   |
-	JSL CODE_B8D5E0				;$B38C61   |
+	JSL process_terrain_interaction_global	;$B38C61   |
 	JSL process_sprite_animation		;$B38C65   |
 	LDA level_number			;$B38C69   |
 	CMP #!level_squawks_shaft		;$B38C6B   |
@@ -1704,7 +1710,7 @@ enguarde_main:
 	BCS .sprite_done			;$B38DCA   |
 	JSR handle_animal_mounting		;$B38DCC   |
 	JSR apply_animal_gravity		;$B38DCF   |
-	JSL CODE_B8D5E0				;$B38DD2   |
+	JSL process_terrain_interaction_global	;$B38DD2   |
 	JSL process_sprite_animation		;$B38DD6   |
 	JSL CODE_BBBB99				;$B38DDA   |
 	JML [sprite_return_address]		;$B38DDE  /
@@ -1726,7 +1732,7 @@ enguarde_main:
 .idle_4_state:
 	JSR handle_animal_mounting		;$B38DF1  \
 	JSR .handle_enguarde_on_land		;$B38DF4   |
-	JSL CODE_B8D5E0				;$B38DF7   |
+	JSL process_terrain_interaction_global	;$B38DF7   |
 	JSL process_sprite_animation		;$B38DFB   |
 if !version == 0				;	   |
 	BRA .sprite_done			;$B38DFF   |
@@ -1781,7 +1787,7 @@ endif
 	STA sprite.max_x_speed,x		;$B38E52   |/ Apply max x speed
 .continue_fleeing:				;	   |
 	JSR .handle_enguarde_on_land		;$B38E54   |
-	JSL CODE_B8D5E0				;$B38E57   |
+	JSL process_terrain_interaction_global	;$B38E57   |
 	JSL process_sprite_animation		;$B38E5B   |
 	BRA .sprite_done			;$B38E5F  /
 
@@ -2583,7 +2589,7 @@ dkbarrel_main:
 	BCS .done_processing			;$B393B4   |
 	JSR apply_sprite_gravity		;$B393B6   |
 	JSR CODE_B39EBE				;$B393B9   |
-	JSL CODE_B8D5E0				;$B393BC   |
+	JSL process_terrain_interaction_global	;$B393BC   |
 	JSL process_sprite_animation		;$B393C0   |
 	JMP sprite_return_handle_despawn	;$B393C4  /
 
@@ -2615,7 +2621,7 @@ dkbarrel_main:
 #CODE_B39401:
 	JSR apply_sprite_gravity		;$B39401  \
 	JSR CODE_B39EBE				;$B39404   |
-	JSL CODE_B8D5E0				;$B39407   |
+	JSL process_terrain_interaction_global	;$B39407   |
 	LDX current_sprite			;$B3940B   |
 	LDA sprite.terrain_interaction,x	;$B3940D   |
 	AND #$0101				;$B3940F   |
@@ -2725,7 +2731,7 @@ CODE_B394E6:					;	   |
 	BCS CODE_B394E3				;$B394E9   |
 	JSR apply_sprite_gravity		;$B394EB   |
 	JSR CODE_B39EBE				;$B394EE   |
-	JSL CODE_B8D5E0				;$B394F1   |
+	JSL process_terrain_interaction_global	;$B394F1   |
 	JSL process_sprite_animation		;$B394F5   |
 	LDX current_sprite			;$B394F9   |
 	LDA $4A,x				;$B394FB   |
@@ -2748,7 +2754,7 @@ CODE_B39519:
 CODE_B3951B:
 	JSR apply_sprite_gravity		;$B3951B  \
 	JSR CODE_B39EBE				;$B3951E   |
-	JSL CODE_B8D5E0				;$B39521   |
+	JSL process_terrain_interaction_global	;$B39521   |
 	LDX current_sprite			;$B39525   |
 	LDA sprite.terrain_interaction,x	;$B39527   |
 	AND #$0003				;$B39529   |
@@ -2810,7 +2816,7 @@ CODE_B39598:
 	BCS CODE_B39595				;$B3959B   |
 	JSR apply_sprite_gravity		;$B3959D   |
 	JSR CODE_B39EBE				;$B395A0   |
-	JSL CODE_B8D5E0				;$B395A3   |
+	JSL process_terrain_interaction_global	;$B395A3   |
 	JSL process_sprite_animation		;$B395A7   |
 	JMP sprite_return_handle_despawn	;$B395AB  /
 
@@ -2829,7 +2835,7 @@ CODE_B395C2:
 CODE_B395C4:
 	JSR apply_sprite_gravity		;$B395C4  \
 	JSR CODE_B39EBE				;$B395C7   |
-	JSL CODE_B8D5E0				;$B395CA   |
+	JSL process_terrain_interaction_global	;$B395CA   |
 	LDX current_sprite			;$B395CE   |
 	LDA sprite.terrain_interaction,x	;$B395D0   |
 	AND #$0003				;$B395D2   |
@@ -3127,7 +3133,7 @@ animal_box_main:
 
 .idle:
 	JSR .check_collision			;$B397F9  \
-	JSL CODE_B8D5E0				;$B397FC   | Process terrain collision
+	JSL process_terrain_interaction_global	;$B397FC   | Process terrain collision
 	JMP sprite_return_handle_despawn	;$B39800  / Done processing sprite
 
 .break_open:
@@ -3148,7 +3154,7 @@ animal_box_main:
 
 .CODE_B39823:
 	BCS .CODE_B3982C			;$B39823  \
-	JSL CODE_B8D5E0				;$B39825   | Process terrain collision
+	JSL process_terrain_interaction_global	;$B39825   | Process terrain collision
 	JMP sprite_return_handle_despawn	;$B39829  / Done processing sprite
 
 .CODE_B3982C:
@@ -3451,7 +3457,7 @@ invincibility_barrel_main:
 	JSL work_on_active_kong_global		;$B39A8D   | Work on active kong
 	LDX $19A8				;$B39A91   | Get index of invincibility barrel sprite
 	LDA $42,x				;$B39A94   | 
-	JSL CODE_B8D1FB				;$B39A96   |
+	JSL disable_enemy_damage_global		;$B39A96   |
 	LDA $19CE				;$B39A9A   | Get index of invincibility controller sprite
 	BNE .controller_exists			;$B39A9D   | If one already exists, skip spawning
 	LDY #!special_sprite_spawn_id_0000	;$B39A9F   |
@@ -3496,7 +3502,7 @@ CODE_B39ADB:
 	JSR apply_sprite_gravity		;$B39AE0   |
 	JSR CODE_B39EBE				;$B39AE3   |
 	JSL CODE_B8D246				;$B39AE6   |
-	JSL CODE_B8D5E0				;$B39AEA   |
+	JSL process_terrain_interaction_global	;$B39AEA   |
 	LDA #$001D				;$B39AEE   |
 	JSL process_alternate_movement		;$B39AF1   |
 	JSL process_sprite_animation		;$B39AF5   |
@@ -3519,7 +3525,7 @@ CODE_B39B11:
 	STZ sprite.max_x_speed,x		;$B39B13   |
 	JSR apply_sprite_gravity		;$B39B15   |
 	JSR CODE_B39EBE				;$B39B18   |
-	JSL CODE_B8D5E0				;$B39B1B   |
+	JSL process_terrain_interaction_global	;$B39B1B   |
 	LDA #$001D				;$B39B1F   |
 	JSL process_alternate_movement		;$B39B22   |
 	LDA sprite.x_speed,x			;$B39B26   |
@@ -3620,7 +3626,7 @@ CODE_B39BCB:
 	CMP $4E,x				;$B39BE7   |
 	BCS CODE_B39C02				;$B39BE9   |
 CODE_B39BEB:					;	   |
-	JSL CODE_B8D5E0				;$B39BEB   |
+	JSL process_terrain_interaction_global	;$B39BEB   |
 	RTS					;$B39BEF  /
 
 CODE_B39BF0:
@@ -3738,7 +3744,7 @@ CODE_B39CB2:					;	   |
 	JSR apply_sprite_gravity		;$B39CB7   |
 	JSR CODE_B39EBE				;$B39CBA   |
 	JSL CODE_B8D246				;$B39CBD   |
-	JSL CODE_B8D5E0				;$B39CC1   |
+	JSL process_terrain_interaction_global	;$B39CC1   |
 	LDA #$001D				;$B39CC5   |
 	JSL process_alternate_movement		;$B39CC8   |
 	JSL process_sprite_animation		;$B39CCC   |
@@ -3774,7 +3780,7 @@ CODE_B39CFF:
 	STZ sprite.max_x_speed,x		;$B39D01   |
 	JSR apply_sprite_gravity		;$B39D03   |
 	JSR CODE_B39EBE				;$B39D06   |
-	JSL CODE_B8D5E0				;$B39D09   |
+	JSL process_terrain_interaction_global	;$B39D09   |
 	LDA #$001D				;$B39D0D   |
 	JSL process_alternate_movement		;$B39D10   |
 	LDX current_sprite			;$B39D14   |
@@ -3893,7 +3899,7 @@ CODE_B39DDA:
 	BCS CODE_B39DD7				;$B39DE6   |
 	JSR apply_sprite_gravity		;$B39DE8   |
 	JSR CODE_B39EBE				;$B39DEB   |
-	JSL CODE_B8D5E0				;$B39DEE   |
+	JSL process_terrain_interaction_global	;$B39DEE   |
 	JSL process_sprite_animation		;$B39DF2   |
 	JMP sprite_return_handle_despawn	;$B39DF6  /
 
@@ -3921,7 +3927,7 @@ CODE_B39E10:
 CODE_B39E24:
 	JSR apply_sprite_gravity		;$B39E24  \
 	JSR CODE_B39EBE				;$B39E27   |
-	JSL CODE_B8D5E0				;$B39E2A   |
+	JSL process_terrain_interaction_global	;$B39E2A   |
 	LDX current_sprite			;$B39E2E   |
 	LDA sprite.terrain_interaction,x	;$B39E30   |
 	AND #$0202				;$B39E32   |
@@ -4210,7 +4216,7 @@ update_held_sprite_position:
 	STA.w sprite.render_order,y		;$B3A033   |/ Update render priority of held sprite
 	RTS					;$B3A036  /> Return
 
-unknown_sprite_0308_main:
+animal_despawn_smoke_main:
 	JSL process_sprite_animation		;$B3A037  \ Process animations
 	JML [sprite_return_address]		;$B3A03B  / Done processing sprite
 
@@ -4375,7 +4381,7 @@ level_goal_prize_main:
 
 .drop:
 	JSR apply_sprite_gravity		;$B3A144  \ Apply sprite gravity
-	JSL CODE_B8D5E0				;$B3A147   | Process terrain collision
+	JSL process_terrain_interaction_global	;$B3A147   | Process terrain collision
 	LDX current_sprite			;$B3A14B   | Get prize sprite
 	LDA sprite.terrain_interaction,x	;$B3A14D   | Get terrain interaction
 	AND #$0101				;$B3A14F   |
@@ -5746,7 +5752,7 @@ CODE_B3AB0A:					;	   |
 CODE_B3AB17:					;	   |
 	JSR apply_sprite_gravity		;$B3AB17   |
 	JSR CODE_B39EBE				;$B3AB1A   |
-	JSL CODE_B8D5E0				;$B3AB1D   |
+	JSL process_terrain_interaction_global	;$B3AB1D   |
 	JSL process_sprite_animation		;$B3AB21   |
 	JMP sprite_return_handle_despawn	;$B3AB25  /
 
@@ -5890,7 +5896,7 @@ CODE_B3AC3E:
 	JSR CODE_B3AE85				;$B3AC3E  \
 CODE_B3AC41:					;	   |
 	JSR apply_sprite_gravity_2		;$B3AC41   |
-	JSL CODE_B8D5E0				;$B3AC44   |
+	JSL process_terrain_interaction_global	;$B3AC44   |
 	JSL process_sprite_animation		;$B3AC48   |
 	LDX current_sprite			;$B3AC4C   |
 	LDA sprite.animation_id,x		;$B3AC4E   |
@@ -6031,7 +6037,7 @@ CODE_B3AD3E:
 
 CODE_B3AD49:
 	JSR apply_sprite_gravity_2		;$B3AD49  \
-	JSL CODE_B8D5E0				;$B3AD4C   |
+	JSL process_terrain_interaction_global	;$B3AD4C   |
 	JSL process_sprite_animation		;$B3AD50   |
 	LDY current_sprite			;$B3AD54   |
 	LDX $42,y				;$B3AD56   |
@@ -6052,7 +6058,7 @@ CODE_B3AD71:
 	LDY sprite.x_speed,x			;$B3AD76   |
 	PHA					;$B3AD78   |
 	PHY					;$B3AD79   |
-	JSL CODE_B8D5E0				;$B3AD7A   |
+	JSL process_terrain_interaction_global	;$B3AD7A   |
 	PLY					;$B3AD7E   |
 	PLA					;$B3AD7F   |
 	CMP sprite.max_x_speed,x		;$B3AD80   |
@@ -8884,7 +8890,7 @@ CODE_B3C18D:					;	   |
 CODE_B3C18F:					;	   |
 	LDA $48,x				;$B3C18F   |
 	BEQ CODE_B3C1C9				;$B3C191   |
-	JSL CODE_B8D5E0				;$B3C193   |
+	JSL process_terrain_interaction_global	;$B3C193   |
 	LDX current_sprite			;$B3C197   |
 	LDA sprite.terrain_interaction,x	;$B3C199   |
 	AND #$0001				;$B3C19B   |
@@ -11231,7 +11237,7 @@ CODE_B3D30F:					;	   |
 CODE_B3D312:
 	JSR apply_sprite_gravity		;$B3D312  \
 	JSR CODE_B39EBE				;$B3D315   |
-	JSL CODE_B8D5E0				;$B3D318   |
+	JSL process_terrain_interaction_global	;$B3D318   |
 	LDX current_sprite			;$B3D31C   |
 	LDA sprite.terrain_interaction,x	;$B3D31E   |
 	AND #$0003				;$B3D320   |
@@ -11271,7 +11277,7 @@ CODE_B3D367:
 CODE_B3D379:
 	JSR apply_sprite_gravity		;$B3D379  \
 	JSR CODE_B39EBE				;$B3D37C   |
-	JSL CODE_B8D5E0				;$B3D37F   |
+	JSL process_terrain_interaction_global	;$B3D37F   |
 	LDX current_sprite			;$B3D383   |
 	LDA #$FF7B				;$B3D385   |
 	JSR CODE_B3D44A				;$B3D388   |
@@ -11301,7 +11307,7 @@ CODE_B3D3AF:
 CODE_B3D3B7:
 	JSR apply_sprite_gravity		;$B3D3B7  \
 	JSR CODE_B39EBE				;$B3D3BA   |
-	JSL CODE_B8D5E0				;$B3D3BD   |
+	JSL process_terrain_interaction_global	;$B3D3BD   |
 	LDX current_sprite			;$B3D3C1   |
 	LDA #$0000				;$B3D3C3   |
 	JSR CODE_B3D44A				;$B3D3C6   |
@@ -11336,7 +11342,7 @@ CODE_B3D3F9:
 	LDX current_sprite			;$B3D3FF   |
 	LDA sprite.max_x_speed,x		;$B3D401   |
 	PHA					;$B3D403   |
-	JSL CODE_B8D5E0				;$B3D404   |
+	JSL process_terrain_interaction_global	;$B3D404   |
 	PLY					;$B3D408   |
 	LDX current_sprite			;$B3D409   |
 	LDA sprite.terrain_interaction,x	;$B3D40B   |
@@ -14149,10 +14155,10 @@ barrel_cannon_code:
 	BRA .CODE_B3E866			;$B3E84D  /
 
 .CODE_B3E84F
-	LDY #$012A				;$B3E84F  \
+	LDY #!special_sprite_spawn_id_012A	;$B3E84F  \
 	AND #$0001				;$B3E852   |
 	BNE .CODE_B3E866			;$B3E855   |
-	LDY #$0128				;$B3E857   |
+	LDY #!special_sprite_spawn_id_0128	;$B3E857   |
 	BRA .CODE_B3E866			;$B3E85A  /
 
 .CODE_B3E85C
@@ -14207,7 +14213,7 @@ barrel_cannon_code:
 	ASL A					;$B3E8BE   |
 	ASL A					;$B3E8BF   |
 	CLC					;$B3E8C0   |
-	ADC #$3168				;$B3E8C1   |
+	ADC #!barrel_icon_graphic_range_start	;$B3E8C1   |
 .CODE_B3E8C4					;	   |
 	STA $001A,y				;$B3E8C4   |
 	STA $0048,y				;$B3E8C7   |
@@ -14221,7 +14227,7 @@ barrel_cannon_code:
 	ASL A					;$B3E8D5   |
 	ASL A					;$B3E8D6   |
 	CLC					;$B3E8D7   |
-	ADC #$1A98				;$B3E8D8   |
+	ADC #!animal_icon_graphic_range_start	;$B3E8D8   |
 	BRA .CODE_B3E8C4			;$B3E8DB  /
 
 .state_1
@@ -14374,7 +14380,7 @@ barrel_cannon_code:
 	TAY					;$B3EA01   |
 	ASL A					;$B3EA02   |
 	CLC					;$B3EA03   |
-	ADC #!sprite_squitter			;$B3EA04   |
+	ADC #!animal_sprite_type_range_start	;$B3EA04   |
 	STA animal_type				;$B3EA07   |
 	STZ current_player_mount		;$B3EA09   |
 	PHK					;$B3EA0B   |
@@ -14946,7 +14952,7 @@ CODE_B3EE05:
 	PHA					;$B3EE0D   |
 	LDA sprite.max_y_speed,x		;$B3EE0E   |
 	PHA					;$B3EE10   |
-	JSL CODE_B8D5E0				;$B3EE11   |
+	JSL process_terrain_interaction_global	;$B3EE11   |
 	LDA #$0120				;$B3EE15   |
 	CMP sprite.y_position,x			;$B3EE18   |
 	BMI CODE_B3EE1E				;$B3EE1A   |

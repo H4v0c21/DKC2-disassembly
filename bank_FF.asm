@@ -1414,7 +1414,7 @@ DATA_FF0B5C:
 	dw !initcommand_success
 
 DATA_FF0B6E:
-	dw sprite.type, !sprite_unknown_0308
+	dw sprite.type, !sprite_animal_despawn_smoke
 	dw sprite.display_mode, $0000
 	dw !initcommand_set_palette, global_sprite_palette
 	dw !initcommand_set_animation, $01BF
