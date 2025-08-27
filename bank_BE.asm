@@ -25,8 +25,7 @@ bank_BE_sprite_main_handler:
 	dw double_zingers_sprite_code		;0022 double_zingers_main
 
 
-;sprite state handler, similar to CODE_B3A369
-CODE_BEB82A:
+sprite_state_handler_BE:
 	PHK					;$BEB82A  \
 	PLB					;$BEB82B   |
 	LDY current_sprite			;$BEB82C   |
@@ -44,64 +43,64 @@ CODE_BEB82A:
 	ASL A					;$BEB845   |
 	JMP ($0000,x)				;$BEB846  /
 
-CODE_BEB849:
+sprite_return_handle_despawn_BE:
 	JSL CODE_BBBB99				;$BEB849  \
 	JML [sprite_return_address]		;$BEB84D  /
 
 coins_sprite_code:
-	JSR CODE_BEB82A				;$BEB850  /
+	JSR sprite_state_handler_BE		;$BEB850  /
 
-DATA_BEB853:
-	dw CODE_BEB86B				;00
-	dw CODE_BEB8EF				;01
-	dw CODE_BEB94D				;02
-	dw CODE_BEB992				;03
-	dw CODE_BEB9E4				;04
-	dw CODE_BEB8EF				;05
-	dw CODE_BEBA2C				;06
-	dw CODE_BEBA39				;07
-	dw CODE_BEBA3C				;08
-	dw CODE_BEBA57				;09
-	dw CODE_BEBA5A				;0A
-	dw CODE_BEBA7D				;0B
+.state_table:
+	dw .idle				;00
+	dw .moving_to_hud			;01
+	dw .in_hud				;02
+	dw .spawn_in_bonus			;03
+	dw .idle_bonus_or_boss			;04
+	dw .moving_to_hud			;05
+	dw .in_hud_bonus_or_boss		;06
+	dw .return_state_no_despawn		;07
+	dw .dk_coin_spawn			;08
+	dw .return_state			;09
+	dw .spawn_from_kremcoin_cheat		;0A
+	dw .idle_kremcoin_cheat			;0B
 
 
-CODE_BEB86B:
-	JSL process_sprite_animation		;$BEB86B  \
-	JSL CODE_BCFB58				;$BEB86F   |
-	JSL CODE_BEBE6D				;$BEB873   |
-	BCS CODE_BEB87C				;$BEB877   |
-	JMP CODE_BEB849				;$BEB879  /
+.idle:
+	JSL process_sprite_animation		;$BEB86B  \ Process animation
+	JSL CODE_BCFB58				;$BEB86F   | Populate sprite clipping
+	JSL CODE_BEBE6D				;$BEB873   | Check simple player collision
+	BCS .collect_coin			;$BEB877   |
+	JMP sprite_return_handle_despawn_BE	;$BEB879  / Return
 
-CODE_BEB87C:
-	LDA #$0064				;$BEB87C  \
+.collect_coin:
+	LDA #$0064				;$BEB87C  \ Load default max hud coin count (99)
 	LDX current_sprite			;$BEB87F   |
-	LDY $4C,x				;$BEB881   |
+	LDY $4C,x				;$BEB881   | Get coin currency type (translates to RAM address)
 	CPY #$08CC				;$BEB883   |
-	BCC CODE_BEB898				;$BEB886   |
-	BNE CODE_BEB88F				;$BEB888   |
-	LDA #$004C				;$BEB88A   |
-	BRA CODE_BEB898				;$BEB88D  /
+	BCC ..update_coin_counter		;$BEB886   |
+	BNE ..is_dk_coin			;$BEB888   | If not banana nor kremcoin, its a DK coin
+	LDA #$004C				;$BEB88A   | Else get max hud coin count for kremcoin (75)
+	BRA ..update_coin_counter		;$BEB88D  /
 
-CODE_BEB88F:
-	JSL set_current_level_dk_coin_collected	;$BEB88F  \
-	LDX current_sprite			;$BEB893   |
-	LDA #$0064				;$BEB895   |
-CODE_BEB898:					;	   |
-	STA $32					;$BEB898   | store the maximum coins the counter can hold
+..is_dk_coin:
+	JSL set_current_level_dk_coin_collected	;$BEB88F  \ Set this level's DK coin as collected
+	LDX current_sprite			;$BEB893   | Get coin sprite
+	LDA #$0064				;$BEB895   | Load default max hud coin count (99)
+..update_coin_counter:				;	   |
+	STA temp_32				;$BEB898   | store the maximum coins the counter can hold
 	LDA $0000,y				;$BEB89A   | get coin count (Y is the address of the current coin count, this is used for all coin types)
 	STA CPU.dividen				;$BEB89D   |
 	CLC					;$BEB8A0   |\ add coins to coin count (the amount is stored in sprite variable $42)
 	ADC $42,x				;$BEB8A1   |/
-	CMP $32					;$BEB8A3   |\ check if coin count exceeds maximum
-	BCC CODE_BEB8B2				;$BEB8A5   |/ if not add the coins to the total
-	LDA $32					;$BEB8A7   |\ get max coin count
+	CMP temp_32				;$BEB8A3   |\ check if coin count exceeds maximum
+	BCC ..CODE_BEB8B2			;$BEB8A5   |/ if not add the coins to the total
+	LDA temp_32				;$BEB8A7   |\ get max coin count
 	DEC A					;$BEB8A9   | | subtract away all the coins to give
 	SBC $0000,y				;$BEB8AA   | | this ensures we end up with 0 in the sprite variable
 	STA $42,x				;$BEB8AD   |/ set coins to give to 0
-	LDA $32					;$BEB8AF   |\ get maximum coins
+	LDA temp_32				;$BEB8AF   |\ get maximum coins
 	DEC A					;$BEB8B1   | | - 1
-CODE_BEB8B2:					;	   | |
+..CODE_BEB8B2:					;	   | |
 	STA $0000,y				;$BEB8B2   |/ update coin count
 	SEP #$20				;$BEB8B5   |
 	LDA #$0A				;$BEB8B7   |
@@ -128,42 +127,42 @@ CODE_BEB8B2:					;	   | |
 	JSL queue_sound_effect			;$BEB8E8   |/ play the sound
 	JML [sprite_return_address]		;$BEB8EC  / return from sprite code
 
-CODE_BEB8EF:
-	JSL process_sprite_animation		;$BEB8EF  \
-	LDX current_sprite			;$BEB8F3   |
-	LDA $097D				;$BEB8F5   |
-	BNE CODE_BEB8FD				;$BEB8F8   |
-	STX $097D				;$BEB8FA   |
-CODE_BEB8FD:					;	   |
+.moving_to_hud:
+	JSL process_sprite_animation		;$BEB8EF  \ Process animation
+	LDX current_sprite			;$BEB8F3   | Get coin sprite
+	LDA $097D				;$BEB8F5   | Check if index of self already exists
+	BNE ..dont_store_index			;$BEB8F8   | If yes, don't store it
+	STX $097D				;$BEB8FA   | Else store index of self
+..dont_store_index:				;	   |
 	LDA $44,x				;$BEB8FD   |
 	CLC					;$BEB8FF   |
 	ADC #$0200				;$BEB900   |
-	BMI CODE_BEB90B				;$BEB903   |
+	BMI ..CODE_BEB90B			;$BEB903   |
 	CMP $48,x				;$BEB905   |
-	BCC CODE_BEB90B				;$BEB907   |
+	BCC ..CODE_BEB90B			;$BEB907   |
 	LDA $48,x				;$BEB909   |
-CODE_BEB90B:					;	   |
+..CODE_BEB90B:					;	   |
 	STA $44,x				;$BEB90B   |
 	JSL move_sprite_to_target_hud_position	;$BEB90D   |
-	BPL CODE_BEB94A				;$BEB911   |
-	LDX current_sprite			;$BEB913   |
-	STX $097D				;$BEB915   |
+	BPL ..return				;$BEB911   |
+	LDX current_sprite			;$BEB913   | Get coin sprite
+	STX $097D				;$BEB915   | Store index of self
 	LDA $48,x				;$BEB918   |
 	CMP $44,x				;$BEB91A   |
-	BNE CODE_BEB94A				;$BEB91C   |
+	BNE ..return				;$BEB91C   |
 	LDA active_frame_counter		;$BEB91E   |
 	AND #$0007				;$BEB920   |
-	BNE CODE_BEB94A				;$BEB923   |
+	BNE ..return				;$BEB923   |
 	DEC $42,x				;$BEB925   |
-	BMI CODE_BEB948				;$BEB927   |
-	BEQ CODE_BEB933				;$BEB929   |
-	LDA $4E,x				;$BEB92B   |
-	JSL queue_sound_effect			;$BEB92D   |
+	BMI ..CODE_BEB948			;$BEB927   |
+	BEQ ..CODE_BEB933			;$BEB929   |
+	LDA $4E,x				;$BEB92B   | Get coin collection sound
+	JSL queue_sound_effect			;$BEB92D   | Get coin sprite
 	LDX current_sprite			;$BEB931   |
-CODE_BEB933:					;	   |
+..CODE_BEB933:					;	   |
 	LDA $46,x				;$BEB933   |
 	CMP #$0909				;$BEB935   |
-	BEQ CODE_BEB948				;$BEB938   |
+	BEQ ..CODE_BEB948			;$BEB938   |
 	SED					;$BEB93A   |
 	CLC					;$BEB93B   |
 	ADC #$0091				;$BEB93C   |
@@ -172,49 +171,49 @@ CODE_BEB933:					;	   |
 	STA $46,x				;$BEB943   |
 	JML [sprite_return_address]		;$BEB945  /
 
-CODE_BEB948:
+..CODE_BEB948:
 	INC $2E,x				;$BEB948  \
-CODE_BEB94A:					;	   |
+..return:					;	   |
 	JML [sprite_return_address]		;$BEB94A  /
 
-CODE_BEB94D:
+.in_hud:
 	TYX					;$BEB94D  \
 	DEC $5C,x				;$BEB94E   |
-	BPL CODE_BEB984				;$BEB950   |
+	BPL ..CODE_BEB984			;$BEB950   |
 	DEC $0A,x				;$BEB952   |
 	DEC $0A,x				;$BEB954   |
 	SEP #$20				;$BEB956   |
 	CLC					;$BEB958   |
 	DEC $45,x				;$BEB959   |
 	DEC $45,x				;$BEB95B   |
-	BPL CODE_BEB967				;$BEB95D   |
+	BPL ..CODE_BEB967			;$BEB95D   |
 	LDA #$F0				;$BEB95F   |
 	CMP $45,x				;$BEB961   |
-	BCC CODE_BEB967				;$BEB963   |
+	BCC ..CODE_BEB967			;$BEB963   |
 	STA $45,x				;$BEB965   |
-CODE_BEB967:					;	   |
+..CODE_BEB967:					;	   |
 	REP #$20				;$BEB967   |
-	BCC CODE_BEB984				;$BEB969   |
+	BCC ..CODE_BEB984			;$BEB969   |
 	SEP #$20				;$BEB96B   |
 	LDA $51,x				;$BEB96D   |
 	CMP $0A,x				;$BEB96F   |
 	REP #$20				;$BEB971   |
-	BNE CODE_BEB984				;$BEB973   |
+	BNE ..CODE_BEB984			;$BEB973   |
 	CPX $097D				;$BEB975   |
-	BNE CODE_BEB97D				;$BEB978   |
-	STZ $097D				;$BEB97A   |
-CODE_BEB97D:					;	   |
+	BNE ..CODE_BEB97D			;$BEB978   |
+	STZ $097D				;$BEB97A   | Clear index to self
+..CODE_BEB97D:					;	   |
 	JSL delete_sprite_handle_deallocation	;$BEB97D   |
 	JML [sprite_return_address]		;$BEB981  /
 
-CODE_BEB984:
+..CODE_BEB984:
 	LDX current_sprite			;$BEB984  \
 	CPX $097D				;$BEB986   |
-	BNE CODE_BEB97D				;$BEB989   |
+	BNE ..CODE_BEB97D			;$BEB989   |
 	JSL process_sprite_animation		;$BEB98B   |
 	JML [sprite_return_address]		;$BEB98F  /
 
-CODE_BEB992:
+.spawn_in_bonus:
 if !version == 1				;	  \
 	LDA $052D				;$BEB992   |
 	AND #$00FF				;$BEB995   |
@@ -229,89 +228,89 @@ endif						;	   |
 	JSL queue_sound_effect			;$BEB9AE   |/
 .no_sound_effect				;	   |
 	JSL is_current_krem_coin_collected	;$BEB9B2   |
-	BCC CODE_BEB9D6				;$BEB9B6   |
+	BCC ..CODE_BEB9D6			;$BEB9B6   |
 	LDX current_sprite			;$BEB9B8   |
 	LDA $36,x				;$BEB9BA   |
 	CMP #$01C3				;$BEB9BC   |
-	BNE CODE_BEB9C6				;$BEB9BF   |
+	BNE ..CODE_BEB9C6			;$BEB9BF   |
 	LDA #$01C5				;$BEB9C1   |
-	BRA CODE_BEB9C9				;$BEB9C4  /
+	BRA ..CODE_BEB9C9			;$BEB9C4  /
 
-CODE_BEB9C6:
+..CODE_BEB9C6:
 	LDA #$01C4				;$BEB9C6  \
-CODE_BEB9C9:					;	   |
+..CODE_BEB9C9:					;	   |
 	JSL set_sprite_animation		;$BEB9C9   |
 	LDX current_sprite			;$BEB9CD   |
 	LDA #!coins_2_sprite_palette		;$BEB9CF   |
 	JSL set_sprite_palette_global		;$BEB9D2   |
-CODE_BEB9D6:					;	   |
+..CODE_BEB9D6:					;	   |
 	LDY #!special_sprite_spawn_id_00CE	;$BEB9D6   |
 	JSL spawn_special_sprite_index		;$BEB9D9   |
 	LDX current_sprite			;$BEB9DD   |
 	INC $2E,x				;$BEB9DF   |
 	JML [sprite_return_address]		;$BEB9E1  /
 
-CODE_BEB9E4:
+.idle_bonus_or_boss:
 	JSL process_sprite_animation		;$BEB9E4  \
 	JSL CODE_BCFB58				;$BEB9E8   |
 	JSL CODE_BEBE6D				;$BEB9EC   |
-	BCS CODE_BEB9F5				;$BEB9F0   |
-CODE_BEB9F2:					;	   |
+	BCS ..CODE_BEB9F5			;$BEB9F0   |
+..return:					;	   |
 	JML [sprite_return_address]		;$BEB9F2  /
 
-CODE_BEB9F5:
+..CODE_BEB9F5:
 	LDX $6A					;$BEB9F5  \
-	CPX inactive_kong_sprite		;$BEB9F7   |
-	BEQ CODE_BEB9F2				;$BEB9FA   |
+	CPX inactive_kong_sprite		;$BEB9F7   | Redundant check?
+	BEQ ..return				;$BEB9FA   |
 	LDA #$0200				;$BEB9FC   |
 	JSL CODE_BEBE4D				;$BEB9FF   |
-	BCS CODE_BEB9F2				;$BEBA03   |
+	BCS ..return				;$BEBA03   |
 	JSL set_this_level_krem_coin_collected	;$BEBA05   |
 	JSL calculate_completion_percentage	;$BEBA09   |
 	LDA #$0002				;$BEBA0D   |
 	TSB $08C4				;$BEBA10   |
 	LDX current_sprite			;$BEBA13   |
-	LDA $36,x				;$BEBA15   |
-	CMP #$01C4				;$BEBA17   |
-	BEQ CODE_BEBA24				;$BEBA1A   |
-	CMP #$01C5				;$BEBA1C   |
-	BEQ CODE_BEBA24				;$BEBA1F   |
-	JMP CODE_BEB87C				;$BEBA21  /
+	LDA $36,x				;$BEBA15   | Get animation ID
+	CMP #$01C4				;$BEBA17   | Check if its kremcoin_collected
+	BEQ ..CODE_BEBA24			;$BEBA1A   |
+	CMP #$01C5				;$BEBA1C   | Else check if its dk_coin_collected
+	BEQ ..CODE_BEBA24			;$BEBA1F   |
+	JMP .collect_coin			;$BEBA21  /
 
-CODE_BEBA24:
+..CODE_BEBA24:
 	LDA #$0007				;$BEBA24  \
 	STA $2E,x				;$BEBA27   |
 	JML [sprite_return_address]		;$BEBA29  /
 
-CODE_BEBA2C:
+.in_hud_bonus_or_boss:
 	LDA $5C,x				;$BEBA2C  \
-	BPL CODE_BEBA36				;$BEBA2E   |
+	BPL ..CODE_BEBA36			;$BEBA2E   |
 	LDA #$0002				;$BEBA30   |
 	TSB $08C4				;$BEBA33   |
-CODE_BEBA36:					;	   |
-	JMP CODE_BEB94D				;$BEBA36  /
+..CODE_BEBA36:					;	   |
+	JMP .in_hud				;$BEBA36  /
 
-CODE_BEBA39:
+.return_state_no_despawn:
 	JML [sprite_return_address]		;$BEBA39  /
 
-CODE_BEBA3C:
+.dk_coin_spawn:
 	JSL is_current_level_dk_coin_collected	;$BEBA3C  \
-	BCC CODE_BEBA50				;$BEBA40   |
+	BCC ..not_collected			;$BEBA40   |
 	LDA #$01C5				;$BEBA42   |
 	JSL set_sprite_animation		;$BEBA45   |
 	LDX current_sprite			;$BEBA49   |
 	INC $2E,x				;$BEBA4B   |
 	JML [sprite_return_address]		;$BEBA4D  /
 
-CODE_BEBA50:
+..not_collected:
 	LDX current_sprite			;$BEBA50  \
 	STZ $2E,x				;$BEBA52   |
 	JML [sprite_return_address]		;$BEBA54  /
 
-CODE_BEBA57:
-	JMP CODE_BEB849				;$BEBA57  /
+.return_state:
+	JMP sprite_return_handle_despawn_BE	;$BEBA57  /
 
-CODE_BEBA5A:
+.spawn_from_kremcoin_cheat:
 	LDA #$0621				;$BEBA5A  \
 	JSL queue_sound_effect			;$BEBA5D   |
 	LDA #$0522				;$BEBA61   |
@@ -324,17 +323,17 @@ CODE_BEBA5A:
 	INC $2E,x				;$BEBA78   |
 	JML [sprite_return_address]		;$BEBA7A  /
 
-CODE_BEBA7D:
+.idle_kremcoin_cheat:
 	JSL process_sprite_animation		;$BEBA7D  \
 	JSL CODE_BCFB58				;$BEBA81   |
 	JSL CODE_BEBE6D				;$BEBA85   |
-	BCC CODE_BEBA96				;$BEBA89   |
+	BCC ..return				;$BEBA89   |
 	LDA #$004B				;$BEBA8B   |
 	STA $08B8				;$BEBA8E   |
 	STZ $2E,x				;$BEBA91   |
-	BRL CODE_BEB87C				;$BEBA93  /
+	BRL .collect_coin			;$BEBA93  /
 
-CODE_BEBA96:
+..return:
 	JML [sprite_return_address]		;$BEBA96  /
 
 ;Kong letter sprite variables
@@ -342,7 +341,7 @@ CODE_BEBA96:
 
 
 kong_letter_sprite_code:
-	JSR CODE_BEB82A				;$BEBA99  /
+	JSR sprite_state_handler_BE		;$BEBA99  /
 
 DATA_BEBA9C:
 	dw CODE_BEBAAA
@@ -365,7 +364,7 @@ CODE_BEBAB9:
 	JSL CODE_BCFB58				;$BEBABD   |
 	JSL CODE_BEBE6D				;$BEBAC1   |
 	BCS CODE_BEBACA				;$BEBAC5   |
-	JMP CODE_BEB849				;$BEBAC7  /
+	JMP sprite_return_handle_despawn_BE	;$BEBAC7  /
 
 CODE_BEBACA:
 	LDA $12,x				;$BEBACA  \
@@ -2735,7 +2734,7 @@ haunted_hall_door_sprite_code:
 	JML [sprite_return_address]		;$BECBB2  /
 
 CODE_BECBB5:
-	JSR CODE_BEB82A				;$BECBB5  /
+	JSR sprite_state_handler_BE		;$BECBB5  /
 
 DATA_BECBB8:
 	dw CODE_BECBBE
@@ -2755,7 +2754,7 @@ DATA_BECBC2:
 	dw CODE_BECCB1
 
 CODE_BECBCE:
-	JMP CODE_BEB849				;$BECBCE  \
+	JMP sprite_return_handle_despawn_BE	;$BECBCE  \
 CODE_BECBD1:					;	   |
 	TYX					;$BECBD1   |
 	LDY $44,x				;$BECBD2   |
@@ -2976,7 +2975,7 @@ CODE_BECD58:					;	   |
 CODE_BECD71:
 	BCS CODE_BECDAD				;$BECD71  \
 	JSL process_sprite_animation		;$BECD73   |
-	JMP CODE_BEB849				;$BECD77  /
+	JMP sprite_return_handle_despawn_BE	;$BECD77  /
 
 CODE_BECD7A:
 	LDA #$041A				;$BECD7A  \
@@ -2999,7 +2998,7 @@ CODE_BECD7A:
 	LDA #!player_interaction_21		;$BECDA1   |
 	JSL set_player_interaction_global	;$BECDA4   |
 	BCC CODE_BECDB3				;$BECDA8   |
-	JMP CODE_BEB849				;$BECDAA  /
+	JMP sprite_return_handle_despawn_BE	;$BECDAA  /
 
 CODE_BECDAD:
 	JSL CODE_BEC452				;$BECDAD  \
@@ -3009,7 +3008,7 @@ CODE_BECDB3:					;	   |
 	LDA #$0402				;$BECDB5   |
 	STA $2E,x				;$BECDB8   |
 CODE_BECDBA:					;	   |
-	JMP CODE_BEB849				;$BECDBA  /
+	JMP sprite_return_handle_despawn_BE	;$BECDBA  /
 
 CODE_BECDBD:
 	LDA $0044,y				;$BECDBD  \
@@ -3023,16 +3022,16 @@ CODE_BECDBD:
 	CLC					;$BECDD2   |
 	ADC #$0004				;$BECDD3   |
 	STA $0044,y				;$BECDD6   |
-	JMP CODE_BEB849				;$BECDD9  /
+	JMP sprite_return_handle_despawn_BE	;$BECDD9  /
 
 CODE_BECDDC:
 	TYX					;$BECDDC  \
 	INC $2F,x				;$BECDDD   |
 CODE_BECDDF:					;	   |
-	JMP CODE_BEB849				;$BECDDF  /
+	JMP sprite_return_handle_despawn_BE	;$BECDDF  /
 
 gate_barrel_sprite_code:
-	JSR CODE_BEB82A				;$BECDE2  \
+	JSR sprite_state_handler_BE		;$BECDE2  \
 	
 .state_table:
 	dw .state_0
@@ -3057,7 +3056,7 @@ gate_barrel_sprite_code:
 	JSL CODE_BEBE6D				;$BECE0E   |
 	BCS ..collision_happened		;$BECE12   |
 	JSL process_sprite_animation		;$BECE14   |
-	JMP CODE_BEB849				;$BECE18  /
+	JMP sprite_return_handle_despawn_BE	;$BECE18  /
 
 ..collision_happened:
 	INC $2E,x				;$BECE1B  \
@@ -3117,7 +3116,7 @@ CODE_BECE7E:
 	RTS					;$BECE8C  /
 
 skull_cart_sparks_sprite_code:
-	JSR CODE_BEB82A				;$BECE8D  /
+	JSR sprite_state_handler_BE		;$BECE8D  /
 
 .state_table:
 	dw .state_0
@@ -3236,7 +3235,7 @@ CODE_BECF91:					;	   |
 	JML [sprite_return_address]		;$BECF91  /
 
 CODE_BECF94:
-	JSR CODE_BEB82A				;$BECF94  /
+	JSR sprite_state_handler_BE		;$BECF94  /
 
 DATA_BECF97:
 	dw CODE_BECFA3
@@ -4319,7 +4318,7 @@ CODE_BED794:
 	JML [sprite_return_address]		;$BED7A2  /
 
 CODE_BED7A5:
-	JMP CODE_BEB849				;$BED7A5  /
+	JMP sprite_return_handle_despawn_BE	;$BED7A5  /
 
 CODE_BED7A8:
 	LDX current_sprite			;$BED7A8  \
@@ -4338,7 +4337,7 @@ CODE_BED7C1:					;	   |
 	JML [sprite_return_address]		;$BED7C1  /
 
 CODE_BED7C4:
-	JMP CODE_BEB849				;$BED7C4  /
+	JMP sprite_return_handle_despawn_BE	;$BED7C4  /
 
 CODE_BED7C7:
 	STA $2E,x				;$BED7C7  \
@@ -5520,7 +5519,7 @@ kackle_sprite_code:
 	JML [sprite_return_address]		;$BEE093  /
 
 CODE_BEE096:
-	JSR CODE_BEB82A				;$BEE096  /
+	JSR sprite_state_handler_BE		;$BEE096  /
 
 DATA_BEE099:
 	dw CODE_BEE0A9
@@ -6924,7 +6923,7 @@ racing_flag_sprite_code:
 
 double_zingers_sprite_code:
 	INC zinger_loop_sound_enabler		;$BEEA7F  \
-	JSR CODE_BEB82A				;$BEEA82  /
+	JSR sprite_state_handler_BE		;$BEEA82  /
 
 DATA_BEEA85:
 	dw CODE_BEEA9B
@@ -6935,7 +6934,7 @@ DATA_BEEA85:
 
 chasing_king_zing_sprite_code:
 	INC zinger_loop_sound_enabler		;$BEEA8D  \
-	JSR CODE_BEB82A				;$BEEA90  /
+	JSR sprite_state_handler_BE		;$BEEA90  /
 
 DATA_BEEA93:
 	dw CODE_BEEA9B
@@ -6954,7 +6953,7 @@ CODE_BEEA9B:
 
 CODE_BEEAAA:
 	JSR CODE_BEEABF				;$BEEAAA  \
-	JMP CODE_BEB849				;$BEEAAD  /
+	JMP sprite_return_handle_despawn_BE	;$BEEAAD  /
 
 CODE_BEEAB0:
 	JSR CODE_BEEABF				;$BEEAB0  \
@@ -6990,7 +6989,7 @@ CODE_BEEAE0:
 	ADC #$0010				;$BEEAEC   |
 	CMP #$0120				;$BEEAEF   |
 	BCC CODE_BEEB19				;$BEEAF2   |
-	JMP CODE_BEB849				;$BEEAF4  /
+	JMP sprite_return_handle_despawn_BE	;$BEEAF4  /
 
 CODE_BEEAF7:
 	JSR CODE_BEEB1C				;$BEEAF7  \
@@ -7024,7 +7023,7 @@ CODE_BEEB34:
 	JSR CODE_BEEB42				;$BEEB34  \
 	JSL process_sprite_animation		;$BEEB37   |
 	JSL process_current_movement		;$BEEB3B   |
-	JMP CODE_BEB849				;$BEEB3F  /
+	JMP sprite_return_handle_despawn_BE	;$BEEB3F  /
 
 CODE_BEEB42:
 	JSL CODE_BCFB58				;$BEEB42  \
@@ -7033,7 +7032,7 @@ CODE_BEEB42:
 	RTS					;$BEEB4D  /
 
 screech_sprite_code:
-	JSR CODE_BEB82A				;$BEEB4E  /
+	JSR sprite_state_handler_BE		;$BEEB4E  /
 
 DATA_BEEB50:
 	dw CODE_BEEB63
@@ -7126,7 +7125,7 @@ CODE_BEEBFA:					;	   |
 CODE_BEEC05:
 	JSL process_sprite_animation		;$BEEC05  \
 	JSL process_current_movement		;$BEEC09   |
-	JMP CODE_BEB849				;$BEEC0D  /
+	JMP sprite_return_handle_despawn_BE	;$BEEC0D  /
 
 CODE_BEEC10:
 	LDY #!special_sprite_spawn_id_00FA	;$BEEC10  \
@@ -7473,7 +7472,7 @@ camera_unlock_trigger_sprite_code:
 	LDA.l $7E9128,x				;$BEEE8F   |
 	ORA #$0080				;$BEEE93   |
 	STA $7E9128,x				;$BEEE96   |
-	JMP CODE_BEB849				;$BEEE9A  /
+	JMP sprite_return_handle_despawn_BE	;$BEEE9A  /
 
 .CODE_BEEE9D:
 	TXY					;$BEEE9D  \
@@ -8893,7 +8892,7 @@ CODE_BEF7BC:
 	LDA $0D4E				;$BEF7BC  \ \
 	BPL .level_has_water			;$BEF7BF   |/ Branch if the level has water
 .not_submerged					;	   |
-	JSL CODE_B8D5E0				;$BEF7C1   |
+	JSL process_terrain_interaction_global	;$BEF7C1   |
 	RTS					;$BEF7C5  /
 
 .level_has_water
@@ -8912,7 +8911,7 @@ CODE_BEF7BC:
 	ROR $24,x				;$BEF7DB   | |
 	ASL A					;$BEF7DD   | |
 	ROR $24,x				;$BEF7DE   |/
-	JSL CODE_B8D5E0				;$BEF7E0   |
+	JSL process_terrain_interaction_global	;$BEF7E0   |
 	LDX current_sprite			;$BEF7E4   |
 	ASL $20,x				;$BEF7E6   |
 	ASL $20,x				;$BEF7E8   |
@@ -9332,7 +9331,7 @@ CODE_BEFAE6:
 	STA $0DAE				;$BEFAEF   |
 	JSR handle_sprite_left_right		;$BEFAF2   |
 	JSR handle_sprite_up_down		;$BEFAF5   |
-	JSL CODE_B8D5E0				;$BEFAF8   |
+	JSL process_terrain_interaction_global	;$BEFAF8   |
 	LDX current_sprite			;$BEFAFC   |
 	LDA $26,x				;$BEFAFE   |
 	BNE CODE_BEFB08				;$BEFB00   |
@@ -9363,7 +9362,7 @@ CODE_BEFB22:
 	PHA					;$BEFB28   |
 	STZ $20,x				;$BEFB29   |
 	JSR handle_sprite_up_down		;$BEFB2B   |
-	JSL CODE_B8D5E0				;$BEFB2E   |
+	JSL process_terrain_interaction_global	;$BEFB2E   |
 	LDX current_sprite			;$BEFB32   |
 	PLA					;$BEFB34   |
 	STA $20,x				;$BEFB35   |

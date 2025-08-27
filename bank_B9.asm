@@ -2956,7 +2956,7 @@ CODE_B9E200:					;	   |
 CODE_B9E20F:
 	LDX current_sprite			;$B9E20F  \
 	LDA #$000C				;$B9E211   |
-	JSL CODE_B8D1FB				;$B9E214   |
+	JSL disable_enemy_damage_global		;$B9E214   |
 	RTS					;$B9E218  /
 
 ;Rambi attack related, possible special hitbox injection
@@ -3150,7 +3150,7 @@ CODE_B9E354:
 
 CODE_B9E357:
 	LDA #$0011				;$B9E357  \
-	JSL CODE_B8D1FB				;$B9E35A   |
+	JSL disable_enemy_damage_global		;$B9E35A   |
 	RTS					;$B9E35E  /
 
 CODE_B9E35F:

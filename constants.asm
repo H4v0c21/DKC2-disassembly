@@ -1984,7 +1984,7 @@
 !level_layout_0D		= $0D
 
 !sprite_null_sprite			= $0000
-!sprite_unknown_0004			= $0004
+!sprite_crocodile_isle_props		= $0004
 !sprite_map_player			= $0008
 !sprite_rock				= $000C
 !sprite_squawks_egg			= $0010
@@ -2177,7 +2177,7 @@
 !sprite_gate_barrel			= $02FC
 !sprite_haunted_hall_timer_handler	= $0300
 !sprite_clapper				= $0304
-!sprite_unknown_0308			= $0308
+!sprite_animal_despawn_smoke		= $0308
 !sprite_screech				= $030C
 !sprite_racing_flag			= $0310
 !sprite_credits_dummy			= $0314
@@ -2848,6 +2848,13 @@
 !player_interaction_2B			= $002B
 !player_interaction_2C			= $002C
 !player_interaction_2D			= $002D
+
+
+!animal_icon_graphic_range_start	= $1A98
+!animal_icon_graphic_range_end		= $1AA8
+
+!barrel_icon_graphic_range_start	= $3168
+!barrel_icon_graphic_range_end		= $3178
 
 !unknown_camera_effect			= $0001 ;camera related
 !door_occlusion_effect			= $0002 ;enable sprite render order priority change when using an exit wall (used to obscure kongs when going through doors)

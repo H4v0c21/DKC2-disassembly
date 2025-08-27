@@ -727,7 +727,7 @@ DATA_FF047E:
 	dw DATA_FF1122		;0044 barrel icon (barrel palette)
 	dw DATA_FF1142		;0046 barrel icon (global palette)
 	dw DATA_FF1210		;0048 smoke
-	dw DATA_FF122C		;004A smoke (faster animation speed)
+	dw DATA_FF122C		;004A smoke (has Y speed and faster animation speed)
 	dw DATA_FF124C		;004C water splash
 	dw DATA_FF1278		;004E dust left?
 	dw DATA_FF1290		;0050 dust right?
@@ -1414,7 +1414,7 @@ DATA_FF0B5C:
 	dw !initcommand_success
 
 DATA_FF0B6E:
-	dw sprite.type, !sprite_unknown_0308
+	dw sprite.type, !sprite_animal_despawn_smoke
 	dw sprite.display_mode, $0000
 	dw !initcommand_set_palette, global_sprite_palette
 	dw !initcommand_set_animation, $01BF

@@ -4009,7 +4009,7 @@ namespace off					;	   |
 .copy_player_1					;	   |
 	%pea_use_dbr(sram_file_buffer)		;$80A64C   |\ Swap out dbr to access full wram
 	PLB					;$80A64F   |/
-	LDY.w #sizeof(subfile)-2			;$80A650   | Load subfile length
+	LDY.w #sizeof(subfile)-2		;$80A650   | Load subfile length
 .copy_sram					;	   |
 	LDA.w sram_file_buffer,y		;$80A653   |\ Simple copy loop from the SRAM buffer to actual SRAM
 	STA [.sram_pointer],y			;$80A656   | |

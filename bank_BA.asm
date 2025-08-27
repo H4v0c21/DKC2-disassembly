@@ -1232,7 +1232,7 @@ king_zing_spikes_sprite_code:
 	BRA .CODE_BA9ACD			;$BA9AC7  /
 
 .CODE_BA9AC9:
-	JSL CODE_B8D5E0				;$BA9AC9  \
+	JSL process_terrain_interaction_global	;$BA9AC9  \
 .CODE_BA9ACD:					;	   |
 	LDX current_sprite			;$BA9ACD   |
 	LDA $1E,x				;$BA9ACF   |

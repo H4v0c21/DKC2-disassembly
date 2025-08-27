@@ -1746,7 +1746,7 @@ DATA_B88E0B:
 CODE_B88E15:
 	LDA animal_type				;$B88E15  \
 	SEC					;$B88E17   |
-	SBC #!sprite_squitter			;$B88E18   |
+	SBC #!animal_sprite_type_range_start	;$B88E18   |
 	LSR A					;$B88E1B   |
 	TAX					;$B88E1C   |
 	LDA.l DATA_B88E0B,x			;$B88E1D   |
@@ -1883,7 +1883,7 @@ CODE_B88F14:
 	STY $32					;$B88F17   |
 	LDA animal_type				;$B88F19   |
 	SEC					;$B88F1B   |
-	SBC #!sprite_squitter			;$B88F1C   |
+	SBC #!animal_sprite_type_range_start	;$B88F1C   |
 	LSR A					;$B88F1F   |
 	AND #$00FE				;$B88F20   |
 	CLC					;$B88F23   |
@@ -2122,7 +2122,7 @@ CODE_B8910A:					;	   |
 	STA $42,x				;$B89114   |
 	LDA animal_type				;$B89116   |
 	SEC					;$B89118   |
-	SBC #!sprite_squitter			;$B89119   |
+	SBC #!animal_sprite_type_range_start	;$B89119   |
 	LSR A					;$B8911C   |
 	AND #$00FE				;$B8911D   |
 	TAY					;$B89120   |
@@ -2488,7 +2488,7 @@ CODE_B893DF:
 	JSR work_on_active_kong			;$B893E6   |
 	LDA animal_type				;$B893E9   |
 	SEC					;$B893EB   |
-	SBC #!sprite_squitter			;$B893EC   |
+	SBC #!animal_sprite_type_range_start	;$B893EC   |
 	AND #$001C				;$B893EF   |
 	TAY					;$B893F2   |
 	TAX					;$B893F3   |
@@ -3028,7 +3028,7 @@ CODE_B89908:					;	   |
 	LDA $24,x				;$B8990A   |
 	PHA					;$B8990C   |
 	PHX					;$B8990D   |
-	JSR CODE_B8D5E6				;$B8990E   |
+	JSR process_terrain_interaction		;$B8990E   |
 	PLX					;$B89911   |
 	PLY					;$B89912   |
 	LDA $1E,x				;$B89913   |
@@ -3054,7 +3054,7 @@ CODE_B89933:
 	LDA [current_sprite_constants],y	;$B89939   |
 	JSR interpolate_x_velocity		;$B8993B   |
 	JSR handle_slope_sliding_velocity	;$B8993E   |
-	JSR CODE_B8D5E6				;$B89941   |
+	JSR process_terrain_interaction		;$B89941   |
 	JSR update_damaged_invincibility	;$B89944   |
 	JSL process_sprite_animation		;$B89947   |
 	RTS					;$B8994B  /
@@ -3067,7 +3067,7 @@ CODE_B8994F:					;	   |
 	JSR interpolate_x_velocity		;$B89954   |
 CODE_B89957:					;	   |
 	JSR handle_slope_sliding_velocity	;$B89957   |
-	JSR CODE_B8D5E6				;$B8995A   |
+	JSR process_terrain_interaction		;$B8995A   |
 	JSR record_highest_y_position		;$B8995D   |
 CODE_B89960:					;	   |
 	JSR prevent_sprite_from_leaving_level_x	;$B89960   |
@@ -3249,7 +3249,7 @@ kong_state_07:
 kong_state_08:
 	LDA #$0006				;$B89A92  \
 	JSR process_player_action		;$B89A95   |
-	JSR CODE_B8D5E6				;$B89A98   |
+	JSR process_terrain_interaction		;$B89A98   |
 	JSL process_sprite_animation		;$B89A9B   |
 	JMP CODE_B8996E				;$B89A9F  /
 
@@ -3345,7 +3345,7 @@ CODE_B89B49:
 	BPL .CODE_B89B9B			;$B89B59   |
 	LDA animal_type				;$B89B5B   |
 	SEC					;$B89B5D   |
-	SBC #!sprite_squitter			;$B89B5E   |
+	SBC #!animal_sprite_type_range_start	;$B89B5E   |
 	LSR A					;$B89B61   |
 	TAX					;$B89B62   |
 	LDA.l .DATA_B89B81,x			;$B89B63   |
@@ -3474,7 +3474,7 @@ CODE_B89C4C:
 	LDA [current_sprite_constants],y	;$B89C52   |
 	JSR interpolate_x_velocity		;$B89C54   |
 	JSR handle_slope_sliding_velocity	;$B89C57   |
-	JSR CODE_B8D5E6				;$B89C5A   |
+	JSR process_terrain_interaction		;$B89C5A   |
 	JSR record_highest_y_position		;$B89C5D   |
 	RTS					;$B89C60  /
 
@@ -3759,7 +3759,7 @@ CODE_B89E51:
 CODE_B89E57:
 if !version == 1				;	  \
 	JSR handle_slope_sliding_velocity	;$B89E57   |
-	JSR CODE_B8D5E6				;$B89E5A   |
+	JSR process_terrain_interaction		;$B89E5A   |
 	JSR record_highest_y_position		;$B89E5D   |
 	JSR CODE_B89960				;$B89E60   |
 	RTS					;$B89E63  /
@@ -4000,7 +4000,7 @@ kong_state_1F:
 	JSR apply_player_gravity		;$B89FFE   |
 	LDA #$0007				;$B8A001   |
 	JSR interpolate_x_velocity		;$B8A004   |
-	JSR CODE_B8D5E6				;$B8A007   |
+	JSR process_terrain_interaction		;$B8A007   |
 	JSL process_sprite_animation		;$B8A00A   |
 	LDA #$000A				;$B8A00E   |
 	JSL CODE_BCFA9A				;$B8A011   |
@@ -4073,7 +4073,7 @@ kong_state_21:
 	JSR apply_player_gravity		;$B8A085  \
 	LDA #$0007				;$B8A088   |
 	JSR interpolate_x_velocity		;$B8A08B   |
-	JSR CODE_B8D5E6				;$B8A08E   |
+	JSR process_terrain_interaction		;$B8A08E   |
 	JSL process_sprite_animation		;$B8A091   |
 if !version == 1				;	   |
 	LDX current_sprite			;$B8A095   |
@@ -4204,7 +4204,7 @@ CODE_B8A186:
 	PHA					;$B8A18D   |
 	STZ $20,x				;$B8A18E   |
 	STZ $24,x				;$B8A190   |
-	JSR CODE_B8D5E6				;$B8A192   |
+	JSR process_terrain_interaction		;$B8A192   |
 	LDX current_sprite			;$B8A195   |
 	PLA					;$B8A197   |
 	STA $24,x				;$B8A198   |
@@ -4439,7 +4439,7 @@ kong_state_2A:
 	JSR CODE_B8DA65				;$B8A373   |
 CODE_B8A376:					;	   |
 	JSR CODE_B8DA94				;$B8A376   |
-	JSR CODE_B8D5E6				;$B8A379   |
+	JSR process_terrain_interaction		;$B8A379   |
 	JSL process_sprite_animation		;$B8A37C   |
 	LDA $0D6E				;$B8A380   |
 	CMP kong_follow_buffer_recording_index	;$B8A383   |
@@ -4523,7 +4523,7 @@ CODE_B8A413:					;	   |
 	STA $0A,x				;$B8A420   |
 	STZ $24,x				;$B8A422   |
 CODE_B8A424:					;	   |
-	JSR CODE_B8D5E6				;$B8A424   |
+	JSR process_terrain_interaction		;$B8A424   |
 	JSL process_sprite_animation		;$B8A427   |
 	LDA #$000A				;$B8A42B   |
 	JSL CODE_BCFA9A				;$B8A42E   |
@@ -5883,7 +5883,7 @@ kong_state_5D:
 	JSR apply_player_gravity		;$B8AEF5   |
 	LDX current_sprite			;$B8AEF8   |
 	LDA $24,x				;$B8AEFA   |
-	JSR CODE_B8D5E6				;$B8AEFC   |
+	JSR process_terrain_interaction		;$B8AEFC   |
 	LDA $1E,x				;$B8AEFF   |
 	LSR A					;$B8AF01   |
 	BCC CODE_B8AF11				;$B8AF02   |
@@ -6483,7 +6483,7 @@ kong_state_7B:
 	LDA [current_sprite_constants],y	;$B8B3A4   |
 	JSR interpolate_x_velocity		;$B8B3A6   |
 	JSR handle_slope_sliding_velocity	;$B8B3A9   |
-	JSR CODE_B8D5E6				;$B8B3AC   |
+	JSR process_terrain_interaction		;$B8B3AC   |
 	JSR record_highest_y_position		;$B8B3AF   |
 	JSR prevent_sprite_from_leaving_level_x	;$B8B3B2   |
 	JSR handle_player_pit_death		;$B8B3B5   |
@@ -6576,7 +6576,7 @@ kong_state_7C:
 	JSR apply_player_gravity		;$B8B46B   |
 	LDA #$000B				;$B8B46E   |
 	JSR interpolate_x_velocity		;$B8B471   |
-	JSR CODE_B8D5E6				;$B8B474   |
+	JSR process_terrain_interaction		;$B8B474   |
 	JSR prevent_sprite_from_leaving_level_x	;$B8B477   |
 	JSR update_damaged_invincibility	;$B8B47A   |
 	JSL process_anim_preserve_state		;$B8B47D   |
@@ -10166,13 +10166,13 @@ if !version == 0				;	   |
 	LDA #$0040				;$B8CD00   |
 	TSB $08C2				;$B8CD03   |
 	LDA #$075E				;$B8CD06   |
-	JSL $B58021				;$B8CD09   |
+	JSL play_high_priority_sound		;$B8CD09   |
 	LDA #$065E				;$B8CD0D   |
-	JSL $B58021				;$B8CD10   |
+	JSL play_high_priority_sound		;$B8CD10   |
 	LDA #$055E				;$B8CD14   |
-	JSL $B58021				;$B8CD17   |
+	JSL play_high_priority_sound		;$B8CD17   |
 	LDA #$045E				;$B8CD1B   |
-	JSL $B58021				;$B8CD1E   |
+	JSL play_high_priority_sound		;$B8CD1E   |
 	LDA active_frame_counter		;$B8CD22   |
 	STA $0636				;$B8CD24   |
 else						;	   |
@@ -11093,7 +11093,7 @@ disable_bullet_time:
 	STZ time_stop_timer			;$B8D1F7   |
 	RTS					;$B8D1FA  /
 
-CODE_B8D1FB:
+disable_enemy_damage_global:
 	JSR disable_enemy_damage		;$B8D1FB  \
 	RTL					;$B8D1FE  /
 
@@ -11617,13 +11617,13 @@ CODE_B8D5C2:
 .return:					;	   |
 	RTS					;$B8D5DF  /
 
-CODE_B8D5E0:
+process_terrain_interaction_global:
 	PHB					;$B8D5E0  \
-	JSR CODE_B8D5E6				;$B8D5E1   |
+	JSR process_terrain_interaction		;$B8D5E1   |
 	PLB					;$B8D5E4   |
 	RTL					;$B8D5E5  /
 
-CODE_B8D5E6:
+process_terrain_interaction:
 	LDX current_sprite			;$B8D5E6  \> Get current sprite
 	LDA sprite.terrain_interaction,x	;$B8D5E8   |\ Get terrain interaction
 	TAY					;$B8D5EA   |/ Store in Y
