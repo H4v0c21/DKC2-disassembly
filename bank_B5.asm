@@ -5033,217 +5033,217 @@ CODE_B5BAEA:					;	   |
 
 DATA_B5BAEF:
 	%offset(DATA_B5BAF1, 2)
-	dl forest_32x32_tilemap
-	dl ship_hold_32x32_tilemap
-	dl wasp_hive_32x32_tilemap
-	dl ship_deck_32x32_tilemap
-	dl ship_mast_32x32_tilemap
-	dl carnival_32x32_tilemap
-	dl lava_32x32_tilemap
-	dl wasp_hive_2_32x32_tilemap
-	dl mine_32x32_tilemap
-	dl swamp_32x32_tilemap
-	dl brambles_32x32_tilemap
-	dl castle_32x32_tilemap
-	dl k_rool_2_32x32_tilemap
-	dl k_rool_32x32_tilemap
-	dl ice_32x32_tilemap
-	dl jungle_32x32_tilemap
-	dl !null_pointer
-	dl ice_2_32x32_tilemap
-	dl brambles_2_32x32_tilemap
-	dl carnival_2_32x32_tilemap
-	dl castle_32x32_tilemap
+	dl forest_32x32_tilemap			;00
+	dl ship_hold_32x32_tilemap		;01
+	dl wasp_hive_32x32_tilemap		;02
+	dl ship_deck_32x32_tilemap		;03
+	dl ship_mast_32x32_tilemap		;04
+	dl carnival_32x32_tilemap		;05
+	dl lava_32x32_tilemap			;06
+	dl wasp_hive_2_32x32_tilemap		;07
+	dl mine_32x32_tilemap			;08
+	dl swamp_32x32_tilemap			;09
+	dl brambles_32x32_tilemap		;0A
+	dl castle_32x32_tilemap			;0B
+	dl k_rool_2_32x32_tilemap		;0C
+	dl k_rool_32x32_tilemap			;0D
+	dl ice_32x32_tilemap			;0E
+	dl jungle_32x32_tilemap			;0F
+	dl !null_pointer			;10
+	dl ice_2_32x32_tilemap			;11
+	dl brambles_2_32x32_tilemap		;12
+	dl carnival_2_32x32_tilemap		;13
+	dl castle_32x32_tilemap			;14
 
 DATA_B5BB2E:
 	%offset(DATA_B5BB30, 2)
-	dl forest_8x8_tilemap
-	dl ship_hold_8x8_tilemap
-	dl wasp_hive_8x8_tilemap
-	dl ship_deck_8x8_tilemap
-	dl ship_mast_8x8_tilemap
-	dl carnival_8x8_tilemap
-	dl lava_8x8_tilemap
-	dl wasp_hive_8x8_tilemap
-	dl mine_8x8_tilemap
-	dl swamp_8x8_tilemap
-	dl brambles_8x8_tilemap
-	dl castle_8x8_tilemap
-	dl k_rool_2_8x8_tilemap
-	dl k_rool_8x8_tilemap
-	dl ice_8x8_tilemap
-	dl jungle_8x8_tilemap
-	dl !null_pointer
-	dl ice_8x8_tilemap
-	dl brambles_8x8_tilemap
-	dl carnival_8x8_tilemap
-	dl castle_8x8_tilemap
+	dl forest_8x8_tilemap			;00
+	dl ship_hold_8x8_tilemap		;01
+	dl wasp_hive_8x8_tilemap		;02
+	dl ship_deck_8x8_tilemap		;03
+	dl ship_mast_8x8_tilemap		;04
+	dl carnival_8x8_tilemap			;05
+	dl lava_8x8_tilemap			;06
+	dl wasp_hive_8x8_tilemap		;07
+	dl mine_8x8_tilemap			;08
+	dl swamp_8x8_tilemap			;09
+	dl brambles_8x8_tilemap			;0A
+	dl castle_8x8_tilemap			;0B
+	dl k_rool_2_8x8_tilemap			;0C
+	dl k_rool_8x8_tilemap			;0D
+	dl ice_8x8_tilemap			;0E
+	dl jungle_8x8_tilemap			;0F
+	dl !null_pointer			;10
+	dl ice_8x8_tilemap			;11
+	dl brambles_8x8_tilemap			;12
+	dl carnival_8x8_tilemap			;13
+	dl castle_8x8_tilemap			;14
 
 ;level tilemap vram addresses
 DATA_B5BB6D:
-	dw $6800
-	dw $3800
-	dw $7800
-	dw $7000
-	dw $7800
-	dw $7800
-	dw $7800
-	dw $7800
-	dw $7800
-	dw $7800
-	dw $7800
-	dw $6800
-	dw $7800
-	dw $7800
-	dw $7800
-	dw $7800
-	dw $7800
-	dw $7800
-	dw $7800
-	dw $7800
-	dw $6800
+	dw $6800				;00
+	dw $3800				;01
+	dw $7800				;02
+	dw $7000				;03
+	dw $7800				;04
+	dw $7800				;05
+	dw $7800				;06
+	dw $7800				;07
+	dw $7800				;08
+	dw $7800				;09
+	dw $7800				;0A
+	dw $6800				;0B
+	dw $7800				;0C
+	dw $7800				;0D
+	dw $7800				;0E
+	dw $7800				;0F
+	dw $7800				;10
+	dw $7800				;11
+	dw $7800				;12
+	dw $7800				;13
+	dw $6800				;14
 
 DATA_B5BB97:
 	%offset(DATA_B5BB99, 2)
-	dl forest_collision
-	dl ship_hold_collision
-	dl wasp_hive_collision
-	dl ship_deck_collision
-	dl ship_mast_collision
-	dl carnival_collision
-	dl lava_collision
-	dl wasp_hive_collision
-	dl mine_collision
-	dl swamp_collision
-	dl brambles_collision
-	dl castle_collision
-	dl k_rool_2_collision
-	dl k_rool_collision
-	dl ice_collision
-	dl jungle_collision
-	dl forest_collision
-	dl ice_collision
-	dl brambles_collision
-	dl carnival_collision
-	dl castle_collision
+	dl forest_collision			;00
+	dl ship_hold_collision			;01
+	dl wasp_hive_collision			;02
+	dl ship_deck_collision			;03
+	dl ship_mast_collision			;04
+	dl carnival_collision			;05
+	dl lava_collision			;06
+	dl wasp_hive_collision			;07
+	dl mine_collision			;08
+	dl swamp_collision			;09
+	dl brambles_collision			;0A
+	dl castle_collision			;0B
+	dl k_rool_2_collision			;0C
+	dl k_rool_collision			;0D
+	dl ice_collision			;0E
+	dl jungle_collision			;0F
+	dl forest_collision			;10
+	dl ice_collision			;11
+	dl brambles_collision			;12
+	dl carnival_collision			;13
+	dl castle_collision			;14
 
 ;collision map related
 DATA_B5BBD6:
-	dw $00A3
-	dw $0082
-	dw $00F0
-	dw $00AA
-	dw $0098
-	dw $0090
-	dw $005C
-	dw $00F0
-	dw $0027
-	dw $0022
-	dw $016E
-	dw $00E4
-	dw $0009
-	dw $0011
-	dw $015E
-	dw $00E1
-	dw $00A3
-	dw $015E
-	dw $016E
-	dw $0090
-	dw $00E4
+	dw $00A3				;00
+	dw $0082				;01
+	dw $00F0				;02
+	dw $00AA				;03
+	dw $0098				;04
+	dw $0090				;05
+	dw $005C				;06
+	dw $00F0				;07
+	dw $0027				;08
+	dw $0022				;09
+	dw $016E				;0A
+	dw $00E4				;0B
+	dw $0009				;0C
+	dw $0011				;0D
+	dw $015E				;0E
+	dw $00E1				;0F
+	dw $00A3				;10
+	dw $015E				;11
+	dw $016E				;12
+	dw $0090				;13
+	dw $00E4				;14
 
 ;level collision routines
 DATA_B5BC00:
-	dw CODE_B5C82C
-	dw CODE_B5C60B
-	dw CODE_B5C60B
-	dw CODE_B5C82C
-	dw CODE_B5C414
-	dw CODE_B5C80D
-	dw CODE_B5C82C
-	dw CODE_B5C510
-	dw CODE_B5C414
-	dw CODE_B5C82C
-	dw CODE_B5C70C
-	dw CODE_B5C510
-	dw CODE_B5C510
-	dw CODE_B5C384
-	dw CODE_B5C39F
-	dw CODE_B5C82C
-	dw CODE_B5C397
-	dw CODE_B5C510
-	dw CODE_B5C70C
-	dw CODE_B5C80D
-	dw CODE_B5C2DB
+	dw CODE_B5C82C				;00
+	dw CODE_B5C60B				;01
+	dw CODE_B5C60B				;02
+	dw CODE_B5C82C				;03
+	dw CODE_B5C414				;04
+	dw CODE_B5C80D				;05
+	dw CODE_B5C82C				;06
+	dw CODE_B5C510				;07
+	dw CODE_B5C414				;08
+	dw CODE_B5C82C				;09
+	dw CODE_B5C70C				;0A
+	dw CODE_B5C510				;0B
+	dw CODE_B5C510				;0C
+	dw CODE_B5C384				;0D
+	dw CODE_B5C39F				;0E
+	dw CODE_B5C82C				;0F
+	dw CODE_B5C397				;10
+	dw CODE_B5C510				;11
+	dw CODE_B5C70C				;12
+	dw CODE_B5C80D				;13
+	dw CODE_B5C2DB				;14
 
 DATA_B5BC2A:
-	dw ghostly_grove_level_palette
-	dw lockjaws_locker_level_palette
-	dw wasp_hive_level_palette
-	dw pirate_panic_level_palette
-	dw topsail_trouble_level_palette
-	dw carnival_level_palette
-	dw lava_level_palette
-	dw wasp_hive_level_palette
-	dw kannons_klaim_level_palette
-	dw barrel_bayou_level_palette
-	dw bramble_blast_level_palette
-	dw castle_level_palette
-	dw krocodile_kore_level_palette
-	dw k_rool_duel_level_palette
-	dw ice_level_palette
-	dw animal_antics_jungle_level_palette
-	dw ship_deck_cabin_level_palette
-	dw ice_level_palette
-	dw bramble_blast_level_palette
-	dw carnival_level_palette
-	dw castle_level_palette
+	dw ghostly_grove_level_palette		;00
+	dw lockjaws_locker_level_palette	;01
+	dw wasp_hive_level_palette		;02
+	dw pirate_panic_level_palette		;03
+	dw topsail_trouble_level_palette	;04
+	dw carnival_level_palette		;05
+	dw lava_level_palette			;06
+	dw wasp_hive_level_palette		;07
+	dw kannons_klaim_level_palette		;08
+	dw barrel_bayou_level_palette		;09
+	dw bramble_blast_level_palette		;0A
+	dw castle_level_palette			;0B
+	dw krocodile_kore_level_palette		;0C
+	dw k_rool_duel_level_palette		;0D
+	dw ice_level_palette			;0E
+	dw animal_antics_jungle_level_palette	;0F
+	dw ship_deck_cabin_level_palette	;10
+	dw ice_level_palette			;11
+	dw bramble_blast_level_palette		;12
+	dw carnival_level_palette		;13
+	dw castle_level_palette			;14
 
 ;32x32 tilemap compression flag
 DATA_B5BC54:
-	dw $0420				;forest
-	dw $0420				;ship_hold
-	dw $0420				;wasp_hive
-	dw $0420				;ship_deck
-	dw $0420				;ship_mast
-	dw $0420				;carnival
-	dw $0420				;lava
-	dw $0420				;wasp_hive
-	dw $0420				;mine
-	dw $0420				;swamp
-	dw $0420				;brables
-	dw $0420				;castle
-	dw $0420				;krool 2
-	dw $0020				;krool
-	dw $0420				;ice
-	dw $0420				;jungle
-	dw $0000				;null
-	dw $0420				;ice 2
-	dw $0420				;brambles 2
-	dw $0420				;carnival 2
-	dw $0420				;castle
+	dw $0420				;00 forest
+	dw $0420				;01 ship_hold
+	dw $0420				;02 wasp_hive
+	dw $0420				;03 ship_deck
+	dw $0420				;04 ship_mast
+	dw $0420				;05 carnival
+	dw $0420				;06 lava
+	dw $0420				;07 wasp_hive
+	dw $0420				;08 mine
+	dw $0420				;09 swamp
+	dw $0420				;0A brambles
+	dw $0420				;0B castle
+	dw $0420				;0C krool 2
+	dw $0020				;0D krool
+	dw $0420				;0E ice
+	dw $0420				;0F jungle
+	dw $0000				;10 null
+	dw $0420				;11 ice 2
+	dw $0420				;12 brambles 2
+	dw $0420				;13 carnival 2
+	dw $0420				;14 castle
 
 level_dimensions_table:
-	dw DATA_B5BD05				;forest
-	dw DATA_B5BD79				;ship_hold
-	dw DATA_B5BDC5				;wasp_hive
-	dw DATA_B5BE25				;ship_deck
-	dw DATA_B5BE8F				;ship_mast
-	dw DATA_B5BF21				;carnival
-	dw DATA_B5BF45				;lava
-	dw DATA_B5BFAF				;wasp_hive
-	dw DATA_B5BFDD				;mine
-	dw DATA_B5C03D				;swamp
-	dw DATA_B5C0BB				;brambles
-	dw DATA_B5C0F3				;castle
-	dw DATA_B5C153				;k_rool_2
-	dw DATA_B5C163				;k_rool
-	dw DATA_B5C173				;ice
-	dw DATA_B5C1C9				;jungle
-	dw DATA_B5BD05				;NULL/forest copy
-	dw DATA_B5C21F				;ice_2
-	dw DATA_B5C22F				;brambles_2
-	dw DATA_B5C28F				;carnival_2
-	dw DATA_B5C0F3				;castle
+	dw DATA_B5BD05				;00 forest
+	dw DATA_B5BD79				;01 ship_hold
+	dw DATA_B5BDC5				;02 wasp_hive
+	dw DATA_B5BE25				;03 ship_deck
+	dw DATA_B5BE8F				;04 ship_mast
+	dw DATA_B5BF21				;05 carnival
+	dw DATA_B5BF45				;06 lava
+	dw DATA_B5BFAF				;07 wasp_hive
+	dw DATA_B5BFDD				;08 mine
+	dw DATA_B5C03D				;09 swamp
+	dw DATA_B5C0BB				;0A brambles
+	dw DATA_B5C0F3				;0B castle
+	dw DATA_B5C153				;0C k_rool_2
+	dw DATA_B5C163				;0D k_rool
+	dw DATA_B5C173				;0E ice
+	dw DATA_B5C1C9				;0F jungle
+	dw DATA_B5BD05				;10 NULL/forest copy
+	dw DATA_B5C21F				;11 ice_2
+	dw DATA_B5C22F				;12 brambles_2
+	dw DATA_B5C28F				;13 carnival_2
+	dw DATA_B5C0F3				;14 castle
 
 CODE_B5BCA8:
 	PHB					;$B5BCA8  \
@@ -7328,7 +7328,10 @@ CODE_B5CE40:
 	JSR CODE_B5E0A1				;$B5CE40  /
 
 DATA_B5CE43:
-	db $05, $04 : dw crocodile_isle_map_palette : db $04, $04
+	db !crocodile_isle_vram_payload_id
+	db !crocodile_isle_ppu_config_id
+	dw crocodile_isle_map_palette
+	db $04, $04
 
 
 CODE_B5CE49:
@@ -7339,7 +7342,10 @@ CODE_B5CE4F:
 	JSR CODE_B5E0A1				;$B5CE4F  /
 
 DATA_B5CE52:
-	db $0D, $09 : dw gangplank_galleon_map_palette : db $0B, $0B
+	db !gangplank_galleon_vram_payload_id
+	db !world_map_square_ppu_config_id
+	dw gangplank_galleon_map_palette
+	db $0B, $0B
 
 
 CODE_B5CE58:
@@ -7350,7 +7356,10 @@ CODE_B5CE5E:
 	JSR CODE_B5E0A1				;$B5CE5E  /
 
 DATA_B5CE61:
-	db $0E, $09 : dw crocodile_cauldron_map_palette : db $0B, $0B
+	db !crocodile_cauldron_vram_payload_id
+	db !world_map_square_ppu_config_id
+	dw crocodile_cauldron_map_palette
+	db $0B, $0B
 
 
 CODE_B5CE67:
@@ -7361,7 +7370,10 @@ CODE_B5CE6D:
 	JSR CODE_B5E0A1				;$B5CE6D  /
 
 DATA_B5CE70:
-	db $0F, $0A : dw krem_quay_map_palette : db $0B, $0B
+	db !krem_quay_vram_payload_id
+	db !world_map_wide_ppu_config_id
+	dw krem_quay_map_palette
+	db $0B, $0B
 
 
 CODE_B5CE76:
@@ -7372,7 +7384,10 @@ CODE_B5CE7C:
 	JSR CODE_B5E0A1				;$B5CE7C  /
 
 DATA_B5CE7F:
-	db $10, $09 : dw kremland_lower_map_palette : db $0B, $0B
+	db !krazy_kremland_lower_vram_payload_id
+	db !world_map_square_ppu_config_id
+	dw kremland_lower_map_palette
+	db $0B, $0B
 
 
 CODE_B5CE85:
@@ -7383,7 +7398,10 @@ CODE_B5CE8B:
 	JSR CODE_B5E0A1				;$B5CE8B  /
 
 DATA_B5CE8E:
-	db $11, $09 : dw gloomy_gultch_map_palette : db $0B, $0B
+	db !gloomy_gulch_vram_payload_id
+	db !world_map_square_ppu_config_id
+	dw gloomy_gulch_map_palette
+	db $0B, $0B
 
 
 CODE_B5CE94:
@@ -7394,7 +7412,10 @@ CODE_B5CE9A:
 	JSR CODE_B5E0A1				;$B5CE9A  /
 
 DATA_B5CE9D:
-	db $12, $0C : dw krools_keep_map_palette : db $0B, $0B
+	db !k_rools_keep_vram_payload_id
+	db !world_map_tall_ppu_config_id
+	dw krools_keep_map_palette
+	db $0B, $0B
 
 
 CODE_B5CEA3:
@@ -7405,7 +7426,10 @@ CODE_B5CEA9:
 	JSR CODE_B5E0A1				;$B5CEA9  /
 
 DATA_B5CEAC:
-	db $14, $09 : dw the_flying_krock_map_palette : db $0B, $0B
+	db !the_flying_krock_vram_payload_id
+	db !world_map_square_ppu_config_id
+	dw the_flying_krock_map_palette
+	db $0B, $0B
 
 
 CODE_B5CEB2:
@@ -7416,7 +7440,10 @@ CODE_B5CEB8:
 	JSR CODE_B5E0A1				;$B5CEB8  /
 
 DATA_B5CEBB:
-	db $13, $09 : dw lost_world_map_palette : db $0B, $0B
+	db !lost_world_vram_payload_id
+	db !world_map_square_ppu_config_id
+	dw lost_world_map_palette
+	db $0B, $0B
 
 
 CODE_B5CEC1:
@@ -7427,7 +7454,10 @@ CODE_B5CEC7:
 	JSR CODE_B5E0A1				;$B5CEC7  /
 
 DATA_B5CECA:
-	db $15, $09 : dw kremland_upper_map_palette : db $0B, $0B
+	db !krazy_kremland_upper_vram_payload_id
+	db !world_map_square_ppu_config_id
+	dw kremland_upper_map_palette
+	db $0B, $0B
 
 
 CODE_B5CED0:
@@ -7438,7 +7468,10 @@ CODE_B5CED6:
 	JSR CODE_B5E0A1				;$B5CED6  /
 
 DATA_B5CED9:
-	db $13, $0D : dw lost_world_map_palette : db $21, $0B
+	db !lost_world_vram_payload_id
+	db !lost_world_ppu_config_id
+	dw lost_world_map_palette
+	db $21, $0B
 
 CODE_B5CEDF:
 	SEP #$20				;$B5CEDF  \

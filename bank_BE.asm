@@ -266,7 +266,7 @@ CODE_BEB9F5:
 	LDA #$0200				;$BEB9FC   |
 	JSL CODE_BEBE4D				;$BEB9FF   |
 	BCS CODE_BEB9F2				;$BEBA03   |
-	JSL set_this_level_kremcoin_collected	;$BEBA05   |
+	JSL set_this_level_krem_coin_collected	;$BEBA05   |
 	JSL calculate_completion_percentage	;$BEBA09   |
 	LDA #$0002				;$BEBA0D   |
 	TSB $08C4				;$BEBA10   |

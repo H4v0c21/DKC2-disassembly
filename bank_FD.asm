@@ -6,214 +6,214 @@ DATA_FD0000:
 	%offset(DATA_FD0001, 1)
 	%offset(DATA_FD0003, 3)
 	%offset(DATA_FD0005, 5)
-	dw DATA_FD4BE2				;00
-	dw DATA_FD4C1F				;01
-	dw DATA_FD4C52				;02
-	dw DATA_FD4C8A				;03
-	dw DATA_FD4CC9				;04
-	dw DATA_FD4D05				;05
-	dw DATA_FD4D48				;06
-	dw DATA_FD4D71				;07
-	dw DATA_FD4DB8				;08
-	dw DATA_FD4DF4				;09
-	dw DATA_FD4E1B				;0A
-	dw DATA_FD4E50				;0B
-	dw DATA_FD4E8C				;0C
-	dw DATA_FD4EF7				;0D
-	dw DATA_FD4F1E				;0E
-	dw DATA_FD4F51				;0F
-	dw DATA_FD4F7D				;10
-	dw DATA_FD4FB7				;11
-	dw DATA_FD4FF7				;12
-	dw DATA_FD501A				;13
-	dw DATA_FD505E				;14
-	dw DATA_FD5093				;15
-	dw DATA_FD50C8				;16
-	dw DATA_FD50F2				;17
-	dw DATA_FD512A				;18
-	dw DATA_FD5166				;19
-	dw DATA_FD519B				;1A
-	dw DATA_FD51B5				;1B
-	dw DATA_FD51DB				;1C
-	dw DATA_FD51F5				;1D
-	dw DATA_FD5219				;1E
-	dw DATA_FD5232				;1F
-	dw DATA_FD5256				;20
-	dw DATA_FD5270				;21
-	dw DATA_FD528D				;22
-	dw DATA_FD52A6				;23
-	dw DATA_FD52DB				;24
-	dw DATA_FD531A				;25
-	dw DATA_FD535D				;26
-	dw DATA_FD5377				;27
-	dw DATA_FD5391				;28
-	dw DATA_FD53C2				;29
-	dw DATA_FD53EC				;2A
-	dw DATA_FD5405				;2B
-	dw DATA_FD541F				;2C
-	dw DATA_FD5454				;2D
-	dw DATA_FD5485				;2E
-	dw DATA_FD54B3				;2F
-	dw DATA_FD54E5				;30
-	dw DATA_FD54E7				;31
-	dw DATA_FD54E9				;32
-	dw DATA_FD54EB				;33
-	dw DATA_FD54ED				;34
-	dw DATA_FD54EF				;35
-	dw DATA_FD54F1				;36
-	dw DATA_FD54F3				;37
-	dw DATA_FD54F5				;38
-	dw DATA_FD54F7				;39
-	dw DATA_FD54F9				;3A
-	dw DATA_FD54FB				;3B
-	dw DATA_FD54FD				;3C
-	dw DATA_FD54FF				;3D
-	dw DATA_FD5501				;3E
-	dw DATA_FD5503				;3F
-	dw DATA_FD5505				;40
-	dw DATA_FD5507				;41
-	dw DATA_FD5509				;42
-	dw DATA_FD550B				;43
-	dw DATA_FD550D				;44
-	dw DATA_FD550F				;45
-	dw DATA_FD5511				;46
-	dw DATA_FD5513				;47
-	dw DATA_FD5515				;48
-	dw DATA_FD5517				;49
-	dw DATA_FD5519				;4A
-	dw DATA_FD551B				;4B
-	dw DATA_FD551D				;4C
-	dw DATA_FD551F				;4D
-	dw DATA_FD5521				;4E
-	dw DATA_FD5523				;4F
-	dw DATA_FD5525				;50
-	dw DATA_FD5527				;51
-	dw DATA_FD5529				;52
-	dw DATA_FD552B				;53
-	dw DATA_FD552D				;54
-	dw DATA_FD552F				;55
-	dw DATA_FD5531				;56
-	dw DATA_FD5533				;57
-	dw DATA_FD5535				;58
-	dw DATA_FD5537				;59
-	dw DATA_FD5539				;5A
-	dw DATA_FD553B				;5B
-	dw DATA_FD553D				;5C
-	dw DATA_FD553F				;5D
-	dw DATA_FD5541				;5E
-	dw DATA_FD5543				;5F
-	dw DATA_FD5545				;60
-	dw DATA_FD5562				;61
-	dw DATA_FD557B				;62
-	dw DATA_FD55AC				;63
-	dw DATA_FD55C9				;64
-	dw DATA_FD55CB				;65
-	dw DATA_FD55CD				;66
-	dw DATA_FD55CF				;67
-	dw DATA_FD55D1				;68
-	dw DATA_FD55EB				;69
-	dw DATA_FD5605				;6A
-	dw DATA_FD561F				;6B
-	dw DATA_FD563C				;6C
-	dw DATA_FD5675				;6D
-	dw DATA_FD56AE				;6E
-	dw DATA_FD56D8				;6F
-	dw DATA_FD56F2				;70
-	dw DATA_FD570C				;71
-	dw DATA_FD5726				;72
-	dw DATA_FD5740				;73
-	dw DATA_FD575A				;74
-	dw DATA_FD5774				;75
-	dw DATA_FD578E				;76
-	dw DATA_FD57A8				;77
-	dw DATA_FD57C2				;78
-	dw DATA_FD57DC				;79
-	dw DATA_FD57F6				;7A
-	dw DATA_FD5810				;7B
-	dw DATA_FD582A				;7C
-	dw DATA_FD5844				;7D
-	dw DATA_FD585E				;7E
-	dw DATA_FD5878				;7F
-	dw DATA_FD5892				;80
-	dw DATA_FD58BC				;81
-	dw DATA_FD58D6				;82
-	dw DATA_FD58F0				;83
-	dw DATA_FD590A				;84
-	dw DATA_FD5924				;85
-	dw DATA_FD593E				;86
-	dw DATA_FD5958				;87
-	dw DATA_FD5972				;88
-	dw DATA_FD598C				;89
-	dw DATA_FD59A6				;8A
-	dw DATA_FD59C0				;8B
-	dw DATA_FD59DA				;8C
-	dw DATA_FD59F4				;8D
-	dw DATA_FD5A0E				;8E
-	dw DATA_FD5A28				;8F
-	dw DATA_FD5A59				;90
-	dw DATA_FD5A72				;91
-	dw DATA_FD5A8C				;92
-	dw DATA_FD5AA6				;93
-	dw DATA_FD5AC0				;94
-	dw DATA_FD5ADA				;95
-	dw DATA_FD5AF4				;96
-	dw DATA_FD5B1E				;97
-	dw DATA_FD5B38				;98
-	dw DATA_FD5B52				;99
-	dw DATA_FD5B7C				;9A
-	dw DATA_FD5B95				;9B
-	dw DATA_FD5BBA				;9C
-	dw DATA_FD5BD8				;9D
-	dw DATA_FD5BF2				;9E
-	dw DATA_FD5C0C				;9F
-	dw DATA_FD5C25				;A0
-	dw DATA_FD5C3F				;A1
-	dw DATA_FD5C59				;A2
-	dw DATA_FD5C73				;A3
-	dw DATA_FD5C8D				;A4
-	dw DATA_FD5CA7				;A5
-	dw DATA_FD5CC1				;A6
-	dw DATA_FD5CDB				;A7
-	dw DATA_FD5CF5				;A8
-	dw DATA_FD5D0F				;A9
-	dw DATA_FD5D29				;AA
-	dw DATA_FD5D43				;AB
-	dw DATA_FD5D5D				;AC
-	dw DATA_FD5D77				;AD
-	dw DATA_FD5D91				;AE
-	dw DATA_FD5DAB				;AF
-	dw DATA_FD5DC5				;B0
-	dw DATA_FD5DDF				;B1
-	dw DATA_FD5DF9				;B2
-	dw DATA_FD5E13				;B3
-	dw DATA_FD5E2D				;B4
-	dw DATA_FD5E47				;B5
-	dw DATA_FD5E61				;B6
-	dw DATA_FD5E7B				;B7
-	dw DATA_FD5E95				;B8
-	dw DATA_FD5EAF				;B9
-	dw DATA_FD5ECC				;BA
-	dw DATA_FD5EE6				;BB
-	dw DATA_FD5F00				;BC
-	dw DATA_FD5F1A				;BD
-	dw DATA_FD5F34				;BE
-	dw DATA_FD5F59				;BF
-	dw DATA_FD5F72				;C0
-	dw DATA_FD5F8C				;C1
-	dw DATA_FD5FA6				;C2
-	dw DATA_FD5FC0				;C3
-	dw DATA_FD5FDA				;C4
-	dw DATA_FD5FDC				;C5
-	dw DATA_FD5FDE				;C6
-	dw DATA_FD5FE0				;C7
-	dw DATA_FD5FE2				;C8
-	dw DATA_FD5FE4				;C9
-	dw DATA_FD5FE6				;CA
-	dw DATA_FD5FE8				;CB
-	dw DATA_FD5FEA				;CC
-	dw DATA_FD5FEC				;CD
-	dw !null_pointer			;CE
-	dw !null_pointer			;CF
+	dw web_woods_unused_level_config				;00
+	dw glimmers_galleon_level_config				;01
+	dw rambi_rumble_level_config					;02
+	dw pirate_panic_level_config					;03
+	dw gangplank_galley_level_config				;04
+	dw rattle_battle_level_config					;05
+	dw glimmers_galleon_exit_room_level_config			;06
+	dw hot_head_hop_level_config					;07
+	dw red_hot_ride_level_config					;08
+	dw krows_nest_level_config					;09
+	dw slime_climb_level_config					;0A
+	dw topsail_trouble_level_config					;0B
+	dw mainbrace_mayhem_level_config				;0C
+	dw kreepy_krow_level_config					;0D
+	dw target_terror_level_config					;0E
+	dw rickety_race_level_config					;0F
+	dw haunted_hall_level_config					;10
+	dw hornet_hole_level_config					;11
+	dw rambi_rumble_rambi_room_level_config				;12
+	dw parrot_chute_panic_level_config				;13
+	dw lava_lagoon_level_config					;14
+	dw lockjaws_locker_level_config					;15
+	dw fiery_furnace_level_config					;16
+	dw web_woods_level_config					;17
+	dw gusty_glade_level_config					;18
+	dw ghostly_grove_level_config					;19
+	dw topsail_trouble_warp_room_level_config			;1A
+	dw pirate_panic_k_rools_cabin_level_config			;1B
+	dw hot_head_hop_bonus_2_level_config				;1C
+	dw pirate_panic_warp_room_level_config				;1D
+	dw target_terror_exit_room_level_config				;1E
+	dw web_woods_room_unused_level_config				;1F
+	dw mainbrace_mayhem_warp_room_level_config			;20
+	dw kleevers_kiln_level_config					;21
+	dw rattle_battle_rattly_room_level_config			;22
+	dw windy_well_level_config					;23
+	dw squawks_shaft_level_config					;24
+	dw kannons_klaim_level_config					;25
+	dw parrot_chute_panic_warp_room_level_config			;26
+	dw kannons_klaim_warp_room_level_config				;27
+	dw barrel_bayou_level_config					;28
+	dw krockhead_klamber_level_config				;29
+	dw web_woods_squitter_room_level_config				;2A
+	dw barrel_bayou_warp_room_level_config				;2B
+	dw mudhole_marsh_level_config					;2C
+	dw bramble_blast_level_config					;2D
+	dw bramble_scramble_level_config				;2E
+	dw screechs_sprint_level_config					;2F
+	dw gangplank_galleon_level_config				;30
+	dw crocodile_cauldron_level_config				;31
+	dw krem_quay_level_config					;32
+	dw krazy_kremland_level_config					;33
+	dw gloomy_gulch_level_config					;34
+	dw k_rools_keep_level_config					;35
+	dw the_flying_krock_level_config				;36
+	dw lost_world_level_config					;37
+	dw monkey_museum_gangplank_galleon_level_config			;38
+	dw monkey_museum_crocodile_cauldron_level_config		;39
+	dw monkey_museum_krem_quay_level_config				;3A
+	dw monkey_museum_krazy_kremland_upper_level_config		;3B
+	dw monkey_museum_gloomy_gulch_level_config			;3C
+	dw monkey_museum_k_rools_keep_level_config			;3D
+	dw level_3E_level_config					;3E
+	dw level_3F_level_config					;3F
+	dw kong_kollege_gangplank_galleon_level_config			;40
+	dw swankys_bonus_bonanza_crocodile_cauldron_level_config	;41
+	dw swankys_bonus_bonanza_krem_quay_level_config			;42
+	dw swankys_bonus_bonanza_krazy_kremland_upper_level_config	;43
+	dw swankys_bonus_bonanza_gloomy_gulch_level_config		;44
+	dw kong_kollege_k_rools_keep_level_config			;45
+	dw level_46_level_config					;46
+	dw level_47_level_config					;47
+	dw swankys_bonus_bonanza_gangplank_galleon_level_config		;48
+	dw kong_kollege_crocodile_cauldron_level_config			;49
+	dw kong_kollege_krem_quay_level_config				;4A
+	dw kong_kollege_krazy_kremland_lower_level_config		;4B
+	dw kong_kollege_gloomy_gulch_level_config			;4C
+	dw swankys_bonus_bonanza_k_rools_keep_level_config		;4D
+	dw kong_kollege_the_flying_krock_level_config			;4E
+	dw level_4F_level_config					;4F
+	dw funkys_flights_gangplank_galleon_level_config		;50
+	dw funkys_flights_crocodile_cauldron_level_config		;51
+	dw funkys_flights_krem_quay_level_config			;52
+	dw funkys_flights_krazy_kremland_upper_level_config		;53
+	dw funkys_flights_gloomy_gulch_level_config			;54
+	dw funkys_flights_k_rools_keep_level_config			;55
+	dw funkys_flights_the_flying_krock_level_config			;56
+	dw level_57_level_config					;57
+	dw level_58_level_config					;58
+	dw klubbas_kiosk_crocodile_cauldron_level_config		;59
+	dw klubbas_kiosk_krem_quay_level_config				;5A
+	dw klubbas_kiosk_krazy_kremland_lower_level_config		;5B
+	dw klubbas_kiosk_gloomy_gulch_level_config			;5C
+	dw klubbas_kiosk_k_rools_keep_level_config			;5D
+	dw level_5E_level_config					;5E
+	dw level_5F_level_config					;5F
+	dw king_zing_sting_level_config					;60
+	dw k_rool_duel_level_config					;61
+	dw castle_crush_level_config					;62
+	dw kudgels_kontest_level_config					;63
+	dw krazy_kremland_lower_to_upper_left_level_config		;64
+	dw krazy_kremland_upper_to_lower_left_level_config		;65
+	dw krazy_kremland_upper_to_lower_right_level_config		;66
+	dw krazy_kremland_lower_to_upper_right_level_config		;67
+	dw lockjaws_locker_warp_room_level_config			;68
+	dw lava_lagoon_warp_room_level_config				;69
+	dw squawks_shaft_warp_room_level_config				;6A
+	dw krocodile_kore_level_config					;6B
+	dw arctic_abyss_level_config					;6C
+	dw chain_link_chamber_level_config				;6D
+	dw toxic_tower_level_config					;6E
+	dw pirate_panic_bonus_1_level_config				;6F
+	dw pirate_panic_bonus_2_level_config				;70
+	dw gangplank_galley_bonus_2_level_config			;71
+	dw rattle_battle_bonus_1_level_config				;72
+	dw rattle_battle_bonus_3_level_config				;73
+	dw hot_head_hop_bonus_3_level_config				;74
+	dw hot_head_hop_bonus_1_level_config				;75
+	dw red_hot_ride_bonus_1_level_config				;76
+	dw red_hot_ride_bonus_2_level_config				;77
+	dw mainbrace_mayhem_bonus_1_level_config			;78
+	dw mainbrace_mayhem_bonus_2_level_config			;79
+	dw slime_climb_bonus_1_level_config				;7A
+	dw topsail_trouble_bonus_1_level_config				;7B
+	dw topsail_trouble_bonus_2_level_config				;7C
+	dw mainbrace_mayhem_bonus_3_level_config			;7D
+	dw slime_climb_bonus_2_level_config				;7E
+	dw rattle_battle_bonus_2_level_config				;7F
+	dw klobber_karnage_level_config					;80
+	dw lockjaws_locker_bonus_1_level_config				;81
+	dw glimmers_galleon_bonus_2_level_config			;82
+	dw lava_lagoon_bonus_1_level_config				;83
+	dw glimmers_galleon_bonus_1_level_config			;84
+	dw ghostly_grove_bonus_1_level_config				;85
+	dw gusty_glade_bonus_1_level_config				;86
+	dw gusty_glade_bonus_2_level_config				;87
+	dw ghostly_grove_bonus_2_level_config				;88
+	dw barrel_bayou_bonus_1_level_config				;89
+	dw barrel_bayou_bonus_2_level_config				;8A
+	dw krockhead_klamber_bonus_1_level_config			;8B
+	dw mudhole_marsh_bonus_1_level_config				;8C
+	dw mudhole_marsh_bonus_2_level_config				;8D
+	dw hot_head_hop_warp_room_level_config				;8E
+	dw clappers_cavern_level_config					;8F
+	dw animal_antics_enguarde_area_level_config			;90
+	dw clappers_cavern_bonus_1_level_config				;91
+	dw clappers_cavern_bonus_2_level_config				;92
+	dw arctic_abyss_bonus_1_level_config				;93
+	dw black_ice_battle_bonus_1_level_config			;94
+	dw arctic_abyss_bonus_2_level_config				;95
+	dw black_ice_battle_level_config				;96
+	dw klobber_karnage_bonus_1_level_config				;97
+	dw jungle_jinx_bonus_1_level_config				;98
+	dw jungle_jinx_level_config					;99
+	dw animal_antics_rambi_area_level_config			;9A
+	dw animal_antics_squitter_area_level_config			;9B
+	dw animal_antics_rattly_area_level_config			;9C
+	dw animal_antics_bonus_1_level_config				;9D
+	dw fiery_furnace_bonus_1_level_config				;9E
+	dw animal_antics_squawks_area_level_config			;9F
+	dw bramble_blast_bonus_2_level_config				;A0
+	dw target_terror_bonus_1_level_config				;A1
+	dw bramble_scramble_bonus_1_level_config			;A2
+	dw windy_well_bonus_2_level_config				;A3
+	dw web_woods_bonus_1_level_config				;A4
+	dw toxic_tower_bonus_1_level_config				;A5
+	dw bramble_blast_bonus_1_level_config				;A6
+	dw screechs_sprint_bonus_1_level_config				;A7
+	dw gangplank_galley_bonus_1_level_config			;A8
+	dw squawks_shaft_bonus_3_level_config				;A9
+	dw kannons_klaim_bonus_3_level_config				;AA
+	dw kannons_klaim_bonus_1_level_config				;AB
+	dw squawks_shaft_bonus_1_level_config				;AC
+	dw kannons_klaim_bonus_2_level_config				;AD
+	dw hornet_hole_bonus_1_level_config				;AE
+	dw parrot_chute_panic_bonus_2_level_config			;AF
+	dw hornet_hole_bonus_3_level_config				;B0
+	dw parrot_chute_panic_bonus_1_level_config			;B1
+	dw rambi_rumble_bonus_2_level_config				;B2
+	dw hornet_hole_bonus_2_level_config				;B3
+	dw rambi_rumble_bonus_1_level_config				;B4
+	dw chain_link_chamber_bonus_1_level_config			;B5
+	dw chain_link_chamber_bonus_2_level_config			;B6
+	dw castle_crush_bonus_1_level_config				;B7
+	dw castle_crush_bonus_2_level_config				;B8
+	dw stronghold_showdown_level_config				;B9
+	dw squawks_shaft_bonus_2_level_config				;BA
+	dw windy_well_bonus_1_level_config				;BB
+	dw web_woods_bonus_2_level_config				;BC
+	dw haunted_hall_bonus_1_level_config				;BD
+	dw rickety_race_exit_level_config				;BE
+	dw haunted_hall_exit_level_config				;BF
+	dw haunted_hall_bonus_3_level_config				;C0
+	dw target_terror_bonus_2_level_config				;C1
+	dw haunted_hall_bonus_2_level_config				;C2
+	dw rickety_race_bonus_1_level_config				;C3
+	dw return_to_crocodile_cauldron_level_config			;C4
+	dw return_to_krem_quay_level_config				;C5
+	dw return_to_krazy_kremland_level_config			;C6
+	dw return_to_gloomy_gulch_level_config				;C7
+	dw return_to_k_rools_keep_level_config				;C8
+	dw monkey_museum_crocodile_cauldron_lost_world_level_config	;C9
+	dw monkey_museum_krem_quay_lost_world_level_config		;CA
+	dw monkey_museum_krazy_kremland_lost_world_level_config		;CB
+	dw monkey_museum_gloomy_gulch_lost_world_level_config		;CC
+	dw monkey_museum_k_rools_keep_lost_world_level_config		;CD
+	dw !null_pointer						;CE
+	dw !null_pointer						;CF
 
 DATA_FD01A0:
 	db $00, $00, $00, $00, $00, $00, $00, $00
@@ -510,8 +510,8 @@ kremland_lower_map_palette:
 	incbin "data/world_maps/palettes/kremland_lower_map_palette.bin"
 
 ;$FD1C70
-gloomy_gultch_map_palette:
-	incbin "data/world_maps/palettes/gloomy_gultch_map_palette.bin"
+gloomy_gulch_map_palette:
+	incbin "data/world_maps/palettes/gloomy_gulch_map_palette.bin"
 
 ;$FD1D70
 krools_keep_map_palette:
@@ -627,36 +627,35 @@ glimmers_galleon_level_palette:
 	incbin "data/levels/palettes/glimmers_galleon_level_palette.bin"
 
 krocodile_kore_level_palette:
-	db $01, $00
-DATA_FD2CF0:
-	db $1F, $68, $3F, $7D, $DE, $7D, $9C, $7E
-	db $17, $7F, $90, $7F, $EA, $7F, $86, $64
-	db $D1, $7C, $83, $7E, $E3, $79, $62, $65
-	db $21, $51, $E1, $3C, $A0, $28, $E0, $03
-	db $1F, $37, $9B, $2E, $16, $26, $B2, $1D
-	db $4E, $19, $2C, $15, $E9, $10, $85, $08
-	db $00, $00, $64, $04, $43, $04, $48, $04
-	db $0A, $00, $33, $11, $CD, $0C, $E1, $03
-	db $FF, $0B, $5A, $09, $FF, $09, $8D, $08
-	db $14, $09, $D0, $08, $6A, $08, $45, $04
-	db $23, $04, $01, $00, $46, $08, $50, $09
-	db $7F, $0A, $43, $0C, $87, $08, $E0, $03
-	db $AE, $35, $E8, $20, $6C, $2D, $A5, $18
-	db $43, $14, $2A, $29, $11, $3E, $84, $10
-	db $C6, $10, $42, $08, $C7, $0C, $64, $08
-	db $21, $04, $22, $04, $22, $0C, $E0, $03
-	db $23, $08, $21, $08, $43, $0C, $64, $0C
-	db $44, $08, $45, $08, $67, $08, $E9, $10
-	db $A7, $0C, $C8, $10, $65, $10, $86, $0C
-	db $EA, $0C, $42, $08, $87, $0C, $E0, $03
-	db $01, $00, $42, $04, $63, $08, $A6, $0C
-	db $08, $15, $4B, $19, $AD, $21, $F0, $25
-	db $53, $2E, $03, $00, $05, $00, $08, $00
-	db $87, $00, $88, $00, $AA, $00, $2A, $2D
-	db $01, $00, $03, $04, $05, $00, $06, $00
-	db $08, $00, $09, $00, $A9, $08, $87, $08
-	db $CB, $08, $CD, $04, $0C, $00, $88, $04
-	db $22, $00, $24, $00, $43, $08
+	%offset(DATA_FD2CF0, 2)
+	db $01, $00, $1F, $68, $3F, $7D, $DE, $7D
+	db $9C, $7E, $17, $7F, $90, $7F, $EA, $7F
+	db $86, $64, $D1, $7C, $83, $7E, $E3, $79
+	db $62, $65, $21, $51, $E1, $3C, $A0, $28
+	db $E0, $03, $1F, $37, $9B, $2E, $16, $26
+	db $B2, $1D, $4E, $19, $2C, $15, $E9, $10
+	db $85, $08, $00, $00, $64, $04, $43, $04
+	db $48, $04, $0A, $00, $33, $11, $CD, $0C
+	db $E1, $03, $FF, $0B, $5A, $09, $FF, $09
+	db $8D, $08, $14, $09, $D0, $08, $6A, $08
+	db $45, $04, $23, $04, $01, $00, $46, $08
+	db $50, $09, $7F, $0A, $43, $0C, $87, $08
+	db $E0, $03, $AE, $35, $E8, $20, $6C, $2D
+	db $A5, $18, $43, $14, $2A, $29, $11, $3E
+	db $84, $10, $C6, $10, $42, $08, $C7, $0C
+	db $64, $08, $21, $04, $22, $04, $22, $0C
+	db $E0, $03, $23, $08, $21, $08, $43, $0C
+	db $64, $0C, $44, $08, $45, $08, $67, $08
+	db $E9, $10, $A7, $0C, $C8, $10, $65, $10
+	db $86, $0C, $EA, $0C, $42, $08, $87, $0C
+	db $E0, $03, $01, $00, $42, $04, $63, $08
+	db $A6, $0C, $08, $15, $4B, $19, $AD, $21
+	db $F0, $25, $53, $2E, $03, $00, $05, $00
+	db $08, $00, $87, $00, $88, $00, $AA, $00
+	db $2A, $2D, $01, $00, $03, $04, $05, $00
+	db $06, $00, $08, $00, $09, $00, $A9, $08
+	db $87, $08, $CB, $08, $CD, $04, $0C, $00
+	db $88, $04, $22, $00, $24, $00, $43, $08
 
 water_toxic_layer_3_palette:
 	db $20, $01, $C5, $1D, $0E, $33, $F7, $4B
@@ -1090,6 +1089,7 @@ file_select_screen_palette:
 	db $EB, $08, $50, $11, $72, $11, $94, $11
 	db $D6, $15, $F8, $15, $1A, $1A, $5B, $1E
 	db $9C, $26, $BD, $2A, $FE, $32, $3F, $37
+
 DATA_FD3DAE:
 	db $08, $03, $01, $00, $02, $00, $22, $00
 	db $23, $00, $23, $00, $44, $00, $45, $00
@@ -1265,738 +1265,739 @@ DATA_FD470E:
 	db $A0, $60, $84, $08, $53, $43, $10, $08	;10
 	db $C0, $40, $9C, $38, $53, $43, $10, $08	;11
 
-DATA_FD479E:
-	dw $000B
-	dw $0000
-	dw $001B
+jungle_klobber_karnage_tileset_config:
+	dw !tileset_init_000B
+	dw !tileset_HDMA_init_0000
+	dw !music_jungle
 	dw klobber_karnage_level_palette
 	dw CODE_BBACFA
 	dw CODE_BBAD34
-	db $30
-	db $30
-	dw $001C
-	dw $001A
-	db $0F
-	dw $0000
+	db !jungle_generic_ppu_config_id
+	db !jungle_generic_vram_payload_id
+	dw !tileset_NMI_001C
+	dw !tileset_logic_001A
+	db !jungle_layout_id
+	%bit_flags_word()
 
-DATA_FD47B3:
-	dw $000B
-	dw $0000
-	dw $001B
+jungle_jinx_tileset_config:
+	dw !tileset_init_000B
+	dw !tileset_HDMA_init_0000
+	dw !music_jungle
 	dw jungle_jinx_level_palette
 	dw CODE_BBACFA
 	dw CODE_BBAD34
-	db $30
-	db $30
-	dw $001C
-	dw $001A
-	db $0F
-	dw $0000
+	db !jungle_generic_ppu_config_id
+	db !jungle_generic_vram_payload_id
+	dw !tileset_NMI_001C
+	dw !tileset_logic_001A
+	db !jungle_layout_id
+	%bit_flags_word()
 
-DATA_FD47C8:
-	dw $0011
-	dw $0003
-	dw $0003
+swamp_krockhead_klamber_tileset_config:
+	dw !tileset_init_0011
+	dw !tileset_HDMA_init_0003
+	dw !music_swamp
 	dw krockhead_klamber_level_palette
 	dw CODE_BBACE2
 	dw CODE_BBAD34
-	db $26
-	db $26
-	dw $0010
-	dw $000F
-	db $09
-	dw $1008
+	db !swamp_generic_ppu_config_id
+	db !swamp_generic_vram_payload_id
+	dw !tileset_NMI_0010
+	dw !tileset_logic_000F
+	db !swamp_layout_id
+	%bit_flags_word(!offscreen_water_splash_effect, !icey_slope_slide_effect)
 
-DATA_FD47DD:
-	dw $0011
-	dw $0003
-	dw $0003
+swamp_mudhole_marsh_tileset_config:
+	dw !tileset_init_0011
+	dw !tileset_HDMA_init_0003
+	dw !music_swamp
 	dw mudhole_marsh_level_palette
 	dw CODE_BBACE2
 	dw CODE_BBAD34
-	db $26
-	db $26
-	dw $0010
-	dw $000F
-	db $09
-	dw $1008
+	db !swamp_generic_ppu_config_id
+	db !swamp_generic_vram_payload_id
+	dw !tileset_NMI_0010
+	dw !tileset_logic_000F
+	db !swamp_layout_id
+	%bit_flags_word(!offscreen_water_splash_effect, !icey_slope_slide_effect)
 
-DATA_FD47F2:
-	dw $000B
-	dw $0000
-	dw $001B
+jungle_animal_antics_tileset_config:
+	dw !tileset_init_000B
+	dw !tileset_HDMA_init_0000
+	dw !music_jungle
 	dw !null_pointer
 	dw CODE_BBACFA
 	dw CODE_BBAD34
-	db $30
-	db $30
-	dw $001C
-	dw $001A
-	db $0F
-	dw $0000
+	db !jungle_generic_ppu_config_id
+	db !jungle_generic_vram_payload_id
+	dw !tileset_NMI_001C
+	dw !tileset_logic_001A
+	db !jungle_layout_id
+	%bit_flags_word()
 
-DATA_FD4807:
-	dw $0011
-	dw $000E
-	dw $001A
+ice_flooded_tileset_config:
+	dw !tileset_init_0011
+	dw !tileset_HDMA_init_000E
+	dw !music_ice
 	dw !null_pointer
 	dw CODE_BBACE2
 	dw CODE_BBAD34
-	db $2F
-	db $2F
-	dw $001B
-	dw $0019
-	db $0E
-	dw $3002
+	db !ice_flooded_ppu_config_id
+	db !ice_generic_vram_payload_id
+	dw !tileset_NMI_001B
+	dw !tileset_logic_0019
+	db !ice_1_layout_id
+	%bit_flags_word(!door_occlusion_effect, !icey_slope_slide_effect, !icey_acceleration_effect)
 
-DATA_FD481C:
-	dw $0011
-	dw $000D
-	dw $001A
+ice_translucent_1_tileset_config:
+	dw !tileset_init_0011
+	dw !tileset_HDMA_init_000D
+	dw !music_ice
 	dw !null_pointer
 	dw CODE_BBACE2
 	dw CODE_BBAD34
-	db $31
-	db $2F
-	dw $001D
-	dw $001B
-	db $0E
-	dw $3002
+	db !ice_translucent_ppu_config_id
+	db !ice_generic_vram_payload_id
+	dw !tileset_NMI_001D
+	dw !tileset_logic_001B
+	db !ice_1_layout_id
+	%bit_flags_word(!door_occlusion_effect, !icey_slope_slide_effect, !icey_acceleration_effect)
 
-DATA_FD4831:
-	dw $0011
-	dw $000D
-	dw $001A
+ice_translucent_2_tileset_config:
+	dw !tileset_init_0011
+	dw !tileset_HDMA_init_000D
+	dw !music_ice
 	dw !null_pointer
 	dw CODE_BBACE2
 	dw CODE_BBAD34
-	db $31
-	db $2F
-	dw $001D
-	dw $001B
-	db $11
-	dw $3002
+	db !ice_translucent_ppu_config_id
+	db !ice_generic_vram_payload_id
+	dw !tileset_NMI_001D
+	dw !tileset_logic_001B
+	db !ice_2_layout_id
+	%bit_flags_word(!door_occlusion_effect, !icey_slope_slide_effect, !icey_acceleration_effect)
 
-DATA_FD4846:
-	dw $0013
-	dw $001A
-	dw $0016
+castle_chain_link_chamber_tileset_config:
+	dw !tileset_init_0013
+	dw !tileset_HDMA_init_001A
+	dw !music_castle
 	dw !null_pointer
 	dw CODE_BBACE2
 	dw CODE_BBAD34
-	db $2B
-	db $2B
-	dw $0015
-	dw $0014
-	db $0B
-	dw $0080
+	db !castle_generic_ppu_config_id
+	db !castle_generic_vram_payload_id	
+	dw !tileset_NMI_0015
+	dw !tileset_logic_0014
+	db !castle_1_layout_id
+	%bit_flags_word(!climbable_ropes_2_effect)
 
-DATA_FD485B:
-	dw $0013
-	dw $001A
-	dw $0016
+castle_stronghold_showdown_tileset_config:
+	dw !tileset_init_0013
+	dw !tileset_HDMA_init_001A
+	dw !music_castle
 	dw !null_pointer
 	dw CODE_BBACE2
 	dw CODE_BBAD06
-	db $2B
-	db $2B
-	dw $0015
-	dw $0014
-	db $0B
-	dw $0080
+	db !castle_generic_ppu_config_id
+	db !castle_generic_vram_payload_id
+	dw !tileset_NMI_0015
+	dw !tileset_logic_0014
+	db !castle_1_layout_id
+	%bit_flags_word(!climbable_ropes_2_effect)
 
-DATA_FD4870:
-	dw $0012
-	dw $0019
-	dw $0016
+castle_toxic_tower_tileset_config:
+	dw !tileset_init_0012
+	dw !tileset_HDMA_init_0019
+	dw !music_castle
 	dw !null_pointer
 	dw CODE_BBACE2
 	dw CODE_BBAD34
-	db $32
-	db $31
-	dw $001E
-	dw $001C
-	db $0B
-	dw $0020
+	db !castle_flooded_ppu_config_id
+	db !castle_flooded_vram_payload_id
+	dw !tileset_NMI_001E
+	dw !tileset_logic_001C
+	db !castle_1_layout_id
+	%bit_flags_word(!hazardous_water_effect)
 
-DATA_FD4885:
-	dw $0013
-	dw $001A
-	dw $0016
+castle_crush_tileset_config:
+	dw !tileset_init_0013
+	dw !tileset_HDMA_init_001A
+	dw !music_castle
 	dw !null_pointer
 	dw CODE_BBACE2
 	dw CODE_BBAD34
-	db $2B
-	db $2B
-	dw $0015
-	dw $0014
-	db $14
-	dw $0082
+	db !castle_generic_ppu_config_id
+	db !castle_generic_vram_payload_id
+	dw !tileset_NMI_0015
+	dw !tileset_logic_0014
+	db !castle_2_layout_id			;Note: this id is the same as castle 1, they both point to the same data
+	%bit_flags_word(!climbable_ropes_2_effect, !door_occlusion_effect)
 
-DATA_FD489A:
-	dw $0011
-	dw $0000
-	dw $0005
+k_rool_duel_tileset_config:
+	dw !tileset_init_0011
+	dw !tileset_HDMA_init_0000
+	dw !music_forest
 	dw !null_pointer
 	dw CODE_BBACE2
 	dw CODE_BBAD19
-	db $2E
-	db $2E
-	dw $0019
-	dw $0017
-	db $0D
-	dw $0000
+	db !k_rool_duel_ppu_config_id
+	db !k_rool_duel_vram_payload_id
+	dw !tileset_NMI_0019
+	dw !tileset_logic_0017
+	db !krool_duel_layout_id
+	%bit_flags_word()
 
-DATA_FD48AF:
-	dw $0011
-	dw $000B
-	dw $0005
+krocodile_kore_tileset_config:
+	dw !tileset_init_0011
+	dw !tileset_HDMA_init_000B
+	dw !music_forest
 	dw !null_pointer
 	dw CODE_BBACE2
 	dw CODE_BBAD34
-	db $2A
-	db $2A
-	dw $0014
-	dw $0013
-	db $0C
-	dw $0000
+	db !krocodile_kore_ppu_config_id
+	db !krocodile_kore_vram_payload_id
+	dw !tileset_NMI_0014
+	dw !tileset_logic_0013
+	db !krocodile_kore_layout_id
+	%bit_flags_word()
 
-DATA_FD48C4:
-	dw $0011
-	dw $0000
-	dw $0005
+forest_generic_tileset_config:
+	dw !tileset_init_0011
+	dw !tileset_HDMA_init_0000
+	dw !music_forest
 	dw !null_pointer
 	dw CODE_BBACE2
 	dw CODE_BBAD34
-	db $01
-	db $02
-	dw $0001
-	dw $0001
-	db $00
-	dw $0002
+	db !forest_generic_ppu_config_id
+	db !forest_generic_vram_payload_id
+	dw !tileset_NMI_0001
+	dw !tileset_logic_0001
+	db !forest_layout_id
+	%bit_flags_word(!door_occlusion_effect)
 
-DATA_FD48D9:
-	dw $0010
-	dw $0016
-	dw $0005
+forest_misty_tileset_config:
+	dw !tileset_init_0010
+	dw !tileset_HDMA_init_0016
+	dw !music_forest
 	dw !null_pointer
 	dw CODE_BBACE2
 	dw CODE_BBAD34
-	db $35
-	db $34
-	dw $0021
-	dw $001F
-	db $00
-	dw $0002
+	db !forest_misty_ppu_config_id
+	db !forest_misty_vram_payload_id
+	dw !tileset_NMI_0021
+	dw !tileset_logic_001F
+	db !forest_layout_id
+	%bit_flags_word(!door_occlusion_effect)
 
-DATA_FD48EE:
-	dw $000F
-	dw $0015
-	dw $0005
+forest_light_shafts_tileset_config:
+	dw !tileset_init_000F
+	dw !tileset_HDMA_init_0015
+	dw !music_forest
 	dw !null_pointer
 	dw CODE_BBACE2
 	dw CODE_BBAD34
-	db $1E
-	db $1E
-	dw $000E
-	dw $000D
-	db $00
-	dw $0002
+	db !forest_light_shafts_ppu_config_id
+	db !forest_light_shafts_vram_payload_id
+	dw !tileset_NMI_000E
+	dw !tileset_logic_000D
+	db !forest_layout_id
+	%bit_flags_word(!door_occlusion_effect)
 
-DATA_FD4903:
-	dw $000E
-	dw $0014
-	dw $0005
+forest_windy_tileset_config:
+	dw !tileset_init_000E
+	dw !tileset_HDMA_init_0014
+	dw !music_forest
 	dw gusty_glade_level_palette
 	dw CODE_BBACE2
 	dw CODE_BBAD34
-	db $1D
-	db $1D
-	dw $000F
-	dw $000E
-	db $00
-	dw $8002
+	db !forest_windy_ppu_config_id
+	db !forest_windy_vram_payload_id
+	dw !tileset_NMI_000F
+	dw !tileset_logic_000E
+	db !forest_layout_id
+	%bit_flags_word(!door_occlusion_effect, !wind_sound_effect)
 
-DATA_FD4918:
-	dw $0011
-	dw $0013
-	dw $0010
+ship_hold_generic_tileset_config:
+	dw !tileset_init_0011
+	dw !tileset_HDMA_init_0013
+	dw !music_ship_hold
 	dw !null_pointer
 	dw CODE_BBACE2
 	dw CODE_BBAD34
-	db $02
-	db $03
-	dw $0002
-	dw $0002
-	db $01
-	dw $0002
+	db !ship_hold_generic_ppu_config_id
+	db !ship_hold_generic_vram_payload_id
+	dw !tileset_NMI_0002
+	dw !tileset_logic_0002
+	db !ship_hold_layout_id
+	%bit_flags_word(!door_occlusion_effect)
 
-DATA_FD492D:
-	dw $000D
-	dw $0012
-	dw $0010
+ship_hold_hot_tileset_config:
+	dw !tileset_init_000D
+	dw !tileset_HDMA_init_0012
+	dw !music_ship_hold
 	dw !null_pointer
 	dw CODE_BBACE2
 	dw CODE_BBAD34
-	db $02
-	db $03
-	dw $0018
-	dw $0002
-	db $01
-	dw $0022
+	db !ship_hold_generic_ppu_config_id
+	db !ship_hold_generic_vram_payload_id
+	dw !tileset_NMI_0018
+	dw !tileset_logic_0002
+	db !ship_hold_layout_id
+	%bit_flags_word(!door_occlusion_effect, !hazardous_water_effect)
 
-DATA_FD4942:
-	dw $000C
-	dw $0011
-	dw $0010
+ship_hold_dark_tileset_config:
+	dw !tileset_init_000C
+	dw !tileset_HDMA_init_0011
+	dw !music_ship_hold
 	dw !null_pointer
 	dw CODE_BBACE2
 	dw CODE_BBAD34
-	db $28
-	db $28
-	dw $0012
-	dw $0011
-	db $01
-	dw $0012
+	db !ship_hold_dark_ppu_config_id
+	db !ship_hold_dark_vram_payload_id
+	dw !tileset_NMI_0012
+	dw !tileset_logic_0011
+	db !ship_hold_layout_id
+	%bit_flags_word(!door_occlusion_effect, !inverted_sprite_palette_effect)
 
-DATA_FD4957:
-	dw $0011
-	dw $0010
-	dw $000B
+wasp_hive_generic_1_tileset_config:
+	dw !tileset_init_0011
+	dw !tileset_HDMA_init_0010
+	dw !music_wasp_hive
 	dw !null_pointer
 	dw CODE_BBACE2
 	dw CODE_BBAD34
-	db $03
-	db $04
-	dw $0003
-	dw $0003
-	db $02
-	dw $0802
+	db !wasp_hive_generic_ppu_config_id
+	db !wasp_hive_generic_vram_payload_id
+	dw !tileset_NMI_0003
+	dw !tileset_logic_0003
+	db !wasp_hive_1_layout_id
+	%bit_flags_word(!door_occlusion_effect, !sticky_honey_effect)
 
-DATA_FD496C:
-	dw $0011
-	dw $000F
-	dw $000B
+wasp_hive_king_zing_sting_tileset_config:
+	dw !tileset_init_0011
+	dw !tileset_HDMA_init_000F
+	dw !music_wasp_hive
 	dw !null_pointer
 	dw CODE_BBACE2
 	dw CODE_BBAD34
-	db $03
-	db $04
-	dw $0003
-	dw $0003
-	db $07
-	dw $0802
+	db !wasp_hive_generic_ppu_config_id
+	db !wasp_hive_generic_vram_payload_id
+	dw !tileset_NMI_0003
+	dw !tileset_logic_0003
+	db !wasp_hive_2_layout_id
+	%bit_flags_word(!door_occlusion_effect, !sticky_honey_effect)
 
-DATA_FD4981:
-	dw $0011
-	dw $0010
-	dw $000B
+wasp_hive_generic_2_tileset_config:
+	dw !tileset_init_0011
+	dw !tileset_HDMA_init_0010
+	dw !music_wasp_hive
 	dw !null_pointer
 	dw CODE_BBACE2
 	dw CODE_BBAD34
-	db $03
-	db $04
-	dw $0003
-	dw $0003
-	db $07
-	dw $0802
+	db !wasp_hive_generic_ppu_config_id
+	db !wasp_hive_generic_vram_payload_id
+	dw !tileset_NMI_0003
+	dw !tileset_logic_0003
+	db !wasp_hive_2_layout_id
+	%bit_flags_word(!door_occlusion_effect, !sticky_honey_effect)
 
-DATA_FD4996:
-	dw $0011
-	dw $0004
-	dw $0006
+ship_deck_pirate_panic_tileset_config:
+	dw !tileset_init_0011
+	dw !tileset_HDMA_init_0004
+	dw !music_ship_deck
 	dw !null_pointer
 	dw CODE_BBACE2
 	dw CODE_BBAD34
-	db $06
-	db $07
-	dw $0006
-	dw $0006
-	db $03
-	dw $000B
+	db !ship_deck_generic_ppu_config_id
+	db !ship_deck_generic_vram_payload_id
+	dw !tileset_NMI_0006
+	dw !tileset_logic_0006
+	db !ship_deck_layout_id
+	%bit_flags_word(!unknown_camera_effect, !door_occlusion_effect, !offscreen_water_splash_effect)
 
-DATA_FD49AB:
-	dw $0011
-	dw $0017
-	dw $0006
+ship_deck_gangplank_galley_tileset_config:
+	dw !tileset_init_0011
+	dw !tileset_HDMA_init_0017
+	dw !music_ship_deck
 	dw !null_pointer
 	dw CODE_BBACE2
 	dw CODE_BBAD34
-	db $06
-	db $07
-	dw $001A
-	dw $0018
-	db $03
-	dw $000B
+	db !ship_deck_generic_ppu_config_id
+	db !ship_deck_generic_vram_payload_id
+	dw !tileset_NMI_001A
+	dw !tileset_logic_0018
+	db !ship_deck_layout_id
+	%bit_flags_word(!unknown_camera_effect, !door_occlusion_effect, !offscreen_water_splash_effect)
 
-DATA_FD49C0:
-	dw $0004
-	dw $0004
-	dw $0012
+ship_deck_rattle_battle_tileset_config:
+	dw !tileset_init_0004
+	dw !tileset_HDMA_init_0004
+	dw !music_ship_deck_2
 	dw !null_pointer
 	dw CODE_BBACE2
 	dw CODE_BBAD34
-	db $06
-	db $07
-	dw $0006
-	dw $0006
-	db $03
-	dw $000B
+	db !ship_deck_generic_ppu_config_id
+	db !ship_deck_generic_vram_payload_id
+	dw !tileset_NMI_0006
+	dw !tileset_logic_0006
+	db !ship_deck_layout_id
+	%bit_flags_word(!unknown_camera_effect, !door_occlusion_effect, !offscreen_water_splash_effect)
 
-DATA_FD49D5:
-	dw $0009
-	dw $000A
-	dw $000D
+lava_hot_head_hop_tileset_config:
+	dw !tileset_init_0009
+	dw !tileset_HDMA_init_000A
+	dw !music_lava
 	dw !null_pointer
 	dw CODE_BBACEE
 	dw CODE_BBAD34
-	db $20
-	db $20
-	dw $0007
-	dw $0007
-	db $06
-	dw $0008
+	db !lava_generic_ppu_config_id
+	db !lava_generic_vram_payload_id
+	dw !tileset_NMI_0007
+	dw !tileset_logic_0007
+	db !lava_layout_id
+	%bit_flags_word(!offscreen_water_splash_effect)
 
-DATA_FD49EA:
-	dw $0009
-	dw $000A
-	dw $000D
+lava_fiery_furnace_tileset_config:
+	dw !tileset_init_0009
+	dw !tileset_HDMA_init_000A
+	dw !music_lava
 	dw fiery_furnace_level_palette
 	dw CODE_BBACEE
 	dw CODE_BBAD34
-	db $20
-	db $20
-	dw $0007
-	dw $0007
-	db $06
-	dw $0008
+	db !lava_generic_ppu_config_id
+	db !lava_generic_vram_payload_id
+	dw !tileset_NMI_0007
+	dw !tileset_logic_0007
+	db !lava_layout_id	
+	%bit_flags_word(!offscreen_water_splash_effect)
 
-DATA_FD49FF:
-	dw $0008
-	dw $0009
-	dw $000D
+lava_red_hot_ride_tileset_config:
+	dw !tileset_init_0008
+	dw !tileset_HDMA_init_0009
+	dw !music_lava
 	dw !null_pointer
 	dw CODE_BBACEE
 	dw CODE_BBAD34
-	db $29
-	db $29
-	dw $0013
-	dw $0012
-	db $06
-	dw $0100
+	db !lava_geysers_ppu_config_id
+	db !lava_geysers_vram_payload_id
+	dw !tileset_NMI_0013
+	dw !tileset_logic_0012
+	db !lava_layout_id	
+	%bit_flags_word(!platform_sprite_edge_guard_effect)
 
-DATA_FD4A14:
-	dw $0005
-	dw $0006
-	dw $001D
+ship_mast_slime_climb_tileset_config:
+	dw !tileset_init_0005
+	dw !tileset_HDMA_init_0006
+	dw !music_rigging
 	dw !null_pointer
 	dw CODE_BBACE2
 	dw CODE_BBAD34
-	db $2D
-	db $2D
-	dw $0017
-	dw $0016
-	db $04
-	dw $0042
+	db !ship_mast_flooded_ppu_config_id
+	db !ship_mast_flooded_vram_payload_id
+	dw !tileset_NMI_0017
+	dw !tileset_logic_0016
+	db !ship_mast_layout_id
+	%bit_flags_word(!door_occlusion_effect, !climbable_ropes_effect)
 
-DATA_FD4A29:
-	dw $0011
-	dw $0005
-	dw $001D
+ship_mast_unused_tileset_config:
+	dw !tileset_init_0011
+	dw !tileset_HDMA_init_0005
+	dw !music_rigging
 	dw !null_pointer
 	dw CODE_BBACE2
 	dw CODE_BBAD34
-	db $21
-	db $21
-	dw $0008
-	dw $0008
-	db $04
-	dw $0042
+	db !ship_mast_rainy_ppu_config_id
+	db !ship_mast_rainy_vram_payload_id
+	dw !tileset_NMI_0008
+	dw !tileset_logic_0008
+	db !ship_mast_layout_id
+	%bit_flags_word(!door_occlusion_effect, !climbable_ropes_effect)
 
-DATA_FD4A3E:
-	dw $0007
-	dw $0005
-	dw $001D
+ship_mast_topsail_trouble_tileset_config:
+	dw !tileset_init_0007
+	dw !tileset_HDMA_init_0005
+	dw !music_rigging
 	dw !null_pointer
 	dw CODE_BBACE2
 	dw CODE_BBAD34
-	db $21
-	db $21
-	dw $0008
-	dw $0008
-	db $04
-	dw $1042
+	db !ship_mast_rainy_ppu_config_id
+	db !ship_mast_rainy_vram_payload_id
+	dw !tileset_NMI_0008
+	dw !tileset_logic_0008
+	db !ship_mast_layout_id
+	%bit_flags_word(!door_occlusion_effect, !climbable_ropes_effect, !icey_slope_slide_effect)
 
-DATA_FD4A53:
-	dw $0014
-	dw $0005
-	dw $0015
+ship_mast_krows_nest_tileset_config:
+	dw !tileset_init_0014
+	dw !tileset_HDMA_init_0005
+	dw !music_big_boss
 	dw !null_pointer
 	dw CODE_BBACE2
 	dw CODE_BBAD34
-	db $25
-	db $25
-	dw $000D
-	dw $0008
-	db $04
-	dw $0002
+	db !ship_mast_cloudy_ppu_config_id
+	db !ship_mast_cloudy_vram_payload_id
+	dw !tileset_NMI_000D
+	dw !tileset_logic_0008
+	db !ship_mast_layout_id
+	%bit_flags_word(!door_occlusion_effect)
 
-DATA_FD4A68:
-	dw $0014
-	dw $0005
-	dw $001D
+ship_mast_mainbrace_mayhem_tileset_config:
+	dw !tileset_init_0014
+	dw !tileset_HDMA_init_0005
+	dw !music_rigging
 	dw !null_pointer
 	dw CODE_BBACE2
 	dw CODE_BBAD34
-	db $25
-	db $25
-	dw $000D
-	dw $0008
-	db $04
-	dw $0042
+	db !ship_mast_cloudy_ppu_config_id
+	db !ship_mast_cloudy_vram_payload_id
+	dw !tileset_NMI_000D
+	dw !tileset_logic_0008
+	db !ship_mast_layout_id
+	%bit_flags_word(!door_occlusion_effect, !climbable_ropes_effect)
 
-DATA_FD4A7D:
-	dw $0007
-	dw $0005
-	dw $001D
+ship_mast_kreepy_krow_tileset_config:
+	dw !tileset_init_0007
+	dw !tileset_HDMA_init_0005
+	dw !music_rigging
 	dw !null_pointer
 	dw CODE_BBACE2
 	dw CODE_BBAD34
-	db $0B
-	db $21
-	dw $0008
-	dw $0008
-	db $04
-	dw $0042
+	db !ship_mast_rainy_sprite_transparency_ppu_config_id
+	db !ship_mast_rainy_vram_payload_id
+	dw !tileset_NMI_0008
+	dw !tileset_logic_0008
+	db !ship_mast_layout_id
+	%bit_flags_word(!door_occlusion_effect, !climbable_ropes_effect)
 
-DATA_FD4A92:
-	dw $0000
-	dw $0000
-	dw $000E
+carnival_generic_1_tileset_config:
+	dw !tileset_init_0000
+	dw !tileset_HDMA_init_0000
+	dw !music_roller_coaster
 	dw !null_pointer
 	dw CODE_BBACE2
 	dw CODE_BBAD34
-	db $22
-	db $22
-	dw $0009
-	dw $0009
-	db $05
-	dw $4000
+	db !carnival_generic_ppu_config_id
+	db !carnival_generic_vram_payload_id
+	dw !tileset_NMI_0009
+	dw !tileset_logic_0009
+	db !carnival_1_layout_id
+	%bit_flags_word(!unknown_4000_effect)
 
-DATA_FD4AA7:
-	dw $0000
-	dw $0000
-	dw $000E
+carnival_generic_2_tileset_config:
+	dw !tileset_init_0000
+	dw !tileset_HDMA_init_0000
+	dw !music_roller_coaster
 	dw !null_pointer
 	dw CODE_BBACE2
 	dw CODE_BBAD34
-	db $22
-	db $22
-	dw $0009
-	dw $0009
-	db $13
-	dw $4000
+	db !carnival_generic_ppu_config_id
+	db !carnival_generic_vram_payload_id
+	dw !tileset_NMI_0009
+	dw !tileset_logic_0009
+	db !carnival_2_layout_id
+	%bit_flags_word(!unknown_4000_effect)
 
-DATA_FD4ABC:
-	dw $0006
-	dw $0008
-	dw $0017
+haunted_generic_1_tileset_config:
+	dw !tileset_init_0006
+	dw !tileset_HDMA_init_0008
+	dw !music_haunted
 	dw !null_pointer
 	dw CODE_BBACE2
 	dw CODE_BBAD34
-	db $2C
-	db $2C
-	dw $0016
-	dw $0015
-	db $13
-	dw $4000
+	db !haunted_generic_ppu_config_id
+	db !haunted_generic_vram_payload_id
+	dw !tileset_NMI_0016
+	dw !tileset_logic_0015
+	db !carnival_2_layout_id
+	%bit_flags_word(!unknown_4000_effect)
 
-DATA_FD4AD1:
-	dw $0006
-	dw $0008
-	dw $0017
+haunted_generic_2_tileset_config:
+	dw !tileset_init_0006
+	dw !tileset_HDMA_init_0008
+	dw !music_haunted
 	dw !null_pointer
 	dw CODE_BBACE2
 	dw CODE_BBAD34
-	db $2C
-	db $2C
-	dw $0016
-	dw $0015
-	db $05
-	dw $4000
+	db !haunted_generic_ppu_config_id
+	db !haunted_generic_vram_payload_id
+	dw !tileset_NMI_0016
+	dw !tileset_logic_0015
+	db !carnival_1_layout_id
+	%bit_flags_word(!unknown_4000_effect)
 
-DATA_FD4AE6:
-	dw $0011
-	dw $0018
-	dw $0007
+mine_windy_well_tileset_config:
+	dw !tileset_init_0011
+	dw !tileset_HDMA_init_0018
+	dw !music_mine
 	dw windy_well_level_palette
 	dw CODE_BBACE2
 	dw CODE_BBAD34
-	db $34
-	db $33
-	dw $0020
-	dw $001E
-	db $08
-	dw $8000
+	db !mine_windy_ppu_config_id
+	db !mine_windy_vram_payload_id
+	dw !tileset_NMI_0020
+	dw !tileset_logic_001E
+	db !mine_layout_id	
+	%bit_flags_word(!wind_sound_effect)
 
-DATA_FD4AFB:
-	dw $0011
-	dw $0007
-	dw $0007
+mine_kannons_klaim_tileset_config:
+	dw !tileset_init_0011
+	dw !tileset_HDMA_init_0007
+	dw !music_mine
 	dw !null_pointer
 	dw CODE_BBACE2
 	dw CODE_BBAD34
-	db $24
-	db $24
-	dw $000C
-	dw $000C
-	db $08
-	dw $0000
+	db !mine_generic_ppu_config_id
+	db !mine_generic_vram_payload_id
+	dw !tileset_NMI_000C
+	dw !tileset_logic_000C
+	db !mine_layout_id	
+	%bit_flags_word()
 
-DATA_FD4B10:
-	dw $0011
-	dw $0007
-	dw $0007
+mine_squawks_shaft_tileset_config:
+	dw !tileset_init_0011
+	dw !tileset_HDMA_init_0007
+	dw !music_mine
 	dw squawks_shaft_level_palette
 	dw CODE_BBACE2
 	dw CODE_BBAD34
-	db $24
-	db $24
-	dw $000C
-	dw $000C
-	db $08
-	dw $0000
+	db !mine_generic_ppu_config_id
+	db !mine_generic_vram_payload_id
+	dw !tileset_NMI_000C
+	dw !tileset_logic_000C
+	db !mine_layout_id
+	%bit_flags_word()
 
-DATA_FD4B25:
-	dw $0011
-	dw $0002
-	dw $0009
+bramble_light_1_tileset_config:
+	dw !tileset_init_0011
+	dw !tileset_HDMA_init_0002
+	dw !music_brambles
 	dw !null_pointer
 	dw CODE_BBACE2
 	dw CODE_BBAD34
-	db $27
-	db $27
-	dw $0011
-	dw $0010
-	db $0A
-	dw $0280
+	db !bramble_generic_ppu_config_id
+	db !bramble_generic_vram_payload_id
+	dw !tileset_NMI_0011
+	dw !tileset_logic_0010
+	db !brambles_1_layout_id
+	%bit_flags_word(!climbable_ropes_2_effect, !unused_bramble_effect)
 
-DATA_FD4B3A:
-	dw $0003
-	dw $0002
-	dw $0009
+bramble_brown_1_tileset_config:
+	dw !tileset_init_0003
+	dw !tileset_HDMA_init_0002
+	dw !music_brambles
 	dw !null_pointer
 	dw CODE_BBACE2
 	dw CODE_BBAD34
-	db $27
-	db $27
-	dw $0011
-	dw $0010
-	db $0A
-	dw $0280
+	db !bramble_generic_ppu_config_id
+	db !bramble_generic_vram_payload_id
+	dw !tileset_NMI_0011
+	dw !tileset_logic_0010
+	db !brambles_1_layout_id
+	%bit_flags_word(!climbable_ropes_2_effect, !unused_bramble_effect)
 
-DATA_FD4B4F:
-	dw $0002
-	dw $0002
-	dw $0009
+bramble_dark_1_tileset_config:
+	dw !tileset_init_0002
+	dw !tileset_HDMA_init_0002
+	dw !music_brambles
 	dw !null_pointer
 	dw CODE_BBACE2
 	dw CODE_BBAD34
-	db $27
-	db $27
-	dw $0011
-	dw $0010
-	db $0A
-	dw $0280
+	db !bramble_generic_ppu_config_id
+	db !bramble_generic_vram_payload_id
+	dw !tileset_NMI_0011
+	dw !tileset_logic_0010
+	db !brambles_1_layout_id
+	%bit_flags_word(!climbable_ropes_2_effect, !unused_bramble_effect)
 
-DATA_FD4B64:
-	dw $0001
-	dw $0001
-	dw $0009
+bramble_light_windy_tileset_config:
+	dw !tileset_init_0001
+	dw !tileset_HDMA_init_0001
+	dw !music_brambles
 	dw !null_pointer
 	dw CODE_BBACE2
 	dw CODE_BBAD34
-	db $33
-	db $32
-	dw $001F
-	dw $001D
-	db $12
-	dw $0280
+	db !bramble_windy_ppu_config_id
+	db !bramble_windy_vram_payload_id
+	dw !tileset_NMI_001F
+	dw !tileset_logic_001D
+	db !brambles_2_layout_id
+	%bit_flags_word(!climbable_ropes_2_effect, !unused_bramble_effect)
 
-DATA_FD4B79:
-	dw $0011
-	dw $0002
-	dw $0009
+bramble_light_2_tileset_config:
+	dw !tileset_init_0011
+	dw !tileset_HDMA_init_0002
+	dw !music_brambles
 	dw !null_pointer
 	dw CODE_BBACE2
 	dw CODE_BBAD34
-	db $27
-	db $27
-	dw $0011
-	dw $0010
-	db $12
-	dw $0280
+	db !bramble_generic_ppu_config_id
+	db !bramble_generic_vram_payload_id
+	dw !tileset_NMI_0011
+	dw !tileset_logic_0010
+	db !brambles_2_layout_id
+	%bit_flags_word(!climbable_ropes_2_effect, !unused_bramble_effect)
 
-DATA_FD4B8E:
-	dw $0002
-	dw $0002
-	dw $0009
+bramble_dark_2_tileset_config:
+	dw !tileset_init_0002
+	dw !tileset_HDMA_init_0002
+	dw !music_brambles
 	dw !null_pointer
 	dw CODE_BBACE2
 	dw CODE_BBAD34
-	db $27
-	db $27
-	dw $0011
-	dw $0010
-	db $12
-	dw $0280
+	db !bramble_generic_ppu_config_id
+	db !bramble_generic_vram_payload_id
+	dw !tileset_NMI_0011
+	dw !tileset_logic_0010
+	db !brambles_2_layout_id
+	%bit_flags_word(!climbable_ropes_2_effect, !unused_bramble_effect)
 
-DATA_FD4BA3:
-	dw $0003
-	dw $0002
-	dw $0009
+bramble_brown_2_tileset_config:
+	dw !tileset_init_0003
+	dw !tileset_HDMA_init_0002
+	dw !music_brambles
 	dw !null_pointer
 	dw CODE_BBACE2
 	dw CODE_BBAD34
-	db $27
-	db $27
-	dw $0011
-	dw $0010
-	db $12
-	dw $0280
+	db !bramble_generic_ppu_config_id
+	db !bramble_generic_vram_payload_id
+	dw !tileset_NMI_0011
+	dw !tileset_logic_0010
+	db !brambles_2_layout_id
+	%bit_flags_word(!climbable_ropes_2_effect, !unused_bramble_effect)
 
-DATA_FD4BB8:
-	dw $000A
-	dw $000C
-	dw $000F
+ship_cabin_tileset_config:
+	dw !tileset_init_000A
+	dw !tileset_HDMA_init_000C
+	dw !music_bonus
 	dw !null_pointer
 	dw CODE_BBACE2
 	dw CODE_BBAD34
-	db $23
-	db $23
-	dw $000A
-	dw $000A
-	db $10
-	dw $0004
+	db !ship_cabin_generic_ppu_config_id
+	db !ship_cabin_generic_vram_payload_id
+	dw !tileset_NMI_000A
+	dw !tileset_logic_000A
+	db !ship_cabin_layout_id
+	%bit_flags_word(!no_tilemap_effect)
 
-DATA_FD4BCD:
-	dw $0011
-	dw $0003
-	dw $0003
+swamp_barrel_bayou_tileset_config:
+	dw !tileset_init_0011
+	dw !tileset_HDMA_init_0003
+	dw !music_swamp
 	dw !null_pointer
 	dw CODE_BBACE2
 	dw CODE_BBAD34
-	db $26
-	db $26
-	dw $0010
-	dw $000F
-	db $09
-	dw $1008
+	db !swamp_generic_ppu_config_id
+	db !swamp_generic_vram_payload_id
+	dw !tileset_NMI_0010
+	dw !tileset_logic_000F
+	db !swamp_layout_id
+	%bit_flags_word(!offscreen_water_splash_effect, !icey_slope_slide_effect)
 
-DATA_FD4BE2:
+;$FD4BE2
+web_woods_unused_level_config:
 	dw !normal_level_type
-	dw DATA_FD48C4
-	db $00
+	dw forest_generic_tileset_config
+	db !level_layout_00
 	db $00
 	db $00
 	db $00
@@ -2018,10 +2019,11 @@ DATA_FD4BE2:
 	dw $FFFF, $0000
 	dw $FFFF
 
-DATA_FD4C1F:
+;$FD4C1F
+glimmers_galleon_level_config:
 	dw !normal_level_type
-	dw DATA_FD4942
-	db $00
+	dw ship_hold_dark_tileset_config
+	db !level_layout_00
 	db $00
 	db $00
 	db $00
@@ -2041,10 +2043,11 @@ DATA_FD4C1F:
 	dw $FFFF, $0000
 	dw $FFFF
 
-DATA_FD4C52:
+;$FD4C52
+rambi_rumble_level_config:
 	dw !normal_level_type
-	dw DATA_FD4957
-	db $00
+	dw wasp_hive_generic_1_tileset_config
+	db !level_layout_00
 	db $00
 	db $00
 	db $00
@@ -2065,10 +2068,11 @@ DATA_FD4C52:
 	dw $FFFF, $0000
 	dw $FFFF
 
-DATA_FD4C8A:
+;$FD4C8A
+pirate_panic_level_config:
 	dw !normal_level_type
-	dw DATA_FD4996
-	db $00
+	dw ship_deck_pirate_panic_tileset_config
+	db !level_layout_00
 	db $00
 	db $00
 	db $00
@@ -2091,10 +2095,11 @@ DATA_FD4C8A:
 	dw $FFFF, $0000
 	dw $FFFF
 
-DATA_FD4CC9:
+;$FD4CC9
+gangplank_galley_level_config:
 	dw !normal_level_type
-	dw DATA_FD49AB
-	db $01
+	dw ship_deck_gangplank_galley_tileset_config
+	db !level_layout_01
 	db $00
 	db $00
 	db $00
@@ -2116,10 +2121,11 @@ DATA_FD4CC9:
 	dw !level_kong_kollege_gangplank_galleon, !level_lockjaws_locker
 	dw $FFFF
 
-DATA_FD4D05:
+;$FD4D05
+rattle_battle_level_config:
 	dw !normal_level_type
-	dw DATA_FD49C0
-	db $02
+	dw ship_deck_rattle_battle_tileset_config
+	db !level_layout_02
 	db $00
 	db $00
 	db $00
@@ -2143,10 +2149,11 @@ DATA_FD4D05:
 	dw !level_rattle_battle, !level_klubbas_kiosk_krem_quay
 	dw $FFFF
 
-DATA_FD4D48:
+;$FD4D48
+glimmers_galleon_exit_room_level_config:
 	dw !sub_level_type
-	dw DATA_FD49C0
-	db $03
+	dw ship_deck_rattle_battle_tileset_config
+	db !level_layout_03
 	db $00
 	db $00
 	db $00
@@ -2163,10 +2170,11 @@ DATA_FD4D48:
 	dw !level_monkey_museum_krem_quay, !level_krockhead_klamber
 	dw $FFFF
 
-DATA_FD4D71:
+;$FD4D71
+hot_head_hop_level_config:
 	dw !normal_level_type
-	dw DATA_FD49D5
-	db $00
+	dw lava_hot_head_hop_tileset_config
+	db !level_layout_00
 	db $00
 	db $00
 	db $00
@@ -2191,10 +2199,11 @@ DATA_FD4D71:
 	dw !level_swankys_bonus_bonanza_crocodile_cauldron, !level_kannons_klaim
 	dw $FFFF
 
-DATA_FD4DB8:
+;$FD4DB8
+red_hot_ride_level_config:
 	dw !normal_level_type
-	dw DATA_FD49FF
-	db $01
+	dw lava_red_hot_ride_tileset_config
+	db !level_layout_01
 	db $00
 	db $00
 	db $00
@@ -2216,10 +2225,11 @@ DATA_FD4DB8:
 	dw !level_red_hot_ride, !level_monkey_museum_crocodile_cauldron
 	dw $FFFF
 
-DATA_FD4DF4:
+;$FD4DF4
+krows_nest_level_config:
 	dw !boss_level_type
-	dw DATA_FD4A53
-	db $00
+	dw ship_mast_krows_nest_tileset_config
+	db !level_layout_00
 	db $00
 	db $00
 	db $00
@@ -2235,10 +2245,11 @@ DATA_FD4DF4:
 	dw !level_gangplank_galleon, !level_crocodile_cauldron
 	dw $FFFF
 
-DATA_FD4E1B:
+;$FD4E1B
+slime_climb_level_config:
 	dw !normal_level_type
-	dw DATA_FD4A14
-	db $01
+	dw ship_mast_slime_climb_tileset_config
+	db !level_layout_01
 	db $00
 	db $00
 	db $00
@@ -2258,10 +2269,11 @@ DATA_FD4E1B:
 	dw !level_slime_climb, !level_swankys_bonus_bonanza_krem_quay
 	dw $FFFF
 
-DATA_FD4E50:
+;$FD4E50
+topsail_trouble_level_config:
 	dw !normal_level_type
-	dw DATA_FD4A3E
-	db $02
+	dw ship_mast_topsail_trouble_tileset_config
+	db !level_layout_02
 	db $00
 	db $00
 	db $00
@@ -2283,10 +2295,11 @@ DATA_FD4E50:
 	dw !level_funkys_flights_gangplank_galleon, !level_krows_nest
 	dw $FFFF
 
-DATA_FD4E8C:
+;$FD4E8C
+mainbrace_mayhem_level_config:
 	dw !normal_level_type
-	dw DATA_FD4A68
-	db $03
+	dw ship_mast_mainbrace_mayhem_tileset_config
+	db !level_layout_03
 	db $00
 	db $00
 	db $00
@@ -2320,10 +2333,11 @@ DATA_FD4E8C:
 	dw !level_return_to_k_rools_keep, !level_animal_antics_rambi_area
 	dw $FFFF
 
-DATA_FD4EF7:
+;$FD4EF7
+kreepy_krow_level_config:
 	dw !boss_level_type
-	dw DATA_FD4A7D
-	db $04
+	dw ship_mast_kreepy_krow_tileset_config
+	db !level_layout_04
 	db $00
 	db $00
 	db $00
@@ -2339,10 +2353,11 @@ DATA_FD4EF7:
 	dw !level_gloomy_gulch, !level_k_rools_keep
 	dw $FFFF
 
-DATA_FD4F1E:
+;$FD4F1E
+target_terror_level_config:
 	dw !normal_level_type
-	dw DATA_FD4A92
-	db $00
+	dw carnival_generic_1_tileset_config
+	db !level_layout_00
 	db $00
 	db $00
 	db $00
@@ -2362,10 +2377,11 @@ DATA_FD4F1E:
 	dw $FFFF, $0000
 	dw $FFFF
 
-DATA_FD4F51:
+;$FD4F51
+rickety_race_level_config:
 	dw !normal_level_type
-	dw DATA_FD4A92
-	db $01
+	dw carnival_generic_1_tileset_config
+	db !level_layout_01
 	db $00
 	db $00
 	db $00
@@ -2383,10 +2399,11 @@ DATA_FD4F51:
 	dw $FFFF, $0000
 	dw $FFFF
 
-DATA_FD4F7D:
+;$FD4F7D
+haunted_hall_level_config:
 	dw !normal_level_type
-	dw DATA_FD4ABC
-	db $00
+	dw haunted_generic_1_tileset_config
+	db !level_layout_00
 	db $00
 	db $00
 	db $00
@@ -2408,10 +2425,11 @@ DATA_FD4F7D:
 	dw $FFFF, $0000
 	dw $FFFF
 
-DATA_FD4FB7:
+;$FD4FB7
+hornet_hole_level_config:
 	dw !normal_level_type
-	dw DATA_FD4957
-	db $01
+	dw wasp_hive_generic_1_tileset_config
+	db !level_layout_01
 	db $00
 	db $00
 	db $00
@@ -2434,10 +2452,11 @@ DATA_FD4FB7:
 	dw !level_krazy_kremland_upper_to_lower_left, !level_target_terror
 	dw $FFFF
 
-DATA_FD4FF7:
+;$FD4FF7
+rambi_rumble_rambi_room_level_config:
 	dw !small_level_type
-	dw DATA_FD4957
-	db $02
+	dw wasp_hive_generic_1_tileset_config
+	db !level_layout_02
 	db $00
 	db $00
 	db $00
@@ -2452,10 +2471,11 @@ DATA_FD4FF7:
 	dw $FFFF, $0000
 	dw $FFFF
 
-DATA_FD501A:
+;$FD501A
+parrot_chute_panic_level_config:
 	dw !normal_level_type
-	dw DATA_FD4981
-	db $00
+	dw wasp_hive_generic_2_tileset_config
+	db !level_layout_00
 	db $00
 	db $00
 	db $00
@@ -2479,10 +2499,11 @@ DATA_FD501A:
 	dw !level_funkys_flights_gloomy_gulch, !level_web_woods
 	dw $FFFF
 
-DATA_FD505E:
+;$FD505E
+lava_lagoon_level_config:
 	dw !normal_level_type
-	dw DATA_FD492D
-	db $01
+	dw ship_hold_hot_tileset_config
+	db !level_layout_01
 	db $00
 	db $00
 	db $00
@@ -2502,10 +2523,11 @@ DATA_FD505E:
 	dw !level_lava_lagoon, !level_kong_kollege_crocodile_cauldron
 	dw $FFFF
 
-DATA_FD5093:
+;$FD5093
+lockjaws_locker_level_config:
 	dw !normal_level_type
-	dw DATA_FD4918
-	db $02
+	dw ship_hold_generic_tileset_config
+	db !level_layout_02
 	db $00
 	db $00
 	db $00
@@ -2525,10 +2547,11 @@ DATA_FD5093:
 	dw !level_swankys_bonus_bonanza_gangplank_galleon, !level_topsail_trouble
 	dw $FFFF
 
-DATA_FD50C8:
+;$FD50C8
+fiery_furnace_level_config:
 	dw !normal_level_type
-	dw DATA_FD49EA
-	db $02
+	dw lava_fiery_furnace_tileset_config
+	db !level_layout_02
 	db $00
 	db $00
 	db $00
@@ -2545,10 +2568,11 @@ DATA_FD50C8:
 	dw $FFFF, $0000
 	dw $FFFF
 
-DATA_FD50F2:
+;$FD50F2
+web_woods_level_config:
 	dw !normal_level_type
-	dw DATA_FD48D9
-	db $00
+	dw forest_misty_tileset_config
+	db !level_layout_00
 	db $00
 	db $00
 	db $00
@@ -2569,10 +2593,11 @@ DATA_FD50F2:
 	dw $FFFF, $0000
 	dw $FFFF
 
-DATA_FD512A:
+;$FD512A
+gusty_glade_level_config:
 	dw !normal_level_type
-	dw DATA_FD4903
-	db $01
+	dw forest_windy_tileset_config
+	db !level_layout_01
 	db $00
 	db $00
 	db $00
@@ -2594,10 +2619,11 @@ DATA_FD512A:
 	dw !level_gusty_glade, !level_kong_kollege_gloomy_gulch
 	dw $FFFF
 
-DATA_FD5166:
+;$FD5166
+ghostly_grove_level_config:
 	dw !normal_level_type
-	dw DATA_FD48EE
-	db $02
+	dw forest_light_shafts_tileset_config
+	db !level_layout_02
 	db $00
 	db $00
 	db $00
@@ -2617,11 +2643,12 @@ DATA_FD5166:
 	dw !level_monkey_museum_gloomy_gulch, !level_haunted_hall
 	dw $FFFF
 
-DATA_FD519B:
+;$FD519B
+topsail_trouble_warp_room_level_config:
 	dw !bonus_level_type
-	db $00
-	dw DATA_FD4A3E
-	db $05
+	db !no_bonus_type
+	dw ship_mast_topsail_trouble_tileset_config
+	db !level_layout_05
 	db $00
 	db $00
 	db $01
@@ -2634,11 +2661,12 @@ DATA_FD519B:
 	dw $FFFF, $0000
 	dw $FFFF
 
-DATA_FD51B5:
+;$FD51B5
+pirate_panic_k_rools_cabin_level_config:
 	dw !bonus_level_type
-	db $00
-	dw DATA_FD4BB8
-	db $00
+	db !no_bonus_type
+	dw ship_cabin_tileset_config
+	db !level_layout_00
 	db $00
 	db $00
 	db $00
@@ -2654,11 +2682,12 @@ DATA_FD51B5:
 	dw $FFFF, $0000
 	dw $FFFF
 
-DATA_FD51DB:
+;$FD51DB
+hot_head_hop_bonus_2_level_config:
 	dw !bonus_level_type
 	db !find_the_token_bonus_type
-	dw DATA_FD49D5
-	db $03
+	dw lava_hot_head_hop_tileset_config
+	db !level_layout_03
 	db $00
 	db $00
 	db $00
@@ -2671,11 +2700,12 @@ DATA_FD51DB:
 	dw $FFFF, $0000
 	dw $FFFF
 
-DATA_FD51F5:
+;$FD51F5
+pirate_panic_warp_room_level_config:
 	dw !bonus_level_type
-	db $00
-	dw DATA_FD4996
-	db $04
+	db !no_bonus_type
+	dw ship_deck_pirate_panic_tileset_config
+	db !level_layout_04
 	db $00
 	db $00
 	db $01
@@ -2690,10 +2720,11 @@ DATA_FD51F5:
 	dw $FFFF, $0000
 	dw $FFFF
 
-DATA_FD5219:
+;$FD5219
+target_terror_exit_room_level_config:
 	dw !sub_level_type
-	dw DATA_FD4AA7
-	db $01
+	dw carnival_generic_2_tileset_config
+	db !level_layout_01
 	db $00
 	db $00
 	db $00
@@ -2706,11 +2737,12 @@ DATA_FD5219:
 	dw $FFFF, $0000
 	dw $FFFF
 
-DATA_FD5232:
+;$FD5232
+web_woods_room_unused_level_config:
 	dw !bonus_level_type
-	db $00
-	dw DATA_FD48C4
-	db $04
+	db !no_bonus_type
+	dw forest_generic_tileset_config
+	db !level_layout_04
 	db $00
 	db $00
 	db $00
@@ -2725,11 +2757,12 @@ DATA_FD5232:
 	dw $FFFF, $0000
 	dw $FFFF
 
-DATA_FD5256:
+;$FD5256
+mainbrace_mayhem_warp_room_level_config:
 	dw !bonus_level_type
-	db $00
-	dw DATA_FD4A68
-	db $05
+	db !no_bonus_type
+	dw ship_mast_mainbrace_mayhem_tileset_config
+	db !level_layout_05
 	db $00
 	db $00
 	db $01
@@ -2742,10 +2775,11 @@ DATA_FD5256:
 	dw $FFFF, $0000
 	dw $FFFF
 
-DATA_FD5270:
+;$FD5270
+kleevers_kiln_level_config:
 	dw !boss_level_type
-	dw DATA_FD49D5
-	db $05
+	dw lava_hot_head_hop_tileset_config
+	db !level_layout_05
 	db $00
 	db $00
 	db $00
@@ -2759,10 +2793,11 @@ DATA_FD5270:
 	dw !level_crocodile_cauldron, !level_krem_quay
 	dw $FFFF
 
-DATA_FD528D:
+;$FD528D
+rattle_battle_rattly_room_level_config:
 	dw !small_level_type
-	dw DATA_FD4BB8
-	db $00
+	dw ship_cabin_tileset_config
+	db !level_layout_00
 	db $00
 	db $00
 	db $00
@@ -2775,10 +2810,11 @@ DATA_FD528D:
 	dw $FFFF, $0000
 	dw $FFFF
 
-DATA_FD52A6:
+;$FD52A6
+windy_well_level_config:
 	dw !normal_level_type
-	dw DATA_FD4AE6
-	db $03
+	dw mine_windy_well_tileset_config
+	db !level_layout_03
 	db $00
 	db $00
 	db $00
@@ -2798,10 +2834,11 @@ DATA_FD52A6:
 	dw !level_kong_kollege_k_rools_keep, !level_castle_crush
 	dw $FFFF
 
-DATA_FD52DB:
+;$FD52DB
+squawks_shaft_level_config:
 	dw !normal_level_type
-	dw DATA_FD4B10
-	db $00
+	dw mine_squawks_shaft_tileset_config
+	db !level_layout_00
 	db $00
 	db $00
 	db $00
@@ -2824,10 +2861,11 @@ DATA_FD52DB:
 	dw $FFFF, $0000
 	dw $FFFF
 
-DATA_FD531A:
+;$FD531A
+kannons_klaim_level_config:
 	dw !normal_level_type
-	dw DATA_FD4AFB
-	db $01
+	dw mine_kannons_klaim_tileset_config
+	db !level_layout_01
 	db $00
 	db $00
 	db $00
@@ -2851,11 +2889,12 @@ DATA_FD531A:
 	dw !level_kannons_klaim, !level_funkys_flights_crocodile_cauldron
 	dw $FFFF
 
-DATA_FD535D:
+;$FD535D
+parrot_chute_panic_warp_room_level_config:
 	dw !bonus_level_type
-	db $00
-	dw DATA_FD4957
-	db $03
+	db !no_bonus_type
+	dw wasp_hive_generic_1_tileset_config
+	db !level_layout_03
 	db $00
 	db $00
 	db $00
@@ -2868,11 +2907,12 @@ DATA_FD535D:
 	dw $FFFF, $0000
 	dw $FFFF
 
-DATA_FD5377:
+;$FD5377
+kannons_klaim_warp_room_level_config:
 	dw !bonus_level_type
-	db $00
-	dw DATA_FD4AFB
-	db $02
+	db !no_bonus_type
+	dw mine_kannons_klaim_tileset_config
+	db !level_layout_02
 	db $00
 	db $00
 	db $01
@@ -2885,10 +2925,11 @@ DATA_FD5377:
 	dw $FFFF, $0000
 	dw $FFFF
 
-DATA_FD5391:
+;$FD5391
+barrel_bayou_level_config:
 	dw !normal_level_type
-	dw DATA_FD4BCD
-	db $00
+	dw swamp_barrel_bayou_tileset_config
+	db !level_layout_00
 	db $00
 	db $00
 	db $00
@@ -2907,10 +2948,11 @@ DATA_FD5391:
 	dw $FFFF, $0000
 	dw $FFFF
 
-DATA_FD53C2:
+;$FD53C2
+krockhead_klamber_level_config:
 	dw !normal_level_type
-	dw DATA_FD47C8
-	db $01
+	dw swamp_krockhead_klamber_tileset_config
+	db !level_layout_01
 	db $00
 	db $00
 	db $00
@@ -2927,10 +2969,11 @@ DATA_FD53C2:
 	dw $FFFF, $0000
 	dw $FFFF
 
-DATA_FD53EC:
+;$FD53EC
+web_woods_squitter_room_level_config:
 	dw !small_level_type
-	dw DATA_FD48D9
-	db $04
+	dw forest_misty_tileset_config
+	db !level_layout_04
 	db $00
 	db $00
 	db $00
@@ -2943,11 +2986,12 @@ DATA_FD53EC:
 	dw $FFFF, $0000
 	dw $FFFF
 
-DATA_FD5405:
+;$FD5405
+barrel_bayou_warp_room_level_config:
 	dw !bonus_level_type
-	db $00
-	dw DATA_FD4BCD
-	db $02
+	db !no_bonus_type
+	dw swamp_barrel_bayou_tileset_config
+	db !level_layout_02
 	db $00
 	db $00
 	db $00
@@ -2960,10 +3004,11 @@ DATA_FD5405:
 	dw $FFFF, $0000
 	dw $FFFF
 
-DATA_FD541F:
+;$FD541F
+mudhole_marsh_level_config:
 	dw !normal_level_type
-	dw DATA_FD47DD
-	db $03
+	dw swamp_mudhole_marsh_tileset_config
+	db !level_layout_03
 	db $00
 	db $00
 	db $00
@@ -2983,10 +3028,11 @@ DATA_FD541F:
 	dw !level_mudhole_marsh, !level_klubbas_kiosk_krazy_kremland_lower
 	dw $FFFF
 
-DATA_FD5454:
+;$FD5454
+bramble_blast_level_config:
 	dw !normal_level_type
-	dw DATA_FD4B25
-	db $00
+	dw bramble_light_1_tileset_config
+	db !level_layout_00
 	db $00
 	db $00
 	db $00
@@ -3005,10 +3051,11 @@ DATA_FD5454:
 	dw $FFFF, $0000
 	dw $FFFF
 
-DATA_FD5485:
+;$FD5485
+bramble_scramble_level_config:
 	dw !normal_level_type
-	dw DATA_FD4B4F
-	db $01
+	dw bramble_dark_1_tileset_config
+	db !level_layout_01
 	db $00
 	db $00
 	db $00
@@ -3026,10 +3073,11 @@ DATA_FD5485:
 	dw !level_bramble_scramble, !level_funkys_flights_krazy_kremland_upper
 	dw $FFFF
 
-DATA_FD54B3:
+;$FD54B3
+screechs_sprint_level_config:
 	dw !normal_level_type
-	dw DATA_FD4B3A
-	db $02
+	dw bramble_brown_1_tileset_config
+	db !level_layout_02
 	db $00
 	db $00
 	db $00
@@ -3048,154 +3096,203 @@ DATA_FD54B3:
 	dw !level_screechs_sprint, !level_funkys_flights_the_flying_krock
 	dw $FFFF
 
-DATA_FD54E5:
+;$FD54E5
+gangplank_galleon_level_config:
 	dw !map_level_type
 
-DATA_FD54E7:
+;$FD54E7
+crocodile_cauldron_level_config:
 	dw !map_level_type
 
-DATA_FD54E9:
+;$FD54E9
+krem_quay_level_config:
 	dw !map_level_type
 
-DATA_FD54EB:
+;$FD54EB
+krazy_kremland_level_config:
 	dw !map_level_type
 
-DATA_FD54ED:
+;$FD54ED
+gloomy_gulch_level_config:
 	dw !map_level_type
 
-DATA_FD54EF:
+;$FD54EF
+k_rools_keep_level_config:
 	dw !map_level_type
 
-DATA_FD54F1:
+;$FD54F1
+the_flying_krock_level_config:
 	dw !map_level_type
 
-DATA_FD54F3:
+;$FD54F3
+lost_world_level_config:
 	dw !map_level_type
 
-DATA_FD54F5:
+;$FD54F5
+monkey_museum_gangplank_galleon_level_config:
 	dw !npc_level_type
 
-DATA_FD54F7:
+;$FD54F7
+monkey_museum_crocodile_cauldron_level_config:
 	dw !npc_level_type
 
-DATA_FD54F9:
+;$FD54F9
+monkey_museum_krem_quay_level_config:
 	dw !npc_level_type
 
-DATA_FD54FB:
+;$FD54FB
+monkey_museum_krazy_kremland_upper_level_config:
 	dw !npc_level_type
 
-DATA_FD54FD:
+;$FD54FD
+monkey_museum_gloomy_gulch_level_config:
 	dw !npc_level_type
 
-DATA_FD54FF:
+;$FD54FF
+monkey_museum_k_rools_keep_level_config:
 	dw !npc_level_type
 
-DATA_FD5501:
+;$FD5501
+level_3E_level_config:
 	dw !npc_level_type
 
-DATA_FD5503:
+;$FD5503
+level_3F_level_config:
 	dw !npc_level_type
 
-DATA_FD5505:
+;$FD5505
+kong_kollege_gangplank_galleon_level_config:
 	dw !npc_level_type
 
-DATA_FD5507:
+;$FD5507
+swankys_bonus_bonanza_crocodile_cauldron_level_config:
 	dw !npc_level_type
 
-DATA_FD5509:
+;$FD5509
+swankys_bonus_bonanza_krem_quay_level_config:
 	dw !npc_level_type
 
-DATA_FD550B:
+;$FD550B
+swankys_bonus_bonanza_krazy_kremland_upper_level_config:
 	dw !npc_level_type
 
-DATA_FD550D:
+;$FD550D
+swankys_bonus_bonanza_gloomy_gulch_level_config:
 	dw !npc_level_type
 
-DATA_FD550F:
+;$FD550F
+kong_kollege_k_rools_keep_level_config:
 	dw !npc_level_type
 
-DATA_FD5511:
+;$FD5511
+level_46_level_config:
 	dw !npc_level_type
 
-DATA_FD5513:
+;$FD5513
+level_47_level_config:
 	dw !npc_level_type
 
-DATA_FD5515:
+;$FD5515
+swankys_bonus_bonanza_gangplank_galleon_level_config:
 	dw !npc_level_type
 
-DATA_FD5517:
+;$FD5517
+kong_kollege_crocodile_cauldron_level_config:
 	dw !npc_level_type
 
-DATA_FD5519:
+;$FD5519
+kong_kollege_krem_quay_level_config:
 	dw !npc_level_type
 
-DATA_FD551B:
+;$FD551B
+kong_kollege_krazy_kremland_lower_level_config:
 	dw !npc_level_type
 
-DATA_FD551D:
+;$FD551D
+kong_kollege_gloomy_gulch_level_config:
 	dw !npc_level_type
 
-DATA_FD551F:
+;$FD551F
+swankys_bonus_bonanza_k_rools_keep_level_config:
 	dw !npc_level_type
 
-DATA_FD5521:
+;$FD5521
+kong_kollege_the_flying_krock_level_config:
 	dw !npc_level_type
 
-DATA_FD5523:
+;$FD5523
+level_4F_level_config:
 	dw !npc_level_type
 
-DATA_FD5525:
+;$FD5525
+funkys_flights_gangplank_galleon_level_config:
 	dw !npc_level_type
 
-DATA_FD5527:
+;$FD5527
+funkys_flights_crocodile_cauldron_level_config:
 	dw !npc_level_type
 
-DATA_FD5529:
+;$FD5529
+funkys_flights_krem_quay_level_config:
 	dw !npc_level_type
 
-DATA_FD552B:
+;$FD552B
+funkys_flights_krazy_kremland_upper_level_config:
 	dw !npc_level_type
 
-DATA_FD552D:
+;$FD552D
+funkys_flights_gloomy_gulch_level_config:
 	dw !npc_level_type
 
-DATA_FD552F:
+;$FD552F
+funkys_flights_k_rools_keep_level_config:
 	dw !npc_level_type
 
-DATA_FD5531:
+;$FD5531
+funkys_flights_the_flying_krock_level_config:
 	dw !npc_level_type
 
-DATA_FD5533:
+;$FD5533
+level_57_level_config:
 	dw !npc_level_type
 
-DATA_FD5535:
+;$FD5535
+level_58_level_config:
 	dw !npc_level_type
 
-DATA_FD5537:
+;$FD5537
+klubbas_kiosk_crocodile_cauldron_level_config:
 	dw !npc_level_type
 
-DATA_FD5539:
+;$FD5539
+klubbas_kiosk_krem_quay_level_config:
 	dw !npc_level_type
 
-DATA_FD553B:
+;$FD553B
+klubbas_kiosk_krazy_kremland_lower_level_config:
 	dw !npc_level_type
 
-DATA_FD553D:
+;$FD553D
+klubbas_kiosk_gloomy_gulch_level_config:
 	dw !npc_level_type
 
-DATA_FD553F:
+;$FD553F
+klubbas_kiosk_k_rools_keep_level_config:
 	dw !npc_level_type
 
-DATA_FD5541:
+;$FD5541
+level_5E_level_config:
 	dw !npc_level_type
 
-DATA_FD5543:
+;$FD5543
+level_5F_level_config:
 	dw !npc_level_type
 
-DATA_FD5545:
+;$FD5545
+king_zing_sting_level_config:
 	dw !boss_level_type
-	dw DATA_FD496C
-	db $01
+	dw wasp_hive_king_zing_sting_tileset_config
+	db !level_layout_01
 	db $00
 	db $00
 	db $00
@@ -3209,10 +3306,11 @@ DATA_FD5545:
 	dw !level_krazy_kremland, !level_gloomy_gulch
 	dw $FFFF
 
-DATA_FD5562:
+;$FD5562
+k_rool_duel_level_config:
 	dw !boss_level_type
-	dw DATA_FD489A
-	db $00
+	dw k_rool_duel_tileset_config
+	db !level_layout_00
 	db $00
 	db $00
 	db $00
@@ -3225,10 +3323,11 @@ DATA_FD5562:
 	dw $FFFF, $0000
 	dw $FFFF
 
-DATA_FD557B:
+;$FD557B
+castle_crush_level_config:
 	dw !normal_level_type
-	dw DATA_FD4885
-	db $00
+	dw castle_crush_tileset_config
+	db !level_layout_00
 	db $00
 	db $00
 	db $00
@@ -3247,10 +3346,11 @@ DATA_FD557B:
 	dw $FFFF, $0000
 	dw $FFFF
 
-DATA_FD55AC:
+;$FD55AC
+kudgels_kontest_level_config:
 	dw !boss_level_type
-	dw DATA_FD4BCD
-	db $0B
+	dw swamp_barrel_bayou_tileset_config
+	db !level_layout_0B
 	db $00
 	db $00
 	db $00
@@ -3264,23 +3364,28 @@ DATA_FD55AC:
 	dw !level_krem_quay, !level_krazy_kremland
 	dw $FFFF
 
-DATA_FD55C9:
+;$FD55C9
+krazy_kremland_lower_to_upper_left_level_config:
 	dw !map_level_type
 
-DATA_FD55CB:
+;$FD55CB
+krazy_kremland_upper_to_lower_left_level_config:
 	dw !map_level_type
 
-DATA_FD55CD:
+;$FD55CD
+krazy_kremland_upper_to_lower_right_level_config:
 	dw !map_level_type
 
-DATA_FD55CF:
+;$FD55CF
+krazy_kremland_lower_to_upper_right_level_config:
 	dw !map_level_type
 
-DATA_FD55D1:
+;$FD55D1
+lockjaws_locker_warp_room_level_config:
 	dw !bonus_level_type
-	db $00
-	dw DATA_FD4918
-	db $05
+	db !no_bonus_type
+	dw ship_hold_generic_tileset_config
+	db !level_layout_05
 	db $00
 	db $00
 	db $01
@@ -3293,11 +3398,12 @@ DATA_FD55D1:
 	dw $FFFF, $0000
 	dw $FFFF
 
-DATA_FD55EB:
+;$FD55EB
+lava_lagoon_warp_room_level_config:
 	dw !bonus_level_type
-	db $00
-	dw DATA_FD492D
-	db $05
+	db !no_bonus_type
+	dw ship_hold_hot_tileset_config
+	db !level_layout_05
 	db $00
 	db $00
 	db $01
@@ -3310,11 +3416,12 @@ DATA_FD55EB:
 	dw $FFFF, $0000
 	dw $FFFF
 
-DATA_FD5605:
+;$FD5605
+squawks_shaft_warp_room_level_config:
 	dw !bonus_level_type
-	db $00
-	dw DATA_FD4B10
-	db $02
+	db !no_bonus_type
+	dw mine_squawks_shaft_tileset_config
+	db !level_layout_02
 	db $00
 	db $00
 	db $01
@@ -3327,10 +3434,11 @@ DATA_FD5605:
 	dw $FFFF, $0000
 	dw $FFFF
 
-DATA_FD561F:
+;$FD561F
+krocodile_kore_level_config:
 	dw !boss_level_type
-	dw DATA_FD48AF
-	db $00
+	dw krocodile_kore_tileset_config
+	db !level_layout_00
 	db $00
 	db $00
 	db $00
@@ -3344,10 +3452,11 @@ DATA_FD561F:
 	dw !level_krazy_kremland, !level_gloomy_gulch
 	dw $FFFF
 
-DATA_FD563C:
+;$FD563C
+arctic_abyss_level_config:
 	dw !normal_level_type
-	dw DATA_FD4807
-	db $00
+	dw ice_flooded_tileset_config
+	db !level_layout_00
 	db $00
 	db $00
 	db $00
@@ -3368,10 +3477,11 @@ DATA_FD563C:
 	dw !level_arctic_abyss, !level_monkey_museum_k_rools_keep
 	dw $FFFF
 
-DATA_FD5675:
+;$FD5675
+chain_link_chamber_level_config:
 	dw !normal_level_type
-	dw DATA_FD4846
-	db $02
+	dw castle_chain_link_chamber_tileset_config
+	db !level_layout_02
 	db $00
 	db $00
 	db $00
@@ -3392,10 +3502,11 @@ DATA_FD5675:
 	dw !level_swankys_bonus_bonanza_k_rools_keep, !level_toxic_tower
 	dw $FFFF
 
-DATA_FD56AE:
+;$FD56AE
+toxic_tower_level_config:
 	dw !normal_level_type
-	dw DATA_FD4870
-	db $03
+	dw castle_toxic_tower_tileset_config
+	db !level_layout_03
 	db $00
 	db $00
 	db $00
@@ -3412,11 +3523,12 @@ DATA_FD56AE:
 	dw $FFFF, $0000
 	dw $FFFF
 
-DATA_FD56D8:
+;$FD56D8
+pirate_panic_bonus_1_level_config:
 	dw !bonus_level_type
 	db !find_the_token_bonus_type
-	dw DATA_FD4996
-	db $05
+	dw ship_deck_pirate_panic_tileset_config
+	db !level_layout_05
 	db $00
 	db $00
 	db $00
@@ -3429,11 +3541,12 @@ DATA_FD56D8:
 	dw $FFFF, $0000
 	dw $FFFF
 
-DATA_FD56F2:
+;$FD56F2
+pirate_panic_bonus_2_level_config:
 	dw !bonus_level_type
 	db !destroy_them_all_bonus_type
-	dw DATA_FD4996
-	db $06
+	dw ship_deck_pirate_panic_tileset_config
+	db !level_layout_06
 	db $00
 	db $00
 	db $00
@@ -3446,11 +3559,12 @@ DATA_FD56F2:
 	dw $FFFF, $0000
 	dw $FFFF
 
-DATA_FD570C:
+;$FD570C
+gangplank_galley_bonus_2_level_config:
 	dw !bonus_level_type
 	db !find_the_token_bonus_type
-	dw DATA_FD49AB
-	db $07
+	dw ship_deck_gangplank_galley_tileset_config
+	db !level_layout_07
 	db $00
 	db $00
 	db $00
@@ -3463,11 +3577,12 @@ DATA_FD570C:
 	dw $FFFF, $0000
 	dw $FFFF
 
-DATA_FD5726:
+;$FD5726
+rattle_battle_bonus_1_level_config:
 	dw !bonus_level_type
 	db !find_the_token_bonus_type
-	dw DATA_FD49C0
-	db $08
+	dw ship_deck_rattle_battle_tileset_config
+	db !level_layout_08
 	db $00
 	db $00
 	db $00
@@ -3480,11 +3595,12 @@ DATA_FD5726:
 	dw $FFFF, $0000
 	dw $FFFF
 
-DATA_FD5740:
+;$FD5740
+rattle_battle_bonus_3_level_config:
 	dw !bonus_level_type
 	db !collect_the_stars_bonus_type
-	dw DATA_FD49C0
-	db $09
+	dw ship_deck_rattle_battle_tileset_config
+	db !level_layout_09
 	db $00
 	db $00
 	db $00
@@ -3497,11 +3613,12 @@ DATA_FD5740:
 	dw $FFFF, $0000
 	dw $FFFF
 
-DATA_FD575A:
+;$FD575A
+hot_head_hop_bonus_3_level_config:
 	dw !bonus_level_type
 	db !find_the_token_bonus_type
-	dw DATA_FD49D5
-	db $06
+	dw lava_hot_head_hop_tileset_config
+	db !level_layout_06
 	db $00
 	db $00
 	db $00
@@ -3514,11 +3631,12 @@ DATA_FD575A:
 	dw $FFFF, $0000
 	dw $FFFF
 
-DATA_FD5774:
+;$FD5774
+hot_head_hop_bonus_1_level_config:
 	dw !bonus_level_type
 	db !collect_the_stars_bonus_type
-	dw DATA_FD49D5
-	db $07
+	dw lava_hot_head_hop_tileset_config
+	db !level_layout_07
 	db $00
 	db $00
 	db $00
@@ -3531,11 +3649,12 @@ DATA_FD5774:
 	dw $FFFF, $0000
 	dw $FFFF
 
-DATA_FD578E:
+;$FD578E
+red_hot_ride_bonus_1_level_config:
 	dw !bonus_level_type
 	db !destroy_them_all_bonus_type
-	dw DATA_FD49D5
-	db $08
+	dw lava_hot_head_hop_tileset_config
+	db !level_layout_08
 	db $00
 	db $00
 	db $00
@@ -3548,11 +3667,12 @@ DATA_FD578E:
 	dw $FFFF, $0000
 	dw $FFFF
 
-DATA_FD57A8:
+;$FD57A8
+red_hot_ride_bonus_2_level_config:
 	dw !bonus_level_type
 	db !collect_the_stars_bonus_type
-	dw DATA_FD49FF
-	db $09
+	dw lava_red_hot_ride_tileset_config
+	db !level_layout_09
 	db $00
 	db $00
 	db $00
@@ -3565,11 +3685,12 @@ DATA_FD57A8:
 	dw $FFFF, $0000
 	dw $FFFF
 
-DATA_FD57C2:
+;$FD57C2
+mainbrace_mayhem_bonus_1_level_config:
 	dw !bonus_level_type
 	db !find_the_token_bonus_type
-	dw DATA_FD4A68
-	db $06
+	dw ship_mast_mainbrace_mayhem_tileset_config
+	db !level_layout_06
 	db $00
 	db $00
 	db $00
@@ -3582,11 +3703,12 @@ DATA_FD57C2:
 	dw $FFFF, $0000
 	dw $FFFF
 
-DATA_FD57DC:
+;$FD57DC
+mainbrace_mayhem_bonus_2_level_config:
 	dw !bonus_level_type
 	db !destroy_them_all_bonus_type
-	dw DATA_FD4A68
-	db $07
+	dw ship_mast_mainbrace_mayhem_tileset_config
+	db !level_layout_07
 	db $00
 	db $00
 	db $00
@@ -3599,11 +3721,12 @@ DATA_FD57DC:
 	dw $FFFF, $0000
 	dw $FFFF
 
-DATA_FD57F6:
+;$FD57F6
+slime_climb_bonus_1_level_config:
 	dw !bonus_level_type
 	db !collect_the_stars_bonus_type
-	dw DATA_FD4A14
-	db $08
+	dw ship_mast_slime_climb_tileset_config
+	db !level_layout_08
 	db $00
 	db $00
 	db $00
@@ -3616,11 +3739,12 @@ DATA_FD57F6:
 	dw $FFFF, $0000
 	dw $FFFF
 
-DATA_FD5810:
+;$FD5810
+topsail_trouble_bonus_1_level_config:
 	dw !bonus_level_type
 	db !destroy_them_all_bonus_type
-	dw DATA_FD4A3E
-	db $09
+	dw ship_mast_topsail_trouble_tileset_config
+	db !level_layout_09
 	db $00
 	db $00
 	db $00
@@ -3633,11 +3757,12 @@ DATA_FD5810:
 	dw $FFFF, $0000
 	dw $FFFF
 
-DATA_FD582A:
+;$FD582A
+topsail_trouble_bonus_2_level_config:
 	dw !bonus_level_type
 	db !find_the_token_bonus_type
-	dw DATA_FD4A3E
-	db $0A
+	dw ship_mast_topsail_trouble_tileset_config
+	db !level_layout_0A
 	db $00
 	db $00
 	db $00
@@ -3650,11 +3775,12 @@ DATA_FD582A:
 	dw $FFFF, $0000
 	dw $FFFF
 
-DATA_FD5844:
+;$FD5844
+mainbrace_mayhem_bonus_3_level_config:
 	dw !bonus_level_type
 	db !collect_the_stars_bonus_type
-	dw DATA_FD4A68
-	db $0A
+	dw ship_mast_mainbrace_mayhem_tileset_config
+	db !level_layout_0A
 	db $00
 	db $00
 	db $00
@@ -3667,11 +3793,12 @@ DATA_FD5844:
 	dw $FFFF, $0000
 	dw $FFFF
 
-DATA_FD585E:
+;$FD585E
+slime_climb_bonus_2_level_config:
 	dw !bonus_level_type
 	db !destroy_them_all_bonus_type
-	dw DATA_FD4A14
-	db $0C
+	dw ship_mast_slime_climb_tileset_config
+	db !level_layout_0C
 	db $00
 	db $00
 	db $00
@@ -3684,11 +3811,12 @@ DATA_FD585E:
 	dw $FFFF, $0000
 	dw $FFFF
 
-DATA_FD5878:
+;$FD5878
+rattle_battle_bonus_2_level_config:
 	dw !bonus_level_type
 	db !find_the_token_bonus_type
-	dw DATA_FD4A14
-	db $0D
+	dw ship_mast_slime_climb_tileset_config
+	db !level_layout_0D
 	db $00
 	db $00
 	db $00
@@ -3701,10 +3829,11 @@ DATA_FD5878:
 	dw $FFFF, $0000
 	dw $FFFF
 
-DATA_FD5892:
+;$FD5892
+klobber_karnage_level_config:
 	dw !normal_level_type
-	dw DATA_FD479E
-	db $00
+	dw jungle_klobber_karnage_tileset_config
+	db !level_layout_00
 	db $00
 	db $00
 	db $00
@@ -3721,11 +3850,12 @@ DATA_FD5892:
 	dw $FFFF, $0000
 	dw $FFFF
 
-DATA_FD58BC:
+;$FD58BC
+lockjaws_locker_bonus_1_level_config:
 	dw !bonus_level_type
 	db !find_the_token_bonus_type
-	dw DATA_FD4918
-	db $03
+	dw ship_hold_generic_tileset_config
+	db !level_layout_03
 	db $00
 	db $00
 	db $00
@@ -3738,11 +3868,12 @@ DATA_FD58BC:
 	dw $FFFF, $0000
 	dw $FFFF
 
-DATA_FD58D6:
+;$FD58D6
+glimmers_galleon_bonus_2_level_config:
 	dw !bonus_level_type
 	db !find_the_token_bonus_type
-	dw DATA_FD4942
-	db $04
+	dw ship_hold_dark_tileset_config
+	db !level_layout_04
 	db $00
 	db $00
 	db $00
@@ -3755,11 +3886,12 @@ DATA_FD58D6:
 	dw $FFFF, $0000
 	dw $FFFF
 
-DATA_FD58F0:
+;$FD58F0
+lava_lagoon_bonus_1_level_config:
 	dw !bonus_level_type
 	db !destroy_them_all_bonus_type
-	dw DATA_FD4918
-	db $05
+	dw ship_hold_generic_tileset_config
+	db !level_layout_05
 	db $00
 	db $00
 	db $01
@@ -3772,11 +3904,12 @@ DATA_FD58F0:
 	dw $FFFF, $0000
 	dw $FFFF
 
-DATA_FD590A:
+;$FD590A
+glimmers_galleon_bonus_1_level_config:
 	dw !bonus_level_type
 	db !find_the_token_bonus_type
-	dw DATA_FD4942
-	db $06
+	dw ship_hold_dark_tileset_config
+	db !level_layout_06
 	db $00
 	db $00
 	db $00
@@ -3789,11 +3922,12 @@ DATA_FD590A:
 	dw $FFFF, $0000
 	dw $FFFF
 
-DATA_FD5924:
+;$FD5924
+ghostly_grove_bonus_1_level_config:
 	dw !bonus_level_type
 	db !find_the_token_bonus_type
-	dw DATA_FD48C4
-	db $05
+	dw forest_generic_tileset_config
+	db !level_layout_05
 	db $00
 	db $00
 	db $00
@@ -3806,11 +3940,12 @@ DATA_FD5924:
 	dw $FFFF, $0000
 	dw $FFFF
 
-DATA_FD593E:
+;$FD593E
+gusty_glade_bonus_1_level_config:
 	dw !bonus_level_type
 	db !find_the_token_bonus_type
-	dw DATA_FD4903
-	db $08
+	dw forest_windy_tileset_config
+	db !level_layout_08
 	db $00
 	db $00
 	db $00
@@ -3823,11 +3958,12 @@ DATA_FD593E:
 	dw $FFFF, $0000
 	dw $FFFF
 
-DATA_FD5958:
+;$FD5958
+gusty_glade_bonus_2_level_config:
 	dw !bonus_level_type
 	db !collect_the_stars_bonus_type
-	dw DATA_FD4903
-	db $07
+	dw forest_windy_tileset_config
+	db !level_layout_07
 	db $00
 	db $00
 	db $00
@@ -3840,11 +3976,12 @@ DATA_FD5958:
 	dw $FFFF, $0000
 	dw $FFFF
 
-DATA_FD5972:
+;$FD5972
+ghostly_grove_bonus_2_level_config:
 	dw !bonus_level_type
 	db !find_the_token_bonus_type
-	dw DATA_FD48C4
-	db $08
+	dw forest_generic_tileset_config
+	db !level_layout_08
 	db $00
 	db $00
 	db $00
@@ -3857,11 +3994,12 @@ DATA_FD5972:
 	dw $FFFF, $0000
 	dw $FFFF
 
-DATA_FD598C:
+;$FD598C
+barrel_bayou_bonus_1_level_config:
 	dw !bonus_level_type
 	db !destroy_them_all_bonus_type
-	dw DATA_FD4BCD
-	db $05
+	dw swamp_barrel_bayou_tileset_config
+	db !level_layout_05
 	db $00
 	db $00
 	db $00
@@ -3874,11 +4012,12 @@ DATA_FD598C:
 	dw $FFFF, $0000
 	dw $FFFF
 
-DATA_FD59A6:
+;$FD59A6
+barrel_bayou_bonus_2_level_config:
 	dw !bonus_level_type
 	db !find_the_token_bonus_type
-	dw DATA_FD4BCD
-	db $06
+	dw swamp_barrel_bayou_tileset_config
+	db !level_layout_06
 	db $00
 	db $00
 	db $00
@@ -3891,11 +4030,12 @@ DATA_FD59A6:
 	dw $FFFF, $0000
 	dw $FFFF
 
-DATA_FD59C0:
+;$FD59C0
+krockhead_klamber_bonus_1_level_config:
 	dw !bonus_level_type
 	db !destroy_them_all_bonus_type
-	dw DATA_FD47C8
-	db $07
+	dw swamp_krockhead_klamber_tileset_config
+	db !level_layout_07
 	db $00
 	db $00
 	db $00
@@ -3908,11 +4048,12 @@ DATA_FD59C0:
 	dw $FFFF, $0000
 	dw $FFFF
 
-DATA_FD59DA:
+;$FD59DA
+mudhole_marsh_bonus_1_level_config:
 	dw !bonus_level_type
 	db !collect_the_stars_bonus_type
-	dw DATA_FD47DD
-	db $08
+	dw swamp_mudhole_marsh_tileset_config
+	db !level_layout_08
 	db $00
 	db $00
 	db $00
@@ -3925,11 +4066,12 @@ DATA_FD59DA:
 	dw $FFFF, $0000
 	dw $FFFF
 
-DATA_FD59F4:
+;$FD59F4
+mudhole_marsh_bonus_2_level_config:
 	dw !bonus_level_type
 	db !destroy_them_all_bonus_type
-	dw DATA_FD47DD
-	db $09
+	dw swamp_mudhole_marsh_tileset_config
+	db !level_layout_09
 	db $00
 	db $00
 	db $00
@@ -3942,11 +4084,12 @@ DATA_FD59F4:
 	dw $FFFF, $0000
 	dw $FFFF
 
-DATA_FD5A0E:
+;$FD5A0E
+hot_head_hop_warp_room_level_config:
 	dw !bonus_level_type
-	db $00
-	dw DATA_FD49D5
-	db $03
+	db !no_bonus_type
+	dw lava_hot_head_hop_tileset_config
+	db !level_layout_03
 	db $00
 	db $00
 	db $01
@@ -3959,10 +4102,11 @@ DATA_FD5A0E:
 	dw $FFFF, $0000
 	dw $FFFF
 
-DATA_FD5A28:
+;$FD5A28
+clappers_cavern_level_config:
 	dw !normal_level_type
-	dw DATA_FD4807
-	db $01
+	dw ice_flooded_tileset_config
+	db !level_layout_01
 	db $00
 	db $00
 	db $00
@@ -3981,10 +4125,11 @@ DATA_FD5A28:
 	dw $FFFF, $0000
 	dw $FFFF
 
-DATA_FD5A59:
+;$FD5A59
+animal_antics_enguarde_area_level_config:
 	dw !sub_level_type
-	dw DATA_FD4807
-	db $02
+	dw ice_flooded_tileset_config
+	db !level_layout_02
 	db $00
 	db $00
 	db $00
@@ -3997,11 +4142,12 @@ DATA_FD5A59:
 	dw $FFFF, $0000
 	dw $FFFF
 
-DATA_FD5A72:
+;$FD5A72
+clappers_cavern_bonus_1_level_config:
 	dw !bonus_level_type
 	db !find_the_token_bonus_type
-	dw DATA_FD481C
-	db $03
+	dw ice_translucent_1_tileset_config
+	db !level_layout_03
 	db $00
 	db $00
 	db $00
@@ -4014,11 +4160,12 @@ DATA_FD5A72:
 	dw $FFFF, $0000
 	dw $FFFF
 
-DATA_FD5A8C:
+;$FD5A8C
+clappers_cavern_bonus_2_level_config:
 	dw !bonus_level_type
 	db !find_the_token_bonus_type
-	dw DATA_FD4807
-	db $04
+	dw ice_flooded_tileset_config
+	db !level_layout_04
 	db $00
 	db $00
 	db $00
@@ -4031,11 +4178,12 @@ DATA_FD5A8C:
 	dw $FFFF, $0000
 	dw $FFFF
 
-DATA_FD5AA6:
+;$FD5AA6
+arctic_abyss_bonus_1_level_config:
 	dw !bonus_level_type
 	db !collect_the_stars_bonus_type
-	dw DATA_FD4807
-	db $05
+	dw ice_flooded_tileset_config
+	db !level_layout_05
 	db $00
 	db $00
 	db $00
@@ -4048,11 +4196,12 @@ DATA_FD5AA6:
 	dw $FFFF, $0000
 	dw $FFFF
 
-DATA_FD5AC0:
+;$FD5AC0
+black_ice_battle_bonus_1_level_config:
 	dw !bonus_level_type
 	db !find_the_token_bonus_type
-	dw DATA_FD481C
-	db $06
+	dw ice_translucent_1_tileset_config
+	db !level_layout_06
 	db $00
 	db $00
 	db $00
@@ -4065,11 +4214,12 @@ DATA_FD5AC0:
 	dw $FFFF, $0000
 	dw $FFFF
 
-DATA_FD5ADA:
+;$FD5ADA
+arctic_abyss_bonus_2_level_config:
 	dw !bonus_level_type
 	db !find_the_token_bonus_type
-	dw DATA_FD481C
-	db $07
+	dw ice_translucent_1_tileset_config
+	db !level_layout_07
 	db $00
 	db $00
 	db $00
@@ -4082,10 +4232,11 @@ DATA_FD5ADA:
 	dw $FFFF, $0000
 	dw $FFFF
 
-DATA_FD5AF4:
+;$FD5AF4
+black_ice_battle_level_config:
 	dw !normal_level_type
-	dw DATA_FD4831
-	db $00
+	dw ice_translucent_2_tileset_config
+	db !level_layout_00
 	db $00
 	db $00
 	db $00
@@ -4102,15 +4253,16 @@ DATA_FD5AF4:
 	dw $FFFF, $0000
 	dw $FFFF
 
-DATA_FD5B1E:
+;$FD5B1E
+klobber_karnage_bonus_1_level_config:
 	dw !bonus_level_type
 	db !destroy_them_all_bonus_type
 if !version == 0
-	dw DATA_FD47B3
+	dw jungle_jinx_tileset_config
 else
-	dw DATA_FD479E
+	dw jungle_klobber_karnage_tileset_config
 endif
-	db $03
+	db !level_layout_03
 	db $00
 	db $00
 	db $00
@@ -4123,15 +4275,16 @@ endif
 	dw $FFFF, $0000
 	dw $FFFF
 
-DATA_FD5B38:
+;$FD5B38
+jungle_jinx_bonus_1_level_config:
 	dw !bonus_level_type
 	db !destroy_them_all_bonus_type
 if !version == 0
-	dw DATA_FD479E
+	dw jungle_klobber_karnage_tileset_config
 else
-	dw DATA_FD47B3
+	dw jungle_jinx_tileset_config
 endif
-	db $04
+	db !level_layout_04
 	db $00
 	db $00
 	db $00
@@ -4144,10 +4297,11 @@ endif
 	dw $FFFF, $0000
 	dw $FFFF
 
-DATA_FD5B52:
+;$FD5B52
+jungle_jinx_level_config:
 	dw !normal_level_type
-	dw DATA_FD47B3
-	db $05
+	dw jungle_jinx_tileset_config
+	db !level_layout_05
 	db $00
 	db $00
 	db $00
@@ -4164,10 +4318,11 @@ DATA_FD5B52:
 	dw $FFFF, $0000
 	dw $FFFF
 
-DATA_FD5B7C:
+;$FD5B7C
+animal_antics_rambi_area_level_config:
 	dw !sub_level_type
-	dw DATA_FD47F2
-	db $02
+	dw jungle_animal_antics_tileset_config
+	db !level_layout_02
 	db $00
 	db $00
 	db $00
@@ -4180,10 +4335,11 @@ DATA_FD5B7C:
 	dw $FFFF, $0000
 	dw $FFFF
 
-DATA_FD5B95:
+;$FD5B95
+animal_antics_squitter_area_level_config:
 	dw !sub_level_type
-	dw DATA_FD47F2
-	db $06
+	dw jungle_animal_antics_tileset_config
+	db !level_layout_06
 	db $00
 	db $00
 	db $00
@@ -4199,10 +4355,11 @@ DATA_FD5B95:
 	dw $FFFF, $0000
 	dw $FFFF
 
-DATA_FD5BBA:
+;$FD5BBA
+animal_antics_rattly_area_level_config:
 	dw !sub_level_type
-	dw DATA_FD47F2
-	db $07
+	dw jungle_animal_antics_tileset_config
+	db !level_layout_07
 	db $00
 	db $00
 	db $00
@@ -4216,11 +4373,12 @@ DATA_FD5BBA:
 	dw $FFFF, $0000
 	dw $FFFF
 
-DATA_FD5BD8:
+;$FD5BD8
+animal_antics_bonus_1_level_config:
 	dw !bonus_level_type
 	db !destroy_them_all_bonus_type
-	dw DATA_FD4B25
-	db $03
+	dw bramble_light_1_tileset_config
+	db !level_layout_03
 	db $00
 	db $00
 	db $02
@@ -4233,11 +4391,12 @@ DATA_FD5BD8:
 	dw $FFFF, $0000
 	dw $FFFF
 
-DATA_FD5BF2:
+;$FD5BF2
+fiery_furnace_bonus_1_level_config:
 	dw !bonus_level_type
 	db !find_the_token_bonus_type
-	dw DATA_FD4B3A
-	db $04
+	dw bramble_brown_1_tileset_config
+	db !level_layout_04
 	db $00
 	db $00
 	db $00
@@ -4250,10 +4409,11 @@ DATA_FD5BF2:
 	dw $FFFF, $0000
 	dw $FFFF
 
-DATA_FD5C0C:
+;$FD5C0C
+animal_antics_squawks_area_level_config:
 	dw !sub_level_type
-	dw DATA_FD4B64
-	db $00
+	dw bramble_light_windy_tileset_config
+	db !level_layout_00
 	db $00
 	db $00
 	db $00
@@ -4266,11 +4426,12 @@ DATA_FD5C0C:
 	dw $FFFF, $0000
 	dw $FFFF
 
-DATA_FD5C25:
+;$FD5C25
+bramble_blast_bonus_2_level_config:
 	dw !bonus_level_type
 	db !find_the_token_bonus_type
-	dw DATA_FD4B79
-	db $01
+	dw bramble_light_2_tileset_config
+	db !level_layout_01
 	db $00
 	db $00
 	db $01
@@ -4283,11 +4444,12 @@ DATA_FD5C25:
 	dw $FFFF, $0000
 	dw $FFFF
 
-DATA_FD5C3F:
+;$FD5C3F
+target_terror_bonus_1_level_config:
 	dw !bonus_level_type
 	db !destroy_them_all_bonus_type
-	dw DATA_FD4B8E
-	db $02
+	dw bramble_dark_2_tileset_config
+	db !level_layout_02
 	db $00
 	db $00
 	db $01
@@ -4300,11 +4462,12 @@ DATA_FD5C3F:
 	dw $FFFF, $0000
 	dw $FFFF
 
-DATA_FD5C59:
+;$FD5C59
+bramble_scramble_bonus_1_level_config:
 	dw !bonus_level_type
 	db !collect_the_stars_bonus_type
-	dw DATA_FD4B8E
-	db $03
+	dw bramble_dark_2_tileset_config
+	db !level_layout_03
 	db $00
 	db $00
 	db $01
@@ -4317,11 +4480,12 @@ DATA_FD5C59:
 	dw $FFFF, $0000
 	dw $FFFF
 
-DATA_FD5C73:
+;$FD5C73
+windy_well_bonus_2_level_config:
 	dw !bonus_level_type
 	db !collect_the_stars_bonus_type
-	dw DATA_FD4B8E
-	db $04
+	dw bramble_dark_2_tileset_config
+	db !level_layout_04
 	db $00
 	db $00
 	db $00
@@ -4334,11 +4498,12 @@ DATA_FD5C73:
 	dw $FFFF, $0000
 	dw $FFFF
 
-DATA_FD5C8D:
+;$FD5C8D
+web_woods_bonus_1_level_config:
 	dw !bonus_level_type
 	db !find_the_token_bonus_type
-	dw DATA_FD4B8E
-	db $05
+	dw bramble_dark_2_tileset_config
+	db !level_layout_05
 	db $00
 	db $00
 	db $00
@@ -4351,11 +4516,12 @@ DATA_FD5C8D:
 	dw $FFFF, $0000
 	dw $FFFF
 
-DATA_FD5CA7:
+;$FD5CA7
+toxic_tower_bonus_1_level_config:
 	dw !bonus_level_type
 	db !find_the_token_bonus_type
-	dw DATA_FD4B79
-	db $06
+	dw bramble_light_2_tileset_config
+	db !level_layout_06
 	db $00
 	db $00
 	db $00
@@ -4368,11 +4534,12 @@ DATA_FD5CA7:
 	dw $FFFF, $0000
 	dw $FFFF
 
-DATA_FD5CC1:
+;$FD5CC1
+bramble_blast_bonus_1_level_config:
 	dw !bonus_level_type
 	db !find_the_token_bonus_type
-	dw DATA_FD4B79
-	db $07
+	dw bramble_light_2_tileset_config
+	db !level_layout_07
 	db $00
 	db $00
 	db $00
@@ -4385,11 +4552,12 @@ DATA_FD5CC1:
 	dw $FFFF, $0000
 	dw $FFFF
 
-DATA_FD5CDB:
+;$FD5CDB
+screechs_sprint_bonus_1_level_config:
 	dw !bonus_level_type
 	db !find_the_token_bonus_type
-	dw DATA_FD4BA3
-	db $08
+	dw bramble_brown_2_tileset_config
+	db !level_layout_08
 	db $00
 	db $00
 	db $00
@@ -4402,11 +4570,12 @@ DATA_FD5CDB:
 	dw $FFFF, $0000
 	dw $FFFF
 
-DATA_FD5CF5:
+;$FD5CF5
+gangplank_galley_bonus_1_level_config:
 	dw !bonus_level_type
 	db !find_the_token_bonus_type
-	dw DATA_FD4BB8
-	db $00
+	dw ship_cabin_tileset_config
+	db !level_layout_00
 	db $00
 	db $00
 	db $00
@@ -4419,11 +4588,12 @@ DATA_FD5CF5:
 	dw $FFFF, $0000
 	dw $FFFF
 
-DATA_FD5D0F:
+;$FD5D0F
+squawks_shaft_bonus_3_level_config:
 	dw !bonus_level_type
 	db !destroy_them_all_bonus_type
-	dw DATA_FD4B10
-	db $04
+	dw mine_squawks_shaft_tileset_config
+	db !level_layout_04
 	db $00
 	db $00
 	db $00
@@ -4436,11 +4606,12 @@ DATA_FD5D0F:
 	dw $FFFF, $0000
 	dw $FFFF
 
-DATA_FD5D29:
+;$FD5D29
+kannons_klaim_bonus_3_level_config:
 	dw !bonus_level_type
 	db !find_the_token_bonus_type
-	dw DATA_FD4AFB
-	db $05
+	dw mine_kannons_klaim_tileset_config
+	db !level_layout_05
 	db $00
 	db $00
 	db $00
@@ -4453,11 +4624,12 @@ DATA_FD5D29:
 	dw $FFFF, $0000
 	dw $FFFF
 
-DATA_FD5D43:
+;$FD5D43
+kannons_klaim_bonus_1_level_config:
 	dw !bonus_level_type
 	db !find_the_token_bonus_type
-	dw DATA_FD4AFB
-	db $06
+	dw mine_kannons_klaim_tileset_config
+	db !level_layout_06
 	db $00
 	db $00
 	db $00
@@ -4470,11 +4642,12 @@ DATA_FD5D43:
 	dw $FFFF, $0000
 	dw $FFFF
 
-DATA_FD5D5D:
+;$FD5D5D
+squawks_shaft_bonus_1_level_config:
 	dw !bonus_level_type
 	db !find_the_token_bonus_type
-	dw DATA_FD4B10
-	db $07
+	dw mine_squawks_shaft_tileset_config
+	db !level_layout_07
 	db $00
 	db $00
 	db $00
@@ -4487,11 +4660,12 @@ DATA_FD5D5D:
 	dw $FFFF, $0000
 	dw $FFFF
 
-DATA_FD5D77:
+;$FD5D77
+kannons_klaim_bonus_2_level_config:
 	dw !bonus_level_type
 	db !find_the_token_bonus_type
-	dw DATA_FD4AFB
-	db $08
+	dw mine_kannons_klaim_tileset_config
+	db !level_layout_08
 	db $00
 	db $00
 	db $00
@@ -4504,11 +4678,12 @@ DATA_FD5D77:
 	dw $FFFF, $0000
 	dw $FFFF
 
-DATA_FD5D91:
+;$FD5D91
+hornet_hole_bonus_1_level_config:
 	dw !bonus_level_type
 	db !find_the_token_bonus_type
-	dw DATA_FD4957
-	db $04
+	dw wasp_hive_generic_1_tileset_config
+	db !level_layout_04
 	db $00
 	db $00
 	db $00
@@ -4521,11 +4696,12 @@ DATA_FD5D91:
 	dw $FFFF, $0000
 	dw $FFFF
 
-DATA_FD5DAB:
+;$FD5DAB
+parrot_chute_panic_bonus_2_level_config:
 	dw !bonus_level_type
 	db !destroy_them_all_bonus_type
-	dw DATA_FD4957
-	db $05
+	dw wasp_hive_generic_1_tileset_config
+	db !level_layout_05
 	db $00
 	db $00
 	db $01
@@ -4538,11 +4714,12 @@ DATA_FD5DAB:
 	dw $FFFF, $0000
 	dw $FFFF
 
-DATA_FD5DC5:
+;$FD5DC5
+hornet_hole_bonus_3_level_config:
 	dw !bonus_level_type
 	db !find_the_token_bonus_type
-	dw DATA_FD4957
-	db $06
+	dw wasp_hive_generic_1_tileset_config
+	db !level_layout_06
 	db $00
 	db $00
 	db $00
@@ -4555,11 +4732,12 @@ DATA_FD5DC5:
 	dw $FFFF, $0000
 	dw $FFFF
 
-DATA_FD5DDF:
+;$FD5DDF
+parrot_chute_panic_bonus_1_level_config:
 	dw !bonus_level_type
 	db !find_the_token_bonus_type
-	dw DATA_FD4957
-	db $07
+	dw wasp_hive_generic_1_tileset_config
+	db !level_layout_07
 	db $00
 	db $00
 	db $00
@@ -4572,11 +4750,12 @@ DATA_FD5DDF:
 	dw $FFFF, $0000
 	dw $FFFF
 
-DATA_FD5DF9:
+;$FD5DF9
+rambi_rumble_bonus_2_level_config:
 	dw !bonus_level_type
 	db !destroy_them_all_bonus_type
-	dw DATA_FD4957
-	db $08
+	dw wasp_hive_generic_1_tileset_config
+	db !level_layout_08
 	db $00
 	db $00
 	db $00
@@ -4589,11 +4768,12 @@ DATA_FD5DF9:
 	dw $FFFF, $0000
 	dw $FFFF
 
-DATA_FD5E13:
+;$FD5E13
+hornet_hole_bonus_2_level_config:
 	dw !bonus_level_type
 	db !find_the_token_bonus_type
-	dw DATA_FD4981
-	db $02
+	dw wasp_hive_generic_2_tileset_config
+	db !level_layout_02
 	db $00
 	db $00
 	db $00
@@ -4606,11 +4786,12 @@ DATA_FD5E13:
 	dw $FFFF, $0000
 	dw $FFFF
 
-DATA_FD5E2D:
+;$FD5E2D
+rambi_rumble_bonus_1_level_config:
 	dw !bonus_level_type
 	db !find_the_token_bonus_type
-	dw DATA_FD4981
-	db $03
+	dw wasp_hive_generic_2_tileset_config
+	db !level_layout_03
 	db $00
 	db $00
 	db $00
@@ -4623,11 +4804,12 @@ DATA_FD5E2D:
 	dw $FFFF, $0000
 	dw $FFFF
 
-DATA_FD5E47:
+;$FD5E47
+chain_link_chamber_bonus_1_level_config:
 	dw !bonus_level_type
 	db !find_the_token_bonus_type
-	dw DATA_FD4846
-	db $04
+	dw castle_chain_link_chamber_tileset_config
+	db !level_layout_04
 	db $00
 	db $00
 	db $00
@@ -4640,11 +4822,12 @@ DATA_FD5E47:
 	dw $FFFF, $0000
 	dw $FFFF
 
-DATA_FD5E61:
+;$FD5E61
+chain_link_chamber_bonus_2_level_config:
 	dw !bonus_level_type
 	db !find_the_token_bonus_type
-	dw DATA_FD4846
-	db $05
+	dw castle_chain_link_chamber_tileset_config
+	db !level_layout_05
 	db $00
 	db $00
 	db $00
@@ -4657,11 +4840,12 @@ DATA_FD5E61:
 	dw $FFFF, $0000
 	dw $FFFF
 
-DATA_FD5E7B:
+;$FD5E7B
+castle_crush_bonus_1_level_config:
 	dw !bonus_level_type
 	db !destroy_them_all_bonus_type
-	dw DATA_FD4885
-	db $06
+	dw castle_crush_tileset_config
+	db !level_layout_06
 	db $00
 	db $00
 	db $00
@@ -4674,11 +4858,12 @@ DATA_FD5E7B:
 	dw $FFFF, $0000
 	dw $FFFF
 
-DATA_FD5E95:
+;$FD5E95
+castle_crush_bonus_2_level_config:
 	dw !bonus_level_type
 	db !find_the_token_bonus_type
-	dw DATA_FD4885
-	db $07
+	dw castle_crush_tileset_config
+	db !level_layout_07
 	db $00
 	db $00
 	db $00
@@ -4691,10 +4876,11 @@ DATA_FD5E95:
 	dw $FFFF, $0000
 	dw $FFFF
 
-DATA_FD5EAF:
+;$FD5EAF
+stronghold_showdown_level_config:
 	dw !boss_level_type
-	dw DATA_FD485B
-	db $08
+	dw castle_stronghold_showdown_tileset_config
+	db !level_layout_08
 	db $00
 	db $00
 	db $00
@@ -4708,11 +4894,12 @@ DATA_FD5EAF:
 	dw !level_k_rools_keep, !level_the_flying_krock
 	dw $FFFF
 
-DATA_FD5ECC:
+;$FD5ECC
+squawks_shaft_bonus_2_level_config:
 	dw !bonus_level_type
 	db !find_the_token_bonus_type
-	dw DATA_FD4B10
-	db $08
+	dw mine_squawks_shaft_tileset_config
+	db !level_layout_08
 	db $00
 	db $00
 	db $00
@@ -4725,11 +4912,12 @@ DATA_FD5ECC:
 	dw $FFFF, $0000
 	dw $FFFF
 
-DATA_FD5EE6:
+;$FD5EE6
+windy_well_bonus_1_level_config:
 	dw !bonus_level_type
 	db !destroy_them_all_bonus_type
-	dw DATA_FD4AE6
-	db $04
+	dw mine_windy_well_tileset_config
+	db !level_layout_04
 	db $00
 	db $00
 	db $00
@@ -4742,11 +4930,12 @@ DATA_FD5EE6:
 	dw $FFFF, $0000
 	dw $FFFF
 
-DATA_FD5F00:
+;$FD5F00
+web_woods_bonus_2_level_config:
 	dw !bonus_level_type
 	db !collect_the_stars_bonus_type
-	dw DATA_FD48D9
-	db $09
+	dw forest_misty_tileset_config
+	db !level_layout_09
 	db $00
 	db $00
 	db $00
@@ -4759,11 +4948,12 @@ DATA_FD5F00:
 	dw $FFFF, $0000
 	dw $FFFF
 
-DATA_FD5F1A:
+;$FD5F1A
+haunted_hall_bonus_1_level_config:
 	dw !bonus_level_type
 	db !find_the_token_bonus_type
-	dw DATA_FD4AD1
-	db $02
+	dw haunted_generic_2_tileset_config
+	db !level_layout_02
 	db $00
 	db $00
 	db $00
@@ -4776,10 +4966,11 @@ DATA_FD5F1A:
 	dw $FFFF, $0000
 	dw $FFFF
 
-DATA_FD5F34:
+;$FD5F34
+rickety_race_exit_level_config:
 	dw !sub_level_type
-	dw DATA_FD4AA7
-	db $01
+	dw carnival_generic_2_tileset_config
+	db !level_layout_01
 	db $00
 	db $00
 	db $00
@@ -4795,10 +4986,11 @@ DATA_FD5F34:
 	dw !level_krazy_kremland_lower_to_upper_right, !level_mudhole_marsh
 	dw $FFFF
 
-DATA_FD5F59:
+;$FD5F59
+haunted_hall_exit_level_config:
 	dw !sub_level_type
-	dw DATA_FD4ABC
-	db $02
+	dw haunted_generic_1_tileset_config
+	db !level_layout_02
 	db $00
 	db $00
 	db $00
@@ -4811,11 +5003,12 @@ DATA_FD5F59:
 	dw $FFFF, $0000
 	dw $FFFF
 
-DATA_FD5F72:
+;$FD5F72
+haunted_hall_bonus_3_level_config:
 	dw !bonus_level_type
 	db !find_the_token_bonus_type
-	dw DATA_FD4ABC
-	db $03
+	dw haunted_generic_1_tileset_config
+	db !level_layout_03
 	db $00
 	db $00
 	db $00
@@ -4828,11 +5021,12 @@ DATA_FD5F72:
 	dw $FFFF, $0000
 	dw $FFFF
 
-DATA_FD5F8C:
+;$FD5F8C
+target_terror_bonus_2_level_config:
 	dw !bonus_level_type
 	db !find_the_token_bonus_type
-	dw DATA_FD4AA7
-	db $04
+	dw carnival_generic_2_tileset_config
+	db !level_layout_04
 	db $00
 	db $00
 	db $00
@@ -4845,11 +5039,12 @@ DATA_FD5F8C:
 	dw $FFFF, $0000
 	dw $FFFF
 
-DATA_FD5FA6:
+;$FD5FA6
+haunted_hall_bonus_2_level_config:
 	dw !bonus_level_type
 	db !collect_the_stars_bonus_type
-	dw DATA_FD4ABC
-	db $05
+	dw haunted_generic_1_tileset_config
+	db !level_layout_05
 	db $00
 	db $00
 	db $00
@@ -4862,11 +5057,12 @@ DATA_FD5FA6:
 	dw $FFFF, $0000
 	dw $FFFF
 
-DATA_FD5FC0:
+;$FD5FC0
+rickety_race_bonus_1_level_config:
 	dw !bonus_level_type
 	db !destroy_them_all_bonus_type
-	dw DATA_FD4AA7
-	db $06
+	dw carnival_generic_2_tileset_config
+	db !level_layout_06
 	db $00
 	db $00
 	db $00
@@ -4879,34 +5075,44 @@ DATA_FD5FC0:
 	dw $FFFF, $0000
 	dw $FFFF
 
-DATA_FD5FDA:
+;$FD5FDA
+return_to_crocodile_cauldron_level_config:
 	dw !map_level_type
 
-DATA_FD5FDC:
+;$FD5FDC
+return_to_krem_quay_level_config:
 	dw !map_level_type
 
-DATA_FD5FDE:
+;$FD5FDE
+return_to_krazy_kremland_level_config:
 	dw !map_level_type
 
-DATA_FD5FE0:
+;$FD5FE0
+return_to_gloomy_gulch_level_config:
 	dw !map_level_type
 
-DATA_FD5FE2:
+;$FD5FE2
+return_to_k_rools_keep_level_config:
 	dw !map_level_type
 
-DATA_FD5FE4:
+;$FD5FE4
+monkey_museum_crocodile_cauldron_lost_world_level_config:
 	dw !map_level_type
 
-DATA_FD5FE6:
+;$FD5FE6
+monkey_museum_krem_quay_lost_world_level_config:
 	dw !map_level_type
 
-DATA_FD5FE8:
+;$FD5FE8
+monkey_museum_krazy_kremland_lost_world_level_config:
 	dw !map_level_type
 
-DATA_FD5FEA:
+;$FD5FEA
+monkey_museum_gloomy_gulch_lost_world_level_config:
 	dw !map_level_type
 
-DATA_FD5FEC:
+;$FD5FEC
+monkey_museum_k_rools_keep_lost_world_level_config:
 	dw !map_level_type
 
 
@@ -5206,6 +5412,12 @@ klubba_sprite_palette:
 	db $14, $43, $FA, $57, $68, $04, $D1, $0C
 	db $57, $15, $B0, $2D, $FF, $7F
 
+;The following label marks the start address of the sprite palette data that gets copied into work RAM and inverted.
+;Any sprite palettes within this block can be used in levels with the darkness effect (Glimmer's Galleon).
+;In the vanilla game a total of 3752 (0x0EA8) bytes are copied.
+writable_palette_data_start:
+
+door_sprite_palettes_start:
 wall_ship_deck_sprite_palette:
 	db $21, $00, $43, $04, $65, $08, $87, $0C
 	db $C9, $10, $EB, $10, $2D, $15, $4F, $19
@@ -5271,6 +5483,7 @@ DATA_FD6408:
 	db $65, $04, $86, $04, $A7, $08, $EA, $0C
 	db $0C, $0D, $4E, $11, $91, $15, $D4, $19
 	db $A0, $00, $80, $00, $63, $04
+door_sprite_palettes_end:
 
 map_p1_kong_and_text_sprite_palette:
 	%offset(map_p1_kong_and_text_no_bg_sprite_palette, 2)
@@ -5935,12 +6148,17 @@ shuri_pink_sprite_palette:
 	db $C7, $20, $10, $31, $CE, $41, $98, $20
 	db $DD, $28, $FD, $38, $FF, $34, $5D, $39
 	db $7D, $4D, $FE, $5D, $BD, $73
+unused_writable_palette_data_end:
 
 kleever_hand_sprite_palette:
 	db $28, $00, $4C, $00, $70, $00, $74, $00
 	db $98, $00, $BC, $00, $DF, $00, $1F, $01
 	db $7F, $01, $BF, $01, $1F, $02, $7F, $02
 	db $BF, $02, $1F, $03, $7F, $03
+writable_palette_data_end:
+;The above label marks the end address of the sprite palette data that gets copied into work RAM and inverted.
+;Any sprite palettes within this block can be used in levels with the darkness effect (Glimmer's Galleon).
+;In the vanilla game a total of 3752 (0x0EA8) bytes are copied.
 
 racing_flag_sprite_palette:
 	db $B6, $1D, $11, $11, $8B, $04, $46, $08
@@ -6363,67 +6581,68 @@ wall_forest_right_sprite_palette:
 	db $0C, $0D, $4E, $11, $91, $15, $D4, $19
 	db $57, $22, $80, $00, $63, $04
 
-DATA_FD79E2:
-	dw DATA_FD7A56-DATA_FD79E2	;00
-	dw DATA_FD7A86-DATA_FD79E2	;01
-	dw DATA_FD7AB6-DATA_FD79E2	;02
-	dw DATA_FD7ADF-DATA_FD79E2	;03
-	dw DATA_FD7B08-DATA_FD79E2	;04
-	dw DATA_FD7B31-DATA_FD79E2	;05
-	dw DATA_FD7B61-DATA_FD79E2	;06
-	dw DATA_FD7B8A-DATA_FD79E2	;07
-	dw DATA_FD7BB3-DATA_FD79E2	;08
-	dw DATA_FD7BDC-DATA_FD79E2	;09
-	dw DATA_FD7C05-DATA_FD79E2	;0A
-	dw DATA_FD7C2E-DATA_FD79E2	;0B
-	dw DATA_FD7C57-DATA_FD79E2	;0C
-	dw DATA_FD7C80-DATA_FD79E2	;0D
-	dw DATA_FD7CA9-DATA_FD79E2	;0E
-	dw DATA_FD7CCF-DATA_FD79E2	;0F
-	dw DATA_FD7CCF-DATA_FD79E2	;10
-	dw DATA_FD7CCF-DATA_FD79E2	;11
-	dw DATA_FD7CCF-DATA_FD79E2	;12
-	dw DATA_FD7CCF-DATA_FD79E2	;13
-	dw DATA_FD7CCF-DATA_FD79E2	;14
-	dw DATA_FD7CCF-DATA_FD79E2	;15
-	dw DATA_FD7CCF-DATA_FD79E2	;16
-	dw DATA_FD7CCF-DATA_FD79E2	;17
-	dw DATA_FD7CCF-DATA_FD79E2	;18
-	dw DATA_FD7CCF-DATA_FD79E2	;19
-	dw DATA_FD7CCF-DATA_FD79E2	;1A
-	dw DATA_FD7CCF-DATA_FD79E2	;1B
-	dw DATA_FD7CCF-DATA_FD79E2	;1C
-	dw DATA_FD7CCF-DATA_FD79E2	;1D
-	dw DATA_FD7CF8-DATA_FD79E2	;1E
-	dw DATA_FD7D2C-DATA_FD79E2	;1F
-	dw DATA_FD7D55-DATA_FD79E2	;20
-	dw DATA_FD7D7E-DATA_FD79E2	;21
-	dw DATA_FD7DA7-DATA_FD79E2	;22
-	dw DATA_FD7DD0-DATA_FD79E2	;23
-	dw DATA_FD7DF9-DATA_FD79E2	;24
-	dw DATA_FD7E22-DATA_FD79E2	;25
-	dw DATA_FD7E4B-DATA_FD79E2	;26
-	dw DATA_FD7E74-DATA_FD79E2	;27
-	dw DATA_FD7E9D-DATA_FD79E2	;28
-	dw DATA_FD7ED1-DATA_FD79E2	;29
-	dw DATA_FD7EFD-DATA_FD79E2	;2A
-	dw DATA_FD7F26-DATA_FD79E2	;2B
-	dw DATA_FD7F4F-DATA_FD79E2	;2C
-	dw DATA_FD7F83-DATA_FD79E2	;2D
-	dw DATA_FD7FAC-DATA_FD79E2	;2E
-	dw DATA_FD7FD5-DATA_FD79E2	;2F
-	dw DATA_FD7FFE-DATA_FD79E2	;30
-	dw DATA_FD8027-DATA_FD79E2	;31
-	dw DATA_FD8050-DATA_FD79E2	;32
-	dw DATA_FD8079-DATA_FD79E2	;33
-	dw DATA_FD80A2-DATA_FD79E2	;34
-	dw DATA_FD80C5-DATA_FD79E2	;35
-	dw DATA_FD80EE-DATA_FD79E2	;36
-	dw DATA_FD811A-DATA_FD79E2	;37
-	dw DATA_FD8146-DATA_FD79E2	;38
-	dw DATA_FD8172-DATA_FD79E2	;39
+ppu_config_table:
+	dw unknown_00_ppu_config-ppu_config_table				;00 unknown_00
+	dw forest_generic_ppu_config-ppu_config_table				;01 forest_generic
+	dw ship_hold_generic_ppu_config-ppu_config_table			;02 ship_hold_generic
+	dw wasp_hive_generic_ppu_config-ppu_config_table			;03 wasp_hive_generic
+	dw crocodile_isle_ppu_config-ppu_config_table				;04 crocodile_isle
+	dw unknown_05_ppu_config-ppu_config_table				;05 unknown_05
+	dw ship_deck_generic_ppu_config-ppu_config_table			;06 ship_deck_generic
+	dw npc_generic_ppu_config-ppu_config_table				;07 npc_generic
+	dw funkys_flights_ppu_config-ppu_config_table				;08 funkys_flights
+	dw world_map_square_ppu_config-ppu_config_table				;09 world_map_square
+	dw world_map_wide_ppu_config-ppu_config_table				;0A world_map_wide
+	dw ship_mast_rainy_sprite_transparency_ppu_config-ppu_config_table	;0B ship_mast_rainy_sprite_transparency
+	dw world_map_tall_ppu_config-ppu_config_table				;0C world_map_tall
+	dw lost_world_ppu_config-ppu_config_table				;0D lost_world
+	dw end_parade_ppu_config-ppu_config_table				;0E end_parade
+	dw forest_windy_ppu_config-ppu_config_table				;0F forest_windy_unused_1
+	dw forest_windy_ppu_config-ppu_config_table				;10 forest_windy_unused_2
+	dw forest_windy_ppu_config-ppu_config_table				;11 forest_windy_unused_3
+	dw forest_windy_ppu_config-ppu_config_table				;12 forest_windy_unused_4
+	dw forest_windy_ppu_config-ppu_config_table				;13 forest_windy_unused_5
+	dw forest_windy_ppu_config-ppu_config_table				;14 forest_windy_unused_6
+	dw forest_windy_ppu_config-ppu_config_table				;15 forest_windy_unused_7
+	dw forest_windy_ppu_config-ppu_config_table				;16 forest_windy_unused_8
+	dw forest_windy_ppu_config-ppu_config_table				;17 forest_windy_unused_9
+	dw forest_windy_ppu_config-ppu_config_table				;18 forest_windy_unused_10
+	dw forest_windy_ppu_config-ppu_config_table				;19 forest_windy_unused_11
+	dw forest_windy_ppu_config-ppu_config_table				;1A forest_windy_unused_12
+	dw forest_windy_ppu_config-ppu_config_table				;1B forest_windy_unused_13
+	dw forest_windy_ppu_config-ppu_config_table				;1C forest_windy_unused_14
+	dw forest_windy_ppu_config-ppu_config_table				;1D forest_windy
+	dw forest_light_shafts_ppu_config-ppu_config_table			;1E forest_light_shafts
+	dw gameover_ppu_config-ppu_config_table					;1F gameover
+	dw lava_generic_ppu_config-ppu_config_table				;20 lava_generic
+	dw ship_mast_rainy_ppu_config-ppu_config_table				;21 ship_mast_rainy
+	dw carnival_generic_ppu_config-ppu_config_table				;22 carnival_generic
+	dw ship_cabin_generic_ppu_config-ppu_config_table			;23 ship_cabin_generic
+	dw mine_generic_ppu_config-ppu_config_table				;24 mine_generic
+	dw ship_mast_cloudy_ppu_config-ppu_config_table				;25 ship_mast_cloudy
+	dw swamp_generic_ppu_config-ppu_config_table				;26 swamp_generic
+	dw bramble_generic_ppu_config-ppu_config_table				;27 bramble_generic
+	dw ship_hold_dark_ppu_config-ppu_config_table				;28 ship_hold_dark
+	dw lava_geysers_ppu_config-ppu_config_table				;29 lava_geysers
+	dw krocodile_kore_ppu_config-ppu_config_table				;2A krocodile_kore
+	dw castle_generic_ppu_config-ppu_config_table				;2B castle_generic
+	dw haunted_generic_ppu_config-ppu_config_table				;2C haunted_generic
+	dw ship_mast_flooded_ppu_config-ppu_config_table			;2D ship_mast_flooded
+	dw k_rool_duel_ppu_config-ppu_config_table				;2E k_rool_duel
+	dw ice_flooded_ppu_config-ppu_config_table				;2F ice_flooded
+	dw jungle_generic_ppu_config-ppu_config_table				;30 jungle_generic
+	dw ice_translucent_ppu_config-ppu_config_table				;31 ice_translucent
+	dw castle_flooded_ppu_config-ppu_config_table				;32 castle_flooded
+	dw bramble_windy_ppu_config-ppu_config_table				;33 bramble_windy
+	dw mine_windy_ppu_config-ppu_config_table				;34 mine_windy
+	dw forest_misty_ppu_config-ppu_config_table				;35 forest_misty
+	dw bonus_generic_ppu_config-ppu_config_table				;36 bonus_generic
+	dw credits_ppu_config-ppu_config_table					;37 credits
+	dw video_game_heros_ppu_config-ppu_config_table				;38 video_game_heros
+	dw error_screen_generic_ppu_config-ppu_config_table			;39 error_screen_generic
 
-DATA_FD7A56:
+;$FD7A56
+unknown_00_ppu_config:
 	dw PPU.screen : db $80
 	dw PPU.layer_mode : db $09
 	dw PPU.layer_1_2_tilemap_base|$8000, $7170
@@ -6440,7 +6659,8 @@ DATA_FD7A56:
 	dw PPU.vram_control : db $80
 	dw $0000
 
-DATA_FD7A86:
+;$FD7A86
+forest_generic_ppu_config:
 	dw PPU.layer_mode : db $09
 	dw PPU.layer_1_2_tilemap_base|$8000, $6958
 	dw PPU.layer_3_tilemap_base : db $5C
@@ -6457,7 +6677,8 @@ DATA_FD7A86:
 	dw PPU.vram_control : db $80
 	dw $0000
 
-DATA_FD7AB6:
+;$FD7AB6
+ship_hold_generic_ppu_config:
 	dw PPU.layer_mode : db $09
 	dw PPU.layer_1_2_tilemap_base|$8000, $7139
 	dw PPU.layer_3_tilemap_base : db $6C
@@ -6472,7 +6693,8 @@ DATA_FD7AB6:
 	dw PPU.vram_control : db $80
 	dw $0000
 
-DATA_FD7ADF:
+;$FD7ADF
+wasp_hive_generic_ppu_config:
 	dw PPU.layer_mode : db $09
 	dw PPU.layer_1_2_tilemap_base|$8000, $796C
 	dw PPU.layer_3_tilemap_base : db $68
@@ -6487,8 +6709,8 @@ DATA_FD7ADF:
 	dw PPU.vram_control : db $80
 	dw $0000
 
-
-DATA_FD7B08:
+;$FD7B08
+crocodile_isle_ppu_config:
 	dw PPU.layer_mode : db $09
 	dw PPU.layer_1_2_tilemap_base|$8000, $6A7A
 	dw PPU.layer_3_tilemap_base : db $1A
@@ -6503,7 +6725,8 @@ DATA_FD7B08:
 	dw PPU.vram_control : db $80
 	dw $0000
 
-DATA_FD7B31:
+;$FD7B31
+unknown_05_ppu_config:
 	dw PPU.screen : db $80
 	dw PPU.layer_mode : db $09
 	dw PPU.layer_1_2_tilemap_base|$8000, $0070
@@ -6520,7 +6743,8 @@ DATA_FD7B31:
 	dw PPU.vram_control : db $80
 	dw $0000
 
-DATA_FD7B61:
+;$FD7B61
+ship_deck_generic_ppu_config:
 	dw PPU.layer_mode : db $09
 	dw PPU.layer_1_2_tilemap_base|$8000, $5C71
 	dw PPU.layer_3_tilemap_base : db $79
@@ -6535,8 +6759,8 @@ DATA_FD7B61:
 	dw PPU.vram_control : db $80
 	dw $0000
 
-
-DATA_FD7B8A:
+;$FD7B8A
+npc_generic_ppu_config:
 	dw PPU.layer_mode : db $09
 	dw PPU.layer_1_2_tilemap_base|$8000, $7C70
 	dw PPU.layer_3_tilemap_base : db $7A
@@ -6551,7 +6775,8 @@ DATA_FD7B8A:
 	dw PPU.vram_control : db $80
 	dw $0000
 
-DATA_FD7BB3:
+;$FD7BB3
+funkys_flights_ppu_config:
 	dw PPU.layer_mode : db $09
 	dw PPU.layer_1_2_tilemap_base|$8000, $7C74
 	dw PPU.layer_3_tilemap_base : db $4A
@@ -6566,7 +6791,8 @@ DATA_FD7BB3:
 	dw PPU.vram_control : db $80
 	dw $0000
 
-DATA_FD7BDC:
+;$FD7BDC
+world_map_square_ppu_config:
 	dw PPU.layer_mode : db $09
 	dw PPU.layer_1_2_tilemap_base|$8000, $6A78
 	dw PPU.layer_3_tilemap_base : db $1A
@@ -6581,7 +6807,8 @@ DATA_FD7BDC:
 	dw PPU.vram_control : db $80
 	dw $0000
 
-DATA_FD7C05:
+;$FD7C05
+world_map_wide_ppu_config:
 	dw PPU.layer_mode : db $09
 	dw PPU.layer_1_2_tilemap_base|$8000, $6A71
 	dw PPU.layer_3_tilemap_base : db $1A
@@ -6596,7 +6823,8 @@ DATA_FD7C05:
 	dw PPU.vram_control : db $80
 	dw $0000
 
-DATA_FD7C2E:
+;$FD7C2E
+ship_mast_rainy_sprite_transparency_ppu_config:
 	dw PPU.layer_mode : db $09
 	dw PPU.layer_1_2_tilemap_base|$8000, $7079
 	dw PPU.layer_3_tilemap_base : db $6C
@@ -6611,7 +6839,8 @@ DATA_FD7C2E:
 	dw PPU.vram_control : db $80
 	dw $0000
 
-DATA_FD7C57:
+;$FD7C57
+world_map_tall_ppu_config:
 	dw PPU.layer_mode : db $09
 	dw PPU.layer_1_2_tilemap_base|$8000, $6A72
 	dw PPU.layer_3_tilemap_base : db $1A
@@ -6626,7 +6855,8 @@ DATA_FD7C57:
 	dw PPU.vram_control : db $80
 	dw $0000
 
-DATA_FD7C80:
+;$FD7C80
+lost_world_ppu_config:
 	dw PPU.layer_mode : db $01
 	dw PPU.layer_1_2_tilemap_base|$8000, $787C
 	dw PPU.layer_3_tilemap_base : db $1A
@@ -6641,7 +6871,8 @@ DATA_FD7C80:
 	dw PPU.vram_control : db $80
 	dw $0000
 
-DATA_FD7CA9:
+;$FD7CA9
+end_parade_ppu_config:
 	dw PPU.layer_mode : db $09
 	dw PPU.layer_1_2_tilemap_base|$8000, $6978
 	dw PPU.layer_all_tiledata_base|$8000, $0672
@@ -6655,7 +6886,8 @@ DATA_FD7CA9:
 	dw PPU.vram_control : db $80
 	dw $0000
 
-DATA_FD7CCF:
+;$FD7CCF
+forest_windy_ppu_config:
 	dw PPU.layer_mode : db $09
 	dw PPU.layer_1_2_tilemap_base|$8000, $6958
 	dw PPU.layer_3_tilemap_base : db $5C
@@ -6670,7 +6902,8 @@ DATA_FD7CCF:
 	dw PPU.vram_control : db $80
 	dw $0000
 
-DATA_FD7CF8:
+;$FD7CF8
+forest_light_shafts_ppu_config:
 	dw PPU.layer_mode : db $09
 	dw PPU.layer_1_2_tilemap_base|$8000, $6958
 	dw PPU.layer_3_tilemap_base : db $5C
@@ -6688,7 +6921,8 @@ DATA_FD7CF8:
 	dw PPU.vram_control : db $80
 	dw $0000
 
-DATA_FD7D2C:
+;$FD7D2C
+gameover_ppu_config:
 	dw PPU.layer_mode : db $09
 	dw PPU.layer_1_2_tilemap_base|$8000, $6A73
 	dw PPU.layer_3_tilemap_base : db $1A
@@ -6703,7 +6937,8 @@ DATA_FD7D2C:
 	dw PPU.vram_control : db $80
 	dw $0000
 
-DATA_FD7D55:
+;$FD7D55
+lava_generic_ppu_config:
 	dw PPU.layer_mode : db $09
 	dw PPU.layer_1_2_tilemap_base|$8000, $6779
 	dw PPU.layer_3_tilemap_base : db $74
@@ -6718,7 +6953,8 @@ DATA_FD7D55:
 	dw PPU.vram_control : db $80
 	dw $0000
 
-DATA_FD7D7E:
+;$FD7D7E
+ship_mast_rainy_ppu_config:
 	dw PPU.layer_mode : db $09
 	dw PPU.layer_1_2_tilemap_base|$8000, $7079
 	dw PPU.layer_3_tilemap_base : db $6C
@@ -6733,7 +6969,8 @@ DATA_FD7D7E:
 	dw PPU.vram_control : db $80
 	dw $0000
 
-DATA_FD7DA7:
+;$FD7DA7
+carnival_generic_ppu_config:
 	dw PPU.layer_mode : db $09
 	dw PPU.layer_1_2_tilemap_base|$8000, $5C79
 	dw PPU.layer_3_tilemap_base : db $6C
@@ -6748,7 +6985,8 @@ DATA_FD7DA7:
 	dw PPU.vram_control : db $80
 	dw $0000
 
-DATA_FD7DD0:
+;$FD7DD0
+ship_cabin_generic_ppu_config:
 	dw PPU.layer_mode : db $09
 	dw PPU.layer_1_2_tilemap_base|$8000, $7870
 	dw PPU.layer_3_tilemap_base : db $74
@@ -6763,7 +7001,8 @@ DATA_FD7DD0:
 	dw PPU.vram_control : db $80
 	dw $0000
 
-DATA_FD7DF9:
+;$FD7DF9
+mine_generic_ppu_config:
 	dw PPU.layer_mode : db $09
 	dw PPU.layer_1_2_tilemap_base|$8000, $5C79
 	dw PPU.layer_3_tilemap_base : db $58
@@ -6778,7 +7017,8 @@ DATA_FD7DF9:
 	dw PPU.vram_control : db $80
 	dw $0000
 
-DATA_FD7E22:
+;$FD7E22
+ship_mast_cloudy_ppu_config:
 	dw PPU.layer_mode : db $09
 	dw PPU.layer_1_2_tilemap_base|$8000, $7079
 	dw PPU.layer_3_tilemap_base : db $6C
@@ -6793,7 +7033,8 @@ DATA_FD7E22:
 	dw PPU.vram_control : db $80
 	dw $0000
 
-DATA_FD7E4B:
+;$FD7E4B
+swamp_generic_ppu_config:
 	dw PPU.layer_mode : db $09
 	dw PPU.layer_1_2_tilemap_base|$8000, $7971
 	dw PPU.layer_3_tilemap_base : db $6C
@@ -6808,7 +7049,8 @@ DATA_FD7E4B:
 	dw PPU.vram_control : db $80
 	dw $0000
 
-DATA_FD7E74:
+;$FD7E74
+bramble_generic_ppu_config:
 	dw PPU.layer_mode : db $01
 	dw PPU.layer_1_2_tilemap_base|$8000, $7079
 	dw PPU.layer_3_tilemap_base : db $74
@@ -6823,7 +7065,8 @@ DATA_FD7E74:
 	dw PPU.vram_control : db $80
 	dw $0000
 
-DATA_FD7E9D:
+;$FD7E9D
+ship_hold_dark_ppu_config:
 	dw PPU.layer_mode : db $01
 	dw PPU.layer_1_2_tilemap_base|$8000, $7139
 	dw PPU.layer_3_tilemap_base : db $6C
@@ -6841,7 +7084,8 @@ DATA_FD7E9D:
 	dw PPU.vram_control : db $80
 	dw $0000
 
-DATA_FD7ED1:
+;$FD7ED1
+lava_geysers_ppu_config:
 	dw PPU.layer_mode : db $09
 	dw PPU.layer_1_2_tilemap_base|$8000, $6779
 	dw PPU.layer_3_tilemap_base : db $74
@@ -6857,7 +7101,8 @@ DATA_FD7ED1:
 	dw PPU.vram_control : db $80
 	dw $0000
 
-DATA_FD7EFD:
+;$FD7EFD
+krocodile_kore_ppu_config:
 	dw PPU.layer_mode : db $09
 	dw PPU.layer_1_2_tilemap_base|$8000, $6979
 	dw PPU.layer_3_tilemap_base : db $74
@@ -6872,7 +7117,8 @@ DATA_FD7EFD:
 	dw PPU.vram_control : db $80
 	dw $0000
 
-DATA_FD7F26:
+;$FD7F26
+castle_generic_ppu_config:
 	dw PPU.layer_mode : db $09
 	dw PPU.layer_1_2_tilemap_base|$8000, $7169
 	dw PPU.layer_3_tilemap_base : db $64
@@ -6887,7 +7133,8 @@ DATA_FD7F26:
 	dw PPU.vram_control : db $80
 	dw $0000
 
-DATA_FD7F4F:
+;$FD7F4F
+haunted_generic_ppu_config:
 	dw PPU.layer_mode : db $01
 	dw PPU.layer_1_2_tilemap_base|$8000, $6979
 	dw PPU.layer_3_tilemap_base : db $59
@@ -6905,7 +7152,8 @@ DATA_FD7F4F:
 	dw PPU.vram_control : db $80
 	dw $0000
 
-DATA_FD7F83:
+;$FD7F83
+ship_mast_flooded_ppu_config:
 	dw PPU.layer_mode : db $09
 	dw PPU.layer_1_2_tilemap_base|$8000, $7079
 	dw PPU.layer_3_tilemap_base : db $6C
@@ -6920,7 +7168,8 @@ DATA_FD7F83:
 	dw PPU.vram_control : db $80
 	dw $0000
 
-DATA_FD7FAC:
+;$FD7FAC
+k_rool_duel_ppu_config:
 	dw PPU.layer_mode : db $09
 	dw PPU.layer_1_2_tilemap_base|$8000, $6979
 	dw PPU.layer_3_tilemap_base : db $74
@@ -6935,7 +7184,8 @@ DATA_FD7FAC:
 	dw PPU.vram_control : db $80
 	dw $0000
 
-DATA_FD7FD5:
+;$FD7FD5
+ice_flooded_ppu_config:
 	dw PPU.layer_mode : db $09
 	dw PPU.layer_1_2_tilemap_base|$8000, $7479
 	dw PPU.layer_3_tilemap_base : db $6C
@@ -6950,7 +7200,8 @@ DATA_FD7FD5:
 	dw PPU.vram_control : db $80
 	dw $0000
 
-DATA_FD7FFE:
+;$FD7FFE
+jungle_generic_ppu_config:
 	dw PPU.layer_mode : db $01
 	dw PPU.layer_1_2_tilemap_base|$8000, $7279
 	dw PPU.layer_3_tilemap_base : db $6C
@@ -6965,7 +7216,8 @@ DATA_FD7FFE:
 	dw PPU.vram_control : db $80
 	dw $0000
 
-DATA_FD8027:
+;$FD8027
+ice_translucent_ppu_config:
 	dw PPU.layer_mode : db $09
 	dw PPU.layer_1_2_tilemap_base|$8000, $7479
 	dw PPU.layer_3_tilemap_base : db $70
@@ -6980,7 +7232,8 @@ DATA_FD8027:
 	dw PPU.vram_control : db $80
 	dw $0000
 
-DATA_FD8050:
+;$FD8050
+castle_flooded_ppu_config:
 	dw PPU.layer_mode : db $09
 	dw PPU.layer_1_2_tilemap_base|$8000, $7161
 	dw PPU.layer_3_tilemap_base : db $6C
@@ -6995,7 +7248,8 @@ DATA_FD8050:
 	dw PPU.vram_control : db $80
 	dw $0000
 
-DATA_FD8079:
+;$FD8079
+bramble_windy_ppu_config:
 	dw PPU.layer_mode : db $01
 	dw PPU.layer_1_2_tilemap_base|$8000, $6079
 	dw PPU.layer_3_tilemap_base : db $74
@@ -7010,7 +7264,8 @@ DATA_FD8079:
 	dw PPU.vram_control : db $80
 	dw $0000
 
-DATA_FD80A2:
+;$FD80A2
+mine_windy_ppu_config:
 	dw PPU.layer_mode : db $09
 	dw PPU.layer_1_2_tilemap_base|$8000, $5C79
 	dw PPU.layer_3_tilemap_base : db $58
@@ -7023,7 +7278,8 @@ DATA_FD80A2:
 	dw PPU.vram_control : db $80
 	dw $0000
 
-DATA_FD80C5:
+;$FD80C5
+forest_misty_ppu_config:
 	dw PPU.layer_mode : db $09
 	dw PPU.layer_1_2_tilemap_base|$8000, $6958
 	dw PPU.layer_3_tilemap_base : db $5C
@@ -7038,7 +7294,8 @@ DATA_FD80C5:
 	dw PPU.vram_control : db $80
 	dw $0000
 
-DATA_FD80EE:
+;$FD80EE
+bonus_generic_ppu_config:
 	dw PPU.layer_mode : db $09
 	dw PPU.layer_1_2_tilemap_base|$8000, $7478
 	dw PPU.layer_3_tilemap_base : db $00
@@ -7054,7 +7311,8 @@ DATA_FD80EE:
 	dw PPU.vram_control : db $80
 	dw $0000
 
-DATA_FD811A:
+;$FD811A
+credits_ppu_config:
 	dw PPU.layer_mode : db $09
 	dw PPU.layer_1_2_tilemap_base|$8000, $7872
 	dw PPU.layer_3_tilemap_base : db $00
@@ -7070,7 +7328,8 @@ DATA_FD811A:
 	dw PPU.vram_control : db $80
 	dw $0000
 
-DATA_FD8146:
+;$FD8146
+video_game_heros_ppu_config:
 	dw PPU.layer_mode : db $09
 	dw PPU.layer_1_2_tilemap_base|$8000, $0074
 	dw PPU.layer_3_tilemap_base : db $7A
@@ -7086,7 +7345,8 @@ DATA_FD8146:
 	dw PPU.vram_control : db $80
 	dw $0000
 
-DATA_FD8172:
+;$FD8172
+error_screen_generic_ppu_config:
 	dw PPU.layer_mode : db $09
 	dw PPU.layer_1_tilemap_base : db $6C
 	dw PPU.layer_3_tilemap_base : db $70
@@ -7101,89 +7361,94 @@ DATA_FD8172:
 	dw PPU.screen : db $0F
 	dw $0000
 
-DATA_FD819A:
+;$FD819A
+vram_payload_table:
 	%offset(DATA_FD819B, 1)
 	%offset(DATA_FD819D, 3)
 	%offset(DATA_FD819E, 4)
 	%offset(DATA_FD819F, 5)
 	%offset(DATA_FD81A0, 6)
-	dw DATA_FD8216-DATA_FD819A	;00
-	dw DATA_FD8217-DATA_FD819A	;01
-	dw DATA_FD821F-DATA_FD819A	;02
-	dw DATA_FD8235-DATA_FD819A	;03
-	dw DATA_FD826E-DATA_FD819A	;04
-	dw DATA_FD8292-DATA_FD819A	;05
-	dw DATA_FD82BD-DATA_FD819A	;06
-	dw DATA_FD82C5-DATA_FD819A	;07
-	dw DATA_FD82E2-DATA_FD819A	;08
-	dw DATA_FD82FF-DATA_FD819A	;09
-	dw DATA_FD832A-DATA_FD819A	;0A
-	dw DATA_FD8347-DATA_FD819A	;0B
-	dw DATA_FD836B-DATA_FD819A	;0C
-	dw DATA_FD838F-DATA_FD819A	;0D
-	dw DATA_FD839E-DATA_FD819A	;0E
-	dw DATA_FD83AD-DATA_FD819A	;0F
-	dw DATA_FD83C3-DATA_FD819A	;10
-	dw DATA_FD83D2-DATA_FD819A	;11
-	dw DATA_FD83E1-DATA_FD819A	;12
-	dw DATA_FD83F0-DATA_FD819A	;13
-	dw DATA_FD840D-DATA_FD819A	;14
-	dw DATA_FD841C-DATA_FD819A	;15
-	dw DATA_FD842B-DATA_FD819A	;16
-	dw DATA_FD8433-DATA_FD819A	;17
-	dw DATA_FD8433-DATA_FD819A	;18
-	dw DATA_FD8433-DATA_FD819A	;19
-	dw DATA_FD8433-DATA_FD819A	;1A
-	dw DATA_FD8433-DATA_FD819A	;1B
-	dw DATA_FD8433-DATA_FD819A	;1C
-	dw DATA_FD8433-DATA_FD819A	;1D
-	dw DATA_FD8457-DATA_FD819A	;1E
-	dw DATA_FD847B-DATA_FD819A	;1F
-	dw DATA_FD8491-DATA_FD819A	;20
-	dw DATA_FD84A7-DATA_FD819A	;21
-	dw DATA_FD84D9-DATA_FD819A	;22
-	dw DATA_FD84EF-DATA_FD819A	;23
-	dw DATA_FD8513-DATA_FD819A	;24
-	dw DATA_FD8537-DATA_FD819A	;25
-	dw DATA_FD855B-DATA_FD819A	;26
-	dw DATA_FD85A2-DATA_FD819A	;27
-	dw DATA_FD85C6-DATA_FD819A	;28
-	dw DATA_FD8614-DATA_FD819A	;29
-	dw DATA_FD8623-DATA_FD819A	;2A
-	dw DATA_FD8639-DATA_FD819A	;2B
-	dw DATA_FD865D-DATA_FD819A	;2C
-	dw DATA_FD8681-DATA_FD819A	;2D
-	dw DATA_FD86A5-DATA_FD819A	;2E
-	dw DATA_FD86BB-DATA_FD819A	;2F
-	dw DATA_FD86ED-DATA_FD819A	;30
-	dw DATA_FD8703-DATA_FD819A	;31
-	dw DATA_FD8727-DATA_FD819A	;32
-	dw DATA_FD8744-DATA_FD819A	;33
-	dw DATA_FD8768-DATA_FD819A	;34
-	dw DATA_FD878C-DATA_FD819A	;35
-	dw DATA_FD87A9-DATA_FD819A	;36
-	dw DATA_FD87C6-DATA_FD819A	;37
-	dw DATA_FD87E3-DATA_FD819A	;38
-	dw DATA_FD8807-DATA_FD819A	;39
-	dw DATA_FD8832-DATA_FD819A	;3A
-	dw DATA_FD8856-DATA_FD819A	;3B
-	dw DATA_FD8873-DATA_FD819A	;3C
-	dw DATA_FD8890-DATA_FD819A	;3D
+	dw none_vram_payload-vram_payload_table				;00 none_vram_payload
+	dw hud_only_vram_payload-vram_payload_table			;01 hud_only_vram_payload
+	dw forest_generic_vram_payload-vram_payload_table		;02 forest_generic_vram_payload
+	dw ship_hold_generic_vram_payload-vram_payload_table		;03 ship_hold_generic_vram_payload
+	dw wasp_hive_generic_vram_payload-vram_payload_table		;04 wasp_hive_generic_vram_payload
+	dw crocodile_isle_vram_payload-vram_payload_table		;05 crocodile_isle_vram_payload
+	dw text_only_vram_payload-vram_payload_table			;06 text_only_vram_payload
+	dw ship_deck_generic_vram_payload-vram_payload_table		;07 ship_deck_generic_vram_payload
+	dw monkey_museum_vram_payload-vram_payload_table		;08 monkey_museum_vram_payload
+	dw funkys_flights_vram_payload-vram_payload_table		;09 funkys_flights_vram_payload
+	dw kong_kollege_vram_payload-vram_payload_table			;0A kong_kollege_vram_payload
+	dw swankys_bonus_bonanza_vram_payload-vram_payload_table	;0B swankys_bonus_bonanza_vram_payload
+	dw klubbas_kiosk_vram_payload-vram_payload_table		;0C klubbas_kiosk_vram_payload
+	dw gangplank_galleon_vram_payload-vram_payload_table		;0D gangplank_galleon_vram_payload
+	dw crocodile_cauldron_vram_payload-vram_payload_table		;0E crocodile_cauldron_vram_payload
+	dw krem_quay_vram_payload-vram_payload_table			;0F krem_quay_vram_payload
+	dw krazy_kremland_lower_vram_payload-vram_payload_table		;10 krazy_kremland_lower_vram_payload
+	dw gloomy_gulch_vram_payload-vram_payload_table			;11 gloomy_gulch_vram_payload
+	dw k_rools_keep_vram_payload-vram_payload_table			;12 k_rools_keep_vram_payload
+	dw lost_world_vram_payload-vram_payload_table			;13 lost_world_vram_payload
+	dw the_flying_krock_vram_payload-vram_payload_table		;14 the_flying_krock_vram_payload
+	dw krazy_kremland_upper_vram_payload-vram_payload_table		;15 krazy_kremland_upper_vram_payload
+	dw stars_only_vram_payload-vram_payload_table			;16 stars_only_vram_payload
+	dw forest_windy_vram_payload-vram_payload_table			;17 forest_windy_unused_0_vram_payload
+	dw forest_windy_vram_payload-vram_payload_table			;18 forest_windy_unused_1_vram_payload
+	dw forest_windy_vram_payload-vram_payload_table			;19 forest_windy_unused_2_vram_payload
+	dw forest_windy_vram_payload-vram_payload_table			;1A forest_windy_unused_3_vram_payload
+	dw forest_windy_vram_payload-vram_payload_table			;1B forest_windy_unused_4_vram_payload
+	dw forest_windy_vram_payload-vram_payload_table			;1C forest_windy_unused_5_vram_payload
+	dw forest_windy_vram_payload-vram_payload_table			;1D forest_windy_vram_payload
+	dw forest_light_shafts_vram_payload-vram_payload_table		;1E forest_light_shafts_vram_payload
+	dw gameover_vram_payload-vram_payload_table			;1F gameover_vram_payload
+	dw lava_generic_vram_payload-vram_payload_table			;20 lava_generic_vram_payload
+	dw ship_mast_rainy_vram_payload-vram_payload_table		;21 ship_mast_rainy_vram_payload
+	dw carnival_generic_vram_payload-vram_payload_table		;22 carnival_generic_vram_payload
+	dw ship_cabin_generic_vram_payload-vram_payload_table		;23 ship_cabin_generic_vram_payload
+	dw mine_generic_vram_payload-vram_payload_table			;24 mine_generic_vram_payload
+	dw ship_mast_cloudy_vram_payload-vram_payload_table		;25 ship_mast_cloudy_vram_payload
+	dw swamp_generic_vram_payload-vram_payload_table		;26 swamp_generic_vram_payload
+	dw bramble_generic_vram_payload-vram_payload_table		;27 bramble_generic_vram_payload
+	dw ship_hold_dark_vram_payload-vram_payload_table		;28 ship_hold_dark_vram_payload
+	dw lava_geysers_vram_payload-vram_payload_table			;29 lava_geysers_vram_payload
+	dw krocodile_kore_vram_payload-vram_payload_table		;2A krocodile_kore_vram_payload
+	dw castle_generic_vram_payload-vram_payload_table		;2B castle_generic_vram_payload
+	dw haunted_generic_vram_payload-vram_payload_table		;2C haunted_generic_vram_payload
+	dw ship_mast_flooded_vram_payload-vram_payload_table		;2D ship_mast_flooded_vram_payload
+	dw k_rool_duel_vram_payload-vram_payload_table			;2E k_rool_duel_vram_payload
+	dw ice_generic_vram_payload-vram_payload_table			;2F ice_generic_vram_payload
+	dw jungle_generic_vram_payload-vram_payload_table		;30 jungle_generic_vram_payload
+	dw castle_flooded_vram_payload-vram_payload_table		;31 castle_flooded_vram_payload
+	dw bramble_windy_vram_payload-vram_payload_table		;32 bramble_windy_vram_payload
+	dw mine_windy_vram_payload-vram_payload_table			;33 mine_windy_vram_payload
+	dw forest_misty_vram_payload-vram_payload_table			;34 forest_misty_vram_payload
+	dw bonus_destroy_them_all_vram_payload-vram_payload_table	;35 bonus_destroy_them_all_vram_payload
+	dw bonus_collect_the_stars_vram_payload-vram_payload_table	;36 bonus_collect_the_stars_vram_payload
+	dw bonus_find_the_token_vram_payload-vram_payload_table		;37 bonus_find_the_token_vram_payload
+	dw credits_vram_payload-vram_payload_table			;38 credits_vram_payload
+	dw video_game_heros_vram_payload-vram_payload_table		;39 video_game_heros_vram_payload
+	dw end_parade_vram_payload-vram_payload_table			;3A end_parade_vram_payload
+	dw irregularity_error_vram_payload-vram_payload_table		;3B irregularity_error_vram_payload
+	dw piracy_error_vram_payload-vram_payload_table			;3C piracy_error_vram_payload
+	dw wrong_region_error_vram_payload-vram_payload_table		;3D wrong_region_error_vram_payload
 
-DATA_FD8216:
+;$FD8216
+none_vram_payload:
 	db $00
 
-DATA_FD8217:
+;$FD8217
+hud_only_vram_payload:
 	%vram_payload(hud_tiledata, $1CC0, $0680, 0)
 	db $00
 
-DATA_FD821F:
+;$FD821F
+forest_generic_vram_payload:
 	%vram_payload(forest_level_tiledata, $2000, $71C0, 1)
 	%vram_payload(forest_bg_layer_3_8x8_tilemap, $5C00, $0800, 1)
 	%vram_payload(forest_bg_layer_3_tiledata, $6000, $1000, 0)
 	db $00
 
-DATA_FD8235:
+;$FD8235
+ship_hold_generic_vram_payload:
 	%vram_payload(ship_hold_level_tiledata, $2000, $3400, 1)
 	%vram_payload(DATA_C2FAC9, $7000, $0700, 1)
 	%vram_payload(DATA_C6FC11, $7400, $0700, 1)
@@ -7194,7 +7459,8 @@ DATA_FD8235:
 	%vram_payload(water_layer_3_tiledata, $6A60, $0240, 1)
 	db $00
 
-DATA_FD826E:
+;$FD826E
+wasp_hive_generic_vram_payload:
 	%vram_payload(wasp_hive_bg_layer_3_8x8_tilemap, $6800, $0800, 1)
 	%vram_payload(wasp_hive_honey_layer_1_8x8_tilemap, $6C00, $0800, 1)
 	%vram_payload(wasp_hive_bg_layer_3_tiledata, $7000, $1000, 1)
@@ -7202,7 +7468,8 @@ DATA_FD826E:
 	%vram_payload(wasp_hive_level_tiledata, $2000, $6600, 1)
 	db $00
 
-DATA_FD8292:
+;$FD8292
+crocodile_isle_vram_payload:
 	%vram_payload(crocodile_isle_layer_1_tiledata, $2000, $5F60, 1)
 	%vram_payload(crocodile_isle_layer_1_8x8_tilemap, $78C0, $0D80, 1)
 	%vram_payload(crocodile_isle_bg_layer_2_tiledata, $5000, $2D00, 1)
@@ -7211,25 +7478,29 @@ DATA_FD8292:
 	%vram_payload(crocodile_isle_clouds_layer_3_8x8_tilemap, $1B40, $0800, 1)
 	db $00
 
-DATA_FD82BD:
+;$FD82BD
+text_only_vram_payload:
 	%vram_payload(text_tiledata, $6000, $0640, 0)
 	db $00
 
-DATA_FD82C5:
+;$FD82C5
+ship_deck_generic_vram_payload:
 	%vram_payload(ship_deck_level_tiledata, $2000, $8000, 1)
 	%vram_payload(ship_deck_rigging_layer_3_tiledata, $59F0, $0420, 0)
 	%vram_payload(ship_deck_ocean_layer_2_tiledata, $6000, $2000, 1)
 	%vram_payload(ship_deck_ocean_layer_2_8x8_tilemap, $5C00, $0800, 1)
 	db $00
 
-DATA_FD82E2:
+;$FD82E2
+monkey_museum_vram_payload:
 	%vram_payload(monkey_museum_8x8_tilemap, $7000, $0800, 1)
 	%vram_payload(monkey_museum_tiledata, $2000, $8000, 1)
 	%vram_payload(text_tiledata, $6000, $2000, 0)
 	%vram_payload(hud_tiledata, $0200, $0280, 0)
 	db $00
 
-DATA_FD82FF:
+;$FD82FF
+funkys_flights_vram_payload:
 	%vram_payload(funkys_flights_8x8_tilemap, $7400, $0800, 1)
 	%vram_payload(funkys_flights_tiledata, $2000, $4240, 1)
 	%vram_payload(text_tiledata, $5000, $2000, 0)
@@ -7238,14 +7509,16 @@ DATA_FD82FF:
 	%vram_payload(ship_mast_sky_bg_layer_2_8x8_tilemap, $7C00, $0800, 1)
 	db $00
 
-DATA_FD832A:
+;$FD832A
+kong_kollege_vram_payload:
 	%vram_payload(kong_kollege_8x8_tilemap, $7000, $0800, 0)
 	%vram_payload(kong_kollege_tiledata, $2000, $8000, 1)
 	%vram_payload(text_tiledata, $6000, $2000, 0)
 	%vram_payload(hud_tiledata, $0200, $0280, 0)
 	db $00
 
-DATA_FD8347:
+;$FD8347
+swankys_bonus_bonanza_vram_payload:
 	%vram_payload(swankys_bonus_bonanza_8x8_tilemap, $7000, $0800, 1)
 	%vram_payload(swankys_bonus_bonanza_tiledata, $2000, $8000, 1)
 	%vram_payload(text_tiledata, $6000, $2000, 0)
@@ -7253,7 +7526,8 @@ DATA_FD8347:
 	%vram_payload(hud_tiledata, $1CC0, $0400, 0)
 	db $00
 
-DATA_FD836B:
+;$FD836B
+klubbas_kiosk_vram_payload:
 	%vram_payload(klubbas_kiosk_8x8_tilemap, $7000, $0800, 0)
 	%vram_payload(klubbas_kiosk_tiledata, $2000, $6000, 1)
 	%vram_payload(text_tiledata, $6000, $2000, 0)
@@ -7261,59 +7535,70 @@ DATA_FD836B:
 	%vram_payload(hud_tiledata, $0200, $0280, 0)
 	db $00
 
-DATA_FD838F:
+;$FD838F
+gangplank_galleon_vram_payload:
 	%vram_payload(gangplank_galleon_tiledata, $2000, $6DC0, 1)
 	%vram_payload(gangplank_galleon_8x8_tilemap, $7800, $0700, 0)
 	db $00
 
-DATA_FD839E:
+;$FD839E
+crocodile_cauldron_vram_payload:
 	%vram_payload(crocodile_cauldron_tiledata, $2000, $7000, 1)
 	%vram_payload(crocodile_cauldron_8x8_tilemap, $7800, $0700, 0)
 	db $00
 
-DATA_FD83AD:
+;$FD83AD
+krem_quay_vram_payload:
 	%vram_payload(krem_quay_tiledata, $2000, $7CA0, 1)
 	%vram_payload(krem_quay_left_8x8_tilemap, $7000, $0700, 1)
 	%vram_payload(krem_quay_right_8x8_tilemap, $7400, $0700, 1)
 	db $00
 
-DATA_FD83C3:
+;$FD83C3
+krazy_kremland_lower_vram_payload:
 	%vram_payload(krazy_kremland_lower_tiledata, $2000, $6E20, 1)
 	%vram_payload(krazy_kremland_lower_8x8_tilemap, $7800, $0700, 1)
 	db $00
 
-DATA_FD83D2:
+;$FD83D2
+gloomy_gulch_vram_payload:
 	%vram_payload(gloomy_gulch_tiledata, $2000, $6E40, 1)
 	%vram_payload(gloomy_gulch_8x8_tilemap, $7800, $0700, 1)
 	db $00
 
-DATA_FD83E1:
+;$FD83E1
+k_rools_keep_vram_payload:
 	%vram_payload(k_rools_keep_tiledata, $2000, $7FC0, 1)
 	%vram_payload(k_rools_keep_8x8_tilemap, $7000, $0E00, 1)
 	db $00
 
-DATA_FD83F0:
+;$FD83F0
+lost_world_vram_payload:
 	%vram_payload(lost_world_tiledata, $2000, $6E80, 1)
 	%vram_payload(lost_world_8x8_tilemap, $7800, $0700, 0)
 	%vram_payload(lost_world_head_layer_1_tiledata, $7C00, $0700, 1)
 	%vram_payload(lost_world_head_layer_1_8x8_tilemap, $6010, $0800, 0)
 	db $00
 
-DATA_FD840D:
+;$FD840D
+the_flying_krock_vram_payload:
 	%vram_payload(the_flying_krock_tiledata, $2000, $6E40, 1)
 	%vram_payload(the_flying_krock_8x8_tilemap, $7800, $0700, 0)
 	db $00
 
-DATA_FD841C:
+;$FD841C
+krazy_kremland_upper_vram_payload:
 	%vram_payload(krazy_kremland_upper_tiledata, $2000, $6960, 1)
 	%vram_payload(krazy_kremland_upper_8x8_tilemap, $7800, $0700, 1)
 	db $00
 
-DATA_FD842B:
+;$FD842B
+stars_only_vram_payload:
 	%vram_payload(star_tiledata, $1E00, $0400, 0)
 	db $00
 
-DATA_FD8433:
+;$FD8433
+forest_windy_vram_payload:
 	%vram_payload(forest_level_tiledata, $2000, $71C0, 1)
 	%vram_payload(forest_bg_layer_3_8x8_tilemap, $5C00, $0800, 1)
 	%vram_payload(forest_bg_layer_3_tiledata, $6000, $1000, 0)
@@ -7321,7 +7606,8 @@ DATA_FD8433:
 	%vram_payload(falling_leaves_tiledata, $7010, $0800, 0)
 	db $00
 
-DATA_FD8457:
+;$FD8457
+forest_light_shafts_vram_payload:
 	%vram_payload(forest_level_tiledata, $2000, $71C0, 1)
 	%vram_payload(forest_bg_layer_3_8x8_tilemap, $5C00, $0800, 1)
 	%vram_payload(forest_bg_layer_3_tiledata, $6000, $1000, 0)
@@ -7329,19 +7615,21 @@ DATA_FD8457:
 	%vram_payload(forest_light_shafts_layer_1_tiledata, $7000, $2000, 1)
 	db $00
 
-DATA_FD847B:
+gameover_vram_payload:
 	%vram_payload(gameover_screen_8x8_tilemap, $6C00, $0580, 0)
 	%vram_payload(DATA_FA5C41, $72C0, $0180, 0)
 	%vram_payload(gameover_screen_tiledata, $2000, $8000, 1)
 	db $00
 
-DATA_FD8491:
+;$FD8491
+lava_generic_vram_payload:
 	%vram_payload(lava_level_tiledata, $2000, $8000, 1)
 	%vram_payload(lava_fall_layer_3_tiledata, $6000, $0800, 1)
 	%vram_payload(lava_fall_layer_3_8x8_tilemap, $7400, $0700, 0)
 	db $00
 
-DATA_FD84A7:
+;$FD84A7
+ship_mast_rainy_vram_payload:
 	%vram_payload(ship_mast_level_tiledata, $2000, $7800, 1)
 	%vram_payload(ship_mast_sky_bg_layer_2_tiledata, $5000, $2000, 1)
 	%vram_payload(ship_mast_sky_bg_layer_2_8x8_tilemap, $7000, $0800, 1)
@@ -7351,13 +7639,15 @@ DATA_FD84A7:
 	%vram_payload(ship_mast_rain_layer_3_8x8_tilemap, $6F00, $0200, 0)
 	db $00
 
-DATA_FD84D9:
+;$FD84D9
+carnival_generic_vram_payload:
 	%vram_payload(carnival_level_tiledata, $2000, $7800, 1)
 	%vram_payload(carnival_bg_layer_2_8x8_tilemap, $5C00, $0800, 1)
 	%vram_payload(carnival_bg_layer_2_tiledata, $6000, $2400, 1)
 	db $00
 
-DATA_FD84EF:
+;$FD84EF
+ship_cabin_generic_vram_payload:
 	%vram_payload(ship_deck_cabin_tiledata, $2000, $5220, 1)
 	%vram_payload(ship_deck_cabin_8x8_tilemap, $7000, $0700, 1)
 	%vram_payload(text_tiledata, $5000, $2000, 0)
@@ -7365,7 +7655,8 @@ DATA_FD84EF:
 	%vram_payload(ship_deck_ocean_layer_2_8x8_tilemap, $7800, $0700, 1)
 	db $00
 
-DATA_FD8513:
+;$FD8513
+mine_generic_vram_payload:
 	%vram_payload(mine_level_tiledata, $2000, $7800, 1)
 	%vram_payload(mine_bg_layer_2_tiledata, $6000, $23E0, 1)
 	%vram_payload(mine_bg_layer_2_8x8_tilemap, $5C00, $0800, 1)
@@ -7373,7 +7664,8 @@ DATA_FD8513:
 	%vram_payload(sparkle_layer_3_8x8_tilemap, $5800, $0800, 1)
 	db $00
 
-DATA_FD8537:
+;$FD8537
+ship_mast_cloudy_vram_payload:
 	%vram_payload(ship_mast_level_tiledata, $2000, $5E00, 1)
 	%vram_payload(ship_mast_sky_bg_layer_2_tiledata, $5000, $2000, 1)
 	%vram_payload(ship_mast_sky_bg_layer_2_8x8_tilemap, $7000, $0800, 1)
@@ -7381,7 +7673,8 @@ DATA_FD8537:
 	%vram_payload(ship_mast_clouds_fg_layer_3_8x8_tilemap, $6C00, $0800, 1)
 	db $00
 
-DATA_FD855B:
+;$FD855B
+swamp_generic_vram_payload:
 	%vram_payload(swamp_level_tiledata, $2000, $70E0, 1)
 	%vram_payload(swamp_bg_layer_3_tiledata, $5918, $0DD0, 1)
 	%vram_payload(swamp_bg_layer_3_8x8_tilemap, $6C80, $0700, 1)
@@ -7394,7 +7687,8 @@ DATA_FD855B:
 	%vram_payload(swamp_fg_2_layer_1_8x8_tilemap, $7400, $0400, 1)
 	db $00
 
-DATA_FD85A2:
+;$FD85A2
+bramble_generic_vram_payload:
 	%vram_payload(brambles_level_tiledata, $2000, $70E0, 1)
 	%vram_payload(brambles_sky_bg_layer_3_tiledata, $5888, $0EF0, 1)
 	%vram_payload(brambles_sky_bg_layer_3_8x8_tilemap, $7400, $0800, 1)
@@ -7402,7 +7696,8 @@ DATA_FD85A2:
 	%vram_payload(brambles_bg_layer_2_8x8_tilemap, $7000, $0800, 1)
 	db $00
 
-DATA_FD85C6:
+;$FD85C6
+ship_hold_dark_vram_payload:
 	%vram_payload(ship_hold_level_tiledata, $2000, $3400, 1)
 	%vram_payload(DATA_C2FAC9, $7000, $0700, 1)
 	%vram_payload(DATA_C6FC11, $7400, $0700, 1)
@@ -7416,18 +7711,21 @@ DATA_FD85C6:
 	%vram_payload(DATA_EAA93D, $6000, $0010, 0)
 	db $00
 
-DATA_FD8614:
+;$FD8614
+lava_geysers_vram_payload:
 	%vram_payload(lava_level_tiledata, $2000, $8000, 1)
 	%vram_payload(DATA_EB4B73, $6000, $0800, 1)
 	db $00
 
-DATA_FD8623:
+;$FD8623
+krocodile_kore_vram_payload:
 	%vram_payload(krocodile_kore_level_tiledata, $2000, $8000, 1)
 	%vram_payload(DATA_EAD7DE, $74E0, $0640, 1)
 	%vram_payload(DATA_F41592, $6800, $02C0, 0)
 	db $00
 
-DATA_FD8639:
+;$FD8639
+castle_generic_vram_payload:
 	%vram_payload(DATA_E9A905, $2000, $5480, 1)
 	%vram_payload(DATA_E199BE, $2000, $2580, 0)
 	%vram_payload(DATA_E1BF3E, $4420, $37C0, 0)
@@ -7435,7 +7733,8 @@ DATA_FD8639:
 	%vram_payload(DATA_E9A745, $66A0, $01C0, 0)
 	db $00
 
-DATA_FD865D:
+;$FD865D
+haunted_generic_vram_payload:
 	%vram_payload(carnival_level_tiledata, $2000, $6C80, 1)
 	%vram_payload(haunted_hall_bg_layer_3_8x8_tilemap, $5800, $1000, 1)
 	%vram_payload(haunted_hall_bg_layer_3_tiledata, $6000, $1000, 1)
@@ -7443,7 +7742,8 @@ DATA_FD865D:
 	%vram_payload(haunted_hall_kackle_layer_2_8x8_tilemap, $6800, $0340, 1)
 	db $00
 
-DATA_FD8681:
+;$FD8681
+ship_mast_flooded_vram_payload:
 	%vram_payload(ship_mast_level_tiledata, $2000, $5D20, 1)
 	%vram_payload(ship_mast_sky_bg_layer_2_tiledata, $5000, $2000, 1)
 	%vram_payload(ship_mast_sky_bg_layer_2_8x8_tilemap, $7000, $0800, 1)
@@ -7451,13 +7751,15 @@ DATA_FD8681:
 	%vram_payload(water_layer_3_tiledata, $6A60, $0240, 1)
 	db $00
 
-DATA_FD86A5:
+;$FD86A5
+k_rool_duel_vram_payload:
 	%vram_payload(k_rool_duel_level_tiledata, $2000, $8000, 1)
 	%vram_payload(brambles_sky_bg_layer_3_tiledata, $6888, $0EF0, 1)
 	%vram_payload(brambles_sky_bg_layer_3_8x8_tilemap, $7400, $0800, 1)
 	db $00
 
-DATA_FD86BB:
+;$FD86BB
+ice_generic_vram_payload:
 	%vram_payload(ice_level_tiledata, $2000, $5100, 1)
 	%vram_payload(ice_bg_layer_2_8x8_tilemap, $7400, $0800, 1)
 	%vram_payload(ice_bg_layer_2_tiledata, $5000, $2000, 1)
@@ -7467,13 +7769,15 @@ DATA_FD86BB:
 	%vram_payload(water_layer_3_8x8_tilemap, $6C00, $0800, 1)
 	db $00
 
-DATA_FD86ED:
+;$FD86ED
+jungle_generic_vram_payload:
 	%vram_payload(jungle_level_tiledata, $2000, $8000, 1)
 	%vram_payload(jungle_bg_layer_3_8x8_tilemap, $6C00, $0800, 1)
 	%vram_payload(jungle_bg_layer_3_tiledata, $6000, $1000, 1)
 	db $00
 
-DATA_FD8703:
+;$FD8703
+castle_flooded_vram_payload:
 	%vram_payload(DATA_E9A905, $2000, $5480, 1)
 	%vram_payload(DATA_E199BE, $2000, $2580, 0)
 	%vram_payload(DATA_E1BF3E, $4420, $37C0, 0)
@@ -7481,14 +7785,16 @@ DATA_FD8703:
 	%vram_payload(water_layer_3_tiledata, $6A60, $0240, 1)
 	db $00
 
-DATA_FD8727:
+;$FD8727
+bramble_windy_vram_payload:
 	%vram_payload(brambles_level_tiledata, $2000, $70E0, 1)
 	%vram_payload(brambles_sky_bg_layer_3_tiledata, $5888, $0EF0, 1)
 	%vram_payload(brambles_sky_bg_layer_3_8x8_tilemap, $7400, $0800, 1)
 	%vram_payload(falling_leaves_tiledata, $7010, $07E0, 0)
 	db $00
 
-DATA_FD8744:
+;$FD8744
+mine_windy_vram_payload:
 	%vram_payload(mine_level_tiledata, $2000, $6000, 1)
 	%vram_payload(mine_bg_layer_2_tiledata, $6000, $23E0, 1)
 	%vram_payload(mine_bg_layer_2_8x8_tilemap, $5C00, $0800, 1)
@@ -7496,7 +7802,8 @@ DATA_FD8744:
 	%vram_payload(mine_debris_layer_3_tiledata, $5008, $0400, 0)
 	db $00
 
-DATA_FD8768:
+;$FD8768
+forest_misty_vram_payload:
 	%vram_payload(forest_level_tiledata, $2000, $71C0, 1)
 	%vram_payload(forest_bg_layer_3_8x8_tilemap, $5C00, $0800, 1)
 	%vram_payload(forest_bg_layer_3_tiledata, $6000, $1000, 0)
@@ -7504,28 +7811,32 @@ DATA_FD8768:
 	%vram_payload(forest_fog_layer_1_8x8_tilemap, $5800, $0800, 0)
 	db $00
 
-DATA_FD878C:
+;$FD878C
+bonus_destroy_them_all_vram_payload:
 	%vram_payload(DATA_EC83A0, $2000, $8000, 1)
 	%vram_payload(DATA_EC7CF0, $7400, $0800, 1)
 	%vram_payload(DATA_ED9179, $6000, $0D80, 1)
 	%vram_payload(DATA_ED9E72, $7800, $0800, 1)
 	db $00
 
-DATA_FD87A9:
+;$FD87A9
+bonus_collect_the_stars_vram_payload:
 	%vram_payload(DATA_EC83A0, $2000, $8000, 1)
 	%vram_payload(DATA_EC7CF0, $7400, $0800, 1)
 	%vram_payload(DATA_ED78D3, $6000, $0FA0, 1)
 	%vram_payload(DATA_EDA030, $7800, $0800, 1)
 	db $00
 
-DATA_FD87C6:
+;$FD87C6
+bonus_find_the_token_vram_payload:
 	%vram_payload(DATA_EC83A0, $2000, $8000, 1)
 	%vram_payload(DATA_EC7CF0, $7400, $0800, 1)
 	%vram_payload(DATA_ED8584, $6000, $0FA0, 1)
 	%vram_payload(DATA_ED9C9A, $7800, $0800, 1)
 	db $00
 
-DATA_FD87E3:
+;$FD87E3
+credits_vram_payload:
 	%vram_payload(DATA_EC83A0, $2000, $6000, 1)
 	%vram_payload(DATA_EC7CF0, $7800, $0800, 1)
 	%vram_payload(DATA_F40000, $5800, $0A40, 1)
@@ -7533,7 +7844,8 @@ DATA_FD87E3:
 	%vram_payload(DATA_FC0660, $5000, $0E00, 0)
 	db $00
 
-DATA_FD8807:
+;$FD8807
+video_game_heros_vram_payload:
 	%vram_payload(video_game_hero_screen_tiledata, $2000, $4260, 1)
 	%vram_payload(video_game_hero_screen_8x8_tilemap, $7400, $0800, 1)
 	%vram_payload(text_tiledata, $6000, $2000, 0)
@@ -7542,7 +7854,8 @@ DATA_FD8807:
 	%vram_payload(DATA_FC1460, $0020, $0040, 0)
 	db $00
 
-DATA_FD8832:
+;$FD8832
+end_parade_vram_payload:
 	%vram_payload(klubbas_kiosk_8x8_tilemap, $7800, $0800, 0)
 	%vram_payload(klubbas_kiosk_tiledata, $2000, $6000, 1)
 	%vram_payload(DATA_FC0660, $0020, $12C0, 0)
@@ -7550,33 +7863,38 @@ DATA_FD8832:
 	%vram_payload(haunted_hall_kackle_layer_2_8x8_tilemap, $6800, $0340, 1)
 	db $00
 
-DATA_FD8856:
+;$FD8856
+irregularity_error_vram_payload:
 	%vram_payload(gameover_screen_8x8_tilemap, $6C80, $0580, 0)
 	%vram_payload(gameover_screen_tiledata, $2000, $8000, 1)
 	%vram_payload(text_tiledata, $0000, $0CA0, 0)
 	%vram_payload(DATA_EDE455, $7120, $0300, 1)
 	db $00
 
-DATA_FD8873:
+;$FD8873
+piracy_error_vram_payload:
 	%vram_payload(gameover_screen_8x8_tilemap, $6C80, $0580, 0)
 	%vram_payload(gameover_screen_tiledata, $2000, $8000, 1)
 	%vram_payload(text_tiledata, $0000, $0CA0, 0)
 	%vram_payload(DATA_EDE53C, $7100, $0380, 1)
 	db $00
 
-DATA_FD8890:
+;$FD8890
+wrong_region_error_vram_payload:
 	%vram_payload(gameover_screen_8x8_tilemap, $6C80, $0580, 0)
 	%vram_payload(gameover_screen_tiledata, $2000, $8000, 1)
 	%vram_payload(text_tiledata, $0000, $0CA0, 0)
 	%vram_payload(DATA_EDE653, $7100, $0380, 1)
 	db $00
 
+;$FD88AD
 DATA_FD88AD:
 	db $FF, $FF, $80, $80, $80, $80, $80, $80
 	db $80, $80, $80, $80, $80, $80, $80, $80
 	db $00, $00, $00, $00, $00, $00, $00, $00
 	db $00, $00, $00, $00, $00, $00, $00, $00
 
+;$FD88CD
 hud_tiledata:
 	db $18, $14, $04, $22, $42, $00, $12, $59
 	db $4A, $50, $C4, $54, $D0, $44, $C0, $54
@@ -7787,6 +8105,7 @@ hud_tiledata:
 	db $80, $00, $80, $00, $C0, $00, $E0, $00
 	db $F0, $00, $F8, $00, $3C, $00, $00, $00
 
+;$FD8F4D
 star_tiledata:
 	db $00, $00, $01, $01, $01, $00, $01, $00
 	db $03, $02, $03, $00, $C3, $C0, $63, $2C
@@ -9112,503 +9431,612 @@ DATA_FDCA3F:
 	incsrc "data/levels/bananas/haunted_hall_bonus_2_bananas.asm"
 
 ;banana patterns
+;$FDCA83
 DATA_FDCA83:
-	dw DATA_FDCB5D-DATA_FDCA83
-	dw DATA_FDCB60-DATA_FDCA83
-	dw DATA_FDCB63-DATA_FDCA83
-	dw DATA_FDCB66-DATA_FDCA83
-	dw DATA_FDCB69-DATA_FDCA83
-	dw DATA_FDCB6C-DATA_FDCA83
-	dw DATA_FDCB6F-DATA_FDCA83
-	dw DATA_FDCB72-DATA_FDCA83
-	dw DATA_FDCB76-DATA_FDCA83
-	dw DATA_FDCB7A-DATA_FDCA83
-	dw DATA_FDCB7E-DATA_FDCA83
-	dw DATA_FDCB82-DATA_FDCA83
-	dw DATA_FDCB86-DATA_FDCA83
-	dw DATA_FDCB8A-DATA_FDCA83
-	dw DATA_FDCB8E-DATA_FDCA83
-	dw DATA_FDCB92-DATA_FDCA83
-	dw DATA_FDCB96-DATA_FDCA83
-	dw DATA_FDCB99-DATA_FDCA83
-	dw DATA_FDCB9D-DATA_FDCA83
-	dw DATA_FDCBA1-DATA_FDCA83
-	dw DATA_FDCBA5-DATA_FDCA83
-	dw DATA_FDCBA8-DATA_FDCA83
-	dw DATA_FDCBAC-DATA_FDCA83
-	dw DATA_FDCBB0-DATA_FDCA83
-	dw DATA_FDCBB4-DATA_FDCA83
-	dw DATA_FDCBB8-DATA_FDCA83
-	dw DATA_FDCBBC-DATA_FDCA83
-	dw DATA_FDCBC2-DATA_FDCA83
-	dw DATA_FDCBC8-DATA_FDCA83
-	dw DATA_FDCBCE-DATA_FDCA83
-	dw DATA_FDCBD1-DATA_FDCA83
-	dw DATA_FDCBD4-DATA_FDCA83
-	dw DATA_FDCBD8-DATA_FDCA83
-	dw DATA_FDCBDE-DATA_FDCA83
-	dw DATA_FDCBE4-DATA_FDCA83
-	dw DATA_FDCBEA-DATA_FDCA83
-	dw DATA_FDCBF1-DATA_FDCA83
-	dw DATA_FDCBF9-DATA_FDCA83
-	dw DATA_FDCC01-DATA_FDCA83
-	dw DATA_FDCC09-DATA_FDCA83
-	dw DATA_FDCC12-DATA_FDCA83
-	dw DATA_FDCC1B-DATA_FDCA83
-	dw DATA_FDCC24-DATA_FDCA83
-	dw DATA_FDCC2F-DATA_FDCA83
-	dw DATA_FDCC3B-DATA_FDCA83
-	dw DATA_FDCC3E-DATA_FDCA83
-	dw DATA_FDCC43-DATA_FDCA83
-	dw DATA_FDCC46-DATA_FDCA83
-	dw DATA_FDCC49-DATA_FDCA83
-	dw DATA_FDCC4F-DATA_FDCA83
-	dw DATA_FDCC58-DATA_FDCA83
-	dw DATA_FDCC61-DATA_FDCA83
-	dw DATA_FDCC6A-DATA_FDCA83
-	dw DATA_FDCC74-DATA_FDCA83
-	dw DATA_FDCC7E-DATA_FDCA83
-	dw DATA_FDCC88-DATA_FDCA83
-	dw DATA_FDCC96-DATA_FDCA83
-	dw DATA_FDCCA4-DATA_FDCA83
-	dw DATA_FDCCB2-DATA_FDCA83
-	dw DATA_FDCCC0-DATA_FDCA83
-	dw DATA_FDCCC7-DATA_FDCA83
-	dw DATA_FDCCCE-DATA_FDCA83
-	dw DATA_FDCCDF-DATA_FDCA83
-	dw DATA_FDCCE3-DATA_FDCA83
-	dw DATA_FDCCE9-DATA_FDCA83
-	dw DATA_FDCCEF-DATA_FDCA83
-	dw DATA_FDCCF5-DATA_FDCA83
-	dw DATA_FDCCFD-DATA_FDCA83
-	dw DATA_FDCD05-DATA_FDCA83
-	dw DATA_FDCD0F-DATA_FDCA83
-	dw DATA_FDCD1C-DATA_FDCA83
-	dw DATA_FDCD29-DATA_FDCA83
-	dw DATA_FDCD2D-DATA_FDCA83
-	dw DATA_FDCD34-DATA_FDCA83
-	dw DATA_FDCD3F-DATA_FDCA83
-	dw DATA_FDCD4A-DATA_FDCA83
-	dw DATA_FDCD59-DATA_FDCA83
-	dw DATA_FDCD68-DATA_FDCA83
-	dw DATA_FDCD77-DATA_FDCA83
-	dw DATA_FDCD86-DATA_FDCA83
-	dw DATA_FDCD99-DATA_FDCA83
-	dw DATA_FDCD9D-DATA_FDCA83
-	dw DATA_FDCDA6-DATA_FDCA83
-	dw DATA_FDCDAA-DATA_FDCA83
-	dw DATA_FDCDAE-DATA_FDCA83
-	dw DATA_FDCDB9-DATA_FDCA83
-	dw DATA_FDCDC8-DATA_FDCA83
-	dw DATA_FDCDD9-DATA_FDCA83
-	dw DATA_FDCDF1-DATA_FDCA83
-	dw DATA_FDCE09-DATA_FDCA83
-	dw DATA_FDCE21-DATA_FDCA83
-	dw DATA_FDCE39-DATA_FDCA83
-	dw DATA_FDCE3D-DATA_FDCA83
-	dw DATA_FDCE41-DATA_FDCA83
-	dw DATA_FDCE55-DATA_FDCA83
-	dw DATA_FDCE5A-DATA_FDCA83
-	dw DATA_FDCE67-DATA_FDCA83
-	dw DATA_FDCE74-DATA_FDCA83
-	dw DATA_FDCE8A-DATA_FDCA83
-	dw DATA_FDCEA8-DATA_FDCA83
-	dw DATA_FDCEB4-DATA_FDCA83
-	dw DATA_FDCECE-DATA_FDCA83
-	dw DATA_FDCED3-DATA_FDCA83
-	dw DATA_FDCED8-DATA_FDCA83
-	dw DATA_FDCEE8-DATA_FDCA83
-	dw DATA_FDCEFA-DATA_FDCA83
-	dw DATA_FDCF14-DATA_FDCA83
-	dw DATA_FDCF39-DATA_FDCA83
-	dw DATA_FDCF65-DATA_FDCA83
+	dw banana_pattern_00-DATA_FDCA83				;00 $FDCB5D
+	dw banana_pattern_01-DATA_FDCA83				;01 $FDCB60
+	dw banana_pattern_02-DATA_FDCA83				;02 $FDCB63
+	dw banana_pattern_03-DATA_FDCA83				;03 $FDCB66
+	dw banana_pattern_04-DATA_FDCA83				;04 $FDCB69
+	dw banana_pattern_05-DATA_FDCA83				;05 $FDCB6C
+	dw banana_pattern_06-DATA_FDCA83				;06 $FDCB6F
+	dw banana_pattern_07-DATA_FDCA83				;07 $FDCB72
+	dw banana_pattern_08-DATA_FDCA83				;08 $FDCB76
+	dw banana_pattern_09-DATA_FDCA83				;09 $FDCB7A
+	dw banana_pattern_0A-DATA_FDCA83				;0A $FDCB7E
+	dw banana_pattern_0B-DATA_FDCA83				;0B $FDCB82
+	dw banana_pattern_0C-DATA_FDCA83				;0C $FDCB86
+	dw banana_pattern_0D-DATA_FDCA83				;0D $FDCB8A
+	dw banana_pattern_0E-DATA_FDCA83				;0E $FDCB8E
+	dw banana_pattern_0F-DATA_FDCA83				;0F $FDCB92
+	dw banana_pattern_10-DATA_FDCA83				;10 $FDCB96
+	dw banana_pattern_11-DATA_FDCA83				;11 $FDCB99
+	dw banana_pattern_12-DATA_FDCA83				;12 $FDCB9D
+	dw banana_pattern_13-DATA_FDCA83				;13 $FDCBA1
+	dw banana_pattern_14-DATA_FDCA83				;14 $FDCBA5
+	dw banana_pattern_15-DATA_FDCA83				;15 $FDCBA8
+	dw banana_pattern_16-DATA_FDCA83				;16 $FDCBAC
+	dw banana_pattern_17-DATA_FDCA83				;17 $FDCBB0
+	dw banana_pattern_18-DATA_FDCA83				;18 $FDCBB4
+	dw banana_pattern_19-DATA_FDCA83				;19 $FDCBB8
+	dw banana_pattern_1A-DATA_FDCA83				;1A $FDCBBC
+	dw banana_pattern_1B-DATA_FDCA83				;1B $FDCBC2
+	dw banana_pattern_1C-DATA_FDCA83				;1C $FDCBC8
+	dw banana_pattern_1D-DATA_FDCA83				;1D $FDCBCE
+	dw banana_pattern_1E-DATA_FDCA83				;1E $FDCBD1
+	dw banana_pattern_1F-DATA_FDCA83				;1F $FDCBD4
+	dw banana_pattern_20-DATA_FDCA83				;20 $FDCBD8
+	dw banana_pattern_21-DATA_FDCA83				;21 $FDCBDE
+	dw banana_pattern_22-DATA_FDCA83				;22 $FDCBE4
+	dw banana_pattern_23-DATA_FDCA83				;23 $FDCBEA
+	dw banana_pattern_24-DATA_FDCA83				;24 $FDCBF1
+	dw banana_pattern_25-DATA_FDCA83				;25 $FDCBF9
+	dw banana_pattern_26-DATA_FDCA83				;26 $FDCC01
+	dw banana_pattern_27-DATA_FDCA83				;27 $FDCC09
+	dw banana_pattern_28-DATA_FDCA83				;28 $FDCC12
+	dw banana_pattern_29-DATA_FDCA83				;29 $FDCC1B
+	dw banana_pattern_2A-DATA_FDCA83				;2A $FDCC24
+	dw banana_pattern_2B-DATA_FDCA83				;2B $FDCC2F
+	dw banana_pattern_2C-DATA_FDCA83				;2C $FDCC3B
+	dw banana_pattern_2D-DATA_FDCA83				;2D $FDCC3E
+	dw banana_pattern_2E-DATA_FDCA83				;2E $FDCC43
+	dw banana_pattern_2F-DATA_FDCA83				;2F $FDCC46
+	dw banana_pattern_30-DATA_FDCA83				;30 $FDCC49
+	dw banana_pattern_31-DATA_FDCA83				;31 $FDCC4F
+	dw banana_pattern_32-DATA_FDCA83				;32 $FDCC58
+	dw banana_pattern_33-DATA_FDCA83				;33 $FDCC61
+	dw banana_pattern_34-DATA_FDCA83				;34 $FDCC6A
+	dw banana_pattern_35-DATA_FDCA83				;35 $FDCC74
+	dw banana_pattern_36-DATA_FDCA83				;36 $FDCC7E
+	dw banana_pattern_37-DATA_FDCA83				;37 $FDCC88
+	dw banana_pattern_38-DATA_FDCA83				;38 $FDCC96
+	dw banana_pattern_39-DATA_FDCA83				;39 $FDCCA4
+	dw banana_pattern_3A-DATA_FDCA83				;3A $FDCCB2
+	dw banana_pattern_3B-DATA_FDCA83				;3B $FDCCC0
+	dw banana_pattern_3C-DATA_FDCA83				;3C $FDCCC7
+	dw banana_pattern_3D-DATA_FDCA83				;3D $FDCCCE
+	dw banana_pattern_3E-DATA_FDCA83				;3E $FDCCDF
+	dw banana_pattern_3F-DATA_FDCA83				;3F $FDCCE3
+	dw banana_pattern_40-DATA_FDCA83				;40 $FDCCE9
+	dw banana_pattern_41-DATA_FDCA83				;41 $FDCCEF
+	dw banana_pattern_42-DATA_FDCA83				;42 $FDCCF5
+	dw banana_pattern_43-DATA_FDCA83				;43 $FDCCFD
+	dw banana_pattern_44-DATA_FDCA83				;44 $FDCD05
+	dw banana_pattern_45-DATA_FDCA83				;45 $FDCD0F
+	dw banana_pattern_46-DATA_FDCA83				;46 $FDCD1C
+	dw banana_pattern_47-DATA_FDCA83				;47 $FDCD29
+	dw banana_pattern_48-DATA_FDCA83				;48 $FDCD2D
+	dw banana_pattern_49-DATA_FDCA83				;49 $FDCD34
+	dw banana_pattern_4A-DATA_FDCA83				;4A $FDCD3F
+	dw banana_pattern_4B-DATA_FDCA83				;4B $FDCD4A
+	dw banana_pattern_4C-DATA_FDCA83				;4C $FDCD59
+	dw banana_pattern_4D-DATA_FDCA83				;4D $FDCD68
+	dw banana_pattern_4E-DATA_FDCA83				;4E $FDCD77
+	dw banana_pattern_4F-DATA_FDCA83				;4F $FDCD86
+	dw banana_pattern_50-DATA_FDCA83				;50 $FDCD99
+	dw banana_pattern_51-DATA_FDCA83				;51 $FDCD9D
+	dw banana_pattern_52-DATA_FDCA83				;52 $FDCDA6
+	dw banana_pattern_53-DATA_FDCA83				;53 $FDCDAA
+	dw banana_pattern_54-DATA_FDCA83				;54 $FDCDAE
+	dw banana_pattern_55-DATA_FDCA83				;55 $FDCDB9
+	dw banana_pattern_56-DATA_FDCA83				;56 $FDCDC8
+	dw banana_pattern_57-DATA_FDCA83				;57 $FDCDD9
+	dw banana_pattern_58-DATA_FDCA83				;58 $FDCDF1
+	dw banana_pattern_59-DATA_FDCA83				;59 $FDCE09
+	dw banana_pattern_5A-DATA_FDCA83				;5A $FDCE21
+	dw banana_pattern_5B-DATA_FDCA83				;5B $FDCE39
+	dw banana_pattern_5C-DATA_FDCA83				;5C $FDCE3D
+	dw banana_pattern_5D-DATA_FDCA83				;5D $FDCE41
+	dw banana_pattern_5E-DATA_FDCA83				;5E $FDCE55
+	dw banana_pattern_5F-DATA_FDCA83				;5F $FDCE5A
+	dw banana_pattern_60-DATA_FDCA83				;60 $FDCE67
+	dw banana_pattern_61-DATA_FDCA83				;61 $FDCE74
+	dw banana_pattern_62-DATA_FDCA83				;62 $FDCE8A
+	dw banana_pattern_63-DATA_FDCA83				;63 $FDCEA8
+	dw banana_pattern_64-DATA_FDCA83				;64 $FDCEB4
+	dw banana_pattern_65-DATA_FDCA83				;65 $FDCECE
+	dw banana_pattern_66-DATA_FDCA83				;66 $FDCED3
+	dw banana_pattern_67-DATA_FDCA83				;67 $FDCED8
+	dw banana_pattern_68-DATA_FDCA83				;68 $FDCEE8
+	dw banana_pattern_69-DATA_FDCA83				;69 $FDCEFA
+	dw banana_pattern_6A-DATA_FDCA83				;6A $FDCF14
+	dw banana_pattern_6B-DATA_FDCA83				;6B $FDCF39
+	dw banana_pattern_6C-DATA_FDCA83				;6C $FDCF65
 
-DATA_FDCB5D:
+;$FDCB5D
+banana_pattern_00:
 	db $00, $00, $00
 
-DATA_FDCB60:
+;$FDCB60
+banana_pattern_01:
 	db $01, $01, $01
 
-DATA_FDCB63:
+;$FDCB63
+banana_pattern_02:
 	db $01, $04, $09
 
-DATA_FDCB66:
+;$FDCB66
+banana_pattern_03:
 	db $01, $05, $11
 
-DATA_FDCB69:
+;$FDCB69
+banana_pattern_04:
 	db $01, $06, $21
 
-DATA_FDCB6C:
+;$FDCB6C
+banana_pattern_05:
 	db $01, $07, $49
 
-DATA_FDCB6F:
+;$FDCB6F
+banana_pattern_06:
 	db $01, $07, $41
 
-DATA_FDCB72:
+;$FDCB72
+banana_pattern_07:
 	db $01, $09, $01, $01
 
-DATA_FDCB76:
+;$FDCB76
+banana_pattern_08:
 	db $01, $09, $11, $01
 
-DATA_FDCB7A:
+;$FDCB7A
+banana_pattern_09:
 	db $01, $0A, $49, $02
 
-DATA_FDCB7E:
+;$FDCB7E
+banana_pattern_0A:
 	db $01, $0B, $21, $04
 
-DATA_FDCB82:
+;$FDCB82
+banana_pattern_0B:
 	db $01, $0D, $11, $11
 
-DATA_FDCB86:
+;$FDCB86
+banana_pattern_0C:
 	db $01, $0D, $49, $12
 
-DATA_FDCB8A:
+;$FDCB8A
+banana_pattern_0D:
 	db $01, $0D, $41, $10
 
-DATA_FDCB8E:
+;$FDCB8E
+banana_pattern_0E:
 	db $01, $10, $21, $84
 
-DATA_FDCB92:
+;$FDCB92
+banana_pattern_0F:
 	db $02, $06, $60, $00
 
-DATA_FDCB96:
+;$FDCB96
+banana_pattern_10:
 	db $03, $01, $05
 
-DATA_FDCB99:
+;$FDCB99
+banana_pattern_11:
 	db $03, $03, $44, $00
 
-DATA_FDCB9D:
+;$FDCB9D
+banana_pattern_12:
 	db $03, $03, $01, $01
 
-DATA_FDCBA1:
+;$FDCBA1
+banana_pattern_13:
 	db $03, $03, $45, $01
 
-DATA_FDCBA5:
+;$FDCBA5
+banana_pattern_14:
 	db $04, $01, $09
 
-DATA_FDCBA8:
+;$FDCBA8
+banana_pattern_15:
 	db $04, $03, $01, $08
 
-DATA_FDCBAC:
+;$FDCBAC
+banana_pattern_16:
 	db $04, $03, $04, $02
 
-DATA_FDCBB0:
+;$FDCBB0
+banana_pattern_17:
 	db $04, $04, $01, $80
 
-DATA_FDCBB4:
+;$FDCBB4
+banana_pattern_18:
 	db $04, $04, $08, $10
 
-DATA_FDCBB8:
+;$FDCBB8
+banana_pattern_19:
 	db $04, $04, $09, $90
 
-DATA_FDCBBC:
+;$FDCBBC
+banana_pattern_1A:
 	db $04, $07, $49, $00, $20, $09
 
-DATA_FDCBC2:
+;$FDCBC2
+banana_pattern_1B:
 	db $04, $08, $01, $10, $00, $80
 
-DATA_FDCBC8:
+;$FDCBC8
+banana_pattern_1C:
 	db $04, $08, $80, $00, $10, $01
 
-DATA_FDCBCE:
+;$FDCBCE
+banana_pattern_1D:
 	db $05, $01, $15
 
-DATA_FDCBD1:
+;$FDCBD1
+banana_pattern_1E:
 	db $05, $01, $11
 
-DATA_FDCBD4:
+;$FDCBD4
+banana_pattern_1F:
 	db $05, $03, $45, $51
 
-DATA_FDCBD8:
+;$FDCBD8
+banana_pattern_20:
 	db $05, $05, $01, $00, $00, $01
 
-DATA_FDCBDE:
+;$FDCBDE
+banana_pattern_21:
 	db $05, $05, $10, $00, $10, $00
 
-DATA_FDCBE4:
+;$FDCBE4
+banana_pattern_22:
 	db $05, $05, $11, $00, $10, $01
 
-DATA_FDCBEA:
+;$FDCBEA
+banana_pattern_23:
 	db $05, $07, $15, $22, $91, $58, $01
 
-DATA_FDCBF1:
+;$FDCBF1
+banana_pattern_24:
 	db $05, $09, $04, $04, $54, $15, $40, $00
 
-DATA_FDCBF9:
+;$FDCBF9
+banana_pattern_25:
 	db $05, $09, $40, $00, $55, $05, $04, $04
 
-DATA_FDCC01:
+;$FDCC01
+banana_pattern_26:
 	db $05, $09, $11, $01, $00, $00, $10, $11
 
-DATA_FDCC09:
+;$FDCC09
+banana_pattern_27:
 	db $05, $0B, $05, $8A, $60, $08, $83, $18
 	db $28
 
-DATA_FDCC12:
+;$FDCC12
+banana_pattern_28:
 	db $05, $0B, $21, $0C, $61, $08, $A3, $A8
 	db $28
 
-DATA_FDCC1B:
+;$FDCC1B
+banana_pattern_29:
 	db $05, $0B, $50, $85, $40, $15, $20, $00
 	db $01
 
-DATA_FDCC24:
+;$FDCC24
+banana_pattern_2A:
 	db $05, $0D, $11, $11, $00, $00, $00, $00
 	db $10, $11, $01
 
-DATA_FDCC2F:
+;$FDCC2F
+banana_pattern_2B:
 	db $05, $0F, $00, $14, $81, $6A, $51, $55
 	db $A0, $0A, $40, $01
 
-DATA_FDCC3B:
+;$FDCC3B
+banana_pattern_2C:
 	db $06, $01, $21
 
-DATA_FDCC3E:
+;$FDCC3E
+banana_pattern_2D:
 	db $06, $03, $0C, $C3, $00
 
-DATA_FDCC43:
+;$FDCC43
+banana_pattern_2E:
 	db $07, $01, $49
 
-DATA_FDCC46:
+;$FDCC46
+banana_pattern_2F:
 	db $07, $01, $41
 
-DATA_FDCC49:
+;$FDCC49
+banana_pattern_30:
 	db $07, $04, $09, $90, $00, $09
 
-DATA_FDCC4F:
+;$FDCC4F
+banana_pattern_31:
 	db $07, $07, $01, $00, $00, $01, $00, $00
 	db $01
 
-DATA_FDCC58:
+;$FDCC58
+banana_pattern_32:
 	db $07, $07, $49, $00, $20, $09, $00, $24
 	db $01
 
-DATA_FDCC61:
+;$FDCC61
+banana_pattern_33:
 	db $07, $07, $40, $00, $00, $01, $00, $04
 	db $00
 
-DATA_FDCC6A:
+;$FDCC6A
+banana_pattern_34:
 	db $07, $09, $01, $20, $00, $00, $04, $00
 	db $00, $40
 
-DATA_FDCC74:
+;$FDCC74
+banana_pattern_35:
 	db $07, $09, $00, $21, $00, $10, $00, $00
 	db $40, $00
 
-DATA_FDCC7E:
+;$FDCC7E
+banana_pattern_36:
 	db $07, $09, $00, $01, $00, $00, $04, $00
 	db $42, $00
 
-DATA_FDCC88:
+;$FDCC88
+banana_pattern_37:
 	db $07, $0D, $00, $10, $80, $00, $84, $2A
 	db $00, $10, $00, $08, $00, $04
 
-DATA_FDCC96:
+;$FDCC96
+banana_pattern_38:
 	db $07, $0D, $01, $00, $00, $40, $00, $00
 	db $00, $10, $00, $00, $00, $04
 
-DATA_FDCCA4:
+;$FDCCA4
+banana_pattern_39:
 	db $07, $0D, $55, $15, $00, $04, $41, $00
 	db $10, $04, $01, $00, $45, $01
 
-DATA_FDCCB2:
+;$FDCCB2
+banana_pattern_3A:
 	db $07, $0D, $55, $01, $80, $40, $40, $00
 	db $00, $01, $01, $48, $55, $00
 
-DATA_FDCCC0:
+;$FDCCC0
+banana_pattern_3B:
 	db $08, $05, $44, $55, $42, $08, $21
 
-DATA_FDCCC7:
+;$FDCCC7
+banana_pattern_3C:
 	db $08, $05, $84, $10, $42, $AA, $22
 
-DATA_FDCCCE:
+;$FDCCCE
+banana_pattern_3D:
 	db $08, $0F, $10, $40, $02, $40, $14, $94
 	db $A0, $10, $05, $25, $28, $04, $41, $00
 	db $0A
 
-DATA_FDCCDF:
+;$FDCCDF
+banana_pattern_3E:
 	db $09, $01, $11, $01
 
-DATA_FDCCE3:
+;$FDCCE3
+banana_pattern_3F:
 	db $09, $03, $04, $20, $00, $01
 
-DATA_FDCCE9:
+;$FDCCE9
+banana_pattern_40:
 	db $09, $03, $01, $20, $00, $04
 
-DATA_FDCCEF:
+;$FDCCEF
+banana_pattern_41:
 	db $09, $03, $45, $51, $14, $05
 
-DATA_FDCCF5:
+;$FDCCF5
+banana_pattern_42:
 	db $09, $05, $01, $00, $40, $00, $00, $10
 
-DATA_FDCCFD:
+;$FDCCFD
+banana_pattern_43:
 	db $09, $05, $10, $00, $40, $00, $00, $01
 
-DATA_FDCD05:
+;$FDCD05
+banana_pattern_44:
 	db $09, $07, $40, $00, $00, $80, $00, $00
 	db $00, $01
 
-DATA_FDCD0F:
+;$FDCD0F
+banana_pattern_45:
 	db $09, $09, $00, $01, $00, $00, $00, $01
 	db $00, $00, $00, $01, $00
 
-DATA_FDCD1C:
+;$FDCD1C
+banana_pattern_46:
 	db $09, $09, $01, $00, $00, $00, $00, $01
 	db $00, $00, $00, $00, $01
 
-DATA_FDCD29:
+;$FDCD29
+banana_pattern_47:
 	db $0A, $01, $49, $02
 
-DATA_FDCD2D:
+;$FDCD2D
+banana_pattern_48:
 	db $0A, $04, $09, $90, $00, $09, $90
 
-DATA_FDCD34:
+;$FDCD34
+banana_pattern_49:
 	db $0A, $07, $49, $00, $20, $09, $00, $24
 	db $01, $80, $24
 
-DATA_FDCD3F:
+;$FDCD3F
+banana_pattern_4A:
 	db $0A, $07, $40, $00, $00, $08, $00, $80
 	db $00, $88, $00
 
-DATA_FDCD4A:
+;$FDCD4A
+banana_pattern_4B:
 	db $0A, $0A, $01, $20, $00, $00, $10, $00
 	db $00, $00, $10, $00, $00, $00, $08
 
-DATA_FDCD59:
+;$FDCD59
+banana_pattern_4C:
 	db $0A, $0A, $01, $00, $00, $00, $02, $00
 	db $00, $00, $04, $00, $00, $00, $08
 
-DATA_FDCD68:
+;$FDCD68
+banana_pattern_4D:
 	db $0A, $0A, $49, $02, $00, $40, $92, $00
 	db $00, $90, $24, $00, $00, $24, $09
 
-DATA_FDCD77:
+;$FDCD77
+banana_pattern_4E:
 	db $0A, $0A, $00, $02, $00, $00, $40, $00
 	db $00, $00, $04, $00, $08, $04, $00
 
-DATA_FDCD86:
+;$FDCD86
+banana_pattern_4F:
 	db $0A, $0D, $49, $12, $00, $00, $80, $24
 	db $09, $00, $00, $40, $92, $04, $00, $00
 	db $20, $49, $02
 
-DATA_FDCD99:
+;$FDCD99
+banana_pattern_50:
 	db $0B, $01, $21, $04
 
-DATA_FDCD9D:
+;$FDCD9D
+banana_pattern_51:
 	db $0B, $05, $01, $00, $00, $08, $00, $00
 	db $40
 
-DATA_FDCDA6:
+;$FDCDA6
+banana_pattern_52:
 	db $0D, $01, $11, $11
 
-DATA_FDCDAA:
+;$FDCDAA
+banana_pattern_53:
 	db $0D, $01, $49, $12
 
-DATA_FDCDAE:
+;$FDCDAE
+banana_pattern_54:
 	db $0D, $05, $11, $00, $10, $01, $00, $11
 	db $00, $10, $01
 
-DATA_FDCDB9:
+;$FDCDB9
+banana_pattern_55:
 	db $0D, $08, $01, $08, $00, $40, $00, $00
 	db $80, $00, $00, $40, $00, $08, $01
 
-DATA_FDCDC8:
+;$FDCDC8
+banana_pattern_56:
 	db $0D, $09, $01, $10, $00, $00, $02, $00
 	db $00, $40, $00, $00, $80, $00, $40, $10
 	db $00
 
-DATA_FDCDD9:
+;$FDCDD9
+banana_pattern_57:
 	db $0D, $0D, $01, $00, $00, $00, $00, $04
 	db $00, $00, $00, $00, $10, $00, $00, $00
 	db $00, $40, $00, $00, $00, $00, $00, $01
 
-DATA_FDCDF1:
+;$FDCDF1
+banana_pattern_58:
 	db $0D, $0D, $00, $10, $00, $00, $00, $00
 	db $00, $10, $00, $00, $00, $00, $00, $10
 	db $00, $00, $00, $00, $00, $10, $00, $00
 
-DATA_FDCE09:
+;$FDCE09
+banana_pattern_59:
 	db $0D, $0D, $11, $11, $00, $00, $00, $00
 	db $10, $11, $01, $00, $00, $00, $00, $11
 	db $11, $00, $00, $00, $00, $10, $11, $01
 
-DATA_FDCE21:
+;$FDCE21
+banana_pattern_5A:
 	db $0D, $0D, $01, $00, $00, $00, $00, $00
 	db $00, $01, $00, $00, $00, $00, $00, $00
 	db $01, $00, $00, $00, $00, $00, $00, $01
 
-DATA_FDCE39:
+;$FDCE39
+banana_pattern_5B:
 	db $10, $01, $49, $92
 
-DATA_FDCE3D:
+;$FDCE3D
+banana_pattern_5C:
 	db $10, $01, $21, $84
 
-DATA_FDCE41:
+;$FDCE41
+banana_pattern_5D:
 	db $10, $09, $01, $10, $00, $00, $02, $00
 	db $00, $40, $00, $00, $00, $02, $00, $00
 	db $04, $00, $82, $00
 
-DATA_FDCE55:
+;$FDCE55
+banana_pattern_5E:
 	db $11, $01, $11, $11, $01
 
-DATA_FDCE5A:
+;$FDCE5A
+banana_pattern_5F:
 	db $11, $05, $11, $00, $10, $01, $00, $01
 	db $00, $10, $01, $00, $11
 
-DATA_FDCE67:
+;$FDCE67
+banana_pattern_60:
 	db $11, $05, $11, $00, $10, $01, $00, $11
 	db $00, $10, $01, $00, $11
 
-DATA_FDCE74:
+;$FDCE74
+banana_pattern_61:
 	db $11, $09, $11, $01, $00, $00, $10, $11
 	db $00, $00, $00, $11, $01, $00, $00, $10
 	db $11, $00, $00, $00, $11, $01
 
-DATA_FDCE8A:
+;$FDCE8A
+banana_pattern_62:
 	db $11, $0D, $11, $11, $00, $00, $00, $00
 	db $10, $11, $01, $00, $00, $00, $00, $11
 	db $11, $00, $00, $00, $00, $10, $11, $01
 	db $00, $00, $00, $00, $11, $11
 
-DATA_FDCEA8:
+;$FDCEA8
+banana_pattern_63:
 	db $13, $04, $09, $90, $00, $09, $90, $00
 	db $09, $90, $00, $09
 
-DATA_FDCEB4:
+;$FDCEB4
+banana_pattern_64:
 	db $13, $0A, $49, $02, $00, $40, $92, $00
 	db $00, $90, $24, $00, $00, $24, $09, $00
 	db $00, $49, $02, $00, $40, $92, $00, $00
 	db $90, $24
 
-DATA_FDCECE:
+;$FDCECE
+banana_pattern_65:
 	db $15, $01, $21, $84, $10
 
-DATA_FDCED3:
+;$FDCED3
+banana_pattern_66:
 	db $15, $01, $11, $11, $11
 
-DATA_FDCED8:
+;$FDCED8
+banana_pattern_67:
 	db $15, $05, $11, $00, $10, $01, $00, $11
 	db $00, $10, $01, $00, $11, $00, $10, $01
 
-DATA_FDCEE8:
+;$FDCEE8
+banana_pattern_68:
 	db $15, $06, $21, $00, $00, $40, $08, $00
 	db $00, $10, $02, $00, $00, $84, $00, $00
 	db $00, $21
 
-DATA_FDCEFA:
+;$FDCEFA
+banana_pattern_69:
 	db $15, $09, $11, $01, $00, $00, $10, $11
 	db $00, $00, $00, $11, $01, $00, $00, $10
 	db $11, $00, $00, $00, $11, $01, $00, $00
 	db $10, $11
 
-DATA_FDCF14:
+;$FDCF14
+banana_pattern_6A:
 	db $15, $0D, $11, $11, $00, $00, $00, $00
 	db $10, $11, $01, $00, $00, $00, $00, $11
 	db $11, $00, $00, $00, $00, $10, $11, $01
 	db $00, $00, $00, $00, $11, $11, $00, $00
 	db $00, $00, $10, $11, $01
 
-DATA_FDCF39:
+;$FDCF39
+banana_pattern_6B:
 	db $15, $10, $21, $84, $00, $00, $00, $00
 	db $00, $00, $00, $00, $21, $84, $00, $00
 	db $00, $00, $00, $00, $00, $00, $21, $84
@@ -9616,7 +10044,8 @@ DATA_FDCF39:
 	db $21, $84, $00, $00, $00, $00, $00, $00
 	db $00, $00, $21, $84
 	
-DATA_FDCF65:
+;$FDCF65
+banana_pattern_6C:
 	db $00, $00, $00, $00, $00, $00, $00, $00
 	db $00, $00, $00, $00, $00, $00, $00, $00
 	db $00, $00, $00, $00, $00, $00, $00, $00

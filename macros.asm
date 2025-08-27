@@ -198,9 +198,29 @@ macro vram_payload(data_address, vram_address, data_size, compressed)
 	dw <data_size>
 endmacro
 
-macro map_text(text)
+macro string(text)
 	db ?end-?start, $3E
 	?start:
 	db "<text>"
 	?end:
+endmacro
+
+macro bit_flags_byte(...)
+	!i #= 0
+	!flags #= 0
+	while !i < sizeof(...)
+		!flags #= !flags|<...[!i]>
+		!i #= !i+1
+	endwhile
+	db !flags
+endmacro
+
+macro bit_flags_word(...)
+	!i #= 0
+	!flags #= 0
+	while !i < sizeof(...)
+		!flags #= !flags|<...[!i]>
+		!i #= !i+1
+	endwhile
+	dw !flags
 endmacro

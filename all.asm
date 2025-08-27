@@ -16,16 +16,16 @@ if defined("override_pirate_panic") == 0
 endif
 
 org $008000			;dummy org so functions work
-	incsrc macros.asm
-	incsrc constants.asm
-	incsrc ram.asm
-	incsrc sram.asm
-	incsrc vram.asm
-	incsrc aram.asm
-	incsrc structs.asm
-	incsrc mmio.asm
-	incsrc apuio.asm
-	incsrc audio_constants.asm
+	incsrc "macros.asm"
+	incsrc "constants.asm"
+	incsrc "ram.asm"
+	incsrc "sram.asm"
+	incsrc "vram.asm"
+	incsrc "aram.asm"
+	incsrc "structs.asm"
+	incsrc "mmio.asm"
+	incsrc "apuio.asm"
+	incsrc "audio_constants.asm"
 
 org $C00000
 	check bankcross half
@@ -49,6 +49,9 @@ org $80F4B0
 
 org $808000
 	incsrc "bank_80.asm"
+	assert pc() <= $80FFB0
+org $80FFB0
+	incsrc "header.asm"
 org $C10000
 	check bankcross full
 	incsrc "bank_C1-ED.asm"

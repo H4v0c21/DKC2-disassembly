@@ -230,3 +230,5 @@ namespace off
 
 working_palette = $7E8928
 primary_palette = $7E8C28
+
+writable_palette_RAM = $7F9650
