@@ -14,9 +14,9 @@ struct sprite $0000
 	.terrain_attributes:		skip 1	;10
 	.terrain_attributes_high:	skip 1	;11
 	.oam_property:			skip 2	;12
-	.unknown_14:			skip 2	;14
-	.unknown_16:			skip 2	;16
-	.unknown_18:			skip 2	;18
+	.render_order_mirror:		skip 2	;14
+	.last_rendered_graphic:		skip 2	;16
+	.current_graphic_mirror:	skip 2	;18
 	.current_graphic:		skip 2	;1A
 	.display_mode:			skip 1	;1C
 	.display_mode_high:		skip 1	;1D
@@ -31,25 +31,23 @@ struct sprite $0000
 	.state:				skip 1	;2E \ This is a pair in most cases, but a couple sprites use 2F alone
 	.sub_state:			skip 1	;2F /
 	.interaction_flags:		skip 2	;30
-	.unknown_32:			skip 2	;32
+	.carry_or_defeat_flags:		skip 2	;32
 	.unknown_34:			skip 2	;34
 	.animation_id:			skip 2	;36
 	.animation_timer:		skip 2	;38
 	.animation_speed:		skip 2	;3A
 	.animation_address:		skip 2	;3C
 	.animation_routine:		skip 2	;3E
-	.unknown_40:			skip 2	;40
-	.general_purpose_42:		skip 2	;42
-	.general_purpose_44:		skip 2	;44
-	.general_purpose_46:		skip 2	;46
-	.general_purpose_48:		skip 2	;48
-	.general_purpose_4A:		skip 1	;4A
-	.general_purpose_4B:		skip 1	;4B
-	.general_purpose_4C:		skip 2	;4C
-	.general_purpose_4E:		skip 2	;4E
-	.parameter:
-		.unknown_50:		skip 2	;50
-	
+	.animation_flags:		skip 2	;40
+	.general_purpose_42:		skip 2	;42 \
+	.general_purpose_44:		skip 2	;44  |
+	.general_purpose_46:		skip 2	;46  |
+	.general_purpose_48:		skip 2	;48  |
+	.general_purpose_4A:		skip 1	;4A  | Can also be used by movement states
+	.general_purpose_4B:		skip 1	;4B  |
+	.general_purpose_4C:		skip 2	;4C  |
+	.general_purpose_4E:		skip 2	;4E  |
+	.general_purpose_50:		skip 2	;50 /
 	.movement_state:		skip 1	;52
 	.movement_sub_state:		skip 1	;53
 	.constants_address:		skip 2	;54

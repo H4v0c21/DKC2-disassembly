@@ -221,7 +221,7 @@ CODE_B481D6:					;	   |
 	STZ current_song			;$B481E1   |
 CODE_B481E3:					;	   |
 	LDA $06A3				;$B481E3   |
-	BIT #$1000				;$B481E6   |
+	BIT #$1000				;$B481E6   | Check if we are in funky plane
 	BNE CODE_B48210				;$B481E9   |
 	LDA #!music_rescue_kong			;$B481EB   |
 	CMP current_song			;$B481EE   |
@@ -611,6 +611,8 @@ CODE_B484FB:					;	   |
 	BEQ CODE_B48543				;$B4853E   |
 	BRL CODE_B48985				;$B48540  /
 
+
+;look into
 CODE_B48543:
 	JSL CODE_BAC7C0				;$B48543  \
 	DEC $069F				;$B48547   |
@@ -930,7 +932,7 @@ endif						;	  /
 
 CODE_B487B7:
 	LDA player_active_pressed		;$B487B7  \
-	BIT #$D0C0				;$B487BA   |
+	BIT #!input_ABXY_start 			;$B487BA   |
 	BEQ CODE_B487C2				;$B487BD   |
 	BRL CODE_B48A46				;$B487BF  /
 
@@ -1564,7 +1566,7 @@ CODE_B48C9D:
 	LDX #$0004				;$B48D35   |
 	JSL DMA_palette				;$B48D38   |
 	JSL clear_wram_tables			;$B48D3C   |
-	JSL CODE_808D8A				;$B48D40   |
+	JSL setup_npc_screen_kongs		;$B48D40   |
 	STZ $067A				;$B48D44   |
 	STZ $065E				;$B48D47   |
 	SEP #$20				;$B48D4A   |
@@ -1662,7 +1664,7 @@ CODE_B48DFA:
 	LDA #$4000				;$B48E16   |
 	TSB $08C2				;$B48E19   |
 	LDA #$0000				;$B48E1C   |
-	JSL CODE_808837				;$B48E1F   |
+	JSL set_active_kong_global		;$B48E1F   |
 	STZ npc_screen_type			;$B48E23   |
 	JSR CODE_B48C9D				;$B48E26   |
 	LDX #$0000				;$B48E29   |
@@ -1762,7 +1764,7 @@ CODE_B48F07:					;	   |
 	CMP #CODE_B4C14E			;$B48F12   |
 	BNE CODE_B48F28				;$B48F15   |
 	LDA player_active_pressed		;$B48F17   |
-	BIT #$D0C0				;$B48F1A   |
+	BIT #!input_ABXY_start 			;$B48F1A   |
 	BEQ CODE_B48F28				;$B48F1D   |
 	LDA #$0001				;$B48F1F   |
 	STA $0658				;$B48F22   |
@@ -1871,7 +1873,7 @@ CODE_B4901B:
 	CMP #CODE_B4C14E			;$B4901E   |
 	BNE CODE_B49033				;$B49021   |
 	LDA player_active_pressed		;$B49023   |
-	BIT #$D0C0				;$B49026   |
+	BIT #!input_ABXY_start 			;$B49026   |
 	BNE CODE_B49033				;$B49029   |
 	LDA #$0011				;$B4902B   |
 	STA PPU.screens				;$B4902E   |
@@ -1891,7 +1893,7 @@ CODE_B49043:
 	STA $08C2				;$B49046   |
 	LDA $0660				;$B49049   |
 	STA $08A4				;$B4904C   |
-	LDA #CODE_808CD9			;$B4904F   |
+	LDA #ending_museum_NMI			;$B4904F   |
 	STA NMI_pointer				;$B49052   |
 	LDA #CODE_B4BEEF			;$B49054   |
 	STA $067D				;$B49057   |
@@ -1993,7 +1995,7 @@ CODE_B49126:
 	LDA #$4000				;$B49126  \
 	TSB $08C2				;$B49129   |
 	LDA #$0000				;$B4912C   |
-	JSL CODE_808837				;$B4912F   |
+	JSL set_active_kong_global		;$B4912F   |
 	STZ npc_screen_type			;$B49133   |
 	JSR CODE_B48C9D				;$B49136   |
 	LDX #$0000				;$B49139   |
@@ -2029,7 +2031,7 @@ CODE_B49188:
 	STA $08C2				;$B4918B   |
 	LDA $0660				;$B4918E   |
 	STA $08A4				;$B49191   |
-	LDA #CODE_808CD9			;$B49194   |
+	LDA #ending_museum_NMI			;$B49194   |
 	STA NMI_pointer				;$B49197   |
 	LDA #CODE_B4BEEF			;$B49199   |
 	STA $067D				;$B4919C   |
@@ -2058,7 +2060,7 @@ endif						;	   |
 	STZ $08FE				;$B491C8   |
 	JSL disable_screen			;$B491CB   |
 	JSL CODE_BBC5AB				;$B491CF   |
-	JML CODE_809F85				;$B491D3  /
+	JML init_secret_ending			;$B491D3  /
 
 CODE_B491D7:
 	PHK					;$B491D7  \
@@ -2314,7 +2316,7 @@ CODE_B493B7:
 	JSR CODE_B4BD8D				;$B493F9   |
 CODE_B493FC:					;	   |
 	LDA player_active_pressed		;$B493FC   |
-	BIT #$D0C0				;$B493FF   |
+	BIT #!input_ABXY_start 			;$B493FF   |
 	BEQ CODE_B49425				;$B49402   |
 	LDA npc_screen_type			;$B49404   |
 	BNE CODE_B49419				;$B49407   |
@@ -3015,7 +3017,7 @@ CODE_B49A20:
 	LDA $06A1				;$B49A20  \
 	AND #$F7FF				;$B49A23   |
 	STA $06A1				;$B49A26   |
-	LDA #$0633				;$B49A29   |
+	%lda_sound(6, menu_move)		;$B49A29   |
 	JSL queue_sound_effect			;$B49A2C   | play menu move sound effect
 	LDA $0654				;$B49A30   |
 	CLC					;$B49A33   |
@@ -3043,7 +3045,7 @@ CODE_B49A5A:
 	LDA $06A1				;$B49A5A  \
 	AND #$F7FF				;$B49A5D   |
 	STA $06A1				;$B49A60   |
-	LDA #$0633				;$B49A63   |
+	%lda_sound(6, menu_move)		;$B49A63   |
 	JSL queue_sound_effect			;$B49A66   | play menu move sound effect
 	LDA $0654				;$B49A6A   | get cursor selection
 	CLC					;$B49A6D   |
@@ -3084,7 +3086,7 @@ CODE_B49A9E:
 
 CODE_B49AC3:
 	LDA player_active_pressed		;$B49AC3  \
-	BIT #$D0C0				;$B49AC6   | check if player pressed any face buttons or start
+	BIT #!input_ABXY_start 			;$B49AC6   | check if player pressed any face buttons or start
 	BEQ CODE_B49ADD				;$B49AC9   | if not, do something
 	LDA $06B5				;$B49ACB   | else get cursor X/Y position
 	STA $0670				;$B49ACE   | store a mirror of it
@@ -3390,7 +3392,7 @@ endif						;	   |
 CODE_B49D1C:					;	   |
 	STA $065C				;$B49D1C   | use previous flag address to store the text table address
 	JSR CODE_B49AFC				;$B49D1F   | display the dialogue
-	LDA #$065F				;$B49D22   | play incorrect answer sound effect
+	%lda_sound(6, wrong_answer)		;$B49D22   | play incorrect answer sound effect
 	JSL queue_sound_effect			;$B49D25   |
 	LDA $06A1				;$B49D29   |
 	AND #$FDFF				;$B49D2C   |
@@ -3411,7 +3413,7 @@ CODE_B49D40:					;	   |
 
 CODE_B49D4F:
 	PHA					;$B49D4F  \  preserve the player's new coin count
-	LDA #$0634				;$B49D50   |
+	%lda_sound(6, menu_select)		;$B49D50   |
 	JSL queue_sound_effect			;$B49D53   | play correct answer sound effect
 	PLA					;$B49D57   | restore coin count
 	TAY					;$B49D58   |
@@ -4082,17 +4084,18 @@ CODE_B4A2A4:
 CODE_B4A2BB:					;	   |
 	RTS					;$B4A2BB  /
 
-CODE_B4A2BC:
+;Looks like init, "every frame" routine gets passed to $079C
+move_kong_to_funky_plane:
 	LDX active_kong_sprite			;$B4A2BC  \
-	JSR move_kong_to_funky_plane		;$B4A2BF   |
+	JSR .move_kong_to_plane			;$B4A2BF   |
 	LDX inactive_kong_sprite		;$B4A2C2   |
-	JSR move_kong_to_funky_plane		;$B4A2C5   |
+	JSR .move_kong_to_plane			;$B4A2C5   |
 	LDA #CODE_808D4E			;$B4A2C8   |
 	STA NMI_pointer				;$B4A2CB   |
 	LDA #CODE_B4A313			;$B4A2CD   |
 	STA $079C				;$B4A2D0   |
 	LDA $06A3				;$B4A2D3   |
-	ORA #$1000				;$B4A2D6   | Enable funky plane
+	ORA #$1000				;$B4A2D6   | Turn on "in funky plane" flag
 	STA $06A3				;$B4A2D9   |
 	STZ world_number			;$B4A2DC   | Set world number back to crocodile isle
 	LDA #$0001				;$B4A2DF   |
@@ -4102,15 +4105,15 @@ CODE_B4A2BC:
 	STA $06A1				;$B4A2EB   |
 	LDA #DATA_F70168			;$B4A2EE   |
 	LDY language_select			;$B4A2F1   |
-	BEQ CODE_B4A2F9				;$B4A2F4   |
+	BEQ .CODE_B4A2F9			;$B4A2F4   |
 	LDA #DATA_F7FD6E			;$B4A2F6   |
-CODE_B4A2F9:					;	   |
+.CODE_B4A2F9:					;	   |
 	STA $065C				;$B4A2F9   |
 	LDY #$0C00				;$B4A2FC   |
 	JSR CODE_B49BE0				;$B4A2FF   |
 	RTS					;$B4A302  /
 
-move_kong_to_funky_plane:
+.move_kong_to_plane:
 	LDA #$0001				;$B4A303  \
 	STA $42,x				;$B4A306   |
 	LDA #$0050				;$B4A308   |
@@ -4367,7 +4370,7 @@ CODE_B4A533:					;	   |
 	BRL CODE_B4A5CC				;$B4A546  /
 
 CODE_B4A549:
-	LDA #$0633				;$B4A549  \
+	%lda_sound(6, menu_move)		;$B4A549  \
 	JSL queue_sound_effect			;$B4A54C   |
 	LDA $06A1				;$B4A550   |
 	AND #$F7FF				;$B4A553   |
@@ -4414,7 +4417,7 @@ CODE_B4A590:
 
 CODE_B4A5B5:
 	LDA player_active_pressed		;$B4A5B5  \
-	BIT #$D0C0				;$B4A5B8   |
+	BIT #!input_ABXY_start 			;$B4A5B8   |
 	BEQ CODE_B4A5CC				;$B4A5BB   |
 	LDA $06A3				;$B4A5BD   |
 	AND #$FBFF				;$B4A5C0   |
@@ -4446,7 +4449,7 @@ CODE_B4A5E7:
 	LDA $0006,y				;$B4A601   |
 	CMP $066C				;$B4A604   |
 	BNE CODE_B4A639				;$B4A607   |
-	LDA #$0634				;$B4A609   |
+	%lda_sound(6, menu_select)		;$B4A609   |
 	JSL queue_sound_effect			;$B4A60C   |
 	LDA $079E				;$B4A610   |
 	AND #$00FF				;$B4A613   |
@@ -4470,7 +4473,7 @@ CODE_B4A637:					;	   |
 	BRA CODE_B4A624				;$B4A637  /
 
 CODE_B4A639:
-	LDA #$065F				;$B4A639  \
+	%lda_sound(6, wrong_answer)		;$B4A639  \
 	JSL queue_sound_effect			;$B4A63C   |
 	LDX #$0100				;$B4A640   |
 	LDA language_select			;$B4A643   |
@@ -4659,7 +4662,7 @@ spawn_swanky_prize:
 
 CODE_B4A7D8:
 	LDA player_active_pressed		;$B4A7D8  \
-	BIT #$D0C0				;$B4A7DB   |
+	BIT #!input_ABXY_start 			;$B4A7DB   |
 	BEQ CODE_B4A7E6				;$B4A7DE   |
 	LDA #$0001				;$B4A7E0   |
 	STA $064E				;$B4A7E3   |
@@ -4827,7 +4830,7 @@ CODE_B4A90E:
 	JSR CODE_B4BD8D				;$B4A956   |
 CODE_B4A959:					;	   |
 	LDA player_active_pressed		;$B4A959   |
-	BIT #$D0C0				;$B4A95C   |
+	BIT #!input_ABXY_start 			;$B4A95C   |
 	BEQ CODE_B4A97B				;$B4A95F   |
 	LDA screen_brightness			;$B4A961   |
 	CMP #$000F				;$B4A964   |
@@ -4850,7 +4853,7 @@ CODE_B4A97C:
 	STA $46,x				;$B4A989   |
 	RTS					;$B4A98B  /
 
-CODE_B4A98C:
+leave_npc_screen:
 	LDX active_kong_sprite			;$B4A98C  \
 	JSR CODE_B4A9CB				;$B4A98F   |
 	LDX inactive_kong_sprite		;$B4A992   |
@@ -5047,7 +5050,7 @@ CODE_B4AB00:
 	JSR CODE_B4BD8D				;$B4AB48   |
 CODE_B4AB4B:					;	   |
 	LDA player_active_pressed		;$B4AB4B   |
-	BIT #$D0C0				;$B4AB4E   |
+	BIT #!input_ABXY_start 			;$B4AB4E   |
 	BEQ CODE_B4AB6D				;$B4AB51   |
 	LDA screen_brightness			;$B4AB53   |
 	CMP #$000F				;$B4AB56   |
@@ -5146,7 +5149,7 @@ CODE_B4ABEA:
 	JSR CODE_B4BD8D				;$B4AC37   |
 CODE_B4AC3A:					;	   |
 	LDA player_active_pressed		;$B4AC3A   |
-	BIT #$D0C0				;$B4AC3D   |
+	BIT #!input_ABXY_start 			;$B4AC3D   |
 	BEQ CODE_B4AC48				;$B4AC40   |
 	LDA #$0001				;$B4AC42   |
 	STA $064E				;$B4AC45   |
@@ -5847,7 +5850,7 @@ CODE_B4B27D:					;	   |
 	JSR CODE_B4B0CF				;$B4B283   |
 	LDA #CODE_B49126			;$B4B286   |
 	STA $067D				;$B4B289   |
-	LDA #CODE_808CD9			;$B4B28C   |
+	LDA #ending_museum_NMI			;$B4B28C   |
 	JML set_nmi_pointer			;$B4B28F  /
 
 CODE_B4B293:
@@ -6095,7 +6098,7 @@ CODE_B4B46D:					;	   |
 	DEC $0652				;$B4B471   |
 	BNE CODE_B4B46D				;$B4B474   |
 	JSR CODE_B4B42D				;$B4B476   |
-	JSL CODE_80897C				;$B4B479   |
+	JSL input_and_pause_handler_global	;$B4B479   |
 	JSL CODE_B4AEAF				;$B4B47D   |
 	LDA #CODE_8087D9			;$B4B481   |
 	STA gamemode_pointer			;$B4B484   |
@@ -6111,7 +6114,7 @@ CODE_B4B48D:
 	LDA #CODE_8087D9			;$B4B49C   |
 	STA gamemode_pointer			;$B4B49F   |
 	JSR CODE_B4B42D				;$B4B4A1   |
-	JSL CODE_80897C				;$B4B4A4   |
+	JSL input_and_pause_handler_global	;$B4B4A4   |
 	JSL CODE_B4AEAF				;$B4B4A8   |
 	LDA #simple_gamemode_nmi		;$B4B4AC   |
 	JML set_nmi_pointer			;$B4B4AF  /
@@ -6120,7 +6123,7 @@ CODE_B4B4B3:					;	  \
 	STZ world_number			;$B4B4B3   |
 	STZ returning_map_node_number		;$B4B4B6   |
 	STZ map_node_number			;$B4B4B9   |
-	JSL CODE_80897C				;$B4B4BC   |
+	JSL input_and_pause_handler_global	;$B4B4BC   |
 	JSR CODE_B4B42D				;$B4B4C0   |
 	JSL CODE_B4AEAF				;$B4B4C3   |
 	LDA #CODE_8087D9			;$B4B4C7   |
@@ -7543,7 +7546,7 @@ CODE_B4BF3A:					;	   |
 	LDA $08A4				;$B4BFAD   |
 	STA $0660				;$B4BFB0   |
 	STZ $08A4				;$B4BFB3   |
-	JSL CODE_808D8A				;$B4BFB6   |
+	JSL setup_npc_screen_kongs		;$B4BFB6   |
 	LDX inactive_kong_sprite		;$B4BFBA   |
 	LDA #$C000				;$B4BFBD   |
 	STA $1C,x				;$B4BFC0   |
@@ -7631,7 +7634,7 @@ CODE_B4C07B:					;	   |
 	LDA #CODE_B48E6C			;$B4C08A   |
 	STA $067D				;$B4C08D   |
 	LDA $0660				;$B4C090   |
-	JSL CODE_808837				;$B4C093   |
+	JSL set_active_kong_global		;$B4C093   |
 	JML CODE_808C84				;$B4C097  /
 
 CODE_B4C09B:
@@ -9346,6 +9349,7 @@ DATA_B4CC57:
 	dw DATA_B4CCC7
 	dw DATA_B4CCC7
 
+;These tables point to routines to run based on your selection in NPC screens
 DATA_B4CC73:
 	dw CODE_B4A0A8
 	dw CODE_B4A0A8
@@ -9408,15 +9412,16 @@ DATA_B4CCC7:
 	dw CODE_B4A0A8
 	dw CODE_B4A9DB
 
+;Funky
 DATA_B4CCD3:
-	dw CODE_B4A2BC
-	dw CODE_B4A98C
+	dw move_kong_to_funky_plane
+	dw leave_npc_screen
 
 DATA_B4CCD7:
 	dw CODE_B4A391
 	dw CODE_B4A391
 	dw CODE_B4A391
-	dw CODE_B4A98C
+	dw leave_npc_screen
 
 DATA_B4CCDF:
 	dw DATA_B4CCED
@@ -9436,7 +9441,7 @@ DATA_B4CCED:
 	dw CODE_B4A0B5
 	dw CODE_B4A0B5
 	dw CODE_B4A0B5
-	dw CODE_B4A98C
+	dw leave_npc_screen
 
 DATA_B4CCFD:
 	dw CODE_B4A26F
@@ -9446,7 +9451,7 @@ DATA_B4CCFD:
 	dw CODE_B4A0B5
 	dw CODE_B4A0B5
 	dw CODE_B4A0B5
-	dw CODE_B4A98C
+	dw leave_npc_screen
 
 DATA_B4CD0D:
 	dw CODE_B4A26F
@@ -9456,33 +9461,33 @@ DATA_B4CD0D:
 	dw CODE_B4A0B5
 	dw CODE_B4A0B5
 	dw CODE_B4A0B5
-	dw CODE_B4A98C
+	dw leave_npc_screen
 
 DATA_B4CD1D:
 	dw CODE_B4A26F
 	dw CODE_B4A0B5
 	dw CODE_B4A0B5
 	dw CODE_B4A0B5
-	dw CODE_B4A98C
+	dw leave_npc_screen
 
 DATA_B4CD27:
 	dw CODE_B4A26F
 	dw CODE_B4A0B5
 	dw CODE_B4A0B5
 	dw CODE_B4A0B5
-	dw CODE_B4A98C
+	dw leave_npc_screen
 
 DATA_B4CD31:
 	dw CODE_B4A26F
 	dw CODE_B4A0B5
 	dw CODE_B4A0B5
-	dw CODE_B4A98C
+	dw leave_npc_screen
 
 DATA_B4CD39:
 	dw CODE_B4A26F
 	dw CODE_B4A0B5
 	dw CODE_B4A0B5
-	dw CODE_B4A98C
+	dw leave_npc_screen
 
 DATA_B4CD41:
 	dw CODE_B49F61

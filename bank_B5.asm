@@ -726,9 +726,9 @@ CODE_B59C00:
 	STX $16,y				;$B59C0E   |/ These are likely used to determine if a graphic already exists in VRAM
 	LDA $0012,y				;$B59C10   |\ Copy OAM render properties to scratch ram
 	STA $32					;$B59C13   |/
-	LDA.l DATA_BC8000,x			;$B59C15   |\
+	LDA.l sprite_graphic_table,x		;$B59C15   |\
 	STA $40					;$B59C19   | | Copy sprite graphic address into scratch ram
-	LDA.l DATA_BC8002,x			;$B59C1B   | |
+	LDA.l sprite_graphic_table_bank,x	;$B59C1B   | |
 	STA $42					;$B59C1F   |/
 	LDY #$0000				;$B59C21   |\
 	LDA [$40],y				;$B59C24   | | Copy sprite graphic header into scratch ram
@@ -848,11 +848,11 @@ CODE_B59CCB:
 	CPX #$02C5				;$B59CE4   |
 	BCS CODE_B59D14				;$B59CE7   |
 	STX $18,y				;$B59CE9   |
-	LDA.l DATA_BC8000,x			;$B59CEB   |
+	LDA.l sprite_graphic_table,x		;$B59CEB   |
 	STA $40					;$B59CEF   |
 	INC A					;$B59CF1   |
 	STA $44					;$B59CF2   |
-	LDA.l DATA_BC8002,x			;$B59CF4   |
+	LDA.l sprite_graphic_table_bank,x	;$B59CF4   |
 	STA $42					;$B59CF8   |
 	STA $46					;$B59CFA   |
 	JMP CODE_B59DAB				;$B59CFC  /
@@ -861,11 +861,11 @@ CODE_B59CFF:
 	RTS					;$B59CFF  /
 
 CODE_B59D00:
-	LDA.l DATA_BC8000,x			;$B59D00  \
+	LDA.l sprite_graphic_table,x		;$B59D00  \
 	STA $40					;$B59D04   |
 	INC A					;$B59D06   |
 	STA $44					;$B59D07   |
-	LDA.l DATA_BC8002,x			;$B59D09   |
+	LDA.l sprite_graphic_table_bank,x	;$B59D09   |
 	STA $42					;$B59D0D   |
 	STA $46					;$B59D0F   |
 	JMP CODE_B59DC5				;$B59D11  /
@@ -884,11 +884,11 @@ CODE_B59D14:
 CODE_B59D26:
 	STX $18,y				;$B59D26  \
 	STX $16,y				;$B59D28   |
-	LDA.l DATA_BC8000,x			;$B59D2A   |
+	LDA.l sprite_graphic_table,x		;$B59D2A   |
 	STA $40					;$B59D2E   |
 	INC A					;$B59D30   |
 	STA $44					;$B59D31   |
-	LDA.l DATA_BC8002,x			;$B59D33   |
+	LDA.l sprite_graphic_table_bank,x	;$B59D33   |
 	STA $42					;$B59D37   |
 	STA $46					;$B59D39   |
 	JSR CODE_B59DC5				;$B59D3B   |
@@ -1195,12 +1195,12 @@ CODE_B59F33:					;	   |
 
 CODE_B59F3B:
 	REP #$20				;$B59F3B  \
-	STX $70					;$B59F3D   |
+	STX next_oam_slot			;$B59F3D   |
 	RTS					;$B59F3F  /
 
 CODE_B59F40:
 	SEP #$20				;$B59F40  \
-	LDA $70					;$B59F42   |
+	LDA next_oam_slot			;$B59F42   |
 	LSR A					;$B59F44   |
 	LSR A					;$B59F45   |
 	LSR A					;$B59F46   |
@@ -1211,7 +1211,7 @@ CODE_B59F40:
 	STZ $62					;$B59F4E   |
 	STZ $0638				;$B59F50   |
 CODE_B59F53:					;	   |
-	LDA $70					;$B59F53   |
+	LDA next_oam_slot			;$B59F53   |
 	CMP #$0400				;$B59F55   |
 	BNE CODE_B59F69				;$B59F58   |
 	SEP #$20				;$B59F5A   |
@@ -1250,11 +1250,11 @@ CODE_B59F8D:					;	   |
 	TXA					;$B59F8D   |
 	STA $0018,y				;$B59F8E   |
 	BEQ CODE_B59F76				;$B59F91   |
-	LDA.l DATA_BC8000,x			;$B59F93   |
+	LDA.l sprite_graphic_table,x		;$B59F93   |
 	STA $40					;$B59F97   |
 	INC A					;$B59F99   |
 	STA $44					;$B59F9A   |
-	LDA.l DATA_BC8002,x			;$B59F9C   |
+	LDA.l sprite_graphic_table_bank,x	;$B59F9C   |
 	STA $42					;$B59FA0   |
 	STA $46					;$B59FA2   |
 	XBA					;$B59FA4   |
@@ -1839,7 +1839,7 @@ CODE_B5A3CE:
 	STA $3C					;$B5A3E8   |/
 	LDY #$0008				;$B5A3EA   |\
 CODE_B5A3ED:					;	   | |
-	LDA $70					;$B5A3ED   | | get next free oam slot
+	LDA next_oam_slot			;$B5A3ED   | | get next free oam slot
 	LSR A					;$B5A3EF   | |
 	LSR A					;$B5A3F0   | |
 	SEP #$20				;$B5A3F1   | |
@@ -7288,7 +7288,7 @@ CODE_B5CDEF:
 	JSL set_sprite_animation		;$B5CDF8   |
 	RTS					;$B5CDFC  /
 
-CODE_B5CDFD:
+init_world_map:
 	STA.l world_number			;$B5CDFD  \
 	JSL disable_screen			;$B5CE01   |
 	JSL clear_wram_tables			;$B5CE05   |
@@ -7299,30 +7299,30 @@ CODE_B5CDFD:
 	LDA.l world_number			;$B5CE13   |
 	ASL A					;$B5CE17   |
 	TAX					;$B5CE18   |
-	JMP (DATA_B5CE1C,x)			;$B5CE19  /
+	JMP (world_map_init_table,x)		;$B5CE19  /
 
-DATA_B5CE1C:
-	dw CODE_B5CE3A
-	dw CODE_B5CE49
-	dw CODE_B5CE58
-	dw CODE_B5CE67
-	dw CODE_B5CE76
-	dw CODE_B5CE85
-	dw CODE_B5CE94
-	dw CODE_B5CEA3
-	dw CODE_B5CEB2
-	dw CODE_B5CEC1
-	dw CODE_B5CED0
-	dw CODE_B5CED0
-	dw CODE_B5CED0
-	dw CODE_B5CED0
-	dw CODE_B5CED0
+world_map_init_table:
+	dw CODE_B5CE3A				;00 - Crocodile Isle
+	dw CODE_B5CE49				;01 - Gangplank Galleon
+	dw CODE_B5CE58				;02 - Crocodile Cauldron
+	dw CODE_B5CE67				;03 - Krem Quay
+	dw CODE_B5CE76				;04 - Krazy Kremland (Lower)
+	dw CODE_B5CE85				;05 - Gloomy Gulch
+	dw CODE_B5CE94				;06 - K.Rool's Keep
+	dw CODE_B5CEA3				;07 - The Flying Krock
+	dw CODE_B5CEB2				;08 - Lost World (Unused)
+	dw CODE_B5CEC1				;09 - Krazy Kremland (Upper)
+	dw CODE_B5CED0				;0A - Lost World (World 2)
+	dw CODE_B5CED0				;0B - Lost World (World 3)
+	dw CODE_B5CED0				;0C - Lost World (World 4)
+	dw CODE_B5CED0				;0D - Lost World (World 5)
+	dw CODE_B5CED0				;0E - Lost World (World 6)
 
 
 
 CODE_B5CE3A:
 	JSR CODE_B5CE40				;$B5CE3A  \
-	JMP CODE_B5CF63				;$B5CE3D  /
+	JMP crocodile_isle_init			;$B5CE3D  /
 
 CODE_B5CE40:
 	JSR CODE_B5E0A1				;$B5CE40  /
@@ -7336,7 +7336,7 @@ DATA_B5CE43:
 
 CODE_B5CE49:
 	JSR CODE_B5CE4F				;$B5CE49  \
-	JMP CODE_B5CEF0				;$B5CE4C  /
+	JMP generic_world_map_init		;$B5CE4C  /
 
 CODE_B5CE4F:
 	JSR CODE_B5E0A1				;$B5CE4F  /
@@ -7350,7 +7350,7 @@ DATA_B5CE52:
 
 CODE_B5CE58:
 	JSR CODE_B5CE5E				;$B5CE58  \
-	JMP CODE_B5CEF0				;$B5CE5B  /
+	JMP generic_world_map_init		;$B5CE5B  /
 
 CODE_B5CE5E:
 	JSR CODE_B5E0A1				;$B5CE5E  /
@@ -7364,7 +7364,7 @@ DATA_B5CE61:
 
 CODE_B5CE67:
 	JSR CODE_B5CE6D				;$B5CE67  \
-	JMP CODE_B5CEF0				;$B5CE6A  /
+	JMP generic_world_map_init		;$B5CE6A  /
 
 CODE_B5CE6D:
 	JSR CODE_B5E0A1				;$B5CE6D  /
@@ -7378,7 +7378,7 @@ DATA_B5CE70:
 
 CODE_B5CE76:
 	JSR CODE_B5CE7C				;$B5CE76  \
-	JMP CODE_B5CEF0				;$B5CE79  /
+	JMP generic_world_map_init		;$B5CE79  /
 
 CODE_B5CE7C:
 	JSR CODE_B5E0A1				;$B5CE7C  /
@@ -7392,7 +7392,7 @@ DATA_B5CE7F:
 
 CODE_B5CE85:
 	JSR CODE_B5CE8B				;$B5CE85  \
-	JMP CODE_B5CEF0				;$B5CE88  /
+	JMP generic_world_map_init		;$B5CE88  /
 
 CODE_B5CE8B:
 	JSR CODE_B5E0A1				;$B5CE8B  /
@@ -7406,7 +7406,7 @@ DATA_B5CE8E:
 
 CODE_B5CE94:
 	JSR CODE_B5CE9A				;$B5CE94  \
-	JMP CODE_B5CEF0				;$B5CE97  /
+	JMP generic_world_map_init		;$B5CE97  /
 
 CODE_B5CE9A:
 	JSR CODE_B5E0A1				;$B5CE9A  /
@@ -7420,7 +7420,7 @@ DATA_B5CE9D:
 
 CODE_B5CEA3:
 	JSR CODE_B5CEA9				;$B5CEA3  \
-	JMP CODE_B5CEF0				;$B5CEA6  /
+	JMP generic_world_map_init		;$B5CEA6  /
 
 CODE_B5CEA9:
 	JSR CODE_B5E0A1				;$B5CEA9  /
@@ -7434,7 +7434,7 @@ DATA_B5CEAC:
 
 CODE_B5CEB2:
 	JSR CODE_B5CEB8				;$B5CEB2  \
-	JMP CODE_B5CEF0				;$B5CEB5  /
+	JMP generic_world_map_init		;$B5CEB5  /
 
 CODE_B5CEB8:
 	JSR CODE_B5E0A1				;$B5CEB8  /
@@ -7448,7 +7448,7 @@ DATA_B5CEBB:
 
 CODE_B5CEC1:
 	JSR CODE_B5CEC7				;$B5CEC1  \
-	JMP CODE_B5CEF0				;$B5CEC4  /
+	JMP generic_world_map_init		;$B5CEC4  /
 
 CODE_B5CEC7:
 	JSR CODE_B5E0A1				;$B5CEC7  /
@@ -7462,7 +7462,7 @@ DATA_B5CECA:
 
 CODE_B5CED0:
 	JSR CODE_B5CED6				;$B5CED0  \
-	JMP CODE_B5CEF0				;$B5CED3  /
+	JMP generic_world_map_init		;$B5CED3  /
 
 CODE_B5CED6:
 	JSR CODE_B5E0A1				;$B5CED6  /
@@ -7488,7 +7488,7 @@ CODE_B5CEEB:
 	JSL init_sprite_render_order_global	;$B5CEEB  \
 	RTS					;$B5CEEF  /
 
-CODE_B5CEF0:
+generic_world_map_init:
 	CLC					;$B5CEF0  \
 	XCE					;$B5CEF1   |
 	SEI					;$B5CEF2   |
@@ -7498,11 +7498,11 @@ CODE_B5CEF0:
 	LDX #stack				;$B5CEF9   |
 	TXS					;$B5CEFC   |
 	JSR CODE_B5CEEB				;$B5CEFD   |
-	JSR CODE_B5D96E				;$B5CF00   |
+	JSR spawn_map_player			;$B5CF00   |
 	JSL CODE_B480CD				;$B5CF03   |
 	LDA.l $0006A3				;$B5CF07   |
 	BIT #$0020				;$B5CF0B   |
-	BNE CODE_B5CF20				;$B5CF0E   |
+	BNE CODE_B5CF20				;$B5CF0E   | Check if in lost world kiosk/kremland transition node
 	JSL CODE_B49C2A				;$B5CF10   |
 	LDA.l $0006A3				;$B5CF14   |
 	BIT #$0040				;$B5CF18   |
@@ -7525,16 +7525,16 @@ CODE_B5CF20:					;	   |
 	LDA.l $0006A3				;$B5CF45   |
 	AND #$FF9F				;$B5CF49   |
 	STA $0006A3				;$B5CF4C   |
-	LDX #CODE_808CF1			;$B5CF50   |
+	LDX #generic_world_map_NMI_hop		;$B5CF50   |
 	LDA.l $0006A3				;$B5CF53   |
 	BIT #$8000				;$B5CF57   |
 	BEQ CODE_B5CF5F				;$B5CF5A   |
-	LDX #CODE_808CD9			;$B5CF5C   |
+	LDX #ending_museum_NMI			;$B5CF5C   |
 CODE_B5CF5F:					;	   |
 	TXA					;$B5CF5F   |
-	JMP CODE_B5CFF6				;$B5CF60  /
+	JMP set_and_wait_for_nmi_B5		;$B5CF60  /
 
-CODE_B5CF63:
+crocodile_isle_init:
 	CLC					;$B5CF63  \
 	XCE					;$B5CF64   |
 	SEI					;$B5CF65   |
@@ -7570,14 +7570,14 @@ CODE_B5CF99:					;	   |
 	LDA.l $0006A3				;$B5CFB5   |
 	AND #$FF9F				;$B5CFB9   |
 	STA $0006A3				;$B5CFBC   |
-	LDX #CODE_808CE9			;$B5CFC0   |
+	LDX #crocodile_isle_NMI_hop		;$B5CFC0   |
 	LDA.l $0006A3				;$B5CFC3   |
 	BIT #$8000				;$B5CFC7   |
 	BEQ CODE_B5CFCF				;$B5CFCA   |
-	LDX #CODE_808CD9			;$B5CFCC   |
+	LDX #ending_museum_NMI			;$B5CFCC   |
 CODE_B5CFCF:					;	   |
 	TXA					;$B5CFCF   |
-	JMP CODE_B5CFF6				;$B5CFD0  /
+	JMP set_and_wait_for_nmi_B5		;$B5CFD0  /
 
 CODE_B5CFD3:
 	LDA CPU.irq_flag			;$B5CFD3  \
@@ -7590,26 +7590,26 @@ CODE_B5CFD3:
 	STA screen_brightness			;$B5CFE7   |
 	JSL prepare_oam_dma_channel_global	;$B5CFEA   |
 	STZ active_frame_counter		;$B5CFEE   |
-	LDA #CODE_808CED			;$B5CFF0   |
-	JMP CODE_B5CFF6				;$B5CFF3  /
+	LDA #crocodile_isle_krool_fall_NMI_hop	;$B5CFF0   |
+	JMP set_and_wait_for_nmi_B5		;$B5CFF3  /
 
-CODE_B5CFF6:
-	STA NMI_pointer				;$B5CFF6  \
+set_and_wait_for_nmi_B5:
+	STA NMI_pointer				;$B5CFF6  \ Set the active NMI pointer
 	SEP #$20				;$B5CFF8   |
-	LDA CPU.nmi_flag			;$B5CFFA   |
-CODE_B5CFFD:					;	   |
-	LDA CPU.nmi_flag			;$B5CFFD   |
-	AND #$80				;$B5D000   |
-	BNE CODE_B5CFFD				;$B5D002   |
-	SEP #$20				;$B5D004   |
-	LDA #$81				;$B5D006   |
-	STA CPU.enable_interrupts		;$B5D008   |
-	STZ joypad.port_0			;$B5D00B   |
-CODE_B5D00E:					;	   |
-	WAI					;$B5D00E   |
-	BRA CODE_B5D00E				;$B5D00F  /
+	LDA CPU.nmi_flag			;$B5CFFA   | Clear the NMI flag
+.check_nmi_status:				;	   |
+	LDA CPU.nmi_flag			;$B5CFFD   |\ Wait for NMI to clear before continuing
+	AND #$80				;$B5D000   | | This will ensure the next interrupt is a full NMI
+	BNE .check_nmi_status			;$B5D002   |/ This should usually only take one read
+	SEP #$20				;$B5D004   |\ Enable interrupts and autojoy
+	LDA #$81				;$B5D006   | |
+	STA CPU.enable_interrupts		;$B5D008   |/
+	STZ joypad.port_0			;$B5D00B   | Latch the joypad port (this serves no purpose)
+-						;	   |
+	WAI					;$B5D00E   | Wait for NMI
+	BRA -					;$B5D00F  / If something managed to break the WAI resume waiting
 
-DATA_B5D011:
+crocodile_isle_water_hdma_table:
 	db $19, $13, $04, $7F, $13, $14, $01, $11
 	db $06, $00, $19, $01, $01, $42, $08, $40
 	db $01, $01, $42, $08, $87, $31, $31, $EF
@@ -7649,8 +7649,7 @@ DATA_B5D011:
 	db $FE, $00, $00, $7F, $80, $00, $01, $00
 	db $00, $00
 
-;Island Map NMI
-CODE_B5D13B:
+crocodile_isle_NMI:
 	PHK					;$B5D13B  \
 	PLB					;$B5D13C   |
 	LDX #stack				;$B5D13D   |
@@ -7713,7 +7712,7 @@ CODE_B5D1BD:
 	BEQ CODE_B5D1D0				;$B5D1C4   |
 	LDA screen_brightness			;$B5D1C6   |
 	BNE CODE_B5D1D0				;$B5D1C9   |
-	LDA #CODE_808CD9			;$B5D1CB   |
+	LDA #ending_museum_NMI			;$B5D1CB   |
 	STA NMI_pointer				;$B5D1CE   |
 CODE_B5D1D0:					;	   |
 	LDA.l $0006A5				;$B5D1D0   |
@@ -7730,7 +7729,7 @@ CODE_B5D1D0:					;	   |
 	JML set_nmi_pointer			;$B5D1F1  /
 
 CODE_B5D1F5:
-	JSL CODE_80897C				;$B5D1F5  \
+	JSL input_and_pause_handler_global	;$B5D1F5  \
 	INC active_frame_counter		;$B5D1F9   |
 	LDA.l map_node_number			;$B5D1FB   |
 	CMP #!map_node_w2_entrance_from_klubba	;$B5D1FF   |
@@ -7861,8 +7860,9 @@ CODE_B5D310:					;	   |
 	JSL CODE_B489ED				;$B5D310   |
 	LDA.l world_number			;$B5D314   |
 	PLB					;$B5D318   |
-	JMP CODE_B5CDFD				;$B5D319  /
+	JMP init_world_map			;$B5D319  /
 
+;Lost world beam tiledata pointers
 DATA_B5D31C:
 	dw DATA_FA0B20
 	dw DATA_FA0EA0
@@ -7879,7 +7879,7 @@ DATA_B5D32C:
 	dw DATA_FA3520
 	dw lost_world_head_layer_1_8x8_tilemap
 
-CODE_B5D334:
+generic_world_map_NMI:
 	PHK					;$B5D334  \
 	PLB					;$B5D335   |
 	LDX #stack				;$B5D336   |
@@ -7890,6 +7890,7 @@ CODE_B5D334:
 	BCS CODE_B5D349				;$B5D344   |
 	BRL CODE_B5D3D9				;$B5D346  /
 
+;DMA's lost world beam graphics
 CODE_B5D349:
 	LDA #$6390				;$B5D349  \
 	STA PPU.vram_address			;$B5D34C   |
@@ -7929,6 +7930,7 @@ CODE_B5D37F:					;	   |
 	TRB $08FC				;$B5D3A0   |
 	BRA CODE_B5D3D4				;$B5D3A3  /
 
+;DMA's lost world crocodile head graphics
 CODE_B5D3A5:
 	INC $08FE				;$B5D3A5  \
 	INC $08FE				;$B5D3A8   |
@@ -7983,14 +7985,14 @@ CODE_B5D411:
 	BEQ CODE_B5D424				;$B5D418   |
 	LDA screen_brightness			;$B5D41A   |
 	BNE CODE_B5D424				;$B5D41D   |
-	LDA #CODE_808CD9			;$B5D41F   |
+	LDA #ending_museum_NMI			;$B5D41F   |
 	STA NMI_pointer				;$B5D422   |
 CODE_B5D424:					;	   |
 	SEP #$20				;$B5D424   |
 	LDA screen_brightness			;$B5D426   |
 	STA PPU.screen				;$B5D429   |
 	REP #$20				;$B5D42C   |
-	JSL CODE_80897C				;$B5D42E   |
+	JSL input_and_pause_handler_global	;$B5D42E   |
 	INC active_frame_counter		;$B5D432   |
 	JSL sprite_handler			;$B5D434   |
 	JSL CODE_B5A8DA				;$B5D438   |
@@ -8038,7 +8040,7 @@ CODE_B5D48E:
 	PLB					;$B5D4A5   |
 	RTS					;$B5D4A6  /
 
-CODE_B5D4A7:
+crocodile_isle_krool_fall_NMI:
 	LDX #stack				;$B5D4A7  \
 	TXS					;$B5D4AA   |
 	PHK					;$B5D4AB   |
@@ -8127,7 +8129,7 @@ CODE_B5D52C:					;	   |
 	BNE CODE_B5D57D				;$B5D56D   |
 	LDA #CODE_B48DFA			;$B5D56F   |
 	STA $00067D				;$B5D572   |
-	LDA #CODE_808CD9			;$B5D576   |
+	LDA #ending_museum_NMI			;$B5D576   |
 	JML set_nmi_pointer			;$B5D579  /
 
 CODE_B5D57D:
@@ -8409,13 +8411,13 @@ CODE_B5D7C4:
 	STA $136A				;$B5D881   |
 	LDX #$0004				;$B5D884   |
 	LDY #$00C0				;$B5D887   |
-	LDA.l DATA_FD616E			;$B5D88A   |
+	LDA.l map_k_rool_sprite_pal_ptr		;$B5D88A   |
 	DEC A					;$B5D88E   |
 	DEC A					;$B5D88F   |
 	JSL DMA_palette				;$B5D890   |
 	LDX #$0004				;$B5D894   |
 	LDY #$00F0				;$B5D897   |
-	LDA.l DATA_FD6170			;$B5D89A   |
+	LDA.l map_k_rool_splash_sprite_pal_ptr	;$B5D89A   |
 	DEC A					;$B5D89E   |
 	DEC A					;$B5D89F   |
 	JSL DMA_palette				;$B5D8A0   |
@@ -8441,7 +8443,7 @@ CODE_B5D8AE:
 	STA $136A				;$B5D8D4   |
 	LDX #$0004				;$B5D8D7   |
 	LDY #$00C0				;$B5D8DA   |
-	LDA.l DATA_FD616E			;$B5D8DD   |
+	LDA.l map_k_rool_sprite_pal_ptr		;$B5D8DD   |
 	DEC A					;$B5D8E1   |
 	DEC A					;$B5D8E2   |
 	JSL DMA_palette				;$B5D8E3   |
@@ -8458,11 +8460,11 @@ CODE_B5D8FB:					;	   |
 	LDA.l $0006A5				;$B5D8FB   |
 	BIT #$0040				;$B5D8FF   |
 	BNE CODE_B5D907				;$B5D902   |
-	JSR CODE_B5D96E				;$B5D904   |
+	JSR spawn_map_player			;$B5D904   |
 CODE_B5D907:					;	   |
 	LDX #$0000				;$B5D907   |
 CODE_B5D90A:					;	   |
-	LDA.l DATA_B5D011,x			;$B5D90A   |
+	LDA.l crocodile_isle_water_hdma_table,x	;$B5D90A   |
 	STA $7E8012,x				;$B5D90E   |
 	INX					;$B5D912   |
 	INX					;$B5D913   |
@@ -8500,46 +8502,45 @@ CODE_B5D90A:					;	   |
 	REP #$20				;$B5D96B   |
 	RTS					;$B5D96D  /
 
-CODE_B5D96E:
-	LDA.l $0006A3				;$B5D96E  \
-	BIT #$1000				;$B5D972   |
-	BEQ CODE_B5D988				;$B5D975   |
+spawn_map_player:
+	LDA.l $0006A3				;$B5D96E  \ Get unclear map flags
+	BIT #$1000				;$B5D972   | Check if we should be in funky plane
+	BEQ .spawn_kongs			;$B5D975   | If not, spawn kongs
 	LDY #!special_sprite_spawn_id_011A	;$B5D977   |
-	JSL spawn_no_gfx_special_sprite_index	;$B5D97A   | Spawn map plane
-	LDX alternate_sprite			;$B5D97E   |
-	STX active_kong_sprite			;$B5D980   |
-	STZ inactive_kong_sprite		;$B5D983   |
-	BRA CODE_B5D9BD				;$B5D986  /
+	JSL spawn_no_gfx_special_sprite_index	;$B5D97A   | Else spawn plane
+	LDX alternate_sprite			;$B5D97E   | Get plane sprite
+	STX active_kong_sprite			;$B5D980   | Set as active kong
+	STZ inactive_kong_sprite		;$B5D983   | Clear index to inactive kong
+	BRA .done				;$B5D986  / Return
 
-CODE_B5D988:
-	LDA $08A4				;$B5D988  \
-	BNE CODE_B5D99C				;$B5D98B   |
-	JSR CODE_B5D9BE				;$B5D98D   |
-	STX inactive_kong_sprite		;$B5D990   |
-	JSR CODE_B5D9CE				;$B5D993   |
+.spawn_kongs:
+	LDA active_kong_number			;$B5D988  \ Get active kong
+	BNE .set_dixie_as_active		;$B5D98B   | If dixie, set her as active
+	JSR .spawn_dixie			;$B5D98D   | Else spawn her
+	STX inactive_kong_sprite		;$B5D990   | And set as inactive
+	JSR .spawn_diddy			;$B5D993   | Spawn diddy
 	INC $02,x				;$B5D996   |
-	INC $02,x				;$B5D998   |
-	BRA CODE_B5D9A9				;$B5D99A  /
+	INC $02,x				;$B5D998   | Set render order (in front of inactive kong)
+	BRA .set_active_kong			;$B5D99A  / Set diddy as active
 
-CODE_B5D99C:
-	JSR CODE_B5D9CE				;$B5D99C  \
-	STX inactive_kong_sprite		;$B5D99F   |
-	JSR CODE_B5D9BE				;$B5D9A2   |
+.set_dixie_as_active:
+	JSR .spawn_diddy			;$B5D99C  \ Spawn diddy
+	STX inactive_kong_sprite		;$B5D99F   | Set him as inactive
+	JSR .spawn_dixie			;$B5D9A2   | Spawn dixie
 	INC $02,x				;$B5D9A5   |
-	INC $02,x				;$B5D9A7   |
-CODE_B5D9A9:					;	   |
-	STX active_kong_sprite			;$B5D9A9   |
+	INC $02,x				;$B5D9A7   | Set render order (in front of inactive kong)
+.set_active_kong:				;	   |
+	STX active_kong_sprite			;$B5D9A9   | 
 	LDA $08C2				;$B5D9AC   |
-	BIT #$4000				;$B5D9AF   |
-	BNE CODE_B5D9BD				;$B5D9B2   |
+	BIT #$4000				;$B5D9AF   | Check if we have two kongs
+	BNE .done				;$B5D9B2   | If yes, we're done
 	LDY inactive_kong_sprite		;$B5D9B4   |
 	LDA #$C000				;$B5D9B7   |
-	STA $001C,y				;$B5D9BA   | Make follower map kong invisible
-CODE_B5D9BD:					;	   |
-	RTS					;$B5D9BD  /
+	STA $001C,y				;$B5D9BA   | Else make the inactive kong inactive
+.done:						;	   |
+	RTS					;$B5D9BD  / Return
 
-;spawn map dixie
-CODE_B5D9BE:
+.spawn_dixie:
 	LDY #!special_sprite_spawn_id_0144	;$B5D9BE  \
 	JSL spawn_no_gfx_special_sprite_index	;$B5D9C1   |
 	LDX alternate_sprite			;$B5D9C5   |
@@ -8547,8 +8548,7 @@ CODE_B5D9BE:
 	STA $000790				;$B5D9C9   |
 	RTS					;$B5D9CD  /
 
-;spawn map diddy
-CODE_B5D9CE:
+.spawn_diddy:
 	LDY #!special_sprite_spawn_id_0146	;$B5D9CE  \
 	JSL spawn_no_gfx_special_sprite_index	;$B5D9D1   |
 	LDX alternate_sprite			;$B5D9D5   |
@@ -8956,31 +8956,31 @@ CODE_B5DCFF:
 	LDA active_frame_counter		;$B5DCFF  \
 	CMP #$00F0				;$B5DD01   |
 	BNE CODE_B5DD0D				;$B5DD04   |
-	LDA #$0716				;$B5DD06   |
+	%lda_sound(7, klampon_lockjaw_bite)	;$B5DD06   |
 	JSL queue_sound_effect			;$B5DD09   |
 CODE_B5DD0D:					;	   |
 	LDA active_frame_counter		;$B5DD0D   |
 	CMP #$0100				;$B5DD0F   |
 	BNE CODE_B5DD1B				;$B5DD12   |
-	LDA #$0716				;$B5DD14   |
+	%lda_sound(7, klampon_lockjaw_bite)	;$B5DD14   |
 	JSL queue_sound_effect			;$B5DD17   |
 CODE_B5DD1B:					;	   |
 	LDA active_frame_counter		;$B5DD1B   |
 	CMP #$0125				;$B5DD1D   |
 	BNE CODE_B5DD29				;$B5DD20   |
-	LDA #$0716				;$B5DD22   |
+	%lda_sound(7, klampon_lockjaw_bite)	;$B5DD22   |
 	JSL queue_sound_effect			;$B5DD25   |
 CODE_B5DD29:					;	   |
 	LDA active_frame_counter		;$B5DD29   |
 	CMP #$0130				;$B5DD2B   |
 	BNE CODE_B5DD37				;$B5DD2E   |
-	LDA #$0716				;$B5DD30   |
+	%lda_sound(7, klampon_lockjaw_bite)	;$B5DD30   |
 	JSL queue_sound_effect			;$B5DD33   |
 CODE_B5DD37:					;	   |
 	LDA active_frame_counter		;$B5DD37   |
 	CMP #$0160				;$B5DD39   |
 	BNE CODE_B5DD45				;$B5DD3C   |
-	LDA #$0716				;$B5DD3E   |
+	%lda_sound(7, klampon_lockjaw_bite)	;$B5DD3E   |
 	JSL queue_sound_effect			;$B5DD41   |
 CODE_B5DD45:					;	   |
 	LDA active_frame_counter		;$B5DD45   |
@@ -9106,9 +9106,9 @@ CODE_B5DE28:
 	CMP #$01D0				;$B5DE2A   |
 	BCC CODE_B5DE8D				;$B5DE2D   |
 	PHX					;$B5DE2F   |
-	LDA #$055B				;$B5DE30   |
+	%lda_sound(5, krool_splash_1)		;$B5DE30   |
 	JSL queue_sound_effect			;$B5DE33   |
-	LDA #$065C				;$B5DE37   |
+	%lda_sound(6, krool_splash_2)		;$B5DE37   |
 	JSL queue_sound_effect			;$B5DE3A   |
 	PLX					;$B5DE3E   |
 	INC $08FE				;$B5DE3F   |
@@ -9124,7 +9124,7 @@ CODE_B5DE51:
 	CMP #$0140				;$B5DE53   |
 	BCC CODE_B5DE8D				;$B5DE56   |
 	PHX					;$B5DE58   |
-	LDA #$055A				;$B5DE59   |
+	%lda_sound(5, krool_down)		;$B5DE59   |
 	JSL play_high_priority_sound		;$B5DE5C   |
 	PLX					;$B5DE60   |
 	INC $08FE				;$B5DE61   |
@@ -9139,7 +9139,7 @@ CODE_B5DE70:
 	CMP #$00C0				;$B5DE72   |
 	BCC CODE_B5DE8D				;$B5DE75   |
 	PHX					;$B5DE77   |
-	LDA #$055A				;$B5DE78   |
+	%lda_sound(5, krool_down)		;$B5DE78   |
 	JSL play_high_priority_sound		;$B5DE7B   |
 	PLX					;$B5DE7F   |
 	INC $08FE				;$B5DE80   |
@@ -9458,15 +9458,15 @@ CODE_B5E0A1:
 	REP #$20				;$B5E0DE   |
 	RTS					;$B5E0E0  /
 
-DATA_B5E0E1:
+zero_fill:
 	db $00
 
 
 CODE_B5E0E2:
 	PHB					;$B5E0E2  \
-	LDA #DATA_B5E0E1			;$B5E0E3   |
+	LDA #zero_fill				;$B5E0E3   |
 	STA DMA[0].source			;$B5E0E6   |
-	LDA.w #DATA_B5E0E1>>16			;$B5E0E9   |
+	LDA.w #zero_fill>>16			;$B5E0E9   |
 	STA DMA[0].source_bank			;$B5E0EC   |
 	LDA #$0800				;$B5E0EF   |
 	STA DMA[0].size				;$B5E0F2   |
@@ -9860,6 +9860,8 @@ CODE_B5E435:					;	   |
 	STA $9328,y				;$B5E43A   |
 	RTS					;$B5E43D  /
 
+
+;Apply camera offset based on animal type?
 CODE_B5E43E:
 	LDA current_player_mount		;$B5E43E  \
 	ORA animal_type				;$B5E440   |
@@ -13064,11 +13066,12 @@ CODE_B5F89D:					;	   |
 	BPL CODE_B5F86D				;$B5F8A1   |
 	RTS					;$B5F8A3  /
 
+;Related to giving bananas
 CODE_B5F8A4:
 	PHX					;$B5F8A4  \
 	PHA					;$B5F8A5   |
 	REP #$10				;$B5F8A6   |
-	LDA #$0608				;$B5F8A8   |
+	%lda_sound(6, banana)			;$B5F8A8   |
 	JSL queue_sound_effect			;$B5F8AB   |
 	LDA.l $7FD734				;$B5F8AF   |
 	SEP #$09				;$B5F8B3   |
@@ -13156,7 +13159,7 @@ CODE_B5F945:					;	   |
 
 CODE_B5F94C:
 	STX $32					;$B5F94C  \
-	LDA #$0608				;$B5F94E   |
+	%lda_sound(6, banana)			;$B5F94E   |
 	JSL queue_sound_effect			;$B5F951   |
 	LDA #$003C				;$B5F955   |
 	STA $096F				;$B5F958   |

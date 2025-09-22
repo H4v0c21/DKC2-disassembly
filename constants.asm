@@ -53,6 +53,29 @@
 !size_4MB			= $0C
 !size_8MB			= $0D
 
+
+;input constants
+!input_up 	        = $0800
+!input_down  	        = $0400
+!input_left  	        = $0200
+!input_right 	        = $0100
+
+!input_A 	        = $0080
+!input_B 	        = $8000
+!input_X 	        = $0040
+!input_Y 	        = $4000
+
+!input_L 	        = $0020
+!input_R	        = $0010
+!input_LR               = $0030
+
+!input_start 	        = $1000
+!input_select	        = $2000
+
+!input_ABXY             = $C0C0
+!input_ABXY_start       = $D0C0
+
+
 ;sprite init command constants
 !initcommand_success		= $8000
 !initcommand_set_animation	= $8100
@@ -2672,7 +2695,7 @@
 
 !gamemode_1_player			= $0000
 !gamemode_2_player_team			= $0001
-!gamemode_2_player_contest			= $0002
+!gamemode_2_player_contest		= $0002
 
 !kong_state_00				= $0000
 !kong_state_01				= $0001

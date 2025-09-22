@@ -443,13 +443,14 @@ DATA_808633:
 	db $00, $80, $FD
 
 
+;Seems to be a generic return routine for tileset logic and some screens
 CODE_808636:
 	INC gameplay_frame_counter		;$808636   |
-	BNE CODE_808640				;$808638   |
+	BNE .CODE_808640			;$808638   |
 	INC gameplay_frame_counter_high		;$80863A   |
-	BNE CODE_808640				;$80863C   |
+	BNE .CODE_808640			;$80863C   |
 	DEC gameplay_frame_counter_high		;$80863E   |
-CODE_808640:					;	   |
+.CODE_808640:					;	   |
 	LDA #simple_gamemode_nmi		;$808640   |
 	STA NMI_pointer				;$808643   |
 	SEP #$20				;$808645   |
@@ -457,10 +458,11 @@ CODE_808640:					;	   |
 	LDA #$81				;$80864A   |
 	STA CPU.enable_interrupts		;$80864C   |
 	STZ joypad.port_0			;$80864F   |
-CODE_808652:					;	   |
+-						;	   |
 	WAI					;$808652   |
-	BRA CODE_808652				;$808653  /
+	BRA -					;$808653  /
 
+;Dead code
 	LDA player_1_pressed			;$808655   |
 	AND #$0020				;$808658   |
 	BNE CODE_808672				;$80865B   |
@@ -484,6 +486,9 @@ CODE_80867E:					;	   |
 	STA $0987				;$80867E   |
 	JMP CODE_80860C				;$808681  /
 
+
+;Unreferenced monkey museum init code feat. infinite loop
+;Possibly for testing/debug purposes? Uploads spaced out text
 CODE_808684:
 	JSL disable_screen			;$808684   |
 	SEP #$20				;$808688   |
@@ -503,14 +508,14 @@ CODE_808684:
 	STA PPU.vram_address			;$8086B2   |
 	LDY #$0064				;$8086B5   |
 	LDX #$0000				;$8086B8   |
-CODE_8086BB:					;	   |
+.next:						;	   |
 	LDA.l text_tiledata,x			;$8086BB   |
 	STA PPU.vram_write			;$8086BF   |
 	INX					;$8086C2   |
 	INX					;$8086C3   |
 	TXA					;$8086C4   |
 	AND #$000F				;$8086C5   |
-	BNE CODE_8086BB				;$8086C8   |
+	BNE .next				;$8086C8   |
 	STZ PPU.vram_write			;$8086CA   |
 	STZ PPU.vram_write			;$8086CD   |
 	STZ PPU.vram_write			;$8086D0   |
@@ -520,15 +525,15 @@ CODE_8086BB:					;	   |
 	STZ PPU.vram_write			;$8086DC   |
 	STZ PPU.vram_write			;$8086DF   |
 	DEY					;$8086E2   |
-	BNE CODE_8086BB				;$8086E3   |
+	BNE .next				;$8086E3   |
 	LDA #$0001				;$8086E5   |
 	STA pending_dma_hdma_channels		;$8086E8   |
 	SEP #$20				;$8086EB   |
 	LDA #$0F				;$8086ED   |
 	STA PPU.screen				;$8086EF   |
 	REP #$20				;$8086F2   |
-CODE_8086F4:					;	   |
-	BRA CODE_8086F4				;$8086F4  /
+.infinite_loop:					;	   |
+	BRA .infinite_loop			;$8086F4  /
 
 CODE_8086F6:
 	JSL disable_screen			;$8086F6  \
@@ -619,7 +624,7 @@ CODE_8087B8:					;	   |
 	RTS					;$8087B8  /
 
 CODE_8087B9:
-	JSL CODE_80F3FB				;$8087B9  \
+	JSL init_ending_parade			;$8087B9  \
 	PHK					;$8087BD   |
 	PLB					;$8087BE   |
 	LDA #CODE_8087C5			;$8087BF   |
@@ -638,7 +643,7 @@ CODE_8087C9:
 
 CODE_8087D9:
 	LDA.l world_number			;$8087D9  \
-	JML CODE_B5CDFD				;$8087DD  /
+	JML init_world_map			;$8087DD  /
 
 CODE_8087E1:
 	PHK					;$8087E1  \
@@ -659,6 +664,7 @@ CODE_8087E1:
 	LDA #CODE_808819			;$808804   |
 	JMP CODE_808C9E				;$808807  /
 
+;Unreferenced
 CODE_80880A:
 	SEP #$20				;$80880A   |
 	STA gamemode_submode			;$80880C   |
@@ -685,44 +691,44 @@ CODE_808830:					;	   |
 	TAX					;$808833   |
 	JMP (tileset_logic_table,x)		;$808834  /
 
-CODE_808837:
-	JSR CODE_80883B				;$808837  \
+set_active_kong_global:
+	JSR set_active_kong			;$808837  \
 	RTL					;$80883A  /
 
-CODE_80883B:
-	BNE CODE_808863				;$80883B  \
-	LDA #main_sprite_table			;$80883D   |
+set_active_kong:
+	BNE .set_dixie				;$80883B  \
+	LDA #diddy_sprite_slot			;$80883D   |
 	STA active_kong_sprite			;$808840   |
 	LDA #diddy_control_variables		;$808843   |
 	STA active_kong_control_variables	;$808846   |
-	STZ $08A4				;$808849   |
-	LDA $08A4				;$80884C   |
+	STZ active_kong_number			;$808849   |
+	LDA active_kong_number			;$80884C   |
 	INC A					;$80884F   |
 	STA $08A2				;$808850   |
-	LDA #$0E40				;$808853   |
+	LDA #dixie_sprite_slot			;$808853   |
 	STA inactive_kong_sprite		;$808856   |
 	LDA #dixie_control_variables		;$808859   |
 	STA inactive_kong_control_variables	;$80885C   |
-	JSR CODE_808889				;$80885F   |
+	JSR .set_default_interaction_flags	;$80885F   |
 	RTS					;$808862  /
 
-CODE_808863:
-	LDA #$0E40				;$808863  \
+.set_dixie:
+	LDA #dixie_sprite_slot			;$808863  \
 	STA active_kong_sprite			;$808866   |
 	LDA #dixie_control_variables		;$808869   |
 	STA active_kong_control_variables	;$80886C   |
 	LDA #$0001				;$80886F   |
-	STA $08A4				;$808872   |
+	STA active_kong_number			;$808872   |
 	INC A					;$808875   |
 	STA $08A2				;$808876   |
 	LDA #main_sprite_table			;$808879   |
 	STA inactive_kong_sprite		;$80887C   |
 	LDA #diddy_control_variables		;$80887F   |
 	STA inactive_kong_control_variables	;$808882   |
-	JSR CODE_808889				;$808885   |
+	JSR .set_default_interaction_flags	;$808885   |
 	RTS					;$808888  /
 
-CODE_808889:
+.set_default_interaction_flags:
 	PHX					;$808889  \
 	LDX active_kong_sprite			;$80888A   |
 	LDA #$001E				;$80888D   |
@@ -733,14 +739,14 @@ CODE_808889:
 	PLX					;$80889A   |
 	RTS					;$80889B  /
 
-CODE_80889C:
-	JSR CODE_8088A0				;$80889C  \
+swap_active_kong_global:
+	JSR swap_active_kong			;$80889C  \
 	RTL					;$80889F  /
 
-CODE_8088A0:
-	LDA $08A4				;$8088A0  \
+swap_active_kong:
+	LDA active_kong_number			;$8088A0  \
 	EOR #$0001				;$8088A3   |
-	BRA CODE_80883B				;$8088A6  /
+	BRA set_active_kong			;$8088A6  /
 
 get_level_number:
 	LDA level_number			;$8088A8  \ This routine is absolutely stupid.  Its a dp load used
@@ -823,7 +829,7 @@ clear_wram_tables:
 	dw $092B, $0002
 	dw $092D, $0002
 	dw $0923, $0002
-	dw $0515, $003E
+	dw level_config_table, $003E
 	dw $095B, $0008
 	dw $0963, $0008
 	dw water_current_y_velocity, $0002
@@ -850,9 +856,9 @@ DMA_to_VRAM:
 	REP #$30				;$808979   |
 	RTS					;$80897B  /
 
-CODE_80897C:
+input_and_pause_handler_global:
 	PHB					;$80897C  \
-	JSR CODE_808988				;$80897D   |
+	JSR input_and_pause_handler		;$80897D   |
 	PLB					;$808980   |
 	RTL					;$808981  /
 
@@ -860,7 +866,7 @@ CODE_808982:
 	JSL CODE_809025				;$808982  \
 	BRA CODE_808A00				;$808986  /
 
-CODE_808988:
+input_and_pause_handler:
 	PHK					;$808988  \
 	PLB					;$808989   |
 	SEP #$20				;$80898A   |
@@ -914,7 +920,7 @@ CODE_8089C9:					;	   |
 	STX player_1_pressed			;$8089FA   |
 	JSR CODE_808BB0				;$8089FD   |
 CODE_808A00:					;	   |
-	LDA $060D				;$808A00   |
+	LDA current_game_mode			;$808A00   |
 	BNE CODE_808A26				;$808A03   |
 	LDA player_1_held			;$808A05   |
 	STA player_active_held			;$808A08   |
@@ -983,13 +989,13 @@ if !version == 1
 CODE_808A8D:
 	LDA #$0040				;$808A8D  \
 	TSB $08C2				;$808A90   |
-	LDA #$075E				;$808A93   |
+	%lda_sound(7, pause)			;$808A93   |
 	JSL play_high_priority_sound		;$808A96   |
-	LDA #$065E				;$808A9A   |
+	%lda_sound(6, pause)			;$808A9A   |
 	JSL play_high_priority_sound		;$808A9D   |
-	LDA #$055E				;$808AA1   |
+	%lda_sound(5, pause)			;$808AA1   |
 	JSL play_high_priority_sound		;$808AA4   |
-	LDA #$045E				;$808AA8   |
+	%lda_sound(4, pause)			;$808AA8   |
 	JSL play_high_priority_sound		;$808AAB   |
 	LDA active_frame_counter		;$808AAF   |
 	STA $0636				;$808AB1   |
@@ -1021,13 +1027,13 @@ CODE_808AB4:					;	   |
 	RTS					;$808AEC  /
 
 .unpause_game
-	LDA #$075E				;$808AED  \
+	%lda_sound(7, pause)			;$808AED  \
 	JSL play_high_priority_sound		;$808AF0   |
-	LDA #$065E				;$808AF4   |
+	%lda_sound(6, pause)			;$808AF4   |
 	JSL play_high_priority_sound		;$808AF7   |
-	LDA #$055E				;$808AFB   |
+	%lda_sound(5, pause)			;$808AFB   |
 	JSL play_high_priority_sound		;$808AFE   |
-	LDA #$045E				;$808B02   |
+	%lda_sound(4, pause)			;$808B02   |
 	JSL play_high_priority_sound		;$808B05   |
 	LDA #$00FF				;$808B09   |
 	TRB $0621				;$808B0C   |
@@ -1063,7 +1069,7 @@ CODE_808AB4:					;	   |
 	CMP #$1000				;$808B4C   |
 	BNE .return				;$808B4F   |
 	JSL disable_screen			;$808B51   |
-	LDA #$0505				;$808B55   |
+	%lda_sound(5, swap_kongs)		;$808B55   |
 	JSL play_high_priority_sound		;$808B58   |
 	LDA #$0000				;$808B5C   |\ Load counter with 0
 .waste_cpu_time					;	   | |
@@ -1086,22 +1092,35 @@ CODE_808AB4:					;	   |
 .cheat_buttons
 	%offset(.cheat_buttons_next, 2)
 	dw $0000				;
-	dw $4100				; Y+Right
-	dw $4100				; Y+Right
-	dw $0280				; A+Left
-	dw $0280				; A+Left
-	dw $8800				; B+Up
-	dw $8800				; B+Up
-	dw $0440				; X+Down
-	dw $0440				; X+Down
-	dw $1000				; Start
+	dw !input_Y|!input_right		; Y+Right
+	dw !input_Y|!input_right		; Y+Right
+	dw !input_A|!input_left			; A+Left
+	dw !input_A|!input_left			; A+Left
+	dw !input_B|!input_up			; B+Up
+	dw !input_B|!input_up			; B+Up
+	dw !input_X|!input_down			; X+Down
+	dw !input_X|!input_down			; X+Down
+	dw !input_start				; Start
 
 
 DATA_808B90:
-	db $00, $00, $00, $02, $00, $01, $00, $00
-	db $00, $08, $00, $0A, $00, $09, $00, $00
-	db $00, $04, $00, $06, $00, $05, $00, $00
-	db $00, $00, $00, $00, $00, $00, $00, $00
+	dw $0000
+	dw !input_left
+	dw !input_right
+	dw $0000
+	dw !input_up
+	dw !input_up|!input_left
+	dw !input_up|!input_right
+	dw $0000
+	dw !input_down
+	dw !input_down|!input_left
+	dw !input_down|!input_right
+	dw $0000
+	dw $0000
+	dw $0000
+	dw $0000
+	dw $0000
+
 
 
 CODE_808BB0:
@@ -1244,7 +1263,7 @@ CODE_808C9E:
 	PHK					;$808C9E  \
 	PLB					;$808C9F   |
 	STA gamemode_pointer			;$808CA0   |
-CODE_808CA2:					;	   |
+tileset_logic_return:				;	   |
 	JSR prepare_oam_dma_channel		;$808CA2   |
 	JMP CODE_80862A				;$808CA5  /
 
@@ -1265,31 +1284,34 @@ prepare_oam_dma_channel:			;	  \
 	REP #$20				;$808CC6   |
 	RTS					;$808CC8  /
 
-CODE_808CC9:
+bonus_and_credits_screen_NMI:
 	LDX #stack				;$808CC9  \
 	TXS					;$808CCC   |
 	INC active_frame_counter		;$808CCD   |
 	JSL CODE_BAB31B				;$808CCF   |
-	JSL CODE_80897C				;$808CD3   |
+	JSL input_and_pause_handler_global	;$808CD3   |
 	BRA CODE_808D1C				;$808CD7  /
 
-CODE_808CD9:
+;Also used for video game hero screen
+ending_museum_NMI:
 	LDX #stack				;$808CD9  \
 	TXS					;$808CDC   |
 	INC active_frame_counter		;$808CDD   |
 	JSL CODE_B4BE60				;$808CDF   |
-	JSL CODE_80897C				;$808CE3   |
+	JSL input_and_pause_handler_global	;$808CE3   |
 	BRA CODE_808D1C				;$808CE7  /
 
-CODE_808CE9:
-	JML CODE_B5D13B				;$808CE9  /
+crocodile_isle_NMI_hop:
+	JML crocodile_isle_NMI			;$808CE9  /
 
-CODE_808CED:
-	JML CODE_B5D4A7				;$808CED  /
+crocodile_isle_krool_fall_NMI_hop:
+	JML crocodile_isle_krool_fall_NMI	;$808CED  /
 
-CODE_808CF1:
-	JML CODE_B5D334				;$808CF1  /
+generic_world_map_NMI_hop:
+	JML generic_world_map_NMI		;$808CF1  /
 
+
+;NPC screen NMI routines
 CODE_808CF5:
 	LDX #stack				;$808CF5  \
 	TXS					;$808CF8   |
@@ -1309,7 +1331,7 @@ CODE_808D0E:
 	TXS					;$808D11   |
 	INC active_frame_counter		;$808D12   |
 	JSL CODE_B4935E				;$808D14   |
-	JSL CODE_80897C				;$808D18   |
+	JSL input_and_pause_handler_global	;$808D18   |
 CODE_808D1C:					;	   |
 	WAI					;$808D1C   |
 	BRA CODE_808D1C				;$808D1D  /
@@ -1319,7 +1341,7 @@ CODE_808D1F:
 	TXS					;$808D22   |
 	INC active_frame_counter		;$808D23   |
 	JSL CODE_B49978				;$808D25   |
-	JSL CODE_80897C				;$808D29   |
+	JSL input_and_pause_handler_global	;$808D29   |
 	BRL CODE_808D1C				;$808D2D  /
 
 CODE_808D30:
@@ -1334,7 +1356,7 @@ CODE_808D3D:
 	TXS					;$808D40   |
 	INC active_frame_counter		;$808D41   |
 	JSL CODE_B49F1D				;$808D43   |
-	JSL CODE_80897C				;$808D47   |
+	JSL input_and_pause_handler_global	;$808D47   |
 	BRL CODE_808D1C				;$808D4B  /
 
 CODE_808D4E:
@@ -1342,7 +1364,7 @@ CODE_808D4E:
 	TXS					;$808D51   |
 	INC active_frame_counter		;$808D52   |
 	JSL CODE_B49ED7				;$808D54   |
-	JSL CODE_80897C				;$808D58   |
+	JSL input_and_pause_handler_global	;$808D58   |
 	BRL CODE_808D1C				;$808D5C  /
 
 CODE_808D5F:
@@ -1350,7 +1372,7 @@ CODE_808D5F:
 	TXS					;$808D62   |
 	INC active_frame_counter		;$808D63   |
 	JSL CODE_B4AB6E				;$808D65   |
-	JSL CODE_80897C				;$808D69   |
+	JSL input_and_pause_handler_global	;$808D69   |
 	BRL CODE_808D1C				;$808D6D  /
 
 CODE_808D70:
@@ -1367,16 +1389,16 @@ CODE_808D7D:
 	JSL CODE_B49B63				;$808D83   |
 	BRL CODE_808D1C				;$808D87  /
 
-CODE_808D8A:
+setup_npc_screen_kongs:
 	LDA #$8000				;$808D8A  \
 	ORA $08C2				;$808D8D   | set bit 12 (unclear yet, related to cutscenes)
 	STA $08C2				;$808D90   |
 	LDA $08A4				;$808D93   | get kong in front
-	JSL CODE_808837				;$808D96   | set kong
+	JSL set_active_kong_global		;$808D96   | set kong
 	LDA #$0020				;$808D9A   |
 	ORA $30,x				;$808D9D   |
 	STA $30,x				;$808D9F   | set interaction flags
-	JSR CODE_808E29				;$808DA1   | spawn and setup diddy variables
+	JSR spawn_npc_screen_diddy		;$808DA1   | spawn and setup diddy variables
 	LDA #dixie_control_variables		;$808DA4   | load address of dixie's control variables
 	STA $66					;$808DA7   | update pointer to control variables of currently processed kong
 	LDY #DATA_FF136E			;$808DA9   |
@@ -1385,7 +1407,7 @@ CODE_808D8A:
 	STX current_sprite			;$808DB2   |
 	LDA #$0004				;$808DB4   | load run animation
 	JSL set_anim_handle_dixie		;$808DB7   | set kong animation
-	LDA.l DATA_FF012A			;$808DBB   |
+	LDA.l dixie_kong_constants		;$808DBB   |
 	STA $16E0				;$808DBF   | set dixie's gravity constant
 	LDA.l DATA_FF012C			;$808DC2   |
 	STA $16E2				;$808DC6   | set dixie's terminal velocity constant
@@ -1403,11 +1425,11 @@ CODE_808D8A:
 	JSR CODE_808DFB				;$808DE6   | call dead code
 	LDA $08C2				;$808DE9   |
 	BIT #$4000				;$808DEC   | check if player has both kongs
-	BNE CODE_808DFA				;$808DEF   | if yes, return
+	BNE .return				;$808DEF   | if yes, return
 	LDY inactive_kong_sprite		;$808DF1   | else get inactive kong
 	LDA #$C000				;$808DF4   |
 	STA $001C,y				;$808DF7   | make them invisible
-CODE_808DFA:					;	   |
+.return:					;	   |
 	RTL					;$808DFA  /  return
 
 ;Dead code, may have been used to set terrain related variables for kongs in npc screens.
@@ -1425,8 +1447,8 @@ CODE_808DFB:
 	ORA $08C2				;$808E0B   |
 	STA $08C2				;$808E0E   |
 	LDA #$0000				;$808E11   |
-	JSL CODE_808837				;$808E14   |
-	JSR CODE_808E29				;$808E18   |
+	JSL set_active_kong_global		;$808E14   |
+	JSR spawn_npc_screen_diddy		;$808E18   |
 	LDX active_kong_sprite			;$808E1B   |
 	LDA #$001D				;$808E1E   |
 	STA $2E,x				;$808E21   |
@@ -1434,16 +1456,16 @@ CODE_808DFB:
 	STA $02,x				;$808E26   |
 	RTL					;$808E28  /
 
-CODE_808E29:
+spawn_npc_screen_diddy:
 	LDA #diddy_control_variables		;$808E29  \
-	STA $66					;$808E2C   |
+	STA current_kong_control_variables	;$808E2C   |
 	LDY.w #DATA_FF1330			;$808E2E   |
 	JSL spawn_special_sprite_address	;$808E31   |
 	LDX alternate_sprite			;$808E35   |
 	STX current_sprite			;$808E37   |
 	LDA #$0001				;$808E39   |
 	JSL set_anim_handle_dixie		;$808E3C   |
-	LDA.l DATA_FF0040			;$808E40   |
+	LDA.l diddy_kong_constants		;$808E40   |
 	STA $16BA				;$808E44   |
 	LDA.l DATA_FF0042			;$808E47   |
 	STA $16BC				;$808E4B   |
@@ -1534,31 +1556,31 @@ CODE_808EEA:
 	JSL disable_screen			;$808EEA  \
 	PHK					;$808EEE   |
 	PLB					;$808EEF   |
-	JSR CODE_808FFB				;$808EF0   |
+	JSR CODE_808FFB				;$808EF0   | Call dead code
 	LDA #$0000				;$808EF3   |
-	JSL CODE_808837				;$808EF6   |
+	JSL set_active_kong_global		;$808EF6   |
 	JSR CODE_808F4A				;$808EFA   |
 	LDA #CODE_8087D9			;$808EFD   |
 	JML CODE_808C9E				;$808F00  /
 
-CODE_808F04:
+init_existing_file:
 	JSL disable_screen			;$808F04  \
 	PHK					;$808F08   |
 	PLB					;$808F09   |
-	JSR CODE_808FFB				;$808F0A   |
+	JSR CODE_808FFB				;$808F0A   | Call dead code
 	LDA.l $7E56CE				;$808F0D   |
 	AND #$0001				;$808F11   |
 	STA $060F				;$808F14   |
 	LDA.l $7E56CF				;$808F17   |
 	AND #$0003				;$808F1B   |
-	STA $060D				;$808F1E   |
-	CMP #$0002				;$808F21   |
+	STA current_game_mode			;$808F1E   |
+	CMP #!gamemode_2_player_contest		;$808F21   |
 	BEQ CODE_808F35				;$808F24   |
 	JSR CODE_808FDC				;$808F26   |
 	JSL CODE_BBC736				;$808F29   |
 CODE_808F2D:					;	   |
 	LDA.l world_number			;$808F2D   |
-	JML CODE_B5CDFD				;$808F31  /
+	JML init_world_map			;$808F31  /
 
 CODE_808F35:
 	JSR CODE_808FDC				;$808F35  \
@@ -1570,8 +1592,8 @@ CODE_808F35:
 
 CODE_808F4A:
 	JSR CODE_808FDC				;$808F4A  \
-	LDA $060D				;$808F4D   |
-	CMP #$0002				;$808F50   |
+	LDA current_game_mode			;$808F4D   |
+	CMP #!gamemode_2_player_contest		;$808F50   |
 	BEQ CODE_808F59				;$808F53   |
 	JSR CODE_808F6C				;$808F55   |
 	RTS					;$808F58  /
@@ -1620,7 +1642,7 @@ CODE_808FAE:					;	   |
 	LDA #$002C				;$808FBA   |
 	STA $78					;$808FBD   |
 	LDA $08A4				;$808FBF   |
-	JSL CODE_808837				;$808FC2   |
+	JSL set_active_kong_global		;$808FC2   |
 	JSL CODE_B48000				;$808FC6   | Initialize world map
 if !version == 1				;	   |
 	LDX #$0000				;$808FCA   |
@@ -1650,6 +1672,7 @@ CODE_808FF3:					;	   |
 CODE_808FFA:					;	   |
 	RTS					;$808FFA  /
 
+;Dead code (demo recording?)
 CODE_808FFB:
 	RTS					;$808FFB  /
 
@@ -1760,8 +1783,8 @@ CODE_8090BB:
 	JML set_nmi_pointer			;$8090C9  /
 
 reset_controller_state:
-	STZ $060F				;$8090CD  \
-	STZ $060D				;$8090D0   |
+	STZ active_controller			;$8090CD  \
+	STZ current_game_mode			;$8090D0   |
 	LDA #$0001				;$8090D3   |
 	STA $08A2				;$8090D6   |
 	RTS					;$8090D9  /
@@ -2513,7 +2536,7 @@ CODE_80978E:					;	   |
 	CMP #$000F				;$809796   | | input, this prevents the bypass mid-transition
 	BNE .skip_bypass_check			;$809799   |/
 	LDA.l player_1_released			;$80979B   |\ Enter the fade out routine if B, Y, Start,  A, or X,
-	BIT #$D0C0				;$80979F   | | was released
+	BIT #!input_ABXY_start 			;$80979F   | | was released
 	BNE .fade_init				;$8097A2   |/
 .skip_bypass_check				;	   |
 	LDA active_frame_counter		;$8097A4   |\ Only run the fade out routine once on frame 01A0
@@ -2541,7 +2564,7 @@ CODE_80978E:					;	   |
 	WAI					;$8097CA   | Wait until the next frame
 	BRA -					;$8097CB  / Branch back sanity check
 
-CODE_8097CD:
+init_game_mode_select:
 	JSL disable_screen			;$8097CD  \
 	PHK					;$8097D1   |
 	PLB					;$8097D2   |
@@ -2708,10 +2731,10 @@ CODE_8099A7:					;	   |
 	STA CPU.rom_speed			;$8099B5   |
 	REP #$20				;$8099B8   |
 	JSR prepare_oam_dma_channel		;$8099BA   |
-	LDA #CODE_8099C3			;$8099BD   |
+	LDA #run_game_mode_select		;$8099BD   |
 	JMP set_and_wait_for_nmi		;$8099C0  /
 
-CODE_8099C3:
+run_game_mode_select:
 	LDX #stack				;$8099C3  \
 	TXS					;$8099C6   |
 	STZ PPU.oam_address			;$8099C7   |
@@ -2760,12 +2783,12 @@ CODE_809A13:
 	JSL play_song_with_transition		;$809A36   |
 	STZ $84					;$809A3A   |
 	DEC $060D				;$809A3C   |
-	LDA #$0633				;$809A3F   |
+	%lda_sound(6, menu_move)		;$809A3F   |
 	JSL play_high_priority_sound		;$809A42   |
 	JMP CODE_8099A7				;$809A46  /
 
 CODE_809A49:
-	LDA #$0633				;$809A49  \
+	%lda_sound(6, menu_move)		;$809A49  \
 	JSL play_high_priority_sound		;$809A4C   |
 	DEC $060D				;$809A50   |
 CODE_809A53:					;	   |
@@ -2776,7 +2799,7 @@ CODE_809A53:					;	   |
 	CMP #$0002				;$809A5E   |
 	BCS CODE_809A6F				;$809A61   |
 	INC $060D				;$809A63   |
-	LDA #$0633				;$809A66   |
+	%lda_sound(6, menu_move)		;$809A66   |
 	JSL play_high_priority_sound		;$809A69   |
 	BRA CODE_809ADC				;$809A6D  /
 
@@ -2819,12 +2842,12 @@ CODE_809A84:					;	   |
 	JSL play_song_with_transition		;$809ABF   |
 	STZ $84					;$809AC3   |
 	INC $060D				;$809AC5   |
-	LDA #$0633				;$809AC8   |
+	%lda_sound(6, menu_move)		;$809AC8   |
 	JSL play_high_priority_sound		;$809ACB   |
 	JMP CODE_8099A7				;$809ACF  /
 
 CODE_809AD2:
-	LDA #$0633				;$809AD2  \
+	%lda_sound(6, menu_move)		;$809AD2  \
 	JSL play_high_priority_sound		;$809AD5   |
 	INC $060D				;$809AD9   |
 CODE_809ADC:					;	   |
@@ -2914,14 +2937,14 @@ CODE_809B82:					;	   |
 	LDX $3A					;$809B92   |
 	LDA player_1_released			;$809B94   |
 	BEQ CODE_809BC2				;$809B97   |
-	AND.l DATA_809E75,x			;$809B99   |
+	AND.l barralax_cheat_inputs,x		;$809B99   |
 	BEQ CODE_809BC0				;$809B9D   |
 	INC $3A					;$809B9F   |
 	INC $3A					;$809BA1   |
 	LDA $3A					;$809BA3   |
 	CMP #$0010				;$809BA5   |
 	BNE CODE_809BC2				;$809BA8   |
-	LDA #$0505				;$809BAA   |
+	%lda_sound(5, swap_kongs)		;$809BAA   |
 	JSL play_high_priority_sound		;$809BAD   |
 	LDA #$0001				;$809BB1   |
 	TSB cheat_enable_flags			;$809BB4   |
@@ -2942,14 +2965,14 @@ CODE_809BC2:					;	   |
 	LDX $3C					;$809BD2   |
 	LDA player_1_released			;$809BD4   |
 	BEQ CODE_809C02				;$809BD7   |
-	AND.l DATA_809E85,x			;$809BD9   |
+	AND.l yasadlad_cheat_inputs,x		;$809BD9   |
 	BEQ CODE_809C00				;$809BDD   |
 	INC $3C					;$809BDF   |
 	INC $3C					;$809BE1   |
 	LDA $3C					;$809BE3   |
 	CMP #$0010				;$809BE5   |
 	BNE CODE_809C02				;$809BE8   |
-	LDA #$0505				;$809BEA   |
+	%lda_sound(5, swap_kongs)		;$809BEA   |
 	JSL play_high_priority_sound		;$809BED   |
 	LDA #$0002				;$809BF1   |
 	TSB cheat_enable_flags			;$809BF4   |
@@ -2970,7 +2993,7 @@ CODE_809C02:					;	   |
 	LDA #$0120				;$809C0C   |
 	STA $7E8012,x				;$809C0F   |
 	LDA player_1_released			;$809C13   |
-	BIT #$D0C0				;$809C16   |
+	BIT #!input_ABXY_start 			;$809C16   |
 	BEQ CODE_809C38				;$809C19   |
 	LDA $060D				;$809C1B   |
 	CMP #$0003				;$809C1E   |
@@ -2980,7 +3003,7 @@ CODE_809C02:					;	   |
 	BNE CODE_809C38				;$809C29   |
 	LDA #$820F				;$809C2B   |
 	STA screen_brightness			;$809C2E   |
-	LDA #$0634				;$809C31   |
+	%lda_sound(6, menu_select)		;$809C31   |
 	JSL play_high_priority_sound		;$809C34   |
 CODE_809C38:					;	   |
 	JSL set_all_oam_offscreen		;$809C38   |
@@ -3233,13 +3256,27 @@ CODE_809E59:
 	RTS					;$809E74  /
 
 ;File select cheat inputs?
-DATA_809E75:
-	db $00, $80, $80, $00, $00, $01, $00, $01
-	db $80, $00, $00, $02, $80, $00, $40, $00
+barralax_cheat_inputs:
+	dw !input_B
+	dw !input_A
+	dw !input_right
+	dw !input_right
+	dw !input_A
+	dw !input_left
+	dw !input_A
+	dw !input_X
 
-DATA_809E85:
-	db $00, $40, $80, $00, $00, $30, $80, $00
-	db $00, $04, $00, $02, $80, $00, $00, $04
+
+yasadlad_cheat_inputs:
+	dw !input_Y
+	dw !input_A
+	dw !input_start|!input_select
+	dw !input_A
+	dw !input_down
+	dw !input_left
+	dw !input_A
+	dw !input_down
+
 
 DATA_809E95:
 	db $6C, $90, $90, $00, $00, $89, $11, $91
@@ -3287,7 +3324,7 @@ DATA_809F6C:
 	db $30, $40, $01, $34, $3C, $01, $00, $00
 	db $00
 
-CODE_809F85:
+init_secret_ending:
 	JSL disable_screen			;$809F85  \
 	PHK					;$809F89   |
 	PLB					;$809F8A   |
@@ -3562,7 +3599,7 @@ CODE_80A0E9:					;	   |
 	JSL DMA_palette				;$80A299   |
 	LDY #$00D0				;$80A29D   |
 	LDX #$0004				;$80A2A0   |
-	LDA.l DATA_FD6044			;$80A2A3   |
+	LDA.l kleever_hand_sprite_pal_ptr	;$80A2A3   |
 	DEC A					;$80A2A7   |
 	DEC A					;$80A2A8   |
 	JSL DMA_palette				;$80A2A9   |
@@ -3577,10 +3614,10 @@ CODE_80A0E9:					;	   |
 	LDA #$0300				;$80A2C0   |
 	JSR set_fade				;$80A2C3   |
 	JSR prepare_oam_dma_channel		;$80A2C6   |
-	LDA #CODE_80A2CF			;$80A2C9   |
+	LDA #run_secret_ending			;$80A2C9   |
 	JMP set_and_wait_for_nmi		;$80A2CC  /
 
-CODE_80A2CF:
+run_secret_ending:
 	LDX #stack				;$80A2CF  \
 	TXS					;$80A2D2   |
 	STZ PPU.oam_address			;$80A2D3   |
@@ -3610,11 +3647,11 @@ CODE_80A2CF:
 	LDA #incomplete_frame_nmi		;$80A313   |
 	STA NMI_pointer				;$80A316   |
 	JSR fade_screen				;$80A318   |
-	JSR CODE_808988				;$80A31B   |
+	JSR input_and_pause_handler		;$80A31B   |
 	INC active_frame_counter		;$80A31E   |
 	BNE CODE_80A327				;$80A320   |
-	LDA $1000				;$80A322   |
-	STA active_frame_counter		;$80A325   |
+	LDA $1000				;$80A322   | Bug: address instead of a constant value
+	STA active_frame_counter		;$80A325   | This will cause the camera shake + sfx to play again
 CODE_80A327:					;	   |
 	LDX #aux_sprite_table			;$80A327   |
 	JSR CODE_80A545				;$80A32A   |
@@ -3644,9 +3681,9 @@ CODE_80A35B:
 	CMP #$0080				;$80A362   |
 	BNE CODE_80A375				;$80A365   |
 CODE_80A367:					;	   |
-	LDA #$056F				;$80A367   |
+	%lda_sound(5, ending_boom)		;$80A367   |
 	JSL play_high_priority_sound		;$80A36A   |
-	LDA #$0670				;$80A36E   |
+	%lda_sound(6, ending_boom_shake)	;$80A36E   |
 	JSL play_high_priority_sound		;$80A371   |
 CODE_80A375:					;	   |
 	LDA active_frame_counter		;$80A375   |
@@ -3675,17 +3712,17 @@ CODE_80A399:					;	   |
 	CMP #$00F0				;$80A3A7   |
 	BNE CODE_80A3BA				;$80A3AA   |
 CODE_80A3AC:					;	   |
-	LDA #$0515				;$80A3AC   |
+	%lda_sound(5, explosion)		;$80A3AC   |
 	JSL play_high_priority_sound		;$80A3AF   |
-	LDA #$0619				;$80A3B3   |
+	%lda_sound(6, wall_break)		;$80A3B3   |
 	JSL play_high_priority_sound		;$80A3B6   |
 CODE_80A3BA:					;	   |
 	LDA active_frame_counter		;$80A3BA   |
 	CMP #$00B2				;$80A3BC   |
 	BNE CODE_80A3CF				;$80A3BF   |
-	LDA #$0771				;$80A3C1   |
+	%lda_sound(7, ending_beam)		;$80A3C1   |
 	JSL play_high_priority_sound		;$80A3C4   |
-	LDA #$0472				;$80A3C8   |
+	%lda_sound(4, ending_fire)		;$80A3C8   |
 	JSL play_high_priority_sound		;$80A3CB   |
 CODE_80A3CF:					;	   |
 	LDA active_frame_counter		;$80A3CF   |
@@ -3774,34 +3811,34 @@ CODE_80A44D:					;	   |
 	STZ next_sprite_dma_buffer_slot		;$80A48F   |
 	JSL set_unused_oam_offscreen_global	;$80A492   |
 	JSR prepare_oam_dma_channel		;$80A496   |
-	LDA #CODE_80A2CF			;$80A499   |
+	LDA #run_secret_ending			;$80A499   |
 	STA NMI_pointer				;$80A49C   |
-CODE_80A49E:					;	   |
+-						;	   |
 	WAI					;$80A49E   |
-	BRA CODE_80A49E				;$80A49F  /
+	BRA -					;$80A49F  /
 
 CODE_80A4A1:
 	LDX #aux_sprite_table			;$80A4A1  \
-CODE_80A4A4:					;	   |
+.next_slot:					;	   |
 	LDA $00,x				;$80A4A4   |
-	BEQ CODE_80A4B6				;$80A4A6   |
+	BEQ .return				;$80A4A6   |
 	TXA					;$80A4A8   |
 	CLC					;$80A4A9   |
 	ADC.w #sizeof(sprite)			;$80A4AA   |
 	TAX					;$80A4AD   |
 	CPX #aux_sprite_table			;$80A4AE   |
-	BNE CODE_80A4A4				;$80A4B1   |
+	BNE .next_slot				;$80A4B1   |
 	LDA #$0001				;$80A4B3   |
-CODE_80A4B6:					;	   |
+.return:					;	   |
 	RTS					;$80A4B6  /
 
 CODE_80A4B7:
 	LDA active_frame_counter		;$80A4B7  \
 	CMP #$0340				;$80A4B9   |
 	BNE CODE_80A4CC				;$80A4BC   |
-	LDA #$0675				;$80A4BE   |
+	%lda_sound(6, ending_krool_laugh)	;$80A4BE   |
 	JSL play_high_priority_sound		;$80A4C1   |
-	LDA #$0776				;$80A4C5   |
+	%lda_sound(7, ending_krool_laugh_echo)	;$80A4C5   |
 	JSL play_high_priority_sound		;$80A4C8   |
 CODE_80A4CC:					;	   |
 	LDA active_frame_counter		;$80A4CC   |
@@ -3855,6 +3892,7 @@ CODE_80A518:
 	STA $1A,x				;$80A521   |
 	RTS					;$80A523  /
 
+;dead code
 	LDA $1A,x				;$80A524   |
 	BEQ CODE_80A544				;$80A526   |
 	CMP #$3520				;$80A528   |
@@ -3914,9 +3952,9 @@ CODE_80A57F:					;	   |
 	LDA $32					;$80A58F   |
 	CMP #$0000				;$80A591   |
 	BEQ CODE_80A5C2				;$80A594   |
-	LDA #$0700				;$80A596   |
+	%lda_sound(7, nothing)			;$80A596   |
 	JSL play_high_priority_sound		;$80A599   |
-	LDA #$0400				;$80A59D   |
+	%lda_sound(4, nothing)			;$80A59D   |
 	JSL play_high_priority_sound		;$80A5A0   |
 	BRA CODE_80A5C2				;$80A5A4  /
 
@@ -3927,9 +3965,9 @@ CODE_80A5A6:
 	LDA $32					;$80A5AD   |
 	CMP #$0000				;$80A5AF   |
 	BNE CODE_80A5C2				;$80A5B2   |
-	LDA #$0773				;$80A5B4   |
+	%lda_sound(7, ending_beam_die)		;$80A5B4   |
 	JSL play_high_priority_sound		;$80A5B7   |
-	LDA #$0474				;$80A5BB   |
+	%lda_sound(4, ending_fire_die)		;$80A5BB   |
 	JSL play_high_priority_sound		;$80A5BE   |
 CODE_80A5C2:					;	   |
 	RTS					;$80A5C2  /
@@ -4464,7 +4502,7 @@ namespace hdma_menu				;	   | |
 namespace off					;	   |/
 .skip_erase_windowing				;	   |
 	LDA player_active_pressed		;$80AA79   |\ Check if B, Y, Start, A, or X were pressed
-	BIT #$D0C0				;$80AA7C   | |
+	BIT #!input_ABXY_start 			;$80AA7C   | |
 	BEQ .frame_finish_trampoline		;$80AA7F   |/ If not, skip processing menu options and finish the frame
 	LDA screen_brightness			;$80AA81   |\
 	CMP #$000F				;$80AA84   | |
@@ -4654,7 +4692,7 @@ namespace off					;	   |/
 	STA .sram_pointer_bank			;$80AC05   |/
 	%pea_use_dbr(sram_file_buffer)		;$80AC07   |\ Switch the dbr to the sram bank
 	PLB					;$80AC0A   |/
-	LDY.w #sizeof(save_file)			;$80AC0B   | Load the size of the save file, loads 2 extra bytes
+	LDY.w #sizeof(save_file)		;$80AC0B   | Load the size of the save file, loads 2 extra bytes
 ..copy_sram					;	   |
 	LDA [.sram_pointer],y			;$80AC0E   |\ Copy two bytes at a time from the save file save buffer
 	STA.w sram_file_buffer,y		;$80AC10   | |
@@ -4662,10 +4700,10 @@ namespace off					;	   |/
 	DEY					;$80AC14   | |
 	BPL ..copy_sram				;$80AC15   |/ Continue until Y is negative (copy complete)
 	PLB					;$80AC17   | Restore the original bank (bank 80)
-	JML CODE_808F04				;$80AC18  /
+	JML init_existing_file			;$80AC18  /
 
 .new_file
-	JML CODE_8097CD				;$80AC1C  > Starting a new file, initialize game type select
+	JML init_game_mode_select		;$80AC1C  > Starting a new file, initialize game type select
 
 .move_selection_up
 	db $00, $00, $01, $02, $05, $02, $03
@@ -5619,8 +5657,8 @@ run_title_screen:				;	  \
 	BNE .next_sprite_slot			;$80B4C4   |/
 .skip_sprite_update				;	   |
 	JSL CODE_B5A8DA				;$80B4C6   |
-	LDA #$0200				;$80B4CA   |\ Reset the OAM index to the first entry
-	STA $70					;$80B4CD   |/
+	LDA #oam_table				;$80B4CA   |\ Reset the OAM index to the first entry
+	STA next_oam_slot			;$80B4CD   |/
 	LDA #$0400				;$80B4CF   |\
 	STA $56					;$80B4D2   |/
 	STZ oam_attribute[$00].size		;$80B4D4   |\ Clear the OAM attribute buffer
@@ -5649,7 +5687,7 @@ run_title_screen:				;	  \
 	CMP #$000F				;$80B519   | |
 	BNE .run_fadeout			;$80B51C   |/
 	LDA player_1_held			;$80B51E   |\
-	AND #$D080				;$80B521   | | Check if B, Y, Start, or A are being help
+	AND #$D080				;$80B521   | | Check if B, Y, Start, or A are being held
 	BNE .trigger_file_select_transition	;$80B524   |/
 	LDA active_frame_counter		;$80B526   |\ If we are on frame $0960 set the screen to fadeout.
 	CMP #$0960				;$80B528   | | This will then transition to the demo.
@@ -5816,39 +5854,39 @@ run_nintendo_copyright:				;	  \
 ;$80B6C1
 tileset_NMI_table:
 	dw CODE_80B705				;00
-	dw CODE_80B746				;01 Forest (Unused)
-	dw CODE_80B779				;02 Ship Hold
-	dw CODE_80B7A6				;03 Wasp Hive
+	dw forest_unused_tileset_NMI		;01 Forest (Unused)
+	dw ship_hold_tileset_NMI		;02 Ship Hold
+	dw wasp_hive_tileset_NMI		;03 Wasp Hive
 	dw CODE_80B95F				;04
 	dw CODE_80B720				;05
-	dw CODE_80B977				;06 Ship Deck
-	dw CODE_80B9C6				;07 Lava
-	dw CODE_80BB77				;08 Ship Mast (Rain)
-	dw CODE_80BBD5				;09 Roller Coaster
-	dw CODE_80BC3D				;0A Ship Deck (Cabin)
+	dw ship_deck_tileset_NMI		;06 Ship Deck
+	dw lava_tileset_NMI			;07 Lava
+	dw ship_mast_rain_tileset_NMI		;08 Ship Mast (Rain)
+	dw roller_coaster_tileset_NMI		;09 Roller Coaster
+	dw ship_deck_cabin_tileset_NMI		;0A Ship Deck (Cabin)
 	dw CODE_80BC6D				;0B
-	dw CODE_80BC85				;0C Mine
-	dw CODE_80BDAA				;0D Ship Mast (Clouds)
-	dw CODE_80BE9C				;0E Forest (Lights)
-	dw CODE_80BED2				;0F Forest (Windy)
-	dw CODE_80BF08				;10 Swamp
-	dw CODE_80BF82				;11 Brambles
-	dw CODE_80BFDE				;12 Ship Hold (Dark)
-	dw CODE_80C05A				;13 Lava (Geyser)
-	dw CODE_80C074				;14 Krocodile Kore
-	dw CODE_80C180				;15 Castle
-	dw CODE_80C26B				;16 Haunted
-	dw CODE_80C466				;17 Ship Mast (Water)
-	dw CODE_80C4A5				;18 Ship Hold (Hot)
-	dw CODE_80C584				;19 K. Rool Duel
-	dw CODE_80C5DE				;1A Ship Deck (Sunset)
-	dw CODE_80C65B				;1B Ice (Water)
-	dw CODE_80C750				;1C Jungle
-	dw CODE_80C7C6				;1D Ice (Transparent)
-	dw CODE_80C821				;1E Castle (Toxic)
-	dw CODE_80C847				;1F Brambles (Windy)
-	dw CODE_80C8AA				;20 Mine (Windy)
-	dw CODE_80C8FF				;21 Forest (Misty)
+	dw mine_tileset_NMI			;0C Mine
+	dw ship_mast_clouds_tileset_NMI		;0D Ship Mast (Clouds)
+	dw forest_lights_tileset_NMI		;0E Forest (Lights)
+	dw forest_windy_tileset_NMI		;0F Forest (Windy)
+	dw swamp_tileset_NMI			;10 Swamp
+	dw brambles_tileset_NMI			;11 Brambles
+	dw ship_hold_dark_tileset_NMI		;12 Ship Hold (Dark)
+	dw lava_geyser_tileset_NMI		;13 Lava (Geyser)
+	dw krocodile_kore_tileset_NMI		;14 Krocodile Kore
+	dw castle_tileset_NMI			;15 Castle
+	dw haunted_tileset_NMI			;16 Haunted
+	dw ship_mast_water_tileset_NMI		;17 Ship Mast (Water)
+	dw ship_hold_hot_tileset_NMI		;18 Ship Hold (Hot)
+	dw krool_duel_tileset_NMI		;19 K. Rool Duel
+	dw ship_deck_sunset_tileset_NMI		;1A Ship Deck (Sunset)
+	dw ice_water_tileset_NMI		;1B Ice (Water)
+	dw jungle_tileset_NMI			;1C Jungle
+	dw ice_transparent_tileset_NMI		;1D Ice (Transparent)
+	dw castle_toxic_tileset_NMI		;1E Castle (Toxic)
+	dw brambles_windy_tileset_NMI		;1F Brambles (Windy)
+	dw mine_windy_tileset_NMI		;20 Mine (Windy)
+	dw forest_misty_tileset_NMI		;21 Forest (Misty)
 
 CODE_80B705:
 	LDA pending_dma_hdma_channels		;$80B705  \
@@ -5859,7 +5897,7 @@ CODE_80B705:
 	LDA screen_brightness			;$80B714   |
 	STA PPU.screen				;$80B717   |
 	REP #$20				;$80B71A   |
-	JSR CODE_808988				;$80B71C   |
+	JSR input_and_pause_handler		;$80B71C   |
 	RTS					;$80B71F  /
 
 CODE_80B720:
@@ -5879,7 +5917,7 @@ update_level_and_sprite_graphics:
 	JSL update_level_y_scroll		;$80B73F   |
 	JMP update_sprite_palettes		;$80B743  /
 
-CODE_80B746:
+forest_unused_tileset_NMI:
 	JSR update_level_and_sprite_graphics	;$80B746  \
 	LDA $17BA				;$80B749   |
 	LSR A					;$80B74C   |
@@ -5900,7 +5938,7 @@ CODE_80B746:
 	REP #$20				;$80B776   |
 	RTS					;$80B778  /
 
-CODE_80B779:
+ship_hold_tileset_NMI:
 	LDA pending_dma_hdma_channels		;$80B779  \
 	STA CPU.enable_dma			;$80B77C   |
 	JSR CODE_80B89C				;$80B77F   |
@@ -5924,7 +5962,7 @@ CODE_80B79C:
 	PLA					;$80B7A4   |
 	RTS					;$80B7A5  /
 
-CODE_80B7A6:
+wasp_hive_tileset_NMI:
 	JSR update_level_and_sprite_graphics	;$80B7A6  \
 	JSR CODE_80CCF8				;$80B7A9   |
 	SEP #$20				;$80B7AC   |
@@ -6140,7 +6178,7 @@ CODE_80B95F:
 	REP #$20				;$80B974   |
 	RTS					;$80B976  /
 
-CODE_80B977:
+ship_deck_tileset_NMI:
 	LDA pending_dma_hdma_channels		;$80B977  \
 	STA CPU.enable_dma			;$80B97A   |
 	JSL update_sprite_graphics		;$80B97D   |
@@ -6170,7 +6208,7 @@ CODE_80B977:
 	REP #$20				;$80B9C3   |
 	RTS					;$80B9C5  /
 
-CODE_80B9C6:
+lava_tileset_NMI:
 	JSR update_level_and_sprite_graphics	;$80B9C6  \
 	JSR update_lava_bubble_graphics		;$80B9C9   |
 	JSR update_lava_fall_effect		;$80B9CC   |
@@ -6368,7 +6406,7 @@ CODE_80BB49:					;	   |
 	REP #$20				;$80BB74   |
 	RTS					;$80BB76  /
 
-CODE_80BB77:
+ship_mast_rain_tileset_NMI:
 	JSR update_level_and_sprite_graphics	;$80BB77  \
 	JSR update_rigging_graphics		;$80BB7A   |
 	LDA active_frame_counter		;$80BB7D   |
@@ -6410,7 +6448,7 @@ CODE_80BB77:
 	REP #$20				;$80BBD2   |
 	RTS					;$80BBD4  /
 
-CODE_80BBD5:
+roller_coaster_tileset_NMI:
 	JSR update_level_and_sprite_graphics	;$80BBD5  \
 	LDA $0929				;$80BBD8   |
 	BEQ CODE_80BBF7				;$80BBDB   |
@@ -6423,7 +6461,7 @@ CODE_80BBD5:
 	ASL A					;$80BBEA   |
 	ASL A					;$80BBEB   |
 	CLC					;$80BBEC   |
-	ADC #DATA_FD61C2			;$80BBED   | Base address of fireworks palettes
+	ADC #fireworks_palette			;$80BBED   | Base address of fireworks palettes
 	LDX #$0004				;$80BBF0   |
 	JSL DMA_palette				;$80BBF3   |
 CODE_80BBF7:					;	   |
@@ -6459,7 +6497,7 @@ CODE_80BC0A:					;	   |
 	REP #$20				;$80BC3A   |
 	RTS					;$80BC3C  /
 
-CODE_80BC3D:
+ship_deck_cabin_tileset_NMI:
 	LDA pending_dma_hdma_channels		;$80BC3D  \
 	STA CPU.enable_dma			;$80BC40   |
 	JSL update_sprite_graphics		;$80BC43   |
@@ -6491,7 +6529,7 @@ CODE_80BC6D:
 	REP #$20				;$80BC82   |
 	RTS					;$80BC84  /
 
-CODE_80BC85:
+mine_tileset_NMI:
 	JSR update_level_and_sprite_graphics	;$80BC85  \
 	LDA $17BA				;$80BC88   |
 	LSR A					;$80BC8B   |
@@ -6601,7 +6639,7 @@ CODE_80BD2F:					;	   |
 	REP #$20				;$80BDA7   |
 	RTS					;$80BDA9  /
 
-CODE_80BDAA:
+ship_mast_clouds_tileset_NMI:
 	JSR update_level_and_sprite_graphics	;$80BDAA  \
 	LDA level_number			;$80BDAD   |
 	CMP #!level_krows_nest			;$80BDAF   |
@@ -6699,7 +6737,7 @@ CODE_80BE93:					;	   |
 	REP #$20				;$80BE99   |
 	RTS					;$80BE9B  /
 
-CODE_80BE9C:
+forest_lights_tileset_NMI:
 	JSR update_level_and_sprite_graphics	;$80BE9C  \
 	JSR update_forest_light_shaft_effect	;$80BE9F   |
 	LDA $17BA				;$80BEA2   |
@@ -6721,7 +6759,7 @@ CODE_80BE9C:
 	REP #$20				;$80BECF   |
 	RTS					;$80BED1  /
 
-CODE_80BED2:
+forest_windy_tileset_NMI:
 	JSR update_level_and_sprite_graphics	;$80BED2  \
 	JSR update_forest_leaves_effect		;$80BED5   |
 	LDA $17BA				;$80BED8   |
@@ -6743,7 +6781,7 @@ CODE_80BED2:
 	REP #$20				;$80BF05   |
 	RTS					;$80BF07  /
 
-CODE_80BF08:
+swamp_tileset_NMI:
 	JSR update_level_and_sprite_graphics	;$80BF08  \
 	LDA $17C0				;$80BF0B   |
 	CLC					;$80BF0E   |
@@ -6797,7 +6835,7 @@ CODE_80BF2E:					;	   |
 	REP #$20				;$80BF7F   |
 	RTS					;$80BF81  /
 
-CODE_80BF82:
+brambles_tileset_NMI:
 	JSR update_level_and_sprite_graphics	;$80BF82  \
 	LDA $17BA				;$80BF85   |
 	CLC					;$80BF88   |
@@ -6838,7 +6876,7 @@ CODE_80BF82:
 	REP #$20				;$80BFDB   |
 	RTS					;$80BFDD  /
 
-CODE_80BFDE:
+ship_hold_dark_tileset_NMI:
 	LDA pending_dma_hdma_channels		;$80BFDE  \
 	STA CPU.enable_dma			;$80BFE1   |
 	LDA #$FE01				;$80BFE4   |
@@ -6898,7 +6936,7 @@ CODE_80C03D:					;	   |
 	REP #$20				;$80C057   |
 	RTS					;$80C059  /
 
-CODE_80C05A:
+lava_geyser_tileset_NMI:
 	JSR update_level_and_sprite_graphics	;$80C05A  \
 	JSR update_lava_bubble_graphics		;$80C05D   |
 	SEP #$20				;$80C060   |
@@ -6910,7 +6948,7 @@ CODE_80C05A:
 	JSR CODE_80BAB1				;$80C070   |
 	RTS					;$80C073  /
 
-CODE_80C074:
+krocodile_kore_tileset_NMI:
 	JSR update_level_and_sprite_graphics	;$80C074  \
 	LDA.l $0006A5				;$80C077   |
 	BIT #$0200				;$80C07B   |
@@ -7043,7 +7081,7 @@ CODE_80C17A:
 CODE_80C17F:					;	   |
 	RTS					;$80C17F  /
 
-CODE_80C180:
+castle_tileset_NMI:
 	LDA pending_dma_hdma_channels		;$80C180  \
 	STA CPU.enable_dma			;$80C183   |
 	JSR CODE_80B89C				;$80C186   |
@@ -7155,6 +7193,7 @@ CODE_80C24A:					;	   |
 	BNE CODE_80C219				;$80C25C   |
 	RTS					;$80C25E  /
 
+;Castle torch tiledata pointers
 DATA_80C25F:
 	dw DATA_F5484A
 	dw DATA_F54BCA
@@ -7163,7 +7202,7 @@ DATA_80C25F:
 	dw DATA_F5564A
 	dw DATA_F559CA
 
-CODE_80C26B:
+haunted_tileset_NMI:
 	JSR update_level_and_sprite_graphics	;$80C26B  \
 	JSR update_kackle_graphics		;$80C26E   |
 	LDA #$0100				;$80C271   |
@@ -7298,6 +7337,7 @@ CODE_80C329:
 	REP #$20				;$80C389   |
 	RTS					;$80C38B  /
 
+;Kackle tiledata pointers
 DATA_80C38C:
 	dw DATA_F429D2
 	dw DATA_F42CD2
@@ -7412,7 +7452,7 @@ DATA_80C446:
 	dw DATA_F41852
 
 
-CODE_80C466:
+ship_mast_water_tileset_NMI:
 	LDA pending_dma_hdma_channels		;$80C466  \
 	STA CPU.enable_dma			;$80C469   |
 	JSR CODE_80B83D				;$80C46C   |
@@ -7436,7 +7476,7 @@ CODE_80C466:
 	REP #$20				;$80C4A2   |
 	RTS					;$80C4A4  /
 
-CODE_80C4A5:
+ship_hold_hot_tileset_NMI:
 	LDA pending_dma_hdma_channels		;$80C4A5  \
 	STA CPU.enable_dma			;$80C4A8   |
 	JSR CODE_80B89C				;$80C4AB   |
@@ -7546,7 +7586,7 @@ CODE_80C57E:
 CODE_80C583:					;	   |
 	RTS					;$80C583  /
 
-CODE_80C584:
+krool_duel_tileset_NMI:
 	LDA pending_dma_hdma_channels		;$80C584  \
 	STA CPU.enable_dma			;$80C587   |
 	JSL update_sprite_graphics		;$80C58A   |
@@ -7584,7 +7624,7 @@ CODE_80C584:
 	REP #$20				;$80C5DB   |
 	RTS					;$80C5DD  /
 
-CODE_80C5DE:
+ship_deck_sunset_tileset_NMI:
 	LDA pending_dma_hdma_channels		;$80C5DE  \
 	STA CPU.enable_dma			;$80C5E1   |
 	JSL update_sprite_graphics		;$80C5E4   |
@@ -7632,7 +7672,7 @@ CODE_80C629:					;	   |
 	REP #$20				;$80C658   |
 	RTS					;$80C65A  /
 
-CODE_80C65B:
+ice_water_tileset_NMI:
 	LDA pending_dma_hdma_channels		;$80C65B  \
 	STA CPU.enable_dma			;$80C65E   |
 	JSR CODE_80B86E				;$80C661   |
@@ -7748,7 +7788,7 @@ CODE_80C72E:
 	REP #$20				;$80C74D   |
 	RTS					;$80C74F  /
 
-CODE_80C750:
+jungle_tileset_NMI:
 	LDA pending_dma_hdma_channels		;$80C750  \
 	STA CPU.enable_dma			;$80C753   |
 	JSL update_sprite_graphics		;$80C756   |
@@ -7799,7 +7839,7 @@ CODE_80C750:
 	REP #$20				;$80C7C3   |
 	RTS					;$80C7C5  /
 
-CODE_80C7C6:
+ice_transparent_tileset_NMI:
 	LDA pending_dma_hdma_channels		;$80C7C6  \
 	STA CPU.enable_dma			;$80C7C9   |
 	JSL update_sprite_graphics		;$80C7CC   |
@@ -7836,7 +7876,7 @@ CODE_80C7C6:
 	REP #$20				;$80C81E   |
 	RTS					;$80C820  /
 
-CODE_80C821:
+castle_toxic_tileset_NMI:
 	LDA pending_dma_hdma_channels		;$80C821  \
 	STA CPU.enable_dma			;$80C824   |
 	JSR CODE_80B89C				;$80C827   |
@@ -7851,7 +7891,7 @@ CODE_80C821:
 	REP #$20				;$80C844   |
 	RTS					;$80C846  /
 
-CODE_80C847:
+brambles_windy_tileset_NMI:
 	LDA pending_dma_hdma_channels		;$80C847  \
 	STA CPU.enable_dma			;$80C84A   |
 	JSL update_sprite_graphics		;$80C84D   |
@@ -7892,7 +7932,7 @@ CODE_80C847:
 	REP #$20				;$80C8A7   |
 	RTS					;$80C8A9  /
 
-CODE_80C8AA:
+mine_windy_tileset_NMI:
 	LDA pending_dma_hdma_channels		;$80C8AA  \
 	STA CPU.enable_dma			;$80C8AD   |
 	JSL update_sprite_graphics		;$80C8B0   |
@@ -7926,7 +7966,7 @@ CODE_80C8AA:
 	REP #$20				;$80C8FC   |
 	RTS					;$80C8FE  /
 
-CODE_80C8FF:
+forest_misty_tileset_NMI:
 	LDA pending_dma_hdma_channels		;$80C8FF  \
 	STA CPU.enable_dma			;$80C902   |
 	JSL update_sprite_graphics		;$80C905   |
@@ -8154,6 +8194,7 @@ CODE_80CADD:
 	TAX					;$80CAE3   |
 	RTS					;$80CAE4  /
 
+;Krocodile kore beam tiledata pointers
 DATA_80CAE5:
 	dw DATA_F321E8
 	dw DATA_F32B88
@@ -9020,54 +9061,54 @@ DATA_80D3ED:
 
 ;$80D411
 tileset_logic_table:
-	dw CODE_80D45A				;00
-	dw CODE_80D462				;01 Forest (Unused)
-	dw CODE_80D486				;02 Ship Hold
-	dw CODE_80D557				;03 Wasp Hive
-	dw CODE_80D58C				;04
-	dw CODE_80D451				;05
-	dw CODE_80D595				;06 Ship Deck
-	dw CODE_80D5C3				;07 Lava
-	dw CODE_80D5E7				;08 Ship Mast
-	dw CODE_80D61B				;09 Roller Coaster
-	dw CODE_80D642				;0A Ship Deck (Cabin)
-	dw CODE_80D665				;0B
-	dw CODE_80D66E				;0C Mine
-	dw CODE_80D784				;0D Forest (Lights)
-	dw CODE_80D7AB				;0E Forest (Windy)
-	dw CODE_80D830				;0F Swamp
-	dw CODE_80D854				;10 Brambles
-	dw CODE_80D886				;11 Ship Hold (Dark)
-	dw CODE_80D8B7				;12 Lava (Geyser)
-	dw CODE_80D8DE				;13 Krocodile Kore
-	dw CODE_80D902				;14 Castle (Crush)
-	dw CODE_80DA21				;15 Haunted
-	dw CODE_80DA45				;16 Ship Mast (Water)
-	dw CODE_80DA76				;17 K. Rool Duel
-	dw CODE_80DA9A				;18 Ship Deck (Sunset)
-	dw CODE_80DACB				;19 Ice (Water)
-	dw CODE_80DB12				;1A Jungle
-	dw CODE_80DB36				;1B Ice (Transparent)
-	dw CODE_80DB6B				;1C Castle (Toxic)
-	dw CODE_80DB99				;1D Brambles (Windy)
-	dw CODE_80DBCE				;1E Mine (Windy)
-	dw CODE_80DD3C				;1F Forest (Misty)
+	dw null_tileset_logic			;00
+	dw forest_unused_tileset_logic		;01 Forest (Unused)
+	dw ship_hold_tileset_logic		;02 Ship Hold
+	dw wasp_hive_tileset_logic		;03 Wasp Hive
+	dw simple_tileset_logic_1		;04
+	dw simple_tileset_logic_2		;05
+	dw ship_deck_tileset_logic		;06 Ship Deck
+	dw lava_tileset_logic			;07 Lava
+	dw ship_mast_tileset_logic		;08 Ship Mast
+	dw roller_coaster_tileset_logic		;09 Roller Coaster
+	dw ship_deck_cabin_tileset_logic	;0A Ship Deck (Cabin)
+	dw simple_tileset_logic_3		;0B
+	dw mine_tileset_logic			;0C Mine
+	dw forest_lights_tileset_logic		;0D Forest (Lights)
+	dw forest_windy_tileset_logic		;0E Forest (Windy)
+	dw swamp_tileset_logic			;0F Swamp
+	dw brambles_tileset_logic		;10 Brambles
+	dw ship_hold_dark_tileset_logic		;11 Ship Hold (Dark)
+	dw lava_geyser_tileset_logic		;12 Lava (Geyser)
+	dw krocodile_kore_tileset_logic		;13 Krocodile Kore
+	dw castle_crush_tileset_logic		;14 Castle (Crush)
+	dw haunted_tileset_logic		;15 Haunted
+	dw ship_mast_water_tileset_logic	;16 Ship Mast (Water)
+	dw krool_duel_tileset_logic		;17 K. Rool Duel
+	dw ship_deck_sunset_tileset_logic	;18 Ship Deck (Sunset)
+	dw ice_water_tileset_logic		;19 Ice (Water)
+	dw jungle_tileset_logic			;1A Jungle
+	dw ice_transparent_tileset_logic	;1B Ice (Transparent)
+	dw castle_toxic_tileset_logic		;1C Castle (Toxic)
+	dw brambles_windy_tileset_logic		;1D Brambles (Windy)
+	dw mine_windy_tileset_logic		;1E Mine (Windy)
+	dw forest_misty_tileset_logic		;1F Forest (Misty)
 
-CODE_80D451:
-	JSR CODE_808988				;$80D451  \
+simple_tileset_logic_2:
+	JSR input_and_pause_handler		;$80D451  \
 	JSR fade_screen				;$80D454   |
-	JMP CODE_808CA2				;$80D457  /
+	JMP tileset_logic_return		;$80D457  /
 
-CODE_80D45A:
-	JMP CODE_808CA2				;$80D45A  /
+null_tileset_logic:
+	JMP tileset_logic_return		;$80D45A  /
 
-CODE_80D45D:
+paused_tileset_logic:
 	DEC active_frame_counter		;$80D45D  \
-	JMP CODE_808CA2				;$80D45F  /
+	JMP tileset_logic_return		;$80D45F  /
 
-CODE_80D462:
-	JSR CODE_808988				;$80D462  \
-	BNE CODE_80D483				;$80D465   |
+forest_unused_tileset_logic:
+	JSR input_and_pause_handler		;$80D462  \
+	BNE .paused				;$80D465   |
 	JSL sprite_loader			;$80D467   |
 	JSL sprite_handler			;$80D46B   |
 	JSL camera_handler			;$80D46F   |
@@ -9075,16 +9116,16 @@ CODE_80D462:
 	JSR render_sprites			;$80D477   |
 	JSR set_unused_oam_offscreen		;$80D47A   |
 	JSR fade_screen				;$80D47D   |
-	JMP CODE_808CA2				;$80D480  /
+	JMP tileset_logic_return		;$80D480  /
 
-CODE_80D483:
-	JMP CODE_80D45D				;$80D483  /
+.paused:
+	JMP paused_tileset_logic		;$80D483  /
 
-CODE_80D486:
-	JSR CODE_80E646				;$80D486  \
-	JSR CODE_808988				;$80D489   |
-	BNE CODE_80D4B4				;$80D48C   |
-	JSR CODE_80D4FA				;$80D48E   |
+ship_hold_tileset_logic:
+	JSR handle_water_and_3D_bg_scroll	;$80D486  \
+	JSR input_and_pause_handler		;$80D489   |
+	BNE .paused				;$80D48C   |
+	JSR handle_water_velocities		;$80D48E   |
 	JSL sprite_loader			;$80D491   |
 	JSL sprite_handler			;$80D495   |
 	JSL camera_handler			;$80D499   |
@@ -9092,61 +9133,61 @@ CODE_80D486:
 	JSR render_sprites			;$80D4A1   |
 	JSL CODE_BEC9C0				;$80D4A4   |
 	JSR set_unused_oam_offscreen		;$80D4A8   |
-	JSR CODE_80D4B7				;$80D4AB   |
+	JSR handle_kong_water_splash		;$80D4AB   |
 	JSR fade_screen				;$80D4AE   |
-	JMP CODE_808CA2				;$80D4B1  /
+	JMP tileset_logic_return		;$80D4B1  /
 
-CODE_80D4B4:
-	JMP CODE_80D45D				;$80D4B4  /
+.paused:
+	JMP paused_tileset_logic		;$80D4B4  /
 
-CODE_80D4B7:
+handle_kong_water_splash:
 	LDX active_kong_sprite			;$80D4B7  \
 	LDA $0A,x				;$80D4BA   |
 	CMP $0D4E				;$80D4BC   |
-	BMI CODE_80D4DE				;$80D4BF   |
+	BMI .CODE_80D4DE			;$80D4BF   |
 	LDA #$0004				;$80D4C1   |
 	TSB $08C2				;$80D4C4   |
-	BNE CODE_80D4F9				;$80D4C7   |
+	BNE .return				;$80D4C7   |
 	LDX active_kong_sprite			;$80D4C9   |
 	STX current_sprite			;$80D4CC   |
 	LDY #!special_sprite_spawn_id_0018	;$80D4CE   |
 	JSL spawn_special_sprite_index		;$80D4D1   |
-	LDA #$0662				;$80D4D5   |
+	%lda_sound(6, kong_enter_water	)	;$80D4D5   |
 	JSL queue_sound_effect			;$80D4D8   |
-	BRA CODE_80D4F9				;$80D4DC  /
+	BRA .return				;$80D4DC  /
 
-CODE_80D4DE:
+.CODE_80D4DE:
 	LDA #$0004				;$80D4DE  \
 	TRB $08C2				;$80D4E1   |
-	BEQ CODE_80D4F9				;$80D4E4   |
+	BEQ .return				;$80D4E4   |
 	LDX active_kong_sprite			;$80D4E6   |
 	STX current_sprite			;$80D4E9   |
 	LDY #!special_sprite_spawn_id_001A	;$80D4EB   |
 	JSL spawn_special_sprite_index		;$80D4EE   |
-	LDA #$0662				;$80D4F2   |
+	%lda_sound(6, kong_enter_water	)	;$80D4F2   |
 	JSL queue_sound_effect			;$80D4F5   |
-CODE_80D4F9:					;	   |
+.return:					;	   |
 	RTS					;$80D4F9  /
 
-CODE_80D4FA:
+handle_water_velocities:
 	LDA $08C2				;$80D4FA  \
 	AND #$0140				;$80D4FD   |
-	BNE CODE_80D556				;$80D500   |
+	BNE .return				;$80D500   |
 	LDA water_target_y_velocity		;$80D502   |
 	ORA water_current_y_velocity		;$80D505   |
-	BEQ CODE_80D556				;$80D508   |
+	BEQ .return				;$80D508   |
 	LDA water_current_y_velocity		;$80D50A   |
 	CMP #$8000				;$80D50D   |
-	BEQ CODE_80D547				;$80D510   |
+	BEQ .CODE_80D547			;$80D510   |
 	LDA #$0D26				;$80D512   |
 	STA current_sprite			;$80D515   |
 	LDA #$0007				;$80D517   |
 	JSL interpolate_y_velocity_global	;$80D51A   |
 	LDX #$0000				;$80D51E   |
 	LDA water_current_y_velocity		;$80D521   |
-	BPL CODE_80D527				;$80D524   |
+	BPL .CODE_80D527			;$80D524   |
 	DEX					;$80D526   |
-CODE_80D527:					;	   |
+.CODE_80D527:					;	   |
 	CLC					;$80D527   |
 	ADC $0D4D				;$80D528   |
 	STA $0D4D				;$80D52B   |
@@ -9158,68 +9199,68 @@ CODE_80D527:					;	   |
 	LDA $0D52				;$80D539   |
 	SEC					;$80D53C   |
 	SBC $0D4E				;$80D53D   |
-	BEQ CODE_80D547				;$80D540   |
+	BEQ .CODE_80D547			;$80D540   |
 	EOR water_current_y_velocity		;$80D542   |
-	BPL CODE_80D556				;$80D545   |
-CODE_80D547:					;	   |
+	BPL .return				;$80D545   |
+.CODE_80D547:					;	   |
 	LDA $0D52				;$80D547   |
 	STA $0D4E				;$80D54A   |
 	STZ water_target_y_velocity		;$80D54D   |
 	STZ water_current_y_velocity		;$80D550   |
 	STZ $0D4C				;$80D553   |
-CODE_80D556:					;	   |
+.return:					;	   |
 	RTS					;$80D556  /
 
-CODE_80D557:
-	JSR CODE_808988				;$80D557  \
-	BNE CODE_80D589				;$80D55A   |
+wasp_hive_tileset_logic:
+	JSR input_and_pause_handler		;$80D557  \
+	BNE .paused				;$80D55A   |
 	JSL sprite_loader			;$80D55C   |
 	JSL sprite_handler			;$80D560   |
 	JSL camera_handler			;$80D564   |
 	LDA $0AB4				;$80D568   |
 	AND #$000F				;$80D56B   |
 	CMP #$0005				;$80D56E   |
-	BEQ CODE_80D579				;$80D571   |
+	BEQ .CODE_80D579			;$80D571   |
 	JSL square_level_scroll_handler		;$80D573   |
-	BRA CODE_80D57D				;$80D577  /
+	BRA .CODE_80D57D			;$80D577  /
 
-CODE_80D579:
-	JSL CODE_B5B317				;$80D579  \
-CODE_80D57D:					;	   |
+.CODE_80D579:
+	JSL CODE_B5B317				;$80D579  \ Another type of vertical level scroll handler? 
+.CODE_80D57D:					;	   |
 	JSR render_sprites			;$80D57D   |
 	JSR set_unused_oam_offscreen		;$80D580   |
 	JSR fade_screen				;$80D583   |
-	JMP CODE_808CA2				;$80D586  /
+	JMP tileset_logic_return		;$80D586  /
 
-CODE_80D589:
-	JMP CODE_80D45D				;$80D589  /
+.paused:
+	JMP paused_tileset_logic		;$80D589  /
 
-CODE_80D58C:
-	JSR CODE_808988				;$80D58C  \
+simple_tileset_logic_1:
+	JSR input_and_pause_handler		;$80D58C  \
 	JSR fade_screen				;$80D58F   |
-	JMP CODE_808CA2				;$80D592  /
+	JMP tileset_logic_return		;$80D592  /
 
-CODE_80D595:
-	JSR CODE_808988				;$80D595  \
-	BNE CODE_80D5C0				;$80D598   |
+ship_deck_tileset_logic:
+	JSR input_and_pause_handler		;$80D595  \
+	BNE .paused				;$80D598   |
 	JSL sprite_loader			;$80D59A   |
 	JSL sprite_handler			;$80D59E   |
 	JSL camera_handler			;$80D5A2   |
-	JSR CODE_80E52B				;$80D5A6   |
-	JSL CODE_B5B9BB				;$80D5A9   |
+	JSR handle_ship_deck_rigging_scroll	;$80D5A6   |
+	JSL CODE_B5B9BB				;$80D5A9   | stream rigging tilemap?
 	JSL horizontal_level_scroll_handler	;$80D5AD   |
 	JSR render_sprites			;$80D5B1   |
 	JSR set_unused_oam_offscreen		;$80D5B4   |
-	JSR CODE_80E580				;$80D5B7   |
+	JSR handle_ship_deck_water_sky_scroll	;$80D5B7   |
 	JSR fade_screen				;$80D5BA   |
-	JMP CODE_808CA2				;$80D5BD  /
+	JMP tileset_logic_return		;$80D5BD  /
 
-CODE_80D5C0:
-	JMP CODE_80D45D				;$80D5C0  /
+.paused:
+	JMP paused_tileset_logic		;$80D5C0  /
 
-CODE_80D5C3:
-	JSR CODE_808988				;$80D5C3  \
-	BNE CODE_80D5E4				;$80D5C6   |
+lava_tileset_logic:
+	JSR input_and_pause_handler		;$80D5C3  \
+	BNE .paused				;$80D5C6   |
 	JSL sprite_loader			;$80D5C8   |
 	JSL sprite_handler			;$80D5CC   |
 	JSL camera_handler			;$80D5D0   |
@@ -9227,21 +9268,21 @@ CODE_80D5C3:
 	JSR render_sprites			;$80D5D8   |
 	JSR set_unused_oam_offscreen		;$80D5DB   |
 	JSR fade_screen				;$80D5DE   |
-	JMP CODE_808CA2				;$80D5E1  /
+	JMP tileset_logic_return		;$80D5E1  /
 
-CODE_80D5E4:
-	JMP CODE_80D45D				;$80D5E4  /
+.paused:
+	JMP paused_tileset_logic		;$80D5E4  /
 
-CODE_80D5E7:
-	JSR CODE_808988				;$80D5E7  \
-	BNE CODE_80D618				;$80D5EA   |
+ship_mast_tileset_logic:
+	JSR input_and_pause_handler		;$80D5E7  \
+	BNE .paused				;$80D5EA   |
 	LDX #$002C				;$80D5EC   |
 	LDA active_frame_counter		;$80D5EF   |
 	INC A					;$80D5F1   |
 	AND #$0007				;$80D5F2   |
-	BNE CODE_80D5FA				;$80D5F5   |
+	BNE .CODE_80D5FA			;$80D5F5   |
 	LDX #$001C				;$80D5F7   |
-CODE_80D5FA:					;	   |
+.CODE_80D5FA:					;	   |
 	STX $78					;$80D5FA   |
 	JSL sprite_loader			;$80D5FC   |
 	JSL sprite_handler			;$80D600   |
@@ -9250,14 +9291,14 @@ CODE_80D5FA:					;	   |
 	JSR render_sprites			;$80D60C   |
 	JSR set_unused_oam_offscreen		;$80D60F   |
 	JSR fade_screen				;$80D612   |
-	JMP CODE_808CA2				;$80D615  /
+	JMP tileset_logic_return		;$80D615  /
 
-CODE_80D618:
-	JMP CODE_80D45D				;$80D618  /
+.paused:
+	JMP paused_tileset_logic		;$80D618  /
 
-CODE_80D61B:
-	JSR CODE_808988				;$80D61B  \
-	BNE CODE_80D63F				;$80D61E   |
+roller_coaster_tileset_logic:
+	JSR input_and_pause_handler		;$80D61B  \
+	BNE .paused				;$80D61E   |
 	JSL sprite_loader			;$80D620   |
 	JSL sprite_handler			;$80D624   |
 	JSL camera_handler			;$80D628   |
@@ -9266,59 +9307,59 @@ CODE_80D61B:
 	JSR render_sprites			;$80D633   |
 	JSR set_unused_oam_offscreen		;$80D636   |
 	JSR fade_screen				;$80D639   |
-	JMP CODE_808CA2				;$80D63C  /
+	JMP tileset_logic_return		;$80D63C  /
 
-CODE_80D63F:
-	JMP CODE_80D45D				;$80D63F  /
+.paused:
+	JMP paused_tileset_logic		;$80D63F  /
 
-CODE_80D642:
-	JSR CODE_808988				;$80D642  \
-	BNE CODE_80D662				;$80D645   |
+ship_deck_cabin_tileset_logic:
+	JSR input_and_pause_handler		;$80D642  \
+	BNE .paused				;$80D645   |
 	JSL sprite_loader			;$80D647   |
 	JSL sprite_handler			;$80D64B   |
 	JSL camera_handler			;$80D64F   |
 	JSR render_sprites			;$80D653   |
 	JSR set_unused_oam_offscreen		;$80D656   |
-	JSR CODE_80E580				;$80D659   |
+	JSR handle_ship_deck_water_sky_scroll	;$80D659   |
 	JSR fade_screen				;$80D65C   |
-	JMP CODE_808CA2				;$80D65F  /
+	JMP tileset_logic_return		;$80D65F  /
 
-CODE_80D662:
-	JMP CODE_80D45D				;$80D662  /
+.paused:
+	JMP paused_tileset_logic		;$80D662  /
 
-CODE_80D665:
-	JSR CODE_808988				;$80D665  \
+simple_tileset_logic_3:
+	JSR input_and_pause_handler		;$80D665  \
 	JSR fade_screen				;$80D668   |
-	JMP CODE_808CA2				;$80D66B  /
+	JMP tileset_logic_return		;$80D66B  /
 
-CODE_80D66E:
-	JSR CODE_808988				;$80D66E  \
-	BNE CODE_80D692				;$80D671   |
+mine_tileset_logic:
+	JSR input_and_pause_handler		;$80D66E  \
+	BNE .paused				;$80D671   |
 	JSL sprite_loader			;$80D673   |
 	JSL sprite_handler			;$80D677   |
 	JSL camera_handler			;$80D67B   |
-	JSR CODE_80D695				;$80D67F   |
+	JSR handle_mine_glint			;$80D67F   |
 	JSL vertical_level_scroll_handler	;$80D682   |
 	JSR render_sprites			;$80D686   |
 	JSR set_unused_oam_offscreen		;$80D689   |
 	JSR fade_screen				;$80D68C   |
-	JMP CODE_808CA2				;$80D68F  /
+	JMP tileset_logic_return		;$80D68F  /
 
-CODE_80D692:
-	JMP CODE_80D45D				;$80D692  /
+.paused:
+	JMP paused_tileset_logic		;$80D692  /
 
-CODE_80D695:
+handle_mine_glint:
 	LDA active_frame_counter		;$80D695  \
 	ASL A					;$80D697   |
 	AND #$003F				;$80D698   |
 	BIT #$0020				;$80D69B   |
-	BEQ CODE_80D6A3				;$80D69E   |
+	BEQ .CODE_80D6A3			;$80D69E   |
 	EOR #$003F				;$80D6A0   |
-CODE_80D6A3:					;	   |
+.CODE_80D6A3:					;	   |
 	CMP #$0020				;$80D6A3   |
-	BCC CODE_80D6AB				;$80D6A6   |
+	BCC .CODE_80D6AB			;$80D6A6   |
 	LDA #$0020				;$80D6A8   |
-CODE_80D6AB:					;	   |
+.CODE_80D6AB:					;	   |
 	STA $32					;$80D6AB   |
 	ASL A					;$80D6AD   |
 	ASL A					;$80D6AE   |
@@ -9330,7 +9371,7 @@ CODE_80D6AB:					;	   |
 	ASL A					;$80D6B5   |
 	STA $34					;$80D6B6   |
 	LDX #$0000				;$80D6B8   |
-CODE_80D6BB:					;	   |
+.CODE_80D6BB:					;	   |
 	LDA.l mine_glint_layer_3_palette,x	;$80D6BB   |
 	AND #$001F				;$80D6BF   |
 	SEC					;$80D6C2   |
@@ -9338,9 +9379,9 @@ CODE_80D6BB:					;	   |
 	SBC $32					;$80D6C5   |
 	SBC $32					;$80D6C7   |
 	SBC $32					;$80D6C9   |
-	BPL CODE_80D6D0				;$80D6CB   |
+	BPL .CODE_80D6D0			;$80D6CB   |
 	LDA #$0000				;$80D6CD   |
-CODE_80D6D0:					;	   |
+.CODE_80D6D0:					;	   |
 	STA $38					;$80D6D0   |
 	LDA.l mine_glint_layer_3_palette,x	;$80D6D2   |
 	AND #$03E0				;$80D6D6   |
@@ -9349,80 +9390,80 @@ CODE_80D6D0:					;	   |
 	SBC $34					;$80D6DC   |
 	SBC $34					;$80D6DE   |
 	SBC $34					;$80D6E0   |
-	BPL CODE_80D6E7				;$80D6E2   |
+	BPL .CODE_80D6E7			;$80D6E2   |
 	LDA #$0000				;$80D6E4   |
-CODE_80D6E7:					;	   |
+.CODE_80D6E7:					;	   |
 	TSB $38					;$80D6E7   |
 	LDA.l mine_glint_layer_3_palette,x	;$80D6E9   |
 	AND #$7C00				;$80D6ED   |
 	SEC					;$80D6F0   |
 	SBC $36					;$80D6F1   |
-	BPL CODE_80D6F8				;$80D6F3   |
+	BPL .CODE_80D6F8			;$80D6F3   |
 	LDA #$0000				;$80D6F5   |
-CODE_80D6F8:					;	   |
+.CODE_80D6F8:					;	   |
 	ORA $38					;$80D6F8   |
 	STA $7E8014,x				;$80D6FA   |
 	INX					;$80D6FE   |
 	INX					;$80D6FF   |
 	CPX #$001E				;$80D700   |
-	BNE CODE_80D6BB				;$80D703   |
+	BNE .CODE_80D6BB			;$80D703   |
 	LDA active_frame_counter		;$80D705   |
 	AND #$0020				;$80D707   |
-	BEQ CODE_80D716				;$80D70A   |
+	BEQ .CODE_80D716			;$80D70A   |
 	JSR get_random_number			;$80D70C   |
 	AND #$0001				;$80D70F   |
 	STA $7E8012				;$80D712   |
-CODE_80D716:					;	   |
+.CODE_80D716:					;	   |
 	LDA.l $7E8012				;$80D716   |
-	BEQ CODE_80D71D				;$80D71A   |
+	BEQ .CODE_80D71D			;$80D71A   |
 	RTS					;$80D71C  /
 
-CODE_80D71D:
+.CODE_80D71D:
 	LDA $32					;$80D71D  \
-	JSR CODE_80D77A				;$80D71F   |
+	JSR .CODE_80D77A			;$80D71F   |
 	STA $32					;$80D722   |
 	LDA $34					;$80D724   |
-	JSR CODE_80D77A				;$80D726   |
+	JSR .CODE_80D77A			;$80D726   |
 	AND #$03E0				;$80D729   |
 	STA $34					;$80D72C   |
 	LDA $36					;$80D72E   |
-	JSR CODE_80D77A				;$80D730   |
+	JSR .CODE_80D77A			;$80D730   |
 	AND #$7C00				;$80D733   |
 	STA $36					;$80D736   |
 	LDX #$0000				;$80D738   |
-CODE_80D73B:					;	   |
+.CODE_80D73B:					;	   |
 	LDA.l kannons_klaim_level_palette+$42,x	;$80D73B   |
 	AND #$001F				;$80D73F   |
 	SEC					;$80D742   |
 	SBC $32					;$80D743   |
-	BPL CODE_80D74A				;$80D745   |
+	BPL .CODE_80D74A			;$80D745   |
 	LDA #$0000				;$80D747   |
-CODE_80D74A:					;	   |
+.CODE_80D74A:					;	   |
 	STA $38					;$80D74A   |
 	LDA.l kannons_klaim_level_palette+$42,x	;$80D74C   |
 	AND #$03E0				;$80D750   |
 	SEC					;$80D753   |
 	SBC $34					;$80D754   |
-	BPL CODE_80D75B				;$80D756   |
+	BPL .CODE_80D75B			;$80D756   |
 	LDA #$0000				;$80D758   |
-CODE_80D75B:					;	   |
+.CODE_80D75B:					;	   |
 	TSB $38					;$80D75B   |
 	LDA.l kannons_klaim_level_palette+$42,x	;$80D75D   |
 	AND #$7C00				;$80D761   |
 	SEC					;$80D764   |
 	SBC $36					;$80D765   |
-	BPL CODE_80D76C				;$80D767   |
+	BPL .CODE_80D76C			;$80D767   |
 	LDA #$0000				;$80D769   |
-CODE_80D76C:					;	   |
+.CODE_80D76C:					;	   |
 	ORA $38					;$80D76C   |
 	STA $7E8032,x				;$80D76E   |
 	INX					;$80D772   |
 	INX					;$80D773   |
 	CPX #$000C				;$80D774   |
-	BNE CODE_80D73B				;$80D777   |
+	BNE .CODE_80D73B			;$80D777   |
 	RTS					;$80D779  /
 
-CODE_80D77A:
+.CODE_80D77A:
 	LSR A					;$80D77A  \
 	LSR A					;$80D77B   |
 	LSR A					;$80D77C   |
@@ -9432,25 +9473,25 @@ CODE_80D77A:
 	ADC $38					;$80D781   |
 	RTS					;$80D783  /
 
-CODE_80D784:
-	JSR CODE_808988				;$80D784  \
-	BNE CODE_80D7A8				;$80D787   |
+forest_lights_tileset_logic:
+	JSR input_and_pause_handler		;$80D784  \
+	BNE .paused				;$80D787   |
 	JSL sprite_loader			;$80D789   |
 	JSL sprite_handler			;$80D78D   |
 	JSL camera_handler			;$80D791   |
 	JSL horizontal_level_scroll_handler	;$80D795   |
 	JSR render_sprites			;$80D799   |
 	JSR set_unused_oam_offscreen		;$80D79C   |
-	JSR CODE_80F157				;$80D79F   |
+	JSR handle_forest_lights_scroll		;$80D79F   |
 	JSR fade_screen				;$80D7A2   |
-	JMP CODE_808CA2				;$80D7A5  /
+	JMP tileset_logic_return		;$80D7A5  /
 
-CODE_80D7A8:
-	JMP CODE_80D45D				;$80D7A8  /
+.paused:
+	JMP paused_tileset_logic		;$80D7A8  /
 
-CODE_80D7AB:
-	JSR CODE_808988				;$80D7AB  \
-	BNE CODE_80D7CF				;$80D7AE   |
+forest_windy_tileset_logic:
+	JSR input_and_pause_handler		;$80D7AB  \
+	BNE .paused				;$80D7AE   |
 	JSL sprite_loader			;$80D7B0   |
 	JSR wind_force_handler			;$80D7B4   |
 	JSL sprite_handler			;$80D7B7   |
@@ -9459,20 +9500,19 @@ CODE_80D7AB:
 	JSR render_sprites			;$80D7C3   |
 	JSR set_unused_oam_offscreen		;$80D7C6   |
 	JSR fade_screen				;$80D7C9   |
-	JMP CODE_808CA2				;$80D7CC  /
+	JMP tileset_logic_return		;$80D7CC  /
 
-CODE_80D7CF:
-	JMP CODE_80D45D				;$80D7CF  /
+.paused:
+	JMP paused_tileset_logic		;$80D7CF  /
 
-;wind speeds
-DATA_80D7D2:
+wind_speeds_right:
 	dw $0010				;idle blowing right
 	dw $0400				;jump right blowing right
 	dw $0100				;jump blowing right
 	dw $0100				;walk right blowing right
 	dw $00C0				;walking left blowing right
 
-DATA_80D7DC:
+wind_speeds_left:
 	dw $FFF0				;idle blowing left
 	dw $FC00				;jump left blowing left
 	dw $FF00				;jump blowing left
@@ -9482,55 +9522,55 @@ DATA_80D7DC:
 wind_force_handler:
 	PHK					;$80D7E6  \
 	PLB					;$80D7E7   |
-	LDY #DATA_80D7D2			;$80D7E8   |
+	LDY #wind_speeds_right			;$80D7E8   |
 	LDA $19C0				;$80D7EB   |
-	BNE CODE_80D7F1				;$80D7EE   |
+	BNE .CODE_80D7F1			;$80D7EE   |
 	RTS					;$80D7F0  /
 
-CODE_80D7F1:
-	BPL CODE_80D7F6				;$80D7F1  \
-	LDY #DATA_80D7DC			;$80D7F3   |
-CODE_80D7F6:					;	   |
+.CODE_80D7F1:
+	BPL .CODE_80D7F6			;$80D7F1  \
+	LDY #wind_speeds_left			;$80D7F3   |
+.CODE_80D7F6:					;	   |
 	LDX active_kong_sprite			;$80D7F6   |
 	LDA $1E,x				;$80D7F9   |
 	LSR A					;$80D7FB   |
-	BCS CODE_80D813				;$80D7FC   |
+	BCS .CODE_80D813			;$80D7FC   |
 	LDA $26,x				;$80D7FE   |
-	BEQ CODE_80D80D				;$80D800   |
+	BEQ .CODE_80D80D			;$80D800   |
 	EOR $19C0				;$80D802   |
-	BMI CODE_80D80D				;$80D805   |
+	BMI .CODE_80D80D			;$80D805   |
 	LDA $0002,y				;$80D807   |
 	STA $2C,x				;$80D80A   |
 	RTS					;$80D80C  /
 
-CODE_80D80D:
+.CODE_80D80D:
 	LDA $0004,y				;$80D80D  \
 	STA $2C,x				;$80D810   |
 	RTS					;$80D812  /
 
-CODE_80D813:
+.CODE_80D813:
 	LDA $26,x				;$80D813  \
-	BNE CODE_80D81D				;$80D815   |
+	BNE .CODE_80D81D			;$80D815   |
 	LDA $0000,y				;$80D817   |
 	STA $2C,x				;$80D81A   |
 	RTS					;$80D81C  /
 
-CODE_80D81D:
+.CODE_80D81D:
 	LDA $19C0				;$80D81D  \
 	EOR $26,x				;$80D820   |
-	BMI CODE_80D82A				;$80D822   |
+	BMI .CODE_80D82A			;$80D822   |
 	LDA $0006,y				;$80D824   |
 	STA $2C,x				;$80D827   |
 	RTS					;$80D829  /
 
-CODE_80D82A:
+.CODE_80D82A:
 	LDA $0008,y				;$80D82A  \
 	STA $2C,x				;$80D82D   |
 	RTS					;$80D82F  /
 
-CODE_80D830:
-	JSR CODE_808988				;$80D830  \
-	BNE CODE_80D851				;$80D833   |
+swamp_tileset_logic:
+	JSR input_and_pause_handler		;$80D830  \
+	BNE .paused				;$80D833   |
 	JSL sprite_loader			;$80D835   |
 	JSL sprite_handler			;$80D839   |
 	JSL camera_handler			;$80D83D   |
@@ -9538,72 +9578,72 @@ CODE_80D830:
 	JSR render_sprites			;$80D845   |
 	JSR set_unused_oam_offscreen		;$80D848   |
 	JSR fade_screen				;$80D84B   |
-	JMP CODE_808CA2				;$80D84E  /
+	JMP tileset_logic_return		;$80D84E  /
 
-CODE_80D851:
-	JMP CODE_80D45D				;$80D851  /
+.paused:
+	JMP paused_tileset_logic		;$80D851  /
 
-CODE_80D854:
-	JSR CODE_808988				;$80D854  \
-	BNE CODE_80D883				;$80D857   |
+brambles_tileset_logic:
+	JSR input_and_pause_handler		;$80D854  \
+	BNE .paused				;$80D857   |
 	JSL sprite_loader			;$80D859   |
 	JSL sprite_handler			;$80D85D   |
 	JSL camera_handler			;$80D861   |
 	LDA $0AB4				;$80D865   |
 	CMP #$0006				;$80D868   |
-	BNE CODE_80D873				;$80D86B   |
-	JSL CODE_B5B77D				;$80D86D   |
-	BRA CODE_80D877				;$80D871  /
+	BNE .CODE_80D873			;$80D86B   |
+	JSL CODE_B5B77D				;$80D86D   | Another type of square level handler?
+	BRA .CODE_80D877			;$80D871  /
 
-CODE_80D873:
+.CODE_80D873:
 	JSL square_level_scroll_handler		;$80D873  \
-CODE_80D877:					;	   |
+.CODE_80D877:					;	   |
 	JSR render_sprites			;$80D877   |
 	JSR set_unused_oam_offscreen		;$80D87A   |
 	JSR fade_screen				;$80D87D   |
-	JMP CODE_808CA2				;$80D880  /
+	JMP tileset_logic_return		;$80D880  /
 
-CODE_80D883:
-	JMP CODE_80D45D				;$80D883  /
+.paused:
+	JMP paused_tileset_logic		;$80D883  /
 
-CODE_80D886:
-	JSR CODE_80E64E				;$80D886  \
-	JSR CODE_808988				;$80D889   |
-	BNE CODE_80D8B4				;$80D88C   |
-	JSR CODE_80D4FA				;$80D88E   |
+ship_hold_dark_tileset_logic:
+	JSR handle_3d_bg_scroll			;$80D886  \
+	JSR input_and_pause_handler		;$80D889   |
+	BNE .paused				;$80D88C   |
+	JSR handle_water_velocities		;$80D88E   |
 	JSL sprite_loader			;$80D891   |
 	JSL sprite_handler			;$80D895   |
 	JSL camera_handler			;$80D899   |
-	JSR CODE_80DF94				;$80D89D   |
+	JSR handle_glimmer_light		;$80D89D   |
 	JSL square_level_scroll_handler		;$80D8A0   |
 	JSR render_sprites			;$80D8A4   |
 	JSL CODE_BEC9C0				;$80D8A7   |
 	JSR set_unused_oam_offscreen		;$80D8AB   |
 	JSR fade_screen				;$80D8AE   |
-	JMP CODE_808CA2				;$80D8B1  /
+	JMP tileset_logic_return		;$80D8B1  /
 
-CODE_80D8B4:
-	JMP CODE_80D45D				;$80D8B4  /
+.paused:
+	JMP paused_tileset_logic		;$80D8B4  /
 
-CODE_80D8B7:
-	JSR CODE_808988				;$80D8B7  \
-	BNE CODE_80D8DB				;$80D8BA   |
+lava_geyser_tileset_logic:
+	JSR input_and_pause_handler		;$80D8B7  \
+	BNE .paused				;$80D8BA   |
 	JSL sprite_loader			;$80D8BC   |
 	JSL sprite_handler			;$80D8C0   |
 	JSL camera_handler			;$80D8C4   |
 	JSL horizontal_level_scroll_handler	;$80D8C8   |
 	JSR render_sprites			;$80D8CC   |
 	JSR set_unused_oam_offscreen		;$80D8CF   |
-	JSR CODE_80DE01				;$80D8D2   |
+	JSR handle_lava_geyser_positioning	;$80D8D2   | Visual position only
 	JSR fade_screen				;$80D8D5   |
-	JMP CODE_808CA2				;$80D8D8  /
+	JMP tileset_logic_return		;$80D8D8  /
 
-CODE_80D8DB:
-	JMP CODE_80D45D				;$80D8DB  /
+.paused:
+	JMP paused_tileset_logic		;$80D8DB  /
 
-CODE_80D8DE:
-	JSR CODE_808988				;$80D8DE  \
-	BNE CODE_80D8DB				;$80D8E1   |
+krocodile_kore_tileset_logic:
+	JSR input_and_pause_handler		;$80D8DE  \
+	BNE lava_geyser_tileset_logic_paused	;$80D8E1   |
 	JSL sprite_loader			;$80D8E3   |
 	JSL sprite_handler			;$80D8E7   |
 	JSL camera_handler			;$80D8EB   |
@@ -9611,124 +9651,124 @@ CODE_80D8DE:
 	JSR render_sprites			;$80D8F3   |
 	JSR set_unused_oam_offscreen		;$80D8F6   |
 	JSR fade_screen				;$80D8F9   |
-	JMP CODE_808CA2				;$80D8FC  /
+	JMP tileset_logic_return		;$80D8FC  /
 
-	JMP CODE_80D45D				;$80D8FF  /
+	JMP paused_tileset_logic		;$80D8FF  /
 
-CODE_80D902:
-	JSR CODE_80E64E				;$80D902  \
-	JSR CODE_808988				;$80D905   |
-	BNE CODE_80D93E				;$80D908   |
+castle_crush_tileset_logic:
+	JSR handle_3d_bg_scroll			;$80D902  \
+	JSR input_and_pause_handler		;$80D905   |
+	BNE .paused				;$80D908   |
 	JSL sprite_loader			;$80D90A   |
-	JSR CODE_80D941				;$80D90E   |
+	JSR handle_castle_crush_floor_movement	;$80D90E   |
 	JSL camera_handler			;$80D911   |
 	JSL sprite_handler			;$80D915   |
 	BIT $08C2				;$80D919   |
-	BVC CODE_80D92E				;$80D91C   |
+	BVC .CODE_80D92E			;$80D91C   |
 	LDX inactive_kong_sprite		;$80D91E   |
 	LDA $0D54				;$80D921   |
 	CLC					;$80D924   |
 	ADC #$00C0				;$80D925   |
 	CMP $0A,x				;$80D928   |
-	BCS CODE_80D92E				;$80D92A   |
+	BCS .CODE_80D92E			;$80D92A   |
 	STA $0A,x				;$80D92C   |
-CODE_80D92E:					;	   |
+.CODE_80D92E:					;	   |
 	JSL CODE_B5B317				;$80D92E   |
 	JSR render_sprites			;$80D932   |
 	JSR set_unused_oam_offscreen		;$80D935   |
 	JSR fade_screen				;$80D938   |
-	JMP CODE_808CA2				;$80D93B  /
+	JMP tileset_logic_return		;$80D93B  /
 
-CODE_80D93E:
-	JMP CODE_80D45D				;$80D93E  /
+.paused:
+	JMP paused_tileset_logic		;$80D93E  /
 
-CODE_80D941:
+handle_castle_crush_floor_movement:
 	LDA time_stop_flags			;$80D941  \
 	BIT #$0082				;$80D944   |
-	BNE CODE_80D9B2				;$80D947   |
+	BNE .return				;$80D947   |
 	LDY active_kong_sprite			;$80D949   |
 	LDA $002E,y				;$80D94C   |
 	ASL A					;$80D94F   |
 	ASL A					;$80D950   |
 	TAX					;$80D951   |
-	LDA.l DATA_B896B7,x			;$80D952   |
+	LDA.l kong_state_flags_table,x		;$80D952   |
 	BIT #$0040				;$80D956   |
-	BNE CODE_80D9B3				;$80D959   |
+	BNE .CODE_80D9B3			;$80D959   |
 	LDA #$0001				;$80D95B   |
 	TRB $0D56				;$80D95E   |
-	BNE CODE_80D9C7				;$80D961   |
+	BNE .CODE_80D9C7			;$80D961   |
 	LDA $08C2				;$80D963   |
 	BIT #$2000				;$80D966   |
-	BNE CODE_80D9B8				;$80D969   |
+	BNE .CODE_80D9B8			;$80D969   |
 	AND #$4000				;$80D96B   |
-	BNE CODE_80D97D				;$80D96E   |
+	BNE .CODE_80D97D			;$80D96E   |
 	LDA #$4000				;$80D970   |
 	BIT $0D56				;$80D973   |
-	BEQ CODE_80D980				;$80D976   |
+	BEQ .CODE_80D980			;$80D976   |
 	TRB $0D56				;$80D978   |
-	BRA CODE_80D9B8				;$80D97B  /
+	BRA .CODE_80D9B8			;$80D97B  /
 
 ;Unhinged routine that marks $0D26 as a sprite and uses it for handling castle crush floor
-CODE_80D97D:
+.CODE_80D97D:
 	TSB $0D56				;$80D97D  \
-CODE_80D980:					;	   |
+.CODE_80D980:					;	   |
 	LDA water_target_y_velocity		;$80D980   |
 	ORA water_current_y_velocity		;$80D983   |
-	BEQ CODE_80D9B2				;$80D986   |
+	BEQ .return				;$80D986   |
 	LDA water_current_y_velocity		;$80D988   |
-	BPL CODE_80D992				;$80D98B   |
+	BPL .CODE_80D992			;$80D98B   |
 	CMP #$9000				;$80D98D   |
-	BCC CODE_80D9D4				;$80D990   |
-CODE_80D992:					;	   |
+	BCC .CODE_80D9D4			;$80D990   |
+.CODE_80D992:					;	   |
 	LDA #$0D26				;$80D992   |
 	STA current_sprite			;$80D995   |
 	LDA #$0007				;$80D997   |
 	JSL interpolate_y_velocity_global	;$80D99A   |
 	LDA water_current_y_velocity		;$80D99E   |
-	JSR CODE_80D9FB				;$80D9A1   |
+	JSR .CODE_80D9FB			;$80D9A1   |
 	LDA $0D52				;$80D9A4   |
 	SEC					;$80D9A7   |
 	SBC $0D54				;$80D9A8   |
-	BEQ CODE_80D9E8				;$80D9AB   |
+	BEQ .CODE_80D9E8			;$80D9AB   |
 	EOR water_current_y_velocity		;$80D9AD   |
-	BMI CODE_80D9E8				;$80D9B0   |
-CODE_80D9B2:					;	   |
+	BMI .CODE_80D9E8			;$80D9B0   |
+.return:					;	   |
 	RTS					;$80D9B2  /
 
-CODE_80D9B3:
+.CODE_80D9B3:
 	LDA #$0040				;$80D9B3  \
-	BRA CODE_80D9FB				;$80D9B6  /
+	BRA .CODE_80D9FB			;$80D9B6  /
 
-CODE_80D9B8:
+.CODE_80D9B8:
 	LDA water_current_y_velocity		;$80D9B8  \
-	BPL CODE_80D9C2				;$80D9BB   |
+	BPL .CODE_80D9C2			;$80D9BB   |
 	CMP #$9000				;$80D9BD   |
-	BCC CODE_80D9D4				;$80D9C0   |
-CODE_80D9C2:					;	   |
+	BCC .CODE_80D9D4			;$80D9C0   |
+.CODE_80D9C2:					;	   |
 	LDA #$803C				;$80D9C2   |
-	BRA CODE_80D9D4				;$80D9C5  /
+	BRA .CODE_80D9D4			;$80D9C5  /
 
-CODE_80D9C7:
+.CODE_80D9C7:
 	LDA water_current_y_velocity		;$80D9C7  \
-	BPL CODE_80D9D1				;$80D9CA   |
+	BPL .CODE_80D9D1			;$80D9CA   |
 	CMP #$9000				;$80D9CC   |
-	BCC CODE_80D9D4				;$80D9CF   |
-CODE_80D9D1:					;	   |
+	BCC .CODE_80D9D4			;$80D9CF   |
+.CODE_80D9D1:					;	   |
 	LDA #$8098				;$80D9D1   |
-CODE_80D9D4:					;	   |
+.CODE_80D9D4:					;	   |
 	DEC A					;$80D9D4   |
-	BPL CODE_80D9E4				;$80D9D5   |
+	BPL .CODE_80D9E4			;$80D9D5   |
 	STA water_current_y_velocity		;$80D9D7   |
 	CMP #$8078				;$80D9DA   |
-	BCC CODE_80D9B2				;$80D9DD   |
+	BCC .return				;$80D9DD   |
 	LDA #$0100				;$80D9DF   |
-	BRA CODE_80D9FB				;$80D9E2  /
+	BRA .CODE_80D9FB			;$80D9E2  /
 
-CODE_80D9E4:
+.CODE_80D9E4:
 	STZ water_current_y_velocity		;$80D9E4  \
 	RTS					;$80D9E7  /
 
-CODE_80D9E8:
+.CODE_80D9E8:
 	LDA $0D52				;$80D9E8  \
 	STA $0D54				;$80D9EB   |
 	STA $0AFE				;$80D9EE   |
@@ -9737,16 +9777,16 @@ CODE_80D9E8:
 	STZ $0D4C				;$80D9F7   |
 	RTS					;$80D9FA  /
 
-CODE_80D9FB:
+.CODE_80D9FB:
 	SEP #$20				;$80D9FB  \
 	CLC					;$80D9FD   |
 	ADC $0D4D				;$80D9FE   |
 	STA $0D4D				;$80DA01   |
 	LDX #$0000				;$80DA04   |
 	XBA					;$80DA07   |
-	BPL CODE_80DA0B				;$80DA08   |
+	BPL .CODE_80DA0B			;$80DA08   |
 	DEX					;$80DA0A   |
-CODE_80DA0B:					;	   |
+.CODE_80DA0B:					;	   |
 	ADC $0D54				;$80DA0B   |
 	STA $0D54				;$80DA0E   |
 	TXA					;$80DA11   |
@@ -9757,9 +9797,9 @@ CODE_80DA0B:					;	   |
 	STA $0AFE				;$80DA1D   |
 	RTS					;$80DA20  /
 
-CODE_80DA21:
-	JSR CODE_808988				;$80DA21  \
-	BNE CODE_80DA42				;$80DA24   |
+haunted_tileset_logic:
+	JSR input_and_pause_handler		;$80DA21  \
+	BNE .paused				;$80DA24   |
 	JSL sprite_loader			;$80DA26   |
 	JSL sprite_handler			;$80DA2A   |
 	JSL camera_handler			;$80DA2E   |
@@ -9767,16 +9807,16 @@ CODE_80DA21:
 	JSR render_sprites			;$80DA36   |
 	JSR set_unused_oam_offscreen		;$80DA39   |
 	JSR fade_screen				;$80DA3C   |
-	JMP CODE_808CA2				;$80DA3F  /
+	JMP tileset_logic_return		;$80DA3F  /
 
-CODE_80DA42:
-	JMP CODE_80D45D				;$80DA42  /
+.paused:
+	JMP paused_tileset_logic		;$80DA42  /
 
-CODE_80DA45:
-	JSR CODE_80E63D				;$80DA45  \
-	JSR CODE_808988				;$80DA48   |
-	BNE CODE_80DA73				;$80DA4B   |
-	JSR CODE_80D4FA				;$80DA4D   |
+ship_mast_water_tileset_logic:
+	JSR handle_water_scroll_hop		;$80DA45  \
+	JSR input_and_pause_handler		;$80DA48   |
+	BNE .paused				;$80DA4B   |
+	JSR handle_water_velocities		;$80DA4D   |
 	JSL sprite_loader			;$80DA50   |
 	JSL sprite_handler			;$80DA54   |
 	JSL camera_handler			;$80DA58   |
@@ -9784,16 +9824,16 @@ CODE_80DA45:
 	JSR render_sprites			;$80DA60   |
 	JSL CODE_BEC9C0				;$80DA63   |
 	JSR set_unused_oam_offscreen		;$80DA67   |
-	JSR CODE_80D4B7				;$80DA6A   |
+	JSR handle_kong_water_splash		;$80DA6A   |
 	JSR fade_screen				;$80DA6D   |
-	JMP CODE_808CA2				;$80DA70  /
+	JMP tileset_logic_return		;$80DA70  /
 
-CODE_80DA73:
-	JMP CODE_80D45D				;$80DA73  /
+.paused:
+	JMP paused_tileset_logic		;$80DA73  /
 
-CODE_80DA76:
-	JSR CODE_808988				;$80DA76  \
-	BNE CODE_80DA97				;$80DA79   |
+krool_duel_tileset_logic:
+	JSR input_and_pause_handler		;$80DA76  \
+	BNE .paused				;$80DA79   |
 	JSL sprite_loader			;$80DA7B   |
 	JSL sprite_handler			;$80DA7F   |
 	JSL camera_handler			;$80DA83   |
@@ -9801,63 +9841,63 @@ CODE_80DA76:
 	JSR render_sprites			;$80DA8B   |
 	JSR set_unused_oam_offscreen		;$80DA8E   |
 	JSR fade_screen				;$80DA91   |
-	JMP CODE_808CA2				;$80DA94  /
+	JMP tileset_logic_return		;$80DA94  /
 
-CODE_80DA97:
-	JMP CODE_80D45D				;$80DA97  /
+.paused:
+	JMP paused_tileset_logic		;$80DA97  /
 
-CODE_80DA9A:
-	JSR CODE_808988				;$80DA9A  \
+ship_deck_sunset_tileset_logic:
+	JSR input_and_pause_handler		;$80DA9A  \
 	BNE CODE_80DAC8				;$80DA9D   |
 	JSL sprite_loader			;$80DA9F   |
 	JSL sprite_handler			;$80DAA3   |
 	JSL camera_handler			;$80DAA7   |
-	JSR CODE_80E52B				;$80DAAB   |
+	JSR handle_ship_deck_rigging_scroll	;$80DAAB   |
 	JSL CODE_B5B9BB				;$80DAAE   |
 	JSL horizontal_level_scroll_handler	;$80DAB2   |
 	JSR render_sprites			;$80DAB6   |
 	JSR set_unused_oam_offscreen		;$80DAB9   |
-	JSR CODE_80E580				;$80DABC   |
-	JSR CODE_80DD67				;$80DABF   |
+	JSR handle_ship_deck_water_sky_scroll	;$80DABC   |
+	JSR handle_ship_deck_sunset		;$80DABF   |
 	JSR fade_screen				;$80DAC2   |
-	JMP CODE_808CA2				;$80DAC5  /
+	JMP tileset_logic_return		;$80DAC5  /
 
 CODE_80DAC8:
-	JMP CODE_80D45D				;$80DAC8  /
+	JMP paused_tileset_logic		;$80DAC8  /
 
-CODE_80DACB:
-	JSR CODE_80E63D				;$80DACB  \
-	JSR CODE_808988				;$80DACE   |
+ice_water_tileset_logic:
+	JSR handle_water_scroll_hop		;$80DACB  \
+	JSR input_and_pause_handler		;$80DACE   |
 	BNE CODE_80DAC8				;$80DAD1   |
-	JSR CODE_80D4FA				;$80DAD3   |
+	JSR handle_water_velocities		;$80DAD3   |
 	JSL sprite_loader			;$80DAD6   |
 	JSL sprite_handler			;$80DADA   |
 	JSL camera_handler			;$80DADE   |
 	LDA $0AB4				;$80DAE2   |
 	AND #$000F				;$80DAE5   |
 	CMP #$0005				;$80DAE8   |
-	BEQ CODE_80DAF3				;$80DAEB   |
+	BEQ .CODE_80DAF3			;$80DAEB   |
 	JSL square_level_scroll_handler		;$80DAED   |
-	BRA CODE_80DAF7				;$80DAF1  /
+	BRA .CODE_80DAF7			;$80DAF1  /
 
-CODE_80DAF3:
+.CODE_80DAF3:
 	JSL CODE_B5B317				;$80DAF3  \
-CODE_80DAF7:					;	   |
+.CODE_80DAF7:					;	   |
 	JSR render_sprites			;$80DAF7   |
 	JSL CODE_BEC9C0				;$80DAFA   |
 	JSR set_unused_oam_offscreen		;$80DAFE   |
 	LDA $0915				;$80DB01   |
-	BNE CODE_80DB09				;$80DB04   |
-	JSR CODE_80D4B7				;$80DB06   |
-CODE_80DB09:					;	   |
+	BNE .CODE_80DB09			;$80DB04   |
+	JSR handle_kong_water_splash		;$80DB06   |
+.CODE_80DB09:					;	   |
 	JSR fade_screen				;$80DB09   |
-	JMP CODE_808CA2				;$80DB0C  /
+	JMP tileset_logic_return		;$80DB0C  /
 
-	JMP CODE_80D45D				;$80DB0F  /
+	JMP paused_tileset_logic		;$80DB0F  /
 
-CODE_80DB12:
-	JSR CODE_808988				;$80DB12  \
-	BNE CODE_80DB33				;$80DB15   |
+jungle_tileset_logic:
+	JSR input_and_pause_handler		;$80DB12  \
+	BNE .paused				;$80DB15   |
 	JSL sprite_loader			;$80DB17   |
 	JSL sprite_handler			;$80DB1B   |
 	JSL camera_handler			;$80DB1F   |
@@ -9865,13 +9905,13 @@ CODE_80DB12:
 	JSR render_sprites			;$80DB27   |
 	JSR set_unused_oam_offscreen		;$80DB2A   |
 	JSR fade_screen				;$80DB2D   |
-	JMP CODE_808CA2				;$80DB30  /
+	JMP tileset_logic_return		;$80DB30  /
 
-CODE_80DB33:
-	JMP CODE_80D45D				;$80DB33  /
+.paused:
+	JMP paused_tileset_logic		;$80DB33  /
 
-CODE_80DB36:
-	JSR CODE_808988				;$80DB36  \
+ice_transparent_tileset_logic:
+	JSR input_and_pause_handler		;$80DB36  \
 	BNE CODE_80DAC8				;$80DB39   |
 	JSL sprite_loader			;$80DB3B   |
 	JSL sprite_handler			;$80DB3F   |
@@ -9879,25 +9919,25 @@ CODE_80DB36:
 	LDA $0AB4				;$80DB47   |
 	AND #$000F				;$80DB4A   |
 	CMP #$0005				;$80DB4D   |
-	BEQ CODE_80DB58				;$80DB50   |
+	BEQ .CODE_80DB58			;$80DB50   |
 	JSL square_level_scroll_handler		;$80DB52   |
-	BRA CODE_80DB5C				;$80DB56  /
+	BRA .CODE_80DB5C			;$80DB56  /
 
-CODE_80DB58:
+.CODE_80DB58:
 	JSL CODE_B5B317				;$80DB58  \
-CODE_80DB5C:					;	   |
+.CODE_80DB5C:					;	   |
 	JSR render_sprites			;$80DB5C   |
 	JSR set_unused_oam_offscreen		;$80DB5F   |
 	JSR fade_screen				;$80DB62   |
-	JMP CODE_808CA2				;$80DB65  /
+	JMP tileset_logic_return		;$80DB65  /
 
-	JMP CODE_80D45D				;$80DB68  /
+	JMP paused_tileset_logic		;$80DB68  /
 
-CODE_80DB6B:
-	JSR CODE_80E646				;$80DB6B  \
-	JSR CODE_808988				;$80DB6E   |
-	BNE CODE_80DB96				;$80DB71   |
-	JSR CODE_80D4FA				;$80DB73   |
+castle_toxic_tileset_logic:
+	JSR handle_water_and_3D_bg_scroll	;$80DB6B  \
+	JSR input_and_pause_handler		;$80DB6E   |
+	BNE .paused				;$80DB71   |
+	JSR handle_water_velocities		;$80DB73   |
 	JSL sprite_loader			;$80DB76   |
 	JSL sprite_handler			;$80DB7A   |
 	JSL camera_handler			;$80DB7E   |
@@ -9906,38 +9946,38 @@ CODE_80DB6B:
 	JSL CODE_BEC9C0				;$80DB89   |
 	JSR set_unused_oam_offscreen		;$80DB8D   |
 	JSR fade_screen				;$80DB90   |
-	JMP CODE_808CA2				;$80DB93  /
+	JMP tileset_logic_return		;$80DB93  /
 
-CODE_80DB96:
-	JMP CODE_80D45D				;$80DB96  /
+.paused:
+	JMP paused_tileset_logic		;$80DB96  /
 
-CODE_80DB99:
-	JSR CODE_808988				;$80DB99  \
-	BNE CODE_80DBCB				;$80DB9C   |
+brambles_windy_tileset_logic:
+	JSR input_and_pause_handler		;$80DB99  \
+	BNE .paused				;$80DB9C   |
 	JSL sprite_loader			;$80DB9E   |
 	JSR wind_force_handler			;$80DBA2   |
 	JSL sprite_handler			;$80DBA5   |
 	JSL camera_handler			;$80DBA9   |
 	LDA $0AB4				;$80DBAD   |
 	CMP #$0006				;$80DBB0   |
-	BNE CODE_80DBBB				;$80DBB3   |
+	BNE .CODE_80DBBB			;$80DBB3   |
 	JSL CODE_B5B77D				;$80DBB5   |
-	BRA CODE_80DBBF				;$80DBB9  /
+	BRA .CODE_80DBBF			;$80DBB9  /
 
-CODE_80DBBB:
+.CODE_80DBBB:
 	JSL square_level_scroll_handler		;$80DBBB  \
-CODE_80DBBF:					;	   |
+.CODE_80DBBF:					;	   |
 	JSR render_sprites			;$80DBBF   |
 	JSR set_unused_oam_offscreen		;$80DBC2   |
 	JSR fade_screen				;$80DBC5   |
-	JMP CODE_808CA2				;$80DBC8  /
+	JMP tileset_logic_return		;$80DBC8  /
 
-CODE_80DBCB:
-	JMP CODE_80D45D				;$80DBCB  /
+.paused:
+	JMP paused_tileset_logic		;$80DBCB  /
 
-CODE_80DBCE:
-	JSR CODE_808988				;$80DBCE  \
-	BNE CODE_80DBEF				;$80DBD1   |
+mine_windy_tileset_logic:
+	JSR input_and_pause_handler		;$80DBCE  \
+	BNE .paused				;$80DBD1   |
 	JSL sprite_loader			;$80DBD3   |
 	JSL sprite_handler			;$80DBD7   |
 	JSL camera_handler			;$80DBDB   |
@@ -9945,12 +9985,12 @@ CODE_80DBCE:
 	JSR render_sprites			;$80DBE3   |
 	JSR set_unused_oam_offscreen		;$80DBE6   |
 	JSR fade_screen				;$80DBE9   |
-	JMP CODE_808CA2				;$80DBEC  /
+	JMP tileset_logic_return		;$80DBEC  /
 
-CODE_80DBEF:
-	JMP CODE_80D45D				;$80DBEF  /
+.paused:
+	JMP paused_tileset_logic		;$80DBEF  /
 
-CODE_80DBF2:
+handle_forest_mist_scroll:
 	LDA $17C0				;$80DBF2  \
 	CLC					;$80DBF5   |
 	ADC active_frame_counter		;$80DBF6   |
@@ -9982,9 +10022,9 @@ CODE_80DBF2:
 	PLB					;$80DC2A   |
 	LDA active_frame_counter		;$80DC2B   |
 	BIT #$0001				;$80DC2D   |
-	BEQ CODE_80DC67				;$80DC30   |
+	BEQ .CODE_80DC67			;$80DC30   |
 	LDY #$0000				;$80DC32   |
-CODE_80DC35:					;	   |
+.CODE_80DC35:					;	   |
 	LDA.w DATA_B3F4D8,y			;$80DC35   |
 	CMP #$8000				;$80DC38   |
 	ROR A					;$80DC3B   |
@@ -10007,12 +10047,12 @@ CODE_80DC35:					;	   |
 	ADC #$0020				;$80DC5C   |
 	TAY					;$80DC5F   |
 	CMP #$0200				;$80DC60   |
-	BNE CODE_80DC35				;$80DC63   |
-	BRA CODE_80DC9A				;$80DC65  /
+	BNE .CODE_80DC35			;$80DC63   |
+	BRA .CODE_80DC9A			;$80DC65  /
 
-CODE_80DC67:
+.CODE_80DC67:
 	LDY #$0000				;$80DC67  \
-CODE_80DC6A:					;	   |
+.CODE_80DC6A:					;	   |
 	LDA.w DATA_B3F4D8,y			;$80DC6A   |
 	CMP #$8000				;$80DC6D   |
 	ROR A					;$80DC70   |
@@ -10035,8 +10075,8 @@ CODE_80DC6A:					;	   |
 	ADC #$0020				;$80DC91   |
 	TAY					;$80DC94   |
 	CMP #$0200				;$80DC95   |
-	BNE CODE_80DC6A				;$80DC98   |
-CODE_80DC9A:					;	   |
+	BNE .CODE_80DC6A			;$80DC98   |
+.CODE_80DC9A:					;	   |
 	LDA active_frame_counter		;$80DC9A   |
 	LSR A					;$80DC9C   |
 	LSR A					;$80DC9D   |
@@ -10052,9 +10092,9 @@ CODE_80DC9A:					;	   |
 	TAX					;$80DCAE   |
 	LDA active_frame_counter		;$80DCAF   |
 	BIT #$0001				;$80DCB1   |
-	BEQ CODE_80DCEF				;$80DCB4   |
+	BEQ .CODE_80DCEF			;$80DCB4   |
 	LDY #$0000				;$80DCB6   |
-CODE_80DCB9:					;	   |
+.CODE_80DCB9:					;	   |
 	LDA.w DATA_B3F4D8,y			;$80DCB9   |
 	CMP #$8000				;$80DCBC   |
 	ROR A					;$80DCBF   |
@@ -10079,13 +10119,13 @@ CODE_80DCB9:					;	   |
 	ADC #$0010				;$80DCE4   |
 	TAY					;$80DCE7   |
 	CMP #$0200				;$80DCE8   |
-	BNE CODE_80DCB9				;$80DCEB   |
+	BNE .CODE_80DCB9			;$80DCEB   |
 	PLB					;$80DCED   |
 	RTS					;$80DCEE  /
 
-CODE_80DCEF:
+.CODE_80DCEF:
 	LDY #$0000				;$80DCEF  \
-CODE_80DCF2:					;	   |
+.CODE_80DCF2:					;	   |
 	LDA.w DATA_B3F4D8,y			;$80DCF2   |
 	CMP #$8000				;$80DCF5   |
 	ROR A					;$80DCF8   |
@@ -10110,7 +10150,7 @@ CODE_80DCF2:					;	   |
 	ADC #$0010				;$80DD1D   |
 	TAY					;$80DD20   |
 	CMP #$0200				;$80DD21   |
-	BNE CODE_80DCF2				;$80DD24   |
+	BNE .CODE_80DCF2			;$80DD24   |
 	PLB					;$80DD26   |
 	RTS					;$80DD27  /
 
@@ -10134,57 +10174,57 @@ CODE_80DD32:
 	PLA					;$80DD3A   |
 	RTS					;$80DD3B  /
 
-CODE_80DD3C:
-	JSR CODE_808988				;$80DD3C  \
-	BNE CODE_80DD60				;$80DD3F   |
+forest_misty_tileset_logic:
+	JSR input_and_pause_handler		;$80DD3C  \
+	BNE .paused				;$80DD3F   |
 	JSL sprite_loader			;$80DD41   |
 	JSL sprite_handler			;$80DD45   |
 	JSL camera_handler			;$80DD49   |
-	JSR CODE_80DBF2				;$80DD4D   |
+	JSR handle_forest_mist_scroll		;$80DD4D   |
 	JSL horizontal_level_scroll_handler	;$80DD50   |
 	JSR render_sprites			;$80DD54   |
 	JSR set_unused_oam_offscreen		;$80DD57   |
 	JSR fade_screen				;$80DD5A   |
-	JMP CODE_808CA2				;$80DD5D  /
+	JMP tileset_logic_return		;$80DD5D  /
 
-CODE_80DD60:
-	JMP CODE_80D45D				;$80DD60  /
+.paused:
+	JMP paused_tileset_logic		;$80DD60  /
 
-CODE_80DD63:
-	JSR CODE_80DD67				;$80DD63  \
+handle_ship_deck_sunset_global:
+	JSR handle_ship_deck_sunset		;$80DD63  \
 	RTL					;$80DD66  /
 
-CODE_80DD67:
+handle_ship_deck_sunset:
 	LDA $17BA				;$80DD67  \
 	AND #$FFFE				;$80DD6A   |
 	SEC					;$80DD6D   |
 	SBC $0911				;$80DD6E   |
-	BMI CODE_80DD75				;$80DD71   |
-	BNE CODE_80DD76				;$80DD73   |
-CODE_80DD75:					;	   |
+	BMI .return				;$80DD71   |
+	BNE .CODE_80DD76			;$80DD73   |
+.return:					;	   |
 	RTS					;$80DD75  /
 
-CODE_80DD76:
+.CODE_80DD76:
 	LDA $17BA				;$80DD76  \
 	EOR $0911				;$80DD79   |
 	BIT #$FF00				;$80DD7C   |
-	BEQ CODE_80DD90				;$80DD7F   |
+	BEQ .CODE_80DD90			;$80DD7F   |
 	INC $0913				;$80DD81   |
 	LDA $0911				;$80DD84   |
 	AND #$FF00				;$80DD87   |
 	CLC					;$80DD8A   |
 	ADC #$0100				;$80DD8B   |
-	BRA CODE_80DD96				;$80DD8E  /
+	BRA .CODE_80DD96			;$80DD8E  /
 
-CODE_80DD90:
+.CODE_80DD90:
 	LDA $17BA				;$80DD90  \
 	AND #$FFFE				;$80DD93   |
-CODE_80DD96:					;	   |
+.CODE_80DD96:					;	   |
 	STA $32					;$80DD96   |
 	AND #$00FE				;$80DD98   |
-	BNE CODE_80DDA0				;$80DD9B   |
+	BNE .CODE_80DDA0			;$80DD9B   |
 	LDA #$0100				;$80DD9D   |
-CODE_80DDA0:					;	   |
+.CODE_80DDA0:					;	   |
 	STA $36					;$80DDA0   |
 	LDA $0911				;$80DDA2   |
 	AND #$00FE				;$80DDA5   |
@@ -10196,7 +10236,7 @@ CODE_80DDA0:					;	   |
 	TAX					;$80DDAF   |
 	%pea_use_dbr(working_palette)		;$80DDB0   |
 	PLB					;$80DDB3   |
-CODE_80DDB4:					;	   |
+.CODE_80DDB4:					;	   |
 	LDA working_palette,x			;$80DDB4   |
 	SEC					;$80DDB8   |
 	SBC.l DATA_FD364E,x			;$80DDB9   |
@@ -10224,28 +10264,28 @@ CODE_80DDB4:					;	   |
 	ADC #$0006				;$80DDF2   |
 	TAX					;$80DDF5   |
 	CPY $36					;$80DDF6   |
-	BNE CODE_80DDB4				;$80DDF8   |
+	BNE .CODE_80DDB4			;$80DDF8   |
 	PLB					;$80DDFA   |
 	LDA $32					;$80DDFB   |
 	STA $0911				;$80DDFD   |
 	RTS					;$80DE00  /
 
-CODE_80DE01:
+handle_lava_geyser_positioning:
 	LDX #$0006				;$80DE01  \
-CODE_80DE04:					;	   |
+.CODE_80DE04:					;	   |
 	LDA $095B,x				;$80DE04   |
 	BIT #$4000				;$80DE07   |
-	BEQ CODE_80DE12				;$80DE0A   |
+	BEQ .CODE_80DE12			;$80DE0A   |
 	STZ $095B,x				;$80DE0C   |
 	STZ $0963,x				;$80DE0F   |
-CODE_80DE12:					;	   |
+.CODE_80DE12:					;	   |
 	DEX					;$80DE12   |
 	DEX					;$80DE13   |
-	BPL CODE_80DE04				;$80DE14   |
+	BPL .CODE_80DE04			;$80DE14   |
 	LDY #$0006				;$80DE16   |
-CODE_80DE19:					;	   |
+.CODE_80DE19:					;	   |
 	LDA $0963,y				;$80DE19   |
-	BEQ CODE_80DE39				;$80DE1C   |
+	BEQ .CODE_80DE39			;$80DE1C   |
 	TAX					;$80DE1E   |
 	LDA.l DATA_B3D691,x			;$80DE1F   |
 	SEC					;$80DE23   |
@@ -10253,51 +10293,51 @@ CODE_80DE19:					;	   |
 	CLC					;$80DE27   |
 	ADC #$000C				;$80DE28   |
 	CMP #$0118				;$80DE2B   |
-	BCC CODE_80DE39				;$80DE2E   |
+	BCC .CODE_80DE39			;$80DE2E   |
 	LDA #$4000				;$80DE30   |
 	ORA $095B,y				;$80DE33   |
 	STA $095B,y				;$80DE36   |
-CODE_80DE39:					;	   |
+.CODE_80DE39:					;	   |
 	DEY					;$80DE39   |
 	DEY					;$80DE3A   |
-	BPL CODE_80DE19				;$80DE3B   |
+	BPL .CODE_80DE19			;$80DE3B   |
 	LDA $17BA				;$80DE3D   |
 	SEC					;$80DE40   |
 	SBC #$000A				;$80DE41   |
 	STA $32					;$80DE44   |
 	LDX $0959				;$80DE46   |
-CODE_80DE49:					;	   |
+.CODE_80DE49:					;	   |
 	LDA.l DATA_B3D691,x			;$80DE49   |
-	BMI CODE_80DE9F				;$80DE4D   |
+	BMI .CODE_80DE9F			;$80DE4D   |
 	AND #$FFFE				;$80DE4F   |
 	CMP $32					;$80DE52   |
-	BCS CODE_80DE5A				;$80DE54   |
-CODE_80DE56:					;	   |
+	BCS .CODE_80DE5A			;$80DE54   |
+.CODE_80DE56:					;	   |
 	INX					;$80DE56   |
 	INX					;$80DE57   |
-	BRA CODE_80DE49				;$80DE58  /
+	BRA .CODE_80DE49			;$80DE58  /
 
-CODE_80DE5A:
+.CODE_80DE5A:
 	SEC					;$80DE5A  \
 	SBC $32					;$80DE5B   |
 	CMP #$0114				;$80DE5D   |
-	BCS CODE_80DE9F				;$80DE60   |
+	BCS .CODE_80DE9F			;$80DE60   |
 	LDY #$0006				;$80DE62   |
 	TXA					;$80DE65   |
-CODE_80DE66:					;	   |
+.CODE_80DE66:					;	   |
 	CMP $0963,y				;$80DE66   |
-	BEQ CODE_80DE56				;$80DE69   |
+	BEQ .CODE_80DE56			;$80DE69   |
 	DEY					;$80DE6B   |
 	DEY					;$80DE6C   |
-	BPL CODE_80DE66				;$80DE6D   |
+	BPL .CODE_80DE66			;$80DE6D   |
 	LDY #$0006				;$80DE6F   |
-CODE_80DE72:					;	   |
+.CODE_80DE72:					;	   |
 	LDA $0963,y				;$80DE72   |
-	BEQ CODE_80DE7B				;$80DE75   |
+	BEQ .CODE_80DE7B			;$80DE75   |
 	DEY					;$80DE77   |
 	DEY					;$80DE78   |
-	BPL CODE_80DE72				;$80DE79   |
-CODE_80DE7B:					;	   |
+	BPL .CODE_80DE72			;$80DE79   |
+.CODE_80DE7B:					;	   |
 	TXA					;$80DE7B   |
 	STA $0963,y				;$80DE7C   |
 	LDA.l DATA_B3D691,x			;$80DE7F   |
@@ -10312,94 +10352,94 @@ CODE_80DE7B:					;	   |
 	CLC					;$80DE91   |
 	ADC #$01C0				;$80DE92   |
 	PLP					;$80DE95   |
-	BEQ CODE_80DE9C				;$80DE96   |
+	BEQ .CODE_80DE9C			;$80DE96   |
 	CLC					;$80DE98   |
 	ADC #$7F00				;$80DE99   |
-CODE_80DE9C:					;	   |
+.CODE_80DE9C:					;	   |
 	STA $095B,y				;$80DE9C   |
-CODE_80DE9F:					;	   |
+.CODE_80DE9F:					;	   |
 	LDY #$0006				;$80DE9F   |
-CODE_80DEA2:					;	   |
+.CODE_80DEA2:					;	   |
 	LDA $095B,y				;$80DEA2   |
 	BIT #$4000				;$80DEA5   |
-	BEQ CODE_80DEC8				;$80DEA8   |
+	BEQ .CODE_80DEC8			;$80DEA8   |
 	EOR #$4000				;$80DEAA   |
 	STY $32					;$80DEAD   |
 	LDX #$0006				;$80DEAF   |
-CODE_80DEB2:					;	   |
+.CODE_80DEB2:					;	   |
 	CPX $32					;$80DEB2   |
-	BEQ CODE_80DEC4				;$80DEB4   |
+	BEQ .CODE_80DEC4			;$80DEB4   |
 	CMP $095B,x				;$80DEB6   |
-	BNE CODE_80DEC4				;$80DEB9   |
+	BNE .CODE_80DEC4			;$80DEB9   |
 	LDA #$0000				;$80DEBB   |
 	STA $095B,y				;$80DEBE   |
 	STA $0963,y				;$80DEC1   |
-CODE_80DEC4:					;	   |
+.CODE_80DEC4:					;	   |
 	DEX					;$80DEC4   |
 	DEX					;$80DEC5   |
-	BPL CODE_80DEB2				;$80DEC6   |
-CODE_80DEC8:					;	   |
+	BPL .CODE_80DEB2			;$80DEC6   |
+.CODE_80DEC8:					;	   |
 	DEY					;$80DEC8   |
 	DEY					;$80DEC9   |
-	BPL CODE_80DEA2				;$80DECA   |
+	BPL .CODE_80DEA2			;$80DECA   |
 	LDA #$FF00				;$80DECC   |
 	STA $84					;$80DECF   |
 	LDY #$0006				;$80DED1   |
-CODE_80DED4:					;	   |
+.CODE_80DED4:					;	   |
 	LDA $0963,y				;$80DED4   |
-	BEQ CODE_80DF2F				;$80DED7   |
+	BEQ .CODE_80DF2F			;$80DED7   |
 	TAX					;$80DED9   |
 	LDA.l DATA_B3D691,x			;$80DEDA   |
 	SEC					;$80DEDE   |
 	SBC $17BA				;$80DEDF   |
 	SEC					;$80DEE2   |
 	SBC #$000C				;$80DEE3   |
-	BMI CODE_80DF0F				;$80DEE6   |
+	BMI .CODE_80DF0F			;$80DEE6   |
 	CMP #$00E8				;$80DEE8   |
-	BCC CODE_80DF2F				;$80DEEB   |
+	BCC .CODE_80DF2F			;$80DEEB   |
 	LDA.l DATA_B3D691,x			;$80DEED   |
 	SEC					;$80DEF1   |
 	SBC #$0100				;$80DEF2   |
 	STA $32					;$80DEF5   |
-CODE_80DEF7:					;	   |
+.CODE_80DEF7:					;	   |
 	DEX					;$80DEF7   |
 	DEX					;$80DEF8   |
 	LDA.l DATA_B3D691,x			;$80DEF9   |
-	BEQ CODE_80DF05				;$80DEFD   |
+	BEQ .CODE_80DF05			;$80DEFD   |
 	CMP $32					;$80DEFF   |
-	BEQ CODE_80DF2F				;$80DF01   |
-	BRA CODE_80DEF7				;$80DF03  /
+	BEQ .CODE_80DF2F			;$80DF01   |
+	BRA .CODE_80DEF7			;$80DF03  /
 
-CODE_80DF05:
+.CODE_80DF05:
 	SEP #$20				;$80DF05  \
 	LDA #$18				;$80DF07   |
 	STA $84					;$80DF09   |
 	REP #$20				;$80DF0B   |
-	BRA CODE_80DF2F				;$80DF0D  /
+	BRA .CODE_80DF2F			;$80DF0D  /
 
-CODE_80DF0F:
+.CODE_80DF0F:
 	LDA.l DATA_B3D691,x			;$80DF0F  \
 	CLC					;$80DF13   |
 	ADC #$0100				;$80DF14   |
 	STA $32					;$80DF17   |
-CODE_80DF19:					;	   |
+.CODE_80DF19:					;	   |
 	INX					;$80DF19   |
 	INX					;$80DF1A   |
 	LDA.l DATA_B3D691,x			;$80DF1B   |
-	BMI CODE_80DF27				;$80DF1F   |
+	BMI .CODE_80DF27			;$80DF1F   |
 	CMP $32					;$80DF21   |
-	BEQ CODE_80DF2F				;$80DF23   |
-	BRA CODE_80DF19				;$80DF25  /
+	BEQ .CODE_80DF2F			;$80DF23   |
+	BRA .CODE_80DF19			;$80DF25  /
 
-CODE_80DF27:
+.CODE_80DF27:
 	SEP #$20				;$80DF27  \
 	LDA #$E8				;$80DF29   |
 	STA $85					;$80DF2B   |
 	REP #$20				;$80DF2D   |
-CODE_80DF2F:					;	   |
+.CODE_80DF2F:					;	   |
 	DEY					;$80DF2F   |
 	DEY					;$80DF30   |
-	BPL CODE_80DED4				;$80DF31   |
+	BPL .CODE_80DED4			;$80DF31   |
 	RTS					;$80DF33  /
 
 DATA_80DF34:
@@ -10429,9 +10469,9 @@ DATA_80DF34:
 	dw $FFFC, $FFF6
 	dw $FFF8, $FFF6
 
-CODE_80DF94:
-	LDY $0989				;$80DF94  \
-	BNE CODE_80DFB6				;$80DF97   |
+handle_glimmer_light:
+	LDY $0989				;$80DF94  \ Get index of glimmer sprite
+	BNE .CODE_80DFB6			;$80DF97   |
 	LDA active_frame_counter		;$80DF99   |
 	AND #$0001				;$80DF9B   |
 	XBA					;$80DF9E   |
@@ -10444,15 +10484,15 @@ CODE_80DF94:
 	STA $7E80F5,x				;$80DFB1   |
 	RTS					;$80DFB5  /
 
-CODE_80DFB6:
+.CODE_80DFB6:
 	STZ $56					;$80DFB6  \
 	LDA #DATA_80E175			;$80DFB8   |
 	STA $3E					;$80DFBB   |
 	LDA #DATA_80E1F4			;$80DFBD   |
 	STA $40					;$80DFC0   |
 	LDA $001A,y				;$80DFC2   |
-	CMP #$1C1C				;$80DFC5   |
-	BNE CODE_80DFE7				;$80DFC8   |
+	CMP #$1C1C				;$80DFC5   | Check if glimmer is in its last turning frame
+	BNE .CODE_80DFE7			;$80DFC8   |
 	LDA active_frame_counter		;$80DFCA   |
 	AND #$0001				;$80DFCC   |
 	XBA					;$80DFCF   |
@@ -10465,57 +10505,57 @@ CODE_80DFB6:
 	STA $7E80F5,x				;$80DFE2   |
 	RTS					;$80DFE6  /
 
-CODE_80DFE7:
+.CODE_80DFE7:
 	SEC					;$80DFE7  \
 	SBC #$1C14				;$80DFE8   |
 	CMP #$0010				;$80DFEB   |
-	BCS CODE_80DFFC				;$80DFEE   |
+	BCS .CODE_80DFFC			;$80DFEE   |
 	LDA #DATA_80E273			;$80DFF0   |
 	STA $3E					;$80DFF3   |
 	LDA #DATA_80E372			;$80DFF5   |
 	STA $40					;$80DFF8   |
 	INC $56					;$80DFFA   |
-CODE_80DFFC:					;	   |
+.CODE_80DFFC:					;	   |
 	LDA $001A,y				;$80DFFC   |
 	SEC					;$80DFFF   |
 	SBC #$1BCC				;$80E000   |
 	TAX					;$80E003   |
 	LDA $0012,y				;$80E004   |
 	BIT #$4000				;$80E007   |
-	BEQ CODE_80E016				;$80E00A   |
+	BEQ .CODE_80E016			;$80E00A   |
 	LDA.l DATA_80DF34,x			;$80E00C   |
 	EOR #$FFFF				;$80E010   |
 	INC A					;$80E013   |
-	BRA CODE_80E01A				;$80E014  /
+	BRA .CODE_80E01A			;$80E014  /
 
-CODE_80E016:
+.CODE_80E016:
 	LDA.l DATA_80DF34,x			;$80E016  \
-CODE_80E01A:					;	   |
+.CODE_80E01A:					;	   |
 	CLC					;$80E01A   |
 	ADC $0006,y				;$80E01B   |
 	SEC					;$80E01E   |
 	SBC $17BA				;$80E01F   |
-	BPL CODE_80E027				;$80E022   |
+	BPL .CODE_80E027			;$80E022   |
 	LDA #$0000				;$80E024   |
-CODE_80E027:					;	   |
+.CODE_80E027:					;	   |
 	CMP #$00FE				;$80E027   |
-	BCC CODE_80E02F				;$80E02A   |
+	BCC .CODE_80E02F			;$80E02A   |
 	LDA #$00FF				;$80E02C   |
-CODE_80E02F:					;	   |
+.CODE_80E02F:					;	   |
 	STA $32					;$80E02F   |
 	LDA $001A,y				;$80E031   |
 	CMP #$1C1C				;$80E034   |
-	BCC CODE_80E043				;$80E037   |
+	BCC .CODE_80E043			;$80E037   |
 	LDA $0012,y				;$80E039   |
 	BIT #$4000				;$80E03C   |
-	BNE CODE_80E05C				;$80E03F   |
-	BRA CODE_80E04B				;$80E041  /
+	BNE .CODE_80E05C			;$80E03F   |
+	BRA .CODE_80E04B			;$80E041  /
 
-CODE_80E043:
+.CODE_80E043:
 	LDA $0012,y				;$80E043  \
 	BIT #$4000				;$80E046   |
-	BEQ CODE_80E05C				;$80E049   |
-CODE_80E04B:					;	   |
+	BEQ .CODE_80E05C			;$80E049   |
+.CODE_80E04B:					;	   |
 	LDA $3E					;$80E04B   |
 	PHA					;$80E04D   |
 	LDA $40					;$80E04E   |
@@ -10525,19 +10565,19 @@ CODE_80E04B:					;	   |
 	LDA $32					;$80E055   |
 	EOR #$00FF				;$80E057   |
 	STA $32					;$80E05A   |
-CODE_80E05C:					;	   |
+.CODE_80E05C:					;	   |
 	LDA $000A,y				;$80E05C   |
 	SEC					;$80E05F   |
 	SBC $17C0				;$80E060   |
 	CLC					;$80E063   |
 	ADC.l DATA_80DF36,x			;$80E064   |
-	BPL CODE_80E06D				;$80E068   |
+	BPL .CODE_80E06D			;$80E068   |
 	LDA #$0000				;$80E06A   |
-CODE_80E06D:					;	   |
+.CODE_80E06D:					;	   |
 	CMP #$00FC				;$80E06D   |
-	BCC CODE_80E075				;$80E070   |
+	BCC .CODE_80E075			;$80E070   |
 	LDA #$00FC				;$80E072   |
-CODE_80E075:					;	   |
+.CODE_80E075:					;	   |
 	STA $34					;$80E075   |
 	LDA active_frame_counter		;$80E077   |
 	AND #$0001				;$80E079   |
@@ -10553,26 +10593,26 @@ CODE_80E075:					;	   |
 	SEC					;$80E08B   |
 	SBC #$00FF				;$80E08C   |
 	LDY $56					;$80E08F   |
-	BNE CODE_80E097				;$80E091   |
+	BNE .CODE_80E097			;$80E091   |
 	CMP #$8000				;$80E093   |
 	ROR A					;$80E096   |
-CODE_80E097:					;	   |
+.CODE_80E097:					;	   |
 	CLC					;$80E097   |
 	ADC $34					;$80E098   |
 	STA $36					;$80E09A   |
-	BEQ CODE_80E0A0				;$80E09C   |
-	BPL CODE_80E0A9				;$80E09E   |
-CODE_80E0A0:					;	   |
+	BEQ .CODE_80E0A0			;$80E09C   |
+	BPL .CODE_80E0A9			;$80E09E   |
+.CODE_80E0A0:					;	   |
 	STA $3A					;$80E0A0   |
 	LDA #$0000				;$80E0A2   |
 	STA $38					;$80E0A5   |
-	BRA CODE_80E0D7				;$80E0A7  /
+	BRA .CODE_80E0D7			;$80E0A7  /
 
-CODE_80E0A9:
+.CODE_80E0A9:
 	STA $38					;$80E0A9  \
 	STZ $3A					;$80E0AB   |
 	CMP #$0080				;$80E0AD   |
-	BCC CODE_80E0CA				;$80E0B0   |
+	BCC .CODE_80E0CA			;$80E0B0   |
 	STA $3C					;$80E0B2   |
 	LDA #$007F				;$80E0B4   |
 	STA $7E80F2,x				;$80E0B7   |
@@ -10584,21 +10624,21 @@ CODE_80E0A9:
 	LDA $3C					;$80E0C4   |
 	SEC					;$80E0C6   |
 	SBC #$007F				;$80E0C7   |
-CODE_80E0CA:					;	   |
+.CODE_80E0CA:					;	   |
 	STA $7E80F2,x				;$80E0CA   |
 	LDA $3E					;$80E0CE   |
 	STA $7E80F3,x				;$80E0D0   |
 	INX					;$80E0D4   |
 	INX					;$80E0D5   |
 	INX					;$80E0D6   |
-CODE_80E0D7:					;	   |
+.CODE_80E0D7:					;	   |
 	LDA $34					;$80E0D7   |
 	SEC					;$80E0D9   |
 	SBC $38					;$80E0DA   |
-	BEQ CODE_80E11D				;$80E0DC   |
+	BEQ .CODE_80E11D			;$80E0DC   |
 	STZ $54					;$80E0DE   |
 	LSR A					;$80E0E0   |
-	BEQ CODE_80E100				;$80E0E1   |
+	BEQ .CODE_80E100			;$80E0E1   |
 	PHP					;$80E0E3   |
 	PHA					;$80E0E4   |
 	STA $54					;$80E0E5   |
@@ -10615,7 +10655,7 @@ CODE_80E0D7:					;	   |
 	INX					;$80E0FD   |
 	PLA					;$80E0FE   |
 	PLP					;$80E0FF   |
-CODE_80E100:					;	   |
+.CODE_80E100:					;	   |
 	ADC #$0000				;$80E100   |
 	ORA #$0080				;$80E103   |
 	STA $7E80F2,x				;$80E106   |
@@ -10630,18 +10670,18 @@ CODE_80E100:					;	   |
 	INX					;$80E11A   |
 	INX					;$80E11B   |
 	INX					;$80E11C   |
-CODE_80E11D:					;	   |
+.CODE_80E11D:					;	   |
 	LDA $56					;$80E11D   |
-	BNE CODE_80E123				;$80E11F   |
+	BNE .CODE_80E123			;$80E11F   |
 	LSR $32					;$80E121   |
-CODE_80E123:					;	   |
+.CODE_80E123:					;	   |
 	LDA $34					;$80E123   |
 	SEC					;$80E125   |
 	SBC $36					;$80E126   |
 	CMP #$00FE				;$80E128   |
-	BCC CODE_80E130				;$80E12B   |
+	BCC .CODE_80E130			;$80E12B   |
 	LDA #$00FE				;$80E12D   |
-CODE_80E130:					;	   |
+.CODE_80E130:					;	   |
 	LSR A					;$80E130   |
 	PHP					;$80E131   |
 	PHA					;$80E132   |
@@ -10861,12 +10901,12 @@ fireworks_spawn_x_positions:
 	db $40, $F0, $B0, $60, $30, $80, $C0, $A0
 
 CODE_80E522:
-	JSR CODE_80E52B				;$80E522  \
+	JSR handle_ship_deck_rigging_scroll	;$80E522  \
 	LDA $17BC				;$80E525   |
 	STA $B8					;$80E528   |
 	RTL					;$80E52A  /
 
-CODE_80E52B:
+handle_ship_deck_rigging_scroll:
 	LDA $17BA				;$80E52B  \
 	LSR A					;$80E52E   |
 	LSR A					;$80E52F   |
@@ -10875,25 +10915,25 @@ CODE_80E52B:
 	TAY					;$80E534   |
 	SEC					;$80E535   |
 	SBC $17BC				;$80E536   |
-	BCS CODE_80E550				;$80E539   |
+	BCS .CODE_80E550			;$80E539   |
 	CMP #$FFF8				;$80E53B   |
-	BCS CODE_80E543				;$80E53E   |
+	BCS .CODE_80E543			;$80E53E   |
 	LDA #$FFF8				;$80E540   |
-CODE_80E543:					;	   |
+.CODE_80E543:					;	   |
 	CLC					;$80E543   |
 	ADC $B8					;$80E544   |
 	CMP #$FF00				;$80E546   |
-	BCC CODE_80E55A				;$80E549   |
+	BCC .CODE_80E55A			;$80E549   |
 	LDA #$0000				;$80E54B   |
-	BRA CODE_80E55A				;$80E54E  /
+	BRA .CODE_80E55A			;$80E54E  /
 
-CODE_80E550:
+.CODE_80E550:
 	CMP #$0008				;$80E550  \
-	BCC CODE_80E558				;$80E553   |
+	BCC .CODE_80E558			;$80E553   |
 	LDA #$0007				;$80E555   |
-CODE_80E558:					;	   |
+.CODE_80E558:					;	   |
 	ADC $B8					;$80E558   |
-CODE_80E55A:					;	   |
+.CODE_80E55A:					;	   |
 	STA $B8					;$80E55A   |
 	STA $B6					;$80E55C   |
 	STY $17BC				;$80E55E   |
@@ -10916,7 +10956,7 @@ CODE_80E55A:					;	   |
 	REP #$20				;$80E57D   |
 	RTS					;$80E57F  /
 
-CODE_80E580:
+handle_ship_deck_water_sky_scroll:
 	LDA active_frame_counter		;$80E580  \
 	LSR A					;$80E582   |
 	STA $7E8013				;$80E583   |
@@ -10943,7 +10983,7 @@ CODE_80E580:
 	LDA $35					;$80E5AD   |
 	AND #$FF00				;$80E5AF   |
 	LDX #$0100				;$80E5B2   |
-CODE_80E5B5:					;	   |
+.CODE_80E5B5:					;	   |
 	STA $7E802D,x				;$80E5B5   |
 	ADC $32					;$80E5B9   |
 	STA $7E802B,x				;$80E5BB   |
@@ -10967,7 +11007,7 @@ CODE_80E5B5:					;	   |
 	TAX					;$80E5EB   |
 	TYA					;$80E5EC   |
 	CPX #$0000				;$80E5ED   |
-	BPL CODE_80E5B5				;$80E5F0   |
+	BPL .CODE_80E5B5			;$80E5F0   |
 	%pea_use_dbr($7E807E)			;$80E5F2   |
 	PLB					;$80E5F5   |
 	LDA.l active_frame_counter		;$80E5F6   |
@@ -10975,7 +11015,7 @@ CODE_80E5B5:					;	   |
 	AND #$000E				;$80E5FB   |
 	CLC					;$80E5FE   |
 	ADC #$0090				;$80E5FF   |
-CODE_80E602:					;	   |
+.CODE_80E602:					;	   |
 	TAX					;$80E602   |
 	INC $807E,x				;$80E603   |
 	INC $8080,x				;$80E606   |
@@ -10988,11 +11028,11 @@ CODE_80E602:					;	   |
 	TXA					;$80E61B   |
 	SEC					;$80E61C   |
 	SBC #$0010				;$80E61D   |
-	BPL CODE_80E602				;$80E620   |
+	BPL .CODE_80E602			;$80E620   |
 	TXA					;$80E622   |
 	CLC					;$80E623   |
 	ADC #$0050				;$80E624   |
-CODE_80E627:					;	   |
+.CODE_80E627:					;	   |
 	TAX					;$80E627   |
 	INC $801E,x				;$80E628   |
 	INC $8020,x				;$80E62B   |
@@ -11001,23 +11041,23 @@ CODE_80E627:					;	   |
 	TXA					;$80E634   |
 	SEC					;$80E635   |
 	SBC #$0010				;$80E636   |
-	BPL CODE_80E627				;$80E639   |
+	BPL .CODE_80E627			;$80E639   |
 	PLB					;$80E63B   |
 	RTS					;$80E63C  /
 
-CODE_80E63D:
+handle_water_scroll_hop:
 	%pea_use_dbr($7E8070)			;$80E63D  \
 	PLB					;$80E640   |
-	JSR CODE_80ECE5				;$80E641   |
+	JSR handle_water_scroll			;$80E641   |
 	PLB					;$80E644   |
 	RTS					;$80E645  /
 
-CODE_80E646:
+handle_water_and_3D_bg_scroll:
 	%pea_use_dbr($7E8070)			;$80E646  \
 	PLB					;$80E649   |
-	JSR CODE_80ECE5				;$80E64A   |
+	JSR handle_water_scroll			;$80E64A   |
 	PLB					;$80E64D   |
-CODE_80E64E:					;	   |
+handle_3d_bg_scroll:				;	   |
 	%pea_use_dbr($7E8070)			;$80E64E   |
 	PLB					;$80E651   |
 	LDA $17BA				;$80E652   |
@@ -11875,7 +11915,7 @@ CODE_80ECE1:					;	   |
 	TCS					;$80ECE3   |
 	RTS					;$80ECE4  /
 
-CODE_80ECE5:
+handle_water_scroll:
 	LDA $0D4E				;$80ECE5  \
 	SEC					;$80ECE8   |
 	SBC $17C0				;$80ECE9   |
@@ -12404,7 +12444,7 @@ CODE_80F142:					;	   |
 CODE_80F156:					;	   |
 	RTS					;$80F156  /
 
-CODE_80F157:
+handle_forest_lights_scroll:
 	LDY #$0002				;$80F157  \
 	LDX #$000A				;$80F15A   |
 	LDA #$0000				;$80F15D   |
@@ -12436,7 +12476,7 @@ CODE_80F157:
 	PHP					;$80F196   |
 	LDA active_frame_counter		;$80F197   |
 	BIT #$0001				;$80F199   |
-	BNE CODE_80F1F1				;$80F19C   |
+	BNE .CODE_80F1F1			;$80F19C   |
 	PLP					;$80F19E   |
 	LDA $54					;$80F19F   |
 	STA $32					;$80F1A1   |
@@ -12452,30 +12492,30 @@ CODE_80F157:
 	SEC					;$80F1AF   |
 	SBC #$0060				;$80F1B0   |
 	AND #$FFFE				;$80F1B3   |
-	BPL CODE_80F1D6				;$80F1B6   |
+	BPL .CODE_80F1D6			;$80F1B6   |
 	EOR #$FFFF				;$80F1B8   |
 	INC A					;$80F1BB   |
 	STA $34					;$80F1BC   |
 	LDX #$0000				;$80F1BE   |
 	LDA $56					;$80F1C1   |
 	XBA					;$80F1C3   |
-CODE_80F1C4:					;	   |
+.CODE_80F1C4:					;	   |
 	STA $7E8012,x				;$80F1C4   |
 	SBC $34					;$80F1C8   |
 	SBC #$FFFF				;$80F1CA   |
 	INX					;$80F1CD   |
 	INX					;$80F1CE   |
 	CPX #$0190				;$80F1CF   |
-	BNE CODE_80F1C4				;$80F1D2   |
-	BRA CODE_80F1F0				;$80F1D4  /
+	BNE .CODE_80F1C4			;$80F1D2   |
+	BRA .CODE_80F1F0			;$80F1D4  /
 
-CODE_80F1D6:
+.CODE_80F1D6:
 	STA $34					;$80F1D6  \
 	LDX #$0000				;$80F1D8   |
 	LDA $56					;$80F1DB   |
 	XBA					;$80F1DD   |
 	CLC					;$80F1DE   |
-CODE_80F1DF:					;	   |
+.CODE_80F1DF:					;	   |
 	STA $7E8012,x				;$80F1DF   |
 	CLC					;$80F1E3   |
 	ADC $34					;$80F1E4   |
@@ -12483,11 +12523,11 @@ CODE_80F1DF:					;	   |
 	INX					;$80F1E9   |
 	INX					;$80F1EA   |
 	CPX #$0190				;$80F1EB   |
-	BNE CODE_80F1DF				;$80F1EE   |
-CODE_80F1F0:					;	   |
+	BNE .CODE_80F1DF			;$80F1EE   |
+.CODE_80F1F0:					;	   |
 	RTS					;$80F1F0  /
 
-CODE_80F1F1:
+.CODE_80F1F1:
 	PLP					;$80F1F1  \
 	LDA $54					;$80F1F2   |
 	STA $32					;$80F1F4   |
@@ -12503,30 +12543,30 @@ CODE_80F1F1:
 	SEC					;$80F202   |
 	SBC #$0060				;$80F203   |
 	AND #$FFFE				;$80F206   |
-	BPL CODE_80F229				;$80F209   |
+	BPL .CODE_80F229			;$80F209   |
 	EOR #$FFFF				;$80F20B   |
 	INC A					;$80F20E   |
 	STA $34					;$80F20F   |
 	LDX #$0000				;$80F211   |
 	LDA $56					;$80F214   |
 	XBA					;$80F216   |
-CODE_80F217:					;	   |
+.CODE_80F217:					;	   |
 	STA $7E81A2,x				;$80F217   |
 	SBC $34					;$80F21B   |
 	SBC #$FFFF				;$80F21D   |
 	INX					;$80F220   |
 	INX					;$80F221   |
 	CPX #$0190				;$80F222   |
-	BNE CODE_80F217				;$80F225   |
-	BRA CODE_80F243				;$80F227  /
+	BNE .CODE_80F217			;$80F225   |
+	BRA .CODE_80F243			;$80F227  /
 
-CODE_80F229:
+.CODE_80F229:
 	STA $34					;$80F229  \
 	LDX #$0000				;$80F22B   |
 	LDA $56					;$80F22E   |
 	XBA					;$80F230   |
 	CLC					;$80F231   |
-CODE_80F232:					;	   |
+.CODE_80F232:					;	   |
 	STA $7E81A2,x				;$80F232   |
 	CLC					;$80F236   |
 	ADC $34					;$80F237   |
@@ -12534,8 +12574,8 @@ CODE_80F232:					;	   |
 	INX					;$80F23C   |
 	INX					;$80F23D   |
 	CPX #$0190				;$80F23E   |
-	BNE CODE_80F232				;$80F241   |
-CODE_80F243:					;	   |
+	BNE .CODE_80F232			;$80F241   |
+.CODE_80F243:					;	   |
 	RTS					;$80F243  /
 
 DATA_80F244:
@@ -12645,7 +12685,7 @@ update_sprite_palettes_global:
 update_sprite_palettes:
 	LDA $EF					;$80F324  \
 	CMP $F1					;$80F326   |
-	BEQ CODE_80F35A				;$80F328   |
+	BEQ .return				;$80F328   |
 	ASL A					;$80F32A   |
 	ASL A					;$80F32B   |
 	TAX					;$80F32C   |
@@ -12667,15 +12707,15 @@ update_sprite_palettes:
 	LDA #$01				;$80F353   |
 	STA CPU.enable_dma			;$80F355   |
 	REP #$20				;$80F358   |
-CODE_80F35A:					;	   |
+.return:					;	   |
 	RTS					;$80F35A  /
 
 render_sprites:
 	PHK					;$80F35B  \
 	PLB					;$80F35C   |
 	JSL CODE_B5A8DA				;$80F35D   |> Sort render orders
-	LDA #$0200				;$80F361   |
-	STA $70					;$80F364   |
+	LDA #oam_table				;$80F361   |
+	STA next_oam_slot			;$80F364   |
 	LDA #$0400				;$80F366   |
 	STA $56					;$80F369   |
 	STZ oam_attribute[$00].size		;$80F36B   |
@@ -12704,6 +12744,7 @@ CODE_80F3B0:					;	   |
 	STZ next_sprite_dma_buffer_slot		;$80F3B0   |
 	RTS					;$80F3B3  /
 
+;Unreferenced
 CODE_80F3B4:
 	LDA #$0001				;$80F3B4  \ Run OAM DMA
 	STA CPU.enable_dma			;$80F3B7   |
@@ -12748,7 +12789,7 @@ IRQ_start:
 	SEI					;$80F3F9  \
 	RTI					;$80F3FA  /
 
-CODE_80F3FB:
+init_ending_parade:
 	JSL disable_screen			;$80F3FB  \
 	PHK					;$80F3FF   |
 	PLB					;$80F400   |
@@ -12777,9 +12818,9 @@ CODE_80F3FB:
 	STA $17B8				;$80F44D   |
 	LDA #$0001				;$80F450   |
 	STA $84					;$80F453   |
-	LDA #DATA_80F57C			;$80F455   |
+	LDA #ending_parade_table		;$80F455   |
 	STA $7A					;$80F458   |
-	LDA.w #DATA_80F57C>>16			;$80F45A   |
+	LDA.w #ending_parade_table>>16		;$80F45A   |
 	STA $7C					;$80F45D   |
 	LDA #$1654				;$80F45F   |
 	STA $000654				;$80F462   |
@@ -12811,7 +12852,7 @@ CODE_80F482:
 	LDA screen_brightness			;$80F4AA   |
 	STA PPU.screen				;$80F4AD   |
 	REP #$20				;$80F4B0   |
-	JSR CODE_808988				;$80F4B2   |
+	JSR input_and_pause_handler		;$80F4B2   |
 	LDA $7E					;$80F4B5   |
 	CMP #$001D				;$80F4B7   |
 	BNE CODE_80F4BF				;$80F4BA   |
@@ -12862,14 +12903,14 @@ CODE_80F4EB:					;	   |
 CODE_80F50C:
 	PHY					;$80F50C  \
 	LDA #$0000				;$80F50D   |
-	JSL CODE_808837				;$80F510   |
+	JSL set_active_kong_global		;$80F510   |
 	JSL work_on_active_kong_global		;$80F514   |
 	BRA CODE_80F526				;$80F518  /
 
 CODE_80F51A:
 	PHY					;$80F51A  \
 	LDA #$0001				;$80F51B   |
-	JSL CODE_808837				;$80F51E   |
+	JSL set_active_kong_global		;$80F51E   |
 	JSL work_on_active_kong_global		;$80F522   |
 CODE_80F526:					;	   |
 	LDY active_kong_control_variables	;$80F526   |
@@ -12900,20 +12941,20 @@ CODE_80F551:					;	   |
 	BNE CODE_80F567				;$80F557   |
 	LDA #CODE_BAB633			;$80F559   |
 	STA $00067D				;$80F55C   |
-	LDA #CODE_808CC9			;$80F560   |
+	LDA #bonus_and_credits_screen_NMI	;$80F560   |
 	JML set_nmi_pointer			;$80F563  /
 
 CODE_80F567:
 	JSL sprite_handler			;$80F567  \
 	JSL CODE_B5A8DA				;$80F56B   |
-	JSR CODE_80F946				;$80F56F   |
+	JSR update_ending_parade_text		;$80F56F   |
 	JSR set_unused_oam_offscreen		;$80F572   |
 	JSR fade_screen				;$80F575   |
-	JML CODE_808CA2				;$80F578  /
+	JML tileset_logic_return		;$80F578  /
 
-;ending parade table
+
 ;display duration, init script table index (DATA_FF047E), text table index
-DATA_80F57C:
+ending_parade_table:
 	dw $0030, !null_pointer, $0000
 	dw $00A0, !null_pointer, $0001
 	dw $00A0, !null_pointer, $0002
@@ -13193,13 +13234,13 @@ ending_parade_text_table:
 .diddy_text:
 	db "DIDDY", $00
 
-CODE_80F946:
+update_ending_parade_text:
 	PHB					;$80F946  \
 	PHK					;$80F947   |
 	PLB					;$80F948   |
 	LDY #$0000				;$80F949   |
 	LDA $7E					;$80F94C   |
-	BEQ CODE_80F9C7				;$80F94E   |
+	BEQ .CODE_80F9C7			;$80F94E   |
 	ASL A					;$80F950   |
 	TAX					;$80F951   |
 	LDA.l ending_parade_text_table,x	;$80F952   |
@@ -13207,14 +13248,14 @@ CODE_80F946:
 	LDA.w #<:ending_parade_text_table	;$80F958   |
 	STA $3C					;$80F95B   |
 	LDY #$0000				;$80F95D   |
-CODE_80F960:					;	   |
+.CODE_80F960:					;	   |
 	LDA [$3A],y				;$80F960   |
 	AND #$00FF				;$80F962   |
-	BEQ CODE_80F96A				;$80F965   |
+	BEQ .CODE_80F96A			;$80F965   |
 	INY					;$80F967   |
-	BRA CODE_80F960				;$80F968  /
+	BRA .CODE_80F960			;$80F968  /
 
-CODE_80F96A:
+.CODE_80F96A:
 	TYA					;$80F96A  \
 	LDY #$0000				;$80F96B   |
 	ASL A					;$80F96E   |
@@ -13225,12 +13266,12 @@ CODE_80F96A:
 	CLC					;$80F977   |
 	ADC $80					;$80F978   |
 	STA $32					;$80F97A   |
-CODE_80F97C:					;	   |
+.CODE_80F97C:					;	   |
 	LDA [$3A]				;$80F97C   |
 	AND #$00FF				;$80F97E   |
-	BEQ CODE_80F9C7				;$80F981   |
+	BEQ .CODE_80F9C7			;$80F981   |
 	CMP #$0020				;$80F983   |
-	BEQ CODE_80F9BB				;$80F986   |
+	BEQ .CODE_80F9BB			;$80F986   |
 	SEC					;$80F988   |
 	SBC #$0021				;$80F989   |
 	TAX					;$80F98C   |
@@ -13255,19 +13296,19 @@ CODE_80F97C:					;	   |
 	CLC					;$80F9B6   |
 	ADC #$0008				;$80F9B7   |
 	TAY					;$80F9BA   |
-CODE_80F9BB:					;	   |
+.CODE_80F9BB:					;	   |
 	INC $3A					;$80F9BB   |
 	LDA $32					;$80F9BD   |
 	CLC					;$80F9BF   |
 	ADC #$0008				;$80F9C0   |
 	STA $32					;$80F9C3   |
-	BRA CODE_80F97C				;$80F9C5  /
+	BRA .CODE_80F97C			;$80F9C5  /
 
-CODE_80F9C7:
+.CODE_80F9C7:
 	TYA					;$80F9C7  \
 	CLC					;$80F9C8   |
 	ADC #$0200				;$80F9C9   |
-	STA $70					;$80F9CC   |
+	STA next_oam_slot			;$80F9CC   |
 	LDA #$0400				;$80F9CE   |
 	STA $56					;$80F9D1   |
 	STZ oam_attribute[$00].size		;$80F9D3   |
@@ -13349,7 +13390,7 @@ credits_npc_kong_sprite_code:
 	PLB					;$80FA78   | Restore DB
 	JML [sprite_return_address]		;$80FA79  / Done processing sprite
 
-CODE_80FA7C:
+init_game_over_screen:
 	JSL disable_screen			;$80FA7C  \
 	PHK					;$80FA80   |
 	PLB					;$80FA81   |
@@ -13370,10 +13411,10 @@ CODE_80FA7C:
 	STZ active_frame_counter		;$80FAB2   |
 	LDA #$0001				;$80FAB4   |
 	STA pending_dma_hdma_channels		;$80FAB7   |
-	LDA #CODE_80FAC0			;$80FABA   |
+	LDA #run_game_over_screen		;$80FABA   |
 	JMP CODE_808C9E				;$80FABD  /
 
-CODE_80FAC0:
+run_game_over_screen:
 	LDA pending_dma_hdma_channels		;$80FAC0  \
 	STA CPU.enable_dma			;$80FAC3   |
 	LDA active_frame_counter		;$80FAC6   |
@@ -13382,17 +13423,17 @@ CODE_80FAC0:
 	LSR A					;$80FACC   |
 	LSR A					;$80FACD   |
 	CMP #$001F				;$80FACE   |
-	BCS CODE_80FADC				;$80FAD1   |
+	BCS .skip_red_tint			;$80FAD1   |
 	SEP #$20				;$80FAD3   |
 	ORA #$C0				;$80FAD5   |
 	STA PPU.fixed_color			;$80FAD7   |
 	REP #$20				;$80FADA   |
-CODE_80FADC:					;	   |
+.skip_red_tint:					;	   |
 	LDA #$0200				;$80FADC   |
 	SEC					;$80FADF   |
 	SBC active_frame_counter		;$80FAE0   |
 	CMP #$0200				;$80FAE2   |
-	BCS CODE_80FB3D				;$80FAE5   |
+	BCS .skip_bg1_update			;$80FAE5   |
 	CLC					;$80FAE7   |
 	ADC #$0010				;$80FAE8   |
 	STA $32					;$80FAEB   |
@@ -13435,12 +13476,12 @@ CODE_80FADC:					;	   |
 	XBA					;$80FB37   |
 	STA PPU.layer_1_scroll_x		;$80FB38   |
 	REP #$20				;$80FB3B   |
-CODE_80FB3D:					;	   |
+.skip_bg1_update:				;	   |
 	LDA active_frame_counter		;$80FB3D   |
 	SEC					;$80FB3F   |
 	SBC #$0100				;$80FB40   |
 	CMP #$0100				;$80FB43   |
-	BCS CODE_80FB62				;$80FB46   |
+	BCS .skip_bg2_update			;$80FB46   |
 	SEP #$20				;$80FB48   |
 	STA PPU.layer_2_scroll_y		;$80FB4A   |
 	STZ PPU.layer_2_scroll_y		;$80FB4D   |
@@ -13453,33 +13494,35 @@ CODE_80FB3D:					;	   |
 	SEP #$20				;$80FB5B   |
 	STA PPU.fixed_color			;$80FB5D   |
 	REP #$20				;$80FB60   |
-CODE_80FB62:					;	   |
-	JSR CODE_808988				;$80FB62   |
+.skip_bg2_update:				;	   |
+	JSR input_and_pause_handler		;$80FB62   |
 	SEP #$20				;$80FB65   |
 	LDA screen_brightness			;$80FB67   |
 	STA PPU.screen				;$80FB6A   |
 	REP #$20				;$80FB6D   |
 	LDA active_frame_counter		;$80FB6F   |
 	CMP #$00F0				;$80FB71   |
-	BCC CODE_80FB93				;$80FB74   |
+	BCC .wait_for_fadeout			;$80FB74   |
 	LDA screen_fade_speed			;$80FB76   |
 	AND #$00FF				;$80FB79   |
-	BNE CODE_80FB93				;$80FB7C   |
+	BNE .wait_for_fadeout			;$80FB7C   |
 	LDA player_active_held			;$80FB7E   |
 	AND #$D080				;$80FB81   |
-	BNE CODE_80FB8D				;$80FB84   |
+	BNE .set_fade				;$80FB84   |
 	LDA active_frame_counter		;$80FB86   |
 	CMP #$0480				;$80FB88   |
-	BNE CODE_80FB93				;$80FB8B   |
-CODE_80FB8D:					;	   |
+	BNE .wait_for_fadeout			;$80FB8B   |
+.set_fade:					;	   |
 	LDA #$820F				;$80FB8D   |
 	JSR set_fade				;$80FB90   |
-CODE_80FB93:					;	   |
+.wait_for_fadeout:				;	   |
 	JSR fade_screen				;$80FB93   |
 	LDA screen_brightness			;$80FB96   |
-	BEQ CODE_80FB9E				;$80FB99   |
-	JMP CODE_808CA2				;$80FB9B  /
+	BEQ .fade_finished			;$80FB99   |
+	JMP tileset_logic_return		;$80FB9B  /
 
-CODE_80FB9E:
-	JML CODE_BBBEA0				;$80FB9E  /
+.fade_finished:
+	JML restart_logo_or_world_map		;$80FB9E  /
+
+
 bank_80_end:
