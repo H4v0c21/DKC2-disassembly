@@ -478,7 +478,7 @@ sprite_main_table:
 	dw water_level_changer_main,$0000	;00AC
 	dw sprite_marker_main,$0000		;00B0
 	dw explosion_main,$0000			;00B4
-	dw unknown_sprite_00B8_main,$0001	;00B8
+	dw unknown_sprite_00B8_main,$0001	;00B8 Explosion but timestop
 	dw kackle_main,$0001			;00BC
 	dw horizontal_wind_changer_main,$0001	;00C0
 	dw vertical_wind_changer_main,$0001	;00C4
@@ -626,7 +626,7 @@ sprite_main_table:
 	dw gate_barrel_main,$0000		;02FC
 	dw haunted_hall_timer_handler_main,$0001;0300
 	dw clapper_main,$0000			;0304
-	dw animal_despawn_smoke_main,$0001	;0308 smoke?
+	dw animal_despawn_smoke_main,$0001	;0308
 	dw screech_main,$0000			;030C
 	dw racing_flag_main,$0000		;0310
 	dw credits_dummy_main,$0000		;0314
@@ -1410,7 +1410,7 @@ rattly_main:
 ;this routine handles if an animal passes a no animal sign without the player
 handle_animal_sign_deletion:
 	LDX current_sprite			;$B38BB4  \
-	LDA sprite.unknown_32,x			;$B38BB6   |\
+	LDA sprite.carry_or_defeat_flags,x	;$B38BB6   |\
 	CMP #$0002				;$B38BB8   | |
 	BEQ .delete_animal			;$B38BBB   |/ If an animal sign wants to kill this animal
 	CLC					;$B38BBD   |
@@ -1611,7 +1611,7 @@ get_state_death_and_mounting_flags:
 	ASL A					;$B38D15   |
 	ASL A					;$B38D16   |
 	TAX					;$B38D17   |
-	LDA.l DATA_B896B7,x			;$B38D18   |
+	LDA.l kong_state_flags_table,x		;$B38D18   |
 	RTS					;$B38D1C  /
 
 handle_animal_mounting:
@@ -2028,7 +2028,7 @@ glimmer_main:
 
 animal_icon_main:
 	LDX current_sprite			;$B38FC0  \ Get animal icon sprite
-	LDA sprite.state,x				;$B38FC2   | Get current state
+	LDA sprite.state,x			;$B38FC2   | Get current state
 	ASL A					;$B38FC4   | *2
 	TAX					;$B38FC5   |
 	JMP (.state_table,x)			;$B38FC6  / Execute state code
@@ -2282,7 +2282,7 @@ unknown_sprite_0114_main:
 	JML [sprite_return_address]		;$B39193  /
 
 ;unused
-	JSL delete_sprite_handle_deallocation	;$B39196   |
+	JSL delete_sprite_handle_deallocation	;$B39196  \
 	JML [sprite_return_address]		;$B3919A  /
 
 canball_pieces1_main:
@@ -2517,7 +2517,7 @@ squawks_egg_main:
 	LDA level_number			;$B39336  \
 	CMP #!level_king_zing_sting		;$B39338   | Check if level is King Zing Sting
 	BNE .skip_bounce_sound			;$B3933B   | If not, skip bounce sound
-	LDA #$067D				;$B3933D   | If yes, play egg bounce sound effect
+	%lda_sound(6, king_zing_egg_bounce)	;$B3933D   | If yes, play egg bounce sound effect
 	JSL queue_sound_effect			;$B39340   |
 .skip_bounce_sound:				;	   |
 	LDX current_sprite			;$B39344   | Get egg sprite
@@ -2594,7 +2594,7 @@ dkbarrel_main:
 	JMP sprite_return_handle_despawn	;$B393C4  /
 
 .break_dk_barrel_on_castle_floor
-	LDA #$051A				;$B393C7  \
+	%lda_sound(5, barrel_blast)		;$B393C7  \
 	JSL queue_sound_effect			;$B393CA   |
 	JSL spawn_barrel_parts_and_smoke_global	;$B393CE   |
 	JSL delete_sprite_handle_deallocation	;$B393D2   |
@@ -2640,7 +2640,7 @@ dkbarrel_main:
 #CODE_B39434:
 	STZ current_held_sprite			;$B39434  \
 .break_dk_barrel				;	   |
-	LDA #$051A				;$B39437   |
+	%lda_sound(5, barrel_blast)		;$B39437   |
 	JSL queue_sound_effect			;$B3943A   |
 	JSL spawn_barrel_parts_and_smoke_global	;$B3943E   |
 	JSL CODE_B8A98A				;$B39442   |
@@ -2767,9 +2767,9 @@ CODE_B3951B:
 CODE_B3953A:
 	STZ current_held_sprite			;$B3953A  \
 CODE_B3953D:					;	   |
-	LDA #$0414				;$B3953D   |
+	%lda_sound(4, boom)			;$B3953D   |
 	JSL queue_sound_effect			;$B39540   |
-	LDA #$0615				;$B39544   |
+	%lda_sound(6, explosion)		;$B39544   |
 	JSL queue_sound_effect			;$B39547   |
 	LDX current_sprite			;$B3954B   |
 	LDA $4A,x				;$B3954D   |
@@ -2848,7 +2848,7 @@ CODE_B395C4:
 CODE_B395E3:
 	STZ current_held_sprite			;$B395E3  \
 CODE_B395E6:					;	   |
-	LDA #$051A				;$B395E6   |
+	%lda_sound(5, barrel_blast)		;$B395E6   |
 	JSL queue_sound_effect			;$B395E9   |
 	JSL spawn_barrel_parts_and_smoke_global	;$B395ED   |
 	JSL delete_sprite_handle_deallocation	;$B395F1   |
@@ -3112,18 +3112,18 @@ animal_box_main:
 .collision_happened_skip_state_01:		;	   |
 	STA sprite.state,x			;$B397C3   | Set state
 	STZ sprite.interaction_flags,x		;$B397C5   | Clear interaction flags
-	STZ sprite.unknown_32,x			;$B397C7   | Clear pickup/damage flags
+	STZ sprite.carry_or_defeat_flags,x	;$B397C7   | Clear pickup/damage flags
 	LDA sprite.animation_id,x		;$B397C9   | Get animation ID
 	STA $42,x				;$B397CB   | Copy it (will be used to spawn appropriate animal)
 	LDA #$02B1				;$B397CD   |
 	JSL set_sprite_animation		;$B397D0   | Play animal_crate_open animation
-	LDA #$0439				;$B397D4   |
+	%lda_sound(4, animal_crate_break_a)	;$B397D4   |
 	JSL queue_sound_effect			;$B397D7   |
-	LDA #$053B				;$B397DB   |
+	%lda_sound(5, animal_crate_break_c)	;$B397DB   |
 	JSL queue_sound_effect			;$B397DE   | Play crate open sound effect(s)
-	LDA #$063C				;$B397E2   |
+	%lda_sound(6, animal_crate_break_d)	;$B397E2   |
 	JSL queue_sound_effect			;$B397E5   |
-	LDA #$073A				;$B397E9   |
+	%lda_sound(7, animal_crate_break_b)	;$B397E9   |
 	JSL queue_sound_effect			;$B397EC   |
 	LDX current_sprite			;$B397F0   | Get animal box sprite
 	LDA sprite.unknown_5C,x			;$B397F2   | Get camera number to lock after breaking
@@ -3160,7 +3160,7 @@ animal_box_main:
 .CODE_B3982C:
 	LDX current_sprite			;$B3982C  \ Get animal box sprite
 	STZ sprite.interaction_flags,x		;$B3982E   | Clear interaction flags
-	STZ sprite.unknown_32,x			;$B39830   | Clear pickup/damage flags
+	STZ sprite.carry_or_defeat_flags,x	;$B39830   | Clear pickup/damage flags
 	LDA #$0001				;$B39832   |
 	STA sprite.state,x			;$B39835   | Set break open state
 	LDA sprite.animation_id,x		;$B39837   | Get animation ID
@@ -3433,7 +3433,7 @@ CODE_B39A5F:
 	ASL A					;$B39A64   |
 	ASL A					;$B39A65   |
 	TAX					;$B39A66   |
-	LDA.l DATA_B896B7,x			;$B39A67   |
+	LDA.l kong_state_flags_table,x		;$B39A67   |
 	AND #$0080				;$B39A6B   |
 	RTS					;$B39A6E  /
 
@@ -3542,7 +3542,7 @@ CODE_B39B37:					;	   |
 	JMP sprite_return_handle_despawn	;$B39B40  /
 
 CODE_B39B43:
-	LDA #$064C				;$B39B43  \
+	%lda_sound(6, cannonball_drop)		;$B39B43  \
 	JSL queue_sound_effect			;$B39B46   |
 	LDX current_sprite			;$B39B4A   |
 	STZ sprite.state,x			;$B39B4C   |
@@ -3561,7 +3561,7 @@ CODE_B39B66:					;	   |
 	LDA sprite.type,x			;$B39B68   |
 	CMP #!sprite_cannon			;$B39B6A   |
 	BEQ CODE_B39B9E				;$B39B6D   |
-	LDA #$061A				;$B39B6F   |
+	%lda_sound(6, barrel_blast)		;$B39B6F   |
 	JSL queue_sound_effect			;$B39B72   |
 	LDX current_sprite			;$B39B76   |
 	LDA sprite.x_speed,x			;$B39B78   |
@@ -3807,7 +3807,7 @@ CODE_B39D33:
 CODE_B39D3F:
 	STZ current_held_sprite			;$B39D3F  \
 CODE_B39D42:					;	   |
-	LDA #$061A				;$B39D42   |
+	%lda_sound(6, barrel_blast)		;$B39D42   |
 	JSL queue_sound_effect			;$B39D45   |
 if !version == 1				;	   |
 	LDX current_sprite			;$B39D49   |
@@ -3963,7 +3963,7 @@ CODE_B39E61:					;	   |
 CODE_B39E71:
 	STZ current_held_sprite			;$B39E71  \
 CODE_B39E74:					;	   |
-	LDA #$051A				;$B39E74   |
+	%lda_sound(5, barrel_blast)		;$B39E74   |
 	JSL queue_sound_effect			;$B39E77   |
 	JSL spawn_barrel_parts_and_smoke_global	;$B39E7B   |
 	JSL delete_sprite_handle_deallocation	;$B39E7F   |
@@ -4052,14 +4052,14 @@ apply_sprite_gravity_2:
 
 CODE_B39F10:
 	LDX current_sprite			;$B39F10  \
-	LDA sprite.unknown_32,x			;$B39F12   |
+	LDA sprite.carry_or_defeat_flags,x	;$B39F12   |
 	BNE .picking_up				;$B39F14   |
 .no_pickup					;	   |
 	CLC					;$B39F16   |
 	RTS					;$B39F17  /
 
 .picking_up
-	STZ sprite.unknown_32,x			;$B39F18  \
+	STZ sprite.carry_or_defeat_flags,x	;$B39F18  \
 	CMP #$0001				;$B39F1A   |
 	BEQ CODE_B39F26				;$B39F1D   |
 	CMP #$0200				;$B39F1F   |
@@ -4082,7 +4082,7 @@ CODE_B39F26:
 
 CODE_B39F42:
 	STZ current_held_sprite			;$B39F42  \
-	LDA #$051A				;$B39F45   |
+	%lda_sound(5, barrel_blast)		;$B39F45   |
 	JSL queue_sound_effect			;$B39F48   |
 	JSL spawn_barrel_parts_and_smoke_global	;$B39F4C   |
 	JSL delete_sprite_handle_deallocation	;$B39F50   |
@@ -4091,7 +4091,7 @@ CODE_B39F42:
 
 CODE_B39F56:
 	LDX current_sprite			;$B39F56  \
-	LDA sprite.unknown_32,x			;$B39F58   |
+	LDA sprite.carry_or_defeat_flags,x	;$B39F58   |
 	BNE CODE_B39F63				;$B39F5A   |
 	LDA current_held_sprite			;$B39F5C   |
 	BEQ CODE_B39F8F				;$B39F5F   |
@@ -4100,7 +4100,7 @@ CODE_B39F61:					;	   |
 	RTS					;$B39F62  /
 
 CODE_B39F63:
-	STZ sprite.unknown_32,x			;$B39F63  \
+	STZ sprite.carry_or_defeat_flags,x	;$B39F63  \
 	CMP #$0001				;$B39F65   |
 	BEQ CODE_B39FBD				;$B39F68   |
 	CMP #$0002				;$B39F6A   |
@@ -4288,7 +4288,7 @@ endif						;	   |
 
 .despawn_standalone_animal:
 	LDA #$0002				;$B3A0BF  \
-	STA sprite.unknown_32,x			;$B3A0C2   |
+	STA sprite.carry_or_defeat_flags,x	;$B3A0C2   |
 	JMP sprite_return_handle_despawn	;$B3A0C4  / Done processing sprite
 
 .CODE_B3A0C7:
@@ -4349,7 +4349,7 @@ level_goal_prize_main:
 	LDA.l item_reward_frames_table,x	;$B3A10A   | Load reward graphic ID
 	LDX current_sprite			;$B3A10E   | Get prize sprite
 	STA sprite.current_graphic,x		;$B3A110   | Update graphic ID
-	STZ sprite.unknown_16,x			;$B3A112   | Clear previously displayed graphic ID
+	STZ sprite.last_rendered_graphic,x	;$B3A112   | Clear previously displayed graphic ID
 	LDA $48,x				;$B3A114   | Get reward graphic ID index
 	ASL A					;$B3A116   |
 	TAX					;$B3A117   | Transfer to X
@@ -4755,6 +4755,7 @@ check_for_sprite_crush:
 .return						;	   |
 	RTS					;$B3A3B3  /
 
+;Insert palette into buffer?
 CODE_B3A3B4:
 	STA temp_5E				;$B3A3B4  \
 	LDA $F1					;$B3A3B6   |
@@ -4780,7 +4781,7 @@ CODE_B3A3CD:
 	ASL A					;$B3A3DB   |
 	ASL A					;$B3A3DC   |
 	TAX					;$B3A3DD   |
-	LDA.l DATA_B896B7,x			;$B3A3DE   |
+	LDA.l kong_state_flags_table,x		;$B3A3DE   |
 	AND #$0001				;$B3A3E2   |
 	BEQ CODE_B3A3E9				;$B3A3E5   |
 	CLC					;$B3A3E7   |
@@ -4801,12 +4802,12 @@ CODE_B3A3F2:
 	SEC					;$B3A3FA   |
 	RTS					;$B3A3FB  /
 
-CODE_B3A3FC:
-	JSR CODE_B3A400				;$B3A3FC  \
+queue_sfx_if_on_screen_global:
+	JSR queue_sfx_if_on_screen		;$B3A3FC  \
 	RTL					;$B3A3FF  /
 
 ;queue sound effect if sprite is not offscreen
-CODE_B3A400:
+queue_sfx_if_on_screen:
 	PHY					;$B3A400  \
 	PHX					;$B3A401   |
 	PHA					;$B3A402   |
@@ -4880,7 +4881,7 @@ zinger_main:
 	LDA #$0100				;$B3A476   |\
 	JSL check_throwable_collision_global	;$B3A479   |/ Check throwable collision
 	BCC ..kong_sprite_collision_check	;$B3A47D   |> If no collision occurred go to kong collision check
-	LDA #$050E				;$B3A47F   |\ Else play zinger hurt sound
+	%lda_sound(5, zinger_flitter_hit)	;$B3A47F   |\ Else play zinger hurt sound
 	JSL queue_sound_effect			;$B3A482   |/
 	BRA ..kong_sprite_collision_check	;$B3A486  /
 
@@ -5202,9 +5203,9 @@ CODE_B3A6C4:
 	LDA $46,x				;$B3A6C4  \
 	BMI CODE_B3A6D5				;$B3A6C6   |
 	LSR A					;$B3A6C8   |
-	LDA #$0560				;$B3A6C9   |
+	%lda_sound(5, splash_1)			;$B3A6C9   |
 	BCC CODE_B3A6D1				;$B3A6CC   |
-	LDA #$0561				;$B3A6CE   |
+	%lda_sound(5, splash_2)			;$B3A6CE   |
 CODE_B3A6D1:					;	   |
 	JSL queue_sound_effect			;$B3A6D1   |
 CODE_B3A6D5:					;	   |
@@ -5218,10 +5219,10 @@ CODE_B3A6DC:
 	CLC					;$B3A6E3   |
 	ADC #$0020				;$B3A6E4   |
 	CMP #$0140				;$B3A6E7   |
-	LDA #$0560				;$B3A6EA   |
+	%lda_sound(5, splash_1)			;$B3A6EA   |
 	BCS CODE_B3A734				;$B3A6ED   |
 	LDY current_song			;$B3A6EF   |
-	LDA #$0766				;$B3A6F1   |
+	%lda_sound(7, splash_1_copy)		;$B3A6F1   |
 	CPY #!music_swamp			;$B3A6F4   |
 	BEQ CODE_B3A734				;$B3A6F7   |
 	LDY #$004C				;$B3A6F9   |
@@ -5301,7 +5302,7 @@ click_clack_main:
 	BEQ ..defeat_click_clack		;$B3A776  \> If click-clack is being defeated then apply velocities and kill it
 	CMP #$0001				;$B3A778   |\
 	BEQ ..animation_and_movement_update	;$B3A77B   |/ If the collision hurt the attacking sprite, continue normal logic
-	LDA #$0510				;$B3A77D   |\ Else stun click-clack
+	%lda_sound(5, click_clack_hit)		;$B3A77D   |\ Else stun click-clack
 	JSL queue_sound_effect			;$B3A780   |/ Play squish sound
 	LDX $6A					;$B3A784   |> Get attacking sprite
 	LDA #$0100				;$B3A786   |> Prepare a X velocity to apply to click-clack
@@ -5350,9 +5351,9 @@ endif						;	   |
 
 .stunned_on_ground_state
 	TYX					;$B3A7DD  \
-	LDA sprite.unknown_32,x			;$B3A7DE   |\
+	LDA sprite.carry_or_defeat_flags,x	;$B3A7DE   |\
 	BEQ ..not_picked_up			;$B3A7E0   |/ If no carry interaction then continue normal logic
-	STZ sprite.unknown_32,x			;$B3A7E2   |
+	STZ sprite.carry_or_defeat_flags,x	;$B3A7E2   |
 	BIT #$0001				;$B3A7E4   |\
 	BEQ ..not_picked_up			;$B3A7E7   |/ If wasnt just put down then continue normal logic
 	LDA #$0004				;$B3A7E9   |\
@@ -5428,8 +5429,8 @@ endif						;	   |
 
 ..not_stunned
 	LDX current_sprite			;$B3A881  \> Get click-clack sprite
-	LDA sprite.unknown_32,x			;$B3A883   |\ Get carry interaction
-	STZ sprite.unknown_32,x			;$B3A885   |/ Clear carry interaction
+	LDA sprite.carry_or_defeat_flags,x	;$B3A883   |\ Get carry interaction
+	STZ sprite.carry_or_defeat_flags,x	;$B3A885   |/ Clear carry interaction
 	CMP #$0001				;$B3A887   |\
 	BEQ ..put_down				;$B3A88A   |/ If click-clack was just put down then
 	CMP #$0002				;$B3A88C   |\
@@ -5440,8 +5441,8 @@ endif						;	   |
 	STZ current_held_sprite			;$B3A896   |> Clear held sprite
 	LDA #$000F				;$B3A899   |\
 	STA $4E,x				;$B3A89C   |/ Apply a small delay
-	STZ sprite.x_speed,x				;$B3A89E   |\
-	STZ sprite.max_x_speed,x				;$B3A8A0   |/ Clear X velocity
+	STZ sprite.x_speed,x			;$B3A89E   |\
+	STZ sprite.max_x_speed,x		;$B3A8A0   |/ Clear X velocity
 	JSR update_held_position_return_1	;$B3A8A2   |> Update click-clack held position and return here
 	LDA #$0003				;$B3A8A5   |\ Stunned on ground state
 	LDY #$0166				;$B3A8A8   | | Stunned animation
@@ -5486,8 +5487,8 @@ endif						;	   | |
 .thrown_state
 	JSL process_sprite_animation		;$B3A8F8  \> Process animation
 	LDX current_sprite			;$B3A8FC   |> Get click-clack sprite
-	LDA sprite.unknown_32,x			;$B3A8FE   |\ Get carry interaction
-	STZ sprite.unknown_32,x			;$B3A900   |/ Clear carry interaction
+	LDA sprite.carry_or_defeat_flags,x	;$B3A8FE   |\ Get carry interaction
+	STZ sprite.carry_or_defeat_flags,x	;$B3A900   |/ Clear carry interaction
 	CMP #$0005				;$B3A902   |\
 	BEQ ..dropped				;$B3A905   |/ If kong was hit whilst holding click-clack,
 	BIT #$0006				;$B3A907   |\
@@ -5564,11 +5565,11 @@ endif						;	   | |
 	LDY #!special_sprite_spawn_id_0034	;$B3A9AC   |\
 	JSL spawn_special_sprite_index		;$B3A9AF   |/ Spawn hit star
 	LDX current_sprite			;$B3A9B3   |> Get click-clack sprite
-	STZ sprite.x_speed,x				;$B3A9B5   |\ Clear X velocity
+	STZ sprite.x_speed,x			;$B3A9B5   |\ Clear X velocity
 	STZ sprite.max_x_speed,x				;$B3A9B7   |/
 	STZ $4E,x				;$B3A9B9   |> Clear stun timer
 	JSR .increase_walk_speed		;$B3A9BB   |> Increase walk speed of click-clack
-	LDA #$0510				;$B3A9BE   |\ Play click-clack recover from stun sound
+	%lda_sound(5, click_clack_hit)		;$B3A9BE   |\ Play click-clack recover from stun sound
 	JSL queue_sound_effect			;$B3A9C1   |/
 	LDY #$0167				;$B3A9C5   |\ Recover from stun animation
 	LDA #$0007				;$B3A9C8   | | Recover from stun state
@@ -5623,9 +5624,9 @@ endif						;	   |
 	EOR #$FFFF				;$B3AA25   |\ Else invert walking speed
 	INC A					;$B3AA28   |/
 ..no_flip					;	   |
-	STA sprite.max_x_speed,x				;$B3AA29   |> Apply walking speed to target X velocity
+	STA sprite.max_x_speed,x		;$B3AA29   |> Apply walking speed to target X velocity
 	LDA #$0001				;$B3AA2B   |\
-	STA sprite.state,x				;$B3AA2E   |/ Set click-clack state to idle
+	STA sprite.state,x			;$B3AA2E   |/ Set click-clack state to idle
 ..done_processing				;	   |
 	JMP sprite_return_handle_despawn	;$B3AA30  /> Done processing sprite
 
@@ -5660,7 +5661,7 @@ set_state_and_animation:
 
 defeat_click_clack_with_velocity:
 	LDX $6A					;$B3AA64  \ \ Get attacking sprite
-	BIT sprite.oam_property,x				;$B3AA66   | |
+	BIT sprite.oam_property,x		;$B3AA66   | |
 	BVC defeat_click_clack_no_flip_velocity	;$B3AA68   |/ If attacking sprite is facing right then dont invert X velocity
 	EOR #$FFFF				;$B3AA6A   |\ Else invert X velocity
 	INC A					;$B3AA6D   |/
@@ -5676,7 +5677,7 @@ defeat_click_clack_no_flip_velocity:		;	   |
 	STA sprite.state,x			;$B3AA80   |/ Set click-clack defeated state
 	LDA #$0164				;$B3AA82   |\
 	JSR defeat_sprite_using_animation	;$B3AA85   |/ Set click-clack defeated animation
-	LDA #$0510				;$B3AA88   |\
+	%lda_sound(5, click_clack_hit)		;$B3AA88   |\
 	JSL queue_sound_effect			;$B3AA8B   |/ Play click-clack squish sound
 	JMP sprite_return_handle_despawn	;$B3AA8F  /> Done processing sprite
 
@@ -5729,11 +5730,11 @@ CODE_B3AAD6:
 	BEQ CODE_B3AB28				;$B3AADF   |
 CODE_B3AAE1:					;	   |
 	LDA temp_5E				;$B3AAE1   |
-	STA sprite.unknown_32,x			;$B3AAE3   |
+	STA sprite.carry_or_defeat_flags,x	;$B3AAE3   |
 	JSR CODE_B39F10				;$B3AAE5   |
 	BCS CODE_B3AB5E				;$B3AAE8   |
 	LDY active_kong_sprite			;$B3AAEA   |
-	LDA.w sprite.unknown_40,y		;$B3AAED   |
+	LDA.w sprite.animation_flags,y		;$B3AAED   |
 	AND #$E000				;$B3AAF0   |
 	CMP #$E000				;$B3AAF3   |
 	BEQ CODE_B3AB17				;$B3AAF6   |
@@ -5759,9 +5760,9 @@ CODE_B3AB17:					;	   |
 CODE_B3AB28:
 	LDA $4E,x				;$B3AB28  \
 	BNE CODE_B3AB4F				;$B3AB2A   |
-	LDA #$0414				;$B3AB2C   |
+	%lda_sound(4, boom)			;$B3AB2C   |
 	JSL queue_sound_effect			;$B3AB2F   |
-	LDA #$0615				;$B3AB33   |
+	%lda_sound(6, explosion)		;$B3AB33   |
 	JSL queue_sound_effect			;$B3AB36   |
 	LDY #!special_sprite_spawn_id_00E4	;$B3AB3A   |
 	JSL spawn_BB83EF_special_sprite_index	;$B3AB3D   |
@@ -5771,7 +5772,7 @@ CODE_B3AB28:
 	JML [sprite_return_address]		;$B3AB4C  /
 
 CODE_B3AB4F:
-	LDA #$051A				;$B3AB4F  \
+	%lda_sound(5, barrel_blast)		;$B3AB4F  \
 	JSL queue_sound_effect			;$B3AB52   |
 	JSL spawn_barrel_parts_and_smoke_global	;$B3AB56   |
 	JSL delete_sprite_handle_deallocation	;$B3AB5A   |
@@ -6074,8 +6075,8 @@ CODE_B3AD71:
 	BRA CODE_B3AD9E				;$B3AD93  /
 
 CODE_B3AD95:
-	LDA #$051A				;$B3AD95  \
-	JSR CODE_B3A400				;$B3AD98   |
+	%lda_sound(5, barrel_blast)		;$B3AD95  \
+	JSR queue_sfx_if_on_screen		;$B3AD98   |
 	JSR CODE_B3AF28				;$B3AD9B   |
 CODE_B3AD9E:					;	   |
 	JSL process_sprite_animation		;$B3AD9E   |
@@ -6195,7 +6196,7 @@ CODE_B3AE72:
 	ASL A					;$B3AE78   |
 	ASL A					;$B3AE79   |
 	TAX					;$B3AE7A   |
-	LDA.l DATA_B896B7,x			;$B3AE7B   |
+	LDA.l kong_state_flags_table,x		;$B3AE7B   |
 	LDX current_sprite			;$B3AE7F   |
 	AND #$0040				;$B3AE81   |
 	RTS					;$B3AE84  /
@@ -6263,9 +6264,9 @@ CODE_B3AEFA:
 	JSL delete_sprite_handle_deallocation	;$B3AEFF   |
 	PLX					;$B3AF03   |
 	STX current_sprite			;$B3AF04   |
-	LDA #$0414				;$B3AF06   |
+	%lda_sound(4, boom)			;$B3AF06   |
 	JSL queue_sound_effect			;$B3AF09   |
-	LDA #$0615				;$B3AF0D   |
+	%lda_sound(6, explosion)		;$B3AF0D   |
 	JSL queue_sound_effect			;$B3AF10   |
 	LDY #!special_sprite_spawn_id_00E4	;$B3AF14   |
 	JSL spawn_BB83EF_special_sprite_index	;$B3AF17   |
@@ -6725,12 +6726,12 @@ CODE_B3B231:					;	   |
 	LDY #$0006				;$B3B233   |
 	LDA [current_sprite_constants],y	;$B3B236   |
 	BPL CODE_B3B248				;$B3B238   |
-	LDA sprite.max_x_speed,x				;$B3B23A   |
+	LDA sprite.max_x_speed,x		;$B3B23A   |
 	LSR A					;$B3B23C   |
-	EOR sprite.oam_property,x				;$B3B23D   |
+	EOR sprite.oam_property,x		;$B3B23D   |
 	AND #$4000				;$B3B23F   |
-	EOR sprite.oam_property,x				;$B3B242   |
-	STA sprite.oam_property,x				;$B3B244   |
+	EOR sprite.oam_property,x		;$B3B242   |
+	STA sprite.oam_property,x		;$B3B244   |
 	BRA CODE_B3B26B				;$B3B246  /
 
 CODE_B3B248:
@@ -7076,7 +7077,7 @@ CODE_B3B490:
 	LDA.w sprite.x_position,y		;$B3B494   |
 	STA $4E,x				;$B3B497   |
 	LDA.w sprite.y_position,y		;$B3B499   |
-	STA sprite.unknown_50,x			;$B3B49C   |
+	STA sprite.general_purpose_50,x		;$B3B49C   |
 	LDA sprite.display_mode,x		;$B3B49E   |
 	LSR A					;$B3B4A0   |
 	BCC CODE_B3B4AF				;$B3B4A1   |
@@ -7286,7 +7287,7 @@ CODE_B3B622:
 	BCS CODE_B3B649				;$B3B644   |
 	LDA.w sprite.y_position,y		;$B3B646   |
 CODE_B3B649:					;	   |
-	STA sprite.unknown_50,x			;$B3B649   |
+	STA sprite.general_purpose_50,x		;$B3B649   |
 CODE_B3B64B:					;	   |
 	LDA #$0008				;$B3B64B   |
 	JSL process_alternate_movement		;$B3B64E   |
@@ -7339,7 +7340,7 @@ CODE_B3B6A3:					;	   |
 	CLC					;$B3B6AE   |
 	ADC sprite.y_position,x			;$B3B6AF   |
 	SEC					;$B3B6B1   |
-	SBC sprite.unknown_50,x			;$B3B6B2   |
+	SBC sprite.general_purpose_50,x		;$B3B6B2   |
 	EOR sprite.max_y_speed,x		;$B3B6B4   |
 	BMI CODE_B3B6D2				;$B3B6B6   |
 	BPL CODE_B3B6CB				;$B3B6B8   |
@@ -7433,7 +7434,7 @@ CODE_B3B753:
 	INC A					;$B3B761   |
 CODE_B3B762:					;	   |
 	STA temp_34				;$B3B762   |
-	LDA sprite.unknown_50,x			;$B3B764   |
+	LDA sprite.general_purpose_50,x		;$B3B764   |
 	SEC					;$B3B766   |
 	SBC sprite.y_position,x			;$B3B767   |
 	STA temp_36				;$B3B769   |
@@ -7568,7 +7569,7 @@ CODE_B3B822:
 	ASL A					;$B3B82A   |
 CODE_B3B82B:					;	   |
 	STA temp_32				;$B3B82B   |
-	LDA sprite.movement_state,x			;$B3B82D   |
+	LDA sprite.movement_state,x		;$B3B82D   |
 	CMP #$0008				;$B3B82F   |
 	BEQ CODE_B3B875				;$B3B832   |
 	LDA sprite.x_position,x			;$B3B834   |
@@ -7892,7 +7893,7 @@ CODE_B3BA6E:
 	BCS CODE_B3BA85				;$B3BA80   |
 	LDA.w sprite.y_position,y		;$B3BA82   |
 CODE_B3BA85:					;	   |
-	STA sprite.unknown_50,x			;$B3BA85   |
+	STA sprite.general_purpose_50,x		;$B3BA85   |
 	RTS					;$B3BA87  /
 
 CODE_B3BA88:
@@ -7951,7 +7952,7 @@ DATA_B3BAC6:
 CODE_B3BAD2:
 	TYX					;$B3BAD2  \
 	LDA $42,x				;$B3BAD3   |
-	STA sprite.unknown_50,x			;$B3BAD5   |
+	STA sprite.general_purpose_50,x		;$B3BAD5   |
 	LDA $44,x				;$B3BAD7   |
 	STA sprite.max_y_speed,x		;$B3BAD9   |
 	LDA $46,x				;$B3BADB   |
@@ -7975,12 +7976,12 @@ CODE_B3BAEE:
 CODE_B3BAFD:					;	   |
 	TYX					;$B3BAFD   |
 	LDA $48,x				;$B3BAFE   |
-	STA sprite.unknown_50,x			;$B3BB00   |
+	STA sprite.general_purpose_50,x		;$B3BB00   |
 	LDA $4A,x				;$B3BB02   |
 	STA sprite.max_y_speed,x		;$B3BB04   |
 	LDA $4C,x				;$B3BB06   |
 	STA sprite.unknown_22,x			;$B3BB08   |
-	LDA sprite.display_mode+1,x		;$B3BB0A   |
+	LDA sprite.display_mode_high,x		;$B3BB0A   |
 	AND #$00FF				;$B3BB0C   |
 	BNE CODE_B3BB12				;$B3BB0F   |
 	DEC A					;$B3BB11   |
@@ -8023,7 +8024,7 @@ CODE_B3BB4E:
 	JMP sprite_return_handle_despawn	;$B3BB55  /
 
 CODE_B3BB58:
-	LDA sprite.unknown_50,x			;$B3BB58  \
+	LDA sprite.general_purpose_50,x		;$B3BB58  \
 	CMP sprite.max_x_speed,x		;$B3BB5A   |
 	STZ sprite.max_x_speed,x		;$B3BB5C   |
 	STZ sprite.x_speed,x			;$B3BB5E   |
@@ -8033,13 +8034,13 @@ CODE_B3BB58:
 	CMP #$0006				;$B3BB67   |
 	BCC CODE_B3BB7A				;$B3BB6A   |
 	LDA sprite.terrain_attributes,x		;$B3BB6C   |
-	EOR sprite.unknown_50,x			;$B3BB6E   |
+	EOR sprite.general_purpose_50,x		;$B3BB6E   |
 	BMI CODE_B3BB7A				;$B3BB70   |
-	LDA sprite.unknown_50,x			;$B3BB72   |
+	LDA sprite.general_purpose_50,x		;$B3BB72   |
 CODE_B3BB74:					;	   |
 	EOR #$FFFF				;$B3BB74   |
 	INC A					;$B3BB77   |
-	STA sprite.unknown_50,x			;$B3BB78   |
+	STA sprite.general_purpose_50,x		;$B3BB78   |
 CODE_B3BB7A:					;	   |
 	RTS					;$B3BB7A  /
 
@@ -8154,7 +8155,7 @@ unknown_sprite_00A8_main:
 
 .sub_state_02:
 	TYX					;$B3BC31  \
-	DEC sprite.unknown_50,x			;$B3BC32   |
+	DEC sprite.general_purpose_50,x		;$B3BC32   |
 	BPL .CODE_B3BC56			;$B3BC34   |
 	STZ sprite.y_position,x			;$B3BC36   |
 	JSL process_current_movement		;$B3BC38   |
@@ -8280,7 +8281,7 @@ CODE_B3BD0C:
 	JSR CODE_B3BDC7				;$B3BD0C  \
 	LDX current_sprite			;$B3BD0F   |
 	BCS CODE_B3BD36				;$B3BD11   |
-	DEC sprite.unknown_50,x			;$B3BD13   |
+	DEC sprite.general_purpose_50,x		;$B3BD13   |
 	BPL CODE_B3BD24				;$B3BD15   |
 	LDA #$0007				;$B3BD17   |
 	STA sprite.state,x			;$B3BD1A   |
@@ -8443,7 +8444,7 @@ CODE_B3BE31:
 	LDA #$0002				;$B3BE44   |
 	STA sprite.placement_parameter,x	;$B3BE47   |
 	STZ sprite.current_graphic,x		;$B3BE49   |
-	STZ sprite.unknown_16,x			;$B3BE4B   |
+	STZ sprite.last_rendered_graphic,x	;$B3BE4B   |
 	STZ sprite.x_position,x			;$B3BE4D   |
 	STZ sprite.y_position,x			;$B3BE4F   |
 	RTS					;$B3BE51  /
@@ -8537,7 +8538,7 @@ kannon_main:
 
 .fire_projectile:
 	LDY active_kong_sprite			;$B3BEE6  \ Get kong sprite
-	LDA.w sprite.unknown_40,y		;$B3BEE9   | Get animation flags
+	LDA.w sprite.animation_flags,y		;$B3BEE9   | Get animation flags
 	AND #$E000				;$B3BEEC   |
 	CMP #$E000				;$B3BEEF   |
 	BEQ ..return				;$B3BEF2   | If animation flag is set return
@@ -8582,8 +8583,8 @@ kannon_main:
 	STA $004E,y				;$B3BF3C   | Pass to projectile
 	LDA $4E,x				;$B3BF3F   |
 	STA.w sprite.despawn_time,y		;$B3BF41   | Set projectile's offscreen despawn timer
-	LDA #$054B				;$B3BF44   |
-	JSL queue_sound_effect			;$B3BF47   | Play cannon_shoot sound effect
+	%lda_sound(5, cannon_shoot)		;$B3BF44   |
+	JSL queue_sound_effect			;$B3BF47   | Play cannon shoot sound effect
 	LDY #$0008				;$B3BF4B   |
 	LDA [current_sprite_constants],y	;$B3BF4E   | Get index of smoke puff script in kannon constants
 	TAY					;$B3BF50   | Transfer it to Y
@@ -8616,10 +8617,10 @@ CODE_B3BF62:
 
 
 CODE_B3BF70:
-	LDA.w sprite.unknown_50,y		;$B3BF70  \
+	LDA.w sprite.general_purpose_50,y	;$B3BF70  \
 	ASL A					;$B3BF73   |
 	ASL A					;$B3BF74   |
-	ADC.w sprite.unknown_50,y		;$B3BF75   |
+	ADC.w sprite.general_purpose_50,y	;$B3BF75   |
 	ASL A					;$B3BF78   |
 	TAX					;$B3BF79   |
 	LDA.l DATA_FF6AA0,x			;$B3BF7A   |
@@ -8684,7 +8685,7 @@ CODE_B3BFDA:					;	   |
 	STZ $46,x				;$B3BFF7   |
 	LDY #!special_sprite_spawn_id_0072	;$B3BFF9   |
 	JSL spawn_no_gfx_special_sprite_index	;$B3BFFC   |
-	LDA #$064C				;$B3C000   |
+	%lda_sound(6, cannonball_drop)		;$B3C000   |
 	JSL queue_sound_effect			;$B3C003   |
 	JSL process_sprite_animation		;$B3C007   |
 CODE_B3C00B:					;	   |
@@ -8712,7 +8713,7 @@ CODE_B3C00E:
 	JSL spawn_no_gfx_special_sprite_index	;$B3C038   |
 	LDY #!special_sprite_spawn_id_0070	;$B3C03C   |
 	JSL spawn_no_gfx_special_sprite_index	;$B3C03F   |
-	LDA #$064C				;$B3C043   |
+	%lda_sound(6, cannonball_drop)		;$B3C043   |
 	JSL queue_sound_effect			;$B3C046   |
 CODE_B3C04A:					;	   |
 	JSL process_sprite_animation		;$B3C04A   |
@@ -8764,7 +8765,7 @@ CODE_B3C091:
 CODE_B3C094:
 	TAX					;$B3C094  \
 	LDY active_kong_sprite			;$B3C095   |
-	LDA.w sprite.unknown_40,y		;$B3C098   |
+	LDA.w sprite.animation_flags,y		;$B3C098   |
 	AND #$E000				;$B3C09B   |
 	CMP #$E000				;$B3C09E   |
 	BNE CODE_B3C0A9				;$B3C0A1   |
@@ -8782,12 +8783,12 @@ DATA_B3C0AE:
 
 
 CODE_B3C0B4:
-	LDA.w sprite.unknown_50,y		;$B3C0B4  \
+	LDA.w sprite.general_purpose_50,y	;$B3C0B4  \
 	ASL A					;$B3C0B7   |
 	ASL A					;$B3C0B8   |
-	ADC.w sprite.unknown_50,y		;$B3C0B9   |
+	ADC.w sprite.general_purpose_50,y	;$B3C0B9   |
 	ASL A					;$B3C0BC   |
-	ADC.w sprite.unknown_50,y		;$B3C0BD   |
+	ADC.w sprite.general_purpose_50,y	;$B3C0BD   |
 	TAX					;$B3C0C0   |
 	LDA.l DATA_FF6B29,x			;$B3C0C1   |
 	STA $0048,y				;$B3C0C5   |
@@ -8907,7 +8908,7 @@ CODE_B3C18F:					;	   |
 	JSL spawn_no_gfx_special_sprite_index	;$B3C1B5   |
 	LDY #!special_sprite_spawn_id_0070	;$B3C1B9   |
 	JSL spawn_no_gfx_special_sprite_index	;$B3C1BC   |
-	LDA #$064C				;$B3C1C0   |
+	%lda_sound(6, cannonball_drop)		;$B3C1C0   |
 	JSL queue_sound_effect			;$B3C1C3   |
 	SEC					;$B3C1C7   |
 CODE_B3C1C8:					;	   |
@@ -8993,7 +8994,7 @@ CODE_B3C24C:
 	RTS					;$B3C259  /
 
 CODE_B3C25A:
-	LDA #$051A				;$B3C25A  \
+	%lda_sound(5, barrel_blast)		;$B3C25A  \
 	JSL queue_sound_effect			;$B3C25D   |
 	LDY #!special_sprite_spawn_id_0074	;$B3C261   |
 	JSL spawn_special_sprite_index		;$B3C264   |
@@ -9180,9 +9181,9 @@ CODE_B3C3AC:
 
 CODE_B3C3C3:
 	TYX					;$B3C3C3  \ Get banana bunch sprite
-	DEC sprite.unknown_50,x			;$B3C3C4   | Decrease despawn timer
+	DEC sprite.general_purpose_50,x		;$B3C3C4   | Decrease despawn timer
 	BMI CODE_B3C3FC				;$B3C3C6   | If done, despawn banana bunch
-	LDA sprite.unknown_50,x			;$B3C3C8   |
+	LDA sprite.general_purpose_50,x		;$B3C3C8   |
 	CMP #$0078				;$B3C3CA   |
 	BCS CODE_B3C3E8				;$B3C3CD   |
 	BIT #$0003				;$B3C3CF   |
@@ -9243,7 +9244,7 @@ extra_life_balloon_main:
 	JMP sprite_return_handle_despawn	;$B3C441  / Done processing sprite
 
 .collect_balloon:
-	LDA #$072C				;$B3C444  \
+	%lda_sound(7, life_balloon)		;$B3C444  \
 	JSL queue_sound_effect			;$B3C447   | Play life balloon sound
 	LDX current_sprite			;$B3C44B   |
 	LDA $42,x				;$B3C44D   | Get how many lives to give
@@ -9352,7 +9353,7 @@ CODE_B3C512:
 	INC sprite.state,x			;$B3C51C   |
 	LDY active_kong_sprite			;$B3C51E   |
 	LDA.w sprite.x_position,y		;$B3C521   |
-	STA sprite.unknown_50,x			;$B3C524   |
+	STA sprite.general_purpose_50,x		;$B3C524   |
 	SEC					;$B3C526   |
 	SBC sprite.x_position,x			;$B3C527   |
 	STA temp_32				;$B3C529   |
@@ -9380,11 +9381,11 @@ CODE_B3C553:
 	JSR CODE_B3C62A				;$B3C556   |
 	BCS CODE_B3C57B				;$B3C559   |
 	LDA #$0022				;$B3C55B   |
-	JSR CODE_B3CE79				;$B3C55E   |
+	JSR process_alternate_movement_B3	;$B3C55E   |
 	LDA sprite.animation_id,x		;$B3C561   |
 	CMP #$016C				;$B3C563   |
 	BNE CODE_B3C577				;$B3C566   |
-	LDA sprite.unknown_50,x			;$B3C568   |
+	LDA sprite.general_purpose_50,x		;$B3C568   |
 	SEC					;$B3C56A   |
 	SBC sprite.x_position,x			;$B3C56B   |
 	CMP #$0040				;$B3C56D   |
@@ -9415,7 +9416,7 @@ CODE_B3C59B:					;	   |
 	STZ sprite.x_speed,x			;$B3C59D   |
 	SEP #$20				;$B3C59F   |
 	LDA sprite.display_mode,x		;$B3C5A1   |
-	STA sprite.display_mode+1,x		;$B3C5A3   |
+	STA sprite.display_mode_high,x		;$B3C5A3   |
 	REP #$20				;$B3C5A5   |
 	LDA #$0003				;$B3C5A7   |
 	STA sprite.state,x			;$B3C5AA   |
@@ -9428,7 +9429,7 @@ CODE_B3C5B6:
 	JSR CODE_B3C62A				;$B3C5B9   |
 	BCS CODE_B3C5C8				;$B3C5BC   |
 	LDA #$0022				;$B3C5BE   |
-	JSR CODE_B3CE79				;$B3C5C1   |
+	JSR process_alternate_movement_B3	;$B3C5C1   |
 	JSL process_sprite_animation		;$B3C5C4   |
 CODE_B3C5C8:					;	   |
 	JMP sprite_return_handle_despawn	;$B3C5C8  /
@@ -9438,7 +9439,7 @@ CODE_B3C5CB:
 	JSR CODE_B3C62A				;$B3C5CE   |
 	BCS CODE_B3C5DD				;$B3C5D1   |
 	LDA #$002A				;$B3C5D3   |
-	JSR CODE_B3CE79				;$B3C5D6   |
+	JSR process_alternate_movement_B3	;$B3C5D6   |
 	JSL process_sprite_animation		;$B3C5D9   |
 CODE_B3C5DD:					;	   |
 	JMP sprite_return_handle_despawn	;$B3C5DD  /
@@ -9463,7 +9464,7 @@ CODE_B3C5F0:					;	   |
 	STZ sprite.x_speed,x			;$B3C5FE   |
 CODE_B3C600:					;	   |
 	STZ sprite.x_sub_position,x		;$B3C600   |
-	LDA sprite.display_mode+1,x		;$B3C602   |
+	LDA sprite.display_mode_high,x		;$B3C602   |
 	AND #$00FF				;$B3C604   |
 	BEQ CODE_B3C61A				;$B3C607   |
 	LDA $4C,x				;$B3C609   |
@@ -9506,13 +9507,13 @@ CODE_B3C64F:					;	   |
 
 CODE_B3C65A:
 	BEQ CODE_B3C671				;$B3C65A  \
-	LDA #$051E				;$B3C65C   |
+	%lda_sound(5, blade_swing)		;$B3C65C   |
 	JSL queue_sound_effect			;$B3C65F   |
 	LDX current_sprite			;$B3C663   |
 	SEP #$20				;$B3C665   |
 	STZ $4B,x				;$B3C667   |
 	LDA #$03				;$B3C669   |
-	STA sprite.display_mode+1,x		;$B3C66B   |
+	STA sprite.display_mode_high,x		;$B3C66B   |
 	REP #$20				;$B3C66D   |
 	CLC					;$B3C66F   |
 	RTS					;$B3C670  /
@@ -9848,10 +9849,10 @@ CODE_B3C8B8:					;	   |
 	JSR defeat_sprite_using_animation	;$B3C8C9   |
 	LDA #$0004				;$B3C8CC   |
 	STA sprite.state,x			;$B3C8CF   |
-	LDY sprite.unknown_50,x			;$B3C8D1   |
+	LDY sprite.general_purpose_50,x		;$B3C8D1   |
 	BEQ CODE_B3C8DB				;$B3C8D3   |
 	LDA #$0000				;$B3C8D5   |
-	STA.w sprite.unknown_50,y		;$B3C8D8   |
+	STA.w sprite.general_purpose_50,y	;$B3C8D8   |
 CODE_B3C8DB:					;	   |
 	SEC					;$B3C8DB   |
 	RTS					;$B3C8DC  /
@@ -9866,7 +9867,7 @@ krooks_hook_main:
 
 
 CODE_B3C8E6:
-	LDX sprite.unknown_50,y			;$B3C8E6  \
+	LDX sprite.general_purpose_50,y		;$B3C8E6  \
 	LDA sprite.unknown_22,x			;$B3C8E8   |
 	BIT sprite.oam_property,x		;$B3C8EA   |
 	BVC CODE_B3C8F2				;$B3C8EC   |
@@ -9891,7 +9892,7 @@ CODE_B3C8FD:					;	   |
 	TYX					;$B3C915   |
 	STZ $48,x				;$B3C916   |
 CODE_B3C918:					;	   |
-	LDX sprite.unknown_50,y			;$B3C918   |
+	LDX sprite.general_purpose_50,y		;$B3C918   |
 	BEQ CODE_B3C968				;$B3C91A   |
 	LDA sprite.y_position,x			;$B3C91C   |
 	STA.w sprite.y_position,y		;$B3C91E   |
@@ -9929,9 +9930,9 @@ CODE_B3C952:					;	   |
 	JML [sprite_return_address]		;$B3C956  /
 
 CODE_B3C959:
-	LDY sprite.unknown_50,x			;$B3C959  \
+	LDY sprite.general_purpose_50,x		;$B3C959  \
 	LDA #$0000				;$B3C95B   |
-	STA.w sprite.unknown_50,y		;$B3C95E   |
+	STA.w sprite.general_purpose_50,y	;$B3C95E   |
 	JSL delete_sprite_handle_deallocation	;$B3C961   |
 	JML [sprite_return_address]		;$B3C965  /
 
@@ -9963,7 +9964,7 @@ CODE_B3C98C:
 	LDA #$C000				;$B3C999   |
 CODE_B3C99C:					;	   |
 	STA sprite.display_mode,x		;$B3C99C   |
-	STZ sprite.unknown_32,x			;$B3C99E   |
+	STZ sprite.carry_or_defeat_flags,x	;$B3C99E   |
 	RTS					;$B3C9A0  /
 
 CODE_B3C9A1:
@@ -10205,7 +10206,7 @@ DATA_B3CB6C:
 
 CODE_B3CB8C:
 	TYX					;$B3CB8C  \
-	LDA sprite.unknown_50,x			;$B3CB8D   |
+	LDA sprite.general_purpose_50,x		;$B3CB8D   |
 	STA temp_32				;$B3CB8F   |
 	LDA current_sprite_constants_bank	;$B3CB91   |
 	STA temp_34				;$B3CB93   |
@@ -10258,7 +10259,7 @@ CODE_B3CBDC:					;	  \
 	LDX current_sprite			;$B3CBDC   |
 	INY					;$B3CBDE   |
 	LDA [temp_32],y				;$B3CBDF   |
-	STA sprite.unknown_50,x			;$B3CBE1   |
+	STA sprite.general_purpose_50,x		;$B3CBE1   |
 	RTS					;$B3CBE3  /
 
 CODE_B3CBE4:					;	  \
@@ -10309,7 +10310,7 @@ CODE_B3CC25:					;	  \
 	LDX current_sprite			;$B3CC25   |
 	INY					;$B3CC27   |
 	LDA [temp_32],y				;$B3CC28   |
-	STA sprite.unknown_50,x			;$B3CC2A   |
+	STA sprite.general_purpose_50,x		;$B3CC2A   |
 	INY					;$B3CC2C   |
 	TYA					;$B3CC2D   |
 	SEC					;$B3CC2E   |
@@ -10320,7 +10321,7 @@ CODE_B3CC25:					;	  \
 CODE_B3CC34:					;	  \
 	LDX current_sprite			;$B3CC34   |
 	LDA $4E,x				;$B3CC36   |
-	STA sprite.unknown_50,x			;$B3CC38   |
+	STA sprite.general_purpose_50,x		;$B3CC38   |
 	RTS					;$B3CC3A  /
 
 CODE_B3CC3B:					;	  \
@@ -10347,8 +10348,8 @@ CODE_B3CC4C:					;	  \
 CODE_B3CC5B:
 	TYA					;$B3CC5B  \
 	CLC					;$B3CC5C   |
-	ADC sprite.unknown_50,x			;$B3CC5D   |
-	STA sprite.unknown_50,x			;$B3CC5F   |
+	ADC sprite.general_purpose_50,x		;$B3CC5D   |
+	STA sprite.general_purpose_50,x		;$B3CC5F   |
 	RTS					;$B3CC61  /
 
 CODE_B3CC62:					;	  \
@@ -10438,60 +10439,64 @@ CODE_B3CCDA:
 CODE_B3CCDB:					;	   |
 	RTS					;$B3CCDB  /
 
+
+;Cat o9 Tails variables:
+;1C,x 	Timer before starts/stops spinning
+
 cat_o9tails_main:
 	JSR sprite_state_handler_B3		;$B3CCDC  /
 
 .state_table:
-	dw CODE_B3CCF1
-	dw CODE_B3CD23
-	dw CODE_B3CD2F
-	dw CODE_B3CD48
-	dw CODE_B3CD96
-	dw CODE_B3CDC0
-	dw CODE_B3CDFD
-	dw CODE_B3CE59
-	dw CODE_B3CE6E
+	dw .state_0
+	dw .idle
+	dw .state_2
+	dw .state_3
+	dw .state_4
+	dw .state_5
+	dw .state_6
+	dw .state_7
+	dw .defeated
 
 
-CODE_B3CCF1:
+.state_0:
 	TYX					;$B3CCF1  \
 	LDA sprite.display_mode,x		;$B3CCF2   |
-	BEQ CODE_B3CCFA				;$B3CCF4   |
+	BEQ ..CODE_B3CCFA			;$B3CCF4   |
 	DEC sprite.display_mode,x		;$B3CCF6   |
-	BNE CODE_B3CCFC				;$B3CCF8   |
-CODE_B3CCFA:					;	   |
+	BNE ..CODE_B3CCFC			;$B3CCF8   |
+..CODE_B3CCFA:					;	   |
 	INC sprite.state,x			;$B3CCFA   |
-CODE_B3CCFC:					;	   |
+..CODE_B3CCFC:					;	   |
 	LDA sprite.movement_state,x		;$B3CCFC   |
 	CMP #$018D				;$B3CCFE   |
-	BEQ CODE_B3CD0D				;$B3CD01   |
+	BEQ ..CODE_B3CD0D			;$B3CD01   |
 	LDA #$5428				;$B3CD03   |
 	JSR CODE_B3CF41				;$B3CD06   |
-	BCS CODE_B3CD20				;$B3CD09   |
-	BRA CODE_B3CD12				;$B3CD0B  /
+	BCS ..return				;$B3CD09   |
+	BRA ..CODE_B3CD12			;$B3CD0B  /
 
-CODE_B3CD0D:
+..CODE_B3CD0D:
 	JSR CODE_B3CF60				;$B3CD0D  \
-	BCS CODE_B3CD8A				;$B3CD10   |
-CODE_B3CD12:					;	   |
+	BCS .state_3_CODE_B3CD8A		;$B3CD10   |
+..CODE_B3CD12:					;	   |
 	JSL process_sprite_animation		;$B3CD12   |
 	LDA #$0022				;$B3CD16   |
-	JSR CODE_B3CE79				;$B3CD19   |
+	JSR process_alternate_movement_B3	;$B3CD19   |
 	JSL CODE_BBBB99				;$B3CD1C   |
-CODE_B3CD20:					;	   |
+..return:					;	   |
 	JML [sprite_return_address]		;$B3CD20  /
 
-CODE_B3CD23:
+.idle:
 	TYX					;$B3CD23  \
 	LDA $42,x				;$B3CD24   |
 	LDY $44,x				;$B3CD26   |
 	JSR CODE_B3C6C0				;$B3CD28   |
-	BCS CODE_B3CCFC				;$B3CD2B   |
+	BCS .state_0_CODE_B3CCFC		;$B3CD2B   |
 	INC sprite.state,x			;$B3CD2D   |
-CODE_B3CD2F:					;	   |
+.state_2:					;	   |
 	LDX current_sprite			;$B3CD2F   |
 	LDA sprite.movement_state,x		;$B3CD31   |
-	BEQ CODE_B3CCFC				;$B3CD33   |
+	BEQ .state_0_CODE_B3CCFC		;$B3CD33   |
 	JSL set_sprite_animation		;$B3CD35   |
 	STZ sprite.unknown_22,x			;$B3CD39   |
 	LDA $46,x				;$B3CD3B   |
@@ -10501,45 +10506,45 @@ CODE_B3CD2F:					;	   |
 	INC sprite.state,x			;$B3CD43   |
 	JMP sprite_return_handle_despawn	;$B3CD45  /
 
-CODE_B3CD48:
+.state_3:
 	LDA.w sprite.animation_id,y		;$B3CD48  \
 	CMP #$018D				;$B3CD4B   |
-	BEQ CODE_B3CD67				;$B3CD4E   |
+	BEQ ..CODE_B3CD67			;$B3CD4E   |
 	LDA #$5428				;$B3CD50   |
 	JSR CODE_B3CF41				;$B3CD53   |
-	BCS CODE_B3CD8A				;$B3CD56   |
+	BCS ..CODE_B3CD8A			;$B3CD56   |
 	LDX current_sprite			;$B3CD58   |
 	JSL process_sprite_animation		;$B3CD5A   |
 	LDA #$0022				;$B3CD5E   |
-	JSR CODE_B3CE79				;$B3CD61   |
+	JSR process_alternate_movement_B3	;$B3CD61   |
 	JMP sprite_return_handle_despawn	;$B3CD64  /
 
-CODE_B3CD67:
+..CODE_B3CD67:
 	LDX current_sprite			;$B3CD67  \
 	LDA sprite.display_mode,x		;$B3CD69   |
-	BEQ CODE_B3CD8D				;$B3CD6B   |
+	BEQ ..CODE_B3CD8D			;$B3CD6B   |
 	DEC sprite.display_mode,x		;$B3CD6D   |
 	JSR CODE_B3CF60				;$B3CD6F   |
-	BCS CODE_B3CD8A				;$B3CD72   |
+	BCS ..CODE_B3CD8A			;$B3CD72   |
 	LDX current_sprite			;$B3CD74   |
 	LDA #$0000				;$B3CD76   |
 	JSR CODE_B3B28E				;$B3CD79   |
 	JSL process_sprite_animation		;$B3CD7C   |
 	LDA #$0022				;$B3CD80   |
-	JSR CODE_B3CE79				;$B3CD83   |
+	JSR process_alternate_movement_B3	;$B3CD83   |
 	JSL CODE_BBBB99				;$B3CD86   |
-CODE_B3CD8A:					;	   |
+..CODE_B3CD8A:					;	   |
 	JML [sprite_return_address]		;$B3CD8A  /
 
-CODE_B3CD8D:
+..CODE_B3CD8D:
 	INC sprite.state,x			;$B3CD8D  \
 	JSL process_sprite_animation		;$B3CD8F   |
 	JML [sprite_return_address]		;$B3CD93  /
 
-CODE_B3CD96:
+.state_4:
 	LDA #$542C				;$B3CD96  \
 	JSR CODE_B3CF41				;$B3CD99   |
-	BCS CODE_B3CDB7				;$B3CD9C   |
+	BCS ..CODE_B3CDB7			;$B3CD9C   |
 	LDX current_sprite			;$B3CD9E   |
 	LDA $4A,x				;$B3CDA0   |
 	STA sprite.display_mode,x		;$B3CDA2   |
@@ -10549,42 +10554,42 @@ CODE_B3CD96:
 	STZ sprite.x_speed,x			;$B3CDAA   |
 	LDA #$018B				;$B3CDAC   |
 	CMP sprite.animation_id,x		;$B3CDAF   |
-	BEQ CODE_B3CDB7				;$B3CDB1   |
+	BEQ ..CODE_B3CDB7			;$B3CDB1   |
 	JSL set_sprite_animation		;$B3CDB3   |
-CODE_B3CDB7:					;	   |
+..CODE_B3CDB7:					;	   |
 	LDA #$0022				;$B3CDB7   |
-	JSR CODE_B3CE79				;$B3CDBA   |
+	JSR process_alternate_movement_B3	;$B3CDBA   |
 	JML [sprite_return_address]		;$B3CDBD  /
 
-CODE_B3CDC0:
+.state_5:
 	LDA #$0118				;$B3CDC0  \
 	JSL check_throwable_collision_global	;$B3CDC3   |
-	BCS CODE_B3CDDF				;$B3CDC7   |
+	BCS ..CODE_B3CDDF			;$B3CDC7   |
 	JSL check_if_sprite_offscreen_global	;$B3CDC9   |
-	BCS CODE_B3CDEF				;$B3CDCD   |
+	BCS ..CODE_B3CDEF			;$B3CDCD   |
 	LDA #$0022				;$B3CDCF   |
-	JSR CODE_B3CE79				;$B3CDD2   |
+	JSR process_alternate_movement_B3	;$B3CDD2   |
 	JSL process_sprite_animation		;$B3CDD5   |
-	JSR CODE_B3CE80				;$B3CDD9   |
+	JSR spin_cat_o9_tails_with_kong		;$B3CDD9   | Update kong X/Y pos offsets and cat's render order
 	JML [sprite_return_address]		;$B3CDDC  /
 
-CODE_B3CDDF:
+..CODE_B3CDDF:
 	JSR CODE_B3CF7F				;$B3CDDF  \
 	STZ $0AE8				;$B3CDE2   |
 	LDA #!player_interaction_1B		;$B3CDE5   |
 	JSL set_player_interaction_global	;$B3CDE8   |
 	JML [sprite_return_address]		;$B3CDEC  /
 
-CODE_B3CDEF:
+..CODE_B3CDEF:
 	LDA #!player_interaction_29		;$B3CDEF  \
 	JSL set_player_interaction_global	;$B3CDF2   |
 	JSL delete_sprite_handle_deallocation	;$B3CDF6   |
 	JML [sprite_return_address]		;$B3CDFA  /
 
-CODE_B3CDFD:
+.state_6:
 	LDA #!player_interaction_14		;$B3CDFD  \
 	JSL set_player_interaction_global	;$B3CE00   |
-	BCS CODE_B3CE48				;$B3CE04   |
+	BCS ..CODE_B3CE48			;$B3CE04   |
 	LDX current_sprite			;$B3CE06   |
 	LDA $4C,x				;$B3CE08   |
 	STA current_sprite_constants		;$B3CE0A   |
@@ -10598,14 +10603,14 @@ CODE_B3CDFD:
 	STA temp_32				;$B3CE1F   |
 	LDY #$0004				;$B3CE21   |
 	LDA [current_sprite_constants],y	;$B3CE24   |
-	BCC CODE_B3CE2C				;$B3CE26   |
+	BCC ..CODE_B3CE2C			;$B3CE26   |
 	CMP #$8000				;$B3CE28   |
 	ROR A					;$B3CE2B   |
-CODE_B3CE2C:					;	   |
+..CODE_B3CE2C:					;	   |
 	LSR temp_32				;$B3CE2C   |
-	BCC CODE_B3CE33				;$B3CE2E   |
+	BCC ..CODE_B3CE33			;$B3CE2E   |
 	EOR #$FFFF				;$B3CE30   |
-CODE_B3CE33:					;	   |
+..CODE_B3CE33:					;	   |
 	LDY #$0002				;$B3CE33   |
 	ADC [current_sprite_constants],y	;$B3CE36   |
 	STA $0A8A				;$B3CE38   |
@@ -10614,111 +10619,139 @@ CODE_B3CE33:					;	   |
 	STA $0A8C				;$B3CE40   |
 	INC sprite.state,x			;$B3CE43   |
 	STZ $0AE8				;$B3CE45   |
-CODE_B3CE48:					;	   |
+..CODE_B3CE48:					;	   |
 	JSL process_sprite_animation		;$B3CE48   |
 	LDA sprite.constants_address,x		;$B3CE4C   |
 	STA current_sprite_constants		;$B3CE4E   |
 	LDA #$0022				;$B3CE50   |
-	JSR CODE_B3CE79				;$B3CE53   |
+	JSR process_alternate_movement_B3	;$B3CE53   |
 	JMP sprite_return_handle_despawn	;$B3CE56  /
 
-CODE_B3CE59:
+.state_7:
 	LDA #$542C				;$B3CE59  \
 	JSR CODE_B3CF41				;$B3CE5C   |
-	BCS CODE_B3CE65				;$B3CE5F   |
+	BCS ..CODE_B3CE65			;$B3CE5F   |
 	JSL process_sprite_animation		;$B3CE61   |
-CODE_B3CE65:					;	   |
+..CODE_B3CE65:					;	   |
 	LDA #$0022				;$B3CE65   |
-	JSR CODE_B3CE79				;$B3CE68   |
+	JSR process_alternate_movement_B3	;$B3CE68   |
 	JMP sprite_return_handle_despawn	;$B3CE6B  /
 
-CODE_B3CE6E:
+.defeated:
 	JSL process_current_movement		;$B3CE6E  \
 	JSL process_sprite_animation		;$B3CE72   |
 	JMP make_sprite_fall_off_screen		;$B3CE76  /
 
-CODE_B3CE79:
+process_alternate_movement_B3:
 	LDX current_sprite			;$B3CE79  \
 	JSL process_alternate_movement		;$B3CE7B   |
 	RTS					;$B3CE7F  /
 
-CODE_B3CE80:
+spin_cat_o9_tails_with_kong:
+%local(.kong_x_pos_offset, temp_32)
+%local(.kong_y_pos_offset, temp_34)
+%local(.kong_horizontal_flip, temp_36)
 	LDX current_sprite			;$B3CE80  \
 	PHK					;$B3CE82   |
-	PLB					;$B3CE83   |
+	PLB					;$B3CE83   | Set data bank to here
 	LDA sprite.current_graphic,x		;$B3CE84   |
 	SEC					;$B3CE86   |
-	SBC #$24C4				;$B3CE87   |
+	SBC #$24C4				;$B3CE87   | Subtract first graphic ID of spin animation
 	LSR A					;$B3CE8A   |
-	LSR A					;$B3CE8B   |
-	ASL A					;$B3CE8C   |
-	TAY					;$B3CE8D   |
-	LDA DATA_B3CF01,y			;$B3CE8E   |
+	LSR A					;$B3CE8B   | / 4
+	ASL A					;$B3CE8C   | * 2
+	TAY					;$B3CE8D   | Use as index into tables below
+	LDA .x_pos_offset_table,y		;$B3CE8E   |
 	BIT sprite.oam_property,x		;$B3CE91   |
-	BVC CODE_B3CE99				;$B3CE93   |
+	BVC ..positive				;$B3CE93   |
 	EOR #$FFFF				;$B3CE95   |
 	INC A					;$B3CE98   |
-CODE_B3CE99:					;	   |
-	STA temp_32				;$B3CE99   |
-	LDA DATA_B3CF11,y			;$B3CE9B   |
-	STA temp_34				;$B3CE9E   |
-	LDA DATA_B3CF21,y			;$B3CEA0   |
-	STA temp_36				;$B3CEA3   |
-	LDA DATA_B3CF31,y			;$B3CEA5   |
-	STA sprite.render_order,x		;$B3CEA8   |
+..positive:					;	   |
+	STA .kong_x_pos_offset			;$B3CE99   |
+	LDA .y_pos_offset_table,y		;$B3CE9B   |
+	STA .kong_y_pos_offset			;$B3CE9E   |
+	LDA .horizontal_flip_table,y		;$B3CEA0   |
+	STA .kong_horizontal_flip		;$B3CEA3   |
+	LDA .render_order_table,y		;$B3CEA5   |
+	STA sprite.render_order,x		;$B3CEA8   | Update cat o9 tails render order
 	LDY active_kong_sprite			;$B3CEAA   |
 	LDA sprite.x_position,x			;$B3CEAD   |
 	CLC					;$B3CEAF   |
-	ADC temp_32				;$B3CEB0   |
+	ADC .kong_x_pos_offset			;$B3CEB0   |
 	STA.w sprite.x_position,y		;$B3CEB2   |
 	LDA sprite.y_position,x			;$B3CEB5   |
 	CLC					;$B3CEB7   |
-	ADC temp_34				;$B3CEB8   |
+	ADC .kong_y_pos_offset			;$B3CEB8   |
 	STA.w sprite.y_position,y		;$B3CEBA   |
 	LDA #$0000				;$B3CEBD   |
 	STA.w sprite.y_speed,y			;$B3CEC0   |
-	LDA temp_36				;$B3CEC3   |
+	LDA .kong_horizontal_flip		;$B3CEC3   |
 	EOR.w sprite.oam_property,y		;$B3CEC5   |
 	AND #$4000				;$B3CEC8   |
 	EOR.w sprite.oam_property,y		;$B3CECB   |
 	STA.w sprite.oam_property,y		;$B3CECE   |
 	LDA $08C2				;$B3CED1   |
 	BIT #$4000				;$B3CED4   |
-	BEQ CODE_B3CF00				;$B3CED7   |
+	BEQ ..return				;$B3CED7   | If we don't have an extra kong, return
 	LDY inactive_kong_sprite		;$B3CED9   |
 	LDA sprite.x_position,x			;$B3CEDC   |
 	CLC					;$B3CEDE   |
-	ADC temp_32				;$B3CEDF   |
+	ADC .kong_x_pos_offset			;$B3CEDF   |
 	STA.w sprite.x_position,y		;$B3CEE1   |
 	LDA sprite.y_position,x			;$B3CEE4   |
 	CLC					;$B3CEE6   |
-	ADC temp_34				;$B3CEE7   |
+	ADC .kong_y_pos_offset			;$B3CEE7   |
 	STA.w sprite.y_position,y		;$B3CEE9   |
 	LDA #$0000				;$B3CEEC   |
 	STA.w sprite.y_speed,y			;$B3CEEF   |
-	LDA temp_36				;$B3CEF2   |
+	LDA .kong_horizontal_flip		;$B3CEF2   |
 	EOR.w sprite.oam_property,y		;$B3CEF4   |
 	AND #$4000				;$B3CEF7   |
 	EOR.w sprite.oam_property,y		;$B3CEFA   |
 	STA.w sprite.oam_property,y		;$B3CEFD   |
-CODE_B3CF00:					;	   |
+..return:					;	   |
 	RTS					;$B3CF00  /
 
-DATA_B3CF01:
-	db $F6, $FF, $FE, $FF, $06, $00, $0E, $00
-	db $0E, $00, $06, $00, $FE, $FF, $F6, $FF
 
-DATA_B3CF11:
-	db $F8, $FF, $F7, $FF, $F7, $FF, $F8, $FF
-	db $F8, $FF, $F7, $FF, $F7, $FF, $F8, $FF
+.x_pos_offset_table:
+	dw $FFF6
+	dw $FFFE
+	dw $0006
+	dw $000E
+	dw $000E
+	dw $0006
+	dw $FFFE
+	dw $FFF6
 
-DATA_B3CF21:
-	db $00, $00, $00, $40, $00, $40, $00, $40
-	db $00, $40, $00, $00, $00, $00, $00, $00
+.y_pos_offset_table:
+	dw $FFF8
+	dw $FFF7
+	dw $FFF7
+	dw $FFF8
+	dw $FFF8
+	dw $FFF7
+	dw $FFF7
+	dw $FFF8
 
-DATA_B3CF31:
-	db $D4, $00, $EC, $00, $EC, $00, $EC, $00
-	db $EC, $00, $D4, $00, $D4, $00, $D4, $00
+.horizontal_flip_table:
+	dw $0000
+	dw $4000
+	dw $4000
+	dw $4000
+	dw $4000
+	dw $0000
+	dw $0000
+	dw $0000
+
+.render_order_table:
+	dw $00D4
+	dw $00EC
+	dw $00EC
+	dw $00EC
+	dw $00EC
+	dw $00D4
+	dw $00D4
+	dw $00D4
 
 CODE_B3CF41:
 	STA $0DC6				;$B3CF41  \
@@ -10954,7 +10987,7 @@ CODE_B3D0F1:
 	STY sprite.placement_number,x		;$B3D0F7   |
 	LDA #$3C3C				;$B3D0F9   |
 	STA sprite.despawn_time,x		;$B3D0FC   |
-	STZ sprite.unknown_32,x			;$B3D0FE   |
+	STZ sprite.carry_or_defeat_flags,x	;$B3D0FE   |
 	LDA.w sprite.render_order,y		;$B3D100   |
 	DEC A					;$B3D103   |
 	STA sprite.render_order,x		;$B3D104   |
@@ -10982,7 +11015,7 @@ CODE_B3D12D:					;	   |
 	LDA sprite.x_speed,x			;$B3D132   |
 	STA.w sprite.ground_distance,y		;$B3D134   |
 	LDA sprite.y_sub_position,x		;$B3D137   |
-	STA.w sprite.unknown_40,y		;$B3D139   |
+	STA.w sprite.animation_flags,y		;$B3D139   |
 	LDA sprite.y_speed,x			;$B3D13C   |
 	STA.w sprite.unknown_5C,y		;$B3D13E   |
 	LDA sprite.movement_sub_state,x		;$B3D141   |
@@ -11001,7 +11034,7 @@ CODE_B3D12D:					;	   |
 	INY					;$B3D161   |
 	LDA [current_sprite_constants],y	;$B3D162   |
 	AND #$00FF				;$B3D164   |
-	STA sprite.unknown_40,x			;$B3D167   |
+	STA sprite.animation_flags,x		;$B3D167   |
 	INY					;$B3D169   |
 	LDA [current_sprite_constants],y	;$B3D16A   |
 	STA $1E,x				;$B3D16C   |
@@ -11116,7 +11149,7 @@ DATA_B3D221:
 	dw $0084, $00A7
 
 CODE_B3D249:
-	LDA.w sprite.unknown_40,y		;$B3D249  \
+	LDA.w sprite.animation_flags,y		;$B3D249  \
 	AND #$007F				;$B3D24C   |
 	ASL A					;$B3D24F   |
 	TAX					;$B3D250   |
@@ -11162,7 +11195,7 @@ CODE_B3D295:
 	STA sprite.x_sub_position,x		;$B3D2A3   |
 	LDA.w sprite.ground_distance,y		;$B3D2A5   |
 	STA sprite.x_speed,x			;$B3D2A8   |
-	LDA.w sprite.unknown_40,y		;$B3D2AA   |
+	LDA.w sprite.animation_flags,y		;$B3D2AA   |
 	STA sprite.y_sub_position,x		;$B3D2AD   |
 	LDA.w sprite.unknown_5C,y		;$B3D2AF   |
 	STA sprite.y_speed,x			;$B3D2B2   |
@@ -11187,8 +11220,8 @@ DATA_B3D2CE:
 
 
 CODE_B3D2D4:
-	LDA.w sprite.unknown_32,y		;$B3D2D4  \ \
-	BEQ CODE_B3D2DD				;$B3D2D7   |/
+	LDA.w sprite.carry_or_defeat_flags,y	;$B3D2D4  \ 
+	BEQ CODE_B3D2DD				;$B3D2D7   |
 	SEC					;$B3D2D9   |
 	RTS					;$B3D2DA  /
 
@@ -11209,11 +11242,11 @@ CODE_B3D2EB:
 ;process animation and preserve animation flags
 CODE_B3D2EC:
 	LDX current_sprite			;$B3D2EC  \
-	LDA sprite.unknown_40,x			;$B3D2EE   |
+	LDA sprite.animation_flags,x		;$B3D2EE   |
 	PHA					;$B3D2F0   |
 	JSL process_sprite_animation		;$B3D2F1   |
 	PLA					;$B3D2F5   |
-	STA sprite.unknown_40,x			;$B3D2F6   |
+	STA sprite.animation_flags,x		;$B3D2F6   |
 	RTL					;$B3D2F8  /
 
 thrown_kloak_projectile_main:
@@ -11249,9 +11282,9 @@ CODE_B3D312:
 	JMP sprite_return_handle_despawn	;$B3D331  /
 
 CODE_B3D334:
-	LDA #$0414				;$B3D334  \
+	%lda_sound(4, boom)			;$B3D334  \
 	JSL queue_sound_effect			;$B3D337   |
-	LDA #$0615				;$B3D33B   |
+	%lda_sound(6, explosion)		;$B3D33B   |
 	JSL queue_sound_effect			;$B3D33E   |
 	LDY #!special_sprite_spawn_id_00D4	;$B3D342   |
 	JSL spawn_BB83EF_special_sprite_index	;$B3D345   |
@@ -11268,7 +11301,7 @@ CODE_B3D354:					;	   |
 	JMP sprite_return_handle_despawn	;$B3D364  /
 
 CODE_B3D367:
-	LDA #$051A				;$B3D367  \
+	%lda_sound(5, barrel_blast)		;$B3D367  \
 	JSL queue_sound_effect			;$B3D36A   |
 	JSL spawn_barrel_parts_and_smoke_global	;$B3D36E   |
 	JSL delete_sprite_handle_deallocation	;$B3D372   |
@@ -11360,7 +11393,7 @@ CODE_B3D41C:					;	   |
 	RTS					;$B3D424  /
 
 CODE_B3D425:
-	LDA #$051A				;$B3D425  \
+	%lda_sound(5, barrel_blast)		;$B3D425  \
 	JSL queue_sound_effect			;$B3D428   |
 	JSL spawn_barrel_parts_and_smoke_global	;$B3D42C   |
 	JSL delete_sprite_handle_deallocation	;$B3D430   |
@@ -11382,7 +11415,7 @@ CODE_B3D44A:
 	LDA #$0118				;$B3D44D   |
 	JSL check_throwable_collision_global	;$B3D450   |
 	BCS CODE_B3D468				;$B3D454   |
-	LDA sprite.sub_state,x		;$B3D456   |
+	LDA sprite.sub_state,x			;$B3D456   |
 	AND #$00FF				;$B3D458   |
 	BNE CODE_B3D469				;$B3D45B   |
 	JSL CODE_BCFB58				;$B3D45D   |
@@ -11413,7 +11446,7 @@ CODE_B3D485:
 	LDA sprite.x_position,x			;$B3D487   |
 	STA sprite.display_mode,x		;$B3D489   |
 	LDA sprite.y_position,x			;$B3D48B   |
-	STA sprite.unknown_50,x			;$B3D48D   |
+	STA sprite.general_purpose_50,x		;$B3D48D   |
 	LDA sprite.unknown_22,x			;$B3D48F   |
 	STA sprite.x_position,x			;$B3D491   |
 	LDA sprite.unknown_28,x			;$B3D493   |
@@ -11483,7 +11516,7 @@ endif
 	SEC					;$B3D502   |
 	ADC $DB					;$B3D503   |
 	CLC					;$B3D505   |
-	ADC sprite.unknown_50,x			;$B3D506   |
+	ADC sprite.general_purpose_50,x		;$B3D506   |
 	SEC					;$B3D508   |
 	SBC sprite.y_position,x			;$B3D509   |
 	CLC					;$B3D50B   |
@@ -11854,7 +11887,7 @@ krochead_switch_barrel_main:
 	STA $46,x				;$B3D798   |
 	STX $0D58				;$B3D79A   |
 	DEC sprite.state,x			;$B3D79D   |
-	LDA #$0616				;$B3D79F   |
+	%lda_sound(6, klampon_lockjaw_bite)	;$B3D79F   |
 	JSL queue_sound_effect			;$B3D7A2   |
 .state_2:					;	   |
 	LDX current_sprite			;$B3D7A6   |
@@ -11949,7 +11982,7 @@ plus_and_minus_barrel_main:
 	BMI ..CODE_B3D865			;$B3D853   |
 	ADC $0042,y				;$B3D855   |
 	STA $0042,y				;$B3D858   |
-	LDA #$0461				;$B3D85B   |
+	%lda_sound(4, barrel_good)		;$B3D85B   |
 	JSL queue_sound_effect			;$B3D85E   |
 ..CODE_B3D862:					;	   |
 	JMP CODE_B3D8FD				;$B3D862  /
@@ -11962,7 +11995,7 @@ plus_and_minus_barrel_main:
 	SEC					;$B3D871   |
 	SBC $42,x				;$B3D872   |
 	STA $0036,y				;$B3D874   |
-	LDA #$0462				;$B3D877   |
+	%lda_sound(4, barrel_bad)		;$B3D877   |
 	JSL queue_sound_effect			;$B3D87A   |
 	JMP CODE_B3D8FD				;$B3D87E  /
 
@@ -11983,8 +12016,8 @@ plus_and_minus_barrel_main:
 	LDA.w sprite.max_x_speed,y		;$B3D8A0   |
 	CLC					;$B3D8A3   |
 	ADC $42,x				;$B3D8A4   |
-	STA.w sprite.max_x_speed,y		;$B3D8A6   | And to the lower byte of temp_26
-	LDA #$0462				;$B3D8A9   |
+	STA.w sprite.max_x_speed,y		;$B3D8A6   | And to the low byte of temp_26
+	%lda_sound(4, barrel_bad)		;$B3D8A9   |
 	JSL queue_sound_effect			;$B3D8AC   |
 	JMP CODE_B3D8FD				;$B3D8B0  /
 
@@ -12191,7 +12224,7 @@ CODE_B3DA25:					;	   |
 	ASL A					;$B3DA31   |
 	ASL A					;$B3DA32   |
 	TAX					;$B3DA33   |
-	LDA.l DATA_B896B7,x			;$B3DA34   |
+	LDA.l kong_state_flags_table,x		;$B3DA34   |
 	AND #$0004				;$B3DA38   |
 	BNE CODE_B3DA46				;$B3DA3B   |
 	LDA #!player_interaction_0C		;$B3DA3D   |
@@ -12704,14 +12737,14 @@ CODE_B3DD6D:
 	BMI CODE_B3DDA7				;$B3DD89   |
 	CMP #$000B				;$B3DD8B   |
 	BPL CODE_B3DDA0				;$B3DD8E   |
-	LDA #$061C				;$B3DD90   |
+	%lda_sound(6, clock_tick)		;$B3DD90   |
 	JSL queue_sound_effect			;$B3DD93   |
-	LDA #$043E				;$B3DD97   |
+	%lda_sound(4, tempo_up)			;$B3DD97   |
 	JSL queue_sound_effect			;$B3DD9A   |
 	BRA CODE_B3DDA7				;$B3DD9E  /
 
 CODE_B3DDA0:
-	LDA #$061C				;$B3DDA0  \
+	%lda_sound(6, clock_tick)		;$B3DDA0  \
 	JSL queue_sound_effect			;$B3DDA3   |
 CODE_B3DDA7:					;	   |
 	RTS					;$B3DDA7  /
@@ -12738,7 +12771,7 @@ CODE_B3DDBF:					;	   |
 	ASL A					;$B3DDCC   |
 	ASL A					;$B3DDCD   |
 	CLC					;$B3DDCE   |
-	ADC #$2D40				;$B3DDCF   |
+	ADC #$2D40				;$B3DDCF   | range/base graphic id?
 	STA $1A,x				;$B3DDD2   |
 	LDY $4A,x				;$B3DDD4   |
 	LDA temp_33				;$B3DDD6   |
@@ -12873,11 +12906,11 @@ CODE_B3DF24:					;	   |
 
 if !version == 1				;	  \
 CODE_B3DF25:					;	   |
-	LDA #$0621				;$B3DF25   |
+	%lda_sound(6, kremkoin_appear_fizz)	;$B3DF25   |
 	JSL queue_sound_effect			;$B3DF28   |
-	LDA #$0522				;$B3DF2C   |
+	%lda_sound(5, kremkoin_appear_echo)	;$B3DF2C   |
 	JSL queue_sound_effect			;$B3DF2F   |
-	LDA #$0735				;$B3DF33   |
+	%lda_sound(7, kremkoin_appear)		;$B3DF33   |
 	JSL queue_sound_effect			;$B3DF36   |
 	BRA CODE_B3DF1E				;$B3DF3A   |
 endif						;	  /
@@ -12911,7 +12944,7 @@ CODE_B3DF5F:
 	LDX current_sprite			;$B3DF5F  \
 	INC sprite.state,x			;$B3DF61   |
 	STZ sprite.current_graphic,x		;$B3DF63   |
-	STZ sprite.unknown_16,x			;$B3DF65   |
+	STZ sprite.last_rendered_graphic,x	;$B3DF65   |
 	PER RESET_start+$330000			;$B3DF67   |\ Piracy check
 	%pea_use_dbr(RESET_start)		;$B3DF6A   | | Push address of reset routine onto stack ($8083F7)
 	PLB					;$B3DF6D   |/ Set data bank to reset routine (bank $80)
@@ -12999,7 +13032,7 @@ CODE_B3DFFF:
 
 CODE_B3E006:
 	LDX current_sprite			;$B3E006  \
-	LDA sprite.unknown_32,x			;$B3E008   |
+	LDA sprite.carry_or_defeat_flags,x	;$B3E008   |
 	BNE CODE_B3E063				;$B3E00A   |
 	JSL CODE_BCFB58				;$B3E00C   |
 	LDA #$0008				;$B3E010   |
@@ -13047,17 +13080,17 @@ CODE_B3E060:					;	   |
 CODE_B3E063:
 	LDX current_sprite			;$B3E063  \
 	STZ sprite.interaction_flags,x		;$B3E065   |
-	STZ sprite.unknown_32,x			;$B3E067   |
+	STZ sprite.carry_or_defeat_flags,x	;$B3E067   |
 	JSL delete_sprite_force_deallocation	;$B3E069   |
 	LDA #!sprite_exit_door			;$B3E06D   |
 	STA sprite.type,x			;$B3E070   |
 	STZ sprite.current_graphic,x		;$B3E072   |
-	STZ sprite.unknown_16,x			;$B3E074   |
+	STZ sprite.last_rendered_graphic,x	;$B3E074   |
 	LDA #$0001				;$B3E076   |
 	STA sprite.state,x			;$B3E079   |
-	LDA #$0615				;$B3E07B   |
+	%lda_sound(6, explosion)		;$B3E07B   |
 	JSL queue_sound_effect			;$B3E07E   |
-	LDA #$0719				;$B3E082   |
+	%lda_sound(7, wall_break)		;$B3E082   |
 	JSL queue_sound_effect			;$B3E085   |
 	JML [sprite_return_address]		;$B3E089  /
 
@@ -13102,7 +13135,7 @@ CODE_B3E0C9:
 	ASL A					;$B3E0CF   |
 	ASL A					;$B3E0D0   |
 	TAX					;$B3E0D1   |
-	LDA.l DATA_B896B7,x			;$B3E0D2   |
+	LDA.l kong_state_flags_table,x		;$B3E0D2   |
 	PLX					;$B3E0D6   |
 	AND #$0004				;$B3E0D7   |
 	BNE CODE_B3E134				;$B3E0DA   |
@@ -13280,7 +13313,7 @@ CODE_B3E1E0:					;	   |
 
 CODE_B3E1E2:
 	JSL work_on_active_kong_global		;$B3E1E2  \
-	JSL CODE_B881B4				;$B3E1E6   |
+	JSL drop_sprite_or_follower_kong	;$B3E1E6   |
 	JSR CODE_B3E28B				;$B3E1EA   |
 	LDA animal_type				;$B3E1ED   |
 	CMP #!sprite_enguarde			;$B3E1EF   |
@@ -13377,6 +13410,7 @@ CODE_B3E2A7:
 	STA sprite.oam_property,x		;$B3E2B1   |
 	RTS					;$B3E2B3  /
 
+;dead code
 	LDA sprite.oam_property,x		;$B3E2B4   |
 	SEC					;$B3E2B6   |
 	SBC #$1000				;$B3E2B7   |
@@ -13418,7 +13452,7 @@ CODE_B3E2F4:
 	ASL A					;$B3E2FA   |
 	ASL A					;$B3E2FB   |
 	TAX					;$B3E2FC   |
-	LDA.l DATA_B896B7,x			;$B3E2FD   |
+	LDA.l kong_state_flags_table,x		;$B3E2FD   |
 	AND #$0002				;$B3E301   |
 	BEQ CODE_B3E310				;$B3E304   |
 	LDX current_sprite			;$B3E306   |
@@ -13708,7 +13742,7 @@ checkpoint_barrel_sprite_code:
 	LDA sprite.type,x			;$B3E547   |
 	JSL delete_sprite_handle_deallocation	;$B3E549   | Delete checkpoint barrel sprite
 	JSL spawn_barrel_parts_and_smoke_global	;$B3E54D   | Spawn particles
-	LDA #$051A				;$B3E551   |
+	%lda_sound(5, barrel_blast)		;$B3E551   |
 	JSL queue_sound_effect			;$B3E554   | Play barrel break sound
 	JML [sprite_return_address]		;$B3E558  / Return
 
@@ -13730,7 +13764,7 @@ checkpoint_barrel_sprite_code:
 	JSR .set_kong_state			;$B3E577   | Set proper kong state
 	JSL delete_sprite_handle_deallocation	;$B3E57A   | Delete checkpoint barrel sprite
 	JSL spawn_barrel_parts_and_smoke_global	;$B3E57E   | Spawn particles
-	LDA #$051A				;$B3E582   |
+	%lda_sound(5, barrel_blast)		;$B3E582   |
 	JSL queue_sound_effect			;$B3E585   | Play barrel break sound
 	JML [sprite_return_address]		;$B3E589  / Return
 
@@ -13777,7 +13811,7 @@ checkpoint_barrel_sprite_code:
 	STA.w sprite.x_speed,y			;$B3E5D2   | Clear kong's current X velocity
 	STA.w sprite.y_speed,y			;$B3E5D5   | Clear current Y velocity
 	STA.w sprite.current_graphic,y		;$B3E5D8   | Clear graphic ID
-	STA.w sprite.unknown_16,y		;$B3E5DB   | Clear last rendered graphic ID
+	STA.w sprite.last_rendered_graphic,y	;$B3E5DB   | Clear last rendered graphic ID
 	STA.w sprite.animation_timer,y		;$B3E5DE   | Clear frame draw time
 	LDA.w sprite.state,y			;$B3E5E1   |
 	STA $46,x				;$B3E5E4   | Copy kong's state to barrel variable
@@ -13799,7 +13833,7 @@ checkpoint_barrel_sprite_code:
 	STA.w sprite.state,y			;$B3E605   | Set dummy state on kong
 	LDA #$0000				;$B3E608   |
 	STA.w sprite.current_graphic,y		;$B3E60B   | Clear graphic ID
-	STA.w sprite.unknown_16,y		;$B3E60E   | Clear last rendered graphic ID
+	STA.w sprite.last_rendered_graphic,y	;$B3E60E   | Clear last rendered graphic ID
 	STA.w sprite.animation_timer,y		;$B3E611   | Clear frame draw time
 	RTS					;$B3E614  / Return
 
@@ -13814,7 +13848,7 @@ checkpoint_barrel_sprite_code:
 	TAY					;$B3E61D  \ Transfer animal index to Y
 	LDA #$0000				;$B3E61E   |
 	STA.w sprite.current_graphic,y		;$B3E621   | Clear graphic ID
-	STA.w sprite.unknown_16,y		;$B3E624   | Clear last rendered graphic ID
+	STA.w sprite.last_rendered_graphic,y	;$B3E624   | Clear last rendered graphic ID
 	STA.w sprite.animation_timer,y		;$B3E627   | Clear frame draw time
 	STA.w sprite.animation_speed,y		;$B3E62A   | Clear animation speed
 	LDA #$0007				;$B3E62D   |
@@ -14240,7 +14274,7 @@ barrel_cannon_code:
 	LDA $2A,x				;$B3E8EA   |
 	ORA #$0800				;$B3E8EC   |
 	STA $2A,x				;$B3E8EF   |
-	LDA #$054A				;$B3E8F1   |
+	%lda_sound(5, cannon_load)		;$B3E8F1   |
 	JSL queue_sound_effect			;$B3E8F4   |
 	LDX current_sprite			;$B3E8F8   |
 	LDA #$00EC				;$B3E8FA   |
@@ -14428,7 +14462,7 @@ else						;	   |
 	JSR .CODE_B3EAB6			;$B3EA4E   |
 endif						;	   |
 	PHY					;$B3EA51   |
-	LDA #$051A				;$B3EA52   |
+	%lda_sound(5, barrel_blast)		;$B3EA52   |
 	JSL queue_sound_effect			;$B3EA55   |
 	PLY					;$B3EA59   |
 	LDA #$0000				;$B3EA5A   |
@@ -14691,7 +14725,7 @@ endif						;	  /
 
 .CODE_B3EC55
 	STZ $2C,x				;$B3EC55  \
-	LDA #$0555				;$B3EC57   |\
+	%lda_sound(5, morph_to_animal)		;$B3EC57   |\
 	JSL queue_sound_effect			;$B3EC5A   |/ Play animal transformation sound (doesnt actually play)
 	BRL .CODE_B3E9E4			;$B3EC5E  /
 
@@ -14875,7 +14909,7 @@ CODE_B3ED6E:
 	AND #$6000				;$B3ED87   |
 	CMP #$2000				;$B3ED8A   |
 	BNE CODE_B3ED93				;$B3ED8D   |
-	LDA sprite.unknown_50,x			;$B3ED8F   |
+	LDA sprite.general_purpose_50,x		;$B3ED8F   |
 	STA sprite.animation_timer,x		;$B3ED91   |
 CODE_B3ED93:					;	   |
 	RTS					;$B3ED93  /
@@ -14891,7 +14925,7 @@ CODE_B3ED94:
 	ADC.w sprite.unknown_28,y		;$B3EDA5   |
 	STA temp_32				;$B3EDA8   |
 	EOR $48,x				;$B3EDAA   |
-	AND $2000				;$B3EDAC   |
+	AND $2000				;$B3EDAC   |  Open bus read
 	BEQ CODE_B3EDC3				;$B3EDAF   |
 	LDA #$0000				;$B3EDB1   |
 	STA.w sprite.unknown_28,y		;$B3EDB4   |
@@ -15043,7 +15077,7 @@ CODE_B3EE8C:
 	AND #$6000				;$B3EE93   |
 	CMP #$2000				;$B3EE96   |
 	BNE CODE_B3EE9F				;$B3EE99   |
-	LDA sprite.unknown_50,x			;$B3EE9B   |
+	LDA sprite.general_purpose_50,x		;$B3EE9B   |
 	STA sprite.animation_timer,x		;$B3EE9D   |
 CODE_B3EE9F:					;	   |
 	CLC					;$B3EE9F   |
@@ -15165,7 +15199,7 @@ CODE_B3EF81:
 
 CODE_B3EF84:
 	JSL work_on_active_kong_global		;$B3EF84  \
-	JSL CODE_B88EB8				;$B3EF88   |
+	JSL drop_sprite_if_holding_global	;$B3EF88   |
 	LDX active_kong_control_variables	;$B3EF8C   |
 	STZ kong_control.flash_timer,x		;$B3EF8F   |
 	LDX active_kong_sprite			;$B3EF91   |
@@ -15183,13 +15217,13 @@ CODE_B3EF84:
 	STA.w sprite.state,y			;$B3EFB5   |
 	LDA.w sprite.interaction_flags,y	;$B3EFB8   |
 	STA $0A3C				;$B3EFBB   |
-	STA.w sprite.unknown_32,y		;$B3EFBE   |
+	STA.w sprite.carry_or_defeat_flags,y	;$B3EFBE   |
 	STA.w sprite.x_speed,y			;$B3EFC1   |
 	STA.w sprite.max_x_speed,y		;$B3EFC4   |
 	STA.w sprite.y_speed,y			;$B3EFC7   |
 	STA.w sprite.terrain_interaction,y	;$B3EFCA   |
 	LDA #$0000				;$B3EFCD   |
-	STA.w sprite.unknown_40,y		;$B3EFD0   |
+	STA.w sprite.animation_flags,y		;$B3EFD0   |
 	JSL CODE_B3F0B8				;$B3EFD3   |
 	JSL CODE_B3DF3C				;$B3EFD7   |
 	LDA #$0002				;$B3EFDB   |
@@ -15287,14 +15321,14 @@ CODE_B3F069:
 	LDA.w sprite.y_position,y		;$B3F090   |
 	STA sprite.y_position,x			;$B3F093   |
 	STZ sprite.interaction_flags,x		;$B3F095   |
-	STZ sprite.unknown_32,x			;$B3F097   |
+	STZ sprite.carry_or_defeat_flags,x	;$B3F097   |
 	STZ sprite.x_speed,x			;$B3F099   |
 	STZ sprite.max_x_speed,x		;$B3F09B   |
 	STZ sprite.y_speed,x			;$B3F09D   |
 	STZ sprite.terrain_interaction,x	;$B3F09F   |
 	STZ sprite.current_graphic,x		;$B3F0A1   |
-	STZ sprite.unknown_16,x			;$B3F0A3   |
-	STZ sprite.unknown_40,x			;$B3F0A5   |
+	STZ sprite.last_rendered_graphic,x	;$B3F0A3   |
+	STZ sprite.animation_flags,x		;$B3F0A5   |
 	LDX $0A84				;$B3F0A7   |
 	STX current_sprite			;$B3F0AA   |
 	JSR CODE_B3F01D				;$B3F0AC   |
@@ -15306,7 +15340,7 @@ CODE_B3F0B8:
 	LDX active_kong_sprite			;$B3F0B8  \
 	LDA.l DATA_B9F085			;$B3F0BB   |
 	STA sprite.current_graphic,x		;$B3F0BF   |
-	STZ sprite.unknown_16,x			;$B3F0C1   |
+	STZ sprite.last_rendered_graphic,x	;$B3F0C1   |
 	LDA #$C000				;$B3F0C3   |
 	STA sprite.display_mode,x		;$B3F0C6   |
 	LDA #$0010				;$B3F0C8   |
@@ -15316,7 +15350,7 @@ CODE_B3F0B8:
 	TAY					;$B3F0D1   |
 	LDA #$0000				;$B3F0D2   |
 	STA.w sprite.current_graphic,y		;$B3F0D5   |
-	STA.w sprite.unknown_16,y		;$B3F0D8   |
+	STA.w sprite.last_rendered_graphic,y	;$B3F0D8   |
 	STA.w sprite.animation_speed,y		;$B3F0DB   |
 CODE_B3F0DE:					;	   |
 	LDA inactive_kong_sprite		;$B3F0DE   |
@@ -15325,7 +15359,7 @@ CODE_B3F0DE:					;	   |
 	TAY					;$B3F0E6   |
 	LDA #$0000				;$B3F0E7   |
 	STA.w sprite.current_graphic,y		;$B3F0EA   |
-	STA.w sprite.unknown_16,y		;$B3F0ED   |
+	STA.w sprite.last_rendered_graphic,y	;$B3F0ED   |
 	STA.w sprite.animation_speed,y		;$B3F0F0   |
 CODE_B3F0F3:					;	   |
 	RTL					;$B3F0F3  /
@@ -15613,7 +15647,7 @@ DATA_B3F31E:
 
 CODE_B3F33E:
 	LDX current_sprite			;$B3F33E  \
-	LDA $2A,x				;$B3F340   |
+	LDA sprite.max_y_speed,x		;$B3F340   |
 	AND #$4000				;$B3F342   |
 	BNE CODE_B3F348				;$B3F345   |
 	RTS					;$B3F347  /
@@ -15708,7 +15742,7 @@ CODE_B3F3CE:					;	   |
 	LDA $22,x				;$B3F3D6   |
 	STA temp_39				;$B3F3D8   |
 CODE_B3F3DA:					;	   |
-	LDA $2A,x				;$B3F3DA   |
+	LDA sprite.max_y_speed,x		;$B3F3DA   |
 	BMI CODE_B3F404				;$B3F3DC   |
 	LDX current_sprite			;$B3F3DE   |
 	LDA temp_38				;$B3F3E0   |
@@ -15749,9 +15783,9 @@ CODE_B3F416:
 	STZ $4A,x				;$B3F416  \
 	STZ $4C,x				;$B3F418   |
 CODE_B3F41A:					;	   |
-	LDA $2A,x				;$B3F41A   |
+	LDA sprite.max_y_speed,x		;$B3F41A   |
 	EOR #$8000				;$B3F41C   |
-	STA $2A,x				;$B3F41F   |
+	STA sprite.max_y_speed,x		;$B3F41F   |
 	RTS					;$B3F421  /
 
 CODE_B3F422:

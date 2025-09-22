@@ -1271,7 +1271,7 @@ jungle_klobber_karnage_tileset_config:
 	dw !music_jungle
 	dw klobber_karnage_level_palette
 	dw CODE_BBACFA
-	dw CODE_BBAD34
+	dw spawn_kongs_in_level
 	db !jungle_generic_ppu_config_id
 	db !jungle_generic_vram_payload_id
 	dw !tileset_NMI_001C
@@ -1285,7 +1285,7 @@ jungle_jinx_tileset_config:
 	dw !music_jungle
 	dw jungle_jinx_level_palette
 	dw CODE_BBACFA
-	dw CODE_BBAD34
+	dw spawn_kongs_in_level
 	db !jungle_generic_ppu_config_id
 	db !jungle_generic_vram_payload_id
 	dw !tileset_NMI_001C
@@ -1299,7 +1299,7 @@ swamp_krockhead_klamber_tileset_config:
 	dw !music_swamp
 	dw krockhead_klamber_level_palette
 	dw CODE_BBACE2
-	dw CODE_BBAD34
+	dw spawn_kongs_in_level
 	db !swamp_generic_ppu_config_id
 	db !swamp_generic_vram_payload_id
 	dw !tileset_NMI_0010
@@ -1313,7 +1313,7 @@ swamp_mudhole_marsh_tileset_config:
 	dw !music_swamp
 	dw mudhole_marsh_level_palette
 	dw CODE_BBACE2
-	dw CODE_BBAD34
+	dw spawn_kongs_in_level
 	db !swamp_generic_ppu_config_id
 	db !swamp_generic_vram_payload_id
 	dw !tileset_NMI_0010
@@ -1327,7 +1327,7 @@ jungle_animal_antics_tileset_config:
 	dw !music_jungle
 	dw !null_pointer
 	dw CODE_BBACFA
-	dw CODE_BBAD34
+	dw spawn_kongs_in_level
 	db !jungle_generic_ppu_config_id
 	db !jungle_generic_vram_payload_id
 	dw !tileset_NMI_001C
@@ -1341,7 +1341,7 @@ ice_flooded_tileset_config:
 	dw !music_ice
 	dw !null_pointer
 	dw CODE_BBACE2
-	dw CODE_BBAD34
+	dw spawn_kongs_in_level
 	db !ice_flooded_ppu_config_id
 	db !ice_generic_vram_payload_id
 	dw !tileset_NMI_001B
@@ -1355,7 +1355,7 @@ ice_translucent_1_tileset_config:
 	dw !music_ice
 	dw !null_pointer
 	dw CODE_BBACE2
-	dw CODE_BBAD34
+	dw spawn_kongs_in_level
 	db !ice_translucent_ppu_config_id
 	db !ice_generic_vram_payload_id
 	dw !tileset_NMI_001D
@@ -1369,7 +1369,7 @@ ice_translucent_2_tileset_config:
 	dw !music_ice
 	dw !null_pointer
 	dw CODE_BBACE2
-	dw CODE_BBAD34
+	dw spawn_kongs_in_level
 	db !ice_translucent_ppu_config_id
 	db !ice_generic_vram_payload_id
 	dw !tileset_NMI_001D
@@ -1383,7 +1383,7 @@ castle_chain_link_chamber_tileset_config:
 	dw !music_castle
 	dw !null_pointer
 	dw CODE_BBACE2
-	dw CODE_BBAD34
+	dw spawn_kongs_in_level
 	db !castle_generic_ppu_config_id
 	db !castle_generic_vram_payload_id	
 	dw !tileset_NMI_0015
@@ -1411,7 +1411,7 @@ castle_toxic_tower_tileset_config:
 	dw !music_castle
 	dw !null_pointer
 	dw CODE_BBACE2
-	dw CODE_BBAD34
+	dw spawn_kongs_in_level
 	db !castle_flooded_ppu_config_id
 	db !castle_flooded_vram_payload_id
 	dw !tileset_NMI_001E
@@ -1425,7 +1425,7 @@ castle_crush_tileset_config:
 	dw !music_castle
 	dw !null_pointer
 	dw CODE_BBACE2
-	dw CODE_BBAD34
+	dw spawn_kongs_in_level
 	db !castle_generic_ppu_config_id
 	db !castle_generic_vram_payload_id
 	dw !tileset_NMI_0015
@@ -1453,7 +1453,7 @@ krocodile_kore_tileset_config:
 	dw !music_forest
 	dw !null_pointer
 	dw CODE_BBACE2
-	dw CODE_BBAD34
+	dw spawn_kongs_in_level
 	db !krocodile_kore_ppu_config_id
 	db !krocodile_kore_vram_payload_id
 	dw !tileset_NMI_0014
@@ -1467,7 +1467,7 @@ forest_generic_tileset_config:
 	dw !music_forest
 	dw !null_pointer
 	dw CODE_BBACE2
-	dw CODE_BBAD34
+	dw spawn_kongs_in_level
 	db !forest_generic_ppu_config_id
 	db !forest_generic_vram_payload_id
 	dw !tileset_NMI_0001
@@ -1481,7 +1481,7 @@ forest_misty_tileset_config:
 	dw !music_forest
 	dw !null_pointer
 	dw CODE_BBACE2
-	dw CODE_BBAD34
+	dw spawn_kongs_in_level
 	db !forest_misty_ppu_config_id
 	db !forest_misty_vram_payload_id
 	dw !tileset_NMI_0021
@@ -1495,7 +1495,7 @@ forest_light_shafts_tileset_config:
 	dw !music_forest
 	dw !null_pointer
 	dw CODE_BBACE2
-	dw CODE_BBAD34
+	dw spawn_kongs_in_level
 	db !forest_light_shafts_ppu_config_id
 	db !forest_light_shafts_vram_payload_id
 	dw !tileset_NMI_000E
@@ -1509,7 +1509,7 @@ forest_windy_tileset_config:
 	dw !music_forest
 	dw gusty_glade_level_palette
 	dw CODE_BBACE2
-	dw CODE_BBAD34
+	dw spawn_kongs_in_level
 	db !forest_windy_ppu_config_id
 	db !forest_windy_vram_payload_id
 	dw !tileset_NMI_000F
@@ -1523,7 +1523,7 @@ ship_hold_generic_tileset_config:
 	dw !music_ship_hold
 	dw !null_pointer
 	dw CODE_BBACE2
-	dw CODE_BBAD34
+	dw spawn_kongs_in_level
 	db !ship_hold_generic_ppu_config_id
 	db !ship_hold_generic_vram_payload_id
 	dw !tileset_NMI_0002
@@ -1537,7 +1537,7 @@ ship_hold_hot_tileset_config:
 	dw !music_ship_hold
 	dw !null_pointer
 	dw CODE_BBACE2
-	dw CODE_BBAD34
+	dw spawn_kongs_in_level
 	db !ship_hold_generic_ppu_config_id
 	db !ship_hold_generic_vram_payload_id
 	dw !tileset_NMI_0018
@@ -1551,7 +1551,7 @@ ship_hold_dark_tileset_config:
 	dw !music_ship_hold
 	dw !null_pointer
 	dw CODE_BBACE2
-	dw CODE_BBAD34
+	dw spawn_kongs_in_level
 	db !ship_hold_dark_ppu_config_id
 	db !ship_hold_dark_vram_payload_id
 	dw !tileset_NMI_0012
@@ -1565,7 +1565,7 @@ wasp_hive_generic_1_tileset_config:
 	dw !music_wasp_hive
 	dw !null_pointer
 	dw CODE_BBACE2
-	dw CODE_BBAD34
+	dw spawn_kongs_in_level
 	db !wasp_hive_generic_ppu_config_id
 	db !wasp_hive_generic_vram_payload_id
 	dw !tileset_NMI_0003
@@ -1579,7 +1579,7 @@ wasp_hive_king_zing_sting_tileset_config:
 	dw !music_wasp_hive
 	dw !null_pointer
 	dw CODE_BBACE2
-	dw CODE_BBAD34
+	dw spawn_kongs_in_level
 	db !wasp_hive_generic_ppu_config_id
 	db !wasp_hive_generic_vram_payload_id
 	dw !tileset_NMI_0003
@@ -1593,7 +1593,7 @@ wasp_hive_generic_2_tileset_config:
 	dw !music_wasp_hive
 	dw !null_pointer
 	dw CODE_BBACE2
-	dw CODE_BBAD34
+	dw spawn_kongs_in_level
 	db !wasp_hive_generic_ppu_config_id
 	db !wasp_hive_generic_vram_payload_id
 	dw !tileset_NMI_0003
@@ -1607,7 +1607,7 @@ ship_deck_pirate_panic_tileset_config:
 	dw !music_ship_deck
 	dw !null_pointer
 	dw CODE_BBACE2
-	dw CODE_BBAD34
+	dw spawn_kongs_in_level
 	db !ship_deck_generic_ppu_config_id
 	db !ship_deck_generic_vram_payload_id
 	dw !tileset_NMI_0006
@@ -1621,7 +1621,7 @@ ship_deck_gangplank_galley_tileset_config:
 	dw !music_ship_deck
 	dw !null_pointer
 	dw CODE_BBACE2
-	dw CODE_BBAD34
+	dw spawn_kongs_in_level
 	db !ship_deck_generic_ppu_config_id
 	db !ship_deck_generic_vram_payload_id
 	dw !tileset_NMI_001A
@@ -1635,7 +1635,7 @@ ship_deck_rattle_battle_tileset_config:
 	dw !music_ship_deck_2
 	dw !null_pointer
 	dw CODE_BBACE2
-	dw CODE_BBAD34
+	dw spawn_kongs_in_level
 	db !ship_deck_generic_ppu_config_id
 	db !ship_deck_generic_vram_payload_id
 	dw !tileset_NMI_0006
@@ -1649,7 +1649,7 @@ lava_hot_head_hop_tileset_config:
 	dw !music_lava
 	dw !null_pointer
 	dw CODE_BBACEE
-	dw CODE_BBAD34
+	dw spawn_kongs_in_level
 	db !lava_generic_ppu_config_id
 	db !lava_generic_vram_payload_id
 	dw !tileset_NMI_0007
@@ -1663,7 +1663,7 @@ lava_fiery_furnace_tileset_config:
 	dw !music_lava
 	dw fiery_furnace_level_palette
 	dw CODE_BBACEE
-	dw CODE_BBAD34
+	dw spawn_kongs_in_level
 	db !lava_generic_ppu_config_id
 	db !lava_generic_vram_payload_id
 	dw !tileset_NMI_0007
@@ -1677,7 +1677,7 @@ lava_red_hot_ride_tileset_config:
 	dw !music_lava
 	dw !null_pointer
 	dw CODE_BBACEE
-	dw CODE_BBAD34
+	dw spawn_kongs_in_level
 	db !lava_geysers_ppu_config_id
 	db !lava_geysers_vram_payload_id
 	dw !tileset_NMI_0013
@@ -1691,7 +1691,7 @@ ship_mast_slime_climb_tileset_config:
 	dw !music_rigging
 	dw !null_pointer
 	dw CODE_BBACE2
-	dw CODE_BBAD34
+	dw spawn_kongs_in_level
 	db !ship_mast_flooded_ppu_config_id
 	db !ship_mast_flooded_vram_payload_id
 	dw !tileset_NMI_0017
@@ -1705,7 +1705,7 @@ ship_mast_unused_tileset_config:
 	dw !music_rigging
 	dw !null_pointer
 	dw CODE_BBACE2
-	dw CODE_BBAD34
+	dw spawn_kongs_in_level
 	db !ship_mast_rainy_ppu_config_id
 	db !ship_mast_rainy_vram_payload_id
 	dw !tileset_NMI_0008
@@ -1719,7 +1719,7 @@ ship_mast_topsail_trouble_tileset_config:
 	dw !music_rigging
 	dw !null_pointer
 	dw CODE_BBACE2
-	dw CODE_BBAD34
+	dw spawn_kongs_in_level
 	db !ship_mast_rainy_ppu_config_id
 	db !ship_mast_rainy_vram_payload_id
 	dw !tileset_NMI_0008
@@ -1733,7 +1733,7 @@ ship_mast_krows_nest_tileset_config:
 	dw !music_big_boss
 	dw !null_pointer
 	dw CODE_BBACE2
-	dw CODE_BBAD34
+	dw spawn_kongs_in_level
 	db !ship_mast_cloudy_ppu_config_id
 	db !ship_mast_cloudy_vram_payload_id
 	dw !tileset_NMI_000D
@@ -1747,7 +1747,7 @@ ship_mast_mainbrace_mayhem_tileset_config:
 	dw !music_rigging
 	dw !null_pointer
 	dw CODE_BBACE2
-	dw CODE_BBAD34
+	dw spawn_kongs_in_level
 	db !ship_mast_cloudy_ppu_config_id
 	db !ship_mast_cloudy_vram_payload_id
 	dw !tileset_NMI_000D
@@ -1761,7 +1761,7 @@ ship_mast_kreepy_krow_tileset_config:
 	dw !music_rigging
 	dw !null_pointer
 	dw CODE_BBACE2
-	dw CODE_BBAD34
+	dw spawn_kongs_in_level
 	db !ship_mast_rainy_sprite_transparency_ppu_config_id
 	db !ship_mast_rainy_vram_payload_id
 	dw !tileset_NMI_0008
@@ -1775,7 +1775,7 @@ carnival_generic_1_tileset_config:
 	dw !music_roller_coaster
 	dw !null_pointer
 	dw CODE_BBACE2
-	dw CODE_BBAD34
+	dw spawn_kongs_in_level
 	db !carnival_generic_ppu_config_id
 	db !carnival_generic_vram_payload_id
 	dw !tileset_NMI_0009
@@ -1789,7 +1789,7 @@ carnival_generic_2_tileset_config:
 	dw !music_roller_coaster
 	dw !null_pointer
 	dw CODE_BBACE2
-	dw CODE_BBAD34
+	dw spawn_kongs_in_level
 	db !carnival_generic_ppu_config_id
 	db !carnival_generic_vram_payload_id
 	dw !tileset_NMI_0009
@@ -1803,7 +1803,7 @@ haunted_generic_1_tileset_config:
 	dw !music_haunted
 	dw !null_pointer
 	dw CODE_BBACE2
-	dw CODE_BBAD34
+	dw spawn_kongs_in_level
 	db !haunted_generic_ppu_config_id
 	db !haunted_generic_vram_payload_id
 	dw !tileset_NMI_0016
@@ -1817,7 +1817,7 @@ haunted_generic_2_tileset_config:
 	dw !music_haunted
 	dw !null_pointer
 	dw CODE_BBACE2
-	dw CODE_BBAD34
+	dw spawn_kongs_in_level
 	db !haunted_generic_ppu_config_id
 	db !haunted_generic_vram_payload_id
 	dw !tileset_NMI_0016
@@ -1831,7 +1831,7 @@ mine_windy_well_tileset_config:
 	dw !music_mine
 	dw windy_well_level_palette
 	dw CODE_BBACE2
-	dw CODE_BBAD34
+	dw spawn_kongs_in_level
 	db !mine_windy_ppu_config_id
 	db !mine_windy_vram_payload_id
 	dw !tileset_NMI_0020
@@ -1845,7 +1845,7 @@ mine_kannons_klaim_tileset_config:
 	dw !music_mine
 	dw !null_pointer
 	dw CODE_BBACE2
-	dw CODE_BBAD34
+	dw spawn_kongs_in_level
 	db !mine_generic_ppu_config_id
 	db !mine_generic_vram_payload_id
 	dw !tileset_NMI_000C
@@ -1859,7 +1859,7 @@ mine_squawks_shaft_tileset_config:
 	dw !music_mine
 	dw squawks_shaft_level_palette
 	dw CODE_BBACE2
-	dw CODE_BBAD34
+	dw spawn_kongs_in_level
 	db !mine_generic_ppu_config_id
 	db !mine_generic_vram_payload_id
 	dw !tileset_NMI_000C
@@ -1873,7 +1873,7 @@ bramble_light_1_tileset_config:
 	dw !music_brambles
 	dw !null_pointer
 	dw CODE_BBACE2
-	dw CODE_BBAD34
+	dw spawn_kongs_in_level
 	db !bramble_generic_ppu_config_id
 	db !bramble_generic_vram_payload_id
 	dw !tileset_NMI_0011
@@ -1887,7 +1887,7 @@ bramble_brown_1_tileset_config:
 	dw !music_brambles
 	dw !null_pointer
 	dw CODE_BBACE2
-	dw CODE_BBAD34
+	dw spawn_kongs_in_level
 	db !bramble_generic_ppu_config_id
 	db !bramble_generic_vram_payload_id
 	dw !tileset_NMI_0011
@@ -1901,7 +1901,7 @@ bramble_dark_1_tileset_config:
 	dw !music_brambles
 	dw !null_pointer
 	dw CODE_BBACE2
-	dw CODE_BBAD34
+	dw spawn_kongs_in_level
 	db !bramble_generic_ppu_config_id
 	db !bramble_generic_vram_payload_id
 	dw !tileset_NMI_0011
@@ -1915,7 +1915,7 @@ bramble_light_windy_tileset_config:
 	dw !music_brambles
 	dw !null_pointer
 	dw CODE_BBACE2
-	dw CODE_BBAD34
+	dw spawn_kongs_in_level
 	db !bramble_windy_ppu_config_id
 	db !bramble_windy_vram_payload_id
 	dw !tileset_NMI_001F
@@ -1929,7 +1929,7 @@ bramble_light_2_tileset_config:
 	dw !music_brambles
 	dw !null_pointer
 	dw CODE_BBACE2
-	dw CODE_BBAD34
+	dw spawn_kongs_in_level
 	db !bramble_generic_ppu_config_id
 	db !bramble_generic_vram_payload_id
 	dw !tileset_NMI_0011
@@ -1943,7 +1943,7 @@ bramble_dark_2_tileset_config:
 	dw !music_brambles
 	dw !null_pointer
 	dw CODE_BBACE2
-	dw CODE_BBAD34
+	dw spawn_kongs_in_level
 	db !bramble_generic_ppu_config_id
 	db !bramble_generic_vram_payload_id
 	dw !tileset_NMI_0011
@@ -1957,7 +1957,7 @@ bramble_brown_2_tileset_config:
 	dw !music_brambles
 	dw !null_pointer
 	dw CODE_BBACE2
-	dw CODE_BBAD34
+	dw spawn_kongs_in_level
 	db !bramble_generic_ppu_config_id
 	db !bramble_generic_vram_payload_id
 	dw !tileset_NMI_0011
@@ -1971,7 +1971,7 @@ ship_cabin_tileset_config:
 	dw !music_bonus
 	dw !null_pointer
 	dw CODE_BBACE2
-	dw CODE_BBAD34
+	dw spawn_kongs_in_level
 	db !ship_cabin_generic_ppu_config_id
 	db !ship_cabin_generic_vram_payload_id
 	dw !tileset_NMI_000A
@@ -1985,7 +1985,7 @@ swamp_barrel_bayou_tileset_config:
 	dw !music_swamp
 	dw !null_pointer
 	dw CODE_BBACE2
-	dw CODE_BBAD34
+	dw spawn_kongs_in_level
 	db !swamp_generic_ppu_config_id
 	db !swamp_generic_vram_payload_id
 	dw !tileset_NMI_0010
@@ -5115,8 +5115,8 @@ monkey_museum_gloomy_gulch_lost_world_level_config:
 monkey_museum_k_rools_keep_lost_world_level_config:
 	dw !map_level_type
 
-
-DATA_FD5FEE:
+;$FD5FEE
+sprite_palette_table:
 	dw global_sprite_palette			;0000
 	dw diddy_active_sprite_palette			;0001
 	dw barrel_sprite_palette			;0002
@@ -5161,8 +5161,9 @@ DATA_FD5FEE:
 	dw klank_pink_sprite_palette			;0029
 	dw klobber_red_sprite_palette			;002A
 
-DATA_FD6044:
+kleever_hand_sprite_pal_ptr:
 	dw kleever_hand_sprite_palette			;002B
+
 	dw k_rool_letter_sprite_palette			;002C
 	dw roller_coaster_gate_sprite_palette		;002D
 	dw ghost_rope_sprite_palette			;002E
@@ -5312,10 +5313,10 @@ DATA_FD6044:
 	dw !null_pointer				;00BE
 	dw !null_pointer				;00BF
 
-DATA_FD616E:
+map_k_rool_sprite_pal_ptr:
 	dw map_k_rool_sprite_palette			;00C0
 
-DATA_FD6170:
+map_k_rool_splash_sprite_pal_ptr:	
 	dw map_k_rool_splash_sprite_palette		;00C1
 	dw !null_pointer				;00C2
 	dw !null_pointer				;00C3
@@ -5362,8 +5363,7 @@ item_reward_palettes_table:
 	dw global_sprite_palette			;19 Banana
 
 
-;firework palettes
-DATA_FD61C2:
+fireworks_palette:
 	db $00, $00, $00, $0C, $00, $14, $00, $20
 	db $00, $28, $00, $34, $00, $40, $10, $62
 	db $FF, $7F, $05, $00, $49, $08, $8D, $10

@@ -131,7 +131,7 @@ DMA_global_palette:
 	STX $32					;$BB807F  \ Store palette id in scratch RAM
 	ASL A					;$BB8081   |\ Double palette id and transfer to index register
 	TAX					;$BB8082   |/
-	LDA.l DATA_FD5FEE,x			;$BB8083   | Load DMA source
+	LDA.l sprite_palette_table,x		;$BB8083   | Load DMA source
 	LDX $32					;$BB8087   | Reload palette id
 DMA_palette:					;	   |
 	STA DMA[0].source			;$BB8089   | Set DMA source word
@@ -397,11 +397,11 @@ is_level_cleared:				;	   |
 	JSR get_complete_bit_for_level		;$BB825C   |
 	LDA.l $7E59F2,x				;$BB825F   |
 	AND $60					;$BB8263   |
-	BNE CODE_BB8269				;$BB8265   |
+	BNE .cleared				;$BB8265   |
 	CLC					;$BB8267   |
 	RTL					;$BB8268  /
 
-CODE_BB8269:
+.cleared:
 	SEC					;$BB8269  \
 	RTL					;$BB826A  /
 
@@ -416,7 +416,7 @@ handle_sprite_allocation:
 	JSR allocate_sprite_vram_slot		;$BB8275   |
 	PLY					;$BB8278   |
 	BCS .return				;$BB8279   |
-	STZ sprite.unknown_16,x			;$BB827B   |
+	STZ sprite.last_rendered_graphic,x	;$BB827B   |
 	STZ sprite.display_mode,x		;$BB827D   |
 	STZ sprite.terrain_attributes,x		;$BB827F   |
 .return:					;	   |
@@ -431,7 +431,7 @@ handle_multi_vram_sprite_allocation:
 	JSR allocate_sprite_vram_multi_slot	;$BB828A   |
 	PLY					;$BB828D   |
 	BCS .return				;$BB828E   |
-	STZ sprite.unknown_16,x			;$BB8290   |
+	STZ sprite.last_rendered_graphic,x	;$BB8290   |
 	STZ sprite.display_mode,x		;$BB8292   |
 	STZ sprite.terrain_attributes,x		;$BB8294   |
 .return:					;	   |
@@ -686,8 +686,8 @@ spawn_BB83EF_special_sprite_address:		;	   |
 	LDA #$C000				;$BB8403   |
 	STA sprite.display_mode,x		;$BB8406   |
 	STZ sprite.current_graphic,x		;$BB8408   |
-	STZ sprite.unknown_16,x			;$BB840A   |
-	STZ sprite.unknown_40,x			;$BB840C   |
+	STZ sprite.last_rendered_graphic,x	;$BB840A   |
+	STZ sprite.animation_flags,x		;$BB840C   |
 	BRL spawn_BB8462_special_sprite_address	;$BB840E  /
 
 .sprite_spawn_failed:
@@ -760,7 +760,7 @@ spawn_BB8462_special_sprite_address:		;	   |
 	STZ sprite.interaction_flags,x		;$BB846C   |
 	STZ sprite.unknown_2C,x			;$BB846E   |
 	STZ sprite.placement_number,x		;$BB8470   |
-	STZ sprite.unknown_32,x			;$BB8472   |
+	STZ sprite.carry_or_defeat_flags,x	;$BB8472   |
 apply_spawn_script_to_slot:			;	   |
 	PHB					;$BB8474   |
 	%pea_shift_dbr(DATA_FF0000)		;$BB8475   |
@@ -1327,7 +1327,7 @@ CODE_BB884C:
 	STA sprite.oam_property,x		;$BB8853   |
 	LDA $32					;$BB8855   |
 	STA sprite.type,x			;$BB8857   |
-	STZ sprite.unknown_16,x			;$BB8859   |
+	STZ sprite.last_rendered_graphic,x	;$BB8859   |
 	STZ sprite.display_mode,x		;$BB885B   |
 	STZ sprite.terrain_attributes,x		;$BB885D   |
 CODE_BB885F:					;	   |
@@ -1617,7 +1617,7 @@ request_palette_direct_global:
 request_sprite_palette:
 	ASL A					;$BB8A69  \ \
 	TAX					;$BB8A6A   | |
-	LDA.l DATA_FD5FEE,x			;$BB8A6B   |/ Load sprite palette address from table
+	LDA.l sprite_palette_table,x		;$BB8A6B   |/ Load sprite palette address from table
 request_palette_direct:				;	   |
 	STA $05A7				;$BB8A6F   |> Preserve requested palette address
 	LDX #$0000				;$BB8A72   |> Start with palette slot 0
@@ -1882,6 +1882,7 @@ dereference_sprite_palette:
 	CLC					;$BB8C17   | Return slot is empty
 	RTS					;$BB8C18  /
 
+;Handles normal/darkened palette when swapping kongs
 CODE_BB8C19:
 	LDX inactive_kong_sprite		;$BB8C19  \
 	LDA sprite.oam_property,x		;$BB8C1C   |
@@ -1914,7 +1915,7 @@ set_sprite_palette:
 	TXY					;$BB8C48  \
 	ASL A					;$BB8C49   |
 	TAX					;$BB8C4A   |
-	LDA.l DATA_FD5FEE,x			;$BB8C4B   |
+	LDA.l sprite_palette_table,x		;$BB8C4B   |
 	TYX					;$BB8C4F   |
 set_sprite_palette_direct:			;	   |
 	TXY					;$BB8C50   |
@@ -2801,7 +2802,7 @@ disable_screen:
 	STA.l PPU.screen			;$BB91E9   |/
 	REP #$20				;$BB91ED   |
 	LDA #$0000				;$BB91EF   |\ Disable OAM DMA
-	STA $00059B				;$BB91F2   |/
+	STA.l pending_dma_hdma_channels		;$BB91F2   |/
 	RTL					;$BB91F6  /
 
 init_sprite_render_order_global:
@@ -2837,7 +2838,7 @@ else						;	   |
 endif						;	   |
 	TRB $08C4				;$BB9221   |
 	LDA $08A4				;$BB9224   |
-	JSL CODE_808837				;$BB9227   | Setup kongs in sprite table
+	JSL set_active_kong_global		;$BB9227   |
 	LDA active_frame_counter		;$BB922B   |
 	EOR $2F					;$BB922D   |
 	STA $2F					;$BB922F   |
@@ -4887,7 +4888,7 @@ CODE_BBA622:					;	   |
 	PLB					;$BBA64E   |
 CODE_BBA64F:					;	   |
 	STZ $0913				;$BBA64F   |
-	JSL CODE_80DD63				;$BBA652   |
+	JSL handle_ship_deck_sunset_global	;$BBA652   |
 	LDA $0913				;$BBA656   |
 	BNE CODE_BBA64F				;$BBA659   |
 	LDA #$0001				;$BBA65B   |
@@ -5446,6 +5447,7 @@ DATA_BBAC76:
 	db $D0, $01, $D0, $03, $30, $02, $60, $01
 	db $00, $FD, $B0, $F4
 
+;slope threshould presets?
 CODE_BBACE2:
 	LDA #$0006				;$BBACE2  \
 	STA $88					;$BBACE5   |
@@ -5468,102 +5470,101 @@ CODE_BBACFA:
 	RTS					;$BBAD05  /
 
 CODE_BBAD06:
-	JSR CODE_BBAD34				;$BBAD06  \
+	JSR spawn_kongs_in_level		;$BBAD06  \
 	LDA $08FC				;$BBAD09   |
 	AND #$0003				;$BBAD0C   |
 	BNE .cutscene_done			;$BBAD0F   |
 	LDA #$0001				;$BBAD11   |
-	JSL CODE_BBC16B				;$BBAD14   |
+	JSL kong_cutscene_handler		;$BBAD14   |
 .cutscene_done					;	   |
 	RTS					;$BBAD18  /
 
 CODE_BBAD19:
-	JSR CODE_BBAD34				;$BBAD19  \
+	JSR spawn_kongs_in_level		;$BBAD19  \
 	LDA #$0004				;$BBAD1C   |
 	BIT $08C4				;$BBAD1F   |
 	BNE CODE_BBAD2C				;$BBAD22   |
 	LDA #$0002				;$BBAD24   |
-	JSL CODE_BBC16B				;$BBAD27   |
+	JSL kong_cutscene_handler		;$BBAD27   |
 	RTS					;$BBAD2B  /
 
 CODE_BBAD2C:
 	LDA #$0009				;$BBAD2C  \
-	JSL CODE_BBC16B				;$BBAD2F   |
+	JSL kong_cutscene_handler		;$BBAD2F   |
 	RTS					;$BBAD33  /
 
-;spawn kongs in level
-CODE_BBAD34:
+spawn_kongs_in_level:
 	LDA #global_sprite_palette		;$BBAD34  \
 	JSL request_palette_direct_global	;$BBAD37   |
 	LDA #diddy_control_variables		;$BBAD3B   |
-	STA $66					;$BBAD3E   |
+	STA current_kong_control_variables	;$BBAD3E   |
 	LDY #!special_sprite_spawn_id_000E	;$BBAD40   |
 	JSL spawn_special_sprite_index		;$BBAD43   | Spawn diddy
 	LDX alternate_sprite			;$BBAD47   |
 	STX current_sprite			;$BBAD49   | Set diddy as current sprite
-	JSR CODE_BBAEB0				;$BBAD4B   |
+	JSR set_kong_spawn_position		;$BBAD4B   |
 	LDA #$0004				;$BBAD4E   |
 	JSL set_anim_handle_dixie		;$BBAD51   | Set kong animation (Run)
-	JSR CODE_BBAEBD				;$BBAD55   | Set kong palette?
-	LDA.l DATA_FF0040			;$BBAD58   |
+	JSR set_default_kong_palette		;$BBAD55   |
+	LDA.l diddy_kong_constants		;$BBAD58   |
 	STA $16BA				;$BBAD5C   |
 	LDA.l DATA_FF0042			;$BBAD5F   |
 	STA $16BC				;$BBAD63   |
 	LDA #dixie_control_variables		;$BBAD66   |
-	STA $66					;$BBAD69   |
+	STA current_kong_control_variables	;$BBAD69   |
 	LDY #!special_sprite_spawn_id_0010	;$BBAD6B   |
 	JSL spawn_special_sprite_index		;$BBAD6E   | Spawn dixie
 	LDX alternate_sprite			;$BBAD72   |
 	STX current_sprite			;$BBAD74   | Set dixie as current sprite
-	JSR CODE_BBAEB0				;$BBAD76   |
+	JSR set_kong_spawn_position		;$BBAD76   |
 	LDA #$0004				;$BBAD79   |
 	JSL set_anim_handle_dixie		;$BBAD7C   | Set kong animation (Run)
-	JSR CODE_BBAEBD				;$BBAD80   | Set kong palette?
-	LDA.l DATA_FF012A			;$BBAD83   |
+	JSR set_default_kong_palette		;$BBAD80   |
+	LDA.l dixie_kong_constants		;$BBAD83   |
 	STA $16E0				;$BBAD87   |
 	LDA.l DATA_FF012C			;$BBAD8A   |
 	STA $16E2				;$BBAD8E   |
 	JSR CODE_BBADDC				;$BBAD91   |
-	JSR CODE_BBAD98				;$BBAD94   | Play boss entry cutscene if on a boss level
+	JSR .play_boss_entry_cutscene_if_needed	;$BBAD94   |
 	RTS					;$BBAD97  / Return
 
-CODE_BBAD98:
+.play_boss_entry_cutscene_if_needed:
 	LDA level_number			;$BBAD98  \
 	CMP #!level_krows_nest			;$BBAD9A   |
-	BEQ .krow_cutscene			;$BBAD9D   |
+	BEQ ..krow_cutscene			;$BBAD9D   |
 	CMP #!level_kreepy_krow			;$BBAD9F   |
-	BEQ .kreepy_krow_cutscene		;$BBADA2   |
+	BEQ ..kreepy_krow_cutscene		;$BBADA2   |
 	CMP #!level_kleevers_kiln		;$BBADA4   |
-	BEQ .kleever_cutscene			;$BBADA7   |
+	BEQ ..kleever_cutscene			;$BBADA7   |
 	CMP #!level_kudgels_kontest		;$BBADA9   |
-	BEQ .kudgel_cutscene			;$BBADAC   |
+	BEQ ..kudgel_cutscene			;$BBADAC   |
 	CMP #!level_krocodile_kore		;$BBADAE   |
-	BEQ .k_rool_2_cutscene			;$BBADB1   |
+	BEQ ..k_rool_2_cutscene			;$BBADB1   |
 	RTS					;$BBADB3  /
 
-.krow_cutscene
+..krow_cutscene
 	LDA #$0005				;$BBADB4  \
-	JSL CODE_BBC16B				;$BBADB7   |
+	JSL kong_cutscene_handler		;$BBADB7   |
 	RTS					;$BBADBB  /
 
-.kreepy_krow_cutscene
+..kreepy_krow_cutscene
 	LDA #$0006				;$BBADBC  \
-	JSL CODE_BBC16B				;$BBADBF   |
+	JSL kong_cutscene_handler		;$BBADBF   |
 	RTS					;$BBADC3  /
 
-.kleever_cutscene
+..kleever_cutscene
 	LDA #$0007				;$BBADC4  \
-	JSL CODE_BBC16B				;$BBADC7   |
+	JSL kong_cutscene_handler		;$BBADC7   |
 	RTS					;$BBADCB  /
 
-.kudgel_cutscene
+..kudgel_cutscene
 	LDA #$0008				;$BBADCC  \
-	JSL CODE_BBC16B				;$BBADCF   |
+	JSL kong_cutscene_handler		;$BBADCF   |
 	RTS					;$BBADD3  /
 
-.k_rool_2_cutscene
+..k_rool_2_cutscene
 	LDA #$000A				;$BBADD4  \
-	JSL CODE_BBC16B				;$BBADD7   |
+	JSL kong_cutscene_handler		;$BBADD7   |
 	RTS					;$BBADDB  /
 
 CODE_BBADDC:
@@ -5638,7 +5639,7 @@ CODE_BBAE62:
 	BRA CODE_BBAE77				;$BBAE71  /
 
 CODE_BBAE73:
-	JSL CODE_B8B6DC				;$BBAE73  \
+	JSL set_swimming_state_global		;$BBAE73  \
 CODE_BBAE77:					;	   |
 	LDX inactive_kong_sprite		;$BBAE77   |
 	JSL CODE_B8B83F				;$BBAE7A   |
@@ -5671,7 +5672,7 @@ CODE_BBAEA8:
 	STA $12,x				;$BBAEAD   |
 	RTS					;$BBAEAF  /
 
-CODE_BBAEB0:
+set_kong_spawn_position:
 	LDX current_sprite			;$BBAEB0  \
 	LDA $0533				;$BBAEB2   |
 	STA $06,x				;$BBAEB5   |
@@ -5679,7 +5680,7 @@ CODE_BBAEB0:
 	STA $0A,x				;$BBAEBA   |
 	RTS					;$BBAEBC  /
 
-CODE_BBAEBD:
+set_default_kong_palette:
 	LDA current_sprite			;$BBAEBD  \
 	CMP active_kong_sprite			;$BBAEBF   | Check if sprite is the active kong
 	BNE .request_kong_palette		;$BBAEC2   | If not, skip animal check
@@ -7017,13 +7018,13 @@ CODE_BBB7DD:					;	   |
 	STA sprite.x_sub_position,x		;$BBB7F8   |
 	STA sprite.y_sub_position,x		;$BBB7FA   |
 	STZ sprite.unknown_2C,x			;$BBB7FC   |
-	STZ sprite.unknown_32,x			;$BBB7FE   |
+	STZ sprite.carry_or_defeat_flags,x	;$BBB7FE   |
 	STZ sprite.interaction_flags,x		;$BBB800   |
 	STZ sprite.terrain_interaction,x	;$BBB802   |
 	STZ sprite.despawn_time,x		;$BBB804   |
 	LDA ($F3),y				;$BBB806   |
 	STA sprite.placement_parameter,x	;$BBB808   |
-	STZ sprite.unknown_16,x			;$BBB80A   |
+	STZ sprite.last_rendered_graphic,x	;$BBB80A   |
 	STZ sprite.display_mode,x		;$BBB80C   |
 	STZ sprite.terrain_attributes,x		;$BBB80E   |
 	LDA ($F9),y				;$BBB810   |
@@ -7073,9 +7074,9 @@ hidden_sprite_spawn:
 	STA sprite.x_sub_position,x		;$BBB865   |
 	STA sprite.y_sub_position,x		;$BBB867   |
 	STZ sprite.current_graphic,x		;$BBB869   |
-	STZ sprite.unknown_16,x			;$BBB86B   |
+	STZ sprite.last_rendered_graphic,x	;$BBB86B   |
 	STZ sprite.unknown_2C,x			;$BBB86D   |
-	STZ sprite.unknown_32,x			;$BBB86F   |
+	STZ sprite.carry_or_defeat_flags,x	;$BBB86F   |
 	STZ sprite.interaction_flags,x		;$BBB871   |
 	STZ sprite.terrain_interaction,x	;$BBB873   |
 	STZ sprite.despawn_time,x		;$BBB875   |
@@ -7145,7 +7146,7 @@ big_sprite_spawn:
 	STA sprite.x_sub_position,x		;$BBB8EA   | |
 	STA sprite.y_sub_position,x		;$BBB8EC   |/
 	STZ sprite.unknown_2C,x			;$BBB8EE   |\ Init critical sprite variables to zero
-	STZ sprite.unknown_32,x			;$BBB8F0   | |
+	STZ sprite.carry_or_defeat_flags,x	;$BBB8F0   | |
 	STZ sprite.interaction_flags,x		;$BBB8F2   | |
 	STZ sprite.terrain_interaction,x	;$BBB8F4   | |
 	STZ sprite.despawn_time,x		;$BBB8F6   |/
@@ -7515,6 +7516,8 @@ delete_sprite_if_offscreen:
 	SEC					;$BBBB97   |
 	RTL					;$BBBB98  /
 
+
+;Check offscreen, handle spawn parameter and despawn timer
 CODE_BBBB99:
 	LDX current_sprite			;$BBBB99  \ \
 	LDA sprite.placement_number,x		;$BBBB9B   | |
@@ -7636,7 +7639,7 @@ CODE_BBBB99:
 	LDA #!sprite_respawn_suppressor		;$BBBC48   |
 	STA sprite.type,x			;$BBBC4B   |
 	STZ sprite.current_graphic,x		;$BBBC4D   |
-	STZ sprite.unknown_16,x			;$BBBC4F   |
+	STZ sprite.last_rendered_graphic,x	;$BBBC4F   |
 	STZ sprite.x_position,x			;$BBBC51   |
 	STZ sprite.y_position,x			;$BBBC53   |
 	STZ sprite.state,x			;$BBBC55   |
@@ -7880,7 +7883,7 @@ endif
 	STZ $0902				;$BBBDF3   |
 	STZ $08A6				;$BBBDF6   |
 	LDA.l world_number			;$BBBDF9   |
-	JML CODE_B5CDFD				;$BBBDFD  /
+	JML init_world_map			;$BBBDFD  /
 
 CODE_BBBE01:
 	LDA #$00CB				;$BBBE01  \\ Piracy check
@@ -7938,7 +7941,7 @@ CODE_BBBE54:
 	TRB $06D1				;$BBBE6F   |
 	LDA $08BE				;$BBBE72   |
 	BPL CODE_BBBE7E				;$BBBE75   |
-	LDA #CODE_80FA7C			;$BBBE77   |
+	LDA #init_game_over_screen		;$BBBE77   |
 	JSL CODE_808C9E				;$BBBE7A   |
 CODE_BBBE7E:					;	   |
 	LDA #$0002				;$BBBE7E   |
@@ -7946,7 +7949,7 @@ CODE_BBBE7E:					;	   |
 	STZ level_destination_number		;$BBBE84   |
 	JSR CODE_BBBED7				;$BBBE87   |
 	LDA.l world_number			;$BBBE8A   |
-	JML CODE_B5CDFD				;$BBBE8E  /
+	JML init_world_map			;$BBBE8E  /
 
 DATA_BBBE92:
 	dw CODE_BBBEF8
@@ -7961,13 +7964,13 @@ endif
 	dw CODE_BBC056
 	dw CODE_BBBEF8
 
-CODE_BBBEA0:
-	LDA $060D				;$BBBEA0  \
+restart_logo_or_world_map:
+	LDA current_game_mode			;$BBBEA0  \
 	CMP #!gamemode_2_player_contest		;$BBBEA3   |
-	BNE CODE_BBBED3				;$BBBEA6   |
+	BNE .restart_logo			;$BBBEA6   |
 	JSL CODE_BBC85B				;$BBBEA8   |
 	LDA $08BE				;$BBBEAC   |
-	BMI CODE_BBBED3				;$BBBEAF   |
+	BMI .restart_logo			;$BBBEAF   |
 	JSL CODE_BBC85B				;$BBBEB1   |
 	JSL CODE_BBC736				;$BBBEB5   |
 	LDA #$0002				;$BBBEB9   |
@@ -7977,13 +7980,13 @@ CODE_BBBEA0:
 	STZ level_destination_number		;$BBBEC5   |
 	JSR CODE_BBBED7				;$BBBEC8   |
 	LDA.l world_number			;$BBBECB   |
-	JML CODE_B5CDFD				;$BBBECF  /
+	JML init_world_map			;$BBBECF  /
 
-CODE_BBBED3:
+.restart_logo:
 	JML restart_rareware_logo		;$BBBED3  |
 
 CODE_BBBED7:
-	LDA $060D				;$BBBED7  \
+	LDA current_game_mode			;$BBBED7  \
 	CMP #!gamemode_2_player_contest		;$BBBEDA   |
 	BNE CODE_BBBEEE				;$BBBEDD   |
 	LDA $08C2				;$BBBEDF   |
@@ -7997,7 +8000,7 @@ CODE_BBBEED:					;	   |
 CODE_BBBEEE:
 	CMP #!gamemode_2_player_team		;$BBBEEE  \
 	BNE CODE_BBBEED				;$BBBEF1   |
-	JSL CODE_80889C				;$BBBEF3   |
+	JSL swap_active_kong_global		;$BBBEF3   |
 	RTS					;$BBBEF7  /
 
 CODE_BBBEF8:
@@ -8058,7 +8061,7 @@ CODE_BBBF65:					;	   |
 	TRB $08C6				;$BBBF73   |
 	JSR CODE_BBBED7				;$BBBF76   |
 	LDA.l world_number			;$BBBF79   |
-	JML CODE_B5CDFD				;$BBBF7D  /
+	JML init_world_map			;$BBBF7D  /
 
 CODE_BBBF81:
 	JSR CODE_BBBD8E				;$BBBF81  \
@@ -8081,7 +8084,7 @@ CODE_BBBF81:
 	AND #$0003				;$BBBFB1   |
 	DEC A					;$BBBFB4   |
 	STA $000650				;$BBBFB5   |
-	LDA #CODE_808CC9			;$BBBFB9   |
+	LDA #bonus_and_credits_screen_NMI	;$BBBFB9   |
 	STA NMI_pointer				;$BBBFBC   |
 CODE_BBBFBE:					;	   |
 	WAI					;$BBBFBE   |
@@ -8168,7 +8171,7 @@ CODE_BBC019:
 	TRB $08C6				;$BBC046   |
 	JSR CODE_BBBED7				;$BBC049   |
 	LDA #$0000				;$BBC04C   |
-	JML CODE_B5CDFD				;$BBC04F  /
+	JML init_world_map			;$BBC04F  /
 
 CODE_BBC053:
 	JMP CODE_BBBEF8				;$BBC053  /
@@ -8332,7 +8335,7 @@ CODE_BBC15D:
 	INC kong_cutscene_script_index		;$BBC166   |
 	BRA CODE_BBC174				;$BBC169  /
 
-CODE_BBC16B:
+kong_cutscene_handler:
 	STA kong_cutscene_number		;$BBC16B  \
 	STZ kong_cutscene_script_index		;$BBC16E   |
 	STZ kong_cutscene_command_timer		;$BBC171   |
@@ -8342,7 +8345,7 @@ CODE_BBC174:					;	   |
 	LDA kong_cutscene_number		;$BBC176   |
 	ASL A					;$BBC179   |
 	TAX					;$BBC17A   |
-	LDA.l .DATA_BBC18D,x			;$BBC17B   |
+	LDA.l .kong_cutscene_table,x		;$BBC17B   |
 	CLC					;$BBC17F   |
 	ADC kong_cutscene_script_index		;$BBC180   |
 	TAX					;$BBC183   |
@@ -8350,22 +8353,22 @@ CODE_BBC174:					;	   |
 	STA kong_cutscene_command_timer		;$BBC187   |
 	JMP ($0002,x)				;$BBC18A  /
 
-.DATA_BBC18D
-	dw .DATA_BBC1A7				;00
-	dw .DATA_BBC1A7				;01
-	dw .DATA_BBC1E7				;02
-	dw .DATA_BBC217				;03
-	dw .DATA_BBC22B				;04
-	dw .DATA_BBC24F				;05
-	dw .DATA_BBC26B				;06
-	dw .DATA_BBC287				;07
-	dw .DATA_BBC2AB				;08
-	dw .DATA_BBC1FF				;09
-	dw .DATA_BBC2CF				;0A
-	dw .DATA_BBC2EB				;0B
-	dw .DATA_BBC2FB				;0C
+.kong_cutscene_table
+	dw .stronghold_showdown_cutscene	;00
+	dw .stronghold_showdown_cutscene	;01
+	dw .krool_duel_entry_cutscene		;02
+	dw .DATA_BBC217				;03 Seems unused
+	dw .krool_duel_victory_cutscene		;04
+	dw .krow_entry_cutscene			;05
+	dw .kreepy_krow_entry_cutscene		;06
+	dw .kleever_entry_cutscene		;07
+	dw .kudgel_entry_cutscene		;08
+	dw .krool_duel_entry_cutscene_short	;09
+	dw .krocodile_kore_entry_cutscene	;0A
+	dw .krocodile_kore_victory_cutscene	;0B
+	dw .kleever_victory_cutscene		;0C
 
-.DATA_BBC1A7
+.stronghold_showdown_cutscene
 	dw $0000, .move_active_kong_to_left_of_level
 	dw $0000, .move_inactive_kong_left_of_active
 	dw $0040, .set_kong_states_to_cutscene_move
@@ -8383,7 +8386,7 @@ CODE_BBC174:					;	   |
 	dw $0040, .CODE_BBC34A
 	dw $0001, .CODE_BBC513
 
-.DATA_BBC1E7
+.krool_duel_entry_cutscene
 	dw $0000, .move_inactive_kong_left_of_active
 	dw $0040, .CODE_BBC42F
 	dw $002C, .CODE_BBC48A
@@ -8391,7 +8394,7 @@ CODE_BBC174:					;	   |
 	dw $0004, .CODE_BBC42F
 	dw $0001, .CODE_BBC513
 
-.DATA_BBC1FF
+.krool_duel_entry_cutscene_short
 	dw $0000, .move_inactive_kong_left_of_active
 	dw $0020, .CODE_BBC42F
 	dw $002C, .CODE_BBC48A
@@ -8406,7 +8409,7 @@ CODE_BBC174:					;	   |
 	dw $0018, .CODE_BBC344
 	dw $0001, .CODE_BBC513
 
-.DATA_BBC22B
+.krool_duel_victory_cutscene
 	dw $0028, .CODE_BBC406
 	dw $0001, .give_reward_to_player
 	dw $0001, .CODE_BBC42F
@@ -8417,7 +8420,7 @@ CODE_BBC174:					;	   |
 	dw $0388, .CODE_BBC42F
 	dw $0001, .CODE_BBC513
 
-.DATA_BBC24F
+.krow_entry_cutscene
 	dw $0000, .move_active_kong_to_left_of_level
 	dw $0000, .move_inactive_kong_left_of_active
 	dw $0002, .set_kong_states_to_cutscene_move
@@ -8426,8 +8429,8 @@ CODE_BBC174:					;	   |
 	dw $0008, .CODE_BBC42F
 	dw $0001, .CODE_BBC513
 
-.DATA_BBC26B
-	dw $0000, .CODE_BBC373
+.kreepy_krow_entry_cutscene
+	dw $0000, .set_kong_to_0180_X_pos
 	dw $0000, .move_inactive_kong_left_of_active
 	dw $0002, .set_kong_states_to_cutscene_move
 	dw $0010, .CODE_BBC48A
@@ -8435,8 +8438,8 @@ CODE_BBC174:					;	   |
 	dw $0008, .CODE_BBC42F
 	dw $0001, .CODE_BBC513
 
-.DATA_BBC287
-	dw $0000, .CODE_BBC37E
+.kleever_entry_cutscene
+	dw $0000, .set_kong_to_0350_Y_pos
 	dw $0000, .move_inactive_kong_left_of_active
 	dw $0001, .set_kong_states_to_cutscene_move
 	dw $0020, .set_kongs_walking_right
@@ -8446,7 +8449,7 @@ CODE_BBC174:					;	   |
 	dw $0008, .CODE_BBC42F
 	dw $0001, .CODE_BBC513
 
-.DATA_BBC2AB
+.kudgel_entry_cutscene
 	dw $0000, .move_active_kong_to_left_of_level
 	dw $0000, .move_inactive_kong_left_of_active
 	dw $0001, .set_kong_states_to_cutscene_move
@@ -8457,7 +8460,7 @@ CODE_BBC174:					;	   |
 	dw $0008, .CODE_BBC42F
 	dw $0001, .CODE_BBC513
 
-.DATA_BBC2CF
+.krocodile_kore_entry_cutscene
 	dw $0000, .move_active_kong_to_left_of_level
 	dw $0000, .move_inactive_kong_left_of_active
 	dw $0001, .set_kong_states_to_cutscene_move
@@ -8466,13 +8469,13 @@ CODE_BBC174:					;	   |
 	dw $0008, .CODE_BBC42F
 	dw $0001, .CODE_BBC513
 
-.DATA_BBC2EB
+.krocodile_kore_victory_cutscene
 	dw $0030, .CODE_BBC406
 	dw $0001, .give_reward_to_player
 	dw $0C00, .CODE_BBC42F
 	dw $0001, .CODE_BBC513
 
-.DATA_BBC2FB
+.kleever_victory_cutscene
 	dw $0048, .CODE_BBC406
 	dw $0200, .CODE_BBC42F
 	dw $0001, .CODE_BBC30B
@@ -8480,7 +8483,7 @@ CODE_BBC174:					;	   |
 
 .CODE_BBC30B
 	JSL set_current_level_as_cleared	;$BBC30B  \
-	JSL CODE_B88262				;$BBC30F   |
+	JSL set_player_interaction_27		;$BBC30F   |
 	JMP CODE_BBC15D				;$BBC313  /
 
 .give_reward_to_player
@@ -8514,7 +8517,7 @@ CODE_BBC174:					;	   |
 	LDA $08FC				;$BBC34A  \
 	ORA #$0003				;$BBC34D   |
 	STA $08FC				;$BBC350   |
-	JSL CODE_B8A691				;$BBC353   |
+	JSL set_level_end_exit_state_global	;$BBC353   |
 	JSL CODE_B4AFAD				;$BBC357   |
 	JMP CODE_BBC150				;$BBC35B  /
 
@@ -8524,18 +8527,18 @@ CODE_BBC174:					;	   |
 	JMP CODE_BBC150				;$BBC365  /
 
 .lift_dk_off_screen
-	LDX $075F				;$BBC368  \
+	LDX $075F				;$BBC368  \ Index of DK sprite
 	LDA #$0002				;$BBC36B   |
 	STA sprite.state,x			;$BBC36E   |
 	JMP CODE_BBC150				;$BBC370  /
 
-.CODE_BBC373
+.set_kong_to_0180_X_pos
 	LDX active_kong_sprite			;$BBC373  \
 	LDA #$0180				;$BBC376   |
 	STA sprite.x_position,x			;$BBC379   |
 	JMP CODE_BBC15D				;$BBC37B  /
 
-.CODE_BBC37E
+.set_kong_to_0350_Y_pos
 	LDX active_kong_sprite			;$BBC37E  \
 	LDA #$0350				;$BBC381   |
 	STA sprite.x_position,x			;$BBC384   |
@@ -8600,9 +8603,9 @@ CODE_BBC174:					;	   |
 
 .CODE_BBC406
 	JSL work_on_active_kong_global		;$BBC406  \
-	JSL CODE_B88EB8				;$BBC40A   |
+	JSL drop_sprite_if_holding_global	;$BBC40A   |
 	LDX current_sprite			;$BBC40E   |
-	LDA #$007C				;$BBC410   |
+	LDA #!kong_state_7C			;$BBC410   |
 	STA sprite.state,x			;$BBC413   |
 	STZ sprite.max_x_speed,x		;$BBC415   |
 	STZ sprite.y_speed,x			;$BBC417   |
@@ -9141,7 +9144,7 @@ CODE_BBC776:
 	LDA #$0040				;$BBC84D   |
 	TSB $06A3				;$BBC850   |
 	LDA $08A4				;$BBC853   |
-	JSL CODE_808837				;$BBC856   |
+	JSL set_active_kong_global		;$BBC856   |
 	RTL					;$BBC85A  /
 
 CODE_BBC85B:

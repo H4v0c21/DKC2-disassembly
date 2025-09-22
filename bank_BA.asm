@@ -291,7 +291,7 @@ CODE_BA9274:
 	BEQ CODE_BA92F1				;$BA9281   |
 	DEC $070D				;$BA9283   |
 	BNE CODE_BA92F1				;$BA9286   |
-	LDA #$077C				;$BA9288   |
+	%lda_sound(7, king_zing_spike_shot)	;$BA9288   |
 	JSL queue_sound_effect			;$BA928B   |
 	LDA.l $00070F				;$BA928F   |
 	STA $00070D				;$BA9293   |
@@ -606,7 +606,7 @@ CODE_BA94FF:					;	   |
 
 CODE_BA9502:
 	PHY					;$BA9502  \
-	LDA #$067A				;$BA9503   |
+	%lda_sound(6, king_zing_hit)		;$BA9503   |
 	JSL queue_sound_effect			;$BA9506   | Play king_zing_hit sound effect
 	LDX current_sprite			;$BA950A   |
 	PHX					;$BA950C   |
@@ -716,7 +716,7 @@ CODE_BA9603:					;	   |
 	RTS					;$BA960E  /
 
 CODE_BA960F:
-	LDA #$067A				;$BA960F  \
+	%lda_sound(6, king_zing_hit)		;$BA960F  \
 	JSL queue_sound_effect			;$BA9612   |
 	JSR CODE_BA92F6				;$BA9616   |
 	LDX $0654				;$BA9619   |
@@ -744,7 +744,7 @@ CODE_BA960F:
 	STA alternate_sprite			;$BA9657   |
 	LDA #$02A1				;$BA9659   |
 	JSL set_alt_sprite_animation		;$BA965C   |
-	LDA #$047F				;$BA9660   |
+	%lda_sound(4, king_zing_defeated)	;$BA9660   |
 	JSL queue_sound_effect			;$BA9663   |
 	LDY #!special_sprite_spawn_id_0196	;$BA9667   |
 	JSL spawn_special_sprite_index		;$BA966A   |
@@ -932,7 +932,7 @@ king_zing_ring_zinger_sprite_code:
 	TYX					;$BA97F3  \
 	DEC $1E,x				;$BA97F4   |
 	BNE .return				;$BA97F6   |
-	LDA #$067B				;$BA97F8   |
+	%lda_sound(6, king_zing_spawn_zingers)	;$BA97F8   |
 	JSL queue_sound_effect			;$BA97FB   |
 	LDX current_sprite			;$BA97FF   |
 	INC $2E,x				;$BA9801   |
@@ -965,7 +965,7 @@ king_zing_ring_zinger_sprite_code:
 	BNE ..CODE_BA987A			;$BA9849   |
 	LDA #$0199				;$BA984B   |
 	JSL defeat_sprite_using_anim_global	;$BA984E   |
-	LDA #$050E				;$BA9852   |
+	%lda_sound(5, zinger_flitter_hit)	;$BA9852   |
 	JSL queue_sound_effect			;$BA9855   |
 	LDX $6A					;$BA9859   |
 	LDA #$0100				;$BA985B   |
@@ -1401,7 +1401,7 @@ kreepy_krows_eggs_sprite_code:
 	ASL A					;$BA9C13   |
 	ASL A					;$BA9C14   |
 	TAX					;$BA9C15   |
-	LDA.l DATA_B896B7,x			;$BA9C16   |
+	LDA.l kong_state_flags_table,x		;$BA9C16   |
 	AND #$0040				;$BA9C1A   |
 	BNE .CODE_BA9C2A			;$BA9C1D   |
 	JSL CODE_BCFB58				;$BA9C1F   |
@@ -1418,7 +1418,7 @@ kreepy_krows_eggs_sprite_code:
 	JSR.w CODE_B6F266		 	;$BA9C36   | This code was probably from B6 krow code and got moved, would have spawned egg shell pieces
 	PLB					;$BA9C39   |
 	JSL delete_sprite_handle_deallocation	;$BA9C3A   | Would have deleted egg sprite and played a barrel break sound
-	LDA #$041A				;$BA9C3E   |
+	%lda_sound(4, barrel_blast)		;$BA9C3E   |
 	JSL queue_sound_effect			;$BA9C41   |
 	BRA .return				;$BA9C45  /
 
@@ -1519,13 +1519,13 @@ CODE_BA9D0A:
 	BRL CODE_BA9D96				;$BA9D11  /
 
 CODE_BA9D14:
-	LDA #$0439				;$BA9D14  \
+	%lda_sound(4, animal_crate_break_a)	;$BA9D14  \
 	JSL queue_sound_effect			;$BA9D17   |
-	LDA #$053B				;$BA9D1B   |
+	%lda_sound(5, animal_crate_break_c)	;$BA9D1B   |
 	JSL queue_sound_effect			;$BA9D1E   |
-	LDA #$063C				;$BA9D22   |
+	%lda_sound(6, animal_crate_break_d)	;$BA9D22   |
 	JSL queue_sound_effect			;$BA9D25   |
-	LDA #$073A				;$BA9D29   |
+	%lda_sound(7, animal_crate_break_b)	;$BA9D29   |
 	JSL queue_sound_effect			;$BA9D2C   |
 	LDY.w #DATA_FF1E74			;$BA9D30   | Spawn barrel
 	JSL spawn_special_sprite_address	;$BA9D33   |
@@ -1646,7 +1646,7 @@ CODE_BA9DD9:					;	   |
 	STY current_sprite			;$BA9E3D   |
 	LDX $0654				;$BA9E3F   |
 	STX current_sprite			;$BA9E42   |
-	LDA #$0532				;$BA9E44   |
+	%lda_sound(5, necky_attack)		;$BA9E44   |
 	JSL queue_sound_effect			;$BA9E47   |
 	BRA CODE_BA9E68				;$BA9E4B  /
 
@@ -1658,7 +1658,7 @@ CODE_BA9E4D:
 	TYX					;$BA9E59   |
 	LDA #!ghost_mini_necky_sprite_palette	;$BA9E5A   |
 	JSL set_sprite_palette_global		;$BA9E5D   |
-	LDA #$0532				;$BA9E61   |
+	%lda_sound(5, necky_attack)		;$BA9E61   |
 	JSL queue_sound_effect			;$BA9E64   |
 CODE_BA9E68:					;	   |
 	DEC $06F9				;$BA9E68   |
@@ -1804,7 +1804,7 @@ CODE_BA9F88:					;	   |
 
 ;spawns a kreepy krow egg and plays the egg fall sound
 CODE_BA9F8C:
-	LDA #$0565				;$BA9F8C  \
+	%lda_sound(5, egg_kudgel_fall)		;$BA9F8C  \
 	JSL queue_sound_effect			;$BA9F8F   |
 	LDY #!special_sprite_spawn_id_00A4	;$BA9F93   |
 	JSL spawn_special_sprite_index		;$BA9F96   |
@@ -1850,7 +1850,7 @@ CODE_BA9FDF:					;	   |
 
 CODE_BA9FE2:
 	INC $065C				;$BA9FE2  \
-	LDA #$057C				;$BA9FE5   | play kreepy krow destroyed sound effect
+	%lda_sound(5, kreepy_krow_defeated)	;$BA9FE5   | play kreepy krow defeated sound effect
 	JSL queue_sound_effect			;$BA9FE8   |
 	LDY #!special_sprite_spawn_id_0138	;$BA9FEC   |
 	JSL spawn_special_sprite_index		;$BA9FEF   |
@@ -3048,7 +3048,7 @@ kore_sparkle_spawner_sprite_code:
 	DEC $44,x				;$BAB092   |
 	BNE CODE_BAB09E				;$BAB094   |
 	JSL set_current_level_as_cleared	;$BAB096   |
-	JSL CODE_B8A691				;$BAB09A   |
+	JSL set_level_end_exit_state_global	;$BAB09A   |
 CODE_BAB09E:					;	   |
 	LDX current_sprite			;$BAB09E   |
 	INC $46,x				;$BAB0A0   |
@@ -3115,7 +3115,7 @@ CODE_BAB11C:
 	ASL A					;$BAB11E   |
 CODE_BAB11F:					;	   |
 	STA $0020,y				;$BAB11F   |
-	LDA #$0768				;$BAB122   |
+	%lda_sound(7, krool_gun_exhaust)	;$BAB122   |
 	JSL queue_sound_effect			;$BAB125   |
 CODE_BAB129:					;	   |
 	JML [sprite_return_address]		;$BAB129  /
@@ -3411,7 +3411,7 @@ CODE_BAB3D1:					;	   |
 CODE_BAB3E5:
 	CMP #$000F				;$BAB3E5  \
 	BNE CODE_BAB3FD				;$BAB3E8   |
-	JSL CODE_80897C				;$BAB3EA   |
+	JSL input_and_pause_handler_global	;$BAB3EA   |
 	LDA player_active_pressed		;$BAB3EE   |
 	BIT #$F0C0				;$BAB3F1   |
 	BEQ CODE_BAB3FD				;$BAB3F4   |
@@ -3943,9 +3943,9 @@ CODE_BAB8D6:					;	   |
 	LDA screen_brightness			;$BAB8D6   |
 	CMP #$000F				;$BAB8D9   |
 	BNE CODE_BAB8F8				;$BAB8DC   |
-	JSL CODE_80897C				;$BAB8DE   |
+	JSL input_and_pause_handler_global	;$BAB8DE   |
 	LDA player_active_held			;$BAB8E2   |
-	BIT #$D0C0				;$BAB8E5   |
+	BIT #!input_ABXY_start 			;$BAB8E5   |
 	BEQ CODE_BAB8F8				;$BAB8E8   |
 	LDA #CODE_BAB8F9			;$BAB8EA   |
 	STA $00067F				;$BAB8ED   |
@@ -3958,7 +3958,7 @@ CODE_BAB8F9:
 	JML restart_rareware_logo		;$BAB8F9  |
 
 CODE_BAB8FD:
-	LDA #CODE_808CD9			;$BAB8FD  \
+	LDA #ending_museum_NMI			;$BAB8FD  \
 	STA NMI_pointer				;$BAB900   |
 	LDA #CODE_B490D9			;$BAB902   |
 	STA $00067D				;$BAB905   |
@@ -4162,9 +4162,9 @@ krool_fish_sprite_code:
 	STA $2A,x				;$BAC15F   | set target Y velocity
 	LDA #$0003				;$BAC161   |
 	STA $44,x				;$BAC164   | set preset to use for Y interpolation
-	LDA #$055B				;$BAC166   |
+	%lda_sound(5, krool_splash_1)		;$BAC166   |
 	JSL queue_sound_effect			;$BAC169   | play krool water splash 1 sound
-	LDA #$065C				;$BAC16D   |
+	%lda_sound(6, krool_splash_2)		;$BAC16D   |
 	JSL queue_sound_effect			;$BAC170   | play krool water splash 2 sound
 	BRL .return				;$BAC174  / done processing sprite
 
@@ -4179,9 +4179,9 @@ krool_fish_sprite_code:
 	SBC $000650				;$BAC18D   | subtract it by division result to get new Y velocity
 	LDX current_sprite			;$BAC191   | get fish sprite
 	STA $24,x				;$BAC193   | set current Y velocity
-	LDA #$055B				;$BAC195   |
+	%lda_sound(5, krool_splash_1)		;$BAC195   |
 	JSL queue_sound_effect			;$BAC198   | play krool water splash 1 sound
-	LDA #$065C				;$BAC19C   |
+	%lda_sound(6, krool_splash_2)		;$BAC19C   |
 	JSL queue_sound_effect			;$BAC19F   | play krool water splash 2 sound
 	LDX current_sprite			;$BAC1A3   |
 	INC $42,x				;$BAC1A5   | increase bounce count
@@ -4441,7 +4441,7 @@ scroll_and_float_barrel_sprite_code:
 	INC $2E,x				;$BAC375   | Set display_text state
 	LDA #$0258				;$BAC377   |
 	STA $4E,x				;$BAC37A   | Set time until text goes away
-	LDA #$062E				;$BAC37C   |
+	%lda_sound(6, krool_note)		;$BAC37C   |
 	JSL queue_sound_effect			;$BAC37F   | Play krool note sound effect
 	JML [sprite_return_address]		;$BAC383  / Done processing sprite
 
@@ -4454,7 +4454,7 @@ scroll_and_float_barrel_sprite_code:
 	STA PPU.screens				;$BAC390   | and disable bg3
 	REP #$20				;$BAC393   | 16-Bit A
 	INC $2E,x				;$BAC395   | Set idle state
-.idle:					;	   |
+.idle:						;	   |
 	JML [sprite_return_address]		;$BAC397  /
 
 ;likely a k rool projectile (seems to be unused)

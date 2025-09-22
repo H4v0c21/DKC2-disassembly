@@ -103,6 +103,7 @@ screen_fade_speed = $0513
 screen_fade_timer = $0514
 
 ;level logic (starts at $0515)
+level_config_table = $0515
 
 active_kong_sprite = $0593
 active_kong_control_variables = $0595
@@ -121,7 +122,7 @@ sprite_return_bank = $05AB
 debug_flags = $05BB
 
 cheat_enable_flags = $060B
-current_game_mode = $060D
+current_game_mode = $060D		;Also doubles as cursor position in mode select screen
 active_controller = $060F
 file_select_selection = $0611
 file_select_action = $0613
@@ -132,6 +133,8 @@ npc_screen_type = $0689
 returning_map_node_number = $06A9
 map_node_number = $06AB
 world_number = $06B1
+
+active_kong_number = $08A4
 
 parent_level_number = $08A8
 

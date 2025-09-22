@@ -159,7 +159,7 @@ set_sprite_animation:				;	   |
 	STA sprite.animation_address,x		;$B9D0EA   |/
 	TAY					;$B9D0EC   |> preserve script address in Y
 	LDA .animation_flags			;$B9D0ED   |
-	STA sprite.unknown_40,x			;$B9D0EF   |
+	STA sprite.animation_flags,x		;$B9D0EF   |
 	BRA process_anim_script			;$B9D0F1  /
 
 process_anim_preserve_state:
@@ -245,7 +245,7 @@ animation_command_handler:
 	TAX					;$B9D15C   |
 	JMP (animation_command_table,x)		;$B9D15D  /
 
-CODE_B9D160:
+animation_command_80_94:
 	LDX current_sprite			;$B9D160  \
 	LDA sprite.animation_id,x		;$B9D162   |
 	ASL A					;$B9D164   |
@@ -258,8 +258,7 @@ CODE_B9D160:
 	TAY					;$B9D16F   |
 	BRA process_anim_script			;$B9D170  /
 
-;animation command 81
-CODE_B9D172:
+animation_command_81:
 	LDX current_sprite			;$B9D172  \> Get current sprite
 	INY					;$B9D174   |\
 	LDA $0000,y				;$B9D175   | | Get command param 1 (animation code execution pointer)
@@ -291,7 +290,7 @@ CODE_B9D172:
 	RTL					;$B9D19A  /
 
 ;animation command 82 (animation jump)
-CODE_B9D19B:
+animation_command_82:
 	LDX current_sprite			;$B9D19B  \> Get current sprite
 	INY					;$B9D19D   |\
 	LDA $0000,y				;$B9D19E   |/ Get command param 1 (animation script pointer)
@@ -299,7 +298,7 @@ CODE_B9D19B:
 	JMP process_anim_script			;$B9D1A2  /> Continue processing animation script from new address
 
 ;animation command 83 (execute code)
-CODE_B9D1A5:
+animation_command_83:
 	LDX current_sprite			;$B9D1A5  \> Get current sprite
 	TYA					;$B9D1A7   |\
 	STA sprite.animation_address,x		;$B9D1A8   |/ Update animation script pointer for current sprite
@@ -311,7 +310,7 @@ CODE_B9D1A5:
 	JMP (temp_26)				;$B9D1B2  /> Execute animation code
 
 ;animation command 84 (execute code continuously)
-CODE_B9D1B5:
+animation_command_84:
 	LDX current_sprite			;$B9D1B5  \> Get current sprite
 	INY					;$B9D1B7   |\
 	LDA $0000,y				;$B9D1B8   |/ Get command param 1 (animation code execution pointer)
@@ -321,7 +320,7 @@ CODE_B9D1B5:
 	JMP process_anim_script			;$B9D1BF  /> Continue processing animation script
 
 ;animation command 8E (play sound effect)
-CODE_B9D1C2:
+animation_command_8E:
 	LDX current_sprite			;$B9D1C2  \> Get current sprite
 	INY					;$B9D1C4   |\
 	LDA $0000,y				;$B9D1C5   |/ Get command param 1 (sound effect)
@@ -334,7 +333,7 @@ CODE_B9D1C2:
 	JMP process_anim_script			;$B9D1D2  /> Continue processing animation script
 
 ;animation command 93 (play sound effect if not offscreen)
-CODE_B9D1D5:
+animation_command_93:
 	LDX current_sprite			;$B9D1D5  \
 	INY					;$B9D1D7   |
 	LDA $0000,y				;$B9D1D8   |
@@ -355,7 +354,7 @@ CODE_B9D1D5:
 	JMP process_anim_script			;$B9D1F2  /
 
 ;animation command 8F (animation jump if true)
-CODE_B9D1F5:
+animation_command_8F:
 	LDX current_sprite			;$B9D1F5  \> Get current sprite
 	INY					;$B9D1F7   |\
 	LDA $0000,y				;$B9D1F8   | | Get command param 1 (animation code execution pointer)
@@ -385,7 +384,7 @@ CODE_B9D1F5:
 	JMP process_anim_script			;$B9D21B  /> Continue processing animation script
 
 ;animation command 90 (execute code then set new animation id)
-CODE_B9D21E:
+animation_command_90:
 	LDX current_sprite			;$B9D21E  \> Get current sprite
 	INY					;$B9D220   |\
 	LDA $0000,y				;$B9D221   | | Get command param 1 (animation code execution pointer)
@@ -409,7 +408,7 @@ CODE_B9D21E:
 	JMP set_sprite_animation		;$B9D23D  /> Set new sprite animation
 
 ;animation command 91 (call animation script subroutine)
-CODE_B9D240:
+animation_command_91:
 	INY					;$B9D240  \ \
 	LDA $0000,y				;$B9D241   | | Get command param 1 (variable to use for animation script return)
 	AND #$00FF				;$B9D244   |/
@@ -426,7 +425,7 @@ CODE_B9D240:
 	JMP process_anim_script			;$B9D256  /> Continue processing animation script
 
 ;animation command 92 (return from animation script subroutine)
-CODE_B9D259:
+animation_command_92:
 	INY					;$B9D259  \ \
 	LDA $0000,y				;$B9D25A   | | Get command param 1 (variable to use for animation script return)
 	AND #$00FF				;$B9D25D   |/
@@ -446,7 +445,7 @@ CODE_B9D259:
 
 ;this is only used in one animation script, when diddy mounts enguarde
 ;its probably leftover legacy code from DKC 1 that never needed to be changed
-CODE_B9D26B:
+animation_command_85:
 	LDX current_sprite			;$B9D26B  \ \
 	LDA $0000,y				;$B9D26D   | | Get command param 1 (draw time)
 	AND #$FF00				;$B9D270   |/
@@ -494,7 +493,7 @@ CODE_B9D26B:
 ;this command writes kong position offsets to $0D76 and $0D78 (kong animal riding offsets)
 ;aside from this it is exactly the same as command 85
 
-CODE_B9D2AA:
+animation_command_86:
 	LDX current_sprite			;$B9D2AA  \ \
 	LDA $0000,y				;$B9D2AC   | | Get command param 1 (draw time)
 	AND #$FF00				;$B9D2AF   |/
@@ -552,7 +551,7 @@ CODE_B9D2AA:
 
 ;this command writes kong position offsets to $0D76 and $0D78 (kong animal riding offsets)
 
-CODE_B9D305:
+animation_command_87:
 	LDX current_sprite			;$B9D305  \ \
 	LDA $0000,y				;$B9D307   | | Get command param 1 (draw time)
 	AND #$FF00				;$B9D30A   |/
@@ -602,7 +601,7 @@ CODE_B9D305:
 
 ;this command writes kong position offsets to $0D76 and $0D78 (kong animal riding offsets)
 
-CODE_B9D356:
+animation_command_88:
 	LDA.l current_player_mount		;$B9D356  \ \ Get animal buddy sprite
 	BEQ .done				;$B9D35A   |/ If kong isnt mounted, dont apply second graphic
 	LDA.l active_kong_sprite		;$B9D35C   |\ Else get active kong
@@ -631,7 +630,7 @@ CODE_B9D356:
 ;02 graphic a
 ;04 graphic b
 
-CODE_B9D387:
+animation_command_89:
 	LDX current_sprite			;$B9D387  \ \
 	LDA $0000,y				;$B9D389   | | Get command param 1 (draw time)
 	AND #$FF00				;$B9D38C   |/
@@ -668,7 +667,7 @@ CODE_B9D387:
 	STA sprite.animation_address,x		;$B9D3C5   |/ Update animation script address, move to next command
 	JMP CODE_B9D13D				;$B9D3C7  /
 
-CODE_B9D3CA:
+animation_command_8A:
 	LDX current_sprite			;$B9D3CA  \ 
 	LDA $0000,y				;$B9D3CC   |
 	AND #$FF00				;$B9D3CF   |
@@ -729,7 +728,7 @@ else						;	   |
 	RTS					;$B9D41C  /
 endif
 
-CODE_B9D41D:
+animation_command_8B:
 	LDX current_sprite			;$B9D41D  \
 	LDA $0000,y				;$B9D41F   |
 	AND #$FF00				;$B9D422   |
@@ -767,7 +766,7 @@ CODE_B9D458:					;	   |
 	STA sprite.animation_address,x		;$B9D45F   |
 	JMP CODE_B9D13D				;$B9D461  /
 
-CODE_B9D464:
+animation_command_8C:
 	LDA.l current_held_sprite		;$B9D464  \
 	BEQ CODE_B9D480				;$B9D468   |
 	LDA.l active_kong_sprite		;$B9D46A   |
@@ -785,7 +784,7 @@ CODE_B9D480:					;	   |
 	TAY					;$B9D487   |
 	JMP process_anim_script			;$B9D488  /
 
-CODE_B9D48B:
+animation_command_8D:
 	LDX current_sprite			;$B9D48B  \
 	LDA $0000,y				;$B9D48D   |
 	AND #$FF00				;$B9D490   |
@@ -822,27 +821,27 @@ CODE_B9D4BB:					;	   |
 	JMP CODE_B9D13D				;$B9D4C2  /
 
 animation_command_table:
-	dw CODE_B9D160				; 80
-	dw CODE_B9D172				; 81
-	dw CODE_B9D19B				; 82
-	dw CODE_B9D1A5				; 83
-	dw CODE_B9D1B5				; 84
-	dw CODE_B9D26B				; 85
-	dw CODE_B9D2AA				; 86
-	dw CODE_B9D305				; 87
-	dw CODE_B9D356				; 88
-	dw CODE_B9D387				; 89
-	dw CODE_B9D3CA				; 8A
-	dw CODE_B9D41D				; 8B
-	dw CODE_B9D464				; 8C
-	dw CODE_B9D48B				; 8D
-	dw CODE_B9D1C2				; 8E
-	dw CODE_B9D1F5				; 8F
-	dw CODE_B9D21E				; 90
-	dw CODE_B9D240				; 91
-	dw CODE_B9D259				; 92
-	dw CODE_B9D1D5				; 93
-	dw CODE_B9D160				; 94
+	dw animation_command_80_94		; 80
+	dw animation_command_81			; 81
+	dw animation_command_82			; 82
+	dw animation_command_83			; 83
+	dw animation_command_84			; 84
+	dw animation_command_85			; 85
+	dw animation_command_86			; 86
+	dw animation_command_87			; 87
+	dw animation_command_88			; 88
+	dw animation_command_89			; 89
+	dw animation_command_8A			; 8A
+	dw animation_command_8B			; 8B
+	dw animation_command_8C			; 8C
+	dw animation_command_8D			; 8D
+	dw animation_command_8E			; 8E
+	dw animation_command_8F			; 8F
+	dw animation_command_90			; 90
+	dw animation_command_91			; 91
+	dw animation_command_92			; 92
+	dw animation_command_93			; 93
+	dw animation_command_80_94		; 94
 
 CODE_B9D4EF:
 	LDA.l $000515				;$B9D4EF   |
@@ -877,7 +876,7 @@ CODE_B9D51C:
 
 CODE_B9D521:
 	LDA sprite.state,x			;$B9D521  \
-	CMP #$002C				;$B9D523   |
+	CMP #!kong_state_2C			;$B9D523   |
 	BNE CODE_B9D52B				;$B9D526   |
 	JMP CODE_B9D12B				;$B9D528  /
 
@@ -1060,7 +1059,7 @@ check_if_player_not_mounted:
 	RTS					;$B9D62E  /
 
 check_if_current_kong_is_diddy:
-	LDA.l $0008A4				;$B9D62F  \
+	LDA.l active_kong_number		;$B9D62F  \
 	BNE .player_is_dixie			;$B9D633   |
 	SEC					;$B9D635   |
 	RTS					;$B9D636  /
@@ -1268,7 +1267,7 @@ CODE_B9D724:
 	BRA CODE_B9D71C				;$B9D724  /
 
 CODE_B9D726:
-	LDA #$001D				;$B9D726  \
+	LDA #!kong_state_1D			;$B9D726  \
 	STA sprite.state,x			;$B9D729   |
 	BRA CODE_B9D71C				;$B9D72B  /
 
@@ -1327,17 +1326,17 @@ CODE_B9D784:					;	   |
 CODE_B9D78C:
 	LDA $08C2				;$B9D78C  \
 	BMI CODE_B9D798				;$B9D78F   |
-	LDA #$0022				;$B9D791   |
+	LDA #!kong_state_22			;$B9D791   |
 	STA sprite.state,x			;$B9D794   |
 	BRA CODE_B9D784				;$B9D796  /
 
 CODE_B9D798:
-	LDA #$001E				;$B9D798  \
+	LDA #!kong_state_1E			;$B9D798  \
 	STA sprite.state,x			;$B9D79B   |
 	BRA CODE_B9D784				;$B9D79D  /
 
 CODE_B9D79F:
-	LDA #$001D				;$B9D79F  \
+	LDA #!kong_state_1D			;$B9D79F  \
 	STA sprite.state,x			;$B9D7A2   |
 	BRA CODE_B9D784				;$B9D7A4  /
 
@@ -1394,12 +1393,12 @@ CODE_B9D7FD:					;	   |
 	RTS					;$B9D804  /
 
 CODE_B9D805:
-	LDA #$001D				;$B9D805  \
+	LDA #!kong_state_1D			;$B9D805  \
 	STA sprite.state,x			;$B9D808   |
 	BRA CODE_B9D7FD				;$B9D80A  /
 
 CODE_B9D80C:
-	LDA #$0022				;$B9D80C  \
+	LDA #!kong_state_22			;$B9D80C  \
 	STA sprite.state,x			;$B9D80F   |
 	BRA CODE_B9D7FD				;$B9D811  /
 
@@ -1450,7 +1449,7 @@ CODE_B9D85D:
 	LDA $0515				;$B9D85D  \
 	CMP #!boss_level_type			;$B9D860   |
 	BNE CODE_B9D86A				;$B9D863   |
-	JSL CODE_B8A695				;$B9D865   |
+	JSL set_level_end_fade_global		;$B9D865   |
 	RTS					;$B9D869  /
 
 CODE_B9D86A:
@@ -1493,7 +1492,7 @@ CODE_B9D896:
 	LDY current_held_sprite			;$B9D896  \
 	BEQ CODE_B9D8A1				;$B9D899   |
 	LDA #$0001				;$B9D89B   |
-	STA.w sprite.unknown_32,y		;$B9D89E   |
+	STA.w sprite.carry_or_defeat_flags,y	;$B9D89E   |
 CODE_B9D8A1:					;	   |
 	TYX					;$B9D8A1   |
 	JSL CODE_B8D4AE				;$B9D8A2   |
@@ -1504,7 +1503,7 @@ CODE_B9D8AA:
 	LDX current_held_sprite			;$B9D8AA  \
 	BEQ CODE_B9D8BB				;$B9D8AD   |
 	LDA #$0002				;$B9D8AF   |
-	STA sprite.unknown_32,x			;$B9D8B2   |
+	STA sprite.carry_or_defeat_flags,x	;$B9D8B2   |
 	LDX current_sprite			;$B9D8B4   |
 	LDA #$000F				;$B9D8B6   |
 	STA sprite.state,x			;$B9D8B9   |
@@ -1594,7 +1593,7 @@ CODE_B9D965:
 	BEQ CODE_B9D9AF				;$B9D976   |/ If UP isnt pressed then throwing sprite sideways
 	LDX current_sprite			;$B9D978   |> Else get current sprite
 	LDA #$0006				;$B9D97A   |\
-	STA.w sprite.unknown_32,y		;$B9D97D   |/ Set sprite carry interaction to thrown upwards
+	STA.w sprite.carry_or_defeat_flags,y	;$B9D97D   |/ Set sprite carry interaction to thrown upwards
 	LDY #$0038				;$B9D980   |
 	LDA [current_sprite_constants],y	;$B9D983   |
 	LDY current_held_sprite			;$B9D985   |
@@ -1621,7 +1620,7 @@ CODE_B9D9AE:					;	   |
 CODE_B9D9AF:
 	LDX current_sprite			;$B9D9AF  \
 	LDA #$0004				;$B9D9B1   |\
-	STA.w sprite.unknown_32,y		;$B9D9B4   |/ Set sprite carry interaction to thrown sideways
+	STA.w sprite.carry_or_defeat_flags,y	;$B9D9B4   |/ Set sprite carry interaction to thrown sideways
 	LDY #$0034				;$B9D9B7   |
 	LDA [current_sprite_constants],y	;$B9D9BA   |
 	LDY current_held_sprite			;$B9D9BC   |
@@ -1758,7 +1757,7 @@ CODE_B9DA81:
 	RTS					;$B9DA93  /
 
 spawn_diddy_hurt_stars:
-	LDA #$050A				;$B9DA94  \
+	%lda_sound(5, diddy_dizzy)		;$B9DA94  \
 	JSL queue_sound_effect			;$B9DA97   | Play dizzy stars sound effect
 	LDY #!special_sprite_spawn_id_0016	;$B9DA9B   |
 	JSL spawn_special_sprite_index		;$B9DA9E   | Spawn diddy hurt stars
@@ -2042,7 +2041,7 @@ CODE_B9DC54:
 	CLC					;$B9DC5B   |
 	ADC sprite.x_speed,x			;$B9DC5C   |
 	STA sprite.x_speed,x			;$B9DC5E   |
-	LDA #$052F				;$B9DC60   |
+	%lda_sound(5, squawks_spit)		;$B9DC60   |
 	JSL queue_sound_effect			;$B9DC63   |
 	RTS					;$B9DC67  /
 
@@ -2183,7 +2182,7 @@ CODE_B9DD21:
 	RTS					;$B9DD2A  /
 
 spawn_dixie_hurt_tears:
-	LDA #$0520				;$B9DD2B  \
+	%lda_sound(5, dixie_cry)		;$B9DD2B  \
 	JSL queue_sound_effect			;$B9DD2E   | Play dixie crying sound effect
 	LDY #!special_sprite_spawn_id_0014	;$B9DD32   |
 	JSL spawn_special_sprite_index		;$B9DD35   | Spawn dixie hurt tears
@@ -2373,9 +2372,9 @@ CODE_B9DE67:					;	   |
 	STZ sprite.max_x_speed,x		;$B9DE69   |
 	LDA #$0004				;$B9DE6B   |
 	STA sprite.state,x			;$B9DE6E   |
-	LDA sprite.unknown_40,x			;$B9DE70   |
+	LDA sprite.animation_flags,x		;$B9DE70   |
 	AND #$B7FF				;$B9DE72   |
-	STA sprite.unknown_40,x			;$B9DE75   |
+	STA sprite.animation_flags,x		;$B9DE75   |
 	RTS					;$B9DE77  /
 
 CODE_B9DE78:
@@ -3045,8 +3044,8 @@ CODE_B9E29A:					;	   |
 	JSL set_anim_handle_animal_and_dixie	;$B9E2A8   |
 	LDX current_sprite			;$B9E2AC   |
 	LDA #$A000				;$B9E2AE   |
-	ORA sprite.unknown_40,x			;$B9E2B1   |
-	STA sprite.unknown_40,x			;$B9E2B3   |
+	ORA sprite.animation_flags,x		;$B9E2B1   |
+	STA sprite.animation_flags,x		;$B9E2B3   |
 	RTS					;$B9E2B5  /
 
 CODE_B9E2B6:
@@ -3099,8 +3098,8 @@ CODE_B9E2FD:
 	LDA #$0051				;$B9E2FD  \
 	STA sprite.state,x			;$B9E300   |
 	LDA #$A000				;$B9E302   |
-	ORA sprite.unknown_40,x			;$B9E305   |
-	STA sprite.unknown_40,x			;$B9E307   |
+	ORA sprite.animation_flags,x		;$B9E305   |
+	STA sprite.animation_flags,x		;$B9E307   |
 	RTS					;$B9E309  /
 
 CODE_B9E30A:
@@ -3154,12 +3153,12 @@ CODE_B9E357:
 	RTS					;$B9E35E  /
 
 CODE_B9E35F:
-	LDA #$0565				;$B9E35F  \
+	%lda_sound(5, enguarde_charge)		;$B9E35F  \
 	JSL queue_sound_effect			;$B9E362   |
 	LDX current_sprite			;$B9E366   |
 	LDY #$0400				;$B9E368   |
 	LDA sprite.state,x			;$B9E36B   |
-	CMP #$006C				;$B9E36D   |
+	CMP #!kong_state_6C			;$B9E36D   |
 	BNE CODE_B9E375				;$B9E370   |
 	LDY #$0180				;$B9E372   |
 CODE_B9E375:					;	   |
@@ -3213,7 +3212,7 @@ CODE_B9E3AF:
 	STA.w kong_control.jump_event_time,y	;$B9E3C1   |
 	LDA #$0072				;$B9E3C4   |
 	JSL set_anim_handle_animal_and_dixie	;$B9E3C7   |
-	LDA #$0549				;$B9E3CB   |
+	%lda_sound(5, rattly_leap)		;$B9E3CB   |
 	JSL queue_sound_effect			;$B9E3CE   |
 	RTS					;$B9E3D2  /
 
@@ -3503,7 +3502,7 @@ CODE_B9E576:
 	ASL A					;$B9E584   |
 	ASL A					;$B9E585   |
 	TAX					;$B9E586   |
-	LDA.l DATA_B896B7,x			;$B9E587   |
+	LDA.l kong_state_flags_table,x		;$B9E587   |
 	AND #$0001				;$B9E58B   |
 	BEQ CODE_B9E592				;$B9E58E   |
 	CLC					;$B9E590   |
@@ -3517,9 +3516,9 @@ CODE_B9E592:
 CODE_B9E594:
 	LDA sprite.general_purpose_46,x		;$B9E594  \
 	LSR A					;$B9E596   |
-	LDA #$0560				;$B9E597   |
+	%lda_sound(5, splash_1)			;$B9E597   |
 	BCC CODE_B9E59F				;$B9E59A   |
-	LDA #$0561				;$B9E59C   |
+	%lda_sound(5, splash_2)			;$B9E59C   |
 CODE_B9E59F:					;	   |
 	JSL queue_sound_effect			;$B9E59F   |
 	LDX current_sprite			;$B9E5A3   |
@@ -3531,8 +3530,8 @@ CODE_B9E5AB:
 	LDA active_frame_counter		;$B9E5AB  \
 	AND #$003F				;$B9E5AD   |
 	BNE turn_neek_if_needed			;$B9E5B0   |
-	LDA #$0524				;$B9E5B2   |
-	JSL CODE_B3A3FC				;$B9E5B5   |
+	%lda_sound(5, neek_squeak)		;$B9E5B2   |
+	JSL queue_sfx_if_on_screen_global	;$B9E5B5   |
 turn_neek_if_needed:				;	   |
 	LDY #$0170				;$B9E5B9   |
 	JMP turn_sprite_if_needed		;$B9E5BC  /
@@ -3557,8 +3556,8 @@ CODE_B9E5DF:
 	LDA sprite.terrain_interaction,x	;$B9E5DF  \
 	AND #$0001				;$B9E5E1   |
 	BEQ CODE_B9E5ED				;$B9E5E4   |
-	LDA #$060F				;$B9E5E6   |
-	JSL CODE_B3A3FC				;$B9E5E9   |
+	%lda_sound(6, click_clack_walk)		;$B9E5E6   |
+	JSL queue_sfx_if_on_screen_global	;$B9E5E9   |
 CODE_B9E5ED:					;	   |
 	RTS					;$B9E5ED  /
 
@@ -3597,7 +3596,7 @@ CODE_B9E621:					;	   |
 	LDA #$0200				;$B9E623   |
 	STA sprite.general_purpose_4A,x		;$B9E626   |
 	LDA #$0001				;$B9E628   |
-	STA sprite.parameter,x			;$B9E62B   |
+	STA sprite.general_purpose_50,x		;$B9E62B   |
 	RTS					;$B9E62D  /
 
 CODE_B9E62E:
@@ -3633,9 +3632,9 @@ CODE_B9E655:					;	   |
 CODE_B9E667:					;	   |
 	JSL spawn_no_gfx_special_sprite_index	;$B9E667   |
 	LDX current_sprite			;$B9E66B   |
-	DEC sprite.parameter,x			;$B9E66D   |
+	DEC sprite.general_purpose_50,x		;$B9E66D   |
 	BNE CODE_B9E613				;$B9E66F   |
-	LDA #$0711				;$B9E671   |
+	%lda_sound(7, klobber_skid)		;$B9E671   |
 	JSL queue_sound_effect			;$B9E674   |
 	RTS					;$B9E678  /
 
@@ -3927,7 +3926,7 @@ CODE_B9E824:					;	   |
 	RTS					;$B9E824  /
 
 CODE_B9E825:
-	LDA #$0502				;$B9E825  \
+	%lda_sound(5, knock)			;$B9E825  \
 	JSL queue_sound_effect			;$B9E828   |
 	LDX current_sprite			;$B9E82C   |
 	LDA sprite.max_y_speed,x		;$B9E82E   |
@@ -3939,7 +3938,7 @@ CODE_B9E825:
 	SEP #$20				;$B9E83A   |
 	STA CPU.divisor				;$B9E83C   |
 	REP #$20				;$B9E83F   |
-	LDA sprite.parameter,x			;$B9E841   |
+	LDA sprite.general_purpose_50,x		;$B9E841   |
 	STA sprite.max_x_speed,x		;$B9E843   |
 	LDA #$3C00				;$B9E845   |
 	STA CPU.dividen				;$B9E848   |
@@ -3956,12 +3955,12 @@ CODE_B9E825:
 	RTS					;$B9E85F  /
 
 CODE_B9E860:
-	LDA #$0502				;$B9E860  \
+	%lda_sound(5, knock)			;$B9E860  \
 	JSL queue_sound_effect			;$B9E863   |
 	LDX current_sprite			;$B9E867   |
 	LDA #!default_animation_speed		;$B9E869   |
 	STA sprite.animation_speed,x		;$B9E86C   |
-	LDA sprite.parameter,x			;$B9E86E   |
+	LDA sprite.general_purpose_50,x		;$B9E86E   |
 	BEQ CODE_B9E87C				;$B9E870   |
 	LSR A					;$B9E872   |
 	EOR sprite.oam_property,x		;$B9E873   |
@@ -4122,7 +4121,7 @@ CODE_B9E950:
 	RTS					;$B9E957  /
 
 CODE_B9E958:
-	DEC sprite.parameter,x			;$B9E958  \
+	DEC sprite.general_purpose_50,x		;$B9E958  \
 	BPL CODE_B9E96B				;$B9E95A   |
 	LDA sprite.sub_state,x			;$B9E95C   |
 	AND #$00FF				;$B9E95E   |
@@ -4208,12 +4207,12 @@ spawn_krooks_hook:
 	JSL spawn_special_sprite_index		;$B9E9D4   | Spawn krook's hook
 	LDY alternate_sprite			;$B9E9D8   | Get hook sprite
 	LDX current_sprite			;$B9E9DA   | Get krook sprite
-	STY sprite.parameter,x			;$B9E9DC   | Store pointer of hook into krook
-	STX sprite.parameter,y			;$B9E9DE   | Vice versa
+	STY sprite.general_purpose_50,x		;$B9E9DC   | Store pointer of hook into krook
+	STX sprite.general_purpose_50,y		;$B9E9DE   | Vice versa
 	RTS					;$B9E9E0  / Return
 
 CODE_B9E9E1:
-	LDA sprite.parameter,x			;$B9E9E1  \
+	LDA sprite.general_purpose_50,x		;$B9E9E1  \
 	BNE CODE_B9E9EE				;$B9E9E3   |
 namespace animation
 	LDA #DATA_F95EF2			;$B9E9E5   |
@@ -4452,7 +4451,7 @@ CODE_B9EB39:
 	JSL set_player_interaction_global	;$B9EB4D   |
 	PLB					;$B9EB51   |
 	BCS CODE_B9EB93				;$B9EB52   |
-	LDA #$056F				;$B9EB54   |
+	%lda_sound(5, krockhead_brown)		;$B9EB54   |
 	JSL queue_sound_effect			;$B9EB57   |
 	LDX current_sprite			;$B9EB5B   |
 	LDA sprite.general_purpose_46,x		;$B9EB5D   |
@@ -4505,7 +4504,7 @@ CODE_B9EBA4:
 	AND #$0003				;$B9EBA6   |
 	CMP #$0003				;$B9EBA9   |
 	BNE CODE_B9EBD6				;$B9EBAC   |
-	LDA #$066E				;$B9EBAE   |
+	%lda_sound(6, krockhead_green)		;$B9EBAE   |
 	JSL queue_sound_effect			;$B9EBB1   |
 	LDX current_sprite			;$B9EBB5   |
 	LDA sprite.animation_address,x		;$B9EBB7   |
@@ -5046,7 +5045,7 @@ if !version == 1				;	   |
 endif						;	   |
 	STA $0915				;$B9EF07   |
 .play_clapper_breath_sound:			;	   |
-	LDA #$066E				;$B9EF0A   |
+	%lda_sound(6, clapper_spit)		;$B9EF0A   |
 	JSL queue_sound_effect			;$B9EF0D   |
 	RTS					;$B9EF11  /
 
@@ -5116,7 +5115,7 @@ CODE_B9EF5A:
 	LDY #$000B				;$B9EF6E   |
 CODE_B9EF71:					;	   |
 	TYA					;$B9EF71   |
-	JSL CODE_BBC16B				;$B9EF72   |
+	JSL kong_cutscene_handler		;$B9EF72   |
 CODE_B9EF76:					;	   |
 	RTS					;$B9EF76  /
 
@@ -5328,7 +5327,7 @@ set_celebrate_interaction_and_clear_level:
 
 ;Unreferenced, would have set level end states on kongs and triggered fadeout.
 CODE_B9F07B:
-	JSL CODE_B8A691				;$B9F07B  \
+	JSL set_level_end_exit_state_global	;$B9F07B  \
 	RTS					;$B9F07F  /
 
 CODE_B9F080:
