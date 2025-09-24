@@ -862,42 +862,42 @@ input_and_pause_handler_global:
 	PLB					;$808980   |
 	RTL					;$808981  /
 
-CODE_808982:
+.demo_input_handler:
 	JSL CODE_809025				;$808982  \
-	BRA CODE_808A00				;$808986  /
+	BRA .CODE_808A00			;$808986  /
 
-input_and_pause_handler:
-	PHK					;$808988  \
-	PLB					;$808989   |
-	SEP #$20				;$80898A   |
-	LDA #$01				;$80898C   |
-CODE_80898E:					;	   |
-	BIT CPU.ppu_status			;$80898E   |
-	BNE CODE_80898E				;$808991   |
-	REP #$20				;$808993   |
-	LDA $05FB				;$808995   |
-	BNE CODE_808982				;$808998   |
-	LDA $0B02				;$80899A   |
-	AND #$0020				;$80899D   |
-	BEQ CODE_8089C9				;$8089A0   |
-	LDA $0927				;$8089A2   |
-	BPL CODE_8089C2				;$8089A5   |
-	LDA #$0100				;$8089A7   |
-	CLC					;$8089AA   |
-	ADC $0927				;$8089AB   |
-	STA $0927				;$8089AE   |
-	LDA #$0002				;$8089B1   |
-	TSB $0B02				;$8089B4   |
-	LDA player_active_pressed		;$8089B7   |
-	AND #$EFFF				;$8089BA   |
-	STA player_active_pressed		;$8089BD   |
-	BRA CODE_808A3C				;$8089C0  /
+#input_and_pause_handler:
+	PHK					;$808988  \ \ Use current program bank as data bank
+	PLB					;$808989   |/
+	SEP #$20				;$80898A   |\
+	LDA #$01				;$80898C   | |
+.wait:						;	   | |
+	BIT CPU.ppu_status			;$80898E   | |
+	BNE .wait				;$808991   | | Wait for autojoy
+	REP #$20				;$808993   |/
+	LDA $05FB				;$808995   |\
+	BNE .demo_input_handler			;$808998   |/ If a demo is playing
+	LDA $0B02				;$80899A   |\
+	AND #$0020				;$80899D   | |
+	BEQ .update_player_inputs		;$8089A0   |/ If the player isnt slowed then update inputs normally
+	LDA $0927				;$8089A2   |\
+	BPL .update_slow_timer_and_inputs	;$8089A5   |/ If positive then process inputs this frame
+	LDA #$0100				;$8089A7   |\
+	CLC					;$8089AA   | |
+	ADC $0927				;$8089AB   | |
+	STA $0927				;$8089AE   |/
+	LDA #$0002				;$8089B1   |\
+	TSB $0B02				;$8089B4   |/
+	LDA player_active_pressed		;$8089B7   |\
+	AND #$EFFF				;$8089BA   | |
+	STA player_active_pressed		;$8089BD   | |
+	BRA .handle_inverted_controls		;$8089C0  /_/
 
-CODE_8089C2:
+.update_slow_timer_and_inputs:
 	SEC					;$8089C2  \
 	SBC $0925				;$8089C3   |
 	STA $0927				;$8089C6   |
-CODE_8089C9:					;	   |
+.update_player_inputs:				;	   |
 	LDA CPU.port_0_data_1			;$8089C9   |
 	TAX					;$8089CC   |
 	EOR player_1_held			;$8089CD   |
@@ -919,16 +919,16 @@ CODE_8089C9:					;	   |
 	STA player_2_released			;$8089F7   |
 	STX player_1_pressed			;$8089FA   |
 	JSR CODE_808BB0				;$8089FD   |
-CODE_808A00:					;	   |
+.CODE_808A00:					;	   |
 	LDA current_game_mode			;$808A00   |
-	BNE CODE_808A26				;$808A03   |
+	BNE .CODE_808A26			;$808A03   |
 	LDA player_1_held			;$808A05   |
 	STA player_active_held			;$808A08   |
 	LDA player_1_released			;$808A0B   |
 	STA player_active_pressed		;$808A0E   |
-	BRA CODE_808A3C				;$808A11  /
+	BRA .handle_inverted_controls		;$808A11  /
 
-CODE_808A13:
+.CODE_808A13:
 	LDA $060F				;$808A13  \
 	ASL A					;$808A16   |
 	TAX					;$808A17   |
@@ -936,11 +936,11 @@ CODE_808A13:
 	STA player_active_held			;$808A1B   |
 	LDA $0506,x				;$808A1E   |
 	STA player_active_pressed		;$808A21   |
-	BRA CODE_808A3C				;$808A24  /
+	BRA .handle_inverted_controls		;$808A24  /
 
-CODE_808A26:
+.CODE_808A26:
 	DEC A					;$808A26  \
-	BNE CODE_808A13				;$808A27   |
+	BNE .CODE_808A13			;$808A27   |
 	LDA $08A2				;$808A29   |
 	AND #$0002				;$808A2C   |
 	TAX					;$808A2F   |
@@ -948,10 +948,10 @@ CODE_808A26:
 	STA player_active_held			;$808A33   |
 	LDA $0506,x				;$808A36   |
 	STA player_active_pressed		;$808A39   |
-CODE_808A3C:					;	   |
-	LDA $0B02				;$808A3C   |
-	AND #$0010				;$808A3F   |
-	BEQ CODE_808A76				;$808A42   |
+.handle_inverted_controls:			;	   |
+	LDA $0B02				;$808A3C   |\
+	AND #$0010				;$808A3F   | |
+	BEQ .handle_paused			;$808A42   |/ If inverted controls are disabled, input handling is done
 	LDA player_active_held			;$808A44   |
 	XBA					;$808A47   |
 	AND #$000F				;$808A48   |
@@ -972,21 +972,21 @@ CODE_808A3C:					;	   |
 	AND #$0F00				;$808A6D   |
 	EOR player_active_pressed		;$808A70   |
 	STA player_active_pressed		;$808A73   |
-CODE_808A76:					;	   |
+.handle_paused:					;	   |
 	LDA $08C2				;$808A76   |
 	AND #$0040				;$808A79   |
-	BNE CODE_808AB4				;$808A7C   |
+	BNE .CODE_808AB4			;$808A7C   |
 if !version == 1				;	   |
 	LDA #$0010				;$808A7E   |
 	TRB $08C4				;$808A81   |
-	BNE CODE_808A8D				;$808A84   |
+	BNE .paused				;$808A84   |
 endif						;	   |
 	LDA $08C2				;$808A86   |
 	AND #$0040				;$808A89   |
 	RTS					;$808A8C  /
 
+.paused:
 if !version == 1
-CODE_808A8D:
 	LDA #$0040				;$808A8D  \
 	TSB $08C2				;$808A90   |
 	%lda_sound(7, pause)			;$808A93   |
@@ -1000,7 +1000,7 @@ CODE_808A8D:
 	LDA active_frame_counter		;$808AAF   |
 	STA $0636				;$808AB1   |
 endif						;	   |
-CODE_808AB4:					;	   |
+.CODE_808AB4:					;	   |
 	LDA player_active_pressed		;$808AB4   |\ Get the players current buttons
 	AND #$1000				;$808AB7   | | Check if start is currently being pressed
 	BNE .unpause_game			;$808ABA   |/ If start was pressed then we should unpause the game

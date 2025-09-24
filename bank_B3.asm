@@ -4309,7 +4309,7 @@ level_goal_prize_main:
 	LDX current_sprite			;$B3A0CD   |
 	LDA sprite.constants_address,x		;$B3A0CF   |
 	STA current_sprite_constants		;$B3A0D1   | Else set constants address
-	LDA sprite.state,x				;$B3A0D3   |
+	LDA sprite.state,x			;$B3A0D3   |
 	ASL A					;$B3A0D5   | Get current state
 	TAX					;$B3A0D6   |
 	JMP (.state_table,x)			;$B3A0D7  / And execute state logic
@@ -4332,7 +4332,7 @@ level_goal_prize_main:
 
 .init:
 	LDX current_sprite			;$B3A0F0  \ Get prize sprite
-	INC sprite.state,x				;$B3A0F2   | Set state 1 (idle)
+	INC sprite.state,x			;$B3A0F2   | Set state 1 (idle)
 	STZ $44,x				;$B3A0F4   | Initialize index into reward sequence
 	LDA #$0001				;$B3A0F6   |
 	STA $46,x				;$B3A0F9   | Start the reward display timer
@@ -4455,7 +4455,7 @@ level_goal_pole_main:
 level_goal_barrel_main:
 	JSR level_goal_prop_check_parent	;$B3A1C1  \ Check if parent sprite is the goal target
 	BCS .delete_barrel_sprite		;$B3A1C4   | If not, delete barrel sprite
-	LDA sprite.state,x				;$B3A1C6   |
+	LDA sprite.state,x			;$B3A1C6   |
 	ASL A					;$B3A1C8   | Else get current state
 	TAX					;$B3A1C9   |
 	JMP (.state_table,x)			;$B3A1CA  / And handle state logic
@@ -5336,7 +5336,7 @@ endif						;	   |
 	JSL process_alternate_movement		;$B3A7B9   |/ Use alternate movement type whilst in the air
 	JSL process_sprite_animation		;$B3A7BD   |> Process animation
 	LDX current_sprite			;$B3A7C1   |> Get click-clack sprite
-	LDA sprite.animation_id,x				;$B3A7C3   |\
+	LDA sprite.animation_id,x		;$B3A7C3   |\
 	CMP #$0164				;$B3A7C5   | | Stunned in air
 	BEQ ..done_processing_sprite		;$B3A7C8   |/ If still using stunned in air animation then done processing
 	INC sprite.state,x			;$B3A7CA   |> Update state to stunned on ground
@@ -5381,10 +5381,10 @@ endif						;	   |
 
 ..recover_from_stun
 	LDX current_sprite			;$B3A824  \ \ Get click-clack sprite
-	LDA sprite.interaction_flags,x				;$B3A826   | | Get interaction flags
+	LDA sprite.interaction_flags,x		;$B3A826   | | Get interaction flags
 	AND #$FFFE				;$B3A828   | | Disable being picked up by kong
 	ORA #$0002				;$B3A82B   | | Enable the use of platform sprites
-	STA sprite.interaction_flags,x				;$B3A82E   |/ Update interaction flags
+	STA sprite.interaction_flags,x		;$B3A82E   |/ Update interaction flags
 	LDA #$000F				;$B3A830   |\
 	STA $4E,x				;$B3A833   |/ Set a small delay
 	JSR .increase_walk_speed		;$B3A835   |> Increase walking speed of click-clack
@@ -5548,7 +5548,7 @@ endif						;	   | |
 
 ..collided
 	LDX current_sprite			;$B3A98D  \ \ Get click-clack sprite
-	LDA sprite.x_speed,x				;$B3A98F   | | Get current X velocity
+	LDA sprite.x_speed,x			;$B3A98F   | | Get current X velocity
 	CMP #$8000				;$B3A991   | | Prepare a X velocity to apply to click-clack
 	ROR A					;$B3A994   | | Slow down X velocity
 	CMP #$8000				;$B3A995   | |
@@ -5566,7 +5566,7 @@ endif						;	   | |
 	JSL spawn_special_sprite_index		;$B3A9AF   |/ Spawn hit star
 	LDX current_sprite			;$B3A9B3   |> Get click-clack sprite
 	STZ sprite.x_speed,x			;$B3A9B5   |\ Clear X velocity
-	STZ sprite.max_x_speed,x				;$B3A9B7   |/
+	STZ sprite.max_x_speed,x		;$B3A9B7   |/
 	STZ $4E,x				;$B3A9B9   |> Clear stun timer
 	JSR .increase_walk_speed		;$B3A9BB   |> Increase walk speed of click-clack
 	%lda_sound(5, click_clack_hit)		;$B3A9BE   |\ Play click-clack recover from stun sound
@@ -5619,7 +5619,7 @@ endif						;	   |
 	CMP #$0163				;$B3AA1A   | | Check if click-clack walking animation is playing
 	BNE ..done_processing			;$B3AA1D   |/ If not then done processing
 	LDA $48,x				;$B3AA1F   |> Get walking speed
-	BIT sprite.oam_property,x				;$B3AA21   |\
+	BIT sprite.oam_property,x		;$B3AA21   |\
 	BVC ..no_flip				;$B3AA23   |/ If click-clack is facing right then dont invert walking speed
 	EOR #$FFFF				;$B3AA25   |\ Else invert walking speed
 	INC A					;$B3AA28   |/
@@ -9250,7 +9250,7 @@ extra_life_balloon_main:
 	LDA $42,x				;$B3C44D   | Get how many lives to give
 	JSL CODE_BEC64C				;$B3C44F   | Call 1st "give lives" routine
 	LDA #$0002				;$B3C453   |
-	STA sprite.state,x				;$B3C456   | Set state 2
+	STA sprite.state,x			;$B3C456   | Set state 2
 	LDA #$28D4				;$B3C458   | Load X/Y onscreen target hud position
 	JSL set_sprite_target_hud_position	;$B3C45B   | Set position to move balloon to (to life icon)
 	JSL process_sprite_animation		;$B3C45F   | Process animations
@@ -12926,7 +12926,7 @@ CODE_B3DF47:					;	   |
 
 breakable_exit_wall_sprite_code:
 	LDX current_sprite			;$B3DF48  \
-	LDA sprite.state,x				;$B3DF4A   |
+	LDA sprite.state,x			;$B3DF4A   |
 	ASL A					;$B3DF4C   |
 	TAX					;$B3DF4D   |
 	JMP (DATA_B3DF51,x)			;$B3DF4E  /

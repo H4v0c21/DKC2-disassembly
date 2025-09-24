@@ -52,7 +52,7 @@ upload_spc_engine:
 	LDX $0634				;$B58034   |\ If the current slot already has same the sound effect
 	CMP $0622,x				;$B58037   | |
 	BEQ ..return				;$B5803A   |/ skip adding it to the queue
-	TAY					;$B5803C   | Preserve the sournd effect
+	TAY					;$B5803C   | Preserve the sound effect
 	INX					;$B5803D   |\ Increment write ring index the next buffer slot
 	INX					;$B5803E   | |
 	TXA					;$B5803F   | |

@@ -11618,9 +11618,9 @@ CODE_B8D5C2:
 	STA sprite.x_position,x			;$B8D5C4   |
 	LDA $B2					;$B8D5C6   |
 	STZ sprite.x_sub_position,x		;$B8D5C8   |
-	LDA sprite.terrain_interaction,x	;$B8D5CA   |
-	AND #$1000				;$B8D5CC   |
-	BEQ .return				;$B8D5CF   |
+	LDA sprite.terrain_interaction,x	;$B8D5CA   |\
+	AND #$1000				;$B8D5CC   | |
+	BEQ .return				;$B8D5CF   |/ If not standing on a platform sprite
 	JSR CODE_B8D480				;$B8D5D1   |
 	STA $74					;$B8D5D4   |
 	SEC					;$B8D5D6   |

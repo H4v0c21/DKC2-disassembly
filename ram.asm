@@ -6,75 +6,84 @@
 ;Temporaries used for any significant context should have local reassignment
 ;Temporaries are generally any addres used in multi contexts.
 
-spc_transaction = $00
+spc_transaction			= $00	;word	counter	incomplete name
+spc_sample_dir_destination_1	= $02	;word	pointer	incomplete name
+spc_sample_dir_destination_2	= $04	;word	pointer	incomplete name
+spc_sample_destination_1	= $06	;word	pointer	incomplete name
+spc_sample_destination_2	= $08	;word	pointer	incomplete name
+sample_counter_1		= $0A	;word	counter	incomplete name
+sample_counter_2		= $0C	;word	counter	incomplete name
+sample_map			= $0E	;long	pointer	incomplete name
+UNKNOWN_12			= $12	;word	unknown	set to FFFF
+UNKNOWN_14			= $14	;byte	unknown appears to always be 0
+UNKNOWN_15			= $15	;byte	unknown appears to always be 0
+UNKNOWN_16			= $16	;byte	unknown appears to always be 0
+UNKNOWN_17			= $17	;byte	unknown appears to always be 0
+UNKNOWN_18			= $18	;byte	unknown appears to always be 0
+UNKNOWN_19			= $19	;byte	unknown appears to always be 0
+UNKNOWN_1A			= $1A	;word	unknown appears to always be 0
+current_song			= $1C	;word	index
+stereo_select			= $1E	;word	boolean
+NMI_pointer			= $20	;word	pointer
+UNUSED_22			= $22	;byte	unused
+UNUSED_23			= $23	;byte	unused
+gamemode_pointer		= $24	;word	pointer
+temp_26				= $26	;byte	temp
+temp_27				= $27	;byte	temp
+temp_28				= $28	;byte	temp
+temp_29				= $29	;byte	temp
+active_frame_counter		= $2A	;word	counter
+global_frame_counter		= $2C	;word	counter
+rng_result			= $2E	;byte	rng
+rng_seed_1			= $2F	;byte	rng
+rng_seed_2			= $30	;byte	rng
+rng_seed_3			= $31	;byte	rng
+temp_32				= $32	;byte	temp
+temp_33				= $33	;byte	temp
+temp_34				= $34	;byte	temp
+temp_35				= $35	;byte	temp
+temp_36				= $36	;byte	temp
+temp_37				= $37	;byte	temp
+temp_38				= $38	;byte	temp
+temp_39				= $39	;byte	temp
+temp_3A				= $3A	;byte	temp
+temp_3B				= $3B	;byte	temp
+temp_3C				= $3C	;byte	temp
+temp_3D				= $3D	;byte	temp
+temp_3E				= $3E	;byte	temp
+temp_3F				= $3F	;byte	temp
+temp_40				= $40	;byte	temp
 
-current_song = $1C
-stereo_select = $1E
-NMI_pointer = $20
-UNUSED_22 = $22
-UNUSED_23 = $23
-gamemode_pointer = $24
-
-temp_26 = $26
-temp_27 = $27
-temp_28 = $28
-temp_29 = $29
-
-active_frame_counter = $2A
-global_frame_counter = $2C
-rng_result = $2E
-rng_seed_1 = $2F
-rng_seed_2 = $30
-rng_seed_3 = $31
-
-temp_32 = $32
-temp_33 = $33
-temp_34 = $34
-temp_35 = $35
-temp_36 = $36
-temp_37 = $37
-temp_38 = $38
-temp_39 = $39
-temp_3A = $3A
-temp_3B = $3B
-temp_3C = $3C
-temp_3D = $3D
-temp_3E = $3E
-temp_3F = $3F
-temp_40 = $40
-;the amount of temps here I have documented as 30, but I will reserve filling that out pending more evidence
-;I suspect the latter are used rare enough that they may effectively be dedicated addresses
-
-oam_size_index = $56
-
-
-temp_5E = $5E
-temp_5F = $5F
-temp_60 = $60
-temp_61 = $61
-
-current_sprite = $64
-current_kong_control_variables = $66
-alternate_sprite = $68
-UNKNOWN_6A = $6A
-current_player_mount = $6C
-animal_type = $6E
-next_oam_slot = $70
-
-current_sprite_constants = $8E
-current_sprite_constants_bank = $90
-
-current_player_action = $92
-
-nmi_submode = $94
-gamemode_submode = $96
-
-level_number = $D3
-gameplay_frame_counter = $D5
-gameplay_frame_counter_high = $D7
+oam_size_index			= $56	;word	index
 
 
-collision_mask_result = $EB
+temp_5E				= $5E	;byte	temp
+temp_5F				= $5F	;byte	temp
+temp_60				= $60	;byte	temp
+temp_61				= $61	;byte	temp
+UNKNOWN_62			= $62	;byte	unknown
+UNKNOWN_63			= $63	;byte	unknown
+current_sprite			= $64	;word	pointer
+current_kong_control_variables	= $66	;word	pointer
+alternate_sprite		= $68	;word	pointer
+UNKNOWN_6A			= $6A	;word	pointer
+current_player_mount		= $6C	;word	pointer
+animal_type			= $6E	;word	index
+next_oam_slot			= $70	;word	index
+
+current_sprite_constants	= $8E	;\ long	pointer
+current_sprite_constants_bank	= $90	;/
+current_player_action		= $92	;word	index
+nmi_submode			= $94	;word	index
+gamemode_submode		= $96	;word	index
+level_tilemap			= $98	;long	pointer
+level_collision_tilemap		= $9C	;long	pointer
+
+level_number			= $D3	;word	index
+gameplay_frame_counter		= $D5	;\ double	counter
+gameplay_frame_counter_high	= $D7	;/
+
+collision_mask_result		= $EB	;word
 
 ;;;
 ;;; End direct page

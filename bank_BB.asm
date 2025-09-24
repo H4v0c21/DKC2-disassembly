@@ -9239,172 +9239,172 @@ CODE_BBC8C8:					;	   |
 assert pc() <= $BBE800 : padbyte $00 : pad $BBE800
 
 %mirror(DATA_FBE800)
-	dw DATA_FF2A08				;0000 4 chest spawner (not placed)
-	dw DATA_FF2A38				;0002 K. Rool
-	dw DATA_FF2A66				;0004 Kudgel
-	dw DATA_FF2A94				;0006 Donkey Kong (Stronghold Showdown)
-	dw DATA_FF2ADA				;0008 Kleever
-	dw DATA_FF2B2E				;000A Klomp
-	dw DATA_FF2B3C				;000C Klomp
-	dw DATA_FF2B4A				;000E Klomp
-	dw DATA_FF2B5C				;0010 Klomp
-	dw DATA_FF2B6E				;0012 Klomp
-	dw DATA_FF2B7C				;0014 Klomp
-	dw DATA_FF2B8A				;0016 Klomp
-	dw DATA_FF2B9C				;0018 Klomp
-	dw DATA_FF2BAE				;001A Klomp
-	dw DATA_FF2BBC				;001C Klomp
-	dw DATA_FF2BCA				;001E Klomp
-	dw DATA_FF2BD8				;0020 Klomp
-	dw DATA_FF2BEA				;0022 Klomp
-	dw DATA_FF2BF8				;0024 Klomp
-	dw DATA_FF2C0A				;0026 Klomp (not placed)
-	dw DATA_FF2C1C				;0028 Klomp (not placed)
-	dw DATA_FF2C2A				;002A Klomp
-	dw DATA_FF2C3C				;002C Klomp
-	dw DATA_FF2C4A				;002E Klomp
-	dw DATA_FF2C58				;0030 Klomp
-	dw DATA_FF2C66				;0032 Klomp
-	dw DATA_FF2C74				;0034 Klomp
-	dw DATA_FF2C86				;0036 Klomp
-	dw DATA_FF2C98				;0038 Klomp (not placed)
-	dw DATA_FF2CAA				;003A Klomp
-	dw DATA_FF2CBC				;003C Klomp
-	dw DATA_FF2CCE				;003E Klomp
-	dw DATA_FF2CE0				;0040 Klomp
-	dw DATA_FF2CF2				;0042 Klomp
-	dw DATA_FF2D04				;0044 Klomp
-	dw DATA_FF2D16				;0046 Klomp (not placed)
-	dw DATA_FF2D24				;0048 Klomp
-	dw DATA_FF2D36				;004A Klomp (not placed)
-	dw DATA_FF2D44				;004C Klomp
-	dw DATA_FF2D52				;004E Klomp
-	dw DATA_FF2D60				;0050 Klomp
-	dw DATA_FF2DEA				;0052 Click-clack (not placed)
-	dw DATA_FF2DF8				;0054 Click-clack (not placed)
-	dw DATA_FF2E02				;0056 Click-clack
-	dw DATA_FF2E10				;0058 Click-clack
-	dw DATA_FF2E1A				;005A Click-clack (not placed)
-	dw DATA_FF2E28				;005C Click-clack (not placed)
-	dw DATA_FF2E36				;005E Click-clack (not placed)
-	dw DATA_FF2E44				;0060 Click-clack (not placed)
-	dw DATA_FF2E52				;0062 Click-clack (not placed)
-	dw DATA_FF2E60				;0064 Click-clack
-	dw DATA_FF2E72				;0066 Click-clack
-	dw DATA_FF2E84				;0068 Click-clack
-	dw DATA_FF2E92				;006A Click-clack
-	dw DATA_FF2EA0				;006C Click-clack
-	dw DATA_FF2EAE				;006E Click-clack (not placed)
-	dw DATA_FF2EC0				;0070 Click-clack
-	dw DATA_FF2ED2				;0072 Click-clack
-	dw DATA_FF2EE0				;0074 Click-clack
-	dw DATA_FF2EEE				;0076 Click-clack
-	dw DATA_FF2EFC				;0078 Click-clack
-	dw DATA_FF2F0E				;007A Click-clack
-	dw DATA_FF2F20				;007C Click-clack
-	dw DATA_FF2F32				;007E Click-clack
-	dw DATA_FF2F44				;0080 Click-clack
-	dw DATA_FF2F52				;0082 Click-clack
-	dw DATA_FF2F60				;0084 Click-clack (not placed)
-	dw DATA_FF2F72				;0086 Click-clack (not placed)
-	dw DATA_FF2F84				;0088 Click-clack
-	dw DATA_FF2F96				;008A Click-clack
-	dw DATA_FF2FA4				;008C Click-clack
-	dw DATA_FF2FB6				;008E Click-clack
-	dw DATA_FF2FC4				;0090 Click-clack (not placed)
-	dw DATA_FF2FD2				;0092 Click-clack
-	dw DATA_FF2FE4				;0094 Click-clack
-	dw DATA_FF2FF2				;0096 Click-clack
-	dw DATA_FF3004				;0098 Click-clack
-	dw DATA_FF3016				;009A Click-clack
-	dw DATA_FF3028				;009C Click-clack
-	dw DATA_FF303A				;009E Click-clack
-	dw DATA_FF304C				;00A0 Click-clack
-	dw DATA_FF305E				;00A2 Click-clack
-	dw DATA_FF3070				;00A4 Click-clack
-	dw DATA_FF3082				;00A6 Click-clack (not placed)
-	dw DATA_FF3094				;00A8 Click-clack
-	dw DATA_FF30A2				;00AA Click-clack
-	dw DATA_FF30B0				;00AC Click-clack
-	dw DATA_FF30BE				;00AE Click-clack
-	dw DATA_FF30C8				;00B0 Click-clack (not placed)
-	dw DATA_FF30DA				;00B2 Click-clack (not placed)
-	dw DATA_FF311E				;00B4 Neek
-	dw DATA_FF312C				;00B6 Neek
-	dw DATA_FF3136				;00B8 Neek
-	dw DATA_FF3144				;00BA Neek
-	dw DATA_FF314E				;00BC Neek
-	dw DATA_FF3158				;00BE Neek
-	dw DATA_FF316A				;00C0 Neek
-	dw DATA_FF3178				;00C2 Neek
-	dw DATA_FF318E				;00C4 Neek
-	dw DATA_FF31A4				;00C6 Neek (not placed)
-	dw DATA_FF31BA				;00C8 Neek
-	dw DATA_FF31D0				;00CA Neek
-	dw DATA_FF31E2				;00CC Neek (not placed)
-	dw DATA_FF3290				;00CE Klobber (Green)
-	dw DATA_FF329A				;00D0 Klobber (Green) (not placed)
-	dw DATA_FF32A4				;00D2 Klobber (Green) (not placed)
-	dw DATA_FF32AE				;00D4 Klobber (Green) (not placed)
-	dw DATA_FF32B8				;00D6 Klobber (Green) (not placed)
-	dw DATA_FF32C2				;00D8 Klobber (Green)
-	dw DATA_FF32C8				;00DA Klobber (Green)
-	dw DATA_FF32D2				;00DC Klobber (Green) (not placed)
-	dw DATA_FF32E0				;00DE Klobber (Green)
-	dw DATA_FF32EA				;00E0 Klobber (Green) (not placed)
-	dw DATA_FF32F4				;00E2 Klobber (TNT)
-	dw DATA_FF32FA				;00E4 Klobber (TNT)
-	dw DATA_FF3304				;00E6 Klobber (TNT) (not placed)
-	dw DATA_FF3312				;00E8 Klobber (TNT)
-	dw DATA_FF331C				;00EA Klobber (TNT)
-	dw DATA_FF3326				;00EC Klobber (Yellow)
-	dw DATA_FF3334				;00EE Klobber (Yellow) (not placed)
-	dw DATA_FF3342				;00F0 Klobber (Yellow) (not placed)
-	dw DATA_FF3354				;00F2 Klobber (Yellow)
-	dw DATA_FF3362				;00F4 Klobber (Yellow)
-	dw DATA_FF3370				;00F6 Klobber (Yellow)
-	dw DATA_FF3382				;00F8 Klobber (Yellow)
-	dw DATA_FF3390				;00FA Klobber (Yellow)
-	dw DATA_FF339A				;00FC Klobber (Yellow) (not placed)
-	dw DATA_FF33A8				;00FE Klobber (Yellow)
-	dw DATA_FF33B6				;0100 Klobber (Yellow)
-	dw DATA_FF33C8				;0102 Klobber (Yellow)
-	dw DATA_FF33DA				;0104 Klobber (Black)
-	dw DATA_FF33E4				;0106 Klobber (Black)
-	dw DATA_FF33F2				;0108 Klobber (Black)
-	dw DATA_FF3400				;010A Klobber (Black)
-	dw DATA_FF340E				;010C Klobber (Black)
-	dw DATA_FF3420				;010E Klobber (Black)
-	dw DATA_FF342E				;0110 Klobber (Black) (not placed)
-	dw DATA_FF343C				;0112 Klobber (Black)
-	dw DATA_FF347C				;0114 Barrel
-	dw DATA_FF34CE				;0116 Invincibility Barrel (not placed)
-	dw DATA_FF34D4				;0118 Invincibility Barrel
-	dw DATA_FF34DE				;011A Invincibility Barrel (not placed)
-	dw DATA_FF34E8				;011C Invincibility Barrel (not placed)
-	dw DATA_FF34F2				;011E Invincibility Barrel (not placed)
-	dw DATA_FF34FC				;0120 Invincibility Barrel
-	dw DATA_FF3506				;0122 Invincibility Barrel
-	dw DATA_FF3510				;0124 Invincibility Barrel
-	dw DATA_FF351A				;0126 Invincibility Barrel
-	dw DATA_FF3524				;0128 Invincibility Barrel
-	dw DATA_FF352E				;012A Invincibility Barrel (not placed)
-	dw DATA_FF352E				;012C Invincibility Barrel
-	dw DATA_FF3538				;012E Invincibility Barrel
-	dw DATA_FF3542				;0130 Invincibility Barrel
-	dw DATA_FF354C				;0132 Invincibility Barrel
-	dw DATA_FF355A				;0134 Invincibility Barrel
-	dw DATA_FF3568				;0136 Cannon
-	dw DATA_FF358A				;0138 Cannon
-	dw DATA_FF35AC				;013A Cannon (not placed)
-	dw DATA_FF35CE				;013C Cannon
-	dw DATA_FF3648				;013E Animal Barrel (Squitter)
-	dw DATA_FF366A				;0140 Animal Barrel (Rattly)
-	dw DATA_FF368C				;0142 Animal Barrel (Squawks)
-	dw DATA_FF36AE				;0144 Animal Barrel (Rambi)
-	dw DATA_FF36D0				;0146 Animal Barrel (Enguarde)
-	dw DATA_FF36F2				;0148 Animal Barrel (Squawks)
-	dw DATA_FF3718				;014A Animal Barrel (Squitter)
+	dw DATA_FF2A08				;0000 not placed in any level
+	dw DATA_FF2A38				;0002
+	dw DATA_FF2A66				;0004
+	dw DATA_FF2A94				;0006
+	dw DATA_FF2ADA				;0008
+	dw DATA_FF2B2E				;000A
+	dw DATA_FF2B3C				;000C
+	dw DATA_FF2B4A				;000E
+	dw DATA_FF2B5C				;0010
+	dw DATA_FF2B6E				;0012
+	dw DATA_FF2B7C				;0014
+	dw DATA_FF2B8A				;0016
+	dw DATA_FF2B9C				;0018
+	dw DATA_FF2BAE				;001A
+	dw DATA_FF2BBC				;001C
+	dw DATA_FF2BCA				;001E
+	dw DATA_FF2BD8				;0020
+	dw DATA_FF2BEA				;0022
+	dw DATA_FF2BF8				;0024
+	dw DATA_FF2C0A				;0026 not placed in any level
+	dw DATA_FF2C1C				;0028 not placed in any level
+	dw DATA_FF2C2A				;002A
+	dw DATA_FF2C3C				;002C
+	dw DATA_FF2C4A				;002E
+	dw DATA_FF2C58				;0030
+	dw DATA_FF2C66				;0032
+	dw DATA_FF2C74				;0034
+	dw DATA_FF2C86				;0036
+	dw DATA_FF2C98				;0038 not placed in any level
+	dw DATA_FF2CAA				;003A
+	dw DATA_FF2CBC				;003C
+	dw DATA_FF2CCE				;003E
+	dw DATA_FF2CE0				;0040
+	dw DATA_FF2CF2				;0042
+	dw DATA_FF2D04				;0044
+	dw DATA_FF2D16				;0046 not placed in any level
+	dw DATA_FF2D24				;0048
+	dw DATA_FF2D36				;004A not placed in any level
+	dw DATA_FF2D44				;004C
+	dw DATA_FF2D52				;004E
+	dw DATA_FF2D60				;0050
+	dw DATA_FF2DEA				;0052 not placed in any level
+	dw DATA_FF2DF8				;0054 not placed in any level
+	dw DATA_FF2E02				;0056
+	dw DATA_FF2E10				;0058
+	dw DATA_FF2E1A				;005A not placed in any level
+	dw DATA_FF2E28				;005C not placed in any level
+	dw DATA_FF2E36				;005E not placed in any level
+	dw DATA_FF2E44				;0060 not placed in any level
+	dw DATA_FF2E52				;0062 not placed in any level
+	dw DATA_FF2E60				;0064
+	dw DATA_FF2E72				;0066
+	dw DATA_FF2E84				;0068
+	dw DATA_FF2E92				;006A
+	dw DATA_FF2EA0				;006C
+	dw DATA_FF2EAE				;006E not placed in any level
+	dw DATA_FF2EC0				;0070
+	dw DATA_FF2ED2				;0072
+	dw DATA_FF2EE0				;0074
+	dw DATA_FF2EEE				;0076
+	dw DATA_FF2EFC				;0078
+	dw DATA_FF2F0E				;007A
+	dw DATA_FF2F20				;007C
+	dw DATA_FF2F32				;007E
+	dw DATA_FF2F44				;0080
+	dw DATA_FF2F52				;0082
+	dw DATA_FF2F60				;0084 not placed in any level
+	dw DATA_FF2F72				;0086 not placed in any level
+	dw DATA_FF2F84				;0088
+	dw DATA_FF2F96				;008A
+	dw DATA_FF2FA4				;008C
+	dw DATA_FF2FB6				;008E
+	dw DATA_FF2FC4				;0090 not placed in any level
+	dw DATA_FF2FD2				;0092
+	dw DATA_FF2FE4				;0094
+	dw DATA_FF2FF2				;0096
+	dw DATA_FF3004				;0098
+	dw DATA_FF3016				;009A
+	dw DATA_FF3028				;009C
+	dw DATA_FF303A				;009E
+	dw DATA_FF304C				;00A0
+	dw DATA_FF305E				;00A2
+	dw DATA_FF3070				;00A4
+	dw DATA_FF3082				;00A6 not placed in any level
+	dw DATA_FF3094				;00A8
+	dw DATA_FF30A2				;00AA
+	dw DATA_FF30B0				;00AC
+	dw DATA_FF30BE				;00AE
+	dw DATA_FF30C8				;00B0 not placed in any level
+	dw DATA_FF30DA				;00B2 not placed in any level
+	dw DATA_FF311E				;00B4
+	dw DATA_FF312C				;00B6
+	dw DATA_FF3136				;00B8
+	dw DATA_FF3144				;00BA
+	dw DATA_FF314E				;00BC
+	dw DATA_FF3158				;00BE
+	dw DATA_FF316A				;00C0
+	dw DATA_FF3178				;00C2
+	dw DATA_FF318E				;00C4
+	dw DATA_FF31A4				;00C6 not placed in any level
+	dw DATA_FF31BA				;00C8
+	dw DATA_FF31D0				;00CA
+	dw DATA_FF31E2				;00CC not placed in any level
+	dw DATA_FF3290				;00CE
+	dw DATA_FF329A				;00D0 not placed in any level
+	dw DATA_FF32A4				;00D2 not placed in any level
+	dw DATA_FF32AE				;00D4 not placed in any level
+	dw DATA_FF32B8				;00D6 not placed in any level
+	dw DATA_FF32C2				;00D8
+	dw DATA_FF32C8				;00DA
+	dw DATA_FF32D2				;00DC not placed in any level
+	dw DATA_FF32E0				;00DE
+	dw DATA_FF32EA				;00E0 not placed in any level
+	dw DATA_FF32F4				;00E2
+	dw DATA_FF32FA				;00E4
+	dw DATA_FF3304				;00E6 not placed in any level
+	dw DATA_FF3312				;00E8
+	dw DATA_FF331C				;00EA
+	dw DATA_FF3326				;00EC
+	dw DATA_FF3334				;00EE not placed in any level
+	dw DATA_FF3342				;00F0 not placed in any level
+	dw DATA_FF3354				;00F2
+	dw DATA_FF3362				;00F4
+	dw DATA_FF3370				;00F6
+	dw DATA_FF3382				;00F8
+	dw DATA_FF3390				;00FA
+	dw DATA_FF339A				;00FC not placed in any level
+	dw DATA_FF33A8				;00FE
+	dw DATA_FF33B6				;0100
+	dw DATA_FF33C8				;0102
+	dw DATA_FF33DA				;0104
+	dw DATA_FF33E4				;0106
+	dw DATA_FF33F2				;0108
+	dw DATA_FF3400				;010A
+	dw DATA_FF340E				;010C
+	dw DATA_FF3420				;010E
+	dw DATA_FF342E				;0110 not placed in any level
+	dw DATA_FF343C				;0112
+	dw DATA_FF347C				;0114
+	dw DATA_FF34CE				;0116 not placed in any level
+	dw DATA_FF34D4				;0118
+	dw DATA_FF34DE				;011A not placed in any level
+	dw DATA_FF34E8				;011C not placed in any level
+	dw DATA_FF34F2				;011E not placed in any level
+	dw DATA_FF34FC				;0120
+	dw DATA_FF3506				;0122
+	dw DATA_FF3510				;0124
+	dw DATA_FF351A				;0126
+	dw DATA_FF3524				;0128
+	dw DATA_FF352E				;012A not placed in any level
+	dw DATA_FF352E				;012C
+	dw DATA_FF3538				;012E
+	dw DATA_FF3542				;0130
+	dw DATA_FF354C				;0132
+	dw DATA_FF355A				;0134
+	dw DATA_FF3568				;0136
+	dw DATA_FF358A				;0138
+	dw DATA_FF35AC				;013A not placed in any level
+	dw DATA_FF35CE				;013C
+	dw DATA_FF3648				;013E
+	dw DATA_FF366A				;0140
+	dw DATA_FF368C				;0142
+	dw DATA_FF36AE				;0144
+	dw DATA_FF36D0				;0146
+	dw DATA_FF36F2				;0148
+	dw DATA_FF3718				;014A
 	dw DATA_FF373E				;014C
 	dw DATA_FF3760				;014E
 	dw DATA_FF3782				;0150
@@ -9428,7 +9428,7 @@ assert pc() <= $BBE800 : padbyte $00 : pad $BBE800
 	dw DATA_FF39E6				;0174
 	dw DATA_FF3A08				;0176
 	dw DATA_FF3A2A				;0178
-	dw DATA_FF3A4C				;017A
+	dw DATA_FF3A4C				;017A not placed in any level
 	dw DATA_FF3A6E				;017C
 	dw DATA_FF3A90				;017E
 	dw DATA_FF3AB2				;0180
@@ -9449,7 +9449,7 @@ assert pc() <= $BBE800 : padbyte $00 : pad $BBE800
 	dw DATA_FF3CC4				;019E
 	dw DATA_FF3CEA				;01A0
 	dw DATA_FF3D10				;01A2
-	dw DATA_FF3D36				;01A4
+	dw DATA_FF3D36				;01A4 not placed in any level
 	dw DATA_FF3D5C				;01A6
 	dw DATA_FF3D82				;01A8
 	dw DATA_FF3DA8				;01AA
@@ -9457,7 +9457,7 @@ assert pc() <= $BBE800 : padbyte $00 : pad $BBE800
 	dw DATA_FF3DF8				;01AE
 	dw DATA_FF3E1E				;01B0
 	dw DATA_FF3E44				;01B2
-	dw DATA_FF3E6A				;01B4
+	dw DATA_FF3E6A				;01B4 not placed in any level
 	dw DATA_FF3E8C				;01B6
 	dw DATA_FF3EAE				;01B8
 	dw DATA_FF3ED0				;01BA
@@ -9480,21 +9480,21 @@ assert pc() <= $BBE800 : padbyte $00 : pad $BBE800
 	dw DATA_FF4112				;01DC
 	dw DATA_FF4134				;01DE
 if !version == 0
-	dw DATA_FF4154				;01E0
+	dw DATA_FF4154				;01E0 not placed in any level
 else
-	dw DATA_FF4156				;01E0
+	dw DATA_FF4156				;01E0 not placed in any level
 endif
 	dw DATA_FF4156				;01E2
 	dw DATA_FF4178				;01E4
 	dw DATA_FF419A				;01E6
 	dw DATA_FF41BC				;01E8
-	dw DATA_FF41DE				;01EA
+	dw DATA_FF41DE				;01EA not placed in any level
 	dw DATA_FF41DE				;01EC
 	dw DATA_FF4200				;01EE
 	dw DATA_FF4222				;01F0
 	dw DATA_FF4244				;01F2
-	dw DATA_FF4266				;01F4
-	dw DATA_FF4266				;01F6
+	dw DATA_FF4266				;01F4 not placed in any level
+	dw DATA_FF4266				;01F6 not placed in any level
 	dw DATA_FF4266				;01F8
 	dw DATA_FF4288				;01FA
 	dw DATA_FF42AA				;01FC
@@ -9540,7 +9540,7 @@ endif
 	dw DATA_FF47FA				;024C
 	dw DATA_FF481C				;024E
 	dw DATA_FF483E				;0250
-	dw DATA_FF4860				;0252
+	dw DATA_FF4860				;0252 not placed in any level
 	dw DATA_FF4882				;0254
 	dw DATA_FF48A4				;0256
 	dw DATA_FF48C6				;0258
@@ -9557,78 +9557,78 @@ endif
 	dw DATA_FF4A3C				;026E
 	dw DATA_FF4A5E				;0270
 	dw DATA_FF4A80				;0272
-	dw DATA_FF4AA2				;0274
+	dw DATA_FF4AA2				;0274 not placed in any level
 	dw DATA_FF4AC4				;0276
 	dw DATA_FF4AE6				;0278
 	dw DATA_FF4B08				;027A
 	dw DATA_FF4B2A				;027C
-	dw DATA_FF4B4C				;027E
-	dw DATA_FF4B6E				;0280
+	dw DATA_FF4B4C				;027E not placed in any level
+	dw DATA_FF4B6E				;0280 not placed in any level
 	dw DATA_FF4B90				;0282
 	dw DATA_FF4BB2				;0284
-	dw DATA_FF4BD4				;0286
+	dw DATA_FF4BD4				;0286 not placed in any level
 	dw DATA_FF4BF6				;0288
 	dw DATA_FF4C18				;028A
 	dw DATA_FF4C3A				;028C
-	dw DATA_FF4C5C				;028E
+	dw DATA_FF4C5C				;028E not placed in any level
 	dw DATA_FF4C7E				;0290
 	dw DATA_FF4CA0				;0292
 	dw DATA_FF4CC2				;0294
 	dw DATA_FF4CE4				;0296
 	dw DATA_FF4D06				;0298
-	dw DATA_FF4D28				;029A
+	dw DATA_FF4D28				;029A not placed in any level
 	dw DATA_FF4D4A				;029C
-	dw DATA_FF4D6C				;029E
-	dw DATA_FF4D8E				;02A0
-	dw DATA_FF4DB0				;02A2
-	dw DATA_FF4DD2				;02A4
-	dw DATA_FF4DF4				;02A6
-	dw DATA_FF4E16				;02A8
-	dw DATA_FF4E16				;02AA
+	dw DATA_FF4D6C				;029E not placed in any level
+	dw DATA_FF4D8E				;02A0 not placed in any level
+	dw DATA_FF4DB0				;02A2 not placed in any level
+	dw DATA_FF4DD2				;02A4 not placed in any level
+	dw DATA_FF4DF4				;02A6 not placed in any level
+	dw DATA_FF4E16				;02A8 not placed in any level
+	dw DATA_FF4E16				;02AA not placed in any level
 	dw DATA_FF4E38				;02AC
 	dw DATA_FF4E5A				;02AE
 	dw DATA_FF4E7C				;02B0
 	dw DATA_FF4E9E				;02B2
 	dw DATA_FF4EC0				;02B4
 	dw DATA_FF4EE2				;02B6
-	dw DATA_FF4F04				;02B8
+	dw DATA_FF4F04				;02B8 not placed in any level
 	dw DATA_FF4F26				;02BA
-	dw DATA_FF4F48				;02BC
-	dw DATA_FF4F6A				;02BE
-	dw DATA_FF4F8C				;02C0
-	dw DATA_FF4FAE				;02C2
-	dw DATA_FF4FD0				;02C4
-	dw DATA_FF4FF2				;02C6
-	dw DATA_FF5014				;02C8
-	dw DATA_FF5036				;02CA
-	dw DATA_FF5058				;02CC
-	dw DATA_FF507A				;02CE
-	dw DATA_FF509C				;02D0
-	dw DATA_FF50BE				;02D2
-	dw DATA_FF50E0				;02D4
-	dw DATA_FF5102				;02D6
-	dw DATA_FF5124				;02D8
-	dw DATA_FF5146				;02DA
-	dw DATA_FF5168				;02DC
-	dw DATA_FF518A				;02DE
-	dw DATA_FF51AC				;02E0
-	dw DATA_FF51CE				;02E2
-	dw DATA_FF51F0				;02E4
+	dw DATA_FF4F48				;02BC not placed in any level
+	dw DATA_FF4F6A				;02BE not placed in any level
+	dw DATA_FF4F8C				;02C0 not placed in any level
+	dw DATA_FF4FAE				;02C2 not placed in any level
+	dw DATA_FF4FD0				;02C4 not placed in any level
+	dw DATA_FF4FF2				;02C6 not placed in any level
+	dw DATA_FF5014				;02C8 not placed in any level
+	dw DATA_FF5036				;02CA not placed in any level
+	dw DATA_FF5058				;02CC not placed in any level
+	dw DATA_FF507A				;02CE not placed in any level
+	dw DATA_FF509C				;02D0 not placed in any level
+	dw DATA_FF50BE				;02D2 not placed in any level
+	dw DATA_FF50E0				;02D4 not placed in any level
+	dw DATA_FF5102				;02D6 not placed in any level
+	dw DATA_FF5124				;02D8 not placed in any level
+	dw DATA_FF5146				;02DA not placed in any level
+	dw DATA_FF5168				;02DC not placed in any level
+	dw DATA_FF518A				;02DE not placed in any level
+	dw DATA_FF51AC				;02E0 not placed in any level
+	dw DATA_FF51CE				;02E2 not placed in any level
+	dw DATA_FF51F0				;02E4 not placed in any level
 	dw DATA_FF5212				;02E6
 	dw DATA_FF5234				;02E8
 	dw DATA_FF5256				;02EA
 	dw DATA_FF5278				;02EC
-	dw DATA_FF529A				;02EE
+	dw DATA_FF529A				;02EE not placed in any level
 	dw DATA_FF52BC				;02F0
 	dw DATA_FF52DE				;02F2
 	dw DATA_FF5300				;02F4
 	dw DATA_FF5322				;02F6
 	dw DATA_FF5344				;02F8
-	dw DATA_FF5366				;02FA
+	dw DATA_FF5366				;02FA not placed in any level
 	dw DATA_FF5388				;02FC
 	dw DATA_FF53AA				;02FE
 	dw DATA_FF53CC				;0300
-	dw DATA_FF53EE				;0302
+	dw DATA_FF53EE				;0302 not placed in any level
 	dw DATA_FF5410				;0304
 	dw DATA_FF5432				;0306
 	dw DATA_FF5454				;0308
@@ -9637,7 +9637,7 @@ endif
 	dw DATA_FF54BA				;030E
 	dw DATA_FF54DC				;0310
 	dw DATA_FF54FE				;0312
-	dw DATA_FF5520				;0314
+	dw DATA_FF5520				;0314 not placed in any level
 	dw DATA_FF5542				;0316
 	dw DATA_FF5564				;0318
 	dw DATA_FF5586				;031A
@@ -9647,7 +9647,7 @@ endif
 	dw DATA_FF560E				;0322
 	dw DATA_FF5630				;0324
 	dw DATA_FF5652				;0326
-	dw DATA_FF5674				;0328
+	dw DATA_FF5674				;0328 not placed in any level
 	dw DATA_FF5696				;032A
 	dw DATA_FF56B8				;032C
 	dw DATA_FF56DA				;032E
@@ -9674,18 +9674,18 @@ endif
 	dw DATA_FF59A8				;0358
 	dw DATA_FF59CA				;035A
 	dw DATA_FF59EC				;035C
-	dw DATA_FF5A0E				;035E
-	dw DATA_FF5A30				;0360
+	dw DATA_FF5A0E				;035E not placed in any level
+	dw DATA_FF5A30				;0360 not placed in any level
 	dw DATA_FF5A52				;0362
 	dw DATA_FF5A74				;0364
-	dw DATA_FF5A96				;0366
+	dw DATA_FF5A96				;0366 not placed in any level
 	dw DATA_FF5AB8				;0368
 	dw DATA_FF5ADA				;036A
 	dw DATA_FF5AFC				;036C
 	dw DATA_FF5B1E				;036E
 	dw DATA_FF5B40				;0370
-	dw DATA_FF5B62				;0372
-	dw DATA_FF5B84				;0374
+	dw DATA_FF5B62				;0372 not placed in any level
+	dw DATA_FF5B84				;0374 not placed in any level
 	dw DATA_FF5BA6				;0376
 	dw DATA_FF5BC8				;0378
 	dw DATA_FF5BEA				;037A
@@ -9718,7 +9718,7 @@ endif
 	dw DATA_FF5F80				;03B0
 	dw DATA_FF5FA2				;03B2
 	dw DATA_FF5FC4				;03B4
-	dw DATA_FF5FE6				;03B6
+	dw DATA_FF5FE6				;03B6 not placed in any level
 	dw DATA_FF6008				;03B8
 	dw DATA_FF602A				;03BA
 	dw DATA_FF604C				;03BC
@@ -9744,22 +9744,22 @@ endif
 	dw DATA_FF62F4				;03E4
 	dw DATA_FF6316				;03E6
 	dw DATA_FF6338				;03E8
-	dw DATA_FF635A				;03EA
+	dw DATA_FF635A				;03EA not placed in any level
 	dw DATA_FF637C				;03EC
 	dw DATA_FF639E				;03EE
 	dw DATA_FF63C0				;03F0
 	dw DATA_FF63E2				;03F2
 	dw DATA_FF6436				;03F4
-	dw DATA_FF6440				;03F6
-	dw DATA_FF644A				;03F8
-	dw DATA_FF6454				;03FA
-	dw DATA_FF645E				;03FC
-	dw DATA_FF6468				;03FE
+	dw DATA_FF6440				;03F6 not placed in any level
+	dw DATA_FF644A				;03F8 not placed in any level
+	dw DATA_FF6454				;03FA not placed in any level
+	dw DATA_FF645E				;03FC not placed in any level
+	dw DATA_FF6468				;03FE not placed in any level
 	dw DATA_FF6472				;0400
 	dw DATA_FF647C				;0402
 	dw DATA_FF6486				;0404
-	dw DATA_FF6490				;0406
-	dw DATA_FF649A				;0408
+	dw DATA_FF6490				;0406 not placed in any level
+	dw DATA_FF649A				;0408 not placed in any level
 	dw DATA_FF64A4				;040A
 	dw DATA_FF64AE				;040C
 	dw DATA_FF64B8				;040E
@@ -9774,9 +9774,9 @@ endif
 	dw DATA_FF6512				;0420
 	dw DATA_FF651C				;0422
 	dw DATA_FF6526				;0424
-	dw DATA_FF6530				;0426
+	dw DATA_FF6530				;0426 not placed in any level
 	dw DATA_FF653A				;0428
-	dw DATA_FF6544				;042A
+	dw DATA_FF6544				;042A not placed in any level
 	dw DATA_FF654E				;042C
 	dw DATA_FF6558				;042E
 	dw DATA_FF6562				;0430
@@ -9791,18 +9791,18 @@ endif
 	dw DATA_FF65C0				;0442
 	dw DATA_FF65CE				;0444
 	dw DATA_FF65DC				;0446
-	dw DATA_FF65EA				;0448
+	dw DATA_FF65EA				;0448 not placed in any level
 	dw DATA_FF65EA				;044A
-	dw DATA_FF664E				;044C
-	dw DATA_FF664E				;044E
-	dw DATA_FF6664				;0450
-	dw DATA_FF667E				;0452
-	dw DATA_FF6694				;0454
+	dw DATA_FF664E				;044C not placed in any level
+	dw DATA_FF664E				;044E not placed in any level
+	dw DATA_FF6664				;0450 not placed in any level
+	dw DATA_FF667E				;0452 not placed in any level
+	dw DATA_FF6694				;0454 not placed in any level
 	dw DATA_FF66AE				;0456
-	dw DATA_FF66C8				;0458
+	dw DATA_FF66C8				;0458 not placed in any level
 	dw DATA_FF66E2				;045A
 	dw DATA_FF66FC				;045C
-	dw DATA_FF6716				;045E
+	dw DATA_FF6716				;045E not placed in any level
 	dw DATA_FF672C				;0460
 	dw DATA_FF6742				;0462
 	dw DATA_FF6760				;0464
@@ -9831,22 +9831,22 @@ endif
 	dw DATA_FF69BA				;0492
 	dw DATA_FF69D4				;0494
 	dw DATA_FF69EA				;0496
-	dw DATA_FF6A04				;0498
-	dw DATA_FF6A1A				;049A
+	dw DATA_FF6A04				;0498 not placed in any level
+	dw DATA_FF6A1A				;049A not placed in any level
 	dw DATA_FF6A30				;049C
 	dw DATA_FF6A4A				;049E
 	dw DATA_FF6A60				;04A0
 	dw DATA_FF6A7A				;04A2
 	dw DATA_FF6C8E				;04A4
 	dw DATA_FF6CE6				;04A6
-	dw DATA_FF6CF0				;04A8
+	dw DATA_FF6CF0				;04A8 not placed in any level
 	dw DATA_FF6D24				;04AA
-	dw DATA_FF6D2E				;04AC
+	dw DATA_FF6D2E				;04AC not placed in any level
 	dw DATA_FF6D62				;04AE
 	dw DATA_FF6D6C				;04B0
 	dw DATA_FF6DB8				;04B2
 	dw DATA_FF6DBE				;04B4
-	dw DATA_FF6DC8				;04B6
+	dw DATA_FF6DC8				;04B6 not placed in any level
 	dw DATA_FF6DD6				;04B8
 	dw DATA_FF6DE4				;04BA
 	dw DATA_FF6DF6				;04BC
@@ -9858,7 +9858,7 @@ endif
 	dw DATA_FF6E56				;04C8
 	dw DATA_FF6E9E				;04CA
 	dw DATA_FF6EA8				;04CC
-	dw DATA_FF6EB2				;04CE
+	dw DATA_FF6EB2				;04CE not placed in any level
 	dw DATA_FF6EBC				;04D0
 	dw DATA_FF6EC6				;04D2
 	dw DATA_FF6ED8				;04D4
@@ -9886,31 +9886,31 @@ endif
 	dw DATA_FF705A				;0500
 	dw DATA_FF7068				;0502
 	dw DATA_FF70D2				;0504
-	dw DATA_FF70E8				;0506
+	dw DATA_FF70E8				;0506 not placed in any level
 	dw DATA_FF70FE				;0508
 	dw DATA_FF7118				;050A
 	dw DATA_FF7132				;050C
-	dw DATA_FF714C				;050E
+	dw DATA_FF714C				;050E not placed in any level
 	dw DATA_FF7162				;0510
 	dw DATA_FF7178				;0512
 	dw DATA_FF7192				;0514
 	dw DATA_FF71AC				;0516
 	dw DATA_FF71C6				;0518
 	dw DATA_FF71E0				;051A
-	dw DATA_FF71FA				;051C
-	dw DATA_FF7210				;051E
+	dw DATA_FF71FA				;051C not placed in any level
+	dw DATA_FF7210				;051E not placed in any level
 	dw DATA_FF7226				;0520
-	dw DATA_FF7250				;0522
+	dw DATA_FF7250				;0522 not placed in any level
 	dw DATA_FF727A				;0524
-	dw DATA_FF72A0				;0526
-	dw DATA_FF72C6				;0528
+	dw DATA_FF72A0				;0526 not placed in any level
+	dw DATA_FF72C6				;0528 not placed in any level
 	dw DATA_FF72EC				;052A
-	dw DATA_FF7316				;052C
+	dw DATA_FF7316				;052C not placed in any level
 	dw DATA_FF733C				;052E
 	dw DATA_FF7356				;0530
 	dw DATA_FF7374				;0532
 	dw DATA_FF7396				;0534
-	dw DATA_FF73AC				;0536
+	dw DATA_FF73AC				;0536 not placed in any level
 	dw DATA_FF73C6				;0538
 	dw DATA_FF73E0				;053A
 	dw DATA_FF73FA				;053C
@@ -9922,24 +9922,24 @@ endif
 	dw DATA_FF747E				;0548
 	dw DATA_FF7498				;054A
 	dw DATA_FF74B6				;054C
-	dw DATA_FF7546				;054E
+	dw DATA_FF7546				;054E not placed in any level
 	dw DATA_FF7550				;0550
 	dw DATA_FF755A				;0552
-	dw DATA_FF7564				;0554
+	dw DATA_FF7564				;0554 not placed in any level
 	dw DATA_FF756E				;0556
 	dw DATA_FF7588				;0558
-	dw DATA_FF7592				;055A
-	dw DATA_FF759C				;055C
+	dw DATA_FF7592				;055A not placed in any level
+	dw DATA_FF759C				;055C not placed in any level
 	dw DATA_FF75A6				;055E
-	dw DATA_FF75C0				;0560
+	dw DATA_FF75C0				;0560 not placed in any level
 	dw DATA_FF75CA				;0562
-	dw DATA_FF75E4				;0564
+	dw DATA_FF75E4				;0564 not placed in any level
 	dw DATA_FF75F6				;0566
-	dw DATA_FF7600				;0568
+	dw DATA_FF7600				;0568 not placed in any level
 	dw DATA_FF760E				;056A
 	dw DATA_FF7620				;056C
 	dw DATA_FF762E				;056E
-	dw DATA_FF763C				;0570
+	dw DATA_FF763C				;0570 not placed in any level
 	dw DATA_FF764A				;0572
 	dw DATA_FF7664				;0574
 	dw DATA_FF767E				;0576
@@ -9965,17 +9965,17 @@ endif
 	dw DATA_FF7D5A				;059E
 	dw DATA_FF7D7E				;05A0
 	dw DATA_FF7D8C				;05A2
-	dw DATA_FF7D9A				;05A4
+	dw DATA_FF7D9A				;05A4 not placed in any level
 	dw DATA_FF7DAC				;05A6
 	dw DATA_FF7DBE				;05A8
-	dw DATA_FF7DD0				;05AA
-	dw DATA_FF7DDE				;05AC
-	dw DATA_FF7DEC				;05AE
+	dw DATA_FF7DD0				;05AA not placed in any level
+	dw DATA_FF7DDE				;05AC not placed in any level
+	dw DATA_FF7DEC				;05AE not placed in any level
 	dw DATA_FF7DFE				;05B0
 	dw DATA_FF7E0C				;05B2
 	dw DATA_FF7E1E				;05B4
 	dw DATA_FF7E2C				;05B6
-	dw DATA_FF7E3E				;05B8
+	dw DATA_FF7E3E				;05B8 not placed in any level
 	dw DATA_FF7E50				;05BA
 	dw DATA_FF7E5E				;05BC
 	dw DATA_FF7E70				;05BE
@@ -9989,9 +9989,9 @@ endif
 	dw DATA_FF7F08				;05CE
 	dw DATA_FF7F1E				;05D0
 	dw DATA_FF7F34				;05D2
-	dw DATA_FF7F42				;05D4
+	dw DATA_FF7F42				;05D4 not placed in any level
 	dw DATA_FF7F50				;05D6
-	dw DATA_FF7F5E				;05D8
+	dw DATA_FF7F5E				;05D8 not placed in any level
 	dw DATA_FF7F6C				;05DA
 	dw DATA_FF7F7E				;05DC
 	dw DATA_FF7F90				;05DE
@@ -10001,7 +10001,7 @@ endif
 	dw DATA_FF7FCC				;05E6
 	dw DATA_FF7FE2				;05E8
 	dw DATA_FF7FF0				;05EA
-	dw DATA_FF8002				;05EC
+	dw DATA_FF8002				;05EC not placed in any level
 	dw DATA_FF8014				;05EE
 	dw DATA_FF8022				;05F0
 	dw DATA_FF8034				;05F2
@@ -10018,23 +10018,23 @@ endif
 	dw DATA_FF80E6				;0608
 	dw DATA_FF80F4				;060A
 	dw DATA_FF8106				;060C
-	dw DATA_FF8118				;060E
-	dw DATA_FF812E				;0610
+	dw DATA_FF8118				;060E not placed in any level
+	dw DATA_FF812E				;0610 not placed in any level
 	dw DATA_FF815A				;0612
 	dw DATA_FF8168				;0614
 	dw DATA_FF8176				;0616
-	dw DATA_FF8184				;0618
+	dw DATA_FF8184				;0618 not placed in any level
 	dw DATA_FF819A				;061A
 	dw DATA_FF81A8				;061C
-	dw DATA_FF81BA				;061E
+	dw DATA_FF81BA				;061E not placed in any level
 	dw DATA_FF81CC				;0620
-	dw DATA_FF81DA				;0622
-	dw DATA_FF81EC				;0624
-	dw DATA_FF81FA				;0626
-	dw DATA_FF8208				;0628
-	dw DATA_FF8216				;062A
+	dw DATA_FF81DA				;0622 not placed in any level
+	dw DATA_FF81EC				;0624 not placed in any level
+	dw DATA_FF81FA				;0626 not placed in any level
+	dw DATA_FF8208				;0628 not placed in any level
+	dw DATA_FF8216				;062A not placed in any level
 	dw DATA_FF8228				;062C
-	dw DATA_FF823A				;062E
+	dw DATA_FF823A				;062E not placed in any level
 	dw DATA_FF8248				;0630
 	dw DATA_FF8256				;0632
 	dw DATA_FF8264				;0634
@@ -10048,18 +10048,18 @@ endif
 	dw DATA_FF82EC				;0644
 	dw DATA_FF8302				;0646
 	dw DATA_FF8310				;0648
-	dw DATA_FF8322				;064A
+	dw DATA_FF8322				;064A not placed in any level
 	dw DATA_FF8322				;064C
-	dw DATA_FF8330				;064E
+	dw DATA_FF8330				;064E not placed in any level
 	dw DATA_FF8330				;0650
-	dw DATA_FF833E				;0652
+	dw DATA_FF833E				;0652 not placed in any level
 	dw DATA_FF834C				;0654
 	dw DATA_FF835A				;0656
 	dw DATA_FF8368				;0658
-	dw DATA_FF8376				;065A
+	dw DATA_FF8376				;065A not placed in any level
 	dw DATA_FF8388				;065C
 	dw DATA_FF8396				;065E
-	dw DATA_FF83A4				;0660
+	dw DATA_FF83A4				;0660 not placed in any level
 	dw DATA_FF83B2				;0662
 	dw DATA_FF83C4				;0664
 	dw DATA_FF83D2				;0666
@@ -10072,7 +10072,7 @@ endif
 	dw DATA_FF8448				;0674
 	dw DATA_FF845A				;0676
 	dw DATA_FF846C				;0678
-	dw DATA_FF847E				;067A
+	dw DATA_FF847E				;067A not placed in any level
 	dw DATA_FF848C				;067C
 	dw DATA_FF849E				;067E
 	dw DATA_FF84AC				;0680
@@ -10089,30 +10089,30 @@ endif
 	dw DATA_FF856C				;0696
 	dw DATA_FF857E				;0698
 	dw DATA_FF8590				;069A
-	dw DATA_FF85A2				;069C
-	dw DATA_FF85B4				;069E
-	dw DATA_FF85C6				;06A0
+	dw DATA_FF85A2				;069C not placed in any level
+	dw DATA_FF85B4				;069E not placed in any level
+	dw DATA_FF85C6				;06A0 not placed in any level
 	dw DATA_FF85D8				;06A2
-	dw DATA_FF85EE				;06A4
+	dw DATA_FF85EE				;06A4 not placed in any level
 	dw DATA_FF8604				;06A6
 	dw DATA_FF8616				;06A8
 	dw DATA_FF8628				;06AA
-	dw DATA_FF863A				;06AC
-	dw DATA_FF864C				;06AE
+	dw DATA_FF863A				;06AC not placed in any level
+	dw DATA_FF864C				;06AE not placed in any level
 	dw DATA_FF865E				;06B0
-	dw DATA_FF8670				;06B2
-	dw DATA_FF8670				;06B4
+	dw DATA_FF8670				;06B2 not placed in any level
+	dw DATA_FF8670				;06B4 not placed in any level
 	dw DATA_FF8670				;06B6
-	dw DATA_FF8686				;06B8
-	dw DATA_FF869C				;06BA
-	dw DATA_FF86B2				;06BC
-	dw DATA_FF86C8				;06BE
+	dw DATA_FF8686				;06B8 not placed in any level
+	dw DATA_FF869C				;06BA not placed in any level
+	dw DATA_FF86B2				;06BC not placed in any level
+	dw DATA_FF86C8				;06BE not placed in any level
 	dw DATA_FF86DE				;06C0
 	dw DATA_FF86F4				;06C2
 	dw DATA_FF870A				;06C4
 	dw DATA_FF8720				;06C6
 	dw DATA_FF8736				;06C8
-	dw DATA_FF874C				;06CA
+	dw DATA_FF874C				;06CA not placed in any level
 	dw DATA_FF874C				;06CC
 	dw DATA_FF875E				;06CE
 	dw DATA_FF8774				;06D0
@@ -10124,20 +10124,20 @@ endif
 	dw DATA_FF87F8				;06DC
 	dw DATA_FF880E				;06DE
 	dw DATA_FF8824				;06E0
-	dw DATA_FF883A				;06E2
+	dw DATA_FF883A				;06E2 not placed in any level
 	dw DATA_FF8850				;06E4
 	dw DATA_FF8862				;06E6
 	dw DATA_FF8878				;06E8
-	dw DATA_FF888E				;06EA
+	dw DATA_FF888E				;06EA not placed in any level
 	dw DATA_FF88A4				;06EC
 	dw DATA_FF88B6				;06EE
 	dw DATA_FF88C8				;06F0
 	dw DATA_FF88DE				;06F2
 	dw DATA_FF88F4				;06F4
-	dw DATA_FF8906				;06F6
+	dw DATA_FF8906				;06F6 not placed in any level
 	dw DATA_FF892E				;06F8
 	dw DATA_FF8944				;06FA
-	dw DATA_FF895E				;06FC
+	dw DATA_FF895E				;06FC not placed in any level
 	dw DATA_FF8978				;06FE
 	dw DATA_FF8992				;0700
 	dw DATA_FF89B0				;0702
@@ -10150,15 +10150,15 @@ endif
 	dw DATA_FF8A7A				;0710
 	dw DATA_FF8A98				;0712
 	dw DATA_FF8AD0				;0714
-	dw DATA_FF8ADA				;0716
-	dw DATA_FF8AFE				;0718
+	dw DATA_FF8ADA				;0716 not placed in any level
+	dw DATA_FF8AFE				;0718 not placed in any level
 	dw DATA_FF8B0C				;071A
 	dw DATA_FF8B1A				;071C
 	dw DATA_FF8B30				;071E
-	dw DATA_FF8B3E				;0720
+	dw DATA_FF8B3E				;0720 not placed in any level
 	dw DATA_FF8B4C				;0722
 	dw DATA_FF8B62				;0724
-	dw DATA_FF8B7C				;0726
+	dw DATA_FF8B7C				;0726 not placed in any level
 	dw DATA_FF8B96				;0728
 	dw DATA_FF8BA8				;072A
 	dw DATA_FF8BBA				;072C
@@ -10167,25 +10167,25 @@ endif
 	dw DATA_FF8BF0				;0732
 	dw DATA_FF8C02				;0734
 	dw DATA_FF8C14				;0736
-	dw DATA_FF8C22				;0738
-	dw DATA_FF8C3C				;073A
-	dw DATA_FF8C5A				;073C
-	dw DATA_FF8C78				;073E
-	dw DATA_FF8C96				;0740
-	dw DATA_FF8CB4				;0742
-	dw DATA_FF8CCE				;0744
+	dw DATA_FF8C22				;0738 not placed in any level
+	dw DATA_FF8C3C				;073A not placed in any level
+	dw DATA_FF8C5A				;073C not placed in any level
+	dw DATA_FF8C78				;073E not placed in any level
+	dw DATA_FF8C96				;0740 not placed in any level
+	dw DATA_FF8CB4				;0742 not placed in any level
+	dw DATA_FF8CCE				;0744 not placed in any level
 	dw DATA_FF8CE8				;0746
 	dw DATA_FF8D02				;0748
 	dw DATA_FF8D1C				;074A
 	dw DATA_FF8D36				;074C
 	dw DATA_FF8D50				;074E
 	dw DATA_FF8D6A				;0750
-	dw DATA_FF8D96				;0752
+	dw DATA_FF8D96				;0752 not placed in any level
 	dw DATA_FF8DA8				;0754
 	dw DATA_FF8DBA				;0756
 	dw DATA_FF8DCC				;0758
-	dw DATA_FF8DDE				;075A
-	dw DATA_FF8DF0				;075C
+	dw DATA_FF8DDE				;075A not placed in any level
+	dw DATA_FF8DF0				;075C not placed in any level
 	dw DATA_FF8E02				;075E
 	dw DATA_FF8E14				;0760
 	dw DATA_FF8E26				;0762
@@ -10195,7 +10195,7 @@ endif
 	dw DATA_FF8E72				;076A
 	dw DATA_FF8E88				;076C
 	dw DATA_FF8E9E				;076E
-	dw DATA_FF8EB4				;0770
+	dw DATA_FF8EB4				;0770 not placed in any level
 	dw DATA_FF8EC6				;0772
 	dw DATA_FF8ED8				;0774
 	dw DATA_FF8EEA				;0776
@@ -10210,21 +10210,21 @@ endif
 	dw DATA_FF8FA4				;0788
 	dw DATA_FF8FBA				;078A
 	dw DATA_FF8FCC				;078C
-	dw DATA_FF8FDE				;078E
+	dw DATA_FF8FDE				;078E not placed in any level
 	dw DATA_FF903E				;0790
 	dw DATA_FF9048				;0792
 	dw DATA_FF9056				;0794
 	dw DATA_FF9064				;0796
 	dw DATA_FF9072				;0798
-	dw DATA_FF9080				;079A
-	dw DATA_FF9092				;079C
+	dw DATA_FF9080				;079A not placed in any level
+	dw DATA_FF9092				;079C not placed in any level
 	dw DATA_FF90A4				;079E
 	dw DATA_FF90B2				;07A0
 	dw DATA_FF90C4				;07A2
 	dw DATA_FF90D2				;07A4
 	dw DATA_FF90E0				;07A6
 	dw DATA_FF90F2				;07A8
-	dw DATA_FF9100				;07AA
+	dw DATA_FF9100				;07AA not placed in any level
 	dw DATA_FF9112				;07AC
 	dw DATA_FF9124				;07AE
 	dw DATA_FF9136				;07B0
@@ -10240,22 +10240,22 @@ endif
 	dw DATA_FF91DE				;07C4
 	dw DATA_FF91EC				;07C6
 	dw DATA_FF91FE				;07C8
-	dw DATA_FF9210				;07CA
+	dw DATA_FF9210				;07CA not placed in any level
 	dw DATA_FF9222				;07CC
 	dw DATA_FF9234				;07CE
 	dw DATA_FF9246				;07D0
 	dw DATA_FF9258				;07D2
 	dw DATA_FF9266				;07D4
-	dw DATA_FF9274				;07D6
+	dw DATA_FF9274				;07D6 not placed in any level
 	dw DATA_FF9282				;07D8
 	dw DATA_FF9294				;07DA
 	dw DATA_FF92A6				;07DC
 	dw DATA_FF92B8				;07DE
 	dw DATA_FF92C6				;07E0
-	dw DATA_FF92D4				;07E2
+	dw DATA_FF92D4				;07E2 not placed in any level
 	dw DATA_FF9328				;07E4
 	dw DATA_FF9332				;07E6
-	dw DATA_FF933C				;07E8
+	dw DATA_FF933C				;07E8 not placed in any level
 	dw DATA_FF934A				;07EA
 	dw DATA_FF9358				;07EC
 	dw DATA_FF9366				;07EE
@@ -10293,7 +10293,7 @@ endif
 	dw DATA_FF9636				;082E
 	dw DATA_FF964C				;0830
 	dw DATA_FF9662				;0832
-	dw DATA_FF9678				;0834
+	dw DATA_FF9678				;0834 not placed in any level
 	dw DATA_FF96C4				;0836
 	dw DATA_FF96CA				;0838
 	dw DATA_FF96D4				;083A
@@ -10308,10 +10308,10 @@ endif
 	dw DATA_FF9862				;084C
 	dw DATA_FF9868				;084E
 	dw DATA_FF9872				;0850
-	dw DATA_FF9892				;0852
+	dw DATA_FF9892				;0852 not placed in any level
 	dw DATA_FF98A0				;0854
 	dw DATA_FF98AA				;0856
-	dw DATA_FF98B8				;0858
+	dw DATA_FF98B8				;0858 not placed in any level
 	dw DATA_FF98C6				;085A
 	dw DATA_FF98D4				;085C
 	dw DATA_FF98E2				;085E
@@ -10322,50 +10322,50 @@ endif
 	dw DATA_FF9928				;0868
 	dw DATA_FF9936				;086A
 	dw DATA_FF9944				;086C
-	dw DATA_FF994E				;086E
+	dw DATA_FF994E				;086E not placed in any level
 	dw DATA_FF995C				;0870
 	dw DATA_FF996A				;0872
 	dw DATA_FF997C				;0874
 	dw DATA_FF998A				;0876
 	dw DATA_FF9998				;0878
-	dw DATA_FF99A2				;087A
-	dw DATA_FF99AC				;087C
+	dw DATA_FF99A2				;087A not placed in any level
+	dw DATA_FF99AC				;087C not placed in any level
 	dw DATA_FF99BA				;087E
-	dw DATA_FF99C8				;0880
+	dw DATA_FF99C8				;0880 not placed in any level
 	dw DATA_FF99DA				;0882
 	dw DATA_FF99EC				;0884
 	dw DATA_FF99FE				;0886
 	dw DATA_FF9A0C				;0888
 	dw DATA_FF9A1A				;088A
 	dw DATA_FF9A60				;088C
-	dw DATA_FF9A76				;088E
-	dw DATA_FF9A76				;0890
+	dw DATA_FF9A76				;088E not placed in any level
+	dw DATA_FF9A76				;0890 not placed in any level
 	dw DATA_FF9A76				;0892
-	dw DATA_FF9A88				;0894
-	dw DATA_FF9A88				;0896
-	dw DATA_FF9A88				;0898
+	dw DATA_FF9A88				;0894 not placed in any level
+	dw DATA_FF9A88				;0896 not placed in any level
+	dw DATA_FF9A88				;0898 not placed in any level
 	dw DATA_FF9A88				;089A
-	dw DATA_FF9A9A				;089C
-	dw DATA_FF9A9A				;089E
-	dw DATA_FF9A9A				;08A0
-	dw DATA_FF9A9A				;08A2
+	dw DATA_FF9A9A				;089C not placed in any level
+	dw DATA_FF9A9A				;089E not placed in any level
+	dw DATA_FF9A9A				;08A0 not placed in any level
+	dw DATA_FF9A9A				;08A2 not placed in any level
 	dw DATA_FF9A9A				;08A4
-	dw DATA_FF9AAC				;08A6
-	dw DATA_FF9ABE				;08A8
-	dw DATA_FF9ABE				;08AA
+	dw DATA_FF9AAC				;08A6 not placed in any level
+	dw DATA_FF9ABE				;08A8 not placed in any level
+	dw DATA_FF9ABE				;08AA not placed in any level
 	dw DATA_FF9ABE				;08AC
-	dw DATA_FF9AD0				;08AE
-	dw DATA_FF9AD0				;08B0
-	dw DATA_FF9AD0				;08B2
+	dw DATA_FF9AD0				;08AE not placed in any level
+	dw DATA_FF9AD0				;08B0 not placed in any level
+	dw DATA_FF9AD0				;08B2 not placed in any level
 	dw DATA_FF9AD0				;08B4
-	dw DATA_FF9AE2				;08B6
-	dw DATA_FF9AE2				;08B8
-	dw DATA_FF9AE2				;08BA
-	dw DATA_FF9AE2				;08BC
-	dw DATA_FF9AE2				;08BE
+	dw DATA_FF9AE2				;08B6 not placed in any level
+	dw DATA_FF9AE2				;08B8 not placed in any level
+	dw DATA_FF9AE2				;08BA not placed in any level
+	dw DATA_FF9AE2				;08BC not placed in any level
+	dw DATA_FF9AE2				;08BE not placed in any level
 	dw DATA_FF9AF4				;08C0
-	dw DATA_FF9B06				;08C2
-	dw DATA_FF9B18				;08C4
+	dw DATA_FF9B06				;08C2 not placed in any level
+	dw DATA_FF9B18				;08C4 not placed in any level
 	dw DATA_FF9B76				;08C6
 	dw DATA_FF9B80				;08C8
 	dw DATA_FF9B8E				;08CA
@@ -10381,13 +10381,13 @@ endif
 	dw DATA_FF9C22				;08DE
 	dw DATA_FF9C30				;08E0
 	dw DATA_FF9C3E				;08E2
-	dw DATA_FF9C50				;08E4
-	dw DATA_FF9C5E				;08E6
-	dw DATA_FF9C6C				;08E8
+	dw DATA_FF9C50				;08E4 not placed in any level
+	dw DATA_FF9C5E				;08E6 not placed in any level
+	dw DATA_FF9C6C				;08E8 not placed in any level
 	dw DATA_FF9C7E				;08EA
-	dw DATA_FF9C94				;08EC
+	dw DATA_FF9C94				;08EC not placed in any level
 	dw DATA_FF9CA6				;08EE
-	dw DATA_FF9CB8				;08F0
+	dw DATA_FF9CB8				;08F0 not placed in any level
 	dw DATA_FF9CC6				;08F2
 	dw DATA_FF9CD4				;08F4
 	dw DATA_FF9CE6				;08F6
@@ -10402,47 +10402,47 @@ endif
 	dw DATA_FF9DE8				;0908
 	dw DATA_FF9DF6				;090A
 	dw DATA_FF9E04				;090C
-	dw DATA_FF9E12				;090E
+	dw DATA_FF9E12				;090E not placed in any level
 	dw DATA_FF9E20				;0910
 	dw DATA_FF9E44				;0912
 	dw DATA_FF9E52				;0914
-	dw DATA_FF9E60				;0916
+	dw DATA_FF9E60				;0916 not placed in any level
 	dw DATA_FF9E72				;0918
 	dw DATA_FF9E84				;091A
 	dw DATA_FF9E92				;091C
-	dw DATA_FF9EA0				;091E
+	dw DATA_FF9EA0				;091E not placed in any level
 	dw DATA_FF9EC8				;0920
 	dw DATA_FF9ED6				;0922
 	dw DATA_FF9EE4				;0924
 	dw DATA_FF9EF2				;0926
 	dw DATA_FF9F00				;0928
-	dw DATA_FF9F0E				;092A
+	dw DATA_FF9F0E				;092A not placed in any level
 	dw DATA_FF9F1C				;092C
 	dw DATA_FF9F2A				;092E
 	dw DATA_FF9F38				;0930
 	dw DATA_FF9F58				;0932
 	dw DATA_FF9F6A				;0934
-	dw DATA_FF9F7C				;0936
-	dw DATA_FF9F8E				;0938
-	dw DATA_FF9FAC				;093A
+	dw DATA_FF9F7C				;0936 not placed in any level
+	dw DATA_FF9F8E				;0938 not placed in any level
+	dw DATA_FF9FAC				;093A not placed in any level
 	dw DATA_FFA004				;093C
 	dw DATA_FFA00A				;093E
 	dw DATA_FFA018				;0940
-	dw DATA_FFA022				;0942
+	dw DATA_FFA022				;0942 not placed in any level
 	dw DATA_FFA030				;0944
 	dw DATA_FFA03A				;0946
 	dw DATA_FFA048				;0948
-	dw DATA_FFA056				;094A
+	dw DATA_FFA056				;094A not placed in any level
 	dw DATA_FFA068				;094C
-	dw DATA_FFA07A				;094E
+	dw DATA_FFA07A				;094E not placed in any level
 	dw DATA_FFA08C				;0950
 	dw DATA_FFA09A				;0952
 	dw DATA_FFA0AC				;0954
-	dw DATA_FFA0BE				;0956
-	dw DATA_FFA0D0				;0958
-	dw DATA_FFA0E2				;095A
-	dw DATA_FFA0F0				;095C
-	dw DATA_FFA0FE				;095E
+	dw DATA_FFA0BE				;0956 not placed in any level
+	dw DATA_FFA0D0				;0958 not placed in any level
+	dw DATA_FFA0E2				;095A not placed in any level
+	dw DATA_FFA0F0				;095C not placed in any level
+	dw DATA_FFA0FE				;095E not placed in any level
 	dw DATA_FFA10C				;0960
 	dw DATA_FFA11A				;0962
 	dw DATA_FFA128				;0964
@@ -10453,25 +10453,25 @@ endif
 	dw DATA_FFA16E				;096E
 	dw DATA_FFA17C				;0970
 	dw DATA_FFA18A				;0972
-	dw DATA_FFA19C				;0974
+	dw DATA_FFA19C				;0974 not placed in any level
 	dw DATA_FFA1AA				;0976
-	dw DATA_FFA1B8				;0978
+	dw DATA_FFA1B8				;0978 not placed in any level
 	dw DATA_FFA1C6				;097A
 	dw DATA_FFA1D4				;097C
 	dw DATA_FFA1E2				;097E
 	dw DATA_FFA1F0				;0980
-	dw DATA_FFA202				;0982
+	dw DATA_FFA202				;0982 not placed in any level
 	dw DATA_FFA214				;0984
 	dw DATA_FFA226				;0986
 	dw DATA_FFA238				;0988
 	dw DATA_FFA246				;098A
 	dw DATA_FFA254				;098C
-	dw DATA_FFA266				;098E
-	dw DATA_FFA274				;0990
-	dw DATA_FFA286				;0992
+	dw DATA_FFA266				;098E not placed in any level
+	dw DATA_FFA274				;0990 not placed in any level
+	dw DATA_FFA286				;0992 not placed in any level
 	dw DATA_FFA298				;0994
 	dw DATA_FFA2D8				;0996
-	dw DATA_FFA2EA				;0998
+	dw DATA_FFA2EA				;0998 not placed in any level
 	dw DATA_FFA2FC				;099A
 	dw DATA_FFA312				;099C
 	dw DATA_FFA328				;099E
@@ -10483,7 +10483,7 @@ endif
 	dw DATA_FFA3A8				;09AA
 	dw DATA_FFA3BE				;09AC
 	dw DATA_FFA3D4				;09AE
-	dw DATA_FFA3E6				;09B0
+	dw DATA_FFA3E6				;09B0 not placed in any level
 	dw DATA_FFA3F8				;09B2
 	dw DATA_FFA40A				;09B4
 	dw DATA_FFA424				;09B6
@@ -10497,7 +10497,7 @@ endif
 	dw DATA_FFA4F4				;09C6
 	dw DATA_FFA502				;09C8
 	dw DATA_FFA50C				;09CA
-	dw DATA_FFA51A				;09CC
+	dw DATA_FFA51A				;09CC not placed in any level
 	dw DATA_FFA524				;09CE
 	dw DATA_FFA532				;09D0
 	dw DATA_FFA54A				;09D2
@@ -10508,8 +10508,8 @@ endif
 	dw DATA_FFA5C0				;09DC
 	dw DATA_FFA5DA				;09DE
 	dw DATA_FFA5F4				;09E0
-	dw DATA_FFA60E				;09E2
-	dw DATA_FFA62C				;09E4
+	dw DATA_FFA60E				;09E2 not placed in any level
+	dw DATA_FFA62C				;09E4 not placed in any level
 	dw DATA_FFA646				;09E6
 	dw DATA_FFA65C				;09E8
 	dw DATA_FFA676				;09EA
@@ -10524,14 +10524,14 @@ endif
 	dw DATA_FFA772				;09FC
 	dw DATA_FFA780				;09FE
 	dw DATA_FFA792				;0A00
-	dw DATA_FFA7A4				;0A02
-	dw DATA_FFA7B2				;0A04
-	dw DATA_FFA7C4				;0A06
-	dw DATA_FFA7D2				;0A08
-	dw DATA_FFA7E4				;0A0A
-	dw DATA_FFA7F2				;0A0C
-	dw DATA_FFA804				;0A0E
-	dw DATA_FFA812				;0A10
+	dw DATA_FFA7A4				;0A02 not placed in any level
+	dw DATA_FFA7B2				;0A04 not placed in any level
+	dw DATA_FFA7C4				;0A06 not placed in any level
+	dw DATA_FFA7D2				;0A08 not placed in any level
+	dw DATA_FFA7E4				;0A0A not placed in any level
+	dw DATA_FFA7F2				;0A0C not placed in any level
+	dw DATA_FFA804				;0A0E not placed in any level
+	dw DATA_FFA812				;0A10 not placed in any level
 	dw DATA_FFA824				;0A12
 	dw DATA_FFA836				;0A14
 	dw DATA_FFA856				;0A16
@@ -10541,7 +10541,7 @@ endif
 	dw DATA_FFA896				;0A1E
 	dw DATA_FFA8A8				;0A20
 	dw DATA_FFA98C				;0A22
-	dw DATA_FFA996				;0A24
+	dw DATA_FFA996				;0A24 not placed in any level
 	dw DATA_FFA9A0				;0A26
 	dw DATA_FFA9AA				;0A28
 	dw DATA_FFA9B8				;0A2A
@@ -10552,8 +10552,8 @@ endif
 	dw DATA_FFAA16				;0A34
 	dw DATA_FFAA2C				;0A36
 	dw DATA_FFAA42				;0A38
-	dw DATA_FFAA58				;0A3A
-	dw DATA_FFAA6A				;0A3C
+	dw DATA_FFAA58				;0A3A not placed in any level
+	dw DATA_FFAA6A				;0A3C not placed in any level
 	dw DATA_FFAA7C				;0A3E
 	dw DATA_FFAA8E				;0A40
 	dw DATA_FFAAA0				;0A42
@@ -10566,9 +10566,9 @@ endif
 	dw DATA_FFAB80				;0A50
 	dw DATA_FFAB86				;0A52
 	dw DATA_FFAB90				;0A54
-	dw DATA_FFAB9A				;0A56
-	dw DATA_FFABA8				;0A58
-	dw DATA_FFABBA				;0A5A
+	dw DATA_FFAB9A				;0A56 not placed in any level
+	dw DATA_FFABA8				;0A58 not placed in any level
+	dw DATA_FFABBA				;0A5A not placed in any level
 	dw DATA_FFAC30				;0A5C
 	dw DATA_FFAC46				;0A5E
 	dw DATA_FFAC5C				;0A60
@@ -10589,15 +10589,15 @@ endif
 	dw DATA_FFAD66				;0A7E
 	dw DATA_FFAD78				;0A80
 	dw DATA_FFAD8A				;0A82
-	dw DATA_FFAD9C				;0A84
-	dw DATA_FFADAA				;0A86
+	dw DATA_FFAD9C				;0A84 not placed in any level
+	dw DATA_FFADAA				;0A86 not placed in any level
 	dw DATA_FFADB8				;0A88
 	dw DATA_FFADC6				;0A8A
 	dw DATA_FFADD4				;0A8C
 	dw DATA_FFADE2				;0A8E
 	dw DATA_FFADF0				;0A90
 	dw DATA_FFADFE				;0A92
-	dw DATA_FFAE0C				;0A94
+	dw DATA_FFAE0C				;0A94 not placed in any level
 	dw DATA_FFAE1E				;0A96
 	dw DATA_FFAE30				;0A98
 	dw DATA_FFAE42				;0A9A
@@ -10609,7 +10609,7 @@ endif
 	dw DATA_FFAEB2				;0AA6
 	dw DATA_FFAEC4				;0AA8
 	dw DATA_FFAEDA				;0AAA
-	dw DATA_FFAEEC				;0AAC
+	dw DATA_FFAEEC				;0AAC not placed in any level
 	dw DATA_FFAEEC				;0AAE
 	dw DATA_FFAF02				;0AB0
 	dw DATA_FFAF14				;0AB2
@@ -10646,7 +10646,7 @@ endif
 	dw DATA_FFB182				;0AF0
 	dw DATA_FFB194				;0AF2
 	dw DATA_FFB1A6				;0AF4
-	dw DATA_FFB1B8				;0AF6
+	dw DATA_FFB1B8				;0AF6 not placed in any level
 	dw DATA_FFB1B8				;0AF8
 	dw DATA_FFB1C6				;0AFA
 	dw DATA_FFB1D8				;0AFC
@@ -10657,57 +10657,57 @@ endif
 	dw DATA_FFB22A				;0B06
 	dw DATA_FFB238				;0B08
 	dw DATA_FFB246				;0B0A
-	dw DATA_FFB254				;0B0C
+	dw DATA_FFB254				;0B0C not placed in any level
 	dw DATA_FFB262				;0B0E
 	dw DATA_FFB274				;0B10
 	dw DATA_FFB2DC				;0B12
-	dw DATA_FFB2E6				;0B14
-	dw DATA_FFB2F4				;0B16
+	dw DATA_FFB2E6				;0B14 not placed in any level
+	dw DATA_FFB2F4				;0B16 not placed in any level
 	dw DATA_FFB2FE				;0B18
-	dw DATA_FFB308				;0B1A
+	dw DATA_FFB308				;0B1A not placed in any level
 	dw DATA_FFB312				;0B1C
 	dw DATA_FFB324				;0B1E
 	dw DATA_FFB32E				;0B20
 	dw DATA_FFB338				;0B22
 	dw DATA_FFB342				;0B24
-	dw DATA_FFB354				;0B26
+	dw DATA_FFB354				;0B26 not placed in any level
 	dw DATA_FFB35E				;0B28
-	dw DATA_FFB36C				;0B2A
+	dw DATA_FFB36C				;0B2A not placed in any level
 	dw DATA_FFB376				;0B2C
 	dw DATA_FFB388				;0B2E
 	dw DATA_FFB39A				;0B30
-	dw DATA_FFB3F4				;0B32
+	dw DATA_FFB3F4				;0B32 not placed in any level
 	dw DATA_FFB406				;0B34
-	dw DATA_FFB418				;0B36
-	dw DATA_FFB422				;0B38
-	dw DATA_FFB430				;0B3A
+	dw DATA_FFB418				;0B36 not placed in any level
+	dw DATA_FFB422				;0B38 not placed in any level
+	dw DATA_FFB430				;0B3A not placed in any level
 	dw DATA_FFB43E				;0B3C
 	dw DATA_FFB454				;0B3E
-	dw DATA_FFB46A				;0B40
+	dw DATA_FFB46A				;0B40 not placed in any level
 	dw DATA_FFB47C				;0B42
 	dw DATA_FFB48E				;0B44
 	dw DATA_FFB49C				;0B46
-	dw DATA_FFB4B2				;0B48
-	dw DATA_FFB4BC				;0B4A
+	dw DATA_FFB4B2				;0B48 not placed in any level
+	dw DATA_FFB4BC				;0B4A not placed in any level
 	dw DATA_FFB4CA				;0B4C
 	dw DATA_FFB4D4				;0B4E
 	dw DATA_FFB4E2				;0B50
 	dw DATA_FFB4F0				;0B52
 	dw DATA_FFB4FA				;0B54
 	dw DATA_FFB508				;0B56
-	dw DATA_FFB516				;0B58
+	dw DATA_FFB516				;0B58 not placed in any level
 	dw DATA_FFB520				;0B5A
-	dw DATA_FFB52A				;0B5C
+	dw DATA_FFB52A				;0B5C not placed in any level
 	dw DATA_FFB534				;0B5E
 	dw DATA_FFB53E				;0B60
-	dw DATA_FFB54C				;0B62
+	dw DATA_FFB54C				;0B62 not placed in any level
 	dw DATA_FFB55A				;0B64
 	dw DATA_FFB564				;0B66
 	dw DATA_FFB572				;0B68
 	dw DATA_FFB57C				;0B6A
-	dw DATA_FFB586				;0B6C
+	dw DATA_FFB586				;0B6C not placed in any level
 	dw DATA_FFB590				;0B6E
-	dw DATA_FFB5A6				;0B70
+	dw DATA_FFB5A6				;0B70 not placed in any level
 	dw DATA_FFB5B8				;0B72
 	dw DATA_FFB5CE				;0B74
 	dw DATA_FFB5E0				;0B76
@@ -10718,40 +10718,40 @@ endif
 	dw DATA_FFB9B2				;0B80
 	dw DATA_FFB9BC				;0B82
 	dw DATA_FFB9C6				;0B84
-	dw DATA_FFB9D0				;0B86
-	dw DATA_FFB9DA				;0B88
+	dw DATA_FFB9D0				;0B86 not placed in any level
+	dw DATA_FFB9DA				;0B88 not placed in any level
 	dw DATA_FFB9E4				;0B8A
 	dw DATA_FFB9EE				;0B8C
-	dw DATA_FFB9F8				;0B8E
-	dw DATA_FFBA02				;0B90
+	dw DATA_FFB9F8				;0B8E not placed in any level
+	dw DATA_FFBA02				;0B90 not placed in any level
 	dw DATA_FFBA0C				;0B92
-	dw DATA_FFBA16				;0B94
-	dw DATA_FFBA20				;0B96
-	dw DATA_FFBA2A				;0B98
+	dw DATA_FFBA16				;0B94 not placed in any level
+	dw DATA_FFBA20				;0B96 not placed in any level
+	dw DATA_FFBA2A				;0B98 not placed in any level
 	dw DATA_FFBA34				;0B9A
-	dw DATA_FFBA3E				;0B9C
+	dw DATA_FFBA3E				;0B9C not placed in any level
 	dw DATA_FFBA48				;0B9E
-	dw DATA_FFBA52				;0BA0
-	dw DATA_FFBA5C				;0BA2
-	dw DATA_FFBA66				;0BA4
-	dw DATA_FFBA70				;0BA6
-	dw DATA_FFBA7A				;0BA8
-	dw DATA_FFBA84				;0BAA
+	dw DATA_FFBA52				;0BA0 not placed in any level
+	dw DATA_FFBA5C				;0BA2 not placed in any level
+	dw DATA_FFBA66				;0BA4 not placed in any level
+	dw DATA_FFBA70				;0BA6 not placed in any level
+	dw DATA_FFBA7A				;0BA8 not placed in any level
+	dw DATA_FFBA84				;0BAA not placed in any level
 	dw DATA_FFBA8E				;0BAC
 	dw DATA_FFBA98				;0BAE
-	dw DATA_FFBAA6				;0BB0
+	dw DATA_FFBAA6				;0BB0 not placed in any level
 	dw DATA_FFBAE6				;0BB2
 	dw DATA_FFBAF0				;0BB4
 	dw DATA_FFBAFA				;0BB6
 	dw DATA_FFBB04				;0BB8
-	dw DATA_FFBB0E				;0BBA
-	dw DATA_FFBB62				;0BBC
-	dw DATA_FFBB80				;0BBE
-	dw DATA_FFBB9E				;0BC0
-	dw DATA_FFBBBC				;0BC2
+	dw DATA_FFBB0E				;0BBA not placed in any level
+	dw DATA_FFBB62				;0BBC not placed in any level
+	dw DATA_FFBB80				;0BBE not placed in any level
+	dw DATA_FFBB9E				;0BC0 not placed in any level
+	dw DATA_FFBBBC				;0BC2 not placed in any level
 	dw DATA_FFBBDA				;0BC4
 	dw DATA_FFBBF8				;0BC6
-	dw DATA_FFBC16				;0BC8
+	dw DATA_FFBC16				;0BC8 not placed in any level
 	dw DATA_FFBC34				;0BCA
 	dw DATA_FFBC52				;0BCC
 	dw DATA_FFBC70				;0BCE
@@ -10761,48 +10761,48 @@ endif
 	dw DATA_FFBCE8				;0BD6
 	dw DATA_FFBD12				;0BD8
 	dw DATA_FFBD30				;0BDA
-	dw DATA_FFBD4E				;0BDC
+	dw DATA_FFBD4E				;0BDC not placed in any level
 	dw DATA_FFBD6C				;0BDE
 	dw DATA_FFBD8A				;0BE0
 	dw DATA_FFBDA8				;0BE2
 	dw DATA_FFBDC6				;0BE4
 	dw DATA_FFBDE4				;0BE6
-	dw DATA_FFBE02				;0BE8
+	dw DATA_FFBE02				;0BE8 not placed in any level
 	dw DATA_FFBE24				;0BEA
-	dw DATA_FFBE46				;0BEC
+	dw DATA_FFBE46				;0BEC not placed in any level
 	dw DATA_FFBE68				;0BEE
 	dw DATA_FFBE8A				;0BF0
 	dw DATA_FFBEAC				;0BF2
 	dw DATA_FFBECE				;0BF4
 	dw DATA_FFBEF0				;0BF6
-	dw DATA_FFBF12				;0BF8
+	dw DATA_FFBF12				;0BF8 not placed in any level
 	dw DATA_FFBF34				;0BFA
 	dw DATA_FFBF56				;0BFC
 	dw DATA_FFBF78				;0BFE
 	dw DATA_FFBF9A				;0C00
-	dw DATA_FFBFBC				;0C02
+	dw DATA_FFBFBC				;0C02 not placed in any level
 	dw DATA_FFBFDE				;0C04
 	dw DATA_FFC004				;0C06
-	dw DATA_FFC02E				;0C08
-	dw DATA_FFC054				;0C0A
-	dw DATA_FFC07A				;0C0C
+	dw DATA_FFC02E				;0C08 not placed in any level
+	dw DATA_FFC054				;0C0A not placed in any level
+	dw DATA_FFC07A				;0C0C not placed in any level
 	dw DATA_FFC0A4				;0C0E
-	dw DATA_FFC0CA				;0C10
-	dw DATA_FFC0F0				;0C12
+	dw DATA_FFC0CA				;0C10 not placed in any level
+	dw DATA_FFC0F0				;0C12 not placed in any level
 	dw DATA_FFC17E				;0C14
 	dw DATA_FFC188				;0C16
-	dw DATA_FFC196				;0C18
-	dw DATA_FFC1A4				;0C1A
+	dw DATA_FFC196				;0C18 not placed in any level
+	dw DATA_FFC1A4				;0C1A not placed in any level
 	dw DATA_FFC1B6				;0C1C
 	dw DATA_FFC1D0				;0C1E
-	dw DATA_FFC1EA				;0C20
-	dw DATA_FFC200				;0C22
+	dw DATA_FFC1EA				;0C20 not placed in any level
+	dw DATA_FFC200				;0C22 not placed in any level
 	dw DATA_FFC21A				;0C24
 	dw DATA_FFC22C				;0C26
 	dw DATA_FFC23A				;0C28
 	dw DATA_FFC250				;0C2A
 	dw DATA_FFC26A				;0C2C
-	dw DATA_FFC284				;0C2E
+	dw DATA_FFC284				;0C2E not placed in any level
 	dw DATA_FFC292				;0C30
 	dw DATA_FFC2A8				;0C32
 	dw DATA_FFC2BE				;0C34
@@ -10814,7 +10814,7 @@ endif
 	dw DATA_FFC35A				;0C40
 	dw DATA_FFC374				;0C42
 	dw DATA_FFC386				;0C44
-	dw DATA_FFC3B6				;0C46
+	dw DATA_FFC3B6				;0C46 not placed in any level
 	dw DATA_FFC3C0				;0C48
 	dw DATA_FFC3CA				;0C4A
 	dw DATA_FFC3D4				;0C4C
@@ -10839,14 +10839,14 @@ endif
 	dw DATA_FFC492				;0C72
 	dw DATA_FFC584				;0C74
 	dw DATA_FFC58A				;0C76
-	dw DATA_FFC5CE				;0C78
+	dw DATA_FFC5CE				;0C78 not placed in any level
 	dw DATA_FFC5D8				;0C7A
 	dw DATA_FFC5E2				;0C7C
 	dw DATA_FFC5EC				;0C7E
 	dw DATA_FFC5F6				;0C80
 	dw DATA_FFC600				;0C82
 	dw DATA_FFC60E				;0C84
-	dw DATA_FFC618				;0C86
+	dw DATA_FFC618				;0C86 not placed in any level
 	dw DATA_FFC622				;0C88
 	dw DATA_FFC62C				;0C8A
 	dw DATA_FFC636				;0C8C
@@ -10874,11 +10874,11 @@ endif
 	dw DATA_FFCDF0				;0CB8
 	dw DATA_FFCDFA				;0CBA
 	dw DATA_FFCE32				;0CBC
-	dw DATA_FFCE3C				;0CBE
+	dw DATA_FFCE3C				;0CBE not placed in any level
 	dw DATA_FFCE4A				;0CC0
 	dw DATA_FFCE58				;0CC2
 	dw DATA_FFCE66				;0CC4
-	dw DATA_FFCE74				;0CC6
+	dw DATA_FFCE74				;0CC6 not placed in any level
 	dw DATA_FFCEF0				;0CC8
 	dw DATA_FFCEFA				;0CCA
 	dw DATA_FFCF04				;0CCC
@@ -10905,12 +10905,12 @@ endif
 	dw DATA_FFCFE8				;0CF6
 	dw DATA_FFCFF2				;0CF8
 	dw DATA_FFCFFC				;0CFA
-	dw DATA_FFD00E				;0CFC
+	dw DATA_FFD00E				;0CFC not placed in any level
 	dw DATA_FFD020				;0CFE
-	dw DATA_FFD032				;0D00
+	dw DATA_FFD032				;0D00 not placed in any level
 	dw DATA_FFD044				;0D02
 	dw DATA_FFD056				;0D04
-	dw DATA_FFD068				;0D06
+	dw DATA_FFD068				;0D06 not placed in any level
 	dw DATA_FFD07A				;0D08
 	dw DATA_FFD08C				;0D0A
 	dw DATA_FFD09E				;0D0C
@@ -10919,9 +10919,9 @@ endif
 	dw DATA_FFD0CC				;0D12
 	dw DATA_FFD0DA				;0D14
 	dw DATA_FFD0F4				;0D16
-	dw DATA_FFD0FE				;0D18
+	dw DATA_FFD0FE				;0D18 not placed in any level
 	dw DATA_FFD110				;0D1A
-	dw DATA_FFD122				;0D1C
+	dw DATA_FFD122				;0D1C not placed in any level
 	dw DATA_FFD134				;0D1E
 	dw DATA_FFD18A				;0D20
 	dw DATA_FFD1A8				;0D22
@@ -10931,16 +10931,16 @@ endif
 	dw DATA_FFD230				;0D2A
 	dw DATA_FFD24E				;0D2C
 	dw DATA_FFD26C				;0D2E
-	dw DATA_FFD28A				;0D30
-	dw DATA_FFD2A8				;0D32
+	dw DATA_FFD28A				;0D30 not placed in any level
+	dw DATA_FFD2A8				;0D32 not placed in any level
 	dw DATA_FFD2CA				;0D34
 	dw DATA_FFD2EC				;0D36
 	dw DATA_FFD316				;0D38
 	dw DATA_FFD338				;0D3A
-	dw DATA_FFD388				;0D3C
-	dw DATA_FFD39A				;0D3E
-	dw DATA_FFD3AC				;0D40
-	dw DATA_FFD3BE				;0D42
+	dw DATA_FFD388				;0D3C not placed in any level
+	dw DATA_FFD39A				;0D3E not placed in any level
+	dw DATA_FFD3AC				;0D40 not placed in any level
+	dw DATA_FFD3BE				;0D42 not placed in any level
 	dw DATA_FFD3D0				;0D44
 	dw DATA_FFD3E2				;0D46
 	dw DATA_FFD3F4				;0D48
@@ -10949,7 +10949,7 @@ endif
 	dw DATA_FFD42A				;0D4E
 	dw DATA_FFD43C				;0D50
 	dw DATA_FFD44E				;0D52
-	dw DATA_FFD740				;0D54
+	dw DATA_FFD740				;0D54 not placed in any level
 	dw DATA_FFD78E				;0D56
 	dw DATA_FFD79C				;0D58
 	dw DATA_FFD7AA				;0D5A
@@ -10972,11 +10972,11 @@ endif
 	dw DATA_FFD8C4				;0D7C
 	dw DATA_FFD8E0				;0D7E
 	dw DATA_FFD8F2				;0D80
-	dw DATA_FFD904				;0D82
-	dw DATA_FFD916				;0D84
-	dw DATA_FFD928				;0D86
-	dw DATA_FFD93A				;0D88
-	dw DATA_FFD94C				;0D8A
+	dw DATA_FFD904				;0D82 not placed in any level
+	dw DATA_FFD916				;0D84 not placed in any level
+	dw DATA_FFD928				;0D86 not placed in any level
+	dw DATA_FFD93A				;0D88 not placed in any level
+	dw DATA_FFD94C				;0D8A not placed in any level
 	dw DATA_FFD95E				;0D8C
 	dw DATA_FFD970				;0D8E
 	dw DATA_FFD982				;0D90
@@ -10995,29 +10995,29 @@ endif
 	dw DATA_FFDA6C				;0DAA
 	dw DATA_FFDA7E				;0DAC
 	dw DATA_FFDA90				;0DAE
-	dw DATA_FFDAA2				;0DB0
+	dw DATA_FFDAA2				;0DB0 not placed in any level
 	dw DATA_FFDAB4				;0DB2
-if !version == 1				;	note: every index after this condition is offset by -2 in 1.0
-	dw DATA_FFDAC6				;0DB4	because an entry was added in 1.1 (see sprite macro in macros.asm)
+if !version == 1				;note: every index after this condition is offset by -2 in 1.0...
+	dw DATA_FFDAC6				;0DB4 not placed in any level ...because of an entry added in 1.1 (see macros.asm)
 endif
 	dw DATA_FFDAD8				;0DB6
 	dw DATA_FFDADE				;0DB8
 	dw DATA_FFDAE8				;0DBA
-	dw DATA_FFDB34				;0DBC
-	dw DATA_FFDB56				;0DBE
-	dw DATA_FFDB78				;0DC0
+	dw DATA_FFDB34				;0DBC not placed in any level
+	dw DATA_FFDB56				;0DBE not placed in any level
+	dw DATA_FFDB78				;0DC0 not placed in any level
 	dw DATA_FFDB9A				;0DC2
 	dw DATA_FFDBB0				;0DC4
 	dw DATA_FFDBC2				;0DC6
 	dw DATA_FFDBD4				;0DC8
-	dw DATA_FFDBE6				;0DCA
-	dw DATA_FFDC00				;0DCC
-	dw DATA_FFDC1A				;0DCE
-	dw DATA_FFDC34				;0DD0
-	dw DATA_FFDC4A				;0DD2
+	dw DATA_FFDBE6				;0DCA not placed in any level
+	dw DATA_FFDC00				;0DCC not placed in any level
+	dw DATA_FFDC1A				;0DCE not placed in any level
+	dw DATA_FFDC34				;0DD0 not placed in any level
+	dw DATA_FFDC4A				;0DD2 not placed in any level
 	dw DATA_FFDC67				;0DD4
 	dw DATA_FFDC71				;0DD6
-	dw DATA_FFDC7F				;0DD8
+	dw DATA_FFDC7F				;0DD8 not placed in any level
 	dw DATA_FFDC91				;0DDA
 	dw DATA_FFDCA3				;0DDC
 	dw DATA_FFDCB5				;0DDE
@@ -11030,11 +11030,11 @@ endif
 	dw DATA_FFDD33				;0DEC
 	dw DATA_FFDD45				;0DEE
 	dw DATA_FFDD57				;0DF0
-	dw DATA_FFDD69				;0DF2
+	dw DATA_FFDD69				;0DF2 not placed in any level
 	dw DATA_FFDD7B				;0DF4
-	dw DATA_FFDD8D				;0DF6
+	dw DATA_FFDD8D				;0DF6 not placed in any level
 	dw DATA_FFDD9F				;0DF8
-	dw DATA_FFDDB1				;0DFA
+	dw DATA_FFDDB1				;0DFA not placed in any level
 	dw DATA_FFDDC3				;0DFC
 	dw DATA_FFDDD5				;0DFE
 	dw DATA_FFDDE7				;0E00
@@ -11043,86 +11043,86 @@ endif
 	dw DATA_FFDE1D				;0E06
 	dw DATA_FFDE2F				;0E08
 	dw DATA_FFDE41				;0E0A
-	dw DATA_FFDE53				;0E0C
+	dw DATA_FFDE53				;0E0C not placed in any level
 	dw DATA_FFDE65				;0E0E
 	dw DATA_FFDE77				;0E10
 	dw DATA_FFDE89				;0E12
 	dw DATA_FFDE9B				;0E14
-	dw DATA_FFDEAD				;0E16
+	dw DATA_FFDEAD				;0E16 not placed in any level
 	dw DATA_FFDEBF				;0E18
 	dw DATA_FFDED1				;0E1A
-	dw DATA_FFDEE3				;0E1C
+	dw DATA_FFDEE3				;0E1C not placed in any level
 	dw DATA_FFDEF5				;0E1E
-	dw DATA_FFDF07				;0E20
-	dw DATA_FFDF19				;0E22
+	dw DATA_FFDF07				;0E20 not placed in any level
+	dw DATA_FFDF19				;0E22 not placed in any level
 	dw DATA_FFDF2B				;0E24
 	dw DATA_FFDF3D				;0E26
 	dw DATA_FFDF4F				;0E28
 	dw DATA_FFDF61				;0E2A
 	dw DATA_FFDF73				;0E2C
-	dw DATA_FFDF85				;0E2E
+	dw DATA_FFDF85				;0E2E not placed in any level
 	dw DATA_FFDF8F				;0E30
 	dw DATA_FFDFA5				;0E32
 	dw DATA_FFDFB7				;0E34
 	dw DATA_FFDFC9				;0E36
 	dw DATA_FFDFDB				;0E38
-	dw DATA_FFE00B				;0E3A
-	dw DATA_FFE015				;0E3C
+	dw DATA_FFE00B				;0E3A not placed in any level
+	dw DATA_FFE015				;0E3C not placed in any level
 	dw DATA_FFE01F				;0E3E
 	dw DATA_FFE029				;0E40
 	dw DATA_FFE03F				;0E42
-	dw DATA_FFE051				;0E44
-	dw DATA_FFE067				;0E46
-	dw DATA_FFE075				;0E48
-	dw DATA_FFE087				;0E4A
-	dw DATA_FFE099				;0E4C
-	dw DATA_FFE0A7				;0E4E
+	dw DATA_FFE051				;0E44 not placed in any level
+	dw DATA_FFE067				;0E46 not placed in any level
+	dw DATA_FFE075				;0E48 not placed in any level
+	dw DATA_FFE087				;0E4A not placed in any level
+	dw DATA_FFE099				;0E4C not placed in any level
+	dw DATA_FFE0A7				;0E4E not placed in any level
 	dw DATA_FFE0B5				;0E50
 	dw DATA_FFE0CB				;0E52
-	dw DATA_FFE0D9				;0E54
+	dw DATA_FFE0D9				;0E54 not placed in any level
 	dw DATA_FFE0E7				;0E56
 	dw DATA_FFE0F9				;0E58
 	dw DATA_FFE107				;0E5A
 	dw DATA_FFE115				;0E5C
-	dw DATA_FFE123				;0E5E
+	dw DATA_FFE123				;0E5E not placed in any level
 	dw DATA_FFE131				;0E60
 	dw DATA_FFE143				;0E62
 	dw DATA_FFE155				;0E64
-	dw DATA_FFE163				;0E66
+	dw DATA_FFE163				;0E66 not placed in any level
 	dw DATA_FFE171				;0E68
 	dw DATA_FFE17F				;0E6A
 	dw DATA_FFE19D				;0E6C
-	dw DATA_FFE1AF				;0E6E
-	dw DATA_FFE1C1				;0E70
+	dw DATA_FFE1AF				;0E6E not placed in any level
+	dw DATA_FFE1C1				;0E70 not placed in any level
 	dw DATA_FFE1D3				;0E72
 	dw DATA_FFE1E5				;0E74
 	dw DATA_FFE1F7				;0E76
-	dw DATA_FFE20D				;0E78
-	dw DATA_FFE223				;0E7A
-	dw DATA_FFE23D				;0E7C
-	dw DATA_FFE257				;0E7E
-	dw DATA_FFE271				;0E80
+	dw DATA_FFE20D				;0E78 not placed in any level
+	dw DATA_FFE223				;0E7A not placed in any level
+	dw DATA_FFE23D				;0E7C not placed in any level
+	dw DATA_FFE257				;0E7E not placed in any level
+	dw DATA_FFE271				;0E80 not placed in any level
 	dw DATA_FFE28F				;0E82
-	dw DATA_FFE2A1				;0E84
-	dw DATA_FFE2B3				;0E86
+	dw DATA_FFE2A1				;0E84 not placed in any level
+	dw DATA_FFE2B3				;0E86 not placed in any level
 	dw DATA_FFE2B3				;0E88
 	dw DATA_FFE2C5				;0E8A
 	dw DATA_FFE2D3				;0E8C
-	dw DATA_FFE2E1				;0E8E
-	dw DATA_FFE2EF				;0E90
-	dw DATA_FFE30D				;0E92
-	dw DATA_FFE32B				;0E94
+	dw DATA_FFE2E1				;0E8E not placed in any level
+	dw DATA_FFE2EF				;0E90 not placed in any level
+	dw DATA_FFE30D				;0E92 not placed in any level
+	dw DATA_FFE32B				;0E94 not placed in any level
 	dw DATA_FFE349				;0E96
 	dw DATA_FFE357				;0E98
-	dw DATA_FFE369				;0E9A
-	dw DATA_FFE37B				;0E9C
+	dw DATA_FFE369				;0E9A not placed in any level
+	dw DATA_FFE37B				;0E9C not placed in any level
 	dw DATA_FFE38D				;0E9E
-	dw DATA_FFE39F				;0EA0
-	dw DATA_FFE3AD				;0EA2
+	dw DATA_FFE39F				;0EA0 not placed in any level
+	dw DATA_FFE3AD				;0EA2 not placed in any level
 	dw DATA_FFE3BF				;0EA4
 	dw DATA_FFE3CD				;0EA6
 	dw DATA_FFE3DB				;0EA8
-	dw DATA_FFE3F1				;0EAA
+	dw DATA_FFE3F1				;0EAA not placed in any level
 	dw DATA_FFE407				;0EAC
 	dw DATA_FFE429				;0EAE
 	dw DATA_FFE44B				;0EB0
@@ -11146,21 +11146,21 @@ endif
 	dw DATA_FFE6AF				;0ED4
 	dw DATA_FFE6D1				;0ED6
 	dw DATA_FFE6F3				;0ED8
-	dw DATA_FFE715				;0EDA
+	dw DATA_FFE715				;0EDA not placed in any level
 	dw DATA_FFE737				;0EDC
 	dw DATA_FFE759				;0EDE
-	dw DATA_FFE77B				;0EE0
+	dw DATA_FFE77B				;0EE0 not placed in any level
 	dw DATA_FFE79D				;0EE2
 	dw DATA_FFE7BF				;0EE4
 	dw DATA_FFE7E1				;0EE6
-	dw DATA_FFE803				;0EE8
-	dw DATA_FFE825				;0EEA
+	dw DATA_FFE803				;0EE8 not placed in any level
+	dw DATA_FFE825				;0EEA not placed in any level
 	dw DATA_FFE847				;0EEC
-	dw DATA_FFE869				;0EEE
-	dw DATA_FFE88B				;0EF0
+	dw DATA_FFE869				;0EEE not placed in any level
+	dw DATA_FFE88B				;0EF0 not placed in any level
 	dw DATA_FFE8AD				;0EF2
 	dw DATA_FFE8CF				;0EF4
-	dw DATA_FFE8F1				;0EF6
+	dw DATA_FFE8F1				;0EF6 not placed in any level
 	dw DATA_FFE913				;0EF8
 	dw DATA_FFE935				;0EFA
 	dw DATA_FFE957				;0EFC
@@ -11183,9 +11183,9 @@ endif
 	dw DATA_FFEB99				;0F1E
 	dw DATA_FFEBBB				;0F20
 	dw DATA_FFEBDD				;0F22
-	dw DATA_FFEBFF				;0F24
-	dw DATA_FFEC21				;0F26
-	dw DATA_FFEC43				;0F28
+	dw DATA_FFEBFF				;0F24 not placed in any level
+	dw DATA_FFEC21				;0F26 not placed in any level
+	dw DATA_FFEC43				;0F28 not placed in any level
 	dw DATA_FFEC65				;0F2A
 	dw DATA_FFEC87				;0F2C
 	dw DATA_FFECA9				;0F2E
@@ -11201,25 +11201,25 @@ endif
 	dw DATA_FFEDFD				;0F42
 	dw DATA_FFEE1F				;0F44
 	dw DATA_FFEE41				;0F46
-	dw DATA_FFEE63				;0F48
+	dw DATA_FFEE63				;0F48 not placed in any level
 	dw DATA_FFEE85				;0F4A
 	dw DATA_FFEEA7				;0F4C
-	dw DATA_FFEEC9				;0F4E
+	dw DATA_FFEEC9				;0F4E not placed in any level
 	dw DATA_FFEEEB				;0F50
 	dw DATA_FFEF0D				;0F52
 	dw DATA_FFEF2F				;0F54
 	dw DATA_FFEF51				;0F56
-	dw DATA_FFEF73				;0F58
+	dw DATA_FFEF73				;0F58 not placed in any level
 	dw DATA_FFEF95				;0F5A
-	dw DATA_FFEFB7				;0F5C
-	dw DATA_FFEFD9				;0F5E
+	dw DATA_FFEFB7				;0F5C not placed in any level
+	dw DATA_FFEFD9				;0F5E not placed in any level
 	dw DATA_FFEFFB				;0F60
-	dw DATA_FFF01D				;0F62
-	dw DATA_FFF03F				;0F64
+	dw DATA_FFF01D				;0F62 not placed in any level
+	dw DATA_FFF03F				;0F64 not placed in any level
 	dw DATA_FFF061				;0F66
 	dw DATA_FFF083				;0F68
 	dw DATA_FFF0A5				;0F6A
-	dw DATA_FFF0C7				;0F6C
+	dw DATA_FFF0C7				;0F6C not placed in any level
 	dw DATA_FFF0E9				;0F6E
 	dw DATA_FFF10B				;0F70
 	dw DATA_FFF12D				;0F72
@@ -11228,35 +11228,35 @@ endif
 	dw DATA_FFF193				;0F78
 	dw DATA_FFF1B5				;0F7A
 	dw DATA_FFF1D7				;0F7C
-	dw DATA_FFF1F9				;0F7E
+	dw DATA_FFF1F9				;0F7E not placed in any level
 	dw DATA_FFF21B				;0F80
 	dw DATA_FFF23D				;0F82
-	dw DATA_FFF25F				;0F84
+	dw DATA_FFF25F				;0F84 not placed in any level
 	dw DATA_FFF281				;0F86
-	dw DATA_FFF28F				;0F88
+	dw DATA_FFF28F				;0F88 not placed in any level
 	dw DATA_FFF2A1				;0F8A
 	dw DATA_FFF2C5				;0F8C
 	dw DATA_FFF2E3				;0F8E
-	dw DATA_FFF305				;0F90
-	dw DATA_FFF323				;0F92
+	dw DATA_FFF305				;0F90 not placed in any level
+	dw DATA_FFF323				;0F92 not placed in any level
 	dw DATA_FFF323				;0F94
-	dw DATA_FFF341				;0F96
-	dw DATA_FFF341				;0F98
+	dw DATA_FFF341				;0F96 not placed in any level
+	dw DATA_FFF341				;0F98 not placed in any level
 	dw DATA_FFF35F				;0F9A
 	dw DATA_FFF37D				;0F9C
-	dw DATA_FFF39F				;0F9E
-	dw DATA_FFF3C1				;0FA0
+	dw DATA_FFF39F				;0F9E not placed in any level
+	dw DATA_FFF3C1				;0FA0 not placed in any level
 	dw DATA_FFF405				;0FA2
 	dw DATA_FFF413				;0FA4
 	dw DATA_FFF421				;0FA6
 	dw DATA_FFF42F				;0FA8
 	dw DATA_FFF445				;0FAA
-	dw DATA_FFF45B				;0FAC
-	dw DATA_FFF469				;0FAE
-	dw DATA_FFF477				;0FB0
+	dw DATA_FFF45B				;0FAC not placed in any level
+	dw DATA_FFF469				;0FAE not placed in any level
+	dw DATA_FFF477				;0FB0 not placed in any level
 	dw DATA_FFF481				;0FB2
-	dw DATA_FFF48F				;0FB4
-	dw DATA_FFF4B1				;0FB6
+	dw DATA_FFF48F				;0FB4 not placed in any level
+	dw DATA_FFF4B1				;0FB6 not placed in any level
 	dw DATA_FFF50B				;0FB8
 	dw DATA_FFF51D				;0FBA
 	dw DATA_FFF533				;0FBC
@@ -11281,7 +11281,7 @@ endif
 	dw DATA_FFF7CD				;0FE2
 	dw DATA_FFF7DB				;0FE4
 	dw DATA_FFF7F5				;0FE6
-	dw DATA_FFF807				;0FE8
+	dw DATA_FFF807				;0FE8 not placed in any level
 	dw DATA_FFF819				;0FEA
 	dw DATA_FFF827				;0FEC
 	dw DATA_FFF835				;0FEE
@@ -11290,13 +11290,13 @@ endif
 	dw DATA_FFF97B				;0FF4
 	dw race_handler_init			;0FF6
 	dw DATA_FFFB23				;0FF8
-	dw DATA_FFFB2D				;0FFA
-	dw DATA_FFFB37				;0FFC
-	dw DATA_FFFB41				;0FFE
-	dw DATA_FFFB4B				;1000
-	dw DATA_FFFB55				;1002
-	dw DATA_FFFB5F				;1004
-	dw DATA_FFFB69				;1006
+	dw DATA_FFFB2D				;0FFA not placed in any level
+	dw DATA_FFFB37				;0FFC not placed in any level
+	dw DATA_FFFB41				;0FFE not placed in any level
+	dw DATA_FFFB4B				;1000 not placed in any level
+	dw DATA_FFFB55				;1002 not placed in any level
+	dw DATA_FFFB5F				;1004 not placed in any level
+	dw DATA_FFFB69				;1006 not placed in any level
 	dw DATA_FFFB73				;1008
 	dw DATA_FFFB9D				;100A
 	dw DATA_FFFBAB				;100C
@@ -11307,7 +11307,7 @@ endif
 	dw DATA_FFFC43				;1016
 	dw DATA_FFFC55				;1018
 	dw DATA_FFFC67				;101A
-	dw DATA_FFFC79				;101C
+	dw DATA_FFFC79				;101C not placed in any level
 	dw DATA_FFFC8B				;101E
 	dw DATA_FFFCA1				;1020
 	dw DATA_FFFCCD				;1022
@@ -11325,13 +11325,13 @@ endif
 	dw DATA_FFFF06				;103A
 	dw DATA_FFFF20				;103C
 if !version == 0
-	dw DATA_FFFF2A				;103E
-	dw DATA_FFFF4C				;1040
-	dw DATA_FFFF4C				;1042
-	dw DATA_FFFF6A				;1044
+	dw DATA_FFFF2A				;103E not placed in any level
+	dw DATA_FFFF4C				;1040 not placed in any level
+	dw DATA_FFFF4C				;1042 not placed in any level
+	dw DATA_FFFF6A				;1044 not placed in any level
 else
-	dw !null_pointer			;103E
-	dw !null_pointer			;1040
-	dw !null_pointer			;1042
-	dw !null_pointer			;1044
+	dw !null_pointer			;103E not placed in any level
+	dw !null_pointer			;1040 not placed in any level
+	dw !null_pointer			;1042 not placed in any level
+	dw !null_pointer			;1044 not placed in any level
 endif
