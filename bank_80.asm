@@ -656,9 +656,9 @@ CODE_8087E1:
 	JSR set_fade				;$8087F0   |
 	JSR prepare_oam_dma_channel		;$8087F3   |
 	SEP #$20				;$8087F6   |
-	LDA $0529				;$8087F8   |
+	LDA main_level.logic_number		;$8087F8   |
 	STA gamemode_submode			;$8087FB   |
-	LDA $0527				;$8087FD   |
+	LDA main_level.NMI_number		;$8087FD   |
 	STA nmi_submode				;$808800   |
 	REP #$20				;$808802   |
 	LDA #CODE_808819			;$808804   |
@@ -6084,8 +6084,8 @@ CODE_80B8B1:
 	LDX #$8822				;$80B8B7   |
 	STX HDMA[6].source			;$80B8BA   |
 CODE_80B8BD:					;	   |
-	LDA $0523				;$80B8BD   |
-	CMP #$000E				;$80B8C0   |
+	LDA main_level.tileset_type		;$80B8BD   |
+	CMP #!ice_1_layout_id			;$80B8C0   |
 	BNE CODE_80B8CF				;$80B8C3   |
 	LDA $0915				;$80B8C5   |
 	BEQ CODE_80B8CF				;$80B8C8   |
@@ -6119,8 +6119,8 @@ CODE_80B8F4:					;	   |
 	ADC #$00				;$80B8FA   |
 	STA $7E886F				;$80B8FC   |
 	REP #$20				;$80B900   |
-	LDA $0523				;$80B902   |
-	CMP #$000E				;$80B905   |
+	LDA main_level.tileset_type		;$80B902   |
+	CMP #!ice_1_layout_id			;$80B905   |
 	BNE CODE_80B914				;$80B908   |
 	LDA $0915				;$80B90A   |
 	BEQ CODE_80B914				;$80B90D   |
@@ -8769,7 +8769,7 @@ update_rigging_graphics:
 	BEQ .rigging_flag_update_done		;$80CF5D   |
 	JSR update_ship_mast_flag_graphics	;$80CF5F   |
 .rigging_flag_update_done			;	   |
-	LDA $052B				;$80CF62   |
+	LDA main_level.effects			;$80CF62   |
 	AND #$1000				;$80CF65   |
 	BNE CODE_80CF9F				;$80CF68   |
 	LDA active_frame_counter		;$80CF6A   |
@@ -8795,7 +8795,7 @@ update_rigging_graphics:
 	RTS					;$80CF9E  /
 
 CODE_80CF9F:
-	LDA $0515				;$80CF9F  \
+	LDA main_level.type			;$80CF9F  \
 	CMP #!boss_level_type			;$80CFA2   |
 	BEQ CODE_80CFDB				;$80CFA5   |
 	LDA active_frame_counter		;$80CFA7   |
@@ -12346,8 +12346,8 @@ CODE_80EF8C:					;	   |
 	STA $885E				;$80F090   |
 	LDA #$0000				;$80F093   |
 	STA $8860				;$80F096   |
-	LDA $0523				;$80F099   |
-	CMP #$000E				;$80F09C   |
+	LDA main_level.tileset_type		;$80F099   |
+	CMP #!ice_1_layout_id			;$80F09C   |
 	BNE CODE_80F0AB				;$80F09F   |
 	LDA $0915				;$80F0A1   |
 	BEQ CODE_80F0AB				;$80F0A4   |
@@ -12403,8 +12403,8 @@ CODE_80F0D4:					;	   |
 	SBC #$0010				;$80F100   |
 	TAX					;$80F103   |
 	BPL CODE_80F0D4				;$80F104   |
-	LDA $0523				;$80F106   |
-	CMP #$000E				;$80F109   |
+	LDA main_level.tileset_type		;$80F106   |
+	CMP #!ice_1_layout_id			;$80F109   |
 	BNE CODE_80F113				;$80F10C   |
 	LDA $0915				;$80F10E   |
 	BNE CODE_80F156				;$80F111   |

@@ -844,7 +844,7 @@ animation_command_table:
 	dw animation_command_80_94		; 94
 
 CODE_B9D4EF:
-	LDA.l $000515				;$B9D4EF   |
+	LDA.l main_level.type			;$B9D4EF   |
 	CMP #!boss_level_type			;$B9D4F3   |
 	BNE CODE_B9D4FB				;$B9D4F6   |
 	JMP CODE_B9D12B				;$B9D4F8  /
@@ -1011,7 +1011,7 @@ CODE_B9D5E9:					;	   |
 	JMP process_anim_script			;$B9D5F0  /
 
 check_if_boss_level:
-	LDA.l $000515				;$B9D5F3  \
+	LDA.l main_level.type			;$B9D5F3  \
 	CMP #!boss_level_type			;$B9D5F7   |
 	BNE .boss_level				;$B9D5FA   |
 	CLC					;$B9D5FC   |
@@ -1022,12 +1022,12 @@ check_if_boss_level:
 	RTS					;$B9D5FF  /
 
 check_if_not_bonus_or_sub_level:
-	LDA.l $000515				;$B9D600  \
+	LDA.l main_level.type			;$B9D600  \
 	CMP #!small_level_type			;$B9D604   |
 	BEQ .bonus_or_sub_level			;$B9D607   |
 	CMP #!bonus_level_type			;$B9D609   |
 	BNE .normal_level			;$B9D60C   |
-	LDA.l $00052D				;$B9D60E   |
+	LDA.l main_level.bonus_type		;$B9D60E   |
 	BEQ .normal_level			;$B9D612   |
 .bonus_or_sub_level:				;	   |
 	CLC					;$B9D614   |
@@ -1446,7 +1446,7 @@ CODE_B9D85C:					;	   |
 	RTS					;$B9D85C  /
 
 CODE_B9D85D:
-	LDA $0515				;$B9D85D  \
+	LDA main_level.type			;$B9D85D  \
 	CMP #!boss_level_type			;$B9D860   |
 	BNE CODE_B9D86A				;$B9D863   |
 	JSL set_level_end_fade_global		;$B9D865   |
@@ -1664,12 +1664,12 @@ CODE_B9D9FD:
 	NOP					;$B9D9FD  \
 	NOP					;$B9D9FE   |
 CODE_B9D9FF:					;	   |
-	LDA $0515				;$B9D9FF   |
+	LDA main_level.type			;$B9D9FF   |
 	CMP #!small_level_type			;$B9DA02   |
 	BEQ CODE_B9DA18				;$B9DA05   |
 	CMP #!bonus_level_type			;$B9DA07   |
 	BNE CODE_B9DA11				;$B9DA0A   |
-	LDA $052D				;$B9DA0C   |
+	LDA main_level.bonus_type		;$B9DA0C   |
 	BEQ CODE_B9DA18				;$B9DA0F   |
 CODE_B9DA11:					;	   |
 	LDA #$0001				;$B9DA11   |
@@ -4931,8 +4931,8 @@ play_dk_barrel_sound_if_one_kong:
 	RTS					;$B9EE53  /
 
 .one_kong:
-	LDX #$051B				;$B9EE54  \
-	LDY #$051B				;$B9EE57   |
+	LDX.w #sound(5, !sound_kong_dk_barrel)	;$B9EE54  \
+	LDY.w #sound(5, !sound_kong_dk_barrel)	;$B9EE57   |
 	JSL play_kong_dependant_sound_global	;$B9EE5A   |
 	RTS					;$B9EE5E  /
 

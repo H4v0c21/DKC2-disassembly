@@ -145,8 +145,8 @@ process_looping_sounds:
 	LDA.w #sound(4,!sound_barrel_roll)	;$B38120   | | Get the sound effect and channel for this loop sound
 	JSR .try_to_queue_looping_sound		;$B38123   | | Try to queue it
 	BCS .play_looping_sound			;$B38126   |/ If sound effect was queued then play it and stop processing other loop sounds
-	LDA $052B				;$B38128   |\
-	AND #$8000				;$B3812B   | |
+	LDA main_level.effects			;$B38128   |\
+	AND #!wind_sound_effect			;$B3812B   | |
 	BEQ .flotsam_level			;$B3812E   |/ If level has water then use flotsam instead of wind loop
 	LDA wind_loop_sound_enabler-1		;$B38130   |\ Get wind loop enable flag
 	CMP #$0100				;$B38133   | | Set carry if this loop sound is enabled
@@ -1294,7 +1294,7 @@ squitter_main:
 	BRL .sprite_done			;$B38AEB  /
 
 ;unused
-	LDA $0515				;$B38AEE  \ \ Get level type
+	LDA main_level.type			;$B38AEE  \ \ Get level type
 	CMP #!bonus_level_type			;$B38AF1   | |
 	BEQ .in_bonus_level			;$B38AF4   |/ If level is a bonus then ensure the kong only has one animal
 .no_animal:					;	   |
@@ -1393,7 +1393,7 @@ rattly_main:
 	BRA .sprite_done			;$B38B99  /
 
 .bonus_handler_state:
-	LDA $0515				;$B38B9B  \ \ Get level type
+	LDA main_level.type			;$B38B9B  \ \ Get level type
 	CMP #!bonus_level_type			;$B38B9E   | |
 	BEQ .in_bonus_level			;$B38BA1   |/ If level is a bonus then ensure the kong only has one animal
 .no_animal:					;	   |
@@ -1534,7 +1534,7 @@ squawks_main:
 	BRA .sprite_done			;$B38C90  /
 
 .bonus_handler_state:
-	LDA $0515				;$B38C92  \ \ Get level type
+	LDA main_level.type			;$B38C92  \ \ Get level type
 	CMP #!bonus_level_type			;$B38C95   | |
 	BEQ .in_bonus_level			;$B38C98   |/ If level is a bonus then ensure the kong only has one animal
 .no_animal:					;	   |
@@ -1799,7 +1799,7 @@ else						;	   |
 endif						;	  /
 
 .bonus_handler_state:
-	LDA $0515				;$B38E64  \ \ Get level type
+	LDA main_level.type			;$B38E64  \ \ Get level type
 	CMP #!bonus_level_type			;$B38E67   | |
 	BEQ .in_bonus_level			;$B38E6A   |/ If level is a bonus then ensure the kong only has one animal
 .no_animal:					;	   |
@@ -3751,7 +3751,7 @@ CODE_B39CB2:					;	   |
 CODE_B39CD0:					;	   |
 	JMP sprite_return_handle_despawn	;$B39CD0  /
 
-	LDA $0515				;$B39CD3   |
+	LDA main_level.type			;$B39CD3   |
 	CMP #!bonus_level_type			;$B39CD6   |
 	BNE CODE_B39CE7				;$B39CD9   |
 	LDX current_sprite			;$B39CDB   |
@@ -4224,8 +4224,8 @@ no_animal_buddy_sign_main:
 	LDA parent_level_number			;$B3A03E  \ Get parent level number
 	CMP #!level_toxic_tower			;$B3A041   |
 	BNE .dont_set_flag			;$B3A044   | If not toxic tower, skip setting flag
-	LDA #$0040				;$B3A046   |
-	TSB $052B				;$B3A049   | Else enable grabbing ropes
+	LDA #!climbable_ropes_effect		;$B3A046   |
+	TSB main_level.effects			;$B3A049   | Else enable grabbing ropes
 .dont_set_flag:					;	   |
 if !version == 1				;	   |
 	JSR .CODE_B3A0C7			;$B3A04C   | Dead code
@@ -5132,8 +5132,8 @@ defeat_sprite_using_animation:
 	STZ sprite.placement_number,x		;$B3A634   |> Clear sprites number in level
 	LDA #$000F				;$B3A636   |\ Set spawn parameter 0F (dead)
 	STA sprite.placement_parameter,x	;$B3A639   |/
-	LDA $052B				;$B3A63B   |\
-	AND #$0400				;$B3A63E   | |
+	LDA main_level.effects			;$B3A63B   |\
+	AND #!defeated_sprite_priority_effect	;$B3A63E   | |
 	BNE .no_priority			;$B3A641   |/
 	LDA sprite.oam_property,x		;$B3A643   |\
 	ORA #$3000				;$B3A645   | | Set highest layer priority
@@ -5150,8 +5150,8 @@ make_sprite_fall_off_screen:
 	STA sprite.constants_address,x		;$B3A657   |/ Use generic constants
 	JSL check_if_sprite_offscreen_global	;$B3A659   |\
 	BCC .done_processing			;$B3A65D   |/ If sprite is on screen then skip splashing
-	LDA $052B				;$B3A65F   |\
-	AND #$0008				;$B3A662   | |
+	LDA main_level.effects			;$B3A65F   |\
+	AND #!offscreen_water_splash_effect	;$B3A662   | |
 	BNE .handle_splashing			;$B3A665   |/ If sprite splash level effect is enabled then handle splashing
 	JSL delete_sprite_handle_deallocation	;$B3A667   |> Else despawn sprite
 .done_processing				;	   |
@@ -5226,8 +5226,8 @@ CODE_B3A6DC:
 	CPY #!music_swamp			;$B3A6F4   |
 	BEQ CODE_B3A734				;$B3A6F7   |
 	LDY #$004C				;$B3A6F9   |
-	LDA $0523				;$B3A6FC   |
-	CMP #$0003				;$B3A6FF   |
+	LDA main_level.tileset_type		;$B3A6FC   |
+	CMP #!ship_deck_layout_id		;$B3A6FF   |
 	BEQ CODE_B3A707				;$B3A702   |
 	LDY #!special_sprite_spawn_id_000C	;$B3A704   |
 CODE_B3A707:					;	   |
@@ -12969,7 +12969,7 @@ CODE_B3DF88:					;	   |
 	JMP CODE_B3D916				;$B3DF8A  /
 
 CODE_B3DF8D:
-	LDA $0515				;$B3DF8D  \
+	LDA main_level.type			;$B3DF8D  \
 	CMP #!small_level_type			;$B3DF90   |
 	BNE CODE_B3DF99				;$B3DF93   |
 	LDA animal_type				;$B3DF95   |
@@ -13389,8 +13389,8 @@ CODE_B3E287:
 	RTL					;$B3E28A  /
 
 CODE_B3E28B:
-	LDA $052B				;$B3E28B  \
-	AND #$0002				;$B3E28E   |
+	LDA main_level.effects			;$B3E28B  \
+	AND #!door_occlusion_effect		;$B3E28E   |
 	BEQ CODE_B3E2A6				;$B3E291   |
 	LDX active_kong_sprite			;$B3E293   |
 	JSR CODE_B3E2A7				;$B3E296   |

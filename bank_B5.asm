@@ -4936,8 +4936,8 @@ CODE_B5B9F1:
 	STA $17C0				;$B5BA1B   |
 	DEC A					;$B5BA1E   |
 	STA $17C2				;$B5BA1F   |
-	LDA $052B				;$B5BA22   |
-	AND #$0004				;$B5BA25   |
+	LDA main_level.effects			;$B5BA22   |
+	AND #!no_tilemap_effect			;$B5BA25   |
 	BNE CODE_B5BA83				;$B5BA28   |
 	LDA $0ADF				;$B5BA2A   |
 	SEC					;$B5BA2D   |
@@ -4985,8 +4985,8 @@ CODE_B5BA83:					;	   |
 	RTS					;$B5BA98  /
 
 CODE_B5BA99:
-	LDA $052B				;$B5BA99  \
-	AND #$0001				;$B5BA9C   |
+	LDA main_level.effects			;$B5BA99  \
+	AND #!unknown_camera_effect		;$B5BA9C   |
 	BEQ CODE_B5BAA9				;$B5BA9F   |
 	JSL CODE_80E522				;$B5BAA1   |
 	JSL CODE_B5A950				;$B5BAA5   |
@@ -5023,8 +5023,8 @@ CODE_B5BAD9:
 	RTS					;$B5BADD  /
 
 CODE_B5BADE:
-	LDA $052B				;$B5BADE  \
-	AND #$0001				;$B5BAE1   |
+	LDA main_level.effects			;$B5BADE  \
+	AND #!unknown_camera_effect		;$B5BAE1   |
 	BEQ CODE_B5BAEA				;$B5BAE4   |
 	JSL CODE_B5AA88				;$B5BAE6   |
 CODE_B5BAEA:					;	   |
@@ -9756,7 +9756,7 @@ CODE_B5E354:					;	   |
 	STZ $0AE8				;$B5E35D   |
 	STZ $0AEE				;$B5E360   |
 	STZ $0AF2				;$B5E363   |
-	LDA $054D				;$B5E366   |
+	LDA main_level.unknown_38		;$B5E366   |
 	STA $0AB6				;$B5E369   |
 	LDA $0AFC				;$B5E36C   |
 	SEC					;$B5E36F   |
@@ -9913,7 +9913,7 @@ CODE_B5E44B:					;	   |
 CODE_B5E4AA:
 	LDX active_kong_sprite			;$B5E4AA  \
 	LDY #$0000				;$B5E4AD   |
-	LDA $0550				;$B5E4B0   |
+	LDA main_level.entrance_direction	;$B5E4B0   |
 	BIT #$0030				;$B5E4B3   |
 	BEQ CODE_B5E4C3				;$B5E4B6   |
 	LDY #$0080				;$B5E4B8   |
@@ -9928,7 +9928,7 @@ CODE_B5E4C3:					;	   |
 	ADC $06,x				;$B5E4CB   |
 	STA $0D8A				;$B5E4CD   |
 	LDY #$0000				;$B5E4D0   |
-	LDA $0550				;$B5E4D3   |
+	LDA main_level.entrance_direction	;$B5E4D3   |
 	BIT #$00C0				;$B5E4D6   |
 	BEQ CODE_B5E4E6				;$B5E4D9   |
 	LDY #$0080				;$B5E4DB   |
@@ -9999,12 +9999,12 @@ endif						;	   |
 	%pea_shift_dbr($7E8D28)			;$B5E53C   |
 	PLB					;$B5E53F   |
 	PLB					;$B5E540   |
-	LDA $054F				;$B5E541   |
+	LDA main_level.camera_control		;$B5E541   |
 	AND #$000F				;$B5E544   |
 	ASL A					;$B5E547   |
 	TAX					;$B5E548   |
 	JSR (DATA_B5E5AE,x)			;$B5E549   |
-	LDA $054F				;$B5E54C   |
+	LDA main_level.camera_control		;$B5E54C   |
 	AND #$000F				;$B5E54F   |
 	ASL A					;$B5E552   |
 	TAX					;$B5E553   |

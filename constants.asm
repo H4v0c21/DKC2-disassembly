@@ -1947,28 +1947,6 @@
 !tileset_logic_001E		= $001E
 !tileset_logic_001F		= $001F
 
-!tileset_init_0000		= $0000
-!tileset_init_0001		= $0001
-!tileset_init_0002		= $0002
-!tileset_init_0003		= $0003
-!tileset_init_0004		= $0004
-!tileset_init_0005		= $0005
-!tileset_init_0006		= $0006
-!tileset_init_0007		= $0007
-!tileset_init_0008		= $0008
-!tileset_init_0009		= $0009
-!tileset_init_000A		= $000A
-!tileset_init_000B		= $000B
-!tileset_init_000C		= $000C
-!tileset_init_000D		= $000D
-!tileset_init_000E		= $000E
-!tileset_init_000F		= $000F
-!tileset_init_0010		= $0010
-!tileset_init_0011		= $0011
-!tileset_init_0012		= $0012
-!tileset_init_0013		= $0013
-!tileset_init_0014		= $0014
-
 !forest_layout_id		= $0000
 !ship_hold_layout_id		= $0001
 !wasp_hive_1_layout_id		= $0002

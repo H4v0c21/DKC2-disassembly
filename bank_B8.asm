@@ -324,7 +324,7 @@ if !version == 1				;	  \
 endif						;	   |
 	JSR set_kongs_visible_if_not_in_barrel	;$B8826F   |
 	JSL drop_sprite_or_follower_kong	;$B88272   |
-	LDA $0515				;$B88276   |
+	LDA main_level.type			;$B88276   |
 	CMP #!boss_level_type			;$B88279   |
 	BEQ CODE_B882D6				;$B8827C   |
 	JSR work_on_active_kong			;$B8827E   |
@@ -1054,8 +1054,8 @@ player_interaction_2A:
 	JSR drop_sprite_if_holding		;$B8886D   |
 	JSL CODE_B3E287				;$B88870   |
 	JSL set_current_level_as_cleared	;$B88874   |
-	LDA $051B				;$B88878   |
-	CMP #$001F				;$B8887B   |
+	LDA main_level.song			;$B88878   |
+	CMP #!music_k_rool			;$B8887B   |
 	BEQ CODE_B8889A				;$B8887E   |
 	LDA $0B02				;$B88880   |
 	AND #$0004				;$B88883   |
@@ -1595,7 +1595,7 @@ endif						;	   |
 	ADC #$00C0				;$B88CC6   |
 	STA $0A,x				;$B88CC9   |
 CODE_B88CCB:					;	   |
-	LDA $0515				;$B88CCB   |
+	LDA main_level.type			;$B88CCB   |
 	CMP #!bonus_level_type			;$B88CCE   |
 	BEQ CODE_B88C89				;$B88CD1   |
 	STZ $0AEE				;$B88CD3   |
@@ -1640,7 +1640,7 @@ CODE_B88D1E:					;	   |
 	AND #$4000				;$B88D2D   |
 	EOR $12,x				;$B88D30   |
 	STA $12,x				;$B88D32   |
-	LDA $0515				;$B88D34   |
+	LDA main_level.type			;$B88D34   |
 	CMP #!bonus_level_type			;$B88D37   |
 	LDA game_state_flags			;$B88D3A   |
 	AND #$4000				;$B88D3D   |
@@ -3111,7 +3111,7 @@ CODE_B8997E:
 get_x_acceleration:
 	LDA animal_type				;$B89987  \ \ check if player has animal
 	BNE .has_animal				;$B89989   |/
-	LDA $052B				;$B8998B   |\ check if level is slippery
+	LDA main_level.effects			;$B8998B   |\ check if level is slippery
 	AND #$3000				;$B8998E   |/
 	BNE .slippery_level			;$B89991   |
 .jumped_from_ground				;	   |
@@ -3122,7 +3122,7 @@ get_x_acceleration:
 	CMP #!sprite_squawks			;$B89997  \
 	BEQ .squawks				;$B8999A   |
 	TAY					;$B8999C   |
-	LDA $052B				;$B8999D   |
+	LDA main_level.effects			;$B8999D   |
 	AND #$3000				;$B899A0   |
 	BNE .slippery_level			;$B899A3   |
 	TYA					;$B899A5   |
@@ -6748,7 +6748,7 @@ CODE_B8B586:
 	LSR A					;$B8B594   |
 	BCS CODE_B8B5A6				;$B8B595   |
 CODE_B8B597:					;	   |
-	LDA $0515				;$B8B597   |
+	LDA main_level.type			;$B8B597   |
 	CMP #!bonus_level_type			;$B8B59A   |
 	BEQ CODE_B8B5A7				;$B8B59D   |
 	LDA #!player_interaction_29		;$B8B59F   |
@@ -6775,8 +6775,8 @@ CODE_B8B5B7:
 CODE_B8B5C3:
 	JSR CODE_B8B644				;$B8B5C3  \
 	BCS CODE_B8B5E3				;$B8B5C6   |
-	LDA $052B				;$B8B5C8   |\
-	AND #$0800				;$B8B5CB   | | check if sticky honey is enabled
+	LDA main_level.effects			;$B8B5C8   |\
+	AND #!sticky_honey_effect		;$B8B5CB   | | check if sticky honey is enabled
 	BEQ CODE_B8B5DA				;$B8B5CE   |/
 	JSR CODE_B8B671				;$B8B5D0   |
 	BCS CODE_B8B609				;$B8B5D3   |
@@ -6818,8 +6818,8 @@ CODE_B8B60F:
 	JMP set_player_interaction		;$B8B612  /
 
 CODE_B8B615:
-	LDA $052B				;$B8B615  \
-	AND #$0020				;$B8B618   |
+	LDA main_level.effects			;$B8B615  \
+	AND #!hazardous_water_effect		;$B8B618   |
 	BEQ CODE_B8B62B				;$B8B61B   |
 	LDX current_sprite			;$B8B61D   |
 	LDA $30,x				;$B8B61F   |
@@ -6975,7 +6975,7 @@ set_swimming_state:
 	RTS					;$B8B713  /
 
 CODE_B8B714:
-	LDA $052B				;$B8B714  \
+	LDA main_level.effects			;$B8B714  \
 	AND #$00C0				;$B8B717   |
 	BEQ CODE_B8B729				;$B8B71A   |
 	JSR check_if_animal_or_holding_sprite	;$B8B71C   |
@@ -11160,7 +11160,7 @@ CODE_B8D246:
 	RTL					;$B8D249  /
 
 handle_slope_sliding_velocity:
-	LDA $052B				;$B8D24A  \
+	LDA main_level.effects			;$B8D24A  \
 	AND #$3000				;$B8D24D   |
 	CMP #$3000				;$B8D250   |
 	BNE CODE_B8D25A				;$B8D253   |
@@ -12019,8 +12019,8 @@ CODE_B8D830:
 	CPX active_kong_sprite			;$B8D885   |
 	BNE CODE_B8D8B9				;$B8D888   |
 CODE_B8D88A:					;	   |
-	LDA $052B				;$B8D88A   |
-	AND #$0100				;$B8D88D   |
+	LDA main_level.effects			;$B8D88A   |
+	AND #!platform_sprite_edge_guard_effect	;$B8D88D   |
 	BEQ CODE_B8D8B9				;$B8D890   |
 	LDA $0A28				;$B8D892   |
 	DEC A					;$B8D895   |

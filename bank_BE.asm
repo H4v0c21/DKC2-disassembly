@@ -215,7 +215,7 @@ coins_sprite_code:
 
 .spawn_in_bonus:
 if !version == 1				;	  \
-	LDA $052D				;$BEB992   |
+	LDA main_level.bonus_type		;$BEB992   |
 	AND #$00FF				;$BEB995   |
 	CMP #!find_the_token_bonus_type		;$BEB998   |
 	BNE .no_sound_effect			;$BEB99B   |
@@ -1768,7 +1768,7 @@ CODE_BEC4B7:
 	BRL CODE_BEBEA3				;$BEC4B7  /
 
 CODE_BEC4BA:
-	LDA $0515				;$BEC4BA  \
+	LDA main_level.type			;$BEC4BA  \
 	CMP #!bonus_level_type			;$BEC4BD   |
 	BEQ CODE_BEC4C8				;$BEC4C0   |
 	TYA					;$BEC4C2   |
@@ -2451,7 +2451,7 @@ DATA_BEC9B0:
 CODE_BEC9C0:
 	LDA $0915				;$BEC9C0  \
 	BEQ CODE_BEC9CD				;$BEC9C3   |
-	LDA $0529				;$BEC9C5   |
+	LDA main_level.logic_number		;$BEC9C5   |
 	CMP #$0019				;$BEC9C8   |
 	BEQ CODE_BEC9D0				;$BEC9CB   |
 CODE_BEC9CD:					;	   |
