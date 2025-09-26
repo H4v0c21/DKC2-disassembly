@@ -425,8 +425,8 @@ CODE_80860C:					;	   |
 CODE_808616:
 	LDA #$0100				;$808616  \
 	CLC					;$808619   |
-	ADC $0985				;$80861A   |
-	STA $0985				;$80861D   |
+	ADC RAM_0985				;$80861A   |
+	STA RAM_0985				;$80861D   |
 	SEP #$20				;$808620   |
 	LDA screen_brightness			;$808622   |
 	STA PPU.screen				;$808625   |
@@ -463,27 +463,27 @@ CODE_808636:
 	BRA -					;$808653  /
 
 ;Dead code
-	LDA player_1_pressed			;$808655   |
+	LDA player_2_held			;$808655   |
 	AND #$0020				;$808658   |
 	BNE CODE_808672				;$80865B   |
-	LDA $0987				;$80865D   |
+	LDA RAM_0987				;$80865D   |
 	CLC					;$808660   |
 	ADC #$0010				;$808661   |
 	CMP #$0800				;$808664   |
 	BMI CODE_80866C				;$808667   |
 	LDA #$0800				;$808669   |
 CODE_80866C:					;	   |
-	STA $0987				;$80866C   |
+	STA RAM_0987				;$80866C   |
 	JMP CODE_80860C				;$80866F  /
 
 CODE_808672:
-	LDA $0987				;$808672  \
+	LDA RAM_0987				;$808672  \
 	SEC					;$808675   |
 	SBC #$0010				;$808676   |
 	BPL CODE_80867E				;$808679   |
 	LDA #$0000				;$80867B   |
 CODE_80867E:					;	   |
-	STA $0987				;$80867E   |
+	STA RAM_0987				;$80867E   |
 	JMP CODE_80860C				;$808681  /
 
 
@@ -540,7 +540,7 @@ CODE_8086F6:
 	PHK					;$8086FA   |
 	PLB					;$8086FB   |
 	LDA #$8000				;$8086FC   |
-	TSB $08C4				;$8086FF   |
+	TSB game_state_flags_2			;$8086FF   |
 	LDA #$0001				;$808702   |
 	STA $05FB				;$808705   |
 	JSR CODE_808712				;$808708   |
@@ -555,24 +555,24 @@ CODE_808712:
 	STZ $05FD				;$80871C   |
 	STZ $05FF				;$80871F   |
 	LDA #$0040				;$808722   |
-	TRB $08C2				;$808725   |
+	TRB game_state_flags			;$808725   |
 	STZ player_1_held			;$808728   |
-	STZ player_1_released			;$80872B   |
-	STZ player_2_pressed			;$80872E   |
+	STZ player_1_pressed			;$80872B   |
+	STZ player_1_released			;$80872E   |
 	LDA $05FB				;$808731   |
 	CMP #$0002				;$808734   |
 	BNE CODE_80875E				;$808737   |
 	LDA #!level_mainbrace_mayhem		;$808739   |
 	STA level_number			;$80873C   |
-	STA $08C8				;$80873E   |
+	STA temp_level_number			;$80873E   |
 	LDA #$0001				;$808741   |
-	STA $08A6				;$808744   |
+	STA level_entrance_number		;$808744   |
 	LDX $05FD				;$808747   |
 	LDA level_number			;$80874A   |
 	STA DATA_FE9388,x			;$80874C   |
 	INX					;$808750   |
 	INX					;$808751   |
-	LDA $08A6				;$808752   |
+	LDA level_entrance_number		;$808752   |
 	STA DATA_FE9388,x			;$808755   |
 	INX					;$808759   |
 	INX					;$80875A   |
@@ -607,11 +607,11 @@ CODE_80876E:
 	INY					;$80879B   |
 	LDA [$36],y				;$80879C   |
 	STA level_number			;$80879E   |
-	STA $08C8				;$8087A0   |
+	STA temp_level_number			;$8087A0   |
 	INY					;$8087A3   |
 	INY					;$8087A4   |
 	LDA [$36],y				;$8087A5   |
-	STA $08A6				;$8087A7   |
+	STA level_entrance_number		;$8087A7   |
 	INY					;$8087AA   |
 	INY					;$8087AB   |
 	STY $05FD				;$8087AC   |
@@ -704,7 +704,7 @@ set_active_kong:
 	STZ active_kong_number			;$808849   |
 	LDA active_kong_number			;$80884C   |
 	INC A					;$80884F   |
-	STA $08A2				;$808850   |
+	STA active_controller_number		;$808850   |
 	LDA #dixie_sprite_slot			;$808853   |
 	STA inactive_kong_sprite		;$808856   |
 	LDA #dixie_control_variables		;$808859   |
@@ -720,7 +720,7 @@ set_active_kong:
 	LDA #$0001				;$80886F   |
 	STA active_kong_number			;$808872   |
 	INC A					;$808875   |
-	STA $08A2				;$808876   |
+	STA active_controller_number		;$808876   |
 	LDA #main_sprite_table			;$808879   |
 	STA inactive_kong_sprite		;$80887C   |
 	LDA #diddy_control_variables		;$80887F   |
@@ -820,8 +820,8 @@ clear_wram_tables:
 	dw time_stop_timer, $0002
 	dw sprite_vram_allocation_table, $0020
 	dw palette_upload_ring_buffer, $0040
-	dw $00EF, $0002
-	dw $00F1, $0002
+	dw previous_palette_buffer_slot, $0002
+	dw current_palette_buffer_slot, $0002
 	dw active_sprite_palettes_table, $0010
 	dw sprite_palette_reference_count, $0010
 	dw $0A42, $0040
@@ -833,7 +833,7 @@ clear_wram_tables:
 	dw $095B, $0008
 	dw $0963, $0008
 	dw water_current_y_velocity, $0002
-	dw $0989, $0002
+	dw glimmer_sprite, $0002
 	dw $091B, $0002
 	dw $0919, $0002
 	dw $0B02, $0002
@@ -902,29 +902,29 @@ input_and_pause_handler_global:
 	TAX					;$8089CC   |
 	EOR player_1_held			;$8089CD   |
 	AND CPU.port_0_data_1			;$8089D0   |
-	STA player_1_released			;$8089D3   |
+	STA player_1_pressed			;$8089D3   |
 	TXA					;$8089D6   |
 	EOR player_1_held			;$8089D7   |
 	AND player_1_held			;$8089DA   |
-	STA player_2_pressed			;$8089DD   |
+	STA player_1_released			;$8089DD   |
 	STX player_1_held			;$8089E0   |
 	LDA CPU.port_1_data_1			;$8089E3   |
 	TAX					;$8089E6   |
-	EOR player_1_pressed			;$8089E7   |
+	EOR player_2_held			;$8089E7   |
 	AND CPU.port_1_data_1			;$8089EA   |
-	STA player_2_held			;$8089ED   |
+	STA player_2_pressed			;$8089ED   |
 	TXA					;$8089F0   |
-	EOR player_1_pressed			;$8089F1   |
-	AND player_1_pressed			;$8089F4   |
+	EOR player_2_held			;$8089F1   |
+	AND player_2_held			;$8089F4   |
 	STA player_2_released			;$8089F7   |
-	STX player_1_pressed			;$8089FA   |
+	STX player_2_held			;$8089FA   |
 	JSR CODE_808BB0				;$8089FD   |
 .CODE_808A00:					;	   |
 	LDA current_game_mode			;$808A00   |
 	BNE .CODE_808A26			;$808A03   |
 	LDA player_1_held			;$808A05   |
 	STA player_active_held			;$808A08   |
-	LDA player_1_released			;$808A0B   |
+	LDA player_1_pressed			;$808A0B   |
 	STA player_active_pressed		;$808A0E   |
 	BRA .handle_inverted_controls		;$808A11  /
 
@@ -941,12 +941,12 @@ input_and_pause_handler_global:
 .CODE_808A26:
 	DEC A					;$808A26  \
 	BNE .CODE_808A13			;$808A27   |
-	LDA $08A2				;$808A29   |
+	LDA active_controller_number		;$808A29   |
 	AND #$0002				;$808A2C   |
 	TAX					;$808A2F   |
-	LDA $0502,x				;$808A30   |
+	LDA player_1_held,x			;$808A30   |> Get player 1 or 2 inputs depending on which kong
 	STA player_active_held			;$808A33   |
-	LDA $0506,x				;$808A36   |
+	LDA player_1_pressed,x			;$808A36   |> Get player 1 or 2 inputs depending on which kong
 	STA player_active_pressed		;$808A39   |
 .handle_inverted_controls:			;	   |
 	LDA $0B02				;$808A3C   |\
@@ -973,22 +973,22 @@ input_and_pause_handler_global:
 	EOR player_active_pressed		;$808A70   |
 	STA player_active_pressed		;$808A73   |
 .handle_paused:					;	   |
-	LDA $08C2				;$808A76   |
+	LDA game_state_flags			;$808A76   |
 	AND #$0040				;$808A79   |
 	BNE .CODE_808AB4			;$808A7C   |
 if !version == 1				;	   |
 	LDA #$0010				;$808A7E   |
-	TRB $08C4				;$808A81   |
+	TRB game_state_flags_2			;$808A81   |
 	BNE .paused				;$808A84   |
 endif						;	   |
-	LDA $08C2				;$808A86   |
+	LDA game_state_flags			;$808A86   |
 	AND #$0040				;$808A89   |
 	RTS					;$808A8C  /
 
 .paused:
 if !version == 1
 	LDA #$0040				;$808A8D  \
-	TSB $08C2				;$808A90   |
+	TSB game_state_flags			;$808A90   |
 	%lda_sound(7, pause)			;$808A93   |
 	JSL play_high_priority_sound		;$808A96   |
 	%lda_sound(6, pause)			;$808A9A   |
@@ -998,7 +998,7 @@ if !version == 1
 	%lda_sound(4, pause)			;$808AA8   |
 	JSL play_high_priority_sound		;$808AAB   |
 	LDA active_frame_counter		;$808AAF   |
-	STA $0636				;$808AB1   |
+	STA last_spc_command_transfer_time	;$808AB1   |
 endif						;	   |
 .CODE_808AB4:					;	   |
 	LDA player_active_pressed		;$808AB4   |\ Get the players current buttons
@@ -1018,7 +1018,7 @@ endif						;	   |
 	JSL is_level_cleared			;$808AD6   |/ Check if the level was completed
 	BCC .handle_debug_exit_cheat		;$808ADA   |> If not then see if the debug exit cheat was attempted
 	LDA #$0040				;$808ADC   |\
-	TRB $08C2				;$808ADF   | | Reset the paused flag
+	TRB game_state_flags			;$808ADF   | | Reset the paused flag
 	JML CODE_BBBDC4				;$808AE2  / / Then exit the level
 
 .handle_debug_exit_cheat
@@ -1039,7 +1039,7 @@ endif						;	   |
 	TRB $0621				;$808B0C   |
 	STZ $19B0				;$808B0F   |
 	LDA #$0040				;$808B12   |
-	TRB $08C2				;$808B15   |
+	TRB game_state_flags			;$808B15   |
 	RTS					;$808B18  /
 
 .check_for_debug_cheat
@@ -1077,7 +1077,7 @@ endif						;	   |
 	DEC A					;$808B62   | | -1 from counter
 	BNE .waste_cpu_time			;$808B63   |/ loop back and repeat until we've done this loop 65536 times
 	LDA #$0040				;$808B65   |\
-	TRB $08C2				;$808B68   |/ Unpause the game
+	TRB game_state_flags			;$808B68   |/ Unpause the game
 	JML CODE_BBBDC4				;$808B6B  /> And exit the level
 
 .stall_for_time
@@ -1136,7 +1136,7 @@ CODE_808BBF:					;	   |
 	BNE CODE_808BBF				;$808BC3   |
 	REP #$20				;$808BC5   |
 	STZ player_1_held			;$808BC7   |
-	STZ player_1_released			;$808BCA   |
+	STZ player_1_pressed			;$808BCA   |
 	BRA CODE_808BE1				;$808BCD  /
 
 CODE_808BCF:
@@ -1146,9 +1146,9 @@ CODE_808BCF:
 	BIT #$0001				;$808BD6   |
 	BNE CODE_808BE1				;$808BD9   |
 	STZ player_1_held			;$808BDB   |
-	STZ player_1_released			;$808BDE   |
+	STZ player_1_pressed			;$808BDE   |
 CODE_808BE1:					;	   |
-	LDA player_1_pressed			;$808BE1   |
+	LDA player_2_held			;$808BE1   |
 	AND #$0007				;$808BE4   |
 	BEQ CODE_808BFE				;$808BE7   |
 	SEP #$20				;$808BE9   |
@@ -1158,8 +1158,8 @@ CODE_808BEE:					;	   |
 	DEY					;$808BF1   |
 	BNE CODE_808BEE				;$808BF2   |
 	REP #$20				;$808BF4   |
-	STZ player_1_pressed			;$808BF6   |
-	STZ player_2_held			;$808BF9   |
+	STZ player_2_held			;$808BF6   |
+	STZ player_2_pressed			;$808BF9   |
 	BRA CODE_808C10				;$808BFC  /
 
 CODE_808BFE:
@@ -1168,8 +1168,8 @@ CODE_808BFE:
 	REP #$20				;$808C03   |
 	BIT #$0001				;$808C05   |
 	BNE CODE_808C12				;$808C08   |
-	STZ player_1_pressed			;$808C0A   |
-	STZ player_2_held			;$808C0D   |
+	STZ player_2_held			;$808C0A   |
+	STZ player_2_pressed			;$808C0D   |
 CODE_808C10:					;	   |
 	INC $32					;$808C10   |
 CODE_808C12:					;	   |
@@ -1179,7 +1179,7 @@ throw_exception:				;
 	RTL					;$808C13  /
 
 	PHA					;$808C14   |
-	LDA.l $0005F3				;$808C15   |
+	LDA.l exception_number			;$808C15   |
 	BEQ CODE_808C21				;$808C19   |
 	PLA					;$808C1B   |
 	JSL CODE_808C22				;$808C1C   |
@@ -1188,9 +1188,9 @@ throw_exception:				;
 CODE_808C21:
 	PLA					;$808C21  \
 CODE_808C22:					;	   |
-	STA $0005F3				;$808C22   |
+	STA.l exception_number			;$808C22   |
 	LDA #$00B4				;$808C26   |
-	STA $0005F5				;$808C29   |
+	STA.l exception_unknown			;$808C29   |
 	RTL					;$808C2D  /
 
 set_fade_global:
@@ -1391,9 +1391,9 @@ CODE_808D7D:
 
 setup_npc_screen_kongs:
 	LDA #$8000				;$808D8A  \
-	ORA $08C2				;$808D8D   | set bit 12 (unclear yet, related to cutscenes)
-	STA $08C2				;$808D90   |
-	LDA $08A4				;$808D93   | get kong in front
+	ORA game_state_flags			;$808D8D   | set bit 12 (unclear yet, related to cutscenes)
+	STA game_state_flags			;$808D90   |
+	LDA active_kong_number			;$808D93   | get kong in front
 	JSL set_active_kong_global		;$808D96   | set kong
 	LDA #$0020				;$808D9A   |
 	ORA $30,x				;$808D9D   |
@@ -1423,7 +1423,7 @@ setup_npc_screen_kongs:
 	LDA #$00D8				;$808DE1   |
 	STA $02,x				;$808DE4   | set render order
 	JSR CODE_808DFB				;$808DE6   | call dead code
-	LDA $08C2				;$808DE9   |
+	LDA game_state_flags			;$808DE9   |
 	BIT #$4000				;$808DEC   | check if player has both kongs
 	BNE .return				;$808DEF   | if yes, return
 	LDY inactive_kong_sprite		;$808DF1   | else get inactive kong
@@ -1444,8 +1444,8 @@ CODE_808DFB:
 	RTS					;$808E07  /
 
 	LDA #$8000				;$808E08   |
-	ORA $08C2				;$808E0B   |
-	STA $08C2				;$808E0E   |
+	ORA game_state_flags			;$808E0B   |
+	STA game_state_flags			;$808E0E   |
 	LDA #$0000				;$808E11   |
 	JSL set_active_kong_global		;$808E14   |
 	JSR spawn_npc_screen_diddy		;$808E18   |
@@ -1612,22 +1612,22 @@ CODE_808F68:
 CODE_808F6C:
 	LDA #!level_pirate_panic		;$808F6C  \
 	STA level_number			;$808F6F   |
-	STA $05BD				;$808F71   |
+	STA pirate_panic_level_number_unused	;$808F71   |
 	LDA #!level_pirate_panic		;$808F74   |
 	STA parent_level_number			;$808F77   |
 	LDA #$FFFC				;$808F7A   |
 	STA $0BA4				;$808F7D   |
-	STZ $08C6				;$808F80   |
-	STZ $08C2				;$808F83   |
+	STZ exiting_sub_level_flag		;$808F80   |
+	STZ game_state_flags			;$808F83   |
 	STZ gameplay_frame_counter		;$808F86   |
 	STZ gameplay_frame_counter_high		;$808F88   |
 	STZ current_player_mount		;$808F8A   |
 	STZ animal_type				;$808F8C   |
-	STZ $08A6				;$808F8E   |
-	STZ $08AA				;$808F91   |
-	STZ $08AC				;$808F94   |
-	STZ $08AE				;$808F97   |
-	STZ $08BC				;$808F9A   |
+	STZ level_entrance_number		;$808F8E   |
+	STZ checkpoint_level_entrance_number	;$808F91   |
+	STZ checkpoint_level_number		;$808F94   |
+	STZ checkpoint_animal_type		;$808F97   |
+	STZ banana_count			;$808F9A   |
 	STZ $096B				;$808F9D   |
 	LDX #$0004				;$808FA0   |
 	LDA cheat_enable_flags			;$808FA3   |
@@ -1635,13 +1635,13 @@ CODE_808F6C:
 	BEQ CODE_808FAE				;$808FA9   |
 	LDX #$0032				;$808FAB   |
 CODE_808FAE:					;	   |
-	STX $08BE				;$808FAE   |
-	STX $08C0				;$808FB1   |
+	STX life_count				;$808FAE   |
+	STX life_count_display			;$808FB1   |
 	LDA #$0080				;$808FB4   |
 	STA screen_brightness			;$808FB7   |
 	LDA #$002C				;$808FBA   |
 	STA $78					;$808FBD   |
-	LDA $08A4				;$808FBF   |
+	LDA active_kong_number			;$808FBF   |
 	JSL set_active_kong_global		;$808FC2   |
 	JSL CODE_B48000				;$808FC6   | Initialize world map
 if !version == 1				;	   |
@@ -1701,22 +1701,22 @@ CODE_809025:
 	PLB					;$809026   |
 	LDA player_1_held			;$809027   |
 	PHA					;$80902A   |
-	LDA player_1_released			;$80902B   |
+	LDA player_1_pressed			;$80902B   |
 	PHA					;$80902E   |
 	LDA CPU.port_0_data_1			;$80902F   |
 	TAX					;$809032   |
 	EOR player_1_held			;$809033   |
 	AND CPU.port_0_data_1			;$809036   |
-	STA player_1_released			;$809039   |
+	STA player_1_pressed			;$809039   |
 	TXA					;$80903C   |
 	EOR player_1_held			;$80903D   |
 	AND player_1_held			;$809040   |
-	STA player_2_pressed			;$809043   |
+	STA player_1_released			;$809043   |
 	STX player_1_held			;$809046   |
 	LDA player_1_held			;$809049   |
 	TAX					;$80904C   |
 	PLA					;$80904D   |
-	STA player_1_released			;$80904E   |
+	STA player_1_pressed			;$80904E   |
 	PLA					;$809051   |
 	STA player_1_held			;$809052   |
 	TXA					;$809055   |
@@ -1754,7 +1754,7 @@ CODE_809088:					;	   |
 	TAX					;$809091   |
 	EOR player_1_held			;$809092   |
 	AND $32					;$809095   |
-	STA player_1_released			;$809097   |
+	STA player_1_pressed			;$809097   |
 	TXA					;$80909A   |
 	STA player_1_held			;$80909B   |
 	PLB					;$80909E   |
@@ -1771,7 +1771,7 @@ CODE_8090AA:
 
 CODE_8090B1:
 	LDA #$8000				;$8090B1  \
-	TRB $08C4				;$8090B4   |
+	TRB game_state_flags_2			;$8090B4   |
 	STZ $05FB				;$8090B7   |
 	RTS					;$8090BA  /
 
@@ -1786,7 +1786,7 @@ reset_controller_state:
 	STZ active_controller			;$8090CD  \
 	STZ current_game_mode			;$8090D0   |
 	LDA #$0001				;$8090D3   |
-	STA $08A2				;$8090D6   |
+	STA active_controller_number		;$8090D6   |
 	RTS					;$8090D9  /
 
 init_rareware_logo:
@@ -2535,7 +2535,7 @@ CODE_80978E:					;	   |
 	LDA screen_brightness			;$809793   |\ If the brightness isn't at the max, don't check the player
 	CMP #$000F				;$809796   | | input, this prevents the bypass mid-transition
 	BNE .skip_bypass_check			;$809799   |/
-	LDA.l player_1_released			;$80979B   |\ Enter the fade out routine if B, Y, Start,  A, or X,
+	LDA.l player_1_pressed			;$80979B   |\ Enter the fade out routine if B, Y, Start,  A, or X,
 	BIT #!input_ABXY_start 			;$80979F   | | was released
 	BNE .fade_init				;$8097A2   |/
 .skip_bypass_check				;	   |
@@ -2717,7 +2717,7 @@ CODE_8097EB:					;	   |
 	LDY #$0080				;$809992   |
 	LDX #$0004				;$809995   |
 	LDA #$00AA				;$809998   |
-	JSL DMA_global_palette			;$80999B   |
+	JSL DMA_sprite_palette_from_index	;$80999B   |
 	STZ $84					;$80999F   |
 	LDA #$0300				;$8099A1   |
 	JSR set_fade				;$8099A4   |
@@ -2766,7 +2766,7 @@ run_game_mode_select:
 	JMP CODE_809ADC				;$809A10  /
 
 CODE_809A13:
-	LDA player_1_released			;$809A13  \
+	LDA player_1_pressed			;$809A13  \
 	BIT #$0800				;$809A16   |
 	BEQ CODE_809A53				;$809A19   |
 	LDA $060D				;$809A1B   |
@@ -2792,7 +2792,7 @@ CODE_809A49:
 	JSL play_high_priority_sound		;$809A4C   |
 	DEC $060D				;$809A50   |
 CODE_809A53:					;	   |
-	LDA player_1_released			;$809A53   |
+	LDA player_1_pressed			;$809A53   |
 	BIT #$0400				;$809A56   |
 	BEQ CODE_809A6F				;$809A59   |
 	LDA $060D				;$809A5B   |
@@ -2808,7 +2808,7 @@ CODE_809A6F:
 	LDA $38					;$809A71   |
 	CMP #$0020				;$809A73   |
 	BEQ CODE_809A80				;$809A76   |
-	LDA player_1_released			;$809A78   |
+	LDA player_1_pressed			;$809A78   |
 	BIT #$FBFF				;$809A7B   |
 	BEQ CODE_809A84				;$809A7E   |
 CODE_809A80:					;	   |
@@ -2818,7 +2818,7 @@ CODE_809A84:					;	   |
 	LDA $060D				;$809A84   |
 	CMP #$0002				;$809A87   |
 	BCC CODE_809ADC				;$809A8A   |
-	LDA player_1_released			;$809A8C   |
+	LDA player_1_pressed			;$809A8C   |
 	BIT #$0400				;$809A8F   |
 	BEQ CODE_809ADC				;$809A92   |
 	INC $36					;$809A94   |
@@ -2935,7 +2935,7 @@ CODE_809B82:					;	   |
 	BIT #$0001				;$809B8D   |
 	BNE CODE_809BC2				;$809B90   |
 	LDX $3A					;$809B92   |
-	LDA player_1_released			;$809B94   |
+	LDA player_1_pressed			;$809B94   |
 	BEQ CODE_809BC2				;$809B97   |
 	AND.l barralax_cheat_inputs,x		;$809B99   |
 	BEQ CODE_809BC0				;$809B9D   |
@@ -2963,7 +2963,7 @@ CODE_809BC2:					;	   |
 	BIT #$0002				;$809BCD   |
 	BNE CODE_809C02				;$809BD0   |
 	LDX $3C					;$809BD2   |
-	LDA player_1_released			;$809BD4   |
+	LDA player_1_pressed			;$809BD4   |
 	BEQ CODE_809C02				;$809BD7   |
 	AND.l yasadlad_cheat_inputs,x		;$809BD9   |
 	BEQ CODE_809C00				;$809BDD   |
@@ -2992,7 +2992,7 @@ CODE_809C02:					;	   |
 	TAX					;$809C0B   |
 	LDA #$0120				;$809C0C   |
 	STA $7E8012,x				;$809C0F   |
-	LDA player_1_released			;$809C13   |
+	LDA player_1_pressed			;$809C13   |
 	BIT #!input_ABXY_start 			;$809C16   |
 	BEQ CODE_809C38				;$809C19   |
 	LDA $060D				;$809C1B   |
@@ -3011,7 +3011,7 @@ CODE_809C38:					;	   |
 	CMP #$0003				;$809C3F   |
 	BNE CODE_809C8A				;$809C42   |
 	JSR CODE_809DE2				;$809C44   |
-	LDA player_1_released			;$809C47   |
+	LDA player_1_pressed			;$809C47   |
 	BIT #$0200				;$809C4A   |
 	BNE CODE_809C64				;$809C4D   |
 	BIT #$D1C0				;$809C4F   |
@@ -5217,7 +5217,7 @@ CODE_80B00D:					;	   |
 	BNE CODE_80B00D				;$80B011   |
 	REP #$20				;$80B013   |
 	STZ player_1_held			;$80B015   |
-	STZ player_1_released			;$80B018   |
+	STZ player_1_pressed			;$80B018   |
 	BRA CODE_80B02F				;$80B01B  /
 
 CODE_80B01D:
@@ -5227,9 +5227,9 @@ CODE_80B01D:
 	BIT #$0001				;$80B024   |
 	BNE CODE_80B02F				;$80B027   |
 	STZ player_1_held			;$80B029   |
-	STZ player_1_released			;$80B02C   |
+	STZ player_1_pressed			;$80B02C   |
 CODE_80B02F:					;	   |
-	LDA player_1_pressed			;$80B02F   |
+	LDA player_2_held			;$80B02F   |
 	AND #$0007				;$80B032   |
 	BEQ CODE_80B04C				;$80B035   |
 	SEP #$20				;$80B037   |
@@ -5239,8 +5239,8 @@ CODE_80B03C:					;	   |
 	DEY					;$80B03F   |
 	BNE CODE_80B03C				;$80B040   |
 	REP #$20				;$80B042   |
-	STZ player_1_pressed			;$80B044   |
-	STZ player_2_held			;$80B047   |
+	STZ player_2_held			;$80B044   |
+	STZ player_2_pressed			;$80B047   |
 	BRA CODE_80B05E				;$80B04A  /
 
 CODE_80B04C:
@@ -5249,8 +5249,8 @@ CODE_80B04C:
 	REP #$20				;$80B051   |
 	BIT #$0001				;$80B053   |
 	BNE CODE_80B060				;$80B056   |
-	STZ player_1_pressed			;$80B058   |
-	STZ player_2_held			;$80B05B   |
+	STZ player_2_held			;$80B058   |
+	STZ player_2_pressed			;$80B05B   |
 CODE_80B05E:					;	   |
 	INC $4C					;$80B05E   |
 CODE_80B060:					;	   |
@@ -5266,15 +5266,15 @@ intro_controller_read:
 	LDA CPU.port_0_data_1			;$80B06C   |\ Calculate new buttons pressed (first controller)
 	EOR player_1_held			;$80B06F   | |
 	AND CPU.port_0_data_1			;$80B072   | |
-	STA player_1_released			;$80B075   |/
+	STA player_1_pressed			;$80B075   |/
 	LDA CPU.port_0_data_1			;$80B078   |\ Save new button presses (first controller)
 	STA player_1_held			;$80B07B   |/
 	LDA CPU.port_1_data_1			;$80B07E   |\ Calculate new buttons pressed (second controller)
-	EOR player_1_pressed			;$80B081   | |
+	EOR player_2_held			;$80B081   | |
 	AND CPU.port_1_data_1			;$80B084   | |
-	STA player_2_held			;$80B087   |/
+	STA player_2_pressed			;$80B087   |/
 	LDA CPU.port_1_data_1			;$80B08A   |\ Save new button presses (second controller)
-	STA player_1_pressed			;$80B08D   |/
+	STA player_2_held			;$80B08D   |/
 	JSR CODE_80AFFE				;$80B090   |
 	LDA $060D				;$80B093   |\ Check if we are in competitive mode
 	CMP #$0002				;$80B096   | |
@@ -5292,7 +5292,7 @@ intro_controller_read:
 .check_if_cooperative				;	  \
 	CMP #$0001				;$80B0B1   |\ Check if we are in cooperative mode
 	BNE .handle_single_player		;$80B0B4   |/
-	LDA $08A2				;$80B0B6   |\ Load currently active controller
+	LDA active_controller_number		;$80B0B6   |\ Load currently active controller
 	AND #$0002				;$80B0B9   | |
 	TAX					;$80B0BC   |/
 	LDA $0502,x				;$80B0BD   |\ Copy current player controller data to active controller
@@ -5305,18 +5305,18 @@ intro_controller_read:
 .handle_single_player				;	  \
 	LDA player_1_held			;$80B0CE   |\ Copy controller controller 1 data to active controller
 	STA player_active_held			;$80B0D1   | |
-	LDA player_1_released			;$80B0D4   | |
+	LDA player_1_pressed			;$80B0D4   | |
 	STA player_active_pressed		;$80B0D7   |/
 .return						;	   |
 	RTS					;$80B0DA  /
 
 .merge_input					;	  \
 	LDA player_1_held			;$80B0DB   |\ Merge LRXA of player 1 and 2
-	ORA player_1_pressed			;$80B0DE   | |
+	ORA player_2_held			;$80B0DE   | |
 	STA player_1_held			;$80B0E1   |/
-	LDA player_1_released			;$80B0E4   |\ Merge new presses of LRXA of player 1 and 2
-	ORA player_2_held			;$80B0E7   | |
-	STA player_1_released			;$80B0EA   |/
+	LDA player_1_pressed			;$80B0E4   |\ Merge new presses of LRXA of player 1 and 2
+	ORA player_2_pressed			;$80B0E7   | |
+	STA player_1_pressed			;$80B0EA   |/
 	RTS					;$80B0ED  /
 
 set_and_wait_for_nmi:
@@ -6469,7 +6469,7 @@ CODE_80BBF7:					;	   |
 	LDA #$E0				;$80BBF9   |
 	STA PPU.fixed_color			;$80BBFB   |
 	LDA #$01				;$80BBFE   |
-	TRB $0500				;$80BC00   |
+	TRB firework_flicker_flag		;$80BC00   |
 	BEQ CODE_80BC0A				;$80BC03   |
 	LDA #$E2				;$80BC05   |
 	STA PPU.fixed_color			;$80BC07   |
@@ -6646,7 +6646,7 @@ ship_mast_clouds_tileset_NMI:
 	BEQ .mast_flag_update_done		;$80BDB2   |
 	JSR update_ship_mast_flag_graphics	;$80BDB4   |
 .mast_flag_update_done				;	   |
-	LDA $08C2				;$80BDB7   |
+	LDA game_state_flags			;$80BDB7   |
 	AND #$0140				;$80BDBA   |
 	BEQ CODE_80BDC2				;$80BDBD   |
 	BRL CODE_80BE93				;$80BDBF  /
@@ -6882,7 +6882,7 @@ ship_hold_dark_tileset_NMI:
 	LDA #$FE01				;$80BFE4   |
 	STA PPU.window_1			;$80BFE7   |
 	LDY #$2640				;$80BFEA   |
-	LDX $0989				;$80BFED   |
+	LDX glimmer_sprite			;$80BFED   |
 	BNE CODE_80BFFA				;$80BFF0   |
 	LDA #$0001				;$80BFF2   |
 	STA PPU.window_1			;$80BFF5   |
@@ -7098,7 +7098,7 @@ castle_tileset_NMI:
 	RTS					;$80C1A8  /
 
 CODE_80C1A9:
-	LDA $08C2				;$80C1A9  \
+	LDA game_state_flags			;$80C1A9  \
 	BIT #$0140				;$80C1AC   |
 	BEQ CODE_80C1B2				;$80C1AF   |
 	RTS					;$80C1B1  /
@@ -7484,7 +7484,7 @@ ship_hold_hot_tileset_NMI:
 	JSL update_level_x_scroll		;$80C4B2   |
 	JSL update_level_y_scroll		;$80C4B6   |
 	JSR update_sprite_palettes		;$80C4BA   |
-	LDA $08C2				;$80C4BD   |
+	LDA game_state_flags			;$80C4BD   |
 	BIT #$0140				;$80C4C0   |
 	BNE CODE_80C4F8				;$80C4C3   |
 	LDA $0915				;$80C4C5   |
@@ -7692,7 +7692,7 @@ ice_water_tileset_NMI:
 	STA PPU.layer_2_scroll_y		;$80C687   |
 	STZ PPU.layer_2_scroll_y		;$80C68A   |
 	REP #$20				;$80C68D   |
-	LDA $08C2				;$80C68F   |
+	LDA game_state_flags			;$80C68F   |
 	BIT #$0140				;$80C692   |
 	BNE CODE_80C6CA				;$80C695   |
 	LDA $0915				;$80C697   |
@@ -8015,7 +8015,7 @@ DATA_80C963:
 	dw DATA_F3162B
 
 update_mine_debris_effect:
-	LDA $08C2				;$80C973  \
+	LDA game_state_flags			;$80C973  \
 	BIT #$0140				;$80C976   |
 	BEQ CODE_80C97C				;$80C979   |
 	RTS					;$80C97B  /
@@ -8356,7 +8356,7 @@ CODE_80CBD7:					;	   |
 	RTS					;$80CC35  /
 
 update_forest_leaves_effect:
-	LDA $08C2				;$80CC36  \
+	LDA game_state_flags			;$80CC36  \
 	BIT #$0140				;$80CC39   |
 	BEQ CODE_80CC3F				;$80CC3C   |
 	RTS					;$80CC3E  /
@@ -9146,7 +9146,7 @@ handle_kong_water_splash:
 	CMP $0D4E				;$80D4BC   |
 	BMI .CODE_80D4DE			;$80D4BF   |
 	LDA #$0004				;$80D4C1   |
-	TSB $08C2				;$80D4C4   |
+	TSB game_state_flags			;$80D4C4   |
 	BNE .return				;$80D4C7   |
 	LDX active_kong_sprite			;$80D4C9   |
 	STX current_sprite			;$80D4CC   |
@@ -9158,7 +9158,7 @@ handle_kong_water_splash:
 
 .CODE_80D4DE:
 	LDA #$0004				;$80D4DE  \
-	TRB $08C2				;$80D4E1   |
+	TRB game_state_flags			;$80D4E1   |
 	BEQ .return				;$80D4E4   |
 	LDX active_kong_sprite			;$80D4E6   |
 	STX current_sprite			;$80D4E9   |
@@ -9170,7 +9170,7 @@ handle_kong_water_splash:
 	RTS					;$80D4F9  /
 
 handle_water_velocities:
-	LDA $08C2				;$80D4FA  \
+	LDA game_state_flags			;$80D4FA  \
 	AND #$0140				;$80D4FD   |
 	BNE .return				;$80D500   |
 	LDA water_target_y_velocity		;$80D502   |
@@ -9663,7 +9663,7 @@ castle_crush_tileset_logic:
 	JSR handle_castle_crush_floor_movement	;$80D90E   |
 	JSL camera_handler			;$80D911   |
 	JSL sprite_handler			;$80D915   |
-	BIT $08C2				;$80D919   |
+	BIT game_state_flags			;$80D919   |
 	BVC .CODE_80D92E			;$80D91C   |
 	LDX inactive_kong_sprite		;$80D91E   |
 	LDA $0D54				;$80D921   |
@@ -9697,7 +9697,7 @@ handle_castle_crush_floor_movement:
 	LDA #$0001				;$80D95B   |
 	TRB $0D56				;$80D95E   |
 	BNE .CODE_80D9C7			;$80D961   |
-	LDA $08C2				;$80D963   |
+	LDA game_state_flags			;$80D963   |
 	BIT #$2000				;$80D966   |
 	BNE .CODE_80D9B8			;$80D969   |
 	AND #$4000				;$80D96B   |
@@ -10470,7 +10470,7 @@ DATA_80DF34:
 	dw $FFF8, $FFF6
 
 handle_glimmer_light:
-	LDY $0989				;$80DF94  \ Get index of glimmer sprite
+	LDY glimmer_sprite			;$80DF94  \ Get index of glimmer sprite
 	BNE .CODE_80DFB6			;$80DF97   |
 	LDA active_frame_counter		;$80DF99   |
 	AND #$0001				;$80DF9B   |
@@ -12683,16 +12683,16 @@ update_sprite_palettes_global:
 	RTL					;$80F323  /
 
 update_sprite_palettes:
-	LDA $EF					;$80F324  \
-	CMP $F1					;$80F326   |
+	LDA previous_palette_buffer_slot	;$80F324  \
+	CMP current_palette_buffer_slot		;$80F326   |
 	BEQ .return				;$80F328   |
 	ASL A					;$80F32A   |
 	ASL A					;$80F32B   |
 	TAX					;$80F32C   |
-	LDA $EF					;$80F32D   |
+	LDA previous_palette_buffer_slot	;$80F32D   |
 	INC A					;$80F32F   |
 	AND #$000F				;$80F330   |
-	STA $EF					;$80F333   |
+	STA previous_palette_buffer_slot	;$80F333   |
 	LDA #$2200				;$80F335   |
 	STA DMA[0].settings			;$80F338   |
 	LDA #$001E				;$80F33B   |
@@ -12737,7 +12737,7 @@ render_sprites:
 	JSL CODE_BEC695				;$80F39B   |> Render HUD elements
 	JSL CODE_B59F40				;$80F39F   |> Render sprites
 	JSL CODE_B5F0FD				;$80F3A3   |> Bananas
-	LDA $0638				;$80F3A7   |
+	LDA next_firework_sprite_buffer_slot	;$80F3A7   |
 	BEQ CODE_80F3B0				;$80F3AA   |
 	JSL CODE_B59C52				;$80F3AC   |
 CODE_80F3B0:					;	   |
@@ -12829,7 +12829,7 @@ init_ending_parade:
 	LDY #$00F0				;$80F46E   |
 	LDX #$0004				;$80F471   |
 	LDA #$00AA				;$80F474   |
-	JSL DMA_global_palette			;$80F477   |
+	JSL DMA_sprite_palette_from_index	;$80F477   |
 	LDA #$0001				;$80F47B   |
 	STA pending_dma_hdma_channels		;$80F47E   |
 	RTL					;$80F481  /

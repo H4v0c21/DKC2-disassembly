@@ -3229,7 +3229,7 @@ CODE_BAB1B9:
 	LDA #$00AA				;$BAB229   |
 	LDY #$00E0				;$BAB22C   |
 	LDX #$0004				;$BAB22F   |
-	JSL DMA_global_palette			;$BAB232   |
+	JSL DMA_sprite_palette_from_index	;$BAB232   |
 	LDA #DATA_FD3DAE			;$BAB236   |
 	LDY #$0000				;$BAB239   |
 	LDX #$0008				;$BAB23C   |
@@ -3723,7 +3723,7 @@ CODE_BAB671:					;	   |
 	LDA #$00AA				;$BAB6B6   |
 	LDY #$0020				;$BAB6B9   |
 	LDX #$0004				;$BAB6BC   |
-	JSL DMA_global_palette			;$BAB6BF   |
+	JSL DMA_sprite_palette_from_index	;$BAB6BF   |
 	LDA #credits_name_text_layer_1_palette	;$BAB6C3   |
 	LDY #$0040				;$BAB6C6   |
 	LDX #$0004				;$BAB6C9   |

@@ -49,8 +49,8 @@ upload_spc_engine:
 	PHY					;$B58031   | Preserve Y (routine will only clobber A/X)
 	PHK					;$B58032   |\ Use current databank
 	PLB					;$B58033   |/
-	LDX $0634				;$B58034   |\ If the current slot already has same the sound effect
-	CMP $0622,x				;$B58037   | |
+	LDX next_sound_effect_slot		;$B58034   |\ If the current slot already has same the sound effect
+	CMP spc_command_buffer,x		;$B58037   | |
 	BEQ ..return				;$B5803A   |/ skip adding it to the queue
 	TAY					;$B5803C   | Preserve the sound effect
 	INX					;$B5803D   |\ Increment write ring index the next buffer slot
@@ -58,11 +58,11 @@ upload_spc_engine:
 	TXA					;$B5803F   | |
 	AND #$000E				;$B58040   | |
 	TAX					;$B58043   |/
-	LDA $0622,x				;$B58044   |\ If the slot is not empty, return -- buffer is full
+	LDA spc_command_buffer,x		;$B58044   |\ If the slot is not empty, return -- buffer is full
 	BNE ..return				;$B58047   |/
 	TYA					;$B58049   | Restore the sound effect
-	STA $0622,x				;$B5804A   | Write sound effect to the buffer
-	STX $0634				;$B5804D   | Write new ring buffer index
+	STA spc_command_buffer,x		;$B5804A   | Write sound effect to the buffer
+	STX next_sound_effect_slot		;$B5804D   | Write new ring buffer index
 ..return					;	   |
 	PLY					;$B58050   |\ Restore Y and databank
 	PLB					;$B58051   |/
@@ -73,12 +73,12 @@ upload_spc_engine:
 	PHK					;$B58054   |\ Use current databank
 	PLB					;$B58055   |/
 	LDA active_frame_counter		;$B58056   |\ If a sound effect was already uploaded this frame
-	CMP $0636				;$B58058   | |
+	CMP last_spc_command_transfer_time	;$B58058   | |
 	BEQ ..return				;$B5805B   |/ return -- one effect per frame
-	LDX $0632				;$B5805D   |\ If the sound effect slot is empty
-	LDA $0622,x				;$B58060   | |
+	LDX current_sound_effect_slot		;$B5805D   |\ If the sound effect slot is empty
+	LDA spc_command_buffer,x		;$B58060   | |
 	BEQ ..return				;$B58063   |/ return -- nothing to do
-	STZ $0622,x				;$B58065   | Clear slot after it is loaded
+	STZ spc_command_buffer,x		;$B58065   | Clear slot after it is loaded
 	BMI ..upgrade_sound_priority		;$B58068   | If MSB is set, the sound effect is high priority
 	JSR .play_low_priority_sound		;$B5806A   | If MSB is clear, handle the sound effect as low priority
 	BRA ..increment_queue			;$B5806D  / increment the sound effect read ring buffer index
@@ -87,13 +87,13 @@ upload_spc_engine:
 	AND #$7FFF				;$B5806F  \ Mask off MSB to get the true sound effect value
 	JSL .play_high_priority_sound		;$B58072   | Play the sound effect
 ..increment_queue				;	   |
-	LDA $0632				;$B58076   |\ Increment the read ring buffer index
+	LDA current_sound_effect_slot		;$B58076   |\ Increment the read ring buffer index
 	INC A					;$B58079   | |
 	INC A					;$B5807A   | |
 	AND #$000E				;$B5807B   | |
-	STA $0632				;$B5807E   |/
+	STA current_sound_effect_slot		;$B5807E   |/
 	LDA active_frame_counter		;$B58081   |\ Write the frame of the last sound effect upload
-	STA $0636				;$B58083   |/
+	STA last_spc_command_transfer_time	;$B58083   |/
 ..return					;	   |
 	PLB					;$B58086   | restore data bank
 	RTL					;$B58087  /
@@ -108,7 +108,7 @@ upload_spc_engine:
 .write_low_priority_sound			;	   |
 	TXA					;$B58094   |\ Since the channel is free
 	XBA					;$B58095   | |
-	STA $0619,x				;$B58096   |/ write effect id to channel buffer
+	STA sound_effect_buffer,x		;$B58096   |/ write effect id to channel buffer
 	REP #$30				;$B58099   |\ Return to 16 bit mode
 	TAX					;$B5809B   |/
 	JMP .write_spc_command			;$B5809C  / Transfer the sound effect to the SPC700
@@ -126,7 +126,7 @@ upload_spc_engine:
 	AND #$0F				;$B580AC   | |
 	TAX					;$B580AE   |/
 	XBA					;$B580AF   |\ Write the sound effect id to the channel buffer
-	STA $0619,x				;$B580B0   |/
+	STA sound_effect_buffer,x		;$B580B0   |/
 	BEQ .reset_channel			;$B580B3   | Branch if the slot was empty
 	LDA .index_to_bit,x			;$B580B5   |\ Mark the channel as used
 	TSB $0621				;$B580B8   |/
@@ -136,7 +136,7 @@ upload_spc_engine:
 	LDA .index_to_bit,x			;$B580BD   |\ Since the slot was empty mark the channel as empty
 	TRB $0621				;$B580C0   |/
 .write_sound					;	   |
-	LDA $0619,x				;$B580C3   |\ Write the sound effect to the SPC700
+	LDA sound_effect_buffer,x		;$B580C3   |\ Write the sound effect to the SPC700
 	REP #$30				;$B580C6   | |
 	TAX					;$B580C8   | |
 	JSR .write_spc_command			;$B580C9   |/
@@ -229,20 +229,20 @@ upload_spc_engine:
 	LDX #$0007				;$B5816D  \ Load number of slots to clear
 .clear_buffer_entry				;	   |\ Iterate and clear sound betters
 if !version == 0				;	   | |
-	STZ $0622,x				;$B58170   | |\ Clear main ring buffer
+	STZ spc_command_buffer,x		;$B58170   | |\ Clear main ring buffer
 	STZ $062A,x				;$B58173   | | |
 else						;	   | | |
 	STZ $0621,x				;$B58170   | | |
 	STZ $0629,x				;$B58173   | | |
 endif						;	   | |/
-	STZ $0619,x				;$B58176   | | Clear the high priority buffer
+	STZ sound_effect_buffer,x		;$B58176   | | Clear the high priority buffer
 	DEX					;$B58179   | |
 	DEX					;$B5817A   | |
 	BPL .clear_buffer_entry			;$B5817B   |/
-	STZ $0634				;$B5817D   | Clear next buffer position
-	STZ $0636				;$B58180   | Clear last upload frame
+	STZ next_sound_effect_slot		;$B5817D   | Clear next buffer position
+	STZ last_spc_command_transfer_time	;$B58180   | Clear last upload frame
 	LDA #$0002				;$B58183   |\ Reset next read position
-	STA $0632				;$B58186   |/
+	STA current_sound_effect_slot		;$B58186   |/
 	STZ $19B0				;$B58189   |
 	RTS					;$B5818C  /
 
@@ -759,9 +759,9 @@ CODE_B59C52:
 	PHB					;$B59C52  \
 	PHK					;$B59C53   |
 	PLB					;$B59C54   |
-	LDX $0638				;$B59C55   |
+	LDX next_firework_sprite_buffer_slot	;$B59C55   |
 CODE_B59C58:					;	   |
-	LDY $0638,x				;$B59C58   |
+	LDY next_firework_sprite_buffer_slot,x	;$B59C58   |
 	LDA $001C,y				;$B59C5B   |
 	AND #$1000				;$B59C5E   |
 	BEQ CODE_B59C91				;$B59C61   |
@@ -1209,7 +1209,7 @@ CODE_B59F40:
 	STA $56					;$B59F4A   |
 	REP #$20				;$B59F4C   |
 	STZ $62					;$B59F4E   |
-	STZ $0638				;$B59F50   |
+	STZ next_firework_sprite_buffer_slot	;$B59F50   |
 CODE_B59F53:					;	   |
 	LDA next_oam_slot			;$B59F53   |
 	CMP #$0400				;$B59F55   |
@@ -1358,13 +1358,13 @@ CODE_B5A068:
 	BIT #$2000				;$B5A068  \
 	BEQ CODE_B5A07F				;$B5A06B   |
 	TYA					;$B5A06D   |
-	LDY $0638				;$B5A06E   |
+	LDY next_firework_sprite_buffer_slot	;$B5A06E   |
 	CPY #$0010				;$B5A071   |
 	BCS CODE_B5A07E				;$B5A074   |
-	STA $063A,y				;$B5A076   |
+	STA firework_sprite_buffer,y		;$B5A076   |
 	INY					;$B5A079   |
 	INY					;$B5A07A   |
-	STY $0638				;$B5A07B   |
+	STY next_firework_sprite_buffer_slot	;$B5A07B   |
 CODE_B5A07E:					;	   |
 	TAY					;$B5A07E   |
 CODE_B5A07F:					;	   |
@@ -7915,7 +7915,7 @@ CODE_B5D349:
 	STA CPU.enable_dma			;$B5D37A   |
 	REP #$20				;$B5D37D   |
 CODE_B5D37F:					;	   |
-	LDA $08FC				;$B5D37F   |
+	LDA world_map_events			;$B5D37F   |
 	AND #$0004				;$B5D382   |
 	BEQ CODE_B5D3D4				;$B5D385   |
 	LDA active_frame_counter		;$B5D387   |
@@ -7923,17 +7923,17 @@ CODE_B5D37F:					;	   |
 	BNE CODE_B5D3D4				;$B5D38C   |
 	LDA #$0013				;$B5D38E   |
 	STA $7E8016				;$B5D391   |
-	LDX $08FE				;$B5D395   |
+	LDX world_map_event_step_counter	;$B5D395   |
 	CPX #$0008				;$B5D398   |
 	BNE CODE_B5D3A5				;$B5D39B   |
 	LDA #$0004				;$B5D39D   |
-	TRB $08FC				;$B5D3A0   |
+	TRB world_map_events			;$B5D3A0   |
 	BRA CODE_B5D3D4				;$B5D3A3  /
 
 ;DMA's lost world crocodile head graphics
 CODE_B5D3A5:
-	INC $08FE				;$B5D3A5  \
-	INC $08FE				;$B5D3A8   |
+	INC world_map_event_step_counter	;$B5D3A5  \
+	INC world_map_event_step_counter	;$B5D3A8   |
 	LDA #$6010				;$B5D3AB   |
 	STA PPU.vram_address			;$B5D3AE   |
 	LDA DATA_B5D32C,x			;$B5D3B1   |
@@ -8308,7 +8308,7 @@ CODE_B5D644:					;	   |
 	STA $1376				;$B5D75A   |
 	LDA #$0F50				;$B5D75D   |
 	STA $137E				;$B5D760   |
-	LDA $08FC				;$B5D763   |
+	LDA world_map_events			;$B5D763   |
 	BIT #$0002				;$B5D766   |
 	BNE CODE_B5D76E				;$B5D769   |
 	JMP CODE_B5D8FB				;$B5D76B  /
@@ -8339,7 +8339,7 @@ CODE_B5D76E:
 	STA $1432				;$B5D7B0   |
 	LDA #$0000				;$B5D7B3   |
 	STA $143A				;$B5D7B6   |
-	LDA $08FC				;$B5D7B9   |
+	LDA world_map_events			;$B5D7B9   |
 	BIT #$0010				;$B5D7BC   |
 	BNE CODE_B5D7C4				;$B5D7BF   |
 	JMP CODE_B5D8AE				;$B5D7C1  /
@@ -8531,7 +8531,7 @@ spawn_map_player:
 	INC $02,x				;$B5D9A7   | Set render order (in front of inactive kong)
 .set_active_kong:				;	   |
 	STX active_kong_sprite			;$B5D9A9   | 
-	LDA $08C2				;$B5D9AC   |
+	LDA game_state_flags			;$B5D9AC   |
 	BIT #$4000				;$B5D9AF   | Check if we have two kongs
 	BNE .done				;$B5D9B2   | If yes, we're done
 	LDY inactive_kong_sprite		;$B5D9B4   |
@@ -8586,7 +8586,7 @@ CODE_B5DA3C:					;	   |
 	RTS					;$B5DA3C  /
 
 CODE_B5DA3D:
-	LDA $08FC				;$B5DA3D  \
+	LDA world_map_events			;$B5DA3D  \
 	BIT #$0002				;$B5DA40   |
 	BEQ CODE_B5DA48				;$B5DA43   |
 	JSR CODE_B5DCBB				;$B5DA45   |
@@ -8922,7 +8922,7 @@ CODE_B5DCA4:					;	   |
 	RTS					;$B5DCBA  /
 
 CODE_B5DCBB:
-	LDA $08FC				;$B5DCBB  \
+	LDA world_map_events			;$B5DCBB  \
 	AND #$0003				;$B5DCBE   |
 	CMP #$0003				;$B5DCC1   |
 	BNE CODE_B5DCF4				;$B5DCC4   |
@@ -8945,9 +8945,9 @@ CODE_B5DCDD:					;	   |
 	DEC $0A,x				;$B5DCEA   |
 	BNE CODE_B5DCF4				;$B5DCEC   |
 	LDA #$0001				;$B5DCEE   |
-	TRB $08FC				;$B5DCF1   |
+	TRB world_map_events			;$B5DCF1   |
 CODE_B5DCF4:					;	   |
-	LDA $08FC				;$B5DCF4   |
+	LDA world_map_events			;$B5DCF4   |
 	BIT #$0010				;$B5DCF7   |
 	BNE CODE_B5DCFF				;$B5DCFA   |
 	JMP CODE_B5DE9D				;$B5DCFC  /
@@ -9062,7 +9062,7 @@ CODE_B5DDD7:					;	   |
 	CLC					;$B5DDD7   |
 	ADC #$3144				;$B5DDD8   |
 	STA $1A,x				;$B5DDDB   |
-	LDA $08FE				;$B5DDDD   |
+	LDA world_map_event_step_counter	;$B5DDDD   |
 	BNE CODE_B5DDE5				;$B5DDE0   |
 	JMP CODE_B5DE70				;$B5DDE2  /
 
@@ -9111,7 +9111,7 @@ CODE_B5DE28:
 	%lda_sound(6, krool_splash_2)		;$B5DE37   |
 	JSL queue_sound_effect			;$B5DE3A   |
 	PLX					;$B5DE3E   |
-	INC $08FE				;$B5DE3F   |
+	INC world_map_event_step_counter	;$B5DE3F   |
 	LDA #$0000				;$B5DE42   |
 	STA $24,x				;$B5DE45   |
 	STA $20,x				;$B5DE47   |
@@ -9127,7 +9127,7 @@ CODE_B5DE51:
 	%lda_sound(5, krool_down)		;$B5DE59   |
 	JSL play_high_priority_sound		;$B5DE5C   |
 	PLX					;$B5DE60   |
-	INC $08FE				;$B5DE61   |
+	INC world_map_event_step_counter	;$B5DE61   |
 	LDA #$FF00				;$B5DE64   |
 	STA $24,x				;$B5DE67   |
 	LDA #$0100				;$B5DE69   |
@@ -9142,7 +9142,7 @@ CODE_B5DE70:
 	%lda_sound(5, krool_down)		;$B5DE78   |
 	JSL play_high_priority_sound		;$B5DE7B   |
 	PLX					;$B5DE7F   |
-	INC $08FE				;$B5DE80   |
+	INC world_map_event_step_counter	;$B5DE80   |
 	LDA #$FF00				;$B5DE83   |
 	STA $24,x				;$B5DE86   |
 	LDA #$FF00				;$B5DE88   |
@@ -12033,7 +12033,7 @@ CODE_B5F109:
 	STA $0D2C				;$B5F11A   |
 	LDA #$0000				;$B5F11D   |
 	STA $7FD734				;$B5F120   |
-	LDA $08BC				;$B5F124   |
+	LDA banana_count			;$B5F124   |
 	CMP #$0109				;$B5F127   |
 	BCC CODE_B5F12F				;$B5F12A   |
 	LDA #$0109				;$B5F12C   |
@@ -13075,11 +13075,11 @@ CODE_B5F8A4:
 	JSL queue_sound_effect			;$B5F8AB   |
 	LDA.l $7FD734				;$B5F8AF   |
 	SEP #$09				;$B5F8B3   |
-	ADC $08BC				;$B5F8B5   |
+	ADC banana_count			;$B5F8B5   |
 	BPL CODE_B5F8BD				;$B5F8B8   |
 	LDA #$0000				;$B5F8BA   |
 CODE_B5F8BD:					;	   |
-	STA $08BC				;$B5F8BD   |
+	STA banana_count			;$B5F8BD   |
 	CLD					;$B5F8C0   |
 	SEP #$10				;$B5F8C1   |
 	LDA #$003C				;$B5F8C3   |

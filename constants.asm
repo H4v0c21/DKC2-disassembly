@@ -93,7 +93,6 @@
 !initcommand_set_alt_palette	= $8D00
 !initcommand_setup_static2	= $8E00
 
-
 ;sprite animation command constants
 !animation_command_80			= $80
 !animation_command_81			= $81
@@ -1670,6 +1669,9 @@
 !level_kroc_kore_gloomy_gulch_lost_world		= $00D1
 !level_kroc_kore_k_rools_keep_lost_world		= $00D2
 
+!ret_from_k_kore_lvl_range_start			= $00C4
+!ret_from_k_kore_lvl_range_end				= $00C9
+
 !normal_level_type			= $0000
 !bonus_level_type			= $0001
 !small_level_type			= $0002
@@ -1704,8 +1706,6 @@
 !destroy_them_all_bonus_type		= $0001
 !collect_the_stars_bonus_type		= $0002
 !find_the_token_bonus_type		= $0003
-
-
 
 !unknown_00_ppu_config_id				= $0000
 !forest_generic_ppu_config_id				= $0001

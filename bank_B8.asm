@@ -48,7 +48,7 @@ player_interaction_table:
 	dw player_interaction_2D			;002D: Leaving level (Takes to currently set destination)
 
 process_interactions_with_player:
-	LDA $08C2				;$B8805E  \
+	LDA game_state_flags			;$B8805E  \
 	AND #$0002				;$B88061   |
 	BNE .level_transition_happening		;$B88064   |
 .handle_interaction_and_return:			;	   |
@@ -59,7 +59,7 @@ process_interactions_with_player:
 	LDA screen_brightness			;$B8806A  \
 	BNE .handle_interaction_and_return	;$B8806D   |
 	LDA #$0002				;$B8806F   |
-	TRB $08C2				;$B88072   |
+	TRB game_state_flags			;$B88072   |
 	LDA #!player_interaction_2D		;$B88075   |
 	JSR set_player_interaction		;$B88078   |
 	BRA .handle_interaction_and_return	;$B8807B  /
@@ -298,7 +298,7 @@ player_interaction_16:
 	LDX current_sprite			;$B8823D   |
 	LDA #!kong_state_67			;$B8823F   |
 	STA sprite.state,x			;$B88242   |
-	LDA $08C2				;$B88244   |
+	LDA game_state_flags			;$B88244   |
 	AND #$4000				;$B88247   |
 	BNE .both_kongs				;$B8824A   |
 	RTS					;$B8824C  /
@@ -320,7 +320,7 @@ set_player_interaction_27:
 player_interaction_27:
 if !version == 1				;	  \
 	LDA #$0010				;$B88269   |
-	TRB $08C4				;$B8826C   |
+	TRB game_state_flags_2			;$B8826C   |
 endif						;	   |
 	JSR set_kongs_visible_if_not_in_barrel	;$B8826F   |
 	JSL drop_sprite_or_follower_kong	;$B88272   |
@@ -377,7 +377,7 @@ CODE_B882D6:
 	STA sprite.state,x			;$B882E5   |
 	LDA #$001E				;$B882E7   |
 	STA $30,x				;$B882EA   |
-	LDA $08C2				;$B882EC   |
+	LDA game_state_flags			;$B882EC   |
 	AND #$4000				;$B882EF   |
 	BEQ .return				;$B882F2   |
 	JSR work_on_inactive_kong		;$B882F4   |
@@ -487,7 +487,7 @@ CODE_B883B8:					;	   |
 	RTS					;$B883D4  /
 
 CODE_B883D5:
-	LDA $08C2				;$B883D5  \
+	LDA game_state_flags			;$B883D5  \
 	AND #$2000				;$B883D8   |
 	BNE CODE_B8841B				;$B883DB   |
 	JSL CODE_BEC66F				;$B883DD   |
@@ -616,7 +616,7 @@ if !version == 1				;	  \
 	JSR get_kong_state_flag_0020		;$B884EC   |
 	BNE .return				;$B884EF   |
 	LDA #$0002				;$B884F1   |
-	BIT $08C4				;$B884F4   |
+	BIT game_state_flags_2			;$B884F4   |
 	BNE .return				;$B884F7   |
 endif						;	   |
 	STZ current_held_sprite			;$B884F9   |
@@ -1189,7 +1189,7 @@ CODE_B88994:
 	RTS					;$B8899B  /
 
 player_interaction_26:
-	LDA $08C2				;$B8899C  \
+	LDA game_state_flags			;$B8899C  \
 	BMI CODE_B88A00				;$B8899F   |
 	LDA #$0003				;$B889A1   |
 	TRB $0919				;$B889A4   |
@@ -1216,7 +1216,7 @@ player_interaction_26:
 	STA $0D66				;$B889D9   |
 	LDA $0A,x				;$B889DC   |
 	STA $0D6A				;$B889DE   |
-	LDA $08C2				;$B889E1   |
+	LDA game_state_flags			;$B889E1   |
 	AND #$4000				;$B889E4   |
 	BNE CODE_B889EA				;$B889E7   |
 	RTS					;$B889E9  /
@@ -1242,7 +1242,7 @@ CODE_B88A00:
 	LDA #$F800				;$B88A06   |
 	LDY #$FA00				;$B88A09   |
 	JSR set_hurt_by_klubba_state		;$B88A0C   |
-	LDA $08C2				;$B88A0F   |
+	LDA game_state_flags			;$B88A0F   |
 	AND #$4000				;$B88A12   |
 	BEQ .return				;$B88A15   |
 	JSR work_on_inactive_kong		;$B88A17   |
@@ -1280,9 +1280,9 @@ player_interaction_20:
 	STZ sprite.state,x			;$B88A59   |
 .CODE_B88A5B:					;	   |
 	JSR work_on_inactive_kong		;$B88A5B   |
-	LDA $08C2				;$B88A5E   |
+	LDA game_state_flags			;$B88A5E   |
 	AND #$BFFF				;$B88A61   |
-	STA $08C2				;$B88A64   |
+	STA game_state_flags			;$B88A64   |
 	LDA #!kong_state_24			;$B88A67   |
 	STA sprite.state,x			;$B88A6A   |
 	STZ $20,x				;$B88A6C   |
@@ -1309,7 +1309,7 @@ player_interaction_21:
 	LDA #$001B				;$B88A9A   |
 	JSL set_anim_handle_dixie		;$B88A9D   |
 	LDA #$4000				;$B88AA1   |
-	TRB $08C2				;$B88AA4   |
+	TRB game_state_flags			;$B88AA4   |
 	BNE CODE_B88AB8				;$B88AA7   |
 	LDX current_sprite			;$B88AA9   |
 	LDA #!kong_state_6B			;$B88AAB   |
@@ -1406,11 +1406,11 @@ CODE_B88B56:					;	   |
 	LDX active_kong_sprite			;$B88B56   |
 	JSL set_sprite_palette_global		;$B88B59   |
 	JSR work_on_active_kong			;$B88B5D   |
-	LDA $08C2				;$B88B60   |
+	LDA game_state_flags			;$B88B60   |
 	AND #$4000				;$B88B63   |
 	BEQ CODE_B88B72				;$B88B66   |
-	EOR $08C2				;$B88B68   |
-	STA $08C2				;$B88B6B   |
+	EOR game_state_flags			;$B88B68   |
+	STA game_state_flags			;$B88B6B   |
 	JSL CODE_B8A98A				;$B88B6E   |
 CODE_B88B72:					;	   |
 	BRA CODE_B88BD9				;$B88B72  /
@@ -1573,7 +1573,7 @@ CODE_B88C9C:					;	   |
 
 player_interaction_22:
 	LDA #$4000				;$B88C9D  \
-	TRB $08C2				;$B88CA0   |
+	TRB game_state_flags			;$B88CA0   |
 player_interaction_23:				;	   |
 	JSR set_kongs_visible_if_not_in_barrel	;$B88CA3   |
 	JSR get_kong_state_flag_0100		;$B88CA6   |
@@ -1642,7 +1642,7 @@ CODE_B88D1E:					;	   |
 	STA $12,x				;$B88D32   |
 	LDA $0515				;$B88D34   |
 	CMP #!bonus_level_type			;$B88D37   |
-	LDA $08C2				;$B88D3A   |
+	LDA game_state_flags			;$B88D3A   |
 	AND #$4000				;$B88D3D   |
 	BNE CODE_B88D45				;$B88D40   |
 	BRL CODE_B88DCA				;$B88D42  /
@@ -1760,7 +1760,7 @@ damage_animal_player:
 	LDA.l animal_hurt_sounds,x		;$B88E1D   |
 	JSL queue_sound_effect			;$B88E21   |
 	LDA #$4000				;$B88E25   |
-	TRB $08C2				;$B88E28   |
+	TRB game_state_flags			;$B88E28   |
 	BEQ .no_extra_kong			;$B88E2B   |
 	JSR work_on_active_kong			;$B88E2D   |
 	JSR CODE_B890BC				;$B88E30   |
@@ -1980,7 +1980,7 @@ CODE_B88F82:
 CODE_B88FC3:
 	JSR CODE_B890BC				;$B88FC3  \
 	LDA #$4000				;$B88FC6   |
-	TRB $08C2				;$B88FC9   |
+	TRB game_state_flags			;$B88FC9   |
 	BNE CODE_B89035				;$B88FCC   |
 	JSR work_on_active_kong			;$B88FCE   |
 	LDA animal_type				;$B88FD1   |
@@ -2211,7 +2211,7 @@ play_kong_dependant_sound:
 
 player_interaction_01:
 	LDA #$0002				;$B89197  \
-	BIT $08C4				;$B8919A   |
+	BIT game_state_flags_2			;$B8919A   |
 	BEQ CODE_B891A0				;$B8919D   |
 	RTS					;$B8919F  /
 
@@ -2275,7 +2275,7 @@ CODE_B89201:
 
 player_interaction_02:
 	LDA #$0002				;$B89220  \
-	BIT $08C4				;$B89223   |
+	BIT game_state_flags_2			;$B89223   |
 	BEQ CODE_B89229				;$B89226   |
 	RTS					;$B89228  /
 
@@ -2407,7 +2407,7 @@ player_interaction_13:
 	LDA $30,x				;$B89324   |
 	ORA #$0080				;$B89326   |
 	STA $30,x				;$B89329   |
-	LDA $08C2				;$B8932B   |
+	LDA game_state_flags			;$B8932B   |
 	AND #$4000				;$B8932E   |
 	BEQ .single_kong			;$B89331   |
 	JSR work_on_inactive_kong		;$B89333   |
@@ -2437,7 +2437,7 @@ player_interaction_14:
 	LDA $30,x				;$B89367   |
 	AND #$FF7F				;$B89369   |
 	STA $30,x				;$B8936C   |
-	LDA $08C2				;$B8936E   |
+	LDA game_state_flags			;$B8936E   |
 	AND #$4000				;$B89371   |
 	BEQ .single_kong			;$B89374   |
 	LDX inactive_kong_sprite		;$B89376   |
@@ -2615,7 +2615,7 @@ CODE_B894C7:
 	JSR play_kong_dependant_sound		;$B894CD   |
 	JSR work_on_active_kong			;$B894D0   |
 	LDA sprite.state,x			;$B894D3   |
-	STA $08B6				;$B894D5   |
+	STA last_animal_dismount_state		;$B894D5   |
 	LDA #$00E4				;$B894D8   |
 	STA sprite.render_order,x		;$B894DB   |
 	LDA #$F800				;$B894DD   |
@@ -2651,8 +2651,8 @@ CODE_B894FA:					;	   |
 	STZ $1C,x				;$B8951C   |
 	LDA #$00D0				;$B8951E   |
 	STA sprite.render_order,x		;$B89521   |
-	LDA $08B6				;$B89523   |
-	CMP #$0044				;$B89526   |
+	LDA last_animal_dismount_state		;$B89523   |
+	CMP #!kong_state_44			;$B89526   |
 	BNE CODE_B89532				;$B89529   |
 	LDA #!kong_state_0A			;$B8952B   |
 	STA sprite.state,x			;$B8952E   |
@@ -3602,7 +3602,7 @@ kong_state_11:
 	ORA #$0001				;$B89D1D   |
 	STA $0933				;$B89D20   |
 	LDA #$0001				;$B89D23   |
-	TSB $08C2				;$B89D26   |
+	TSB game_state_flags			;$B89D26   |
 	JSL CODE_B3F0B8				;$B89D29   |
 	LDX current_sprite			;$B89D2D   |
 	STZ $1E,x				;$B89D2F   |
@@ -4227,7 +4227,7 @@ CODE_B8A186:
 
 kong_state_24:
 	LDA #$0001				;$B8A19E  \
-	TSB $08C2				;$B8A1A1   |
+	TSB game_state_flags			;$B8A1A1   |
 	LDA #$000C				;$B8A1A4   |
 	JSR process_player_action		;$B8A1A7   |
 	JSR CODE_B89933				;$B8A1AA   |
@@ -4235,7 +4235,7 @@ kong_state_24:
 
 kong_state_25:
 	LDA #$0001				;$B8A1B0  \
-	TSB $08C2				;$B8A1B3   |
+	TSB game_state_flags			;$B8A1B3   |
 	JSL check_if_sprite_offscreen_global	;$B8A1B6   |
 	BCS CODE_B8A1E8				;$B8A1BA   |
 	LDX current_sprite			;$B8A1BC   |
@@ -4355,8 +4355,8 @@ CODE_B8A27A:
 	LDA #$0006				;$B8A297   |
 	JSL set_anim_handle_dixie		;$B8A29A   |
 	LDA #$BFFF				;$B8A29E   |
-	AND $08C2				;$B8A2A1   |
-	STA $08C2				;$B8A2A4   |
+	AND game_state_flags			;$B8A2A1   |
+	STA game_state_flags			;$B8A2A4   |
 	LDX current_sprite			;$B8A2A7   |
 	LDA #$0006				;$B8A2A9   |
 	STA sprite.state,x			;$B8A2AC   |
@@ -4493,11 +4493,11 @@ kong_state_2B:
 	LDX current_sprite			;$B8A3CA   |
 	LDY active_kong_control_variables	;$B8A3CC   |
 	LDA.w kong_control.input_held,y		;$B8A3CF   |
-	STA $0981				;$B8A3D2   |
-	AND #$0300				;$B8A3D5   |
+	STA player_action_held			;$B8A3D2   |
+	AND #!input_left|!input_right		;$B8A3D5   |
 	BEQ CODE_B8A3F0				;$B8A3D8   |
 	LDY #$0046				;$B8A3DA   |
-	AND #$0200				;$B8A3DD   |
+	AND #!input_left			;$B8A3DD   |
 	BEQ CODE_B8A3EA				;$B8A3E0   |
 	LDA [current_sprite_constants],y	;$B8A3E2   |
 	EOR #$FFFF				;$B8A3E4   |
@@ -4625,7 +4625,7 @@ CODE_B8A4DA:
 
 kong_state_2C:
 	LDA #$0001				;$B8A4DC  \
-	TSB $08C2				;$B8A4DF   |
+	TSB game_state_flags			;$B8A4DF   |
 	LDA #$000C				;$B8A4E2   |
 	JSR process_player_action		;$B8A4E5   |
 if !version == 0				;	   |
@@ -4643,7 +4643,7 @@ kong_state_2D:
 kong_state_2E:
 	JSL process_sprite_animation		;$B8A4F4  \
 	LDA #$0001				;$B8A4F8   |
-	TSB $08C2				;$B8A4FB   |
+	TSB game_state_flags			;$B8A4FB   |
 	LDA kong_follow_buffer_recording_index	;$B8A4FE   |
 	DEC A					;$B8A501   |
 	DEC A					;$B8A502   |
@@ -4693,7 +4693,7 @@ kong_state_2F:
 
 kong_state_30:
 	LDA #$0001				;$B8A56C  \
-	TSB $08C2				;$B8A56F   |
+	TSB game_state_flags			;$B8A56F   |
 	JSR CODE_B8A592				;$B8A572   |
 	JSL process_sprite_animation		;$B8A575   |
 	JMP kong_state_return			;$B8A579  /
@@ -4868,7 +4868,7 @@ set_level_end_fade:				;	   |
 	LDA #$830F				;$B8A6A9   |
 	JSL set_fade_global			;$B8A6AC   |
 	LDA #$0002				;$B8A6B0   |
-	TSB $08C2				;$B8A6B3   |
+	TSB game_state_flags			;$B8A6B3   |
 	RTS					;$B8A6B6  /
 
 kong_state_34:
@@ -4877,7 +4877,7 @@ kong_state_34:
 
 kong_state_35:
 	LDA #$0008				;$B8A6BD  \
-	TSB $08C2				;$B8A6C0   |
+	TSB game_state_flags			;$B8A6C0   |
 	LDA #$0013				;$B8A6C3   |
 	JSR process_player_action		;$B8A6C6   |
 	JSR CODE_B8A719				;$B8A6C9   |
@@ -4936,7 +4936,7 @@ CODE_B8A732:					;	   |
 
 kong_state_36:
 	LDA #$0008				;$B8A733  \
-	TSB $08C2				;$B8A736   |
+	TSB game_state_flags			;$B8A736   |
 	JSR CODE_B8A719				;$B8A739   |
 	JSR update_damaged_invincibility	;$B8A73C   |
 	JSL process_sprite_animation		;$B8A73F   |
@@ -5242,7 +5242,7 @@ CODE_B8A98A:
 	RTL					;$B8A98D  /
 
 CODE_B8A98E:
-	LDA $08C2				;$B8A98E  \ \
+	LDA game_state_flags			;$B8A98E  \ \
 	AND #$4000				;$B8A991   | |
 	BEQ .give_second_kong			;$B8A994   |/ If player doesnt have a second kong then give them one
 .return						;	   |
@@ -5262,7 +5262,7 @@ CODE_B8A98E:
 	LDA current_player_mount		;$B8A9AC   |\
 	BNE .no_animal				;$B8A9AE   |/ If player is riding an animal give second kong normally
 	LDA #$4000				;$B8A9B0   |\ Else set has 2nd kong flag
-	TSB $08C2				;$B8A9B3   |/ Update flags
+	TSB game_state_flags			;$B8A9B3   |/ Update flags
 	JSL spawn_follower_animal_icon		;$B8A9B6   |> Spawn follower animal icon
 	RTS					;$B8A9BA  /> Return
 
@@ -5280,7 +5280,7 @@ CODE_B8A98E:
 	LDA #$0000				;$B8A9D6   |
 	STA $001E,y				;$B8A9D9   |
 	LDA #$4000				;$B8A9DC   |
-	TSB $08C2				;$B8A9DF   |
+	TSB game_state_flags			;$B8A9DF   |
 	LDA current_sprite			;$B8A9E2   |
 	PHA					;$B8A9E4   |
 	JSL work_on_inactive_kong_global	;$B8A9E5   |
@@ -5427,7 +5427,7 @@ kong_state_45:
 	LDA $0BA0				;$B8AB11  \
 	BEQ CODE_B8AB5D				;$B8AB14   |
 	LDA #$0008				;$B8AB16   |
-	TSB $08C2				;$B8AB19   |
+	TSB game_state_flags			;$B8AB19   |
 	LDA #$0013				;$B8AB1C   |
 	JSR process_player_action		;$B8AB1F   |
 	JSR CODE_B8A719				;$B8AB22   |
@@ -5516,7 +5516,7 @@ CODE_B8ABC0:
 	LDA #$0046				;$B8ABC0  \
 	JSL set_anim_handle_dixie		;$B8ABC3   |
 CODE_B8ABC7:					;	   |
-	LDA $08C2				;$B8ABC7   |
+	LDA game_state_flags			;$B8ABC7   |
 	AND #$4000				;$B8ABCA   |
 	BEQ CODE_B8ABE0				;$B8ABCD   |
 	LDX inactive_kong_sprite		;$B8ABCF   |
@@ -5532,7 +5532,7 @@ CODE_B8ABE0:					;	   |
 
 kong_state_47:
 	LDA #$0008				;$B8ABE6  \
-	TSB $08C2				;$B8ABE9   |
+	TSB game_state_flags			;$B8ABE9   |
 	JSR update_damaged_invincibility	;$B8ABEC   |
 	JSL process_sprite_animation		;$B8ABEF   |
 	JMP kong_state_return			;$B8ABF3  /
@@ -6305,7 +6305,7 @@ kong_state_6F:
 	BCS CODE_B8B252				;$B8B217   |
 CODE_B8B219:					;	   |
 	LDA #$0100				;$B8B219   |
-	TSB $08C2				;$B8B21C   |
+	TSB game_state_flags			;$B8B21C   |
 	DEC active_frame_counter		;$B8B21F   |
 	LDX current_sprite			;$B8B221   |
 	LDA $4A,x				;$B8B223   |
@@ -6517,7 +6517,7 @@ CODE_B8B3CB:
 	STA sprite.state,x			;$B8B3D6   |
 	LDA #$0045				;$B8B3D8   |
 	JSL set_anim_handle_dixie		;$B8B3DB   |
-	LDA $08C2				;$B8B3DF   |
+	LDA game_state_flags			;$B8B3DF   |
 	AND #$4000				;$B8B3E2   |
 	BEQ CODE_B8B3E7				;$B8B3E5   |
 CODE_B8B3E7:					;	   |
@@ -7389,7 +7389,7 @@ CODE_B8B9B8:
 process_player_action:
 	STA $92					;$B8B9C7  \ set player action
 	LDA #$0001				;$B8B9C9   |
-	TRB $08C4				;$B8B9CC   |
+	TRB game_state_flags_2			;$B8B9CC   |
 	LDA screen_fade_speed			;$B8B9CF   |\
 	AND #$00FF				;$B8B9D2   | | if screen transition is happening
 	BNE .dont_process			;$B8B9D5   |/ dont process player actions
@@ -7403,23 +7403,23 @@ process_player_action:
 .active_kong
 	LDY #$0000				;$B8B9E0  \
 	LDA player_active_pressed		;$B8B9E3   |\
-	STA $0983				;$B8B9E6   | | copy current players inputs into action inputs
+	STA player_action_pressed		;$B8B9E6   | | copy current players inputs into action inputs
 	LDA player_active_held			;$B8B9E9   | |
-	STA $0981				;$B8B9EC   |/
+	STA player_action_held			;$B8B9EC   |/
 	LDY current_kong_control_variables	;$B8B9EF   |\
-	LDA $0981				;$B8B9F1   | | copy action inputs to kong control variables
+	LDA player_action_held			;$B8B9F1   | | copy action inputs to kong control variables
 	STA.w kong_control.input_held,y		;$B8B9F4   | |
-	LDA $0983				;$B8B9F7   | |
+	LDA player_action_pressed		;$B8B9F7   | |
 	STA.w kong_control.input_pressed,y	;$B8B9FA   |/
 	JSR CODE_B8BAA8				;$B8B9FD   |
-	LDA $0981				;$B8BA00   |
+	LDA player_action_held			;$B8BA00   |
 	AND #!input_left			;$B8BA03   |
 	BEQ .no_left_press			;$B8BA06   |
 	JSR handle_left_actions			;$B8BA08   |
 	BRA .left_or_right_press		;$B8BA0B  /
 
 .no_left_press
-	LDA $0981				;$B8BA0D  \
+	LDA player_action_held			;$B8BA0D  \
 	AND #!input_right			;$B8BA10   |
 	BEQ .no_right_press			;$B8BA13   |
 	JSR handle_right_actions		;$B8BA15   |
@@ -7428,14 +7428,14 @@ process_player_action:
 .no_right_press
 	JSR handle_no_left_right_actions	;$B8BA1A  \
 .left_or_right_press				;	   |
-	LDA $0981				;$B8BA1D   |
+	LDA player_action_held			;$B8BA1D   |
 	AND #!input_up				;$B8BA20   |
 	BEQ .no_up_press			;$B8BA23   |
 	JSR handle_up_actions			;$B8BA25   |
 	BRA .up_or_down_press			;$B8BA28  /
 
 .no_up_press
-	LDA $0981				;$B8BA2A  \
+	LDA player_action_held			;$B8BA2A  \
 	AND #!input_down			;$B8BA2D   |
 	BEQ .no_down_press			;$B8BA30   |
 	JSR handle_down_actions			;$B8BA32   |
@@ -7444,7 +7444,7 @@ process_player_action:
 .no_down_press
 	JSR handle_no_up_down_actions		;$B8BA37  \
 .up_or_down_press				;	   |
-	LDA $0981				;$B8BA3A   |
+	LDA player_action_held			;$B8BA3A   |
 	AND #!input_B				;$B8BA3D   |
 	BEQ .no_b_press				;$B8BA40   |
 	JSR handle_b_actions			;$B8BA42   |
@@ -7453,7 +7453,7 @@ process_player_action:
 .no_b_press
 	JSR handle_no_b_actions			;$B8BA47  \
 .b_check_done					;	   |
-	LDA $0981				;$B8BA4A   |
+	LDA player_action_held			;$B8BA4A   |
 	AND #!input_Y				;$B8BA4D   |
 	BEQ .no_y_press				;$B8BA50   |
 	JSR handle_y_actions			;$B8BA52   |
@@ -7462,37 +7462,37 @@ process_player_action:
 .no_y_press
 	JSR handle_no_y_actions			;$B8BA57  \
 .y_check_done					;	   |
-	LDA $0981				;$B8BA5A   |
+	LDA player_action_held			;$B8BA5A   |
 	AND #!input_A				;$B8BA5D   |
 	BEQ .no_a_press				;$B8BA60   |
 	JSR handle_a_actions			;$B8BA62   |
 .no_a_press					;	   |
-	LDA $0981				;$B8BA65   |
+	LDA player_action_held			;$B8BA65   |
 	AND #!input_X				;$B8BA68   |
 	BEQ .no_x_press				;$B8BA6B   |
 	JSR handle_x_actions			;$B8BA6D   |
 .no_x_press					;	   |
-	LDA $0981				;$B8BA70   |
+	LDA player_action_held			;$B8BA70   |
 	AND #!input_L				;$B8BA73   |
 	BEQ .no_l_press				;$B8BA76   |
 	JSR handle_l_actions			;$B8BA78   |
 .no_l_press					;	   |
-	LDA $0981				;$B8BA7B   |
+	LDA player_action_held			;$B8BA7B   |
 	AND #!input_R				;$B8BA7E   |
 	BEQ .no_r_press				;$B8BA81   |
 	JSR handle_r_actions			;$B8BA83   |
 .no_r_press					;	   |
-	LDA $0981				;$B8BA86   |
+	LDA player_action_held			;$B8BA86   |
 	AND #!input_select			;$B8BA89   |
 	BEQ .no_select_press			;$B8BA8C   |
 	JSR handle_select_actions		;$B8BA8E   |
 .no_select_press				;	   |
-	LDA $0981				;$B8BA91   |
+	LDA player_action_held			;$B8BA91   |
 	AND #!input_start			;$B8BA94   |
 	BEQ .no_start_press			;$B8BA97   |
 	JSR handle_start_actions		;$B8BA99   |
 .no_start_press					;	   |
-	LDA $08C4				;$B8BA9C   |
+	LDA game_state_flags_2			;$B8BA9C   |
 	AND #$0001				;$B8BA9F   |
 	BNE CODE_B8BAA6				;$B8BAA2   |
 	CLC					;$B8BAA4   |
@@ -8296,10 +8296,10 @@ debug_fly_up_action:
 	RTS					;$B8C02E  /
 
 get_debug_fly_velocity:
-	LDA $0981				;$B8C02F  \
-	AND #$4080				;$B8C032   |
+	LDA player_action_held			;$B8C02F  \
+	AND #!input_Y|!input_A			;$B8C032   |
 	BEQ .slow				;$B8C035   |
-	AND #$4000				;$B8C037   |
+	AND #!input_Y				;$B8C037   |
 	BNE .fast				;$B8C03A   |
 	LDA #$0800				;$B8C03C   |
 	RTS					;$B8C03F  /
@@ -8412,9 +8412,9 @@ crouch_action:
 	STZ $26,x				;$B8C0DB   |> clear target x velocity of player
 	LDA #$000C				;$B8C0DD   |\
 	JSL set_anim_handle_dixie		;$B8C0E0   |/ set crouch start animation
-	LDA $0981				;$B8C0E4   |\
-	AND #$8000				;$B8C0E7   | | clear all other held inputs besides b
-	STA $0981				;$B8C0EA   |/
+	LDA player_action_held			;$B8C0E4   |\
+	AND #!input_B				;$B8C0E7   | | clear all other held inputs besides b
+	STA player_action_held			;$B8C0EA   |/
 	RTS					;$B8C0ED  /
 
 jump_down_to_rope:
@@ -8807,8 +8807,8 @@ swim_left_action:
 
 stuck_on_honey_floor_left_action:
 	LDX current_sprite			;$B8C368  \
-	LDA $0983				;$B8C36A   |
-	AND #$0200				;$B8C36D   |
+	LDA player_action_pressed		;$B8C36A   |
+	AND #!input_left			;$B8C36D   |
 	BNE .left_pressed_this_frame		;$B8C370   |
 	RTS					;$B8C372  /
 
@@ -9039,8 +9039,8 @@ CODE_B8C4E9:					;	   |
 
 stuck_on_honey_floor_right_action:
 	LDX current_sprite			;$B8C4EC  \
-	LDA $0983				;$B8C4EE   |
-	AND #$0100				;$B8C4F1   |
+	LDA player_action_pressed		;$B8C4EE   |
+	AND #!input_right			;$B8C4F1   |
 	BNE .right_pressed_this_frame		;$B8C4F4   |
 	RTS					;$B8C4F6  /
 
@@ -9091,8 +9091,8 @@ enguarde_charge_move_right_action:
 	RTS					;$B8C536  /
 
 dismount_animal_action:
-	LDA $0983				;$B8C537  \
-	AND #$0040				;$B8C53A   |
+	LDA player_action_pressed		;$B8C537  \
+	AND #!input_X				;$B8C53A   |
 	BNE .x_pressed_this_frame		;$B8C53D   |
 	RTS					;$B8C53F  /
 
@@ -9120,8 +9120,8 @@ CODE_B8C559:
 
 jump_action:
 	LDX current_sprite			;$B8C55F  \
-	LDA $0983				;$B8C561   |
-	AND #$8000				;$B8C564   |
+	LDA player_action_pressed		;$B8C561   |
+	AND #!input_B				;$B8C564   |
 	BEQ .no_b_press_this_frame		;$B8C567   |
 	LDY current_kong_control_variables	;$B8C569   |
 	LDA active_frame_counter		;$B8C56B   |
@@ -9203,8 +9203,8 @@ start_player_jumping:
 	RTS					;$B8C5F9  /
 
 update_b_press_event_action:
-	LDA $0983				;$B8C5FA  \ \
-	AND #$8000				;$B8C5FD   | | if b wasnt pressed do nothing and return
+	LDA player_action_pressed		;$B8C5FA  \ \
+	AND #!input_B				;$B8C5FD   | | if b wasnt pressed do nothing and return
 	BEQ .no_b_press				;$B8C600   |/
 	LDY current_kong_control_variables	;$B8C602   |\
 	LDA active_frame_counter		;$B8C604   | | if b was pressed this frame record the current time
@@ -9214,12 +9214,12 @@ update_b_press_event_action:
 
 squawks_fly_up_action:
 	LDX current_sprite			;$B8C60A  \
-	LDA $0983				;$B8C60C   |\
-	AND #$8000				;$B8C60F   | | if b wasnt pressed this frame return
+	LDA player_action_pressed		;$B8C60C   |\
+	AND #!input_B				;$B8C60F   | | if b wasnt pressed this frame return
 	BEQ .return				;$B8C612   |/
 	STZ $32					;$B8C614   |
-	LDA $0981				;$B8C616   |\
-	AND #$0800				;$B8C619   | |
+	LDA player_action_held			;$B8C616   |\
+	AND #!input_up				;$B8C619   | |
 	BEQ .no_up_press			;$B8C61C   | | if up is held boost ascent velocity by 0x100
 	LDA #$0100				;$B8C61E   | |
 	STA $32					;$B8C621   |/ store ascent boost to scratch
@@ -9257,18 +9257,18 @@ squawks_fly_up_action:
 	RTS					;$B8C659  / /
 
 jump_off_vertical_rope_action:
-	LDA $0981				;$B8C65A  \ \
-	AND #$0300				;$B8C65D   | | if no direction is held start climbing rope
+	LDA player_action_held			;$B8C65A  \ \
+	AND #!input_left|!input_right		;$B8C65D   | | if no direction is held start climbing rope
 	BEQ .no_left_right_held			;$B8C660   |/
-	LDA $0983				;$B8C662   |\
-	AND #$8000				;$B8C665   | | otherwise if b was pressed this frame
+	LDA player_action_pressed		;$B8C662   |\
+	AND #!input_B				;$B8C665   | | otherwise if b was pressed this frame
 	BNE .jump_from_rope			;$B8C668   |/ start jumping off rope
 .return						;	   |
 	RTS					;$B8C66A  /
 
 .no_left_right_held
-	LDA $0981				;$B8C66B  \ \
-	AND #$0C00				;$B8C66E   | | if up or down is held dont climb using b
+	LDA player_action_held			;$B8C66B  \ \
+	AND #!input_up|!input_down		;$B8C66E   | | if up or down is held dont climb using b
 	BNE .return				;$B8C671   |/
 	JMP climb_up_single_rope_action		;$B8C673  / > otherwise climb up from pressing b
 
@@ -9281,8 +9281,8 @@ jump_off_vertical_rope_action:
 	LDX current_sprite			;$B8C686   |
 	LDA $26,x				;$B8C688   |
 	STA $20,x				;$B8C68A   |
-	LDA $0981				;$B8C68C   |\
-	AND #$0100				;$B8C68F   | | if right is being pressed jump
+	LDA player_action_held			;$B8C68C   |\
+	AND #!input_right			;$B8C68F   | | if right is being pressed jump
 	BNE .jump_right				;$B8C692   |/ face player to the right
 	LDA #$4000				;$B8C694   |\
 	ORA $12,x				;$B8C697   | | otherwise face player to the left
@@ -9299,16 +9299,16 @@ vertical_double_rope_b_action:
 	RTS					;$B8C6A4  /
 
 jump_off_horizontal_rope_action:
-	LDA $0983				;$B8C6A5  \
-	AND #$8000				;$B8C6A8   |
+	LDA player_action_pressed		;$B8C6A5  \
+	AND #!input_B				;$B8C6A8   |
 	BNE .b_pressed_this_frame		;$B8C6AB   |
 	RTS					;$B8C6AD  /
 
 .b_pressed_this_frame
 	LDX current_sprite			;$B8C6AE  \
 	STZ $20,x				;$B8C6B0   |
-	LDA $0981				;$B8C6B2   |
-	AND #$0400				;$B8C6B5   |
+	LDA player_action_held			;$B8C6B2   |
+	AND #!input_down			;$B8C6B5   |
 	BNE .down_pressed			;$B8C6B8   |
 	LDY #$0008				;$B8C6BA   |\
 	LDA [current_sprite_constants],y	;$B8C6BD   | | update jump velocity
@@ -9321,7 +9321,7 @@ jump_off_horizontal_rope_action:
 	JSR set_player_jumping_gravity		;$B8C6D0   |
 	JSL CODE_B5E43E				;$B8C6D3   |
 	LDA #$0001				;$B8C6D7   |
-	TSB $08C4				;$B8C6DA   |
+	TSB game_state_flags_2			;$B8C6DA   |
 	RTS					;$B8C6DD  /
 
 .down_pressed
@@ -9337,12 +9337,12 @@ jump_off_horizontal_rope_action:
 	JSR set_player_normal_gravity		;$B8C6F7   |
 	JSL CODE_B5E43E				;$B8C6FA   |
 	LDA #$0001				;$B8C6FE   |
-	TSB $08C4				;$B8C701   |
+	TSB game_state_flags_2			;$B8C701   |
 	RTS					;$B8C704  /
 
 jump_off_hook_action:
-	LDA $0983				;$B8C705  \
-	AND #$8000				;$B8C708   |
+	LDA player_action_pressed		;$B8C705  \
+	AND #!input_B				;$B8C708   |
 	BNE .b_pressed_this_frame		;$B8C70B   |
 	RTS					;$B8C70D  /
 
@@ -9354,8 +9354,8 @@ jump_off_hook_action:
 	ADC #$0020				;$B8C716   |
 	STA $0A,x				;$B8C719   |
 	STZ $20,x				;$B8C71B   |
-	LDA $0981				;$B8C71D   |
-	AND #$0400				;$B8C720   |
+	LDA player_action_held			;$B8C71D   |
+	AND #!input_down			;$B8C720   |
 	BNE .down_pressed			;$B8C723   |
 	LDX current_sprite			;$B8C725   |
 	LDY #$0008				;$B8C727   |
@@ -9369,7 +9369,7 @@ jump_off_hook_action:
 	JSR set_player_jumping_gravity		;$B8C73D   |
 	JSL CODE_B5E43E				;$B8C740   |
 	LDA #$0001				;$B8C744   |
-	TSB $08C4				;$B8C747   |
+	TSB game_state_flags_2			;$B8C747   |
 	RTS					;$B8C74A  /
 
 .down_pressed
@@ -9384,12 +9384,12 @@ jump_off_hook_action:
 	JSR set_player_normal_gravity		;$B8C761   |
 	JSL CODE_B5E43E				;$B8C764   |
 	LDA #$0001				;$B8C768   |
-	TSB $08C4				;$B8C76B   |
+	TSB game_state_flags_2			;$B8C76B   |
 	RTS					;$B8C76E  /
 
 swim_up_action:
-	LDA $0983				;$B8C76F  \
-	AND #$8000				;$B8C772   |
+	LDA player_action_pressed		;$B8C76F  \
+	AND #!input_B				;$B8C772   |
 	BNE .b_pressed_this_frame		;$B8C775   |
 	RTS					;$B8C777  /
 
@@ -9423,12 +9423,12 @@ swim_up_action:
 	JSR set_player_jumping_gravity		;$B8C7B2   |
 	JSL CODE_B5E43E				;$B8C7B5   |
 	LDA #$0001				;$B8C7B9   |
-	TSB $08C4				;$B8C7BC   |
+	TSB game_state_flags_2			;$B8C7BC   |
 	RTS					;$B8C7BF  /
 
 .get_swim_constant_offset
-	LDA $0981				;$B8C7C0  \
-	AND #$0C00				;$B8C7C3   |
+	LDA player_action_held			;$B8C7C0  \
+	AND #!input_up|!input_down		;$B8C7C3   |
 	BNE .up_or_down_pressed			;$B8C7C6   |
 	LDY #$0070				;$B8C7C8   |
 	RTS					;$B8C7CB  /
@@ -9444,8 +9444,8 @@ swim_up_action:
 	RTS					;$B8C7D8  /
 
 jump_off_honey_wall_action:
-	LDA $0983				;$B8C7D9  \
-	AND #$8000				;$B8C7DC   |
+	LDA player_action_pressed		;$B8C7D9  \
+	AND #!input_B				;$B8C7DC   |
 	BNE .b_pressed_this_frame		;$B8C7DF   |
 .return						;	   |
 	RTS					;$B8C7E1  /
@@ -9471,7 +9471,7 @@ jump_off_honey_wall_action:
 	JSR set_player_jumping_gravity		;$B8C80D   |
 	JSL CODE_B5E43E				;$B8C810   |
 	LDA #$0001				;$B8C814   |
-	TSB $08C4				;$B8C817   |
+	TSB game_state_flags_2			;$B8C817   |
 	RTS					;$B8C81A  /
 
 .get_honey_wall_x_velocity
@@ -9488,7 +9488,7 @@ jump_off_honey_wall_action:
 	RTS					;$B8C82B  /
 
 get_honey_wall_jump_direction:
-	LDA $0981				;$B8C82C  \
+	LDA player_action_held			;$B8C82C  \
 	LDX current_sprite			;$B8C82F   |
 	BIT $12,x				;$B8C831   |
 	BVS .jump_right				;$B8C833   |
@@ -9501,8 +9501,8 @@ get_honey_wall_jump_direction:
 
 team_up_action:
 	LDX current_sprite			;$B8C83D  \
-	LDA $0983				;$B8C83F   |
-	AND #$0080				;$B8C842   |
+	LDA player_action_pressed		;$B8C83F   |
+	AND #!input_A				;$B8C842   |
 	BEQ .return				;$B8C845   |
 	LDA current_held_sprite			;$B8C847   |
 	BEQ .not_teamed_yet			;$B8C84A   |
@@ -9533,12 +9533,12 @@ team_up_action:
 	JMP set_player_interaction		;$B8C879  /
 
 check_if_player_has_both_kongs:
-	LDA $08C2				;$B8C87C  \
+	LDA game_state_flags			;$B8C87C  \
 	AND #$4000				;$B8C87F   |
 	BEQ .single_kong			;$B8C882   |
 if !version == 1				;	   |
 	LDA #$0002				;$B8C884   |
-	BIT $08C4				;$B8C887   |
+	BIT game_state_flags_2			;$B8C887   |
 	BNE .single_kong			;$B8C88A   |
 endif						;	   |
 	CLC					;$B8C88C   |
@@ -9552,8 +9552,8 @@ animal_special_action:
 	LDA animal_type				;$B8C890  \ \
 	CMP #!sprite_rattly			;$B8C892   | | if animal is rattly start rattly super jump charge
 	BEQ .rattly				;$B8C895   |/
-	LDA $0983				;$B8C897   |\
-	AND #$0080				;$B8C89A   | | if a was pressed this frame initialize special ability
+	LDA player_action_pressed		;$B8C897   |\
+	AND #!input_A				;$B8C89A   | | if a was pressed this frame initialize special ability
 	BNE .a_pressed_this_frame		;$B8C89D   |/
 	LDA animal_type				;$B8C89F   |
 	CMP #!sprite_squitter			;$B8C8A1   |
@@ -9671,8 +9671,8 @@ shoot_web_platform:
 .no_flip						;	   |
 	LDX alternate_sprite			;$B8C979   |\
 	STA $20,x				;$B8C97B   | | store platform x velocity
-	LDA $0981				;$B8C97D   |/
-	AND #$0C00				;$B8C980   |\ if no vertical direction is pressed
+	LDA player_action_held			;$B8C97D   |/
+	AND #!input_up|!input_down		;$B8C980   |\ if no vertical direction is pressed
 	BEQ .return				;$B8C983   |/ shoot platform with no y velocity
 	AND #$0800				;$B8C985   |\ if up is pressed
 	BEQ .shot_upwards			;$B8C988   |/ make web platform move up
@@ -9733,8 +9733,8 @@ roll_or_pickup_object_action:
 	LDA $40,x				;$B8C9D9   |
 	AND #$0002				;$B8C9DB   |
 	BNE .return				;$B8C9DE   |
-	LDA $0983				;$B8C9E0   |\
-	AND #$4000				;$B8C9E3   | | if y was pressed this frame start roll
+	LDA player_action_pressed		;$B8C9E0   |\
+	AND #!input_Y				;$B8C9E3   | | if y was pressed this frame start roll
 	BNE .start_roll				;$B8C9E6   |/
 	LDY current_kong_control_variables	;$B8C9E8   |\
 	LDA active_frame_counter		;$B8C9EA   | |
@@ -9820,8 +9820,8 @@ glide_action:
 update_roll_action:
 	JSR update_object_pickup		;$B8CA68  \ \
 	BCS .return				;$B8CA6B   |/ if an object was picked up return
-	LDA $0983				;$B8CA6D   |\
-	AND #$4000				;$B8CA70   | | if y wasnt pressed this frame update fast move and return
+	LDA player_action_pressed		;$B8CA6D   |\
+	AND #!input_Y				;$B8CA70   | | if y wasnt pressed this frame update fast move and return
 	BEQ .update_fast_move			;$B8CA73   |/
 	LDX current_sprite			;$B8CA75   |\
 	LDA sprite.state,x			;$B8CA77   | |
@@ -9836,8 +9836,8 @@ update_roll_action:
 
 land_animal_attack_action:
 	JSR set_fast_move_if_left_right		;$B8CA87  \
-	LDA $0983				;$B8CA8A   |
-	AND #$4000				;$B8CA8D   |
+	LDA player_action_pressed		;$B8CA8A   |
+	AND #!input_Y				;$B8CA8D   |
 	BNE .y_pressed_this_frame		;$B8CA90   |
 .return						;	   |
 	RTS					;$B8CA92  /
@@ -9880,10 +9880,10 @@ land_animal_attack_action:
 .facing_right					;	   |
 	LDX alternate_sprite			;$B8CAE4   |\ get web shot sprite
 	STA $20,x				;$B8CAE6   |/ and set its x velocity
-	LDA $0981				;$B8CAE8   |\
-	AND #$0C00				;$B8CAEB   | | check if up or down is held
+	LDA player_action_held			;$B8CAE8   |\
+	AND #!input_up|!input_down		;$B8CAEB   | | check if up or down is held
 	BEQ .return				;$B8CAEE   |/ if not we're done initializing the web
-	AND #$0800				;$B8CAF0   |\
+	AND #!input_up				;$B8CAF0   |\
 	BEQ .up_pressed				;$B8CAF3   |/ if up is pressed apply upward velocity to web
 	LDY #$008E				;$B8CAF5   |\
 	LDA [current_sprite_constants],y	;$B8CAF8   | | apply downward y velocity to web
@@ -9924,8 +9924,8 @@ start_rambi_attack:
 
 squawks_shoot_action:
 	JSR set_fast_move_if_left_right		;$B8CB35  \
-	LDA $0983				;$B8CB38   |
-	AND #$4000				;$B8CB3B   |
+	LDA player_action_pressed		;$B8CB38   |
+	AND #!input_Y				;$B8CB3B   |
 	BNE .y_pressed_this_frame		;$B8CB3E   |
 	RTS					;$B8CB40  /
 
@@ -9952,8 +9952,8 @@ shot_from_cannon_move_faster_action:
 	RTS					;$B8CB67  /
 
 team_throw_action:
-	LDA $0983				;$B8CB68  \
-	AND #$4000				;$B8CB6B   |
+	LDA player_action_pressed		;$B8CB68  \
+	AND #!input_Y				;$B8CB6B   |
 	BNE .y_pressed_this_frame		;$B8CB6E   |
 	RTS					;$B8CB70  /
 
@@ -10030,9 +10030,9 @@ update_object_pickup:
 	STA sprite.state,x			;$B8CC00   |/
 	LDA #$000F				;$B8CC02   |\
 	JSL set_anim_handle_dixie		;$B8CC05   |/ set animation to picking up object
-	LDA $0981				;$B8CC09   |\
+	LDA player_action_held			;$B8CC09   |\
 	AND #$1300				;$B8CC0C   | | clear all held inputs besides left, right, and start
-	STA $0981				;$B8CC0F   |/
+	STA player_action_held			;$B8CC0F   |/
 	SEC					;$B8CC12   |\ indicate that object pickup has occurred
 	RTS					;$B8CC13  / /
 
@@ -10058,8 +10058,8 @@ start_player_roll:
 	STA.w sprite.state,y			;$B8CC37   |/
 	LDX current_kong_control_variables	;$B8CC3A   |\
 	LDY #$001E				;$B8CC3C   |/ prepare standing roll velocity constant in case no direction is held
-	LDA $0981				;$B8CC3F   |\
-	AND #$0300				;$B8CC42   | | if no direction is held apply standing roll velocity
+	LDA player_action_held			;$B8CC3F   |\
+	AND #!input_left|!input_right		;$B8CC42   | | if no direction is held apply standing roll velocity
 	BEQ .apply_roll_velocity		;$B8CC45   |/
 	LDY #$0020				;$B8CC47   |> prepare walking roll velocity constant
 	LDA active_frame_counter		;$B8CC4A   |\
@@ -10087,20 +10087,20 @@ set_fast_move_if_left_right_y_action:
 	RTS					;$B8CC73  /
 
 enguarde_attack_action:
-	LDA $0983				;$B8CC74  \
-	AND #$C000				;$B8CC77   |
+	LDA player_action_pressed		;$B8CC74  \
+	AND #!input_B|!input_Y			;$B8CC77   |
 	BNE .clear_b_y_press_this_frame		;$B8CC7A   |
 	RTS					;$B8CC7C  /
 
 .clear_b_y_press_this_frame
-	EOR $0983				;$B8CC7D  \
-	STA $0983				;$B8CC80   |
+	EOR player_action_pressed		;$B8CC7D  \
+	STA player_action_pressed		;$B8CC80   |
 	JSR start_enguarde_attack		;$B8CC83   |
 	RTS					;$B8CC86  /
 
 coop_take_control_y_action:
-	LDA $0983				;$B8CC87  \
-	AND #$4000				;$B8CC8A   |
+	LDA player_action_pressed		;$B8CC87  \
+	AND #!input_Y				;$B8CC8A   |
 	BEQ .no_y_press_this_frame		;$B8CC8D   |
 	BRL transfer_control_of_player		;$B8CC8F  /
 
@@ -10132,14 +10132,14 @@ start_enguarde_attack:
 	RTS					;$B8CCBD  /
 
 shoot_web_platform_l_action:
-	LDA $0983				;$B8CCBE  \
-	AND #$0020				;$B8CCC1   | if r was pressed this frame
+	LDA player_action_pressed		;$B8CCBE  \
+	AND #!input_L				;$B8CCC1   | if r was pressed this frame
 	BNE shoot_web_platform_lr		;$B8CCC4   | continue to is squitter check
 	RTS					;$B8CCC6  / > otherwise return
 
 shoot_web_platform_r_action:
-	LDA $0983				;$B8CCC7  \ \
-	AND #$0010				;$B8CCCA   | | if r was pressed this frame
+	LDA player_action_pressed		;$B8CCC7  \ \
+	AND #!input_R				;$B8CCCA   | | if r was pressed this frame
 	BNE shoot_web_platform_lr		;$B8CCCD   |/ continue to is squitter check
 	RTS					;$B8CCCF  / > otherwise return
 
@@ -10154,8 +10154,8 @@ shoot_web_platform_lr:
 	JMP shoot_web_platform			;$B8CCDA  /
 
 pause_game_action:
-	LDA $0983				;$B8CCDD  \ \
-	AND #$1000				;$B8CCE0   | | if start was pressed this frame
+	LDA player_action_pressed		;$B8CCDD  \ \
+	AND #!input_start			;$B8CCE0   | | if start was pressed this frame
 	BNE .start_pressed_this_frame		;$B8CCE3   |/ pause the game
 	RTS					;$B8CCE5  /
 
@@ -10169,7 +10169,7 @@ pause_game_action:
 	LDA screen_brightness			;$B8CCE9  \
 	BEQ .return				;$B8CCEC   |
 	LDA #$2000				;$B8CCEE   |
-	BIT $08C2				;$B8CCF1   |
+	BIT game_state_flags			;$B8CCF1   |
 	BNE .return				;$B8CCF4   |
 	LDX active_kong_sprite			;$B8CCF6   |
 	LDA sprite.state,x			;$B8CCF9   |
@@ -10177,7 +10177,7 @@ pause_game_action:
 	BEQ .return				;$B8CCFE   |
 if !version == 0				;	   |
 	LDA #$0040				;$B8CD00   |
-	TSB $08C2				;$B8CD03   |
+	TSB game_state_flags			;$B8CD03   |
 	%lda_sound(7, pause)			;$B8CD06   |
 	JSL play_high_priority_sound		;$B8CD09   |
 	%lda_sound(6, pause)			;$B8CD0D   |
@@ -10187,16 +10187,16 @@ if !version == 0				;	   |
 	%lda_sound(4, pause)			;$B8CD1B   |
 	JSL play_high_priority_sound		;$B8CD1E   |
 	LDA active_frame_counter		;$B8CD22   |
-	STA $0636				;$B8CD24   |
+	STA last_spc_command_transfer_time	;$B8CD24   |
 else						;	   |
 	LDA #$0010				;$B8CD00   |
-	TSB $08C4				;$B8CD03   |
+	TSB game_state_flags_2			;$B8CD03   |
 endif 						;	   |
 	RTS					;$B8CD06  /
 
 stop_debug_fly_action:
-	LDA $0983				;$B8CD07  \
-	AND #$1000				;$B8CD0A   |
+	LDA player_action_pressed		;$B8CD07  \
+	AND #!input_start			;$B8CD0A   |
 	BNE .start_pressed_this_frame		;$B8CD0D   |
 	RTS					;$B8CD0F  /
 
@@ -10210,8 +10210,8 @@ stop_debug_fly_action:
 	RTS					;$B8CD20  /
 
 coop_take_control_start_action:
-	LDA $0983				;$B8CD21  \ \
-	AND #$1000				;$B8CD24   | | if other player pressed start this frame
+	LDA player_action_pressed		;$B8CD21  \ \
+	AND #!input_start			;$B8CD24   | | if other player pressed start this frame
 	BNE transfer_control_of_player		;$B8CD27   |/ transfer control to them
 	RTS					;$B8CD29  /
 
@@ -10224,9 +10224,9 @@ transfer_control_of_player:
 
 CODE_B8CD34:
 	LDA #$0001				;$B8CD34  \
-	TSB $08C4				;$B8CD37   |
+	TSB game_state_flags_2			;$B8CD37   |
 	LDA #$0100				;$B8CD3A   |
-	TRB $08C2				;$B8CD3D   |
+	TRB game_state_flags			;$B8CD3D   |
 	JSR disable_bullet_time			;$B8CD40   |
 	JSR check_sprite_underwater		;$B8CD43   |
 	CMP #$0002				;$B8CD46   |
@@ -10256,8 +10256,8 @@ CODE_B8CD60:
 
 swap_to_other_kong_action:
 	LDX current_sprite			;$B8CD6F  \
-	LDA $0983				;$B8CD71   |
-	AND #$2000				;$B8CD74   |
+	LDA player_action_pressed		;$B8CD71   |
+	AND #!input_select			;$B8CD74   |
 	BNE .select_pressed_this_frame		;$B8CD77   |
 .no_swap					;	   |
 	RTS					;$B8CD79  /
@@ -10271,7 +10271,7 @@ swap_to_other_kong_action:
 	LDA.l kong_state_flags_table,x		;$B8CD83   |
 	AND #$0010				;$B8CD87   |
 	BEQ .no_swap				;$B8CD8A   |
-	LDA $08C2				;$B8CD8C   |
+	LDA game_state_flags			;$B8CD8C   |
 	AND #$4000				;$B8CD8F   |
 	BEQ .no_swap				;$B8CD92   |
 	JMP CODE_B8C559				;$B8CD94  /
@@ -10337,7 +10337,7 @@ CODE_B8CDE6:
 	RTS					;$B8CDE7  /
 
 swap_to_other_kong_swimming_action:
-	LDA $08C2				;$B8CDE8  \
+	LDA game_state_flags			;$B8CDE8  \
 	AND #$4000				;$B8CDEB   |
 	BEQ CODE_B8CE08				;$B8CDEE   |
 	LDY inactive_kong_sprite		;$B8CDF0   |
@@ -10377,8 +10377,8 @@ return_sprite_no_up_down_no_action:
 
 stop_crouch_action:
 	LDX current_sprite			;$B8CE1C  \
-	LDA $0981				;$B8CE1E   |
-	AND #$0400				;$B8CE21   |
+	LDA player_action_held			;$B8CE1E   |
+	AND #!input_down			;$B8CE21   |
 	BEQ .stop_crouch			;$B8CE24   |
 	RTS					;$B8CE26  /
 
@@ -10564,8 +10564,8 @@ stop_carrying_sprite_action:
 	LDA $40,x				;$B8CF25   |
 	AND #$0004				;$B8CF27   |
 	BNE .return				;$B8CF2A   |
-	LDA $0981				;$B8CF2C   |
-	AND #$0400				;$B8CF2F   |
+	LDA player_action_held			;$B8CF2C   |
+	AND #!input_down			;$B8CF2F   |
 	BEQ .throw				;$B8CF32   |
 	LDA $1E,x				;$B8CF34   |
 	AND #$0001				;$B8CF36   |

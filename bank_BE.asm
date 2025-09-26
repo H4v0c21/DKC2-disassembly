@@ -268,7 +268,7 @@ endif						;	   |
 	JSL set_this_level_krem_coin_collected	;$BEBA05   |
 	JSL calculate_completion_percentage	;$BEBA09   |
 	LDA #$0002				;$BEBA0D   |
-	TSB $08C4				;$BEBA10   |
+	TSB game_state_flags_2			;$BEBA10   |
 	LDX current_sprite			;$BEBA13   |
 	LDA $36,x				;$BEBA15   | Get animation ID
 	CMP #$01C4				;$BEBA17   | Check if its kremcoin_collected
@@ -286,7 +286,7 @@ endif						;	   |
 	LDA $5C,x				;$BEBA2C  \
 	BPL ..CODE_BEBA36			;$BEBA2E   |
 	LDA #$0002				;$BEBA30   |
-	TSB $08C4				;$BEBA33   |
+	TSB game_state_flags_2			;$BEBA33   |
 ..CODE_BEBA36:					;	   |
 	JMP .in_hud				;$BEBA36  /
 
@@ -329,7 +329,7 @@ endif						;	   |
 	JSL CODE_BEBE6D				;$BEBA85   |
 	BCC ..return				;$BEBA89   |
 	LDA #$004B				;$BEBA8B   |
-	STA $08B8				;$BEBA8E   |
+	STA cheated_token_count			;$BEBA8E   |
 	STZ $2E,x				;$BEBA91   |
 	BRL .collect_coin			;$BEBA93  /
 
@@ -354,7 +354,7 @@ DATA_BEBA9C:
 
 CODE_BEBAAA:
 	LDA $004C,y				;$BEBAAA  \
-	AND $0902				;$BEBAAD   |
+	AND collected_kong_letters		;$BEBAAD   |
 	BEQ CODE_BEBAB9				;$BEBAB0   |
 	JSL delete_sprite_handle_deallocation	;$BEBAB2   |
 	JML [sprite_return_address]		;$BEBAB6  /
@@ -381,8 +381,8 @@ CODE_BEBACA:
 	JSL set_sprite_target_hud_position	;$BEBAE0   |
 	INC $2E,x				;$BEBAE4   | set kong letter sprite as collected
 	LDA $4C,x				;$BEBAE6   | get what kong letter the sprite is
-	TSB $0902				;$BEBAE8   | set the corresponding kong letter bit
-	LDA $0902				;$BEBAEB   | get collected kong letters
+	TSB collected_kong_letters		;$BEBAE8   | set the corresponding kong letter bit
+	LDA collected_kong_letters		;$BEBAEB   | get collected kong letters
 	INC A					;$BEBAEE   |
 	AND #$000F				;$BEBAEF   |
 	STA $52,x				;$BEBAF2   |
@@ -393,7 +393,7 @@ CODE_BEBAFD:					;	   |
 	LDA $4E,x				;$BEBAFD   | get the sound the kong letter should make (this is stored in a sprite variable)
 	JSL queue_sound_effect			;$BEBAFF   | play the sound
 	LDX current_sprite			;$BEBB03   | get current sprite index
-	LDA $0902				;$BEBB05   | get collected kong letters
+	LDA collected_kong_letters		;$BEBB05   | get collected kong letters
 	LSR A					;$BEBB08   |
 	BCS CODE_BEBB0D				;$BEBB09   | if K was collected
 	STZ $42,x				;$BEBB0B   |
@@ -1733,7 +1733,7 @@ CODE_BEC46D:					;	   |
 	CPX inactive_kong_sprite		;$BEC470   |
 	BEQ CODE_BEC485				;$BEC473   |
 	LDY #!player_interaction_23		;$BEC475   |
-	LDA $08C2				;$BEC478   |
+	LDA game_state_flags			;$BEC478   |
 	AND #$4000				;$BEC47B   |
 	BNE CODE_BEC485				;$BEC47E   |
 	JSR CODE_BEC4BA				;$BEC480   |
@@ -2005,8 +2005,8 @@ CODE_BEC64C:
 	REP #$20				;$BEC657   | 16 bit
 CODE_BEC659:					;	   |
 	CLC					;$BEC659   |
-	ADC $08BE				;$BEC65A   | add lives to current life count
-	STA $08BE				;$BEC65D   |
+	ADC life_count				;$BEC65A   | add lives to current life count
+	STA life_count				;$BEC65D   |
 	LDA $0973				;$BEC660   | get the life display timer
 	BNE CODE_BEC668				;$BEC663   | if the timer isnt 0
 	STZ $0977				;$BEC665   |
@@ -2017,12 +2017,12 @@ CODE_BEC668:					;	   |
 
 CODE_BEC66F:
 	LDA #$2000				;$BEC66F  \
-	TSB $08C2				;$BEC672   |
+	TSB game_state_flags			;$BEC672   |
 	BEQ CODE_BEC678				;$BEC675   |
 	RTL					;$BEC677  /
 
 CODE_BEC678:
-	DEC $08BE				;$BEC678  \
+	DEC life_count				;$BEC678  \
 	LDA #$0078				;$BEC67B   |
 	STA $0973				;$BEC67E   |
 	SEP #$20				;$BEC681   |
@@ -2147,8 +2147,8 @@ CODE_BEC748:					;	   |
 	SEC					;$BEC775   |
 	SBC $32					;$BEC776   |
 	CLC					;$BEC778   |
-	ADC $08BE				;$BEC779   |
-	CMP $08C0				;$BEC77C   |
+	ADC life_count				;$BEC779   |
+	CMP life_count_display			;$BEC77C   |
 	BCC CODE_BEC783				;$BEC77F   |
 	BNE CODE_BEC7A9				;$BEC781   |
 CODE_BEC783:					;	   |
@@ -2159,7 +2159,7 @@ CODE_BEC783:					;	   |
 	CMP #$005A				;$BEC78D   |
 	BCS CODE_BEC7A8				;$BEC790   |
 	DEC $0972				;$BEC792   |
-	DEC $08C0				;$BEC795   |
+	DEC life_count_display			;$BEC795   |
 	%lda_sound(5, lose_life)		;$BEC798   |
 	JSL queue_sound_effect			;$BEC79B   |
 	STZ $0979				;$BEC79F   |
@@ -2169,13 +2169,13 @@ CODE_BEC7A8:					;	   |
 	RTS					;$BEC7A8  /
 
 CODE_BEC7A9:
-	INC $08C0				;$BEC7A9  \
+	INC life_count_display			;$BEC7A9  \
 	LDA #$003C				;$BEC7AC   |
 	STA $0973				;$BEC7AF   |
 	%lda_sound(5, gain_life)		;$BEC7B2   |
 	JSL queue_sound_effect			;$BEC7B5   |
 CODE_BEC7B9:					;	   |
-	LDA $08C0				;$BEC7B9   |
+	LDA life_count_display			;$BEC7B9   |
 	BMI CODE_BEC7A8				;$BEC7BC   |
 	CMP #$0063				;$BEC7BE   |
 	BCC CODE_BEC7C6				;$BEC7C1   |
@@ -2257,10 +2257,10 @@ CODE_BEC84B:
 
 CODE_BEC859:
 	SED					;$BEC859  \ enable decimal because bananas are stored in BCD
-	LDA $08BC				;$BEC85A   | get banana count (this one is used for the krem coin cheat)
+	LDA banana_count			;$BEC85A   | get banana count (this one is used for the krem coin cheat)
 	CLC					;$BEC85D   | reset the counter to 0
 	SBC #$0099				;$BEC85E   |
-	STA $08BC				;$BEC861   |
+	STA banana_count			;$BEC861   |
 	LDA $096D				;$BEC864   | get final banana count (this one is the target count that the counter counts to)
 	CLC					;$BEC867   | reset the counter to 0
 	SBC #$0099				;$BEC868   |
@@ -3257,7 +3257,7 @@ DATA_BECFA7:
 
 CODE_BECFAF:
 	LDX current_sprite			;$BECFAF  \
-	LDA $08A6				;$BECFB1   |
+	LDA level_entrance_number		;$BECFB1   |
 	CMP $42,x				;$BECFB4   |
 	BNE CODE_BECFC6				;$BECFB6   |
 CODE_BECFB8:					;	   |
@@ -3405,7 +3405,7 @@ CODE_BED0CE:
 	JSR CODE_BEDB50				;$BED0CE  \
 	JSR CODE_BED2CA				;$BED0D1   |
 CODE_BED0D4:					;	   |
-	LDA $08C2				;$BED0D4   |
+	LDA game_state_flags			;$BED0D4   |
 	AND #$0100				;$BED0D7   |
 	BNE CODE_BED0F6				;$BED0DA   |
 	LDX current_sprite			;$BED0DC   |
@@ -3562,7 +3562,7 @@ CODE_BED1FC:					;	   |
 	JSR CODE_BED7F9				;$BED202   |
 	BCC CODE_BED220				;$BED205   |
 	LDX current_sprite			;$BED207   |
-	LDA $08C2				;$BED209   |
+	LDA game_state_flags			;$BED209   |
 	AND #$4000				;$BED20C   |
 	BEQ CODE_BED21B				;$BED20F   |
 	LDA $42,x				;$BED211   |
@@ -3675,14 +3675,14 @@ CODE_BED2D8:					;	   |
 	LDA #$0032				;$BED2ED   |
 	JSL CODE_B58012				;$BED2F0   |
 	LDA active_frame_counter		;$BED2F4   |
-	STA $0636				;$BED2F6   |
+	STA last_spc_command_transfer_time	;$BED2F6   |
 	RTS					;$BED2F9  /
 
 CODE_BED2FA:
 	LDA #$00C8				;$BED2FA  \
 	JSL CODE_B58012				;$BED2FD   |
 	LDA active_frame_counter		;$BED301   |
-	STA $0636				;$BED303   |
+	STA last_spc_command_transfer_time	;$BED303   |
 	RTS					;$BED306  /
 
 CODE_BED307:
@@ -3693,7 +3693,7 @@ CODE_BED307:
 	BNE CODE_BED34C				;$BED311   |
 	STY $19B0				;$BED313   |
 	LDA active_frame_counter		;$BED316   |
-	STA $0636				;$BED318   |
+	STA last_spc_command_transfer_time	;$BED318   |
 	RTS					;$BED31B  /
 
 CODE_BED31C:
@@ -3720,7 +3720,7 @@ CODE_BED33D:					;	   |
 	SBC #$0080				;$BED340   |
 	JSL CODE_B5801B				;$BED343   |
 	LDA active_frame_counter		;$BED347   |
-	STA $0636				;$BED349   |
+	STA last_spc_command_transfer_time	;$BED349   |
 CODE_BED34C:					;	   |
 	RTS					;$BED34C  /
 
@@ -4345,7 +4345,7 @@ CODE_BED7C7:
 	STZ $48,x				;$BED7CB   |
 	LDA #$1000				;$BED7CD   |
 	STA $30,x				;$BED7D0   |
-	LDA $08C2				;$BED7D2   |
+	LDA game_state_flags			;$BED7D2   |
 	AND #$4000				;$BED7D5   |
 	ORA $3E,x				;$BED7D8   |
 	STA $3E,x				;$BED7DA   |
@@ -4440,7 +4440,7 @@ CODE_BED887:
 	RTS					;$BED888  /
 
 CODE_BED889:
-	LDA $08C2				;$BED889  \
+	LDA game_state_flags			;$BED889  \
 	AND #$4000				;$BED88C   |
 	BEQ CODE_BED887				;$BED88F   |
 	LDA $44,x				;$BED891   |
@@ -4480,7 +4480,7 @@ CODE_BED8B5:					;	   |
 CODE_BED8DA:
 	LDX current_sprite			;$BED8DA  \
 	LDA $3E,x				;$BED8DC   |
-	EOR $08C2				;$BED8DE   |
+	EOR game_state_flags			;$BED8DE   |
 	AND #$4000				;$BED8E1   |
 	BEQ CODE_BED912				;$BED8E4   |
 	EOR $3E,x				;$BED8E6   |
@@ -4526,7 +4526,7 @@ CODE_BED92D:					;	   |
 	RTS					;$BED92D  /
 
 get_kong_state_flags_if_one_kong:
-	LDA $08C2				;$BED92E  \
+	LDA game_state_flags			;$BED92E  \
 	AND #$4000				;$BED931   |
 	BNE .return				;$BED934   |
 	LDY active_kong_sprite			;$BED936   |
@@ -5671,7 +5671,7 @@ CODE_BEE1A6:
 	JSL CODE_BEBE8B				;$BEE1B7   |
 	BCC CODE_BEE1F8				;$BEE1BB   |
 	LDX current_sprite			;$BEE1BD   |
-	LDA $08C2				;$BEE1BF   |
+	LDA game_state_flags			;$BEE1BF   |
 	AND #$4000				;$BEE1C2   |
 	BNE CODE_BEE1D8				;$BEE1C5   |
 	LDA #$0007				;$BEE1C7   |
@@ -5707,7 +5707,7 @@ CODE_BEE206:
 	JSR CODE_BEE284				;$BEE206  \
 	TYA					;$BEE209   |
 	BNE CODE_BEE220				;$BEE20A   |
-	LDA $08C2				;$BEE20C   |
+	LDA game_state_flags			;$BEE20C   |
 	AND #$2000				;$BEE20F   |
 	BEQ CODE_BEE21D				;$BEE212   |
 	%lda_sound(7, kackle)			;$BEE214   | Play laugh sound
@@ -7605,7 +7605,7 @@ chest_spawner_sprite_code:
 	JML [sprite_return_address]		;$BEEF7E  / Done processing sprite
 
 kremcoin_cheat_handler_sprite_code:
-	LDA $08B8				;$BEEF81  \ Get number of cheated krem coins
+	LDA cheated_token_count			;$BEEF81  \ Get number of cheated krem coins
 	BNE .delete_cheat_handler_sprite	;$BEEF84   |> If player already cheated stop checking for cheat
 	LDY current_sprite			;$BEEF86   |\ Get current sprite
 	LDA $002E,y				;$BEEF88   | | Get sprite state
@@ -7625,7 +7625,7 @@ kremcoin_cheat_handler_sprite_code:
 
 
 .default_state
-	LDA $08BB				;$BEEF9E  \ Get current cheat step
+	LDA token_cheat_step			;$BEEF9E  \ Get current cheat step
 	AND #$0007				;$BEEFA1   |\ Convert cheat step to state number
 	INC A					;$BEEFA4   | |
 	STA $002E,y				;$BEEFA5   |/
@@ -7636,21 +7636,21 @@ kremcoin_cheat_handler_sprite_code:
 .delete_cheat_handler_sprite
 	LDX current_sprite			;$BEEFAD  \
 	STZ $00,x				;$BEEFAF   |> Kill cheat sprite
-	STZ $08BA				;$BEEFB1   |> Set bananas before cheat to 0
+	STZ banana_count_before_token_cheat	;$BEEFB1   |> Set bananas before cheat to 0
 	JML [sprite_return_address]		;$BEEFB4  /> Return from sprite code
 
 .wait_for_cabin_entry
 	LDA level_number			;$BEEFB7  \ \ Get the current level
 	CMP #!level_pirate_panic_k_rools_cabin	;$BEEFB9   | |
 	BNE .delete_cheat_handler_sprite	;$BEEFBC   |/ If the player isnt in the ship cabin delete the cheat sprite
-	LDA $08BC				;$BEEFBE   |\ Else get current banana count
+	LDA banana_count			;$BEEFBE   |\ Else get current banana count
 	SEP #$20				;$BEEFC1   | |
-	STA $08BA				;$BEEFC3   | | Set bananas before cheat to current banana count
+	STA banana_count_before_token_cheat	;$BEEFC3   | | Set bananas before cheat to current banana count
 	REP #$20				;$BEEFC6   |/
 	TYX					;$BEEFC8   |> Move current sprite into X
 	INC $2E,x				;$BEEFC9   |\
-	INC $08BB				;$BEEFCB   | | Move to next cheat step
-	INC $08BB				;$BEEFCE   |/
+	INC token_cheat_step			;$BEEFCB   | | Move to next cheat step
+	INC token_cheat_step			;$BEEFCE   |/
 .fail_if_life_collected				;	   |
 	LDA $0971				;$BEEFD1   |\ Get number of lives to give player
 	BNE .delete_cheat_handler_sprite	;$BEEFD4   |/ If the player collected any lives delete the cheat sprite
@@ -7660,11 +7660,11 @@ kremcoin_cheat_handler_sprite_code:
 	LDA level_number			;$BEEFD9  \ \ Get the current level
 	CMP #!level_pirate_panic		;$BEEFDB   | |
 	BNE .delete_cheat_handler_sprite	;$BEEFDE   |/ If the player isnt in pirate panic delete the cheat sprite
-	LDA $08BA				;$BEEFE0   |\ Else get banana count before cheat
+	LDA banana_count_before_token_cheat	;$BEEFE0   |\ Else get banana count before cheat
 	AND #$00FF				;$BEEFE3   | |
 	SED					;$BEEFE6   | | Set decimal flag because banana counter is binary coded decimal
 	SEC					;$BEEFE7   | |
-	SBC $08BC				;$BEEFE8   | | Banana count before cheat - current banana count
+	SBC banana_count			;$BEEFE8   | | Banana count before cheat - current banana count
 	CLD					;$BEEFEB   |/ Done in decimal mode
 	BEQ .cheat_handler_done			;$BEEFEC   |> If the banana counts are the same return from sprite code
 	AND #$00FF				;$BEEFEE   |\
@@ -7676,9 +7676,9 @@ kremcoin_cheat_handler_sprite_code:
 	LDA level_number			;$BEEFF8  \ \ Get the current level
 	CMP #!level_pirate_panic_k_rools_cabin	;$BEEFFA   | |in
 	BNE .delete_cheat_handler_sprite	;$BEEFFD   |/ If the player isnt in the ship cabin delete the cheat sprite
-	LDA $08BA				;$BEEFFF   |\ Get banana count before cheat
+	LDA banana_count_before_token_cheat	;$BEEFFF   |\ Get banana count before cheat
 	AND #$00FF				;$BEF002   | |
-	CMP $08BC				;$BEF005   | |
+	CMP banana_count			;$BEF005   | |
 	BNE .delete_cheat_handler_sprite	;$BEF008   |/ If the banana count is NOT the same as before the cheat, cheat failed
 	LDA $0971				;$BEF00A   |\ Get number of lives to give player
 	BNE .cheat_step_passed			;$BEF00D   |/ If the player collected any lives continue to next check
@@ -7686,20 +7686,20 @@ kremcoin_cheat_handler_sprite_code:
 	JML [sprite_return_address]		;$BEF00F  /> Else return from sprite code
 
 .fail_if_bananas_collected
-	LDA $08BA				;$BEF012  \ \ Get banana count before cheat
+	LDA banana_count_before_token_cheat	;$BEF012  \ \ Get banana count before cheat
 	AND #$00FF				;$BEF015   | |
-	CMP $08BC				;$BEF018   | |
+	CMP banana_count			;$BEF018   | |
 	BNE .delete_cheat_handler_sprite	;$BEF01B   |/ If the banana count is NOT the same as before the cheat, cheat failed
 	LDA #$0001				;$BEF01D   |\ Else enable the cheat!
 	TSB $0923				;$BEF020   |/
 	BRA .delete_cheat_handler_sprite	;$BEF023  / Then delete the cheat sprite
 
 .cheat_step_passed
-	LDA $08BC				;$BEF025  \ \ Get current banana count
+	LDA banana_count			;$BEF025  \ \ Get current banana count
 	SEP #$20				;$BEF028   | |
-	STA $08BA				;$BEF02A   | | Set bananas before cheat to current banana count
+	STA banana_count_before_token_cheat	;$BEF02A   | | Set bananas before cheat to current banana count
 	REP #$20				;$BEF02D   |/
-	INC $08BB				;$BEF02F   |> Move to next cheat step
+	INC token_cheat_step			;$BEF02F   |> Move to next cheat step
 	LDX current_sprite			;$BEF032   |\
 	STZ $00,x				;$BEF034   |/ Delete the cheat sprite
 	JML [sprite_return_address]		;$BEF036  / Return from sprite code

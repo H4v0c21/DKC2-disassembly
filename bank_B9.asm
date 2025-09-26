@@ -1255,7 +1255,7 @@ CODE_B9D705:
 	BNE CODE_B9D74E				;$B9D70F   |
 	LDA animal_type				;$B9D711   |
 	BNE CODE_B9D72D				;$B9D713   |
-	LDA $08C2				;$B9D715   |
+	LDA game_state_flags			;$B9D715   |
 	BMI CODE_B9D726				;$B9D718   |
 	STZ sprite.state,x			;$B9D71A   |
 CODE_B9D71C:					;	   |
@@ -1315,7 +1315,7 @@ CODE_B9D76D:
 	BNE CODE_B9D7C7				;$B9D777   |
 	LDA animal_type				;$B9D779   |
 	BNE CODE_B9D7A6				;$B9D77B   |
-	LDA $08C2				;$B9D77D   |
+	LDA game_state_flags			;$B9D77D   |
 	BMI CODE_B9D79F				;$B9D780   |
 	STZ sprite.state,x			;$B9D782   |
 CODE_B9D784:					;	   |
@@ -1324,7 +1324,7 @@ CODE_B9D784:					;	   |
 	RTS					;$B9D78B  /
 
 CODE_B9D78C:
-	LDA $08C2				;$B9D78C  \
+	LDA game_state_flags			;$B9D78C  \
 	BMI CODE_B9D798				;$B9D78F   |
 	LDA #!kong_state_22			;$B9D791   |
 	STA sprite.state,x			;$B9D794   |
@@ -1384,7 +1384,7 @@ CODE_B9D7E6:
 	BNE CODE_B9D834				;$B9D7F0   |
 	LDA animal_type				;$B9D7F2   |
 	BNE CODE_B9D813				;$B9D7F4   |
-	LDA $08C2				;$B9D7F6   |
+	LDA game_state_flags			;$B9D7F6   |
 	BMI CODE_B9D805				;$B9D7F9   |
 	STZ sprite.state,x			;$B9D7FB   |
 CODE_B9D7FD:					;	   |
@@ -1728,7 +1728,7 @@ exit_level_on_death:
 	LDA #$810F				;$B9DA61  \
 	JSL set_fade_global			;$B9DA64   |
 	LDA #$0002				;$B9DA68   |
-	TSB $08C2				;$B9DA6B   |
+	TSB game_state_flags			;$B9DA6B   |
 	LDA #$FFFF				;$B9DA6E   |
 	STA level_destination_number		;$B9DA71   |
 	RTS					;$B9DA74  /
@@ -1750,7 +1750,7 @@ CODE_B9DA80:
 CODE_B9DA81:
 	LDA level_number			;$B9DA81  \
 	STA level_destination_number		;$B9DA83   |
-	LDA $08A6				;$B9DA86   |
+	LDA level_entrance_number		;$B9DA86   |
 	STA destination_level_entrance_number	;$B9DA89   |
 	LDA #!player_interaction_2D		;$B9DA8C   |
 	JSL set_player_interaction_global	;$B9DA8F   |
@@ -2532,7 +2532,7 @@ CODE_B9DF6A:
 CODE_B9DF7A:
 	CMP inactive_kong_sprite		;$B9DF7A  \
 	BEQ CODE_B9DF9E				;$B9DF7D   |
-	LDA $08A4				;$B9DF7F   |
+	LDA active_kong_number			;$B9DF7F   |
 	BEQ CODE_B9DF8A				;$B9DF82   |
 	LDA #$0001				;$B9DF84   |
 	STA $0D80				;$B9DF87   |
@@ -2748,7 +2748,7 @@ CODE_B9E0C3:
 	RTS					;$B9E0C3  /
 
 CODE_B9E0C4:
-	LDA $08C2				;$B9E0C4  \
+	LDA game_state_flags			;$B9E0C4  \
 	LDA #$C000				;$B9E0C7   |
 	CMP #$C000				;$B9E0CA   |
 	BEQ CODE_B9E0AF				;$B9E0CD   |
@@ -3125,7 +3125,7 @@ CODE_B9E329:					;	   |
 	RTS					;$B9E330  /
 
 CODE_B9E331:
-	LDA $08A4				;$B9E331  \
+	LDA active_kong_number			;$B9E331  \
 	BNE CODE_B9E33D				;$B9E334   |
 	LDA #$0059				;$B9E336   |
 	JSL set_riding_kong_anim_handle_dixie	;$B9E339   |
@@ -3494,7 +3494,7 @@ CODE_B9E575:					;	   |
 	RTS					;$B9E575  /
 
 CODE_B9E576:
-	LDA $08C2				;$B9E576  \
+	LDA game_state_flags			;$B9E576  \
 	AND #$4000				;$B9E579   |
 	BNE CODE_B9E592				;$B9E57C   |
 	LDY active_kong_sprite			;$B9E57E   |
@@ -4849,7 +4849,7 @@ CODE_B9EDCE:
 
 CODE_B9EDD4:
 	LDA #$0001				;$B9EDD4  \
-	TSB $0500				;$B9EDD7   |
+	TSB firework_flicker_flag		;$B9EDD7   |
 	RTS					;$B9EDDA  /
 
 CODE_B9EDDB:
@@ -4925,7 +4925,7 @@ CODE_B9EE40:
 	RTS					;$B9EE4A  /
 
 play_dk_barrel_sound_if_one_kong:
-	LDA $08C2				;$B9EE4B  \
+	LDA game_state_flags			;$B9EE4B  \
 	AND #$4000				;$B9EE4E   |
 	BEQ .one_kong				;$B9EE51   |
 	RTS					;$B9EE53  /

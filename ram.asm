@@ -84,6 +84,11 @@ gameplay_frame_counter		= $D5	;\ double	counter
 gameplay_frame_counter_high	= $D7	;/
 
 collision_mask_result		= $EB	;word
+UNUSED_ED			= $ED
+UNUSED_EE			= $EE
+previous_palette_buffer_slot	= $EF	;word
+current_palette_buffer_slot	= $F1	;word
+
 
 ;;;
 ;;; End direct page
@@ -94,13 +99,18 @@ stack = $01FF
 oam_table = $0200
 oam_attribute_table = $0400
 
+;Probably unused
+;$0420-$04FF
+
+firework_flicker_flag = $0500
+
 ;controller logic
 ;Note there is no released state for active player
 player_1_held = $0502
-player_1_pressed = $0504
-player_1_released = $0506
-player_2_held = $0508
-player_2_pressed = $050A
+player_2_held = $0504
+player_1_pressed = $0506
+player_2_pressed = $0508
+player_1_released = $050A
 player_2_released = $050C
 player_active_held = $050E
 player_active_pressed = $0510
@@ -124,41 +134,111 @@ destination_level_entrance_number = $059F
 level_exit_trigger_x_position = $05A1
 returning_level_number = $05A3
 returning_entrance_number = $05A5
-
+selected_palette_data_address = $05A7
 sprite_return_address = $05A9
 sprite_return_bank = $05AB
 
+;Probably unused
+;$05AD-$05BA
+
 debug_flags = $05BB
+pirate_panic_level_number_unused = $05BD
+
+;Probably unused
+;$05BF-$05C2
+
+unknown_debug_sprite_unused = $05C3
+
+;Probably unused
+;$05C5-$05F2
+
+exception_number = $05F3
+exception_unknown = $05F5
+exception_palette_address = $05F7
 
 cheat_enable_flags = $060B
-current_game_mode = $060D		;Also doubles as cursor position in mode select screen
+current_game_mode = $060D			;Also doubles as cursor position in mode select screen
 active_controller = $060F
 file_select_selection = $0611
 file_select_action = $0613
 file_select_file_to_copy = $0615
 language_select = $0617
+sound_effect_buffer = $0619
+spc_command_buffer = $0622
+current_sound_effect_slot = $0632
+next_sound_effect_slot = $0634
+last_spc_command_transfer_time = $0636
+next_firework_sprite_buffer_slot = $0638
+firework_sprite_buffer = $063A
 
 npc_screen_type = $0689
 returning_map_node_number = $06A9
 map_node_number = $06AB
 world_number = $06B1
 
+RAM_07B0 = $07B0
+RAM_07B2 = $07B2
+
+;Unused* although the buffer above technically isnt a fixed size, the vanilla game only has 7 worlds (14 bytes)
+;$07C0-$08A1
+
+active_controller_number = $08A2
 active_kong_number = $08A4
-
+level_entrance_number = $08A6
 parent_level_number = $08A8
-
+checkpoint_level_entrance_number = $08AA
+checkpoint_level_number = $08AC
+checkpoint_animal_type = $08AE
+checkpoint_parent_level_number = $08B0
+checkpoint_collected_kong_letters = $08B2
+UNUSED_08B4 = $08B4
+UNUSED_08B5 = $08B5
+last_animal_dismount_state = $08B6
+cheated_token_count = $08B8
+banana_count_before_token_cheat = $08BA
+token_cheat_step = $08BB
+banana_count = $08BC
+life_count = $08BE
+life_count_display = $08C0
+game_state_flags = $08C2
+game_state_flags_2 = $08C4
+exiting_sub_level_flag = $08C6
+temp_level_number = $08C8
 banana_coin_count = $08CA
-kremcoin_count = $08CC
+token_count = $08CC
 dk_coin_count = $08CE
-
+competitor_dk_coin_count = $08D0
+completed_npc_dialogue = $08D2
+completed_cranky_dialogue = $08D2
+completed_cranky_lost_2_dialogue = $08DB
+completed_cranky_lost_3_dialogue = $08DC
+completed_cranky_lost_4_dialogue = $08DD
+completed_cranky_lost_5_dialogue = $08DE
+completed_cranky_lost_6_dialogue = $08DF
+completed_wrinkly_dialogue = $08E0
+completed_funky_dialogue = $08E7
+completed_swanky_dialogue = $08F0
 completed_lost_world_levels = $08F9
-
+klubba_payments = $08FA
+visited_kong_family_members = $08FB
+world_map_events = $08FC
+world_map_event_step_counter = $08FE
 kiosk_returning_world_number = $0900
-
-completion_percentage = $0904
-
+collected_kong_letters = $0902			;Also used a bit to flag if the ship cabin balloon was collected
+completion_percentage = $0904			;High byte unused but still written
+UNUSED_0906 = $0906
 piracy_string_result = $0907
 enable_intro_bypass = $090F
+
+;;;
+;;; Start Noncritical RAM ($0911-$19D9)
+;;;
+
+player_action_held = $0981
+player_action_pressed = $0983
+RAM_0985 = $0985
+RAM_0987 = $0987
+glimmer_sprite = $0989
 
 intro_sparkle_x_position = $098F
 intro_sparkle_y_position = $0991

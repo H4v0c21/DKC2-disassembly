@@ -6,16 +6,16 @@ CODE_B48000:
 	LDA.b #<:wram_base			;$B48005   |
 	STA $CA					;$B48007   |
 	REP #$20				;$B48009   |
-	STZ kremcoin_count			;$B4800B   |
+	STZ token_count				;$B4800B   |
 	STZ banana_coin_count			;$B4800E   |
 	STZ dk_coin_count			;$B48011   |
 	LDA.l DATA_B4BEE7			;$B48014   |
-	STA $08D0				;$B48018   |
+	STA competitor_dk_coin_count		;$B48018   |
 	SEP #$20				;$B4801B   |
 	STZ completed_lost_world_levels		;$B4801D   |
-	STZ $08FC				;$B48020   |
-	STZ $08FA				;$B48023   |
-	STZ $08FB				;$B48026   |
+	STZ world_map_events			;$B48020   |
+	STZ klubba_payments			;$B48023   |
+	STZ visited_kong_family_members		;$B48026   |
 	REP #$20				;$B48029   |
 	STZ world_number			;$B4802B   |
 	STZ map_node_number			;$B4802E   |
@@ -25,12 +25,12 @@ CODE_B48000:
 	STZ $064B				;$B4803A   |
 	REP #$20				;$B4803D   |
 	STZ $067F				;$B4803F   |
-	STZ $07B0				;$B48042   |
+	STZ RAM_07B0				;$B48042   |
 	LDA #$0027				;$B48045   | Number of bytes to clear
 	LDX #$0000				;$B48048   |
 	SEP #$20				;$B4804B   |
 .next_byte:					;	   |
-	STZ $08D2,x				;$B4804D   |
+	STZ completed_npc_dialogue,x		;$B4804D   |
 	INX					;$B48050   |
 	DEC A					;$B48051   |
 	BNE .next_byte				;$B48052   |
@@ -109,11 +109,11 @@ CODE_B480CD:
 	AND #$00FF				;$B480F2   |
 	CMP #$0005				;$B480F5   |
 	BNE CODE_B48147				;$B480F8   |
-	LDA $08FC				;$B480FA   |
+	LDA world_map_events			;$B480FA   |
 	BIT #$000C				;$B480FD   |
 	BNE CODE_B48147				;$B48100   |
 	LDA #$001E				;$B48102   |
-	STA $07B0				;$B48105   |
+	STA RAM_07B0				;$B48105   |
 	LDA #!map_node_kroc_kore_w2_lost_world	;$B48108   |
 	JSR CODE_B4B3B8				;$B4810B   |
 	LDA #!map_node_kroc_kore_w3_lost_world	;$B4810E   |
@@ -141,10 +141,10 @@ CODE_B48147:					;	   |
 	LDA dk_coin_count			;$B4814D   |
 	BEQ CODE_B48169				;$B48150   |
 	DEC A					;$B48152   |
-	CMP $08D0				;$B48153   |
+	CMP competitor_dk_coin_count		;$B48153   |
 	BCC CODE_B48169				;$B48156   |
 if !version == 0				;	   |
-	LDA $08D0				;$B48158   |
+	LDA competitor_dk_coin_count		;$B48158   |
 	CMP $B4BE8F				;$B4815B   |
 	BNE CODE_B48166				;$B4815F   |
 	LDA #$0063				;$B48161   |
@@ -160,11 +160,11 @@ CODE_B48172:					;	   |
 	LDA $B4BE97				;$B48172   |
 						;	   |
 CODE_B48176:					;	   |
-	STA $08D0				;$B48176   |
+	STA competitor_dk_coin_count		;$B48176   |
 else						;	   |
 	JSR CODE_B4AE58				;$B48158   |
 endif						;	   |
-	LDA $08FB				;$B4815B   |
+	LDA visited_kong_family_members		;$B4815B   |
 	BIT #$0040				;$B4815E   |
 	BEQ CODE_B48169				;$B48161   |
 	JSR CODE_B4BE96				;$B48163   |
@@ -178,7 +178,7 @@ CODE_B48171:					;	   |
 	LDA world_number			;$B48171   |
 	CMP #!world_lost_world_w2		;$B48174   |
 	BCC CODE_B481C3				;$B48177   |
-	STZ $08FE				;$B48179   |
+	STZ world_map_event_step_counter	;$B48179   |
 	LDA #$0040				;$B4817C   |
 	STA $7E8012				;$B4817F   |
 	LDA #$0112				;$B48183   |
@@ -188,7 +188,7 @@ CODE_B48171:					;	   |
 	LDA #$0000				;$B48191   |
 	STA $7E8018				;$B48194   |
 	LDX #$0012				;$B48198   |
-	LDA $08FC				;$B4819B   |
+	LDA world_map_events			;$B4819B   |
 	BIT #$0008				;$B4819E   |
 	BEQ CODE_B481A6				;$B481A1   |
 	LDX #$0013				;$B481A3   |
@@ -288,11 +288,11 @@ CODE_B4826F:					;	   |
 	TXA					;$B4826F   |
 	LDY #$00F0				;$B48270   |
 	LDX #$0004				;$B48273   |
-	JSL DMA_global_palette			;$B48276   |
+	JSL DMA_sprite_palette_from_index	;$B48276   |
 	LDA #$00AB				;$B4827A   |
 	LDY #$00D0				;$B4827D   |
 	LDX #$0004				;$B48280   |
-	JSL DMA_global_palette			;$B48283   |
+	JSL DMA_sprite_palette_from_index	;$B48283   |
 	LDA $060F				;$B48287   |
 	BEQ CODE_B48291				;$B4828A   |
 	LDA #$0080				;$B4828C   |
@@ -303,25 +303,25 @@ CODE_B48291:
 CODE_B48294:					;	   |
 	LDY #$00E0				;$B48294   |
 	LDX #$0004				;$B48297   |
-	JSL DMA_global_palette			;$B4829A   |
+	JSL DMA_sprite_palette_from_index	;$B4829A   |
 	LDA world_number			;$B4829E   |
 	BEQ CODE_B482D7				;$B482A1   |
 	LDA #$00AD				;$B482A3   |
 	LDY #$0080				;$B482A6   |
 	LDX #$0004				;$B482A9   |
-	JSL DMA_global_palette			;$B482AC   |
+	JSL DMA_sprite_palette_from_index	;$B482AC   |
 	LDA #$00AE				;$B482B0   |
 	LDY #$0090				;$B482B3   |
 	LDX #$0004				;$B482B6   |
-	JSL DMA_global_palette			;$B482B9   |
+	JSL DMA_sprite_palette_from_index	;$B482B9   |
 	LDA #$00A5				;$B482BD   |
 	LDY #$00A0				;$B482C0   |
 	LDX #$0004				;$B482C3   |
-	JSL DMA_global_palette			;$B482C6   |
+	JSL DMA_sprite_palette_from_index	;$B482C6   |
 	LDA #$00A6				;$B482CA   |
 	LDY #$00B0				;$B482CD   |
 	LDX #$0004				;$B482D0   |
-	JSL DMA_global_palette			;$B482D3   |
+	JSL DMA_sprite_palette_from_index	;$B482D3   |
 CODE_B482D7:					;	   |
 	LDA #$000A				;$B482D7   |
 	STA $069F				;$B482DA   |
@@ -758,9 +758,9 @@ CODE_B48620:					;	   |
 	AND #$00FF				;$B4866A   |
 	BNE CODE_B486D5				;$B4866D   |
 if !version == 1				;	   |
-	LDA $07B0				;$B4866F   |
+	LDA RAM_07B0				;$B4866F   |
 	BNE CODE_B486D5				;$B48672   |
-	LDA $08FC				;$B48674   |
+	LDA world_map_events			;$B48674   |
 	BIT #$0005				;$B48677   |
 	BNE CODE_B486D5				;$B4867A   |
 endif						;	   |
@@ -891,7 +891,7 @@ CODE_B48769:					;	  \
 	AND #$00FF				;$B4876C   |
 	BEQ CODE_B48779				;$B4876F   |
 if !version == 1				;	   |
-	LDA $07B0				;$B48771   |
+	LDA RAM_07B0				;$B48771   |
 	BEQ CODE_B48779				;$B48774   |
 endif						;	   |
 	BRL CODE_B48927				;$B48776  /
@@ -909,7 +909,7 @@ CODE_B48787:
 	BRL CODE_B48927				;$B4878C  /
 
 CODE_B4878F:
-	LDA $08FB				;$B4878F  \
+	LDA visited_kong_family_members		;$B4878F  \
 	BIT #$0040				;$B48792   |
 	BEQ CODE_B487A2				;$B48795   |
 	LDA player_active_held			;$B48797   |
@@ -919,9 +919,9 @@ CODE_B4878F:
 
 CODE_B487A2:
 if !version == 1				;	  \
-	LDA $07B0				;$B487A2   |
+	LDA RAM_07B0				;$B487A2   |
 	BNE CODE_B487B4				;$B487A5   |
-	LDA $08FC				;$B487A7   |
+	LDA world_map_events			;$B487A7   |
 	BIT #$0005				;$B487AA   |
 	BNE CODE_B487B4				;$B487AD   |
 	LDA $064A				;$B487AF   |
@@ -1128,10 +1128,10 @@ CODE_B48927:					;	   |
 	AND #$00FF				;$B4893C   |
 	BNE CODE_B4896A				;$B4893F   |
 if !version == 1
-	LDA $07B0				;$B48941   |
+	LDA RAM_07B0				;$B48941   |
 	BNE CODE_B4896A				;$B48944   |
 endif
-	LDA $08FC				;$B48946   |
+	LDA world_map_events			;$B48946   |
 	BIT #$0005				;$B48949   |
 	BNE CODE_B4896A				;$B4894C   |
 	LDA $06A5				;$B4894E   |
@@ -1181,7 +1181,7 @@ CODE_B489A2:					;	   |
 	LDA #$0004				;$B489B1   |
 	STA $0697				;$B489B4   |
 CODE_B489B7:					;	   |
-	LDA $08FC				;$B489B7   |
+	LDA world_map_events			;$B489B7   |
 	BIT #$0005				;$B489BA   |
 	BNE CODE_B489DB				;$B489BD   |
 	LDA $0683				;$B489BF   |
@@ -1196,12 +1196,12 @@ CODE_B489D4:					;	   |
 	LDA #$810F				;$B489D4   |
 	JSL set_fade_global			;$B489D7   |
 CODE_B489DB:					;	   |
-	LDA $07B0				;$B489DB   |
+	LDA RAM_07B0				;$B489DB   |
 	BEQ CODE_B489EB				;$B489DE   |
-	DEC $07B0				;$B489E0   |
+	DEC RAM_07B0				;$B489E0   |
 	BNE CODE_B489EB				;$B489E3   |
 	LDA #$000C				;$B489E5   |
-	TSB $08FC				;$B489E8   |
+	TSB world_map_events			;$B489E8   |
 CODE_B489EB:					;	   |
 	PLB					;$B489EB   |
 	RTL					;$B489EC  /
@@ -1560,7 +1560,7 @@ CODE_B48C9D:
 	LDA #$00AA				;$B48D22   |
 	LDY #$00E0				;$B48D25   |
 	LDX #$0004				;$B48D28   |
-	JSL DMA_global_palette			;$B48D2B   |
+	JSL DMA_sprite_palette_from_index	;$B48D2B   |
 	LDA #global_sprite_palette		;$B48D2F   |
 	LDY #$00F0				;$B48D32   |
 	LDX #$0004				;$B48D35   |
@@ -1654,15 +1654,15 @@ CODE_B48DF9:					;	   |
 CODE_B48DFA:
 	JSL disable_screen			;$B48DFA  \
 	LDA #$0040				;$B48DFE   |
-	TSB $08FB				;$B48E01   |
+	TSB visited_kong_family_members		;$B48E01   |
 	LDA #$0040				;$B48E04   |
 	TRB $06A5				;$B48E07   |
-	LDA $08A4				;$B48E0A   |
+	LDA active_kong_number			;$B48E0A   |
 	STA $0660				;$B48E0D   |
-	LDA $08C2				;$B48E10   |
+	LDA game_state_flags			;$B48E10   |
 	STA $0676				;$B48E13   |
 	LDA #$4000				;$B48E16   |
-	TSB $08C2				;$B48E19   |
+	TSB game_state_flags			;$B48E19   |
 	LDA #$0000				;$B48E1C   |
 	JSL set_active_kong_global		;$B48E1F   |
 	STZ npc_screen_type			;$B48E23   |
@@ -1890,9 +1890,9 @@ CODE_B49042:					;	   |
 
 CODE_B49043:
 	LDA $0676				;$B49043  \
-	STA $08C2				;$B49046   |
+	STA game_state_flags			;$B49046   |
 	LDA $0660				;$B49049   |
-	STA $08A4				;$B4904C   |
+	STA active_kong_number			;$B4904C   |
 	LDA #ending_museum_NMI			;$B4904F   |
 	STA NMI_pointer				;$B49052   |
 	LDA #CODE_B4BEEF			;$B49054   |
@@ -1993,7 +1993,7 @@ CODE_B49122:
 
 CODE_B49126:
 	LDA #$4000				;$B49126  \
-	TSB $08C2				;$B49129   |
+	TSB game_state_flags			;$B49129   |
 	LDA #$0000				;$B4912C   |
 	JSL set_active_kong_global		;$B4912F   |
 	STZ npc_screen_type			;$B49133   |
@@ -2028,9 +2028,9 @@ CODE_B49159:					;	   |
 
 CODE_B49188:
 	LDA $0676				;$B49188  \
-	STA $08C2				;$B4918B   |
+	STA game_state_flags			;$B4918B   |
 	LDA $0660				;$B4918E   |
-	STA $08A4				;$B49191   |
+	STA active_kong_number			;$B49191   |
 	LDA #ending_museum_NMI			;$B49194   |
 	STA NMI_pointer				;$B49197   |
 	LDA #CODE_B4BEEF			;$B49199   |
@@ -2053,11 +2053,11 @@ CODE_B491BF:					;	   |
 CODE_B491C5:
 if !version == 0				;	  \
 	LDA #$0063				;$B491C5   |
-	STA $08D0				;$B491C8   |
+	STA competitor_dk_coin_count		;$B491C8   |
 else						;	   |
 	JSR CODE_B4AE58				;$B491C5   |
 endif						;	   |
-	STZ $08FE				;$B491C8   |
+	STZ world_map_event_step_counter	;$B491C8   |
 	JSL disable_screen			;$B491CB   |
 	JSL CODE_BBC5AB				;$B491CF   |
 	JML init_secret_ending			;$B491D3  /
@@ -2086,7 +2086,7 @@ CODE_B491FF:
 	CMP #!npc_screen_type_klubba		;$B49202   |
 	BNE CODE_B4921F				;$B49205   |
 	JSR CODE_B49FFD				;$B49207   |
-	LDA $08FA				;$B4920A   |
+	LDA klubba_payments			;$B4920A   |
 	BIT $0666				;$B4920D   |
 	BEQ CODE_B4921F				;$B49210   |
 	LDA #CODE_808D3D			;$B49212   |
@@ -2132,7 +2132,7 @@ CODE_B49266:
 	LDA world_number			;$B4926D   |
 	CMP #!world_lost_world_w2		;$B49270   |
 	BCC CODE_B492B5				;$B49273   |
-	LDA $08FB				;$B49275   |
+	LDA visited_kong_family_members		;$B49275   |
 	BIT #$0020				;$B49278   |
 	BNE CODE_B492B5				;$B4927B   |
 	LDA #$0004				;$B4927D   |
@@ -2159,7 +2159,7 @@ CODE_B49299:					;	   |
 	CMP #$0001				;$B492A7   |
 	BNE CODE_B492B2				;$B492AA   |
 	LDA #$0020				;$B492AC   |
-	TSB $08FB				;$B492AF   |
+	TSB visited_kong_family_members		;$B492AF   |
 CODE_B492B2:					;	   |
 	BRL CODE_B4935D				;$B492B2  /
 
@@ -2175,13 +2175,13 @@ CODE_B492C3:					;	   |
 	DEC $0654				;$B492C4   |
 	BNE CODE_B492C3				;$B492C7   |
 	STA $0654				;$B492C9   |
-	LDA $08FB				;$B492CC   |
+	LDA visited_kong_family_members		;$B492CC   |
 	AND #$00FF				;$B492CF   |
 	BIT $0654				;$B492D2   |
 	BNE CODE_B49315				;$B492D5   |
 	ORA $0654				;$B492D7   |
 	SEP #$20				;$B492DA   |
-	STA $08FB				;$B492DC   |
+	STA visited_kong_family_members		;$B492DC   |
 	REP #$20				;$B492DF   |
 	LDY npc_screen_type			;$B492E1   |
 	LDX DATA_B4C533,y			;$B492E4   |
@@ -2323,7 +2323,7 @@ CODE_B493FC:					;	   |
 	LDA world_number			;$B49409   |
 	CMP #!world_lost_world_w2		;$B4940C   |
 	BCC CODE_B49419				;$B4940F   |
-	LDA $08FB				;$B49411   |
+	LDA visited_kong_family_members		;$B49411   |
 	BIT #$0020				;$B49414   |
 	BEQ CODE_B49425				;$B49417   |
 CODE_B49419:					;	   |
@@ -2451,21 +2451,21 @@ CODE_B49541:
 	LDX world_number			;$B49541  \
 	DEX					;$B49544   |
 	STX $0666				;$B49545   |
-	LDA $08F0,x				;$B49548   |
+	LDA completed_swanky_dialogue,x		;$B49548   |
 	BIT #$0001				;$B4954B   |
 	BEQ CODE_B49556				;$B4954E   |
 	LDY #$3E00				;$B49550   |
 	JSR CODE_B49704				;$B49553   |
 CODE_B49556:					;	   |
 	LDX $0666				;$B49556   |
-	LDA $08F0,x				;$B49559   |
+	LDA completed_swanky_dialogue,x		;$B49559   |
 	BIT #$0002				;$B4955C   |
 	BEQ CODE_B49567				;$B4955F   |
 	LDY #$3E80				;$B49561   |
 	JSR CODE_B49704				;$B49564   |
 CODE_B49567:					;	   |
 	LDX $0666				;$B49567   |
-	LDA $08F0,x				;$B4956A   |
+	LDA completed_swanky_dialogue,x		;$B4956A   |
 	BIT #$0004				;$B4956D   |
 	BEQ CODE_B49578				;$B49570   |
 	LDY #$3F00				;$B49572   |
@@ -2490,7 +2490,7 @@ CODE_B49584:					;	   |
 	LDY #$3E14				;$B49594   |
 	LDX world_number			;$B49597   |
 	DEX					;$B4959A   |
-	LDA $08D2,x				;$B4959B   |
+	LDA completed_cranky_dialogue,x		;$B4959B   |
 	STA $0672				;$B4959E   |
 	LDA #$0001				;$B495A1   |
 	JSR CODE_B49620				;$B495A4   |
@@ -2511,7 +2511,7 @@ CODE_B495B3:					;	   |
 	LDY #$3E14				;$B495BF   |
 	LDX world_number			;$B495C2   |
 	DEX					;$B495C5   |
-	LDA $08E7,x				;$B495C6   |
+	LDA completed_funky_dialogue,x		;$B495C6   |
 	STA $0672				;$B495C9   |
 	LDA #$0001				;$B495CC   |
 	JSR CODE_B49620				;$B495CF   |
@@ -2524,7 +2524,7 @@ CODE_B495D3:
 	STA $0666				;$B495D8   |
 	LDX world_number			;$B495DB   |
 	DEX					;$B495DE   |
-	LDA $08E0,x				;$B495DF   |
+	LDA completed_wrinkly_dialogue,x	;$B495DF   |
 	BIT #$0001				;$B495E2   |
 	BEQ CODE_B495F0				;$B495E5   |
 	LDY #$3E00				;$B495E7   |
@@ -2548,7 +2548,7 @@ CODE_B495FB:					;	   |
 	LDY #$3E90				;$B4960C   |
 	LDX world_number			;$B4960F   |
 	DEX					;$B49612   |
-	LDA $08E0,x				;$B49613   |
+	LDA completed_wrinkly_dialogue,x	;$B49613   |
 	STA $0672				;$B49616   |
 	LDA #$0002				;$B49619   |
 	JSR CODE_B49620				;$B4961C   |
@@ -3285,7 +3285,7 @@ CODE_B49C4D:
 	STA [$C8]				;$B49C50   |
 	INC $C8					;$B49C52   |
 	INC $C8					;$B49C54   |
-	LDA $08A4				;$B49C56   |
+	LDA active_kong_number			;$B49C56   |
 	ASL A					;$B49C59   |
 	ORA #$3C00				;$B49C5A   |
 	STA [$C8]				;$B49C5D   |
@@ -3421,7 +3421,7 @@ CODE_B49D4F:
 	LDA npc_screen_type			;$B49D5B   | get npc screen type
 	CMP #!npc_screen_type_klubba		;$B49D5E   | check if klubba
 	BNE CODE_B49D68				;$B49D61   | if not, update banana coin count
-	STY kremcoin_count			;$B49D63   | else update kremcoin count
+	STY token_count				;$B49D63   | else update kremcoin count
 	BRA CODE_B49D6B				;$B49D66  /
 
 CODE_B49D68:
@@ -3437,19 +3437,19 @@ CODE_B49D6B:					;	   |
 	LDA #$065F				;$B49D7F   | dead code
 	LDA npc_screen_type			;$B49D82   | get npc screen type
 	BNE CODE_B49D8C				;$B49D85   | if not 0, its not cranky, move to next check
-	LDX #$08D2				;$B49D87   | else
+	LDX #completed_cranky_dialogue		;$B49D87   | else
 	BRA CODE_B49D9E				;$B49D8A  /
 
 CODE_B49D8C:
 	CMP #!npc_screen_type_funky		;$B49D8C  \  check if funky
 	BNE CODE_B49D96				;$B49D8F   | if not, move to next check
-	LDX #$08E7				;$B49D91   |
+	LDX #completed_funky_dialogue		;$B49D91   |
 	BRA CODE_B49D9E				;$B49D94  /
 
 CODE_B49D96:
 	CMP #!npc_screen_type_wrinkly		;$B49D96  \  check if wrinkly
 	BNE CODE_B49DDD				;$B49D99   | if not,
-	LDX #$08E0				;$B49D9B   |
+	LDX #completed_wrinkly_dialogue		;$B49D9B   |
 CODE_B49D9E:					;	   |
 	STX $0666				;$B49D9E   |
 	LDA world_number			;$B49DA1   | get world number
@@ -3471,11 +3471,11 @@ CODE_B49D9E:					;	   |
 	SEP #$20				;$B49DC5   |
 	LDA $00,x				;$B49DC7   |
 	ORA $0666				;$B49DC9   |
-	STA $08DB				;$B49DCC   |
-	STA $08DC				;$B49DCF   |
-	STA $08DD				;$B49DD2   |
-	STA $08DE				;$B49DD5   |
-	STA $08DF				;$B49DD8   |
+	STA completed_cranky_lost_2_dialogue	;$B49DCC   |
+	STA completed_cranky_lost_3_dialogue	;$B49DCF   |
+	STA completed_cranky_lost_4_dialogue	;$B49DD2   |
+	STA completed_cranky_lost_5_dialogue	;$B49DD5   |
+	STA completed_cranky_lost_6_dialogue	;$B49DD8   |
 	REP #$20				;$B49DDB   |
 CODE_B49DDD:					;	   |
 	BRL CODE_B49D40				;$B49DDD  /
@@ -3494,7 +3494,7 @@ CODE_B49DEA:
 	LDA world_number			;$B49DED   |
 	DEC A					;$B49DF0   |
 	TAX					;$B49DF1   |
-	LDA $08D2,x				;$B49DF2   |
+	LDA completed_cranky_dialogue,x		;$B49DF2   |
 	BIT $0666				;$B49DF5   |
 	BEQ CODE_B49DFC				;$B49DF8   |
 	SEC					;$B49DFA   |
@@ -3509,7 +3509,7 @@ CODE_B49DFE:
 	LDA world_number			;$B49E01   |
 	DEC A					;$B49E04   |
 	TAX					;$B49E05   |
-	LDA $08F0,x				;$B49E06   |
+	LDA completed_swanky_dialogue,x		;$B49E06   |
 	BIT $0666				;$B49E09   |
 	BEQ CODE_B49E10				;$B49E0C   |
 	SEC					;$B49E0E   |
@@ -3528,7 +3528,7 @@ CODE_B49E14:
 	LDA world_number			;$B49E17   |
 	DEC A					;$B49E1A   |
 	TAX					;$B49E1B   |
-	LDA $08E7,x				;$B49E1C   |
+	LDA completed_funky_dialogue,x		;$B49E1C   |
 	BIT $0666				;$B49E1F   |
 	BEQ CODE_B49E12				;$B49E22   |
 	SEC					;$B49E24   |
@@ -3539,7 +3539,7 @@ CODE_B49E26:
 	LDA world_number			;$B49E29   |
 	DEC A					;$B49E2C   |
 	TAX					;$B49E2D   |
-	LDA $08E0,x				;$B49E2E   |
+	LDA completed_wrinkly_dialogue,x	;$B49E2E   |
 	BIT $0666				;$B49E31   |
 	BEQ CODE_B49E38				;$B49E34   |
 	SEC					;$B49E36   |
@@ -3695,9 +3695,9 @@ CODE_B49F61:
 	LDA #CODE_808D4E			;$B49F73   |
 	STA NMI_pointer				;$B49F76   |
 	JSR CODE_B49FFD				;$B49F78   |
-	LDA $08FA				;$B49F7B   |
+	LDA klubba_payments			;$B49F7B   |
 	ORA $0666				;$B49F7E   | Set payment flag
-	STA $08FA				;$B49F81   |
+	STA klubba_payments			;$B49F81   |
 	LDA world_number			;$B49F84   |
 	STA kiosk_returning_world_number	;$B49F87   | Preserve which world we came from
 	LDA map_node_number			;$B49F8A   |
@@ -3983,7 +3983,7 @@ get_player_coin_count_npc:
 	LDA banana_coin_count			;$B4A1D7   | Get number of banana coins player has
 	CPY #!npc_screen_type_klubba		;$B4A1DA   | Check if npc screen is klubba
 	BNE .not_klubba				;$B4A1DD   | If not, continue with banana coins
-	LDA kremcoin_count			;$B4A1DF   | Else load number of kremcoins instead
+	LDA token_count				;$B4A1DF   | Else load number of kremcoins instead
 .not_klubba:					;	   |
 	AND #$00FF				;$B4A1E2   |
 	RTS					;$B4A1E5  / Return
@@ -4549,9 +4549,9 @@ CODE_B4A6CE:
 	JSR CODE_B49E3A				;$B4A6D7   |
 	LDX world_number			;$B4A6DA   |
 	DEX					;$B4A6DD   |
-	LDA $08F0,x				;$B4A6DE   |
+	LDA completed_swanky_dialogue,x		;$B4A6DE   |
 	ORA $0666				;$B4A6E1   |
-	STA $08F0,x				;$B4A6E4   |
+	STA completed_swanky_dialogue,x		;$B4A6E4   |
 	JSR CODE_B4A11F				;$B4A6E7   |
 	LDA $0670				;$B4A6EA   |
 	STA $06B5				;$B4A6ED   |
@@ -5293,9 +5293,9 @@ CODE_B4AE58:
 	LDA dk_coin_count			;$B4AE58  \
 	BEQ CODE_B4AE84				;$B4AE5B   |
 	DEC A					;$B4AE5D   |
-	CMP $08D0				;$B4AE5E   |
+	CMP competitor_dk_coin_count		;$B4AE5E   |
 	BCC CODE_B4AE84				;$B4AE61   |
-	LDA $08D0				;$B4AE63   |
+	LDA competitor_dk_coin_count		;$B4AE63   |
 	CMP.l DATA_B4BED7			;$B4AE66   |
 	BNE CODE_B4AE71				;$B4AE6A   |
 	LDA #$0063				;$B4AE6C   |
@@ -5310,7 +5310,7 @@ CODE_B4AE71:
 CODE_B4AE7D:
 	LDA.l DATA_B4BEDF			;$B4AE7D  \
 CODE_B4AE81:					;	   |
-	STA $08D0				;$B4AE81   |
+	STA competitor_dk_coin_count		;$B4AE81   |
 CODE_B4AE84:					;	   |
 	RTS					;$B4AE84  /
 endif
@@ -5860,9 +5860,9 @@ CODE_B4B293:
 	BRA CODE_B4B258				;$B4B29A  /
 
 CODE_B4B29C:
-	CMP #$00C4				;$B4B29C  \
+	CMP #!ret_from_k_kore_lvl_range_start	;$B4B29C  \
 	BCC CODE_B4B2A9				;$B4B29F   |
-	CMP #$00C9				;$B4B2A1   |
+	CMP #!ret_from_k_kore_lvl_range_end	;$B4B2A1   |
 	BCS CODE_B4B2A9				;$B4B2A4   |
 	INC completed_lost_world_levels		;$B4B2A6   |
 CODE_B4B2A9:					;	   |
@@ -5974,7 +5974,7 @@ CODE_B4B376:					;	   |
 	LDA $06D1				;$B4B376   |
 	BIT #$0002				;$B4B379   |
 	BNE CODE_B4B386				;$B4B37C   |
-	LDA $08FC				;$B4B37E   |
+	LDA world_map_events			;$B4B37E   |
 	BIT #$0001				;$B4B381   |
 	BEQ CODE_B4B392				;$B4B384   |
 CODE_B4B386:					;	   |
@@ -6108,7 +6108,7 @@ CODE_B4B46D:					;	   |
 CODE_B4B48D:
 	JSR CODE_B4AED3				;$B4B48D   |
 	LDA #$0032				;$B4B490   |
-	STA $08BE				;$B4B493   |
+	STA life_count				;$B4B493   |
 	LDA #$0063				;$B4B496   |
 	STA banana_coin_count			;$B4B499   |
 	LDA #CODE_8087D9			;$B4B49C   |
@@ -6753,7 +6753,7 @@ CODE_B4B944:					;	   |
 	LDA map_node_number			;$B4B95B   |
 	ASL A					;$B4B95E   |
 	TAX					;$B4B95F   |
-	LDA $07B2,x				;$B4B960   |
+	LDA RAM_07B2,x				;$B4B960   |
 	BRA CODE_B4B96C				;$B4B963  /
 
 CODE_B4B965:
@@ -6981,7 +6981,7 @@ CODE_B4BB1D:					;	   |
 CODE_B4BB31:
 	PLY					;$B4BB31  \
 	LDA $0674				;$B4BB32   |
-	STA $07B2,y				;$B4BB35   |
+	STA RAM_07B2,y				;$B4BB35   |
 	INY					;$B4BB38   |
 	INY					;$B4BB39   |
 	DEC $0650				;$B4BB3A   |
@@ -7492,7 +7492,7 @@ CODE_B4BEEF:
 	LDA #$00AA				;$B4BF13   |
 	LDY #$00E0				;$B4BF16   |
 	LDX #$0004				;$B4BF19   |
-	JSL DMA_global_palette			;$B4BF1C   |
+	JSL DMA_sprite_palette_from_index	;$B4BF1C   |
 	LDA $0672				;$B4BF20   |
 	STA $065C				;$B4BF23   |
 	LDA $067F				;$B4BF26   |
@@ -7543,9 +7543,9 @@ CODE_B4BF3A:					;	   |
 	JSL DMA_palette				;$B4BFA2   |
 	LDA #$0100				;$B4BFA6   |
 	JSL set_fade_global			;$B4BFA9   |
-	LDA $08A4				;$B4BFAD   |
+	LDA active_kong_number			;$B4BFAD   |
 	STA $0660				;$B4BFB0   |
-	STZ $08A4				;$B4BFB3   |
+	STZ active_kong_number			;$B4BFB3   |
 	JSL setup_npc_screen_kongs		;$B4BFB6   |
 	LDX inactive_kong_sprite		;$B4BFBA   |
 	LDA #$C000				;$B4BFBD   |
@@ -7716,8 +7716,8 @@ CODE_B4C122:					;	   |
 CODE_B4C139:
 	JSL disable_screen			;$B4C139  \
 	LDA #$0010				;$B4C13D   |
-	TRB $08FC				;$B4C140   |
-	STZ $08FE				;$B4C143   |
+	TRB world_map_events			;$B4C140   |
+	STZ world_map_event_step_counter	;$B4C143   |
 	JSL CODE_BBC5AB				;$B4C146   |
 	JML CODE_8087B9				;$B4C14A  /
 
@@ -9634,25 +9634,59 @@ DATA_B4CE29:
 	dw DATA_B4CE5E
 
 DATA_B4CE37:
-	db $03, $0C, $04, $15, $0B, $00
+	db !level_pirate_panic
+	db !level_mainbrace_mayhem
+	db !level_gangplank_galley
+	db !level_lockjaws_locker
+	db !level_topsail_trouble
+	db $00
 
 DATA_B4CE3D:
-	db $07, $25, $14, $08, $24, $00
+	db !level_hot_head_hop
+	db !level_kannons_klaim
+	db !level_lava_lagoon
+	db !level_red_hot_ride
+	db !level_squawks_shaft
+	db $00
 
 DATA_B4CE43:
-	db $28, $01, $29, $05, $0A, $2D, $00
+	db !level_barrel_bayou
+	db !level_glimmers_galleon
+	db !level_krockhead_klamber
+	db !level_rattle_battle
+	db !level_slime_climb
+	db !level_bramble_blast
+	db $00
 
 DATA_B4CE4A:
-	db $11, $2C, $02, $0E, $2E, $0F, $00
+	db !level_hornet_hole
+	db !level_mudhole_marsh
+	db !level_rambi_rumble
+	db !level_target_terror
+	db !level_bramble_scramble
+	db !level_rickety_race
+	db $00
 
 DATA_B4CE51:
-	db $19, $10, $18, $13, $17, $00
+	db !level_ghostly_grove
+	db !level_haunted_hall
+	db !level_gusty_glade
+	db !level_parrot_chute_panic
+	db !level_web_woods
+	db $00
 
 DATA_B4CE57:
-	db $6C, $23, $62, $8F, $6D, $6E, $00
+	db !level_arctic_abyss
+	db !level_windy_well
+	db !level_castle_crush
+	db !level_clappers_cavern
+	db !level_chain_link_chamber
+	db !level_toxic_tower
+	db $00
 
 DATA_B4CE5E:
-	db $2F, $00
+	db !level_screechs_sprint
+	db $00
 
 DATA_B4CE60:
 	db $7F, $FF, $FF, $27, $FF, $FF, $30, $41

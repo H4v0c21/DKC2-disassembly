@@ -1288,13 +1288,13 @@ CODE_B68E1A:					;	   |
 
 CODE_B68E56:
 	LDA #$0004				;$B68E56  \
-	BIT $08C4				;$B68E59   |
+	BIT game_state_flags_2			;$B68E59   |
 	BEQ CODE_B68E63				;$B68E5C   |
 	LDY #DATA_B6908D			;$B68E5E   |
 	BRA CODE_B68E6C				;$B68E61  /
 
 CODE_B68E63:
-	TSB $08C4				;$B68E63  \
+	TSB game_state_flags_2			;$B68E63  \
 	JSR CODE_B68F50				;$B68E66   |
 	LDY #DATA_B69097			;$B68E69   |
 CODE_B68E6C:					;	   |
@@ -3873,11 +3873,11 @@ CODE_B6A434:
 	JML [sprite_return_address]		;$B6A438  /
 
 tied_up_dk_spawner_sprite_code:
-	LDA $08FC				;$B6A43B  \
+	LDA world_map_events			;$B6A43B  \
 	BIT #$0003				;$B6A43E   |
 	BNE CODE_B6A434				;$B6A441   |
 	ORA #$0003				;$B6A443   |
-	STA $08FC				;$B6A446   |
+	STA world_map_events			;$B6A446   |
 	JSL CODE_B4AFAD				;$B6A449   |
 	LDX current_sprite			;$B6A44D   |
 	LDA #!sprite_tied_up_donkey_kong	;$B6A44F   |
@@ -4305,7 +4305,7 @@ defeated_krool_sprite_code:
 	LDA #$0040				;$B6A7D1   |
 	TSB $06A5				;$B6A7D4   |
 	LDA #$0012				;$B6A7D7   |
-	TSB $08FC				;$B6A7DA   |
+	TSB world_map_events			;$B6A7DA   |
 	JSL set_current_level_as_cleared	;$B6A7DD   |
 	JSL set_level_end_exit_state_global	;$B6A7E1   |
 ..return:					;	   |
