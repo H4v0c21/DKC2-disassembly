@@ -6,6 +6,13 @@
 ;Temporaries used for any significant context should have local reassignment
 ;Temporaries are generally any addres used in multi contexts.
 
+wram_base = $7E0000
+wram_base_high = $7F0000
+
+;;;
+;;; Start Direct Page WRAM ($00-$FF)
+;;;
+
 spc_transaction			= $00	;word	counter	incomplete name
 spc_sample_dir_destination_1	= $02	;word	pointer	incomplete name
 spc_sample_dir_destination_2	= $04	;word	pointer	incomplete name
@@ -56,7 +63,6 @@ temp_40				= $40	;byte	temp
 
 oam_size_index			= $56	;word	index
 
-
 temp_5E				= $5E	;byte	temp
 temp_5F				= $5F	;byte	temp
 temp_60				= $60	;byte	temp
@@ -89,9 +95,8 @@ UNUSED_EE			= $EE
 previous_palette_buffer_slot	= $EF	;word
 current_palette_buffer_slot	= $F1	;word
 
-
 ;;;
-;;; End direct page
+;;; End Direct Page WRAM ($00-$FF)
 ;;;
 
 stack_end = $0100
@@ -121,9 +126,10 @@ screen_brightness = $0512
 screen_fade_speed = $0513
 screen_fade_timer = $0514
 
-;level logic (starts at $0515)
-level_config_table = $0515
+;Main Level Config Structure ($0515-$0552)
+;Alt Level Config Structure ($0553-$0590)
 
+unknown_kong_control_variables = $0591
 active_kong_sprite = $0593
 active_kong_control_variables = $0595
 inactive_kong_sprite = $0597
@@ -155,7 +161,18 @@ unknown_debug_sprite_unused = $05C3
 exception_number = $05F3
 exception_unknown = $05F5
 exception_palette_address = $05F7
-
+UNUSED_05F9 = $05F9
+UNUSED_05FA = $05FA
+demo_status = $05FB
+demo_sequence_index = $05FD
+demo_input_timer = $05FF
+demo_sequence_address = $0601
+demo_sequence_size = $0603
+demo_sequence_number = $0605
+UNUSED_0607 = $0607
+UNUSED_0608 = $0607
+UNUSED_0609 = $0609
+UNUSED_060A = $060A
 cheat_enable_flags = $060B
 current_game_mode = $060D			;Also doubles as cursor position in mode select screen
 active_controller = $060F
@@ -170,6 +187,14 @@ next_sound_effect_slot = $0634
 last_spc_command_transfer_time = $0636
 next_firework_sprite_buffer_slot = $0638
 firework_sprite_buffer = $063A
+
+;;;
+;;; Start Player Specific WRAM ($064A-$0906)
+;;;
+
+RAM_064A = $064A
+RAM_064B = $064B
+RAM_064C = $064C
 
 npc_screen_type = $0689
 returning_map_node_number = $06A9
@@ -227,11 +252,16 @@ kiosk_returning_world_number = $0900
 collected_kong_letters = $0902			;Also used a bit to flag if the ship cabin balloon was collected
 completion_percentage = $0904			;High byte unused but still written
 UNUSED_0906 = $0906
+
+;;;
+;;; End Player Specific WRAM ($064A-$0906)
+;;;
+
 piracy_string_result = $0907
 enable_intro_bypass = $090F
 
 ;;;
-;;; Start Noncritical RAM ($0911-$19D9)
+;;; Start Noncritical WRAM ($0911-$19D9)
 ;;;
 
 player_action_held = $0981
@@ -267,7 +297,6 @@ current_held_sprite = $0D7A
 held_sprite_x_offset = $0D7C
 held_sprite_y_offset = $0D7E
 
-
 aux_sprite_table = $0D84
 
 sprite_slots = $0DE2
@@ -284,8 +313,6 @@ sprite_dma_buffer = $1732
 diddy_control_variables = $16B2
 dixie_control_variables = $16D8
 
-
-
 zinger_loop_sound_enabler = $19AA
 flitter_loop_sound_enabler = $19AB
 wind_loop_sound_enabler = $19AC
@@ -299,10 +326,12 @@ kong_cutscene_script_index = $19D2
 kong_cutscene_command_timer = $19D4
 
 ;;;
-;;; End low WRAM region
+;;; End Noncritical WRAM ($0911-$19D9)
 ;;;
-wram_base = $7E0000
-wram_base_high = $7F0000
+
+;;;
+;;; End low WRAM ($0000-$1FFF)
+;;;
 
 sram_file_buffer = $7E56CA
 

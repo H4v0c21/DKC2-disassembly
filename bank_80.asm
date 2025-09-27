@@ -552,8 +552,8 @@ CODE_808712:
 	STA rng_result				;$808715   |
 	LDA #$3765				;$808717   |
 	STA rng_seed_2				;$80871A   |
-	STZ $05FD				;$80871C   |
-	STZ $05FF				;$80871F   |
+	STZ demo_sequence_index			;$80871C   |
+	STZ demo_input_timer			;$80871F   |
 	LDA #$0040				;$808722   |
 	TRB game_state_flags			;$808725   |
 	STZ player_1_held			;$808728   |
@@ -567,7 +567,7 @@ CODE_808712:
 	STA temp_level_number			;$80873E   |
 	LDA #$0001				;$808741   |
 	STA level_entrance_number		;$808744   |
-	LDX $05FD				;$808747   |
+	LDX demo_sequence_index			;$808747   |
 	LDA level_number			;$80874A   |
 	STA DATA_FE9388,x			;$80874C   |
 	INX					;$808750   |
@@ -576,9 +576,9 @@ CODE_808712:
 	STA DATA_FE9388,x			;$808755   |
 	INX					;$808759   |
 	INX					;$80875A   |
-	STX $05FD				;$80875B   |
+	STX demo_sequence_index			;$80875B   |
 CODE_80875E:					;	   |
-	LDA.l $000605				;$80875E   |
+	LDA.l demo_sequence_number		;$80875E   |
 	AND #$0003				;$808762   |
 	CMP #$0003				;$808765   |
 	BNE CODE_80876E				;$808768   |
@@ -588,9 +588,9 @@ CODE_80876E:
 	ASL A					;$80876E  \
 	TAX					;$80876F   |
 	LDA.l demo_level_scripts_table,x	;$808770   |
-	STA $000601				;$808774   |
-	INC $0605				;$808778   |
-	LDA.l $000601				;$80877B   |
+	STA.l demo_sequence_address		;$808774   |
+	INC demo_sequence_number		;$808778   |
+	LDA.l demo_sequence_address		;$80877B   |
 	STA $36					;$80877F   |
 	LDA #$00FE				;$808781   |
 	STA $38					;$808784   |
@@ -600,9 +600,9 @@ CODE_80876E:
 	PHB					;$80878E   |
 	PHK					;$80878F   |
 	PLB					;$808790   |
-	LDY $05FD				;$808791   |
+	LDY demo_sequence_index			;$808791   |
 	LDA [$36],y				;$808794   |
-	STA $000603				;$808796   |
+	STA.l demo_sequence_size		;$808796   |
 	INY					;$80879A   |
 	INY					;$80879B   |
 	LDA [$36],y				;$80879C   |
@@ -614,11 +614,11 @@ CODE_80876E:
 	STA level_entrance_number		;$8087A7   |
 	INY					;$8087AA   |
 	INY					;$8087AB   |
-	STY $05FD				;$8087AC   |
+	STY demo_sequence_index			;$8087AC   |
 	INY					;$8087AF   |
 	INY					;$8087B0   |
 	LDA [$36],y				;$8087B1   |
-	STA $0005FF				;$8087B3   |
+	STA.l demo_input_timer			;$8087B3   |
 	PLB					;$8087B7   |
 CODE_8087B8:					;	   |
 	RTS					;$8087B8  /
@@ -829,7 +829,7 @@ clear_wram_tables:
 	dw $092B, $0002
 	dw $092D, $0002
 	dw $0923, $0002
-	dw level_config_table, $003E
+	dw main_level, $003E
 	dw $095B, $0008
 	dw $0963, $0008
 	dw water_current_y_velocity, $0002
@@ -1676,7 +1676,7 @@ CODE_808FFA:					;	   |
 CODE_808FFB:
 	RTS					;$808FFB  /
 
-	LDX $05FD				;$808FFC   |
+	LDX demo_sequence_index			;$808FFC   |
 	LDA CPU.port_0_data_1			;$808FFF   |
 	CMP.l DATA_FE9388,x			;$809002   |
 	BNE CODE_809012				;$809006   |
@@ -1693,7 +1693,7 @@ CODE_809012:
 	STA DATA_FE9388,x			;$809016   |
 	LDA #$0001				;$80901A   |
 	STA DATA_FE938A,x			;$80901D   |
-	STX $05FD				;$809021   |
+	STX demo_sequence_index			;$809021   |
 	RTL					;$809024  /
 
 CODE_809025:
@@ -1722,32 +1722,32 @@ CODE_809025:
 	TXA					;$809055   |
 	AND #$D000				;$809056   |
 	BNE CODE_8090AA				;$809059   |
-	LDA $05FD				;$80905B   |
-	CMP $0603				;$80905E   |
+	LDA demo_sequence_index			;$80905B   |
+	CMP demo_sequence_size			;$80905E   |
 	BPL CODE_8090A0				;$809061   |
 	PHB					;$809063   |
 	PHK					;$809064   |
 	PLB					;$809065   |
-	LDA $0601				;$809066   |
+	LDA demo_sequence_address		;$809066   |
 	STA $36					;$809069   |
 	LDA #$00FE				;$80906B   |
 	STA $38					;$80906E   |
-	LDY $05FD				;$809070   |
-	LDA $05FF				;$809073   |
+	LDY demo_sequence_index			;$809070   |
+	LDA demo_input_timer			;$809073   |
 	BNE CODE_809088				;$809076   |
 	INY					;$809078   |
 	INY					;$809079   |
 	INY					;$80907A   |
 	INY					;$80907B   |
-	STY $05FD				;$80907C   |
+	STY demo_sequence_index			;$80907C   |
 	INY					;$80907F   |
 	INY					;$809080   |
 	LDA [$36],y				;$809081   |
 	DEY					;$809083   |
 	DEY					;$809084   |
-	STA $05FF				;$809085   |
+	STA demo_input_timer			;$809085   |
 CODE_809088:					;	   |
-	DEC $05FF				;$809088   |
+	DEC demo_input_timer			;$809088   |
 	LDA [$36],y				;$80908B   |
 	STA $32					;$80908D   |
 	LDA $32					;$80908F   |

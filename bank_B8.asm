@@ -2821,14 +2821,14 @@ dixie_kong_sprite_code:
 	LDA #dixie_control_variables		;$B89670  \
 	STA current_kong_control_variables	;$B89673   |
 	LDA #diddy_control_variables		;$B89675   |
-	STA $0591				;$B89678   |
+	STA unknown_kong_control_variables	;$B89678   |
 	BRA general_kong_sprite_code		;$B8967B  /
 
 diddy_kong_sprite_code:
 	LDA #diddy_control_variables		;$B8967D  \
 	STA current_kong_control_variables	;$B89680   |
 	LDA #dixie_control_variables		;$B89682   |
-	STA $0591				;$B89685   |
+	STA unknown_kong_control_variables	;$B89685   |
 general_kong_sprite_code:			;	   |
 	LDX current_sprite			;$B89688   |\
 	CPX active_kong_sprite			;$B8968A   | |

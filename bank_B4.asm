@@ -21,8 +21,8 @@ CODE_B48000:
 	STZ map_node_number			;$B4802E   |
 	STZ returning_map_node_number		;$B48031   |
 	LDA #$0000				;$B48034   |
-	STA $064A				;$B48037   |
-	STZ $064B				;$B4803A   |
+	STA RAM_064A				;$B48037   |
+	STZ RAM_064B				;$B4803A   |
 	REP #$20				;$B4803D   |
 	STZ $067F				;$B4803F   |
 	STZ RAM_07B0				;$B48042   |
@@ -38,7 +38,7 @@ CODE_B48000:
 	STZ $0683				;$B48056   |
 	STZ $069D				;$B48059   |
 	LDA #$0070				;$B4805C   |
-	STA $064C				;$B4805F   |
+	STA RAM_064C				;$B4805F   |
 	STZ $069D				;$B48062   |
 	STZ $06AF				;$B48065   |
 	REP #$20				;$B48068   |
@@ -206,12 +206,12 @@ CODE_B481A6:					;	   |
 	REP #$20				;$B481C1   |
 CODE_B481C3:					;	   |
 	SEP #$20				;$B481C3   |
-	LDA $064B				;$B481C5   |
+	LDA RAM_064B				;$B481C5   |
 	REP #$20				;$B481C8   |
 	BEQ CODE_B481D6				;$B481CA   |
 	SEP #$20				;$B481CC   |
-	STZ $064A				;$B481CE   |
-	STZ $064B				;$B481D1   |
+	STZ RAM_064A				;$B481CE   |
+	STZ RAM_064B				;$B481D1   |
 	REP #$20				;$B481D4   |
 CODE_B481D6:					;	   |
 	LDA #$4000				;$B481D6   |
@@ -702,7 +702,7 @@ CODE_B485DE:
 CODE_B485E6:
 	SEP #$20				;$B485E6  \
 	LDA #$01				;$B485E8   |
-	STA $064B				;$B485EA   |
+	STA RAM_064B				;$B485EA   |
 	REP #$20				;$B485ED   |
 	LDA [$CB]				;$B485EF   |
 	TAX					;$B485F1   |
@@ -754,7 +754,7 @@ CODE_B48620:					;	   |
 	PLB					;$B48661   |
 	LDA $C8					;$B48662   |
 	STA $0678				;$B48664   |
-	LDA $064A				;$B48667   |
+	LDA RAM_064A				;$B48667   |
 	AND #$00FF				;$B4866A   |
 	BNE CODE_B486D5				;$B4866D   |
 if !version == 1				;	   |
@@ -887,7 +887,7 @@ CODE_B48761:
 	BRL CODE_B48888				;$B48766  /
 
 CODE_B48769:					;	  \
-	LDA $064A				;$B48769   |
+	LDA RAM_064A				;$B48769   |
 	AND #$00FF				;$B4876C   |
 	BEQ CODE_B48779				;$B4876F   |
 if !version == 1				;	   |
@@ -924,7 +924,7 @@ if !version == 1				;	  \
 	LDA world_map_events			;$B487A7   |
 	BIT #$0005				;$B487AA   |
 	BNE CODE_B487B4				;$B487AD   |
-	LDA $064A				;$B487AF   |
+	LDA RAM_064A				;$B487AF   |
 	BEQ CODE_B487B7				;$B487B2   |
 CODE_B487B4:					;	   |
 	BRL CODE_B48927				;$B487B4   |
@@ -1124,7 +1124,7 @@ CODE_B48927:					;	   |
 	LDA $06A3				;$B48931   |
 	BIT #$0020				;$B48934   |
 	BNE CODE_B48985				;$B48937   |
-	LDA $064A				;$B48939   |
+	LDA RAM_064A				;$B48939   |
 	AND #$00FF				;$B4893C   |
 	BNE CODE_B4896A				;$B4893F   |
 if !version == 1
@@ -1251,7 +1251,7 @@ CODE_B48A40:					;	   |
 CODE_B48A46:
 	SEP #$20				;$B48A46  \
 	LDA #$01				;$B48A48   |
-	STA $064B				;$B48A4A   |
+	STA RAM_064B				;$B48A4A   |
 	REP #$20				;$B48A4D   |
 	LDA world_number			;$B48A4F   |
 	BNE CODE_B48A67				;$B48A52   |
@@ -5473,21 +5473,21 @@ CODE_B4AFAD:
 	STZ $069D				;$B4AFAD  \
 	SEP #$20				;$B4AFB0   |
 	LDA #$01				;$B4AFB2   |
-	STA $064A				;$B4AFB4   |
-	STZ $064B				;$B4AFB7   |
+	STA RAM_064A				;$B4AFB4   |
+	STZ RAM_064B				;$B4AFB7   |
 	REP #$20				;$B4AFBA   |
 	LDA #$0172				;$B4AFBC   |
-	STA $064C				;$B4AFBF   |
+	STA RAM_064C				;$B4AFBF   |
 	RTL					;$B4AFC2  /
 
 CODE_B4AFC3:
 	SEP #$20				;$B4AFC3  \
-	LDA $064A				;$B4AFC5   |
+	LDA RAM_064A				;$B4AFC5   |
 	REP #$20				;$B4AFC8   |
 	BEQ CODE_B4AFEC				;$B4AFCA   |
-	LDA $064C				;$B4AFCC   |
+	LDA RAM_064C				;$B4AFCC   |
 	BEQ CODE_B4AFD6				;$B4AFCF   |
-	DEC $064C				;$B4AFD1   |
+	DEC RAM_064C				;$B4AFD1   |
 	BRA CODE_B4B024				;$B4AFD4  /
 
 CODE_B4AFD6:
@@ -5498,7 +5498,7 @@ CODE_B4AFD6:
 	CMP $06B7				;$B4AFE0   |
 	BNE CODE_B4B024				;$B4AFE3   |
 	SEP #$20				;$B4AFE5   |
-	STZ $064A				;$B4AFE7   |
+	STZ RAM_064A				;$B4AFE7   |
 	REP #$20				;$B4AFEA   |
 CODE_B4AFEC:					;	   |
 	LDA $06B5				;$B4AFEC   |
