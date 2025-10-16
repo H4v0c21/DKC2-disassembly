@@ -102,7 +102,7 @@ upload_spc_engine:
 	SEP #$30				;$B58088  \ Enter 8 bit mode (to split sound effect and channel)
 	XBA					;$B5808A   |\ Check if the target channel is already being used
 	TAX					;$B5808B   | |
-	LDA $0621				;$B5808C   | |
+	LDA used_sound_effect_channels		;$B5808C   | |
 	BIT .index_to_bit,x			;$B5808F   | |
 	BNE .test_sound_backup_channel		;$B58092   |/ If so, check if the backup channel is free
 .write_low_priority_sound			;	   |
@@ -129,12 +129,12 @@ upload_spc_engine:
 	STA sound_effect_buffer,x		;$B580B0   |/
 	BEQ .reset_channel			;$B580B3   | Branch if the slot was empty
 	LDA .index_to_bit,x			;$B580B5   |\ Mark the channel as used
-	TSB $0621				;$B580B8   |/
+	TSB used_sound_effect_channels		;$B580B8   |/
 	BRA .write_sound			;$B580BB  / skip marking the slot empty
 
 .reset_channel					;	  \
 	LDA .index_to_bit,x			;$B580BD   |\ Since the slot was empty mark the channel as empty
-	TRB $0621				;$B580C0   |/
+	TRB used_sound_effect_channels		;$B580C0   |/
 .write_sound					;	   |
 	LDA sound_effect_buffer,x		;$B580C3   |\ Write the sound effect to the SPC700
 	REP #$30				;$B580C6   | |
@@ -230,10 +230,10 @@ upload_spc_engine:
 .clear_buffer_entry				;	   |\ Iterate and clear sound betters
 if !version == 0				;	   | |
 	STZ spc_command_buffer,x		;$B58170   | |\ Clear main ring buffer
-	STZ $062A,x				;$B58173   | | |
+	STZ spc_command_buffer+8,x		;$B58173   | | |
 else						;	   | | |
-	STZ $0621,x				;$B58170   | | |
-	STZ $0629,x				;$B58173   | | |
+	STZ spc_command_buffer-1,x		;$B58170   | | |
+	STZ spc_command_buffer+7,x		;$B58173   | | |
 endif						;	   | |/
 	STZ sound_effect_buffer,x		;$B58176   | | Clear the high priority buffer
 	DEX					;$B58179   | |
@@ -361,7 +361,7 @@ namespace off
 	CPX APU.IO1				;$B5823E   | | |
 	BNE -					;$B58241   | |/
 	INX					;$B58243   | | Increment the counter
-	CPX #$88				;$B58244   | | Compare against the engine size
+	CPX.b #!spc_base_engine_size		;$B58244   | | Compare against the engine size
 	BNE ..next_byte				;$B58246   |/ If we haven't hit the engine size, load the next byte
 	INX					;$B58248   |\ Increment counter by two to end transfer
 	TXA					;$B58249   | | Use A to write the counter for 16 bit (high byte = 00)
@@ -414,7 +414,7 @@ namespace APU
 	LDA #DATA_0560				;$B5829B   |\ Set the ARAM destination
 namespace off
 	STA $35					;$B5829E   |/
-	LDA #$067F				;$B582A0   |\ Set the number of words to transfer
+	LDA.w #!spc_sound_engine_size/2		;$B582A0   |\ Set the number of words to transfer
 	STA $37					;$B582A3   |/
 	JSR .upload_spc_block			;$B582A5   | Upload SPC block
 	RTS					;$B582A8  /

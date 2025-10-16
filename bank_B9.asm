@@ -1994,7 +1994,7 @@ CODE_B9DC0F:					;	   |
 
 CODE_B9DC10:
 	LDA #$0001				;$B9DC10  \
-	TRB $0B02				;$B9DC13   |
+	TRB RAM_0B02				;$B9DC13   |
 	RTS					;$B9DC16  /
 
 CODE_B9DC17:
@@ -2007,7 +2007,7 @@ CODE_B9DC17:
 	STA sprite.oam_property,x		;$B9DC23   |
 CODE_B9DC25:					;	   |
 	LDA #$0001				;$B9DC25   |
-	TRB $0B02				;$B9DC28   |
+	TRB RAM_0B02				;$B9DC28   |
 	BNE CODE_B9DC2E				;$B9DC2B   |
 	RTS					;$B9DC2D  /
 
@@ -3103,14 +3103,14 @@ CODE_B9E2FD:
 	RTS					;$B9E309  /
 
 CODE_B9E30A:
-	LDA $0B02				;$B9E30A  \
+	LDA RAM_0B02				;$B9E30A  \
 	AND #$0001				;$B9E30D   |
 	BNE CODE_B9E313				;$B9E310   |
 	RTS					;$B9E312  /
 
 CODE_B9E313:
-	EOR $0B02				;$B9E313  \
-	STA $0B02				;$B9E316   |
+	EOR RAM_0B02				;$B9E313  \
+	STA RAM_0B02				;$B9E316   |
 	LDX current_sprite			;$B9E319   |
 	LDA sprite.max_x_speed,x		;$B9E31B   |
 	BEQ CODE_B9E329				;$B9E31D   |
@@ -5003,7 +5003,7 @@ CODE_B9EECA:
 
 CODE_B9EECB:
 	LDA #$0080				;$B9EECB  \
-	TSB $0B02				;$B9EECE   |
+	TSB RAM_0B02				;$B9EECE   |
 	STZ sprite.x_speed,x			;$B9EED1   |
 	STZ sprite.max_x_speed,x		;$B9EED3   |
 	LDA #$0001				;$B9EED5   |
@@ -5012,7 +5012,7 @@ CODE_B9EECB:
 
 CODE_B9EEDB:
 	LDA #$0080				;$B9EEDB  \
-	TRB $0B02				;$B9EEDE   |
+	TRB RAM_0B02				;$B9EEDE   |
 	RTS					;$B9EEE1  /
 
 CODE_B9EEE2:

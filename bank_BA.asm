@@ -3261,7 +3261,7 @@ CODE_BAB1B9:
 	STA DMA[0].settings			;$BAB27D   |
 	LDA #$18				;$BAB280   |
 	STA DMA[0].destination			;$BAB282   |
-	LDX #$3E00				;$BAB285   |
+	LDX #text_VRAM_buffer			;$BAB285   |
 	STX DMA[0].source			;$BAB288   |
 	LDA #$7E				;$BAB28B   |
 	STA DMA[0].source_bank			;$BAB28D   |
@@ -3492,7 +3492,7 @@ CODE_BAB4AE:					;	   |
 	STX $CB					;$BAB4D8   |
 	LDA #$3A00				;$BAB4DA   |
 	STA $CE					;$BAB4DD   |
-	LDY #$3E00				;$BAB4DF   |
+	LDY #text_VRAM_buffer			;$BAB4DF   |
 	SEP #$20				;$BAB4E2   |
 	LDA #$7E				;$BAB4E4   |
 	STA $D0					;$BAB4E6   |
@@ -3640,7 +3640,7 @@ CODE_BAB5EB:
 	BRA CODE_BAB5CD				;$BAB5F3  /
 
 CODE_BAB5F5:
-	LDA #$3E00				;$BAB5F5  \
+	LDA #text_VRAM_buffer			;$BAB5F5  \
 	STA $C8					;$BAB5F8   |
 	STZ $065C				;$BAB5FA   |
 	LDA #$BA00				;$BAB5FD   |
@@ -3798,7 +3798,7 @@ CODE_BAB768:					;	   |
 	STA DMA[0].settings			;$BAB789   |
 	LDA #$18				;$BAB78C   |
 	STA DMA[0].destination			;$BAB78E   |
-	LDX #$3E00				;$BAB791   |
+	LDX #text_VRAM_buffer			;$BAB791   |
 	STX DMA[0].source			;$BAB794   |
 	LDA #$7E				;$BAB797   |
 	STA DMA[0].source_bank			;$BAB799   |

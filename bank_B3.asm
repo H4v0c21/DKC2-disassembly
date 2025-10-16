@@ -285,7 +285,7 @@ water_surface_splash_main:
 
 invincibility_controller_main:
 	LDA current_sprite			;$B3820F  \
-	STA $19CE				;$B38211   |
+	STA invincibility_sprite		;$B38211   |
 	INC invincible_loop_sound_enabler	;$B38214   |
 	LDY active_kong_control_variables	;$B38217   |
 	LDA.w kong_control.invincible_timer,y	;$B3821A   |
@@ -320,7 +320,7 @@ invincibility_controller_main:
 	STA $091B				;$B38257   |
 	JSL CODE_BB8C2C				;$B3825A   |
 	JSL delete_sprite_no_deallocation	;$B3825E   |
-	STZ $19CE				;$B38262   |
+	STZ invincibility_sprite		;$B38262   |
 	JML [sprite_return_address]		;$B38265  /
 
 ;$42,x	timer until sprite should despawn (used by both diddy and cat o9 tails)
@@ -1048,11 +1048,11 @@ web_shot_main:
 	JML [sprite_return_address]		;$B38946  / Else done processing sprite
 
 .web_shot_despawned:
-	DEC $19A6				;$B38949  \ Decrease number of onscreen shots
+	DEC squitter_web_shot_count		;$B38949  \ Decrease number of onscreen shots
 	JML [sprite_return_address]		;$B3894C  / Done processing sprite
 
 .collision_happened:
-	DEC $19A6				;$B3894F  \ Decrease number of onscreen shots
+	DEC squitter_web_shot_count		;$B3894F  \ Decrease number of onscreen shots
 	JSL delete_sprite_handle_deallocation	;$B38952   | Delete web shot sprite
 	JML [sprite_return_address]		;$B38956  / Done processing sprite
 
@@ -1064,7 +1064,7 @@ web_shot_main:
 
 ;$4E,x	unknown (set to 0001 when platform is stood on)
 
-;$0B02:
+;RAM_0B02:
 ;bit 6 = is platform moving (set via animation code)
 ;bit 7 = is platform opening (set via animation code)
 
@@ -1091,7 +1091,7 @@ web_platform_main:
 
 .despawn
 	LDA #$00C0				;$B3897D  \ \
-	TRB $0B02				;$B38980   |/ Clear bits 6 and 7 (so more webs can be shot)
+	TRB RAM_0B02				;$B38980   |/ Clear bits 6 and 7 (so more webs can be shot)
 	JML [sprite_return_address]		;$B38983  /> Done processing sprite
 
 .platform_spawn_state
@@ -1129,7 +1129,7 @@ web_platform_main:
 	DEC A					;$B389BA   | |
 	BNE .despawn_check_done			;$B389BB   |/ If despawn is currently disabled then dont despawn
 	LDA #$0080				;$B389BD   |\ Clear bit 7 of web attributes in RAM
-	TRB $0B02				;$B389C0   |/
+	TRB RAM_0B02				;$B389C0   |/
 	INC $44,x				;$B389C3   |> Set $44,x to 2 to indicate web is despawning
 	LDA #$02D7				;$B389C5   |\ Play web platform despawn animation
 	JSL set_sprite_animation		;$B389C8   |/
@@ -2905,9 +2905,9 @@ CODE_B3963D:
 
 CODE_B3964E:
 	LDA current_sprite			;$B3964E  \
-	CMP $0BA0				;$B39650   |
+	CMP held_rope_sprite			;$B39650   |
 	BNE CODE_B39658				;$B39653   |
-	STZ $0BA0				;$B39655   |
+	STZ held_rope_sprite			;$B39655   |
 CODE_B39658:					;	   |
 	JSL process_sprite_animation		;$B39658   |
 	JMP sprite_return_handle_despawn	;$B3965C  /
@@ -2943,7 +2943,7 @@ CODE_B39689:
 
 CODE_B39693:
 	LDA current_sprite			;$B39693  \
-	CMP $0BA0				;$B39695   |
+	CMP held_rope_sprite			;$B39695   |
 	BEQ CODE_B396A4				;$B39698   |
 	JSR CODE_B396CE				;$B3969A   |
 	JSL process_sprite_animation		;$B3969D   |
@@ -2959,7 +2959,7 @@ CODE_B396A4:
 
 CODE_B396B2:
 	LDA current_sprite			;$B396B2  \
-	CMP $0BA0				;$B396B4   |
+	CMP held_rope_sprite			;$B396B4   |
 	BNE CODE_B396BC				;$B396B7   |
 	JML [sprite_return_address]		;$B396B9  /
 
@@ -3023,7 +3023,7 @@ CODE_B3971B:					;	   |
 	ADC temp_34				;$B3972D   |
 	CMP sprite.y_position,x			;$B3972F   |
 	BMI CODE_B39737				;$B39731   |
-	STY $0BA2				;$B39733   |
+	STY held_rope_sprite_temp		;$B39733   |
 	RTS					;$B39736  /
 
 CODE_B39737:
@@ -3279,7 +3279,7 @@ CODE_B398D7:
 	STA sprite.state,x			;$B39901   |
 	LDA #$00D8				;$B39903   |
 	STA sprite.render_order,x		;$B39906   |
-	LDA $0A84				;$B39908   |
+	LDA current_interacting_sprite		;$B39908   |
 	STA $42,x				;$B3990B   |
 	LDY $0D82				;$B3990D   |
 	LDA.w sprite.x_position,y		;$B39910   |
@@ -3451,19 +3451,19 @@ invincibility_barrel_main:
 
 .collision_happened:
 	LDA current_sprite			;$B39A86  \ Get invincibility barrel sprite
-	STA $19A8				;$B39A88   | Store index (Pointless? Sprite will be deleted)
+	STA invincibility_barrel_sprite		;$B39A88   | Store index (Pointless? Sprite will be deleted)
 	PHA					;$B39A8B   | Preserve it
 	TAX					;$B39A8C   | Transfer to X (Pointless, routine below uses X)
 	JSL work_on_active_kong_global		;$B39A8D   | Work on active kong
-	LDX $19A8				;$B39A91   | Get index of invincibility barrel sprite
+	LDX invincibility_barrel_sprite		;$B39A91   | Get index of invincibility barrel sprite
 	LDA $42,x				;$B39A94   | 
 	JSL disable_enemy_damage_global		;$B39A96   |
-	LDA $19CE				;$B39A9A   | Get index of invincibility controller sprite
+	LDA invincibility_sprite		;$B39A9A   | Get index of invincibility controller sprite
 	BNE .controller_exists			;$B39A9D   | If one already exists, skip spawning
 	LDY #!special_sprite_spawn_id_0000	;$B39A9F   |
 	JSL spawn_BB83EF_special_sprite_index	;$B39AA2   | Else spawn invincibility controller sprite
 	LDA alternate_sprite			;$B39AA6   | 
-	STA $19CE				;$B39AA8   | And store index to it
+	STA invincibility_sprite		;$B39AA8   | And store index to it
 .controller_exists:				;	   |
 	PLA					;$B39AAB   | Retrieve invincibility barrel sprite
 	STA current_sprite			;$B39AAC   | Set as current sprite
@@ -4618,7 +4618,7 @@ level_goal_main:
 	LDA #$0002				;$B3A2C5   |
 	STA.w sprite.state,y			;$B3A2C8   | Set its state to 2 (transitions to state 3)
 	LDA #$0004				;$B3A2CB   |
-	TRB $0B02				;$B3A2CE   |
+	TRB RAM_0B02				;$B3A2CE   |
 	PHX					;$B3A2D1   | Preserve goal sprite and barrel sprite...
 	PHY					;$B3A2D2   | ...for no reason, routine below won't ditch them
 	JSR .check_if_should_drop_prize		;$B3A2D3   | Check if we should drop the prize
@@ -4627,7 +4627,7 @@ level_goal_main:
 	STA.w sprite.y_speed,y			;$B3A2D8   | Set barrel Y velocity gotten from routine above
 	BCS ..dont_drop_prize			;$B3A2DB   | If the routine gave us a no, skip dropping the prize
 	LDA #$0004				;$B3A2DD   |
-	TSB $0B02				;$B3A2E0   |
+	TSB RAM_0B02				;$B3A2E0   |
 	LDY $46,x				;$B3A2E3   | Get prize sprite
 	LDA #$0002				;$B3A2E5   |
 	STA.w sprite.state,y			;$B3A2E8   | Set its state to 2
@@ -5099,7 +5099,7 @@ CODE_B3A600:
 	RTL					;$B3A603  /
 
 CODE_B3A604:
-	CMP $0A82				;$B3A604  \ \
+	CMP current_interaction			;$B3A604  \ \
 	BEQ .update_interaction_variable	;$B3A607   |/ If the interaction is already happening then dont apply it again
 	PHY					;$B3A609   |> Preserve extra interaction variable (most likely X velocity)
 	JSL set_player_interaction_global	;$B3A60A   |> Apply interaction
@@ -6144,7 +6144,7 @@ CODE_B3AE12:					;	   |
 CODE_B3AE16:
 	JSL CODE_BCFB58				;$B3AE16  \
 	LDX current_sprite			;$B3AE1A   |
-	LDA $19CE				;$B3AE1C   |
+	LDA invincibility_sprite		;$B3AE1C   |
 	BEQ CODE_B3AE2B				;$B3AE1F   |
 	JSL CODE_BEBE6D				;$B3AE21   |
 	BCC CODE_B3AE12				;$B3AE25   |
@@ -6202,7 +6202,7 @@ CODE_B3AE72:
 	RTS					;$B3AE84  /
 
 CODE_B3AE85:
-	LDA $19CE				;$B3AE85  \
+	LDA invincibility_sprite		;$B3AE85  \
 	BEQ CODE_B3AE8F				;$B3AE88   |
 	JSR CODE_B3AF8F				;$B3AE8A   |
 	SEC					;$B3AE8D   |
@@ -6711,7 +6711,7 @@ CODE_B3B1FE:					;	   |
 
 CODE_B3B219:
 	LDA #!player_interaction_1E		;$B3B219  \
-	CMP $0A82				;$B3B21C   |
+	CMP current_interaction			;$B3B21C   |
 	CLC					;$B3B21F   |
 	BNE CODE_B3B231				;$B3B220   |
 	LDA #$0200				;$B3B222   |
@@ -7182,7 +7182,7 @@ CODE_B3B557:
 	BEQ CODE_B3B5A8				;$B3B562   |
 	BIT #$0080				;$B3B564   |
 	BNE CODE_B3B5A8				;$B3B567   |
-	LDA $19CE				;$B3B569   |
+	LDA invincibility_sprite		;$B3B569   |
 	BNE CODE_B3B5A8				;$B3B56C   |
 	JSL CODE_BCFB58				;$B3B56E   |
 	LDA #$0000				;$B3B572   |
@@ -10837,7 +10837,7 @@ CODE_B3CFD6:					;	   |
 	RTS					;$B3CFE5  /
 
 CODE_B3CFE6:
-	LDA $0A82				;$B3CFE6  \
+	LDA current_interaction			;$B3CFE6  \
 	CMP #!player_interaction_13		;$B3CFE9   |
 	BEQ CODE_B3D006				;$B3CFEC   |
 	LDY active_kong_sprite			;$B3CFEE   |
@@ -12145,7 +12145,7 @@ clapper_sprite_code:
 	LDA $46,x				;$B3D99F   | | Restore the previously copied OAM properties
 	STA sprite.oam_property,x		;$B3D9A1   |/
 	LDA #!player_interaction_1E		;$B3D9A3   |\
-	CMP $0A82				;$B3D9A6   |/ Check if the kong is being knocked back
+	CMP current_interaction			;$B3D9A6   |/ Check if the kong is being knocked back
 	BEQ .kong_knocked_back			;$B3D9A9   |\ If kong is being knocked back
 	BRA .set_clapping_animation		;$B3D9AB  /_/ Play clapping animation
 
@@ -13319,7 +13319,7 @@ CODE_B3E1E2:
 	CMP #!sprite_enguarde			;$B3E1EF   |
 	BEQ CODE_B3E203				;$B3E1F2   |
 	LDX active_kong_sprite			;$B3E1F4   |
-	LDY $0A84				;$B3E1F7   |
+	LDY current_interacting_sprite		;$B3E1F7   |
 	LDA.w sprite.y_position,y		;$B3E1FA   |
 	CLC					;$B3E1FD   |
 	ADC $0048,y				;$B3E1FE   |
@@ -13337,7 +13337,7 @@ CODE_B3E203:					;	   |
 	STZ sprite.interaction_flags,x		;$B3E21E   |
 	LDA #$0180				;$B3E220   |
 	STA temp_32				;$B3E223   |
-	LDY $0A84				;$B3E225   |
+	LDY current_interacting_sprite		;$B3E225   |
 	LDX active_kong_sprite			;$B3E228   |
 	LDA $0046,y				;$B3E22B   |
 	BNE CODE_B3E240				;$B3E22E   |
@@ -13369,11 +13369,11 @@ CODE_B3E246:					;	   |
 	STA sprite.y_speed,x			;$B3E25D   |
 CODE_B3E25F:					;	   |
 	TYA					;$B3E25F   |
-	LDY $0A84				;$B3E260   |
+	LDY current_interacting_sprite		;$B3E260   |
 	CLC					;$B3E263   |
 	ADC.w sprite.x_position,y		;$B3E264   |
 	STA level_exit_trigger_x_position	;$B3E267   |
-	LDY $0A84				;$B3E26A   |
+	LDY current_interacting_sprite		;$B3E26A   |
 	LDX active_kong_sprite			;$B3E26D   |
 	LDA $0042,y				;$B3E270   |
 	STA level_destination_number		;$B3E273   |
@@ -13462,7 +13462,7 @@ CODE_B3E2F4:
 
 CODE_B3E310:
 	LDX active_kong_sprite			;$B3E310  \
-	LDY $0A84				;$B3E313   |
+	LDY current_interacting_sprite		;$B3E313   |
 	LDA.w sprite.y_position,y		;$B3E316   |
 	CLC					;$B3E319   |
 	ADC $0048,y				;$B3E31A   |
@@ -13481,7 +13481,7 @@ CODE_B3E310:
 	STZ sprite.interaction_flags,x		;$B3E33F   |
 	LDY #$0300				;$B3E341   |
 	LDX #$0040				;$B3E344   |
-	LDA $0B02				;$B3E347   |
+	LDA RAM_0B02				;$B3E347   |
 	AND #$0004				;$B3E34A   |
 	BNE CODE_B3E355				;$B3E34D   |
 	LDY #$0300				;$B3E34F   |
@@ -13489,7 +13489,7 @@ CODE_B3E310:
 CODE_B3E355:					;	   |
 	STY temp_32				;$B3E355   |
 	STX temp_34				;$B3E357   |
-	LDY $0A84				;$B3E359   |
+	LDY current_interacting_sprite		;$B3E359   |
 	LDX active_kong_sprite			;$B3E35C   |
 	LDA $0046,y				;$B3E35F   |
 	BNE CODE_B3E374				;$B3E362   |
@@ -13512,12 +13512,12 @@ CODE_B3E374:					;	   |
 	STA sprite.oam_property,x		;$B3E382   |
 	STZ sprite.y_speed,x			;$B3E384   |
 	LDA temp_34				;$B3E386   |
-	LDY $0A84				;$B3E388   |
+	LDY current_interacting_sprite		;$B3E388   |
 	CLC					;$B3E38B   |
 	ADC.w sprite.x_position,y		;$B3E38C   |
 	STA level_exit_trigger_x_position	;$B3E38F   |
 CODE_B3E392:					;	   |
-	LDY $0A84				;$B3E392   |
+	LDY current_interacting_sprite		;$B3E392   |
 	LDX active_kong_sprite			;$B3E395   |
 	LDA $0042,y				;$B3E398   |
 	STA level_destination_number		;$B3E39B   |
@@ -13585,13 +13585,13 @@ CODE_B3E3F7:
 	LSR A					;$B3E406   |
 	BCS CODE_B3E413				;$B3E407   |
 	LDA #$0010				;$B3E409   |
-	TRB $0B02				;$B3E40C   |
+	TRB RAM_0B02				;$B3E40C   |
 	JSR CODE_B3E4C1				;$B3E40F   |
 	RTS					;$B3E412  /
 
 CODE_B3E413:
 	LDA #$0010				;$B3E413  \
-	TSB $0B02				;$B3E416   |
+	TSB RAM_0B02				;$B3E416   |
 	LDA $091B				;$B3E419   |
 	AND #$FCFF				;$B3E41C   |
 	ORA #$0300				;$B3E41F   |
@@ -13617,13 +13617,13 @@ CODE_B3E43E:
 	LSR A					;$B3E44E   |
 	BCS CODE_B3E45B				;$B3E44F   |
 	LDA #$0020				;$B3E451   |
-	TRB $0B02				;$B3E454   |
+	TRB RAM_0B02				;$B3E454   |
 	JSR CODE_B3E4C1				;$B3E457   |
 	RTS					;$B3E45A  /
 
 CODE_B3E45B:
 	LDA #$0020				;$B3E45B  \
-	TSB $0B02				;$B3E45E   |
+	TSB RAM_0B02				;$B3E45E   |
 	STZ $0927				;$B3E461   |
 	LDA $091B				;$B3E464   |
 	AND #$FCFF				;$B3E467   |
@@ -15209,7 +15209,7 @@ CODE_B3EF84:
 	STA $0A40				;$B3EF9D   |
 	LDY #!special_sprite_spawn_id_0034	;$B3EFA0   |
 	JSL spawn_special_sprite_index		;$B3EFA3   |
-	LDX $0A84				;$B3EFA7   |
+	LDX current_interacting_sprite		;$B3EFA7   |
 	STX current_sprite			;$B3EFAA   |
 	JSR move_kong_to_sprite_position	;$B3EFAC   |
 	LDY active_kong_sprite			;$B3EFAF   |
@@ -15313,7 +15313,7 @@ CODE_B3F069:
 	JSL work_on_inactive_kong_global	;$B3F07C   |
 	LDA #!kong_state_2F			;$B3F080   |
 	STA sprite.state,x			;$B3F083   |
-	LDA $0A84				;$B3F085   |
+	LDA current_interacting_sprite		;$B3F085   |
 	STA $42,x				;$B3F088   |
 	TAY					;$B3F08A   |
 	LDA.w sprite.x_position,y		;$B3F08B   |
@@ -15329,7 +15329,7 @@ CODE_B3F069:
 	STZ sprite.current_graphic,x		;$B3F0A1   |
 	STZ sprite.last_rendered_graphic,x	;$B3F0A3   |
 	STZ sprite.animation_flags,x		;$B3F0A5   |
-	LDX $0A84				;$B3F0A7   |
+	LDX current_interacting_sprite		;$B3F0A7   |
 	STX current_sprite			;$B3F0AA   |
 	JSR CODE_B3F01D				;$B3F0AC   |
 	JSL work_on_active_kong_global		;$B3F0AF   |

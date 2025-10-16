@@ -198,29 +198,30 @@ CODE_B68186:
 CODE_B6819B:					;	   |
 	RTS					;$B6819B  /
 
+
 CODE_B6819C:
 	LDA.l $00074D				;$B6819C  \
 	BEQ CODE_B681FE				;$B681A0   |
-	PHB					;$B681A2   |
-	LDA #$00FF				;$B681A3   |
-	SEP #$20				;$B681A6   |
-	CLC					;$B681A8   |
-	ROR A					;$B681A9   |
-	INC A					;$B681AA   |
-	PHA					;$B681AB   |
-	PLB					;$B681AC   |
-	REP #$20				;$B681AD   |
-	CLC					;$B681AF   |
-	ADC #$0004				;$B681B0   |
-	XBA					;$B681B3   |
-	TAX					;$B681B4   |
-	LDY $0038,x				;$B681B5   |
-	CPY #$00AF				;$B681B8   |
-	BEQ CODE_B681C7				;$B681BB   |
-	STZ $0656				;$B681BD   |
-	LDX $0654				;$B681C0   |
-	DEC $44,x				;$B681C3   |
-	DEC $44,x				;$B681C5   |
+	PHB					;$B681A2   |> Piracy check, preserve bank
+	LDA #$00FF				;$B681A3   |\ Load FF
+	SEP #$20				;$B681A6   | |
+	CLC					;$B681A8   | |
+	ROR A					;$B681A9   | | FF >> 1 = 7F
+	INC A					;$B681AA   | | 7F + 1 = 80 (bank)
+	PHA					;$B681AB   | | Set data bank to 80
+	PLB					;$B681AC   | |
+	REP #$20				;$B681AD   |/
+	CLC					;$B681AF   |\
+	ADC #$0004				;$B681B0   | | 80 + 4 = $0084
+	XBA					;$B681B3   | | $8400
+	TAX					;$B681B4   |/
+	LDY $0038,x				;$B681B5   |\ $8400 + $38 = $808438
+	CPY #$00AF				;$B681B8   |/ Check if instruction is an LDA.l
+	BEQ CODE_B681C7				;$B681BB   |> If so then dont break Kudgel
+	STZ $0656				;$B681BD   |\ Delete reference to club sprite
+	LDX $0654				;$B681C0   | |
+	DEC $44,x				;$B681C3   | | Decrease command return address so Kudgel idles forever
+	DEC $44,x				;$B681C5   |/
 CODE_B681C7:					;	   |
 	PLB					;$B681C7   |
 	DEC $074D				;$B681C8   |
@@ -10303,26 +10304,26 @@ CODE_B6DC67:
 	LDA #$0210				;$B6DC67  \
 	JSL set_sprite_animation		;$B6DC6A   |
 CODE_B6DC6E:					;	   |
-	PHB					;$B6DC6E   |
-	LDA #$4000				;$B6DC6F   |
-	ASL A					;$B6DC72   |
-	PHA					;$B6DC73   |
-	PLB					;$B6DC74   |
-	PLB					;$B6DC75   |
-	XBA					;$B6DC76   |
-	INC A					;$B6DC77   |
-	INC A					;$B6DC78   |
-	INC A					;$B6DC79   |
-	INC A					;$B6DC7A   |
-	XBA					;$B6DC7B   |
-	TAX					;$B6DC7C   |
-	LDY $0013,x				;$B6DC7D   |
-	CPY #$AB82				;$B6DC80   |
-	BEQ CODE_B6DC8F				;$B6DC83   |
-	LDX $0654				;$B6DC85   |
-	LDA $2E,x				;$B6DC88   |
-	EOR #$FFFF				;$B6DC8A   |
-	STA $2E,x				;$B6DC8D   |
+	PHB					;$B6DC6E   |> Piracy check, preserve bank
+	LDA #$4000				;$B6DC6F   |\
+	ASL A					;$B6DC72   |/ $4000 << 1 = $8000
+	PHA					;$B6DC73   |\
+	PLB					;$B6DC74   | | Set bank 80
+	PLB					;$B6DC75   |/
+	XBA					;$B6DC76   |> Flip bytes so $80 is low byte
+	INC A					;$B6DC77   |\ $80 + 4 = $84
+	INC A					;$B6DC78   | |
+	INC A					;$B6DC79   | |
+	INC A					;$B6DC7A   |/
+	XBA					;$B6DC7B   |> Flip bytes so $80 is high byte
+	TAX					;$B6DC7C   |\ X = $8400
+	LDY $0013,x				;$B6DC7D   |/ $808400 + $13 = $808413
+	CPY #$AB82				;$B6DC80   |\
+	BEQ CODE_B6DC8F				;$B6DC83   |/ If branch long to prepare anti-piracy isnt tampered then continue
+	LDX $0654				;$B6DC85   |\
+	LDA $2E,x				;$B6DC88   | | Make kleever sword into another kleever arm breaking the fight...
+	EOR #$FFFF				;$B6DC8A   | | ... and make all the hooks drop so the player cant progress
+	STA $2E,x				;$B6DC8D   |/
 CODE_B6DC8F:					;	   |
 	PLB					;$B6DC8F   |
 	PLB					;$B6DC90   |

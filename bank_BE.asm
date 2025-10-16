@@ -958,7 +958,7 @@ CODE_BEBED6:					;	   |
 	LSR A					;$BEBEE3   |
 	LSR A					;$BEBEE4   |
 	ADC $60					;$BEBEE5   |
-	LDX $19CE				;$BEBEE7   |
+	LDX invincibility_sprite		;$BEBEE7   |
 	BNE CODE_BEBEF0				;$BEBEEA   |
 	TAX					;$BEBEEC   |
 CODE_BEBEED:					;	   |
@@ -1147,7 +1147,7 @@ CODE_BEC02A:
 	LDA $5E					;$BEC039   |
 	CMP #$0004				;$BEC03B   |
 	BEQ CODE_BEC06C				;$BEC03E   |
-	LDY $19CE				;$BEC040   |
+	LDY invincibility_sprite		;$BEC040   |
 	BNE CODE_BEC072				;$BEC043   |
 	CMP #$0003				;$BEC045   |
 	BEQ CODE_BEC075				;$BEC048   |
@@ -1189,7 +1189,7 @@ CODE_BEC085:
 	LDX $6A					;$BEC085  \
 	JSR CODE_BEC141				;$BEC087   |
 	BCC CODE_BEC104				;$BEC08A   |
-	LDA $19CE				;$BEC08C   |
+	LDA invincibility_sprite		;$BEC08C   |
 	BNE CODE_BEC0EC				;$BEC08F   |
 	LDA #$FF1F				;$BEC091   |
 	TRB $5E					;$BEC094   |
@@ -1254,7 +1254,7 @@ CODE_BEC101:
 	BRL CODE_BEBEA3				;$BEC101  /
 
 CODE_BEC104:
-	LDA $19CE				;$BEC104  \
+	LDA invincibility_sprite		;$BEC104  \
 	BNE CODE_BEC0F2				;$BEC107   |
 	LDA #$FFE7				;$BEC109   |
 	TRB $5E					;$BEC10C   |
@@ -1328,7 +1328,7 @@ CODE_BEC17E:					;	   |
 	BRL CODE_BEC02A				;$BEC17E  /
 
 CODE_BEC181:
-	LDA $19CE				;$BEC181  \
+	LDA invincibility_sprite		;$BEC181  \
 	BNE CODE_BEC1C2				;$BEC184   |
 	LDA #$FFE7				;$BEC186   |
 	TRB $5E					;$BEC189   |
@@ -3158,7 +3158,7 @@ skull_cart_sparks_sprite_code:
 	JSL delete_sprite_if_offscreen		;$BECED9   |
 	BCC ..return				;$BECEDD   |
 ..CODE_BECEDF:					;	   |
-	INC $19AD				;$BECEDF   |
+	INC RAM_19AD				;$BECEDF   |
 ..return:					;	   |
 	JML [sprite_return_address]		;$BECEE2  /
 
@@ -5452,7 +5452,7 @@ CODE_BEE010:
 	LDY #!special_sprite_spawn_id_009A	;$BEE017   |
 	JSL spawn_special_sprite_index		;$BEE01A   |
 	BCS CODE_BEE023				;$BEE01E   |
-	DEC $19AD				;$BEE020   |
+	DEC RAM_19AD				;$BEE020   |
 CODE_BEE023:					;	   |
 	RTS					;$BEE023  /
 

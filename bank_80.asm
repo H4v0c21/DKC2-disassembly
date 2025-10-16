@@ -814,8 +814,8 @@ clear_wram_tables:
 	dw diddy_control_variables, $0026
 	dw dixie_control_variables, $0026
 	dw current_held_sprite, $0002
-	dw $0BA0, $0002
-	dw $0BA2, $0002
+	dw held_rope_sprite, $0002
+	dw held_rope_sprite_temp, $0002
 	dw time_stop_flags, $0002
 	dw time_stop_timer, $0002
 	dw sprite_vram_allocation_table, $0020
@@ -836,7 +836,7 @@ clear_wram_tables:
 	dw glimmer_sprite, $0002
 	dw $091B, $0002
 	dw $0919, $0002
-	dw $0B02, $0002
+	dw RAM_0B02, $0002
 	dw $FFFF
 
 
@@ -877,7 +877,7 @@ input_and_pause_handler_global:
 	REP #$20				;$808993   |/
 	LDA $05FB				;$808995   |\
 	BNE .demo_input_handler			;$808998   |/ If a demo is playing
-	LDA $0B02				;$80899A   |\
+	LDA RAM_0B02				;$80899A   |\
 	AND #$0020				;$80899D   | |
 	BEQ .update_player_inputs		;$8089A0   |/ If the player isnt slowed then update inputs normally
 	LDA $0927				;$8089A2   |\
@@ -887,7 +887,7 @@ input_and_pause_handler_global:
 	ADC $0927				;$8089AB   | |
 	STA $0927				;$8089AE   |/
 	LDA #$0002				;$8089B1   |\
-	TSB $0B02				;$8089B4   |/
+	TSB RAM_0B02				;$8089B4   |/
 	LDA player_active_pressed		;$8089B7   |\
 	AND #$EFFF				;$8089BA   | |
 	STA player_active_pressed		;$8089BD   | |
@@ -949,7 +949,7 @@ input_and_pause_handler_global:
 	LDA player_1_pressed,x			;$808A36   |> Get player 1 or 2 inputs depending on which kong
 	STA player_active_pressed		;$808A39   |
 .handle_inverted_controls:			;	   |
-	LDA $0B02				;$808A3C   |\
+	LDA RAM_0B02				;$808A3C   |\
 	AND #$0010				;$808A3F   | |
 	BEQ .handle_paused			;$808A42   |/ If inverted controls are disabled, input handling is done
 	LDA player_active_held			;$808A44   |
@@ -1036,7 +1036,7 @@ endif						;	   |
 	%lda_sound(4, pause)			;$808B02   |
 	JSL play_high_priority_sound		;$808B05   |
 	LDA #$00FF				;$808B09   |
-	TRB $0621				;$808B0C   |
+	TRB used_sound_effect_channels		;$808B0C   |
 	STZ $19B0				;$808B0F   |
 	LDA #$0040				;$808B12   |
 	TRB game_state_flags			;$808B15   |
@@ -1507,8 +1507,8 @@ clear_noncritical_wram:				;	  \
 	INY					;$808E84   | |
 	MVN $80, $80				;$808E85   |/
 	LDA #$0000				;$808E88   |\ Clear $7E5A12-$7E9528
-	STA $7E5A12				;$808E8B   | |
-	LDX #$5A12				;$808E8F   | |
+	STA sprite_spawn_lists			;$808E8B   | |
+	LDX #sprite_spawn_lists			;$808E8F   | |
 	LDA #$3B14				;$808E92   | |
 	TXY					;$808E95   | |
 	INY					;$808E96   | |
@@ -1648,7 +1648,7 @@ if !version == 1				;	   |
 	LDX #$0000				;$808FCA   |
 	LDA #$0000				;$808FCD   |
 .loop:						;	   |
-	STA $7E59B2,x				;$808FD0   | Reset all level completion flags
+	STA collected_tokens_buffer,x		;$808FD0   |
 	INX					;$808FD4   |
 	INX					;$808FD5   |
 	CPX #$0060				;$808FD6   |

@@ -2883,3 +2883,5 @@
 !red_color_channel = $001F
 !green_color_channel = $03E0
 !blue_color_channel = $7C00
+
+!player_RAM_buffer_size = $0365

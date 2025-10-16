@@ -67,12 +67,12 @@ process_interactions_with_player:
 .get_and_process_interaction:
 	PHK					;$B8807D  \
 	PLB					;$B8807E   |
-	LDA $0A82				;$B8807F   |
+	LDA current_interaction			;$B8807F   |
 	BNE .process_interaction		;$B88082   |
 	RTS					;$B88084   |
 
 .process_interaction
-	STZ $0A82				;$B88085  \
+	STZ current_interaction			;$B88085  \
 	DEC A					;$B88088   |
 	ASL A					;$B88089   |
 	TAX					;$B8808A   |
@@ -193,7 +193,7 @@ endif						;	   |
 	LDA $0A86				;$B8814F   |
 	STA $091F				;$B88152   |
 	LDA #$0008				;$B88155   |
-	TRB $0B02				;$B88158   |
+	TRB RAM_0B02				;$B88158   |
 	JSR drop_follower_kong_if_teamed_up	;$B8815B   |
 	RTS					;$B8815E  /
 
@@ -223,7 +223,7 @@ CODE_B88184:					;	   |
 	LDA $0A86				;$B88194   |
 	STA $091F				;$B88197   |
 	LDA #$0008				;$B8819A   |
-	TRB $0B02				;$B8819D   |
+	TRB RAM_0B02				;$B8819D   |
 	LDA $091B				;$B881A0   |
 	AND #$FCFF				;$B881A3   |
 	ORA #$0100				;$B881A6   |
@@ -793,7 +793,7 @@ set_stuck_on_honey_floor_animation:
 
 player_interaction_0A:
 	LDX $0A86				;$B8865B  \
-	CPX $0BA2				;$B8865E   |
+	CPX held_rope_sprite_temp		;$B8865E   |
 	BEQ .CODE_B88664			;$B88661   |
 .return:					;	   |
 	RTS					;$B88663  /
@@ -807,9 +807,9 @@ player_interaction_0A:
 .CODE_B88670:					;	   |
 	JSR work_on_active_kong			;$B88670   |
 	JSR drop_sprite_if_holding		;$B88673   |
-	LDA $0BA2				;$B88676   |
-	STA $0BA0				;$B88679   |
-	STZ $0BA2				;$B8867C   |
+	LDA held_rope_sprite_temp		;$B88676   |
+	STA held_rope_sprite			;$B88679   |
+	STZ held_rope_sprite_temp		;$B8867C   |
 	LDX current_sprite			;$B8867F   |
 	LDA #!kong_state_45			;$B88681   |
 	STA sprite.state,x			;$B88684   |
@@ -817,7 +817,7 @@ player_interaction_0A:
 	STZ $20,x				;$B88688   |
 	STZ $24,x				;$B8868A   |
 	STZ $2A,x				;$B8868C   |
-	LDY $0BA0				;$B8868E   |
+	LDY held_rope_sprite			;$B8868E   |
 	LDA $0006,y				;$B88691   |
 	STA $06,x				;$B88694   |
 	LDA #$002F				;$B88696   |
@@ -1057,7 +1057,7 @@ player_interaction_2A:
 	LDA main_level.song			;$B88878   |
 	CMP #!music_k_rool			;$B8887B   |
 	BEQ CODE_B8889A				;$B8887E   |
-	LDA $0B02				;$B88880   |
+	LDA RAM_0B02				;$B88880   |
 	AND #$0004				;$B88883   |
 	BEQ CODE_B88893				;$B88886   |
 	LDX #$0002				;$B88888   |
@@ -2453,7 +2453,7 @@ player_interaction_0D_0F_10_2B:
 	RTS					;$B89389  /
 
 CODE_B8938A:
-	LDX $0A84				;$B8938A  \
+	LDX current_interacting_sprite		;$B8938A  \
 	STX current_sprite			;$B8938D   |
 	LDA $0A8A				;$B8938F   |
 	STA $32					;$B89392   |
@@ -2480,7 +2480,7 @@ CODE_B893B0:
 	JSR play_kong_dependant_sound		;$B893B9   |
 	STZ $0AEE				;$B893BC   |
 	STZ $0AF2				;$B893BF   |
-	LDX $0A84				;$B893C2   |
+	LDX current_interacting_sprite		;$B893C2   |
 	STX current_player_mount		;$B893C5   |
 	STX current_sprite			;$B893C7   |
 	LDA sprite.type,x			;$B893C9   |
@@ -2834,7 +2834,7 @@ general_kong_sprite_code:			;	   |
 	CPX active_kong_sprite			;$B8968A   | |
 	BNE kong_state_handler			;$B8968D   |/
 	LDA #$0002				;$B8968F   |
-	TRB $0B02				;$B89692   |
+	TRB RAM_0B02				;$B89692   |
 	BEQ kong_state_handler			;$B89695   |
 	LDA #$0020				;$B89697   |\
 	JSR process_player_action		;$B8969A   |/ player riding skull cart
@@ -3092,7 +3092,7 @@ CODE_B89966:					;	   |
 	RTS					;$B8996D  /
 
 kong_state_return:
-	STZ $0BA2				;$B8996E  \
+	STZ held_rope_sprite_temp		;$B8996E  \
 	LDX current_sprite			;$B89971   |
 	STZ $32,x				;$B89973   |
 CODE_B89975:					;	   |
@@ -5424,7 +5424,7 @@ CODE_B8AB08:
 	JMP kong_state_return			;$B8AB0E  /
 
 kong_state_45:
-	LDA $0BA0				;$B8AB11  \
+	LDA held_rope_sprite			;$B8AB11  \
 	BEQ CODE_B8AB5D				;$B8AB14   |
 	LDA #$0008				;$B8AB16   |
 	TSB game_state_flags			;$B8AB19   |
@@ -5505,7 +5505,7 @@ CODE_B8ABA8:
 	STZ $20,x				;$B8ABA8  \
 	LDA #$0047				;$B8ABAA   |
 	STA sprite.state,x			;$B8ABAD   |
-	LDA $0B02				;$B8ABAF   |
+	LDA RAM_0B02				;$B8ABAF   |
 	AND #$0004				;$B8ABB2   |
 	BEQ CODE_B8ABC0				;$B8ABB5   |
 	LDA #$0045				;$B8ABB7   |
@@ -5982,13 +5982,13 @@ CODE_B8AF85:
 	AND #!input_ABXY			;$B8AF8A   |
 	BEQ CODE_B8AF95				;$B8AF8D   |
 	LDA #$0008				;$B8AF8F   |
-	TSB $0B02				;$B8AF92   |
+	TSB RAM_0B02				;$B8AF92   |
 CODE_B8AF95:					;	   |
 	LDA active_frame_counter		;$B8AF95   |
 	AND #$0003				;$B8AF97   |
 	BNE CODE_B8AFA9				;$B8AF9A   |
 	LDA #$0008				;$B8AF9C   |
-	TRB $0B02				;$B8AF9F   |
+	TRB RAM_0B02				;$B8AF9F   |
 	BEQ CODE_B8AFA9				;$B8AFA2   |
 	DEC $091F				;$B8AFA4   |
 	SEC					;$B8AFA7   |
@@ -6634,7 +6634,7 @@ CODE_B8B4C0:
 	JMP kong_state_return			;$B8B4CC  /
 
 CODE_B8B4CF:
-	LDX $0BA0				;$B8B4CF  \
+	LDX held_rope_sprite			;$B8B4CF  \
 	LDA sprite.constants_address,x		;$B8B4D2   |
 	STA $5E					;$B8B4D4   |
 	LDA current_sprite_constants_bank	;$B8B4D6   |
@@ -6792,7 +6792,7 @@ CODE_B8B5E3:
 	LDA #!player_interaction_0A		;$B8B5E3  \
 	JSR set_player_interaction		;$B8B5E6   |
 	BCS CODE_B8B5F1				;$B8B5E9   |
-	LDA $0BA2				;$B8B5EB   |
+	LDA held_rope_sprite_temp		;$B8B5EB   |
 	STA $0A86				;$B8B5EE   |
 CODE_B8B5F1:					;	   |
 	RTS					;$B8B5F1  /
@@ -6842,17 +6842,17 @@ CODE_B8B62D:
 	RTS					;$B8B643  /
 
 CODE_B8B644:
-	LDA $0BA2				;$B8B644  \
+	LDA held_rope_sprite_temp		;$B8B644  \
 	BNE CODE_B8B64E				;$B8B647   |
-	STZ $0BA0				;$B8B649   |
+	STZ held_rope_sprite			;$B8B649   |
 CODE_B8B64C:					;	   |
 	CLC					;$B8B64C   |
 	RTS					;$B8B64D  /
 
 CODE_B8B64E:
-	EOR $0BA0				;$B8B64E  \
+	EOR held_rope_sprite			;$B8B64E  \
 	BNE CODE_B8B658				;$B8B651   |
-	STZ $0BA2				;$B8B653   |
+	STZ held_rope_sprite_temp		;$B8B653   |
 	BRA CODE_B8B64C				;$B8B656  /
 
 CODE_B8B658:
@@ -9622,24 +9622,24 @@ shoot_web_platform:
 	STZ $20,x				;$B8C90F   |/
 	LDY current_kong_control_variables	;$B8C911   |> get control variables of player
 	LDA #$0040				;$B8C913   |\
-	TRB $0B02				;$B8C916   | | check if a web platform is already being shot
+	TRB RAM_0B02				;$B8C916   | | check if a web platform is already being shot
 	BEQ .shoot_new_platform			;$B8C919   |/ if not shoot a new platform
 	RTS					;$B8C91B  /
 
 .shoot_new_platform
-	LDA $0B02				;$B8C91C  \
+	LDA RAM_0B02				;$B8C91C  \
 	AND #$0080				;$B8C91F   |
 	BNE .return				;$B8C922   |
 	LDY current_kong_control_variables	;$B8C924   |
 	LDA active_frame_counter		;$B8C926   |\
 	SEC					;$B8C928   | | check how long since last platform shot
-	SBC $19A4				;$B8C929   |/
+	SBC last_squitter_platform_shot_time	;$B8C929   |/
 	STA $32					;$B8C92C   |\
 	LDA #$000C				;$B8C92E   | | check if enough time has passed since last shot
 	CMP $32					;$B8C931   | |
 	BCS .return				;$B8C933   |/
 	LDA active_frame_counter		;$B8C935   |\ if enough time has passed
-	STA $19A4				;$B8C937   | | update the last shot time to the current time
+	STA last_squitter_platform_shot_time	;$B8C937   | | update the last shot time to the current time
 	JSR scan_for_web_platforms		;$B8C93A   |/ scan for existing web platforms
 	CMP #$0002				;$B8C93D   |\ if we have less than 3 web platforms
 	BMI .less_than_max_platforms		;$B8C940   |/ we're ok to spawn more platforms
@@ -9651,7 +9651,7 @@ shoot_web_platform:
 	JSL spawn_special_sprite_index		;$B8C94C   |/
 	BCS .spawn_done				;$B8C950   |
 	LDA #$0040				;$B8C952   |\ flag platform state as being shot
-	TSB $0B02				;$B8C955   |/
+	TSB RAM_0B02				;$B8C955   |/
 	LDA #$02D6				;$B8C958   |\ play platform spawning animation
 	JSL set_alt_sprite_animation		;$B8C95B   |/
 	%lda_sound(5, squitter_platform_web)	;$B8C95F   |\ queue platform shoot sound
@@ -9851,23 +9851,23 @@ land_animal_attack_action:
 	LDY current_kong_control_variables	;$B8CA9F   |> get kong control variables address
 	LDA active_frame_counter		;$B8CAA1   |\
 	SEC					;$B8CAA3   | |
-	SBC $19A2				;$B8CAA4   | | get time since last web shot
+	SBC last_squitter_web_shot_time		;$B8CAA4   | | get time since last web shot
 	STA $32					;$B8CAA7   |/
 	LDY #$0088				;$B8CAA9   |\
 	LDA [current_sprite_constants],y	;$B8CAAC   |/ get web shot cooldown time
 	CMP $32					;$B8CAAE   |\
 	BCS .return				;$B8CAB0   |/ if not enough time has past since last shot dont shoot
 	LDA active_frame_counter		;$B8CAB2   |\
-	STA $19A2				;$B8CAB4   |/ update last shot time to now
+	STA last_squitter_web_shot_time		;$B8CAB4   |/ update last shot time to now
 	LDY #$008A				;$B8CAB7   |\
 	LDA [current_sprite_constants],y	;$B8CABA   | |
 	DEC A					;$B8CABC   | |
-	CMP $19A6				;$B8CABD   | | if too many web shots already exist dont shoot a new one
+	CMP squitter_web_shot_count		;$B8CABD   | | if too many web shots already exist dont shoot a new one
 	BMI .return				;$B8CAC0   |/
 	LDY.w #DATA_FF1B06			;$B8CAC2   |\ spawn new web shot sprite
 	JSL spawn_special_sprite_address	;$B8CAC5   |/
 	BCS .return				;$B8CAC9   |> if spawn failed return
-	INC $19A6				;$B8CACB   |> increase number of shots that exist by 1
+	INC squitter_web_shot_count		;$B8CACB   |> increase number of shots that exist by 1
 	%lda_sound(5, squitter_attack_web)	;$B8CACE   |\
 	JSL queue_sound_effect			;$B8CAD1   |/ queue web shot sound effect
 	LDY #$008C				;$B8CAD5   |\
@@ -9902,7 +9902,7 @@ start_rambi_attack:
 	CMP #$008E				;$B8CB0A   | | if rambi isnt already attacking start a new attack
 	BNE .not_already_attacking		;$B8CB0D   |/
 	LDA #$0001				;$B8CB0F   |
-	TSB $0B02				;$B8CB12   |
+	TSB RAM_0B02				;$B8CB12   |
 	RTS					;$B8CB15  /
 
 .not_already_attacking
@@ -9942,9 +9942,9 @@ squawks_shoot_action:
 	RTS					;$B8CB59  /
 
 .squawks_already_shooting
-	LDA $0B02				;$B8CB5A  \
+	LDA RAM_0B02				;$B8CB5A  \
 	ORA #$0001				;$B8CB5D   |
-	STA $0B02				;$B8CB60   |
+	STA RAM_0B02				;$B8CB60   |
 	RTS					;$B8CB63  /
 
 shot_from_cannon_move_faster_action:
@@ -10113,7 +10113,7 @@ start_enguarde_attack:
 	CMP #$008F				;$B8CC98   |
 	BNE .not_already_attacking		;$B8CC9B   |
 	LDA #$0001				;$B8CC9D   |
-	TSB $0B02				;$B8CCA0   |
+	TSB RAM_0B02				;$B8CCA0   |
 	RTS					;$B8CCA3  /
 
 .not_already_attacking
@@ -12051,12 +12051,12 @@ set_player_interaction_global:
 	RTL					;$B8D8BD  /
 
 set_player_interaction:
-	CMP $0A82				;$B8D8BE  \
+	CMP current_interaction			;$B8D8BE  \
 	BEQ .interaction_already_applied	;$B8D8C1   |
 	BMI .interaction_already_applied	;$B8D8C3   |
-	STA $0A82				;$B8D8C5   |
+	STA current_interaction			;$B8D8C5   |
 	LDA current_sprite			;$B8D8C8   |
-	STA $0A84				;$B8D8CA   |
+	STA current_interacting_sprite		;$B8D8CA   |
 	CLC					;$B8D8CD   |
 	RTS					;$B8D8CE  /
 
