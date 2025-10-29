@@ -215,10 +215,22 @@ macro insert_sprite_spawn_script_no_id(spawn_script_path)
 		incsrc <spawn_script_path>							;import spawn script
 	spawn_script_end_!spawn_script_counter:							;mark the end of the spawn script
 
-		
 	!ex_spawn_script_insertion_address := spawn_script_end_!spawn_script_counter		;update data insertion address
 	!spawn_script_counter #= !spawn_script_counter+1					;update label counter to prevent label redefines
 endmacro
+
+;creates a spawn script for a custom sprite
+!spawn_script_counter = 0
+macro insert_sprite_spawn_script_single(spawn_script_id, spawn_script)
+	pushpc
+	
+	;insert spawn id pointer into spawn table
+	org !ex_spawn_script_table_insertion_address+<spawn_script_id>-!ex_spawn_id_start
+		dw <spawn_script>
+	
+	pullpc
+endmacro
+
 
 ;creates a main routine for a custom sprite
 !sprite_main_counter = 0

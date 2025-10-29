@@ -13543,8 +13543,8 @@ post_logic_hook:
 	JSL custom_post_logic_handler
 	PLB
 	JMP CODE_808CA2
-
-
+	
+	incsrc "ex_patch/ex_sprites.asm"		
 
 else
 	if !version == 0

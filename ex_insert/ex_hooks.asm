@@ -1,5 +1,7 @@
 ;DKC 2 HOOKS
 if !game_version == 0
+	use_vanilla_constants = $80FC0C
+	use_ex_constants = $80FC12
 	sprite_return_handle_despawn = $B38000
 	sprite_return_no_despawn = $B38004
 	spawn_barrel_debris_with_smoke = $B39742
@@ -71,11 +73,11 @@ if !game_version == 0
 	move_sprite_to_target_hud_position = $BEC5EF
 	process_current_movement = $BEF05C
 	process_alternate_movement = $BEF060
-	use_vanilla_constants = $008153
-	use_ex_constants = $008159
 	ex_sprite_state_handler = $028003
 	ex_sprite_state_safe_handler = $028022
 else
+	use_vanilla_constants = $80FC4C
+	use_ex_constants = $80FC52
 	sprite_return_handle_despawn = $B38000
 	sprite_return_no_despawn = $B38004
 	spawn_barrel_debris_with_smoke = $B3975C
@@ -147,8 +149,6 @@ else
 	move_sprite_to_target_hud_position = $BEC5FA
 	process_current_movement = $BEF039
 	process_alternate_movement = $BEF03D
-	use_vanilla_constants = $008153
-	use_ex_constants = $008159
 	ex_sprite_state_handler = $028003
 	ex_sprite_state_safe_handler = $028022
 endif

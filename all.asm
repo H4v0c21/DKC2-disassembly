@@ -1,7 +1,7 @@
 !exhi = 1
 !bypass_anti_piracy = 1
 !ex_patch = 1
-!ex_patch_version = 2
+!ex_patch_version = 3
 
 if !exhi == 1
 	exhirom
@@ -179,8 +179,6 @@ if !exhi == 1
 			
 			RESET_start_force_bank_80:
 				JML RESET_start
-			
-			incsrc "ex_patch/ex_sprites.asm"
 			
 			incsrc "ex_patch/custom_level_code_handlers.asm"
 			

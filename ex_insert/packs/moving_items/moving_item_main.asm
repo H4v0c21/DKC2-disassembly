@@ -24,5 +24,5 @@ example_sprite_00_main:
 	LDX #$F8F8
 	JSL give_banana_to_kong
 	LDX current_sprite
-	JSL delete_sprite
+	JSL delete_sprite_handle_deallocation
 	JML sprite_return_handle_despawn

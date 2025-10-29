@@ -16,13 +16,11 @@
 %insert_sprite_code("packs/moving_items/moving_item_main.asm", $0000)
 
 ; Include generic spawn scripts that will be referenced by the spawnable sprites
-%insert_sprite_spawn_script("packs/moving_items/spawning/generic_item.asm")
+%insert_sprite_spawn_script_no_id("packs/moving_items/moving_item_spawn_script.asm")
 
 ; Include spawn scripts and print their IDs to the console
-%insert_sprite_spawn_script("packs/moving_items/spawning/banana_wander_medium.asm")
-print "Medium Wandering Banana inserted with spawn id: $",hex(!last_used_spawn_id)
+;%insert_sprite_spawn_script($2002, "packs/moving_items/spawning/banana_wander_medium.asm")
 
-%insert_sprite_spawn_script("packs/moving_items/spawning/banana_orbit_medium.asm")
-print "Medium Orbiting Banana inserted with spawn id: $",hex(!last_used_spawn_id)
+;%insert_sprite_spawn_script($2004, "packs/moving_items/spawning/banana_orbit_medium.asm")
 
 ;namespace off
