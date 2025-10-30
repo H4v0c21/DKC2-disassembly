@@ -2847,8 +2847,8 @@ endif						;	   |
 	STA $0D4E				;$BB9237   |
 	STA $0D54				;$BB923A   |
 	LDA #$0078				;$BB923D   |
-	STA $0973				;$BB9240   |
-	STA $096F				;$BB9243   |
+	STA life_display_timer			;$BB9240   |
+	STA banana_display_timer		;$BB9243   |
 	LDA life_count				;$BB9246   |
 	STA life_count_display			;$BB9249   |
 	LDA #$0000				;$BB924C   |
@@ -8128,7 +8128,7 @@ CODE_BBC007:
 	BEQ CODE_BBC018				;$BBC00D   |
 	LDA $19D8				;$BBC00F   |
 	STA banana_count			;$BBC012   |
-	STA $096B				;$BBC015   |
+	STA banana_counter_current		;$BBC015   |
 CODE_BBC018:					;	   |
 if !version == 1				;	   |
 	RTS					;$BBC018  /

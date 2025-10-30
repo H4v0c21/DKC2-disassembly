@@ -12038,12 +12038,12 @@ CODE_B5F109:
 	BCC CODE_B5F12F				;$B5F12A   |
 	LDA #$0109				;$B5F12C   |
 CODE_B5F12F:					;	   |
-	STA $096D				;$B5F12F   |
+	STA banana_counter_final		;$B5F12F   |
 	CMP #$0099				;$B5F132   |
 	BCC CODE_B5F13A				;$B5F135   |
 	LDA #$0099				;$B5F137   |
 CODE_B5F13A:					;	   |
-	STA $096B				;$B5F13A   |
+	STA banana_counter_current		;$B5F13A   |
 	LDA #$0001				;$B5F13D   |
 	STA $0D30				;$B5F140   |
 	STZ $0D2E				;$B5F143   |
@@ -13083,7 +13083,7 @@ CODE_B5F8BD:					;	   |
 	CLD					;$B5F8C0   |
 	SEP #$10				;$B5F8C1   |
 	LDA #$003C				;$B5F8C3   |
-	STA $096F				;$B5F8C6   |
+	STA banana_display_timer		;$B5F8C6   |
 	LDA.l $7FD632				;$B5F8C9   |
 	INC A					;$B5F8CD   |
 	INC A					;$B5F8CE   |
@@ -13147,11 +13147,11 @@ CODE_B5F920:					;	   |
 CODE_B5F937:
 	LDA.l $7FD734				;$B5F937  \
 	SEP #$09				;$B5F93B   |
-	ADC $096D				;$B5F93D   |
+	ADC banana_counter_final		;$B5F93D   |
 	BPL CODE_B5F945				;$B5F940   |
 	LDA #$0000				;$B5F942   |
 CODE_B5F945:					;	   |
-	STA $096D				;$B5F945   |
+	STA banana_counter_final		;$B5F945   |
 	CLD					;$B5F948   |
 	PLA					;$B5F949   |
 	PLX					;$B5F94A   |
@@ -13162,7 +13162,7 @@ CODE_B5F94C:
 	%lda_sound(6, banana)			;$B5F94E   |
 	JSL queue_sound_effect			;$B5F951   |
 	LDA #$003C				;$B5F955   |
-	STA $096F				;$B5F958   |
+	STA banana_display_timer		;$B5F958   |
 	LDA.l $7FD632				;$B5F95B   |
 	INC A					;$B5F95F   |
 	INC A					;$B5F960   |
@@ -13243,11 +13243,11 @@ CODE_B5F9CC:					;	   |
 CODE_B5F9E2:
 	LDA.l $7FD734				;$B5F9E2  \
 	SEP #$09				;$B5F9E6   |
-	ADC $096D				;$B5F9E8   |
+	ADC banana_counter_final		;$B5F9E8   |
 	BPL CODE_B5F9F0				;$B5F9EB   |
 	LDA #$0000				;$B5F9ED   |
 CODE_B5F9F0:					;	   |
-	STA $096D				;$B5F9F0   |
+	STA banana_counter_final		;$B5F9F0   |
 	CLD					;$B5F9F3   |
 	RTL					;$B5F9F4  /
 
@@ -13316,11 +13316,11 @@ CODE_B5FA6A:					;	   |
 CODE_B5FA6C:
 	LDA.l $7FD734				;$B5FA6C  \
 	SEP #$09				;$B5FA70   |
-	ADC $00096D				;$B5FA72   |
+	ADC.l banana_counter_final		;$B5FA72   |
 	BPL CODE_B5FA7B				;$B5FA76   |
 	LDA #$0000				;$B5FA78   |
 CODE_B5FA7B:					;	   |
-	STA $00096D				;$B5FA7B   |
+	STA.l banana_counter_final		;$B5FA7B   |
 	CLD					;$B5FA7F   |
 	LDY $D632				;$B5FA80   |
 	LDA $D634,y				;$B5FA83   |

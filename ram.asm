@@ -240,12 +240,27 @@ enable_intro_bypass			= $090F
 ;;;
 ;;; Start Noncritical WRAM ($0911-$19D9)
 ;;;
+banana_counter_current			= $096B
+RAM_096C				= $096C
+banana_counter_final			= $096D
+banana_display_timer			= $096F
+lives_to_give_count			= $0971
+lives_to_take_count			= $0972
+life_display_timer			= $0973
+life_display_graphic			= $0975
+life_display_graphic_copy		= $0977
+life_display_y_position			= $0979
+collected_kong_letter_sprite		= $097B
+collected_coin_sprite			= $097D
+bonus_timer_sprite			= $097F
 player_action_held			= $0981
 player_action_pressed			= $0983
 RAM_0985				= $0985
 RAM_0987				= $0987
 glimmer_sprite				= $0989
-
+UNUSED_098B				= $098B
+UNUSED_098C				= $098C
+intro_sparkle_random_offset		= $098D
 intro_sparkle_x_position		= $098F
 intro_sparkle_y_position		= $0991
 player_skipped_demo			= $099B

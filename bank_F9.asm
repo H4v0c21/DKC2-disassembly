@@ -1382,7 +1382,7 @@ diddy_team_top_stunned:
 	db $05 : dw $077C
 	db $05 : dw $0780
 	db $06 : dw $0784
-	db !animation_command_83 : dw CODE_B9D5A4
+	db !animation_command_83 : dw stall_animation_until_grounded
 	db $0C : dw $0788
 	db !animation_command_81 : dw CODE_B9DEBE
 	db $06 : dw $078C
@@ -1542,7 +1542,7 @@ diddy_team_bottom_jump:
 ;$F91818
 diddy_team_bottom_air:
 	db !animation_command_8A, $03 : dw $1408, $1434, $0000, $0000
-	db !animation_command_83 : dw CODE_B9D5A4
+	db !animation_command_83 : dw stall_animation_until_grounded
 	db !animation_command_81 : dw CODE_B9DEEF
 	db !animation_command_80, $00
 
@@ -1551,7 +1551,7 @@ diddy_team_bottom_fall:
 	db !animation_command_84 : dw CODE_B9DECC
 	db !animation_command_8A, $03 : dw $1408, $1434, $0000, $0000
 	db !animation_command_84 : dw !null_pointer
-	db !animation_command_83 : dw CODE_B9D5A4
+	db !animation_command_83 : dw stall_animation_until_grounded
 	db !animation_command_81 : dw CODE_B9DEEF
 	db !animation_command_80, $00
 
@@ -1565,7 +1565,7 @@ diddy_team_bottom_land:
 ;$F91854
 diddy_team_bottom_bounce_up:
 	db !animation_command_8A, $03 : dw $1408, $1434, $0000, $0000
-	db !animation_command_83 : dw CODE_B9D5A4
+	db !animation_command_83 : dw stall_animation_until_grounded
 	db !animation_command_81 : dw CODE_B9DEEF
 	db !animation_command_80, $00
 
@@ -1718,7 +1718,7 @@ diddy_carry_jump:
 ;$F91A98
 diddy_carry_air:
 	db !animation_command_8B, $03 : dw $0A64, $000C, $FFF7
-	db !animation_command_83 : dw CODE_B9D5A4
+	db !animation_command_83 : dw stall_animation_until_grounded
 	db !animation_command_8B, $03 : dw $0A64, $000C, $FFF7
 	db !animation_command_81 : dw CODE_B9DEEF
 	db !animation_command_80, $00
@@ -1728,7 +1728,7 @@ diddy_carry_fall:
 	db !animation_command_84 : dw CODE_B9DECC
 	db !animation_command_8B, $03 : dw $0A64, $000C, $FFF7
 	db !animation_command_84 : dw !null_pointer
-	db !animation_command_83 : dw CODE_B9D5A4
+	db !animation_command_83 : dw stall_animation_until_grounded
 	db !animation_command_81 : dw CODE_B9DEEF
 	db !animation_command_80, $00
 
@@ -2000,7 +2000,7 @@ diddy_air:
 	db $03 : dw $0674
 	db $03 : dw $0678
 	db !animation_command_84 : dw !null_pointer
-	db !animation_command_83 : dw CODE_B9D5A4
+	db !animation_command_83 : dw stall_animation_until_grounded
 	db !animation_command_81 : dw CODE_B9DEEF
 	db !animation_command_80, $00
 
@@ -2008,7 +2008,7 @@ diddy_air:
 diddy_follow_air:
 	db $02 : dw $0674
 	db $02 : dw $0674
-	db !animation_command_83 : dw CODE_B9D5A4
+	db !animation_command_83 : dw stall_animation_until_grounded
 	db $02 : dw $0678
 	db !animation_command_83 : dw CODE_B9D12B
 	db !animation_command_80, $00
@@ -2019,7 +2019,7 @@ diddy_fall:
 	db !animation_command_84 : dw CODE_B9DECC
 	db $02 : dw $0674
 	db !animation_command_84 : dw !null_pointer
-	db !animation_command_83 : dw CODE_B9D5A4
+	db !animation_command_83 : dw stall_animation_until_grounded
 	db $02 : dw $0678
 	db !animation_command_81 : dw CODE_B9DEEF
 	db !animation_command_80, $00
@@ -2039,7 +2039,7 @@ diddy_bounce_back:
 	db !animation_command_84 : dw CODE_B9DECC
 	db $02 : dw $0674
 	db !animation_command_84 : dw !null_pointer
-	db !animation_command_83 : dw CODE_B9D5A4
+	db !animation_command_83 : dw stall_animation_until_grounded
 	db !animation_command_81 : dw CODE_B9DEEF
 	db !animation_command_80, $00
 
@@ -2104,14 +2104,14 @@ diddy_death:
 	db $05 : dw $076C
 	db $05 : dw $0770
 	db $05 : dw $0774
-	db !animation_command_83 : dw CODE_B9D5A4
+	db !animation_command_83 : dw stall_animation_until_grounded
 	db !animation_command_8E : dw sound(6, !sound_hit_ground)
 	db !animation_command_81 : dw CODE_B9DD21
 	db $05 : dw $0778
 	db $05 : dw $077C
 	db $05 : dw $0780
 	db $06 : dw $0784
-	db !animation_command_83 : dw CODE_B9D5A4
+	db !animation_command_83 : dw stall_animation_until_grounded
 	db !animation_command_8E : dw sound(6, !sound_hit_ground)
 	db !animation_command_81 : dw CODE_B9DA75
 	db $0C : dw $0788
@@ -2649,7 +2649,7 @@ squitter_air:
 	db $03 : dw $0804
 	db $03 : dw $0800
 	db !animation_command_84 : dw !null_pointer
-	db !animation_command_83 : dw CODE_B9D5A4
+	db !animation_command_83 : dw stall_animation_until_grounded
 	db !animation_command_81 : dw CODE_B9DEEF
 	db !animation_command_80, $00
 
@@ -2669,7 +2669,7 @@ squitter_fall:
 	db $03 : dw $0804
 	db $03 : dw $0800
 	db !animation_command_84 : dw !null_pointer
-	db !animation_command_83 : dw CODE_B9D5A4
+	db !animation_command_83 : dw stall_animation_until_grounded
 	db !animation_command_81 : dw CODE_B9DEEF
 	db !animation_command_80, $00
 
@@ -2710,7 +2710,7 @@ DATA_F924B3:
 	db !animation_command_86, $01 : dw $0D60, $0DA0, $0000, $FFF7
 	db !animation_command_86, $01 : dw $0D60, $0DA0, $0000, $FFF7
 	db !animation_command_86, $01 : dw $0D60, $0DA0, $0000, $FFF7
-	db !animation_command_83 : dw CODE_B9D5A4
+	db !animation_command_83 : dw stall_animation_until_grounded
 	db !animation_command_8E : dw sound(5, !sound_rattly_hop)
 	db !animation_command_86, $01 : dw $0D60, $0DA0, $0000, $FFF7
 	db !animation_command_86, $01 : dw $0D5C, $0DA0, $0000, $FFFA
@@ -2735,7 +2735,7 @@ DATA_F92583:
 	db !animation_command_86, $02 : dw $0D50, $0DA0, $0000, $FFFF
 	db !animation_command_86, $04 : dw $0D4C, $0DA0, $0000, $0000
 	db !animation_command_86, $01 : dw $0D50, $0DA0, $0000, $FFFF
-	db !animation_command_83 : dw CODE_B9D5A4
+	db !animation_command_83 : dw stall_animation_until_grounded
 DATA_F925D2:
 	db !animation_command_82 : dw DATA_F924B3
 	db !animation_command_80, $00
@@ -2826,7 +2826,7 @@ DATA_F927DF:
 	db $02 : dw $0D54
 	db !animation_command_81 : dw CODE_B9E019
 	db $02 : dw $0D54
-	db !animation_command_83 : dw CODE_B9D5A4
+	db !animation_command_83 : dw stall_animation_until_grounded
 	db !animation_command_81 : dw CODE_B9DFE5
 	db !animation_command_80, $00
 
@@ -2844,7 +2844,7 @@ DATA_F927F3:
 	db $01 : dw $0D70
 	db $01 : dw $0D74
 	db !animation_command_84 : dw !null_pointer
-	db !animation_command_83 : dw CODE_B9D5A4
+	db !animation_command_83 : dw stall_animation_until_grounded
 	db !animation_command_81 : dw CODE_B9DEEF
 	db !animation_command_80, $00
 
@@ -2888,7 +2888,7 @@ DATA_F9286A:
 	db !animation_command_86, $01 : dw $0D60, $1F08, $0000, $FFF6
 	db !animation_command_86, $01 : dw $0D60, $1F08, $0000, $FFF6
 	db !animation_command_86, $01 : dw $0D60, $1F08, $0000, $FFF6
-	db !animation_command_83 : dw CODE_B9D5A4
+	db !animation_command_83 : dw stall_animation_until_grounded
 	db !animation_command_8E : dw sound(5, !sound_rattly_hop)
 	db !animation_command_86, $01 : dw $0D60, $1F08, $0000, $FFF6
 	db !animation_command_86, $01 : dw $0D5C, $1F08, $0000, $FFF8
@@ -2913,7 +2913,7 @@ DATA_F9293A:
 	db !animation_command_86, $02 : dw $0D50, $1F08, $0000, $FFFE
 	db !animation_command_86, $04 : dw $0D4C, $1F08, $0000, $0000
 	db !animation_command_86, $01 : dw $0D50, $1F08, $0000, $FFFE
-	db !animation_command_83 : dw CODE_B9D5A4
+	db !animation_command_83 : dw stall_animation_until_grounded
 DATA_F92989:
 	db !animation_command_80, $00
 
@@ -3252,7 +3252,7 @@ rambi_diddy_air:
 	db !animation_command_83 : dw CODE_B9D56E
 	db !animation_command_86, $02 : dw $1DE0, $2118, $0000, $FFFE
 	db !animation_command_86, $04 : dw $1DE4, $2118, $0000, $FFFE
-	db !animation_command_83 : dw CODE_B9D5A4
+	db !animation_command_83 : dw stall_animation_until_grounded
 	db !animation_command_81 : dw CODE_B9DEEF
 	db !animation_command_80, $00
 
@@ -3275,7 +3275,7 @@ rambi_diddy_fall:
 	db !animation_command_86, $02 : dw $1DE0, $2118, $0000, $FFFE
 	db !animation_command_86, $04 : dw $1DE4, $2118, $0000, $FFFE
 	db !animation_command_84 : dw !null_pointer
-	db !animation_command_83 : dw CODE_B9D5A4
+	db !animation_command_83 : dw stall_animation_until_grounded
 	db !animation_command_81 : dw CODE_B9DEEF
 	db !animation_command_80, $00
 
@@ -3296,7 +3296,7 @@ rambi_dixie_air:
 	db !animation_command_83 : dw CODE_B9D56E
 	db !animation_command_87, $02 : dw $1DE0, $FFFF, $FFFA
 	db !animation_command_87, $04 : dw $1DE4, $FFFF, $FFFD
-	db !animation_command_83 : dw CODE_B9D5A4
+	db !animation_command_83 : dw stall_animation_until_grounded
 	db !animation_command_81 : dw CODE_B9DEEF
 	db !animation_command_80, $00
 
@@ -3315,7 +3315,7 @@ rambi_dixie_fall:
 	db $03 : dw $1DE0
 	db $03 : dw $1DE4
 	db !animation_command_84 : dw !null_pointer
-	db !animation_command_83 : dw CODE_B9D5A4
+	db !animation_command_83 : dw stall_animation_until_grounded
 	db !animation_command_81 : dw CODE_B9DEEF
 	db !animation_command_80, $00
 
@@ -3962,7 +3962,7 @@ dixie_follow_jump:
 	db $03 : dw $0440
 	db $03 : dw $0444
 	db $03 : dw $0448
-	db !animation_command_83 : dw CODE_B9D5A4
+	db !animation_command_83 : dw stall_animation_until_grounded
 	db !animation_command_83 : dw CODE_B9D12B
 	db !animation_command_80, $00
 
@@ -4061,7 +4061,7 @@ dixie_follow_air:
 	db $02 : dw $0440
 	db $02 : dw $0444
 	db $02 : dw $0448
-	db !animation_command_83 : dw CODE_B9D5A4
+	db !animation_command_83 : dw stall_animation_until_grounded
 	db !animation_command_83 : dw CODE_B9D12B
 	db !animation_command_80, $00
 
@@ -4204,7 +4204,7 @@ dixie_team_top_stunned:
 	db $03 : dw $0574
 	db $03 : dw $0578
 	db $03 : dw $057C
-	db !animation_command_83 : dw CODE_B9D5A4
+	db !animation_command_83 : dw stall_animation_until_grounded
 	db !animation_command_81 : dw CODE_B9DD21
 	db $02 : dw $0580
 	db $02 : dw $0584
@@ -4213,7 +4213,7 @@ dixie_team_top_stunned:
 	db $02 : dw $0590
 	db $03 : dw $0594
 	db $03 : dw $0598
-	db !animation_command_83 : dw CODE_B9D5A4
+	db !animation_command_83 : dw stall_animation_until_grounded
 	db $10 : dw $059C
 	db !animation_command_81 : dw CODE_B9DEBE
 	db $04 : dw $05A0
@@ -4286,7 +4286,7 @@ dixie_team_bottom_jump:
 ;$F93CA2
 dixie_team_bottom_air:
 	db !animation_command_8B, $03 : dw $132C, $0000, $0001
-	db !animation_command_83 : dw CODE_B9D5A4
+	db !animation_command_83 : dw stall_animation_until_grounded
 	db !animation_command_8B, $03 : dw $132C, $0000, $0001
 	db !animation_command_81 : dw CODE_B9DEEF
 	db !animation_command_80, $00
@@ -4296,7 +4296,7 @@ dixie_team_bottom_fall:
 	db !animation_command_84 : dw CODE_B9DECC
 	db !animation_command_8B, $03 : dw $132C, $0000, $0001
 	db !animation_command_84 : dw !null_pointer
-	db !animation_command_83 : dw CODE_B9D5A4
+	db !animation_command_83 : dw stall_animation_until_grounded
 	db !animation_command_81 : dw CODE_B9DEEF
 	db !animation_command_80, $00
 
@@ -4511,7 +4511,7 @@ dixie_carry_air:
 	db !animation_command_8B, $02 : dw $0B44, $0008, $FFE7
 	db !animation_command_8B, $02 : dw $0B48, $0007, $FFE6
 	db !animation_command_8B, $02 : dw $0B4C, $0006, $FFE4
-	db !animation_command_83 : dw CODE_B9D5A4
+	db !animation_command_83 : dw stall_animation_until_grounded
 	db !animation_command_81 : dw CODE_B9DEEF
 	db !animation_command_80, $00
 
@@ -4521,7 +4521,7 @@ dixie_carry_fall:
 	db !animation_command_84 : dw CODE_B9DECC
 	db !animation_command_8B, $02 : dw $0B4C, $0006, $FFE4
 	db !animation_command_84 : dw !null_pointer
-	db !animation_command_83 : dw CODE_B9D5A4
+	db !animation_command_83 : dw stall_animation_until_grounded
 	db !animation_command_81 : dw CODE_B9DEEF
 	db !animation_command_80, $00
 
@@ -4544,7 +4544,7 @@ dixie_death:
 	db $03 : dw $0574
 	db $03 : dw $0578
 	db $03 : dw $057C
-	db !animation_command_83 : dw CODE_B9D5A4
+	db !animation_command_83 : dw stall_animation_until_grounded
 	db !animation_command_81 : dw CODE_B9DD21
 	db $02 : dw $0580
 	db $02 : dw $0584
@@ -4553,7 +4553,7 @@ dixie_death:
 	db $02 : dw $0590
 	db $03 : dw $0594
 	db $03 : dw $0598
-	db !animation_command_83 : dw CODE_B9D5A4
+	db !animation_command_83 : dw stall_animation_until_grounded
 	db $10 : dw $059C
 	db !animation_command_81 : dw CODE_B9DEBE
 	db $04 : dw $05A0
@@ -5192,7 +5192,7 @@ rambi_attack:
 	db !animation_command_87, $01 : dw $1D28, $0000, $0002
 	db !animation_command_87, $01 : dw $1D2C, $0000, $0001
 	db !animation_command_87, $05 : dw $1D30, $0000, $0000
-	db !animation_command_83 : dw CODE_B9D5A4
+	db !animation_command_83 : dw stall_animation_until_grounded
 	db !animation_command_81 : dw CODE_B9DFE5
 	db !animation_command_80, $00
 
@@ -5796,7 +5796,7 @@ click_clack_stunned_airborne:
 	db $02 : dw $0EC4
 	db $02 : dw $0EC8
 	db $02 : dw $0ECC
-	db !animation_command_83 : dw CODE_B9D5A4
+	db !animation_command_83 : dw stall_animation_until_grounded
 	db !animation_command_90 : dw CODE_B9E575, $0166
 	db !animation_command_80, $00
 
@@ -5837,7 +5837,7 @@ click_clack_recover:
 	db $02 : dw $0EB8
 	db $02 : dw $0EB4
 	db $02 : dw $0EB0
-	db !animation_command_83 : dw CODE_B9D5A4
+	db !animation_command_83 : dw stall_animation_until_grounded
 	db !animation_command_90 : dw CODE_B9E575, $0163
 	db !animation_command_80, $00
 
@@ -8218,7 +8218,7 @@ squitter_credits:
 squitter_hurt_run:
 	db !animation_command_81 : dw CODE_B9EDCE
 	db $06 : dw $1E44
-	db !animation_command_83 : dw CODE_B9D5A4
+	db !animation_command_83 : dw stall_animation_until_grounded
 	db !animation_command_81 : dw CODE_B9ED78
 
 DATA_F967D0:
@@ -8258,7 +8258,7 @@ rattly_no_player_idle:
 	db $01 : dw $0D70
 	db $01 : dw $0D74
 	db !animation_command_83 : dw CODE_B9D55A
-	db !animation_command_83 : dw CODE_B9D5A4
+	db !animation_command_83 : dw stall_animation_until_grounded
 	db !animation_command_8E : dw sound(5, !sound_hit_ground)
 	db $01 : dw $0D70
 	db $01 : dw $0D6C
@@ -8306,7 +8306,7 @@ rattly_credits:
 rattly_hurt_run:
 	db !animation_command_81 : dw CODE_B9EDCE
 	db $06 : dw $1E40
-	db !animation_command_83 : dw CODE_B9D5A4
+	db !animation_command_83 : dw stall_animation_until_grounded
 	db !animation_command_81 : dw CODE_B9EDA2
 
 DATA_F968B4:
@@ -8325,7 +8325,7 @@ DATA_F968B4:
 	db $01 : dw $0D70
 	db $01 : dw $0D74
 	db !animation_command_83 : dw CODE_B9D55A
-	db !animation_command_83 : dw CODE_B9D5A4
+	db !animation_command_83 : dw stall_animation_until_grounded
 	db !animation_command_8E : dw sound(5, !sound_hit_ground)
 	db $01 : dw $0D70
 	db $01 : dw $0D6C
@@ -8482,7 +8482,7 @@ rambi_no_player_idle:
 rambi_hurt_run:
 	db !animation_command_81 : dw CODE_B9EDCE
 	db $06 : dw $26EC
-	db !animation_command_83 : dw CODE_B9D5A4
+	db !animation_command_83 : dw stall_animation_until_grounded
 	db !animation_command_81 : dw CODE_B9EDB9
 
 DATA_F96A96:

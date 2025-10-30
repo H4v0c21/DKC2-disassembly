@@ -959,7 +959,7 @@ CODE_B9D59E:					;	   |
 CODE_B9D5A1:
 	JMP process_anim_script			;$B9D5A1  /
 
-CODE_B9D5A4:
+stall_animation_until_grounded:
 	LDA sprite.terrain_interaction,x	;$B9D5A4  \
 	AND #$0001				;$B9D5A6   |
 	BNE CODE_B9D5AE				;$B9D5A9   |

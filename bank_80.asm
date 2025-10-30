@@ -1628,7 +1628,7 @@ CODE_808F6C:
 	STZ checkpoint_level_number		;$808F94   |
 	STZ checkpoint_animal_type		;$808F97   |
 	STZ banana_count			;$808F9A   |
-	STZ $096B				;$808F9D   |
+	STZ banana_counter_current		;$808F9D   |
 	LDX #$0004				;$808FA0   |
 	LDA cheat_enable_flags			;$808FA3   |
 	AND #$0002				;$808FA6   |
@@ -2206,7 +2206,7 @@ CODE_809510:
 	AND #$0060				;$809518   |
 	SEC					;$80951B   |
 	SBC #$0040				;$80951C   |
-	STA $098D				;$80951F   |
+	STA intro_sparkle_random_offset		;$80951F   |
 	LDA #$0008				;$809522   |
 	STA $0993				;$809525   |
 CODE_809528:					;	   |
@@ -2221,10 +2221,10 @@ CODE_809533:
 	JSR get_random_number			;$809538   |
 	AND #$003F				;$80953B   |
 	CLC					;$80953E   |
-	ADC $098D				;$80953F   |
+	ADC intro_sparkle_random_offset		;$80953F   |
 	STA intro_sparkle_x_position		;$809542   |
 	SEC					;$809545   |
-	SBC $098D				;$809546   |
+	SBC intro_sparkle_random_offset		;$809546   |
 	EOR #$00FF				;$809549   |
 	LSR A					;$80954C   |
 	SEC					;$80954D   |

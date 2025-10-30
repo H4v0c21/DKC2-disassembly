@@ -130,9 +130,9 @@ coins_sprite_code:
 .moving_to_hud:
 	JSL process_sprite_animation		;$BEB8EF  \ Process animation
 	LDX current_sprite			;$BEB8F3   | Get coin sprite
-	LDA $097D				;$BEB8F5   | Check if index of self already exists
+	LDA collected_coin_sprite		;$BEB8F5   | Check if index of self already exists
 	BNE ..dont_store_index			;$BEB8F8   | If yes, don't store it
-	STX $097D				;$BEB8FA   | Else store index of self
+	STX collected_coin_sprite		;$BEB8FA   | Else store index of self
 ..dont_store_index:				;	   |
 	LDA $44,x				;$BEB8FD   |
 	CLC					;$BEB8FF   |
@@ -146,7 +146,7 @@ coins_sprite_code:
 	JSL move_sprite_to_target_hud_position	;$BEB90D   |
 	BPL ..return				;$BEB911   |
 	LDX current_sprite			;$BEB913   | Get coin sprite
-	STX $097D				;$BEB915   | Store index of self
+	STX collected_coin_sprite		;$BEB915   | Store index of self
 	LDA $48,x				;$BEB918   |
 	CMP $44,x				;$BEB91A   |
 	BNE ..return				;$BEB91C   |
@@ -199,16 +199,16 @@ coins_sprite_code:
 	CMP $0A,x				;$BEB96F   |
 	REP #$20				;$BEB971   |
 	BNE ..CODE_BEB984			;$BEB973   |
-	CPX $097D				;$BEB975   |
+	CPX collected_coin_sprite		;$BEB975   |
 	BNE ..CODE_BEB97D			;$BEB978   |
-	STZ $097D				;$BEB97A   | Clear index to self
+	STZ collected_coin_sprite		;$BEB97A   | Clear index to self
 ..CODE_BEB97D:					;	   |
 	JSL delete_sprite_handle_deallocation	;$BEB97D   |
 	JML [sprite_return_address]		;$BEB981  /
 
 ..CODE_BEB984:
 	LDX current_sprite			;$BEB984  \
-	CPX $097D				;$BEB986   |
+	CPX collected_coin_sprite		;$BEB986   |
 	BNE ..CODE_BEB97D			;$BEB989   |
 	JSL process_sprite_animation		;$BEB98B   |
 	JML [sprite_return_address]		;$BEB98F  /
@@ -445,7 +445,7 @@ CODE_BEBB5E:					;	   |
 
 CODE_BEBB61:
 	LDX current_sprite			;$BEBB61  \
-	STX $097B				;$BEBB63   |
+	STX collected_kong_letter_sprite	;$BEBB63   |
 	LDA #$C000				;$BEBB66   |
 	STA $1C,x				;$BEBB69   |
 	INC $2E,x				;$BEBB6B   |
@@ -533,9 +533,9 @@ CODE_BEBBEB:					;	   |
 	LDA $5E					;$BEBBF2   |
 	BNE CODE_BEBC04				;$BEBBF4   |
 	LDA current_sprite			;$BEBBF6   |
-	CMP $097B				;$BEBBF8   |
+	CMP collected_kong_letter_sprite	;$BEBBF8   |
 	BNE CODE_BEBC00				;$BEBBFB   |
-	STZ $097B				;$BEBBFD   |
+	STZ collected_kong_letter_sprite	;$BEBBFD   |
 CODE_BEBC00:					;	   |
 	JSL delete_sprite_handle_deallocation	;$BEBC00   |
 CODE_BEBC04:					;	   |
@@ -543,7 +543,7 @@ CODE_BEBC04:					;	   |
 
 CODE_BEBC07:
 	LDA #$0078				;$BEBC07  \
-	STA $0973				;$BEBC0A   |
+	STA life_display_timer			;$BEBC0A   |
 	LDX current_sprite			;$BEBC0D   |
 	INC $5C,x				;$BEBC0F   |
 	LDA $5C,x				;$BEBC11   |
@@ -623,9 +623,9 @@ CODE_BEBC9A:
 	LDA #$0001				;$BEBC9E   |
 	JSL CODE_BEC63E				;$BEBCA1   |
 	LDX current_sprite			;$BEBCA5   |
-	CPX $097B				;$BEBCA7   |
+	CPX collected_kong_letter_sprite	;$BEBCA7   |
 	BNE CODE_BEBCAF				;$BEBCAA   |
-	STZ $097B				;$BEBCAC   |
+	STZ collected_kong_letter_sprite	;$BEBCAC   |
 CODE_BEBCAF:					;	   |
 	JML [sprite_return_address]		;$BEBCAF  /
 
@@ -1990,8 +1990,8 @@ CODE_BEC63E:
 	SEP #$20				;$BEC63E  \ 8 bit
 	EOR #$FF				;$BEC640   | negate number of lives to add
 	SEC					;$BEC642   |
-	ADC $0971				;$BEC643   | add negative number of lives to add
-	STA $0971				;$BEC646   | this basically sets it back to 0
+	ADC lives_to_give_count			;$BEC643   | add negative number of lives to add
+	STA lives_to_give_count			;$BEC646   | this basically sets it back to 0
 	REP #$20				;$BEC649   | 16 bit
 	RTL					;$BEC64B  /
 
@@ -1999,20 +1999,20 @@ CODE_BEC64C:
 	SEP #$20				;$BEC64C  \ 8 bit
 	PHA					;$BEC64E   | preserve number of lives to add
 	CLC					;$BEC64F   |
-	ADC $0971				;$BEC650   | add lives to add counter
-	STA $0971				;$BEC653   | update life add counter
+	ADC lives_to_give_count			;$BEC650   | add lives to add counter
+	STA lives_to_give_count			;$BEC653   | update life add counter
 	PLA					;$BEC656   | retrieve number of lives to add
 	REP #$20				;$BEC657   | 16 bit
 CODE_BEC659:					;	   |
 	CLC					;$BEC659   |
 	ADC life_count				;$BEC65A   | add lives to current life count
 	STA life_count				;$BEC65D   |
-	LDA $0973				;$BEC660   | get the life display timer
+	LDA life_display_timer			;$BEC660   | get the life display timer
 	BNE CODE_BEC668				;$BEC663   | if the timer isnt 0
-	STZ $0977				;$BEC665   |
+	STZ life_display_graphic_copy		;$BEC665   |
 CODE_BEC668:					;	   |
 	LDA #$0078				;$BEC668   | set life display timer
-	STA $0973				;$BEC66B   |
+	STA life_display_timer			;$BEC66B   |
 	RTL					;$BEC66E  /
 
 CODE_BEC66F:
@@ -2024,17 +2024,17 @@ CODE_BEC66F:
 CODE_BEC678:
 	DEC life_count				;$BEC678  \
 	LDA #$0078				;$BEC67B   |
-	STA $0973				;$BEC67E   |
+	STA life_display_timer			;$BEC67E   |
 	SEP #$20				;$BEC681   |
-	INC $0972				;$BEC683   |
+	INC lives_to_take_count			;$BEC683   |
 	REP #$20				;$BEC686   |
 	RTL					;$BEC688  /
 
 CODE_BEC689:
 	LDA #$0078				;$BEC689  \
-	CMP $096F				;$BEC68C   |
+	CMP banana_display_timer		;$BEC68C   |
 	BCC CODE_BEC694				;$BEC68F   |
-	STA $096F				;$BEC691   |
+	STA banana_display_timer		;$BEC691   |
 CODE_BEC694:					;	   |
 	RTL					;$BEC694  /
 
@@ -2088,10 +2088,10 @@ CODE_BEC6FC:
 	JMP CODE_BEC81F				;$BEC6FF  /
 
 CODE_BEC702:
-	LDY $097F				;$BEC702  \
+	LDY bonus_timer_sprite			;$BEC702  \
 	BEQ CODE_BEC718				;$BEC705   |
 	JSR CODE_BEC70F				;$BEC707   |
-	LDX $097F				;$BEC70A   |
+	LDX bonus_timer_sprite			;$BEC70A   |
 	LDY $4A,x				;$BEC70D   |
 CODE_BEC70F:					;	   |
 	LDX $06,y				;$BEC70F   |
@@ -2101,35 +2101,35 @@ CODE_BEC718:					;	   |
 	RTS					;$BEC718  / return
 
 CODE_BEC719:
-	LDA $0973				;$BEC719  \ get the life display timer
+	LDA life_display_timer			;$BEC719  \ get the life display timer
 	BEQ CODE_BEC718				;$BEC71C   | if the timer is 0 return
 	DEC A					;$BEC71E   | otherwise decrement timer by 1
 	BNE CODE_BEC735				;$BEC71F   | if the timer isnt 0 now
-	LDA $0979				;$BEC721   | load the y position of the life counter
+	LDA life_display_y_position		;$BEC721   | load the y position of the life counter
 	SEC					;$BEC724   |
 	SBC #$0030				;$BEC725   | subtract #$30 from y position
 	BCS CODE_BEC730				;$BEC728   | if the y position is >= 0
 	LDA #$0000				;$BEC72A   | otherwise set the display timer to 0
-	STA $0973				;$BEC72D   |
+	STA life_display_timer			;$BEC72D   |
 CODE_BEC730:					;	   |
-	STA $0979				;$BEC730   | update the y position
+	STA life_display_y_position		;$BEC730   | update the y position
 	BRA CODE_BEC748				;$BEC733  /
 
 CODE_BEC735:
-	LDA $0979				;$BEC735  \ load the y position of the life counter
+	LDA life_display_y_position		;$BEC735  \ load the y position of the life counter
 	CMP #$0200				;$BEC738   | final life counter y position
 	BCS CODE_BEC745				;$BEC73B   | if the counter is > the final position
 	ADC #$0030				;$BEC73D   | add #$30 to y position
-	STA $0979				;$BEC740   | update the y position of the life counter
+	STA life_display_y_position		;$BEC740   | update the y position of the life counter
 	BRA CODE_BEC748				;$BEC743  / since the life counter isnt in its final position dont decrement the timer
 
 CODE_BEC745:
-	DEC $0973				;$BEC745  \ decrement the timer
+	DEC life_display_timer			;$BEC745  \ decrement the timer
 CODE_BEC748:					;	   |
 	LDA #$20A8				;$BEC748   | load sprite image to display (/4 to get actual image number)
-	STA $0975				;$BEC74B   |
+	STA life_display_graphic		;$BEC74B   |
 	LDX #$1D40				;$BEC74E   |
-	LDA $0979				;$BEC751   |
+	LDA life_display_y_position		;$BEC751   |
 	CLC					;$BEC754   |
 	ADC #$1000				;$BEC755   |
 	TAY					;$BEC758   |
@@ -2138,10 +2138,10 @@ CODE_BEC748:					;	   |
 	LDA active_frame_counter		;$BEC75E   |
 	AND #$000F				;$BEC760   |
 	BNE CODE_BEC7B9				;$BEC763   |
-	LDA $0971				;$BEC765   |
+	LDA lives_to_give_count			;$BEC765   |
 	AND #$00FF				;$BEC768   |
 	STA $32					;$BEC76B   |
-	LDA $0972				;$BEC76D   |
+	LDA lives_to_take_count			;$BEC76D   |
 	AND #$00FF				;$BEC770   |
 	STA $34					;$BEC773   |
 	SEC					;$BEC775   |
@@ -2155,23 +2155,23 @@ CODE_BEC783:					;	   |
 	LDA $34					;$BEC783   |
 	BEQ CODE_BEC7B9				;$BEC785   |
 	JSR CODE_BEC7B9				;$BEC787   |
-	LDA $0973				;$BEC78A   |
+	LDA life_display_timer			;$BEC78A   |
 	CMP #$005A				;$BEC78D   |
 	BCS CODE_BEC7A8				;$BEC790   |
-	DEC $0972				;$BEC792   |
+	DEC lives_to_take_count			;$BEC792   |
 	DEC life_count_display			;$BEC795   |
 	%lda_sound(5, lose_life)		;$BEC798   |
 	JSL queue_sound_effect			;$BEC79B   |
-	STZ $0979				;$BEC79F   |
+	STZ life_display_y_position		;$BEC79F   |
 	LDA #$005A				;$BEC7A2   |
-	STA $0973				;$BEC7A5   |
+	STA life_display_timer			;$BEC7A5   |
 CODE_BEC7A8:					;	   |
 	RTS					;$BEC7A8  /
 
 CODE_BEC7A9:
 	INC life_count_display			;$BEC7A9  \
 	LDA #$003C				;$BEC7AC   |
-	STA $0973				;$BEC7AF   |
+	STA life_display_timer			;$BEC7AF   |
 	%lda_sound(5, gain_life)		;$BEC7B2   |
 	JSL queue_sound_effect			;$BEC7B5   |
 CODE_BEC7B9:					;	   |
@@ -2186,7 +2186,7 @@ CODE_BEC7C6:					;	   |
 	LDA #$0A				;$BEC7CB   |
 	STA CPU.divisor				;$BEC7CD   |
 	REP #$20				;$BEC7D0   |
-	LDA $0979				;$BEC7D2   |
+	LDA life_display_y_position		;$BEC7D2   |
 	ASL A					;$BEC7D5   |
 	ASL A					;$BEC7D6   |
 	ASL A					;$BEC7D7   |
@@ -2209,16 +2209,16 @@ CODE_BEC7F2:
 CODE_BEC7FB:
 	ORA #$01C0				;$BEC7FB  \
 	STA $0D96				;$BEC7FE   |
-	LDA $0977				;$BEC801   |
+	LDA life_display_graphic_copy		;$BEC801   |
 	STA $0D9A				;$BEC804   |
-	LDA $0975				;$BEC807   |
+	LDA life_display_graphic		;$BEC807   |
 	STA $0D9E				;$BEC80A   |
 	STZ $0DA0				;$BEC80D   |
 	TYA					;$BEC810   |
 	LDY #aux_sprite_table			;$BEC811   |
 	JSL CODE_B59CAE				;$BEC814   |
 	LDA $0D9C				;$BEC818   |
-	STA $0977				;$BEC81B   |
+	STA life_display_graphic_copy		;$BEC81B   |
 	RTS					;$BEC81E  /
 
 
@@ -2248,10 +2248,10 @@ CODE_BEC81F:
 	RTS					;$BEC84A  /
 
 CODE_BEC84B:
-	LDA $096D				;$BEC84B  \ get final banana count
-	CMP $096B				;$BEC84E   | check if final banana count = current banana count
+	LDA banana_counter_final		;$BEC84B  \ get final banana count
+	CMP banana_counter_current		;$BEC84E   | check if final banana count = current banana count
 	BNE CODE_BEC87B				;$BEC851   | if counts are different
-	LDA $096F				;$BEC853   | get the banana display timer
+	LDA banana_display_timer		;$BEC853   | get the banana display timer
 	BNE CODE_BEC8A7				;$BEC856   | if the timer isnt 0 decrement the timer
 	RTS					;$BEC858  / return
 
@@ -2261,21 +2261,21 @@ CODE_BEC859:
 	CLC					;$BEC85D   | reset the counter to 0
 	SBC #$0099				;$BEC85E   |
 	STA banana_count			;$BEC861   |
-	LDA $096D				;$BEC864   | get final banana count (this one is the target count that the counter counts to)
+	LDA banana_counter_final		;$BEC864   | get final banana count (this one is the target count that the counter counts to)
 	CLC					;$BEC867   | reset the counter to 0
 	SBC #$0099				;$BEC868   |
-	STA $096D				;$BEC86B   |
+	STA banana_counter_final		;$BEC86B   |
 	CLD					;$BEC86E   | back to regular binary
-	STZ $096B				;$BEC86F   | set the current banana counter to 0
+	STZ banana_counter_current		;$BEC86F   | set the current banana counter to 0
 	LDA #$0001				;$BEC872   | load number of extra lives to give
 	JSL CODE_BEC659				;$BEC875   | give extra lives
 	BRA CODE_BEC8A7				;$BEC879  /
 
 CODE_BEC87B:
-	BIT $096F				;$BEC87B  \
+	BIT banana_display_timer		;$BEC87B  \
 	BMI CODE_BEC886				;$BEC87E   |
 	LDA #$003C				;$BEC880   |
-	STA $096F				;$BEC883   |
+	STA banana_display_timer		;$BEC883   |
 CODE_BEC886:					;	   |
 	BCS CODE_BEC894				;$BEC886   |
 	LDA active_frame_counter		;$BEC888   |
@@ -2285,17 +2285,17 @@ CODE_BEC886:					;	   |
 	BRA CODE_BEC89F				;$BEC892  /
 
 CODE_BEC894:
-	LDA $096B				;$BEC894  \ get current banana count
+	LDA banana_counter_current		;$BEC894  \ get current banana count
 	CMP #$0099				;$BEC897   | check if banana count is > 99
 	BCS CODE_BEC859				;$BEC89A   | if so reset the counter and give a life
 	LDA #$0001				;$BEC89C   | otherwise load number of bananas to give
 CODE_BEC89F:					;	   |
 	SED					;$BEC89F   | enable decimal because bananas are stored in BCD
-	ADC $096B				;$BEC8A0   | add bananas to count
-	STA $096B				;$BEC8A3   |
+	ADC banana_counter_current		;$BEC8A0   | add bananas to count
+	STA banana_counter_current		;$BEC8A3   |
 	CLD					;$BEC8A6   | back to regular binary
 CODE_BEC8A7:					;	   |
-	DEC $096F				;$BEC8A7   | decrement banana display timer
+	DEC banana_display_timer		;$BEC8A7   | decrement banana display timer
 	LDY $70					;$BEC8AA   |
 	LDA #$0808				;$BEC8AC   |
 	STA $0000,y				;$BEC8AF   |
@@ -2314,12 +2314,12 @@ CODE_BEC8A7:					;	   |
 	LDX #$0018				;$BEC8CA   |
 	LDA #$0800				;$BEC8CD   |
 	STA $32					;$BEC8D0   |
-	LDA $096C				;$BEC8D2   |
+	LDA RAM_096C				;$BEC8D2   |
 	AND #$000F				;$BEC8D5   |
 	BEQ CODE_BEC8DD				;$BEC8D8   |
 	JSR CODE_BEC81F				;$BEC8DA   |
 CODE_BEC8DD:					;	   |
-	LDA $096B				;$BEC8DD   |
+	LDA banana_counter_current		;$BEC8DD   |
 	AND #$0FF0				;$BEC8E0   |
 	BEQ CODE_BEC8EF				;$BEC8E3   |
 	LSR A					;$BEC8E5   |
@@ -2329,12 +2329,12 @@ CODE_BEC8DD:					;	   |
 	AND #$000F				;$BEC8E9   |
 	JSR CODE_BEC81F				;$BEC8EC   |
 CODE_BEC8EF:					;	   |
-	LDA $096B				;$BEC8EF   |
+	LDA banana_counter_current		;$BEC8EF   |
 	AND #$000F				;$BEC8F2   |
 	JMP CODE_BEC81F				;$BEC8F5  /
 
 CODE_BEC8F8:
-	LDX $097B				;$BEC8F8  \
+	LDX collected_kong_letter_sprite	;$BEC8F8  \
 	BEQ CODE_BEC939				;$BEC8FB   |
 	LDA $12,x				;$BEC8FD   |
 	BMI CODE_BEC939				;$BEC8FF   |
@@ -2374,7 +2374,7 @@ CODE_BEC939:					;	   |
 	RTS					;$BEC939  /
 
 CODE_BEC93A:
-	LDY $097D				;$BEC93A  \
+	LDY collected_coin_sprite		;$BEC93A  \
 	BNE CODE_BEC940				;$BEC93D   |
 	RTS					;$BEC93F  /
 
@@ -5904,7 +5904,7 @@ haunted_hall_timer_handler_code:		;	  \
 	PLY					;$BEE31B   |
 	STY current_sprite			;$BEE31C   | Retrieve handler sprite
 	JSL delete_sprite_handle_deallocation	;$BEE31E   | Delete it
-	STZ $097F				;$BEE322   | And clear its index
+	STZ bonus_timer_sprite			;$BEE322   | And clear its index
 	JML [sprite_return_address]		;$BEE325  / Done processing sprite
 
 .init_state:
@@ -5923,7 +5923,7 @@ haunted_hall_timer_handler_code:		;	  \
 	INC $2E,x				;$BEE345   | Go to state 1
 	LDA #$C000				;$BEE347   |
 	STA $1C,x				;$BEE34A   |
-	STX $097F				;$BEE34C   | Store an index to handler sprite
+	STX bonus_timer_sprite			;$BEE34C   | Store an index to handler sprite
 	STZ $42,x				;$BEE34F   |
 	STZ $44,x				;$BEE351   | Initialize variables for adding/subtracting timer
 	JSR CODE_BEE405				;$BEE353   |
@@ -6044,13 +6044,13 @@ CODE_BEE405:
 CODE_BEE41D:					;	   |
 	AND active_frame_counter		;$BEE41D   |
 	BNE CODE_BEE42E				;$BEE41F   |
-	LDA $097F				;$BEE421   |
+	LDA bonus_timer_sprite			;$BEE421   |
 	EOR current_sprite			;$BEE424   |
-	STA $097F				;$BEE426   |
+	STA bonus_timer_sprite			;$BEE426   |
 	BRA CODE_BEE42E				;$BEE429  /
 
 CODE_BEE42B:
-	STX $097F				;$BEE42B  \
+	STX bonus_timer_sprite			;$BEE42B  \
 CODE_BEE42E:					;	   |
 	LDA $46,x				;$BEE42E   |
 	BPL CODE_BEE435				;$BEE430   |
@@ -6093,7 +6093,7 @@ CODE_BEE469:					;	   |
 	LDA $48,x				;$BEE472   |
 	STA $49,x				;$BEE474   |
 	REP #$20				;$BEE476   |
-	STX $097F				;$BEE478   |
+	STX bonus_timer_sprite			;$BEE478   |
 	SEC					;$BEE47B   |
 	RTS					;$BEE47C  /
 
@@ -7652,7 +7652,7 @@ kremcoin_cheat_handler_sprite_code:
 	INC token_cheat_step			;$BEEFCB   | | Move to next cheat step
 	INC token_cheat_step			;$BEEFCE   |/
 .fail_if_life_collected				;	   |
-	LDA $0971				;$BEEFD1   |\ Get number of lives to give player
+	LDA lives_to_give_count			;$BEEFD1   |\ Get number of lives to give player
 	BNE .delete_cheat_handler_sprite	;$BEEFD4   |/ If the player collected any lives delete the cheat sprite
 	JML [sprite_return_address]		;$BEEFD6  /> Return from sprite code
 
@@ -7680,7 +7680,7 @@ kremcoin_cheat_handler_sprite_code:
 	AND #$00FF				;$BEF002   | |
 	CMP banana_count			;$BEF005   | |
 	BNE .delete_cheat_handler_sprite	;$BEF008   |/ If the banana count is NOT the same as before the cheat, cheat failed
-	LDA $0971				;$BEF00A   |\ Get number of lives to give player
+	LDA lives_to_give_count			;$BEF00A   |\ Get number of lives to give player
 	BNE .cheat_step_passed			;$BEF00D   |/ If the player collected any lives continue to next check
 .cheat_handler_done				;	   |
 	JML [sprite_return_address]		;$BEF00F  /> Else return from sprite code

@@ -6233,22 +6233,22 @@ CODE_B3AE8F:
 	BRL CODE_B3AF28				;$B3AEC3  /
 
 CODE_B3AEC6:
-	LDA $096D				;$B3AEC6  \
+	LDA banana_counter_final		;$B3AEC6  \
 	BEQ CODE_B3AF28				;$B3AEC9   |
 	LDY #$0042				;$B3AECB   |
 	JSR CODE_B3AFC2				;$B3AECE   |
 	BCS CODE_B3AEF7				;$B3AED1   |
 	SED					;$B3AED3   |
-	LDA $096D				;$B3AED4   |
+	LDA banana_counter_final		;$B3AED4   |
 	CMP #$0010				;$B3AED7   |
 	BCC CODE_B3AEDF				;$B3AEDA   |
 	LDA #$0010				;$B3AEDC   |
 CODE_B3AEDF:					;	   |
 	STA $004E,y				;$B3AEDF   |
-	LDA $096D				;$B3AEE2   |
+	LDA banana_counter_final		;$B3AEE2   |
 	SEC					;$B3AEE5   |
 	SBC $004E,y				;$B3AEE6   |
-	STA $096D				;$B3AEE9   |
+	STA banana_counter_final		;$B3AEE9   |
 	LDA banana_count			;$B3AEEC   |
 	SEC					;$B3AEEF   |
 	SBC $004E,y				;$B3AEF0   |
@@ -12590,7 +12590,7 @@ CODE_B3DC43:
 	LDA sprite.y_position,x			;$B3DC62   |
 	STA.w sprite.y_position,y		;$B3DC64   |
 	INC sprite.state,x			;$B3DC67   |
-	STX $097F				;$B3DC69   |
+	STX bonus_timer_sprite			;$B3DC69   |
 	LDA #$C000				;$B3DC6C   |
 	STA sprite.display_mode,x		;$B3DC6F   |
 	JSR CODE_B3DDA8				;$B3DC71   |
@@ -12604,7 +12604,7 @@ CODE_B3DC77:
 	CMP #$0002				;$B3DC7E   |
 	BNE CODE_B3DC89				;$B3DC81   |
 	LDA #$0077				;$B3DC83   |
-	STA $096F				;$B3DC86   |
+	STA banana_display_timer		;$B3DC86   |
 CODE_B3DC89:					;	   |
 	JSR CODE_B3DD6D				;$B3DC89   |
 	JSR CODE_B3DDA8				;$B3DC8C   |
@@ -12653,8 +12653,8 @@ CODE_B3DCC0:
 	STA $19D8				;$B3DCDF   |
 	LDA $44,x				;$B3DCE2   |
 	STA banana_count			;$B3DCE4   |
-	STA $096B				;$B3DCE7   |
-	STA $096D				;$B3DCEA   |
+	STA banana_counter_current		;$B3DCE7   |
+	STA banana_counter_final		;$B3DCEA   |
 	JML [sprite_return_address]		;$B3DCED  /
 
 CODE_B3DCF0:
@@ -12807,9 +12807,9 @@ CODE_B3DDFE:
 	BRA CODE_B3DDBD				;$B3DE08  /
 
 CODE_B3DE0A:
-	LDA $097F				;$B3DE0A  \
+	LDA bonus_timer_sprite			;$B3DE0A  \
 	EOR current_sprite			;$B3DE0D   |
-	STA $097F				;$B3DE0F   |
+	STA bonus_timer_sprite			;$B3DE0F   |
 	RTS					;$B3DE12  /
 
 	LDA sprite.display_mode,x		;$B3DE13   |
@@ -12823,7 +12823,7 @@ CODE_B3DE0A:
 
 CODE_B3DE26:
 	LDA current_sprite			;$B3DE26  \
-	STA $097F				;$B3DE28   |
+	STA bonus_timer_sprite			;$B3DE28   |
 	RTS					;$B3DE2B  /
 
 ;Timer sprite digit table, also used by file select screen.
@@ -12878,7 +12878,7 @@ endif						;	   |
 	BEQ CODE_B3DF1E				;$B3DF0D   |
 	DEC A					;$B3DF0F   |
 	BEQ CODE_B3DF18				;$B3DF10   |
-	LDA $096B				;$B3DF12   |
+	LDA banana_counter_current		;$B3DF12   |
 if !version == 0				;	   |
 	BEQ CODE_B3DF1E				;$B3DF15   |
 	BRA CODE_B3DF24				;$B3DF17   |

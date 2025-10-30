@@ -5328,7 +5328,7 @@ CODE_B4AE85:
 	LDA npc_screen_type			;$B4AE97   |
 	CMP #!npc_screen_type_swanky		;$B4AE9A   |
 	BNE CODE_B4AEA6				;$B4AE9D   |
-	STZ $096F				;$B4AE9F   |
+	STZ banana_display_timer		;$B4AE9F   |
 	JSL CODE_BEC695				;$B4AEA2   |
 CODE_B4AEA6:					;	   |
 	JSL CODE_B59F40				;$B4AEA6   |
