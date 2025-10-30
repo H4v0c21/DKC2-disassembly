@@ -13524,5 +13524,24 @@ run_game_over_screen:
 .fade_finished:
 	JML restart_logo_or_world_map		;$80FB9E  /
 
+if !mp_patch == 1
+set_new_active_input_from_controller:
+	LDA active_controller_number		;$808A29  \
+	AND #$0002				;$808A2C   |
+	TAX					;$808A2F   |
+	LDA player_1_held,x			;$808A30   |> Get player 1 or 2 inputs depending on which kong
+	STA player_active_held			;$808A33   |
+	LDA player_1_pressed,x			;$808A36   |> Get player 1 or 2 inputs depending on which kong
+	STA player_active_pressed		;$808A39  /
+	RTL
 
+set_new_active_input:
+	ASL
+	TAX					;$808A2F   |
+	LDA player_1_held,x			;$808A30   |> Get player 1 or 2 inputs depending on which kong
+	STA player_active_held			;$808A33   |
+	LDA player_1_pressed,x			;$808A36   |> Get player 1 or 2 inputs depending on which kong
+	STA player_active_pressed		;$808A39   |
+	RTL
+endif
 bank_80_end:

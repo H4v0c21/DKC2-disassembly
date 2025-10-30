@@ -15,6 +15,8 @@ if defined("override_pirate_panic") == 0
 	!pirate_panic_replacement = $23
 endif
 
+!mp_patch = 1
+
 org $008000			;dummy org so functions work
 	incsrc "macros.asm"
 	incsrc "constants.asm"

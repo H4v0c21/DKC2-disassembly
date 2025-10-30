@@ -2822,6 +2822,10 @@ dixie_kong_sprite_code:
 	STA current_kong_control_variables	;$B89673   |
 	LDA #diddy_control_variables		;$B89675   |
 	STA unknown_kong_control_variables	;$B89678   |
+if !mp_patch == 1
+	LDA #$0002
+	STA active_controller_number
+endif
 	BRA general_kong_sprite_code		;$B8967B  /
 
 diddy_kong_sprite_code:
@@ -2829,6 +2833,10 @@ diddy_kong_sprite_code:
 	STA current_kong_control_variables	;$B89680   |
 	LDA #dixie_control_variables		;$B89682   |
 	STA unknown_kong_control_variables	;$B89685   |
+if !mp_patch == 1
+	LDA #$0001
+	STA active_controller_number
+endif
 general_kong_sprite_code:			;	   |
 	LDX current_sprite			;$B89688   |\
 	CPX active_kong_sprite			;$B8968A   | |
@@ -4466,8 +4474,10 @@ CODE_B8A376:					;	   |
 
 CODE_B8A394:
 	LDX current_sprite			;$B8A394  \
+if !mp_patch == 0
 	LDA #$0022				;$B8A396   |
 	STA sprite.state,x			;$B8A399   |
+endif
 	LDA #$001F				;$B8A39B   |
 	LDX #$0003				;$B8A39E   |
 	LDY #$0000				;$B8A3A1   |
@@ -7395,12 +7405,19 @@ process_player_action:
 	BNE .dont_process			;$B8B9D5   |/ dont process player actions
 	LDX current_sprite			;$B8B9D7   |\
 	CPX active_kong_sprite			;$B8B9D9   | | if current sprite is active kong
+if !mp_patch == 1
+	BRA .active_kong
+else
 	BEQ .active_kong			;$B8B9DC   |/ continue to process player actions
+endif
 .dont_process					;	   |\
 	CLC					;$B8B9DE   | | dont process actions and return
 	RTS					;$B8B9DF  / /
 
 .active_kong
+if !mp_patch == 1
+	JSL set_new_active_input_from_controller
+endif
 	LDY #$0000				;$B8B9E0  \
 	LDA player_active_pressed		;$B8B9E3   |\
 	STA player_action_pressed		;$B8B9E6   | | copy current players inputs into action inputs
@@ -12928,8 +12945,10 @@ CODE_B8DE56:					;	   |
 	STZ $26,x				;$B8DE5D   |
 	STZ $20,x				;$B8DE5F   |
 	STZ $24,x				;$B8DE61   |
+if !mp_patch == 0
 	LDA #$002A				;$B8DE63   |
 	STA sprite.state,x			;$B8DE66   |
+endif
 	LDA kong_follow_buffer_recording_index	;$B8DE68   |
 	STA $0D6E				;$B8DE6B   |
 	LDA #$003B				;$B8DE6E   |

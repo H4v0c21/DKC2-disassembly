@@ -1326,8 +1326,10 @@ CODE_B9D784:					;	   |
 CODE_B9D78C:
 	LDA game_state_flags			;$B9D78C  \
 	BMI CODE_B9D798				;$B9D78F   |
+if !mp_patch == 0
 	LDA #!kong_state_22			;$B9D791   |
 	STA sprite.state,x			;$B9D794   |
+endif
 	BRA CODE_B9D784				;$B9D796  /
 
 CODE_B9D798:
@@ -1398,8 +1400,10 @@ CODE_B9D805:
 	BRA CODE_B9D7FD				;$B9D80A  /
 
 CODE_B9D80C:
+if !mp_patch == 0
 	LDA #!kong_state_22			;$B9D80C  \
 	STA sprite.state,x			;$B9D80F   |
+endif
 	BRA CODE_B9D7FD				;$B9D811  /
 
 CODE_B9D813:

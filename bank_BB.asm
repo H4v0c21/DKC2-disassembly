@@ -5590,8 +5590,10 @@ CODE_BBADFD:					;	   |
 	SEC					;$BBAE0A   |
 	SBC #$0020				;$BBAE0B   |
 	STA $06,x				;$BBAE0E   |
+if !mp_patch == 0
 	LDA #$0022				;$BBAE10   |
 	STA $2E,x				;$BBAE13   |
+endif
 	LDA #$001F				;$BBAE15   |
 	LDX #$0003				;$BBAE18   |
 	LDY #$0000				;$BBAE1B   |
