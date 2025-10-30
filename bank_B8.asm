@@ -246,8 +246,10 @@ drop_follower_kong_if_teamed_up:
 .teamed_up:
 	STZ current_held_sprite			;$B881C4  \
 	LDX inactive_kong_sprite		;$B881C7   |
+if !mp_patch == 0
 	LDA #!kong_state_22			;$B881CA   |
 	STA sprite.state,x			;$B881CD   |
+endif
 	LDA #$00D8				;$B881CF   |
 	STA sprite.render_order,x		;$B881D2   |
 	LDA #$001F				;$B881D4   |
@@ -305,8 +307,10 @@ player_interaction_16:
 
 .both_kongs:
 	JSR work_on_inactive_kong		;$B8824D  \
+if !mp_patch == 0
 	LDA #!kong_state_22			;$B88250   |
 	STA sprite.state,x			;$B88253   |
+endif
 	LDA #$0001				;$B88255   |
 	LDX #$0006				;$B88258   |
 	LDY #$0000				;$B8825B   |
@@ -381,8 +385,10 @@ CODE_B882D6:
 	AND #$4000				;$B882EF   |
 	BEQ .return				;$B882F2   |
 	JSR work_on_inactive_kong		;$B882F4   |
+if !mp_patch == 0
 	LDA #!kong_state_22			;$B882F7   |
 	STA sprite.state,x			;$B882FA   |
+endif
 	LDA #$00D8				;$B882FC   |
 	STA sprite.render_order,x		;$B882FF   |
 	LDA #$001F				;$B88301   |
@@ -603,8 +609,10 @@ player_interaction_05:
 
 .player_is_mounted:
 	JSR work_on_inactive_kong		;$B884D7  \
+if !mp_patch == 0
 	LDA #!kong_state_22			;$B884DA   |
 	STA sprite.state,x			;$B884DD   |
+endif
 	LDA #$0004				;$B884DF   |
 	LDX #$0003				;$B884E2   |
 	LDY #$0000				;$B884E5   |
@@ -1026,8 +1034,10 @@ CODE_B88823:					;	   |
 	LDA sprite.state,x			;$B88836   |
 	CMP #!kong_state_2F			;$B88838   |
 	BNE CODE_B88853				;$B8883B   |
+if !mp_patch == 0
 	LDA #!kong_state_22			;$B8883D   |
 	STA sprite.state,x			;$B88840   |
+endif
 	LDA #$00D8				;$B88842   |
 	STA sprite.render_order,x		;$B88845   |
 	LDA #$001F				;$B88847   |
@@ -1873,8 +1883,10 @@ endif						;	   |
 .holding_kong
 	STZ current_held_sprite			;$B88EEE  \
 	LDX inactive_kong_sprite		;$B88EF1   |
+if !mp_patch == 0
 	LDA #!kong_state_22			;$B88EF4   |
 	STA sprite.state,x			;$B88EF7   |
+endif
 	LDA #$00D8				;$B88EF9   |
 	STA sprite.render_order,x		;$B88EFC   |
 	LDA #$001F				;$B88EFE   |
@@ -4437,8 +4449,10 @@ kong_state_29:
 	JMP CODE_B89979				;$B8A347  /
 
 CODE_B8A34A:
+if !mp_patch == 0
 	LDA #$0022				;$B8A34A  \
 	STA sprite.state,x			;$B8A34D   |
+endif
 	JMP CODE_B89979				;$B8A34F  /
 
 kong_state_2A:
@@ -4683,8 +4697,10 @@ CODE_B8A522:
 	STA $06,x				;$B8A53B   |
 	LDA $000A,y				;$B8A53D   |
 	STA $0A,x				;$B8A540   |
+if !mp_patch == 0
 	LDA #$0022				;$B8A542   |
 	STA.w sprite.state,y			;$B8A545   |
+endif
 	LDA #$001F				;$B8A548   |
 	LDX #$0003				;$B8A54B   |
 	LDY #$0000				;$B8A54E   |
@@ -5223,8 +5239,10 @@ CODE_B8A939:
 	JSR disable_bullet_time			;$B8A959   |
 	LDX current_sprite			;$B8A95C   |
 	STZ $24,x				;$B8A95E   |
+if !mp_patch == 0
 	LDA #$0022				;$B8A960   |
 	STA sprite.state,x			;$B8A963   |
+endif
 	LDA #$0006				;$B8A965   |
 	JSL set_anim_handle_dixie		;$B8A968   |
 	JMP kong_state_return			;$B8A96C  /
@@ -5629,8 +5647,10 @@ CODE_B8AC80:
 	LDX inactive_kong_sprite		;$B8ACA2   |
 	LDA #$00D8				;$B8ACA5   |
 	STA sprite.render_order,x		;$B8ACA8   |
+if !mp_patch == 0
 	LDA #$0022				;$B8ACAA   |
 	STA sprite.state,x			;$B8ACAD   |
+endif
 	LDA #$001F				;$B8ACAF   |
 	LDX #$0003				;$B8ACB2   |
 	LDY #$0000				;$B8ACB5   |
@@ -6407,8 +6427,10 @@ kong_state_76:
 	JMP CODE_B89979				;$B8B2D1  /
 
 .CODE_B8B2D4
+if !mp_patch == 0
 	LDA #$0022				;$B8B2D4  \
 	STA sprite.state,x			;$B8B2D7   |
+endif
 	LDA #$00D8				;$B8B2D9   |
 	STA sprite.render_order,x		;$B8B2DC   |
 	LDA #$001F				;$B8B2DE   |
@@ -6469,8 +6491,11 @@ endif						;	   |
 	STA sprite.render_order,x		;$B8B353   |
 	JSR set_swim_gravity_and_y_speed	;$B8B355   |
 	JSR work_on_inactive_kong		;$B8B358   |
+if !mp_patch == 0
 	LDA #$0022				;$B8B35B   |
 	STA sprite.state,x			;$B8B35E   |
+endif
+
 if !version == 1				;	   |
 	STZ $1C,x				;$B8B360   |
 endif						;	   |

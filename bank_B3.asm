@@ -3322,8 +3322,10 @@ CODE_B3992E:
 	RTL					;$B3996E  /
 
 CODE_B3996F:
+if !mp_patch == 0
 	LDA #$0022				;$B3996F  \
 	STA sprite.state,x			;$B39972   |
+endif
 	LDA #$001F				;$B39974   |
 	LDX #$0042				;$B39977   |
 	LDY #$0000				;$B3997A   |
@@ -15545,8 +15547,10 @@ CODE_B3F207:
 	BEQ CODE_B3F25F				;$B3F23E   |
 CODE_B3F240:					;	   |
 	JSL work_on_inactive_kong_global	;$B3F240   |
+if !mp_patch == 0
 	LDA #!kong_state_22			;$B3F244   |
 	STA sprite.state,x			;$B3F247   |
+endif
 	LDA #$0001				;$B3F249   |
 	LDX #$001C				;$B3F24C   |
 	LDY #$0000				;$B3F24F   |

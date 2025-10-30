@@ -8616,8 +8616,10 @@ CODE_BBC174:					;	   |
 	AND #$4000				;$BBC41E   |
 	BEQ .CODE_BBC42C			;$BBC421   |
 	JSL work_on_inactive_kong_global	;$BBC423   |
+if !mp_patch == 0
 	LDA #!kong_state_22			;$BBC427   |
 	STA sprite.state,x			;$BBC42A   |
+endif
 .CODE_BBC42C					;	   |
 	JMP CODE_BBC150				;$BBC42C  /
 
@@ -8732,8 +8734,10 @@ CODE_BBC174:					;	   |
 	AND #$4000				;$BBC51C   |
 	BEQ .CODE_BBC537			;$BBC51F   |
 	JSL work_on_inactive_kong_global	;$BBC521   |
+if !mp_patch == 0
 	LDA #!kong_state_22			;$BBC525   |
 	STA sprite.state,x			;$BBC528   |
+endif
 	LDA #$001F				;$BBC52A   |
 	LDX #$0003				;$BBC52D   |
 	LDY #$0000				;$BBC530   |
