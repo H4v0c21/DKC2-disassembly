@@ -65,6 +65,9 @@ process_interactions_with_player:
 	BRA .handle_interaction_and_return	;$B8807B  /
 
 .get_and_process_interaction:
+if !mp_patch == 1
+	JSL set_current_player_as_interacting
+endif
 	PHK					;$B8807D  \
 	PLB					;$B8807E   |
 	LDA current_interaction			;$B8807F   |
@@ -76,7 +79,16 @@ process_interactions_with_player:
 	DEC A					;$B88088   |
 	ASL A					;$B88089   |
 	TAX					;$B8808A   |
+if !mp_patch == 1
+	%return(force_preserve_interaction_return)
+endif
 	JMP (player_interaction_table,x)	;$B8808B  /
+
+if !mp_patch == 1
+force_preserve_interaction_return:
+	JSL preserve_current_players_interaction
+	RTS
+endif
 
 work_on_active_kong_global:
 	JSR work_on_active_kong			;$B8808E  \
@@ -12093,18 +12105,84 @@ set_player_interaction_global:
 	RTL					;$B8D8BD  /
 
 set_player_interaction:
+if !mp_patch == 1
+	JSL set_current_player_as_interacting
+endif
 	CMP current_interaction			;$B8D8BE  \
 	BEQ .interaction_already_applied	;$B8D8C1   |
 	BMI .interaction_already_applied	;$B8D8C3   |
 	STA current_interaction			;$B8D8C5   |
 	LDA current_sprite			;$B8D8C8   |
 	STA current_interacting_sprite		;$B8D8CA   |
+if !mp_patch == 1
+	JSL preserve_current_players_interaction
+endif
 	CLC					;$B8D8CD   |
 	RTS					;$B8D8CE  /
 
 .interaction_already_applied:
+if !mp_patch == 1
+	JSL preserve_current_players_interaction
+endif
 	SEC					;$B8D8CF  \
 	RTS					;$B8D8D0  /
+
+
+
+if !mp_patch == 1
+set_current_player_as_interacting:
+	PHA						;
+	PHX						;
+	PHY						;
+	LDA active_controller_number			;
+	DEC						;
+	BNE .dixie					;
+	LDX #diddy_interaction_variables		;
+	BRA .apply_source				;
+							;
+.dixie:							;
+	LDX #dixie_interaction_variables		;
+.apply_source:						;
+	LDY #!interaction_variable_count		;
+-							;
+	LDA $00,x					;
+	STA.w current_interaction_variables,y		;
+	DEX						;
+	DEY						;
+	BPL -						;
+	PLY						;
+	PLX
+	PLA						;
+	RTL						;
+
+
+
+preserve_current_players_interaction:
+	PHA						;
+	PHX						;
+	PHY						;
+	LDA active_controller_number			;
+	DEC						;
+	BNE .dixie					;
+	LDX #diddy_interaction_variables		;
+	BRA .apply_source				;
+							;
+.dixie:							;
+	LDX #dixie_interaction_variables		;
+.apply_source:						;
+	LDY #!interaction_variable_count		;
+-							;
+	LDA.w current_interaction_variables,y		;
+	STA $00,x					;
+	
+	DEX						;
+	DEY						;
+	BPL -						;
+	PLY						;
+	PLX
+	PLA						;
+	RTL						;
+endif
 
 CODE_B8D8D1:
 	JSR CODE_B8D8D5				;$B8D8D1  \

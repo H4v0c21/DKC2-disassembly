@@ -2885,3 +2885,7 @@
 !blue_color_channel = $7C00
 
 !player_RAM_buffer_size = $0365
+
+if !mp_patch == 1
+	!interaction_variable_count = $0006
+endif

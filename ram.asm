@@ -276,7 +276,9 @@ kong_follow_last_rec_ground_dist	= $0A34
 time_stop_flags				= $0A36
 time_stop_timer				= $0A38
 
-
+if !mp_patch == 1
+current_interaction_variables		= $0A82
+endif
 current_interaction			= $0A82
 current_interacting_sprite		= $0A84
 interaction_RAM_0A86			= $0A86
@@ -332,6 +334,10 @@ kong_cutscene_command_timer		= $19D4
 ;;;
 ;;; End Noncritical WRAM ($0911-$19D9)
 ;;;
+if !mp_patch == 1
+diddy_interaction_variables		= $1A00
+dixie_interaction_variables		= $1A10
+endif
 ;;;
 ;;; End low WRAM ($0000-$1FFF)
 ;;;
