@@ -734,7 +734,9 @@ set_active_kong:
 	LDA #$001E				;$80888D   |
 	STA $30,x				;$808890   |
 	LDX inactive_kong_sprite		;$808892   |
+if !mp_patch == 0
 	LDA #$0000				;$808895   |
+endif
 	STA $30,x				;$808898   |
 	PLX					;$80889A   |
 	RTS					;$80889B  /

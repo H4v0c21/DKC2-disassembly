@@ -864,10 +864,18 @@ CODE_BEBE4D:
 	PHX					;$BEBE4D  \> Preserve sprite that is checking collision
 	PHA					;$BEBE4E   |
 	LDX $6A					;$BEBE4F   |\
+;if !mp_patch == 1
+	; CPX #diddy_sprite_slot
+	; BEQ CODE_BEBE5B
+	; CPX #dixie_sprite_slot
+	; BEQ CODE_BEBE5B
+	; BRA CODE_BEBE67
+;else
 	CPX active_kong_sprite			;$BEBE51   | |
 	BEQ CODE_BEBE5B				;$BEBE54   |/ If colliding sprite is main kong then dont handle inactive kong
 	CPX inactive_kong_sprite		;$BEBE56   |\
 	BNE CODE_BEBE67				;$BEBE59   |/ if colliding sprite isnt follower kong then this is not a kong
+;endif
 CODE_BEBE5B:					;	   |
 	LDA $2E,x				;$BEBE5B   |\ Get kong state flags
 	ASL A					;$BEBE5D   | |

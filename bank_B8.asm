@@ -65,30 +65,46 @@ process_interactions_with_player:
 	BRA .handle_interaction_and_return	;$B8807B  /
 
 .get_and_process_interaction:
-if !mp_patch == 1
-	JSL set_current_player_as_interacting
-endif
+;if !mp_patch == 1
+;	JSL set_current_player_as_interacting
+;endif
 	PHK					;$B8807D  \
 	PLB					;$B8807E   |
+if !mp_patch == 1
+	;JSL get_interacting_kong
+	JSR get_interacting_kong_from_controller
+	TAX
+	LDA interaction.type,x
+else
 	LDA current_interaction			;$B8807F   |
+endif
 	BNE .process_interaction		;$B88082   |
 	RTS					;$B88084   |
 
 .process_interaction
+if !mp_patch == 1
+	PHA
+	;JSL get_interacting_kong
+	JSR get_interacting_kong_from_controller
+	TAX
+	STZ interaction.type,x
+	PLA
+else
 	STZ current_interaction			;$B88085  \
+endif
 	DEC A					;$B88088   |
 	ASL A					;$B88089   |
 	TAX					;$B8808A   |
-if !mp_patch == 1
-	%return(force_preserve_interaction_return)
-endif
+;if !mp_patch == 1
+;	%return(force_preserve_interaction_return)
+;endif
 	JMP (player_interaction_table,x)	;$B8808B  /
 
-if !mp_patch == 1
-force_preserve_interaction_return:
-	JSL preserve_current_players_interaction
-	RTS
-endif
+;if !mp_patch == 1
+;force_preserve_interaction_return:
+;	JSL preserve_current_players_interaction
+;	RTS
+;endif
 
 work_on_active_kong_global:
 	JSR work_on_active_kong			;$B8808E  \
@@ -2847,8 +2863,10 @@ dixie_kong_sprite_code:
 	LDA #diddy_control_variables		;$B89675   |
 	STA unknown_kong_control_variables	;$B89678   |
 if !mp_patch == 1
-	LDA #$0002
-	STA active_controller_number
+	; LDA #$0002
+	; STA active_controller_number
+	LDA #$0001
+	JSR force_active_kong
 endif
 	BRA general_kong_sprite_code		;$B8967B  /
 
@@ -2858,8 +2876,10 @@ diddy_kong_sprite_code:
 	LDA #dixie_control_variables		;$B89682   |
 	STA unknown_kong_control_variables	;$B89685   |
 if !mp_patch == 1
-	LDA #$0001
-	STA active_controller_number
+	; LDA #$0001
+	; STA active_controller_number
+	TDC
+	JSR force_active_kong
 endif
 general_kong_sprite_code:			;	   |
 	LDX current_sprite			;$B89688   |\
@@ -3211,6 +3231,9 @@ kong_state_00:
 	JSR handle_player_slope_state_and_anim	;$B899F3   |
 	JSR handle_player_physics		;$B899F6   |
 	JSR CODE_B8B5C3				;$B899F9   |
+if !mp_patch == 1
+	JSL CODE_BCFB2C
+endif
 	JMP kong_state_return			;$B899FC  /
 
 kong_state_01:
@@ -8131,7 +8154,7 @@ start_action_table:
 
 select_action_table:
 	dw swap_to_other_kong_action		;00
-	dw no_action				;01
+	dw select_debug_shit			;01
 	dw no_action				;02
 	dw no_action				;03
 	dw no_action				;04
@@ -12106,23 +12129,38 @@ set_player_interaction_global:
 
 set_player_interaction:
 if !mp_patch == 1
-	JSL set_current_player_as_interacting
-endif
+	PHX
+	PHA
+	;JSL get_interacting_kong
+	JSR get_interacting_kong_from_controller
+	TAX
+	PLA
+	CMP interaction.type,x
+else
 	CMP current_interaction			;$B8D8BE  \
+endif
 	BEQ .interaction_already_applied	;$B8D8C1   |
 	BMI .interaction_already_applied	;$B8D8C3   |
-	STA current_interaction			;$B8D8C5   |
-	LDA current_sprite			;$B8D8C8   |
-	STA current_interacting_sprite		;$B8D8CA   |
 if !mp_patch == 1
-	JSL preserve_current_players_interaction
+	STA interaction.type,x
+else
+	STA current_interaction			;$B8D8C5   |
+endif
+	LDA current_sprite			;$B8D8C8   |
+if !mp_patch == 1
+	STA interaction.sprite,x
+else
+	STA current_interacting_sprite		;$B8D8CA   |
 endif
 	CLC					;$B8D8CD   |
+if !mp_patch == 1
+	PLX
+endif
 	RTS					;$B8D8CE  /
 
 .interaction_already_applied:
 if !mp_patch == 1
-	JSL preserve_current_players_interaction
+	PLX
 endif
 	SEC					;$B8D8CF  \
 	RTS					;$B8D8D0  /
@@ -13084,4 +13122,60 @@ get_interacting_kong:
 	LDA #dixie_interaction_variables
 	RTL
 
+
+get_interacting_kong_from_controller:
+	LDA active_controller_number
+	DEC
+	BNE .dixie
+	LDA #diddy_interaction_variables
+.return:
+	RTS
+
+.dixie:
+	LDA #dixie_interaction_variables
+	RTS
+
+
+force_active_kong:
+	BNE .set_dixie
+	LDA #diddy_sprite_slot
+	STA active_kong_sprite
+	LDA #diddy_control_variables
+	STA active_kong_control_variables
+	STZ active_kong_number
+	LDA active_kong_number
+	INC A
+	STA active_controller_number
+	LDA #dixie_sprite_slot
+	STA inactive_kong_sprite
+	LDA #dixie_control_variables
+	STA inactive_kong_control_variables
+	RTS
+
+.set_dixie:
+	LDA #dixie_sprite_slot
+	STA active_kong_sprite
+	LDA #dixie_control_variables
+	STA active_kong_control_variables
+	LDA #$0001
+	STA active_kong_number
+	INC A
+	STA active_controller_number
+	LDA #main_sprite_table
+	STA inactive_kong_sprite
+	LDA #diddy_control_variables
+	STA inactive_kong_control_variables
+	RTS
+
+
+select_debug_shit:
+	LDA #diddy_sprite_slot
+	STA active_kong_sprite
+	LDA #diddy_control_variables
+	STA active_kong_control_variables
+	STZ active_kong_number
+	LDA active_kong_number
+	INC A
+	STA active_controller_number
+	RTS
 endif

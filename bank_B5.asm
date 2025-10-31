@@ -9989,7 +9989,11 @@ else						;	   |
 endif						;	   |
 	LDY $0AE8				;$B5E52B   |\
 	BNE .follow_sprite			;$B5E52E   | | If the camera isnt following a sprite
+if !mp_patch == 1
+	LDY #diddy_sprite_slot
+else
 	LDY active_kong_sprite			;$B5E530   |/ Then follow the active kong
+endif
 .follow_sprite					;	   |
 	JSR CODE_B5E560				;$B5E533   |
 	PHD					;$B5E536   |
