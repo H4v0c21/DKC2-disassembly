@@ -3283,10 +3283,19 @@ CODE_B398AB:
 	RTS					;$B398D6  /
 
 CODE_B398D7:
+if !mp_patch == 1
+	JSL get_interacting_kong
+	TAX
+	LDA interaction.unknown_0A86,x
+	STA $0A3E
+	LDA interaction.unknown_0A88,x
+	STA $0A40
+else
 	LDA $0A86				;$B398D7  \
 	STA $0A3E				;$B398DA   |
 	LDA $0A88				;$B398DD   |
 	STA $0A40				;$B398E0   |
+endif
 	LDY #!special_sprite_spawn_id_0034	;$B398E3   |
 	JSL spawn_special_sprite_index		;$B398E6   |
 	LDX current_sprite			;$B398EA   |
@@ -3382,24 +3391,45 @@ CODE_B399A8:
 	AND #$0406				;$B399AD   |
 	BEQ CODE_B399EC				;$B399B0   |
 	LDA $6A					;$B399B2   |
+if !mp_patch == 0
 	CMP inactive_kong_sprite		;$B399B4   |
 	BEQ CODE_B399EE				;$B399B7   |
+endif
 	JSR CODE_B39A5F				;$B399B9   |
 	BNE CODE_B399EC				;$B399BC   |
 	LDA #!player_interaction_0D		;$B399BE   |
 	JSL set_player_interaction_global	;$B399C1   |
 	BCS CODE_B399EC				;$B399C5   |
 	LDA #CODE_B3992E			;$B399C7   |
+if !mp_patch == 1
+	PHA
+	JSL get_interacting_kong
+	TAX
+	PLA
+	STA interaction.unknown_0A8A,x
+	LDA.w #CODE_B3992E>>16
+	STA interaction.unknown_0A8C,x
+else
 	STA $0A8A				;$B399CA   |
 	LDA.w #CODE_B3992E>>16			;$B399CD   |
 	STA $0A8C				;$B399D0   |
+endif
 	JSL CODE_BCFEC8				;$B399D3   |
 	JSL CODE_BCFEE0				;$B399D7   |
 	JSR CODE_B3A338				;$B399DB   |
+if !mp_patch == 1
+	JSL get_interacting_kong
+	TAX
+	LDA $0A3E
+	STA interaction.unknown_0A86,x
+	LDA $0A40
+	STA interaction.unknown_0A88,x
+else
 	LDA $0A3E				;$B399DE   |
 	STA $0A86				;$B399E1   |
 	LDA $0A40				;$B399E4   |
 	STA $0A88				;$B399E7   |
+endif
 	SEC					;$B399EA   |
 	RTS					;$B399EB  /
 
@@ -3412,16 +3442,33 @@ CODE_B399EE:
 	JSL set_player_interaction_global	;$B399F1   |
 	BCS CODE_B399EC				;$B399F5   |
 	LDA #CODE_B398D7			;$B399F7   |
+if !mp_patch == 1
+	PHA
+	JSL get_interacting_kong
+	TAX
+	PLA
+	STA interaction.unknown_0A8A
+else
 	STA $0A8A				;$B399FA   |
 	LDA.w #CODE_B398D7>>16			;$B399FD   |
 	STA $0A8C				;$B39A00   |
+endif
 	JSL CODE_BCFEC8				;$B39A03   |
 	JSL CODE_BCFEE0				;$B39A07   |
 	JSR CODE_B3A338				;$B39A0B   |
+if !mp_patch == 1
+	JSL get_interacting_kong
+	TAX
+	LDA $0A3E
+	STA interaction.unknown_0A86,x
+	LDA $0A40
+	STA interaction.unknown_0A88,x
+else
 	LDA $0A3E				;$B39A0E   |
 	STA $0A86				;$B39A11   |
 	LDA $0A40				;$B39A14   |
 	STA $0A88				;$B39A17   |
+endif
 	SEC					;$B39A1A   |
 	RTS					;$B39A1B  /
 
@@ -3436,17 +3483,35 @@ CODE_B39A1C:
 	LDA #!player_interaction_0D		;$B39A31   |
 	JSL set_player_interaction_global	;$B39A34   |
 	BCS CODE_B399EC				;$B39A38   |
+if !mp_patch == 1
+	JSL get_interacting_kong
+	TAX
+	LDA #CODE_B3992E
+	STA interaction.unknown_0A8A,x
+	LDA.w #CODE_B3992E>>16
+	STA interaction.unknown_0A8C,x
+else
 	LDA #CODE_B3992E			;$B39A3A   |
 	STA $0A8A				;$B39A3D   |
 	LDA.w #CODE_B3992E>>16			;$B39A40   |
 	STA $0A8C				;$B39A43   |
+endif
 	JSL CODE_BCFEC8				;$B39A46   |
 	JSL CODE_BCFEE0				;$B39A4A   |
 	JSR CODE_B3A338				;$B39A4E   |
+if !mp_patch == 1
+	JSL get_interacting_kong
+	TAX
+	LDA $0A3E
+	STA interaction.unknown_0A86,x
+	LDA $0A40
+	STA interaction.unknown_0A88,x
+else
 	LDA $0A3E				;$B39A51   |
 	STA $0A86				;$B39A54   |
 	LDA $0A40				;$B39A57   |
 	STA $0A88				;$B39A5A   |
+endif
 	SEC					;$B39A5D   |
 	RTS					;$B39A5E  /
 
@@ -4297,6 +4362,23 @@ endif						;	   |
 	BCS .return				;$B3A0A1   |
 	LDX current_sprite			;$B3A0A3   | Get sign sprite
 	LDA $42,x				;$B3A0A5   | Get item to transform animal into
+if !mp_patch == 1
+	PHA
+	JSL get_interacting_kong
+	TAY
+	PLA
+	STA.w interaction.unknown_0A86,y
+	LDA sprite.y_position,x	
+	SEC			
+	SBC #$0020
+	STA.w interaction.unknown_0A88,y
+	LDA sprite.oam_property,x
+	AND #$4000
+	ASL A
+	;TSB.w interaction.unknown_0A88,y
+	ORA.w interaction.unknown_0A88,y
+	STA.w interaction.unknown_0A88,y
+else
 	STA $0A86				;$B3A0A7   |
 	LDA sprite.y_position,x			;$B3A0AA   | Get sign Y position
 	SEC					;$B3A0AC   |
@@ -4306,6 +4388,7 @@ endif						;	   |
 	AND #$4000				;$B3A0B5   | Get kong facing direction
 	ASL A					;$B3A0B8   |
 	TSB $0A88				;$B3A0B9   | Sets h flip for spawned item?
+endif
 .return:					;	   |
 	JMP sprite_return_handle_despawn	;$B3A0BC  / Done processing sprite
 
@@ -4664,11 +4747,23 @@ level_goal_main:
 	LDA sprite.x_position,x			;$B3A2FD   | Get goal X position
 	CLC					;$B3A2FF   |
 	ADC #$0012				;$B3A300   | Offset by 18 pixels
+if !mp_patch == 1
+	PHA
+	JSL get_interacting_kong
+	TAY
+	PLA
+	STA.w interaction.unknown_0A86,y
+	LDA $4A,x
+	STA.w interaction.unknown_0A88,y
+	LDA $48,x
+	STA.w interaction.unknown_0A8A,y
+else
 	STA $0A86				;$B3A303   | Set it as kong jump distance
 	LDA $4A,x				;$B3A306   |
 	STA $0A88				;$B3A308   | Set terrain tile position for kong
 	LDA $48,x				;$B3A30B   |
 	STA $0A8A				;$B3A30D   | Set unknown interaction variable
+endif
 ...return:					;	   |
 	BRL .return				;$B3A310  / Done processing sprite
 
@@ -5138,7 +5233,13 @@ CODE_B3A604:
 	EOR #$FFFF				;$B3A61A   |\ Invert X velocity
 	INC A					;$B3A61D   |/
 .no_flip					;	   |
+if !mp_patch == 1
+	JSL get_interacting_kong
+	TAY
+	STA.w interaction.unknown_0A86,y
+else
 	STA $0A86				;$B3A61E   |> Pass X velocity to interaction variable
+endif
 	CLC					;$B3A621   |> Clear carry to indicate success
 .return						;	   |
 	RTS					;$B3A622  /> Return
@@ -5344,7 +5445,7 @@ if !version == 1				;	   |
 else						;	   |
 	LDY #$FF00				;$B3A79E   |> Was probably intended to be a knockback velocity
 endif						;	   |
-	JSR CODE_B3A604				;$B3A7A1   |> Apply knockback to attacking sprite (already done in collision)
+	;JSR CODE_B3A604				;$B3A7A1   |> Apply knockback to attacking sprite (already done in collision)
 	LDY #$0164				;$B3A7A4   |> Click-clack hurt animation
 	LDA #$0002				;$B3A7A7   |> Stunned in air
 	JMP set_state_and_animation		;$B3A7AA  /> Apply state and animation to click-clack
@@ -5447,7 +5548,7 @@ if !version == 1				;	   |
 else						;	   |
 	LDY #$FE80				;$B3A878   |> Was probably intended to be a knockback velocity
 endif						;	   |
-	JSR CODE_B3A604				;$B3A87B   |> Apply knockback to attacking sprite (already done in collision)
+	;JSR CODE_B3A604				;$B3A87B   |> Apply knockback to attacking sprite (already done in collision)
 	JMP sprite_return_handle_despawn	;$B3A87E  /> Done processing sprite
 
 ..not_stunned
@@ -5625,7 +5726,7 @@ if !version == 1				;	   |
 else						;	   |
 	LDY #$FF00				;$B3A9FA   |> Was probably intended to be a knockback velocity
 endif						;	   |
-	JSR CODE_B3A604				;$B3A9FD   |> Apply knockback to attacking sprite (already done in collision)
+	;JSR CODE_B3A604				;$B3A9FD   |> Apply knockback to attacking sprite (already done in collision)
 	BRA ..recover				;$B3AA00  /
 
 ..defeated
@@ -6772,7 +6873,15 @@ CODE_B3B231:					;	   |
 CODE_B3B248:
 	LDY $6A					;$B3B248  \
 	BCS CODE_B3B253				;$B3B24A   |
+if !mp_patch == 1
+	PHX
+	JSL get_interacting_kong
+	TAX
+	LDA interaction.unknown_0A86,x
+	PLX
+else
 	LDA $0A86				;$B3B24C   |
+endif
 	BPL CODE_B3B260				;$B3B24F   |
 	BMI CODE_B3B25A				;$B3B251   |
 CODE_B3B253:					;	   |
@@ -10629,10 +10738,24 @@ cat_o9tails_main:
 	LDA $4C,x				;$B3CE08   |
 	STA current_sprite_constants		;$B3CE0A   |
 	LDA [current_sprite_constants]		;$B3CE0C   |
+if !mp_patch == 1
+	PHX
+	PHA
+	JSL get_interacting_kong
+	STA temp_34
+	TAX
+	PLA
+	STA interaction.unknown_0A86+1,x
+	AND #$00FF
+	STA interaction.unknown_0A86,x
+	STZ interaction.unknown_0A88+1,x
+	PLX
+else
 	STA $0A87				;$B3CE0E   |
 	AND #$00FF				;$B3CE11   |
 	STA $0A86				;$B3CE14   |
 	STZ $0A89				;$B3CE17   |
+endif
 	JSL CODE_808E4F				;$B3CE1A   |
 	LSR A					;$B3CE1E   |
 	STA temp_32				;$B3CE1F   |
@@ -10648,10 +10771,20 @@ cat_o9tails_main:
 ..CODE_B3CE33:					;	   |
 	LDY #$0002				;$B3CE33   |
 	ADC [current_sprite_constants],y	;$B3CE36   |
+if !mp_patch == 1
+	PHX
+	LDX temp_34
+	STA interaction.unknown_0A8A,x
+	LDY #$0006
+	LDA [current_sprite_constants],y
+	STA interaction.unknown_0A8C,x	
+	PLX		
+else
 	STA $0A8A				;$B3CE38   |
 	LDY #$0006				;$B3CE3B   |
 	LDA [current_sprite_constants],y	;$B3CE3E   |
 	STA $0A8C				;$B3CE40   |
+endif
 	INC sprite.state,x			;$B3CE43   |
 	STZ $0AE8				;$B3CE45   |
 ..CODE_B3CE48:					;	   |
@@ -12194,7 +12327,15 @@ clapper_sprite_code:
 	EOR #$FFFF				;$B3D9BC   |\ Else invert X velocity
 	INC A					;$B3D9BF   |/
 .no_invert					;	   |
+if !mp_patch == 1
+	PHX
+	JSL get_interacting_kong
+	TAX
+	STA interaction.unknown_0A86,x
+	PLX
+else
 	STA $0A86				;$B3D9C0   |> Set knockback X velocity
+endif
 .set_clapping_animation				;	   |
 	LDA #$01B8				;$B3D9C3   |\
 	JSL set_sprite_animation		;$B3D9C6   | | Play clapping animation
@@ -12722,9 +12863,16 @@ CODE_B3DD21:
 	LDA #!player_interaction_27		;$B3DD25   |
 	JSL set_player_interaction_global	;$B3DD28   |
 	BCS CODE_B3DD35				;$B3DD2C   |
+if !mp_patch == 1
+	JSL get_interacting_kong
+	TAX
+	STA interaction.unknown_0A86,x
+	LDX current_sprite
+else
 	LDX current_sprite			;$B3DD2E   |
 	LDA $42,x				;$B3DD30   |
 	STA $0A86				;$B3DD32   |
+endif
 CODE_B3DD35:					;	   |
 	JML [sprite_return_address]		;$B3DD35  /
 
@@ -13019,10 +13167,19 @@ CODE_B3DFA1:
 	LDA #!player_interaction_2B		;$B3DFA1  \
 	JSL set_player_interaction_global	;$B3DFA4   |
 	BCS CODE_B3DFBD				;$B3DFA8   |
+if !mp_patch == 1
+	JSL get_interacting_kong
+	TAX
+	LDA #CODE_B3E1E2
+	STA interaction.unknown_0A8A,x
+	LDA.w #CODE_B3E1E2>>16
+	STA interaction.unknown_0A8C,x
+else
 	LDA #CODE_B3E1E2			;$B3DFAA   |
 	STA $0A8A				;$B3DFAD   |
 	LDA.w #CODE_B3E1E2>>16			;$B3DFB0   |
 	STA $0A8C				;$B3DFB3   |
+endif
 	LDX current_sprite			;$B3DFB6   |
 	LDA #$0004				;$B3DFB8   |
 	STA sprite.state,x			;$B3DFBB   |
@@ -13047,10 +13204,19 @@ CODE_B3DFDD:
 	LDA #!player_interaction_2B		;$B3DFDD  \
 	JSL set_player_interaction_global	;$B3DFE0   |
 	BCS CODE_B3DFF9				;$B3DFE4   |
+if !mp_patch == 1
+	JSL get_interacting_kong
+	TAX
+	LDA #CODE_B3E2F4
+	STA interaction.unknown_0A8A,x
+	LDA.w #CODE_B3E2F4>>16
+	STA interaction.unknown_0A8C,x
+else
 	LDA #CODE_B3E2F4			;$B3DFE6   |
 	STA $0A8A				;$B3DFE9   |
 	LDA.w #CODE_B3E2F4>>16			;$B3DFEC   |
 	STA $0A8C				;$B3DFEF   |
+endif
 	LDX current_sprite			;$B3DFF2   |
 	LDA #$0004				;$B3DFF4   |
 	STA sprite.state,x			;$B3DFF7   |
@@ -13638,7 +13804,15 @@ CODE_B3E413:
 	LDX active_kong_sprite			;$B3E432   |
 	LDA sprite.oam_property,x		;$B3E435   |
 	AND #$4000				;$B3E437   |
+if !mp_patch == 1
+	PHX
+	JSL get_interacting_kong
+	TAX
+	STA interaction.unknown_0A86,x
+	PLX
+else
 	STA $0A86				;$B3E43A   |
+endif
 CODE_B3E43D:					;	   |
 	RTS					;$B3E43D  /
 
@@ -13671,7 +13845,15 @@ CODE_B3E45B:
 	LDX active_kong_sprite			;$B3E47D   |
 	LDA sprite.oam_property,x		;$B3E480   |
 	AND #$4000				;$B3E482   |
+if !mp_patch == 1
+	PHX
+	JSL get_interacting_kong
+	TAX
+	STA interaction.unknown_0A86,x
+	PLX
+else
 	STA $0A86				;$B3E485   |
+endif
 CODE_B3E488:					;	   |
 	RTS					;$B3E488  /
 
@@ -15182,18 +15364,36 @@ CODE_B3EF15:					;	   |
 	LDA #!player_interaction_10		;$B3EF15   |
 	JSL set_player_interaction_global	;$B3EF18   |
 	BCS CODE_B3EF44				;$B3EF1C   |
+if !mp_patch == 1
+	JSL get_interacting_kong
+	TAX
+	LDA #CODE_B3EF84
+	STA interaction.unknown_0A8A,x
+	LDA.w #CODE_B3EF84>>16
+	STA interaction.unknown_0A8C,x
+else
 	LDA #CODE_B3EF84			;$B3EF1E   |
 	STA $0A8A				;$B3EF21   |
 	LDA.w #CODE_B3EF84>>16			;$B3EF24   |
 	STA $0A8C				;$B3EF27   |
+endif
 CODE_B3EF2A:					;	   |
 	JSL CODE_BCFEC8				;$B3EF2A   |
 	JSL CODE_BCFEE0				;$B3EF2E   |
 	JSL CODE_B3A334				;$B3EF32   |
+if !mp_patch == 1
+	JSL get_interacting_kong
+	TAX
+	LDA $0A3E
+	STA interaction.unknown_0A86,x
+	LDA $0A40
+	STA interaction.unknown_0A88,x	
+else
 	LDA $0A3E				;$B3EF36   |
 	STA $0A86				;$B3EF39   |
 	LDA $0A40				;$B3EF3C   |
 	STA $0A88				;$B3EF3F   |
+endif
 	SEC					;$B3EF42   |
 	RTS					;$B3EF43  /
 
@@ -15223,10 +15423,19 @@ CODE_B3EF6A:
 	LDA #!player_interaction_0F		;$B3EF6A  \
 	JSL set_player_interaction_global	;$B3EF6D   |
 	BCS CODE_B3EF44				;$B3EF71   |
+if !mp_patch == 1
+	JSL get_interacting_kong
+	TAX
+	LDA #CODE_B3F069
+	STA interaction.unknown_0A8A,x
+	LDA.w #CODE_B3F069>>16
+	STA interaction.unknown_0A8C,x
+else
 	LDA #CODE_B3F069			;$B3EF73   |
 	STA $0A8A				;$B3EF76   |
 	LDA.w #CODE_B3F069>>16			;$B3EF79   |
 	STA $0A8C				;$B3EF7C   |
+endif
 	BRA CODE_B3EF2A				;$B3EF7F  /
 
 CODE_B3EF81:
@@ -15237,11 +15446,21 @@ CODE_B3EF84:
 	JSL drop_sprite_if_holding_global	;$B3EF88   |
 	LDX active_kong_control_variables	;$B3EF8C   |
 	STZ kong_control.flash_timer,x		;$B3EF8F   |
+if !mp_patch == 1
+	JSL get_interacting_kong
+	TAX
+	LDA interaction.unknown_0A86,x		;$B3EF94   |
+	STA $0A3E				;$B3EF97   |
+	LDA interaction.unknown_0A88,x		;$B3EF9A   |
+	STA $0A40				;$B3EF9D   |	
+	LDX active_kong_sprite	
+else
 	LDX active_kong_sprite			;$B3EF91   |
 	LDA $0A86				;$B3EF94   |
 	STA $0A3E				;$B3EF97   |
 	LDA $0A88				;$B3EF9A   |
 	STA $0A40				;$B3EF9D   |
+endif
 	LDY #!special_sprite_spawn_id_0034	;$B3EFA0   |
 	JSL spawn_special_sprite_index		;$B3EFA3   |
 	LDX current_interacting_sprite		;$B3EFA7   |
@@ -15339,10 +15558,19 @@ CODE_B3F05F:
 	RTS					;$B3F068  /
 
 CODE_B3F069:
+if !mp_patch == 1
+	JSL get_interacting_kong
+	TAX
+	LDA interaction.unknown_0A86,x
+	STA $0A3E
+	LDA interaction.unknown_0A88,x
+	STA $0A40
+else
 	LDA $0A86				;$B3F069  \
 	STA $0A3E				;$B3F06C   |
 	LDA $0A88				;$B3F06F   |
 	STA $0A40				;$B3F072   |
+endif
 	LDY #!special_sprite_spawn_id_0034	;$B3F075   |
 	JSL spawn_special_sprite_index		;$B3F078   |
 	JSL work_on_inactive_kong_global	;$B3F07C   |
