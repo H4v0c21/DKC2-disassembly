@@ -337,6 +337,7 @@ kong_cutscene_command_timer		= $19D4
 if !mp_patch == 1
 diddy_interaction_variables		= $1A00
 dixie_interaction_variables		= $1A10
+relevant_kong 				= $1A20
 endif
 ;;;
 ;;; End low WRAM ($0000-$1FFF)

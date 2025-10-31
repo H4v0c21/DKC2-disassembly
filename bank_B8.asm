@@ -2493,12 +2493,25 @@ player_interaction_0D_0F_10_2B:
 	RTS					;$B89389  /
 
 CODE_B8938A:
+if !mp_patch == 1
+	JSR get_interacting_kong_from_controller
+	TAY
+	LDX interaction.sprite,y
+else
 	LDX current_interacting_sprite		;$B8938A  \
+endif
 	STX current_sprite			;$B8938D   |
+if !mp_patch == 1
+	LDA.w interaction.unknown_0A8A,y
+	STA temp_32
+	LDA.w interaction.unknown_0A8C,y
+	STA temp_34
+else
 	LDA $0A8A				;$B8938F   |
 	STA $32					;$B89392   |
 	LDA $0A8C				;$B89394   |
 	STA $34					;$B89397   |
+endif
 	JML [$0032]				;$B89399  /
 
 CODE_B8939C:

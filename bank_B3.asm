@@ -13512,6 +13512,8 @@ CODE_B3E1E0:					;	   |
 	SEC					;$B3E1E0   |
 	RTS					;$B3E1E1  /
 
+
+;TODO: fix active kong bs (for door transition)
 CODE_B3E1E2:
 	JSL work_on_active_kong_global		;$B3E1E2  \
 	JSL drop_sprite_or_follower_kong	;$B3E1E6   |
