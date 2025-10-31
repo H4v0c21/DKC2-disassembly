@@ -2887,5 +2887,5 @@
 !player_RAM_buffer_size = $0365
 
 if !mp_patch == 1
-	!interaction_variable_count = $0006
+	!interaction_variable_block_size = $000E
 endif

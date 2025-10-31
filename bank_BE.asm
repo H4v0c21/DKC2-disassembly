@@ -1698,8 +1698,18 @@ CODE_BEC420:
 	JSL queue_sound_effect			;$BEC42C   |
 	LDX current_sprite			;$BEC430   |
 	LDY $6A					;$BEC432   |
+if !mp_patch == 1
+	PHY
+	JSL get_interacting_kong
+	TAY
+	LDA #$0000
+	STA.w interaction.unknown_0A86,y
+	STX interaction.unknown_0A88,y
+	PLY
+else
 	STZ $0A86				;$BEC434   |
 	STX $0A88				;$BEC437   |
+endif
 	LDA #$0003				;$BEC43A   |
 	SEC					;$BEC43D   |
 	RTL					;$BEC43E  /
@@ -1843,31 +1853,60 @@ CODE_BEC52D:
 	LDA $06,x				;$BEC537   |
 	SEC					;$BEC539   |
 	SBC $0006,y				;$BEC53A   |
+if !mp_patch == 1
+	PHA
+	JSL get_interacting_kong
+	TAY
+	PLA
+	STA.w interaction.unknown_0A88,y
+	LDY current_sprite
+else
 	STA $0A88				;$BEC53D   |
+endif
 	LDA $20,x				;$BEC540   |
 	BPL CODE_BEC548				;$BEC542   |
 	EOR #$FFFF				;$BEC544   |
 	INC A					;$BEC547   |
 CODE_BEC548:					;	   |
+if !mp_patch == 1
+	PHA
+	JSL get_interacting_kong
+	TAX
+	STA interaction.unknown_0A86,x
+	PLA
+else
 	STA $0A86				;$BEC548   |
+endif
 	LDA $0020,y				;$BEC54B   |
 	BPL CODE_BEC554				;$BEC54E   |
 	EOR #$FFFF				;$BEC550   |
 	INC A					;$BEC553   |
 CODE_BEC554:					;	   |
-	CLC					;$BEC554   |
+	CLC
+if !mp_patch == 1
+	ADC interaction.unknown_0A86,x
+else
 	ADC $0A86				;$BEC555   |
+endif
 	CMP #$0180				;$BEC558   |
 	BCS CODE_BEC560				;$BEC55B   |
 	LDA #$0180				;$BEC55D   |
 CODE_BEC560:					;	   |
 	LSR A					;$BEC560   |
+if !mp_patch == 1
+	BIT interaction.unknown_0A88,x
+else
 	BIT $0A88				;$BEC561   |
+endif
 	BPL CODE_BEC56A				;$BEC564   |
 	EOR #$FFFF				;$BEC566   |
 	INC A					;$BEC569   |
 CODE_BEC56A:					;	   |
+if !mp_patch == 1
+	STA interaction.unknown_0A86,x
+else
 	STA $0A86				;$BEC56A   |
+endif
 	LSR A					;$BEC56D   |
 	EOR $0012,y				;$BEC56E   |
 	AND #$4000				;$BEC571   |
@@ -4405,9 +4444,21 @@ CODE_BED81B:
 	LDA #!player_interaction_15		;$BED841   |
 	JSL set_player_interaction_global	;$BED844   |
 	BCS CODE_BED887				;$BED848   |
+if !mp_patch == 1
+	;PHY
+	JSL get_interacting_kong
+	TAY
+	STX interaction.unknown_0A86,y
+	;PLY
+else
 	STX $0A86				;$BED84A   |
+endif
 	LDA $6A					;$BED84D   |
+if !mp_patch == 1
+	STA.w interaction.unknown_0A88,y
+else
 	STA $0A88				;$BED84F   |
+endif
 	STA $44,x				;$BED852   |
 	LDA #$0001				;$BED854   |
 	SEC					;$BED857   |
@@ -4417,9 +4468,19 @@ CODE_BED859:
 	LDA #!player_interaction_15		;$BED859  \
 	JSL set_player_interaction_global	;$BED85C   |
 	BCS CODE_BED887				;$BED860   |
+if !mp_patch == 1
+	JSL get_interacting_kong
+	TAY
+	STX interaction.unknown_0A86,y
+else
 	STX $0A86				;$BED862   |
+endif
 	LDA $6A					;$BED865   |
+if !mp_patch == 1
+	STA.w interaction.unknown_0A88,y
+else
 	STA $0A88				;$BED867   |
+endif
 	STA $42,x				;$BED86A   |
 	LDY active_kong_control_variables	;$BED86C   |
 	LDA active_frame_counter		;$BED86F   |
@@ -4468,9 +4529,21 @@ CODE_BED8B5:					;	   |
 	LDA #!player_interaction_15		;$BED8BE   |
 	JSL set_player_interaction_global	;$BED8C1   |
 	BCS CODE_BED887				;$BED8C5   |
+if !mp_patch == 1
+	;PHY
+	JSL get_interacting_kong
+	TAY
+	STX interaction.unknown_0A86,y
+	;PLY
+else
 	STX $0A86				;$BED8C7   |
+endif
 	LDA inactive_kong_sprite		;$BED8CA   |
+if !mp_patch == 1
+	STA.w interaction.unknown_0A88,y
+else
 	STA $0A88				;$BED8CD   |
+endif
 	LDA inactive_kong_sprite		;$BED8D0   |
 	STA $44,x				;$BED8D3   |
 	LDA #$0001				;$BED8D5   |

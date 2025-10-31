@@ -12128,62 +12128,6 @@ endif
 	RTS					;$B8D8D0  /
 
 
-
-if !mp_patch == 1
-set_current_player_as_interacting:
-	PHA						;
-	PHX						;
-	PHY						;
-	LDA active_controller_number			;
-	DEC						;
-	BNE .dixie					;
-	LDX #diddy_interaction_variables		;
-	BRA .apply_source				;
-							;
-.dixie:							;
-	LDX #dixie_interaction_variables		;
-.apply_source:						;
-	LDY #!interaction_variable_count		;
--							;
-	LDA $00,x					;
-	STA.w current_interaction_variables,y		;
-	DEX						;
-	DEY						;
-	BPL -						;
-	PLY						;
-	PLX
-	PLA						;
-	RTL						;
-
-
-
-preserve_current_players_interaction:
-	PHA						;
-	PHX						;
-	PHY						;
-	LDA active_controller_number			;
-	DEC						;
-	BNE .dixie					;
-	LDX #diddy_interaction_variables		;
-	BRA .apply_source				;
-							;
-.dixie:							;
-	LDX #dixie_interaction_variables		;
-.apply_source:						;
-	LDY #!interaction_variable_count		;
--							;
-	LDA.w current_interaction_variables,y		;
-	STA $00,x					;
-	
-	DEX						;
-	DEY						;
-	BPL -						;
-	PLY						;
-	PLX
-	PLA						;
-	RTL						;
-endif
-
 CODE_B8D8D1:
 	JSR CODE_B8D8D5				;$B8D8D1  \
 	RTL					;$B8D8D4  /
@@ -13058,3 +13002,86 @@ endif
 	JSR CODE_B8DA8F				;$B8DE71   |
 CODE_B8DE74:					;	   |
 	RTS					;$B8DE74  /
+
+
+
+
+
+
+
+if !mp_patch == 1
+
+set_current_player_as_interacting:
+	PHA						;
+	PHX						;
+	PHY						;
+	LDA active_controller_number			;
+	DEC						;
+	BNE .dixie					;
+	LDX #diddy_interaction_variables		;
+	BRA .apply_source				;
+							;
+.dixie:							;
+	LDX #dixie_interaction_variables		;
+.apply_source:						;
+	LDY #$0000					;
+-							;
+	LDA $00,x					;
+	STA.w current_interaction_variables,y		;
+	INX						;
+	INX
+	INY						;
+	INY
+	CPY #!interaction_variable_block_size
+	BNE -						;
+	PLY						;
+	PLX
+	PLA						;
+	RTL						;
+
+
+
+preserve_current_players_interaction:
+	PHA						;
+	PHX						;
+	PHY						;
+	CPX #dixie_sprite_slot
+	BEQ .dixie					;
+	LDX #diddy_interaction_variables		;
+	BRA .apply_source				;
+							;
+.dixie:							;
+	LDX #dixie_interaction_variables		;
+.apply_source:						;
+	LDY #$0000					;
+-							;
+	LDA.w current_interaction_variables,y		;
+	STA $00,x					;
+	
+	INX						;
+	INX
+	INY						;
+	INY
+	CPY #!interaction_variable_block_size
+	BNE -						;
+	PLY						;
+	PLX
+	PLA						;
+	RTL						;
+
+
+get_interacting_kong:
+	LDA $6A
+	CMP #diddy_sprite_slot
+	BNE .check_dixie
+	LDA #diddy_interaction_variables
+.return:
+	RTL
+
+.check_dixie:
+	CMP #dixie_sprite_slot
+	BNE .return
+	LDA #dixie_interaction_variables
+	RTL
+
+endif

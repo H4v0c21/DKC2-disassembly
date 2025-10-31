@@ -252,3 +252,17 @@ struct wram_clear_table $0000
 	.address: skip 2
 	.size: skip 2
 endstruct
+
+
+
+
+if !mp_patch == 1
+struct interaction $0000
+    .type:           		skip 2    ;00 $0A82
+    .sprite:        		skip 2    ;02 $0A84
+    .unknown_0A86:        	skip 2    ;04 $0A86
+    .unknown_0A88:        	skip 2    ;06 $0A88
+    .unknown_0A8A:        	skip 2    ;08 $0A8A
+    .unknown_0A8C:        	skip 2    ;0A $0A8C
+endstruct
+endif

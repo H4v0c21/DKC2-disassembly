@@ -42,6 +42,13 @@ sprite_handler:
 	TAX					;$B38059   |/
 	CPX #main_sprite_table_end		;$B3805A   |\ If not at the last sprite
 	BNE .next_slot				;$B3805D   |/ then test if the sprite exists
+if !mp_patch == 1
+	LDA #$0001
+	STA active_controller_number
+	JSL process_interactions_with_player
+	LDA #$0002
+	STA active_controller_number
+endif
 	JSL process_interactions_with_player	;$B3805F   |
 	JSR process_platform_sprites		;$B38063   |
 	JSR handle_kong_follow			;$B38066   |
@@ -49,6 +56,13 @@ sprite_handler:
 	RTL					;$B3806C  /
 
 .dont_process_any_sprites:
+if !mp_patch == 1
+	LDA #$0001
+	STA active_controller_number
+	JSL process_interactions_with_player
+	LDA #$0002
+	STA active_controller_number
+endif
 	JSL process_interactions_with_player	;$B3806D  \
 .finish_time_stop_handler:			;	   |
 	JSR process_platform_sprites		;$B38071   |
@@ -116,6 +130,13 @@ sprite_handler:
 	TAX					;$B380DC   |
 	CPX #main_sprite_table_end		;$B380DD   |
 	BNE ..next_slot				;$B380E0   |
+if !mp_patch == 1
+	LDA #$0001
+	STA active_controller_number
+	JSL process_interactions_with_player
+	LDA #$0002
+	STA active_controller_number
+endif
 	JSL process_interactions_with_player	;$B380E2   |
 	JSR handle_kong_follow			;$B380E6   |
 	BRL .finish_time_stop_handler		;$B380E9  /
@@ -6717,11 +6738,23 @@ CODE_B3B219:
 	CLC					;$B3B21F   |
 	BNE CODE_B3B231				;$B3B220   |
 	LDA #$0200				;$B3B222   |
+if !mp_patch == 1
+	PHA
+	JSL get_interacting_kong
+	TAX
+	PLA
+	BIT interaction.unknown_0A86,x
+else
 	BIT $0A86				;$B3B225   |
+endif
 	BPL CODE_B3B22D				;$B3B228   |
 	LDA #$FE00				;$B3B22A   |
 CODE_B3B22D:					;	   |
+if !mp_patch == 1
+	STA interaction.unknown_0A86,x
+else
 	STA $0A86				;$B3B22D   |
+endif
 	SEC					;$B3B230   |
 CODE_B3B231:					;	   |
 	LDX current_sprite			;$B3B231   |
