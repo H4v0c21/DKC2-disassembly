@@ -12866,13 +12866,13 @@ CODE_B5F75D:
 	STZ $0D42				;$B5F75D  \
 	STZ $0D44				;$B5F760   |
 	LDY #$0000				;$B5F763   |
-	LDX #$09B3				;$B5F766   |
+	LDX #sprite_clipping[2]			;$B5F766   |
 	JSR CODE_B5F77A				;$B5F769   |
-	LDX #$09EB				;$B5F76C   |
+	LDX #sprite_clipping[9]			;$B5F76C   |
 	JSR CODE_B5F77A				;$B5F76F   |
 	CPY #$0004				;$B5F772   |
 	BCS CODE_B5F799				;$B5F775   |
-	LDX #$09CB				;$B5F777   |
+	LDX #sprite_clipping[5]			;$B5F777   |
 CODE_B5F77A:					;	   |
 	LDA $04,x				;$B5F77A   |
 	BEQ CODE_B5F799				;$B5F77C   |

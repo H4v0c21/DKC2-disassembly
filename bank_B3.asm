@@ -17,7 +17,7 @@ sprite_handler:
 	STA sprite_return_bank			;$B38026   |/
 	LDA.w #<:DATA_FF0000			;$B38029   |\ Write bank of sprite constants for current sprite (always FF)
 	STA current_sprite_constants_bank	;$B3802C   |/
-	JSL init_sprite_collision		;$B3802E   |
+	JSL init_player_clipping		;$B3802E   |
 	LDA time_stop_flags			;$B38032   |\
 	AND #$0080				;$B38035   | |
 	BNE .dont_process_any_sprites		;$B38038   |/
@@ -378,20 +378,20 @@ handle_kong_follow:
 	LDX kong_follow_buffer_recording_index	;$B382CE   |> Get the next free index into the inactive kong follow buffer
 	LDA.w sprite.x_position,y		;$B382D1   |\
 	STA kong_follow_last_rec_x_position	;$B382D4   | | Store active kongs x position
-	STA $7FA532,x				;$B382D7   |/ Store active kongs x position to follow buffer
+	STA kong_follow_x_position_buffer,x	;$B382D7   |/ Store active kongs x position to follow buffer
 	LDA.w sprite.y_position,y		;$B382DB   |\
 	STA kong_follow_last_rec_y_position	;$B382DE   | | Store active kongs y position
-	STA $7FA572,x				;$B382E1   |/ Store active kongs y position to follow buffer
+	STA kong_follow_y_position_buffer,x	;$B382E1   |/ Store active kongs y position to follow buffer
 	LDA.w sprite.oam_property,y		;$B382E5   |\
 	AND #$4000				;$B382E8   | | Store active kongs oam properties
-	STA $7FA5B2,x				;$B382EB   |/ Store active kongs oam properties to follow buffer
+	STA kong_follow_facing_buffer,x		;$B382EB   |/ Store active kongs oam properties to follow buffer
 	LDA.w sprite.terrain_interaction,y	;$B382EF   |\
 	XBA					;$B382F2   | |
 	AND #$FF00				;$B382F3   | | Get active kongs terrain interaction this frame in high byte
 	STA $32					;$B382F6   |/
 	LDY current_kong_control_variables	;$B382F8   |\
 	LDA.w kong_control.animation_id,y	;$B382FA   | |
-	STA $7FA5F2,x				;$B382FD   |/ Store active kongs current animation to follow buffer
+	STA kong_follow_animation_buffer,x	;$B382FD   |/ Store active kongs current animation to follow buffer
 	AND #$00FF				;$B38301   |\ Get low byte of animation id
 	ORA $32					;$B38304   |/ Merge animation id with terrain interaction, Useless, gets overwritten in A
 	INX					;$B38306   |\
@@ -410,24 +410,24 @@ handle_kong_follow:
 	LDA kong_follow_buffer_recording_index	;$B3831F   |
 	BRA .follow_waypoint_update_done	;$B38322  /
 
-CODE_B38324:
+process_platform_sprite:
 	SEC					;$B38324  \ \
 	SBC #$0005				;$B38325   | | Move to previous platform slot index
-	STA $09FC				;$B38328   |/
+	STA next_platform_sprite_slot		;$B38328   |/
 	TAY					;$B3832B   |> Transfer platform slot index to Y
-	LDA $09FE,y				;$B3832C   |\ Copy platform logic pointer to $32
+	LDA platform_sprite_table,y		;$B3832C   |\ Copy platform logic pointer to $32
 	STA $32					;$B3832F   | |
-	LDA $0A00,y				;$B38331   | | Copy platform logic bank to $34
+	LDA platform_sprite_table+2,y		;$B38331   | | Copy platform logic bank to $34
 	STA $34					;$B38334   |/
-	LDX $0A01,y				;$B38336   |\ Get platform sprite
+	LDX platform_sprite_table+3,y		;$B38336   |\ Get platform sprite
 	STX current_sprite			;$B38339   |/
 	PHK					;$B3833B   |\
 	%return(process_platform_sprites)	;$B3833C   |/ Set return address to logic handler so it loops through all platforms
 	JML [$0032]				;$B3833F  /> Execute platform logic
 
 process_platform_sprites:
-	LDA $09FC				;$B38342  \ \ Get platform slot index
-	BNE CODE_B38324				;$B38345   |/ If slot contains a platform then process it
+	LDA next_platform_sprite_slot		;$B38342  \ \ Get platform slot index
+	BNE process_platform_sprite		;$B38345   |/ If slot contains a platform then process it
 	RTS					;$B38347  /
 
 sprite_main_table:
@@ -1637,7 +1637,7 @@ handle_animal_mounting:
 	ADC #$0001				;$B38D3F   | | + 1
 	JSL CODE_BCFB7A				;$B38D42   |/ Inject animal mount range into hitbox RAM
 	LDA #$0004				;$B38D46   |\
-	JSL CODE_BCFCB5				;$B38D49   | | Check sprite collision
+	JSL check_active_kong_collision		;$B38D49   | | Check sprite collision
 	BCS .collided_with_mount_range		;$B38D4D   |/ If a sprite collided with mount range then see if player should mount
 .return:					;	   |
 	CLC					;$B38D4F   |\ No collision
@@ -1648,7 +1648,7 @@ handle_animal_mounting:
 	BNE .return				;$B38D53   |/ If the kong is already riding an animal then dont mount
 	LDA current_held_sprite			;$B38D55   |\ Get currently held sprite
 	BNE .return				;$B38D58   |/ If the kong is holding a sprite then dont mount
-	LDY $6A					;$B38D5A   |\ Get colliding sprite
+	LDY colliding_sprite			;$B38D5A   |\ Get colliding sprite
 	CPY active_kong_sprite			;$B38D5C   | | See if colliding sprite is active kong
 	BNE .return				;$B38D5F   |/ If the colliding sprite isn't the active kong so dont mount
 	JSR get_state_death_and_mounting_flags	;$B38D61   |\ Get the state flags for the kongs current state
@@ -2656,7 +2656,7 @@ dkbarrel_main:
 	BNE CODE_B3946A				;$B3945B   |
 	JSL CODE_BCFB58				;$B3945D   |
 	LDA #$0010				;$B39461   |
-	JSL CODE_BCFCB5				;$B39464   |
+	JSL check_active_kong_collision		;$B39464   |
 	BCS .break_dk_barrel			;$B39468   |
 #CODE_B3946A:					;	   |
 	JSL process_sprite_animation		;$B3946A   |
@@ -3150,7 +3150,7 @@ animal_box_main:
 	LDA #$0008				;$B39819   |
 	PHK					;$B3981C   |
 	%return(.CODE_B39823)			;$B3981D   | Set collision return address
-	JML [$09F9]				;$B39820  / Done processing sprite
+	JML [sprite_collision_routine_address]	;$B39820  / Done processing sprite
 
 .CODE_B39823:
 	BCS .CODE_B3982C			;$B39823  \
@@ -3351,14 +3351,14 @@ CODE_B3999A:
 	LDA #$0008				;$B3999E   |
 	PHK					;$B399A1   |
 	%return(CODE_B399A8)			;$B399A2   |
-	JML [$09F9]				;$B399A5  /
+	JML [sprite_collision_routine_address]	;$B399A5  /
 
 CODE_B399A8:
 	BCC CODE_B399EC				;$B399A8  \
-	LDA $09F5				;$B399AA   |
+	LDA sprite_collision_result		;$B399AA   |
 	AND #$0406				;$B399AD   |
 	BEQ CODE_B399EC				;$B399B0   |
-	LDA $6A					;$B399B2   |
+	LDA colliding_sprite			;$B399B2   |
 	CMP inactive_kong_sprite		;$B399B4   |
 	BEQ CODE_B399EE				;$B399B7   |
 	JSR CODE_B39A5F				;$B399B9   |
@@ -3405,9 +3405,9 @@ CODE_B399EE:
 CODE_B39A1C:
 	JSL CODE_BCFB58				;$B39A1C  \
 	LDA #$0008				;$B39A20   |
-	JSL CODE_BCFCB5				;$B39A23   |
+	JSL check_active_kong_collision		;$B39A23   |
 	BCC CODE_B399EC				;$B39A27   |
-	LDA $09F5				;$B39A29   |
+	LDA sprite_collision_result		;$B39A29   |
 	AND #$0406				;$B39A2C   |
 	BEQ CODE_B399EC				;$B39A2F   |
 	LDA #!player_interaction_0D		;$B39A31   |
@@ -3442,7 +3442,7 @@ invincibility_barrel_main:
 	LDA #$0010				;$B39A73   | Get collision flags
 	PHK					;$B39A76   |
 	%return(.return_handler)		;$B39A77   | Set collision return handler address
-	JML [$09F9]				;$B39A7A  / Done processing sprite
+	JML [sprite_collision_routine_address]	;$B39A7A  / Done processing sprite
 
 .return_handler:
 	BCS .collision_happened			;$B39A7D  \ If collision happened, spawn controller sprite
@@ -3557,7 +3557,7 @@ CODE_B39B5F:
 	STZ current_held_sprite			;$B39B5F  \
 	JSL CODE_B8D4AE				;$B39B62   |
 CODE_B39B66:					;	   |
-	LDX $6A					;$B39B66   |
+	LDX colliding_sprite			;$B39B66   |
 	LDA sprite.type,x			;$B39B68   |
 	CMP #!sprite_cannon			;$B39B6A   |
 	BEQ CODE_B39B9E				;$B39B6D   |
@@ -4606,7 +4606,7 @@ level_goal_main:
 ..handle_collision:				;	   |
 	JSL CODE_BCFB58				;$B3A2AF   | Else populate sprite clipping
 	LDA #$0008				;$B3A2B3   | Load collision flags
-	JSL CODE_BCFCB5				;$B3A2B6   | Check collision with kong
+	JSL check_active_kong_collision		;$B3A2B6   | Check collision with kong
 	BCS ..collision_happened		;$B3A2BA   | If collision happened
 ..return:					;	   |
 	JMP sprite_return_handle_despawn	;$B3A2BC  / Else done processing sprite
@@ -4977,7 +4977,7 @@ zinger_main:
 	JMP make_sprite_fall_off_screen		;$B3A536  /
 
 .fall_offscreen_alive_state
-	LDX $6A					;$B3A539  \> Get sprite that is killing our sprite
+	LDX colliding_sprite			;$B3A539  \> Get sprite that is killing our sprite
 	LDA #$0100				;$B3A53B   |> Prepare a X velocity to apply to our sprite
 	BIT sprite.oam_property,x		;$B3A53E   |\
 	BVC ..no_flip				;$B3A540   |/ If sprite isnt flipped apply the X velocity
@@ -4995,7 +4995,7 @@ zinger_main:
 	JMP sprite_return_handle_despawn	;$B3A55A  /> Done processing sprite
 
 .fall_offscreen_dead_state
-	LDX $6A					;$B3A55D  \> Get sprite that is killing our sprite
+	LDX colliding_sprite			;$B3A55D  \> Get sprite that is killing our sprite
 	LDA sprite.oam_property,x		;$B3A55F   |\
 	AND #$4000				;$B3A561   |/ Get facing direction of killing sprite
 	LDX current_sprite			;$B3A564   |> Get killed sprite
@@ -5009,7 +5009,7 @@ zinger_main:
 	BRA .apply_dead_sprite_velocity		;$B3A578  /> Apply velocities to killed sprite
 
 .crush_flying_sprite
-	LDX $6A					;$B3A57A  \> Get sprite that is killing our sprite
+	LDX colliding_sprite			;$B3A57A  \> Get sprite that is killing our sprite
 	LDA #$0080				;$B3A57C   |\ X velocity
 	LDY #$FC00				;$B3A57F   |/ Y velocity
 .apply_dead_sprite_velocity			;	   |
@@ -5108,7 +5108,7 @@ CODE_B3A604:
 .update_interaction_variable			;	   |
 	TYA					;$B3A611   |> Transfer interaction variable to A
 	PHX					;$B3A612   |
-	LDX $6A					;$B3A613   |> Get sprite we collided with
+	LDX colliding_sprite			;$B3A613   |> Get sprite we collided with
 	BIT sprite.oam_property,x		;$B3A615   |
 	PLX					;$B3A617   |> Recover sprite that triggered knockback
 	BVC .no_flip				;$B3A618   |> If collided sprite was facing right then dont invert the velocity
@@ -5304,7 +5304,7 @@ click_clack_main:
 	BEQ ..animation_and_movement_update	;$B3A77B   |/ If the collision hurt the attacking sprite, continue normal logic
 	%lda_sound(5, click_clack_hit)		;$B3A77D   |\ Else stun click-clack
 	JSL queue_sound_effect			;$B3A780   |/ Play squish sound
-	LDX $6A					;$B3A784   |> Get attacking sprite
+	LDX colliding_sprite			;$B3A784   |> Get attacking sprite
 	LDA #$0100				;$B3A786   |> Prepare a X velocity to apply to click-clack
 	BIT sprite.oam_property,x		;$B3A789   |\
 	BVC ..no_flip				;$B3A78B   |/ If attacking sprite is facing right then dont invert x velocity
@@ -5461,11 +5461,11 @@ endif						;	   |
 	LDA.w sprite.type,y			;$B3A8C4   | |
 	CMP #!sprite_dixie_kong			;$B3A8C7   | | Check if sprite id is dixie
 	BNE ..kong_is_diddy			;$B3A8CA   |/ If not dixie then continue
-	LDA $09D9				;$B3A8CC   |\ Get bottom clipping position of held click-clack
+	LDA sprite_clipping[6].bottom		;$B3A8CC   |\ Get bottom clipping position of held click-clack
 	SEC					;$B3A8CF   | |
 	SBC #$0008				;$B3A8D0   | | Make hitbox thinner on the Y axis by raising the bottom clipping
-	STA $09D9				;$B3A8D3   | | Apply new clipping position
-	STA $09E9				;$B3A8D6   |/
+	STA sprite_clipping[6].bottom		;$B3A8D3   | | Apply new clipping position
+	STA sprite_clipping[8].bottom		;$B3A8D6   |/
 ..kong_is_diddy					;	   |
 	LDA #$1020				;$B3A8D9   |\
 	LDY #$0010				;$B3A8DC   | |
@@ -5660,7 +5660,7 @@ set_state_and_animation:
 	JMP sprite_return_handle_despawn	;$B3AA61  /
 
 defeat_click_clack_with_velocity:
-	LDX $6A					;$B3AA64  \ \ Get attacking sprite
+	LDX colliding_sprite			;$B3AA64  \ \ Get attacking sprite
 	BIT sprite.oam_property,x		;$B3AA66   | |
 	BVC defeat_click_clack_no_flip_velocity	;$B3AA68   |/ If attacking sprite is facing right then dont invert X velocity
 	EOR #$FFFF				;$B3AA6A   |\ Else invert X velocity
@@ -6334,7 +6334,7 @@ CODE_B3AF8E:					;	   |
 	RTS					;$B3AF8E  /
 
 CODE_B3AF8F:
-	LDX $6A					;$B3AF8F  \
+	LDX colliding_sprite			;$B3AF8F  \
 	LDA sprite.oam_property,x		;$B3AF91   |
 	AND #$4000				;$B3AF93   |
 	LDX current_sprite			;$B3AF96   |
@@ -6735,7 +6735,7 @@ CODE_B3B231:					;	   |
 	BRA CODE_B3B26B				;$B3B246  /
 
 CODE_B3B248:
-	LDY $6A					;$B3B248  \
+	LDY colliding_sprite			;$B3B248  \
 	BCS CODE_B3B253				;$B3B24A   |
 	LDA $0A86				;$B3B24C   |
 	BPL CODE_B3B260				;$B3B24F   |
@@ -8050,7 +8050,7 @@ CODE_B3BB7B:
 	JMP make_sprite_fall_off_screen		;$B3BB82  /
 
 CODE_B3BB85:
-	LDX $6A					;$B3BB85  \
+	LDX colliding_sprite			;$B3BB85  \
 	LDA #$0100				;$B3BB87   |
 	BIT $12,x				;$B3BB8A   |
 	BVS CODE_B3BB91				;$B3BB8C   |
@@ -8391,7 +8391,7 @@ CODE_B3BDDD:					;	   |
 
 CODE_B3BDDE:
 	BNE CODE_B3BDDD				;$B3BDDE  \
-	LDX $6A					;$B3BDE0   |
+	LDX colliding_sprite			;$B3BDE0   |
 	LDA sprite.oam_property,x		;$B3BDE2   |
 	AND #$4000				;$B3BDE4   |
 	LDX current_sprite			;$B3BDE7   |
@@ -8509,7 +8509,7 @@ kannon_main:
 ;if kannon dies, adjust orientation and velocities based on the colliding sprite's facing direction
 ..collision_happened:
 	BNE ..return				;$B3BEAA  \ If attacker is the one taking damage, return
-	LDX $6A					;$B3BEAC   | Else get current colliding sprite (attacker)
+	LDX colliding_sprite			;$B3BEAC   | Else get current colliding sprite (attacker)
 	LDA sprite.oam_property,x		;$B3BEAE   | Get its OAM properties
 	AND #$4000				;$B3BEB0   | Get facing direction
 	LDX current_sprite			;$B3BEB3   | Get kannon sprite
@@ -9519,7 +9519,7 @@ CODE_B3C65A:
 	RTS					;$B3C670  /
 
 CODE_B3C671:
-	LDX $6A					;$B3C671  \
+	LDX colliding_sprite			;$B3C671  \
 	LDA sprite.oam_property,x		;$B3C673   |
 	AND #$4000				;$B3C675   |
 	LDX current_sprite			;$B3C678   |
@@ -9824,7 +9824,7 @@ CODE_B3C895:					;	   |
 
 CODE_B3C897:
 	BNE CODE_B3C895				;$B3C897  \
-	LDX $6A					;$B3C899   |
+	LDX colliding_sprite			;$B3C899   |
 	LDA sprite.oam_property,x		;$B3C89B   |
 	AND #$4000				;$B3C89D   |
 	LDX current_sprite			;$B3C8A0   |
@@ -9991,7 +9991,7 @@ CODE_B3C9CA:					;	   |
 
 defeat_aquatic_sprite_using_anim:
 	JSR defeat_sprite_using_animation	;$B3C9CB  \
-	LDY $6A					;$B3C9CE   |
+	LDY colliding_sprite			;$B3C9CE   |
 	LDA.w sprite.oam_property,y		;$B3C9D0   |
 	AND #$4000				;$B3C9D3   |
 	LDX current_sprite			;$B3C9D6   |
@@ -10813,7 +10813,7 @@ CODE_B3CFAC:
 	STA sprite.state,x			;$B3CFAF   |
 	LDA #$018F				;$B3CFB1   |
 	JSR defeat_sprite_using_animation	;$B3CFB4   |
-	LDX $6A					;$B3CFB7   |
+	LDX colliding_sprite			;$B3CFB7   |
 	LDA sprite.oam_property,x		;$B3CFB9   |
 	AND #$4000				;$B3CFBB   |
 	LDX current_sprite			;$B3CFBE   |
@@ -11068,7 +11068,7 @@ CODE_B3D19B:
 	STA sprite.state,x			;$B3D1A0   |
 	LDA #$02D3				;$B3D1A2   |
 	JSR defeat_sprite_using_animation	;$B3D1A5   |
-	LDX $6A					;$B3D1A8   |
+	LDX colliding_sprite			;$B3D1A8   |
 	LDA sprite.oam_property,x		;$B3D1AA   |
 	AND #$4000				;$B3D1AC   |
 	LDX current_sprite			;$B3D1AF   |
@@ -11234,7 +11234,7 @@ CODE_B3D2DD:
 	LDA #$0010				;$B3D2E1   |
 	PHK					;$B3D2E4   |
 	%return(CODE_B3D2EB)			;$B3D2E5   |
-	JML [$09F9]				;$B3D2E8  /
+	JML [sprite_collision_routine_address]	;$B3D2E8  /
 
 CODE_B3D2EB:
 	RTS					;$B3D2EB  /
@@ -11429,16 +11429,16 @@ CODE_B3D469:
 	RTS					;$B3D46B  /
 
 CODE_B3D46C:
-	LDY $09FC				;$B3D46C  \
-	STA $09FE,y				;$B3D46F   |
+	LDY next_platform_sprite_slot		;$B3D46C  \
+	STA platform_sprite_table,y		;$B3D46F   |
 	LDA $03,s				;$B3D472   |
-	STA $0A00,y				;$B3D474   |
+	STA platform_sprite_table+2,y		;$B3D474   |
 	LDA current_sprite			;$B3D477   |
-	STA $0A01,y				;$B3D479   |
+	STA platform_sprite_table+3,y		;$B3D479   |
 	TYA					;$B3D47C   |
 	CLC					;$B3D47D   |
 	ADC #$0005				;$B3D47E   |
-	STA $09FC				;$B3D481   |
+	STA next_platform_sprite_slot		;$B3D481   |
 	RTL					;$B3D484  /
 
 CODE_B3D485:
@@ -11468,13 +11468,13 @@ CODE_B3D4AE:
 	STZ sprite.unknown_34,x			;$B3D4B0   |
 	JSL CODE_BCFB58				;$B3D4B2   |
 	LDA #$0002				;$B3D4B6   |
-	JSL CODE_BCFF1D				;$B3D4B9   |
+	JSL check_for_sprite_point_collisions	;$B3D4B9   |
 	BCC CODE_B3D4CC				;$B3D4BD   |
 CODE_B3D4BF:					;	   |
 	JSR CODE_B3D4EB				;$B3D4BF   |
 	BEQ CODE_B3D4E0				;$B3D4C2   |
 	BPL CODE_B3D4D2				;$B3D4C4   |
-	JSL CODE_BCFF38				;$B3D4C6   |
+	JSL check_for_point_collisions		;$B3D4C6   |
 	BCS CODE_B3D4BF				;$B3D4CA   |
 CODE_B3D4CC:					;	   |
 	RTL					;$B3D4CC  /
@@ -11483,7 +11483,7 @@ CODE_B3D4CD:
 	JSR CODE_B3D4EB				;$B3D4CD  \
 	BEQ CODE_B3D4E0				;$B3D4D0   |
 CODE_B3D4D2:					;	   |
-	JSL CODE_BCFF38				;$B3D4D2   |
+	JSL check_for_point_collisions		;$B3D4D2   |
 	BCS CODE_B3D4CD				;$B3D4D6   |
 	LDA #$0000				;$B3D4D8   |
 	SEC					;$B3D4DB   |
@@ -11492,7 +11492,7 @@ CODE_B3D4D2:					;	   |
 CODE_B3D4DD:
 	JSR CODE_B3D4EB				;$B3D4DD  \
 CODE_B3D4E0:					;	   |
-	JSL CODE_BCFF38				;$B3D4E0   |
+	JSL check_for_point_collisions		;$B3D4E0   |
 	BCS CODE_B3D4DD				;$B3D4E4   |
 	LDA #$0001				;$B3D4E6   |
 	SEC					;$B3D4E9   |
@@ -11500,7 +11500,7 @@ CODE_B3D4E0:					;	   |
 
 CODE_B3D4EB:
 	LDX current_sprite			;$B3D4EB  \
-	LDY $6A					;$B3D4ED   |
+	LDY colliding_sprite			;$B3D4ED   |
 	LDA.w sprite.y_speed,y			;$B3D4EF   |
 if !version == 0
 	BMI CODE_B3D57A				;$B3D4F2   |
@@ -11549,11 +11549,11 @@ CODE_B3D51E:					;	   |
 	LDA $D9					;$B3D538   |
 	CLC					;$B3D53A   |
 	ADC temp_32				;$B3D53B   |
-	STA $0A26				;$B3D53D   |
+	STA platform_sprite_left_edge_position	;$B3D53D   |
 	LDA $DD					;$B3D540   |
 	CLC					;$B3D542   |
 	ADC temp_32				;$B3D543   |
-	STA $0A28				;$B3D545   |
+	STA platform_sprite_right_edge_position	;$B3D545   |
 	STY sprite.unknown_34,x			;$B3D548   |
 CODE_B3D54A:					;	   |
 	LDA sprite.y_speed,x			;$B3D54A   |
@@ -11636,10 +11636,10 @@ rideable_balloon_main:
 	LDA sprite.unknown_22,x			;$B3D5CF   |
 	SEC					;$B3D5D1   |
 	SBC #$0008				;$B3D5D2   |
-	STA $0A26				;$B3D5D5   |
+	STA platform_sprite_left_edge_position	;$B3D5D5   |
 	CLC					;$B3D5D8   |
 	ADC #$0010				;$B3D5D9   |
-	STA $0A28				;$B3D5DC   |
+	STA platform_sprite_right_edge_position	;$B3D5DC   |
 ..return:					;	   |
 	RTL					;$B3D5DF  /
 
@@ -12008,7 +12008,7 @@ plus_and_minus_barrel_main:
 
 ..collision_happened:
 	LDX current_sprite			;$B3D892  \
-	LDY $0D5E				;$B3D894   |
+	LDY ridden_skull_cart_sprite		;$B3D894   |
 	LDA $42,x				;$B3D897   |
 	CLC					;$B3D899   |
 	ADC.w sprite.max_y_speed,y		;$B3D89A   |
@@ -12030,7 +12030,7 @@ plus_and_minus_barrel_main:
 
 ..collision_happened:
 	LDX current_sprite			;$B3D8C4  \
-	LDY $0D5E				;$B3D8C6   |
+	LDY ridden_skull_cart_sprite		;$B3D8C6   |
 	LDA $4E,x				;$B3D8C9   |
 	BEQ ..CODE_B3D8D7			;$B3D8CB   |
 	LDA #$0000				;$B3D8CD   |
@@ -13036,7 +13036,7 @@ CODE_B3E006:
 	BNE CODE_B3E063				;$B3E00A   |
 	JSL CODE_BCFB58				;$B3E00C   |
 	LDA #$0008				;$B3E010   |
-	JSL CODE_BCFCB5				;$B3E013   |
+	JSL check_active_kong_collision		;$B3E013   |
 	BCC CODE_B3E060				;$B3E017   |
 	LDA animal_type				;$B3E019   |
 	CMP #!sprite_rambi			;$B3E01B   |
@@ -13045,7 +13045,7 @@ CODE_B3E006:
 	BNE CODE_B3E060				;$B3E023   |
 CODE_B3E025:					;	   |
 	LDX current_sprite			;$B3E025   |
-	LDY $6A					;$B3E027   |
+	LDY colliding_sprite			;$B3E027   |
 	LDA.w sprite.x_position,y		;$B3E029   |
 	SEC					;$B3E02C   |
 	SBC sprite.x_position,x			;$B3E02D   |
@@ -13164,7 +13164,7 @@ CODE_B3E0ED:					;	   |
 	BRA CODE_B3E128				;$B3E111  /
 
 CODE_B3E113:
-	LDY $0D5E				;$B3E113  \
+	LDY ridden_skull_cart_sprite		;$B3E113  \
 	BEQ CODE_B3E128				;$B3E116   |
 	LDX current_sprite			;$B3E118   |
 	LDA.w sprite.x_speed,y			;$B3E11A   |
@@ -15114,11 +15114,11 @@ CODE_B3EEC5:
 	LDA #$0008				;$B3EED3   |
 	PHK					;$B3EED6   |
 	%return(CODE_B3EEDD)			;$B3EED7   |
-	JML [$09F9]				;$B3EEDA  /
+	JML [sprite_collision_routine_address]	;$B3EEDA  /
 
 CODE_B3EEDD:
 	BCC CODE_B3EF44				;$B3EEDD  \
-	LDA $09F5				;$B3EEDF   |
+	LDA sprite_collision_result		;$B3EEDF   |
 	AND #$0406				;$B3EEE2   |
 	BEQ CODE_B3EF44				;$B3EEE5   |
 	LDX current_sprite			;$B3EEE7   |
@@ -15127,7 +15127,7 @@ CODE_B3EEDD:
 	BEQ CODE_B3EF0E				;$B3EEEE   |
 	CMP #$0003				;$B3EEF0   |
 	BEQ CODE_B3EF44				;$B3EEF3   |
-	LDY $6A					;$B3EEF5   |
+	LDY colliding_sprite			;$B3EEF5   |
 	AND #$0001				;$B3EEF7   |
 	BNE CODE_B3EF06				;$B3EEFA   |
 	LDA.w sprite.type,y			;$B3EEFC   |
@@ -15140,7 +15140,7 @@ CODE_B3EF06:
 	CMP #!sprite_diddy_kong			;$B3EF09   |
 	BEQ CODE_B3EF44				;$B3EF0C   |
 CODE_B3EF0E:					;	   |
-	LDA $6A					;$B3EF0E   |
+	LDA colliding_sprite			;$B3EF0E   |
 	CMP inactive_kong_sprite		;$B3EF10   |
 	BEQ CODE_B3EF6A				;$B3EF13   |
 CODE_B3EF15:					;	   |
@@ -15175,11 +15175,11 @@ CODE_B3EF46:
 	LDA #$0008				;$B3EF53   |
 	PHK					;$B3EF56   |
 	%return(CODE_B3EF5D)			;$B3EF57   |
-	JML [$09F9]				;$B3EF5A  /
+	JML [sprite_collision_routine_address]	;$B3EF5A  /
 
 CODE_B3EF5D:
 	BCC CODE_B3EF44				;$B3EF5D  \
-	LDA $09F5				;$B3EF5F   |
+	LDA sprite_collision_result		;$B3EF5F   |
 	AND #$0406				;$B3EF62   |
 	BEQ CODE_B3EF44				;$B3EF65   |
 	BRL CODE_B3EF15				;$B3EF67  /
@@ -15562,7 +15562,7 @@ CODE_B3F265:					;	   |
 	LDA #$0019				;$B3F267   |
 	JSL set_anim_handle_dixie		;$B3F26A   |
 CODE_B3F26E:					;	   |
-	JSL init_sprite_collision		;$B3F26E   |
+	JSL init_player_clipping		;$B3F26E   |
 	RTS					;$B3F272  /
 
 CODE_B3F273:

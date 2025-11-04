@@ -2044,7 +2044,7 @@ namespace off					;	   |
 	LDA #$01				;$8093A8   |\ Enable fast ROM
 	STA CPU.rom_speed			;$8093AA   |/
 	REP #$20				;$8093AD   |
-	INC $0993				;$8093AF   | Increment the Nintendo "Sparkle" timer
+	INC intro_sparkle_timer			;$8093AF   | Increment the Nintendo "Sparkle" timer
 	LDA #run_rareware_logo			;$8093B2   | Load NMI pointer for Rareware logo
 	JMP set_and_wait_for_nmi		;$8093B5  / Set NMI pointer and wait for NMI
 
@@ -2200,7 +2200,7 @@ namespace off					;	   |
 	JMP CODE_8095B3				;$80950D  /
 
 CODE_809510:
-	DEC $0993				;$809510  \
+	DEC intro_sparkle_timer			;$809510  \
 	BPL CODE_809528				;$809513   |
 	JSR get_random_number			;$809515   |
 	AND #$0060				;$809518   |
@@ -2208,9 +2208,9 @@ CODE_809510:
 	SBC #$0040				;$80951C   |
 	STA intro_sparkle_random_offset		;$80951F   |
 	LDA #$0008				;$809522   |
-	STA $0993				;$809525   |
+	STA intro_sparkle_timer			;$809525   |
 CODE_809528:					;	   |
-	LDA $0993				;$809528   |
+	LDA intro_sparkle_timer			;$809528   |
 	BIT #$FFE0				;$80952B   |
 	BEQ CODE_809533				;$80952E   |
 	JMP CODE_8095B3				;$809530  /
@@ -2232,7 +2232,7 @@ CODE_809533:
 	STA intro_sparkle_y_position		;$809551   |
 CODE_809554:					;	   |
 	SEP #$20				;$809554   |
-	LDA $0993				;$809556   |
+	LDA intro_sparkle_timer			;$809556   |
 	ASL A					;$809559   |
 	ASL A					;$80955A   |
 	ASL A					;$80955B   |

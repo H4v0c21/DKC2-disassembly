@@ -2961,7 +2961,7 @@ CODE_B9E20F:
 ;Rambi attack related, possible special hitbox injection
 CODE_B9E219:
 	LDA #$0008				;$B9E219  \
-	JSL CODE_BCFA9A				;$B9E21C   |
+	JSL init_special_player_clipping	;$B9E21C   |
 	RTS					;$B9E220  /
 
 CODE_B9E221:

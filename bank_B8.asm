@@ -1338,7 +1338,7 @@ CODE_B88AB8:
 	LDX current_sprite			;$B88AD8   |
 	LDA #!kong_state_67			;$B88ADA   |
 	STA sprite.state,x			;$B88ADD   |
-	JSL init_sprite_collision		;$B88ADF   |
+	JSL init_player_clipping		;$B88ADF   |
 	RTS					;$B88AE3  /
 
 CODE_B88AE4:
@@ -1821,7 +1821,7 @@ endif						;	   |
 	PHA					;$B88EA2   |
 	LDA current_kong_control_variables	;$B88EA3   |
 	PHA					;$B88EA5   |
-	LDA $6A					;$B88EA6   |
+	LDA colliding_sprite			;$B88EA6   |
 	STA current_sprite			;$B88EA8   |
 	DEC A					;$B88EAA   |
 	DEC A					;$B88EAB   |
@@ -3096,7 +3096,7 @@ kong_state_return:
 	LDX current_sprite			;$B89971   |
 	STZ $32,x				;$B89973   |
 CODE_B89975:					;	   |
-	JSL CODE_BCFAEA				;$B89975   |
+	JSL get_active_kong_clipping		;$B89975   |
 CODE_B89979:					;	   |
 	PHK					;$B89979   |
 	PLB					;$B8997A   |
@@ -3284,8 +3284,8 @@ kong_state_09:
 .has_rattly
 	LDA #$0007				;$B89AC4  \
 	JSR process_player_action		;$B89AC7   |
-	LDA #$000C				;$B89ACA   |
-	JSL CODE_BCFA9A				;$B89ACD   |
+	LDA #$000C				;$B89ACA   |\ Rattly auto stomp range
+	JSL init_special_player_clipping	;$B89ACD   |/
 	JSR handle_player_physics		;$B89AD1   |
 	JSR CODE_B8B5DA				;$B89AD4   |
 	JMP kong_state_return			;$B89AD7  /
@@ -3303,7 +3303,7 @@ CODE_B89AE0:
 	CMP #$008E				;$B89AEC   |
 	BEQ .return				;$B89AEF   |
 	LDA #$0008				;$B89AF1   |
-	JSL CODE_BCFA9A				;$B89AF4   |
+	JSL init_special_player_clipping	;$B89AF4   |
 	LDX current_sprite			;$B89AF8   |
 	LDA $30,x				;$B89AFA   |
 	ORA #$0800				;$B89AFC   |
@@ -3323,7 +3323,7 @@ kong_state_0A:
 	CMP #!sprite_rambi			;$B89B18   |
 	BNE .CODE_B89B24			;$B89B1B   |
 	LDA #$0008				;$B89B1D   |
-	JSL CODE_BCFA9A				;$B89B20   |
+	JSL init_special_player_clipping	;$B89B20   |
 .CODE_B89B24					;	   |
 	JMP kong_state_return			;$B89B24  /
 
@@ -3650,7 +3650,7 @@ endif						;	   |
 	CMP #!sprite_rambi			;$B89D7B   |
 	BNE CODE_B89D87				;$B89D7E   |
 	LDA #$0008				;$B89D80   |
-	JSL CODE_BCFA9A				;$B89D83   |
+	JSL init_special_player_clipping	;$B89D83   |
 CODE_B89D87:					;	   |
 	LDX current_sprite			;$B89D87   |
 	LDY current_kong_control_variables	;$B89D89   |
@@ -3809,7 +3809,7 @@ kong_state_16:
 	AND #$0303				;$B89EA0   |
 	BNE CODE_B89EAF				;$B89EA3   |
 	LDA #$0009				;$B89EA5   |
-	JSL CODE_BCFA9A				;$B89EA8   |
+	JSL init_special_player_clipping	;$B89EA8   |
 	JMP kong_state_01			;$B89EAC  /
 
 CODE_B89EAF:
@@ -4016,7 +4016,7 @@ kong_state_1F:
 	JSR process_terrain_interaction		;$B8A007   |
 	JSL process_sprite_animation		;$B8A00A   |
 	LDA #$000A				;$B8A00E   |
-	JSL CODE_BCFA9A				;$B8A011   |
+	JSL init_special_player_clipping	;$B8A011   |
 	JSL CODE_BCFB2C				;$B8A015   |
 	LDX current_sprite			;$B8A019   |
 	LDA $1E,x				;$B8A01B   |
@@ -4372,7 +4372,7 @@ CODE_B8A27A:
 	LDX current_sprite			;$B8A2C2   |
 	JSL swap_active_kong_global		;$B8A2C4   |
 	JSL CODE_BB8C19				;$B8A2C8   |
-	JSL init_sprite_collision		;$B8A2CC   |
+	JSL init_player_clipping		;$B8A2CC   |
 	JSR start_damaged_invincibility		;$B8A2D0   |
 	JSR disable_bullet_time			;$B8A2D3   |
 	LDX active_kong_sprite			;$B8A2D6   |
@@ -4539,7 +4539,7 @@ CODE_B8A424:					;	   |
 	JSR process_terrain_interaction		;$B8A424   |
 	JSL process_sprite_animation		;$B8A427   |
 	LDA #$000A				;$B8A42B   |
-	JSL CODE_BCFA9A				;$B8A42E   |
+	JSL init_special_player_clipping	;$B8A42E   |
 	JSL CODE_BCFB2C				;$B8A432   |
 	LDX current_sprite			;$B8A436   |
 	LDA $24,x				;$B8A438   |
@@ -4653,9 +4653,9 @@ kong_state_2E:
 	STA kong_follow_buffer_recording_index	;$B8A50B   |
 	TAX					;$B8A50E   |
 	LDY current_sprite			;$B8A50F   |
-	LDA.l $7FA532,x				;$B8A511   |
+	LDA.l kong_follow_x_position_buffer,x	;$B8A511   |
 	STA $0006,y				;$B8A515   |
-	LDA.l $7FA572,x				;$B8A518   |
+	LDA.l kong_follow_y_position_buffer,x	;$B8A518   |
 	STA $000A,y				;$B8A51C   |
 	JMP kong_state_return			;$B8A51F  /
 
@@ -5673,7 +5673,7 @@ kong_state_4F:
 	STA $26,x				;$B8AD1B   |
 	JSR handle_player_physics		;$B8AD1D   |
 	LDA #$0008				;$B8AD20   |
-	JSL CODE_BCFA9A				;$B8AD23   |
+	JSL init_special_player_clipping	;$B8AD23   |
 	JMP kong_state_return			;$B8AD27  /
 
 kong_state_50:
@@ -5684,7 +5684,7 @@ kong_state_50:
 	LDA #$0007				;$B8AD34   |
 	JSL CODE_BCFB69				;$B8AD37   |
 	LDA #$0020				;$B8AD3B   |
-	JSL CODE_BCFE0A				;$B8AD3E   |
+	JSL check_for_sprite_collisions		;$B8AD3E   |
 	BCS CODE_B8AD88				;$B8AD42   |
 CODE_B8AD44:					;	   |
 	LDX current_sprite			;$B8AD44   |
@@ -5769,7 +5769,7 @@ CODE_B8ADE0:
 
 CODE_B8ADE8:
 	LDA #$0006				;$B8ADE8  \
-	JSL CODE_BCFA9A				;$B8ADEB   |
+	JSL init_special_player_clipping	;$B8ADEB   |
 	RTS					;$B8ADEF  /
 
 kong_state_53:
@@ -5798,7 +5798,7 @@ kong_state_56:
 	AND #$0303				;$B8AE1C   |
 	BNE CODE_B8AE4A				;$B8AE1F   |
 	LDA #$0009				;$B8AE21   |
-	JSL CODE_BCFA9A				;$B8AE24   |
+	JSL init_special_player_clipping	;$B8AE24   |
 	LDA #$0001				;$B8AE28   |
 	JSR process_player_action		;$B8AE2B   |
 	JSR face_moving_direction		;$B8AE2E   |
@@ -6175,24 +6175,24 @@ CODE_B8B107:
 	BEQ CODE_B8B136				;$B8B10B   |
 	LDA $000E,y				;$B8B10D   |
 	BMI CODE_B8B12E				;$B8B110   |
-	LDA $0006,y				;$B8B112   |
-	CMP #$3340				;$B8B115   |
-	BCC CODE_B8B11F				;$B8B118   |
-	CMP #$3370				;$B8B11A   |
-	BCC CODE_B8B12E				;$B8B11D   |
+	LDA.w sprite.x_position,y		;$B8B112   |\
+	CMP #$3340				;$B8B115   | |
+	BCC CODE_B8B11F				;$B8B118   | |
+	CMP #$3370				;$B8B11A   | |
+	BCC CODE_B8B12E				;$B8B11D   |/
 CODE_B8B11F:					;	   |
 	LDA $004A,y				;$B8B11F   |
-	STA $06,x				;$B8B122   |
+	STA sprite.x_position,x			;$B8B122   |
 	SEC					;$B8B124   |
-	SBC $0006,y				;$B8B125   |
+	SBC.w sprite.x_position,y		;$B8B125   |
 	LDX active_kong_control_variables	;$B8B128   |
 	STA kong_control.roll_speed,x		;$B8B12B   |
 	RTS					;$B8B12D  /
 
 CODE_B8B12E:
-	LDA #$0000				;$B8B12E  \
-	STA $0042,y				;$B8B131   |
-	STA $42,x				;$B8B134   |
+	LDA #$0000				;$B8B12E  \ \
+	STA $0042,y				;$B8B131   | |
+	STA $42,x				;$B8B134   |/Stop kong from following along with skull cart
 CODE_B8B136:					;	   |
 	RTS					;$B8B136  /
 
@@ -6249,7 +6249,7 @@ kong_state_6C:
 	LDA #$0007				;$B8B1A3   |
 	JSL CODE_BCFB69				;$B8B1A6   |
 	LDA #$0020				;$B8B1AA   |
-	JSL CODE_BCFE0A				;$B8B1AD   |
+	JSL check_for_sprite_collisions		;$B8B1AD   |
 	BCS CODE_B8B1C4				;$B8B1B1   |
 CODE_B8B1B3:					;	   |
 	LDA #$0022				;$B8B1B3   |
@@ -9907,7 +9907,7 @@ start_rambi_attack:
 
 .not_already_attacking
 	LDX current_sprite			;$B8CB16  \
-	LDA #$0057				;$B8CB18   |\
+	LDA #!kong_state_57			;$B8CB18   |\
 	STA sprite.state,x			;$B8CB1B   |/ set kong behavior to animal attack
 	LDA #$008B				;$B8CB1D   |\
 	JSL set_anim_handle_animal_and_dixie	;$B8CB20   |/ set attack animation
@@ -9991,9 +9991,9 @@ update_object_pickup:
 	LDA #$0000				;$B8CBA7   |\
 	JSL CODE_BCFB69				;$B8CBAA   | |
 	LDA #$0001				;$B8CBAE   | | check if carryable object is near player using custom hitbox
-	JSL CODE_BCFE0A				;$B8CBB1   | |
+	JSL check_for_sprite_collisions		;$B8CBB1   | |
 	BCC .return				;$B8CBB5   |/
-	LDX $6A					;$B8CBB7   |\
+	LDX colliding_sprite			;$B8CBB7   |\
 	LDA $1E,x				;$B8CBB9   | |
 	AND #$1001				;$B8CBBB   | | if the object isnt on the ground return
 	BEQ .return				;$B8CBBE   |/
@@ -12022,7 +12022,7 @@ CODE_B8D88A:					;	   |
 	LDA main_level.effects			;$B8D88A   |
 	AND #!platform_sprite_edge_guard_effect	;$B8D88D   |
 	BEQ CODE_B8D8B9				;$B8D890   |
-	LDA $0A28				;$B8D892   |
+	LDA platform_sprite_right_edge_position	;$B8D892   |
 	DEC A					;$B8D895   |
 	CMP $06,x				;$B8D896   |
 	BPL CODE_B8D8A6				;$B8D898   |
@@ -12034,7 +12034,7 @@ CODE_B8D88A:					;	   |
 	RTS					;$B8D8A5  /
 
 CODE_B8D8A6:
-	LDA $0A26				;$B8D8A6  \
+	LDA platform_sprite_left_edge_position	;$B8D8A6  \
 	CMP $06,x				;$B8D8A9   |
 	BMI CODE_B8D8B9				;$B8D8AB   |
 	INC A					;$B8D8AD   |
@@ -12129,13 +12129,13 @@ CODE_B8D8D7:					;	   |
 	LDX #$0000				;$B8D924   |
 .next_waypoint					;	   |
 	LDA $34					;$B8D927   |\
-	STA $7FA532,x				;$B8D929   | |
+	STA kong_follow_x_position_buffer,x	;$B8D929   | |
 	LDA $38					;$B8D92D   | |
-	STA $7FA572,x				;$B8D92F   | | save waypoint to buffer
+	STA kong_follow_y_position_buffer,x	;$B8D92F   | | save waypoint to buffer
 	LDA $3C					;$B8D933   | |
-	STA $7FA5F2,x				;$B8D935   | |
+	STA kong_follow_animation_buffer,x	;$B8D935   | |
 	LDA $3E					;$B8D939   | |
-	STA $7FA5B2,x				;$B8D93B   |/
+	STA kong_follow_facing_buffer,x		;$B8D93B   |/
 	LDA $32					;$B8D93F   |\
 	CLC					;$B8D941   | |
 	ADC $40					;$B8D942   | |
@@ -12193,20 +12193,20 @@ CODE_B8D99E:
 	AND #$003F				;$B8D9A1   |
 	TAX					;$B8D9A4   |
 	LDY current_sprite			;$B8D9A5   |
-	LDA.l $7FA532,x				;$B8D9A7   |
+	LDA.l kong_follow_x_position_buffer,x	;$B8D9A7   |
 	STA $0006,y				;$B8D9AB   |
-	LDA.l $7FA572,x				;$B8D9AE   |
+	LDA.l kong_follow_y_position_buffer,x	;$B8D9AE   |
 	STA $000A,y				;$B8D9B2   |
-	LDA.l $7FA5F2,x				;$B8D9B5   |
+	LDA.l kong_follow_animation_buffer,x	;$B8D9B5   |
 	STA $092F				;$B8D9B9   |
-	LDA.l $7FA5B2,x				;$B8D9BC   |
+	LDA.l kong_follow_facing_buffer,x	;$B8D9BC   |
 	STA $0931				;$B8D9C0   |
 	LDA kong_follow_buffer_recording_index	;$B8D9C3   |
 	DEC A					;$B8D9C6   |
 	DEC A					;$B8D9C7   |
 	AND #$003F				;$B8D9C8   |
 	TAX					;$B8D9CB   |
-	LDA.l $7FA532,x				;$B8D9CC   |
+	LDA.l kong_follow_x_position_buffer,x	;$B8D9CC   |
 	SEC					;$B8D9D0   |
 	SBC $0006,y				;$B8D9D1   |
 	STA $5E					;$B8D9D4   |

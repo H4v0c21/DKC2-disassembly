@@ -259,11 +259,11 @@ endif						;	   |
 	JML [sprite_return_address]		;$BEB9F2  /
 
 ..CODE_BEB9F5:
-	LDX $6A					;$BEB9F5  \
+	LDX colliding_sprite			;$BEB9F5  \
 	CPX inactive_kong_sprite		;$BEB9F7   | Redundant check?
 	BEQ ..return				;$BEB9FA   |
 	LDA #$0200				;$BEB9FC   |
-	JSL CODE_BEBE4D				;$BEB9FF   |
+	JSL check_kong_state_flags		;$BEB9FF   |
 	BCS ..return				;$BEBA03   |
 	JSL set_this_level_krem_coin_collected	;$BEBA05   |
 	JSL calculate_completion_percentage	;$BEBA09   |
@@ -680,6 +680,8 @@ CODE_BEBCCE:
 CODE_BEBD0E:					;	   |
 	RTS					;$BEBD0E  /
 
+;Generates a list of direct addresses for some sprite variables and stores the addresses in scratch
+;Called once all 4 kong letters are collected
 CODE_BEBD0F:
 	ASL A					;$BEBD0F  \
 	ASL A					;$BEBD10   |
@@ -725,9 +727,24 @@ CODE_BEBD3C:
 CODE_BEBD4B:					;	   |
 	RTS					;$BEBD4B  /
 
+;List of sprite variables to copy to scratch, used when all 4 kong letters are collected
 DATA_BEBD4C:
-	db $42, $04, $06, $4A, $44, $08, $0A, $4C
-	db $46, $20, $22, $50, $48, $26, $28, $52
+	db sprite.general_purpose_42
+	db sprite.x_sub_position
+	db sprite.x_position
+	db sprite.general_purpose_4A
+	db sprite.general_purpose_44
+	db sprite.y_sub_position
+	db sprite.y_position
+	db sprite.general_purpose_4C
+	db sprite.general_purpose_46
+	db sprite.x_speed
+	db sprite.unknown_22
+	db sprite.general_purpose_50
+	db sprite.general_purpose_48
+	db sprite.max_x_speed
+	db sprite.unknown_28
+	db sprite.movement_state
 
 CODE_BEBD5C:
 	STX $32					;$BEBD5C  \
@@ -762,11 +779,11 @@ CODE_BEBD8E:
 
 CODE_BEBD92:
 	STY $5E					;$BEBD92  \
-	JSL CODE_BCFE0A				;$BEBD94   |
+	JSL check_for_sprite_collisions		;$BEBD94   |
 	LDX current_sprite			;$BEBD98   |
 	BCC CODE_BEBDC0				;$BEBD9A   |
 	JSR CODE_BEC5A4				;$BEBD9C   |
-	LDY $6A					;$BEBD9F   |
+	LDY colliding_sprite			;$BEBD9F   |
 	LDA $5E					;$BEBDA1   |
 	ORA $0032,y				;$BEBDA3   |
 	STA $0032,y				;$BEBDA6   |
@@ -787,34 +804,34 @@ CODE_BEBDC0:					;	   |
 CODE_BEBDC1:
 	LDX current_sprite			;$BEBDC1  \
 	STY current_sprite			;$BEBDC3   |
-	STY $6A					;$BEBDC5   |
+	STY colliding_sprite			;$BEBDC5   |
 	PHX					;$BEBDC7   |
 	JSL CODE_BCFB58				;$BEBDC8   |
 	JSL CODE_BCFEE0				;$BEBDCC   |
 	PLX					;$BEBDD0   |
 	STX current_sprite			;$BEBDD1   |
 	JSL CODE_BCFB58				;$BEBDD3   |
-	LDA $DD					;$BEBDD7   |
-	CMP $09D3				;$BEBDD9   |
+	LDA temp_sprite_clipping[0].right	;$BEBDD7   |
+	CMP sprite_clipping[6].left		;$BEBDD9   |
 	BCC CODE_BEBE01				;$BEBDDC   |
-	LDA $09D7				;$BEBDDE   |
-	CMP $D9					;$BEBDE1   |
+	LDA sprite_clipping[6].right		;$BEBDDE   |
+	CMP temp_sprite_clipping[0].left	;$BEBDE1   |
 	BCC CODE_BEBE01				;$BEBDE3   |
-	STA $E5					;$BEBDE5   |
-	LDA $09D9				;$BEBDE7   |
-	CMP $DB					;$BEBDEA   |
+	STA temp_sprite_clipping[1].right	;$BEBDE5   |
+	LDA sprite_clipping[6].bottom		;$BEBDE7   |
+	CMP temp_sprite_clipping[0].top		;$BEBDEA   |
 	BCC CODE_BEBE01				;$BEBDEC   |
-	STA $E7					;$BEBDEE   |
-	LDA $DF					;$BEBDF0   |
-	CMP $09D5				;$BEBDF2   |
+	STA temp_sprite_clipping[1].bottom	;$BEBDEE   |
+	LDA temp_sprite_clipping[0].bottom	;$BEBDF0   |
+	CMP sprite_clipping[6].top		;$BEBDF2   |
 	BCC CODE_BEBE01				;$BEBDF5   |
-	LDA $09D3				;$BEBDF7   |
-	STA $E1					;$BEBDFA   |
-	LDA $09D5				;$BEBDFC   |
-	STA $E3					;$BEBDFF   |
+	LDA sprite_clipping[6].left		;$BEBDF7   |
+	STA temp_sprite_clipping[1].left	;$BEBDFA   |
+	LDA sprite_clipping[6].top		;$BEBDFC   |
+	STA temp_sprite_clipping[1].top		;$BEBDFF   |
 CODE_BEBE01:					;	   |
 	LDX current_sprite			;$BEBE01   |
-	LDY $6A					;$BEBE03   |
+	LDY colliding_sprite			;$BEBE03   |
 	RTL					;$BEBE05  /
 
 CODE_BEBE06:
@@ -839,7 +856,7 @@ check_throwable_collision:
 	AND #$3FFF				;$BEBE26   |
 	CLC					;$BEBE29   |
 	ADC #aux_sprite_table			;$BEBE2A   |
-	STA $6A					;$BEBE2D   |
+	STA colliding_sprite			;$BEBE2D   |
 	LDA $5E					;$BEBE2F   |
 	BIT $60					;$BEBE31   |
 	BEQ CODE_BEBE43				;$BEBE33   |
@@ -860,28 +877,32 @@ CODE_BEBE4B:
 	CLC					;$BEBE4B  \
 	RTS					;$BEBE4C  /
 
-CODE_BEBE4D:
+;Takes flags to query in A
+;Returns carry clear if no flags are set or...
+;Returns carry set and which flags from the query were set in A
+
+check_kong_state_flags:
 	PHX					;$BEBE4D  \> Preserve sprite that is checking collision
 	PHA					;$BEBE4E   |
-	LDX $6A					;$BEBE4F   |\
+	LDX colliding_sprite			;$BEBE4F   |\
 	CPX active_kong_sprite			;$BEBE51   | |
-	BEQ CODE_BEBE5B				;$BEBE54   |/ If colliding sprite is main kong then dont handle inactive kong
+	BEQ .get_flags				;$BEBE54   |/ If colliding sprite is main kong then dont handle inactive kong
 	CPX inactive_kong_sprite		;$BEBE56   |\
-	BNE CODE_BEBE67				;$BEBE59   |/ if colliding sprite isnt follower kong then this is not a kong
-CODE_BEBE5B:					;	   |
-	LDA $2E,x				;$BEBE5B   |\ Get kong state flags
+	BNE .no_flags				;$BEBE59   |/ if colliding sprite isnt follower kong then this is not a kong
+.get_flags:					;	   |
+	LDA sprite.state,x			;$BEBE5B   |\ Get kong state flags
 	ASL A					;$BEBE5D   | |
 	ASL A					;$BEBE5E   | |
 	TAX					;$BEBE5F   |/
 	PLA					;$BEBE60   |
 	AND.l kong_state_flags_table,x		;$BEBE61   |
-	BNE CODE_BEBE6A				;$BEBE65   |
-CODE_BEBE67:					;	   |
+	BNE .return_flags			;$BEBE65   |
+.no_flags:					;	   |
 	CLC					;$BEBE67   |
 	PLX					;$BEBE68   |
 	RTL					;$BEBE69  /
 
-CODE_BEBE6A:
+.return_flags:
 	SEC					;$BEBE6A  \
 	PLX					;$BEBE6B   |
 	RTL					;$BEBE6C  /
@@ -891,7 +912,7 @@ CODE_BEBE6D:
 	LDA #$0010				;$BEBE6F   |
 	PHK					;$BEBE72   |\
 	%return(.return_handler)		;$BEBE73   |/ Set collision return handler
-	JML [$09F9]				;$BEBE76  /> Check for collision
+	JML [sprite_collision_routine_address]	;$BEBE76  /> Check for collision
 
 .return_handler
 	BCS .collided				;$BEBE79  \
@@ -902,7 +923,7 @@ CODE_BEBE6D:
 .collided
 	JSL CODE_BBBD6B				;$BEBE7F  \> Kill sprite
 	LDX current_sprite			;$BEBE83   |
-	LDY $6A					;$BEBE85   |
+	LDY colliding_sprite			;$BEBE85   |
 	LDA #$0000				;$BEBE87   |
 	RTL					;$BEBE8A  /
 
@@ -911,12 +932,12 @@ CODE_BEBE6D:
 CODE_BEBE8B:
 	LDY #$0000				;$BEBE8B  \
 CODE_BEBE8E:					;	   |
-	STA $09F7				;$BEBE8E   |> Store collision flags
+	STA sprite_collision_flags		;$BEBE8E   |> Store collision flags
 	STY $60					;$BEBE91   |
 	LDA #$0010				;$BEBE93   |
 	PHK					;$BEBE96   |
 	%return(CODE_BEBE9D)			;$BEBE97   |
-	JML [$09F9]				;$BEBE9A  /
+	JML [sprite_collision_routine_address]	;$BEBE9A  /
 
 CODE_BEBE9D:
 	BCS CODE_BEBEAD				;$BEBE9D  \
@@ -925,32 +946,32 @@ CODE_BEBE9D:
 	RTL					;$BEBEA2  /
 
 CODE_BEBEA3:
-	JSL CODE_BCFCC5				;$BEBEA3  \
+	JSL check_animal_collision		;$BEBEA3  \
 	BCS CODE_BEBEAD				;$BEBEA7   |
 	LDX current_sprite			;$BEBEA9   |
 	TXY					;$BEBEAB   |
 	RTL					;$BEBEAC  /
 
 CODE_BEBEAD:
-	LDA $09F7				;$BEBEAD  \
+	LDA sprite_collision_flags		;$BEBEAD  \
 	STA $5E					;$BEBEB0   |
 	LDA #$0020				;$BEBEB2   |
-	JSL CODE_BEBE4D				;$BEBEB5   |
+	JSL check_kong_state_flags		;$BEBEB5   |
 	BCS CODE_BEBF20				;$BEBEB9   |
 	JSL CODE_BCFEC0				;$BEBEBB   |
 	JSL CODE_BCFED8				;$BEBEBF   |
-	LDA $09F5				;$BEBEC3   |
-	LDX $0D5E				;$BEBEC6   |
+	LDA sprite_collision_result		;$BEBEC3   |
+	LDX ridden_skull_cart_sprite		;$BEBEC6   |
 	BEQ CODE_BEBED6				;$BEBEC9   |
 	AND #$0001				;$BEBECB   |
 	ASL A					;$BEBECE   |
 	ASL A					;$BEBECF   |
-	ORA $09F5				;$BEBED0   |
-	STA $09F5				;$BEBED3   |
+	ORA sprite_collision_result		;$BEBED0   |
+	STA sprite_collision_result		;$BEBED3   |
 CODE_BEBED6:					;	   |
 	XBA					;$BEBED6   |
-	TSB $09F5				;$BEBED7   |
-	LDX $6A					;$BEBEDA   |
+	TSB sprite_collision_result		;$BEBED7   |
+	LDX colliding_sprite			;$BEBEDA   |
 	LDA $41,x				;$BEBEDC   |
 	AND #$00E0				;$BEBEDE   |
 	LSR A					;$BEBEE1   |
@@ -974,9 +995,9 @@ CODE_BEBEF0:
 
 CODE_BEBF00:
 	TAX					;$BEBF00  \
-	LDY $6A					;$BEBF01   |
+	LDY colliding_sprite			;$BEBF01   |
 	LDA #$0005				;$BEBF03   |
-	TSB $09F5				;$BEBF06   |
+	TSB sprite_collision_result		;$BEBF06   |
 	LDA $0040,y				;$BEBF09   |
 	PHA					;$BEBF0C   |
 	ORA #$1800				;$BEBF0D   |
@@ -992,41 +1013,41 @@ CODE_BEBF20:
 	JMP CODE_BEBEA3				;$BEBF20  /
 
 DATA_BEBF23:
-	dw CODE_BEC02A
-	dw CODE_BEC169
-	dw CODE_BEC085
-	dw CODE_BEC1D6
-	dw CODE_BEC267
-	dw CODE_BEC2C0
-	dw CODE_BEC359
-	dw CODE_BEC410
-	dw CODE_BEC02A
-	dw CODE_BEC01E
-	dw CODE_BEC014
-	dw CODE_BEC1D6
-	dw CODE_BEC267
-	dw CODE_BEC2C0
-	dw CODE_BEC359
-	dw CODE_BEC410
-	dw CODE_BEC02A
-	dw CODE_BEC169
-	dw CODE_BEC085
-	dw CODE_BEC1D6
-	dw CODE_BEC21D
-	dw CODE_BEC2C0
-	dw CODE_BEC359
-	dw CODE_BEC410
-	dw CODE_BEBF63
-	dw CODE_BEBF63
-	dw CODE_BEBF63
-	dw CODE_BEBF63
-	dw CODE_BEBF63
-	dw CODE_BEBF63
-	dw CODE_BEBF63
-	dw CODE_BEBF63
+	dw CODE_BEC02A				; Failed attack
+	dw CODE_BEC169				; Stomp enemy
+	dw CODE_BEC085				; Roll into
+	dw CODE_BEC1D6				;
+	dw CODE_BEC267				; Team throw collide
+	dw CODE_BEC2C0				; Animal side collide
+	dw CODE_BEC359				; Animal top collide
+	dw CODE_BEC410				;
+	dw CODE_BEC02A				;
+	dw CODE_BEC01E				;
+	dw CODE_BEC014				;
+	dw CODE_BEC1D6				;
+	dw CODE_BEC267				;
+	dw CODE_BEC2C0				;
+	dw CODE_BEC359				;
+	dw CODE_BEC410				;
+	dw CODE_BEC02A				;
+	dw CODE_BEC169				;
+	dw CODE_BEC085				;
+	dw CODE_BEC1D6				;
+	dw CODE_BEC21D				;
+	dw CODE_BEC2C0				;
+	dw CODE_BEC359				;
+	dw CODE_BEC410				;
+	dw CODE_BEBF63				;
+	dw CODE_BEBF63				;
+	dw CODE_BEBF63				;
+	dw CODE_BEBF63				;
+	dw CODE_BEBF63				;
+	dw CODE_BEBF63				;
+	dw CODE_BEBF63				;
+	dw CODE_BEBF63				;
 
 CODE_BEBF63:
-	LDX $6A					;$BEBF63  \
+	LDX colliding_sprite			;$BEBF63  \
 	LDY current_sprite			;$BEBF65   |
 	LDA $1E,x				;$BEBF67   |
 	AND #$0101				;$BEBF69   |
@@ -1123,7 +1144,7 @@ CODE_BEC011:					;	   |
 	BRL CODE_BEBEA3				;$BEC011  /
 
 CODE_BEC014:
-	LDX $6A					;$BEC014  \
+	LDX colliding_sprite			;$BEC014  \
 	JSR CODE_BEC141				;$BEC016   |
 	BCC CODE_BEC01E				;$BEC019   |
 	BRL CODE_BEC452				;$BEC01B  /
@@ -1138,10 +1159,10 @@ CODE_BEC027:
 	BRL CODE_BEC452				;$BEC027  /
 
 CODE_BEC02A:
-	LDX $6A					;$BEC02A  \
+	LDX colliding_sprite			;$BEC02A  \
 	LDA #$FFF8				;$BEC02C   |
 	TRB $5E					;$BEC02F   |
-	LDA $09F5				;$BEC031   |
+	LDA sprite_collision_result		;$BEC031   |
 	BIT #$0005				;$BEC034   |
 	BEQ CODE_BEC05D				;$BEC037   |
 	LDA $5E					;$BEC039   |
@@ -1161,7 +1182,7 @@ CODE_BEC02A:
 	BRA CODE_BEC072				;$BEC05B  /
 
 CODE_BEC05D:
-	LDA $09F5				;$BEC05D  \
+	LDA sprite_collision_result		;$BEC05D  \
 	BIT #$0006				;$BEC060   |
 	BEQ CODE_BEC06C				;$BEC063   |
 	LDA $5E					;$BEC065   |
@@ -1177,23 +1198,23 @@ CODE_BEC072:
 	BRL CODE_BEC500				;$BEC072  /
 
 CODE_BEC075:
-	LDA #$001E				;$BEC075  \
-	LDX $6A					;$BEC078   |
-	CPX active_kong_sprite			;$BEC07A   |
-	BEQ CODE_BEC082				;$BEC07D   |
-	LDA #$001D				;$BEC07F   |
+	LDA #!player_interaction_1E		;$BEC075  \
+	LDX colliding_sprite			;$BEC078   |\
+	CPX active_kong_sprite			;$BEC07A   | |
+	BEQ CODE_BEC082				;$BEC07D   |/ If the active kong collided then bonk
+	LDA #!player_interaction_1D		;$BEC07F   |> Else defeat the enemy using a team throw
 CODE_BEC082:					;	   |
 	BRL CODE_BEC52D				;$BEC082  /
 
 CODE_BEC085:
-	LDX $6A					;$BEC085  \
+	LDX colliding_sprite			;$BEC085  \
 	JSR CODE_BEC141				;$BEC087   |
 	BCC CODE_BEC104				;$BEC08A   |
 	LDA invincibility_sprite		;$BEC08C   |
 	BNE CODE_BEC0EC				;$BEC08F   |
 	LDA #$FF1F				;$BEC091   |
 	TRB $5E					;$BEC094   |
-	LDA $09F5				;$BEC096   |
+	LDA sprite_collision_result		;$BEC096   |
 	BIT #$0005				;$BEC099   |
 	BEQ CODE_BEC0C7				;$BEC09C   |
 	LDA $5E					;$BEC09E   |
@@ -1215,7 +1236,7 @@ CODE_BEC085:
 	BRA CODE_BEC0EC				;$BEC0C5  /
 
 CODE_BEC0C7:
-	LDA $09F5				;$BEC0C7  \
+	LDA sprite_collision_result		;$BEC0C7  \
 	BIT #$0006				;$BEC0CA   |
 	BEQ CODE_BEC101				;$BEC0CD   |
 	LDA $5E					;$BEC0CF   |
@@ -1236,15 +1257,15 @@ CODE_BEC0E0:					;	   |
 	AND #$4000				;$BEC0E7   |
 	BNE CODE_BEC0FE				;$BEC0EA   |
 CODE_BEC0EC:					;	   |
-	LDA #$001C				;$BEC0EC   |
+	LDA #!player_interaction_1C		;$BEC0EC   |
 	BRL CODE_BEC4F2				;$BEC0EF  /
 
 CODE_BEC0F2:
-	LDA #$001C				;$BEC0F2  \
+	LDA #!player_interaction_1C		;$BEC0F2  \
 	BRL CODE_BEC4F2				;$BEC0F5  /
 
 CODE_BEC0F8:
-	LDA #$001E				;$BEC0F8  \
+	LDA #!player_interaction_1E		;$BEC0F8  \
 	BRL CODE_BEC52D				;$BEC0FB  /
 
 CODE_BEC0FE:
@@ -1258,7 +1279,7 @@ CODE_BEC104:
 	BNE CODE_BEC0F2				;$BEC107   |
 	LDA #$FFE7				;$BEC109   |
 	TRB $5E					;$BEC10C   |
-	LDA $09F5				;$BEC10E   |
+	LDA sprite_collision_result		;$BEC10E   |
 	BIT #$0005				;$BEC111   |
 	BEQ CODE_BEC130				;$BEC114   |
 	LDA $5E					;$BEC116   |
@@ -1274,7 +1295,7 @@ CODE_BEC104:
 	BRA CODE_BEC0F2				;$BEC12E  /
 
 CODE_BEC130:
-	LDA $09F5				;$BEC130  \
+	LDA sprite_collision_result		;$BEC130  \
 	BIT #$0006				;$BEC133   |
 	BEQ CODE_BEC101				;$BEC136   |
 	LDA $5E					;$BEC138   |
@@ -1313,71 +1334,71 @@ CODE_BEC167:
 	RTS					;$BEC168  /
 
 CODE_BEC169:
-	LDX $6A					;$BEC169  \
-	LDA $E7					;$BEC16B   |
-	SEC					;$BEC16D   |
-	SBC $DB					;$BEC16E   |
-	SEC					;$BEC170   |
-	SBC #$0020				;$BEC171   |
-	BPL CODE_BEC17E				;$BEC174   |
-	LDA $24,x				;$BEC176   |
-	CLC					;$BEC178   |
-	ADC #$0140				;$BEC179   |
-	BPL CODE_BEC181				;$BEC17C   |
-CODE_BEC17E:					;	   |
+	LDX colliding_sprite			;$BEC169  \> Get the sprite that collided, this is usually a kong
+	LDA temp_sprite_clipping[1].bottom	;$BEC16B   |\
+	SEC					;$BEC16D   | |
+	SBC temp_sprite_clipping[0].top		;$BEC16E   | |
+	SEC					;$BEC170   | |
+	SBC #$0020				;$BEC171   | |
+	BPL .attacked_from_below		;$BEC174   |/ If the colliding sprite is below then sprite is attacking from below
+	LDA sprite.y_speed,x			;$BEC176   |\ Get colliding sprite y speed
+	CLC					;$BEC178   | |
+	ADC #$0140				;$BEC179   | | Add some y velocity and ensure the sprite is moving down
+	BPL .attacked_from_above		;$BEC17C   |/ If sprite is moving down then it is definitely attacking from above
+.attacked_from_below:				;	   |
 	BRL CODE_BEC02A				;$BEC17E  /
 
-CODE_BEC181:
-	LDA invincibility_sprite		;$BEC181  \
-	BNE CODE_BEC1C2				;$BEC184   |
-	LDA #$FFE7				;$BEC186   |
-	TRB $5E					;$BEC189   |
-	LDA $09F5				;$BEC18B   |
+.attacked_from_above:
+	LDA invincibility_sprite		;$BEC181  \ \
+	BNE .CODE_BEC1C2			;$BEC184   |/ If the player is invincible
+	LDA #$FFE7				;$BEC186   |\ Turn off all collision flag bits except above attacking
+	TRB $5E					;$BEC189   |/
+	LDA sprite_collision_result		;$BEC18B   |
 	BIT #$0005				;$BEC18E   |
-	BEQ CODE_BEC1AD				;$BEC191   |
-	LDA $5E					;$BEC193   |
-	CMP #$0008				;$BEC195   |
-	BEQ CODE_BEC1C2				;$BEC198   |
-	CMP #$0018				;$BEC19A   |
-	BEQ CODE_BEC1CD				;$BEC19D   |
-	CMP #$0010				;$BEC19F   |
-	BNE CODE_BEC1AD				;$BEC1A2   |
-	LDA $40,x				;$BEC1A4   |
-	AND #$1000				;$BEC1A6   |
-	BEQ CODE_BEC1CD				;$BEC1A9   |
-	BRA CODE_BEC1C2				;$BEC1AB  /
+	BEQ .CODE_BEC1AD			;$BEC191   |
+	LDA $5E					;$BEC193   |\
+	CMP #$0008				;$BEC195   | |
+	BEQ .CODE_BEC1C2			;$BEC198   |/ If only valid attack from above bit is set
+	CMP #$0018				;$BEC19A   |\
+	BEQ .bonked_from_above			;$BEC19D   |/ If bonk and valid attack from above bit is set
+	CMP #$0010				;$BEC19F   |\
+	BNE .CODE_BEC1AD			;$BEC1A2   |/ If any other bits besides bonk if animation permits are set
+	LDA sprite.animation_flags,x		;$BEC1A4   |\
+	AND #$1000				;$BEC1A6   | |
+	BEQ .bonked_from_above			;$BEC1A9   |/ If the current animation is able to bonk then set bonk interaction
+	BRA .CODE_BEC1C2			;$BEC1AB  /> Else normal attack from above
 
-CODE_BEC1AD:
-	LDA $09F5				;$BEC1AD  \
+.CODE_BEC1AD:
+	LDA sprite_collision_result		;$BEC1AD  \
 	BIT #$0006				;$BEC1B0   |
-	BEQ CODE_BEC1BC				;$BEC1B3   |
+	BEQ .CODE_BEC1BC			;$BEC1B3   |
 	LDA $5E					;$BEC1B5   |
 	CMP #$0000				;$BEC1B7   |
-	BEQ CODE_BEC1BF				;$BEC1BA   |
-CODE_BEC1BC:					;	   |
+	BEQ .CODE_BEC1BF			;$BEC1BA   |
+.CODE_BEC1BC:					;	   |
 	BRL CODE_BEBEA3				;$BEC1BC  /
 
-CODE_BEC1BF:
+.CODE_BEC1BF:
 	BRL CODE_BEC452				;$BEC1BF  /
 
-CODE_BEC1C2:
-	LDA $0D5E				;$BEC1C2  \
+.CODE_BEC1C2:
+	LDA ridden_skull_cart_sprite		;$BEC1C2  \
 	BNE CODE_BEC1D3				;$BEC1C5   |
-	LDA #$001B				;$BEC1C7   |
+	LDA #!player_interaction_1B		;$BEC1C7   |
 	BRL CODE_BEC4F2				;$BEC1CA  /
 
-CODE_BEC1CD:
-	LDA #$001E				;$BEC1CD  \
+.bonked_from_above:
+	LDA #!player_interaction_1E		;$BEC1CD  \
 	BRL CODE_BEC52D				;$BEC1D0  /
 
 CODE_BEC1D3:
 	BRL CODE_BEC58D				;$BEC1D3  /
 
 CODE_BEC1D6:
-	LDX $6A					;$BEC1D6  \
+	LDX colliding_sprite			;$BEC1D6  \
 	LDA #$FCFF				;$BEC1D8   |
 	TRB $5E					;$BEC1DB   |
-	LDA $09F5				;$BEC1DD   |
+	LDA sprite_collision_result		;$BEC1DD   |
 	BIT #$0005				;$BEC1E0   |
 	BEQ CODE_BEC1FF				;$BEC1E3   |
 	LDA $5E					;$BEC1E5   |
@@ -1393,7 +1414,7 @@ CODE_BEC1D6:
 	BRA CODE_BEC214				;$BEC1FD  /
 
 CODE_BEC1FF:
-	LDA $09F5				;$BEC1FF  \
+	LDA sprite_collision_result		;$BEC1FF  \
 	BIT #$0006				;$BEC202   |
 	BEQ CODE_BEC20E				;$BEC205   |
 	LDA $5E					;$BEC207   |
@@ -1409,14 +1430,14 @@ CODE_BEC214:
 	BRL CODE_BEC500				;$BEC214  /
 
 CODE_BEC217:
-	LDA #$001E				;$BEC217  \
+	LDA #!player_interaction_1E		;$BEC217  \
 	BRL CODE_BEC52D				;$BEC21A  /
 
 CODE_BEC21D:
-	LDX $6A					;$BEC21D  \
+	LDX colliding_sprite			;$BEC21D  \
 	LDA #$F3FF				;$BEC21F   |
 	TRB $5E					;$BEC222   |
-	LDA $09F5				;$BEC224   |
+	LDA sprite_collision_result		;$BEC224   |
 	BIT #$0005				;$BEC227   |
 	BEQ CODE_BEC246				;$BEC22A   |
 	LDA $5E					;$BEC22C   |
@@ -1432,7 +1453,7 @@ CODE_BEC21D:
 	BRA CODE_BEC261				;$BEC244  /
 
 CODE_BEC246:
-	LDA $09F5				;$BEC246  \
+	LDA sprite_collision_result		;$BEC246  \
 	BIT #$0006				;$BEC249   |
 	BEQ CODE_BEC255				;$BEC24C   |
 	LDA $5E					;$BEC24E   |
@@ -1445,18 +1466,18 @@ CODE_BEC258:
 	BRL CODE_BEC452				;$BEC258  /
 
 CODE_BEC25B:
-	LDA #$001D				;$BEC25B  \
+	LDA #!player_interaction_1D		;$BEC25B  \
 	BRL CODE_BEC4F2				;$BEC25E  /
 
 CODE_BEC261:
-	LDA #$001D				;$BEC261  \
+	LDA #!player_interaction_1D		;$BEC261  \
 	BRL CODE_BEC52D				;$BEC264  /
 
 CODE_BEC267:
-	LDX $6A					;$BEC267  \
+	LDX colliding_sprite			;$BEC267  \
 	LDA #$F3FF				;$BEC269   |
 	TRB $5E					;$BEC26C   |
-	LDA $09F5				;$BEC26E   |
+	LDA sprite_collision_result		;$BEC26E   |
 	BIT #$0005				;$BEC271   |
 	BEQ CODE_BEC290				;$BEC274   |
 	LDA $5E					;$BEC276   |
@@ -1472,7 +1493,7 @@ CODE_BEC267:
 	BRA CODE_BEC2A5				;$BEC28E  /
 
 CODE_BEC290:
-	LDA $09F5				;$BEC290  \
+	LDA sprite_collision_result		;$BEC290  \
 	BIT #$0006				;$BEC293   |
 	BEQ CODE_BEC29F				;$BEC296   |
 	LDA $5E					;$BEC298   |
@@ -1485,11 +1506,11 @@ CODE_BEC2A2:
 	BRL CODE_BEC452				;$BEC2A2  /
 
 CODE_BEC2A5:
-	LDA #$001D				;$BEC2A5  \
+	LDA #!player_interaction_1D		;$BEC2A5  \
 	BRL CODE_BEC4F2				;$BEC2A8  /
 
 CODE_BEC2AB:
-	LDA #$001D				;$BEC2AB  \
+	LDA #!player_interaction_1D		;$BEC2AB  \
 	BRL CODE_BEC52D				;$BEC2AE  /
 
 CODE_BEC2B1:
@@ -1503,7 +1524,7 @@ CODE_BEC2B1:
 	RTS					;$BEC2BF  /
 
 CODE_BEC2C0:
-	LDX $6A					;$BEC2C0  \
+	LDX colliding_sprite			;$BEC2C0  \
 	LDA animal_type				;$BEC2C2   |
 	CMP #!sprite_enguarde			;$BEC2C4   |
 	BEQ CODE_BEC2D1				;$BEC2C7   |
@@ -1512,10 +1533,10 @@ CODE_BEC2C0:
 	BRL CODE_BEC359				;$BEC2CE  /
 
 CODE_BEC2D1:
-	LDX $6A					;$BEC2D1  \
+	LDX colliding_sprite			;$BEC2D1  \
 	LDA #$CFFF				;$BEC2D3   |
 	TRB $5E					;$BEC2D6   |
-	LDA $09F5				;$BEC2D8   |
+	LDA sprite_collision_result		;$BEC2D8   |
 	BIT #$0001				;$BEC2DB   |
 	BEQ CODE_BEC2FF				;$BEC2DE   |
 	LDA $5E					;$BEC2E0   |
@@ -1532,7 +1553,7 @@ CODE_BEC2D1:
 	JSR CODE_BEC2B1				;$BEC2FA   |
 	BNE CODE_BEC345				;$BEC2FD   |
 CODE_BEC2FF:					;	   |
-	LDA $09F5				;$BEC2FF   |
+	LDA sprite_collision_result		;$BEC2FF   |
 	BIT #$0004				;$BEC302   |
 	BEQ CODE_BEC331				;$BEC305   |
 	LDA $5E					;$BEC307   |
@@ -1557,7 +1578,7 @@ CODE_BEC31C:
 	BRA CODE_BEC33F				;$BEC32F  /
 
 CODE_BEC331:
-	LDA $09F5				;$BEC331  \
+	LDA sprite_collision_result		;$BEC331  \
 	BIT #$0006				;$BEC334   |
 	BNE CODE_BEC33C				;$BEC337   |
 	BRL CODE_BEBEA3				;$BEC339  /
@@ -1566,13 +1587,13 @@ CODE_BEC33C:
 	BRL CODE_BEC452				;$BEC33C  /
 
 CODE_BEC33F:
-	LDA #$001E				;$BEC33F  \
+	LDA #!player_interaction_1E		;$BEC33F  \
 	BRL CODE_BEC52D				;$BEC342  /
 
 CODE_BEC345:
-	LDA animal_type				;$BEC345  \
-	CMP #!sprite_enguarde			;$BEC347   |
-	BEQ CODE_BEC34F				;$BEC34A   |
+	LDA animal_type				;$BEC345  \ \
+	CMP #!sprite_enguarde			;$BEC347   | |
+	BEQ CODE_BEC34F				;$BEC34A   |/ If player has enguarde then play sound for enguarde hurting enemy
 	BRL CODE_BEC500				;$BEC34C  /
 
 CODE_BEC34F:
@@ -1581,8 +1602,8 @@ CODE_BEC34F:
 	BRL CODE_BEC500				;$BEC356  /
 
 CODE_BEC359:
-	LDX $6A					;$BEC359  \
-	LDA $09F5				;$BEC35B   |
+	LDX colliding_sprite			;$BEC359  \
+	LDA sprite_collision_result		;$BEC35B   |
 	BIT #$0001				;$BEC35E   |
 	BEQ CODE_BEC37C				;$BEC361   |
 	LDA $5E					;$BEC363   |
@@ -1594,7 +1615,7 @@ CODE_BEC359:
 	LDA $40,x				;$BEC372   |
 	AND #$1000				;$BEC374   |
 	BNE CODE_BEC3BC				;$BEC377   |
-	LDA $09F5				;$BEC379   |
+	LDA sprite_collision_result		;$BEC379   |
 CODE_BEC37C:					;	   |
 	BIT #$0004				;$BEC37C   |
 	BEQ CODE_BEC3B2				;$BEC37F   |
@@ -1626,17 +1647,17 @@ CODE_BEC3AF:					;	   |
 	BRL CODE_BEC02A				;$BEC3AF  /
 
 CODE_BEC3B2:
-	LDA $09F5				;$BEC3B2  \
+	LDA sprite_collision_result		;$BEC3B2  \
 	BIT #$0006				;$BEC3B5   |
 	BNE CODE_BEC3C8				;$BEC3B8   |
 	BRA CODE_BEC3CB				;$BEC3BA  /
 
 CODE_BEC3BC:
-	LDA #$001B				;$BEC3BC  \
+	LDA #!player_interaction_1B		;$BEC3BC  \
 	BRL CODE_BEC4F2				;$BEC3BF  /
 
 CODE_BEC3C2:
-	LDA #$001E				;$BEC3C2  \
+	LDA #!player_interaction_1E		;$BEC3C2  \
 	BRL CODE_BEC52D				;$BEC3C5  /
 
 CODE_BEC3C8:
@@ -1681,8 +1702,8 @@ CODE_BEC407:
 	BRA CODE_BEC3C8				;$BEC40E  /
 
 CODE_BEC410:
-	LDX $6A					;$BEC410  \
-	LDA $09F5				;$BEC412   |
+	LDX colliding_sprite			;$BEC410  \
+	LDA sprite_collision_result		;$BEC412   |
 	BIT #$0005				;$BEC415   |
 	BEQ CODE_BEC41D				;$BEC418   |
 	BRL CODE_BEC500				;$BEC41A  /
@@ -1697,7 +1718,7 @@ CODE_BEC420:
 	%lda_sound(5, kong_tire_bounce)		;$BEC429   |
 	JSL queue_sound_effect			;$BEC42C   |
 	LDX current_sprite			;$BEC430   |
-	LDY $6A					;$BEC432   |
+	LDY colliding_sprite			;$BEC432   |
 	STZ $0A86				;$BEC434   |
 	STX $0A88				;$BEC437   |
 	LDA #$0003				;$BEC43A   |
@@ -1711,23 +1732,23 @@ CODE_BEC442:
 	LDA #!player_interaction_13		;$BEC442  \
 	JSL set_player_interaction_global	;$BEC445   |
 	LDX current_sprite			;$BEC449   |
-	LDY $6A					;$BEC44B   |
+	LDY colliding_sprite			;$BEC44B   |
 	LDA #$0003				;$BEC44D   |
 	SEC					;$BEC450   |
 	RTL					;$BEC451  /
 
 CODE_BEC452:
-	LDX $6A					;$BEC452  \
-	LDA $30,x				;$BEC454   |
+	LDX colliding_sprite			;$BEC452  \
+	LDA sprite.interaction_flags,x		;$BEC454   |
 	BIT #$0080				;$BEC456   |
 	BNE CODE_BEC4B7				;$BEC459   |
-	LDY current_sprite			;$BEC45B   |
-	LDA $0000,y				;$BEC45D   |
-	CMP #!sprite_klobber			;$BEC460   |
-	BNE CODE_BEC46D				;$BEC463   |
-	LDA $09F7				;$BEC465   |
-	CMP #$5004				;$BEC468   |
-	BEQ CODE_BEC4B7				;$BEC46B   |
+	LDY current_sprite			;$BEC45B   |\
+	LDA.w sprite.type,y			;$BEC45D   | |
+	CMP #!sprite_klobber			;$BEC460   | |
+	BNE CODE_BEC46D				;$BEC463   |/
+	LDA sprite_collision_flags		;$BEC465   |\
+	CMP #$5004				;$BEC468   | |
+	BEQ CODE_BEC4B7				;$BEC46B   |/ If klobber is explosive then only damage if barrel is touched
 CODE_BEC46D:					;	   |
 	LDY #!player_interaction_20		;$BEC46D   |
 	CPX inactive_kong_sprite		;$BEC470   |
@@ -1746,7 +1767,7 @@ CODE_BEC485:
 CODE_BEC48C:					;	   |
 	JSR CODE_BEC5A4				;$BEC48C   |
 	LDX current_sprite			;$BEC48F   |
-	LDY $6A					;$BEC491   |
+	LDY colliding_sprite			;$BEC491   |
 	LDA $12,x				;$BEC493   |
 	EOR $20,x				;$BEC495   |
 	AND #$4000				;$BEC497   |
@@ -1770,12 +1791,12 @@ CODE_BEC4B7:
 CODE_BEC4BA:
 	LDA main_level.type			;$BEC4BA  \
 	CMP #!bonus_level_type			;$BEC4BD   |
-	BEQ CODE_BEC4C8				;$BEC4C0   |
+	BEQ .fail_bonus				;$BEC4C0   |
 	TYA					;$BEC4C2   |
 	JSL set_player_interaction_global	;$BEC4C3   |
 	RTS					;$BEC4C7  /
 
-CODE_BEC4C8:
+.fail_bonus:
 	LDA #!player_interaction_28		;$BEC4C8  \
 	JSL set_player_interaction_global	;$BEC4CB   |
 	LDA #$0003				;$BEC4CF   |
@@ -1784,15 +1805,15 @@ CODE_BEC4C8:
 
 CODE_BEC4D6:
 	TAY					;$BEC4D6  \
-	LDX $6A					;$BEC4D7   |
-	LDA $30,x				;$BEC4D9   |
+	LDX colliding_sprite			;$BEC4D7   |
+	LDA sprite.interaction_flags,x		;$BEC4D9   |
 	BIT #$0800				;$BEC4DB   |
 	BEQ CODE_BEC4EF				;$BEC4DE   |
-	LDA $09F5				;$BEC4E0   |
+	LDA sprite_collision_result		;$BEC4E0   |
 	BIT #$0001				;$BEC4E3   |
 	BEQ CODE_BEC4EF				;$BEC4E6   |
-	LDA #!player_interaction_02		;$BEC4E8   |
-	STA $32,x				;$BEC4EB   |
+	LDA #$0002				;$BEC4E8   |
+	STA sprite.carry_or_defeat_flags,x	;$BEC4EB   |
 	SEC					;$BEC4ED   |
 	RTS					;$BEC4EE  /
 
@@ -1830,7 +1851,7 @@ CODE_BEC508:
 	BEQ CODE_BEC526				;$BEC522   |/ If reset vector is correct continue as normal
 	STZ $58,x				;$BEC524   | Else reset vector was tampered. Prevent animal crates from breaking
 CODE_BEC526:					;	   |
-	LDY $6A					;$BEC526   |
+	LDY colliding_sprite			;$BEC526   |
 	SEC					;$BEC528   |
 	LDA #$0000				;$BEC529   |
 	RTL					;$BEC52C  /
@@ -1838,7 +1859,7 @@ CODE_BEC526:					;	   |
 CODE_BEC52D:
 	JSL set_player_interaction_global	;$BEC52D  \
 	BCS CODE_BEC57A				;$BEC531   |
-	LDX $6A					;$BEC533   |
+	LDX colliding_sprite			;$BEC533   |
 	LDY current_sprite			;$BEC535   |
 	LDA $06,x				;$BEC537   |
 	SEC					;$BEC539   |
@@ -1878,13 +1899,13 @@ CODE_BEC57A:					;	   |
 	%lda_sound(5, knock)			;$BEC57D   |
 	JSL queue_sound_effect			;$BEC580   |
 	LDX current_sprite			;$BEC584   |
-	LDY $6A					;$BEC586   |
+	LDY colliding_sprite			;$BEC586   |
 	SEC					;$BEC588   |
 	LDA #$0002				;$BEC589   |
 	RTL					;$BEC58C  /
 
 CODE_BEC58D:
-	LDX $0D5E				;$BEC58D  \
+	LDX ridden_skull_cart_sprite		;$BEC58D  \
 	LDA #$FA00				;$BEC590   |
 	STA $24,x				;$BEC593   |
 	LDA $40,x				;$BEC595   |
@@ -2771,7 +2792,7 @@ CODE_BECBE2:					;	   |
 	JSR CODE_BEBD92				;$BECBEC   |
 	BCC CODE_BECC52				;$BECBEF   |
 	INC $2F,x				;$BECBF1   |
-	LDA $6A					;$BECBF3   |
+	LDA colliding_sprite			;$BECBF3   |
 	STA $44,x				;$BECBF5   |
 	INC $46,x				;$BECBF7   |
 	LDA $42,x				;$BECBF9   |
@@ -2790,7 +2811,7 @@ CODE_BECBE2:					;	   |
 	STA $0032,y				;$BECC19   |
 CODE_BECC1C:					;	   |
 	LDY current_sprite			;$BECC1C   |
-	LDX $6A					;$BECC1E   |
+	LDX colliding_sprite			;$BECC1E   |
 	LDA $06,x				;$BECC20   |
 	CLC					;$BECC22   |
 	ADC $D9					;$BECC23   |
@@ -2970,7 +2991,7 @@ CODE_BECD58:					;	   |
 	LDA #$0010				;$BECD67   |
 	PHK					;$BECD6A   |
 	%return(CODE_BECD71)			;$BECD6B   |
-	JML [$09F9]				;$BECD6E  /
+	JML [sprite_collision_routine_address]	;$BECD6E  /
 
 CODE_BECD71:
 	BCS CODE_BECDAD				;$BECD71  \
@@ -2980,7 +3001,7 @@ CODE_BECD71:
 CODE_BECD7A:
 	%lda_sound(4, barrel_blast)		;$BECD7A  \
 	JSL queue_sound_effect			;$BECD7D   |
-	LDX $6A					;$BECD81   |
+	LDX colliding_sprite			;$BECD81   |
 	LDA #$FE00				;$BECD83   |
 	SEC					;$BECD86   |
 	SBC $26,x				;$BECD87   |
@@ -3317,8 +3338,16 @@ CODE_BED023:					;	   |
 
 ;DATA_FF047E indexes to klank spawn scripts
 DATA_BED024:
-	db $EA, $F0, $EE, $EA, $F0, $EC, $EE, $F6
-	db $EC, $EA
+	db !special_sprite_spawn_id_00EA
+	db !special_sprite_spawn_id_00F0
+	db !special_sprite_spawn_id_00EE
+	db !special_sprite_spawn_id_00EA
+	db !special_sprite_spawn_id_00F0
+	db !special_sprite_spawn_id_00EC
+	db !special_sprite_spawn_id_00EE
+	db !special_sprite_spawn_id_00F6
+	db !special_sprite_spawn_id_00EC
+	db !special_sprite_spawn_id_00EA
 
 
 CODE_BED02E:
@@ -3344,7 +3373,7 @@ CODE_BED042:					;	   |
 	BCC CODE_BED059				;$BED04B   |
 	BNE CODE_BED059				;$BED04D   |
 	LDX current_sprite			;$BED04F   |
-	STX $0D5E				;$BED051   |
+	STX ridden_skull_cart_sprite		;$BED051   |
 	INC $2F,x				;$BED054   |
 	JSR CODE_BED9FD				;$BED056   |
 CODE_BED059:					;	   |
@@ -3392,7 +3421,7 @@ CODE_BED0AB:
 	BCC CODE_BED0C2				;$BED0B7   |
 	BNE CODE_BED0CB				;$BED0B9   |
 	LDX current_sprite			;$BED0BB   |
-	STX $0D5E				;$BED0BD   |
+	STX ridden_skull_cart_sprite		;$BED0BD   |
 	DEC $2F,x				;$BED0C0   |
 CODE_BED0C2:					;	   |
 	JSR CODE_BEE024				;$BED0C2   |
@@ -3446,7 +3475,7 @@ CODE_BED10F:					;	   |
 	BCC CODE_BED123				;$BED118   |
 	BNE CODE_BED123				;$BED11A   |
 	LDX current_sprite			;$BED11C   |
-	STX $0D5E				;$BED11E   |
+	STX ridden_skull_cart_sprite		;$BED11E   |
 	INC $2F,x				;$BED121   |
 CODE_BED123:					;	   |
 	JSR CODE_BED9FD				;$BED123   |
@@ -3572,7 +3601,7 @@ CODE_BED1FC:					;	   |
 	DEC A					;$BED218   |
 	BMI CODE_BED220				;$BED219   |
 CODE_BED21B:					;	   |
-	STX $0D5E				;$BED21B   |
+	STX ridden_skull_cart_sprite		;$BED21B   |
 	INC $2F,x				;$BED21E   |
 CODE_BED220:					;	   |
 	JSR CODE_BED9FD				;$BED220   |
@@ -3789,7 +3818,7 @@ CODE_BED3C4:					;	   |
 	JML [sprite_return_address]		;$BED3C8  /
 
 CODE_BED3CB:
-	LDY $0D5E				;$BED3CB  \
+	LDY ridden_skull_cart_sprite		;$BED3CB  \
 	BEQ CODE_BED424				;$BED3CE   |
 	LDA $000E,y				;$BED3D0   |
 	BMI CODE_BED424				;$BED3D3   |
@@ -3812,13 +3841,13 @@ CODE_BED3CB:
 	LDA #$001E				;$BED3FC   |
 CODE_BED3FF:					;	   |
 	STA $004C,y				;$BED3FF   |
-	LDY $0D5E				;$BED402   |
+	LDY ridden_skull_cart_sprite		;$BED402   |
 	LDA $06,x				;$BED405   |
 	CMP $0006,y				;$BED407   |
 	BCS CODE_BED424				;$BED40A   |
 	JSR CODE_BED425				;$BED40C   |
 CODE_BED40F:					;	   |
-	LDA $0D5E				;$BED40F   |
+	LDA ridden_skull_cart_sprite		;$BED40F   |
 	BEQ CODE_BED41C				;$BED412   |
 	TAY					;$BED414   |
 	LDA $0020,y				;$BED415   |
@@ -3854,7 +3883,7 @@ CODE_BED449:					;	   |
 	RTS					;$BED44B  /
 
 CODE_BED44C:
-	LDY $0D5E				;$BED44C  \
+	LDY ridden_skull_cart_sprite		;$BED44C  \
 	BEQ CODE_BED457				;$BED44F   |
 	JSL CODE_BEBDC1				;$BED451   |
 	BCS CODE_BED459				;$BED455   |
@@ -3863,7 +3892,7 @@ CODE_BED457:					;	   |
 	RTS					;$BED458  /
 
 CODE_BED459:
-	LDX $6A					;$BED459  \
+	LDX colliding_sprite			;$BED459  \
 	LDY current_sprite			;$BED45B   |
 	LDA $24,x				;$BED45D   |
 	BMI CODE_BED48F				;$BED45F   |
@@ -3936,7 +3965,7 @@ CODE_BED4CB:
 
 CODE_BED4DF:
 	JSR CODE_BEBE06				;$BED4DF  \
-	LDX $6A					;$BED4E2   |
+	LDX colliding_sprite			;$BED4E2   |
 	LDY current_sprite			;$BED4E4   |
 	LDA $20,x				;$BED4E6   |
 	CLC					;$BED4E8   |
@@ -4002,7 +4031,7 @@ CODE_BED563:					;	   |
 
 CODE_BED569:
 	JSR CODE_BEBE06				;$BED569  \
-	LDY $6A					;$BED56C   |
+	LDY colliding_sprite			;$BED56C   |
 	LDX current_sprite			;$BED56E   |
 	LDA $0020,y				;$BED570   |
 	SEC					;$BED573   |
@@ -4313,7 +4342,7 @@ CODE_BED794:
 	LDA $3E,x				;$BED796   |
 	AND #$D7FF				;$BED798   |
 	STA $3E,x				;$BED79B   |
-	CPX $0D5E				;$BED79D   |
+	CPX ridden_skull_cart_sprite		;$BED79D   |
 	BNE CODE_BED7A5				;$BED7A0   |
 	JML [sprite_return_address]		;$BED7A2  /
 
@@ -4383,18 +4412,18 @@ CODE_BED80D:
 	LDA #$0010				;$BED811   |
 	PHK					;$BED814   |
 	%return(CODE_BED81B)			;$BED815   |
-	JML [$09F9]				;$BED818  /
+	JML [sprite_collision_routine_address]	;$BED818  /
 
 CODE_BED81B:
 	BCC CODE_BED887				;$BED81B  \
-	LDY $6A					;$BED81D   |
+	LDY colliding_sprite			;$BED81D   |
 	LDA $0024,y				;$BED81F   |
 	BMI CODE_BED887				;$BED822   |
 	LDX current_sprite			;$BED824   |
 	LDA $0A,x				;$BED826   |
 	CMP $000A,y				;$BED828   |
 	BCC CODE_BED887				;$BED82B   |
-	LDY $6A					;$BED82D   |
+	LDY colliding_sprite			;$BED82D   |
 	CPY active_kong_sprite			;$BED82F   |
 	BEQ CODE_BED859				;$BED832   |
 	LDA $002E,y				;$BED834   |
@@ -4406,7 +4435,7 @@ CODE_BED81B:
 	JSL set_player_interaction_global	;$BED844   |
 	BCS CODE_BED887				;$BED848   |
 	STX $0A86				;$BED84A   |
-	LDA $6A					;$BED84D   |
+	LDA colliding_sprite			;$BED84D   |
 	STA $0A88				;$BED84F   |
 	STA $44,x				;$BED852   |
 	LDA #$0001				;$BED854   |
@@ -4418,7 +4447,7 @@ CODE_BED859:
 	JSL set_player_interaction_global	;$BED85C   |
 	BCS CODE_BED887				;$BED860   |
 	STX $0A86				;$BED862   |
-	LDA $6A					;$BED865   |
+	LDA colliding_sprite			;$BED865   |
 	STA $0A88				;$BED867   |
 	STA $42,x				;$BED86A   |
 	LDY active_kong_control_variables	;$BED86C   |
@@ -4774,7 +4803,7 @@ CODE_BEDB50:
 	LDA $42,x				;$BEDB64   |
 	DEC A					;$BEDB66   |
 	BMI CODE_BEDB78				;$BEDB67   |
-	LDY #!player_interaction_29		;$BEDB69   |
+	LDY #!player_interaction_29		;$BEDB69   |> Prepare fall in pit interaction
 	JSR CODE_BEC4BA				;$BEDB6C   |
 	LDX current_sprite			;$BEDB6F   |
 	BCS CODE_BEDB78				;$BEDB71   |
@@ -4843,7 +4872,7 @@ CODE_BEDBE2:
 	LDA #!player_interaction_16		;$BEDBF0   |
 	JSL set_player_interaction_global	;$BEDBF3   |
 	BCS CODE_BEDC2A				;$BEDBF7   |
-	STZ $0D5E				;$BEDBF9   |
+	STZ ridden_skull_cart_sprite		;$BEDBF9   |
 	LDX current_sprite			;$BEDBFC   |
 	LDA $06,x				;$BEDBFE   |
 	STA $38,x				;$BEDC00   |
@@ -6445,7 +6474,7 @@ race_handler_sprite_code:
 	JML [sprite_return_address]		;$BEE711  /  Done processing sprite
 
 .wait_for_player_state
-	LDA $0D5E				;$BEE714  \  get index of skull kart player is riding
+	LDA ridden_skull_cart_sprite		;$BEE714  \  get index of skull kart player is riding
 	BEQ ..return				;$BEE717   | if the player isn't riding one yet return
 	LDY #!special_sprite_spawn_id_00F4	;$BEE719   | else spawn the traffic light sprite
 	JSL spawn_special_sprite_index		;$BEE71C   |
@@ -6514,7 +6543,7 @@ race_handler_sprite_code:
 	JML [sprite_return_address]		;$BEE7A0  /  Done processing sprite
 
 .update_player_kart_min_max_speed
-	LDY $0D5E				;$BEE7A3  \  get index of player's kart
+	LDY ridden_skull_cart_sprite		;$BEE7A3  \  get index of player's kart
 	LDA $0022,y				;$BEE7A6   | get its minimum speed (kart spawns with negative)
 	BMI ..check_if_going_backwards		;$BEE7A9   | if negative check if player is already going backwards
 	CMP #$0200				;$BEE7AB   | else check if min speed has already been updated to positive
@@ -6738,7 +6767,7 @@ racing_flag_sprite_code:
 	JML [sprite_return_address]		;$BEE917  /  Done processing sprite
 
 .start_countdown_if_rickety_state
-	LDA $0D5E				;$BEE91A  \  get index of skull kart player is riding
+	LDA ridden_skull_cart_sprite		;$BEE91A  \  get index of skull kart player is riding
 	BEQ .return				;$BEE91D   | if not riding one yet, return
 .start_countdown_if_screech_state		;	   |
 	LDA $0042,y				;$BEE91F   |

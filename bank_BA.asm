@@ -16,10 +16,10 @@ bank_BA_sprite_main_handler_1:
 
 CODE_BA9016:
 	STY $5E					;$BA9016  \
-	JSL CODE_BCFE0A				;$BA9018   |
+	JSL check_for_sprite_collisions		;$BA9018   |
 	LDX current_sprite			;$BA901C   |
 	BCC CODE_BA9041				;$BA901E   |
-	LDY $6A					;$BA9020   |
+	LDY colliding_sprite			;$BA9020   |
 	LDA $5E					;$BA9022   |
 	ORA $0032,y				;$BA9024   |
 	STA $0032,y				;$BA9027   |
@@ -967,7 +967,7 @@ king_zing_ring_zinger_sprite_code:
 	JSL defeat_sprite_using_anim_global	;$BA984E   |
 	%lda_sound(5, zinger_flitter_hit)	;$BA9852   |
 	JSL queue_sound_effect			;$BA9855   |
-	LDX $6A					;$BA9859   |
+	LDX colliding_sprite			;$BA9859   |
 	LDA #$0100				;$BA985B   |
 	BIT $12,x				;$BA985E   |
 	BVC ..CODE_BA9865			;$BA9860   |
@@ -1133,9 +1133,9 @@ king_zing_stinger_sprite_code:
 	JSL CODE_BA9016				;$BA99E2   |
 	BCC CODE_BA9A22				;$BA99E6   |
 	LDA.l $000656				;$BA99E8   | Get index of self
-	CMP $6A					;$BA99EC   | Check if its the current colliding sprite
+	CMP colliding_sprite			;$BA99EC   | Check if its the current colliding sprite
 	BEQ CODE_BA9A22				;$BA99EE   | If yes
-	LDX $6A					;$BA99F0   | Else get current colliding sprite
+	LDX colliding_sprite			;$BA99F0   | Else get current colliding sprite
 	LDA $2E,x				;$BA99F2   |
 	CMP #$0001				;$BA99F4   | Check if its in state 1
 	BEQ CODE_BA9A22				;$BA99F7   | If yes
@@ -1144,7 +1144,7 @@ king_zing_stinger_sprite_code:
 	LDA $32,x				;$BA99FF   |
 	ORA #$0008				;$BA9A01   | Set some flag
 	STA $32,x				;$BA9A04   |
-	LDX $6A					;$BA9A06   | Get current colliding sprite (should be squawks egg)
+	LDX colliding_sprite			;$BA9A06   | Get current colliding sprite (should be squawks egg)
 	LDA #$0001				;$BA9A08   |
 	STA $2E,x				;$BA9A0B   | Set its state to 1
 	LDA #$FC00				;$BA9A0D   |
@@ -4427,7 +4427,7 @@ scroll_and_float_barrel_sprite_code:
 .wait_for_collision:
 	JSL CODE_BCFB58				;$BAC356  \ Populate sprite clipping
 	LDA #$0008				;$BAC35A   | Get collision flags
-	JSL CODE_BCFCB5				;$BAC35D   | Check collision with kong
+	JSL check_active_kong_collision		;$BAC35D   | Check collision with kong
 	BCS ..collision_happened		;$BAC361   | If collision happened display text
 	JSL CODE_BBBB99				;$BAC363   | Else despawn sprite if offscreen
 	JML [sprite_return_address]		;$BAC367  / Done processing sprite

@@ -71,7 +71,7 @@ UNKNOWN_63				= $63	;byte	unknown
 current_sprite				= $64	;word	pointer
 current_kong_control_variables		= $66	;word	pointer
 alternate_sprite			= $68	;word	pointer
-UNKNOWN_6A				= $6A	;word	pointer
+colliding_sprite			= $6A	;word	pointer
 current_player_mount			= $6C	;word	pointer
 animal_type				= $6E	;word	index
 next_oam_slot				= $70	;word	index
@@ -87,6 +87,7 @@ level_collision_tilemap			= $9C	;long	pointer
 level_number				= $D3	;word	index
 gameplay_frame_counter			= $D5	;\ double	counter
 gameplay_frame_counter_high		= $D7	;/
+UNKNOWN_D9				= $D9	;temp clipping left/SRAM copy address/other uses
 
 collision_mask_result			= $EB	;word
 UNUSED_ED				= $ED
@@ -178,9 +179,6 @@ returning_map_node_number		= $06A9
 map_node_number				= $06AB
 world_number				= $06B1
 
-
-
-
 RAM_07B0				= $07B0
 RAM_07B2				= $07B2
 
@@ -263,10 +261,22 @@ UNUSED_098C				= $098C
 intro_sparkle_random_offset		= $098D
 intro_sparkle_x_position		= $098F
 intro_sparkle_y_position		= $0991
+intro_sparkle_timer			= $0993
+
 player_skipped_demo			= $099B
 kong_follow_buffer_recording_index	= $099D
 kong_follow_buffer_playback_index	= $099F
 
+;Sprite Clipping Struct (10 Instances)	= $09A3-$09F2
+;Likely Unused				= $09F3
+sprite_collision_result			= $09F5
+sprite_collision_flags			= $09F7
+sprite_collision_routine_address	= $09F9
+sprite_collision_routine_addr_high	= $09FA
+next_platform_sprite_slot		= $09FC
+platform_sprite_table			= $09FE
+platform_sprite_left_edge_position	= $0A26
+platform_sprite_right_edge_position	= $0A28
 kong_follow_last_rec_x_position		= $0A2A
 kong_follow_last_rec_y_position		= $0A2C
 kong_follow_last_rec_animation		= $0A2E
@@ -275,7 +285,6 @@ kong_follow_last_rec_max_x_speed	= $0A32
 kong_follow_last_rec_ground_dist	= $0A34
 time_stop_flags				= $0A36
 time_stop_timer				= $0A38
-
 
 current_interaction			= $0A82
 current_interacting_sprite		= $0A84
@@ -293,8 +302,12 @@ sprite_palette_reference_count		= $0B74
 held_rope_sprite			= $0BA0
 held_rope_sprite_temp			= $0BA2
 
+RAM_0D38				= $0D38
+
 water_current_y_velocity		= $0D4A
 water_target_y_velocity			= $0D50
+
+ridden_skull_cart_sprite		= $0D5E
 
 current_held_sprite			= $0D7A
 held_sprite_x_offset			= $0D7C
@@ -302,7 +315,7 @@ held_sprite_y_offset			= $0D7E
 
 aux_sprite_table			= $0D84
 
-;Sprite Structure (24 Instances)	= $0DE2-16B1
+;Sprite Structure (24 Instances)	= $0DE2-$16B1
 sprite_slots				= $0DE2
 diddy_sprite_slot			= $0DE2
 dixie_sprite_slot			= $0E40
@@ -375,5 +388,9 @@ primary_palette = $7E8C28
 
 writable_palette_RAM = $7F9650
 
+kong_follow_x_position_buffer		= $7FA532
+kong_follow_y_position_buffer		= $7FA572
+kong_follow_facing_buffer		= $7FA5B2
+kong_follow_animation_buffer		= $7FA5F2
 
 sprite_render_table_end = sprite_render_table+$30

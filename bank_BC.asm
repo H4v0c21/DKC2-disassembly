@@ -8767,8 +8767,7 @@ SPRITE_HITBOX_BCEDC8:
 
 assert pc() <= $BCFA00 : padbyte $00 : pad $BCFA00
 
-;special hitboxes
-DATA_BCFA00:
+special_hitboxes:
 	dw $FFFD, $FFF0, $0019, $0010		;00 object pickup range
 	dw $FFF3, $FFF1, $0013, $0010		;01 squitter mount range
 	dw $FFF7, $FFE5, $000A, $001D		;02 rattly mount range
@@ -8783,720 +8782,746 @@ DATA_BCFA00:
 	dw $FFE2, $FFE8, $001F, $0023		;0B kleever range?
 	dw $FFEE, $FFF1, $001B, $0014		;0C rattly auto stomp range
 	dw $0008, $FFF8, $0024, $0010		;0D kutlass attack range
-	dw $FFD0, $FFA8, $0050, $0060		;0E
+	dw $FFD0, $FFA8, $0050, $0060		;0E kackle related?
 
-init_sprite_collision:
-	STZ $09A7				;$BCFA78  \
-	STZ $09AF				;$BCFA7B   |
-	STZ $09B7				;$BCFA7E   |
-	STZ $09BF				;$BCFA81   |
-	STZ $09C7				;$BCFA84   |
-	STZ $09CF				;$BCFA87   |
-	STZ $09EF				;$BCFA8A   |
-	LDA #CODE_BCFCB5>>8			;$BCFA8D   |
-	STA $09FA				;$BCFA90   |
-	LDA #CODE_BCFCB5			;$BCFA93   |
-	STA $09F9				;$BCFA96   |
-	RTL					;$BCFA99  /
+init_player_clipping:
+	STZ sprite_clipping[0].right		;$BCFA78  \ \ Clear all kong clipping slots
+	STZ sprite_clipping[1].right		;$BCFA7B   | |
+	STZ sprite_clipping[2].right		;$BCFA7E   | |
+	STZ sprite_clipping[3].right		;$BCFA81   | |
+	STZ sprite_clipping[4].right		;$BCFA84   | |
+	STZ sprite_clipping[5].right		;$BCFA87   | |
+	STZ sprite_clipping[9].right		;$BCFA8A   |/
+	LDA #check_active_kong_collision>>8	;$BCFA8D   |\
+	STA sprite_collision_routine_addr_high	;$BCFA90   | |
+	LDA #check_active_kong_collision	;$BCFA93   | | Setup default collision detection routine
+	STA sprite_collision_routine_address	;$BCFA96   |/
+	RTL					;$BCFA99  /> Return
 
-CODE_BCFA9A:
-	PHD					;$BCFA9A  \
-	LDY #$09AB				;$BCFA9B   |
-	LDX current_sprite			;$BCFA9E   |
-	CPX active_kong_sprite			;$BCFAA0   |
-	BEQ CODE_BCFABA				;$BCFAA3   |
-	LDY #CODE_BCFCA5>>8			;$BCFAA5   |
-	STY $09FA				;$BCFAA8   |
-	LDY #CODE_BCFCA5			;$BCFAAB   |
-	STY $09F9				;$BCFAAE   |
-	LDY #$0002				;$BCFAB1   |
-	STY $0D38				;$BCFAB4   |
-	LDY #$09C3				;$BCFAB7   |
-CODE_BCFABA:					;	   |
-	JSR CODE_BCFC40				;$BCFABA   |
-	JSR CODE_BCFBDD				;$BCFABD   |
-	PLD					;$BCFAC0   |
-	RTL					;$BCFAC1  /
+init_special_player_clipping:
+	PHD					;$BCFA9A  \> Preserve direct page
+	LDY #sprite_clipping[1]			;$BCFA9B   |> Use slot 1 clipping base
+	LDX current_sprite			;$BCFA9E   |\
+	CPX active_kong_sprite			;$BCFAA0   | |
+	BEQ .setup_special_hitbox		;$BCFAA3   |/ If active kong then use slot 1 and default collision detection routine
+	LDY #check_inactive_kong_collision>>8	;$BCFAA5   |\
+	STY sprite_collision_routine_addr_high	;$BCFAA8   | |
+	LDY #check_inactive_kong_collision	;$BCFAAB   | | Use a different collision detection routine
+	STY sprite_collision_routine_address	;$BCFAAE   |/
+	LDY #$0002				;$BCFAB1   |\
+	STY RAM_0D38				;$BCFAB4   |/
+	LDY #sprite_clipping[4]			;$BCFAB7   |> Use slot 1 of inactive kong clipping (slot 4)
+.setup_special_hitbox:				;	   |
+	JSR get_special_hitbox_clipping		;$BCFABA   |
+	JSR populate_special_sprite_clipping	;$BCFABD   |
+	PLD					;$BCFAC0   |> Retrieve direct page
+	RTL					;$BCFAC1  /> Return
 
-	PHD					;$BCFAC2   |
-	LDY #$09A3				;$BCFAC3   |
-	LDX current_sprite			;$BCFAC6   |
-	CPX active_kong_sprite			;$BCFAC8   |
-	BEQ CODE_BCFAE2				;$BCFACB   |
-	LDY #CODE_BCFCA5>>8			;$BCFACD   |
-	STY $09FA				;$BCFAD0   |
-	LDY #CODE_BCFCA5			;$BCFAD3   |
-	STY $09F9				;$BCFAD6   |
-	LDY #$0002				;$BCFAD9   |
-	STY $0D38				;$BCFADC   |
-	LDY #$09BB				;$BCFADF   |
-CODE_BCFAE2:					;	   |
-	JSR CODE_BCFC40				;$BCFAE2   |
+;Unused code, identical to init_special_player_clipping except it uses slot 0 as a base instead of slot 1
+init_special_player_clipping_slot_0:
+	PHD					;$BCFAC2  \> Preserve direct page
+	LDY #sprite_clipping[0]			;$BCFAC3   |> Use slot 0 clipping base
+	LDX current_sprite			;$BCFAC6   |\
+	CPX active_kong_sprite			;$BCFAC8   | |
+	BEQ .setup_special_hitbox		;$BCFACB   |/ If active kong then use slot 0 and default collision detection routine
+	LDY #check_inactive_kong_collision>>8	;$BCFACD   |\
+	STY sprite_collision_routine_addr_high	;$BCFAD0   | |
+	LDY #check_inactive_kong_collision	;$BCFAD3   | | Use a different collision detection routine
+	STY sprite_collision_routine_address	;$BCFAD6   |/
+	LDY #$0002				;$BCFAD9   |\
+	STY RAM_0D38				;$BCFADC   |/
+	LDY #sprite_clipping[3]			;$BCFADF   |> Use slot 0 of inactive kong clipping (slot 3)
+.setup_special_hitbox:				;	   |
+	JSR get_special_hitbox_clipping		;$BCFAE2   |
 	JSR CODE_BCFBCC				;$BCFAE5   |
-	PLD					;$BCFAE8   |
-	RTL					;$BCFAE9  /
+	PLD					;$BCFAE8   |> Retrieve direct page
+	RTL					;$BCFAE9  /> Return
 
-CODE_BCFAEA:
-	LDX current_sprite			;$BCFAEA  \
-	CPX active_kong_sprite			;$BCFAEC   |
-	BNE CODE_BCFB1C				;$BCFAEF   |
-	PHD					;$BCFAF1   |
-	LDY #$09A3				;$BCFAF2   |
-	BIT $09A7				;$BCFAF5   |
-	BEQ CODE_BCFAFD				;$BCFAF8   |
-	LDY #$09AB				;$BCFAFA   |
-CODE_BCFAFD:					;	   |
-	JSR get_sprite_clipping			;$BCFAFD   |
-	LDA #$09A3				;$BCFB00   |
-	JSR CODE_BCFBEE				;$BCFB03   |
-	PLD					;$BCFB06   |
-	LDX $0D5E				;$BCFB07   |
-	BNE CODE_BCFB1D				;$BCFB0A   |
-	LDA animal_type				;$BCFB0C   |
-	BEQ CODE_BCFB1C				;$BCFB0E   |
-	LDX current_player_mount		;$BCFB10   |
-	BEQ CODE_BCFB1C				;$BCFB12   |
-	PHD					;$BCFB14   |
-	LDY #$09EB				;$BCFB15   |
-	JSR get_sprite_clipping			;$BCFB18   |
-	PLD					;$BCFB1B   |
-CODE_BCFB1C:					;	   |
-	RTL					;$BCFB1C  /
+get_active_kong_clipping:
+	LDX current_sprite			;$BCFAEA  \ \
+	CPX active_kong_sprite			;$BCFAEC   | |
+	BNE .return				;$BCFAEF   |/ If the current sprite isnt active kong then dont update clipping
+	PHD					;$BCFAF1   |> Preserve direct page
+	LDY #sprite_clipping[0]			;$BCFAF2   |> Use clipping slot 0
+	BIT sprite_clipping[0].right		;$BCFAF5   |\
+	BEQ .CODE_BCFAFD			;$BCFAF8   |/ Not sure what the point of this is yet, probably skull cart related
+	LDY #sprite_clipping[1]			;$BCFAFA   |> If the above check failed then use clipping slot 1
+.CODE_BCFAFD:					;	   |
+	JSR get_sprite_clipping			;$BCFAFD   |> Get active kong clipping
+	LDA #sprite_clipping[0]			;$BCFB00   |\
+	JSR populate_main_sprite_clipping	;$BCFB03   |/ Populate active kong main clipping
+	PLD					;$BCFB06   |> Retrieve direct page
+	LDX ridden_skull_cart_sprite		;$BCFB07   |\
+	BNE .handle_skull_cart_clipping		;$BCFB0A   |/ If the kong is riding a skull cart then handle clipping for the cart
+	LDA animal_type				;$BCFB0C   |\
+	BEQ .return				;$BCFB0E   |/ If the kong doesnt have an animal buddy, the clipping setup is done
+	LDX current_player_mount		;$BCFB10   |\
+	BEQ .return				;$BCFB12   |/ If the kong isnt mounted then they are transformed, the clipping setup is done
+	PHD					;$BCFB14   |> Preserve direct page
+	LDY #sprite_clipping[9]			;$BCFB15   |\ Animal mount clipping slot (is actually the dummy kong that rides mount)
+	JSR get_sprite_clipping			;$BCFB18   |/ Get sprite clipping for animal mount
+	PLD					;$BCFB1B   |> Retrieve direct page
+.return:					;	   |
+	RTL					;$BCFB1C  /> Return
 
-CODE_BCFB1D:
+.handle_skull_cart_clipping:
 	PHD					;$BCFB1D  \
-	LDY #$09AB				;$BCFB1E   |
+	LDY #sprite_clipping[1]			;$BCFB1E   |
 	JSR get_sprite_clipping			;$BCFB21   |
-	LDA #$09A3				;$BCFB24   |
-	JSR CODE_BCFBEE				;$BCFB27   |
-	PLD					;$BCFB2A   |
-	RTL					;$BCFB2B  /
+	LDA #sprite_clipping[0]			;$BCFB24   |
+	JSR populate_main_sprite_clipping	;$BCFB27   |
+	PLD					;$BCFB2A   |> Retrieve direct page
+	RTL					;$BCFB2B  /> Return
 
 CODE_BCFB2C:
 	PHD					;$BCFB2C  \
 	LDX inactive_kong_sprite		;$BCFB2D   |
-	LDY #$09BB				;$BCFB30   |
-	LDA $09BF				;$BCFB33   |
+	LDY #sprite_clipping[3]			;$BCFB30   |
+	LDA sprite_clipping[3].right		;$BCFB33   |
 	BEQ CODE_BCFB41				;$BCFB36   |
 	LDY #$0002				;$BCFB38   |
-	STY $0D38				;$BCFB3B   |
-	LDY #$09C3				;$BCFB3E   |
+	STY RAM_0D38				;$BCFB3B   |
+	LDY #sprite_clipping[4]			;$BCFB3E   |
 CODE_BCFB41:					;	   |
 	JSR get_sprite_clipping			;$BCFB41   |
-	LDA #$09BB				;$BCFB44   |
-	JSR CODE_BCFBEE				;$BCFB47   |
+	LDA #sprite_clipping[3]			;$BCFB44   |
+	JSR populate_main_sprite_clipping	;$BCFB47   |
 	PLD					;$BCFB4A   |
-	LDA #CODE_BCFCA5>>8			;$BCFB4B   |
-	STA $09FA				;$BCFB4E   |
-	LDA #CODE_BCFCA5			;$BCFB51   |
-	STA $09F9				;$BCFB54   |
+	LDA #check_inactive_kong_collision>>8	;$BCFB4B   |
+	STA sprite_collision_routine_addr_high	;$BCFB4E   |
+	LDA #check_inactive_kong_collision	;$BCFB51   |
+	STA sprite_collision_routine_address	;$BCFB54   |
 	RTL					;$BCFB57  /
 
 CODE_BCFB58:
 	PHD					;$BCFB58  \> Preserve direct page
 	LDX current_sprite			;$BCFB59   |> Get current sprite
-	LDY #$09D3				;$BCFB5B   |> Use current sprite clipping
+	LDY #sprite_clipping[6]			;$BCFB5B   |> Use current sprite clipping
 	JSR get_sprite_clipping			;$BCFB5E   |> Populate sprite hitboxes in RAM
 	JSR CODE_BCFBCC				;$BCFB61   |
 	PLD					;$BCFB64   |> Retrieve direct page
-	STZ $09DF				;$BCFB65   |
+	STZ sprite_clipping[7].right		;$BCFB65   |
 	RTL					;$BCFB68  /
 
 CODE_BCFB69:
 	PHD					;$BCFB69  \
 	LDX current_sprite			;$BCFB6A   |
-	LDY #$09D3				;$BCFB6C   |
-	JSR CODE_BCFC40				;$BCFB6F   |
+	LDY #sprite_clipping[6]			;$BCFB6C   |
+	JSR get_special_hitbox_clipping		;$BCFB6F   |
 	JSR CODE_BCFBCC				;$BCFB72   |
 	PLD					;$BCFB75   |
-	STZ $09DF				;$BCFB76   |
+	STZ sprite_clipping[7].right		;$BCFB76   |
 	RTL					;$BCFB79  /
 
 CODE_BCFB7A:
 	PHD					;$BCFB7A  \
 	LDX current_sprite			;$BCFB7B   |
-	LDY #$09DB				;$BCFB7D   |
-	JSR CODE_BCFC40				;$BCFB80   |
-	LDA #$09D3				;$BCFB83   |
-	JSR CODE_BCFBEE				;$BCFB86   |
+	LDY #sprite_clipping[7]			;$BCFB7D   |
+	JSR get_special_hitbox_clipping		;$BCFB80   |
+	LDA #sprite_clipping[6]			;$BCFB83   |
+	JSR populate_main_sprite_clipping	;$BCFB86   |
 	PLD					;$BCFB89   |
 	RTL					;$BCFB8A  /
+
+;Takes special hitbox index in A
 
 CODE_BCFB8B:
 	PHD					;$BCFB8B  \
 	LDX current_sprite			;$BCFB8C   |
-	LDY #$09D3				;$BCFB8E   |
-	JSR CODE_BCFC40				;$BCFB91   |
-	LDA #$09D3				;$BCFB94   |
-	TCD					;$BCFB97   |
-	LDA $10					;$BCFB98   |
-	STA $08					;$BCFB9A   |
-	CMP $00					;$BCFB9C   |
-	BCC CODE_BCFBA4				;$BCFB9E   |
-	LDA $00					;$BCFBA0   |
-	STA $10					;$BCFBA2   |
+	LDY #sprite_clipping[6]			;$BCFB8E   |\ Use sprite clipping slot base for special hitbox
+	JSR get_special_hitbox_clipping		;$BCFB91   |/
+	LDA #sprite_clipping[6]			;$BCFB94   |\ Use sprite clipping slot base
+	TCD					;$BCFB97   |/
+	LDA rel_sprite_clipping[2].left		;$BCFB98   |\
+	STA rel_sprite_clipping[1].left		;$BCFB9A   |/ Copy sprite clipping left to alternate slot
+	CMP rel_sprite_clipping[0].left		;$BCFB9C   |\
+	BCC CODE_BCFBA4				;$BCFB9E   |/ If slot 2 left is less than slot 0 left
+	LDA rel_sprite_clipping[0].left		;$BCFBA0   |
+	STA rel_sprite_clipping[2].left		;$BCFBA2   |
 CODE_BCFBA4:					;	   |
-	LDA $09E7				;$BCFBA4   |
-	STA $09DF				;$BCFBA7   |
-	CMP $04					;$BCFBAA   |
-	BCS CODE_BCFBB2				;$BCFBAC   |
-	LDA $04					;$BCFBAE   |
-	STA $14					;$BCFBB0   |
+	LDA sprite_clipping[8].right		;$BCFBA4   |\
+	STA sprite_clipping[7].right		;$BCFBA7   |/ Copy sprite clipping right to alternate slot
+	CMP rel_sprite_clipping[0].right	;$BCFBAA   |\
+	BCS CODE_BCFBB2				;$BCFBAC   |/ If slot 2 right is greater than or equal to slot 0 right
+	LDA rel_sprite_clipping[0].right	;$BCFBAE   |
+	STA rel_sprite_clipping[2].right	;$BCFBB0   |
 CODE_BCFBB2:					;	   |
-	LDA $12					;$BCFBB2   |
-	STA $0A					;$BCFBB4   |
-	CMP $02					;$BCFBB6   |
-	BCC CODE_BCFBBE				;$BCFBB8   |
-	LDA $02					;$BCFBBA   |
-	STA $12					;$BCFBBC   |
+	LDA rel_sprite_clipping[2].top		;$BCFBB2   |\
+	STA rel_sprite_clipping[1].top		;$BCFBB4   |/ Copy sprite clipping top to alternate slot
+	CMP rel_sprite_clipping[0].top		;$BCFBB6   |\
+	BCC CODE_BCFBBE				;$BCFBB8   |/ If slot 2 top is less than slot 0 top
+	LDA rel_sprite_clipping[0].top		;$BCFBBA   |
+	STA rel_sprite_clipping[2].top		;$BCFBBC   |
 CODE_BCFBBE:					;	   |
-	LDA $16					;$BCFBBE   |
-	STA $0E					;$BCFBC0   |
-	CMP $06					;$BCFBC2   |
-	BCS CODE_BCFBCA				;$BCFBC4   |
-	LDA $06					;$BCFBC6   |
-	STA $16					;$BCFBC8   |
+	LDA rel_sprite_clipping[2].bottom	;$BCFBBE   |\
+	STA rel_sprite_clipping[1].bottom	;$BCFBC0   |/ Copy sprite clipping bottom to alternate slot
+	CMP rel_sprite_clipping[0].bottom	;$BCFBC2   |\
+	BCS CODE_BCFBCA				;$BCFBC4   |/ If slot 2 bottom is greater than or equal to slot 0 bottom
+	LDA rel_sprite_clipping[0].bottom	;$BCFBC6   |
+	STA rel_sprite_clipping[2].bottom	;$BCFBC8   |
 CODE_BCFBCA:					;	   |
 	PLD					;$BCFBCA   |
-	RTL					;$BCFBCB  /
+	RTL					;$BCFBCB  /> Return
 
 ;mirror clipping
 CODE_BCFBCC:
-	LDA $00					;$BCFBCC  \ \ Copy left clipping
-	STA $10					;$BCFBCE   |/
-	LDA $04					;$BCFBD0   |\ Copy right clipping
-	STA $14					;$BCFBD2   |/
-	LDA $06					;$BCFBD4   |\ Copy bottom clipping
-	STA $16					;$BCFBD6   |/
-	LDA $02					;$BCFBD8   |\ Copy top clipping
-	STA $12					;$BCFBDA   |/
-	RTS					;$BCFBDC  /
+	LDA rel_sprite_clipping[0].left		;$BCFBCC  \ \ Copy left clipping
+	STA rel_sprite_clipping[2].left		;$BCFBCE   |/
+	LDA rel_sprite_clipping[0].right	;$BCFBD0   |\ Copy right clipping
+	STA rel_sprite_clipping[2].right	;$BCFBD2   |/
+	LDA rel_sprite_clipping[0].bottom	;$BCFBD4   |\ Copy bottom clipping
+	STA rel_sprite_clipping[2].bottom	;$BCFBD6   |/
+	LDA rel_sprite_clipping[0].top		;$BCFBD8   |\ Copy top clipping
+	STA rel_sprite_clipping[2].top		;$BCFBDA   |/
+	RTS					;$BCFBDC  /> Return
 
 ;mirror clipping
-CODE_BCFBDD:
-	LDA $00					;$BCFBDD  \ \ Copy left clipping
-	STA $08					;$BCFBDF   |/
-	LDA $04					;$BCFBE1   |\ Copy right clipping
-	STA $0C					;$BCFBE3   |/
-	LDA $06					;$BCFBE5   |\ Copy bottom clipping
-	STA $0E					;$BCFBE7   |/
-	LDA $02					;$BCFBE9   |\ Copy top clipping
-	STA $0A					;$BCFBEB   |/
-	RTS					;$BCFBED  /
+populate_special_sprite_clipping:
+	LDA rel_sprite_clipping[0].left		;$BCFBDD  \ \ Copy left clipping
+	STA rel_sprite_clipping[1].left		;$BCFBDF   |/
+	LDA rel_sprite_clipping[0].right	;$BCFBE1   |\ Copy right clipping
+	STA rel_sprite_clipping[1].right	;$BCFBE3   |/
+	LDA rel_sprite_clipping[0].bottom	;$BCFBE5   |\ Copy bottom clipping
+	STA rel_sprite_clipping[1].bottom	;$BCFBE7   |/
+	LDA rel_sprite_clipping[0].top		;$BCFBE9   |\ Copy top clipping
+	STA rel_sprite_clipping[1].top		;$BCFBEB   |/
+	RTS					;$BCFBED  /> Return
 
-CODE_BCFBEE:
-	TCD					;$BCFBEE  \
-	LDA $0C					;$BCFBEF   |
-	BEQ CODE_BCFC1E				;$BCFBF1   |
-	LDA $04					;$BCFBF3   |
-	BEQ CODE_BCFC2F				;$BCFBF5   |
-	CMP $0C					;$BCFBF7   |
-	BCS CODE_BCFBFD				;$BCFBF9   |
-	LDA $0C					;$BCFBFB   |
-CODE_BCFBFD:					;	   |
-	STA $14					;$BCFBFD   |
-	LDA $00					;$BCFBFF   |
-	CMP $08					;$BCFC01   |
-	BCC CODE_BCFC07				;$BCFC03   |
-	LDA $08					;$BCFC05   |
-CODE_BCFC07:					;	   |
-	STA $10					;$BCFC07   |
-	LDA $02					;$BCFC09   |
-	CMP $0A					;$BCFC0B   |
-	BCC CODE_BCFC11				;$BCFC0D   |
-	LDA $0A					;$BCFC0F   |
-CODE_BCFC11:					;	   |
-	STA $12					;$BCFC11   |
-	LDA $06					;$BCFC13   |
-	CMP $0E					;$BCFC15   |
-	BCS CODE_BCFC1B				;$BCFC17   |
-	LDA $0E					;$BCFC19   |
-CODE_BCFC1B:					;	   |
-	STA $16					;$BCFC1B   |
-	RTS					;$BCFC1D  /
+populate_main_sprite_clipping:
+	TCD					;$BCFBEE  \> Set direct page to clipping base
+	LDA rel_sprite_clipping[1].right	;$BCFBEF   |\
+	BEQ .use_slot_0_clipping		;$BCFBF1   |/ If slot 1 clipping wasnt populated then use slot 0 clipping instead
+	LDA rel_sprite_clipping[0].right	;$BCFBF3   |\ Get slot 0 right clipping
+	BEQ .use_slot_1_clipping		;$BCFBF5   |/ If slot 0 clipping wasnt populated then use slot 1 clipping instead
+	CMP rel_sprite_clipping[1].right	;$BCFBF7   |\
+	BCS .save_right_clipping		;$BCFBF9   |/ If slot 0 right clipping is bigger use that as the right clipping
+	LDA rel_sprite_clipping[1].right	;$BCFBFB   |> Else slot 1 right clipping is bigger, use as the right clipping instead
+.save_right_clipping:				;	   |
+	STA rel_sprite_clipping[2].right	;$BCFBFD   |> Save right clipping
+	LDA rel_sprite_clipping[0].left		;$BCFBFF   |\ Get slot 0 left clipping
+	CMP rel_sprite_clipping[1].left		;$BCFC01   | |
+	BCC .save_left_clipping			;$BCFC03   |/ If slot 0 left clipping is smaller use that as the left clipping
+	LDA rel_sprite_clipping[1].left		;$BCFC05   |> Else slot 1 left clipping is smaller, use as the left clipping instead
+.save_left_clipping:				;	   |
+	STA rel_sprite_clipping[2].left		;$BCFC07   |> Save left clipping
+	LDA rel_sprite_clipping[0].top		;$BCFC09   |\ Get slot 0 top clipping
+	CMP rel_sprite_clipping[1].top		;$BCFC0B   | |
+	BCC .save_top_clipping			;$BCFC0D   |/ If slot 0 top clipping is smaller use that as the top clipping
+	LDA rel_sprite_clipping[1].top		;$BCFC0F   |> Else slot 1 top clipping is smaller, use as the top clipping instead
+.save_top_clipping:				;	   |
+	STA rel_sprite_clipping[2].top		;$BCFC11   |> Save top clipping
+	LDA rel_sprite_clipping[0].bottom	;$BCFC13   |\ Get slot 0 bottom clipping
+	CMP rel_sprite_clipping[1].bottom	;$BCFC15   | |
+	BCS .save_bottom_clipping		;$BCFC17   |/ If slot 0 bottom clipping is bigger use that as the bottom clipping
+	LDA rel_sprite_clipping[1].bottom	;$BCFC19   |> Else slot 1 bottom clipping is bigger, use as the bottom clipping instead
+.save_bottom_clipping:				;	   |
+	STA rel_sprite_clipping[2].bottom	;$BCFC1B   |> Save bottom clipping
+	RTS					;$BCFC1D  /> Return
 
-CODE_BCFC1E:
-	LDA $00					;$BCFC1E  \
-	STA $10					;$BCFC20   |
-	LDA $04					;$BCFC22   |
-	STA $14					;$BCFC24   |
-	LDA $06					;$BCFC26   |
-	STA $16					;$BCFC28   |
-	LDA $02					;$BCFC2A   |
-	STA $12					;$BCFC2C   |
+.use_slot_0_clipping:
+	LDA rel_sprite_clipping[0].left		;$BCFC1E  \
+	STA rel_sprite_clipping[2].left		;$BCFC20   |
+	LDA rel_sprite_clipping[0].right	;$BCFC22   |
+	STA rel_sprite_clipping[2].right	;$BCFC24   |
+	LDA rel_sprite_clipping[0].bottom	;$BCFC26   |
+	STA rel_sprite_clipping[2].bottom	;$BCFC28   |
+	LDA rel_sprite_clipping[0].top		;$BCFC2A   |
+	STA rel_sprite_clipping[2].top		;$BCFC2C   |
 	RTS					;$BCFC2E  /
 
-CODE_BCFC2F:
-	LDA $08					;$BCFC2F  \
-	STA $10					;$BCFC31   |
-	LDA $0C					;$BCFC33   |
-	STA $14					;$BCFC35   |
-	LDA $0E					;$BCFC37   |
-	STA $16					;$BCFC39   |
-	LDA $0A					;$BCFC3B   |
-	STA $12					;$BCFC3D   |
+.use_slot_1_clipping:
+	LDA rel_sprite_clipping[1].left		;$BCFC2F  \
+	STA rel_sprite_clipping[2].left		;$BCFC31   |
+	LDA rel_sprite_clipping[1].right	;$BCFC33   |
+	STA rel_sprite_clipping[2].right	;$BCFC35   |
+	LDA rel_sprite_clipping[1].bottom	;$BCFC37   |
+	STA rel_sprite_clipping[2].bottom	;$BCFC39   |
+	LDA rel_sprite_clipping[1].top		;$BCFC3B   |
+	STA rel_sprite_clipping[2].top		;$BCFC3D   |
 	RTS					;$BCFC3F  /
 
-CODE_BCFC40:
+get_special_hitbox_clipping:
 	ASL A					;$BCFC40  \
 	ASL A					;$BCFC41   |
 	ASL A					;$BCFC42   |
-	ADC #DATA_BCFA00			;$BCFC43   |
-	BRA CODE_BCFC59				;$BCFC46  /
+	ADC #special_hitboxes			;$BCFC43   |
+	BRA get_box_clipping			;$BCFC46  /
 
-CODE_BCFC48:
+no_sprite_clipping:
 	PHY					;$BCFC48  \
 	PLD					;$BCFC49   |
-	STA $04					;$BCFC4A   |
+	STA rel_sprite_clipping[0].right	;$BCFC4A   |
 	RTS					;$BCFC4C  /
 
 get_sprite_clipping:
-	LDA $1A,x				;$BCFC4D  \ \ Get graphic id
-	BEQ CODE_BCFC48				;$BCFC4F   |/
+	LDA sprite.current_graphic,x		;$BCFC4D  \ \ Get graphic id
+	BEQ no_sprite_clipping			;$BCFC4F   |/ If no graphic exists then dont get clipping and return
 	LSR A					;$BCFC51   |\ /2 to get hitbox index (hitbox pointers are 2 bytes not 4)
 	PHX					;$BCFC52   | | Preserve sprite in X
 	TAX					;$BCFC53   | | Put hitbox index in X
 	LDA.l sprite_hitbox_table,x		;$BCFC54   | | Get hitbox pointer from table
 	PLX					;$BCFC58   |/ Retrieve sprite in X
-CODE_BCFC59:					;	   |
+get_box_clipping:				;	   |
 	PHB					;$BCFC59   |\ Preserve data bank
 	PHK					;$BCFC5A   | | Set data bank to this bank for hitboxes
 	PLB					;$BCFC5B   | |
 	PHY					;$BCFC5C   | | Push clipping ram base
 	TAY					;$BCFC5D   | | Put hitbox address in Y
 	PLD					;$BCFC5E   |/ Use clipping ram base address
-	LDA $0006,x				;$BCFC5F   |\ Get sprite X position
-	BIT $0012,x				;$BCFC62   | |
+	LDA.w sprite.x_position,x		;$BCFC5F   |\ Get sprite X position
+	BIT.w sprite.oam_property,x		;$BCFC62   | |
 	BVS .flip_x_clipping			;$BCFC65   |/ If sprite is x flipped then flip x clipping
 	CLC					;$BCFC67   |\
 	ADC $0000,y				;$BCFC68   | | Add clipping horizontal offset
-	STA $00					;$BCFC6B   |/ Store leftmost position
+	STA rel_sprite_clipping[0].left		;$BCFC6B   |/ Store leftmost position
 	CLC					;$BCFC6D   |\
 	ADC $0004,y				;$BCFC6E   | | Add clipping width
-	STA $04					;$BCFC71   |/ Store rightmost position
+	STA rel_sprite_clipping[0].right	;$BCFC71   |/ Store rightmost position
 	BRA .vertical_clipping			;$BCFC73  /
 
-.flip_x_clipping
+.flip_x_clipping:
 	SEC					;$BCFC75  \ \
 	SBC $0000,y				;$BCFC76   | | Subtract clipping horizontal offset
-	STA $04					;$BCFC79   |/ Store rightmost position
+	STA rel_sprite_clipping[0].right	;$BCFC79   |/ Store rightmost position
 	SEC					;$BCFC7B   |\
 	SBC $0004,y				;$BCFC7C   | | Subtract clipping width
-	STA $00					;$BCFC7F   |/ Store leftmost position
-.vertical_clipping				;	   |
-	LDA $000A,x				;$BCFC81   |\ Get sprite Y position
-	BIT $0012,x				;$BCFC84   | |
+	STA rel_sprite_clipping[0].left		;$BCFC7F   |/ Store leftmost position
+.vertical_clipping:				;	   |
+	LDA.w sprite.y_position,x		;$BCFC81   |\ Get sprite Y position
+	BIT.w sprite.oam_property,x		;$BCFC84   | |
 	BMI .flip_y_clipping			;$BCFC87   |/ If sprite is y flipped then flip y clipping
 	CLC					;$BCFC89   |\
 	ADC $0002,y				;$BCFC8A   | | Add clipping vertical offset
-	STA $02					;$BCFC8D   |/ Store top position
+	STA rel_sprite_clipping[0].top		;$BCFC8D   |/ Store top position
 	CLC					;$BCFC8F   |\
 	ADC $0006,y				;$BCFC90   | | Add clipping height
-	STA $06					;$BCFC93   |/ Store bottom position
+	STA rel_sprite_clipping[0].bottom	;$BCFC93   |/ Store bottom position
 	PLB					;$BCFC95   |> Retrieve bank
 	RTS					;$BCFC96  /> Return
 
-.flip_y_clipping
+.flip_y_clipping:
 	SEC					;$BCFC97  \ \
 	SBC $0002,y				;$BCFC98   | | Subtract clipping vertical offset
-	STA $06					;$BCFC9B   |/ Store bottom position
+	STA rel_sprite_clipping[0].bottom	;$BCFC9B   |/ Store bottom position
 	SEC					;$BCFC9D   |\
 	SBC $0006,y				;$BCFC9E   | | Subtract clipping height
-	STA $02					;$BCFCA1   |/ Store top position
+	STA rel_sprite_clipping[0].top		;$BCFCA1   |/ Store top position
 	PLB					;$BCFCA3   |> Retrieve bank
 	RTS					;$BCFCA4  /> Return
 
-;Inactive kong collision routine
-CODE_BCFCA5:
-	STA collision_mask_result		;$BCFCA5  \
-	LDX inactive_kong_sprite		;$BCFCA7   |
-	STX $6A					;$BCFCAA   |
-	LDY #$0018				;$BCFCAC   |
-	JSR check_for_collision			;$BCFCAF   |
-	BCC CODE_BCFCC5				;$BCFCB2   |
-	RTL					;$BCFCB4  /
 
-;Active kong collision routine
-CODE_BCFCB5:
-	STA collision_mask_result		;$BCFCB5  \
-	LDX active_kong_sprite			;$BCFCB7   |
-	STX $6A					;$BCFCBA   |
-	LDY #$0000				;$BCFCBC   |
-	JSR check_for_collision			;$BCFCBF   |
-	BCC CODE_BCFCC5				;$BCFCC2   |
-	RTL					;$BCFCC4  /
+;Checks if any of the inactive kong's hitboxes intersect with the current sprite's hitboxes, this will also check mounted dummy kongs
+;Takes collision mask as argument in A
+;The collision mask is checked against the kong's. If they aren't on the same collision layer they won't interact
+;Returns carry clear if no intersections happens
+;Returns carry set if any of the kong and sprite's boxes intersect (in which case colliding_sprite will contain the kong)
+check_inactive_kong_collision:
+	STA collision_mask_result		;$BCFCA5  \> Store the collision mask
+	LDX inactive_kong_sprite		;$BCFCA7   |\
+	STX colliding_sprite			;$BCFCAA   |/ Set the inactive kong as potential collider
+	LDY #sizeof(sprite_clipping)*3		;$BCFCAC   |> Use inactive kong clipping base
+	JSR check_for_collision			;$BCFCAF   |\ Check for collisions between active kong and sprite
+	BCC check_animal_collision		;$BCFCB2   |/ If no collision with inactive kong was detected, check mounted kong collision
+	RTL					;$BCFCB4  /> A collision occurred, return collision results
 
-CODE_BCFCC5:
-	LDA collision_mask_result		;$BCFCC5  \
-	BEQ CODE_BCFCDB				;$BCFCC7   |
-	LDX active_kong_sprite			;$BCFCC9   |
-	CPX $6A					;$BCFCCC   |
-	BEQ CODE_BCFCDD				;$BCFCCE   |
-	STX $6A					;$BCFCD0   |
-	LDY #$0000				;$BCFCD2   |
-	JSR check_for_collision			;$BCFCD5   |
-	BCC CODE_BCFCDD				;$BCFCD8   |
-	RTL					;$BCFCDA  /
+;Checks if any of the active kong's hitboxes intersect with the current sprite's hitboxes, this will also check mounted dummy kongs
+;Takes collision mask as argument in A
+;The collision mask is checked against the kong's. If they aren't on the same collision layer they won't interact
+;Returns carry clear if no intersections happens
+;Returns carry set if any of the kong and sprite's boxes intersect (in which case colliding_sprite will contain the kong)
+;sprite_collision_result will have bits set for exactly which clipping slots collided
+check_active_kong_collision:
+	STA collision_mask_result		;$BCFCB5  \> Store the collision mask
+	LDX active_kong_sprite			;$BCFCB7   |\
+	STX colliding_sprite			;$BCFCBA   |/ Set the active kong as potential collider
+	LDY #$0000				;$BCFCBC   |> Use active kong clipping base
+	JSR check_for_collision			;$BCFCBF   |\ Check for collisions between active kong and sprite
+	BCC check_animal_collision		;$BCFCC2   |/ If no collision with active kong was detected, check mounted kong collision
+	RTL					;$BCFCC4  /> A collision occurred, return collision results
 
-CODE_BCFCDB:
+check_animal_collision:
+	LDA collision_mask_result		;$BCFCC5  \ \
+	BEQ .no_collision_mask			;$BCFCC7   |/ If no collision mask was set then return no collision
+	LDX active_kong_sprite			;$BCFCC9   |\
+	CPX colliding_sprite			;$BCFCCC   | |
+	BEQ check_for_kong_mount_collision	;$BCFCCE   |/ If active kong, active kong was already checked, check mounted kong collision
+	STX colliding_sprite			;$BCFCD0   |\ Else make the colliding sprite the active kong
+	LDY #$0000				;$BCFCD2   | | Use active kong clipping base
+	JSR check_for_collision			;$BCFCD5   | | Check for collisions between active kong and sprite
+	BCC check_for_kong_mount_collision	;$BCFCD8   |/ If no collision with active kong was detected, check mounted kong collision
+	RTL					;$BCFCDA  /> A collision occurred, return collision results
+
+.no_collision_mask:
 	CLC					;$BCFCDB  \
-	RTL					;$BCFCDC  /
+	RTL					;$BCFCDC  /> Return
 
-CODE_BCFCDD:
-	STZ $09F5				;$BCFCDD  \
-	LDA collision_mask_result		;$BCFCE0   |
-	AND $30,x				;$BCFCE2   |
-	BEQ CODE_BCFD56				;$BCFCE4   |
-	LDA $09EF				;$BCFCE6   |
-	BEQ CODE_BCFD56				;$BCFCE9   |
-	CMP $09E3				;$BCFCEB   |
-	BCC CODE_BCFD56				;$BCFCEE   |
-	LDA $09E7				;$BCFCF0   |
-	CMP $09EB				;$BCFCF3   |
-	BCC CODE_BCFD56				;$BCFCF6   |
-	LDA $09E9				;$BCFCF8   |
-	CMP $09ED				;$BCFCFB   |
-	BCC CODE_BCFD56				;$BCFCFE   |
-	LDA $09F1				;$BCFD00   |
-	CMP $09E5				;$BCFD03   |
-	BCC CODE_BCFD56				;$BCFD06   |
-	LDA $09DF				;$BCFD08   |
-	BEQ CODE_BCFD50				;$BCFD0B   |
-	CMP $09EB				;$BCFD0D   |
-	BCC CODE_BCFD30				;$BCFD10   |
-	LDA $09EF				;$BCFD12   |
-	CMP $09DB				;$BCFD15   |
-	BCC CODE_BCFD30				;$BCFD18   |
-	LDA $09E1				;$BCFD1A   |
-	CMP $09ED				;$BCFD1D   |
-	BCC CODE_BCFD30				;$BCFD20   |
-	LDA $09F1				;$BCFD22   |
-	CMP $09DD				;$BCFD25   |
-	BCC CODE_BCFD30				;$BCFD28   |
-	LDA #$0200				;$BCFD2A   |
-	TSB $09F5				;$BCFD2D   |
-CODE_BCFD30:					;	   |
-	LDA $09EF				;$BCFD30   |
-	CMP $09D3				;$BCFD33   |
-	BCC CODE_BCFD56				;$BCFD36   |
-	LDA $09D7				;$BCFD38   |
-	CMP $09EB				;$BCFD3B   |
-	BCC CODE_BCFD56				;$BCFD3E   |
-	LDA $09D9				;$BCFD40   |
-	CMP $09A5				;$BCFD43   |
-	BCC CODE_BCFD56				;$BCFD46   |
-	LDA $09A9				;$BCFD48   |
-	CMP $09D5				;$BCFD4B   |
-	BCC CODE_BCFD56				;$BCFD4E   |
-CODE_BCFD50:					;	   |
-	LDA #$0400				;$BCFD50   |
-	TSB $09F5				;$BCFD53   |
-CODE_BCFD56:					;	   |
-	STZ collision_mask_result		;$BCFD56   |
-	LDA $09F5				;$BCFD58   |
-	CMP #$0001				;$BCFD5B   |
-	RTL					;$BCFD5E  /
+;Slot 9 will collide with all other slots 6,7,8
+;If a collision is detected it will set bits in sprite_collision_result, depending on which clipping slots collide
+;Slots 7 and 9 colliding sets bit 9 (#$0200)
+;Slots 6/8 and 9 colliding sets bit 10 (#$0400)
+check_for_kong_mount_collision:
+	STZ sprite_collision_result		;$BCFCDD  \> Clear previous collision event
+	LDA collision_mask_result		;$BCFCE0   |\
+	AND sprite.interaction_flags,x		;$BCFCE2   | |
+	BEQ .return_collision_result		;$BCFCE4   |/ If sprite is on a different collision layer, dont check collision
+	LDA sprite_clipping[9].right		;$BCFCE6   |\ Get the right of slot 9
+	BEQ .return_collision_result		;$BCFCE9   |/ If this clipping slot isnt populated then return from collision check
+	CMP sprite_clipping[8].left		;$BCFCEB   | | with the left slot 8
+	BCC .return_collision_result		;$BCFCEE   |/ If no intersection between slots 9 and 8 then return from collision check
+	LDA sprite_clipping[8].right		;$BCFCF0   |\ Compare the right of slot 8
+	CMP sprite_clipping[9].left		;$BCFCF3   | | with the left of slot 9
+	BCC .return_collision_result		;$BCFCF6   |/ If no intersection between slots 9 and 8 then return from collision check
+	LDA sprite_clipping[8].bottom		;$BCFCF8   |\ Compare the bottom of slot 8
+	CMP sprite_clipping[9].top		;$BCFCFB   | | with the top of slot 9
+	BCC .return_collision_result		;$BCFCFE   |/ If no intersection between slots 9 and 8 then return from collision check
+	LDA sprite_clipping[9].bottom		;$BCFD00   |\ Compare the bottom of slot 9
+	CMP sprite_clipping[8].top		;$BCFD03   | | with the top of slot 8
+	BCC .return_collision_result		;$BCFD06   |/ If no intersection between slots 9 and 8 then return from collision check
+	LDA sprite_clipping[7].right		;$BCFD08   |\ Get the right of slot 9
+	BEQ .slots_9_8_collision		;$BCFD0B   |/ If this clipping slot isnt populated then return from collision check
+	CMP sprite_clipping[9].left		;$BCFD0D   |\ Compare with the left of slot 9
+	BCC .check_slots_9_6			;$BCFD10   |/ If no intersection between slots 9 and 7 then skip to next collision check
+	LDA sprite_clipping[9].right		;$BCFD12   |\ Compare the right of slot 9
+	CMP sprite_clipping[7].left		;$BCFD15   | | with the left of slot 7
+	BCC .check_slots_9_6			;$BCFD18   |/ If no intersection between slots 9 and 7 then skip to next collision check
+	LDA sprite_clipping[7].bottom		;$BCFD1A   |\ Compare the bottom of slot 7
+	CMP sprite_clipping[9].top		;$BCFD1D   | | with the top of slot 9
+	BCC .check_slots_9_6			;$BCFD20   |/ If no intersection between slots 9 and 7 then skip to next collision check
+	LDA sprite_clipping[9].bottom		;$BCFD22   |\ Compare the bottom of slot 9
+	CMP sprite_clipping[7].top		;$BCFD25   | | with the top of slot 7
+	BCC .check_slots_9_6			;$BCFD28   |/ If no intersection between slots 9 and 7 then skip to next collision check
+	LDA #$0200				;$BCFD2A   |\
+	TSB sprite_collision_result		;$BCFD2D   |/ Flag a collision between slots 9 and 6
+.check_slots_9_6:				;	   |
+	LDA sprite_clipping[9].right		;$BCFD30   |\ Compare the right of slot 9
+	CMP sprite_clipping[6].left		;$BCFD33   | | with the left slot 6
+	BCC .return_collision_result		;$BCFD36   |/ If no intersection between slots 9 and 6 then return from collision check
+	LDA sprite_clipping[6].right		;$BCFD38   |\ Compare the right of slot 6
+	CMP sprite_clipping[9].left		;$BCFD3B   | | with the left of slot 9
+	BCC .return_collision_result		;$BCFD3E   |/ If no intersection between slots 9 and 6 then return from collision check
+	LDA sprite_clipping[6].bottom		;$BCFD40   |\ Compare the bottom of slot 6
+	CMP sprite_clipping[0].top		;$BCFD43   | | with the top of slot 0
+	BCC .return_collision_result		;$BCFD46   |/ If no intersection between slots 0 and 6 then return from collision check
+	LDA sprite_clipping[0].bottom		;$BCFD48   |\ Compare the bottom of slot 0
+	CMP sprite_clipping[6].top		;$BCFD4B   | | with the top of slot 6
+	BCC .return_collision_result		;$BCFD4E   |/ If no intersection between slots 0 and 6 then return from collision check
+.slots_9_8_collision:				;	   |
+	LDA #$0400				;$BCFD50   |\ Flag a collision between slots 9 and 8 Set if the kong riding animal buddy collided with a sprite
+	TSB sprite_collision_result		;$BCFD53   |/
+.return_collision_result:			;	   |
+	STZ collision_mask_result		;$BCFD56   |> Clear collision mask
+	LDA sprite_collision_result		;$BCFD58   |\
+	CMP #$0001				;$BCFD5B   |/ Set carry if any collision event happened
+	RTL					;$BCFD5E  /> A collision occurred, return collision results
 
 no_contact_return:
-	CLC					;$BCFD5F  \
-	RTS					;$BCFD60  /
+	CLC					;$BCFD5F  \ \ Clear carry
+	RTS					;$BCFD60  /_/ Return no collision
 
+
+;If a collision is detected it will set bits in sprite_collision_result, depending on which clipping slots collide
+;Slot 0 will collide with both slots 6 (sets bit 2 (#$0004)) and 7 (sets bit 1 (#$0002))
+;Slot 1 will only collide with slot 6 (sets bit 0 (#$0001)
+;Slot 2 will only collide with slot 8 (this collision is required for any others to be checked)
+;Additionally slot numbers 0-2 can be offset by passing a value in Y (Must be a multiple of 8)
 check_for_collision:
-	STZ $09F5				;$BCFD61  \ Clear previous collision event
-	LDA collision_mask_result		;$BCFD64   |
-	AND $30,x				;$BCFD66   |
-	BEQ no_contact_return			;$BCFD68   |
-	LDA $09B7,y				;$BCFD6A   | Compare the right of the kong
-	CMP $09E3				;$BCFD6D   | with the left of the sprite
-	BCC no_contact_return			;$BCFD70   |
-	LDA $09E7				;$BCFD72   | Compare the right of the sprite
-	CMP $09B3,y				;$BCFD75   | with the left of the kong
-	BCC no_contact_return			;$BCFD78   |
-	LDA $09E9				;$BCFD7A   | Compare the bottom of the sprite
-	CMP $09B5,y				;$BCFD7D   | with the top of the kong
-	BCC no_contact_return			;$BCFD80   |
-	LDA $09B9,y				;$BCFD82   | Compare the bottom of the kong
-	CMP $09E5				;$BCFD85   | with the top of the sprite
-	BCC no_contact_return			;$BCFD88   |
-	LDA $09AF,y				;$BCFD8A   | Compare the right of inactive kong
-	BEQ CODE_BCFDB2				;$BCFD8D   | If inactive kong clipping doesn't exists skip follower clipping check
-	CMP $09D3				;$BCFD8F   | with the left of the sprite
-	BCC CODE_BCFDB2				;$BCFD92   |
-	LDA $09D7				;$BCFD94   | Compare the right of the sprite
-	CMP $09AB,y				;$BCFD97   |
-	BCC CODE_BCFDB2				;$BCFD9A   |
-	LDA $09D9				;$BCFD9C   |
-	CMP $09AD,y				;$BCFD9F   |
-	BCC CODE_BCFDB2				;$BCFDA2   |
-	LDA $09B1,y				;$BCFDA4   |
-	CMP $09D5				;$BCFDA7   |
-	BCC CODE_BCFDB2				;$BCFDAA   |
-	LDA #$0001				;$BCFDAC   |\ Follower kong collided
-	TSB $09F5				;$BCFDAF   |/
-CODE_BCFDB2:					;	   |
-	LDA $09DF				;$BCFDB2   |
-	BEQ CODE_BCFDDA				;$BCFDB5   |
-	CMP $09A3,y				;$BCFDB7   |
-	BCC CODE_BCFDDA				;$BCFDBA   |
-	LDA $09A7,y				;$BCFDBC   |
-	CMP $09DB				;$BCFDBF   |
-	BCC CODE_BCFDDA				;$BCFDC2   |
-	LDA $09A9,y				;$BCFDC4   |
-	CMP $09DD				;$BCFDC7   |
-	BCC CODE_BCFDDA				;$BCFDCA   |
-	LDA $09E1				;$BCFDCC   |
-	CMP $09A5,y				;$BCFDCF   |
-	BCC CODE_BCFDDA				;$BCFDD2   |
-	LDA #$0002				;$BCFDD4   |
-	TSB $09F5				;$BCFDD7   |
-CODE_BCFDDA:					;	   |
-	LDA $09A7,y				;$BCFDDA   | Compare the right of the kong
-	CMP $09D3				;$BCFDDD   | with the left of the sprite
-	BCC CODE_BCFE00				;$BCFDE0   |
-	LDA $09D7				;$BCFDE2   | Compare the right of the sprite
-	CMP $09A3,y				;$BCFDE5   | with the left of the kong
-	BCC CODE_BCFE00				;$BCFDE8   |
-	LDA $09D9				;$BCFDEA   | Compare the bottom of the sprite
-	CMP $09A5,y				;$BCFDED   | with the top of the kong
-	BCC CODE_BCFE00				;$BCFDF0   |
-	LDA $09A9,y				;$BCFDF2   | Compare the bottom of the kong
-	CMP $09D5				;$BCFDF5   | with the top of the sprite
-	BCC CODE_BCFE00				;$BCFDF8   |
-	LDA #$0004				;$BCFDFA   |\ Main kong collided
-	TSB $09F5				;$BCFDFD   |/
-CODE_BCFE00:					;	   |
-	LDA $09F5				;$BCFE00   |\
+	STZ sprite_collision_result		;$BCFD61  \> Clear previous collision event
+	LDA collision_mask_result		;$BCFD64   |\
+	AND sprite.interaction_flags,x		;$BCFD66   | |
+	BEQ no_contact_return			;$BCFD68   |/ If sprite is on a different collision layer, dont check collision
+	LDA sprite_clipping[2].right,y		;$BCFD6A   |\ Compare the right of slot 2
+	CMP sprite_clipping[8].left		;$BCFD6D   | | with the left slot 8
+	BCC no_contact_return			;$BCFD70   |/ If no intersection between main clippings (8/2) then return and dont check the others
+	LDA sprite_clipping[8].right		;$BCFD72   |\ Compare the right of slot 8
+	CMP sprite_clipping[2].left,y		;$BCFD75   | | with the left of slot 2
+	BCC no_contact_return			;$BCFD78   |/ If no intersection between main clippings (8/2) then return and dont check the others
+	LDA sprite_clipping[8].bottom		;$BCFD7A   |\ Compare the bottom of slot 8
+	CMP sprite_clipping[2].top,y		;$BCFD7D   | | with the top of slot 2
+	BCC no_contact_return			;$BCFD80   |/ If no intersection between main clippings (8/2) then return and dont check the others
+	LDA sprite_clipping[2].bottom,y		;$BCFD82   |\ Compare the bottom of slot 2
+	CMP sprite_clipping[8].top		;$BCFD85   | | with the top of slot 8
+	BCC no_contact_return			;$BCFD88   |/ If no intersection between main clippings (8/2) then return and dont check the others
+	LDA sprite_clipping[1].right,y		;$BCFD8A   |\ Get the right of slot 1
+	BEQ .check_slots_7_0			;$BCFD8D   |/ If this clipping slot isnt populated then skip to next collision check
+	CMP sprite_clipping[6].left		;$BCFD8F   |\ Compare with the left of slot 6
+	BCC .check_slots_7_0			;$BCFD92   |/ If no intersection between main clippings (6/1) then skip to next collision check
+	LDA sprite_clipping[6].right		;$BCFD94   |\ Compare the right of slot 6
+	CMP sprite_clipping[1].left,y		;$BCFD97   | | with the left of slot 1
+	BCC .check_slots_7_0			;$BCFD9A   |/ If no intersection between main clippings (6/1) then skip to next collision check
+	LDA sprite_clipping[6].bottom		;$BCFD9C   |\ Compare the bottom of slot 6
+	CMP sprite_clipping[1].top,y		;$BCFD9F   | | with the top of slot 1
+	BCC .check_slots_7_0			;$BCFDA2   |/ If no intersection between main clippings (6/1) then skip to next collision check
+	LDA sprite_clipping[1].bottom,y		;$BCFDA4   |\ Compare the bottom of slot 1
+	CMP sprite_clipping[6].top		;$BCFDA7   | | with the top of slot 6
+	BCC .check_slots_7_0			;$BCFDAA   |/ If no intersection between main clippings (6/1) then skip to next collision check
+	LDA #$0001				;$BCFDAC   |\
+	TSB sprite_collision_result		;$BCFDAF   |/ Flag a collision between slots 6 and 1
+.check_slots_7_0:				;	   |
+	LDA sprite_clipping[7].right		;$BCFDB2   |\ Get the right of slot 7
+	BEQ .check_slots_6_0			;$BCFDB5   |/ If this clipping slot isnt populated then skip to next collision check
+	CMP sprite_clipping[0].left,y		;$BCFDB7   |\ Compare with the left of slot 0
+	BCC .check_slots_6_0			;$BCFDBA   |/ If no intersection between slots 7 and 0 then skip to next collision check
+	LDA sprite_clipping[0].right,y		;$BCFDBC   |\ Compare the right of slot 0
+	CMP sprite_clipping[7].left		;$BCFDBF   | | with the left of slot 7
+	BCC .check_slots_6_0			;$BCFDC2   |/ If no intersection between slots 7 and 0 then skip to next collision check
+	LDA sprite_clipping[0].bottom,y		;$BCFDC4   |\ Compare the bottom of slot 0
+	CMP sprite_clipping[7].top		;$BCFDC7   | | with the top of slot 7
+	BCC .check_slots_6_0			;$BCFDCA   |/ If no intersection between slots 7 and 0 then skip to next collision check
+	LDA sprite_clipping[7].bottom		;$BCFDCC   |\ Compare the bottom of slot 7
+	CMP sprite_clipping[0].top,y		;$BCFDCF   | | with the top of slot 0
+	BCC .check_slots_6_0			;$BCFDD2   |/ If no intersection between slots 7 and 0 then skip to next collision check
+	LDA #$0002				;$BCFDD4   |\
+	TSB sprite_collision_result		;$BCFDD7   |/ Flag a collision between slots 7 and 0
+.check_slots_6_0:				;	   |> Only checked after previous detection
+	LDA sprite_clipping[0].right,y		;$BCFDDA   |\ Compare the right of slot 0
+	CMP sprite_clipping[6].left		;$BCFDDD   | | with the left of the slot 6
+	BCC .return_collision_result		;$BCFDE0   |/ If no intersection between slots 6 and 0 then skip to next collision check
+	LDA sprite_clipping[6].right		;$BCFDE2   |\ Compare the right of slot 6
+	CMP sprite_clipping[0].left,y		;$BCFDE5   | | with the left of slot 0
+	BCC .return_collision_result		;$BCFDE8   |/ If no intersection between slots 6 and 0 then skip to next collision check
+	LDA sprite_clipping[6].bottom		;$BCFDEA   |\ Compare the bottom of slot 6
+	CMP sprite_clipping[0].top,y		;$BCFDED   | | with the top of slot 0
+	BCC .return_collision_result		;$BCFDF0   |/ If no intersection between slots 6 and 0 then skip to next collision check
+	LDA sprite_clipping[0].bottom,y		;$BCFDF2   |\ Compare the bottom of slot 0
+	CMP sprite_clipping[6].top		;$BCFDF5   | | with the top of slot 6
+	BCC .return_collision_result		;$BCFDF8   |/ If no intersection between slots 6 and 0 then skip to next collision check
+	LDA #$0004				;$BCFDFA   |\
+	TSB sprite_collision_result		;$BCFDFD   |/ Flag a collision between slots 6 and 0
+.return_collision_result:			;	   |
+	LDA sprite_collision_result		;$BCFE00   |\
 	CMP #$0001				;$BCFE03   |/ Set carry if any collision event happened
-	RTS					;$BCFE06  /
+	RTS					;$BCFE06  /> A collision occurred, return collision results
 
-CODE_BCFE07:
-	PLB					;$BCFE07  \
-	CLC					;$BCFE08   |
-	RTL					;$BCFE09  /
+no_collision_detected:
+	PLB					;$BCFE07  \> Retrieve bank
+	CLC					;$BCFE08   |\ Clear carry
+	RTL					;$BCFE09  /_/ Return no collision
 
 
-;checks if current sprite (which called this) collided with any other sprite that wasn't a kong or itself
-
-;takes collision interaction flags in A (if these don't match the sprites it's checking collision against then it won't actually check for collision)
-
-;returns carry set if collided or carry clear is no collision
-;$6A will contain the sprite that the calling sprite collided with
-
-CODE_BCFE0A:
-	STA collision_mask_result		;$BCFE0A  \
-	LDA #main_sprite_table_end		;$BCFE0C   |
-	STA $6A					;$BCFE0F   |
-	LDA $09E3				;$BCFE11   |
-	STA $D9					;$BCFE14   |
-	LDA $09E7				;$BCFE16   |
-	STA $DD					;$BCFE19   |
-	LDA $09E9				;$BCFE1B   |
-	STA $DF					;$BCFE1E   |
-	LDA $09E5				;$BCFE20   |
-	STA $DB					;$BCFE23   |
-	PHB					;$BCFE25   |
-	PHK					;$BCFE26   |
-	PLB					;$BCFE27   |
-.next_sprite					;	   |
-	LDA $6A					;$BCFE28   |> Get sprite to check collision against
+;Checks if any sprite's hitboxes intersect with the current sprite's hitbox (This check excludes the kongs)
+;Takes collision mask as argument in A
+;The collision mask is checked against the current sprite's. If they aren't on the same collision layer they won't interact
+;Returns carry clear if no intersections happens
+;Returns carry set if a sprite's box intersects (in which case temp_sprite_clipping[1] will contain the colliding sprite's clipping)...
+;...And colliding_sprite will contain the sprite itself that collided
+check_for_sprite_collisions:
+	STA collision_mask_result		;$BCFE0A  \> Set collision mask
+	LDA #main_sprite_table_end		;$BCFE0C   |\ Start at the end of the sprite table
+	STA colliding_sprite			;$BCFE0F   |/
+	LDA sprite_clipping[8].left		;$BCFE11   |\
+	STA temp_sprite_clipping[0].left	;$BCFE14   |/ Copy clipping left
+	LDA sprite_clipping[8].right		;$BCFE16   |\
+	STA temp_sprite_clipping[0].right	;$BCFE19   |/ Copy clipping right
+	LDA sprite_clipping[8].bottom		;$BCFE1B   |\
+	STA temp_sprite_clipping[0].bottom	;$BCFE1E   |/ Copy clipping bottom
+	LDA sprite_clipping[8].top		;$BCFE20   |\
+	STA temp_sprite_clipping[0].top		;$BCFE23   |/ Copy clipping top
+	PHB					;$BCFE25   |> Preserve bank
+	PHK					;$BCFE26   |\
+	PLB					;$BCFE27   |/ Use program bank
+.next_sprite:					;	   |
+	LDA colliding_sprite			;$BCFE28   |> Get sprite to check collision against
 	SEC					;$BCFE2A   |\
 	SBC.w #sizeof(sprite)			;$BCFE2B   | | Move to previous slot
-	STA $6A					;$BCFE2E   |/
-	CMP #$0E40				;$BCFE30   |\ Check if dixie slot
-	BEQ CODE_BCFE07				;$BCFE33   |/ If on dixie slot, no more sprites need to be checked because the rest are kongs
-	CMP current_sprite			;$BCFE35   |\ Check if potential target sprite is current sprite
-	BEQ .next_sprite			;$BCFE37   |/ If same sprite then skip, to not collide with itself
-	TAX					;$BCFE39   |> Potential target sprite in X
-	LDA $00,x				;$BCFE3A   |\ Get sprite type
-	BEQ .next_sprite			;$BCFE3C   |/ If sprite doesn't exist skip to next sprite
-	LDA $30,x				;$BCFE3E   |\ Get interaction flags from potential target sprite
-	AND collision_mask_result		;$BCFE40   | | Compare to current sprites interaction flags
-	BEQ .next_sprite			;$BCFE42   |/ If the sprites can't interact then skip to next sprite
-	LDA $1A,x				;$BCFE44   |\
+	STA colliding_sprite			;$BCFE2E   |/
+	CMP #dixie_sprite_slot			;$BCFE30   |\
+	BEQ no_collision_detected		;$BCFE33   |/ If sprite slot is dixie then all sprites were checked, no collision was found
+	CMP current_sprite			;$BCFE35   |\ If colliding sprite is the caller
+	BEQ .next_sprite			;$BCFE37   |/ Prevent self collisions and continue to next sprite
+	TAX					;$BCFE39   |> Put current sprite in X
+	LDA sprite.type,x			;$BCFE3A   |\
+	BEQ .next_sprite			;$BCFE3C   |/ If sprite slot is empty, continue to next sprite
+	LDA sprite.interaction_flags,x		;$BCFE3E   |\
+	AND collision_mask_result		;$BCFE40   | |
+	BEQ .next_sprite			;$BCFE42   |/ If sprite is on a different collision layer, continue to next sprite
+	LDA sprite.current_graphic,x		;$BCFE44   |\
 	LSR A					;$BCFE46   | |
 	TAY					;$BCFE47   | |
 	LDA sprite_hitbox_table,y		;$BCFE48   | | Get hitbox data address
-	TAY					;$BCFE4B   |/ Put it in Y
-	LDA $0A,x				;$BCFE4C   |> Get potential target sprite y position
-	BIT $12,x				;$BCFE4E   |\
-	BPL .no_y_flip				;$BCFE50   |/ If sprite isn't vertical flipped then add hitbox y offset
+	TAY					;$BCFE4B   |/
+	LDA sprite.y_position,x			;$BCFE4C   |> Get colliding sprites y position
+	BIT sprite.oam_property,x		;$BCFE4E   |\
+	BPL .no_y_flip				;$BCFE50   |/ If sprite isnt y flipped then add hitbox y offset
 	SEC					;$BCFE52   |\
-	SBC $0002,y				;$BCFE53   |/ Else subtract hitbox y offset
-	CMP $DB					;$BCFE56   |
-	BCC .next_sprite			;$BCFE58   |
-	STA $E7					;$BCFE5A   |
-	SBC $0006,y				;$BCFE5C   |
-	CMP $DF					;$BCFE5F   |
-	BCC ..y_clipped				;$BCFE61   |
-	BNE .next_sprite			;$BCFE63   |
-..y_clipped					;	   |
-	STA $E3					;$BCFE65   |
-	BRA .check_x_clipping			;$BCFE67  /
+	SBC $0002,y				;$BCFE53   |/ Else subtract hitbox y offset, this is colliding sprites clipping bottom
+	CMP temp_sprite_clipping[0].top		;$BCFE56   |\
+	BCC .next_sprite			;$BCFE58   |/ If sprite is too far above then not clipping, continue to next sprite
+	STA temp_sprite_clipping[1].bottom	;$BCFE5A   |> Save bottom clipping
+	SBC $0006,y				;$BCFE5C   |\ Subtract hitbox height, this is colliding sprites clipping top
+	CMP temp_sprite_clipping[0].bottom	;$BCFE5F   | |
+	BCC .y_clipped				;$BCFE61   |/ If sprite is inside y box ranges, start checking for x clipping
+	BNE .next_sprite			;$BCFE63   |> If sprite isnt clipping on y axis, continue to next sprite
+.y_clipped:					;	   |
+	STA temp_sprite_clipping[1].top		;$BCFE65   |> Save top clipping
+	BRA .check_x_clipping			;$BCFE67  /> Check for x clipping
 
-;first word is target
-;second word is current
-
-.no_y_flip
+.no_y_flip:
 	CLC					;$BCFE69  \ \
-	ADC $0002,y				;$BCFE6A   |/ Add hitbox y offset, this is potential target sprite's hitbox top
-	CMP $DF					;$BCFE6D   |\ Current sprite's hitbox bottom
-	BCC .top_bottom_intersect		;$BCFE6F   |/
-	BNE .next_sprite			;$BCFE71   |
+	ADC $0002,y				;$BCFE6A   |/ Add hitbox y offset, this is colliding sprites clipping top
+	CMP temp_sprite_clipping[0].bottom	;$BCFE6D   |\
+	BCC .possible_y_clip			;$BCFE6F   |/ If collidings top is below currents bottom we might have a y clip
+	BNE .next_sprite			;$BCFE71   |> If sprite isnt clipping on y axis, continue to next sprite
 	CLC					;$BCFE73   |
-.top_bottom_intersect				;	   |
-	STA $E3					;$BCFE74   |> Save target hitbox top
-	ADC $0006,y				;$BCFE76   |> Add target hitbox height to get potential target sprite's hitbox bottom
-	CMP $DB					;$BCFE79   |\ Current sprite's hitbox top
-	BCC .next_sprite			;$BCFE7B   |/ If bottom of target isn't intersecting top of current then skip to next sprite
-	STA $E7					;$BCFE7D   |> Save target hitbox bottom
-.check_x_clipping				;	   |
-	LDA $06,x				;$BCFE7F   |> Get potential target sprite x position
-	BIT $12,x				;$BCFE81   |\
-	BVC .no_x_flip				;$BCFE83   |/ If sprite isn't horizontal flipped then add hitbox x offset
+.possible_y_clip:				;	   |
+	STA temp_sprite_clipping[1].top		;$BCFE74   |> Save top clipping
+	ADC $0006,y				;$BCFE76   |> Add hitbox height, this is colliding sprites clipping bottom
+	CMP temp_sprite_clipping[0].top		;$BCFE79   |\
+	BCC .next_sprite			;$BCFE7B   |/ If sprite is too far above then not clipping, continue to next sprite
+	STA temp_sprite_clipping[1].bottom	;$BCFE7D   |> Save bottom clipping
+.check_x_clipping:				;	   |
+	LDA sprite.x_position,x			;$BCFE7F   |> Get colliding sprites x position
+	BIT sprite.oam_property,x		;$BCFE81   |\
+	BVC .no_x_flip				;$BCFE83   |/ If sprite isnt x flipped then add hitbox y offset
 	SEC					;$BCFE85   |\
-	SBC $0000,y				;$BCFE86   |/ Else subtract hitbox x offset
-	CMP $D9					;$BCFE89   |
-	BCC .next_sprite			;$BCFE8B   |
-	STA $E5					;$BCFE8D   |
-	SBC $0004,y				;$BCFE8F   |
-	CMP $DD					;$BCFE92   |
-	BCC ..x_clipped				;$BCFE94   |
-	BNE .next_sprite			;$BCFE96   |
-..x_clipped					;	   |
-	STA $E1					;$BCFE98   |
-	BRA .sprites_are_colliding		;$BCFE9A  /
+	SBC $0000,y				;$BCFE86   |/ Else subtract hitbox x offset, this is colliding sprites clipping right
+	CMP temp_sprite_clipping[0].left	;$BCFE89   |\
+	BCC .next_sprite			;$BCFE8B   |/ If sprite is too far left then not clipping, continue to next sprite
+	STA temp_sprite_clipping[1].right	;$BCFE8D   |> Save right clipping
+	SBC $0004,y				;$BCFE8F   |\ Subtract hitbox width, this is colliding sprites clipping left
+	CMP temp_sprite_clipping[0].right	;$BCFE92   | |
+	BCC .flipped_x_clipped			;$BCFE94   |/ If sprite is inside x box ranges, the sprites are clipping
+	BNE .next_sprite			;$BCFE96   |> If sprite isnt clipping on x axis, continue to next sprite
+.flipped_x_clipped:				;	   |
+	STA temp_sprite_clipping[1].left	;$BCFE98   |> Save left clipping
+	BRA .sprites_are_colliding		;$BCFE9A  /> Sprites are clipping
 
-.no_x_flip
+.no_x_flip:
 	CLC					;$BCFE9C  \ \
-	ADC $0000,y				;$BCFE9D   |/ Add hitbox x offset, this is potential target sprite's hitbox left
-	CMP $DD					;$BCFEA0   |\ Current sprite's hitbox right
-	BCC .left_right_intersect		;$BCFEA2   |/ If left of target is intersecting right of current continue checking for clip
-	BNE .next_sprite			;$BCFEA4   |> Else skip to next sprite
-	CLC					;$BCFEA6   |> Return no clipping
-.left_right_intersect				;	   |
-	STA $E1					;$BCFEA7   |> Save target hitbox left
-	ADC $0004,y				;$BCFEA9   |> Add target hitbox width to get potential target sprite's hitbox right
-	CMP $D9					;$BCFEAC   |\ Current sprite's hitbox left
-	BCS ..x_clipped				;$BCFEAE   |/ If right of target is intersecting left of current
-	BRL .next_sprite			;$BCFEB0  /> Else skip to next sprite
+	ADC $0000,y				;$BCFE9D   |/ Add hitbox x offset, this is colliding sprites clipping left
+	CMP temp_sprite_clipping[0].right	;$BCFEA0   |\
+	BCC .possible_x_clip			;$BCFEA2   |/ If collidings left is less than currents right we might have an x clip
+	BNE .next_sprite			;$BCFEA4   |> If sprite isnt clipping on x axis, continue to next sprite
+	CLC					;$BCFEA6   |
+.possible_x_clip:				;	   |
+	STA temp_sprite_clipping[1].left	;$BCFEA7   |> Save left clipping
+	ADC $0004,y				;$BCFEA9   |> Add hitbox width, this is colliding sprites clipping right
+	CMP temp_sprite_clipping[0].left	;$BCFEAC   |\
+	BCS .x_clipped				;$BCFEAE   |/ If sprite is inside x box ranges, the sprites are clipping
+	BRL .next_sprite			;$BCFEB0  /> Else, continue to next sprite
 
-..x_clipped:
-	STA $E5					;$BCFEB3  \
-.sprites_are_colliding				;	   |
-	PLB					;$BCFEB5   |
-	SEC					;$BCFEB6   |
-	RTL					;$BCFEB7  /
+.x_clipped:
+	STA temp_sprite_clipping[1].right	;$BCFEB3  \> Save right clipping
+.sprites_are_colliding:				;	   |
+	PLB					;$BCFEB5   |\ Retrieve bank
+	SEC					;$BCFEB6   | |
+	RTL					;$BCFEB7  /_/ Return collision detected
 
-	LDX #$00E1				;$BCFEB8   |
-	LDY #$09AB				;$BCFEBB   |
-	BRA CODE_BCFEE8				;$BCFEBE  /
+	LDX.w #temp_sprite_clipping[1]		;$BCFEB8   |
+	LDY #sprite_clipping[1]			;$BCFEBB   |
+	BRA .copy_clipping_slot_handle_kongs	;$BCFEBE  /
 
-CODE_BCFEC0:
-	LDX #$00E1				;$BCFEC0  \
-	LDY #$09B3				;$BCFEC3   |
-	BRA CODE_BCFEE8				;$BCFEC6  /
+#CODE_BCFEC0:
+	LDX.w #temp_sprite_clipping[1]		;$BCFEC0  \
+	LDY #sprite_clipping[2]			;$BCFEC3   |
+	BRA .copy_clipping_slot_handle_kongs	;$BCFEC6  /
 
-CODE_BCFEC8:
-	LDX #$00E1				;$BCFEC8  \
-	LDY #$09A3				;$BCFECB   |
-	BRA CODE_BCFEE8				;$BCFECE  /
+#CODE_BCFEC8:
+	LDX.w #temp_sprite_clipping[1]		;$BCFEC8  \
+	LDY #sprite_clipping[0]			;$BCFECB   |
+	BRA .copy_clipping_slot_handle_kongs	;$BCFECE  /
 
-	LDX #$00D9				;$BCFED0   |
-	LDY #$09DB				;$BCFED3   |
-	BRA CODE_BCFF03				;$BCFED6  /
+	LDX.w #temp_sprite_clipping[0]		;$BCFED0   |
+	LDY #sprite_clipping[7]			;$BCFED3   |
+	BRA .copy_clipping_slot			;$BCFED6  /
 
-CODE_BCFED8:
-	LDX #$00D9				;$BCFED8  \
-	LDY #$09E3				;$BCFEDB   |
-	BRA CODE_BCFF03				;$BCFEDE  /
+#CODE_BCFED8:
+	LDX.w #temp_sprite_clipping[0]		;$BCFED8  \
+	LDY #sprite_clipping[8]			;$BCFEDB   |
+	BRA .copy_clipping_slot			;$BCFEDE  /
 
-CODE_BCFEE0:
-	LDX #$00D9				;$BCFEE0  \
-	LDY #$09D3				;$BCFEE3   |
-	BRA CODE_BCFF03				;$BCFEE6  /
+#CODE_BCFEE0:
+	LDX.w #temp_sprite_clipping[0]		;$BCFEE0  \
+	LDY #sprite_clipping[6]			;$BCFEE3   |
+	BRA .copy_clipping_slot			;$BCFEE6  /
 
-CODE_BCFEE8:
-	LDA $6A					;$BCFEE8  \
-	CMP active_kong_sprite			;$BCFEEA   |
-	BEQ CODE_BCFF03				;$BCFEED   |
-	CMP inactive_kong_sprite		;$BCFEEF   |
-	BNE CODE_BCFEFC				;$BCFEF2   |
-	TYA					;$BCFEF4   |
-	CLC					;$BCFEF5   |
-	ADC #$0018				;$BCFEF6   |
-	TAY					;$BCFEF9   |
-	BRA CODE_BCFF03				;$BCFEFA  /
+.copy_clipping_slot_handle_kongs:
+	LDA colliding_sprite			;$BCFEE8  \ \
+	CMP active_kong_sprite			;$BCFEEA   | |
+	BEQ .copy_clipping_slot			;$BCFEED   |/ If colliding sprite is active kong then copy slot from y to x
+	CMP inactive_kong_sprite		;$BCFEEF   |\
+	BNE .handle_animal_mount		;$BCFEF2   |/ If colliding sprite isnt one of the kongs check for a mount
+	TYA					;$BCFEF4   |\
+	CLC					;$BCFEF5   | |
+	ADC #sizeof(sprite_clipping)*3		;$BCFEF6   | | Colliding sprite is inactive kong, offset source clipping slot by 3
+	TAY					;$BCFEF9   |/
+	BRA .copy_clipping_slot			;$BCFEFA  /> copy slot from y to x
 
-CODE_BCFEFC:
-	CMP current_player_mount		;$BCFEFC  \
-	BNE CODE_BCFF1B				;$BCFEFE   |
-	LDY #$09EB				;$BCFF00   |
-CODE_BCFF03:					;	   |
-	LDA $0004,y				;$BCFF03   |
-	BEQ CODE_BCFF1B				;$BCFF06   |
-	STA $04,x				;$BCFF08   |
-	LDA $0000,y				;$BCFF0A   |
-	STA $00,x				;$BCFF0D   |
-	LDA $0006,y				;$BCFF0F   |
-	STA $06,x				;$BCFF12   |
-	LDA $0002,y				;$BCFF14   |
-	STA $02,x				;$BCFF17   |
-	CLC					;$BCFF19   |
-	RTL					;$BCFF1A  /
+.handle_animal_mount:
+	CMP current_player_mount		;$BCFEFC  \ \
+	BNE .no_clipping_copied			;$BCFEFE   |/ If colliding sprite isnt players animal mount, dont copy clipping
+	LDY #sprite_clipping[9]			;$BCFF00   |> Else, colliding sprite is animal mount (dummy kong), populate slot 9
+.copy_clipping_slot:				;	   |
+	LDA.w rel_sprite_clipping[0].right,y	;$BCFF03   |\
+	BEQ .no_clipping_copied			;$BCFF06   |/ If clipping right doesnt exist then there is no clipping
+	STA rel_sprite_clipping[0].right,x	;$BCFF08   |> Copy clipping right
+	LDA.w rel_sprite_clipping[0].left,y	;$BCFF0A   |\
+	STA rel_sprite_clipping[0].left,x	;$BCFF0D   |/ Copy clipping left
+	LDA.w rel_sprite_clipping[0].bottom,y	;$BCFF0F   |\
+	STA  rel_sprite_clipping[0].bottom,x	;$BCFF12   |/ Copy clipping bottom
+	LDA.w rel_sprite_clipping[0].top,y	;$BCFF14   |\
+	STA  rel_sprite_clipping[0].top,x	;$BCFF17   |/ Copy clipping top
+	CLC					;$BCFF19   |\ Return clipping copy success
+	RTL					;$BCFF1A  /_/
 
-CODE_BCFF1B:
-	SEC					;$BCFF1B  \
-	RTL					;$BCFF1C  /
+.no_clipping_copied:
+	SEC					;$BCFF1B  \ \ Return clipping copy failed
+	RTL					;$BCFF1C  /_/
 
-;similar to CODE_BCFE0A but checks every sprite as a victim (including aux sprite?!?)
-;probably exclusively used for platform sprites
 
-CODE_BCFF1D:
-	STA collision_mask_result		;$BCFF1D  \
-	LDA #main_sprite_table_end		;$BCFF1F   |
-	STA $6A					;$BCFF22   |
-	LDA $09E3				;$BCFF24   |
-	STA $D9					;$BCFF27   |
-	LDA $09E7				;$BCFF29   |
-	STA $DD					;$BCFF2C   |
-	LDA $09E9				;$BCFF2E   |
-	STA $DF					;$BCFF31   |
-	LDA $09E5				;$BCFF33   |
-	STA $DB					;$BCFF36   |
-CODE_BCFF38:					;	   |
-	PHB					;$BCFF38   |
-	PHK					;$BCFF39   |
-	PLB					;$BCFF3A   |
-.next_sprite					;	   |
-	LDA $6A					;$BCFF3B   |
+;Used by platform sprites
+;Checks if any sprite's origin point is inside current sprite's hitbox
+;Takes collision mask as argument in A
+;The collision mask is checked against the current sprite's. If they aren't on the same collision layer they won't interact
+;Returns carry set if a sprite's origin is within the current sprite's hitbox...
+;...And colliding_sprite will contain the sprite itself that collided
+;Note: check_for_point_collisions seems weird and would only check sprite slots before colliding sprite
+;check_for_point_collisions also doesnt take a collision mask argument
+check_for_sprite_point_collisions:
+	STA collision_mask_result		;$BCFF1D  \> Set collision mask
+	LDA #main_sprite_table_end		;$BCFF1F   |\ Start at the end of the sprite table
+	STA colliding_sprite			;$BCFF22   |/
+	LDA sprite_clipping[8].left		;$BCFF24   |\
+	STA temp_sprite_clipping[0].left	;$BCFF27   |/ Copy clipping left
+	LDA sprite_clipping[8].right		;$BCFF29   |\
+	STA temp_sprite_clipping[0].right	;$BCFF2C   |/ Copy clipping right
+	LDA sprite_clipping[8].bottom		;$BCFF2E   |\
+	STA temp_sprite_clipping[0].bottom	;$BCFF31   |/ Copy clipping bottom
+	LDA sprite_clipping[8].top		;$BCFF33   |\
+	STA temp_sprite_clipping[0].top		;$BCFF36   |/ Copy clipping top
+check_for_point_collisions:			;	   |
+	PHB					;$BCFF38   |> Preserve bank
+	PHK					;$BCFF39   |\
+	PLB					;$BCFF3A   |/ Use current program bank
+.next_sprite:					;	   |
+	LDA colliding_sprite			;$BCFF3B   |
 	CMP #aux_sprite_table+1			;$BCFF3D   |\
-	BCC CODE_BCFF6E				;$BCFF40   |/ This might be a bug because it will continue to process aux as if it can have collision
+	BCC .no_collisions_found		;$BCFF40   |/ Likely a bug, it will continue to process aux as if it can have collision
 	SBC.w #sizeof(sprite)			;$BCFF42   |
-	STA $6A					;$BCFF45   |
-	CMP current_sprite			;$BCFF47   |
-	BEQ .next_sprite			;$BCFF49   |
-	TAX					;$BCFF4B   |
-	LDA $00,x				;$BCFF4C   |
-	BEQ .next_sprite			;$BCFF4E   |
-	LDA $30,x				;$BCFF50   |
-	AND collision_mask_result		;$BCFF52   |
-	BEQ .next_sprite			;$BCFF54   |
-	LDA $0A,x				;$BCFF56   |
-	CMP $DB					;$BCFF58   |
-	BCC .next_sprite			;$BCFF5A   |
-	CMP $DF					;$BCFF5C   |
-	BCS .next_sprite			;$BCFF5E   |
-	LDA $06,x				;$BCFF60   |
-	CMP $D9					;$BCFF62   |
-	BCC .next_sprite			;$BCFF64   |
-	DEC A					;$BCFF66   |
-	CMP $DD					;$BCFF67   |
-	BCS .next_sprite			;$BCFF69   |
-	PLB					;$BCFF6B   |
-	SEC					;$BCFF6C   |
-	RTL					;$BCFF6D  /
+	STA colliding_sprite			;$BCFF45   |\
+	CMP current_sprite			;$BCFF47   | | If colliding sprite is the caller
+	BEQ .next_sprite			;$BCFF49   |/ Prevent self collisions and continue to next sprite
+	TAX					;$BCFF4B   |> Put current sprite in X
+	LDA sprite.type,x			;$BCFF4C   |\
+	BEQ .next_sprite			;$BCFF4E   |/ If sprite slot is empty, continue to next sprite
+	LDA sprite.interaction_flags,x		;$BCFF50   |\
+	AND collision_mask_result		;$BCFF52   | |
+	BEQ .next_sprite			;$BCFF54   |/ If sprite is on a different collision layer, continue to next sprite
+	LDA sprite.y_position,x			;$BCFF56   |\
+	CMP temp_sprite_clipping[0].top		;$BCFF58   | |
+	BCC .next_sprite			;$BCFF5A   |/ If sprite is too far above then not clipping, continue to next sprite
+	CMP temp_sprite_clipping[0].bottom	;$BCFF5C   |\
+	BCS .next_sprite			;$BCFF5E   |/ If sprite is too far below then not clipping, continue to next sprite
+	LDA sprite.x_position,x			;$BCFF60   |\
+	CMP temp_sprite_clipping[0].left	;$BCFF62   | |
+	BCC .next_sprite			;$BCFF64   |/ If sprite is too far left then not clipping, continue to next sprite
+	DEC A					;$BCFF66   |\
+	CMP temp_sprite_clipping[0].right	;$BCFF67   | |
+	BCS .next_sprite			;$BCFF69   |/ If sprite is too far right then not clipping, continue to next sprite
+	PLB					;$BCFF6B   |> Retrieve bank
+	SEC					;$BCFF6C   |\
+	RTL					;$BCFF6D  /_/ Return collision detected
 
-CODE_BCFF6E:
-	PLB					;$BCFF6E  \
-	CLC					;$BCFF6F   |
-	RTL					;$BCFF70  /
+.no_collisions_found:
+	PLB					;$BCFF6E  \> Retrieve bank
+	CLC					;$BCFF6F   |\
+	RTL					;$BCFF70  /_/ Return no collision
