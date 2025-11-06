@@ -3337,6 +3337,7 @@ CODE_B5AE10:					;	   |
 	REP #$20				;$B5AE3E   |
 	RTL					;$B5AE40  /
 
+;Dead code
 	LDA $17BA				;$B5AE41   |
 	AND #$FFF8				;$B5AE44   |
 	CMP $17CA				;$B5AE47   |
@@ -3638,6 +3639,7 @@ CODE_B5B02B:					;	   |
 	REP #$20				;$B5B082   |
 	RTL					;$B5B084  /
 
+;Dead code
 	LDA $17C0				;$B5B085   |
 	AND #$FFF8				;$B5B088   |
 	CMP $17CE				;$B5B08B   |
@@ -4898,6 +4900,7 @@ CODE_B5B9BB:
 	JSL CODE_B5AAE6				;$B5B9BF   |
 	RTL					;$B5B9C3  /
 
+;Dead code
 	LDA #$00C0				;$B5B9C4   |
 	STA $17C8				;$B5B9C7   |
 	LDA $98					;$B5B9CA   |
@@ -7271,12 +7274,12 @@ DATA_B5CDBE:
 
 CODE_B5CDDE:
 	LDX active_kong_sprite			;$B5CDDE  \
-	BEQ CODE_B5CDEE				;$B5CDE1   |
+	BEQ .return				;$B5CDE1   |
 	JSR CODE_B5CDEF				;$B5CDE3   |
 	LDX inactive_kong_sprite		;$B5CDE6   |
-	BEQ CODE_B5CDEE				;$B5CDE9   |
+	BEQ .return				;$B5CDE9   |
 	JSR CODE_B5CDEF				;$B5CDEB   |
-CODE_B5CDEE:					;	   |
+.return:					;	   |
 	RTS					;$B5CDEE  /
 
 CODE_B5CDEF:
@@ -7284,6 +7287,7 @@ CODE_B5CDEF:
 	JSL process_sprite_animation		;$B5CDF1   |
 	RTS					;$B5CDF5  /
 
+;Dead code
 	STX current_sprite			;$B5CDF6   |
 	JSL set_sprite_animation		;$B5CDF8   |
 	RTS					;$B5CDFC  /
@@ -7477,8 +7481,8 @@ CODE_B5CEDF:
 	SEP #$20				;$B5CEDF  \
 	LDA #$0F				;$B5CEE1   |
 	STA PPU.screen				;$B5CEE3   |
-CODE_B5CEE6:					;	   |
-	BRA CODE_B5CEE6				;$B5CEE6  /
+.infinite_loop:					;	   |
+	BRA .infinite_loop			;$B5CEE6  /
 
 CODE_B5CEE8:
 	REP #$20				;$B5CEE8   |
@@ -7497,7 +7501,7 @@ generic_world_map_init:
 	TCD					;$B5CEF8   |
 	LDX #stack				;$B5CEF9   |
 	TXS					;$B5CEFC   |
-	JSR CODE_B5CEEB				;$B5CEFD   |
+	JSR CODE_B5CEEB				;$B5CEFD   | Init sprite render order
 	JSR spawn_map_player			;$B5CF00   |
 	JSL CODE_B480CD				;$B5CF03   |
 	LDA.l $0006A3				;$B5CF07   |
@@ -7543,7 +7547,7 @@ crocodile_isle_init:
 	TCD					;$B5CF6B   |
 	LDX #stack				;$B5CF6C   |
 	TXS					;$B5CF6F   |
-	JSR CODE_B5CEEB				;$B5CF70   |
+	JSR CODE_B5CEEB				;$B5CF70   | Init sprite render order
 	JSL CODE_B480CD				;$B5CF73   |
 	JSL CODE_B49C2A				;$B5CF77   |
 	JSR CODE_B5D580				;$B5CF7B   |
@@ -7850,7 +7854,7 @@ CODE_B5D2E4:
 	PHA					;$B5D2FA   |
 	PLB					;$B5D2FB   |
 	PLB					;$B5D2FC   |
-	LDY.w DATA_B4C44C,x			;$B5D2FD   |
+	LDY.w world_entrance_node_ids,x		;$B5D2FD   |
 	STY map_node_number			;$B5D300   |
 	JSL CODE_B49C2A				;$B5D303   |
 	LDA.l $0006A9				;$B5D307   |
@@ -9462,6 +9466,7 @@ zero_fill:
 	db $00
 
 
+;Clear/init camera RAM block?
 CODE_B5E0E2:
 	PHB					;$B5E0E2  \
 	LDA #zero_fill				;$B5E0E3   |
@@ -10164,8 +10169,8 @@ CODE_B5E660:
 	CMP $000A,y				;$B5E668   | |
 	BCC CODE_B5E689				;$B5E66B   |/
 .no_water					;	   |
-	LDA.l $00006E				;$B5E66D   |\
-	CMP #$0198				;$B5E671   | |
+	LDA.l animal_type			;$B5E66D   |\
+	CMP #!sprite_squawks			;$B5E671   | |
 	BEQ CODE_B5E689				;$B5E674   |/ If player has squawks
 	LDA $000E,y				;$B5E676   |\
 	BNE CODE_B5E682				;$B5E679   |/ If not on ground
@@ -10295,7 +10300,7 @@ CODE_B5E749:
 	LDA.l active_frame_counter		;$B5E749  \
 	LSR A					;$B5E74D   |
 	CLC					;$B5E74E   |
-	ADC $00002A				;$B5E74F   |
+	ADC.l active_frame_counter		;$B5E74F   |
 	CLC					;$B5E753   |
 	ADC #$001F				;$B5E754   |
 	LSR A					;$B5E757   |
@@ -11986,6 +11991,7 @@ CODE_B5F0C4:
 	ROR $D2					;$B5F0C9   |
 	BRA CODE_B5F0C1				;$B5F0CB  /
 
+;Screen shake (X)
 CODE_B5F0CD:
 	BPL CODE_B5F0D3				;$B5F0CD  \
 	EOR #$FFFF				;$B5F0CF   |
@@ -11996,6 +12002,7 @@ CODE_B5F0D3:					;	   |
 	TRB $0AFA				;$B5F0D9   |
 	RTL					;$B5F0DC  /
 
+;Dead code
 	BPL CODE_B5F0E3				;$B5F0DD   |
 	EOR #$FFFF				;$B5F0DF   |
 	INC A					;$B5F0E2   |
@@ -12005,6 +12012,7 @@ CODE_B5F0E3:					;	   |
 	TSB $0AFA				;$B5F0E9   |
 	RTL					;$B5F0EC  /
 
+;Screen shake (Y)
 CODE_B5F0ED:
 	BPL CODE_B5F0F3				;$B5F0ED  \
 	EOR #$FFFF				;$B5F0EF   |
@@ -12788,7 +12796,7 @@ CODE_B5F6D5:
 	REP #$30				;$B5F6D5  \
 	PLA					;$B5F6D7   |
 	LDA #$0400				;$B5F6D8   |
-	STA $70					;$B5F6DB   |
+	STA next_oam_slot			;$B5F6DB   |
 	RTS					;$B5F6DD  /
 
 CODE_B5F6DE:
@@ -12844,7 +12852,7 @@ CODE_B5F739:
 	PLX					;$B5F739  \
 	REP #$30				;$B5F73A   |
 	LDA #$0400				;$B5F73C   |
-	STA $70					;$B5F73F   |
+	STA next_oam_slot			;$B5F73F   |
 	RTS					;$B5F741  /
 
 CODE_B5F742:

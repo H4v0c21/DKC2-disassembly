@@ -1683,7 +1683,7 @@ CODE_B9DA19:
 	STZ sprite.y_speed,x			;$B9DA1D   |
 	LDA sprite.x_position,x			;$B9DA1F   |
 	STA sprite.general_purpose_44,x		;$B9DA21   |
-	LDA #$0025				;$B9DA23   |
+	LDA #!kong_state_25			;$B9DA23   |
 	STA sprite.state,x			;$B9DA26   |
 	LDA #$003D				;$B9DA28   |
 	JSL set_anim_handle_dixie		;$B9DA2B   |
@@ -2479,9 +2479,9 @@ CODE_B9DF12:					;	   |
 
 CODE_B9DF13:
 	LDA sprite.state,x			;$B9DF13  \
-	CMP #$004F				;$B9DF15   |
+	CMP #!kong_state_4F			;$B9DF15   |
 	BEQ CODE_B9DF27				;$B9DF18   |
-	LDA #$0009				;$B9DF1A   |
+	LDA #!kong_state_09			;$B9DF1A   |
 	STA sprite.state,x			;$B9DF1D   |
 	LDA #$007C				;$B9DF1F   |
 	JSL set_anim_handle_animal_and_dixie	;$B9DF22   |
@@ -5334,8 +5334,7 @@ CODE_B9F080:
 	JSL CODE_BAC256				;$B9F080  \
 	RTS					;$B9F084  /
 
-;auto barrel cannon rotation frames
-DATA_B9F085:
+launch_barrel_rotation_frames:
 	dw $08CC
 	dw $08D0
 	dw $08D4
@@ -5353,8 +5352,7 @@ DATA_B9F085:
 	dw $08C4
 	dw $08C8
 
-;auto barrel cannon rotation frames
-DATA_B9F0A5:
+auto_barrel_rotation_frames:
 	dw $0318
 	dw $031C
 	dw $0320

@@ -1552,7 +1552,7 @@ clear_full_wram:
 	TXS					;$808EE6   |/
 	JMP.w (.return)				;$808EE7  / Return using address from scratch RAM
 
-CODE_808EEA:
+init_new_file:
 	JSL disable_screen			;$808EEA  \
 	PHK					;$808EEE   |
 	PLB					;$808EEF   |
@@ -1595,21 +1595,21 @@ CODE_808F4A:
 	LDA current_game_mode			;$808F4D   |
 	CMP #!gamemode_2_player_contest		;$808F50   |
 	BEQ CODE_808F59				;$808F53   |
-	JSR CODE_808F6C				;$808F55   |
+	JSR set_default_new_file_status		;$808F55   |
 	RTS					;$808F58  /
 
 CODE_808F59:
 	JSL CODE_BBC85B				;$808F59  \
-	JSR CODE_808F6C				;$808F5D   |
+	JSR set_default_new_file_status		;$808F5D   |
 	JSL CODE_BBC85B				;$808F60   |
-	JSR CODE_808F6C				;$808F64   |
+	JSR set_default_new_file_status		;$808F64   |
 	RTS					;$808F67  /
 
-CODE_808F68:
-	JSR CODE_808F6C				;$808F68  \
+set_default_new_file_status_global:
+	JSR set_default_new_file_status		;$808F68  \
 	RTL					;$808F6B  /
 
-CODE_808F6C:
+set_default_new_file_status:
 	LDA #!level_pirate_panic		;$808F6C  \
 	STA level_number			;$808F6F   |
 	STA pirate_panic_level_number_unused	;$808F71   |
@@ -1631,10 +1631,10 @@ CODE_808F6C:
 	STZ $096B				;$808F9D   |
 	LDX #$0004				;$808FA0   |
 	LDA cheat_enable_flags			;$808FA3   |
-	AND #$0002				;$808FA6   |
-	BEQ CODE_808FAE				;$808FA9   |
-	LDX #$0032				;$808FAB   |
-CODE_808FAE:					;	   |
+	AND #$0002				;$808FA6   | Check if "yasadlad" cheat is enabled
+	BEQ .set_starting_lives			;$808FA9   | If not, set default starting lives
+	LDX #$0032				;$808FAB   | Else set 50 lives
+.set_starting_lives:				;	   |
 	STX life_count				;$808FAE   |
 	STX life_count_display			;$808FB1   |
 	LDA #$0080				;$808FB4   |
@@ -1672,11 +1672,11 @@ CODE_808FF3:					;	   |
 CODE_808FFA:					;	   |
 	RTS					;$808FFA  /
 
-;Dead code (demo recording?)
 CODE_808FFB:
 	RTS					;$808FFB  /
 
-	LDX demo_sequence_index			;$808FFC   |
+;Dead code (demo recording?)
+	LDX demo_sequence_index			;$808FFC  \
 	LDA CPU.port_0_data_1			;$808FFF   |
 	CMP.l DATA_FE9388,x			;$809002   |
 	BNE CODE_809012				;$809006   |
@@ -2573,10 +2573,10 @@ init_game_mode_select:
 	JSL clear_noncritical_wram		;$8097DA   |
 	JSL set_all_oam_offscreen		;$8097DE   |
 	STZ cheat_enable_flags			;$8097E2   |
-	LDX #$001E				;$8097E5   |
-	LDA #$0000				;$8097E8   |
-CODE_8097EB:					;	   |
-	STA $32,x				;$8097EB   |
+	LDX #$001E				;$8097E5   |\
+	LDA #$0000				;$8097E8   | |
+CODE_8097EB:					;	   | | Clear scratch RAM
+	STA temp_32,x				;$8097EB   |/
 	DEX					;$8097ED   |
 	DEX					;$8097EE   |
 	BPL CODE_8097EB				;$8097EF   |
@@ -2716,7 +2716,7 @@ CODE_8097EB:					;	   |
 	JSL DMA_palette				;$80998E   |
 	LDY #$0080				;$809992   |
 	LDX #$0004				;$809995   |
-	LDA #$00AA				;$809998   |
+	LDA #!map_p1_kong_and_text_spr_palette	;$809998   |
 	JSL DMA_sprite_palette_from_index	;$80999B   |
 	STZ $84					;$80999F   |
 	LDA #$0300				;$8099A1   |
@@ -3048,7 +3048,7 @@ CODE_809C8A:
 	LDA screen_brightness			;$809C8A  \
 	CMP #$8201				;$809C8D   |
 	BNE CODE_809C96				;$809C90   |
-	JML CODE_808EEA				;$809C92  /
+	JML init_new_file			;$809C92  /
 
 CODE_809C96:
 	WAI					;$809C96  \
@@ -3214,7 +3214,7 @@ CODE_809E0E:					;	   |
 	SEC					;$809E1A   |
 	SBC #$0021				;$809E1B   |
 	TAX					;$809E1E   |
-	LDA.l DATA_B4C4B3,x			;$809E1F   |
+	LDA.l yellow_font_tile_offsets,x	;$809E1F   |
 	AND #$00FF				;$809E23   |
 	ASL A					;$809E26   |
 	CLC					;$809E27   |
@@ -3255,7 +3255,7 @@ CODE_809E59:
 	STZ oam_attribute[$10].size		;$809E71   |
 	RTS					;$809E74  /
 
-;File select cheat inputs?
+
 barralax_cheat_inputs:
 	dw !input_B
 	dw !input_A
@@ -3278,6 +3278,7 @@ yasadlad_cheat_inputs:
 	dw !input_down
 
 
+;Secret ending HDMA related
 DATA_809E95:
 	db $6C, $90, $90, $00, $00, $89, $11, $91
 	db $21, $00, $12, $92, $24, $00, $13, $93
@@ -3651,7 +3652,7 @@ run_secret_ending:
 	INC active_frame_counter		;$80A31E   |
 	BNE CODE_80A327				;$80A320   |
 	LDA $1000				;$80A322   | Bug: address instead of a constant value
-	STA active_frame_counter		;$80A325   | This will cause the camera shake + sfx to play again
+	STA active_frame_counter		;$80A325   | This will set counter to 0 and cause the camera shake + sfx to play again
 CODE_80A327:					;	   |
 	LDX #aux_sprite_table			;$80A327   |
 	JSR CODE_80A545				;$80A32A   |
@@ -5112,7 +5113,7 @@ CODE_80AF53:
 	LDA.l DATA_ED783B,x			;$80AF58   |
 	STA $34					;$80AF5C   |
 	LDA #$00ED				;$80AF5E   |
-	STA $36					;$80AF61   |
+	STA $36					;$80AF61   | Bank
 	LDY #$0000				;$80AF63   |
 	LDA $32					;$80AF66   |
 	STA PPU.vram_address			;$80AF68   |
@@ -8078,7 +8079,7 @@ CODE_80C9B3:					;	   |
 	REP #$20				;$80C9E6   |
 	LDA active_frame_counter		;$80C9E8   |
 	BIT #$0001				;$80C9EA   |
-	BEQ CODE_80CA1A				;$80C9ED   |
+	BEQ .return				;$80C9ED   |
 	AND #$000E				;$80C9EF   |
 	TAX					;$80C9F2   |
 	LDA.l DATA_80C963,x			;$80C9F3   |
@@ -8095,7 +8096,7 @@ CODE_80C9B3:					;	   |
 	LDA #$01				;$80CA13   |
 	STA CPU.enable_dma			;$80CA15   |
 	REP #$30				;$80CA18   |
-CODE_80CA1A:					;	   |
+.return:					;	   |
 	RTS					;$80CA1A  /
 
 CODE_80CA1B:
@@ -8740,7 +8741,7 @@ DATA_80CF11:
 update_ship_mast_flag_graphics:
 	LDA active_frame_counter		;$80CF21  \
 	BIT #$0007				;$80CF23   |
-	BNE CODE_80CF57				;$80CF26   |
+	BNE .return				;$80CF26   |
 	LSR A					;$80CF28   |
 	LSR A					;$80CF29   |
 	AND #$000E				;$80CF2A   |
@@ -8760,7 +8761,7 @@ update_ship_mast_flag_graphics:
 	LDA #$02				;$80CF50   |
 	STA CPU.enable_dma			;$80CF52   |
 	REP #$20				;$80CF55   |
-CODE_80CF57:					;	   |
+.return:					;	   |
 	RTS					;$80CF57  /
 
 update_rigging_graphics:
@@ -9653,6 +9654,7 @@ krocodile_kore_tileset_logic:
 	JSR fade_screen				;$80D8F9   |
 	JMP tileset_logic_return		;$80D8FC  /
 
+;Dead code
 	JMP paused_tileset_logic		;$80D8FF  /
 
 castle_crush_tileset_logic:
@@ -10888,12 +10890,12 @@ handle_fireworks:
 	LSR A					;$80E4FF   |
 	BCS .CODE_80E50A			;$80E500   |
 	LDA #$01BD				;$80E502   |
-	JSL set_alt_sprite_animation		;$80E505   | Set alternate sprite animation
+	JSL set_alt_sprite_animation		;$80E505   |
 	RTS					;$80E509  /
 
 .CODE_80E50A:
 	LDA #$01BE				;$80E50A  \
-	JSL set_alt_sprite_animation		;$80E50D   | Set alternate sprite animation
+	JSL set_alt_sprite_animation		;$80E50D   |
 	RTS					;$80E511  /
 
 fireworks_spawn_x_positions:
@@ -11200,7 +11202,7 @@ CODE_80E6DC:					;	   |
 	NOP					;$80E779   |
 	NOP					;$80E77A   |
 	SEP #$20				;$80E77B   |
-	LDA.l $004216				;$80E77D   |
+	LDA.l CPU.divide_remainder_low		;$80E77D   |
 	XBA					;$80E781   |
 	LDA $37					;$80E782   |
 	REP #$20				;$80E784   |
@@ -12828,7 +12830,7 @@ init_ending_parade:
 	STA $00072B				;$80F46A   |
 	LDY #$00F0				;$80F46E   |
 	LDX #$0004				;$80F471   |
-	LDA #$00AA				;$80F474   |
+	LDA #!map_p1_kong_and_text_spr_palette	;$80F474   |
 	JSL DMA_sprite_palette_from_index	;$80F477   |
 	LDA #$0001				;$80F47B   |
 	STA pending_dma_hdma_channels		;$80F47E   |
@@ -12939,7 +12941,7 @@ CODE_80F551:					;	   |
 	LDA screen_brightness			;$80F551   |
 	CMP #$8201				;$80F554   |
 	BNE CODE_80F567				;$80F557   |
-	LDA #CODE_BAB633			;$80F559   |
+	LDA #init_credits_screen		;$80F559   |
 	STA $00067D				;$80F55C   |
 	LDA #bonus_and_credits_screen_NMI	;$80F560   |
 	JML set_nmi_pointer			;$80F563  /
@@ -13275,7 +13277,7 @@ update_ending_parade_text:
 	SEC					;$80F988   |
 	SBC #$0021				;$80F989   |
 	TAX					;$80F98C   |
-	LDA.l DATA_B4C4B3,x			;$80F98D   |
+	LDA.l yellow_font_tile_offsets,x	;$80F98D   |
 	AND #$00FF				;$80F991   |
 	ASL A					;$80F994   |
 	CLC					;$80F995   |

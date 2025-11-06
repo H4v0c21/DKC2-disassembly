@@ -3149,24 +3149,25 @@ get_x_acceleration:
 	AND #$2000				;$B899C0   |
 	BNE .slippery_terrain			;$B899C3   |
 	LDY #$0012				;$B899C5   |
-	BRA CODE_B899DC				;$B899C8  /
+	BRA .CODE_B899DC			;$B899C8  /
+
 .slippery_terrain
 	LDY #$0016				;$B899CA  \
 	LDA $0A,x				;$B899CD   |
 	SEC					;$B899CF   |
 	SBC $0D4E				;$B899D0   |
-	BNE CODE_B899DC				;$B899D3   |
+	BNE .CODE_B899DC			;$B899D3   |
 	LDA $26,x				;$B899D5   |
-	BNE CODE_B899DC				;$B899D7   |
+	BNE .CODE_B899DC			;$B899D7   |
 	LDY #$001A				;$B899D9   |
-CODE_B899DC:					;	   |
+.CODE_B899DC:					;	   |
 	LDX current_kong_control_variables	;$B899DC   |
 	LDA kong_control.fast_flag,x		;$B899DE   |
 	AND #$0004				;$B899E0   |
-	BNE CODE_B899E6				;$B899E3   |
+	BNE .CODE_B899E6			;$B899E3   |
 	RTS					;$B899E5  /
 
-CODE_B899E6:
+.CODE_B899E6:
 	TYA					;$B899E6  \
 	CLC					;$B899E7   |
 	ADC #$0002				;$B899E8   |
@@ -3351,7 +3352,7 @@ CODE_B89B49:
 	LDA level_number			;$B89B49  \
 	CMP #!level_web_woods_squitter_room	;$B89B4B   |
 	BEQ .CODE_B89B8B			;$B89B4E   |
-	CMP #$006E				;$B89B50   |
+	CMP #!level_toxic_tower			;$B89B50   |
 	BEQ .CODE_B89B8B			;$B89B53   |
 	LDX current_sprite			;$B89B55   |
 	LDA $24,x				;$B89B57   |
@@ -3362,20 +3363,21 @@ CODE_B89B49:
 	LSR A					;$B89B61   |
 	TAX					;$B89B62   |
 	LDA.l .DATA_B89B81,x			;$B89B63   |
-	STA $32					;$B89B67   |
+	STA temp_32				;$B89B67   |
 	LDA level_number			;$B89B69   |
 	CMP #!level_animal_antics_squitter_area	;$B89B6B   |
 	BNE .CODE_B89B75			;$B89B6E   |
 	LDA #$00F8				;$B89B70   |
-	STA $32					;$B89B73   |
+	STA temp_32				;$B89B73   |
 .CODE_B89B75					;	   |
 	LDX current_sprite			;$B89B75   |
 	LDA $0A,x				;$B89B77   |
-	CMP $32					;$B89B79   |
+	CMP temp_32				;$B89B79   |
 	BPL .CODE_B89B9B			;$B89B7B   |
 	STZ $24,x				;$B89B7D   |
 	BRA .CODE_B89B9B			;$B89B7F  /
 
+;Level height limits?
 .DATA_B89B81
 	db $08, $01, $00, $01, $20, $01, $00, $01
 	db $00, $01
@@ -3400,7 +3402,7 @@ kong_state_0C:
 	JSR handle_player_physics		;$B89BA5   |
 	LDX current_sprite			;$B89BA8   |
 	LDA sprite.state,x			;$B89BAA   |
-	CMP #$000C				;$B89BAC   |
+	CMP #!kong_state_0C			;$B89BAC   |
 	BEQ CODE_B89BB4				;$B89BAF   |
 	JMP kong_state_return			;$B89BB1  /
 
@@ -3475,7 +3477,7 @@ kong_state_10:
 
 CODE_B89C3C:
 	JSR CODE_B89CED				;$B89C3C  \
-	JSR CODE_B89C61				;$B89C3F   |
+	JSR slowdown_squawks_on_level_y_limit	;$B89C3F   |
 	JSR CODE_B89C4C				;$B89C42   |
 	JSR CODE_B89C70				;$B89C45   |
 	JSR CODE_B89960				;$B89C48   |
@@ -3491,7 +3493,7 @@ CODE_B89C4C:
 	JSR record_highest_y_position		;$B89C5D   |
 	RTS					;$B89C60  /
 
-CODE_B89C61:
+slowdown_squawks_on_level_y_limit:
 	LDX current_sprite			;$B89C61  \
 	LDA $0A,x				;$B89C63   |
 	CMP #$0120				;$B89C65   |
@@ -8727,7 +8729,7 @@ single_rope_climb_left_action:
 	LDA.w kong_control.animation_id,y	;$B8C2D8   |
 	CMP #$0032				;$B8C2DB   |
 	BEQ .return				;$B8C2DE   |
-	LDA #$0036				;$B8C2E0   |
+	LDA #!kong_state_36			;$B8C2E0   |
 	STA sprite.state,x			;$B8C2E3   |
 	LDA #$0034				;$B8C2E5   |
 	JSL set_anim_handle_dixie		;$B8C2E8   |
@@ -8845,7 +8847,7 @@ rambi_charge_move_left_action:
 	LDX current_sprite			;$B8C39E  \
 	LDA $20,x				;$B8C3A0   |
 	BMI CODE_B8C3A9				;$B8C3A2   |
-	LDA #$0009				;$B8C3A4   |
+	LDA #!kong_state_09			;$B8C3A4   |
 	STA sprite.state,x			;$B8C3A7   |
 CODE_B8C3A9:					;	   |
 	RTS					;$B8C3A9  /
@@ -8967,7 +8969,7 @@ CODE_B8C464:
 	CMP #$0032				;$B8C469   |
 	BEQ CODE_B8C463				;$B8C46C   |
 	LDX current_sprite			;$B8C46E   |
-	LDA #$0036				;$B8C470   |
+	LDA #!kong_state_36			;$B8C470   |
 	STA sprite.state,x			;$B8C473   |
 	LDA #$0034				;$B8C475   |
 	JSL set_anim_handle_dixie		;$B8C478   |
@@ -8986,7 +8988,7 @@ CODE_B8C47D:
 
 double_rope_climb_right_action:
 	LDX current_sprite			;$B8C491  \
-	LDA #$0036				;$B8C493   |
+	LDA #!kong_state_36			;$B8C493   |
 	STA sprite.state,x			;$B8C496   |
 	LDA $12,x				;$B8C498   |
 	AND #$4000				;$B8C49A   |
@@ -10649,6 +10651,7 @@ apply_position_from_velocity:
 	REP #$20				;$B8CFAF   |
 	RTS					;$B8CFB1  /
 
+;Dead code
 	LDA #$0252				;$B8CFB2   |
 	STA $32					;$B8CFB5   |
 	LDA $06,x				;$B8CFB7   |
@@ -11240,6 +11243,7 @@ CODE_B8D2CB:					;	   |
 CODE_B8D2D1:					;	   |
 	RTS					;$B8D2D1  /
 
+;Slip velocities
 DATA_B8D2D2:
 	dw $0000, $0000, $0000
 	dw $0000, $0000, $0000

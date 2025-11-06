@@ -1791,7 +1791,7 @@ CODE_BEC4D6:
 	LDA $09F5				;$BEC4E0   |
 	BIT #$0001				;$BEC4E3   |
 	BEQ CODE_BEC4EF				;$BEC4E6   |
-	LDA #!player_interaction_02		;$BEC4E8   |
+	LDA #!player_interaction_02		;$BEC4E8   | TODO: probably not an interaction?
 	STA $32,x				;$BEC4EB   |
 	SEC					;$BEC4ED   |
 	RTS					;$BEC4EE  /
@@ -2226,7 +2226,7 @@ CODE_BEC7FB:
 CODE_BEC81F:
 	LDY next_oam_slot			;$BEC81F  \
 	CLC					;$BEC821   |
-	ADC #$01CC				;$BEC822   |
+	ADC #$01CC				;$BEC822   | Base OAM address of HUD ($1CC0.w)
 	ORA temp_5E				;$BEC825   |
 	STA $0002,y				;$BEC827   |
 	ADC #$000A				;$BEC82A   |
@@ -2296,7 +2296,7 @@ CODE_BEC89F:					;	   |
 	CLD					;$BEC8A6   | back to regular binary
 CODE_BEC8A7:					;	   |
 	DEC $096F				;$BEC8A7   | decrement banana display timer
-	LDY $70					;$BEC8AA   |
+	LDY next_oam_slot			;$BEC8AA   |
 	LDA #$0808				;$BEC8AC   |
 	STA $0000,y				;$BEC8AF   |
 	LDA active_frame_counter		;$BEC8B2   |
@@ -2345,7 +2345,7 @@ CODE_BEC8F8:
 CODE_BEC90C:					;	   |
 	LDA $42,x				;$BEC90C   |
 	BEQ CODE_BEC933				;$BEC90E   |
-	LDY $70					;$BEC910   |
+	LDY next_oam_slot			;$BEC910   |
 	SEP #$20				;$BEC912   |
 	SEC					;$BEC914   |
 	SBC #$08				;$BEC915   |
@@ -2364,7 +2364,7 @@ CODE_BEC90C:					;	   |
 	INY					;$BEC92E   |
 	INY					;$BEC92F   |
 	INY					;$BEC930   |
-	STY $70					;$BEC931   |
+	STY next_oam_slot			;$BEC931   |
 CODE_BEC933:					;	   |
 	INC $32					;$BEC933   |
 	INC $32					;$BEC935   |
@@ -9004,6 +9004,7 @@ CODE_BEF86E:
 	INC $53,x				;$BEF86F   |
 	RTS					;$BEF871  /
 
+;Dead code until CODE_BEF892
 	JSR process_terrain_handle_submerged	;$BEF872   |
 	JSR handle_sprite_on_level_x_boundary	;$BEF875   |
 	JSR handle_sprite_left_right		;$BEF878   |

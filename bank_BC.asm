@@ -8818,6 +8818,7 @@ CODE_BCFABA:					;	   |
 	PLD					;$BCFAC0   |
 	RTL					;$BCFAC1  /
 
+;Dead code
 	PHD					;$BCFAC2   |
 	LDY #$09A3				;$BCFAC3   |
 	LDX current_sprite			;$BCFAC6   |
