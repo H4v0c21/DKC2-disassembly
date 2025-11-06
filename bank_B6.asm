@@ -199,30 +199,31 @@ CODE_B68186:
 .return:					;	   |
 	RTS					;$B6819B  /
 
-handle_kudgel_stun:
+
+CODE_B6819C:
 	LDA.l $00074D				;$B6819C  \
-	BEQ .return				;$B681A0   | If screen is shaking, return (timer set by boss_command_code_3E)
-	PHB					;$B681A2   |
-	LDA #$00FF				;$B681A3   |
-	SEP #$20				;$B681A6   |
-	CLC					;$B681A8   |
-	ROR A					;$B681A9   |
-	INC A					;$B681AA   |
-	PHA					;$B681AB   |
-	PLB					;$B681AC   |
-	REP #$20				;$B681AD   |
-	CLC					;$B681AF   |
-	ADC #$0004				;$B681B0   |
-	XBA					;$B681B3   |
-	TAX					;$B681B4   |
-	LDY $0038,x				;$B681B5   |
-	CPY #$00AF				;$B681B8   |
-	BEQ .CODE_B681C7			;$B681BB   |
-	STZ $0656				;$B681BD   | \
-	LDX $0654				;$B681C0   |  | If anti-piracy check fails...
-	DEC $44,x				;$B681C3   |  | Delete index to club sprite and decrease return command address by 2
-	DEC $44,x				;$B681C5   | / This will make kudgel stand idling forever
-.CODE_B681C7:					;	   |
+	BEQ CODE_B681FE				;$B681A0   |
+	PHB					;$B681A2   |> Piracy check, preserve bank
+	LDA #$00FF				;$B681A3   |\ Load FF
+	SEP #$20				;$B681A6   | |
+	CLC					;$B681A8   | |
+	ROR A					;$B681A9   | | FF >> 1 = 7F
+	INC A					;$B681AA   | | 7F + 1 = 80 (bank)
+	PHA					;$B681AB   | | Set data bank to 80
+	PLB					;$B681AC   | |
+	REP #$20				;$B681AD   |/
+	CLC					;$B681AF   |\
+	ADC #$0004				;$B681B0   | | 80 + 4 = $0084
+	XBA					;$B681B3   | | $8400
+	TAX					;$B681B4   |/
+	LDY $0038,x				;$B681B5   |\ $8400 + $38 = $808438
+	CPY #$00AF				;$B681B8   |/ Check if instruction is an LDA.l
+	BEQ CODE_B681C7				;$B681BB   |> If so then dont break Kudgel
+	STZ $0656				;$B681BD   |\ Delete reference to club sprite
+	LDX $0654				;$B681C0   | |
+	DEC $44,x				;$B681C3   | | Decrease command return address so Kudgel idles forever
+	DEC $44,x				;$B681C5   |/
+CODE_B681C7:					;	   |
 	PLB					;$B681C7   |
 	DEC $074D				;$B681C8   | Decrease screen shake timer
 	LDY active_kong_sprite			;$B681CB   |
@@ -274,9 +275,9 @@ handle_kudgel_destroying_tnt:
 	JSR .inject_special_hitbox		;$B68225  \
 	LDA #$0200				;$B68228   |
 	LDY #$0000				;$B6822B   | Redundant? Routine clobbers Y
-	JSL CODE_BCFE0A				;$B6822E   | Check sprite collision
+	JSL check_for_sprite_collisions		;$B6822E   | Check sprite collision
 	BCC .return				;$B68232   |
-	LDY $6A					;$B68234   | Get sprite we collided with
+	LDY colliding_sprite			;$B68234   | Get sprite we collided with
 	LDA $0000,y				;$B68236   |
 	CMP #!sprite_tntbarrel			;$B68239   |
 	BNE .return				;$B6823C   | If not a TNT barrel, return
@@ -303,15 +304,15 @@ handle_kudgel_destroying_tnt:
 .grounded:
 	JSR .inject_special_hitbox		;$B68268  \
 	LDA #$0200				;$B6826B   |
-	JSL CODE_BCFE0A				;$B6826E   |
+	JSL check_for_sprite_collisions		;$B6826E   |
 	BCC .return				;$B68272   |
-	LDY $6A					;$B68274   |
+	LDY colliding_sprite			;$B68274   |
 	LDA $0000,y				;$B68276   |
 	CMP #!sprite_tntbarrel			;$B68279   |
 	BNE .return				;$B6827C   |
 	LDA $0020,y				;$B6827E   |
 	BNE .return				;$B68281   |
-	LDA $6A					;$B68283   |
+	LDA colliding_sprite			;$B68283   |
 	CMP current_held_sprite			;$B68285   |
 	BEQ .set_attack_animation		;$B68288   |
 	BRA .return				;$B6828A  /
@@ -324,35 +325,35 @@ handle_kudgel_destroying_tnt:
 	LDA #$FFFF				;$B68293   |
 	CLC					;$B68296   |
 	ADC $06,x				;$B68297   |
-	STA $09D7				;$B68299   |
-	STA $09E7				;$B6829C   |
+	STA sprite_clipping[6].right		;$B68299   |
+	STA sprite_clipping[8].right		;$B6829C   |
 	STA $000650				;$B6829F   |
 	LDA #$FFAC				;$B682A3   |
 	CLC					;$B682A6   |
 	ADC $000650				;$B682A7   |
-	STA $09D3				;$B682AB   |
-	STA $09E3				;$B682AE   |
+	STA sprite_clipping[6].left		;$B682AB   |
+	STA sprite_clipping[8].left		;$B682AE   |
 	BRA ..CODE_B682C9			;$B682B1  /
 
 ..CODE_B682B3:
 	LDA $06,x				;$B682B3  \
 	CLC					;$B682B5   |
 	ADC #$0001				;$B682B6   |
-	STA $09D3				;$B682B9   |
-	STA $09E3				;$B682BC   |
+	STA sprite_clipping[6].left		;$B682B9   |
+	STA sprite_clipping[8].left		;$B682BC   |
 	CLC					;$B682BF   |
 	ADC #$0054				;$B682C0   |
-	STA $09D7				;$B682C3   |
-	STA $09E7				;$B682C6   |
+	STA sprite_clipping[6].right		;$B682C3   |
+	STA sprite_clipping[8].right		;$B682C6   |
 ..CODE_B682C9:					;	   |
 	LDA $0A,x				;$B682C9   |
 	CLC					;$B682CB   |
 	ADC #$FFC3				;$B682CC   |
-	STA $09D5				;$B682CF   |
-	STA $09E5				;$B682D2   |
+	STA sprite_clipping[6].top		;$B682CF   |
+	STA sprite_clipping[8].top		;$B682D2   |
 	ADC #$0039				;$B682D5   |
-	STA $09D9				;$B682D8   |
-	STA $09E9				;$B682DB   |
+	STA sprite_clipping[6].bottom		;$B682D8   |
+	STA sprite_clipping[8].bottom		;$B682DB   |
 	RTS					;$B682DE  /
 
 kudgels_club_sprite_code:
@@ -399,7 +400,7 @@ CODE_B6832A:
 	LDY #$0000				;$B68331   |
 	JSL CODE_BEBD8E				;$B68334   |
 	BCC CODE_B6836B				;$B68338   |
-	LDA $6A					;$B6833A   |
+	LDA colliding_sprite			;$B6833A   |
 	STA current_sprite			;$B6833C   |
 	JSL delete_sprite_handle_deallocation	;$B6833E   |
 	LDY #!special_sprite_spawn_id_004A	;$B68342   |
@@ -485,7 +486,7 @@ CODE_B68403:
 	LDA #$0010				;$B6840E   |
 	PHK					;$B68411   |
 	%return(CODE_B68418)			;$B68412   |
-	JML [$09F9]				;$B68415  /
+	JML [sprite_collision_routine_address]	;$B68415  /
 
 CODE_B68418:
 	BCS CODE_B6843A				;$B68418  \
@@ -1808,7 +1809,7 @@ CODE_B693C4:
 	LDA #$0010				;$B693CF   |
 	PHK					;$B693D2   |
 	%return(CODE_B693D9)			;$B693D3   |
-	JML [$09F9]				;$B693D6  /
+	JML [sprite_collision_routine_address]	;$B693D6  /
 
 CODE_B693D9:
 	BCS CODE_B693FB				;$B693D9  \
@@ -2483,7 +2484,7 @@ shot_donkey_kong_sprite_code:
 	BNE .return				;$B69A03   |
 	JSL CODE_BCFB58				;$B69A05   |
 	LDA #$0200				;$B69A09   |
-	JSL CODE_BCFE0A				;$B69A0C   |
+	JSL check_for_sprite_collisions		;$B69A0C   |
 	BCC .return				;$B69A10   |
 	INC $0763				;$B69A12   |
 	LDY $075F				;$B69A15   |
@@ -2566,10 +2567,10 @@ CODE_B69AB4:
 CODE_B69ABE:
 	JSL CODE_BCFB58				;$B69ABE  \
 	LDA #$0020				;$B69AC2   |
-	JSL CODE_BCFE0A				;$B69AC5   |
+	JSL check_for_sprite_collisions		;$B69AC5   |
 	BCC CODE_B69B30				;$B69AC9   |
-	LDY $6A					;$B69ACB   |
-	LDA $0000,y				;$B69ACD   |
+	LDY colliding_sprite			;$B69ACB   |
+	LDA.w sprite.type,y			;$B69ACD   |
 	CMP #!sprite_krool_gun			;$B69AD0   |
 	BNE CODE_B69AE8				;$B69AD3   |
 	LDY $0654				;$B69AD5   |
@@ -2579,8 +2580,8 @@ CODE_B69ABE:
 	BRL CODE_B69CD4				;$B69AE0  /
 
 CODE_B69AE3:
-	LDY $6A					;$B69AE3  \
-	LDA $0000,y				;$B69AE5   |
+	LDY colliding_sprite			;$B69AE3  \
+	LDA.w sprite.type,y			;$B69AE5   |
 CODE_B69AE8:					;	   |
 	CMP #!sprite_krool			;$B69AE8   |
 	BNE CODE_B69B1B				;$B69AEB   |
@@ -2613,8 +2614,8 @@ CODE_B69B0E:
 	BRL CODE_B69BC5				;$B69B13  /
 
 CODE_B69B16:
-	LDY $6A					;$B69B16  \
-	LDA $0000,y				;$B69B18   |
+	LDY colliding_sprite			;$B69B16  \
+	LDA.w sprite.type,y			;$B69B18   |
 CODE_B69B1B:					;	   |
 	CMP #!sprite_krool_canball		;$B69B1B   |
 	BNE CODE_B69B30				;$B69B1E   |
@@ -3049,7 +3050,7 @@ CODE_B69E90:					;	   |
 CODE_B69EB0:
 	LDX current_sprite			;$B69EB0  \
 	JSR CODE_B69E7D				;$B69EB2   |
-	LDX $6A					;$B69EB5   |
+	LDX colliding_sprite			;$B69EB5   |
 	LDA $2E,x				;$B69EB7   |
 	ORA #$0020				;$B69EB9   |
 	STA $2E,x				;$B69EBC   |
@@ -3113,7 +3114,7 @@ CODE_B69F24:
 	LDA #$0010				;$B69F28   |
 	PHK					;$B69F2B   |
 	%return(CODE_B69F32)			;$B69F2C   |
-	JML [$09F9]				;$B69F2F  /
+	JML [sprite_collision_routine_address]	;$B69F2F  /
 
 CODE_B69F32:
 	BCC CODE_B69F6E				;$B69F32  \
@@ -3261,10 +3262,10 @@ CODE_B6A045:
 	BNE CODE_B6A0C5				;$B6A04A   |
 	JSL CODE_BCFB58				;$B6A04C   |
 	LDA #$0020				;$B6A050   |
-	JSL CODE_BCFE0A				;$B6A053   |
+	JSL check_for_sprite_collisions		;$B6A053   |
 	BCC CODE_B6A0B2				;$B6A057   |
-	LDY $6A					;$B6A059   |
-	LDA $0000,y				;$B6A05B   |
+	LDY colliding_sprite			;$B6A059   |
+	LDA.w sprite.type,y			;$B6A05B   |
 	CMP #!sprite_krool_gun			;$B6A05E   |
 	BNE CODE_B6A076				;$B6A061   |
 	LDY $0654				;$B6A063   |
@@ -3274,8 +3275,8 @@ CODE_B6A045:
 	BRL CODE_B6A3B0				;$B6A06E  /
 
 CODE_B6A071:
-	LDY $6A					;$B6A071  \
-	LDA $0000,y				;$B6A073   |
+	LDY colliding_sprite			;$B6A071  \
+	LDA.w sprite.type,y			;$B6A073   |
 CODE_B6A076:					;	   |
 	CMP #!sprite_krool			;$B6A076   |
 	BNE CODE_B6A09D				;$B6A079   |
@@ -3301,8 +3302,8 @@ endif						;	   |
 	BRL CODE_B6A130				;$B6A095  /
 
 CODE_B6A098:
-	LDY $6A					;$B6A098  \
-	LDA $0000,y				;$B6A09A   |
+	LDY colliding_sprite			;$B6A098  \
+	LDA.w sprite.type,y			;$B6A09A   |
 CODE_B6A09D:					;	   |
 	CMP #!sprite_spiked_canballs		;$B6A09D   |
 	BNE CODE_B6A0B2				;$B6A0A0   |
@@ -3461,13 +3462,13 @@ if !version == 1				;	   |
 endif						;	   |
 	JSL CODE_BCFB58				;$B6A1CB   |
 	LDA #$0020				;$B6A1CF   |
-	JSL CODE_BCFE0A				;$B6A1D2   |
+	JSL check_for_sprite_collisions		;$B6A1D2   |
 	BCC CODE_B6A1F7				;$B6A1D6   |
-	LDY $6A					;$B6A1D8   |
-	LDA $0000,y				;$B6A1DA   |
+	LDY colliding_sprite			;$B6A1D8   |
+	LDA.w sprite.type,y			;$B6A1DA   |
 	CMP #!sprite_krool_canball		;$B6A1DD   |
 	BNE CODE_B6A1F7				;$B6A1E0   |
-	LDY $6A					;$B6A1E2   |
+	LDY colliding_sprite			;$B6A1E2   |
 	LDA $002E,y				;$B6A1E4   |
 	BIT #$0080				;$B6A1E7   |
 	BEQ CODE_B6A1F7				;$B6A1EA   |
@@ -3479,7 +3480,7 @@ endif						;	   |
 CODE_B6A1F7:
 	CMP #$02A0				;$B6A1F7  \
 	BNE CODE_B6A211				;$B6A1FA   |
-	LDY $6A					;$B6A1FC   |
+	LDY colliding_sprite			;$B6A1FC   |
 	LDA $002E,y				;$B6A1FE   |
 	BIT #$0080				;$B6A201   |
 	BEQ CODE_B6A211				;$B6A204   |
@@ -6266,8 +6267,8 @@ CODE_B6BD32:					;	   |
 	LDY #$0200				;$B6BD39   |
 	JSL CODE_BEBD8E				;$B6BD3C   |
 	BCC CODE_B6BD6F				;$B6BD40   |
-	LDY $6A					;$B6BD42   |
-	LDA $0000,y				;$B6BD44   |
+	LDY colliding_sprite			;$B6BD42   |
+	LDA.w sprite.type,y			;$B6BD44   |
 	CMP #!sprite_tntbarrel			;$B6BD47   |
 	BNE CODE_B6BD6F				;$B6BD4A   |
 	LDA $0020,y				;$B6BD4C   |
@@ -10317,27 +10318,27 @@ CODE_B6DC58:					;	   |
 CODE_B6DC67:
 	LDA #$0210				;$B6DC67  \
 	JSL set_sprite_animation		;$B6DC6A   |
-CODE_B6DC6E:					;	   | Anti piracy
-	PHB					;$B6DC6E   |
-	LDA #$4000				;$B6DC6F   |
-	ASL A					;$B6DC72   |
-	PHA					;$B6DC73   |
-	PLB					;$B6DC74   |
-	PLB					;$B6DC75   |
-	XBA					;$B6DC76   |
-	INC A					;$B6DC77   |
-	INC A					;$B6DC78   |
-	INC A					;$B6DC79   |
-	INC A					;$B6DC7A   |
-	XBA					;$B6DC7B   |
-	TAX					;$B6DC7C   |
-	LDY $0013,x				;$B6DC7D   |
-	CPY #$AB82				;$B6DC80   |
-	BEQ CODE_B6DC8F				;$B6DC83   |
-	LDX $0654				;$B6DC85   |
-	LDA $2E,x				;$B6DC88   |
-	EOR #$FFFF				;$B6DC8A   |
-	STA $2E,x				;$B6DC8D   |
+CODE_B6DC6E:					;	   |
+	PHB					;$B6DC6E   |> Piracy check, preserve bank
+	LDA #$4000				;$B6DC6F   |\
+	ASL A					;$B6DC72   |/ $4000 << 1 = $8000
+	PHA					;$B6DC73   |\
+	PLB					;$B6DC74   | | Set bank 80
+	PLB					;$B6DC75   |/
+	XBA					;$B6DC76   |> Flip bytes so $80 is low byte
+	INC A					;$B6DC77   |\ $80 + 4 = $84
+	INC A					;$B6DC78   | |
+	INC A					;$B6DC79   | |
+	INC A					;$B6DC7A   |/
+	XBA					;$B6DC7B   |> Flip bytes so $80 is high byte
+	TAX					;$B6DC7C   |\ X = $8400
+	LDY $0013,x				;$B6DC7D   |/ $808400 + $13 = $808413
+	CPY #$AB82				;$B6DC80   |\
+	BEQ CODE_B6DC8F				;$B6DC83   |/ If branch long to prepare anti-piracy isnt tampered then continue
+	LDX $0654				;$B6DC85   |\
+	LDA $2E,x				;$B6DC88   | | Make kleever sword into another kleever arm breaking the fight...
+	EOR #$FFFF				;$B6DC8A   | | ... and make all the hooks drop so the player cant progress
+	STA $2E,x				;$B6DC8D   |/
 CODE_B6DC8F:					;	   |
 	PLB					;$B6DC8F   |
 	PLB					;$B6DC90   |
@@ -10589,10 +10590,10 @@ CODE_B6DE61:					;	   |
 CODE_B6DE66:
 	JSL CODE_BCFB58				;$B6DE66  \
 	LDA #$0010				;$B6DE6A   |
-	JSL CODE_BCFE0A				;$B6DE6D   |
+	JSL check_for_sprite_collisions		;$B6DE6D   |
 	BCC CODE_B6DE8E				;$B6DE71   |
-	LDX $6A					;$B6DE73   |
-	LDA $00,x				;$B6DE75   |
+	LDX colliding_sprite			;$B6DE73   |
+	LDA sprite.type,x			;$B6DE75   |
 	CMP #!sprite_kleever_canball		;$B6DE77   |
 	BNE CODE_B6DE8E				;$B6DE7A   |
 	LDA $2E,x				;$B6DE7C   |
@@ -11738,12 +11739,12 @@ CODE_B6E743:
 	LDA $06,x				;$B6E74A   |
 	CLC					;$B6E74C   |
 	ADC $0002,y				;$B6E74D   |
-	STA $09D3				;$B6E750   |
-	STA $09E3				;$B6E753   |
+	STA sprite_clipping[6].left		;$B6E750   |
+	STA sprite_clipping[8].left		;$B6E753   |
 	CLC					;$B6E756   |
 	ADC $0006,y				;$B6E757   |
-	STA $09D7				;$B6E75A   |
-	STA $09E7				;$B6E75D   |
+	STA sprite_clipping[6].right		;$B6E75A   |
+	STA sprite_clipping[8].right		;$B6E75D   |
 	BRA CODE_B6E788				;$B6E760  /
 
 CODE_B6E762:
@@ -11752,25 +11753,25 @@ CODE_B6E762:
 	INC A					;$B6E768   |
 	CLC					;$B6E769   |
 	ADC $06,x				;$B6E76A   |
-	STA $09D7				;$B6E76C   |
-	STA $09E7				;$B6E76F   |
+	STA sprite_clipping[6].right		;$B6E76C   |
+	STA sprite_clipping[8].right		;$B6E76F   |
 	STA $000650				;$B6E772   |
 	LDA $0006,y				;$B6E776   |
 	EOR #$FFFF				;$B6E779   |
 	INC A					;$B6E77C   |
 	CLC					;$B6E77D   |
 	ADC $000650				;$B6E77E   |
-	STA $09D3				;$B6E782   |
-	STA $09E3				;$B6E785   |
+	STA sprite_clipping[6].left		;$B6E782   |
+	STA sprite_clipping[8].left		;$B6E785   |
 CODE_B6E788:					;	   |
 	LDA $0A,x				;$B6E788   |
 	CLC					;$B6E78A   |
 	ADC $0004,y				;$B6E78B   |
-	STA $09D5				;$B6E78E   |
-	STA $09E5				;$B6E791   |
+	STA sprite_clipping[6].top		;$B6E78E   |
+	STA sprite_clipping[8].top		;$B6E791   |
 	ADC $0008,y				;$B6E794   |
-	STA $09D9				;$B6E797   |
-	STA $09E9				;$B6E79A   |
+	STA sprite_clipping[6].bottom		;$B6E797   |
+	STA sprite_clipping[8].bottom		;$B6E79A   |
 	RTS					;$B6E79D  /
 
 kleever_hand_bubbles_sprite_code:
@@ -12465,17 +12466,17 @@ CODE_B6ED51:
 CODE_B6ED54:
 	JSL CODE_BCFB58				;$B6ED54  \
 	LDA #$0020				;$B6ED58   |
-	JSL CODE_BCFE0A				;$B6ED5B   |
+	JSL check_for_sprite_collisions		;$B6ED5B   |
 	BCC CODE_B6EDAD				;$B6ED5F   |
-	LDY $6A					;$B6ED61   |
-	LDA $0000,y				;$B6ED63   |
+	LDY colliding_sprite			;$B6ED61   |
+	LDA.w sprite.type,y			;$B6ED63   |
 	CMP #!sprite_krows_body			;$B6ED66   |
 	BEQ CODE_B6EDB0				;$B6ED69   |
 	CMP #!sprite_krows_head			;$B6ED6B   |
 	BEQ CODE_B6EDB0				;$B6ED6E   |
 	LDA current_sprite			;$B6ED70   |
 	PHA					;$B6ED72   |
-	LDA $6A					;$B6ED73   |
+	LDA colliding_sprite			;$B6ED73   |
 	STA current_sprite			;$B6ED75   |
 	JSL delete_sprite_handle_deallocation	;$B6ED77   |
 	PLX					;$B6ED7B   |
@@ -12962,11 +12963,11 @@ CODE_B6F11B:
 CODE_B6F12C:					;	   |
 	JSL CODE_BCFB58				;$B6F12C   |
 	LDA #$0020				;$B6F130   |
-	JSL CODE_BCFE0A				;$B6F133   |
+	JSL check_for_sprite_collisions		;$B6F133   |
 	LDX current_sprite			;$B6F137   |
 	BCC CODE_B6F19C				;$B6F139   |
-	LDY $6A					;$B6F13B   |
-	LDA $0000,y				;$B6F13D   |
+	LDY colliding_sprite			;$B6F13B   |
+	LDA.w sprite.type,y			;$B6F13D   |
 	CMP #!sprite_krows_body			;$B6F140   |
 	BEQ CODE_B6F1C2				;$B6F143   |
 	CMP #!sprite_krows_head			;$B6F145   |
@@ -12981,7 +12982,7 @@ CODE_B6F12C:					;	   |
 	STA $2E,x				;$B6F15D   |
 	LDA current_sprite			;$B6F15F   |
 	PHA					;$B6F161   |
-	LDA $6A					;$B6F162   |
+	LDA colliding_sprite			;$B6F162   |
 	STA current_sprite			;$B6F164   |
 	JSL delete_sprite_handle_deallocation	;$B6F166   |
 	PLX					;$B6F16A   |

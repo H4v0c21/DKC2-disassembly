@@ -46,10 +46,10 @@ CODE_B48000:
 	STZ $06A3				;$B4806D   |
 	STZ $06A5				;$B48070   |
 	JSR CODE_B4AED3				;$B48073   |
-	LDY #$5972				;$B48076   |
+	LDY #map_icon_unlocks_buffer		;$B48076   |
 	LDA #$0010				;$B48079   |
 	JSR CODE_B480B2				;$B4807C   |
-	LDY #$5992				;$B4807F   |
+	LDY #map_path_unlocks_buffer		;$B4807F   |
 	LDA #$0008				;$B48082   |
 	JSR CODE_B480B2				;$B48085   |
 	JSR CODE_B4B3CD				;$B48088   |
@@ -572,9 +572,9 @@ CODE_B484BC:					;	   |
 	STA DMA[0].settings			;$B484DB   |
 	LDA #$18				;$B484DE   |
 	STA DMA[0].destination			;$B484E0   |
-	LDX #$3E00				;$B484E3   |
+	LDX #text_VRAM_buffer			;$B484E3   |
 	STX DMA[0].source			;$B484E6   |
-	LDA.b #<:wram_base			;$B484E9   |
+	LDA.b #<:text_VRAM_buffer		;$B484E9   |
 	STA DMA[0].source_bank			;$B484EB   |
 	STZ DMA[0].unused_1			;$B484EE   |
 	LDA #$01				;$B484F1   |
@@ -1348,7 +1348,7 @@ CODE_B48AEF:
 	BRL CODE_B48927				;$B48B12  /
 
 CODE_B48B15:
-	LDA #$3E00				;$B48B15  \
+	LDA #text_VRAM_buffer			;$B48B15  \
 	STA $0D2C				;$B48B18   |
 	SEP #$20				;$B48B1B   |
 	STZ CPU.enable_interrupts		;$B48B1D   |
@@ -1738,9 +1738,9 @@ CODE_B48EC2:
 	STA DMA[0].settings			;$B48ECC   |
 	LDA #$18				;$B48ECF   |
 	STA DMA[0].destination			;$B48ED1   |
-	LDX #$3E00				;$B48ED4   |
+	LDX #text_VRAM_buffer			;$B48ED4   |
 	STX DMA[0].source			;$B48ED7   |
-	LDA.b #<:wram_base			;$B48EDA   |
+	LDA.b #<:text_VRAM_buffer		;$B48EDA   |
 	STA DMA[0].source_bank			;$B48EDC   |
 	LDX #$0180				;$B48EDF   |
 	STX DMA[0].size				;$B48EE2   |
@@ -1957,7 +1957,7 @@ CODE_B490C7:					;	   |
 	PHK					;$B490CD   |
 	PLB					;$B490CE   |
 	LDA #$0006				;$B490CF   |
-	LDY #$0000				;$B490D2   |
+	LDY #$0000				;$B490D2   |> Text buffer offset
 	JSR CODE_B4ADEB				;$B490D5   |
 	RTS					;$B490D8  /
 
@@ -2153,7 +2153,7 @@ CODE_B49299:					;	   |
 	PHK					;$B49299   |
 	PLB					;$B4929A   |
 	LDA #$0006				;$B4929B   |
-	LDY #$0000				;$B4929E   |
+	LDY #$0000				;$B4929E   |> Text buffer offset
 	JSR CODE_B4ADEB				;$B492A1   |
 	LDA $0658				;$B492A4   |
 	CMP #$0001				;$B492A7   |
@@ -2192,7 +2192,7 @@ CODE_B492EF:					;	   |
 	PHX					;$B492EF   |
 	INX					;$B492F0   |
 	LDA #$0006				;$B492F1   |
-	LDY #$0000				;$B492F4   |
+	LDY #$0000				;$B492F4   |> Text buffer offset
 	JSR CODE_B4ADEB				;$B492F7   |
 	PLY					;$B492FA   |
 	JSR CODE_B4ADDF				;$B492FB   |
@@ -2243,7 +2243,7 @@ CODE_B49346:					;	   |
 	PHK					;$B49352   |
 	PLB					;$B49353   |
 	LDA #$0006				;$B49354   |
-	LDY #$0000				;$B49357   |
+	LDY #$0000				;$B49357   |> Text buffer offset
 	JSR CODE_B4ADEB				;$B4935A   |
 CODE_B4935D:					;	   |
 	RTS					;$B4935D  /
@@ -2296,9 +2296,9 @@ CODE_B493B7:
 	STA DMA[0].settings			;$B493C1   |
 	LDA #$18				;$B493C4   |
 	STA DMA[0].destination			;$B493C6   |
-	LDX #$3E00				;$B493C9   |
+	LDX #text_VRAM_buffer			;$B493C9   |
 	STX DMA[0].source			;$B493CC   |
-	LDA.b #<:wram_base			;$B493CF   |
+	LDA.b #<:text_VRAM_buffer		;$B493CF   |
 	STA DMA[0].source_bank			;$B493D1   |
 	LDX #$0180				;$B493D4   |
 	STX DMA[0].size				;$B493D7   |
@@ -2376,7 +2376,7 @@ CODE_B4945F:
 	STZ $0699				;$B4948A   |
 	LDX $0660				;$B4948D   |
 	LDA #$0006				;$B49490   |
-	LDY #$0000				;$B49493   |
+	LDY #$0000				;$B49493   |> Text buffer offset
 	JSR CODE_B4ADEB				;$B49496   |
 	LDA $06A1				;$B49499   |
 	AND #$EDFE				;$B4949C   |
@@ -2454,7 +2454,7 @@ CODE_B49541:
 	LDA completed_swanky_dialogue,x		;$B49548   |
 	BIT #$0001				;$B4954B   |
 	BEQ CODE_B49556				;$B4954E   |
-	LDY #$3E00				;$B49550   |
+	LDY #text_VRAM_buffer			;$B49550   |
 	JSR CODE_B49704				;$B49553   |
 CODE_B49556:					;	   |
 	LDX $0666				;$B49556   |
@@ -2527,7 +2527,7 @@ CODE_B495D3:
 	LDA completed_wrinkly_dialogue,x	;$B495DF   |
 	BIT #$0001				;$B495E2   |
 	BEQ CODE_B495F0				;$B495E5   |
-	LDY #$3E00				;$B495E7   |
+	LDY #text_VRAM_buffer			;$B495E7   |
 	LDX $0666				;$B495EA   |
 	JSR CODE_B496BB				;$B495ED   |
 CODE_B495F0:					;	   |
@@ -2632,9 +2632,9 @@ CODE_B496BB:
 	TAX					;$B496C0   |
 	LDA $0000,x				;$B496C1   |
 	TAX					;$B496C4   |
-	LDY #$3E00				;$B496C5   |
+	LDY #text_VRAM_buffer			;$B496C5   |
 CODE_B496C8:					;	   |
-	LDA #$7E00				;$B496C8   |
+	LDA #bank_high(text_VRAM_buffer)	;$B496C8   |
 	PHA					;$B496CB   |
 	PLB					;$B496CC   |
 	PLB					;$B496CD   |
@@ -2788,7 +2788,7 @@ CODE_B497BE:					;	   |
 	TYA					;$B497C5   |
 	INX					;$B497C6   | increase index by 2 to read text from next option
 	INX					;$B497C7   |
-	LDY #$0000				;$B497C8   | initialize interation counter?
+	LDY #$0000				;$B497C8   |> Text buffer offset
 	JSR CODE_B4ADF6				;$B497CB   |
 	LDA npc_screen_type			;$B497CE   | get npc screen type
 	BNE CODE_B497D8				;$B497D1   |
@@ -2860,9 +2860,9 @@ CODE_B4989F:
 	STA DMA[0].settings			;$B498A9   |
 	LDA #$18				;$B498AC   |
 	STA DMA[0].destination			;$B498AE   |
-	LDX #$3E00				;$B498B1   |
+	LDX #text_VRAM_buffer			;$B498B1   |
 	STX DMA[0].source			;$B498B4   |
-	LDA.b #<:wram_base			;$B498B7   |
+	LDA.b #<:text_VRAM_buffer		;$B498B7   |
 	STA DMA[0].source_bank			;$B498B9   |
 	LDX $0658				;$B498BC   |
 	STX DMA[0].size				;$B498BF   |
@@ -3145,7 +3145,7 @@ CODE_B49B2C:					;	   |
 	PLB					;$B49B39   |
 	TAX					;$B49B3A   |
 	LDA #$0006				;$B49B3B   |
-	LDY #$0800				;$B49B3E   |
+	LDY #$0800				;$B49B3E   |> Text buffer offset
 	JSR CODE_B4ADEB				;$B49B41   |
 	PHK					;$B49B44   |
 	PLB					;$B49B45   |
@@ -3269,7 +3269,7 @@ CODE_B49C2A:
 	ASL A					;$B49C34   |
 	TAX					;$B49C35   |
 	LDY $3202,x				;$B49C36   |
-	LDA #$B400				;$B49C39   |
+	LDA #$B400				;$B49C39   |> Bank
 	PHA					;$B49C3C   |
 	PLB					;$B49C3D   |
 	PLB					;$B49C3E   |
@@ -3865,7 +3865,7 @@ CODE_B4A0C0:					;	   |
 	TAY					;$B4A0DB   |
 	LDX $0000,y				;$B4A0DC   |
 	LDA #$0006				;$B4A0DF   |
-	LDY #$0800				;$B4A0E2   |
+	LDY #$0800				;$B4A0E2   |> Text buffer offset
 	JSR CODE_B4ADEB				;$B4A0E5   |
 	LDA #CODE_B4A135			;$B4A0E8   |
 	STA $079C				;$B4A0EB   |
@@ -4020,9 +4020,9 @@ CODE_B4A21B:
 	STA DMA[0].settings			;$B4A225   |
 	LDA #$18				;$B4A228   |
 	STA DMA[0].destination			;$B4A22A   |
-	LDX #$4A00				;$B4A22D   |
+	LDX #text_VRAM_buffer_2			;$B4A22D   |
 	STX DMA[0].source			;$B4A230   |
-	LDA.b #<:wram_base			;$B4A233   |
+	LDA.b #<:text_VRAM_buffer_2		;$B4A233   |
 	STA DMA[0].source_bank			;$B4A235   |
 	LDX #$0180				;$B4A238   |
 	STX DMA[0].size				;$B4A23B   |
@@ -4212,7 +4212,7 @@ CODE_B4A3B6:					;	   |
 	REP #$20				;$B4A3D0   |
 	LDX $0000,y				;$B4A3D2   |
 	LDA #$0006				;$B4A3D5   |
-	LDY #$0800				;$B4A3D8   |
+	LDY #$0800				;$B4A3D8   |> Text buffer offset
 	JSR CODE_B4ADEB				;$B4A3DB   |
 	LDA #$0001				;$B4A3DE   |
 	STA $064E				;$B4A3E1   |
@@ -4258,7 +4258,7 @@ CODE_B4A429:
 	LDY $079F				;$B4A440   |
 	LDX $0004,y				;$B4A443   |
 	LDA #$0006				;$B4A446   |
-	LDY #$0800				;$B4A449   |
+	LDY #$0800				;$B4A449   |> Text buffer offset
 	JSR CODE_B4ADEB				;$B4A44C   |
 	LDA #CODE_B4A483			;$B4A44F   |
 	STA $079C				;$B4A452   |
@@ -4575,7 +4575,7 @@ CODE_B4A70D:
 	TAY					;$B4A719   |
 	LDX $0000,y				;$B4A71A   |
 	LDA #$0006				;$B4A71D   |
-	LDY #$0800				;$B4A720   |
+	LDY #$0800				;$B4A720   |> Text buffer offset
 	JSR CODE_B4ADEB				;$B4A723   |
 	LDA #CODE_B4A3EE			;$B4A726   |
 	STA $079C				;$B4A729   |
@@ -4808,9 +4808,9 @@ CODE_B4A90E:
 	STA DMA[0].settings			;$B4A918   |
 	LDA #$18				;$B4A91B   |
 	STA DMA[0].destination			;$B4A91D   |
-	LDX #$3E00				;$B4A920   |
+	LDX #text_VRAM_buffer			;$B4A920   |
 	STX DMA[0].source			;$B4A923   |
-	LDA.b #<:wram_base			;$B4A926   |
+	LDA.b #<:text_VRAM_buffer		;$B4A926   |
 	STA DMA[0].source_bank			;$B4A928   |
 	LDX #$0180				;$B4A92B   |
 	STX DMA[0].size				;$B4A92E   |
@@ -5028,9 +5028,9 @@ CODE_B4AB00:
 	STA DMA[0].settings			;$B4AB0A   |
 	LDA #$18				;$B4AB0D   |
 	STA DMA[0].destination			;$B4AB0F   |
-	LDX #$3E00				;$B4AB12   |
+	LDX #text_VRAM_buffer			;$B4AB12   |
 	STX DMA[0].source			;$B4AB15   |
-	LDA.b #<:wram_base			;$B4AB18   |
+	LDA.b #<:text_VRAM_buffer		;$B4AB18   |
 	STA DMA[0].source_bank			;$B4AB1A   |
 	LDX #$0180				;$B4AB1D   |
 	STX DMA[0].size				;$B4AB20   |
@@ -5245,9 +5245,9 @@ CODE_B4AE08:					;	   |
 	PHK					;$B4AE08   |
 	PLB					;$B4AE09   |
 	STA $0681				;$B4AE0A   |
-	LDA #$7E00				;$B4AE0D   |
+	LDA #bank_high(text_VRAM_buffer)	;$B4AE0D   |
 	STA $C9					;$B4AE10   |
-	LDA #$3E00				;$B4AE12   |
+	LDA #text_VRAM_buffer			;$B4AE12   |
 	STA $C8					;$B4AE15   |
 	STX $CE					;$B4AE17   |
 CODE_B4AE19:					;	   |
@@ -5328,7 +5328,7 @@ CODE_B4AE85:
 	LDA npc_screen_type			;$B4AE97   |
 	CMP #!npc_screen_type_swanky		;$B4AE9A   |
 	BNE CODE_B4AEA6				;$B4AE9D   |
-	STZ $096F				;$B4AE9F   |
+	STZ banana_display_timer		;$B4AE9F   |
 	JSL CODE_BEC695				;$B4AEA2   |
 CODE_B4AEA6:					;	   |
 	JSL CODE_B59F40				;$B4AEA6   |
@@ -5634,10 +5634,10 @@ CODE_B4B0CF:
 	STA $0650				;$B4B0E2   |
 	LDX #$2A00				;$B4B0E5   |
 	SEP #$20				;$B4B0E8   |
-	LDA.b #<:wram_base			;$B4B0EA   |
+	LDA.b #<:map_path_unlocks_buffer	;$B4B0EA   |
 	STA $D0					;$B4B0EC   |
 	REP #$20				;$B4B0EE   |
-	LDA #$5992				;$B4B0F0   |
+	LDA #map_path_unlocks_buffer		;$B4B0F0   |
 	STA $CE					;$B4B0F3   |
 	LDY #$0000				;$B4B0F5   |
 CODE_B4B0F8:					;	   |
@@ -5678,7 +5678,7 @@ CODE_B4B131:					;	   |
 	STA $0650				;$B4B13D   |
 	LDX #$0000				;$B4B140   |
 	LDY #$0000				;$B4B143   |
-	LDA #$5972				;$B4B146   |
+	LDA #map_icon_unlocks_buffer		;$B4B146   |
 	STA $CE					;$B4B149   |
 	LDY #$0000				;$B4B14B   |
 CODE_B4B14E:					;	   |
@@ -5724,7 +5724,7 @@ CODE_B4B18F:
 	LDA.b #<:wram_base			;$B4B195   |
 	STA $D0					;$B4B197   |
 	REP #$20				;$B4B199   |
-	LDA #$5992				;$B4B19B   |
+	LDA #map_path_unlocks_buffer		;$B4B19B   |
 	STA $CE					;$B4B19E   |
 	LDY #$0000				;$B4B1A0   |
 	LDA [$CE],y				;$B4B1A3   |
@@ -6023,7 +6023,7 @@ CODE_B4B3CD:
 	LDA.b #<:wram_base			;$B4B3CF   |
 	STA $D0					;$B4B3D1   |
 	REP #$20				;$B4B3D3   |
-	LDA #$5972				;$B4B3D5   |
+	LDA #map_icon_unlocks_buffer		;$B4B3D5   |
 	STA $CE					;$B4B3D8   |
 	LDA #$0010				;$B4B3DA   |
 	STA $0650				;$B4B3DD   |
@@ -6036,7 +6036,7 @@ CODE_B4B3E9:					;	   |
 	INY					;$B4B3EC   |
 	DEC $0650				;$B4B3ED   |
 	BNE CODE_B4B3E9				;$B4B3F0   |
-	LDA #$5992				;$B4B3F2   |
+	LDA #map_path_unlocks_buffer		;$B4B3F2   |
 	STA $CE					;$B4B3F5   |
 	LDA #$0000				;$B4B3F7   |
 	LDY #$0000				;$B4B3FA   |
@@ -6046,11 +6046,11 @@ CODE_B4B3FD:					;	   |
 	INY					;$B4B400   |
 	DEC $0652				;$B4B401   |
 	BNE CODE_B4B3FD				;$B4B404   |
-	LDA #$5972				;$B4B406   |
+	LDA #map_icon_unlocks_buffer		;$B4B406   |
 	STA $CE					;$B4B409   |
 	LDA #$0000				;$B4B40B   |
 	STA [$CE]				;$B4B40E   |
-	LDA #$5992				;$B4B410   |
+	LDA #map_path_unlocks_buffer		;$B4B410   |
 	STA $CE					;$B4B413   |
 	LDA #$0000				;$B4B415   |
 	STA [$CE]				;$B4B418   |
@@ -6075,7 +6075,7 @@ CODE_B4B43D:
 	LDA.b #<:wram_base			;$B4B43F   |
 	STA $D0					;$B4B441   |
 	REP #$20				;$B4B443   |
-	LDA #$5972				;$B4B445   |
+	LDA #map_icon_unlocks_buffer		;$B4B445   |
 	STA $CE					;$B4B448   |
 	LDA #$0010				;$B4B44A   |
 	STA $0650				;$B4B44D   |
@@ -6088,7 +6088,7 @@ CODE_B4B459:					;	   |
 	INY					;$B4B45C   |
 	DEC $0650				;$B4B45D   |
 	BNE CODE_B4B459				;$B4B460   |
-	LDA #$5992				;$B4B462   |
+	LDA #map_path_unlocks_buffer		;$B4B462   |
 	STA $CE					;$B4B465   |
 	LDA #$FFFF				;$B4B467   |
 	LDY #$0000				;$B4B46A   |
@@ -6139,7 +6139,7 @@ CODE_B4B4D3:
 	LDA.b #<:wram_base			;$B4B4D9   |
 	STA $D0					;$B4B4DB   |
 	REP #$20				;$B4B4DD   |
-	LDA #$5972				;$B4B4DF   |
+	LDA #map_icon_unlocks_buffer		;$B4B4DF   |
 	STA $CE					;$B4B4E2   |
 	STZ $0656				;$B4B4E4   |
 	LDY #$0000				;$B4B4E7   |
@@ -6813,7 +6813,7 @@ CODE_B4B9B6:					;	   |
 	STX $CB					;$B4B9D6   |
 	LDA #$3A00				;$B4B9D8   |
 	STA $CE					;$B4B9DB   |
-	LDY #$3E00				;$B4B9DD   |
+	LDY #text_VRAM_buffer			;$B4B9DD   |
 CODE_B4B9E0:					;	   |
 	LDA $06A1				;$B4B9E0   |
 	BIT #$0080				;$B4B9E3   |
@@ -6861,7 +6861,7 @@ CODE_B4BA25:
 	TAX					;$B4BA33   |
 	LDA #$003F				;$B4BA34   |
 	PHB					;$B4BA37   |
-	MVN $7E, $FC				;$B4BA38   |
+	MVN <:text_VRAM_buffer, $FC		;$B4BA38   |
 	PLB					;$B4BA3B   |
 	LDA $0652				;$B4BA3C   |
 	STA [$CE]				;$B4BA3F   |

@@ -102,7 +102,7 @@ upload_spc_engine:
 	SEP #$30				;$B58088  \ Enter 8 bit mode (to split sound effect and channel)
 	XBA					;$B5808A   |\ Check if the target channel is already being used
 	TAX					;$B5808B   | |
-	LDA $0621				;$B5808C   | |
+	LDA used_sound_effect_channels		;$B5808C   | |
 	BIT .index_to_bit,x			;$B5808F   | |
 	BNE .test_sound_backup_channel		;$B58092   |/ If so, check if the backup channel is free
 .write_low_priority_sound			;	   |
@@ -129,12 +129,12 @@ upload_spc_engine:
 	STA sound_effect_buffer,x		;$B580B0   |/
 	BEQ .reset_channel			;$B580B3   | Branch if the slot was empty
 	LDA .index_to_bit,x			;$B580B5   |\ Mark the channel as used
-	TSB $0621				;$B580B8   |/
+	TSB used_sound_effect_channels		;$B580B8   |/
 	BRA .write_sound			;$B580BB  / skip marking the slot empty
 
 .reset_channel					;	  \
 	LDA .index_to_bit,x			;$B580BD   |\ Since the slot was empty mark the channel as empty
-	TRB $0621				;$B580C0   |/
+	TRB used_sound_effect_channels		;$B580C0   |/
 .write_sound					;	   |
 	LDA sound_effect_buffer,x		;$B580C3   |\ Write the sound effect to the SPC700
 	REP #$30				;$B580C6   | |
@@ -230,10 +230,10 @@ upload_spc_engine:
 .clear_buffer_entry				;	   |\ Iterate and clear sound betters
 if !version == 0				;	   | |
 	STZ spc_command_buffer,x		;$B58170   | |\ Clear main ring buffer
-	STZ $062A,x				;$B58173   | | |
+	STZ spc_command_buffer+8,x		;$B58173   | | |
 else						;	   | | |
-	STZ $0621,x				;$B58170   | | |
-	STZ $0629,x				;$B58173   | | |
+	STZ spc_command_buffer-1,x		;$B58170   | | |
+	STZ spc_command_buffer+7,x		;$B58173   | | |
 endif						;	   | |/
 	STZ sound_effect_buffer,x		;$B58176   | | Clear the high priority buffer
 	DEX					;$B58179   | |
@@ -361,7 +361,7 @@ namespace off
 	CPX APU.IO1				;$B5823E   | | |
 	BNE -					;$B58241   | |/
 	INX					;$B58243   | | Increment the counter
-	CPX #$88				;$B58244   | | Compare against the engine size
+	CPX.b #!spc_base_engine_size		;$B58244   | | Compare against the engine size
 	BNE ..next_byte				;$B58246   |/ If we haven't hit the engine size, load the next byte
 	INX					;$B58248   |\ Increment counter by two to end transfer
 	TXA					;$B58249   | | Use A to write the counter for 16 bit (high byte = 00)
@@ -414,7 +414,7 @@ namespace APU
 	LDA #DATA_0560				;$B5829B   |\ Set the ARAM destination
 namespace off
 	STA $35					;$B5829E   |/
-	LDA #$067F				;$B582A0   |\ Set the number of words to transfer
+	LDA.w #!spc_sound_engine_size/2		;$B582A0   |\ Set the number of words to transfer
 	STA $37					;$B582A3   |/
 	JSR .upload_spc_block			;$B582A5   | Upload SPC block
 	RTS					;$B582A8  /
@@ -12046,12 +12046,12 @@ CODE_B5F109:
 	BCC CODE_B5F12F				;$B5F12A   |
 	LDA #$0109				;$B5F12C   |
 CODE_B5F12F:					;	   |
-	STA $096D				;$B5F12F   |
+	STA banana_counter_final		;$B5F12F   |
 	CMP #$0099				;$B5F132   |
 	BCC CODE_B5F13A				;$B5F135   |
 	LDA #$0099				;$B5F137   |
 CODE_B5F13A:					;	   |
-	STA $096B				;$B5F13A   |
+	STA banana_counter_current		;$B5F13A   |
 	LDA #$0001				;$B5F13D   |
 	STA $0D30				;$B5F140   |
 	STZ $0D2E				;$B5F143   |
@@ -12874,13 +12874,13 @@ CODE_B5F75D:
 	STZ $0D42				;$B5F75D  \
 	STZ $0D44				;$B5F760   |
 	LDY #$0000				;$B5F763   |
-	LDX #$09B3				;$B5F766   |
+	LDX #sprite_clipping[2]			;$B5F766   |
 	JSR CODE_B5F77A				;$B5F769   |
-	LDX #$09EB				;$B5F76C   |
+	LDX #sprite_clipping[9]			;$B5F76C   |
 	JSR CODE_B5F77A				;$B5F76F   |
 	CPY #$0004				;$B5F772   |
 	BCS CODE_B5F799				;$B5F775   |
-	LDX #$09CB				;$B5F777   |
+	LDX #sprite_clipping[5]			;$B5F777   |
 CODE_B5F77A:					;	   |
 	LDA $04,x				;$B5F77A   |
 	BEQ CODE_B5F799				;$B5F77C   |
@@ -13091,7 +13091,7 @@ CODE_B5F8BD:					;	   |
 	CLD					;$B5F8C0   |
 	SEP #$10				;$B5F8C1   |
 	LDA #$003C				;$B5F8C3   |
-	STA $096F				;$B5F8C6   |
+	STA banana_display_timer		;$B5F8C6   |
 	LDA.l $7FD632				;$B5F8C9   |
 	INC A					;$B5F8CD   |
 	INC A					;$B5F8CE   |
@@ -13155,11 +13155,11 @@ CODE_B5F920:					;	   |
 CODE_B5F937:
 	LDA.l $7FD734				;$B5F937  \
 	SEP #$09				;$B5F93B   |
-	ADC $096D				;$B5F93D   |
+	ADC banana_counter_final		;$B5F93D   |
 	BPL CODE_B5F945				;$B5F940   |
 	LDA #$0000				;$B5F942   |
 CODE_B5F945:					;	   |
-	STA $096D				;$B5F945   |
+	STA banana_counter_final		;$B5F945   |
 	CLD					;$B5F948   |
 	PLA					;$B5F949   |
 	PLX					;$B5F94A   |
@@ -13170,7 +13170,7 @@ CODE_B5F94C:
 	%lda_sound(6, banana)			;$B5F94E   |
 	JSL queue_sound_effect			;$B5F951   |
 	LDA #$003C				;$B5F955   |
-	STA $096F				;$B5F958   |
+	STA banana_display_timer		;$B5F958   |
 	LDA.l $7FD632				;$B5F95B   |
 	INC A					;$B5F95F   |
 	INC A					;$B5F960   |
@@ -13251,11 +13251,11 @@ CODE_B5F9CC:					;	   |
 CODE_B5F9E2:
 	LDA.l $7FD734				;$B5F9E2  \
 	SEP #$09				;$B5F9E6   |
-	ADC $096D				;$B5F9E8   |
+	ADC banana_counter_final		;$B5F9E8   |
 	BPL CODE_B5F9F0				;$B5F9EB   |
 	LDA #$0000				;$B5F9ED   |
 CODE_B5F9F0:					;	   |
-	STA $096D				;$B5F9F0   |
+	STA banana_counter_final		;$B5F9F0   |
 	CLD					;$B5F9F3   |
 	RTL					;$B5F9F4  /
 
@@ -13324,11 +13324,11 @@ CODE_B5FA6A:					;	   |
 CODE_B5FA6C:
 	LDA.l $7FD734				;$B5FA6C  \
 	SEP #$09				;$B5FA70   |
-	ADC $00096D				;$B5FA72   |
+	ADC.l banana_counter_final		;$B5FA72   |
 	BPL CODE_B5FA7B				;$B5FA76   |
 	LDA #$0000				;$B5FA78   |
 CODE_B5FA7B:					;	   |
-	STA $00096D				;$B5FA7B   |
+	STA.l banana_counter_final		;$B5FA7B   |
 	CLD					;$B5FA7F   |
 	LDY $D632				;$B5FA80   |
 	LDA $D634,y				;$B5FA83   |

@@ -58,6 +58,27 @@ struct sprite $0000
 	.unknown_5C:			skip 2	;5C
 endstruct
 
+struct rel_sprite_clipping $0000
+	.left:		skip 2
+	.top:		skip 2
+	.right:		skip 2
+	.bottom:	skip 2
+endstruct
+
+struct temp_sprite_clipping $00D9
+	.left:		skip 2
+	.top:		skip 2
+	.right:		skip 2
+	.bottom:	skip 2
+endstruct
+
+struct sprite_clipping $09A3
+	.left:		skip 2
+	.top:		skip 2
+	.right:		skip 2
+	.bottom:	skip 2
+endstruct
+
 struct kong_control $0000
 	.animation_id:			skip 2	;00 animation number (no kong offset)
 	.input_pressed:			skip 2	;02 Copy of the active players inputs that were just pressed

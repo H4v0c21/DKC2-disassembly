@@ -1,9 +1,7 @@
 spc_base_engine:
-
-arch spc700
-base !spc_base_eng_loc
-
-namespace APU
+	namespace APU
+	arch spc700
+	base spc_base_engine_start
 
 APU_reset:
 	CLRP					;$04D8  \> Clear direct page
@@ -87,15 +85,16 @@ handle_CPU_data_upload:				;	 |
 	db $00
 	dw $D604
 
-base off
-arch 65816
 
-namespace off
+spc_base_engine_end:
+	base off
+	namespace off
+	arch 65816
+
 spc_sound_engine:
-namespace APU
-
-arch spc700
-base !spc_sound_eng_loc
+	namespace APU
+	arch spc700
+	base spc_sound_engine_start
 
 ;instrument lookup table
 DATA_0560:
@@ -1656,7 +1655,7 @@ CODE_10F0:					;	 |
 
 CODE_10F7:
 	PUSH A					;$10F7  \> Preserve sound effect number
-	CMP A, #!dyn_snd_base_id		;$10F8   |
+	CMP A, #!track_specific_sfx_base_id	;$10F8   |
 	BPL CODE_1104				;$10FA   |
 	SETC					;$10FC   |
 	SBC A, global_sfx_data			;$10FD   |
@@ -1665,7 +1664,7 @@ CODE_10F7:
 
 CODE_1104:
 	SETC					;$1104  \
-	SBC A, #!dyn_snd_base_id		;$1105   |
+	SBC A, #!track_specific_sfx_base_id	;$1105   |
 	SETC					;$1107   |
 	SBC A, track_sfx_data			;$1108   |
 	BMI CODE_1111				;$110B   |
@@ -1844,10 +1843,11 @@ pitch_table:
 	dw $3C68
 	dw $3FFF
 	db $FF
-base off
-namespace off
 
-arch 65816
+spc_sound_engine_end:
+	base off
+	namespace off
+	arch 65816
 
 
 

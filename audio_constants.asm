@@ -1,20 +1,10 @@
-!spc_base_eng_loc	= $04D8			;Starting ARAM location of SPC base engine (default: $04D8)
-!spc_base_eng_len	= spc_sound_engine-spc_base_engine	;Length to upload for SPC base engine (default $88)
-!spc_sound_eng_loc	= $0560			;Starting ARAM location of SPC sound engine (default: $0560)
-!spc_sound_eng_len	= ((sample_table-spc_sound_engine)+((sample_table-spc_sound_engine)&$0001))>>1 ;Number of words to upload for SPC sound engine (default $067F)
 
-!bgm_loc 		= $1300			;Starting ARAM location of music block (default: $1300)
-!bgm_ptr_loc		= !bgm_loc+$12		;Starting ARAM location of music pointers (default: $1312)
+!spc_base_engine_size = (APU_spc_base_engine_end-APU_spc_base_engine_start)
+!spc_sound_engine_size = (APU_spc_sound_engine_end-APU_spc_sound_engine_start)
 
-!snd_loc 		= $2410			;Starting ARAM location of global sound effect block (default: $2410)
-!snd_ptr_loc		= !snd_loc+$2		;Starting ARAM location of global sound effect pointers (default: $2412)
+namespace APU
 
-!dyn_snd_loc 		= $2E94			;Starting ARAM location of track-specific sound effect block (default: $2E94)
-!dyn_snd_ptr_loc	= !dyn_snd_loc+$2	;Starting ARAM location of track-specific sound effect pointers (default: $2E96)
-!dyn_snd_base_id	= $60			;Base ID of track-specific sound effects (default: $60)
-
-!src_dir_loc		= $3100			;Starting ARAM destination of BRR sample source directory (default: $3100)
-!brr_data_loc		= $3400			;Starting ARAM destination of BRR sample uploads (default: $3400)
+!track_specific_sfx_base_id = $60
 
 !end_sequence 			= $00	;00				End of sequence
 !set_instrument 		= $01	;01 ??				Set instrument
@@ -67,3 +57,5 @@
 !echo_off_copy_1 		= $30	;30				Duplicate of 17, 32
 !load_volume_preset_2 		= $31	;31				Set volume to third and fourth bytes of command 1E
 !echo_off_copy_2		= $32	;32				Duplicate of 17, 30
+
+namespace off

@@ -79,7 +79,9 @@ vol_preset_1_r = $04B9
 vol_preset_2_l = $04BA
 vol_preset_2_r = $04BB
 
+spc_base_engine_start = $04D8
 cpu_command_parameter = $055D
+spc_sound_engine_start = $0560
 
 
 ;$125E-$12FF appears to be unused (Note: file select theme is bugged, indexes the pitch table out of bounds resulting in reads in this range)
