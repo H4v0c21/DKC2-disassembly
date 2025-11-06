@@ -1533,7 +1533,7 @@ CODE_B48C9D:
 	STA CPU.enable_dma			;$B48CD5   |
 	REP #$20				;$B48CD8   |
 	JSR CODE_B4BDD6				;$B48CDA   |
-	JSL CODE_B4BE2F				;$B48CDD   |
+	JSL reset_camera_and_bg_scroll		;$B48CDD   |
 	LDY npc_screen_type			;$B48CE1   |
 	LDA npc_screen_music_ids,y		;$B48CE4   |
 	JSL play_song				;$B48CE7   |
@@ -5341,7 +5341,7 @@ CODE_B4AEAF:
 	JSR CODE_B4AEC3				;$B4AEB0   |
 	LDX #$064E				;$B4AEB3   |
 	LDA #$0012				;$B4AEB6   |
-.next_word					;	   |
+.next_word:					;	   |
 	STZ $0000,x				;$B4AEB9   |
 	INX					;$B4AEBC   |
 	INX					;$B4AEBD   |
@@ -5354,7 +5354,7 @@ CODE_B4AEC3:
 	PHX					;$B4AEC3  \
 	LDX #$06CF				;$B4AEC4   |
 	LDA #$00C0				;$B4AEC7   |
-.next_word					;	   |
+.next_word:					;	   |
 	STZ $0000,x				;$B4AECA   |
 	INX					;$B4AECD   |
 	DEC A					;$B4AECE   |
@@ -5366,7 +5366,7 @@ CODE_B4AED3:
 	PHX					;$B4AED3  \
 	LDX #$06CF				;$B4AED4   |
 	LDA #$0062				;$B4AED7   |
-.next_word					;	   |
+.next_word:					;	   |
 	STZ $0000,x				;$B4AEDA   |
 	INX					;$B4AEDD   |
 	DEC A					;$B4AEDE   |
@@ -5919,9 +5919,10 @@ CODE_B4B312:					;	   |
 CODE_B4B315:					;	   |
 	DEC $0658				;$B4B315   |
 	BNE CODE_B4B312				;$B4B318   |
-	STP					;$B4B31A   |
-CODE_B4B31B:					;	   |
-	LDY $000B,x				;$B4B31B   |
+	STP					;$B4B31A  /
+
+CODE_B4B31B:
+	LDY $000B,x				;$B4B31B  \
 	CPY $0652				;$B4B31E   |
 	BEQ CODE_B4B329				;$B4B321   |
 	INX					;$B4B323   |
@@ -6850,7 +6851,7 @@ CODE_B4BA06:					;	   |
 
 CODE_B4BA25:
 	TAX					;$B4BA25  \
-	LDA DATA_B4C4B3,x			;$B4BA26   |
+	LDA yellow_font_tile_offsets,x		;$B4BA26   |
 	AND #$00FF				;$B4BA29   |
 	XBA					;$B4BA2C   |
 	LSR A					;$B4BA2D   |
@@ -7386,7 +7387,7 @@ CODE_B4BE23:
 	STA $06A1				;$B4BE2B   |
 	RTS					;$B4BE2E  /
 
-CODE_B4BE2F:
+reset_camera_and_bg_scroll:
 	SEP #$20				;$B4BE2F  \
 	STZ PPU.layer_3_scroll_x		;$B4BE31   |
 	STZ PPU.layer_3_scroll_x		;$B4BE34   |
@@ -7509,7 +7510,7 @@ CODE_B4BF3A:					;	   |
 	JSL clear_wram_tables			;$B4BF46   |
 	PHK					;$B4BF4A   |
 	PLB					;$B4BF4B   |
-	JSL CODE_B4BE2F				;$B4BF4C   |
+	JSL reset_camera_and_bg_scroll		;$B4BF4C   |
 	JSR CODE_B4BDD6				;$B4BF50   |
 	SEP #$20				;$B4BF53   |
 	LDX #$1202				;$B4BF55   |
@@ -8217,7 +8218,7 @@ DATA_B4C25E:
 	dw !map_node_w6_entrance_from_klubba
 
 ;world entrance node ID's
-DATA_B4C44C:
+world_entrance_node_ids:
 	dw !null_pointer
 	dw !map_node_w1_entrance		;Gangplank galleon
 	dw !map_node_w2_entrance		;Crocodile cauldron
@@ -8287,7 +8288,7 @@ DATA_B4C4A5:
 	dw $3C21
 
 
-DATA_B4C4B3:
+yellow_font_tile_offsets:
 	%font_tile_offset(DATA_FC0FE0)
 	%font_tile_offset(DATA_FC1060)
 	%font_tile_offset(DATA_FC10E0)
@@ -9688,6 +9689,7 @@ DATA_B4CE5E:
 	db !level_screechs_sprint
 	db $00
 
+;NPC screen dialogue area HDMA related?
 DATA_B4CE60:
 	db $7F, $FF, $FF, $27, $FF, $FF, $30, $41
 	db $00, $01, $80, $FF, $00, $6F, $01, $01

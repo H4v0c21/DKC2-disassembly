@@ -128,11 +128,11 @@ copy_future_word_2_entry:
 	JMP copy_future_word_2			;$BB807C  /
 
 DMA_sprite_palette_from_index:
-	STX $32					;$BB807F  \ Store palette id in scratch RAM
+	STX $32					;$BB807F  \ Store palette size in scratch RAM
 	ASL A					;$BB8081   |\ Double palette id and transfer to index register
 	TAX					;$BB8082   |/
 	LDA.l sprite_palette_table,x		;$BB8083   | Load DMA source
-	LDX $32					;$BB8087   | Reload palette id
+	LDX $32					;$BB8087   | Reload palette size
 DMA_palette:					;	   |
 	STA DMA[0].source			;$BB8089   | Set DMA source word
 	TXA					;$BB808C   |\ Set DMA size to 8 times the input
@@ -1033,6 +1033,7 @@ CODE_BB8636:
 init_command_set_palette_copy:
 	JML init_command_set_palette		;$BB8646  /
 
+;Dead code
 	LDA #$0000				;$BB864A   |
 	TCD					;$BB864D   |
 	LDX #$0000				;$BB864E   |
@@ -1076,6 +1077,7 @@ init_command_set_alt_palette:
 	PLB					;$BB8692   |
 	JMP initscript_next			;$BB8693  /
 
+;Dead code
 	LDA $D9					;$BB8696   |
 	CMP $E1					;$BB8698   |
 	BPL CODE_BB869E				;$BB869A   |
@@ -1674,7 +1676,8 @@ request_palette_direct:				;	   |
 	CLC					;$BB8AC7   |\ Return palette load success
 	RTS					;$BB8AC8  /_/
 
-	STA selected_palette_data_address	;$BB8AC9   |
+;Dead code
+	STA selected_palette_data_address	;$BB8AC9  \
 	LDA sprite.oam_property,x		;$BB8ACC   |
 	XBA					;$BB8ACE   |
 	AND #$000E				;$BB8ACF   |
@@ -1682,10 +1685,10 @@ request_palette_direct:				;	   |
 	TAX					;$BB8AD4   |
 	LDA active_sprite_palettes_table,x	;$BB8AD5   |
 	CMP selected_palette_data_address	;$BB8AD8   |
-	BEQ CODE_BB8AE3				;$BB8ADB   |
+	BEQ .return				;$BB8ADB   |
 	JSR CODE_BB8AF6				;$BB8ADD   |
 	DEC sprite_palette_reference_count,x	;$BB8AE0   |
-CODE_BB8AE3:					;	   |
+.return:					;	   |
 	RTL					;$BB8AE3  /
 
 CODE_BB8AE4:
@@ -2881,7 +2884,7 @@ CODE_BB9265:					;	   |
 	CMP #!normal_level_type			;$BB9292   |
 	BNE CODE_BB929D				;$BB9295   |
 	LDA #$4000				;$BB9297   |
-	TSB game_state_flags			;$BB929A   |
+	TSB game_state_flags			;$BB929A   | Set extra kong flag if barralax cheat active and normal level type
 CODE_BB929D:					;	   |
 	LDA main_level.tileset_type		;$BB929D   | Get level 32x32 tilemap index
 	JSL CODE_B5BCA8				;$BB92A0   |
@@ -2978,6 +2981,7 @@ endif						;	   |
 CODE_BB9379:					;	   |
 	RTL					;$BB9379  /
 
+;Dead code
 	JSL clear_VRAM_global			;$BB937A   |
 	SEP #$20				;$BB937E   |
 	LDA #$03				;$BB9380   |
@@ -3116,6 +3120,7 @@ CODE_BB9473:
 	BEQ CODE_BB9445				;$BB947B   |
 	BRA CODE_BB943B				;$BB947D  /
 
+;Dead code
 	LDA main_level.song			;$BB947F   |
 	AND #$00FF				;$BB9482   |
 	ORA #$0500				;$BB9485   |
@@ -3681,7 +3686,7 @@ CODE_BB9885:
 	STA PPU.vram_address			;$BB988B   |
 	LDX #$0000				;$BB988E   |
 CODE_BB9891:					;	   |
-	LDA.l DATA_E9A805,x			;$BB9891   |
+	LDA.l DATA_E9A805,x			;$BB9891   | Castle crush floor tilemap
 	ORA #$2000				;$BB9895   |
 	STA PPU.vram_write			;$BB9898   |
 	INX					;$BB989B   |
@@ -4229,12 +4234,12 @@ CODE_BB9E18:					;	   |
 	LDA level_number			;$BB9E42   |
 	CMP #!level_windy_well_bonus_1		;$BB9E44   |
 	BEQ CODE_BB9E51				;$BB9E47   |
-	LDY #!special_sprite_spawn_id_00DA	;$BB9E49   |
+	LDY #!special_sprite_spawn_id_00DA	;$BB9E49   | vertical wind changer
 	JSL spawn_BB83EF_special_sprite_index	;$BB9E4C   |
 	RTS					;$BB9E50  /
 
 CODE_BB9E51:
-	LDY #!special_sprite_spawn_id_0120	;$BB9E51  \
+	LDY #!special_sprite_spawn_id_0120	;$BB9E51  \ vertical wind changer
 	JSL spawn_BB83EF_special_sprite_index	;$BB9E54   |
 	RTS					;$BB9E58  /
 
@@ -4796,7 +4801,7 @@ CODE_BBA4E0:					;	   |
 	LDA #$1680				;$BBA592   |
 	STA $0D4E				;$BBA595   |
 	JSR CODE_BBABE2				;$BBA598   |
-	LDY #DATA_FF0FD2			;$BBA59B   |
+	LDY #DATA_FF0FD2			;$BBA59B   | Water bubbles
 	JSL spawn_no_gfx_special_sprite_address	;$BBA59E   |
 	LDA #$DC01				;$BBA5A2   |
 	STA pending_dma_hdma_channels		;$BBA5A5   |
@@ -4856,7 +4861,7 @@ CODE_BBA605:
 	STA $0911				;$BBA608   |
 	LDX #$02FE				;$BBA60B   |
 CODE_BBA60E:					;	   |
-	LDA.l DATA_FD334E,x			;$BBA60E   |
+	LDA.l DATA_FD334E,x			;$BBA60E   | gangplank galley base palette rgb table
 	STA working_palette,x			;$BBA612   |
 	DEX					;$BBA616   |
 	DEX					;$BBA617   |
@@ -5090,7 +5095,7 @@ CODE_BBA817:					;	   |
 	STZ HDMA[6].indirect_source_bank	;$BBA8C7   |
 	REP #$20				;$BBA8CA   |
 	JSR CODE_BBABE2				;$BBA8CC   |
-	LDY #DATA_FF0FD2			;$BBA8CF   |
+	LDY #DATA_FF0FD2			;$BBA8CF   | Water bubbles
 	JSL spawn_no_gfx_special_sprite_address	;$BBA8D2   |
 	LDA #$6E01				;$BBA8D6   |
 	STA pending_dma_hdma_channels		;$BBA8D9   |
@@ -5192,7 +5197,7 @@ CODE_BBA9E0:
 	JSR CODE_BBA8DD				;$BBA9E0  \
 	JSR CODE_BBA9F7				;$BBA9E3   |
 	JSR CODE_BBABE2				;$BBA9E6   |
-	LDY #DATA_FF0FD2			;$BBA9E9   |
+	LDY #DATA_FF0FD2			;$BBA9E9   | Water bubbles
 	JSL spawn_no_gfx_special_sprite_address	;$BBA9EC   |
 	LDA #$FE01				;$BBA9F0   |
 	STA pending_dma_hdma_channels		;$BBA9F3   |
@@ -5406,6 +5411,8 @@ CODE_BBAC40:
 	STZ water_current_y_velocity		;$BBAC46   |
 	RTS					;$BBAC49  /
 
+
+;Leve id's?
 DATA_BBAC4A:
 	%offset(DATA_BBAC4B, 1)
 	db $01, $00
@@ -5431,6 +5438,7 @@ DATA_BBAC4A:
 	db $B7, $34
 	db $B8, $35
 
+;Water related?
 DATA_BBAC76:
 	db $00, $01, $00, $01, $00, $01, $00, $01
 	db $00, $01, $00, $17, $E0, $0E, $E0, $0E
@@ -5966,6 +5974,7 @@ CODE_BBB07F:
 	STA rel_level.extra_unlock_lvl_tmp,x	;$BBB084   |
 	RTS					;$BBB086  /
 
+;Dead code
 	LDA.w DATA_FD0000,y			;$BBB087   |
 	INY					;$BBB08A   |
 	INY					;$BBB08B   |
@@ -6005,7 +6014,7 @@ CODE_BBB0AE:					;	   |
 	PLX					;$BBB0B5   |
 	RTS					;$BBB0B6  /
 
-	REP #$20				;$BBB0B7   |
+	REP #$20				;$BBB0B7  \ Dead code
 CODE_BBB0B9:					;	   |
 	LDA $98					;$BBB0B9   |
 	STA $38					;$BBB0BB   |
@@ -6877,6 +6886,7 @@ CODE_BBB6FB:					;	   |
 	BNE CODE_BBB6D4				;$BBB6FF   |
 	RTS					;$BBB701  /
 
+;Dead code
 	LDA #$000D				;$BBB702   |
 	JSL throw_exception			;$BBB705   |
 	RTS					;$BBB709  /
@@ -7400,6 +7410,7 @@ CODE_BBBAD1:
 	TAX					;$BBBAEE   |
 	JMP check_placement_spawning_radius	;$BBBAEF  /
 
+;Dead code
 	RTS					;$BBBAF2  /
 
 CODE_BBBAF3:
@@ -7849,6 +7860,7 @@ CODE_BBBDA4:					;	   |
 	BPL CODE_BBBDA4				;$BBBDAE   |
 	RTS					;$BBBDB0  /
 
+;Dead code
 	LDX current_sprite			;$BBBDB1   |
 	LDA sprite.placement_number,x		;$BBBDB3   |
 	DEC A					;$BBBDB5   |
@@ -8078,7 +8090,7 @@ CODE_BBBF81:
 	LDA alt_level.bonus_type		;$BBBF9F   |
 	AND #$00FF				;$BBBFA2   |
 	BEQ CODE_BBBFC1				;$BBBFA5   |
-	LDA #CODE_BAB1B9			;$BBBFA7   |
+	LDA #init_bonus_screen			;$BBBFA7   |
 	STA $00067D				;$BBBFAA   |
 	LDA alt_level.bonus_type		;$BBBFAE   |
 	AND #$0003				;$BBBFB1   |
@@ -8226,6 +8238,7 @@ CODE_BBC098:					;	   |
 	BNE CODE_BBC08A				;$BBC09D   |
 	RTS					;$BBC09F  /
 
+;Dead code
 	JSR CODE_BBC0A4				;$BBC0A0   |
 	RTL					;$BBC0A3  /
 
@@ -8294,21 +8307,21 @@ CODE_BBC103:
 CODE_BBC116:
 	LDA level_destination_number		;$BBC116  \
 	CMP #$0008				;$BBC119   |
-	BMI CODE_BBC128				;$BBC11C   |
+	BMI .CODE_BBC128			;$BBC11C   |
 	LDA #$0009				;$BBC11E   |
 	JSL throw_exception			;$BBC121   |
 	STZ level_destination_number		;$BBC125   |
-CODE_BBC128:					;	   |
+.CODE_BBC128:					;	   |
 	LDA level_destination_number		;$BBC128   |
 	ASL A					;$BBC12B   |
 	TAX					;$BBC12C   |
 	LDA main_level.destinations,x		;$BBC12D   |
 	AND #$01FF				;$BBC130   |
-	BNE CODE_BBC13F				;$BBC133   |
+	BNE .return				;$BBC133   |
 	LDA #$000A				;$BBC135   |
 	JSL throw_exception			;$BBC138   |
 	STZ level_destination_number		;$BBC13C   |
-CODE_BBC13F:					;	   |
+.return:					;	   |
 	RTS					;$BBC13F  /
 
 CODE_BBC140:
@@ -9009,7 +9022,7 @@ save_game:
 	RTL					;$BBC735  /
 
 CODE_BBC736:
-	JSL CODE_808F68				;$BBC736  \
+	JSL set_default_new_file_status_global	;$BBC736  \
 	LDA #sram_file_buffer			;$BBC73A   |
 	STA $26					;$BBC73D   |
 	LDA #$007E				;$BBC73F   |

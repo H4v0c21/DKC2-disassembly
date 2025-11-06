@@ -2,6 +2,7 @@ sprite_return_handle_despawn_B6:
 	JSL CODE_BBBB99				;$B68000  \
 	JML [sprite_return_address]		;$B68004  /
 
+;dead code
 	STA $32,x				;$B68007   |
 	TXA					;$B68009   |
 	STA $34,x				;$B6800A   |
@@ -70,7 +71,7 @@ kudgel_sprite_code:
 	STX $0654				;$B68087   | Store Kudgel in boss RAM
 	STY $0656				;$B6808A   | Store Kudgel's Club in boss RAM
 	STY $42,x				;$B6808D   | Store Kudgel's Club in sprite variable
-	STZ $44,x				;$B6808F   |
+	STZ $44,x				;$B6808F   | Clear address of boss return command
 	JSR parse_boss_command			;$B68091   |
 .club_exists:					;	   |
 	LDX current_sprite			;$B68094   |
@@ -128,7 +129,7 @@ CODE_B680F9:
 	BEQ CODE_B6812C				;$B68100   |
 	JSL CODE_BCFB58				;$B68102   |
 	LDA #$0C7B				;$B68106   |
-	JSL CODE_B6CF65				;$B68109   |
+	JSL check_complex_player_collision_B6	;$B68109   |
 	BCC CODE_B68147				;$B6810D   |
 	LDA #$001E				;$B6810F   |
 	LDY #$FE00				;$B68112   |
@@ -144,7 +145,7 @@ CODE_B680F9:
 CODE_B6812C:
 	JSL CODE_BCFB58				;$B6812C  \
 	LDA #$0000				;$B68130   |
-	JSL CODE_B6CF65				;$B68133   |
+	JSL check_complex_player_collision_B6	;$B68133   |
 	BCC CODE_B68147				;$B68137   |
 	LDX current_sprite			;$B68139   |
 	LDA #$0014				;$B6813B   |
@@ -153,22 +154,22 @@ CODE_B6812C:
 	BEQ CODE_B68147				;$B68145   |
 CODE_B68147:					;	   |
 	LDX current_sprite			;$B68147   |
-	LDA $44,x				;$B68149   |
-	BNE CODE_B68152				;$B6814B   |
+	LDA $44,x				;$B68149   | Get command return address
+	BNE CODE_B68152				;$B6814B   | If it exists, parse it
 	JSR parse_boss_command			;$B6814D   |
 	BRA CODE_B6815E				;$B68150  /
 
 CODE_B68152:
 	JSR ($0044,x)				;$B68152  \
 	LDX current_sprite			;$B68155   |
-	LDA $44,x				;$B68157   |
-	BNE CODE_B6815E				;$B68159   |
+	LDA $44,x				;$B68157   | Get command return address
+	BNE CODE_B6815E				;$B68159   | If executing return command, skip parsing boss command
 	JSR parse_boss_command			;$B6815B   |
 CODE_B6815E:					;	   |
 	JSR CODE_B68186				;$B6815E   |
-	JSR CODE_B6819C				;$B68161   |
+	JSR handle_kudgel_stun			;$B68161   |
 	JSL process_sprite_animation		;$B68164   |
-	JSR CODE_B6820D				;$B68168   |
+	JSR handle_kudgel_destroying_tnt	;$B68168   |
 CODE_B6816B:					;	   |
 	LDX current_sprite			;$B6816B   |
 	LDA #$0120				;$B6816D   |
@@ -181,21 +182,21 @@ CODE_B68176:					;	   |
 	BCS CODE_B6817F				;$B6817B   |
 	STA $06,x				;$B6817D   |
 CODE_B6817F:					;	   |
-	JSR CODE_B68D5D				;$B6817F   |
+	JSR move_child_to_controller_spr	;$B6817F   |
 CODE_B68182:					;	   |
 	PLB					;$B68182   |
 	JML [sprite_return_address]		;$B68183  /
 
 CODE_B68186:
 	LDY $074F				;$B68186  \
-	BEQ CODE_B6819B				;$B68189   |
+	BEQ .return				;$B68189   |
 	LDA $0000,y				;$B6818B   |
 	CMP #!sprite_tntbarrel			;$B6818E   |
-	BEQ CODE_B6819B				;$B68191   |
+	BEQ .return				;$B68191   |
 	CMP #!sprite_kleever_falling_canball	;$B68193   |
-	BEQ CODE_B6819B				;$B68196   |
+	BEQ .return				;$B68196   |
 	STZ $074F				;$B68198   |
-CODE_B6819B:					;	   |
+.return:					;	   |
 	RTS					;$B6819B  /
 
 
@@ -224,32 +225,32 @@ CODE_B6819C:
 	DEC $44,x				;$B681C5   |/
 CODE_B681C7:					;	   |
 	PLB					;$B681C7   |
-	DEC $074D				;$B681C8   |
+	DEC $074D				;$B681C8   | Decrease screen shake timer
 	LDY active_kong_sprite			;$B681CB   |
 	LDA $002E,y				;$B681CE   |
-	CMP #$0063				;$B681D1   |
-	BEQ CODE_B681FE				;$B681D4   |
+	CMP #!kong_state_63			;$B681D1   |
+	BEQ .return				;$B681D4   | If kong is alread stunned, return
 	LDA $0030,y				;$B681D6   |
 	BIT #$0080				;$B681D9   |
-	BNE CODE_B681FE				;$B681DC   |
+	BNE .return				;$B681DC   |
 	LDA $001E,y				;$B681DE   |
 	BIT #$0001				;$B681E1   |
-	BEQ CODE_B681FE				;$B681E4   |
+	BEQ .return				;$B681E4   | If kong is not grounded, return
 	STZ $074D				;$B681E6   |
 	LDA #!player_interaction_0B		;$B681E9   |
-	JSL set_player_interaction_global	;$B681EC   |
-	BCS CODE_B681FE				;$B681F0   |
-	LDA.l $000652				;$B681F2   |
+	JSL set_player_interaction_global	;$B681EC   | Set stunned by enemy on ground interaction
+	BCS .return				;$B681F0   |
+	LDA.l $000652				;$B681F2   | Get Kudgel hit points
 	ASL A					;$B681F6   |
 	TAY					;$B681F7   |
-	LDA DATA_B681FF,y			;$B681F8   |
-	STA $0A86				;$B681FB   |
-CODE_B681FE:					;	   |
+	LDA kudgel_land_stun_timers,y		;$B681F8   |
+	STA $0A86				;$B681FB   | Set stun timer
+.return:					;	   |
 	RTS					;$B681FE  /
 
-;kudgel landing stun timers
+
 ;each phase stuns the player for a different amount of time
-DATA_B681FF:
+kudgel_land_stun_timers:
 	dw $0000
 	dw $0016
 	dw $0015
@@ -258,68 +259,69 @@ DATA_B681FF:
 	dw $001C
 	dw $0020
 
-CODE_B6820D:
+handle_kudgel_destroying_tnt:
 	LDX current_sprite			;$B6820D  \
 	LDA $2E,x				;$B6820F   |
 	BIT #$2000				;$B68211   |
-	BNE CODE_B68267				;$B68214   |
+	BNE .return				;$B68214   |
 	BIT #$0100				;$B68216   |
-	BEQ CODE_B68225				;$B68219   |
+	BEQ .in_air				;$B68219   |
 	LDA $44,x				;$B6821B   |
 	CMP #CODE_B6BAD8			;$B6821D   |
-	BEQ CODE_B68268				;$B68220   |
-	BRL CODE_B68267				;$B68222  /
+	BEQ .grounded				;$B68220   |
+	BRL .return				;$B68222  /
 
-CODE_B68225:
-	JSR CODE_B6828C				;$B68225  \
+.in_air:
+	JSR .inject_special_hitbox		;$B68225  \
 	LDA #$0200				;$B68228   |
-	LDY #$0000				;$B6822B   |
-	JSL check_for_sprite_collisions		;$B6822E   |
-	BCC CODE_B68267				;$B68232   |
-	LDY colliding_sprite			;$B68234   |
+	LDY #$0000				;$B6822B   | Redundant? Routine clobbers Y
+	JSL check_for_sprite_collisions		;$B6822E   | Check sprite collision
+	BCC .return				;$B68232   |
+	LDY colliding_sprite			;$B68234   | Get sprite we collided with
 	LDA $0000,y				;$B68236   |
 	CMP #!sprite_tntbarrel			;$B68239   |
-	BNE CODE_B68267				;$B6823C   |
-	LDA $0020,y				;$B6823E   |
-	BNE CODE_B6824A				;$B68241   |
-	LDA colliding_sprite			;$B68243   |
-	CMP current_held_sprite			;$B68245   |
-	BNE CODE_B68267				;$B68248   |
-CODE_B6824A:					;	   |
-	LDA #$0296				;$B6824A   |
+	BNE .return				;$B6823C   | If not a TNT barrel, return
+	LDA $0020,y				;$B6823E   | Else get sprite`s current X speed
+	BNE .set_attack_animation		;$B68241   | If it has any X velocity, skip held sprite check
+	LDA $6A					;$B68243   |
+	CMP current_held_sprite			;$B68245   | Else check if its the sprite held by the kong
+	BNE .return				;$B68248   | If not, return
+.set_attack_animation:				;	   |
+	LDA #$0296				;$B6824A   | kudgel_fall_attack
 	JSL set_sprite_animation		;$B6824D   |
 	LDA.l $000656				;$B68251   |
 	STA alternate_sprite			;$B68255   |
-	LDA #$0297				;$B68257   |
+	LDA #$0297				;$B68257   | kudgel_club_fall_attack
 	JSL set_alt_sprite_animation		;$B6825A   |
-	LDX current_sprite			;$B6825E   |
+	LDX current_sprite			;$B6825E   | Get kudgel sprite
 	LDA $2E,x				;$B68260   |
 	ORA #$2000				;$B68262   |
 	STA $2E,x				;$B68265   |
-CODE_B68267:					;	   |
-	RTS					;$B68267  /
+.return:					;	   |
+	RTS					;$B68267  / Return
 
-CODE_B68268:
-	JSR CODE_B6828C				;$B68268  \
+;Identical to the in air collision check, except doesn`t pass Y
+.grounded:
+	JSR .inject_special_hitbox		;$B68268  \
 	LDA #$0200				;$B6826B   |
 	JSL check_for_sprite_collisions		;$B6826E   |
-	BCC CODE_B68267				;$B68272   |
+	BCC .return				;$B68272   |
 	LDY colliding_sprite			;$B68274   |
 	LDA $0000,y				;$B68276   |
 	CMP #!sprite_tntbarrel			;$B68279   |
-	BNE CODE_B68267				;$B6827C   |
+	BNE .return				;$B6827C   |
 	LDA $0020,y				;$B6827E   |
-	BNE CODE_B68267				;$B68281   |
+	BNE .return				;$B68281   |
 	LDA colliding_sprite			;$B68283   |
 	CMP current_held_sprite			;$B68285   |
-	BEQ CODE_B6824A				;$B68288   |
-	BRA CODE_B68267				;$B6828A  /
+	BEQ .set_attack_animation		;$B68288   |
+	BRA .return				;$B6828A  /
 
 ;Manually injects kudgel's special hitbox for destroying held TNT
-CODE_B6828C:
+.inject_special_hitbox:
 	LDA $12,x				;$B6828C  \
 	BIT #$4000				;$B6828E   |
-	BEQ CODE_B682B3				;$B68291   |
+	BEQ ..CODE_B682B3			;$B68291   |
 	LDA #$FFFF				;$B68293   |
 	CLC					;$B68296   |
 	ADC $06,x				;$B68297   |
@@ -331,9 +333,9 @@ CODE_B6828C:
 	ADC $000650				;$B682A7   |
 	STA sprite_clipping[6].left		;$B682AB   |
 	STA sprite_clipping[8].left		;$B682AE   |
-	BRA CODE_B682C9				;$B682B1  /
+	BRA ..CODE_B682C9			;$B682B1  /
 
-CODE_B682B3:
+..CODE_B682B3:
 	LDA $06,x				;$B682B3  \
 	CLC					;$B682B5   |
 	ADC #$0001				;$B682B6   |
@@ -343,7 +345,7 @@ CODE_B682B3:
 	ADC #$0054				;$B682C0   |
 	STA sprite_clipping[6].right		;$B682C3   |
 	STA sprite_clipping[8].right		;$B682C6   |
-CODE_B682C9:					;	   |
+..CODE_B682C9:					;	   |
 	LDA $0A,x				;$B682C9   |
 	CLC					;$B682CB   |
 	ADC #$FFC3				;$B682CC   |
@@ -368,7 +370,7 @@ CODE_B682F4:
 	PHB					;$B682F4  \
 	PHK					;$B682F5   |
 	PLB					;$B682F6   |
-	LDA.l $000652				;$B682F7   |
+	LDA.l $000652				;$B682F7   | Get Kudgel hit points
 	BNE CODE_B68300				;$B682FB   |
 	BRL CODE_B684B6				;$B682FD  /
 
@@ -410,7 +412,7 @@ CODE_B6832A:
 	LDX $0656				;$B68357   |
 	STX current_sprite			;$B6835A   |
 	LDA.l $00074F				;$B6835C   |
-	STZ $074F				;$B68360   |
+	STZ $074F				;$B68360   | Clear index to TNT barrel sprite
 	CMP current_held_sprite			;$B68363   |
 	BNE CODE_B6836B				;$B68366   |
 	STZ current_held_sprite			;$B68368   |
@@ -428,7 +430,7 @@ CODE_B6836B:					;	   |
 CODE_B68383:
 	JSL CODE_BCFB58				;$B68383  \
 	LDA #$0C7B				;$B68387   |
-	JSL CODE_B6CF65				;$B6838A   |
+	JSL check_complex_player_collision_B6	;$B6838A   |
 	BCC CODE_B683F7				;$B6838E   |
 	LDX $0654				;$B68390   |
 	LDY active_kong_sprite			;$B68393   |
@@ -466,7 +468,7 @@ CODE_B683BC:					;	   |
 	LDX $0656				;$B683E9   |
 	STX current_sprite			;$B683EC   |
 	STZ current_held_sprite			;$B683EE   |
-	STZ $074F				;$B683F1   |
+	STZ $074F				;$B683F1   | Clear index of TNT barrel sprite
 CODE_B683F4:					;	   |
 	BRL CODE_B684B6				;$B683F4  /
 
@@ -500,7 +502,7 @@ CODE_B6841D:
 CODE_B6842A:
 	JSL CODE_BCFB58				;$B6842A  \
 	LDA #$0000				;$B6842E   |
-	JSL CODE_B6CF65				;$B68431   |
+	JSL check_complex_player_collision_B6	;$B68431   |
 	BCS CODE_B6843A				;$B68435   |
 	BRL CODE_B684B6				;$B68437  /
 
@@ -540,13 +542,14 @@ CODE_B68485:					;	   |
 CODE_B68488:					;	   |
 	BRA CODE_B684B6				;$B68488  /
 
+;Dead code until CODE_B684B6
 	LDX $0654				;$B6848A   |
 	LDA.l $00073D				;$B6848D   |
 	BNE CODE_B684B6				;$B68491   |
 	LDX current_sprite			;$B68493   |
 	JSL CODE_BCFB58				;$B68495   |
 	LDA #$0C7B				;$B68499   |
-	JSL CODE_B6CF65				;$B6849C   |
+	JSL check_complex_player_collision_B6	;$B6849C   |
 	BCC CODE_B684B6				;$B684A0   |
 	LDA #$001E				;$B684A2   |
 	LDY #$FE00				;$B684A5   |
@@ -565,7 +568,7 @@ CODE_B684BA:
 	JSL process_sprite_animation		;$B684BF   |
 	BRL CODE_B6816B				;$B684C3  /
 
-DATA_B684C6:
+kudgel_boss_command_sequence:
 	dw !null_pointer
 	dw DATA_B68924
 	dw DATA_B6887E
@@ -836,7 +839,7 @@ DATA_B689CA:
 CODE_B689F8:
 	LDA.l $000652				;$B689F8  \
 	CMP #$0001				;$B689FC   |
-	BEQ CODE_B68A61				;$B689FF   |
+	BEQ setup_kudgel_death			;$B689FF   |
 	LDX $0654				;$B68A01   |
 	LDY active_kong_sprite			;$B68A04   |
 	LDA $06,x				;$B68A07   |
@@ -862,7 +865,7 @@ CODE_B68A16:					;	   |
 	LDA #$0600				;$B68A33   |
 	STA $2A,x				;$B68A36   |
 	STZ $26,x				;$B68A38   |
-	LDA $32,x				;$B68A3A   |
+	LDA $32,x				;$B68A3A   | Redundant
 	LDX $0654				;$B68A3C   |
 	STZ $32,x				;$B68A3F   |
 	LDX $0656				;$B68A41   |
@@ -878,32 +881,32 @@ CODE_B68A16:					;	   |
 CODE_B68A60:					;	   |
 	RTS					;$B68A60  /
 
-CODE_B68A61:
+setup_kudgel_death:
 	%lda_sound(5, kudgel_hit)		;$B68A61  \
 	JSL queue_sound_effect			;$B68A64   |
-	STZ $0652				;$B68A68   |
+	STZ $0652				;$B68A68   | Zero Kudgel's hit points
 	LDX $0654				;$B68A6B   |
 	LDA #$F780				;$B68A6E   |
-	STA $24,x				;$B68A71   |
+	STA $24,x				;$B68A71   | Set current Y speed
 	LDA #$FC80				;$B68A73   |
-	STA $2A,x				;$B68A76   |
-	STZ $20,x				;$B68A78   |
-	STZ $26,x				;$B68A7A   |
-	LDA #CODE_B68BBB			;$B68A7C   |
-	STA $44,x				;$B68A7F   |
+	STA $2A,x				;$B68A76   | Set target Y speed
+	STZ $20,x				;$B68A78   |\
+	STZ $26,x				;$B68A7A   |/ Clear X speeds
+	LDA #kudgel_death_return_command	;$B68A7C   |
+	STA $44,x				;$B68A7F   | Set return command to execute
 	LDA #$0001				;$B68A81   |
 	STA $000751				;$B68A84   |
 	LDA #DATA_B68B07			;$B68A88   |
-	STA $000753				;$B68A8B   |
+	STA $000753				;$B68A8B   | Set address of death particle spawn data
 	LDA.l $000654				;$B68A8F   |
 	STA alternate_sprite			;$B68A93   |
-	LDA #$0298				;$B68A95   |
+	LDA #$0298				;$B68A95   | kudgel_hurt
 	JSL set_alt_sprite_animation		;$B68A98   |
 	LDA.l $000656				;$B68A9C   |
 	STA alternate_sprite			;$B68AA0   |
-	LDA #$0299				;$B68AA2   |
+	LDA #$0299				;$B68AA2   | kudgel_club_hurt
 	JSL set_alt_sprite_animation		;$B68AA5   |
-	BRA CODE_B68A60				;$B68AA9  /
+	BRA CODE_B68A60				;$B68AA9  / Return
 
 CODE_B68AAB:
 	DEC $0751				;$B68AAB  \
@@ -998,55 +1001,55 @@ DATA_B68BAF:
 	dw $0040, $0020, $0080, $0080, $2710, $0170
 
 
-CODE_B68BBB:
+kudgel_death_return_command:
 	LDA #$0004				;$B68BBB  \
 	JSL interpolate_y_velocity_global	;$B68BBE   |
 	JSL apply_position_from_velocity_global	;$B68BC2   |
 	JSR CODE_B68AAB				;$B68BC6   |
 	LDX current_sprite			;$B68BC9   |
 	LDA $0A,x				;$B68BCB   |
-	CMP #$0030				;$B68BCD   |
-	BCS CODE_B68C23				;$B68BD0   |
+	CMP #$0030				;$B68BCD   | Check if kudgel has gone up high enough
+	BCS .return				;$B68BD0   | If not yet, return
 	LDX current_sprite			;$B68BD2   |
 	LDA #$0021				;$B68BD4   |
 	STA $000751				;$B68BD7   |
-	LDA #DATA_B68B2B			;$B68BDB   |
+	LDA #DATA_B68B2B			;$B68BDB   | Set address of death particle spawn data
 	STA $000753				;$B68BDE   |
 	LDA #$0120				;$B68BE2   |
-	STA $0A,x				;$B68BE5   |
-	LDA #CODE_B68C27			;$B68BE7   |
-	STA $44,x				;$B68BEA   |
-	LDA #$029C				;$B68BEC   |
+	STA $0A,x				;$B68BE5   | Set Y position 
+	LDA #kudgel_death_return_command_2	;$B68BE7   |
+	STA $44,x				;$B68BEA   | Set return command to execute
+	LDA #$029C				;$B68BEC   | kudgel_death
 	JSL set_sprite_animation		;$B68BEF   |
 	LDA.l $000656				;$B68BF3   |
 	STA alternate_sprite			;$B68BF7   |
-	LDA #$029D				;$B68BF9   |
+	LDA #$029D				;$B68BF9   | kudgel_club_death
 	JSL set_alt_sprite_animation		;$B68BFC   |
 	%lda_sound(7, kudgel_defeat_airborne)	;$B68C00   |
 	JSL queue_sound_effect			;$B68C03   |
 	LDX current_sprite			;$B68C07   |
 	LDY $0656				;$B68C09   |
-	LDA #$0380				;$B68C0C   |
-	STA $24,x				;$B68C0F   |
-	STA $2A,x				;$B68C11   |
+	LDA #$0380				;$B68C0C   |\
+	STA $24,x				;$B68C0F   | | Set Y speeds  
+	STA $2A,x				;$B68C11   |/
 	LDA $12,x				;$B68C13   |
 	EOR #$3000				;$B68C15   |
 	STA $12,x				;$B68C18   |
 	LDA $0012,y				;$B68C1A   |
 	EOR #$3000				;$B68C1D   |
 	STA $0012,y				;$B68C20   |
-CODE_B68C23:					;	   |
-	JSR CODE_B68D5D				;$B68C23   |
+.return:					;	   |
+	JSR move_child_to_controller_spr	;$B68C23   |
 	RTS					;$B68C26  /
 
-CODE_B68C27:
+kudgel_death_return_command_2:
 	JSL apply_position_from_velocity_global	;$B68C27  \
 	JSR CODE_B68AAB				;$B68C2B   |
 	LDX current_sprite			;$B68C2E   |
 	LDA $0A,x				;$B68C30   |
-	CMP #$0270				;$B68C32   |
-	BCC CODE_B68C67				;$B68C35   |
-	LDA #CODE_B68C6B			;$B68C37   |
+	CMP #$0270				;$B68C32   | Check if Kudgel is offscreen below
+	BCC .return				;$B68C35   |
+	LDA #kudgel_set_fanfare_return_command	;$B68C37   |
 	STA $44,x				;$B68C3A   |
 	LDA #$005A				;$B68C3C   |
 	STA $000747				;$B68C3F   |
@@ -1062,19 +1065,19 @@ CODE_B68C27:
 	STA $0006,y				;$B68C5E   |
 	LDA #$01F3				;$B68C61   |
 	STA $000A,y				;$B68C64   |
-CODE_B68C67:					;	   |
-	JSR CODE_B68D5D				;$B68C67   |
+.return:					;	   |
+	JSR move_child_to_controller_spr	;$B68C67   |
 	RTS					;$B68C6A  /
 
-CODE_B68C6B:
-	LDA.l $000747				;$B68C6B  \
-	BEQ CODE_B68C81				;$B68C6F   |
-	DEC $0747				;$B68C71   |
-	BNE CODE_B68C81				;$B68C74   |
-	JSL set_current_level_as_cleared	;$B68C76   |
-	LDA #!player_interaction_27		;$B68C7A   |
-	JSL set_player_interaction_global	;$B68C7D   |
-CODE_B68C81:					;	   |
+kudgel_set_fanfare_return_command:
+	LDA.l $000747				;$B68C6B  \ Get timer before fanfare starts
+	BEQ .return				;$B68C6F   | If already done, return
+	DEC $0747				;$B68C71   | Else decrease timer
+	BNE .return				;$B68C74   | 
+	JSL set_current_level_as_cleared	;$B68C76   |\
+	LDA #!player_interaction_27		;$B68C7A   | | If timer done, set level as cleared and set "collecting kremcoin" interaction
+	JSL set_player_interaction_global	;$B68C7D   |/
+.return:					;	   |
 	RTS					;$B68C81  /
 
 CODE_B68C82:
@@ -1090,14 +1093,14 @@ CODE_B68C82:
 	AND #$BDFF				;$B68C9D   |
 	STA $2E,x				;$B68CA0   |
 	DEC $0652				;$B68CA2   |
-	LDA.l $000652				;$B68CA5   |
+	LDA.l $000652				;$B68CA5   | Get Kudgel hit points
 	ASL A					;$B68CA9   |
 	TAY					;$B68CAA   |
-	LDA DATA_B684C6,y			;$B68CAB   |
+	LDA kudgel_boss_command_sequence,y	;$B68CAB   |
 	STA $46,x				;$B68CAE   |
 	JSR parse_boss_command			;$B68CB0   |
 CODE_B68CB3:					;	   |
-	JSR CODE_B68D5D				;$B68CB3   |
+	JSR move_child_to_controller_spr	;$B68CB3   |
 	RTS					;$B68CB6  /
 
 CODE_B68CB7:
@@ -1111,11 +1114,11 @@ CODE_B68CC2:
 	PHB					;$B68CC2  \
 	PHK					;$B68CC3   |
 	PLB					;$B68CC4   |
-	LDA #$01FB				;$B68CC5   |
+	LDA #$01FB				;$B68CC5   | kudgel_attack_land
 	JSL set_sprite_animation		;$B68CC8   |
 	LDA.l $000656				;$B68CCC   |
 	STA alternate_sprite			;$B68CD0   |
-	LDA #$028D				;$B68CD2   |
+	LDA #$028D				;$B68CD2   | kudgel_club_idle
 	JSL set_alt_sprite_animation		;$B68CD5   |
 	LDX $0654				;$B68CD9   |
 	JSR parse_boss_command			;$B68CDC   |
@@ -1176,21 +1179,20 @@ CODE_B68D37:
 	JSL set_sprite_palette_global		;$B68D54   |
 	RTS					;$B68D58  /
 
-CODE_B68D59:
-	JSR CODE_B68D5D				;$B68D59  \
+move_child_to_controller_spr_global:
+	JSR move_child_to_controller_spr	;$B68D59  \
 	RTL					;$B68D5C  /
 
-;copies the position of the boss controller sprite to the slave sprite
-CODE_B68D5D:
+move_child_to_controller_spr:
 	LDX $0654				;$B68D5D  \
 	LDY $0656				;$B68D60   |
-	BEQ CODE_B68D6F				;$B68D63   |
-CODE_B68D65:					;	   |
+	BEQ .return				;$B68D63   |
+#move_sprite_in_y_to_sprite_in_x:		;	   |
 	LDA $06,x				;$B68D65   |
 	STA $0006,y				;$B68D67   |
 	LDA $0A,x				;$B68D6A   |
 	STA $000A,y				;$B68D6C   |
-CODE_B68D6F:					;	   |
+.return:					;	   |
 	RTS					;$B68D6F  /
 
 krool_sprite_code:
@@ -1255,7 +1257,7 @@ CODE_B68DB3:
 	JSL spawn_special_sprite_index		;$B68E04   |
 	LDY alternate_sprite			;$B68E08   |
 	LDX current_sprite			;$B68E0A   |
-	JSR CODE_B68D65				;$B68E0C   |
+	JSR move_sprite_in_y_to_sprite_in_x	;$B68E0C   |
 	LDA.l DATA_B6906D			;$B68E0F   |
 	STA $000650				;$B68E13   |
 	LDA #DATA_B6906F			;$B68E17   |
@@ -1265,7 +1267,7 @@ CODE_B68E1A:					;	   |
 	JSL spawn_no_gfx_special_sprite_index	;$B68E1E   |
 	LDY alternate_sprite			;$B68E22   |
 	LDX current_sprite			;$B68E24   |
-	JSR CODE_B68D65				;$B68E26   |
+	JSR move_sprite_in_y_to_sprite_in_x	;$B68E26   |
 	PLX					;$B68E29   |
 	LDA $0006,y				;$B68E2A   |
 	CLC					;$B68E2D   |
@@ -1358,7 +1360,7 @@ CODE_B68EDB:
 	BNE CODE_B68F0F				;$B68EE0   |
 	JSL CODE_BCFB58				;$B68EE2   |
 	LDA #$0000				;$B68EE6   |
-	JSL CODE_B6CF65				;$B68EE9   |
+	JSL check_complex_player_collision_B6	;$B68EE9   |
 	BCC CODE_B68F0F				;$B68EED   |
 	LDX current_sprite			;$B68EEF   |
 	LDA #$0014				;$B68EF1   |
@@ -1823,7 +1825,7 @@ CODE_B693DE:
 CODE_B693EB:
 	JSL CODE_BCFB58				;$B693EB  \
 	LDA #$0000				;$B693EF   |
-	JSL CODE_B6CF65				;$B693F2   |
+	JSL check_complex_player_collision_B6	;$B693F2   |
 	BCS CODE_B693FB				;$B693F6   |
 	BRL CODE_B6948B				;$B693F8  /
 
@@ -1876,7 +1878,7 @@ CODE_B6945B:					;	   |
 	LDX current_sprite			;$B69466   |
 	JSL CODE_BCFB58				;$B69468   |
 	LDA #$0C7B				;$B6946C   |
-	JSL CODE_B6CF65				;$B6946F   |
+	JSL check_complex_player_collision_B6	;$B6946F   |
 	BCC CODE_B6948B				;$B69473   |
 	LDA #$001E				;$B69475   |
 	LDY #$FE00				;$B69478   |
@@ -2489,7 +2491,7 @@ shot_donkey_kong_sprite_code:
 	STY alternate_sprite			;$B69A18   |
 	LDA #$0001				;$B69A1A   |
 	STA $002E,y				;$B69A1D   |
-	LDA #$A609				;$B69A20   |
+	LDA #$A609				;$B69A20   | related to knockback when being shot by krool
 	STA $0042,y				;$B69A23   |
 	LDA #$0252				;$B69A26   |
 	JSL set_alt_sprite_animation		;$B69A29   |
@@ -2546,7 +2548,7 @@ CODE_B69A8A:
 CODE_B69A98:					;	   |
 	JSL CODE_BCFB58				;$B69A98   |
 	LDA #$0000				;$B69A9C   |
-	JSL CODE_B6CF65				;$B69A9F   |
+	JSL check_complex_player_collision_B6	;$B69A9F   |
 	LDX current_sprite			;$B69AA3   |
 CODE_B69AA5:					;	   |
 	CPX current_held_sprite			;$B69AA5   |
@@ -2981,7 +2983,7 @@ CODE_B69DC2:
 	%lda_sound(7, kudgel_defeat_airborne)	;$B69E28   |
 	JSL queue_sound_effect			;$B69E2B   |
 CODE_B69E2F:					;	   |
-	JSR CODE_B68D5D				;$B69E2F   |
+	JSR move_child_to_controller_spr	;$B69E2F   |
 	RTS					;$B69E32  /
 
 CODE_B69E33:
@@ -2994,7 +2996,7 @@ CODE_B69E33:
 	LDA.l $0006A5				;$B69E43   |
 	ORA #$0200				;$B69E47   |
 	STA $0006A5				;$B69E4A   |
-	LDY #DATA_FF281C			;$B69E4E   |
+	LDY #DATA_FF281C			;$B69E4E   | kroc_kore_sparkle_spawner
 	JSL spawn_BB83EF_special_sprite_address	;$B69E51   |
 	LDX alternate_sprite			;$B69E55   |
 	LDA #$02BC				;$B69E57   |
@@ -3006,15 +3008,16 @@ CODE_B69E33:
 	JSL delete_sprite_handle_deallocation	;$B69E64   |
 	PLX					;$B69E68   |
 	STX current_sprite			;$B69E69   |
-	LDA #$9E75				;$B69E6B   |
+	LDA #CODE_B69E75			;$B69E6B   |
 	STA $44,x				;$B69E6E   |
 	LDA #$C000				;$B69E70   |
 	STA $1C,x				;$B69E73   |
+CODE_B69E75:
 	PLA					;$B69E75   |
 	BRL CODE_B68F33				;$B69E76  /
 
 CODE_B69E79:
-	JSR CODE_B68D5D				;$B69E79  \
+	JSR move_child_to_controller_spr	;$B69E79  \
 	RTS					;$B69E7C  /
 
 CODE_B69E7D:
@@ -3176,7 +3179,7 @@ CODE_B69F9E:
 CODE_B69FAF:
 	LDA #$0000				;$B69FAF  \
 CODE_B69FB2:					;	   |
-	JSL CODE_B6CF65				;$B69FB2   |
+	JSL check_complex_player_collision_B6	;$B69FB2   |
 	BCC CODE_B69FFC				;$B69FB6   |
 	BEQ CODE_B69FBF				;$B69FB8   |
 	CMP #$0002				;$B69FBA   |
@@ -3661,6 +3664,8 @@ CODE_B6A358:					;	   |
 CODE_B6A375:					;	   |
 	BRL CODE_B6A178				;$B6A375  /
 
+
+;Dead code
 if !version == 0				;	  \
 	LDA $46,x				;$B6A378   |
 	BEQ CODE_B6A3E5				;$B6A37A   |
@@ -3691,7 +3696,6 @@ CODE_B6A399:					;	   |
 	CMP #$0040				;$B6A3A8   |
 	BCS CODE_B6A3CF				;$B6A3AB   |
 	LDA #$0900				;$B6A3AD   |
-						;	   |
 CODE_B6A3A4:					;	   |
 	STA $2A,x				;$B6A3B0   |
 	STZ $24,x				;$B6A3B2   |
@@ -3702,7 +3706,6 @@ CODE_B6A3A4:					;	   |
 	STA $42,x				;$B6A3BE   |
 	LDA #$0009				;$B6A3C0   |
 	STA $44,x				;$B6A3C3   |
-						;	   |
 CODE_B6A3B9:					;	   |
 	LDY active_kong_sprite			;$B6A3C5   |
 	LDA $0006,y				;$B6A3C8   |
@@ -3713,14 +3716,12 @@ CODE_B6A3B9:					;	   |
 						;	   |
 CODE_B6A3C8_0:					;	   |
 	LDA #$0600				;$B6A3D5   |
-						;	   |
 CODE_B6A3CB:					;	   |
 	STA $26,x				;$B6A3D8   |
 	BRA CODE_B6A378				;$B6A3DA   |
 						;	   |
 CODE_B6A3CF:					;	   |
 	LDA #$0900				;$B6A3DC   |
-						;	   |
 CODE_B6A3D2:					;	   |
 	STA $26,x				;$B6A3DF   |
 	LDA $2E,x				;$B6A3E1   |
@@ -3774,9 +3775,10 @@ CODE_B6A378:
 	JSL apply_position_from_velocity_global	;$B6A386   |
 	JSR CODE_B69C87				;$B6A38A   |
 if !version == 0				;	   |
-	BRL CODE_B6A178				;$B6A38D   |
-CODE_B6A390:
-	LDA $42,x				;$B6A390   |
+	BRL CODE_B6A178				;$B6A38D  /
+
+CODE_B6A390:				
+	LDA $42,x				;$B6A390  \
 	JSL interpolate_x_velocity_global	;$B6A392   |
 	LDX current_sprite			;$B6A396   |
 	LDA $44,x				;$B6A398   |
@@ -3986,7 +3988,7 @@ CODE_B6A510:					;	   |
 CODE_B6A51B:
 	LDX $075F				;$B6A51B  \
 	LDY $075B				;$B6A51E   |
-	JSR CODE_B68D65				;$B6A521   |
+	JSR move_sprite_in_y_to_sprite_in_x	;$B6A521   |
 	LDY $075D				;$B6A524   |
 	LDA $06,x				;$B6A527   |
 	STA $0006,y				;$B6A529   |
@@ -4160,7 +4162,7 @@ CODE_B6A66F:
 	JSR CODE_B6AB5F				;$B6A68A   |
 	LDX $075F				;$B6A68D   |
 	LDY alternate_sprite			;$B6A690   |
-	JSR CODE_B68D65				;$B6A692   |
+	JSR move_sprite_in_y_to_sprite_in_x	;$B6A692   |
 	LDY alternate_sprite			;$B6A695   |
 	LDA $000A,y				;$B6A697   |
 	CLC					;$B6A69A   |
@@ -4208,6 +4210,7 @@ CODE_B6A6F6:
 	JSL process_sprite_animation		;$B6A6F6  \
 	JML [sprite_return_address]		;$B6A6FA  /
 
+;dead code
 	JSR CODE_B6A701				;$B6A6FD   |
 	RTL					;$B6A700  /
 
@@ -4271,7 +4274,7 @@ defeated_krool_sprite_code:
 	LDA #$0009				;$B6A777   |
 	STA $000747				;$B6A77A   |
 ..return:					;	   |
-	JSR CODE_B68D5D				;$B6A77E   |
+	JSR move_child_to_controller_spr	;$B6A77E   |
 	JSL process_sprite_animation		;$B6A781   |
 	JML [sprite_return_address]		;$B6A785  /
 
@@ -4736,7 +4739,7 @@ CODE_B6ABC2:					;	   |
 	STA $06,x				;$B6ABC2   |
 	STA $0006,y				;$B6ABC4   |
 CODE_B6ABC7:					;	   |
-	JSR CODE_B68D5D				;$B6ABC7   |
+	JSR move_child_to_controller_spr	;$B6ABC7   |
 	RTS					;$B6ABCA  /
 
 CODE_B6ABCB:
@@ -5007,7 +5010,7 @@ CODE_B6ADD6:
 	ASL A					;$B6ADDA   |
 	TAY					;$B6ADDB   |
 	JSR CODE_B6D923				;$B6ADDC   |
-	LDA.w DATA_BAABA8,y			;$B6ADDF   |
+	LDA.w king_zing_pattern_table,y		;$B6ADDF   |
 	TAY					;$B6ADE2   |
 	LDA $0004,y				;$B6ADE3   |
 	PHK					;$B6ADE6   |
@@ -5030,7 +5033,7 @@ CODE_B6ADF1:
 	ASL A					;$B6AE01   |
 	TAY					;$B6AE02   |
 	JSR CODE_B6D923				;$B6AE03   |
-	LDA.w DATA_BAABA8,y			;$B6AE06   |
+	LDA.w king_zing_pattern_table,y		;$B6AE06   |
 	TAY					;$B6AE09   |
 	LDA $0004,y				;$B6AE0A   |
 	STA $28,x				;$B6AE0D   |
@@ -5085,7 +5088,7 @@ DATA_B6AE73:
 
 
 ;king zing commands
-DATA_B6AE87:
+king_zing_boss_commands_table:
 	dw !boss_command_26, $026E, $016D, DATA_B6AE73
 	dw !boss_command_27, $4000
 	dw !boss_command_26, $0204, $016D, DATA_B6AE73
@@ -5172,7 +5175,7 @@ CODE_B6AF8D:
 	ASL A					;$B6AF91   |
 	TAX					;$B6AF92   |
 	JSR CODE_B6D923				;$B6AF93   |
-	LDY.w DATA_BAABA8,x			;$B6AF96   |
+	LDY.w king_zing_pattern_table,x		;$B6AF96   |
 	PHK					;$B6AF99   |
 	PLB					;$B6AF9A   |
 	LDX $0654				;$B6AF9B   |
@@ -5531,7 +5534,7 @@ DATA_B6B683:
 	dw $01B0, $0201
 	dw $0241, $01E9
 
-CODE_B6B68F:
+execute_boss_return_command:
 	PHB					;$B6B68F  \
 	PHK					;$B6B690   |
 	PLB					;$B6B691   |
@@ -5539,7 +5542,7 @@ CODE_B6B68F:
 	PLB					;$B6B695   |
 	RTL					;$B6B696  /
 
-CODE_B6B697:
+execute_boss_command:
 	PHB					;$B6B697  \
 	PHK					;$B6B698   |
 	PLB					;$B6B699   |
@@ -5547,9 +5550,8 @@ CODE_B6B697:
 	PLB					;$B6B69D   |
 	RTL					;$B6B69E  /
 
-;boss commands
-DATA_B6B69F:
-	%offset(DATA_B6B6A1, 2)
+boss_commands_table:
+	%offset(boss_commands_return_table, 2)
 	dw boss_command_code_00, CODE_B6CC53
 	dw boss_command_code_01, boss_command_code_03
 	dw boss_command_code_02, boss_command_code_03
@@ -5890,7 +5892,7 @@ CODE_B6B9F3:					;	   |
 	STA $20,x				;$B6BA1D   |
 CODE_B6BA1F:					;	   |
 	STZ $26,x				;$B6BA1F   |
-	JSR CODE_B6BBAA				;$B6BA21   |
+	JSR make_boss_face_kong			;$B6BA21   |
 	LDA #$029A				;$B6BA24   |
 	JSL set_sprite_animation		;$B6BA27   |
 	LDA.l $000656				;$B6BA2B   |
@@ -5934,7 +5936,7 @@ CODE_B6BA4A:					;	   |
 	LDY #DATA_FF21B4			;$B6BA8C   |
 	JSL spawn_no_gfx_special_sprite_address	;$B6BA8F   |
 CODE_B6BA93:					;	   |
-	JSR CODE_B68D5D				;$B6BA93   |
+	JSR move_child_to_controller_spr	;$B6BA93   |
 	RTS					;$B6BA96  /
 
 boss_command_code_42:
@@ -6045,7 +6047,7 @@ CODE_B6BB36:					;	   |
 	LDA #$0291				;$B6BB61   |
 	JSL set_alt_sprite_animation		;$B6BB64   |
 CODE_B6BB68:					;	   |
-	JSR CODE_B68D5D				;$B6BB68   |
+	JSR move_child_to_controller_spr	;$B6BB68   |
 	RTS					;$B6BB6B  /
 
 boss_command_code_3F:
@@ -6076,28 +6078,29 @@ boss_command_code_3E:
 	STZ $44,x				;$B6BBA1   |
 	RTS					;$B6BBA3  /
 
+;Unused? Would have made boss/child sprites face kong
 boss_command_code_3D:
-	JSR CODE_B6BBAA				;$B6BBA4  \
+	JSR make_boss_face_kong			;$B6BBA4  \
 	STZ $44,x				;$B6BBA7   |
 	RTS					;$B6BBA9  /
 
-CODE_B6BBAA:
+make_boss_face_kong:
 	LDY active_kong_sprite			;$B6BBAA  \
 	LDA $06,x				;$B6BBAD   |
 	CMP $0006,y				;$B6BBAF   |
-	BCS CODE_B6BBC0				;$B6BBB2   |
+	BCS .CODE_B6BBC0			;$B6BBB2   |
 	LDA $12,x				;$B6BBB4   |
 	BIT #$4000				;$B6BBB6   |
-	BEQ CODE_B6BBCA				;$B6BBB9   |
-	JSR CODE_B6BE70				;$B6BBBB   |
-	BRA CODE_B6BBCA				;$B6BBBE  /
+	BEQ .return				;$B6BBB9   |
+	JSR turn_boss_and_child_sprite		;$B6BBBB   |
+	BRA .return				;$B6BBBE  /
 
-CODE_B6BBC0:
+.CODE_B6BBC0:
 	LDA $12,x				;$B6BBC0  \
 	BIT #$4000				;$B6BBC2   |
-	BNE CODE_B6BBCA				;$B6BBC5   |
-	JSR CODE_B6BE70				;$B6BBC7   |
-CODE_B6BBCA:					;	   |
+	BNE .return				;$B6BBC5   |
+	JSR turn_boss_and_child_sprite		;$B6BBC7   |
+.return:					;	   |
 	RTS					;$B6BBCA  /
 
 boss_command_code_3C:
@@ -6177,7 +6180,7 @@ CODE_B6BC69:
 	CMP #$0080				;$B6BC72   |
 	BCC CODE_B6BC5F				;$B6BC75   |
 CODE_B6BC77:					;	   |
-	JSR CODE_B68D5D				;$B6BC77   |
+	JSR move_child_to_controller_spr	;$B6BC77   |
 	RTS					;$B6BC7A  /
 
 boss_command_code_3A:
@@ -6230,7 +6233,7 @@ CODE_B6BCCF:
 
 CODE_B6BCDD:
 	LDX current_sprite			;$B6BCDD  \
-	JSR CODE_B6BBAA				;$B6BCDF   |
+	JSR make_boss_face_kong			;$B6BCDF   |
 	%lda_sound(5, egg_kudgel_fall)		;$B6BCE2   |
 	JSL queue_sound_effect			;$B6BCE5   |
 CODE_B6BCE9:					;	   |
@@ -6281,7 +6284,7 @@ CODE_B6BD32:					;	   |
 	BNE CODE_B6BD6F				;$B6BD6A   |
 	STZ current_held_sprite			;$B6BD6C   |
 CODE_B6BD6F:					;	   |
-	JSR CODE_B68D5D				;$B6BD6F   |
+	JSR move_child_to_controller_spr	;$B6BD6F   |
 	RTS					;$B6BD72  /
 
 boss_command_code_38:
@@ -6401,14 +6404,14 @@ CODE_B6BE3E:					;	   |
 	LDA $12,x				;$B6BE52   |
 	BIT #$4000				;$B6BE54   |
 	BEQ CODE_B6BE68				;$B6BE57   |
-	JSR CODE_B6BE70				;$B6BE59   |
+	JSR turn_boss_and_child_sprite		;$B6BE59   |
 	BRA CODE_B6BE68				;$B6BE5C  /
 
 CODE_B6BE5E:
 	LDA $12,x				;$B6BE5E  \
 	BIT #$4000				;$B6BE60   |
 	BNE CODE_B6BE68				;$B6BE63   |
-	JSR CODE_B6BE70				;$B6BE65   |
+	JSR turn_boss_and_child_sprite		;$B6BE65   |
 CODE_B6BE68:					;	   |
 	PLY					;$B6BE68   |
 	INY					;$B6BE69   |
@@ -6417,14 +6420,14 @@ CODE_B6BE68:					;	   |
 	STZ $44,x				;$B6BE6D   |
 	RTS					;$B6BE6F  /
 
-CODE_B6BE70:
+turn_boss_and_child_sprite:
 	LDX $0654				;$B6BE70  \
-	JSR CODE_B6BE7D				;$B6BE73   |
+	JSR turn_sprite_B6			;$B6BE73   |
 	LDX $0656				;$B6BE76   |
-	JSR CODE_B6BE7D				;$B6BE79   |
+	JSR turn_sprite_B6			;$B6BE79   |
 	RTS					;$B6BE7C  /
 
-CODE_B6BE7D:
+turn_sprite_B6:
 	LDA $12,x				;$B6BE7D  \
 	EOR #$4000				;$B6BE7F   |
 	STA $12,x				;$B6BE82   |
@@ -6498,7 +6501,7 @@ boss_command_code_2F:
 	STA $000727				;$B6BEFD   |
 	LDA #$0001				;$B6BF01   |
 	STA $000729				;$B6BF04   |
-	LDA #$AA1C				;$B6BF08   |
+	LDA #DATA_BAAA1C			;$B6BF08   |
 	STA $000737				;$B6BF0B   |
 	PLY					;$B6BF0F   |
 	RTS					;$B6BF10  /
@@ -6607,10 +6610,11 @@ CODE_B6BFC6:					;	   |
 CODE_B6C009:					;	   |
 	RTS					;$B6C009  /
 
+;spawn_sprite (and execute JSR)
 boss_command_code_2E:
 	PHY					;$B6C00A  \
 	LDA $0000,y				;$B6C00B   |
-	CMP #DATA_FF2216			;$B6C00E   |
+	CMP #DATA_FF2216			;$B6C00E   | Check if we are trying to spawn a DK barrel
 	BNE CODE_B6C018				;$B6C011   |
 	LDY $073B				;$B6C013   |
 	BNE CODE_B6C068				;$B6C016   |
@@ -6618,7 +6622,7 @@ CODE_B6C018:					;	   |
 	LDA.l $0006A3				;$B6C018   |
 	AND #$FEFF				;$B6C01C   |
 	STA $0006A3				;$B6C01F   |
-	LDY #!special_sprite_spawn_id_017C	;$B6C023   |
+	LDY #!special_sprite_spawn_id_017C	;$B6C023   | Spawn particle
 	JSL spawn_special_sprite_index		;$B6C026   |
 	LDX alternate_sprite			;$B6C02A   |
 	LDA $01,s				;$B6C02C   |
@@ -6631,14 +6635,14 @@ CODE_B6C018:					;	   |
 	CLC					;$B6C03B   |
 	ADC $000A,y				;$B6C03C   |
 	STA $0A,x				;$B6C03F   |
-	LDA #$026F				;$B6C041   |
+	LDA #$026F				;$B6C041   | smoke_cloud_4
 	JSL set_alt_sprite_animation		;$B6C044   |
 	LDA $01,s				;$B6C048   |
 	TAY					;$B6C04A   |
 	LDA $0000,y				;$B6C04B   |
 	TAY					;$B6C04E   |
 	JSL spawn_special_sprite_address	;$B6C04F   |
-	LDX alternate_sprite			;$B6C053   |
+	LDX alternate_sprite			;$B6C053   | Get sprite we just spawned
 	LDA $01,s				;$B6C055   |
 	TAY					;$B6C057   |
 	LDA $0002,y				;$B6C058   |
@@ -6646,16 +6650,17 @@ CODE_B6C018:					;	   |
 	LDA $0004,y				;$B6C05D   |
 	STA $0A,x				;$B6C060   |
 	TYX					;$B6C062   |
-	JSR ($0006,x)				;$B6C063   |
+	JSR ($0006,x)				;$B6C063   | JSR to code passed in 4th argument 
 	LDX current_sprite			;$B6C066   |
 CODE_B6C068:					;	   |
 	STZ $44,x				;$B6C068   |
 	PLA					;$B6C06A   |
 	CLC					;$B6C06B   |
-	ADC #$000C				;$B6C06C   |
+	ADC #$000C				;$B6C06C   | Move to next boss command
 	TAY					;$B6C06F   |
 	RTS					;$B6C070  /
 
+;goto_if
 boss_command_code_2D:
 	LDA.l $000735				;$B6C071  \
 	BNE CODE_B6C07D				;$B6C075   |
@@ -6670,6 +6675,7 @@ CODE_B6C07F:					;	   |
 	STZ $44,x				;$B6C07F   |
 	RTS					;$B6C081  /
 
+;retract_spikes
 boss_command_code_2C:
 	PHY					;$B6C082  \
 	STZ $44,x				;$B6C083   |
@@ -6679,8 +6685,9 @@ boss_command_code_2C:
 	SEP #$20				;$B6C08D   |
 	STA PPU.screen				;$B6C08F   |
 	REP #$20				;$B6C092   |
-	STP					;$B6C094   |
-CODE_B6C095:					;	   |
+	STP					;$B6C094  /
+
+CODE_B6C095:					;	  \
 	STX alternate_sprite			;$B6C095   |
 	LDA #$0277				;$B6C097   |
 	JSL set_alt_sprite_animation		;$B6C09A   |
@@ -7129,11 +7136,11 @@ CODE_B6C44F:
 	RTS					;$B6C459  /
 
 boss_command_code_28:
-	LDA $0000,y				;$B6C45A  \
-	STA $000721				;$B6C45D   |
+	LDA $0000,y				;$B6C45A  \ Get wait time from command argument
+	STA $000721				;$B6C45D   | Set wait timer
 	INY					;$B6C461   |
-	INY					;$B6C462   |
-	RTS					;$B6C463  /
+	INY					;$B6C462   | Move to next command
+	RTS					;$B6C463  / Return
 
 CODE_B6C464:
 	LDA.l $000721				;$B6C464  \
@@ -7206,7 +7213,7 @@ boss_command_code_24:
 	PHB					;$B6C4D3  \
 	LDX $0000,y				;$B6C4D4   |
 	PHK					;$B6C4D7   |
-	LDA #$7E00				;$B6C4D8   |
+	LDA #$7E00				;$B6C4D8   | bank
 	PHA					;$B6C4DB   |
 	PLB					;$B6C4DC   |
 	PLB					;$B6C4DD   |
@@ -7504,6 +7511,7 @@ boss_command_code_0E:
 	PLY					;$B6C6ED   |
 	RTS					;$B6C6EE  /
 
+;fly_to_egg_drop
 boss_command_code_0C:
 	LDX current_sprite			;$B6C6EF  \
 	PHY					;$B6C6F1   |
@@ -7660,6 +7668,7 @@ boss_command_code_0A:
 	PLY					;$B6C7FD   |
 	RTS					;$B6C7FE  /
 
+;shake screen
 boss_command_code_0B:
 	LDA $0000,y				;$B6C7FF  \
 	JSL CODE_B5F0CD				;$B6C802   |
@@ -7841,8 +7850,9 @@ CODE_B6C959:					;	   |
 	TAY					;$B6C975   |
 	RTS					;$B6C976  /
 
+;goto or reset
 boss_command_code_02:
-	STZ $44,x				;$B6C977  \
+	STZ $44,x				;$B6C977  \ Clear address of return command
 	LDA $0000,y				;$B6C979   |
 	BEQ CODE_B6C990				;$B6C97C   |
 	LDA $2E,x				;$B6C97E   |
@@ -7862,6 +7872,7 @@ CODE_B6C990:
 CODE_B6C993:					;	   |
 	RTS					;$B6C993  /
 
+;Unused?
 boss_command_code_01:
 	PHY					;$B6C994  \
 	LDA $0000,y				;$B6C995   |
@@ -7903,6 +7914,7 @@ boss_command_code_08:
 	LDA $0000,x				;$B6C9E0   |
 	BRA CODE_B6CA0E				;$B6C9E3  /
 
+;krow related
 boss_command_code_0F:
 	LDA $0000,y				;$B6C9E5  \
 	STA $1E,x				;$B6C9E8   |
@@ -7918,6 +7930,7 @@ boss_command_code_0F:
 	LDA $0014,x				;$B6C9FA   |
 	BRA CODE_B6CA0E				;$B6C9FD  /
 
+;animated_wait
 boss_command_code_1A:
 	LDA $0002,y				;$B6C9FF  \
 	STA $1E,x				;$B6CA02   |
@@ -8517,8 +8530,8 @@ CODE_B6CE3A:					;	   |
 	RTS					;$B6CE3A  /
 
 
-;king zing damage position offsets (big zinger phase)
-DATA_B6CE3B:
+;Also used by krow/kreepy krow
+big_king_zing_damage_pos_offsets:
 	dw $0004, $FFFA
 	dw $0004, $FFFB
 	dw $0003, $FFFC
@@ -8546,7 +8559,7 @@ DATA_B6CE3B:
 	dw $0001, $0002
 	dw $0000, $0001
 	dw $0001, $0001
-DATA_B6CEA7:
+;DATA_B6CEA7:
 
 CODE_B6CEA7:
 	PHB					;$B6CEA7  \
@@ -8654,7 +8667,7 @@ CODE_B6CF38:
 	STA $44,x				;$B6CF61   |
 	BRA CODE_B6CF2C				;$B6CF63  /
 
-CODE_B6CF65:
+check_complex_player_collision_B6:
 	PHX					;$B6CF65  \
 	PHY					;$B6CF66   |
 	LDY current_sprite			;$B6CF67   |
@@ -8772,9 +8785,9 @@ parse_boss_command:
 	ASL A					;$B6D016   |/
 	PHY					;$B6D017   |> Preserve pattern index
 	TAY					;$B6D018   |\
-	LDA DATA_B6B69F,y			;$B6D019   | | Get command code pointer
+	LDA boss_commands_table,y		;$B6D019   | | Get command code pointer
 	STA $46,x				;$B6D01C   |/ Write pointer to sprite variable
-	LDA DATA_B6B6A1,y			;$B6D01E   |\ Get command return code pointer
+	LDA boss_commands_return_table,y	;$B6D01E   |\ Get command return code pointer
 	STA $44,x				;$B6D021   |/ Write pointer to sprite variable
 	PLY					;$B6D023   |> Retrieve pattern index
 	INY					;$B6D024   |\
@@ -8968,8 +8981,8 @@ CODE_B6D1B4:
 	ORA #$1000				;$B6D1B4  \
 	STA $2E,x				;$B6D1B7   |
 	STZ $32,x				;$B6D1B9   |
-	JSL CODE_B4AEAF				;$B6D1BB   |
-	LDY #!special_sprite_spawn_id_0188	;$B6D1BF   |
+	JSL CODE_B4AEAF				;$B6D1BB   | Clear block of ram to be used for boss stuff
+	LDY #!special_sprite_spawn_id_0188	;$B6D1BF   | Spawn kleever hand bubbles
 	JSL spawn_special_sprite_index		;$B6D1C2   |
 	LDX current_sprite			;$B6D1C6   |
 	LDY alternate_sprite			;$B6D1C8   |
@@ -8985,7 +8998,7 @@ CODE_B6D1B4:
 	STA $000652				;$B6D1E1   |
 	ASL A					;$B6D1E5   |
 	TAY					;$B6D1E6   |
-	LDA DATA_B6EC1A,y			;$B6D1E7   |
+	LDA kleever_attack_pattern_table,y	;$B6D1E7   |
 	TAY					;$B6D1EA   |
 	LDA $0006,y				;$B6D1EB   |
 	STA $28,x				;$B6D1EE   |
@@ -9049,7 +9062,7 @@ CODE_B6D1B4:
 	STA $000A,y				;$B6D28F   |
 	LDA #$0003				;$B6D292   |
 	STA $0042,y				;$B6D295   |
-	LDA #DATA_BAA6BC			;$B6D298   |
+	LDA #kleever_y_bob_offset_table		;$B6D298   |
 	STA $0044,y				;$B6D29B   |
 	STA $0046,y				;$B6D29E   |
 	LDA #DATA_BAA6D0			;$B6D2A1   |
@@ -9201,7 +9214,7 @@ CODE_B6D3E4:					;	   |
 	RTS					;$B6D3EA  /
 
 CODE_B6D3EB:
-	LDY #!special_sprite_spawn_id_00B0	;$B6D3EB  \
+	LDY #!special_sprite_spawn_id_00B0	;$B6D3EB  \ falling canball
 	JSL spawn_special_sprite_index		;$B6D3EE   |
 	LDX $0654				;$B6D3F2   |
 	LDA $2E,x				;$B6D3F5   |
@@ -9209,13 +9222,13 @@ CODE_B6D3EB:
 	BNE CODE_B6D407				;$B6D3FA   |
 	LDY #DATA_B6D451			;$B6D3FC   |
 	JSR CODE_B6D424				;$B6D3FF   |
-	LDA DATA_B6D453,y			;$B6D402   |
+	LDA kleever_canball_x_spawn_pos_left,y	;$B6D402   |
 	BRA CODE_B6D410				;$B6D405  /
 
 CODE_B6D407:
 	LDY #DATA_B6D451			;$B6D407  \
 	JSR CODE_B6D424				;$B6D40A   |
-	LDA DATA_B6D463,y			;$B6D40D   |
+	LDA kleever_canball_x_spawn_pos_right,y	;$B6D40D   |
 CODE_B6D410:					;	   |
 	LDY alternate_sprite			;$B6D410   |
 	STA $0006,y				;$B6D412   |
@@ -9253,8 +9266,8 @@ CODE_B6D44E:					;	   |
 DATA_B6D451:
 	dw $0007
 
-;kleever cannonball x pos spawn locations (left side)
-DATA_B6D453:
+
+kleever_canball_x_spawn_pos_left:
 	dw $0390
 	dw $03A0
 	dw $03B0
@@ -9265,8 +9278,8 @@ DATA_B6D453:
 
 	dw $0007
 
-;kleever cannonball x pos spawn locations (right side)
-DATA_B6D463:
+
+kleever_canball_x_spawn_pos_right:
 	dw $0640
 	dw $0650
 	dw $0660
@@ -9298,7 +9311,7 @@ CODE_B6D489:
 	JSL CODE_BCFB58				;$B6D496   |
 	LDA #$0C7B				;$B6D49A   |
 	STZ $065E				;$B6D49D   |
-	JSL CODE_B6CF65				;$B6D4A0   |
+	JSL check_complex_player_collision_B6	;$B6D4A0   |
 	BCC CODE_B6D4B6				;$B6D4A4   |
 	LDA.l $00065E				;$B6D4A6   |
 	ORA #$0002				;$B6D4AA   |
@@ -9350,7 +9363,7 @@ CODE_B6D4F5:					;	   |
 CODE_B6D510:					;	   |
 	JSL CODE_BCFB58				;$B6D510   |
 	LDA #$0000				;$B6D514   |
-	JSL CODE_B6CF65				;$B6D517   |
+	JSL check_complex_player_collision_B6	;$B6D517   |
 	BCC CODE_B6D52D				;$B6D51B   |
 	LDA.l $00065E				;$B6D51D   |
 	ORA #$0002				;$B6D521   |
@@ -9487,7 +9500,7 @@ CODE_B6D620:					;	   |
 	LDA.l $000652				;$B6D626   |
 	ASL A					;$B6D62A   |
 	TAY					;$B6D62B   |
-	LDA DATA_B6EC1A,y			;$B6D62C   |
+	LDA kleever_attack_pattern_table,y	;$B6D62C   |
 	TAY					;$B6D62F   |
 	LDA $0004,y				;$B6D630   |
 	STA $46,x				;$B6D633   |
@@ -9754,6 +9767,7 @@ CODE_B6D80E:					;	   |
 CODE_B6D826:					;	   |
 	RTS					;$B6D826  /
 
+;dead code
 	JSR CODE_B6D82F				;$B6D827   |
 	RTL					;$B6D82A  /
 
@@ -9784,8 +9798,8 @@ CODE_B6D85E:					;	   |
 CODE_B6D862:					;	   |
 	RTS					;$B6D862  /
 
-	LDA.l $0006E9				;$B6D863   |
-	BEQ CODE_B6D896				;$B6D867   |
+	LDA.l $0006E9				;$B6D863  \ \
+	BEQ CODE_B6D896				;$B6D867   |/ Dead code
 CODE_B6D869:					;	   |
 	DEC $06ED				;$B6D869   |
 	BNE CODE_B6D896				;$B6D86C   |
@@ -9848,7 +9862,7 @@ DATA_B6D897:
 DATA_B6D923:
 
 CODE_B6D923:
-	%pea_mask_dbr(DATA_BAABA8)		;$B6D923  \
+	%pea_mask_dbr(king_zing_pattern_table)	;$B6D923  \
 	PLB					;$B6D926   |
 	PLB					;$B6D927   |
 	RTS					;$B6D928  /
@@ -9961,6 +9975,7 @@ CODE_B6D9DD:
 CODE_B6DA11:					;	   |
 	RTS					;$B6DA11  /
 
+;Unreferenced
 DATA_B6DA12:
 	db $F6, $FF, $CE, $FF
 
@@ -10092,7 +10107,7 @@ CODE_B6DAD6:
 CODE_B6DB09:					;	   |
 	ASL A					;$B6DB09   |
 	TAY					;$B6DB0A   |
-	LDA DATA_B6EC1A,y			;$B6DB0B   |
+	LDA kleever_attack_pattern_table,y	;$B6DB0B   |
 	TAY					;$B6DB0E   |
 	INC $0658				;$B6DB0F   |
 	LDA.l $000658				;$B6DB12   |
@@ -10257,26 +10272,26 @@ CODE_B6DC0E:					;	   |
 	STA $2E,x				;$B6DC1C   |
 	RTS					;$B6DC1E  /
 
-CODE_B6DC1F:
-	JSR CODE_B6DC23				;$B6DC1F  \
+turn_sprite_B6_2_global:
+	JSR turn_sprite_B6_2			;$B6DC1F  \
 	RTL					;$B6DC22  /
 
-CODE_B6DC23:
+turn_sprite_B6_2:
 	LDA $12,x				;$B6DC23  \
 	EOR #$4000				;$B6DC25   |
 	STA $12,x				;$B6DC28   |
 	RTS					;$B6DC2A  /
 
 CODE_B6DC2B:
-	JSR CODE_B6DC23				;$B6DC2B  \
+	JSR turn_sprite_B6_2			;$B6DC2B  \
 	LDY $42,x				;$B6DC2E   |
 	BEQ CODE_B6DC36				;$B6DC30   |
 	TYX					;$B6DC32   |
-	JSR CODE_B6DC23				;$B6DC33   |
+	JSR turn_sprite_B6_2			;$B6DC33   |
 CODE_B6DC36:					;	   |
 	LDX $0656				;$B6DC36   |
 	BEQ CODE_B6DC3E				;$B6DC39   |
-	JSR CODE_B6DC23				;$B6DC3B   |
+	JSR turn_sprite_B6_2			;$B6DC3B   |
 CODE_B6DC3E:					;	   |
 	RTL					;$B6DC3E  /
 
@@ -10484,7 +10499,7 @@ CODE_B6DD9F:					;	   |
 CODE_B6DDC6:					;	   |
 	ASL A					;$B6DDC6   |
 	TAY					;$B6DDC7   |
-	LDA DATA_B6EC1A,y			;$B6DDC8   |
+	LDA kleever_attack_pattern_table,y	;$B6DDC8   |
 	TAY					;$B6DDCB   |
 	LDA $0000,y				;$B6DDCC   |
 	STA $2C,x				;$B6DDCF   |
@@ -10565,7 +10580,7 @@ CODE_B6DE4C:
 	BNE CODE_B6DE61				;$B6DE50   |
 	JSL CODE_BCFB58				;$B6DE52   |
 	LDA #$0000				;$B6DE56   |
-	JSL CODE_B6CF65				;$B6DE59   |
+	JSL check_complex_player_collision_B6	;$B6DE59   |
 	BCC CODE_B6DE66				;$B6DE5D   |
 	LDX current_sprite			;$B6DE5F   |
 CODE_B6DE61:					;	   |
@@ -11174,7 +11189,7 @@ CODE_B6E306:					;	   |
 	LDA.l $000652				;$B6E309   |
 	ASL A					;$B6E30D   |
 	TAY					;$B6E30E   |
-	LDA DATA_B6EC1A,y			;$B6E30F   |
+	LDA kleever_attack_pattern_table,y	;$B6E30F   |
 	TAY					;$B6E312   |
 	LDA $0006,y				;$B6E313   |
 	STA $28,x				;$B6E316   |
@@ -11224,7 +11239,7 @@ CODE_B6E353:					;	   |
 CODE_B6E37F:					;	   |
 	ASL A					;$B6E37F   |
 	TAX					;$B6E380   |
-	LDA DATA_B6EC1A,x			;$B6E381   |
+	LDA kleever_attack_pattern_table,x	;$B6E381   |
 	TAX					;$B6E384   |
 	LDA $0002,x				;$B6E385   |
 	STA $0006DF				;$B6E388   |
@@ -11669,7 +11684,7 @@ CODE_B6E6DE:
 	LDA #$0C7B				;$B6E6DE  \
 CODE_B6E6E1:					;	   |
 	PHY					;$B6E6E1   |
-	JSL CODE_B6CF65				;$B6E6E2   |
+	JSL check_complex_player_collision_B6	;$B6E6E2   |
 	BCC CODE_B6E6F8				;$B6E6E6   |
 	LDA #$0014				;$B6E6E8   |
 	STA $54,x				;$B6E6EB   |
@@ -11787,7 +11802,7 @@ kleever_hand_sprite_code:
 .CODE_B6E7CE:
 	JSL CODE_BCFB58				;$B6E7CE  \
 	LDA #$0C7B				;$B6E7D2   |
-	JSL CODE_B6CF65				;$B6E7D5   |
+	JSL check_complex_player_collision_B6	;$B6E7D5   |
 	BCC .return				;$B6E7D9   |
 	LDA #$001E				;$B6E7DB   |
 	LDY #$FE00				;$B6E7DE   |
@@ -11808,7 +11823,7 @@ kleever_hand_sprite_code:
 	LDA #$000B				;$B6E7FB   |
 	JSL CODE_BCFB8B				;$B6E7FE   |
 	LDA #$0000				;$B6E802   |
-	JSL CODE_B6CF65				;$B6E805   |
+	JSL check_complex_player_collision_B6	;$B6E805   |
 .return:					;	   |
 	PLB					;$B6E809   |
 	JML [sprite_return_address]		;$B6E80A  /
@@ -12277,18 +12292,16 @@ CODE_B6EC0A:
 	STA $42,x				;$B6EC17   |
 	RTS					;$B6EC19  /
 
-;kleever attack patterns
-DATA_B6EC1A:
-	dw DATA_B6EC28
-	dw DATA_B6EC3C
-	dw DATA_B6EC50
-	dw DATA_B6EC64
-	dw DATA_B6EC78
-	dw DATA_B6EC8C
-	dw DATA_B6ECA0
+kleever_attack_pattern_table:
+	dw .defeated
+	dw .phase_6
+	dw .phase_5
+	dw .phase_4
+	dw .phase_3
+	dw .phase_2
+	dw .phase_1
 
-;defeated
-DATA_B6EC28:
+.defeated:
 	dw $0000				;fireball speed
 	dw $0096				;stun timer
 	dw $0000				;charged melee attack delay
@@ -12299,8 +12312,7 @@ DATA_B6EC28:
 	dw $0000
 	dw $0000
 
-;phase 6
-DATA_B6EC3C:
+.phase_6:
 	dw $0000				;fireball speed
 	dw $005A				;stun timer
 	dw $0028				;charged melee attack delay
@@ -12311,8 +12323,7 @@ DATA_B6EC3C:
 	dw $0000
 	dw $0000
 
-;phase 5
-DATA_B6EC50:
+.phase_5:
 	dw $0000				;fireball speed
 	dw $0064				;stun timer
 	dw $003A				;charged melee attack delay
@@ -12323,8 +12334,7 @@ DATA_B6EC50:
 	dw $0000
 	dw $0000
 
-;phase 4
-DATA_B6EC64:
+.phase_4:
 	dw $0000				;fireball speed
 	dw $006E				;stun timer
 	dw $0046				;charged melee attack delay
@@ -12335,8 +12345,7 @@ DATA_B6EC64:
 	dw $0000
 	dw $0000
 
-;phase 3
-DATA_B6EC78:
+.phase_3:
 	dw $0002				;fireball speed
 	dw $00C8				;stun timer
 	dw $0000				;charged melee attack delay
@@ -12347,8 +12356,7 @@ DATA_B6EC78:
 	dw $0003
 	dw $0005
 
-;phase 2
-DATA_B6EC8C:
+.phase_2:
 	dw $0002				;fireball speed
 	dw $00C8				;stun timer
 	dw $0000				;charged melee attack delay
@@ -12359,8 +12367,7 @@ DATA_B6EC8C:
 	dw $0003
 	dw $0006
 
-;phase 1
-DATA_B6ECA0:
+.phase_1:
 	dw $0002				;fireball speed
 	dw $00C8				;stun timer
 	dw $0000				;charged melee attack delay
@@ -13497,12 +13504,12 @@ endif						;	   |
 	LDA #$0004				;$B6F59C   |\ Set krow hp
 	STA $000652				;$B6F59F   |/
 	LDA #$0001				;$B6F5A3   |
-	STA $0006D5				;$B6F5A6   |
-	STZ $06D7				;$B6F5AA   |
-	STZ $06D9				;$B6F5AD   |
-	STZ $06DB				;$B6F5B0   |
-	STZ $06DD				;$B6F5B3   |
-	STZ $06DF				;$B6F5B6   |
+	STA $0006D5				;$B6F5A6   | Mainbrace fog related
+	STZ $06D7				;$B6F5AA   |\
+	STZ $06D9				;$B6F5AD   | | 
+	STZ $06DB				;$B6F5B0   | | Already cleared by JSL above
+	STZ $06DD				;$B6F5B3   | |
+	STZ $06DF				;$B6F5B6   |/
 	LDY #!special_sprite_spawn_id_009C	;$B6F5B9   |\ Spawn krows head
 	JSL spawn_special_sprite_index		;$B6F5BC   |/
 	LDA alternate_sprite			;$B6F5C0   |\ Get krows head
@@ -13532,7 +13539,7 @@ endif						;	   |
 .handle_bonking
 	JSL CODE_BCFB58				;$B6F5F2  \
 	LDA #$007B				;$B6F5F6   |
-	JSL CODE_B6CF65				;$B6F5F9   |
+	JSL check_complex_player_collision_B6	;$B6F5F9   |
 	BCC CODE_B6F672				;$B6F5FD   |
 	LDA #$001E				;$B6F5FF   |
 	LDY #$FE00				;$B6F602   |
@@ -13805,7 +13812,7 @@ CODE_B6F7FC:
 	LDX current_sprite			;$B6F803   |
 	JSL CODE_BCFB58				;$B6F805   |
 	LDA #$007B				;$B6F809   |
-	JSL CODE_B6CF65				;$B6F80C   |
+	JSL check_complex_player_collision_B6	;$B6F80C   |
 	BCC CODE_B6F824				;$B6F810   |
 	LDA #$001E				;$B6F812   |
 	LDY #$FE00				;$B6F815   |
@@ -13881,7 +13888,7 @@ CODE_B6F8A4:					;	   |
 	JSL set_sprite_animation		;$B6F8B9   |
 	LDX $0654				;$B6F8BD   |
 	STX current_sprite			;$B6F8C0   |
-	LDA #DATA_B6CE3B			;$B6F8C2   |
+	LDA #big_king_zing_damage_pos_offsets	;$B6F8C2   |
 	STA $20,x				;$B6F8C5   |
 	LDA #CODE_B6CEA7			;$B6F8C7   |
 	STA $22,x				;$B6F8CA   |
@@ -14162,6 +14169,7 @@ DATA_B6FDFA:
 	dw !boss_command_18
 	dw !boss_command_goto_or_reset, !null_pointer
 
+;Unused?
 	db $02, $00, $00, $00, $02, $00, $00, $00
 	db $02, $00, $00, $00, $FE, $FF, $00, $00
 	db $FE, $FF, $00, $00, $FE, $FF, $00, $00

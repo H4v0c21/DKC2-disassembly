@@ -927,7 +927,7 @@
 !boss_command_17			= $17
 !boss_command_18			= $18
 !boss_command_19			= $19
-!boss_command_animated_wait		= $1A
+!boss_command_animated_wait		= $1A	;Krow/kreepy krow only?
 !boss_command_egg_layer_priority	= $1B
 !boss_command_1C			= $1C
 !boss_command_1D			= $1D
@@ -957,8 +957,8 @@
 !boss_command_timed_vacuum		= $35
 !boss_command_wait_if_gas_hit		= $36
 !boss_command_fade			= $37
-!boss_command_disable_damage		= $38
-!boss_command_enable_damage		= $39
+!boss_command_disable_damage		= $38	;\
+!boss_command_enable_damage		= $39	;/ May be specific to Kudgel
 !boss_command_fall			= $3A
 !boss_command_rise			= $3B
 !boss_command_swing_club		= $3C
@@ -2632,7 +2632,7 @@
 ;unknown (honey colored)			= $00A7
 !donkey_kong_sprite_palette 			= $00A8
 !krool_fish_sprite_palette 			= $00A9
-!map_p1_kong_and_text_sprite_palette		= $00AA
+!map_p1_kong_and_text_spr_palette		= $00AA
 !map_kremling_sprite_palette			= $00AB
 !krool_roof_piece_sprite_palette		= $00AC
 !map_cranky_wrinkly_sprite_palette		= $00AD

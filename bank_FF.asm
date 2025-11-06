@@ -706,7 +706,7 @@ DATA_FF047E:
 	dw DATA_FF0F84			;001E unused rain cloud (spawn animation)
 	dw DATA_FF0F98			;0020 unused dixie hurt tears (same sprite id as rain cloud)
 	dw DATA_FF0FAC			;0022 spawn group manager
-	dw DATA_FF0FD2			;0024 water bubbles
+	dw DATA_FF0FD2			;0024 air bubbles generator
 	dw DATA_FF0FDE			;0026 unused rock
 	dw DATA_FF1004			;0028 squawks egg projectile
 	dw DATA_FF1004			;002A squawks egg projectile
@@ -755,7 +755,7 @@ DATA_FF047E:
 	dw DATA_FF17E0			;0080 level goal barrel
 	dw DATA_FF1804			;0082 level goal prize
 	dw DATA_FF1824			;0084 lilypad
-	dw DATA_FF1846			;0086 puftup spike?
+	dw DATA_FF1846			;0086 puftup spike
 	dw DATA_FF245C			;0088 kleever bone
 	dw DATA_FF23D0			;008A kleever fragment
 	dw DATA_FF23EC			;008C kleever fragment
@@ -12243,9 +12243,12 @@ DATA_FF941A:
 	dw !initcommand_set_animation, $02A6
 	dw !initcommand_success
 
+;Ghost rope constants
 DATA_FF9434:
-	db $98, $FF, $20, $00, $C8, $FF, $0C, $00
-
+	dw $FF98
+	dw $0020
+	dw $FFC8
+	dw $000C
 
 DATA_FF943C:
 	dw !initcommand_load_subconfig, DATA_FF941A
@@ -16182,8 +16185,12 @@ DATA_FFBAB4:
 	dw !initcommand_set_animation, $02C4
 	dw !initcommand_success
 
+;Horsetail constants
 DATA_FFBADE:
-	db $A0, $FF, $5C, $00, $D4, $FF, $48, $00
+	dw $FFA0
+	dw $005C
+	dw $FFD4
+	dw $0048
 
 DATA_FFBAE6:
 	dw !initcommand_load_subconfig, DATA_FFBAB4
@@ -18062,7 +18069,7 @@ DATA_FFCD94:
 	dw sprite.render_order, $00D4
 	dw sprite.interaction_flags, $0020
 	dw sprite.state, $0000
-	dw sprite.general_purpose_46, DATA_B6AE87
+	dw sprite.general_purpose_46, king_zing_boss_commands_table
 	dw sprite.general_purpose_42, $0000
 	dw sprite.general_purpose_4C, $0000
 	dw !initcommand_set_oam, $2000
