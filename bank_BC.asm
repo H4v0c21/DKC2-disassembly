@@ -8844,9 +8844,9 @@ get_active_kong_clipping:
 	PHD					;$BCFAF1   |> Preserve direct page
 	LDY #sprite_clipping[0]			;$BCFAF2   |> Use clipping slot 0
 	BIT sprite_clipping[0].right		;$BCFAF5   |\
-	BEQ .CODE_BCFAFD			;$BCFAF8   |/ Not sure what the point of this is yet, probably skull cart related
+	BEQ .get_clipping			;$BCFAF8   |/ Not sure what the point of this is yet, probably skull cart related
 	LDY #sprite_clipping[1]			;$BCFAFA   |> If the above check failed then use clipping slot 1
-.CODE_BCFAFD:					;	   |
+.get_clipping:					;	   |
 	JSR get_sprite_clipping			;$BCFAFD   |> Get active kong clipping
 	LDA #sprite_clipping[0]			;$BCFB00   |\
 	JSR populate_main_sprite_clipping	;$BCFB03   |/ Populate active kong main clipping

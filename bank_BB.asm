@@ -957,9 +957,9 @@ init_command_set_position:
 	LDA #$0000				;$BB85A2  \
 	TCD					;$BB85A5   |
 	LDX alternate_sprite			;$BB85A6   |
-	LDA.l $000A3E				;$BB85A8   |
+	LDA.l contact_flash_x_position		;$BB85A8   |
 	STA sprite.x_position,x			;$BB85AC   |
-	LDA.l $000A40				;$BB85AE   |
+	LDA.l contact_flash_y_position		;$BB85AE   |
 	STA sprite.y_position,x			;$BB85B2   |
 	LDA #$00F8				;$BB85B4   |
 	STA sprite.render_order,x		;$BB85B7   |
@@ -1095,7 +1095,7 @@ CODE_BB86A8:					;	   |
 	ROR A					;$BB86AE   |
 	CLC					;$BB86AF   |
 	ADC $5E					;$BB86B0   |
-	STA $0A3E				;$BB86B2   |
+	STA contact_flash_x_position		;$BB86B2   |
 	LDA $DF					;$BB86B5   |
 	CMP $E7					;$BB86B7   |
 	BPL CODE_BB86BD				;$BB86B9   |
@@ -1113,7 +1113,7 @@ CODE_BB86C7:					;	   |
 	ROR A					;$BB86CD   |
 	CLC					;$BB86CE   |
 	ADC $5E					;$BB86CF   |
-	STA $0A40				;$BB86D1   |
+	STA contact_flash_y_position		;$BB86D1   |
 	RTL					;$BB86D4  /
 
 init_command_setup_static:
@@ -3155,7 +3155,7 @@ CODE_BB94A4:
 
 CODE_BB94B6:
 	LDY #$0000				;$BB94B6  \
-	LDA $0A8E				;$BB94B9   |
+	LDA level_palette_address		;$BB94B9   |
 	LDX #$0020				;$BB94BC   |
 	JSL DMA_palette				;$BB94BF   |
 	RTS					;$BB94C3  /
@@ -3451,7 +3451,7 @@ CODE_BB9631:
 	LDA main_level.vram_payload_number	;$BB9638   |
 	JSL VRAM_payload_handler_global		;$BB963B   |
 	LDA #screechs_sprint_level_palette	;$BB963F   |
-	STA $0A8E				;$BB9642   |
+	STA level_palette_address		;$BB9642   |
 	JSR CODE_BB94B6				;$BB9645   |
 	LDA main_level.ppu_config_number	;$BB9648   |
 	JSL set_PPU_registers_global		;$BB964B   |
@@ -3463,7 +3463,7 @@ CODE_BB9650:
 	LDA main_level.vram_payload_number	;$BB9657   |
 	JSL VRAM_payload_handler_global		;$BB965A   |
 	LDA #bramble_scramble_level_palette	;$BB965E   |
-	STA $0A8E				;$BB9661   |
+	STA level_palette_address		;$BB9661   |
 	JSR CODE_BB94B6				;$BB9664   |
 	LDA main_level.ppu_config_number	;$BB9667   |
 	JSL set_PPU_registers_global		;$BB966A   |
@@ -3615,7 +3615,7 @@ CODE_BB97DA:
 	LDA main_level.vram_payload_number	;$BB97E1   |
 	JSL VRAM_payload_handler_global		;$BB97E4   |
 	LDA #mainbrace_mayhem_level_palette	;$BB97E8   |
-	STA $0A8E				;$BB97EB   |
+	STA level_palette_address		;$BB97EB   |
 	JSR CODE_BB94B6				;$BB97EE   |
 	LDA main_level.ppu_config_number	;$BB97F1   |
 	JSL set_PPU_registers_global		;$BB97F4   |
@@ -5460,21 +5460,21 @@ CODE_BBACE2:
 	LDA #$0006				;$BBACE2  \
 	STA $88					;$BBACE5   |
 	LDA #$FFFC				;$BBACE7   |
-	STA $0BA4				;$BBACEA   |
+	STA RAM_0BA4				;$BBACEA   |
 	RTS					;$BBACED  /
 
 CODE_BBACEE:
 	LDA #$0005				;$BBACEE  \
 	STA $88					;$BBACF1   |
 	LDA #$FFFC				;$BBACF3   |
-	STA $0BA4				;$BBACF6   |
+	STA RAM_0BA4				;$BBACF6   |
 	RTS					;$BBACF9  /
 
 CODE_BBACFA:
 	LDA #$0005				;$BBACFA  \
 	STA $88					;$BBACFD   |
 	LDA #$FFFC				;$BBACFF   |
-	STA $0BA4				;$BBAD02   |
+	STA RAM_0BA4				;$BBAD02   |
 	RTS					;$BBAD05  /
 
 CODE_BBAD06:
@@ -6805,7 +6805,7 @@ CODE_BBB668:
 	DEC A					;$BBB673   |
 	ASL A					;$BBB674   |
 	TAX					;$BBB675   |
-	LDA.l $000A42,x				;$BBB676   |
+	LDA.l spawn_group_manager_table,x	;$BBB676   |
 	BEQ CODE_BBB67D				;$BBB67A   |
 	RTS					;$BBB67C  /
 
@@ -6848,7 +6848,7 @@ CODE_BBB6AC:					;	   |
 	ASL A					;$BBB6BE   |
 	TAX					;$BBB6BF   |
 	LDA alternate_sprite			;$BBB6C0   |
-	STA $000A42,x				;$BBB6C2   |
+	STA.l spawn_group_manager_table,x	;$BBB6C2   |
 	TXA					;$BBB6C6   |
 	CLC					;$BBB6C7   |
 	ADC $000B9A				;$BBB6C8   |
@@ -7813,7 +7813,7 @@ CODE_BBBD50:					;	   |
 	ASL A					;$BBBD5C   |
 	TAX					;$BBBD5D   |
 	LDA #$0000				;$BBBD5E   |
-	STA $000A42,x				;$BBBD61   |
+	STA.l spawn_group_manager_table,x	;$BBBD61   |
 	JML delete_sprite_no_deallocation	;$BBBD65  /
 
 CODE_BBBD69:

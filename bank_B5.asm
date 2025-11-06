@@ -5280,10 +5280,10 @@ CODE_B5BCA8:
 	STA $A0					;$B5BCE4   |
 	LDA DATA_B5BC00,y			;$B5BCE6   | Get collision routine address
 	STA $17B2				;$B5BCE9   |
-	LDA $0A8E				;$B5BCEC   |\ get level palette address
+	LDA level_palette_address		;$B5BCEC   |\ get level palette address
 	BNE .alternate_palette			;$B5BCEF   |/ if there's no palette address
 	LDA DATA_B5BC2A,y			;$B5BCF1   |\ use the default tilemap palette
-	STA $0A8E				;$B5BCF4   |/
+	STA level_palette_address		;$B5BCF4   |/
 .alternate_palette:				;	   |
 	LDA level_dimensions_table,y		;$B5BCF7   |
 	STA $0B84				;$B5BCFA   |

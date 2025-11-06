@@ -464,7 +464,7 @@ CODE_808636:
 
 ;Dead code
 	LDA player_2_held			;$808655   |
-	AND #$0020				;$808658   |
+	AND #!input_L				;$808658   |
 	BNE CODE_808672				;$80865B   |
 	LDA RAM_0987				;$80865D   |
 	CLC					;$808660   |
@@ -542,7 +542,7 @@ CODE_8086F6:
 	LDA #$8000				;$8086FC   |
 	TSB game_state_flags_2			;$8086FF   |
 	LDA #$0001				;$808702   |
-	STA $05FB				;$808705   |
+	STA demo_status				;$808705   |
 	JSR CODE_808712				;$808708   |
 	LDA #CODE_8087E1			;$80870B   |
 	JML CODE_808C9E				;$80870E  /
@@ -559,7 +559,7 @@ CODE_808712:
 	STZ player_1_held			;$808728   |
 	STZ player_1_pressed			;$80872B   |
 	STZ player_1_released			;$80872E   |
-	LDA $05FB				;$808731   |
+	LDA demo_status				;$808731   |
 	CMP #$0002				;$808734   |
 	BNE CODE_80875E				;$808737   |
 	LDA #!level_mainbrace_mayhem		;$808739   |
@@ -594,7 +594,7 @@ CODE_80876E:
 	STA $36					;$80877F   |
 	LDA #$00FE				;$808781   |
 	STA $38					;$808784   |
-	LDA $05FB				;$808786   |
+	LDA demo_status				;$808786   |
 	CMP #$0001				;$808789   |
 	BNE CODE_8087B8				;$80878C   |
 	PHB					;$80878E   |
@@ -732,10 +732,10 @@ set_active_kong:
 	PHX					;$808889  \
 	LDX active_kong_sprite			;$80888A   |
 	LDA #$001E				;$80888D   |
-	STA $30,x				;$808890   |
+	STA sprite.interaction_flags,x		;$808890   |
 	LDX inactive_kong_sprite		;$808892   |
 	LDA #$0000				;$808895   |
-	STA $30,x				;$808898   |
+	STA sprite.interaction_flags,x		;$808898   |
 	PLX					;$80889A   |
 	RTS					;$80889B  /
 
@@ -753,7 +753,7 @@ get_level_number:
 	RTL					;$8088AA  / exactly once in the entire ROM.  Competes with SMW stupidity
 
 set_all_oam_offscreen:				;	  \
-	LDA #$0200				;$8088AB   |\ Mark the next oam slot as the first slot
+	LDA #oam_table				;$8088AB   |\ Mark the next oam slot as the first slot
 	STA $70					;$8088AE   |/
 	JSR set_unused_oam_offscreen		;$8088B0   | Run the normal OAM clear routine
 	RTL					;$8088B3  /
@@ -777,7 +777,7 @@ set_unused_oam_offscreen:
 	INX					;$8088C9   | | |
 	INX					;$8088CA   | | |
 	INX					;$8088CB   | |/
-	CPX #$0400				;$8088CC   | | And check if we are at the last oam slot
+	CPX #oam_attribute_table		;$8088CC   | | And check if we are at the last oam slot
 	BNE .next_slot				;$8088CF   |/
 .oam_full					;	   |
 	RTS					;$8088D1  / Dead sprites nuked.
@@ -810,9 +810,9 @@ clear_wram_tables:
 	RTL					;$8088F0  /
 
 .wram_tables
-	dw aux_sprite_table, $092E
-	dw diddy_control_variables, $0026
-	dw dixie_control_variables, $0026
+	dw aux_sprite_table, sizeof(sprite)*25
+	dw diddy_control_variables, sizeof(kong_control)
+	dw dixie_control_variables, sizeof(kong_control)
 	dw current_held_sprite, $0002
 	dw held_rope_sprite, $0002
 	dw held_rope_sprite_temp, $0002
@@ -824,12 +824,12 @@ clear_wram_tables:
 	dw current_palette_buffer_slot, $0002
 	dw active_sprite_palettes_table, $0010
 	dw sprite_palette_reference_count, $0010
-	dw $0A42, $0040
+	dw spawn_group_manager_table, $0040
 	dw $0929, $0002
 	dw $092B, $0002
 	dw $092D, $0002
 	dw $0923, $0002
-	dw main_level, $003E
+	dw main_level, sizeof(main_level)
 	dw $095B, $0008
 	dw $0963, $0008
 	dw water_current_y_velocity, $0002
@@ -875,7 +875,7 @@ input_and_pause_handler_global:
 	BIT CPU.ppu_status			;$80898E   | |
 	BNE .wait				;$808991   | | Wait for autojoy
 	REP #$20				;$808993   |/
-	LDA $05FB				;$808995   |\
+	LDA demo_status				;$808995   |\
 	BNE .demo_input_handler			;$808998   |/ If a demo is playing
 	LDA RAM_0B02				;$80899A   |\
 	AND #$0020				;$80899D   | |
@@ -929,12 +929,12 @@ input_and_pause_handler_global:
 	BRA .handle_inverted_controls		;$808A11  /
 
 .CODE_808A13:
-	LDA $060F				;$808A13  \
+	LDA active_controller			;$808A13  \
 	ASL A					;$808A16   |
 	TAX					;$808A17   |
-	LDA $0502,x				;$808A18   |
+	LDA player_1_held,x			;$808A18   |
 	STA player_active_held			;$808A1B   |
-	LDA $0506,x				;$808A1E   |
+	LDA player_1_pressed,x			;$808A1E   |
 	STA player_active_pressed		;$808A21   |
 	BRA .handle_inverted_controls		;$808A24  /
 
@@ -1272,7 +1272,7 @@ prepare_oam_dma_channel_global:
 	RTL					;$808CAB  /
 
 prepare_oam_dma_channel:			;	  \
-	LDA #$0200				;$808CAC   |\ Set DMA source to $000200
+	LDA #oam_table				;$808CAC   |\ Set DMA source to $000200
 	STA DMA[0].source			;$808CAF   |/
 	STA DMA[0].unused_2			;$808CB2   | Unused
 	LDA #$0220				;$808CB5   |\ Set DMA size 544 bytes
@@ -1396,11 +1396,11 @@ setup_npc_screen_kongs:
 	LDA active_kong_number			;$808D93   | get kong in front
 	JSL set_active_kong_global		;$808D96   | set kong
 	LDA #$0020				;$808D9A   |
-	ORA $30,x				;$808D9D   |
-	STA $30,x				;$808D9F   | set interaction flags
+	ORA sprite.interaction_flags,x		;$808D9D   |
+	STA sprite.interaction_flags,x		;$808D9F   | set interaction flags
 	JSR spawn_npc_screen_diddy		;$808DA1   | spawn and setup diddy variables
 	LDA #dixie_control_variables		;$808DA4   | load address of dixie's control variables
-	STA $66					;$808DA7   | update pointer to control variables of currently processed kong
+	STA current_kong_control_variables	;$808DA7   | update pointer to control variables of currently processed kong
 	LDY #DATA_FF136E			;$808DA9   |
 	JSL spawn_special_sprite_address	;$808DAC   | spawn dixie
 	LDX alternate_sprite			;$808DB0   |
@@ -1408,27 +1408,27 @@ setup_npc_screen_kongs:
 	LDA #$0004				;$808DB4   | load run animation
 	JSL set_anim_handle_dixie		;$808DB7   | set kong animation
 	LDA.l dixie_kong_constants		;$808DBB   |
-	STA $16E0				;$808DBF   | set dixie's gravity constant
+	STA dixie_control_variables+$8		;$808DBF   | set dixie's gravity constant
 	LDA.l DATA_FF012C			;$808DC2   |
-	STA $16E2				;$808DC6   | set dixie's terminal velocity constant
+	STA dixie_control_variables+$A		;$808DC6   | set dixie's terminal velocity constant
 	LDX active_kong_sprite			;$808DC9   | get active kong
 	LDA #$001D				;$808DCC   |
-	STA $2E,x				;$808DCF   | set active kong to npc screen state
+	STA sprite.state,x			;$808DCF   | set active kong to npc screen state
 	LDA #$00E4				;$808DD1   |
-	STA $02,x				;$808DD4   | set render order
+	STA sprite.render_order,x		;$808DD4   | set render order
 	JSR CODE_808DFB				;$808DD6   | call dead code
 	LDX inactive_kong_sprite		;$808DD9   | get inactive kong
 	LDA #$001E				;$808DDC   |
-	STA $2E,x				;$808DDF   | set inactive kong to npc screen state
+	STA sprite.state,x			;$808DDF   | set inactive kong to npc screen state
 	LDA #$00D8				;$808DE1   |
-	STA $02,x				;$808DE4   | set render order
+	STA sprite.render_order,x		;$808DE4   | set render order
 	JSR CODE_808DFB				;$808DE6   | call dead code
 	LDA game_state_flags			;$808DE9   |
 	BIT #$4000				;$808DEC   | check if player has both kongs
 	BNE .return				;$808DEF   | if yes, return
 	LDY inactive_kong_sprite		;$808DF1   | else get inactive kong
 	LDA #$C000				;$808DF4   |
-	STA $001C,y				;$808DF7   | make them invisible
+	STA.w sprite.display_mode,y		;$808DF7   | make them invisible
 .return:					;	   |
 	RTL					;$808DFA  /  return
 
@@ -1437,10 +1437,10 @@ CODE_808DFB:
 	RTS					;$808DFB  /
 
 	LDA #$0101				;$808DFC   |
-	STA $1E,x				;$808DFF   |
-	STZ $0E,x				;$808E01   |
-	LDA $0A,x				;$808E03   |
-	STA $0C,x				;$808E05   |
+	STA sprite.terrain_interaction,x	;$808DFF   |
+	STZ sprite.ground_distance,x		;$808E01   |
+	LDA sprite.y_position,x			;$808E03   |
+	STA sprite.ground_y_position,x		;$808E05   |
 	RTS					;$808E07  /
 
 	LDA #$8000				;$808E08   |
@@ -1451,9 +1451,9 @@ CODE_808DFB:
 	JSR spawn_npc_screen_diddy		;$808E18   |
 	LDX active_kong_sprite			;$808E1B   |
 	LDA #$001D				;$808E1E   |
-	STA $2E,x				;$808E21   |
+	STA sprite.state,x			;$808E21   |
 	LDA #$00E4				;$808E23   |
-	STA $02,x				;$808E26   |
+	STA sprite.render_order,x		;$808E26   |
 	RTL					;$808E28  /
 
 spawn_npc_screen_diddy:
@@ -1466,9 +1466,9 @@ spawn_npc_screen_diddy:
 	LDA #$0001				;$808E39   |
 	JSL set_anim_handle_dixie		;$808E3C   |
 	LDA.l diddy_kong_constants		;$808E40   |
-	STA $16BA				;$808E44   |
+	STA diddy_control_variables+$8		;$808E44   |
 	LDA.l DATA_FF0042			;$808E47   |
-	STA $16BC				;$808E4B   |
+	STA diddy_control_variables+$A		;$808E4B   |
 	RTS					;$808E4E  /
 
 CODE_808E4F:
@@ -1568,10 +1568,10 @@ init_existing_file:
 	PHK					;$808F08   |
 	PLB					;$808F09   |
 	JSR CODE_808FFB				;$808F0A   | Call dead code
-	LDA.l $7E56CE				;$808F0D   |
+	LDA.l sram_file_buffer+$4		;$808F0D   |
 	AND #$0001				;$808F11   |
-	STA $060F				;$808F14   |
-	LDA.l $7E56CF				;$808F17   |
+	STA active_controller			;$808F14   |
+	LDA.l sram_file_buffer+5		;$808F17   |
 	AND #$0003				;$808F1B   |
 	STA current_game_mode			;$808F1E   |
 	CMP #!gamemode_2_player_contest		;$808F21   |
@@ -1616,7 +1616,7 @@ set_default_new_file_status:
 	LDA #!level_pirate_panic		;$808F74   |
 	STA parent_level_number			;$808F77   |
 	LDA #$FFFC				;$808F7A   |
-	STA $0BA4				;$808F7D   |
+	STA RAM_0BA4				;$808F7D   |
 	STZ exiting_sub_level_flag		;$808F80   |
 	STZ game_state_flags			;$808F83   |
 	STZ gameplay_frame_counter		;$808F86   |
@@ -1772,7 +1772,7 @@ CODE_8090AA:
 CODE_8090B1:
 	LDA #$8000				;$8090B1  \
 	TRB game_state_flags_2			;$8090B4   |
-	STZ $05FB				;$8090B7   |
+	STZ demo_status				;$8090B7   |
 	RTS					;$8090BA  /
 
 CODE_8090BB:
@@ -9180,7 +9180,7 @@ handle_water_velocities:
 	LDA water_current_y_velocity		;$80D50A   |
 	CMP #$8000				;$80D50D   |
 	BEQ .CODE_80D547			;$80D510   |
-	LDA #$0D26				;$80D512   |
+	LDA #dummy_level_sprite_table		;$80D512   |
 	STA current_sprite			;$80D515   |
 	LDA #$0007				;$80D517   |
 	JSL interpolate_y_velocity_global	;$80D51A   |
@@ -9722,7 +9722,7 @@ handle_castle_crush_floor_movement:
 	CMP #$9000				;$80D98D   |
 	BCC .CODE_80D9D4			;$80D990   |
 .CODE_80D992:					;	   |
-	LDA #$0D26				;$80D992   |
+	LDA #dummy_level_sprite_table		;$80D992   |
 	STA current_sprite			;$80D995   |
 	LDA #$0007				;$80D997   |
 	JSL interpolate_y_velocity_global	;$80D99A   |

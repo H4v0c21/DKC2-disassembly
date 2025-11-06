@@ -19,8 +19,6 @@ check_sprite_collision_BA:
 	JSL check_for_sprite_collisions		;$BA9018   |
 	LDX current_sprite			;$BA901C   |
 	BCC .return				;$BA901E   |
-	LDY $6A					;$BA9020   |
-	BCC CODE_BA9041				;$BA901E   |
 	LDY colliding_sprite			;$BA9020   |
 	LDA $5E					;$BA9022   |
 	ORA $0032,y				;$BA9024   |

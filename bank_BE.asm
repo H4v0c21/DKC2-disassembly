@@ -1088,9 +1088,9 @@ CODE_BEBF97:					;	   |
 	CMP $0E,x				;$BEBFA9   |
 	BCC CODE_BEC011				;$BEBFAB   |
 	LDA $06,x				;$BEBFAD   |
-	STA $0A3E				;$BEBFAF   |
+	STA contact_flash_x_position		;$BEBFAF   |
 	LDA $0C,x				;$BEBFB2   |
-	STA $0A40				;$BEBFB4   |
+	STA contact_flash_y_position		;$BEBFB4   |
 	LDY #!special_sprite_spawn_id_0034	;$BEBFB7   |
 	JSL spawn_special_sprite_index		;$BEBFBA   |
 	STZ $09E7				;$BEBFBE   |
@@ -1719,8 +1719,8 @@ CODE_BEC420:
 	JSL queue_sound_effect			;$BEC42C   |
 	LDX current_sprite			;$BEC430   |
 	LDY colliding_sprite			;$BEC432   |
-	STZ $0A86				;$BEC434   |
-	STX $0A88				;$BEC437   |
+	STZ interaction_RAM_0A86		;$BEC434   |
+	STX interaction_RAM_0A88		;$BEC437   |
 	LDA #$0003				;$BEC43A   |
 	SEC					;$BEC43D   |
 	RTL					;$BEC43E  /
@@ -1864,31 +1864,31 @@ CODE_BEC52D:
 	LDA $06,x				;$BEC537   |
 	SEC					;$BEC539   |
 	SBC $0006,y				;$BEC53A   |
-	STA $0A88				;$BEC53D   |
+	STA interaction_RAM_0A88		;$BEC53D   |
 	LDA $20,x				;$BEC540   |
 	BPL CODE_BEC548				;$BEC542   |
 	EOR #$FFFF				;$BEC544   |
 	INC A					;$BEC547   |
 CODE_BEC548:					;	   |
-	STA $0A86				;$BEC548   |
+	STA interaction_RAM_0A86		;$BEC548   |
 	LDA $0020,y				;$BEC54B   |
 	BPL CODE_BEC554				;$BEC54E   |
 	EOR #$FFFF				;$BEC550   |
 	INC A					;$BEC553   |
 CODE_BEC554:					;	   |
 	CLC					;$BEC554   |
-	ADC $0A86				;$BEC555   |
+	ADC interaction_RAM_0A86		;$BEC555   |
 	CMP #$0180				;$BEC558   |
 	BCS CODE_BEC560				;$BEC55B   |
 	LDA #$0180				;$BEC55D   |
 CODE_BEC560:					;	   |
 	LSR A					;$BEC560   |
-	BIT $0A88				;$BEC561   |
+	BIT interaction_RAM_0A88		;$BEC561   |
 	BPL CODE_BEC56A				;$BEC564   |
 	EOR #$FFFF				;$BEC566   |
 	INC A					;$BEC569   |
 CODE_BEC56A:					;	   |
-	STA $0A86				;$BEC56A   |
+	STA interaction_RAM_0A86		;$BEC56A   |
 	LSR A					;$BEC56D   |
 	EOR $0012,y				;$BEC56E   |
 	AND #$4000				;$BEC571   |
@@ -2316,10 +2316,8 @@ CODE_BEC89F:					;	   |
 	STA banana_counter_current		;$BEC8A3   |
 	CLD					;$BEC8A6   | back to regular binary
 CODE_BEC8A7:					;	   |
-	DEC $096F				;$BEC8A7   | decrement banana display timer
-	LDY next_oam_slot			;$BEC8AA   |
 	DEC banana_display_timer		;$BEC8A7   | decrement banana display timer
-	LDY $70					;$BEC8AA   |
+	LDY next_oam_slot			;$BEC8AA   |
 	LDA #$0808				;$BEC8AC   |
 	STA $0000,y				;$BEC8AF   |
 	LDA active_frame_counter		;$BEC8B2   |
@@ -4436,9 +4434,9 @@ CODE_BED81B:
 	LDA #!player_interaction_15		;$BED841   |
 	JSL set_player_interaction_global	;$BED844   |
 	BCS CODE_BED887				;$BED848   |
-	STX $0A86				;$BED84A   |
+	STX interaction_RAM_0A86		;$BED84A   |
 	LDA colliding_sprite			;$BED84D   |
-	STA $0A88				;$BED84F   |
+	STA interaction_RAM_0A88		;$BED84F   |
 	STA $44,x				;$BED852   |
 	LDA #$0001				;$BED854   |
 	SEC					;$BED857   |
@@ -4448,9 +4446,9 @@ CODE_BED859:
 	LDA #!player_interaction_15		;$BED859  \
 	JSL set_player_interaction_global	;$BED85C   |
 	BCS CODE_BED887				;$BED860   |
-	STX $0A86				;$BED862   |
+	STX interaction_RAM_0A86		;$BED862   |
 	LDA colliding_sprite			;$BED865   |
-	STA $0A88				;$BED867   |
+	STA interaction_RAM_0A88		;$BED867   |
 	STA $42,x				;$BED86A   |
 	LDY active_kong_control_variables	;$BED86C   |
 	LDA active_frame_counter		;$BED86F   |
@@ -4499,9 +4497,9 @@ CODE_BED8B5:					;	   |
 	LDA #!player_interaction_15		;$BED8BE   |
 	JSL set_player_interaction_global	;$BED8C1   |
 	BCS CODE_BED887				;$BED8C5   |
-	STX $0A86				;$BED8C7   |
+	STX interaction_RAM_0A86		;$BED8C7   |
 	LDA inactive_kong_sprite		;$BED8CA   |
-	STA $0A88				;$BED8CD   |
+	STA interaction_RAM_0A88		;$BED8CD   |
 	LDA inactive_kong_sprite		;$BED8D0   |
 	STA $44,x				;$BED8D3   |
 	LDA #$0001				;$BED8D5   |

@@ -200,9 +200,9 @@ CODE_B68186:
 	RTS					;$B6819B  /
 
 
-CODE_B6819C:
+handle_kudgel_stun:
 	LDA.l $00074D				;$B6819C  \
-	BEQ CODE_B681FE				;$B681A0   |
+	BEQ .return				;$B681A0   |
 	PHB					;$B681A2   |> Piracy check, preserve bank
 	LDA #$00FF				;$B681A3   |\ Load FF
 	SEP #$20				;$B681A6   | |
@@ -218,12 +218,12 @@ CODE_B6819C:
 	TAX					;$B681B4   |/
 	LDY $0038,x				;$B681B5   |\ $8400 + $38 = $808438
 	CPY #$00AF				;$B681B8   |/ Check if instruction is an LDA.l
-	BEQ CODE_B681C7				;$B681BB   |> If so then dont break Kudgel
+	BEQ .piracy_check_done			;$B681BB   |> If so then dont break Kudgel
 	STZ $0656				;$B681BD   |\ Delete reference to club sprite
 	LDX $0654				;$B681C0   | |
 	DEC $44,x				;$B681C3   | | Decrease command return address so Kudgel idles forever
 	DEC $44,x				;$B681C5   |/
-CODE_B681C7:					;	   |
+.piracy_check_done:				;	   |
 	PLB					;$B681C7   |
 	DEC $074D				;$B681C8   | Decrease screen shake timer
 	LDY active_kong_sprite			;$B681CB   |
@@ -244,7 +244,7 @@ CODE_B681C7:					;	   |
 	ASL A					;$B681F6   |
 	TAY					;$B681F7   |
 	LDA kudgel_land_stun_timers,y		;$B681F8   |
-	STA $0A86				;$B681FB   | Set stun timer
+	STA interaction_RAM_0A86		;$B681FB   | Set stun timer
 .return:					;	   |
 	RTS					;$B681FE  /
 
@@ -529,16 +529,16 @@ CODE_B68446:					;	   |
 	BIT #$4000				;$B6846C   |
 	BNE CODE_B6847C				;$B6846F   |
 	LDA #$0600				;$B68471   |
-	STA $0A86				;$B68474   |
+	STA interaction_RAM_0A86		;$B68474   |
 	LDA #$0700				;$B68477   |
 	BRA CODE_B68485				;$B6847A  /
 
 CODE_B6847C:
 	LDA #$FA00				;$B6847C  \
-	STA $0A86				;$B6847F   |
+	STA interaction_RAM_0A86		;$B6847F   |
 	LDA #$F900				;$B68482   |
 CODE_B68485:					;	   |
-	STA $0A88				;$B68485   |
+	STA interaction_RAM_0A88		;$B68485   |
 CODE_B68488:					;	   |
 	BRA CODE_B684B6				;$B68488  /
 
@@ -1859,16 +1859,16 @@ CODE_B69419:					;	   |
 	BIT #$4000				;$B6943F   |
 	BNE CODE_B6944F				;$B69442   |
 	LDA #$0600				;$B69444   |
-	STA $0A86				;$B69447   |
+	STA interaction_RAM_0A86		;$B69447   |
 	LDA #$0700				;$B6944A   |
 	BRA CODE_B69458				;$B6944D  /
 
 CODE_B6944F:
 	LDA #$FA00				;$B6944F  \
-	STA $0A86				;$B69452   |
+	STA interaction_RAM_0A86		;$B69452   |
 	LDA #$F900				;$B69455   |
 CODE_B69458:					;	   |
-	STA $0A88				;$B69458   |
+	STA interaction_RAM_0A88		;$B69458   |
 CODE_B6945B:					;	   |
 	BRA CODE_B6948B				;$B6945B  /
 
@@ -3129,7 +3129,7 @@ CODE_B69F32:
 	JSL set_player_interaction_global	;$B69F47   |
 	BCS CODE_B69F6E				;$B69F4B   |
 	LDA #$0013				;$B69F4D   |
-	STA $0A86				;$B69F50   |
+	STA interaction_RAM_0A86		;$B69F50   |
 	LDA current_held_sprite			;$B69F53   |
 	BEQ CODE_B69F67				;$B69F56   |
 	JSR CODE_B6AD9B				;$B69F58   |
@@ -6789,7 +6789,7 @@ CODE_B6C153:
 	LDA $12,x				;$B6C17B   |
 	AND #$4000				;$B6C17D   |
 	EOR #$4000				;$B6C180   |
-	STA $0A86				;$B6C183   |
+	STA interaction_RAM_0A86		;$B6C183   |
 CODE_B6C186:					;	   |
 	LDA #$026D				;$B6C186   |
 	JSL set_sprite_animation		;$B6C189   |

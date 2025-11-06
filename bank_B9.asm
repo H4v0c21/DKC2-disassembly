@@ -3544,10 +3544,10 @@ CODE_B9E5C5:
 	LDA #$FB00				;$B9E5C5  \
 	STA sprite.y_speed,x			;$B9E5C8   |
 	LDA sprite.x_position,x			;$B9E5CA   |
-	STA $0A3E				;$B9E5CC   |
+	STA contact_flash_x_position		;$B9E5CC   |
 	LDA sprite.y_position,x			;$B9E5CF   |
 	SBC #$0008				;$B9E5D1   |
-	STA $0A40				;$B9E5D4   |
+	STA contact_flash_y_position		;$B9E5D4   |
 	LDY #!special_sprite_spawn_id_0034	;$B9E5D7   |
 	JSL spawn_special_sprite_index		;$B9E5DA   |
 	RTS					;$B9E5DE  /
@@ -4455,9 +4455,9 @@ CODE_B9EB39:
 	JSL queue_sound_effect			;$B9EB57   |
 	LDX current_sprite			;$B9EB5B   |
 	LDA sprite.general_purpose_46,x		;$B9EB5D   |
-	STA $000A86				;$B9EB5F   |
+	STA.l interaction_RAM_0A86		;$B9EB5F   |
 	LDA sprite.general_purpose_48,x		;$B9EB63   |
-	STA $000A88				;$B9EB65   |
+	STA.l interaction_RAM_0A88		;$B9EB65   |
 	BRL process_anim_script			;$B9EB69  /
 
 CODE_B9EB6C:

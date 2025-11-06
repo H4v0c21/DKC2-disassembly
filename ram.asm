@@ -285,13 +285,18 @@ kong_follow_last_rec_max_x_speed	= $0A32
 kong_follow_last_rec_ground_dist	= $0A34
 time_stop_flags				= $0A36
 time_stop_timer				= $0A38
-
+UNUSED_0A3A				= $0A3A
+RAM_0A3C				= $0A3C
+contact_flash_x_position		= $0A3E
+contact_flash_y_position		= $0A40
+spawn_group_manager_table		= $0A42
 current_interaction			= $0A82
 current_interacting_sprite		= $0A84
 interaction_RAM_0A86			= $0A86
 interaction_RAM_0A88			= $0A88
 interaction_RAM_0A8A			= $0A8A
 interaction_RAM_0A8C			= $0A8C
+level_palette_address			= $0A8E
 
 RAM_0B02				= $0B02	;Possible future name: player_input_action_flags
 sprite_vram_allocation_table		= $0B04
@@ -301,6 +306,9 @@ sprite_palette_reference_count		= $0B74
 
 held_rope_sprite			= $0BA0
 held_rope_sprite_temp			= $0BA2
+RAM_0BA4				= $0BA4
+sprite_spawn_list_table			= $0BA6	;size: $180 contains an index for each list stored in sprite_spawn_lists
+dummy_level_sprite_table		= $0D26	;Not actually a sprite but used as base to run sprite code for water/crush floor
 
 RAM_0D38				= $0D38
 
@@ -314,7 +322,6 @@ held_sprite_x_offset			= $0D7C
 held_sprite_y_offset			= $0D7E
 
 aux_sprite_table			= $0D84
-
 ;Sprite Structure (24 Instances)	= $0DE2-$16B1
 sprite_slots				= $0DE2
 diddy_sprite_slot			= $0DE2

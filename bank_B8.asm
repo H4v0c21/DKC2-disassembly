@@ -190,7 +190,7 @@ endif						;	   |
 	STZ sprite.max_x_speed,x		;$B88146   |
 	LDA #$00A0				;$B88148   |
 	JSL set_anim_handle_dixie		;$B8814B   |
-	LDA $0A86				;$B8814F   |
+	LDA interaction_RAM_0A86		;$B8814F   |
 	STA $091F				;$B88152   |
 	LDA #$0008				;$B88155   |
 	TRB RAM_0B02				;$B88158   |
@@ -220,7 +220,7 @@ CODE_B88184:					;	   |
 	STZ $26,x				;$B8818B   |
 	LDA #$00A0				;$B8818D   |
 	JSL set_anim_handle_dixie		;$B88190   |
-	LDA $0A86				;$B88194   |
+	LDA interaction_RAM_0A86		;$B88194   |
 	STA $091F				;$B88197   |
 	LDA #$0008				;$B8819A   |
 	TRB RAM_0B02				;$B8819D   |
@@ -261,7 +261,7 @@ drop_follower_kong_if_teamed_up:
 
 player_interaction_15:
 	JSR drop_follower_kong_if_teamed_up	;$B881E9  \
-	LDX $0A88				;$B881EC   |
+	LDX interaction_RAM_0A88		;$B881EC   |
 	JSR work_on_kong_in_x			;$B881EF   |
 	JSR drop_sprite_if_holding		;$B881F2   |
 	STZ $0AEE				;$B881F5   |
@@ -269,7 +269,7 @@ player_interaction_15:
 	LDA #$004E				;$B881FB   |
 	JSL set_anim_handle_dixie		;$B881FE   |
 	LDX current_sprite			;$B88202   |
-	LDA $0A86				;$B88204   |
+	LDA interaction_RAM_0A86		;$B88204   |
 	STA $42,x				;$B88207   |
 	CPX active_kong_sprite			;$B88209   |
 	BEQ CODE_B88222				;$B8820C   |
@@ -328,7 +328,7 @@ endif						;	   |
 	CMP #!boss_level_type			;$B88279   |
 	BEQ CODE_B882D6				;$B8827C   |
 	JSR work_on_active_kong			;$B8827E   |
-	LDA $0A86				;$B88281   |
+	LDA interaction_RAM_0A86		;$B88281   |
 	EOR $12,x				;$B88284   |
 	AND #$4000				;$B88286   |
 	EOR $12,x				;$B88289   |
@@ -370,7 +370,7 @@ CODE_B882D2:
 
 CODE_B882D6:
 	LDA #$FFFF				;$B882D6  \
-	STA $0A86				;$B882D9   |
+	STA interaction_RAM_0A86		;$B882D9   |
 	JSR player_interaction_19		;$B882DC   |
 	JSR work_on_active_kong			;$B882DF   |
 	LDA #!kong_state_7B			;$B882E2   |
@@ -733,7 +733,7 @@ player_interaction_1F:
 	STA sprite.state,x			;$B885DB   |
 	STZ $20,x				;$B885DD   |
 	STZ $26,x				;$B885DF   |
-	LDA $0A86				;$B885E1   |
+	LDA interaction_RAM_0A86		;$B885E1   |
 	EOR $12,x				;$B885E4   |
 	AND #$4000				;$B885E6   |
 	EOR $12,x				;$B885E9   |
@@ -748,7 +748,7 @@ player_interaction_25:
 	JSR set_player_normal_gravity		;$B885FB   |
 	LDA #!kong_state_5A			;$B885FE   |
 	STA sprite.state,x			;$B88601   |
-	LDA $0A86				;$B88603   |
+	LDA interaction_RAM_0A86		;$B88603   |
 	EOR $12,x				;$B88606   |
 	AND #$4000				;$B88608   |
 	EOR $12,x				;$B8860B   |
@@ -792,7 +792,7 @@ set_stuck_on_honey_floor_animation:
 	RTS					;$B8865A  /
 
 player_interaction_0A:
-	LDX $0A86				;$B8865B  \
+	LDX interaction_RAM_0A86		;$B8865B  \
 	CPX held_rope_sprite_temp		;$B8865E   |
 	BEQ .CODE_B88664			;$B88661   |
 .return:					;	   |
@@ -832,7 +832,7 @@ player_interaction_12:
 	JSR CODE_B886E0				;$B886A6   |
 	LDA #!kong_state_35			;$B886A9   |
 	STA sprite.state,x			;$B886AC   |
-	LDA $0A86				;$B886AE   |
+	LDA interaction_RAM_0A86		;$B886AE   |
 	BEQ .CODE_B886B5			;$B886B1   |
 	STA $0A,x				;$B886B3   |
 .CODE_B886B5:					;	   |
@@ -850,7 +850,7 @@ player_interaction_12:
 
 CODE_B886CD:
 	LDX current_sprite			;$B886CD  \
-	LDA $0A88				;$B886CF   |
+	LDA interaction_RAM_0A88		;$B886CF   |
 	BMI CODE_B886DA				;$B886D2   |
 	LDA #$0003				;$B886D4   |
 	STA $32					;$B886D7   |
@@ -876,7 +876,7 @@ player_interaction_11:
 	BCS .return				;$B886F9   |
 	LDA #!kong_state_38			;$B886FB   |
 	STA sprite.state,x			;$B886FE   |
-	LDA $0A86				;$B88700   |
+	LDA interaction_RAM_0A86		;$B88700   |
 	CLC					;$B88703   |
 	ADC #$0028				;$B88704   |
 	STA $0A,x				;$B88707   |
@@ -927,9 +927,9 @@ player_interaction_0E:
 	JSR set_kongs_visible_if_not_in_barrel	;$B88755  \
 	JSR work_on_active_kong			;$B88758   |
 	LDX current_sprite			;$B8875B   |
-	LDA $0A86				;$B8875D   |
+	LDA interaction_RAM_0A86		;$B8875D   |
 	BNE CODE_B88787				;$B88760   |
-	LDY $0A88				;$B88762   |
+	LDY interaction_RAM_0A88		;$B88762   |
 	LDA $0048,y				;$B88765   |
 	BIT $12,x				;$B88768   |
 	BVC CODE_B88770				;$B8876A   |
@@ -949,7 +949,7 @@ CODE_B88770:					;	   |
 
 CODE_B88787:
 	STA $24,x				;$B88787  \
-	LDA $0A88				;$B88789   |
+	LDA interaction_RAM_0A88		;$B88789   |
 	STA $20,x				;$B8878C   |
 	JSL set_player_terminal_velocity_global	;$B8878E   |
 	JSL set_player_normal_gravity_global	;$B88792   |
@@ -1087,9 +1087,9 @@ CODE_B8889A:					;	   |
 	JSR set_player_normal_gravity		;$B888C5   |
 	JSR set_player_terminal_velocity	;$B888C8   |
 	LDX current_sprite			;$B888CB   |
-	LDA $0A86				;$B888CD   |
+	LDA interaction_RAM_0A86		;$B888CD   |
 	STA $42,x				;$B888D0   |
-	LDA $0A88				;$B888D2   |
+	LDA interaction_RAM_0A88		;$B888D2   |
 	STA $44,x				;$B888D5   |
 	LDA $12,x				;$B888D7   |
 	AND #$BFFF				;$B888D9   |
@@ -1158,7 +1158,7 @@ CODE_B88956:
 	LDA #$F900				;$B88956  \
 CODE_B88959:					;	   |
 	STA $24,x				;$B88959   |
-	LDA $0A86				;$B8895B   |
+	LDA interaction_RAM_0A86		;$B8895B   |
 	STA $20,x				;$B8895E   |
 	STZ $26,x				;$B88960   |
 	LDA #$0080				;$B88962   |
@@ -1200,7 +1200,7 @@ player_interaction_26:
 	STA sprite.state,x			;$B889B2   |
 	LDA #$00A0				;$B889B4   |
 	JSL set_anim_handle_dixie		;$B889B7   |
-	LDA $0A86				;$B889BB   |
+	LDA interaction_RAM_0A86		;$B889BB   |
 	STA $20,x				;$B889BE   |
 	STA $26,x				;$B889C0   |
 	LSR A					;$B889C2   |
@@ -1209,7 +1209,7 @@ player_interaction_26:
 	AND #$4000				;$B889C8   |
 	EOR $12,x				;$B889CB   |
 	STA $12,x				;$B889CD   |
-	LDA $0A88				;$B889CF   |
+	LDA interaction_RAM_0A88		;$B889CF   |
 	STA $24,x				;$B889D2   |
 	JSR set_death_bounce_gravity_and_speed	;$B889D4   |
 	LDA $06,x				;$B889D7   |
@@ -1470,20 +1470,20 @@ CODE_B88BD9:
 	JSR enable_bullet_time			;$B88BDF   |
 	JSL CODE_B5E43E				;$B88BE2   |
 	JSR work_on_active_kong			;$B88BE6   |
-	LDA $0A86				;$B88BE9   |
+	LDA interaction_RAM_0A86		;$B88BE9   |
 	BMI CODE_B88C23				;$B88BEC   |
 	JSL CODE_B39DB0				;$B88BEE   |
-	STA $0A86				;$B88BF2   |
+	STA interaction_RAM_0A86		;$B88BF2   |
 	ASL A					;$B88BF5   |
 	TAX					;$B88BF6   |
 	LDA.l DATA_FF18CE,x			;$B88BF7   |
 	TAY					;$B88BFB   |
 	JSL spawn_special_sprite_address	;$B88BFC   |
 	LDX alternate_sprite			;$B88C00   |
-	LDA $0A86				;$B88C02   |
+	LDA interaction_RAM_0A86		;$B88C02   |
 	STA $42,x				;$B88C05   |
 	LDY active_kong_sprite			;$B88C07   |
-	LDA $0A88				;$B88C0A   |
+	LDA interaction_RAM_0A88		;$B88C0A   |
 	CMP #$8000				;$B88C0D   |
 	AND #$7FFF				;$B88C10   |
 	STA $4E,x				;$B88C13   |
@@ -2423,13 +2423,13 @@ player_interaction_13:
 
 player_interaction_14:
 	JSR work_on_active_kong			;$B8934A  \
-	LDA $0A86				;$B8934D   |
+	LDA interaction_RAM_0A86		;$B8934D   |
 	STA $42,x				;$B89350   |
-	LDA $0A88				;$B89352   |
+	LDA interaction_RAM_0A88		;$B89352   |
 	STA $44,x				;$B89355   |
-	LDA $0A8A				;$B89357   |
+	LDA interaction_RAM_0A8A		;$B89357   |
 	STA $20,x				;$B8935A   |
-	LDA $0A8C				;$B8935C   |
+	LDA interaction_RAM_0A8C		;$B8935C   |
 	STA $24,x				;$B8935F   |
 	STZ $1E,x				;$B89361   |
 	STZ $48,x				;$B89363   |
@@ -2455,9 +2455,9 @@ player_interaction_0D_0F_10_2B:
 CODE_B8938A:
 	LDX current_interacting_sprite		;$B8938A  \
 	STX current_sprite			;$B8938D   |
-	LDA $0A8A				;$B8938F   |
+	LDA interaction_RAM_0A8A		;$B8938F   |
 	STA $32					;$B89392   |
-	LDA $0A8C				;$B89394   |
+	LDA interaction_RAM_0A8C		;$B89394   |
 	STA $34					;$B89397   |
 	JML [$0032]				;$B89399  /
 
@@ -6795,7 +6795,7 @@ CODE_B8B5E3:
 	JSR set_player_interaction		;$B8B5E6   |
 	BCS CODE_B8B5F1				;$B8B5E9   |
 	LDA held_rope_sprite_temp		;$B8B5EB   |
-	STA $0A86				;$B8B5EE   |
+	STA interaction_RAM_0A86		;$B8B5EE   |
 CODE_B8B5F1:					;	   |
 	RTS					;$B8B5F1  /
 
@@ -6998,9 +6998,9 @@ CODE_B8B72A:
 	LDA #!player_interaction_12		;$B8B737   |
 	JSL set_player_interaction_global	;$B8B73A   |
 	BCS CODE_B8B729				;$B8B73E   |
-	STZ $0A86				;$B8B740   |
+	STZ interaction_RAM_0A86		;$B8B740   |
 	LDA $AE					;$B8B743   |
-	STA $0A88				;$B8B745   |
+	STA interaction_RAM_0A88		;$B8B745   |
 	RTS					;$B8B748  /
 
 CODE_B8B749:
@@ -7025,9 +7025,9 @@ CODE_B8B750:
 	JSL set_player_interaction_global	;$B8B76A   |
 	BCS CODE_B8B729				;$B8B76E   |
 	LDA $5E					;$B8B770   |
-	STA $0A86				;$B8B772   |
+	STA interaction_RAM_0A86		;$B8B772   |
 	LDA $52					;$B8B775   |
-	STA $0A88				;$B8B777   |
+	STA interaction_RAM_0A88		;$B8B777   |
 	RTS					;$B8B77A  /
 
 CODE_B8B77B:
@@ -7039,7 +7039,7 @@ CODE_B8B77B:
 	JSL set_player_interaction_global	;$B8B787   |
 	BCS CODE_B8B792				;$B8B78B   |
 	LDA $5E					;$B8B78D   |
-	STA $0A86				;$B8B78F   |
+	STA interaction_RAM_0A86		;$B8B78F   |
 CODE_B8B792:					;	   |
 	RTS					;$B8B792  /
 
@@ -11671,7 +11671,7 @@ process_terrain_interaction:
 	SEC					;$B8D618   |
 	SBC sprite.y_position,x			;$B8D619   |
 	BPL CODE_B8D673				;$B8D61B   |
-	CMP $0BA4				;$B8D61D   |
+	CMP RAM_0BA4				;$B8D61D   |
 	BPL CODE_B8D691				;$B8D620   |
 	LDA $AE					;$B8D622   |
 	AND #$0400				;$B8D624   |

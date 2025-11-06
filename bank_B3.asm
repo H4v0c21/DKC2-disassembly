@@ -3263,11 +3263,11 @@ CODE_B398AB:
 	RTS					;$B398D6  /
 
 CODE_B398D7:
-	LDA $0A86				;$B398D7  \
-	STA $0A3E				;$B398DA   |
-	LDA $0A88				;$B398DD   |
-	STA $0A40				;$B398E0   |
-	LDY #!special_sprite_spawn_id_0034	;$B398E3   | collision burst effect
+	LDA interaction_RAM_0A86		;$B398D7  \
+	STA contact_flash_x_position		;$B398DA   |
+	LDA interaction_RAM_0A88		;$B398DD   |
+	STA contact_flash_y_position		;$B398E0   |
+	LDY #!special_sprite_spawn_id_0034	;$B398E3   |> Contact flash sprite
 	JSL spawn_special_sprite_index		;$B398E6   |
 	LDX current_sprite			;$B398EA   |
 	STX $0D82				;$B398EC   |
@@ -3368,16 +3368,16 @@ CODE_B399A8:
 	JSL set_player_interaction_global	;$B399C1   |
 	BCS CODE_B399EC				;$B399C5   |
 	LDA #CODE_B3992E			;$B399C7   |
-	STA $0A8A				;$B399CA   |
+	STA interaction_RAM_0A8A		;$B399CA   |
 	LDA.w #CODE_B3992E>>16			;$B399CD   |
-	STA $0A8C				;$B399D0   |
+	STA interaction_RAM_0A8C		;$B399D0   |
 	JSL CODE_BCFEC8				;$B399D3   |
 	JSL CODE_BCFEE0				;$B399D7   |
 	JSR CODE_B3A338				;$B399DB   |
-	LDA $0A3E				;$B399DE   |
-	STA $0A86				;$B399E1   |
-	LDA $0A40				;$B399E4   |
-	STA $0A88				;$B399E7   |
+	LDA contact_flash_x_position		;$B399DE   |
+	STA interaction_RAM_0A86		;$B399E1   |
+	LDA contact_flash_y_position		;$B399E4   |
+	STA interaction_RAM_0A88		;$B399E7   |
 	SEC					;$B399EA   |
 	RTS					;$B399EB  /
 
@@ -3390,16 +3390,16 @@ CODE_B399EE:
 	JSL set_player_interaction_global	;$B399F1   |
 	BCS CODE_B399EC				;$B399F5   |
 	LDA #CODE_B398D7			;$B399F7   |
-	STA $0A8A				;$B399FA   |
+	STA interaction_RAM_0A8A		;$B399FA   |
 	LDA.w #CODE_B398D7>>16			;$B399FD   |
-	STA $0A8C				;$B39A00   |
+	STA interaction_RAM_0A8C		;$B39A00   |
 	JSL CODE_BCFEC8				;$B39A03   |
 	JSL CODE_BCFEE0				;$B39A07   |
 	JSR CODE_B3A338				;$B39A0B   |
-	LDA $0A3E				;$B39A0E   |
-	STA $0A86				;$B39A11   |
-	LDA $0A40				;$B39A14   |
-	STA $0A88				;$B39A17   |
+	LDA contact_flash_x_position		;$B39A0E   |
+	STA interaction_RAM_0A86		;$B39A11   |
+	LDA contact_flash_y_position		;$B39A14   |
+	STA interaction_RAM_0A88		;$B39A17   |
 	SEC					;$B39A1A   |
 	RTS					;$B39A1B  /
 
@@ -3415,16 +3415,16 @@ CODE_B39A1C:
 	JSL set_player_interaction_global	;$B39A34   |
 	BCS CODE_B399EC				;$B39A38   |
 	LDA #CODE_B3992E			;$B39A3A   |
-	STA $0A8A				;$B39A3D   |
+	STA interaction_RAM_0A8A		;$B39A3D   |
 	LDA.w #CODE_B3992E>>16			;$B39A40   |
-	STA $0A8C				;$B39A43   |
+	STA interaction_RAM_0A8C		;$B39A43   |
 	JSL CODE_BCFEC8				;$B39A46   |
 	JSL CODE_BCFEE0				;$B39A4A   |
 	JSR CODE_B3A338				;$B39A4E   |
-	LDA $0A3E				;$B39A51   |
-	STA $0A86				;$B39A54   |
-	LDA $0A40				;$B39A57   |
-	STA $0A88				;$B39A5A   |
+	LDA contact_flash_x_position		;$B39A51   |
+	STA interaction_RAM_0A86		;$B39A54   |
+	LDA contact_flash_y_position		;$B39A57   |
+	STA interaction_RAM_0A88		;$B39A5A   |
 	SEC					;$B39A5D   |
 	RTS					;$B39A5E  /
 
@@ -4275,15 +4275,15 @@ endif						;	   |
 	BCS .return				;$B3A0A1   |
 	LDX current_sprite			;$B3A0A3   | Get sign sprite
 	LDA $42,x				;$B3A0A5   | Get item to transform animal into
-	STA $0A86				;$B3A0A7   |
+	STA interaction_RAM_0A86		;$B3A0A7   |
 	LDA sprite.y_position,x			;$B3A0AA   | Get sign Y position
 	SEC					;$B3A0AC   |
 	SBC #$0020				;$B3A0AD   |
-	STA $0A88				;$B3A0B0   |
+	STA interaction_RAM_0A88		;$B3A0B0   |
 	LDA sprite.oam_property,x		;$B3A0B3   |
 	AND #$4000				;$B3A0B5   | Get kong facing direction
 	ASL A					;$B3A0B8   |
-	TSB $0A88				;$B3A0B9   | Sets h flip for spawned item?
+	TSB interaction_RAM_0A88		;$B3A0B9   | Sets h flip for spawned item?
 .return:					;	   |
 	JMP sprite_return_handle_despawn	;$B3A0BC  / Done processing sprite
 
@@ -4642,11 +4642,11 @@ level_goal_main:
 	LDA sprite.x_position,x			;$B3A2FD   | Get goal X position
 	CLC					;$B3A2FF   |
 	ADC #$0012				;$B3A300   | Offset by 18 pixels
-	STA $0A86				;$B3A303   | Set it as kong jump distance
+	STA interaction_RAM_0A86		;$B3A303   | Set it as kong jump distance
 	LDA $4A,x				;$B3A306   |
-	STA $0A88				;$B3A308   | Set terrain tile position for kong
+	STA interaction_RAM_0A88		;$B3A308   | Set terrain tile position for kong
 	LDA $48,x				;$B3A30B   |
-	STA $0A8A				;$B3A30D   | Set unknown interaction variable
+	STA interaction_RAM_0A8A		;$B3A30D   | Set unknown interaction variable
 ...return:					;	   |
 	BRL .return				;$B3A310  / Done processing sprite
 
@@ -4690,7 +4690,7 @@ CODE_B3A344:
 	ADC $E5					;$B3A345   |
 CODE_B3A347:					;	   |
 	LSR A					;$B3A347   |
-	STA $0A3E				;$B3A348   |
+	STA contact_flash_x_position		;$B3A348   |
 	LDA $DB					;$B3A34B   |
 	CMP $E3					;$B3A34D   |
 	BCS CODE_B3A357				;$B3A34F   |
@@ -4703,7 +4703,7 @@ CODE_B3A357:
 	ADC $E7					;$B3A358   |
 CODE_B3A35A:					;	   |
 	LSR A					;$B3A35A   |
-	STA $0A40				;$B3A35B   |
+	STA contact_flash_y_position		;$B3A35B   |
 	RTS					;$B3A35E  /
 
 ;Dead code
@@ -5117,7 +5117,7 @@ CODE_B3A604:
 	EOR #$FFFF				;$B3A61A   |\ Invert X velocity
 	INC A					;$B3A61D   |/
 .no_flip					;	   |
-	STA $0A86				;$B3A61E   |> Pass X velocity to interaction variable
+	STA interaction_RAM_0A86		;$B3A61E   |> Pass X velocity to interaction variable
 	CLC					;$B3A621   |> Clear carry to indicate success
 .return						;	   |
 	RTS					;$B3A622  /> Return
@@ -5167,10 +5167,10 @@ make_sprite_fall_off_screen:
 	SBC $DB					;$B3A679   |
 	CMP #$0020				;$B3A67B   |
 	ROL A					;$B3A67E   |
-	STA $0A40				;$B3A67F   |
+	STA contact_flash_y_position		;$B3A67F   |
 	LDX current_sprite			;$B3A682   |
 	LDA sprite.x_position,x			;$B3A684   |
-	STA $0A3E				;$B3A686   |
+	STA contact_flash_x_position		;$B3A686   |
 	JSL delete_sprite_handle_deallocation	;$B3A689   | Despawn sprite
 	JSR CODE_B3A6DC				;$B3A68D   |
 	JML [sprite_return_address]		;$B3A690  /
@@ -5215,7 +5215,7 @@ CODE_B3A6D5:					;	   |
 	JML [sprite_return_address]		;$B3A6D9  /
 
 CODE_B3A6DC:
-	LDA $0A3E				;$B3A6DC  \
+	LDA contact_flash_x_position		;$B3A6DC  \
 	SEC					;$B3A6DF   |
 	SBC $17BA				;$B3A6E0   |
 	CLC					;$B3A6E3   |
@@ -5253,7 +5253,7 @@ CODE_B3A719:					;	   |
 CODE_B3A729:					;	   |
 	ADC #$00E0				;$B3A729   |
 	STA $44,x				;$B3A72C   |
-	LDA $0A40				;$B3A72E   |
+	LDA contact_flash_y_position		;$B3A72E   |
 	STA $46,x				;$B3A731   |
 	RTS					;$B3A733  /
 
@@ -5560,10 +5560,10 @@ endif						;	   | |
 
 ..hit_ground
 	LDA sprite.x_position,x			;$B3A99F  \ \ Get X position of click-clack
-	STA $0A3E				;$B3A9A1   | | Set X position of hit star
+	STA contact_flash_x_position		;$B3A9A1   | | Set X position of hit star
 	LDA sprite.y_position,x			;$B3A9A4   | | Get Y position of click-clack
 	SBC #$0008				;$B3A9A6   | | Offset Y position by -8
-	STA $0A40				;$B3A9A9   |/ Set Y position of hit star
+	STA contact_flash_y_position		;$B3A9A9   |/ Set Y position of hit star
 	LDY #!special_sprite_spawn_id_0034	;$B3A9AC   |\
 	JSL spawn_special_sprite_index		;$B3A9AF   |/ Spawn hit star
 	LDX current_sprite			;$B3A9B3   |> Get click-clack sprite
@@ -6718,11 +6718,11 @@ CODE_B3B219:
 	CLC					;$B3B21F   |
 	BNE CODE_B3B231				;$B3B220   |
 	LDA #$0200				;$B3B222   |
-	BIT $0A86				;$B3B225   |
+	BIT interaction_RAM_0A86		;$B3B225   |
 	BPL CODE_B3B22D				;$B3B228   |
 	LDA #$FE00				;$B3B22A   |
 CODE_B3B22D:					;	   |
-	STA $0A86				;$B3B22D   |
+	STA interaction_RAM_0A86		;$B3B22D   |
 	SEC					;$B3B230   |
 CODE_B3B231:					;	   |
 	LDX current_sprite			;$B3B231   |
@@ -6740,7 +6740,7 @@ CODE_B3B231:					;	   |
 CODE_B3B248:
 	LDY colliding_sprite			;$B3B248  \
 	BCS CODE_B3B253				;$B3B24A   |
-	LDA $0A86				;$B3B24C   |
+	LDA interaction_RAM_0A86		;$B3B24C   |
 	BPL CODE_B3B260				;$B3B24F   |
 	BMI CODE_B3B25A				;$B3B251   |
 CODE_B3B253:					;	   |
@@ -10070,9 +10070,9 @@ CODE_B3CA5D:
 	JSR CODE_B3CA85				;$B3CA5D  \
 	LDX current_sprite			;$B3CA60   |
 	LDA sprite.x_position,x			;$B3CA62   |
-	STA $0A3E				;$B3CA64   |
+	STA contact_flash_x_position		;$B3CA64   |
 	LDA sprite.y_position,x			;$B3CA67   |
-	STA $0A40				;$B3CA69   |
+	STA contact_flash_y_position		;$B3CA69   |
 	JSL delete_sprite_handle_deallocation	;$B3CA6C   |
 	LDY #!special_sprite_spawn_id_0034	;$B3CA70   |
 	JSL spawn_special_sprite_index		;$B3CA73   |
@@ -10601,7 +10601,7 @@ cat_o9tails_main:
 	LDA [current_sprite_constants]		;$B3CE0C   |
 	STA $0A87				;$B3CE0E   |
 	AND #$00FF				;$B3CE11   |
-	STA $0A86				;$B3CE14   |
+	STA interaction_RAM_0A86		;$B3CE14   |
 	STZ $0A89				;$B3CE17   |
 	JSL CODE_808E4F				;$B3CE1A   |
 	LSR A					;$B3CE1E   |
@@ -10618,10 +10618,10 @@ cat_o9tails_main:
 ..CODE_B3CE33:					;	   |
 	LDY #$0002				;$B3CE33   |
 	ADC [current_sprite_constants],y	;$B3CE36   |
-	STA $0A8A				;$B3CE38   |
+	STA interaction_RAM_0A8A		;$B3CE38   |
 	LDY #$0006				;$B3CE3B   |
 	LDA [current_sprite_constants],y	;$B3CE3E   |
-	STA $0A8C				;$B3CE40   |
+	STA interaction_RAM_0A8C		;$B3CE40   |
 	INC sprite.state,x			;$B3CE43   |
 	STZ $0AE8				;$B3CE45   |
 ..CODE_B3CE48:					;	   |
@@ -12165,7 +12165,7 @@ clapper_sprite_code:
 	EOR #$FFFF				;$B3D9BC   |\ Else invert X velocity
 	INC A					;$B3D9BF   |/
 .no_invert					;	   |
-	STA $0A86				;$B3D9C0   |> Set knockback X velocity
+	STA interaction_RAM_0A86		;$B3D9C0   |> Set knockback X velocity
 .set_clapping_animation				;	   |
 	LDA #$01B8				;$B3D9C3   |\
 	JSL set_sprite_animation		;$B3D9C6   | | Play clapping animation
@@ -12695,7 +12695,7 @@ CODE_B3DD21:
 	BCS CODE_B3DD35				;$B3DD2C   |
 	LDX current_sprite			;$B3DD2E   |
 	LDA $42,x				;$B3DD30   |
-	STA $0A86				;$B3DD32   |
+	STA interaction_RAM_0A86		;$B3DD32   |
 CODE_B3DD35:					;	   |
 	JML [sprite_return_address]		;$B3DD35  /
 
@@ -12991,9 +12991,9 @@ CODE_B3DFA1:
 	JSL set_player_interaction_global	;$B3DFA4   |
 	BCS CODE_B3DFBD				;$B3DFA8   |
 	LDA #CODE_B3E1E2			;$B3DFAA   |
-	STA $0A8A				;$B3DFAD   |
+	STA interaction_RAM_0A8A		;$B3DFAD   |
 	LDA.w #CODE_B3E1E2>>16			;$B3DFB0   |
-	STA $0A8C				;$B3DFB3   |
+	STA interaction_RAM_0A8C		;$B3DFB3   |
 	LDX current_sprite			;$B3DFB6   |
 	LDA #$0004				;$B3DFB8   |
 	STA sprite.state,x			;$B3DFBB   |
@@ -13019,9 +13019,9 @@ CODE_B3DFDD:
 	JSL set_player_interaction_global	;$B3DFE0   |
 	BCS CODE_B3DFF9				;$B3DFE4   |
 	LDA #CODE_B3E2F4			;$B3DFE6   |
-	STA $0A8A				;$B3DFE9   |
+	STA interaction_RAM_0A8A		;$B3DFE9   |
 	LDA.w #CODE_B3E2F4>>16			;$B3DFEC   |
-	STA $0A8C				;$B3DFEF   |
+	STA interaction_RAM_0A8C		;$B3DFEF   |
 	LDX current_sprite			;$B3DFF2   |
 	LDA #$0004				;$B3DFF4   |
 	STA sprite.state,x			;$B3DFF7   |
@@ -13609,7 +13609,7 @@ CODE_B3E413:
 	LDX active_kong_sprite			;$B3E432   |
 	LDA sprite.oam_property,x		;$B3E435   |
 	AND #$4000				;$B3E437   |
-	STA $0A86				;$B3E43A   |
+	STA interaction_RAM_0A86		;$B3E43A   |
 CODE_B3E43D:					;	   |
 	RTS					;$B3E43D  /
 
@@ -13642,7 +13642,7 @@ CODE_B3E45B:
 	LDX active_kong_sprite			;$B3E47D   |
 	LDA sprite.oam_property,x		;$B3E480   |
 	AND #$4000				;$B3E482   |
-	STA $0A86				;$B3E485   |
+	STA interaction_RAM_0A86		;$B3E485   |
 CODE_B3E488:					;	   |
 	RTS					;$B3E488  /
 
@@ -14461,9 +14461,9 @@ endif						;	   |
 	AND #$0001				;$B3EA48   |
 	STA $004E,y				;$B3EA4B   |
 if !version == 0				;	   |
-	LDA $0A3C				;$B3EA4E   |
+	LDA RAM_0A3C				;$B3EA4E   |
 	AND #$FF7F				;$B3EA51   |
-	STA $0030,y				;$B3EA54   |
+	STA.w sprite.interaction_flags,y	;$B3EA54   |
 else						;	   |
 	JSR .CODE_B3EAB6			;$B3EA4E   |
 endif						;	   |
@@ -14520,13 +14520,13 @@ if !version == 1				;	  \
 	AND #$2000				;$B3EAB8   |
 	BEQ .CODE_B3EAC4			;$B3EABB   |
 	LDA #$0090				;$B3EABD   |
-	STA $0030,y				;$B3EAC0   |
+	STA.w sprite.interaction_flags,y	;$B3EAC0   |
 	RTS					;$B3EAC3  /
 
 .CODE_B3EAC4
-	LDA $0A3C				;$B3EAC4  \
+	LDA RAM_0A3C				;$B3EAC4  \
 	AND #$FF7F				;$B3EAC7   |
-	STA $0030,y				;$B3EACA   |
+	STA.w sprite.interaction_flags,y	;$B3EACA   |
 	RTS					;$B3EACD   |
 endif						;	  /
 
@@ -15155,17 +15155,17 @@ CODE_B3EF15:					;	   |
 	JSL set_player_interaction_global	;$B3EF18   |
 	BCS CODE_B3EF44				;$B3EF1C   |
 	LDA #CODE_B3EF84			;$B3EF1E   |
-	STA $0A8A				;$B3EF21   |
+	STA interaction_RAM_0A8A		;$B3EF21   |
 	LDA.w #CODE_B3EF84>>16			;$B3EF24   |
-	STA $0A8C				;$B3EF27   |
+	STA interaction_RAM_0A8C		;$B3EF27   |
 CODE_B3EF2A:					;	   |
 	JSL CODE_BCFEC8				;$B3EF2A   |
 	JSL CODE_BCFEE0				;$B3EF2E   |
 	JSL CODE_B3A334				;$B3EF32   |
-	LDA $0A3E				;$B3EF36   |
-	STA $0A86				;$B3EF39   |
-	LDA $0A40				;$B3EF3C   |
-	STA $0A88				;$B3EF3F   |
+	LDA contact_flash_x_position		;$B3EF36   |
+	STA interaction_RAM_0A86		;$B3EF39   |
+	LDA contact_flash_y_position		;$B3EF3C   |
+	STA interaction_RAM_0A88		;$B3EF3F   |
 	SEC					;$B3EF42   |
 	RTS					;$B3EF43  /
 
@@ -15196,9 +15196,9 @@ CODE_B3EF6A:
 	JSL set_player_interaction_global	;$B3EF6D   |
 	BCS CODE_B3EF44				;$B3EF71   |
 	LDA #CODE_B3F069			;$B3EF73   |
-	STA $0A8A				;$B3EF76   |
+	STA interaction_RAM_0A8A		;$B3EF76   |
 	LDA.w #CODE_B3F069>>16			;$B3EF79   |
-	STA $0A8C				;$B3EF7C   |
+	STA interaction_RAM_0A8C		;$B3EF7C   |
 	BRA CODE_B3EF2A				;$B3EF7F  /
 
 CODE_B3EF81:
@@ -15210,11 +15210,11 @@ CODE_B3EF84:
 	LDX active_kong_control_variables	;$B3EF8C   |
 	STZ kong_control.flash_timer,x		;$B3EF8F   |
 	LDX active_kong_sprite			;$B3EF91   |
-	LDA $0A86				;$B3EF94   |
-	STA $0A3E				;$B3EF97   |
-	LDA $0A88				;$B3EF9A   |
-	STA $0A40				;$B3EF9D   |
-	LDY #!special_sprite_spawn_id_0034	;$B3EFA0   | collision burst effect
+	LDA interaction_RAM_0A86		;$B3EF94   |
+	STA contact_flash_x_position		;$B3EF97   |
+	LDA interaction_RAM_0A88		;$B3EF9A   |
+	STA contact_flash_y_position		;$B3EF9D   |
+	LDY #!special_sprite_spawn_id_0034	;$B3EFA0   | Contact flash sprite
 	JSL spawn_special_sprite_index		;$B3EFA3   |
 	LDX current_interacting_sprite		;$B3EFA7   |
 	STX current_sprite			;$B3EFAA   |
@@ -15223,7 +15223,7 @@ CODE_B3EF84:
 	LDA #$0011				;$B3EFB2   |
 	STA.w sprite.state,y			;$B3EFB5   |
 	LDA.w sprite.interaction_flags,y	;$B3EFB8   |
-	STA $0A3C				;$B3EFBB   |
+	STA RAM_0A3C				;$B3EFBB   |
 	STA.w sprite.carry_or_defeat_flags,y	;$B3EFBE   |
 	STA.w sprite.x_speed,y			;$B3EFC1   |
 	STA.w sprite.max_x_speed,y		;$B3EFC4   |
@@ -15311,10 +15311,10 @@ CODE_B3F05F:
 	RTS					;$B3F068  /
 
 CODE_B3F069:
-	LDA $0A86				;$B3F069  \
-	STA $0A3E				;$B3F06C   |
-	LDA $0A88				;$B3F06F   |
-	STA $0A40				;$B3F072   |
+	LDA interaction_RAM_0A86		;$B3F069  \
+	STA contact_flash_x_position		;$B3F06C   |
+	LDA interaction_RAM_0A88		;$B3F06F   |
+	STA contact_flash_y_position		;$B3F072   |
 	LDY #!special_sprite_spawn_id_0034	;$B3F075   |
 	JSL spawn_special_sprite_index		;$B3F078   |
 	JSL work_on_inactive_kong_global	;$B3F07C   |
