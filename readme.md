@@ -95,7 +95,7 @@ sprite_handler:
 	dw CODE_808789				;02
 ```
 
-### Additional Resources
+## Additional Resources
 [DKC 2 RAM map](https://www.p4plus2.com/dkc2/ram.php)  
 [DKC Atlas Forum](http://www.dkc-atlas.com/forum/)  
 [Donkey Kong Hacking Portal](https://donkeyhacks.zouri.jp/html/En-Us/)  
@@ -104,12 +104,12 @@ sprite_handler:
 [DKComp (DKC (de)compressor)](https://github.com/Kingizor/dkcomp)  
 [Asar (SNES Assembler)](https://github.com/RPGHacker/asar)  
 
-### Looking for another Disassembly?
+## Looking for another Disassembly?
 
 https://github.com/Yoshifanatic1/Donkey-Kong-Country-1-Disassembly  
 
 https://github.com/BlueImp78/DKC3-Disassembly  
 https://github.com/Yoshifanatic1/Donkey-Kong-Country-3-Disassembly  
 
-### Thanks
+## Thanks
 [Mattrizzle](https://github.com/Mattrizzle) for indirectly contributing by parsing the music/sound effect sequences into asm.
