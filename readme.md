@@ -138,7 +138,7 @@ DKC2 uses a 32-megabit (4 MB) fast ROM (3.58 MHz) with the HiROM mapping mode. C
 
 #### bank $BC ($BC8000-$BCFFFF)
 - Sprite graphics/hitbox table
-- Sprite hitboxes
+- Sprite hitbox data
 - Sprite clipping/collision logic
 
 #### bank $BE ($BEB800-$BEFFFF)
@@ -193,6 +193,7 @@ DKC2 uses a 32-megabit (4 MB) fast ROM (3.58 MHz) with the HiROM mapping mode. C
 
 #### bank $FC ($FC0000-$FC7FFF)
 - Tileset collision data
+- Miscellaneous graphics data
 
 #### bank $FD ($FD0000-$FDFFFF)
 - Level config data
