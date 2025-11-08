@@ -95,6 +95,122 @@ sprite_handler:
 	dw CODE_808789				;02
 ```
 
+## ROM Layout
+DKC2 uses a 32-megabit (4 MB) fast ROM (3.58 MHz) with the HiROM mapping mode. Consequently, it occupies banks $80–$FF.
+
+### Program Bank Contents
+
+#### bank $80 ($808000-$80FFFF)
+- Main engine code
+- Level/Tileset logic
+
+#### bank $B3 ($B38000-$B3FFFF)
+- Sprite main code
+
+#### bank $B4 ($B48000-$B4FFFF)
+- World map code/data
+
+#### bank $B5 ($B58000-$B5FFFF)
+- Sound engine (CPU side)
+- Tileset loading code/data
+- Additional engine code
+
+#### bank $B6 ($B68000-$B6FFFF)
+- Boss main code (including boss related sprites)
+- Boss sequence data
+
+#### bank $B8 ($B88000-$B8FFFF)
+- Kong-sprite interaction code
+- Kong main code
+- Player action handling
+- Sprite terrain collision logic
+
+#### bank $B9 ($B9D000-$B9FFFF)
+- Sprite animation logic
+
+#### bank $BA ($BA9000-$BAFFFF)
+- Additional boss code/data (including boss related sprites)
+
+#### bank $BB ($BB8000-$BBFFFF)
+- Decompression code
+- Sprite spawning code
+- Additional engine code
+
+#### bank $BC ($BC8000-$BCFFFF)
+- Sprite graphics/hitbox table
+- Sprite hitboxes
+- Sprite clipping/collision logic
+
+#### bank $BE ($BEB800-$BEFFFF)
+- Additional sprite main code
+- Sprite collision interaction logic
+- Sprite movement logic
+
+### Data Bank Contents
+
+#### bank $C0 ($C00000-$C07FFF)
+- Sprite graphics data
+
+#### banks $C1-ED ($C10000-$EDFFFF)
+- Sprite graphics data
+- Background graphics data (Mostly compressed)
+
+#### banks $EE-F2 ($EE0000-$F2FFFF)
+- Sound engine (SPC side)
+- BRR sample table
+- BRR sample data
+- Sample upload data
+- Music sequence data
+- Sound effect sequence data
+
+#### bank $F3 ($F30000-$F37FFF)
+- Background graphics data (Mostly uncompressed and used for animated backgrounds)
+
+#### bank $F4 ($F40000-$F47FFF)
+- Background graphics data (Mostly uncompressed and used for animated backgrounds)
+
+#### bank $F5 ($F50000-$F57FFF)
+- Background graphics data (Mostly uncompressed and used for animated backgrounds)
+
+#### bank $F6 ($F60000-$F67FFF)
+- Background graphics data (Mostly uncompressed and used for animated backgrounds)
+
+#### bank $F7 ($F70000-$F7FFFF)
+- Dialog text data
+
+#### bank $F8 ($F80000-$F87FFF)
+- Background graphics data
+
+#### bank $F9 ($F90000-$F9CFFF)
+- Sprite animation data
+- Background graphics data (Only secret ending layer 2)
+
+#### bank $FA ($FA0000-$FA8FFF)
+- Background graphics data (Mostly uncompressed and used for animated backgrounds)
+
+#### bank $FB ($FB0000-$FB7FFF)
+- Background graphics data (Mostly uncompressed and used for animated backgrounds)
+
+#### bank $FC ($FC0000-$FC7FFF)
+- Tileset collision data
+
+#### bank $FD ($FD0000-$FDFFFF)
+- Level config data
+- Tileset config data
+- PPU config data
+- VRAM payload data
+- Color palette data
+- Level banana placement data
+- Level camera placement data
+
+#### bank $FE ($FE0000-$FEB7FF)
+- Level sprite placement data
+- Demo input playback data
+
+#### bank $FF ($FF0000-$FFFFFF)
+- Sprite constants data
+- Sprite spawn initialization data
+
 ## Additional Resources
 [DKC 2 RAM map](https://www.p4plus2.com/dkc2/ram.php)  
 [DKC Atlas Forum](http://www.dkc-atlas.com/forum/)  
