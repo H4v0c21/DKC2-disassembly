@@ -20,21 +20,21 @@ arch spc700
 	dw .seq_302E	;65: Egg/Kudgel falling
 	dw .seq_3023	;66: Hanging hooks appearing
 	dw .seq_3015	;67: Piece of debris falling
-	dw .seq_2F42	;68: Blunderbuss flame
+	dw .seq_2F42	;68: gun flame
 	dw .seq_2F67	;69: Spikes retracting on cannonball
 	dw .seq_2F56	;6A: Swirling
 	dw .seq_2F49	;6B: Cannonball bouncing
-	dw .seq_3002	;6C: Blunderbuss flame (repeats indefinitely)
+	dw .seq_3002	;6C: gun flame (repeats indefinitely)
 	dw .seq_2FEC	;6D: Kudgel landing
 	dw .seq_2FEB	;6E: -Nothing-
 	dw .seq_2FD5	;6F: Kudgel swinging cudgel
-	dw .seq_2FC9	;70: K. Rool using blunderbuss as a vacuum (whoosh channel)
+	dw .seq_2FC9	;70: K. Rool using gun as a vacuum (whoosh channel)
 	dw .seq_2FB8	;71: D.K. punching K. Rool
 	dw .seq_2FB1	;72: D.K. oof
 	dw .seq_2FA6	;73: K. Rool blinking eyes
-	dw .seq_2F9C	;74: K. Rool's blunderbuss backfiring
+	dw .seq_2F9C	;74: K. Rool's gun backfiring
 	dw .seq_2F8B	;75: D.K. grunt
-	dw .seq_2F72	;76: K. Rool using blunderbuss as a vacuum (vroom channel)
+	dw .seq_2F72	;76: K. Rool using gun as a vacuum (vroom channel)
 	dw .seq_2F71	;77: -Nothing-
 	dw .seq_2F1F	;78: Kongs panicking
 	dw .seq_309E	;79: Krow cawing

@@ -230,14 +230,14 @@ endif						;	   |
 	JSL is_current_krem_coin_collected	;$BEB9B2   |
 	BCC ..CODE_BEB9D6			;$BEB9B6   |
 	LDX current_sprite			;$BEB9B8   |
-	LDA $36,x				;$BEB9BA   |
-	CMP #$01C3				;$BEB9BC   |
+	LDA sprite.animation_id,x		;$BEB9BA   |
+	CMP #!dk_coin_idle_anim_id		;$BEB9BC   |
 	BNE ..CODE_BEB9C6			;$BEB9BF   |
-	LDA #$01C5				;$BEB9C1   |
+	LDA #!dk_coin_collected_anim_id		;$BEB9C1   |
 	BRA ..CODE_BEB9C9			;$BEB9C4  /
 
 ..CODE_BEB9C6:
-	LDA #$01C4				;$BEB9C6  \
+	LDA #!krem_coin_collected_anim_id	;$BEB9C6  \
 ..CODE_BEB9C9:					;	   |
 	JSL set_sprite_animation		;$BEB9C9   |
 	LDX current_sprite			;$BEB9CD   |
@@ -270,10 +270,10 @@ endif						;	   |
 	LDA #$0002				;$BEBA0D   |
 	TSB game_state_flags_2			;$BEBA10   |
 	LDX current_sprite			;$BEBA13   |
-	LDA $36,x				;$BEBA15   | Get animation ID
-	CMP #$01C4				;$BEBA17   | Check if its kremcoin_collected
+	LDA sprite.animation_id,x		;$BEBA15   |
+	CMP #!krem_coin_collected_anim_id	;$BEBA17   |
 	BEQ ..CODE_BEBA24			;$BEBA1A   |
-	CMP #$01C5				;$BEBA1C   | Else check if its dk_coin_collected
+	CMP #!dk_coin_collected_anim_id		;$BEBA1C   |
 	BEQ ..CODE_BEBA24			;$BEBA1F   |
 	JMP .collect_coin			;$BEBA21  /
 
@@ -296,7 +296,7 @@ endif						;	   |
 .dk_coin_spawn:
 	JSL is_current_level_dk_coin_collected	;$BEBA3C  \
 	BCC ..not_collected			;$BEBA40   |
-	LDA #$01C5				;$BEBA42   |
+	LDA #!dk_coin_collected_anim_id		;$BEBA42   |
 	JSL set_sprite_animation		;$BEBA45   |
 	LDX current_sprite			;$BEBA49   |
 	INC $2E,x				;$BEBA4B   |
@@ -2147,7 +2147,7 @@ CODE_BEC735:
 CODE_BEC745:
 	DEC life_display_timer			;$BEC745  \ decrement the timer
 CODE_BEC748:					;	   |
-	LDA #$20A8				;$BEC748   | load sprite image to display (/4 to get actual image number)
+	LDA #!diddy_icon_graphic		;$BEC748   | load sprite image to display (/4 to get actual image number)
 	STA life_display_graphic		;$BEC74B   |
 	LDX #$1D40				;$BEC74E   |
 	LDA life_display_y_position		;$BEC751   |
@@ -2503,7 +2503,7 @@ CODE_BEC9E7:
 	STA $7F9620,x				;$BEC9F6   |
 	LSR A					;$BEC9FA   |
 	LSR A					;$BEC9FB   |
-	CMP $0D4E				;$BEC9FC   |
+	CMP water_y_position			;$BEC9FC   |
 	BCC CODE_BECA0E				;$BEC9FF   |
 	SEC					;$BECA01   |
 	SBC screen_scroll_y_position		;$BECA02   |
@@ -2615,7 +2615,7 @@ CODE_BECAB7:
 	AND #$0003				;$BECAB9   |
 	BNE CODE_BECB1E				;$BECABC   |
 	LDX #$0000				;$BECABE   |
-	LDA $0D4E				;$BECAC1   |
+	LDA water_y_position			;$BECAC1   |
 	SEC					;$BECAC4   |
 	SBC screen_scroll_y_position		;$BECAC5   |
 	BCC CODE_BECAD8				;$BECAC8   |
@@ -3053,7 +3053,7 @@ CODE_BECDDF:					;	   |
 
 gate_barrel_sprite_code:
 	JSR sprite_state_handler_BE		;$BECDE2  \
-	
+
 .state_table:
 	dw .state_0
 	dw .state_1
@@ -5551,7 +5551,7 @@ kackle_sprite_code:
 	JSR sprite_state_handler_BE		;$BEE096  /
 
 .state_table:
-	dw CODE_BEE0A9				;00 - Init 
+	dw CODE_BEE0A9				;00 - Init
 	dw CODE_BEE0CA				;01 - Wait at door then spawn timer handler sprite
 	dw CODE_BEE105				;02 - Chase player
 	dw CODE_BEE11D				;03 - Inch closer/back away
@@ -7670,7 +7670,7 @@ kremcoin_cheat_handler_sprite_code:
 
 .wait_for_cabin_entry
 	LDA level_number			;$BEEFB7  \ \ Get the current level
-	CMP #!level_pirate_panic_k_rools_cabin	;$BEEFB9   | |
+	CMP #!level_pirate_panic_krools_cabin	;$BEEFB9   | |
 	BNE .delete_cheat_handler_sprite	;$BEEFBC   |/ If the player isnt in the ship cabin delete the cheat sprite
 	LDA banana_count			;$BEEFBE   |\ Else get current banana count
 	SEP #$20				;$BEEFC1   | |
@@ -7703,7 +7703,7 @@ kremcoin_cheat_handler_sprite_code:
 
 .wait_for_life_collected
 	LDA level_number			;$BEEFF8  \ \ Get the current level
-	CMP #!level_pirate_panic_k_rools_cabin	;$BEEFFA   | |in
+	CMP #!level_pirate_panic_krools_cabin	;$BEEFFA   | |in
 	BNE .delete_cheat_handler_sprite	;$BEEFFD   |/ If the player isnt in the ship cabin delete the cheat sprite
 	LDA banana_count_before_token_cheat	;$BEEFFF   |\ Get banana count before cheat
 	AND #$00FF				;$BEF002   | |
@@ -7735,7 +7735,7 @@ kremcoin_cheat_handler_sprite_code:
 
 process_current_movement:
 	LDX current_sprite			;$BEF039  \ \
-	LDA $52,x				;$BEF03B   |/ Get movement type from current sprite
+	LDA sprite.movement_state,x		;$BEF03B   |/ Get movement type from current sprite
 process_alternate_movement:			;	   |
 	TAY					;$BEF03D   |\ X = movement routine index
 	AND #$00FF				;$BEF03E   | |
@@ -8924,7 +8924,7 @@ CODE_BEF7AB:
 	RTS					;$BEF7BB  /
 
 process_terrain_handle_submerged:
-	LDA $0D4E				;$BEF7BC  \ \
+	LDA water_y_position			;$BEF7BC  \ \
 	BPL .level_has_water			;$BEF7BF   |/ Branch if the level has water
 .not_submerged					;	   |
 	JSL process_terrain_interaction_global	;$BEF7C1   |

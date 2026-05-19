@@ -31,14 +31,14 @@ player_interaction_table:
 	dw player_interaction_1C			;001C: Defeating enemy by rolling
 	dw player_interaction_1D			;001D: Defeating enemy by team throw
 	dw player_interaction_1E			;001E: Knocked back by enemy
-	dw player_interaction_1F			;001F: Stunned by K. Rool before being hit by his blunderbuss
+	dw player_interaction_1F			;001F: Stunned by K. Rool before being hit by his gun
 	dw player_interaction_20			;0020: Stunned from teamthrow getting hurt by enemy
 	dw player_interaction_21			;0021: Crashed into Target Terror door
 	dw player_interaction_22			;0022: Hurt by enemy/obstacle (Disables extra kong bit)
 	dw player_interaction_23			;0023: Hurt by enemy/obstacle
 	dw player_interaction_24			;0024: Frozen by K. Rool's blue gas cloud
 	dw player_interaction_25			;0025: Slowed down by K. Rool's red gas cloud/reversed by K. Rool's purple gas cloud
-	dw player_interaction_26			;0026: Hurt by being hit by Klubba or K. Rool's blunderbuss
+	dw player_interaction_26			;0026: Hurt by being hit by Klubba or K. Rool's gun
 	dw player_interaction_27			;0027: Collecting Kremkoin
 	dw player_interaction_28			;0028: Losing bonus
 	dw player_interaction_29			;0029: Falling into pit
@@ -492,7 +492,7 @@ CODE_B883D5:
 	BNE CODE_B8841B				;$B883DB   |
 	JSL CODE_BEC66F				;$B883DD   |
 	LDA current_song			;$B883E1   |
-	CMP #!music_k_rool			;$B883E3   |
+	CMP #!music_krool			;$B883E3   |
 	BEQ CODE_B8841B				;$B883E6   |
 	BRA CODE_B88414				;$B883E8  /
 
@@ -1055,7 +1055,7 @@ player_interaction_2A:
 	JSL CODE_B3E287				;$B88870   |
 	JSL set_current_level_as_cleared	;$B88874   |
 	LDA main_level.song			;$B88878   |
-	CMP #!music_k_rool			;$B8887B   |
+	CMP #!music_krool			;$B8887B   |
 	BEQ CODE_B8889A				;$B8887E   |
 	LDA RAM_0B02				;$B88880   |
 	AND #$0004				;$B88883   |
@@ -3155,7 +3155,7 @@ get_x_acceleration:
 	LDY #$0016				;$B899CA  \
 	LDA $0A,x				;$B899CD   |
 	SEC					;$B899CF   |
-	SBC $0D4E				;$B899D0   |
+	SBC water_y_position			;$B899D0   |
 	BNE .CODE_B899DC			;$B899D3   |
 	LDA $26,x				;$B899D5   |
 	BNE .CODE_B899DC			;$B899D7   |
@@ -6532,7 +6532,7 @@ CODE_B8B3EC:
 
 CODE_B8B3F0:
 	LDA level_number			;$B8B3F0  \
-	CMP #!level_k_rool_duel			;$B8B3F2   |
+	CMP #!level_krool_duel			;$B8B3F2   |
 	BEQ CODE_B8B40A				;$B8B3F5   |
 	CMP #!level_stronghold_showdown		;$B8B3F7   |
 	BEQ CODE_B8B40A				;$B8B3FA   |
@@ -6915,7 +6915,7 @@ check_sprite_underwater_global:
 
 check_sprite_underwater:
 	LDX current_sprite			;$B8B6A7  \
-	LDA $0D4E				;$B8B6A9   \\
+	LDA water_y_position			;$B8B6A9   \\
 	BMI .no_water				;$B8B6AC   |/ check if level has water
 	SEC					;$B8B6AE   |\
 	SBC $0A,x				;$B8B6AF   | | check if sprite is underwater
@@ -11486,7 +11486,7 @@ CODE_B8D4C3:					;	   |
 	STA $19C6				;$B8D4C3   |
 	LDA $0D54				;$B8D4C6   |
 	BMI CODE_B8D4D3				;$B8D4C9   |
-	CLC					;$B8D4CB   | 
+	CLC					;$B8D4CB   |
 	ADC #$00C0				;$B8D4CC   |
 	CMP $0A,x				;$B8D4CF   |
 	BCC CODE_B8D4D5				;$B8D4D1   |
@@ -11654,7 +11654,7 @@ process_terrain_interaction:
 	LSR A					;$B8D5F4   | |
 	LSR A					;$B8D5F5   | |
 	AND #$000F				;$B8D5F6   | |
-	ORA temp_5E				;$B8D5F9   |/ 
+	ORA temp_5E				;$B8D5F9   |/
 	STA sprite.terrain_interaction,x	;$B8D5FB   |
 	LDX current_sprite			;$B8D5FD   |> Get current sprite
 	LDA sprite.x_position,x			;$B8D5FF   |\

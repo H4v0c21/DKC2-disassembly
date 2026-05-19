@@ -287,11 +287,11 @@ handle_kudgel_destroying_tnt:
 	CMP current_held_sprite			;$B68245   | Else check if its the sprite held by the kong
 	BNE .return				;$B68248   | If not, return
 .set_attack_animation:				;	   |
-	LDA #$0296				;$B6824A   | kudgel_fall_attack
+	LDA #!kudgel_fall_attack_anim_id	;$B6824A   |
 	JSL set_sprite_animation		;$B6824D   |
 	LDA.l $000656				;$B68251   |
 	STA alternate_sprite			;$B68255   |
-	LDA #$0297				;$B68257   | kudgel_club_fall_attack
+	LDA #!kudgel_club_fall_attack_anim_id	;$B68257   |
 	JSL set_alt_sprite_animation		;$B6825A   |
 	LDX current_sprite			;$B6825E   | Get kudgel sprite
 	LDA $2E,x				;$B68260   |
@@ -872,11 +872,11 @@ CODE_B68A16:					;	   |
 	STZ $32,x				;$B68A44   |
 	LDA.l $000654				;$B68A46   |
 	STA alternate_sprite			;$B68A4A   |
-	LDA #$0298				;$B68A4C   |
+	LDA #!kudgel_hurt_anim_id		;$B68A4C   |
 	JSL set_alt_sprite_animation		;$B68A4F   |
 	LDA.l $000656				;$B68A53   |
 	STA alternate_sprite			;$B68A57   |
-	LDA #$0299				;$B68A59   |
+	LDA #!kudgel_club_hurt_anim_id		;$B68A59   |
 	JSL set_alt_sprite_animation		;$B68A5C   |
 CODE_B68A60:					;	   |
 	RTS					;$B68A60  /
@@ -900,11 +900,11 @@ setup_kudgel_death:
 	STA $000753				;$B68A8B   | Set address of death particle spawn data
 	LDA.l $000654				;$B68A8F   |
 	STA alternate_sprite			;$B68A93   |
-	LDA #$0298				;$B68A95   | kudgel_hurt
+	LDA #!kudgel_hurt_anim_id		;$B68A95   |
 	JSL set_alt_sprite_animation		;$B68A98   |
 	LDA.l $000656				;$B68A9C   |
 	STA alternate_sprite			;$B68AA0   |
-	LDA #$0299				;$B68AA2   | kudgel_club_hurt
+	LDA #!kudgel_club_hurt_anim_id		;$B68AA2   |
 	JSL set_alt_sprite_animation		;$B68AA5   |
 	BRA CODE_B68A60				;$B68AA9  / Return
 
@@ -1016,21 +1016,21 @@ kudgel_death_return_command:
 	LDA #DATA_B68B2B			;$B68BDB   | Set address of death particle spawn data
 	STA $000753				;$B68BDE   |
 	LDA #$0120				;$B68BE2   |
-	STA $0A,x				;$B68BE5   | Set Y position 
+	STA $0A,x				;$B68BE5   | Set Y position
 	LDA #kudgel_death_return_command_2	;$B68BE7   |
 	STA $44,x				;$B68BEA   | Set return command to execute
-	LDA #$029C				;$B68BEC   | kudgel_death
+	LDA #!kudgel_death_anim_id		;$B68BEC   |
 	JSL set_sprite_animation		;$B68BEF   |
 	LDA.l $000656				;$B68BF3   |
 	STA alternate_sprite			;$B68BF7   |
-	LDA #$029D				;$B68BF9   | kudgel_club_death
+	LDA #!kudgel_club_death_anim_id		;$B68BF9   |
 	JSL set_alt_sprite_animation		;$B68BFC   |
 	%lda_sound(7, kudgel_defeat_airborne)	;$B68C00   |
 	JSL queue_sound_effect			;$B68C03   |
 	LDX current_sprite			;$B68C07   |
 	LDY $0656				;$B68C09   |
 	LDA #$0380				;$B68C0C   |\
-	STA $24,x				;$B68C0F   | | Set Y speeds  
+	STA $24,x				;$B68C0F   | | Set Y speeds
 	STA $2A,x				;$B68C11   |/
 	LDA $12,x				;$B68C13   |
 	EOR #$3000				;$B68C15   |
@@ -1073,8 +1073,8 @@ kudgel_set_fanfare_return_command:
 	LDA.l $000747				;$B68C6B  \ Get timer before fanfare starts
 	BEQ .return				;$B68C6F   | If already done, return
 	DEC $0747				;$B68C71   | Else decrease timer
-	BNE .return				;$B68C74   | 
-	JSL set_current_level_as_cleared	;$B68C76   |\ If timer done, set level as cleared 
+	BNE .return				;$B68C74   |
+	JSL set_current_level_as_cleared	;$B68C76   |\ If timer done, set level as cleared
 	LDA #!player_interaction_27		;$B68C7A   | | and set "collecting kremcoin" interaction
 	JSL set_player_interaction_global	;$B68C7D   |/
 .return:					;	   |
@@ -1114,11 +1114,11 @@ CODE_B68CC2:
 	PHB					;$B68CC2  \
 	PHK					;$B68CC3   |
 	PLB					;$B68CC4   |
-	LDA #$01FB				;$B68CC5   | kudgel_attack_land
+	LDA #!kudgel_attack_land_anim_id	;$B68CC5   |
 	JSL set_sprite_animation		;$B68CC8   |
 	LDA.l $000656				;$B68CCC   |
 	STA alternate_sprite			;$B68CD0   |
-	LDA #$028D				;$B68CD2   | kudgel_club_idle
+	LDA #!kudgel_club_idle_anim_id		;$B68CD2   |
 	JSL set_alt_sprite_animation		;$B68CD5   |
 	LDX $0654				;$B68CD9   |
 	JSR parse_boss_command			;$B68CDC   |
@@ -1146,20 +1146,20 @@ CODE_B68CE1:
 	CMP #CODE_B6BCCF			;$B68D06   |
 	BNE CODE_B68D21				;$B68D09   |
 CODE_B68D0B:					;	   |
-	LDA #$028E				;$B68D0B   |
+	LDA #!kudgel_fall_anim_id		;$B68D0B   |
 	JSL set_sprite_animation		;$B68D0E   |
 	LDA.l $000656				;$B68D12   |
 	STA alternate_sprite			;$B68D16   |
-	LDA #$028F				;$B68D18   |
+	LDA #!kudgel_club_fall_anim_id		;$B68D18   |
 	JSL set_alt_sprite_animation		;$B68D1B   |
 	BRA CODE_B68D35				;$B68D1F  /
 
 CODE_B68D21:
-	LDA #$01FB				;$B68D21  \
+	LDA #!kudgel_attack_land_anim_id	;$B68D21  \
 	JSL set_sprite_animation		;$B68D24   |
 	LDA.l $000656				;$B68D28   |
 	STA alternate_sprite			;$B68D2C   |
-	LDA #$028D				;$B68D2E   |
+	LDA #!kudgel_club_idle_anim_id		;$B68D2E   |
 	JSL set_alt_sprite_animation		;$B68D31   |
 CODE_B68D35:					;	   |
 	PLB					;$B68D35   |
@@ -1172,7 +1172,7 @@ CODE_B68D37:
 	STA $004E,y				;$B68D3F   |
 	LDA #$3EAC				;$B68D42   |
 	STA $004A,y				;$B68D45   |
-	LDA #$02E5				;$B68D48   |
+	LDA #!tnt_barrel_idle_anim_id		;$B68D48   |
 	JSL set_alt_sprite_animation		;$B68D4B   |
 	LDX alternate_sprite			;$B68D4F   |
 	LDA #!barrel_sprite_palette		;$B68D51   |
@@ -1242,12 +1242,12 @@ CODE_B68DB3:
 	LDA #$01C1				;$B68DD6   |
 	STA $0A,x				;$B68DD9   |
 	STA $000A,y				;$B68DDB   |
-	LDA #$0257				;$B68DDE   |
+	LDA #!krool_soaked_anim_id		;$B68DDE   |
 	JSL set_sprite_animation		;$B68DE1   |
-	LDA #$0258				;$B68DE5   |
+	LDA #!krool_gun_soaked_anim_id		;$B68DE5   |
 	JSL set_alt_sprite_animation		;$B68DE8   |
 	LDX current_sprite			;$B68DEC   |
-	LDA #k_rool_rematch_start		;$B68DEE   |
+	LDA #krool_rematch_start		;$B68DEE   |
 	STA $46,x				;$B68DF1   |
 	LDA #$0001				;$B68DF3   |
 	STA $000652				;$B68DF6   |
@@ -1293,13 +1293,13 @@ CODE_B68E56:
 	LDA #$0004				;$B68E56  \
 	BIT game_state_flags_2			;$B68E59   |
 	BEQ CODE_B68E63				;$B68E5C   |
-	LDY #k_rool_intro_phase			;$B68E5E   |
+	LDY #krool_intro_phase			;$B68E5E   |
 	BRA CODE_B68E6C				;$B68E61  /
 
 CODE_B68E63:
 	TSB game_state_flags_2			;$B68E63  \
 	JSR CODE_B68F50				;$B68E66   |
-	LDY #k_rool_dk_intro_phase		;$B68E69   |
+	LDY #krool_dk_intro_phase		;$B68E69   |
 CODE_B68E6C:					;	   |
 	LDX current_sprite			;$B68E6C   |
 	STY $46,x				;$B68E6E   |
@@ -1530,11 +1530,11 @@ CODE_B69043:
 	PHK					;$B69043  \
 	PLB					;$B69044   |
 	JSR parse_boss_command			;$B69045   |
-	LDA #$025E				;$B69048   |
+	LDA #!krool_idle_anim_id		;$B69048   |
 	JSL set_sprite_animation		;$B6904B   |
 	LDA.l $000656				;$B6904F   |
 	STA alternate_sprite			;$B69053   |
-	LDA #$025F				;$B69055   |
+	LDA #!krool_gun_idle_anim_id		;$B69055   |
 	JSL set_alt_sprite_animation		;$B69058   |
 	RTL					;$B6905C  /
 
@@ -1558,12 +1558,12 @@ DATA_B6906F:
 	dw $000A, $FFD3, $0227
 
 ;$B6908D
-k_rool_intro_phase:
+krool_intro_phase:
 	dw !boss_command_wait, $0064
-	dw !boss_command_goto_or_reset, k_rool_phase_1_start, k_rool_phase_1_start
+	dw !boss_command_goto_or_reset, krool_phase_1_start, krool_phase_1_start
 
 ;$B69097
-k_rool_dk_intro_phase:
+krool_dk_intro_phase:
 	dw !boss_command_dk_intro, $0003, $0000, $0000, $0000, $0000, $0000
 	dw !boss_command_wait, $003C
 	dw !boss_command_melee_dk
@@ -1581,23 +1581,23 @@ k_rool_dk_intro_phase:
 	dw !boss_command_dk_intro, $0002, $0000, $0000, $0000, $0000, $0000
 
 ;$B690DB
-k_rool_phase_1_start:
+krool_phase_1_start:
 	dw !boss_command_shoot
 	dw !boss_command_wait, $00F0
 	dw !boss_command_dash, $0500, $0003
 	dw !boss_command_wait, $0032
 	dw !boss_command_vacuum
-k_rool_phase_1_loop:
+krool_phase_1_loop:
 	dw !boss_command_wait, $0032
 	dw !boss_command_shoot
 	dw !boss_command_wait, $0050
 	dw !boss_command_dash, $0500, $0004
 	dw !boss_command_wait, $0032
 	dw !boss_command_vacuum
-	dw !boss_command_goto_or_reset, k_rool_phase_1_loop, k_rool_phase_1_loop
+	dw !boss_command_goto_or_reset, krool_phase_1_loop, krool_phase_1_loop
 
 ;$B69109
-k_rool_phase_2_start:
+krool_phase_2_start:
 	dw !boss_command_wait, $0032
 	dw !boss_command_shoot
 	dw !boss_command_wait, $0078
@@ -1610,7 +1610,7 @@ k_rool_phase_2_start:
 	dw !boss_command_goto_or_reset, !null_pointer
 
 ;$B6912F
-k_rool_phase_3_start:
+krool_phase_3_start:
 	dw !boss_command_wait, $003C
 	dw !boss_command_shoot
 	dw !boss_command_wait, $0050
@@ -1626,43 +1626,43 @@ k_rool_phase_3_start:
 	dw !boss_command_goto_or_reset, !null_pointer
 
 ;$B69163
-k_rool_phase_4_start:
+krool_phase_4_start:
 	dw !boss_command_spawn_sprite, DATA_FF2216, $01C8, $0170, CODE_B6AD02, $0000, $FFEA
-k_rool_phase_4_loop:
+krool_phase_4_loop:
 	dw !boss_command_wait, $0050
 	dw !boss_command_shoot
 	dw !boss_command_wait, $005A
-	dw !boss_command_goto_if, k_rool_phase_4_loop
+	dw !boss_command_goto_if, krool_phase_4_loop
 	dw !boss_command_vacuum
-	dw !boss_command_goto_or_reset, k_rool_phase_4_loop, k_rool_phase_4_loop
+	dw !boss_command_goto_or_reset, krool_phase_4_loop, krool_phase_4_loop
 
-k_rool_phase_5_start:
+krool_phase_5_start:
 	dw !boss_command_wait, $0050
 	dw !boss_command_dash, $0580, $0006
-k_rool_phase_5_loop:
+krool_phase_5_loop:
 	dw !boss_command_wait, $0028
 	dw !boss_command_shoot
 	dw !boss_command_wait, $008C
-	dw !boss_command_goto_if, k_rool_phase_5_loop
+	dw !boss_command_goto_if, krool_phase_5_loop
 	dw !boss_command_vacuum
-	dw !boss_command_goto_or_reset, k_rool_phase_5_loop, k_rool_phase_5_loop
+	dw !boss_command_goto_or_reset, krool_phase_5_loop, krool_phase_5_loop
 
-k_rool_phase_6_start:
+krool_phase_6_start:
 	dw !boss_command_wait, $0028
 	dw !boss_command_dash, $05C0, $0006
-k_rool_phase_6_loop:
+krool_phase_6_loop:
 	dw !boss_command_wait, $0028
 	dw !boss_command_shoot
 	dw !boss_command_wait, $00B4
-	dw !boss_command_goto_if, k_rool_phase_6_loop
+	dw !boss_command_goto_if, krool_phase_6_loop
 	dw !boss_command_vacuum
-	dw !boss_command_goto_or_reset, k_rool_phase_6_loop, k_rool_phase_6_loop
+	dw !boss_command_goto_or_reset, krool_phase_6_loop, krool_phase_6_loop
 
-k_rool_phase_7_start:
+krool_phase_7_start:
 	dw !boss_command_spawn_sprite, DATA_FF2216, $01C8, $0170, CODE_B6AD02, $0000, $FFEA
 	dw !boss_command_wait, $0032
 	dw !boss_command_dash, $0600, $0006
-k_rool_phase_7_loop:
+krool_phase_7_loop:
 	dw !boss_command_wait, $0028
 	dw !boss_command_shoot
 	dw !boss_command_wait, $005A
@@ -1672,18 +1672,18 @@ k_rool_phase_7_loop:
 	dw !boss_command_set_visibility, $1000
 	dw !boss_command_dash, $0500, $0006
 	dw !boss_command_wait, $0022
-	dw !boss_command_fade, DATA_B6ADAA, DATA_B6ADB6, $0007
+	dw !boss_command_fade, krool_fadeout_palettes, krool_fadeout_palettes_end, $0007
 	dw !boss_command_set_visibility, $0000
 	dw !boss_command_dash, $0500, $0006
 	dw !boss_command_spawn_sprite, DATA_FF1F8A, $01C8, $01C1, CODE_B6ACF3, $0000, $FFF2
 	dw !boss_command_set_visibility, $1000
-	dw !boss_command_fade, DATA_B6ADB6, DATA_B6ADC6, $0007
+	dw !boss_command_fade, krool_fadein_palettes, krool_fadein_palettes_end, $0007
 	dw !boss_command_wait, $0028
 	dw !boss_command_set_visibility, $2000
 	dw !boss_command_vacuum
-	dw !boss_command_goto_or_reset, k_rool_phase_7_loop, k_rool_phase_7_loop
+	dw !boss_command_goto_or_reset, krool_phase_7_loop, krool_phase_7_loop
 
-k_rool_phase_8_start:
+krool_phase_8_start:
 	dw !boss_command_wait, $0028
 	dw !boss_command_dash, $0640, $0006
 	dw !boss_command_wait, $0028
@@ -1698,7 +1698,7 @@ k_rool_phase_8_start:
 	dw !boss_command_vacuum
 	dw !boss_command_goto_or_reset, !null_pointer
 
-k_rool_phase_9_start:
+krool_phase_9_start:
 	dw !boss_command_wait, $0028
 	dw !boss_command_dash, $0680, $0006
 	dw !boss_command_wait, $0028
@@ -1707,64 +1707,64 @@ k_rool_phase_9_start:
 	dw !boss_command_wait_if_gas_hit, $0078
 	dw !boss_command_set_visibility, $1000
 	dw !boss_command_timed_vacuum, $0064
-	dw !boss_command_fade, DATA_B6ADAA, DATA_B6ADB6, $0007
+	dw !boss_command_fade, krool_fadeout_palettes, krool_fadeout_palettes_end, $0007
 	dw !boss_command_disable_damage
 	dw !boss_command_set_visibility, $0000
 	dw !boss_command_wait, $003C
 	dw !boss_command_teleport, $0060
 	dw !boss_command_set_visibility, $1000
-	dw !boss_command_fade, DATA_B6ADB6, DATA_B6ADC6, $0007
+	dw !boss_command_fade, krool_fadein_palettes, krool_fadein_palettes_end, $0007
 	dw !boss_command_enable_damage
 	dw !boss_command_timed_vacuum, $0064
-	dw !boss_command_fade, DATA_B6ADAA, DATA_B6ADB6, $0007
+	dw !boss_command_fade, krool_fadeout_palettes, krool_fadeout_palettes_end, $0007
 	dw !boss_command_disable_damage
 	dw !boss_command_set_visibility, $0000
 	dw !boss_command_wait, $0050
 	dw !boss_command_teleport, $0060
 	dw !boss_command_set_visibility, $1000
-	dw !boss_command_fade, DATA_B6ADB6, DATA_B6ADC6, $0007
+	dw !boss_command_fade, krool_fadein_palettes, krool_fadein_palettes_end, $0007
 	dw !boss_command_enable_damage
 	dw !boss_command_timed_vacuum, $0064
-	dw !boss_command_fade, DATA_B6ADAA, DATA_B6ADB6, $0007
+	dw !boss_command_fade, krool_fadeout_palettes, krool_fadeout_palettes_end, $0007
 	dw !boss_command_disable_damage
 	dw !boss_command_set_visibility, $0000
 	dw !boss_command_wait, $0050
 	dw !boss_command_teleport, $0060
 	dw !boss_command_set_visibility, $1000
-	dw !boss_command_fade, DATA_B6ADB6, DATA_B6ADC6, $0007
+	dw !boss_command_fade, krool_fadein_palettes, krool_fadein_palettes_end, $0007
 	dw !boss_command_enable_damage
 	dw !boss_command_timed_vacuum, $0064
 	dw !boss_command_spawn_sprite, DATA_FF1F8A, $01C8, $01C1, CODE_B6ACF3, $0000, $FFF2
 	dw !boss_command_clear_gas_effect
-	dw !boss_command_fade, DATA_B6ADAA, DATA_B6ADB6, $0007
+	dw !boss_command_fade, krool_fadeout_palettes, krool_fadeout_palettes_end, $0007
 	dw !boss_command_disable_damage
 	dw !boss_command_set_visibility, $0000
 	dw !boss_command_wait, $0078
 	dw !boss_command_teleport, $0060
 	dw !boss_command_set_visibility, $1000
-	dw !boss_command_fade, DATA_B6ADB6, DATA_B6ADC6, $0007
+	dw !boss_command_fade, krool_fadein_palettes, krool_fadein_palettes_end, $0007
 	dw !boss_command_enable_damage
 	dw !boss_command_wait, $0007
 	dw !boss_command_set_visibility, $2000
 	dw !boss_command_timed_vacuum, $0064
 	dw !boss_command_goto_or_reset, !null_pointer
 
-k_rool_rematch_start:
+krool_rematch_start:
 	dw !boss_command_wait, $01F4
 	dw !boss_command_wait, $001E
 	dw !boss_command_shoot_fish
 	dw !boss_command_wait, $0078
-k_rool_rematch_loop:
+krool_rematch_loop:
 	dw !boss_command_wait, $0078
 	dw !boss_command_set_projectiles, $003A, DATA_BAC3AC
 	dw !boss_command_wait, $0096
-	dw !boss_command_goto_if, k_rool_rematch_loop
+	dw !boss_command_goto_if, krool_rematch_loop
 	dw !boss_command_wait, $004B
 	dw !boss_command_timed_vacuum, $0168
-	dw !boss_command_goto_or_reset, k_rool_rematch_loop, k_rool_rematch_loop
+	dw !boss_command_goto_or_reset, krool_rematch_loop, krool_rematch_loop
 
 ;k.rool backfire projectile x velocities
-k_rool_backfire_projectile_speeds:
+krool_backfire_projectile_speeds:
 	dw $0000
 	dw $05B0
 	dw $0560
@@ -1907,7 +1907,7 @@ CODE_B6949C:
 	JSL queue_sound_effect			;$B6949F   |
 	LDY.w #DATA_FF1F8A			;$B694A3   |
 	JSL spawn_special_sprite_address	;$B694A6   |
-	JSR init_k_rool_projectile_position	;$B694AA   |
+	JSR init_krool_projectile_position	;$B694AA   |
 	LDA $002E,y				;$B694AD   |
 	ORA #$0090				;$B694B0   |
 	STA $002E,y				;$B694B3   |
@@ -1942,7 +1942,7 @@ CODE_B694F3:
 	JSL queue_sound_effect			;$B694F6   |
 	LDY.w #DATA_FF1F8A			;$B694FA   |
 	JSL spawn_special_sprite_address	;$B694FD   |
-	JSR init_k_rool_projectile_position	;$B69501   |
+	JSR init_krool_projectile_position	;$B69501   |
 	LDA $002E,y				;$B69504   |
 	ORA #$0200				;$B69507   |
 	STA $002E,y				;$B6950A   |
@@ -1972,7 +1972,7 @@ CODE_B6952E:					;	   |
 	STA $002A,y				;$B69546   |
 	LDA #$001A				;$B69549   |
 	STA $0046,y				;$B6954C   |
-	LDA #$0289				;$B6954F   |
+	LDA #!krool_spikeball_retracted_anim_id	;$B6954F   |
 	JSL set_alt_sprite_animation		;$B69552   |
 	RTS					;$B69556  /
 
@@ -1996,7 +1996,7 @@ CODE_B69572:
 	JSL queue_sound_effect			;$B69575   |
 	LDY.w #DATA_FF1F8A			;$B69579   |
 	JSL spawn_special_sprite_address	;$B6957C   |
-	JSR init_k_rool_projectile_position	;$B69580   |
+	JSR init_krool_projectile_position	;$B69580   |
 	LDA $002E,y				;$B69583   |
 	ORA #$0200				;$B69586   |
 	STA $002E,y				;$B69589   |
@@ -2053,7 +2053,7 @@ CODE_B695FB:					;	   |
 	LDA #$0282				;$B69609   |
 	JSL set_alt_sprite_animation		;$B6960C   |
 CODE_B69610:					;	   |
-	JSR init_k_rool_projectile_position	;$B69610   |
+	JSR init_krool_projectile_position	;$B69610   |
 	LDA level_number			;$B69613   |
 	CMP #!level_krocodile_kore		;$B69615   |
 	BNE CODE_B6961D				;$B69618   |
@@ -2143,7 +2143,7 @@ CODE_B696C3:					;	   |
 	LDA #$0282				;$B696D1   |
 	JSL set_alt_sprite_animation		;$B696D4   |
 CODE_B696D8:					;	   |
-	JSR init_k_rool_projectile_position	;$B696D8   |
+	JSR init_krool_projectile_position	;$B696D8   |
 	LDA $002E,y				;$B696DB   |
 	ORA #$0092				;$B696DE   |
 	STA $002E,y				;$B696E1   |
@@ -2203,7 +2203,7 @@ CODE_B69755:					;	   |
 	LDA #$0282				;$B69763   |
 	JSL set_alt_sprite_animation		;$B69766   |
 CODE_B6976A:					;	   |
-	JSR init_k_rool_projectile_position	;$B6976A   |
+	JSR init_krool_projectile_position	;$B6976A   |
 	LDA $002E,y				;$B6976D   |
 	ORA #$0290				;$B69770   |
 	STA $002E,y				;$B69773   |
@@ -2267,7 +2267,7 @@ CODE_B697FC:
 	JSL queue_sound_effect			;$B697FF   |
 	LDY #!special_sprite_spawn_id_0182	;$B69803   |
 	JSL spawn_special_sprite_index		;$B69806   |
-	JSR init_k_rool_projectile_position	;$B6980A   |
+	JSR init_krool_projectile_position	;$B6980A   |
 	LDA $002E,y				;$B6980D   |
 	ORA #$0490				;$B69810   |
 	STA $002E,y				;$B69813   |
@@ -2319,7 +2319,7 @@ CODE_B69877:
 	JSL queue_sound_effect			;$B6987A   |
 	LDY #!special_sprite_spawn_id_017E	;$B6987E   |
 	JSL spawn_special_sprite_index		;$B69881   |
-	JSR init_k_rool_projectile_position	;$B69885   |
+	JSR init_krool_projectile_position	;$B69885   |
 	LDA $002E,y				;$B69888   |
 	ORA #$1090				;$B6988B   |
 	STA $002E,y				;$B6988E   |
@@ -2383,7 +2383,7 @@ CODE_B69917:
 	JSL queue_sound_effect			;$B6991A   |
 	LDY #!special_sprite_spawn_id_0186	;$B6991E   |
 	JSL spawn_special_sprite_index		;$B69921   |
-	JSR init_k_rool_projectile_position	;$B69925   |
+	JSR init_krool_projectile_position	;$B69925   |
 	LDA $002E,y				;$B69928   |
 	ORA #$4090				;$B6992B   |
 	STA $002E,y				;$B6992E   |
@@ -2441,13 +2441,13 @@ CODE_B699A8:
 	JSL queue_sound_effect			;$B699AB   |
 	LDY #!special_sprite_spawn_id_017E	;$B699AF   |
 	JSL spawn_special_sprite_index		;$B699B2   |
-	JSR init_k_rool_projectile_position	;$B699B6   |
+	JSR init_krool_projectile_position	;$B699B6   |
 	LDA $002E,y				;$B699B9   |
 	ORA #$0490				;$B699BC   |
 	STA $002E,y				;$B699BF   |
 	BRL CODE_B69816				;$B699C2  /
 
-init_k_rool_projectile_position:
+init_krool_projectile_position:
 	LDX current_sprite			;$B699C5  \
 	LDY alternate_sprite			;$B699C7   |
 	LDA sprite.y_position,x			;$B699C9   |
@@ -2740,7 +2740,7 @@ CODE_B69BFB:					;	   |
 	ORA #$0001				;$B69C11   |
 	AND #$FFFD				;$B69C14   |
 	STA $2E,x				;$B69C17   |
-	LDA #$0268				;$B69C19   |
+	LDA #!krool_spikeball_expanded_anim_id	;$B69C19   |
 	JSL set_sprite_animation		;$B69C1C   |
 CODE_B69C20:					;	   |
 	JSL process_sprite_animation		;$B69C20   |
@@ -2882,11 +2882,11 @@ CODE_B69D0E:					;	   |
 	LDA $2E,x				;$B69D2B   |
 	ORA #$2000				;$B69D2D   |
 	STA $2E,x				;$B69D30   |
-	LDA #$025A				;$B69D32   |
+	LDA #!krool_lost_final_hit_anim_id	;$B69D32   |
 	JSL set_alt_sprite_animation		;$B69D35   |
 	LDA.l $000656				;$B69D39   |
 	STA alternate_sprite			;$B69D3D   |
-	LDA #$025B				;$B69D3F   |
+	LDA #!krool_lost_gun_final_hit_anim_id	;$B69D3F   |
 	BRA CODE_B69D75				;$B69D42  /
 
 CODE_B69D44:
@@ -2895,19 +2895,19 @@ CODE_B69D44:
 	LDA.l $000652				;$B69D4A   |
 	CMP #$0001				;$B69D4E   |
 	BEQ CODE_B69D65				;$B69D51   |
-	LDA #$0270				;$B69D53   |
+	LDA #!krool_backfire_anim_id		;$B69D53   |
 	JSL set_alt_sprite_animation		;$B69D56   |
 	LDA.l $000656				;$B69D5A   |
 	STA alternate_sprite			;$B69D5E   |
-	LDA #$0271				;$B69D60   |
+	LDA #!krool_gun_backfire_anim_id	;$B69D60   |
 	BRA CODE_B69D75				;$B69D63  /
 
 CODE_B69D65:
-	LDA #$0283				;$B69D65  \
+	LDA #!krool_backfire_final_anim_id	;$B69D65  \
 	JSL set_alt_sprite_animation		;$B69D68   |
 	LDA.l $000656				;$B69D6C   |
 	STA alternate_sprite			;$B69D70   |
-	LDA #$0284				;$B69D72   |
+	LDA #!krool_gun_backfire_final_anim_id	;$B69D72   |
 CODE_B69D75:					;	   |
 	JSL set_alt_sprite_animation		;$B69D75   |
 	LDX current_sprite			;$B69D79   |
@@ -2964,13 +2964,13 @@ CODE_B69DC2:
 	STA $0A,x				;$B69DF8   |
 	LDA #CODE_B69E33			;$B69DFA   |
 	STA $44,x				;$B69DFD   |
-	LDA #$025C				;$B69DFF   |
+	LDA #!krool_map_fall_anim_id		;$B69DFF   |
 	JSL set_sprite_animation		;$B69E02   |
 	LDX $0656				;$B69E06   |
 	STX alternate_sprite			;$B69E09   |
 	LDA #$C000				;$B69E0B   |
 	STA $1C,x				;$B69E0E   |
-	LDA #$025C				;$B69E10   |
+	LDA #!krool_map_fall_anim_id		;$B69E10   |
 	JSL set_alt_sprite_animation		;$B69E13   |
 	LDX current_sprite			;$B69E17   |
 	LDY $0656				;$B69E19   |
@@ -3188,7 +3188,7 @@ CODE_B69FBF:					;	   |
 	LDY #$FF00				;$B69FC2   |
 	JSL CODE_B3A600				;$B69FC5   |
 	JSL spawn_barrel_parts_and_smoke_global	;$B69FC9   |
-	LDA #$0280				;$B69FCD   |
+	LDA #!krool_canball_from_barrel_anim_id	;$B69FCD   |
 	JSL set_sprite_animation		;$B69FD0   |
 	LDX current_sprite			;$B69FD4   |
 	LDA #!canball_sprite_palette		;$B69FD6   |
@@ -3199,7 +3199,7 @@ CODE_B69FBF:					;	   |
 	LDA #$000B				;$B69FE4   |
 	STA $44,x				;$B69FE7   |
 	LDA $2E,x				;$B69FE9   |
-	AND #$E17C				;$B69FEB   |
+	AND #$E17C				;$B69FEB   | weird value
 	STA $2E,x				;$B69FEE   |
 	LDA $06,x				;$B69FF0   |
 	CMP #$028A				;$B69FF2   |
@@ -3621,7 +3621,7 @@ CODE_B6A317:					;	   |
 	BRA CODE_B6A331				;$B6A327  /
 
 CODE_B6A329:
-	LDA.w #sound(7,!sound_krool_ammo_swirl);$B6A329  \
+	LDA.w #sound(7,!sound_krool_ammo_swirl)	;$B6A329  \
 	CLC					;$B6A32C   |
 	JSL queue_or_reset_looping_sound_effect	;$B6A32D   |
 CODE_B6A331:					;	   |
@@ -3641,7 +3641,7 @@ CODE_B6A33E:
 	BRA CODE_B6A358				;$B6A34E  /
 
 CODE_B6A350:
-	LDA.w #sound(7,!sound_krool_ammo_swirl);$B6A350  \
+	LDA.w #sound(7,!sound_krool_ammo_swirl)	;$B6A350  \
 	SEC					;$B6A353   |
 	JSL queue_or_reset_looping_sound_effect	;$B6A354   |
 CODE_B6A358:					;	   |
@@ -3776,7 +3776,7 @@ CODE_B6A378:
 if !version == 0				;	   |
 	BRL CODE_B6A178				;$B6A38D  /
 
-CODE_B6A390:				
+CODE_B6A390:
 	LDA $42,x				;$B6A390  \
 	JSL interpolate_x_velocity_global	;$B6A392   |
 	LDX current_sprite			;$B6A396   |
@@ -3841,11 +3841,11 @@ krool_puddle_sprite_code:
 CODE_B6A3F4:
 	LDA.l $00075F				;$B6A3F4  \
 	STA alternate_sprite			;$B6A3F8   |
-	LDA #$0247				;$B6A3FA   |
+	LDA #!donkey_scared_anim_id		;$B6A3FA   |
 	JSL set_alt_sprite_animation		;$B6A3FD   |
 	LDA.l $00075B				;$B6A401   |
 	STA alternate_sprite			;$B6A405   |
-	LDA #$0248				;$B6A407   |
+	LDA #!donkey_rope_scared_anim_id	;$B6A407   |
 	JSL set_alt_sprite_animation		;$B6A40A   |
 	RTL					;$B6A40E  /
 
@@ -4127,11 +4127,11 @@ CODE_B6A637:
 	STZ $24,x				;$B6A637  \
 	STZ $2A,x				;$B6A639   |
 	INC $2E,x				;$B6A63B   |
-	LDA #$0243				;$B6A63D   |
+	LDA #!donkey_idle_anim_id		;$B6A63D   |
 	JSL set_sprite_animation		;$B6A640   |
 	LDA.l $00075B				;$B6A644   |
 	STA alternate_sprite			;$B6A648   |
-	LDA #$0244				;$B6A64A   |
+	LDA #!donkey_rope_idle_anim_id		;$B6A64A   |
 	JSL set_alt_sprite_animation		;$B6A64D   |
 	LDX current_sprite			;$B6A651   |
 	LDA #$0140				;$B6A653   |
@@ -4172,7 +4172,7 @@ CODE_B6A66F:
 	STZ $24,x				;$B6A6A5   |
 	LDA #$0800				;$B6A6A7   |
 	STA $2A,x				;$B6A6AA   |
-	LDA #$0249				;$B6A6AC   |
+	LDA #!donkey_free_anim_id		;$B6A6AC   |
 	JSL set_sprite_animation		;$B6A6AF   |
 	BRA CODE_B6A668				;$B6A6B3  /
 
@@ -4199,7 +4199,7 @@ CODE_B6A6CE:
 	STZ $24,x				;$B6A6E2   |
 	STZ $2A,x				;$B6A6E4   |
 	INC $2E,x				;$B6A6E6   |
-	LDA #$024A				;$B6A6E8   |
+	LDA #!donkey_punch_anim_id		;$B6A6E8   |
 	JSL set_sprite_animation		;$B6A6EB   |
 CODE_B6A6EF:					;	   |
 	JSL process_sprite_animation		;$B6A6EF   |
@@ -4266,7 +4266,7 @@ defeated_krool_sprite_code:
 	PLX					;$B6A763   |
 	STX current_sprite			;$B6A764   |
 	INC $42,x				;$B6A766   |
-	LDA.l DATA_BAA3B0			;$B6A768   |
+	LDA.l krool_roof_piece_spawn_count	;$B6A768   |
 	STA $0006EF				;$B6A76C   |
 	LDA #DATA_BAA3B2			;$B6A770   |
 	STA $0006F1				;$B6A773   |
@@ -4330,11 +4330,11 @@ CODE_B6A7E8:
 CODE_B6A80A:					;	   |
 	STX $20,y				;$B6A80A   |
 	STY alternate_sprite			;$B6A80C   |
-	LDA #$0254				;$B6A80E   |
+	LDA #!krool_donkey_punched_anim_id	;$B6A80E   |
 	JSL set_alt_sprite_animation		;$B6A811   |
 	LDA.l $000656				;$B6A815   |
 	STA alternate_sprite			;$B6A819   |
-	LDA #$0255				;$B6A81B   |
+	LDA #!krool_gun_donkey_punched_anim_id	;$B6A81B   |
 	JSL set_alt_sprite_animation		;$B6A81E   |
 	LDY #!special_sprite_spawn_id_0194	;$B6A822   |
 	JSL spawn_special_sprite_index		;$B6A825   |
@@ -4364,11 +4364,11 @@ CODE_B6A853:					;	   |
 	STA $000761				;$B6A858   |
 	LDA.l $00075F				;$B6A85C   |
 	STA alternate_sprite			;$B6A860   |
-	LDA #$0245				;$B6A862   |
+	LDA #!donkey_hurt_anim_id		;$B6A862   |
 	JSL set_alt_sprite_animation		;$B6A865   |
 	LDA.l $00075B				;$B6A869   |
 	STA alternate_sprite			;$B6A86D   |
-	LDA #$0246				;$B6A86F   |
+	LDA #!donkey_rope_hurt_anim_id		;$B6A86F   |
 	JSL set_alt_sprite_animation		;$B6A872   |
 	RTL					;$B6A876  /
 
@@ -4414,7 +4414,7 @@ CODE_B6A8CC:					;	   |
 	CLC					;$B6A8D1   |
 	ADC #$FFE4				;$B6A8D2   |
 	STA $000A,y				;$B6A8D5   |
-	LDA #$0276				;$B6A8D8   |
+	LDA #!krool_backfire_sparks_anim_id	;$B6A8D8   |
 	JSL set_alt_sprite_animation		;$B6A8DB   |
 	RTL					;$B6A8DF  /
 
@@ -4457,7 +4457,7 @@ CODE_B6A8F0:
 	STA $0042,y				;$B6A939   |
 	STA $0044,y				;$B6A93C   |
 	JSR CODE_B6AA27				;$B6A93F   |
-	LDA #$01BF				;$B6A942   |
+	LDA #!smoke_cloud_2_anim_id		;$B6A942   |
 	JSL set_alt_sprite_animation		;$B6A945   |
 	LDA #global_sprite_palette		;$B6A949   |
 	JSR CODE_B6AA78				;$B6A94C   |
@@ -4500,7 +4500,7 @@ CODE_B6A968:
 	STA $0042,y				;$B6A9B1   |
 	STA $0044,y				;$B6A9B4   |
 	JSR CODE_B6AA49				;$B6A9B7   |
-	LDA #$01BF				;$B6A9BA   |
+	LDA #!smoke_cloud_2_anim_id		;$B6A9BA   |
 	JSL set_alt_sprite_animation		;$B6A9BD   |
 	LDA #global_sprite_palette		;$B6A9C1   |
 	JSR CODE_B6AA78				;$B6A9C4   |
@@ -4518,7 +4518,7 @@ CODE_B6A9DD:					;	   |
 	STA $0006A3				;$B6A9E4   |
 	LDY.w #DATA_FF1F8A			;$B6A9E8   |
 	JSL spawn_special_sprite_address	;$B6A9EB   |
-	JSR init_k_rool_projectile_position	;$B6A9EF   |
+	JSR init_krool_projectile_position	;$B6A9EF   |
 	LDA $002E,y				;$B6A9F2   |
 	ORA #$0191				;$B6A9F5   |
 	STA $002E,y				;$B6A9F8   |
@@ -4526,7 +4526,7 @@ CODE_B6A9DD:					;	   |
 	LDA.l $000652				;$B6A9FC   |
 	ASL A					;$B6AA00   |
 	TAX					;$B6AA01   |
-	LDA k_rool_backfire_projectile_speeds,x	;$B6AA02   |
+	LDA krool_backfire_projectile_speeds,x	;$B6AA02   |
 	PLX					;$B6AA05   |
 	PHA					;$B6AA06   |
 	LDA sprite.oam_property,x		;$B6AA07   |
@@ -4550,7 +4550,7 @@ CODE_B6AA1C:					;	   |
 
 CODE_B6AA27:
 	JSR CODE_B6AA6B				;$B6AA27  \
-	LDA #$0272				;$B6AA2A   |
+	LDA #!krool_fireball_anim_id		;$B6AA2A   |
 	JSL set_alt_sprite_animation		;$B6AA2D   |
 	LDY alternate_sprite			;$B6AA31   |
 	LDX $0654				;$B6AA33   |
@@ -4566,7 +4566,7 @@ CODE_B6AA27:
 
 CODE_B6AA49:
 	JSR CODE_B6AA6B				;$B6AA49  \
-	LDA #$0272				;$B6AA4C   |
+	LDA #!krool_fireball_anim_id		;$B6AA4C   |
 	JSL set_alt_sprite_animation		;$B6AA4F   |
 	LDY alternate_sprite			;$B6AA53   |
 	LDX $0654				;$B6AA55   |
@@ -4679,7 +4679,7 @@ CODE_B6AABE:
 	LDA.l $000733				;$B6AB4F   |
 	BEQ CODE_B6AB5E				;$B6AB53   |
 	STA alternate_sprite			;$B6AB55   |
-	LDA #$0274				;$B6AB57   |
+	LDA #!krool_soot_eyes_angry_anim_id	;$B6AB57   |
 	JSL set_alt_sprite_animation		;$B6AB5A   |
 CODE_B6AB5E:					;	   |
 	RTL					;$B6AB5E  /
@@ -4706,7 +4706,7 @@ CODE_B6AB79:					;	   |
 	STA $000A,y				;$B6AB83   |
 	LDA #global_sprite_palette		;$B6AB86   |
 	JSR CODE_B6AA78				;$B6AB89   |
-	LDA #$01BF				;$B6AB8C   |
+	LDA #!smoke_cloud_2_anim_id		;$B6AB8C   |
 	JSL set_alt_sprite_animation		;$B6AB8F   |
 	RTS					;$B6AB93  /
 
@@ -4760,11 +4760,11 @@ CODE_B6ABDD:					;	   |
 	LDA.l $000652				;$B6ABEE   |
 	ASL A					;$B6ABF2   |
 	TAY					;$B6ABF3   |
-	LDA DATA_B6D0D1,y			;$B6ABF4   |
+	LDA krool_vacuum_attack_table,y		;$B6ABF4   |
 	LDX level_number			;$B6ABF7   |
 	CPX #!level_krocodile_kore		;$B6ABF9   |
 	BNE CODE_B6AC01				;$B6ABFC   |
-	LDA DATA_B6D135,y			;$B6ABFE   |
+	LDA krool_2_vacuum_attack_table,y	;$B6ABFE   |
 CODE_B6AC01:					;	   |
 	TAY					;$B6AC01   |
 	LDA $0006,y				;$B6AC02   |
@@ -4779,12 +4779,12 @@ CODE_B6AC01:					;	   |
 	LDA level_number			;$B6AC1A   |
 	CMP #!level_krocodile_kore		;$B6AC1C   |
 	BNE CODE_B6AC34				;$B6AC1F   |
-	LDA #$0287				;$B6AC21   |
+	LDA #!krool_stun_3_anim_id		;$B6AC21   |
 	JSL set_sprite_animation		;$B6AC24   |
 	LDX $0656				;$B6AC28   |
 	STX alternate_sprite			;$B6AC2B   |
 	STZ $1C,x				;$B6AC2D   |
-	LDA #$0288				;$B6AC2F   |
+	LDA #!krool_gun_stun_3_anim_id		;$B6AC2F   |
 	BRA CODE_B6AC79				;$B6AC32  /
 
 CODE_B6AC34:
@@ -4793,42 +4793,42 @@ CODE_B6AC34:
 	BEQ CODE_B6AC68				;$B6AC3B   |
 	CMP #$0003				;$B6AC3D   |
 	BEQ CODE_B6AC55				;$B6AC40   |
-	LDA #$0287				;$B6AC42   |
+	LDA #!krool_stun_3_anim_id		;$B6AC42   |
 	JSL set_sprite_animation		;$B6AC45   |
 	LDX $0656				;$B6AC49   |
 	STX alternate_sprite			;$B6AC4C   |
 	STZ $1C,x				;$B6AC4E   |
-	LDA #$0288				;$B6AC50   |
+	LDA #!krool_gun_stun_3_anim_id		;$B6AC50   |
 	BRA CODE_B6AC79				;$B6AC53  /
 
 CODE_B6AC55:
-	LDA #$0285				;$B6AC55  \
+	LDA #!krool_stun_2_anim_id		;$B6AC55  \
 	JSL set_sprite_animation		;$B6AC58   |
 	LDX $0656				;$B6AC5C   |
 	STX alternate_sprite			;$B6AC5F   |
 	STZ $1C,x				;$B6AC61   |
-	LDA #$0286				;$B6AC63   |
+	LDA #!krool_gun_stun_2_anim_id		;$B6AC63   |
 	BRA CODE_B6AC79				;$B6AC66  /
 
 CODE_B6AC68:
-	LDA #$0278				;$B6AC68  \
+	LDA #!krool_stun_anim_id		;$B6AC68  \
 	JSL set_sprite_animation		;$B6AC6B   |
 	LDX $0656				;$B6AC6F   |
 	STX alternate_sprite			;$B6AC72   |
 	STZ $1C,x				;$B6AC74   |
-	LDA #$0279				;$B6AC76   |
+	LDA #!krool_gun_stun_anim_id		;$B6AC76   |
 CODE_B6AC79:					;	   |
 	JSL set_alt_sprite_animation		;$B6AC79   |
 	BRA CODE_B6AC97				;$B6AC7D  /
 
 CODE_B6AC7F:
 	JSR parse_boss_command			;$B6AC7F  \
-	LDA #$025E				;$B6AC82   |
+	LDA #!krool_idle_anim_id		;$B6AC82   |
 	JSL set_sprite_animation		;$B6AC85   |
 	LDX $0656				;$B6AC89   |
 	STX alternate_sprite			;$B6AC8C   |
 	STZ $1C,x				;$B6AC8E   |
-	LDA #$025F				;$B6AC90   |
+	LDA #!krool_gun_idle_anim_id		;$B6AC90   |
 	JSL set_alt_sprite_animation		;$B6AC93   |
 CODE_B6AC97:					;	   |
 	PLB					;$B6AC97   |
@@ -4842,19 +4842,19 @@ CODE_B6AC99:
 	LDA.l $000652				;$B6ACA6   |
 	CMP #$0006				;$B6ACAA   |
 	BEQ CODE_B6ACC1				;$B6ACAD   |
-	LDA #$028A				;$B6ACAF   |
+	LDA #!krool_stun_recover_2_anim_id	;$B6ACAF   |
 	JSL set_sprite_animation		;$B6ACB2   |
 	LDA.l $000656				;$B6ACB6   |
 	STA alternate_sprite			;$B6ACBA   |
-	LDA #$028B				;$B6ACBC   |
+	LDA #!krool_gun_stun_recover_2_anim_id	;$B6ACBC   |
 	BRA CODE_B6ACD1				;$B6ACBF  /
 
 CODE_B6ACC1:
-	LDA #$027A				;$B6ACC1  \
+	LDA #!krool_stun_recover_anim_id	;$B6ACC1  \
 	JSL set_sprite_animation		;$B6ACC4   |
 	LDA.l $000656				;$B6ACC8   |
 	STA alternate_sprite			;$B6ACCC   |
-	LDA #$027B				;$B6ACCE   |
+	LDA #!krool_gun_stun_recover_anim_id	;$B6ACCE   |
 CODE_B6ACD1:					;	   |
 	JSL set_alt_sprite_animation		;$B6ACD1   |
 	BRA CODE_B6ACD7				;$B6ACD5  /
@@ -4867,11 +4867,11 @@ CODE_B6ACD8:
 	PHK					;$B6ACD9   |
 	PLB					;$B6ACDA   |
 	JSR parse_boss_command			;$B6ACDB   |
-	LDA #$025E				;$B6ACDE   |
+	LDA #!krool_idle_anim_id		;$B6ACDE   |
 	JSL set_sprite_animation		;$B6ACE1   |
 	LDX $0656				;$B6ACE5   |
 	STX alternate_sprite			;$B6ACE8   |
-	LDA #$027C				;$B6ACEA   |
+	LDA #!krool_gun_recovered_wait_anim_id	;$B6ACEA   |
 	JSL set_alt_sprite_animation		;$B6ACED   |
 	PLB					;$B6ACF1   |
 	RTL					;$B6ACF2  /
@@ -4897,11 +4897,11 @@ CODE_B6AD0D:
 	PHK					;$B6AD0E   |
 	PLB					;$B6AD0F   |
 	JSR parse_boss_command			;$B6AD10   |
-	LDA #$025E				;$B6AD13   |
+	LDA #!krool_idle_anim_id		;$B6AD13   |
 	JSL set_sprite_animation		;$B6AD16   |
 	LDA.l $000656				;$B6AD1A   |
 	STA alternate_sprite			;$B6AD1E   |
-	LDA #$025F				;$B6AD20   |
+	LDA #!krool_gun_idle_anim_id		;$B6AD20   |
 	JSL set_alt_sprite_animation		;$B6AD23   |
 	PLB					;$B6AD27   |
 	RTL					;$B6AD28  /
@@ -4980,19 +4980,19 @@ release_held_sprite_from_kong:
 	RTS					;$B6ADA9  /
 
 
-;k.rool color palette numbers (used for k.rool's transition to transparent)
-DATA_B6ADAA:
-	dw !k_rool_fade_1_sprite_palette, !k_rool_gun_fade_1_sprite_palette
-	dw !k_rool_fade_2_sprite_palette, !k_rool_gun_fade_2_sprite_palette
-	dw !k_rool_fade_3_sprite_palette, !k_rool_gun_fade_3_sprite_palette
+krool_fadeout_palettes:
+	dw !krool_fade_1_sprite_palette, !krool_gun_fade_1_sprite_palette
+	dw !krool_fade_2_sprite_palette, !krool_gun_fade_2_sprite_palette
+	dw !krool_fade_3_sprite_palette, !krool_gun_fade_3_sprite_palette
+krool_fadeout_palettes_end:
 
-;k.rool color palette numbers (used for k.rool's transition from transparent)
-DATA_B6ADB6:
-	dw !k_rool_fade_3_sprite_palette, !k_rool_gun_fade_3_sprite_palette
-	dw !k_rool_fade_2_sprite_palette, !k_rool_gun_fade_2_sprite_palette
-	dw !k_rool_fade_1_sprite_palette, !k_rool_gun_fade_1_sprite_palette
+krool_fadein_palettes:
+	dw !krool_fade_3_sprite_palette, !krool_gun_fade_3_sprite_palette
+	dw !krool_fade_2_sprite_palette, !krool_gun_fade_2_sprite_palette
+	dw !krool_fade_1_sprite_palette, !krool_gun_fade_1_sprite_palette
 	dw !krool_sprite_palette, !krool_gun_sprite_palette
-DATA_B6ADC6:
+krool_fadein_palettes_end:
+
 
 CODE_B6ADC6:
 	PHB					;$B6ADC6  \
@@ -5086,7 +5086,6 @@ DATA_B6AE73:
 	dw $0001
 
 
-;king zing commands
 king_zing_boss_commands_table:
 	dw !boss_command_26, $026E, $016D, DATA_B6AE73
 	dw !boss_command_27, $4000
@@ -5634,25 +5633,25 @@ boss_command_code_49:
 	PHY					;$B6B7C8  \
 	STZ $44,x				;$B6B7C9   |
 	JSR CODE_B6C28F				;$B6B7CB   |
-	LDA #$027F				;$B6B7CE   |
+	LDA #!smoke_cloud_5_anim_id		;$B6B7CE   |
 	JSL set_alt_sprite_animation		;$B6B7D1   |
 	%lda_sound(7, krool_backfire)		;$B6B7D5   |
 	JSL queue_sound_effect			;$B6B7D8   |
-	LDA #$0266				;$B6B7DC   |
+	LDA #!krool_shoot_fish_anim_id		;$B6B7DC   |
 	JSL set_sprite_animation		;$B6B7DF   |
 	LDA.l $000656				;$B6B7E3   |
 	STA alternate_sprite			;$B6B7E7   |
-	LDA #$0267				;$B6B7E9   |
+	LDA #!krool_gun_shoot_fish_anim_id	;$B6B7E9   |
 	JSL set_alt_sprite_animation		;$B6B7EC   |
-	LDA.l DATA_BAC869			;$B6B7F0   |
+	LDA.l krool_fish_spawn_count		;$B6B7F0   |
 	STA $000650				;$B6B7F4   |
 	JSR CODE_B6D923				;$B6B7F8   |
-	LDA #DATA_BAC86B			;$B6B7FB   |
+	LDA #krool_fish_spawn_data		;$B6B7FB   |
 CODE_B6B7FE:					;	   |
 	PHA					;$B6B7FE   |
 	LDY #!special_sprite_spawn_id_0164	;$B6B7FF   |
 	JSL spawn_special_sprite_index		;$B6B802   |
-	JSR init_k_rool_projectile_position	;$B6B806   |
+	JSR init_krool_projectile_position	;$B6B806   |
 	PLY					;$B6B809   |
 	LDX alternate_sprite			;$B6B80A   |
 	LDA $0000,y				;$B6B80C   |
@@ -5709,13 +5708,13 @@ CODE_B6B874:
 
 CODE_B6B87C:
 	JSR CODE_B6C28F				;$B6B87C  \
-	LDA #$026F				;$B6B87F   |
+	LDA #!smoke_cloud_4_anim_id		;$B6B87F   |
 	JSL set_alt_sprite_animation		;$B6B882   |
-	LDA #$0264				;$B6B886   |
+	LDA #!krool_shoot_anim_id		;$B6B886   |
 	JSL set_sprite_animation		;$B6B889   |
 	LDA.l $000656				;$B6B88D   |
 	STA alternate_sprite			;$B6B891   |
-	LDA #$0265				;$B6B893   |
+	LDA #!krool_gun_shoot_anim_id		;$B6B893   |
 	JSL set_alt_sprite_animation		;$B6B896   |
 	JSR CODE_B6D923				;$B6B89A   |
 	LDX $0737				;$B6B89D   |
@@ -5735,17 +5734,17 @@ CODE_B6B8BC:					;	   |
 boss_command_code_47:
 	STZ $44,x				;$B6B8BD  \
 	PHY					;$B6B8BF   |
-	LDA #$0250				;$B6B8C0   |
+	LDA #!krool_shoot_donkey_anim_id	;$B6B8C0   |
 	JSL set_sprite_animation		;$B6B8C3   |
 	%lda_sound(5, barrel_blast)		;$B6B8C7   |
 	JSL queue_sound_effect			;$B6B8CA   |
 	LDA.l $000656				;$B6B8CE   |
 	STA alternate_sprite			;$B6B8D2   |
-	LDA #$0251				;$B6B8D4   |
+	LDA #!krool_gun_shoot_donkey_anim_id	;$B6B8D4   |
 	JSL set_alt_sprite_animation		;$B6B8D7   |
 	LDY #!special_sprite_spawn_id_0142	;$B6B8DB   |
 	JSL spawn_special_sprite_index		;$B6B8DE   |
-	JSR init_k_rool_projectile_position	;$B6B8E2   |
+	JSR init_krool_projectile_position	;$B6B8E2   |
 	LDA #$FA00				;$B6B8E5   |
 	STA $0020,y				;$B6B8E8   |
 	STA $0026,y				;$B6B8EB   |
@@ -5753,7 +5752,7 @@ boss_command_code_47:
 	STA $0024,y				;$B6B8F1   |
 	STA $002A,y				;$B6B8F4   |
 	JSR CODE_B6C28F				;$B6B8F7   |
-	LDA #$026F				;$B6B8FA   |
+	LDA #!smoke_cloud_4_anim_id		;$B6B8FA   |
 	JSL set_alt_sprite_animation		;$B6B8FD   |
 	PLY					;$B6B901   |
 	RTS					;$B6B902  /
@@ -5763,20 +5762,20 @@ boss_command_code_46:
 	LDA.l $000763				;$B6B904   |
 	CMP #$0002				;$B6B908   |
 	BNE CODE_B6B923				;$B6B90B   |
-	LDA #$024D				;$B6B90D   |
+	LDA #!krool_melee_donkey_2_anim_id	;$B6B90D   |
 	JSL set_sprite_animation		;$B6B910   |
 	LDA.l $000656				;$B6B914   |
 	STA alternate_sprite			;$B6B918   |
-	LDA #$024E				;$B6B91A   |
+	LDA #!krool_gun_melee_donkey_2_anim_id	;$B6B91A   |
 	JSL set_alt_sprite_animation		;$B6B91D   |
 	BRA CODE_B6B937				;$B6B921  /
 
 CODE_B6B923:
-	LDA #$024B				;$B6B923  \
+	LDA #!krool_melee_donkey_anim_id	;$B6B923  \
 	JSL set_sprite_animation		;$B6B926   |
 	LDA.l $000656				;$B6B92A   |
 	STA alternate_sprite			;$B6B92E   |
-	LDA #$024C				;$B6B930   |
+	LDA #!krool_gun_melee_donkey_anim_id	;$B6B930   |
 	JSL set_alt_sprite_animation		;$B6B933   |
 CODE_B6B937:					;	   |
 	LDX current_sprite			;$B6B937   |
@@ -5892,11 +5891,11 @@ CODE_B6B9F3:					;	   |
 CODE_B6BA1F:					;	   |
 	STZ $26,x				;$B6BA1F   |
 	JSR make_boss_face_kong			;$B6BA21   |
-	LDA #$029A				;$B6BA24   |
+	LDA #!kudgel_jump_short_anim_id		;$B6BA24   |
 	JSL set_sprite_animation		;$B6BA27   |
 	LDA.l $000656				;$B6BA2B   |
 	STA alternate_sprite			;$B6BA2F   |
-	LDA #$029B				;$B6BA31   |
+	LDA #!kudgel_club_jump_short_anim_id	;$B6BA31   |
 	JSL set_alt_sprite_animation		;$B6BA34   |
 	PLA					;$B6BA38   |
 	CLC					;$B6BA39   |
@@ -5924,11 +5923,11 @@ CODE_B6BA4A:					;	   |
 	LDA $2E,x				;$B6BA6A   |
 	BIT #$2000				;$B6BA6C   |
 	BNE CODE_B6BA93				;$B6BA6F   |
-	LDA #$0290				;$B6BA71   |
+	LDA #!kudgel_land_anim_id		;$B6BA71   |
 	JSL set_sprite_animation		;$B6BA74   |
 	LDA.l $000656				;$B6BA78   |
 	STA alternate_sprite			;$B6BA7C   |
-	LDA #$0291				;$B6BA7E   |
+	LDA #!kudgel_club_land_anim_id		;$B6BA7E   |
 	JSL set_alt_sprite_animation		;$B6BA81   |
 	LDY #DATA_FF217A			;$B6BA85   |
 	JSL spawn_no_gfx_special_sprite_address	;$B6BA88   |
@@ -6011,11 +6010,11 @@ boss_command_code_40:
 	STZ $26,x				;$B6BB07   |
 	LDA #$0014				;$B6BB09   |
 	STA $000747				;$B6BB0C   |
-	LDA #$0292				;$B6BB10   |
+	LDA #!kudgel_jump_anim_id		;$B6BB10   |
 	JSL set_sprite_animation		;$B6BB13   |
 	LDA.l $000656				;$B6BB17   |
 	STA alternate_sprite			;$B6BB1B   |
-	LDA #$0293				;$B6BB1D   |
+	LDA #!kudgel_club_jump_anim_id		;$B6BB1D   |
 	JSL set_alt_sprite_animation		;$B6BB20   |
 	PLA					;$B6BB24   |
 	CLC					;$B6BB25   |
@@ -6037,13 +6036,13 @@ CODE_B6BB36:					;	   |
 	CMP #$0225				;$B6BB46   |> Kudgel floor position
 	BCC CODE_B6BB68				;$B6BB49   |
 	STZ $44,x				;$B6BB4B   |
-	LDA #$0290				;$B6BB4D   |
+	LDA #!kudgel_land_anim_id		;$B6BB4D   |
 	JSL set_sprite_animation		;$B6BB50   |
 	%lda_sound(5, kudgel_land)		;$B6BB54   |
 	JSL queue_sound_effect			;$B6BB57   |
 	LDA.l $000656				;$B6BB5B   |
 	STA alternate_sprite			;$B6BB5F   |
-	LDA #$0291				;$B6BB61   |
+	LDA #!kudgel_club_land_anim_id		;$B6BB61   |
 	JSL set_alt_sprite_animation		;$B6BB64   |
 CODE_B6BB68:					;	   |
 	JSR move_child_to_controller_spr	;$B6BB68   |
@@ -6104,11 +6103,11 @@ make_boss_face_kong:
 
 boss_command_code_3C:
 	PHY					;$B6BBCB  \
-	LDA #$0294				;$B6BBCC   |
+	LDA #!kudgel_attack_long_anim_id	;$B6BBCC   |
 	JSL set_sprite_animation		;$B6BBCF   |
 	LDA.l $000656				;$B6BBD3   |
 	STA alternate_sprite			;$B6BBD7   |
-	LDA #$0295				;$B6BBD9   |
+	LDA #!kudgel_club_attack_long_anim_id	;$B6BBD9   |
 	JSL set_alt_sprite_animation		;$B6BBDC   |
 	PLY					;$B6BBE0   |
 	RTS					;$B6BBE1  /
@@ -6139,11 +6138,11 @@ boss_command_code_3B:
 	LDA $2E,x				;$B6BC1C   |
 	BIT #$2000				;$B6BC1E   |
 	BNE CODE_B6BC37				;$B6BC21   |
-	LDA #$0292				;$B6BC23   |
+	LDA #!kudgel_jump_anim_id		;$B6BC23   |
 	JSL set_sprite_animation		;$B6BC26   |
 	LDA.l $000656				;$B6BC2A   |
 	STA alternate_sprite			;$B6BC2E   |
-	LDA #$0293				;$B6BC30   |
+	LDA #!kudgel_club_jump_anim_id		;$B6BC30   |
 	JSL set_alt_sprite_animation		;$B6BC33   |
 CODE_B6BC37:					;	   |
 	PLA					;$B6BC37   |
@@ -6210,11 +6209,11 @@ CODE_B6BC91:					;	   |
 	LDA $2E,x				;$B6BCAD   |
 	BIT #$2000				;$B6BCAF   |
 	BNE CODE_B6BCC8				;$B6BCB2   |
-	LDA #$028E				;$B6BCB4   |
+	LDA #!kudgel_fall_anim_id		;$B6BCB4   |
 	JSL set_sprite_animation		;$B6BCB7   |
 	LDA.l $000656				;$B6BCBB   |
 	STA alternate_sprite			;$B6BCBF   |
-	LDA #$028F				;$B6BCC1   |
+	LDA #!kudgel_club_fall_anim_id		;$B6BCC1   |
 	JSL set_alt_sprite_animation		;$B6BCC4   |
 CODE_B6BCC8:					;	   |
 	PLA					;$B6BCC8   |
@@ -6250,11 +6249,11 @@ CODE_B6BCE9:					;	   |
 	LDA $2E,x				;$B6BD09   |
 	BIT #$2000				;$B6BD0B   |
 	BNE CODE_B6BD32				;$B6BD0E   |
-	LDA #$0290				;$B6BD10   |
+	LDA #!kudgel_land_anim_id		;$B6BD10   |
 	JSL set_sprite_animation		;$B6BD13   |
 	LDA.l $000656				;$B6BD17   |
 	STA alternate_sprite			;$B6BD1B   |
-	LDA #$0291				;$B6BD1D   |
+	LDA #!kudgel_club_land_anim_id		;$B6BD1D   |
 	JSL set_alt_sprite_animation		;$B6BD20   |
 	LDY #DATA_FF217A			;$B6BD24   |
 	JSL spawn_no_gfx_special_sprite_address	;$B6BD27   |
@@ -6500,7 +6499,7 @@ boss_command_code_2F:
 	STA $000727				;$B6BEFD   |
 	LDA #$0001				;$B6BF01   |
 	STA $000729				;$B6BF04   |
-	LDA #k_rool_bouncing_gas_clouds_shots	;$B6BF08   |
+	LDA #krool_bouncing_gas_clouds_shots	;$B6BF08   |
 	STA $000737				;$B6BF0B   |
 	PLY					;$B6BF0F   |
 	RTS					;$B6BF10  /
@@ -6547,17 +6546,17 @@ CODE_B6BF51:					;	   |
 	STA $0042,y				;$B6BF66   |
 	LDA #$0006				;$B6BF69   |
 	STA $0044,y				;$B6BF6C   |
-	LDA #$0242				;$B6BF6F   |
+	LDA #!smoke_cloud_3_anim_id		;$B6BF6F   |
 	JSL set_alt_sprite_animation		;$B6BF72   |
-	LDA #$0264				;$B6BF76   |
+	LDA #!krool_shoot_anim_id		;$B6BF76   |
 	JSL set_sprite_animation		;$B6BF79   |
 	LDA.l $000656				;$B6BF7D   |
 	STA alternate_sprite			;$B6BF81   |
-	LDA #$0265				;$B6BF83   |
+	LDA #!krool_gun_shoot_anim_id		;$B6BF83   |
 	JSL set_alt_sprite_animation		;$B6BF86   |
 	LDY #!special_sprite_spawn_id_0180	;$B6BF8A   |
 	JSL spawn_special_sprite_index		;$B6BF8D   |
-	JSR init_k_rool_projectile_position	;$B6BF91   |
+	JSR init_krool_projectile_position	;$B6BF91   |
 	LDA $002E,y				;$B6BF94   |
 	ORA #$0890				;$B6BF97   |
 	STA $002E,y				;$B6BF9A   |
@@ -6634,7 +6633,7 @@ CODE_B6C018:					;	   |
 	CLC					;$B6C03B   |
 	ADC $000A,y				;$B6C03C   |
 	STA $0A,x				;$B6C03F   |
-	LDA #$026F				;$B6C041   | smoke_cloud_4
+	LDA #!smoke_cloud_4_anim_id		;$B6C041   |
 	JSL set_alt_sprite_animation		;$B6C044   |
 	LDA $01,s				;$B6C048   |
 	TAY					;$B6C04A   |
@@ -6649,7 +6648,7 @@ CODE_B6C018:					;	   |
 	LDA $0004,y				;$B6C05D   |
 	STA $0A,x				;$B6C060   |
 	TYX					;$B6C062   |
-	JSR ($0006,x)				;$B6C063   | JSR to code passed in 4th argument 
+	JSR ($0006,x)				;$B6C063   | JSR to code passed in 4th argument
 	LDX current_sprite			;$B6C066   |
 CODE_B6C068:					;	   |
 	STZ $44,x				;$B6C068   |
@@ -6688,7 +6687,7 @@ boss_command_code_2C:
 
 CODE_B6C095:					;	  \
 	STX alternate_sprite			;$B6C095   |
-	LDA #$0277				;$B6C097   |
+	LDA #!krool_spikeball_removed_anim_id	;$B6C097   |
 	JSL set_alt_sprite_animation		;$B6C09A   |
 	PLY					;$B6C09E   |
 	RTS					;$B6C09F  /
@@ -6698,21 +6697,21 @@ boss_command_code_2B:
 	LDA.l $000652				;$B6C0A1   |
 	ASL A					;$B6C0A5   |
 	TAY					;$B6C0A6   |
-	LDA DATA_B6D0D1,y			;$B6C0A7   |
+	LDA krool_vacuum_attack_table,y		;$B6C0A7   |
 	LDX level_number			;$B6C0AA   |
 	CPX #!level_krocodile_kore		;$B6C0AC   |
 	BNE CODE_B6C0B4				;$B6C0AF   |
-	LDA DATA_B6D135,y			;$B6C0B1   |
+	LDA krool_2_vacuum_attack_table,y	;$B6C0B1   |
 CODE_B6C0B4:					;	   |
 	TAY					;$B6C0B4   |
 	LDA $0000,y				;$B6C0B5   |
 	STA $00072D				;$B6C0B8   |
 CODE_B6C0BC:					;	   |
-	LDA #$026A				;$B6C0BC   |
+	LDA #!krool_vacuum_anim_id		;$B6C0BC   |
 	JSL set_sprite_animation		;$B6C0BF   |
 	LDA.l $000656				;$B6C0C3   |
 	STA alternate_sprite			;$B6C0C7   |
-	LDA #$026B				;$B6C0C9   |
+	LDA #!krool_gun_vacuum_anim_id		;$B6C0C9   |
 	JSL set_alt_sprite_animation		;$B6C0CC   |
 	LDY #!special_sprite_spawn_id_00C8	;$B6C0D0   |
 	JSL spawn_special_sprite_index		;$B6C0D3   |
@@ -6762,11 +6761,11 @@ CODE_B6C12A:
 	STA $0006A3				;$B6C131   |
 	LDX current_sprite			;$B6C135   |
 	STZ $44,x				;$B6C137   |
-	LDA #$025E				;$B6C139   |
+	LDA #!krool_idle_anim_id		;$B6C139   |
 	JSL set_sprite_animation		;$B6C13C   |
 	LDA.l $000656				;$B6C140   |
 	STA alternate_sprite			;$B6C144   |
-	LDA #$025F				;$B6C146   |
+	LDA #!krool_gun_idle_anim_id		;$B6C146   |
 	JSL set_alt_sprite_animation		;$B6C149   |
 	JSR CODE_B6C0FF				;$B6C14D   |
 	BRL CODE_B6C20A				;$B6C150  /
@@ -6790,11 +6789,11 @@ CODE_B6C153:
 	EOR #$4000				;$B6C180   |
 	STA interaction_RAM_0A86		;$B6C183   |
 CODE_B6C186:					;	   |
-	LDA #$026D				;$B6C186   |
+	LDA #!krool_melee_anim_id		;$B6C186   |
 	JSL set_sprite_animation		;$B6C189   |
 	LDA.l $000656				;$B6C18D   |
 	STA alternate_sprite			;$B6C191   |
-	LDA #$026E				;$B6C193   |
+	LDA #!krool_gun_melee_anim_id		;$B6C193   |
 	JSL set_alt_sprite_animation		;$B6C196   |
 	LDX current_sprite			;$B6C19A   |
 	LDA #CODE_B6C20B			;$B6C19C   |
@@ -6832,11 +6831,11 @@ CODE_B6C1DB:
 	LDA.l $000652				;$B6C1DB  \
 	ASL A					;$B6C1DF   |
 	TAY					;$B6C1E0   |
-	LDA DATA_B6D0D1,y			;$B6C1E1   |
+	LDA krool_vacuum_attack_table,y		;$B6C1E1   |
 	LDX level_number			;$B6C1E4   |
 	CPX #!level_krocodile_kore		;$B6C1E6   |
 	BNE CODE_B6C1EE				;$B6C1E9   |
-	LDA DATA_B6D135,y			;$B6C1EB   |
+	LDA krool_2_vacuum_attack_table,y	;$B6C1EB   |
 CODE_B6C1EE:					;	   |
 	TAY					;$B6C1EE   |
 	LDA $0004,y				;$B6C1EF   |
@@ -6868,7 +6867,7 @@ boss_command_code_2A:
 	LDA.l $000652				;$B6C218   |
 	TAY					;$B6C21C   |
 	JSR CODE_B6D923				;$B6C21D   |
-	LDA.w k_rool_shot_count_table,y		;$B6C220   |
+	LDA.w krool_shot_count_table,y		;$B6C220   |
 	AND #$00FF				;$B6C223   |
 	STA $000727				;$B6C226   |
 	LDA #$0001				;$B6C22A   |
@@ -6876,15 +6875,14 @@ boss_command_code_2A:
 	LDA.l $000652				;$B6C231   |
 	ASL A					;$B6C235   |
 	TAY					;$B6C236   |
-	LDA.w k_rool_shot_table,y		;$B6C237   |
+	LDA.w krool_shot_table,y		;$B6C237   |
 	STA $000737				;$B6C23A   |
 	PHK					;$B6C23E   |
 	PLB					;$B6C23F   |
 	PLY					;$B6C240   |
 	RTS					;$B6C241  /
 
-;k rool projectile type to use for each phase (these are pointers to code)
-DATA_B6C242:
+krool_projectile_type_table:
 	dw !null_pointer
 	dw CODE_B69877
 	dw CODE_B69917
@@ -6902,18 +6900,18 @@ CODE_B6C256:
 	BRL CODE_B6C28E				;$B6C25B   |
 CODE_B6C25E:					;	   |
 	JSR CODE_B6C28F				;$B6C25E   |
-	LDA #$027F				;$B6C261   |
+	LDA #!smoke_cloud_5_anim_id		;$B6C261   |
 	JSL set_alt_sprite_animation		;$B6C264   |
-	LDA #$0264				;$B6C268   |
+	LDA #!krool_shoot_anim_id		;$B6C268   |
 	JSL set_sprite_animation		;$B6C26B   |
 	LDA.l $000656				;$B6C26F   |
 	STA alternate_sprite			;$B6C273   |
-	LDA #$0265				;$B6C275   |
+	LDA #!krool_gun_shoot_anim_id		;$B6C275   |
 	JSL set_alt_sprite_animation		;$B6C278   |
 	LDA.l $000652				;$B6C27C   |
 	ASL A					;$B6C280   |
 	TAX					;$B6C281   |
-	JSR (DATA_B6C242,x)			;$B6C282   |
+	JSR (krool_projectile_type_table,x)	;$B6C282   |
 	DEC $0727				;$B6C285   |
 	BNE CODE_B6C28E				;$B6C288   |
 	LDX current_sprite			;$B6C28A   |
@@ -6984,11 +6982,11 @@ CODE_B6C311:					;	   |
 	STA $26,x				;$B6C311   |
 	LDA #$0012				;$B6C313   |
 	STA $000721				;$B6C316   |
-	LDA #$0260				;$B6C31A   |
+	LDA #!krool_dash_anim_id		;$B6C31A   |
 	JSL set_sprite_animation		;$B6C31D   |
 	LDA.l $000656				;$B6C321   |
 	STA alternate_sprite			;$B6C325   |
-	LDA #$0261				;$B6C327   |
+	LDA #!krool_gun_dash_anim_id		;$B6C327   |
 	JSL set_alt_sprite_animation		;$B6C32A   |
 	LDY #!special_sprite_spawn_id_00C6	;$B6C32E   |
 	JSL spawn_special_sprite_index		;$B6C331   |
@@ -7070,11 +7068,11 @@ CODE_B6C3BE:
 	STZ $072B				;$B6C3D3   |
 	LDA.l $000654				;$B6C3D6   |
 	STA alternate_sprite			;$B6C3DA   |
-	LDA #$0262				;$B6C3DC   |
+	LDA #!krool_dash_end_anim_id		;$B6C3DC   |
 	JSL set_alt_sprite_animation		;$B6C3DF   |
 	LDA.l $000656				;$B6C3E3   |
 	STA alternate_sprite			;$B6C3E7   |
-	LDA #$0263				;$B6C3E9   |
+	LDA #!krool_gun_dash_end_anim_id	;$B6C3E9   |
 	JSL set_alt_sprite_animation		;$B6C3EC   |
 	LDA.w #sound(7,!sound_krool_exhaust)	;$B6C3F0   |
 	CLC					;$B6C3F3   |
@@ -7942,10 +7940,10 @@ boss_command_code_1A:
 CODE_B6CA0E:					;	   |
 	LDX current_sprite			;$B6CA0E   |
 	STA $0C,x				;$B6CA10   |
-	LDA #DATA_B6D079			;$B6CA12   |
+	LDA #krow_idle_shake_offsets		;$B6CA12   |
 	STA $20,x				;$B6CA15   |
 	STA $26,x				;$B6CA17   |
-	LDA #DATA_B6D0B9			;$B6CA19   |
+	LDA #krow_hurt_shake_offsets		;$B6CA19   |
 	STA $28,x				;$B6CA1C   |
 	LDA #$0004				;$B6CA1E   |
 	STA $22,x				;$B6CA21   |
@@ -8122,12 +8120,12 @@ CODE_B6CB36:
 	LDA $2E,x				;$B6CB46   |
 	ORA #$0002				;$B6CB48   |
 	STA $2E,x				;$B6CB4B   |
-	LDA #$0203				;$B6CB4D   |
+	LDA #!krow_body_turn_anim_id		;$B6CB4D   |
 	JSL set_sprite_animation		;$B6CB50   |
 	LDA $42,x				;$B6CB54   |
 	PHX					;$B6CB56   |
 	STA current_sprite			;$B6CB57   |
-	LDA #$0206				;$B6CB59   |
+	LDA #!krow_head_turn_anim_id		;$B6CB59   |
 	JSL set_sprite_animation		;$B6CB5C   |
 	PLX					;$B6CB60   |
 	STX current_sprite			;$B6CB61   |
@@ -8657,10 +8655,10 @@ CODE_B6CF38:
 	LDA $0018,y				;$B6CF4B   |
 	STA $22,x				;$B6CF4E   |
 	STA $24,x				;$B6CF50   |
-	LDA #DATA_B6D0B9			;$B6CF52   |
+	LDA #krow_hurt_shake_offsets		;$B6CF52   |
 	STA $20,x				;$B6CF55   |
 	STA $26,x				;$B6CF57   |
-	LDA #DATA_B6D0D1			;$B6CF59   |
+	LDA #krool_vacuum_attack_table		;$B6CF59   |
 	STA $28,x				;$B6CF5C   |
 	LDA #CODE_B6CA27			;$B6CF5E   |
 	STA $44,x				;$B6CF61   |
@@ -8814,11 +8812,11 @@ klubba_sprite_code:
 	BEQ .dont_attack			;$B6D04B   |/ Then process animation and continue
 	AND #$FDFF				;$B6D04D   |\ Else reset "fight him" flag
 	STA $0006A3				;$B6D050   |/
-	LDA #$01E7				;$B6D054   |\
-	JSL set_sprite_animation		;$B6D057   |/ Play klubba attack animation
+	LDA #!klubba_attack_anim_id		;$B6D054   |\
+	JSL set_sprite_animation		;$B6D057   |/
 	LDA $42,x				;$B6D05B   |\ Get club sprite
 	STA alternate_sprite			;$B6D05D   |/
-	LDA #$01E8				;$B6D05F   |\ Play klubbas club attack animation
+	LDA #!klubba_club_attack_anim_id	;$B6D05F   |\
 	JSL set_alt_sprite_animation		;$B6D062   |/
 .dont_attack					;	   |
 	JSL process_sprite_animation		;$B6D066   |
@@ -8829,13 +8827,12 @@ klubbas_club_sprite_code:
 	PHB					;$B6D06E  \
 	PHK					;$B6D06F   |
 	PLB					;$B6D070   |
-	JSL process_sprite_animation		;$B6D071   |> Process animation
+	JSL process_sprite_animation		;$B6D071   |
 	PLB					;$B6D075   |
 	JML [sprite_return_address]		;$B6D076  /
 
-;krow/kreepy krow shake offsets (used to make krow shake slightly when in air during egg drop/necky swoop)
-;each offset applied after 4 frames
-DATA_B6D079:
+;Each offset applied after 4 frames
+krow_idle_shake_offsets:
 	dw $0001, $0001
 	dw $0000, $0001
 	dw $FFFF, $0001
@@ -8853,9 +8850,8 @@ DATA_B6D079:
 	dw $0001, $0001
 	dw $0000, $0001
 
-;krow/kreepy krow shake offsets (used to make krow shake slightly when hit)
-;each offset applied after 2 frames
-DATA_B6D0B9:
+;Each offset applied after 2 frames
+krow_hurt_shake_offsets:
 	dw $0002, $0000
 	dw $0002, $0000
 	dw $0002, $0000
@@ -8863,62 +8859,60 @@ DATA_B6D0B9:
 	dw $FFFE, $0000
 	dw $FFFE, $0000
 
-;k rool vacuum attack table
-DATA_B6D0D1:
-	dw DATA_B6D0E5
-	dw DATA_B6D0ED
-	dw DATA_B6D0F5
-	dw DATA_B6D0FD
-	dw DATA_B6D105
-	dw DATA_B6D10D
-	dw DATA_B6D115
-	dw DATA_B6D11D
-	dw DATA_B6D125
-	dw DATA_B6D12D
+krool_vacuum_attack_table:
+	dw .DATA_B6D0E5
+	dw .DATA_B6D0ED
+	dw .DATA_B6D0F5
+	dw .DATA_B6D0FD
+	dw .DATA_B6D105
+	dw .DATA_B6D10D
+	dw .DATA_B6D115
+	dw .DATA_B6D11D
+	dw .DATA_B6D125
+	dw .DATA_B6D12D
 
 ;k rool vacuum attack data
-DATA_B6D0E5:
+.DATA_B6D0E5:
 	dw $0000, $0000, $0000, !null_pointer
 
-DATA_B6D0ED:
-	dw $00B4, $0390, $0100, k_rool_phase_9_start
+.DATA_B6D0ED:
+	dw $00B4, $0390, $0100, krool_phase_9_start
 
-DATA_B6D0F5:
-	dw $00F0, $0340, $0100, k_rool_phase_8_start
+.DATA_B6D0F5:
+	dw $00F0, $0340, $0100, krool_phase_8_start
 
-DATA_B6D0FD:
-	dw $00F0, $0300, $0100, k_rool_phase_7_start
+.DATA_B6D0FD:
+	dw $00F0, $0300, $0100, krool_phase_7_start
 
-DATA_B6D105:
-	dw $00F0, $02C0, $0100, k_rool_phase_6_start
+.DATA_B6D105:
+	dw $00F0, $02C0, $0100, krool_phase_6_start
 
-DATA_B6D10D:
-	dw $00F0, $0280, $0100, k_rool_phase_5_start
+.DATA_B6D10D:
+	dw $00F0, $0280, $0100, krool_phase_5_start
 
-DATA_B6D115:
-	dw $00F0, $0240, $0100, k_rool_phase_4_start
+.DATA_B6D115:
+	dw $00F0, $0240, $0100, krool_phase_4_start
 
-DATA_B6D11D:
-	dw $00F0, $0200, $0100, k_rool_phase_3_start
+.DATA_B6D11D:
+	dw $00F0, $0200, $0100, krool_phase_3_start
 
-DATA_B6D125:
-	dw $00F0, $01C0, $0100, k_rool_phase_2_start
+.DATA_B6D125:
+	dw $00F0, $01C0, $0100, krool_phase_2_start
 
-DATA_B6D12D:
-	dw $0168, $0100, $0100, k_rool_dk_intro_phase
+.DATA_B6D12D:
+	dw $0168, $0100, $0100, krool_dk_intro_phase
 
-;k rool vacuum attack table (krocodile kore)
-DATA_B6D135:
-	dw DATA_B6D13B
-	dw DATA_B6D143
-	dw DATA_B6D143
+krool_2_vacuum_attack_table:
+	dw .DATA_B6D13B
+	dw .DATA_B6D143
+	dw .DATA_B6D143
 
-;k rool vacuum attack data (krocodile kore)
-DATA_B6D13B:
+.DATA_B6D13B:
 	dw $0000, $0000, $0000, !null_pointer
 
-DATA_B6D143:
-	dw $0000, $0390, $0100, k_rool_rematch_start
+.DATA_B6D143:
+	dw $0000, $0390, $0100, krool_rematch_start
+
 
 DATA_B6D14B:
 	db $03, $00 : dw DATA_FF2238
@@ -9129,12 +9123,12 @@ CODE_B6D329:					;	   |
 	LDA.l $0006E9				;$B6D330   |
 	BEQ CODE_B6D2F4				;$B6D334   |
 	JSR CODE_B6E068				;$B6D336   |
-	LDA #$0210				;$B6D339   |
+	LDA #!kleever_idle_anim_id		;$B6D339   |
 	JSL set_sprite_animation		;$B6D33C   |
 	LDA.l $000656				;$B6D340   |
 	BEQ CODE_B6D2F4				;$B6D344   |
 	STA current_sprite			;$B6D346   |
-	LDA #$0211				;$B6D348   |
+	LDA #!kleever_arm_idle_anim_id		;$B6D348   |
 	JSL set_sprite_animation		;$B6D34B   |
 	LDA.l $000654				;$B6D34F   |
 	STA current_sprite			;$B6D353   |
@@ -9405,7 +9399,7 @@ CODE_B6D566:
 	STA $2E,x				;$B6D56D   |
 	BIT #$0008				;$B6D56F   |
 	BNE CODE_B6D57D				;$B6D572   |
-	LDA #$0210				;$B6D574   |
+	LDA #!kleever_idle_anim_id		;$B6D574   |
 	JSL set_sprite_animation		;$B6D577   |
 	LDX current_sprite			;$B6D57B   |
 CODE_B6D57D:					;	   |
@@ -9479,7 +9473,7 @@ CODE_B6D5F4:
 	BRA CODE_B6D5D4				;$B6D605  /
 
 CODE_B6D607:
-	LDA #$0219				;$B6D607  \
+	LDA #!kleever_charge_wait_anim_id	;$B6D607  \
 	JSL set_sprite_animation		;$B6D60A   |
 	LDX current_sprite			;$B6D60E   |
 	LDA #CODE_B6DA16			;$B6D610   |
@@ -9986,7 +9980,7 @@ CODE_B6DA16:
 	BRA CODE_B6DA4C				;$B6DA25  /
 
 CODE_B6DA27:
-	LDA #$0217				;$B6DA27  \
+	LDA #!kleever_charge_attack_anim_id	;$B6DA27  \
 	JSL set_sprite_animation		;$B6DA2A   |
 	LDX current_sprite			;$B6DA2E   |
 	LDA #$001E				;$B6DA30   |
@@ -10089,11 +10083,11 @@ CODE_B6DAD6:
 	STY current_sprite			;$B6DAE5   |
 	LDX $0656				;$B6DAE7   |
 	STX current_sprite			;$B6DAEA   |
-	LDA #$0213				;$B6DAEC   |
+	LDA #!kleever_arm_shoot_fire_anim_id	;$B6DAEC   |
 	JSL set_sprite_animation		;$B6DAEF   |
 	PLX					;$B6DAF3   |
 	STX current_sprite			;$B6DAF4   |
-	LDA #$0212				;$B6DAF6   |
+	LDA #!kleever_shoot_fire_anim_id	;$B6DAF6   |
 	JSL set_sprite_animation		;$B6DAF9   |
 	LDX current_sprite			;$B6DAFD   |
 	LDA.l $000652				;$B6DAFF   |
@@ -10239,7 +10233,7 @@ CODE_B6DBE0:
 	STA $001C,y				;$B6DBE5   |
 	PHX					;$B6DBE8   |
 	STY current_sprite			;$B6DBE9   |
-	LDA #$020F				;$B6DBEB   |
+	LDA #!kleever_shoot_fire_trail_anim_id	;$B6DBEB   |
 	JSL set_sprite_animation		;$B6DBEE   |
 	PLX					;$B6DBF2   |
 	STX current_sprite			;$B6DBF3   |
@@ -10255,12 +10249,12 @@ CODE_B6DBFC:
 	BEQ CODE_B6DC0E				;$B6DBFF   |
 	PHX					;$B6DC01   |
 	STY current_sprite			;$B6DC02   |
-	LDA #$0216				;$B6DC04   |
+	LDA #!kleever_arm_turn_anim_id		;$B6DC04   |
 	JSL set_sprite_animation		;$B6DC07   |
 	PLX					;$B6DC0B   |
 	STX current_sprite			;$B6DC0C   |
 CODE_B6DC0E:					;	   |
-	LDA #$0215				;$B6DC0E   |
+	LDA #!kleever_turn_anim_id		;$B6DC0E   |
 	JSL set_sprite_animation		;$B6DC11   |
 	LDX current_sprite			;$B6DC15   |
 	LDA $2E,x				;$B6DC17   |
@@ -10307,12 +10301,12 @@ CODE_B6DC3F:
 CODE_B6DC58:					;	   |
 	LDA.l $0006E9				;$B6DC58   |
 	BEQ CODE_B6DC67				;$B6DC5C   |
-	LDA #$021A				;$B6DC5E   |
+	LDA #!kleever_attack_anim_id		;$B6DC5E   |
 	JSL set_sprite_animation		;$B6DC61   |
 	BRA CODE_B6DC6E				;$B6DC65  /
 
 CODE_B6DC67:
-	LDA #$0210				;$B6DC67  \
+	LDA #!kleever_idle_anim_id		;$B6DC67  \
 	JSL set_sprite_animation		;$B6DC6A   |
 CODE_B6DC6E:					;	   |
 	PHB					;$B6DC6E   |> Piracy check, preserve bank
@@ -10435,7 +10429,7 @@ CODE_B6DD55:					;	   |
 
 CODE_B6DD56:
 	BCS CODE_B6DD4E				;$B6DD56  \
-	LDA #$021A				;$B6DD58   |
+	LDA #!kleever_attack_anim_id		;$B6DD58   |
 	JSL set_sprite_animation		;$B6DD5B   |
 	LDX current_sprite			;$B6DD5F   |
 	BRA CODE_B6DD55				;$B6DD61  /
@@ -10917,7 +10911,7 @@ DATA_B6E0B3:
 ;kleever hook spawning arrays (right to left)
 ;only used for first 2 phases
 DATA_B6E0BF:
-	dw $0006				;how many hooks to spawn	
+	dw $0006				;how many hooks to spawn
 	dw $0630, $0220				;positions of hooks
 	dw $05D0, $0208
 	dw $0560, $0248
@@ -11131,14 +11125,14 @@ CODE_B6E275:
 	LDX $0656				;$B6E280   |
 	BEQ CODE_B6E28E				;$B6E283   |
 	STX current_sprite			;$B6E285   |
-	LDA #$0211				;$B6E287   |
+	LDA #!kleever_arm_idle_anim_id		;$B6E287   |
 	JSL set_sprite_animation		;$B6E28A   |
 CODE_B6E28E:					;	   |
 	%lda_sound(6, kleever_hit)		;$B6E28E   |
 	JSL queue_sound_effect			;$B6E291   |
 	PLX					;$B6E295   |
 	STX current_sprite			;$B6E296   |
-	LDA #$0210				;$B6E298   |
+	LDA #!kleever_idle_anim_id		;$B6E298   |
 	JSL set_sprite_animation		;$B6E29B   |
 	DEC $0652				;$B6E29F   |
 	BNE CODE_B6E2CF				;$B6E2A2   |
@@ -11155,7 +11149,7 @@ CODE_B6E28E:					;	   |
 	AND #$F7FF				;$B6E2B8   |
 	ORA #$0400				;$B6E2BB   |
 	STA $2E,x				;$B6E2BE   |
-	LDA.l DATA_BAA222			;$B6E2C0   |
+	LDA.l kleever_fragment_spawn_count	;$B6E2C0   |
 	STA $0006EF				;$B6E2C4   |
 	LDA #DATA_BAA224			;$B6E2C8   |
 	STA $0006F1				;$B6E2CB   |
@@ -11287,7 +11281,7 @@ CODE_B6E3EA:
 	DEC $06DF				;$B6E3EC   |
 	BNE CODE_B6E404				;$B6E3EF   |
 	STZ $32,x				;$B6E3F1   |
-	LDA #$0210				;$B6E3F3   |
+	LDA #!kleever_idle_anim_id		;$B6E3F3   |
 	JSL set_sprite_animation		;$B6E3F6   |
 	LDX current_sprite			;$B6E3FA   |
 	JSR CODE_B6DC9B				;$B6E3FC   |
@@ -11554,7 +11548,7 @@ CODE_B6E5DF:					;	   |
 	AND #$4000				;$B6E5E4   |
 	EOR $12,x				;$B6E5E7   |
 	STA $12,x				;$B6E5E9   |
-	LDA #$02FD				;$B6E5EB   |
+	LDA #!cannon_ball_anim_id		;$B6E5EB   |
 	JSL set_sprite_animation		;$B6E5EE   |
 	SEC					;$B6E5F2   |
 	RTS					;$B6E5F3  /
@@ -11609,7 +11603,7 @@ CODE_B6E635:
 	STZ $2E,x				;$B6E655   |
 	LDA #$0211				;$B6E657   |
 	STA $30,x				;$B6E65A   |
-	LDA #$02E3				;$B6E65C   |
+	LDA #!cannon_ball_down_anim_id		;$B6E65C   |
 	JSL set_sprite_animation		;$B6E65F   |
 	BRA CODE_B6E697				;$B6E663  /
 
@@ -12126,7 +12120,7 @@ kleever_and_roof_pieces_sprite_code:
 .CODE_B6EACD:
 	STZ $1C,x				;$B6EACD  \
 	LDA level_number			;$B6EACF   |
-	CMP #!level_k_rool_duel			;$B6EAD1   |
+	CMP #!level_krool_duel			;$B6EAD1   |
 	BNE .CODE_B6EAE2			;$B6EAD4   |
 	LDA.l $0006A3				;$B6EAD6   |
 	BIT #$0010				;$B6EADA   |
@@ -12825,7 +12819,7 @@ CODE_B6F015:
 	BNE CODE_B6F031				;$B6F01D   |
 	DEC $4E,x				;$B6F01F   |
 	BNE CODE_B6F031				;$B6F021   |
-	LDA #$02A3				;$B6F023   |
+	LDA #!krow_egg_crack_anim_id		;$B6F023   |
 	JSL set_sprite_animation		;$B6F026   |
 	LDA $2E,x				;$B6F02A   |
 	ORA #$0200				;$B6F02C   |
@@ -13069,7 +13063,7 @@ CODE_B6F205:
 	STA $20,x				;$B6F21D   |
 	LDA #$FFF9				;$B6F21F   |
 	STA $22,x				;$B6F222   |
-	LDA #$0304				;$B6F224   |
+	LDA #!krow_egg_right_thrown_anim_id	;$B6F224   |
 	BRA CODE_B6F236				;$B6F227  /
 
 CODE_B6F229:
@@ -13077,7 +13071,7 @@ CODE_B6F229:
 	STA $20,x				;$B6F22C   |
 	LDA #$0007				;$B6F22E   |
 	STA $22,x				;$B6F231   |
-	LDA #$0303				;$B6F233   |
+	LDA #!krow_egg_left_thrown_anim_id	;$B6F233   |
 CODE_B6F236:					;	   |
 	JSL set_sprite_animation		;$B6F236   |
 	LDA #$0001				;$B6F23A   |
@@ -13111,7 +13105,7 @@ CODE_B6F266:
 	AND #$00FF				;$B6F269   |
 	TAY					;$B6F26C   |
 	JSR CODE_B6D923				;$B6F26D   |
-	LDX.w DATA_BAAF10,y			;$B6F270   |
+	LDX.w krow_egg_piece_data,y		;$B6F270   |
 	LDA $0000,x				;$B6F273   |
 	STA $000650				;$B6F276   |
 CODE_B6F27A:					;	   |
@@ -13191,12 +13185,12 @@ CODE_B6F2F5:					;	   |
 	AND #$FFFD				;$B6F303   |
 	STA $2E,x				;$B6F306   |
 	STZ $1E,x				;$B6F308   |
-	LDA #$0200				;$B6F30A   |
+	LDA #!krow_body_idle_anim_id		;$B6F30A   |
 	JSL set_sprite_animation		;$B6F30D   |
 	LDX $0656				;$B6F311   |
 	STX current_sprite			;$B6F314   |
 	STZ $1E,x				;$B6F316   |
-	LDA #$0204				;$B6F318   |
+	LDA #!krow_head_idle_anim_id		;$B6F318   |
 	JSL set_sprite_animation		;$B6F31B   |
 	PLY					;$B6F31F   |
 	PLX					;$B6F320   |
@@ -13235,7 +13229,7 @@ CODE_B6F34A:
 	JSL spawn_special_sprite_index		;$B6F364   |
 	%lda_sound(5, egg_kudgel_fall)		;$B6F368   |
 	JSL queue_sound_effect			;$B6F36B   |
-	JSL CODE_B4C175				;$B6F36F   |
+	JSL CODE_B4C175				;$B6F36F   | Get RNG
 	STA $000650				;$B6F373   |
 	STA CPU.dividen				;$B6F377   |
 	LDA.l DATA_BAAD2E			;$B6F37A   |
@@ -13502,7 +13496,7 @@ endif						;	   |
 	LDA #$0001				;$B6F5A3   |
 	STA $0006D5				;$B6F5A6   | Mainbrace fog related
 	STZ $06D7				;$B6F5AA   |\
-	STZ $06D9				;$B6F5AD   | | 
+	STZ $06D9				;$B6F5AD   | |
 	STZ $06DB				;$B6F5B0   | | Already cleared by JSL above
 	STZ $06DD				;$B6F5B3   | |
 	STZ $06DF				;$B6F5B6   |/
@@ -13875,12 +13869,12 @@ CODE_B6F8A1:
 CODE_B6F8A4:					;	   |
 	STA $46,x				;$B6F8A4   |
 	STZ $1E,x				;$B6F8A6   |
-	LDA #$0207				;$B6F8A8   |
+	LDA #!krow_body_hurt_anim_id		;$B6F8A8   |
 	JSL set_sprite_animation		;$B6F8AB   |
 	LDX $0656				;$B6F8AF   |
 	STX current_sprite			;$B6F8B2   |
 	STZ $1E,x				;$B6F8B4   |
-	LDA #$0208				;$B6F8B6   |
+	LDA #!krow_head_hurt_anim_id		;$B6F8B6   |
 	JSL set_sprite_animation		;$B6F8B9   |
 	LDX $0654				;$B6F8BD   |
 	STX current_sprite			;$B6F8C0   |
@@ -13940,11 +13934,11 @@ CODE_B6F904:
 	DEC A					;$B6F91B   |
 	STA $10,x				;$B6F91C   |
 	STX current_sprite			;$B6F91E   |
-	LDA #$020B				;$B6F920   |
+	LDA #!krow_body_defeat_anim_id		;$B6F920   |
 	JSL set_sprite_animation		;$B6F923   |
 	PLX					;$B6F927   |
 	STX current_sprite			;$B6F928   |
-	LDA #$020C				;$B6F92A   |
+	LDA #!krow_head_defeat_anim_id		;$B6F92A   |
 	JSL set_sprite_animation		;$B6F92D   |
 	RTL					;$B6F931  /
 
@@ -14065,7 +14059,7 @@ DATA_B6FB0E:
 	dw !boss_command_fly_to, $0200, $019F, $0001
 	dw !boss_command_11
 	dw !boss_command_0F, $0200
-	dw !boss_command_19, DATA_BAAEE0, DATA_BAAF10
+	dw !boss_command_19, DATA_BAAEE0, krow_egg_piece_data
 
 DATA_B6FBB2:
 	dw !boss_command_fly_to, $01B0, $019F, $0002
@@ -14121,7 +14115,7 @@ DATA_B6FC76:
 	dw !boss_command_fly_to, $0160, $019F, $0001
 	dw !boss_command_11
 	dw !boss_command_0F, $0200
-	dw !boss_command_19, DATA_BAAEE0, DATA_BAAF10
+	dw !boss_command_19, DATA_BAAEE0, krow_egg_piece_data
 
 DATA_B6FD1A:
 	dw !boss_command_fly_to, $0200, $019F, $0002

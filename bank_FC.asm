@@ -123,12 +123,12 @@ castle_collision:
 	incbin "data/levels/collision_maps/castle_collision.bin"
 
 ;$FC7478
-k_rool_2_collision:
-	incbin "data/levels/collision_maps/k_rool_2_collision.bin"
+krool_2_collision:
+	incbin "data/levels/collision_maps/krool_2_collision.bin"
 
 ;$FC749C
-k_rool_collision:
-	incbin "data/levels/collision_maps/k_rool_collision.bin"
+krool_collision:
+	incbin "data/levels/collision_maps/krool_collision.bin"
 
 ;$FC74E0
 ice_collision:

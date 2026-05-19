@@ -19,5 +19,5 @@ nintendo_copyright_tiledata:
 	incbin "data/screens/graphics/nintendo_copyright_layer_1_tiledata.bin"
 
 ;$F82106
-k_rools_keep_tiledata:
-	incbin "data/world_maps/graphics/k_rools_keep_tiledata.bin"
+krools_keep_tiledata:
+	incbin "data/world_maps/graphics/krools_keep_tiledata.bin"

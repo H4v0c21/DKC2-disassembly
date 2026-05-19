@@ -5048,8 +5048,8 @@ DATA_B5BAEF:
 	dl swamp_32x32_tilemap			;09
 	dl brambles_32x32_tilemap		;0A
 	dl castle_32x32_tilemap			;0B
-	dl k_rool_2_32x32_tilemap		;0C
-	dl k_rool_32x32_tilemap			;0D
+	dl krool_2_32x32_tilemap		;0C
+	dl krool_32x32_tilemap			;0D
 	dl ice_32x32_tilemap			;0E
 	dl jungle_32x32_tilemap			;0F
 	dl !null_pointer			;10
@@ -5072,8 +5072,8 @@ DATA_B5BB2E:
 	dl swamp_8x8_tilemap			;09
 	dl brambles_8x8_tilemap			;0A
 	dl castle_8x8_tilemap			;0B
-	dl k_rool_2_8x8_tilemap			;0C
-	dl k_rool_8x8_tilemap			;0D
+	dl krool_2_8x8_tilemap			;0C
+	dl krool_8x8_tilemap			;0D
 	dl ice_8x8_tilemap			;0E
 	dl jungle_8x8_tilemap			;0F
 	dl !null_pointer			;10
@@ -5120,8 +5120,8 @@ DATA_B5BB97:
 	dl swamp_collision			;09
 	dl brambles_collision			;0A
 	dl castle_collision			;0B
-	dl k_rool_2_collision			;0C
-	dl k_rool_collision			;0D
+	dl krool_2_collision			;0C
+	dl krool_collision			;0D
 	dl ice_collision			;0E
 	dl jungle_collision			;0F
 	dl forest_collision			;10
@@ -5192,7 +5192,7 @@ DATA_B5BC2A:
 	dw bramble_blast_level_palette		;0A
 	dw castle_level_palette			;0B
 	dw krocodile_kore_level_palette		;0C
-	dw k_rool_duel_level_palette		;0D
+	dw krool_duel_level_palette		;0D
 	dw ice_level_palette			;0E
 	dw animal_antics_jungle_level_palette	;0F
 	dw ship_deck_cabin_level_palette	;10
@@ -5238,8 +5238,8 @@ level_dimensions_table:
 	dw DATA_B5C03D				;09 swamp
 	dw DATA_B5C0BB				;0A brambles
 	dw DATA_B5C0F3				;0B castle
-	dw DATA_B5C153				;0C k_rool_2
-	dw DATA_B5C163				;0D k_rool
+	dw DATA_B5C153				;0C krool_2
+	dw DATA_B5C163				;0D krool
 	dw DATA_B5C173				;0E ice
 	dw DATA_B5C1C9				;0F jungle
 	dw DATA_B5BD05				;10 NULL/forest copy
@@ -5329,7 +5329,7 @@ DATA_B5BDC5:
 	dw $0580, $0680, $0920, $0A20, $0007	; 03 Parrot Chute Panic Rare Room
 	dw $0000, $0580, $1680, $1780, $0007	; 04 Hornet Hole Bonus 1
 	dw $0000, $0480, $1780, $1880, $0007	; 05 Parrot Chute Panic Bonus 2
-	dw $0580, $0680, $1680, $1880, $0007	; 06 Hornet Hole Bonus 3 
+	dw $0580, $0680, $1680, $1880, $0007	; 06 Hornet Hole Bonus 3
 	dw $0680, $07A0, $1680, $1980, $0007	; 07 Parrot Chute Panic Bonus 1
 	dw $07A0, $0A00, $1680, $1A40, $0007	; 08 Rambi Rumble Bonus 2
 	dw $FFFF
@@ -5445,7 +5445,7 @@ DATA_B5C0BB:
 DATA_B5C0F3:
 	dw $0200, $1000				;32x32 tilemap dimensions
 	dw $0000, $0200, $0100, $30E0, $0005	; 00 Castle Crush
-	dw $0000, $0200, $0000, $0100, $0005	; 01 
+	dw $0000, $0200, $0000, $0100, $0005	; 01
 	dw $0000, $0200, $30E0, $57C0, $0005	; 02 Chain Link Chamber
 	dw $0000, $0200, $57C0, $7EA0, $0005	; 03 Toxic Tower
 	dw $0000, $0200, $7EA0, $8260, $0005	; 04 Chain Link Chamber Bonus 1
@@ -5484,7 +5484,7 @@ DATA_B5C173:
 DATA_B5C1C9:
 	dw $3000, $0200				;32x32 tilemap dimensions
 	dw $0200, $36E0, $0000, $0200, $0000	; 00 Klobber Karnage
-	dw $0000, $0200, $0000, $0200, $0000	; 01 
+	dw $0000, $0200, $0000, $0200, $0000	; 01
 	dw $36E0, $4180, $0000, $0200, $0000	; 02 Animal Antics Rambi Section
 	dw $4180, $4980, $0000, $0100, $0000	; 03 Klobber Karnage Bonus 1
 	dw $4180, $4460, $0100, $0200, $0000	; 04 Jungle Jinx Bonus 1
@@ -5641,7 +5641,7 @@ CODE_B5C397:
 CODE_B5C39F:
 	LDA $0915				;$B5C39F  \
 	BEQ CODE_B5C3C2				;$B5C3A2   |
-	LDA $0D4E				;$B5C3A4   |
+	LDA water_y_position			;$B5C3A4   |
 	CMP $34					;$B5C3A7   |
 	BMI CODE_B5C3C8				;$B5C3A9   |
 	EOR #$FFFF				;$B5C3AB   |
@@ -5659,7 +5659,7 @@ CODE_B5C3C2:
 	JMP CODE_B5C60B				;$B5C3C2  /
 
 CODE_B5C3C5:
-	LDA $0D4E				;$B5C3C5  \
+	LDA water_y_position			;$B5C3C5  \
 CODE_B5C3C8:					;	   |
 	EOR #$FFFF				;$B5C3C8   |
 	CLC					;$B5C3CB   |
@@ -7416,7 +7416,7 @@ CODE_B5CE9A:
 	JSR CODE_B5E0A1				;$B5CE9A  /
 
 DATA_B5CE9D:
-	db !k_rools_keep_vram_payload_id
+	db !krools_keep_vram_payload_id
 	db !world_map_tall_ppu_config_id
 	dw krools_keep_map_palette
 	db $0B, $0B
@@ -8415,13 +8415,13 @@ CODE_B5D7C4:
 	STA $136A				;$B5D881   |
 	LDX #$0004				;$B5D884   |
 	LDY #$00C0				;$B5D887   |
-	LDA.l map_k_rool_sprite_pal_ptr		;$B5D88A   |
+	LDA.l map_krool_sprite_pal_ptr		;$B5D88A   |
 	DEC A					;$B5D88E   |
 	DEC A					;$B5D88F   |
 	JSL DMA_palette				;$B5D890   |
 	LDX #$0004				;$B5D894   |
 	LDY #$00F0				;$B5D897   |
-	LDA.l map_k_rool_splash_sprite_pal_ptr	;$B5D89A   |
+	LDA.l map_krool_splash_sprite_pal_ptr	;$B5D89A   |
 	DEC A					;$B5D89E   |
 	DEC A					;$B5D89F   |
 	JSL DMA_palette				;$B5D8A0   |
@@ -8447,7 +8447,7 @@ CODE_B5D8AE:
 	STA $136A				;$B5D8D4   |
 	LDX #$0004				;$B5D8D7   |
 	LDY #$00C0				;$B5D8DA   |
-	LDA.l map_k_rool_sprite_pal_ptr		;$B5D8DD   |
+	LDA.l map_krool_sprite_pal_ptr		;$B5D8DD   |
 	DEC A					;$B5D8E1   |
 	DEC A					;$B5D8E2   |
 	JSL DMA_palette				;$B5D8E3   |
@@ -8534,7 +8534,7 @@ spawn_map_player:
 	INC $02,x				;$B5D9A5   |
 	INC $02,x				;$B5D9A7   | Set render order (in front of inactive kong)
 .set_active_kong:				;	   |
-	STX active_kong_sprite			;$B5D9A9   | 
+	STX active_kong_sprite			;$B5D9A9   |
 	LDA game_state_flags			;$B5D9AC   |
 	BIT #$4000				;$B5D9AF   | Check if we have two kongs
 	BNE .done				;$B5D9B2   | If yes, we're done
@@ -8940,7 +8940,7 @@ CODE_B5DCBB:
 	EOR #$001C				;$B5DCDA   |
 CODE_B5DCDD:					;	   |
 	CLC					;$B5DCDD   |
-	ADC #!isle_k_rool_climb_frame1		;$B5DCDE   |
+	ADC #!isle_krool_climb_frame1		;$B5DCDE   |
 	STA sprite.current_graphic,x		;$B5DCE1   |
 	LDA active_frame_counter		;$B5DCE3   |
 	BIT #$0001				;$B5DCE5   |
@@ -9063,7 +9063,7 @@ CODE_B5DDC7:
 	EOR #$001C				;$B5DDD4   |
 CODE_B5DDD7:					;	   |
 	CLC					;$B5DDD7   |
-	ADC #!isle_k_rool_fall_frame1		;$B5DDD8   |
+	ADC #!isle_krool_fall_frame1		;$B5DDD8   |
 	STA sprite.current_graphic,x		;$B5DDDB   |
 	LDA world_map_event_step_counter	;$B5DDDD   |
 	BNE CODE_B5DDE5				;$B5DDE0   |
@@ -9086,7 +9086,7 @@ CODE_B5DDF7:
 	BEQ CODE_B5DE12				;$B5DE01   |
 	CLC					;$B5DE03   |
 	ADC #$0004				;$B5DE04   |
-	CMP #!isle_k_rool_splash_frame8+4	;$B5DE07   |
+	CMP #!isle_krool_splash_frame8+4	;$B5DE07   |
 	BNE CODE_B5DE0F				;$B5DE0A   |
 	LDA #$0000				;$B5DE0C   |
 CODE_B5DE0F:					;	   |
@@ -9100,7 +9100,7 @@ CODE_B5DE12:					;	   |
 	EOR #$001C				;$B5DE1D   |
 CODE_B5DE20:					;	   |
 	CLC					;$B5DE20   |
-	ADC #!isle_k_rool_swim_frame1		;$B5DE21   |
+	ADC #!isle_krool_swim_frame1		;$B5DE21   |
 	STA sprite.current_graphic,x		;$B5DE24   |
 	BRA CODE_B5DE9D				;$B5DE26  /
 
@@ -10160,7 +10160,7 @@ DATA_B5E620:
 ;Y = sprite for camera to follow
 
 CODE_B5E660:
-	LDA $0D4E				;$B5E660  \ \
+	LDA water_y_position			;$B5E660  \ \
 	BMI .no_water				;$B5E663   |/ If the level has no water
 	ADC #$0010				;$B5E665   |\
 	CMP $000A,y				;$B5E668   | |

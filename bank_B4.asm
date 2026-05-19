@@ -7853,7 +7853,7 @@ DATA_B4C18B:
 	db !null_pointer				;5E
 	db !null_pointer				;5F
 	db !map_node_king_zing_sting			;60
-	db !map_node_k_rool_duel			;61
+	db !map_node_krool_duel			;61
 	db !map_node_castle_crush			;62
 	db !map_node_kudgels_kontest			;63
 	db !map_node_w4_lower_to_upper_left		;64
@@ -8120,7 +8120,7 @@ DATA_B4C25E:
 	dw !map_node_w7_entrance
 	dw !map_node_screechs_sprint
 	dw !map_node_kong_kollege_w7
-	dw !map_node_k_rool_duel
+	dw !map_node_krool_duel
 	dw !map_node_funkys_flights_w7
 
 .unused_lost_world:
@@ -8247,7 +8247,7 @@ initial_unlocked_nodes:
 	dw !level_black_ice_battle, !level_kroc_kore_krem_quay_lost_world
 	dw !level_klobber_karnage, !level_kroc_kore_krazy_kremland_lost_world
 	dw !level_fiery_furnace, !level_kroc_kore_gloomy_gulch_lost_world
-	dw !level_animal_antics_rambi_area, !level_kroc_kore_k_rools_keep_lost_world
+	dw !level_animal_antics_rambi_area, !level_kroc_kore_krools_keep_lost_world
 	dw !null_pointer, !null_pointer
 
 ;Krocodile kore node ID's (read immediately after beating krocodile kore)
@@ -9734,7 +9734,7 @@ DATA_B4CF4B:
 	db $0E : dw DATA_B4D128				; 02 krem_quay
 	db $0E : dw DATA_B4D151				; 03 krazy_kremland
 	db $0E : dw DATA_B4D184				; 04 gloomy_gulch
-	db $0E : dw DATA_B4D1B1				; 05 k_rools_keep
+	db $0E : dw DATA_B4D1B1				; 05 krools_keep
 	db $0E : dw DATA_B4D1E6				; 06 the_flying_krock
 	db $0E : dw DATA_B4D218				; 07 lost_world
 	db $0E : dw DATA_B4D23C				; 08 ???
@@ -9782,15 +9782,15 @@ DATA_B4CF4B:
 	db $0E : dw DATA_B4DA96				; 32 web_woods
 	db $10 : dw DATA_B4DAC4				; 33 kreepy_krow
 	db $0E : dw DATA_B4DAF2				; 34 arctic_abyss
-	db $04 : dw DATA_B4DB2A				; 35 monkey_museum_k_rools_keep
+	db $04 : dw DATA_B4DB2A				; 35 monkey_museum_krools_keep
 	db $0E : dw DATA_B4DB58				; 36 windy_well
-	db $0A : dw DATA_B4DB88				; 37 kong_kollege_k_rools_keep
-	db $0C : dw DATA_B4DBB7				; 38 klubbas_kiosk_k_rools_keep
+	db $0A : dw DATA_B4DB88				; 37 kong_kollege_krools_keep
+	db $0C : dw DATA_B4DBB7				; 38 klubbas_kiosk_krools_keep
 	db $0E : dw DATA_B4DBE9				; 39 castle_crush
 	db $0E : dw DATA_B4DC1B				; 3A clappers_cavern
 	db $0E : dw DATA_B4DC54				; 3B chain_link_chamber
-	db $06 : dw DATA_B4DC91				; 3C funkys_flights_k_rools_keep
-	db $08 : dw DATA_B4DCC3				; 3D swankys_bonus_bonanza_k_rools_keep
+	db $06 : dw DATA_B4DC91				; 3C funkys_flights_krools_keep
+	db $08 : dw DATA_B4DCC3				; 3D swankys_bonus_bonanza_krools_keep
 	db $00 : dw !null_pointer			; 3E ???
 	db $0E : dw DATA_B4DD06				; 3F toxic_tower
 	db $10 : dw DATA_B4DD34				; 40 stronghold_showdown
@@ -9816,13 +9816,13 @@ DATA_B4CF4B:
 	db $0E : dw DATA_B4E0DD				; 54 krem_quay_entrance
 	db $0E : dw DATA_B4E0F2				; 55 krazy_kremland_entrance
 	db $0E : dw DATA_B4E107				; 56 gloomy_gulch_entrance
-	db $0E : dw DATA_B4E11C				; 57 k_rools_keep_entrance
+	db $0E : dw DATA_B4E11C				; 57 krools_keep_entrance
 	db $0E : dw DATA_B4E131				; 58 gangplank_galleon_entrance
 	db $0E : dw DATA_B4E146				; 59 the_flying_krock_entrance
 	db $00 : dw !null_pointer			; 5A ???
 	db $0E : dw DATA_B4E15B				; 5B screechs_sprint
 	db $0A : dw DATA_B4E197				; 5C kong_kollege_the_flying_krock
-	db $10 : dw DATA_B4E1C2				; 5D k_rool_duel
+	db $10 : dw DATA_B4E1C2				; 5D krool_duel
 	db $0C : dw DATA_B4E1F0				; 5E return_to_crocodile_cauldron
 	db $04 : dw DATA_B4E23E				; 5F monkey_museum_crocodile_cauldron_lost_world
 	db $0E : dw DATA_B4E26C				; 60 jungle_jinx
@@ -9839,15 +9839,15 @@ DATA_B4CF4B:
 	db $04 : dw DATA_B4E4CB				; 6B monkey_museum_gloomy_gulch_lost_world
 	db $0E : dw DATA_B4E4F9				; 6C fiery_furnace
 	db $10 : dw DATA_B4E52F				; 6D krocodile_kore_gloomy_gulch_lost_world
-	db $0C : dw DATA_B4E55F				; 6E return_to_k_rools_keep
-	db $04 : dw DATA_B4E5A7				; 6F monkey_museum_k_rools_keep_lost_world
+	db $0C : dw DATA_B4E55F				; 6E return_to_krools_keep
+	db $04 : dw DATA_B4E5A7				; 6F monkey_museum_krools_keep_lost_world
 	db $0E : dw DATA_B4E5D5				; 70 animal_antics_rambi_area
-	db $10 : dw DATA_B4E60D				; 71 krocodile_kore_k_rools_keep_lost_world
+	db $10 : dw DATA_B4E60D				; 71 krocodile_kore_krools_keep_lost_world
 	db $0E : dw DATA_B4E63D				; 72 crocodile_cauldron_entrance_from_klubba
 	db $0E : dw DATA_B4E652				; 73 krem_quay_entrance_from_klubba
 	db $0E : dw DATA_B4E667				; 74 krazy_kremland_entrance_from_klubba
 	db $0E : dw DATA_B4E67C				; 75 gloomy_gulch_entrance_from_klubba
-	db $0E : dw DATA_B4E691				; 76 k_rools_keep_entrance_from_klubba
+	db $0E : dw DATA_B4E691				; 76 krools_keep_entrance_from_klubba
 	db $06 : dw DATA_B4E6A6				; 77 funkys_flights_the_flying_krock
 
 DATA_B4D0B3:
@@ -10362,7 +10362,7 @@ DATA_B4DAF2:
 DATA_B4DB2A:
 	dw $00E1, $018A
 	db $32, $02, $02 : dw .text
-	dw !level_monkey_museum_k_rools_keep
+	dw !level_monkey_museum_krools_keep
 	dw !map_node_arctic_abyss, !map_path_0031
 .text
 	%string("MONKEY MUSEUM")
@@ -10381,7 +10381,7 @@ DATA_B4DB58:
 DATA_B4DB88:
 	dw $005A, $0156
 	db $32, $09, $01 : dw .text
-	dw !level_kong_kollege_k_rools_keep
+	dw !level_kong_kollege_krools_keep
 	dw !map_node_windy_well, !map_path_0032
 	dw !map_node_castle_crush, !map_path_0033
 .text
@@ -10391,7 +10391,7 @@ DATA_B4DB88:
 DATA_B4DBB7:
 	dw $0016, $0145
 	db $32, $04, $04 : dw .text
-	dw !level_klubbas_kiosk_k_rools_keep
+	dw !level_klubbas_kiosk_krools_keep
 	dw !map_node_arctic_abyss, !map_path_0034
 .text
 	%string("KLUBBA'S KIOSK")
@@ -10431,7 +10431,7 @@ DATA_B4DC54:
 DATA_B4DC91:
 	dw $00DC, $008C
 	db $32, $02, $02 : dw .text
-	dw !level_funkys_flights_k_rools_keep
+	dw !level_funkys_flights_krools_keep
 	dw !map_node_chain_link_chamber, !map_path_0037
 .text
 	%string("FUNKY'S FLIGHTS II")
@@ -10721,7 +10721,7 @@ DATA_B4E15B:
 	dw !level_screechs_sprint
 	dw !map_node_kong_kollege_w7, !map_path_0052
 	dw !map_node_funkys_flights_w7, !map_path_006B
-	dw !map_node_k_rool_duel, !map_path_0053
+	dw !map_node_krool_duel, !map_path_0053
 .text
 	%string("SCREECH'S SPRINT")
 	%string("SPRINT DE SCREECH")
@@ -10738,7 +10738,7 @@ DATA_B4E197:
 DATA_B4E1C2:
 	dw $00B4, $0070
 	db $32, $04, $04 : dw .text
-	dw !level_k_rool_duel
+	dw !level_krool_duel
 	dw !map_node_screechs_sprint, !map_path_0053
 .text
 	%string("K.ROOL DUEL")

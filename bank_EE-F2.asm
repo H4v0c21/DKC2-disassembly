@@ -1526,7 +1526,7 @@ DATA_0FA5:
 	dw command_1E_set_volume_presets	;1E: set_volume_presets
 	dw CODE_0CA0				;1F: echo_delay
 	dw command_20_load_volume_preset_1	;20: load_volume_preset_1
-	dw command_21_play_subsequence		;21: play_subsequence 
+	dw command_21_play_subsequence		;21: play_subsequence
 	dw CODE_0B97				;22: set_voice_parameters
 	dw command_23_set_vol_single_val	;23: set_vol_single_val
 	dw command_24_set_master_volume_indirect;24: set_master_volume_indirect
@@ -2142,7 +2142,7 @@ song_data:
 	dl lost_world_song_data, lost_world_sample_map		;1C
 	dl rigging_song_data, rigging_sample_map		;1D
 	dl credits_song_data, credits_sample_map		;1E
-	dl k_rool_song_data, k_rool_sample_map			;1F
+	dl krool_song_data, krool_sample_map			;1F
 	dl bonus_song_data, bonus_sample_map_2			;20
 	dl big_boss_song_data, big_boss_sample_map_2		;21
 	dl bonus_song_data, bonus_sample_map			;22
@@ -3067,7 +3067,7 @@ credits_sample_map:
 	dw $0099
 	dw $FFFF
 
-k_rool_sample_map:
+krool_sample_map:
 	dw $00CE
 	dw $00CF
 	dw $0021
@@ -4560,7 +4560,7 @@ check bankcross full
 	incsrc "data/sound/music/lost_world_song_data.asm"
 	incsrc "data/sound/music/rigging_song_data.asm"
 	incsrc "data/sound/music/credits_song_data.asm"
-	incsrc "data/sound/music/k_rool_song_data.asm"
+	incsrc "data/sound/music/krool_song_data.asm"
 
 DATA_F2E691:
 namespace APU

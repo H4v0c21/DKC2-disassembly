@@ -2521,57 +2521,57 @@ sprite_graphic_table:
 	dl king_zing_stinger_hurt_frame2 : db $00		;2754
 	dl king_zing_stinger_hurt_frame3 : db $00		;2758
 	dl king_zing_stinger_hurt_frame4 : db $00		;275C
-	dl k_rool_shoot_frame1 : db $00				;2760
-	dl k_rool_shoot_frame2 : db $00				;2764
-	dl k_rool_shoot_frame3 : db $00				;2768
-	dl k_rool_blunderbuss_shoot_frame1 : db $00		;276C
-	dl k_rool_blunderbuss_shoot_frame2 : db $00		;2770
-	dl k_rool_blunderbuss_shoot_frame3 : db $00		;2774
-	dl k_rool_melee_frame1 : db $00				;2778
-	dl k_rool_melee_frame2 : db $00				;277C
-	dl k_rool_melee_frame3 : db $00				;2780
-	dl k_rool_melee_frame4 : db $00				;2784
-	dl k_rool_melee_frame5 : db $00				;2788
-	dl k_rool_blunderbuss_melee_frame1 : db $00		;278C
-	dl k_rool_blunderbuss_melee_frame2 : db $00		;2790
-	dl k_rool_blunderbuss_melee_frame3 : db $00		;2794
-	dl k_rool_blunderbuss_melee_frame4 : db $00		;2798
-	dl k_rool_blunderbuss_melee_frame5 : db $00		;279C
-	dl k_rool_soot_graphic : db $00				;27A0
-	dl k_rool_soot_eyes_frame1 : db $00			;27A4
-	dl k_rool_soot_eyes_frame2 : db $00			;27A8
-	dl k_rool_move_frame1 : db $00				;27AC
-	dl k_rool_move_frame2 : db $00				;27B0
-	dl k_rool_move_frame3 : db $00				;27B4
-	dl k_rool_move_frame4 : db $00				;27B8
-	dl k_rool_move_frame5 : db $00				;27BC
-	dl k_rool_blunderbuss_move_frame1 : db $00		;27C0
-	dl k_rool_blunderbuss_move_frame2 : db $00		;27C4
-	dl k_rool_blunderbuss_move_frame3 : db $00		;27C8
-	dl k_rool_blunderbuss_move_frame4 : db $00		;27CC
-	dl k_rool_blunderbuss_move_frame5 : db $00		;27D0
-	dl k_rool_blunderbuss_hurt_frame1 : db $00		;27D4
-	dl k_rool_blunderbuss_hurt_frame2 : db $00		;27D8
-	dl k_rool_blunderbuss_hurt_frame3 : db $00		;27DC
-	dl k_rool_blunderbuss_hurt_frame4 : db $00		;27E0
-	dl k_rool_blunderbuss_hurt_frame5 : db $00		;27E4
-	dl k_rool_blunderbuss_hurt_frame6 : db $00		;27E8
-	dl k_rool_blunderbuss_hurt_frame7 : db $00		;27EC
-	dl k_rool_blunderbuss_hurt_frame8 : db $00		;27F0
-	dl k_rool_blunderbuss_hurt_frame9 : db $00		;27F4
+	dl krool_shoot_frame1 : db $00				;2760
+	dl krool_shoot_frame2 : db $00				;2764
+	dl krool_shoot_frame3 : db $00				;2768
+	dl krool_gun_shoot_frame1 : db $00		;276C
+	dl krool_gun_shoot_frame2 : db $00		;2770
+	dl krool_gun_shoot_frame3 : db $00		;2774
+	dl krool_melee_frame1 : db $00				;2778
+	dl krool_melee_frame2 : db $00				;277C
+	dl krool_melee_frame3 : db $00				;2780
+	dl krool_melee_frame4 : db $00				;2784
+	dl krool_melee_frame5 : db $00				;2788
+	dl krool_gun_melee_frame1 : db $00		;278C
+	dl krool_gun_melee_frame2 : db $00		;2790
+	dl krool_gun_melee_frame3 : db $00		;2794
+	dl krool_gun_melee_frame4 : db $00		;2798
+	dl krool_gun_melee_frame5 : db $00		;279C
+	dl krool_soot_graphic : db $00				;27A0
+	dl krool_soot_eyes_frame1 : db $00			;27A4
+	dl krool_soot_eyes_frame2 : db $00			;27A8
+	dl krool_move_frame1 : db $00				;27AC
+	dl krool_move_frame2 : db $00				;27B0
+	dl krool_move_frame3 : db $00				;27B4
+	dl krool_move_frame4 : db $00				;27B8
+	dl krool_move_frame5 : db $00				;27BC
+	dl krool_gun_move_frame1 : db $00		;27C0
+	dl krool_gun_move_frame2 : db $00		;27C4
+	dl krool_gun_move_frame3 : db $00		;27C8
+	dl krool_gun_move_frame4 : db $00		;27CC
+	dl krool_gun_move_frame5 : db $00		;27D0
+	dl krool_gun_hurt_frame1 : db $00		;27D4
+	dl krool_gun_hurt_frame2 : db $00		;27D8
+	dl krool_gun_hurt_frame3 : db $00		;27DC
+	dl krool_gun_hurt_frame4 : db $00		;27E0
+	dl krool_gun_hurt_frame5 : db $00		;27E4
+	dl krool_gun_hurt_frame6 : db $00		;27E8
+	dl krool_gun_hurt_frame7 : db $00		;27EC
+	dl krool_gun_hurt_frame8 : db $00		;27F0
+	dl krool_gun_hurt_frame9 : db $00		;27F4
 	dl krockhead_barrel_icon_frame1 : db $00		;27F8
 	dl krockhead_barrel_icon_frame2 : db $00		;27FC
 	dl krockhead_barrel_icon_frame3 : db $00		;2800
 	dl krockhead_barrel_icon_frame4 : db $00		;2804
-	dl k_rool_hurt_frame1 : db $00				;2808
-	dl k_rool_hurt_frame2 : db $00				;280C
-	dl k_rool_hurt_frame3 : db $00				;2810
-	dl k_rool_hurt_frame4 : db $00				;2814
-	dl k_rool_hurt_frame5 : db $00				;2818
-	dl k_rool_hurt_frame6 : db $00				;281C
-	dl k_rool_hurt_frame7 : db $00				;2820
-	dl k_rool_hurt_frame8 : db $00				;2824
-	dl k_rool_hurt_frame9 : db $00				;2828
+	dl krool_hurt_frame1 : db $00				;2808
+	dl krool_hurt_frame2 : db $00				;280C
+	dl krool_hurt_frame3 : db $00				;2810
+	dl krool_hurt_frame4 : db $00				;2814
+	dl krool_hurt_frame5 : db $00				;2818
+	dl krool_hurt_frame6 : db $00				;281C
+	dl krool_hurt_frame7 : db $00				;2820
+	dl krool_hurt_frame8 : db $00				;2824
+	dl krool_hurt_frame9 : db $00				;2828
 	dl dixie_celebrate_frame1 : db $00			;282C
 	dl dixie_celebrate_frame2 : db $00			;2830
 	dl dixie_celebrate_frame3 : db $00			;2834
@@ -2696,9 +2696,9 @@ sprite_graphic_table:
 	dl diddy_boombox_celebrate_frame11 : db $00		;2A10
 	dl diddy_boombox_celebrate_frame12 : db $00		;2A14
 	dl diddy_boombox_celebrate_frame13 : db $00		;2A18
-	dl k_rool_turn_frame1 : db $00				;2A1C
-	dl k_rool_turn_frame2 : db $00				;2A20
-	dl k_rool_blunderbuss_turn_graphic : db $00		;2A24
+	dl krool_turn_frame1 : db $00				;2A1C
+	dl krool_turn_frame2 : db $00				;2A20
+	dl krool_gun_turn_graphic : db $00		;2A24
 	dl diddy_mourn_frame1 : db $00				;2A28
 	dl diddy_mourn_frame2 : db $00				;2A2C
 	dl diddy_mourn_frame3 : db $00				;2A30
@@ -2814,24 +2814,24 @@ sprite_graphic_table:
 	dl clapper_idle_frame7 : db $00				;2BE8
 	dl clapper_idle_frame8 : db $00				;2BEC
 	dl clapper_idle_frame9 : db $00				;2BF0
-	dl k_rool_vacuum_frame1 : db $00			;2BF4
-	dl k_rool_vacuum_frame2 : db $00			;2BF8
-	dl k_rool_blunderbuss_vacuum_frame1 : db $00		;2BFC
-	dl k_rool_blunderbuss_vacuum_frame2 : db $00		;2C00
-	dl k_rool_blunderbuss_fire_frame1 : db $00		;2C04
-	dl k_rool_blunderbuss_fire_frame2 : db $00		;2C08
-	dl k_rool_blunderbuss_fire_frame3 : db $00		;2C0C
-	dl k_rool_blunderbuss_fire_frame4 : db $00		;2C10
-	dl k_rool_blunderbuss_fire_frame5 : db $00		;2C14
-	dl k_rool_blunderbuss_fire_frame6 : db $00		;2C18
-	dl k_rool_blunderbuss_fire_frame7 : db $00		;2C1C
-	dl k_rool_blunderbuss_fire_frame8 : db $00		;2C20
-	dl k_rool_idle_frame1 : db $00				;2C24
-	dl k_rool_idle_frame2 : db $00				;2C28
-	dl k_rool_concerned_graphic : db $00			;2C2C
-	dl k_rool_blunderbuss_idle_frame1 : db $00		;2C30
-	dl k_rool_blunderbuss_idle_frame2 : db $00		;2C34
-	dl k_rool_blunderbuss_concerned_graphic : db $00	;2C38
+	dl krool_vacuum_frame1 : db $00			;2BF4
+	dl krool_vacuum_frame2 : db $00			;2BF8
+	dl krool_gun_vacuum_frame1 : db $00		;2BFC
+	dl krool_gun_vacuum_frame2 : db $00		;2C00
+	dl krool_gun_fire_frame1 : db $00		;2C04
+	dl krool_gun_fire_frame2 : db $00		;2C08
+	dl krool_gun_fire_frame3 : db $00		;2C0C
+	dl krool_gun_fire_frame4 : db $00		;2C10
+	dl krool_gun_fire_frame5 : db $00		;2C14
+	dl krool_gun_fire_frame6 : db $00		;2C18
+	dl krool_gun_fire_frame7 : db $00		;2C1C
+	dl krool_gun_fire_frame8 : db $00		;2C20
+	dl krool_idle_frame1 : db $00				;2C24
+	dl krool_idle_frame2 : db $00				;2C28
+	dl krool_concerned_graphic : db $00			;2C2C
+	dl krool_gun_idle_frame1 : db $00		;2C30
+	dl krool_gun_idle_frame2 : db $00		;2C34
+	dl krool_gun_concerned_graphic : db $00	;2C38
 	dl clapper_activate_frame1 : db $00			;2C3C
 	dl clapper_activate_frame2 : db $00			;2C40
 	dl clapper_activate_frame3 : db $00			;2C44
@@ -2852,14 +2852,14 @@ sprite_graphic_table:
 	dl snapjaw_bite_frame3 : db $00				;2C80
 	dl snapjaw_bite_frame4 : db $00				;2C84
 	dl snapjaw_bite_frame5 : db $00				;2C88
-	dl k_rool_vacuum_particles_frame1 : db $00		;2C8C
-	dl k_rool_vacuum_particles_frame2 : db $00		;2C90
-	dl k_rool_vacuum_particles_frame3 : db $00		;2C94
-	dl k_rool_vacuum_particles_frame4 : db $00		;2C98
-	dl k_rool_vacuum_particles_frame5 : db $00		;2C9C
-	dl k_rool_vacuum_particles_frame6 : db $00		;2CA0
-	dl k_rool_vacuum_particles_frame7 : db $00		;2CA4
-	dl k_rool_vacuum_particles_frame8 : db $00		;2CA8
+	dl krool_vacuum_particles_frame1 : db $00		;2C8C
+	dl krool_vacuum_particles_frame2 : db $00		;2C90
+	dl krool_vacuum_particles_frame3 : db $00		;2C94
+	dl krool_vacuum_particles_frame4 : db $00		;2C98
+	dl krool_vacuum_particles_frame5 : db $00		;2C9C
+	dl krool_vacuum_particles_frame6 : db $00		;2CA0
+	dl krool_vacuum_particles_frame7 : db $00		;2CA4
+	dl krool_vacuum_particles_frame8 : db $00		;2CA8
 	dl giant_tire_roll_frame1 : db $00			;2CAC
 	dl giant_tire_roll_frame2 : db $00			;2CB0
 	dl giant_tire_roll_frame3 : db $00			;2CB4
@@ -2907,29 +2907,29 @@ sprite_graphic_table:
 	dl timer_7_graphic : db $00				;2D5C
 	dl timer_8_graphic : db $00				;2D60
 	dl timer_9_graphic : db $00				;2D64
-	dl k_rool_backfire_sparks_frame1 : db $00		;2D68
-	dl k_rool_backfire_sparks_frame2 : db $00		;2D6C
-	dl k_rool_backfire_sparks_frame3 : db $00		;2D70
-	dl k_rool_backfire_sparks_frame4 : db $00		;2D74
-	dl k_rool_backfire_sparks_frame5 : db $00		;2D78
-	dl k_rool_backfire_sparks_frame6 : db $00		;2D7C
-	dl k_rool_backfire_sparks_frame7 : db $00		;2D80
-	dl k_rool_backfire_sparks_frame8 : db $00		;2D84
-	dl k_rool_backfire_sparks_frame9 : db $00		;2D88
-	dl k_rool_backfire_sparks_frame10 : db $00		;2D8C
-	dl k_rool_backfire_sparks_frame11 : db $00		;2D90
-	dl k_rool_backfire_sparks_frame12 : db $00		;2D94
-	dl k_rool_backfire_sparks_frame13 : db $00		;2D98
-	dl k_rool_backfire_sparks_frame14 : db $00		;2D9C
-	dl k_rool_backfire_sparks_frame15 : db $00		;2DA0
-	dl k_rool_gas_cloud_frame1 : db $00			;2DA4
-	dl k_rool_gas_cloud_frame2 : db $00			;2DA8
-	dl k_rool_gas_cloud_frame3 : db $00			;2DAC
-	dl k_rool_gas_cloud_frame4 : db $00			;2DB0
-	dl k_rool_gas_cloud_frame5 : db $00			;2DB4
-	dl k_rool_gas_cloud_frame6 : db $00			;2DB8
-	dl k_rool_gas_cloud_frame7 : db $00			;2DBC
-	dl k_rool_gas_cloud_frame8 : db $00			;2DC0
+	dl krool_backfire_sparks_frame1 : db $00		;2D68
+	dl krool_backfire_sparks_frame2 : db $00		;2D6C
+	dl krool_backfire_sparks_frame3 : db $00		;2D70
+	dl krool_backfire_sparks_frame4 : db $00		;2D74
+	dl krool_backfire_sparks_frame5 : db $00		;2D78
+	dl krool_backfire_sparks_frame6 : db $00		;2D7C
+	dl krool_backfire_sparks_frame7 : db $00		;2D80
+	dl krool_backfire_sparks_frame8 : db $00		;2D84
+	dl krool_backfire_sparks_frame9 : db $00		;2D88
+	dl krool_backfire_sparks_frame10 : db $00		;2D8C
+	dl krool_backfire_sparks_frame11 : db $00		;2D90
+	dl krool_backfire_sparks_frame12 : db $00		;2D94
+	dl krool_backfire_sparks_frame13 : db $00		;2D98
+	dl krool_backfire_sparks_frame14 : db $00		;2D9C
+	dl krool_backfire_sparks_frame15 : db $00		;2DA0
+	dl krool_gas_cloud_frame1 : db $00			;2DA4
+	dl krool_gas_cloud_frame2 : db $00			;2DA8
+	dl krool_gas_cloud_frame3 : db $00			;2DAC
+	dl krool_gas_cloud_frame4 : db $00			;2DB0
+	dl krool_gas_cloud_frame5 : db $00			;2DB4
+	dl krool_gas_cloud_frame6 : db $00			;2DB8
+	dl krool_gas_cloud_frame7 : db $00			;2DBC
+	dl krool_gas_cloud_frame8 : db $00			;2DC0
 	dl yoshi_frame1 : db $00				;2DC4
 	dl yoshi_frame2 : db $00				;2DC8
 	dl yoshi_frame3 : db $00				;2DCC
@@ -3154,15 +3154,15 @@ sprite_graphic_table:
 	dl isle_airship_ladder_frame4 : db $00			;3138
 	dl isle_airship_ladder_frame5 : db $00			;313C
 	dl isle_airship_ladder_frame6 : db $00			;3140
-	dl isle_k_rool_fall_frame1 : db $00			;3144
-	dl isle_k_rool_fall_frame2 : db $00			;3148
-	dl isle_k_rool_fall_frame3 : db $00			;314C
-	dl isle_k_rool_fall_frame4 : db $00			;3150
-	dl isle_k_rool_climb_frame1 : db $00			;3154
-	dl isle_k_rool_climb_frame2 : db $00			;3158
-	dl isle_k_rool_climb_frame3 : db $00			;315C
-	dl isle_k_rool_climb_frame4 : db $00			;3160
-	dl isle_k_rool_climb_frame5 : db $00			;3164
+	dl isle_krool_fall_frame1 : db $00			;3144
+	dl isle_krool_fall_frame2 : db $00			;3148
+	dl isle_krool_fall_frame3 : db $00			;314C
+	dl isle_krool_fall_frame4 : db $00			;3150
+	dl isle_krool_climb_frame1 : db $00			;3154
+	dl isle_krool_climb_frame2 : db $00			;3158
+	dl isle_krool_climb_frame3 : db $00			;315C
+	dl isle_krool_climb_frame4 : db $00			;3160
+	dl isle_krool_climb_frame5 : db $00			;3164
 	dl barrel_cannon_direction_icon_graphic : db $00	;3168
 	dl barrel_cannon_rotate_icon_graphic : db $00		;316C
 	dl barrel_cannon_bonus_icon_graphic : db $00		;3170
@@ -3355,35 +3355,35 @@ sprite_graphic_table:
 	dl donkey_punch_frame7 : db $00				;345C
 	dl donkey_punch_frame8 : db $00				;3460
 	dl donkey_punch_frame9 : db $00				;3464
-	dl k_rool_soaked_frame1 : db $00			;3468
-	dl k_rool_soaked_frame2 : db $00			;346C
-	dl k_rool_soaked_frame3 : db $00			;3470
-	dl k_rool_blunderbuss_soaked_frame1 : db $00		;3474
-	dl k_rool_blunderbuss_soaked_frame2 : db $00		;3478
-	dl k_rool_blunderbuss_soaked_frame3 : db $00		;347C
-	dl k_rool_fish_frame1 : db $00				;3480
-	dl k_rool_fish_frame2 : db $00				;3484
-	dl k_rool_fish_frame3 : db $00				;3488
-	dl k_rool_fish_frame4 : db $00				;348C
-	dl k_rool_fish_frame5 : db $00				;3490
-	dl k_rool_fish_frame6 : db $00				;3494
-	dl k_rool_fish_frame7 : db $00				;3498
-	dl k_rool_fish_frame8 : db $00				;349C
-	dl k_rool_puddle_graphic : db $00			;34A0
-	dl k_rool_fall_into_kore_frame1 : db $00		;34A4
-	dl k_rool_fall_into_kore_frame2 : db $00		;34A8
-	dl isle_k_rool_splash_frame1 : db $00			;34AC
-	dl isle_k_rool_splash_frame2 : db $00			;34B0
-	dl isle_k_rool_splash_frame3 : db $00			;34B4
-	dl isle_k_rool_splash_frame4 : db $00			;34B8
-	dl isle_k_rool_splash_frame5 : db $00			;34BC
-	dl isle_k_rool_splash_frame6 : db $00			;34C0
-	dl isle_k_rool_splash_frame7 : db $00			;34C4
-	dl isle_k_rool_splash_frame8 : db $00			;34C8
-	dl isle_k_rool_swim_frame1 : db $00			;34CC
-	dl isle_k_rool_swim_frame2 : db $00			;34D0
-	dl isle_k_rool_swim_frame3 : db $00			;34D4
-	dl isle_k_rool_swim_frame4 : db $00			;34D8
+	dl krool_soaked_frame1 : db $00			;3468
+	dl krool_soaked_frame2 : db $00			;346C
+	dl krool_soaked_frame3 : db $00			;3470
+	dl krool_gun_soaked_frame1 : db $00		;3474
+	dl krool_gun_soaked_frame2 : db $00		;3478
+	dl krool_gun_soaked_frame3 : db $00		;347C
+	dl krool_fish_frame1 : db $00				;3480
+	dl krool_fish_frame2 : db $00				;3484
+	dl krool_fish_frame3 : db $00				;3488
+	dl krool_fish_frame4 : db $00				;348C
+	dl krool_fish_frame5 : db $00				;3490
+	dl krool_fish_frame6 : db $00				;3494
+	dl krool_fish_frame7 : db $00				;3498
+	dl krool_fish_frame8 : db $00				;349C
+	dl krool_puddle_graphic : db $00			;34A0
+	dl krool_fall_into_kore_frame1 : db $00		;34A4
+	dl krool_fall_into_kore_frame2 : db $00		;34A8
+	dl isle_krool_splash_frame1 : db $00			;34AC
+	dl isle_krool_splash_frame2 : db $00			;34B0
+	dl isle_krool_splash_frame3 : db $00			;34B4
+	dl isle_krool_splash_frame4 : db $00			;34B8
+	dl isle_krool_splash_frame5 : db $00			;34BC
+	dl isle_krool_splash_frame6 : db $00			;34C0
+	dl isle_krool_splash_frame7 : db $00			;34C4
+	dl isle_krool_splash_frame8 : db $00			;34C8
+	dl isle_krool_swim_frame1 : db $00			;34CC
+	dl isle_krool_swim_frame2 : db $00			;34D0
+	dl isle_krool_swim_frame3 : db $00			;34D4
+	dl isle_krool_swim_frame4 : db $00			;34D8
 	dl link_frame1 : db $00					;34DC
 	dl link_frame2 : db $00					;34E0
 	dl link_frame3 : db $00					;34E4

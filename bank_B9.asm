@@ -137,7 +137,7 @@ set_anim_handle_dixie:
 set_sprite_animation:				;	   |
 %local(.animation_flags, temp_26)		;	   |
 	PHB					;$B9D0C6   |\
-	%pea_shift_dbr(animation_scripts_table)	;$B9D0C7   | | 
+	%pea_shift_dbr(animation_scripts_table)	;$B9D0C7   | |
 	PLB					;$B9D0CA   | |
 	PLB					;$B9D0CB   |/
 	LDX current_sprite			;$B9D0CC   |
@@ -644,7 +644,7 @@ animation_command_89:
 	INY					;$B9D399   |
 	INY					;$B9D39A   |
 	INY					;$B9D39B   |
-	JMP process_anim_script			;$B9D39C  / 
+	JMP process_anim_script			;$B9D39C  /
 
 .apply_graphic
 	LDA $0002,y				;$B9D39F  \ \
@@ -668,7 +668,7 @@ animation_command_89:
 	JMP CODE_B9D13D				;$B9D3C7  /
 
 animation_command_8A:
-	LDX current_sprite			;$B9D3CA  \ 
+	LDX current_sprite			;$B9D3CA  \
 	LDA $0000,y				;$B9D3CC   |
 	AND #$FF00				;$B9D3CF   |
 	CLC					;$B9D3D2   |
@@ -3578,7 +3578,7 @@ CODE_B9E601:
 	AND #$00FF				;$B9E603   |
 	CMP #$0003				;$B9E606   |
 	BCC CODE_B9E613				;$B9E609   |
-	LDA #$01F7				;$B9E60B   |
+	LDA #!klobber_hide_anim_id		;$B9E60B   |
 	JSL set_sprite_animation		;$B9E60E   |
 	SEC					;$B9E612   |
 CODE_B9E613:					;	   |
@@ -3797,7 +3797,7 @@ CODE_B9E73F:
 	BCC CODE_B9E75F				;$B9E752   |
 	LDX active_kong_sprite			;$B9E754   |
 	LDA sprite.y_position,x			;$B9E757   |
-	CMP $0D4E				;$B9E759   |
+	CMP water_y_position			;$B9E759   |
 	BCC CODE_B9E75F				;$B9E75C   |
 	RTS					;$B9E75E  /
 
@@ -3974,7 +3974,7 @@ CODE_B9E87C:
 	RTS					;$B9E87D  /
 
 CODE_B9E87E:
-	LDY #$0198				;$B9E87E  \
+	LDY #!zinger_turn_anim_id		;$B9E87E  \
 	LDA #$0007				;$B9E881   |
 	JMP CODE_B9E898				;$B9E884  /
 
@@ -3983,7 +3983,7 @@ CODE_B9E887:
 	EOR sprite.oam_property,x		;$B9E889   |
 	AND #$4000				;$B9E88B   |
 	BEQ CODE_B9E897				;$B9E88E   |
-	LDA #$02DC				;$B9E890   |
+	LDA #!king_zing_chase_turn_anim_id	;$B9E890   |
 	JSL set_sprite_animation		;$B9E893   |
 CODE_B9E897:					;	   |
 	RTS					;$B9E897  /
@@ -4033,7 +4033,7 @@ CODE_B9E8E0:
 	JMP turn_sprite_if_needed		;$B9E8E0  /
 
 CODE_B9E8E3:
-	LDY #$019C				;$B9E8E3  \
+	LDY #!flitter_turn_anim_id		;$B9E8E3  \
 	LDA #$0008				;$B9E8E6   |
 	JMP CODE_B9E898				;$B9E8E9  /
 
@@ -4355,12 +4355,12 @@ CODE_B9EAAF:
 turn_kloak_if_needed:
 	LDA sprite.terrain_attributes,x		;$B9EABE  \
 	BEQ .turn				;$B9EAC0   |
-	LDA #$02D2				;$B9EAC2   | If shouldn't turn, set throw animation
+	LDA #!kloak_throw_anim_id		;$B9EAC2   |
 	JSL set_sprite_animation		;$B9EAC5   |
 	RTS					;$B9EAC9  /
-	
+
 .turn:
-	LDY #$02D1				;$B9EACA  \
+	LDY #!kloak_turn_anim_id		;$B9EACA  \
 	JMP turn_sprite_if_needed		;$B9EACD  /
 
 CODE_B9EAD0:
@@ -4711,7 +4711,7 @@ turn_screech_if_needed:
 	EOR sprite.oam_property,x		;$B9ED0C   |
 	AND #$4000				;$B9ED0E   |
 	BEQ CODE_B9ED1B				;$B9ED11   |
-	LDA #$02DE				;$B9ED13   |
+	LDA #!screech_turn_anim_id		;$B9ED13   |
 	JSL set_sprite_animation		;$B9ED16   |
 	RTS					;$B9ED1A  /
 
@@ -4867,7 +4867,7 @@ CODE_B9EDEC:
 	RTS					;$B9EDF0  /
 
 CODE_B9EDF1:
-	LDA #$02A8				;$B9EDF1  \
+	LDA #!ghost_rope_disappear_anim_id	;$B9EDF1  \
 	JSL set_sprite_animation		;$B9EDF4   |
 	RTS					;$B9EDF8  /
 
@@ -4879,7 +4879,7 @@ CODE_B9EDF9:
 CODE_B9EDFF:
 	LDA sprite.general_purpose_46,x		;$B9EDFF  \
 	STA sprite.general_purpose_44,x		;$B9EE01   |
-	LDA #$02A6				;$B9EE03   |
+	LDA #!ghost_rope_hidden_anim_id		;$B9EE03   |
 	JSL set_sprite_animation		;$B9EE06   |
 	RTS					;$B9EE0A  /
 
@@ -4889,7 +4889,7 @@ CODE_B9EE0B:
 	RTS					;$B9EE0F  /
 
 CODE_B9EE10:
-	LDA #$02A9				;$B9EE10  \
+	LDA #!ghost_rope_appear_anim_id		;$B9EE10  \
 	JSL set_sprite_animation		;$B9EE13   |
 	RTS					;$B9EE17  /
 
@@ -4901,7 +4901,7 @@ CODE_B9EE18:
 CODE_B9EE1E:
 	LDA sprite.general_purpose_48,x		;$B9EE1E  \
 	STA sprite.general_purpose_44,x		;$B9EE20   |
-	LDA #$02A7				;$B9EE22   |
+	LDA #!ghost_rope_idle_anim_id		;$B9EE22   |
 	JSL set_sprite_animation		;$B9EE25   |
 	RTS					;$B9EE29  /
 
@@ -4914,13 +4914,13 @@ turn_glimmer_if_needed:
 	RTS					;$B9EE37  /
 
 .turn:
-	LDA #$02CF				;$B9EE38  \
+	LDA #!glimmer_turn_anim_id		;$B9EE38  \
 	JSL set_sprite_animation		;$B9EE3B   |
 	RTS					;$B9EE3F  /
 
 CODE_B9EE40:
 	JSR CODE_B9E019				;$B9EE40  \
-	LDA #$02CE				;$B9EE43   |
+	LDA #!glimmer_idle_anim_id		;$B9EE43   |
 	JSL set_sprite_animation		;$B9EE46   |
 	RTS					;$B9EE4A  /
 
@@ -4988,7 +4988,7 @@ spawn_animal_crate_animal:
 	BEQ .return				;$B9EEB6   | If yes, return
 	LDA sprite.general_purpose_42,x		;$B9EEB8   | Get animal animation ID (copied from $36,x)
 	SEC					;$B9EEBA   |
-	SBC #$02AC				;$B9EEBB   | Subtract base animal anim ID to get table index
+	SBC #!animal_crate_anim_range_start	;$B9EEBB   | Subtract base animal crate anim ID to get table index
 	ASL A					;$B9EEBE   | *2
 	TAX					;$B9EEBF   | Transfer to X
 	LDA.l DATA_FF0D64,x			;$B9EEC0   | Get animal buddy spawn script address from table
@@ -5033,7 +5033,7 @@ anim_delete_sprite_2:
 	RTS					;$B9EEF7  /
 
 set_rattly_idle_no_player_animation:
-	LDA #$014B				;$B9EEF8  \
+	LDA #!enguarde_no_player_idle_anim_id	;$B9EEF8  \
 	JSL set_sprite_animation		;$B9EEFB   |
 	RTS					;$B9EEFF  /
 
@@ -5055,7 +5055,7 @@ spawn_clapper_breath:
 	RTS					;$B9EF19  /
 
 set_clapper_idle_animation:
-	LDA #$01B7				;$B9EF1A  \
+	LDA #!clapper_idle_anim_id		;$B9EF1A  \
 	JSL set_sprite_animation		;$B9EF1D   |
 	RTS					;$B9EF21  /
 

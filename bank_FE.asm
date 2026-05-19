@@ -28,7 +28,7 @@ DATA_FE0000:
 	dw gusty_glade_objects					;0018
 	dw ghostly_grove_objects				;0019
 	dw topsail_trouble_warp_room_objects			;001A
-	dw pirate_panic_k_rools_cabin_objects			;001B
+	dw pirate_panic_krools_cabin_objects			;001B
 	dw hot_head_hop_bonus_2_objects				;001C
 	dw pirate_panic_warp_room_objects			;001D
 	dw target_terror_exit_room_objects			;001E
@@ -54,7 +54,7 @@ DATA_FE0000:
 	dw krem_quay_objects					;0032
 	dw krazy_kremland_objects				;0033
 	dw gloomy_gulch_objects					;0034
-	dw k_rools_keep_objects					;0035
+	dw krools_keep_objects					;0035
 	dw the_flying_krock_objects				;0036
 	dw lost_world_objects					;0037
 	dw monkey_museum_gangplank_galleon_objects		;0038
@@ -62,7 +62,7 @@ DATA_FE0000:
 	dw monkey_museum_krem_quay_objects			;003A
 	dw monkey_museum_krazy_kremland_upper_objects		;003B
 	dw monkey_museum_gloomy_gulch_objects			;003C
-	dw monkey_museum_k_rools_keep_objects			;003D
+	dw monkey_museum_krools_keep_objects			;003D
 	dw level_3E_objects					;003E
 	dw level_3F_objects					;003F
 	dw kong_kollege_gangplank_galleon_objects		;0040
@@ -70,7 +70,7 @@ DATA_FE0000:
 	dw swankys_bonus_bonanza_krem_quay_objects		;0042
 	dw swankys_bonus_bonanza_krazy_kremland_upper_objects	;0043
 	dw swankys_bonus_bonanza_gloomy_gulch_objects		;0044
-	dw kong_kollege_k_rools_keep_objects			;0045
+	dw kong_kollege_krools_keep_objects			;0045
 	dw level_46_objects					;0046
 	dw level_47_objects					;0047
 	dw swankys_bonus_bonanza_gangplank_galleon_objects	;0048
@@ -78,7 +78,7 @@ DATA_FE0000:
 	dw kong_kollege_krem_quay_objects			;004A
 	dw kong_kollege_krazy_kremland_lower_objects		;004B
 	dw kong_kollege_gloomy_gulch_objects			;004C
-	dw swankys_bonus_bonanza_k_rools_keep_objects		;004D
+	dw swankys_bonus_bonanza_krools_keep_objects		;004D
 	dw kong_kollege_the_flying_krock_objects		;004E
 	dw level_4F_objects					;004F
 	dw funkys_flights_gangplank_galleon_objects		;0050
@@ -86,7 +86,7 @@ DATA_FE0000:
 	dw funkys_flights_krem_quay_objects			;0052
 	dw funkys_flights_krazy_kremland_upper_objects		;0053
 	dw funkys_flights_gloomy_gulch_objects			;0054
-	dw funkys_flights_k_rools_keep_objects			;0055
+	dw funkys_flights_krools_keep_objects			;0055
 	dw funkys_flights_the_flying_krock_objects		;0056
 	dw level_57_objects					;0057
 	dw level_58_objects					;0058
@@ -94,11 +94,11 @@ DATA_FE0000:
 	dw klubbas_kiosk_krem_quay_objects			;005A
 	dw klubbas_kiosk_krazy_kremland_lower_objects		;005B
 	dw klubbas_kiosk_gloomy_gulch_objects			;005C
-	dw klubbas_kiosk_k_rools_keep_objects			;005D
+	dw klubbas_kiosk_krools_keep_objects			;005D
 	dw level_5E_objects					;005E
 	dw level_5F_objects					;005F
 	dw king_zing_sting_objects				;0060
-	dw k_rool_duel_objects					;0061
+	dw krool_duel_objects					;0061
 	dw castle_crush_objects					;0062
 	dw kudgels_kontest_objects				;0063
 	dw krazy_kremland_lower_to_upper_left_objects		;0064
@@ -201,17 +201,17 @@ DATA_FE0000:
 	dw return_to_krem_quay_objects				;00C5
 	dw return_to_krazy_kremland_objects			;00C6
 	dw return_to_gloomy_gulch_objects			;00C7
-	dw return_to_k_rools_keep_objects			;00C8
+	dw return_to_krools_keep_objects			;00C8
 	dw monkey_museum_crocodile_cauldron_lost_world_objects	;00C9
 	dw monkey_museum_krem_quay_lost_world_objects		;00CA
 	dw monkey_museum_krazy_kremland_lost_world_objects	;00CB
 	dw monkey_museum_gloomy_gulch_lost_world_objects	;00CC
-	dw monkey_museum_k_rools_keep_lost_world_objects	;00CD
+	dw monkey_museum_krools_keep_lost_world_objects	;00CD
 	dw kroc_kore_crocodile_cauldron_lost_world_objects	;00CE
 	dw kroc_kore_krem_quay_lost_world_objects		;00CF
 	dw kroc_kore_krazy_kremland_lost_world_objects		;00D0
 	dw kroc_kore_gloomy_gulch_lost_world_objects		;00D1
-	dw kroc_kore_k_rools_keep_lost_world_objects		;00D2
+	dw kroc_kore_krools_keep_lost_world_objects		;00D2
 	dw level_D3_objects					;00D3
 	dw level_D4_objects					;00D4
 	dw level_D5_objects					;00D5
@@ -595,8 +595,8 @@ ghostly_grove_objects:
 topsail_trouble_warp_room_objects:
 	incsrc "data/levels/objects/topsail_trouble_warp_room_objects.asm"
 
-pirate_panic_k_rools_cabin_objects:
-	incsrc "data/levels/objects/pirate_panic_k_rools_cabin_objects.asm"
+pirate_panic_krools_cabin_objects:
+	incsrc "data/levels/objects/pirate_panic_krools_cabin_objects.asm"
 
 hot_head_hop_bonus_2_objects:
 	incsrc "data/levels/objects/hot_head_hop_bonus_2_objects.asm"
@@ -673,7 +673,7 @@ krazy_kremland_objects:
 gloomy_gulch_objects:
 	dw $0000
 
-k_rools_keep_objects:
+krools_keep_objects:
 	dw $0000
 
 the_flying_krock_objects:
@@ -697,7 +697,7 @@ monkey_museum_krazy_kremland_upper_objects:
 monkey_museum_gloomy_gulch_objects:
 	dw $0000
 
-monkey_museum_k_rools_keep_objects:
+monkey_museum_krools_keep_objects:
 	dw $0000
 
 level_3E_objects:
@@ -721,7 +721,7 @@ swankys_bonus_bonanza_krazy_kremland_upper_objects:
 swankys_bonus_bonanza_gloomy_gulch_objects:
 	dw $0000
 
-kong_kollege_k_rools_keep_objects:
+kong_kollege_krools_keep_objects:
 	dw $0000
 
 level_46_objects:
@@ -745,7 +745,7 @@ kong_kollege_krazy_kremland_lower_objects:
 kong_kollege_gloomy_gulch_objects:
 	dw $0000
 
-swankys_bonus_bonanza_k_rools_keep_objects:
+swankys_bonus_bonanza_krools_keep_objects:
 	dw $0000
 
 kong_kollege_the_flying_krock_objects:
@@ -769,7 +769,7 @@ funkys_flights_krazy_kremland_upper_objects:
 funkys_flights_gloomy_gulch_objects:
 	dw $0000
 
-funkys_flights_k_rools_keep_objects:
+funkys_flights_krools_keep_objects:
 	dw $0000
 
 funkys_flights_the_flying_krock_objects:
@@ -793,7 +793,7 @@ klubbas_kiosk_krazy_kremland_lower_objects:
 klubbas_kiosk_gloomy_gulch_objects:
 	dw $0000
 
-klubbas_kiosk_k_rools_keep_objects:
+klubbas_kiosk_krools_keep_objects:
 	dw $0000
 
 level_5E_objects:
@@ -805,8 +805,8 @@ level_5F_objects:
 king_zing_sting_objects:
 	incsrc "data/levels/objects/king_zing_sting_objects.asm"
 
-k_rool_duel_objects:
-	incsrc "data/levels/objects/k_rool_duel_objects.asm"
+krool_duel_objects:
+	incsrc "data/levels/objects/krool_duel_objects.asm"
 
 castle_crush_objects:
 	incsrc "data/levels/objects/castle_crush_objects.asm"
@@ -1114,7 +1114,7 @@ return_to_krazy_kremland_objects:
 return_to_gloomy_gulch_objects:
 	dw $0000
 
-return_to_k_rools_keep_objects:
+return_to_krools_keep_objects:
 	dw $0000
 
 monkey_museum_crocodile_cauldron_lost_world_objects:
@@ -1129,7 +1129,7 @@ monkey_museum_krazy_kremland_lost_world_objects:
 monkey_museum_gloomy_gulch_lost_world_objects:
 	dw $0000
 
-monkey_museum_k_rools_keep_lost_world_objects:
+monkey_museum_krools_keep_lost_world_objects:
 	dw $0000
 
 kroc_kore_crocodile_cauldron_lost_world_objects:
@@ -1144,7 +1144,7 @@ kroc_kore_krazy_kremland_lost_world_objects:
 kroc_kore_gloomy_gulch_lost_world_objects:
 	dw $0000
 
-kroc_kore_k_rools_keep_lost_world_objects:
+kroc_kore_krools_keep_lost_world_objects:
 	dw $0000
 
 level_D3_objects:
@@ -1262,7 +1262,7 @@ demo_level_scripts_table:
 
 ;Demo length, level ID, entrance ID
 ;Each pair of words after the header are inputs and duration of inputs
-mainbrace_mayhem_demo_script: 
+mainbrace_mayhem_demo_script:
 	dw $0087, !level_mainbrace_mayhem, $0001
 	dw $0000, $004A
 	dw $0200, $0001
@@ -1302,7 +1302,7 @@ mainbrace_mayhem_demo_script:
 	db $00
 
  rickety_race_demo_script:
- 	dw $001F, !level_rickety_race, $0000	
+ 	dw $001F, !level_rickety_race, $0000
 	dw $0000, $0019
 	dw $0100, $009C
 	dw $4100, $0042

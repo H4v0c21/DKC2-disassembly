@@ -33,7 +33,7 @@ DATA_FD0000:
 	dw gusty_glade_level_config					;18
 	dw ghostly_grove_level_config					;19
 	dw topsail_trouble_warp_room_level_config			;1A
-	dw pirate_panic_k_rools_cabin_level_config			;1B
+	dw pirate_panic_krools_cabin_level_config			;1B
 	dw hot_head_hop_bonus_2_level_config				;1C
 	dw pirate_panic_warp_room_level_config				;1D
 	dw target_terror_exit_room_level_config				;1E
@@ -59,7 +59,7 @@ DATA_FD0000:
 	dw krem_quay_level_config					;32
 	dw krazy_kremland_level_config					;33
 	dw gloomy_gulch_level_config					;34
-	dw k_rools_keep_level_config					;35
+	dw krools_keep_level_config					;35
 	dw the_flying_krock_level_config				;36
 	dw lost_world_level_config					;37
 	dw monkey_museum_gangplank_galleon_level_config			;38
@@ -67,7 +67,7 @@ DATA_FD0000:
 	dw monkey_museum_krem_quay_level_config				;3A
 	dw monkey_museum_krazy_kremland_upper_level_config		;3B
 	dw monkey_museum_gloomy_gulch_level_config			;3C
-	dw monkey_museum_k_rools_keep_level_config			;3D
+	dw monkey_museum_krools_keep_level_config			;3D
 	dw level_3E_level_config					;3E
 	dw level_3F_level_config					;3F
 	dw kong_kollege_gangplank_galleon_level_config			;40
@@ -75,7 +75,7 @@ DATA_FD0000:
 	dw swankys_bonus_bonanza_krem_quay_level_config			;42
 	dw swankys_bonus_bonanza_krazy_kremland_upper_level_config	;43
 	dw swankys_bonus_bonanza_gloomy_gulch_level_config		;44
-	dw kong_kollege_k_rools_keep_level_config			;45
+	dw kong_kollege_krools_keep_level_config			;45
 	dw level_46_level_config					;46
 	dw level_47_level_config					;47
 	dw swankys_bonus_bonanza_gangplank_galleon_level_config		;48
@@ -83,7 +83,7 @@ DATA_FD0000:
 	dw kong_kollege_krem_quay_level_config				;4A
 	dw kong_kollege_krazy_kremland_lower_level_config		;4B
 	dw kong_kollege_gloomy_gulch_level_config			;4C
-	dw swankys_bonus_bonanza_k_rools_keep_level_config		;4D
+	dw swankys_bonus_bonanza_krools_keep_level_config		;4D
 	dw kong_kollege_the_flying_krock_level_config			;4E
 	dw level_4F_level_config					;4F
 	dw funkys_flights_gangplank_galleon_level_config		;50
@@ -91,7 +91,7 @@ DATA_FD0000:
 	dw funkys_flights_krem_quay_level_config			;52
 	dw funkys_flights_krazy_kremland_upper_level_config		;53
 	dw funkys_flights_gloomy_gulch_level_config			;54
-	dw funkys_flights_k_rools_keep_level_config			;55
+	dw funkys_flights_krools_keep_level_config			;55
 	dw funkys_flights_the_flying_krock_level_config			;56
 	dw level_57_level_config					;57
 	dw level_58_level_config					;58
@@ -99,11 +99,11 @@ DATA_FD0000:
 	dw klubbas_kiosk_krem_quay_level_config				;5A
 	dw klubbas_kiosk_krazy_kremland_lower_level_config		;5B
 	dw klubbas_kiosk_gloomy_gulch_level_config			;5C
-	dw klubbas_kiosk_k_rools_keep_level_config			;5D
+	dw klubbas_kiosk_krools_keep_level_config			;5D
 	dw level_5E_level_config					;5E
 	dw level_5F_level_config					;5F
 	dw king_zing_sting_level_config					;60
-	dw k_rool_duel_level_config					;61
+	dw krool_duel_level_config					;61
 	dw castle_crush_level_config					;62
 	dw kudgels_kontest_level_config					;63
 	dw krazy_kremland_lower_to_upper_left_level_config		;64
@@ -206,12 +206,12 @@ DATA_FD0000:
 	dw return_to_krem_quay_level_config				;C5
 	dw return_to_krazy_kremland_level_config			;C6
 	dw return_to_gloomy_gulch_level_config				;C7
-	dw return_to_k_rools_keep_level_config				;C8
+	dw return_to_krools_keep_level_config				;C8
 	dw monkey_museum_crocodile_cauldron_lost_world_level_config	;C9
 	dw monkey_museum_krem_quay_lost_world_level_config		;CA
 	dw monkey_museum_krazy_kremland_lost_world_level_config		;CB
 	dw monkey_museum_gloomy_gulch_lost_world_level_config		;CC
-	dw monkey_museum_k_rools_keep_lost_world_level_config		;CD
+	dw monkey_museum_krools_keep_lost_world_level_config		;CD
 	dw !null_pointer						;CE
 	dw !null_pointer						;CF
 
@@ -406,7 +406,7 @@ red_hot_ride_smoke_layer_3_palette:
 lava_level_palette:
 	incbin "data/levels/palettes/lava_level_palette.bin"
 
-;$FD0EF0	
+;$FD0EF0
 fiery_furnace_level_palette:
 	incbin "data/levels/palettes/fiery_furnace_level_palette.bin"
 
@@ -477,17 +477,17 @@ carnival_level_palette:
 	db $8C, $31, $10, $46, $39, $67, $FF, $7F
 	db $A7, $0C, $65, $08, $64, $04, $86, $06
 	db $29, $04, $5F, $29, $31, $04, $9F, $10
-	
+
 	db $00, $50, $A7, $04, $18, $63, $10, $42
 	db $AD, $35, $08, $21, $A5, $14, $84, $10
 	db $42, $08, $21, $04, $01, $05, $41, $06
 	db $ED, $37, $EA, $2B, $E0, $03, $40, $03
-	
+
 	db $00, $50, $A7, $04, $18, $63, $10, $42
 	db $AD, $35, $08, $21, $A5, $14, $84, $10
 	db $42, $08, $21, $04, $28, $04, $32, $04
 	db $BF, $35, $5F, $29, $1F, $00, $1A, $00
-	
+
 	db $00, $50, $A7, $04, $18, $63, $10, $42
 	db $AD, $35, $08, $21, $A5, $14, $84, $10
 	db $42, $08, $21, $04, $42, $08, $63, $0C
@@ -594,7 +594,7 @@ title_screen_palette:
 	db $AE, $11, $51, $09, $B9, $00, $11, $00
 	db $22, $00, $A9, $00, $2F, $11, $64, $08
 	db $77, $09, $FA, $09, $7D, $0A, $DF, $0B
-	
+
 	db $25, $08, $C8, $00, $2E, $01, $B5, $1D
 	db $7B, $02, $7F, $07, $FF, $7F, $5A, $6B
 	db $94, $52, $EF, $39, $09, $00, $34, $04
@@ -670,17 +670,17 @@ castle_level_palette:
 ;$FD2EEE
 haunted_hall_level_palette:
 	incbin "data/levels/palettes/haunted_hall_level_palette.bin"
-	
+
 	db $00, $00, $7D, $57, $DB, $3A, $11, $2E
 	db $8D, $21, $08, $15, $C6, $0C, $84, $08
 	db $43, $04, $2F, $3F, $49, $26, $64, $0D
 	db $A0, $00, $1E, $1B, $9F, $0D, $3F, $00
-	
+
 	db $00, $00, $7D, $57, $DB, $3A, $11, $2E
 	db $8D, $21, $08, $15, $C6, $0C, $84, $08
 	db $43, $04, $78, $12, $B2, $0D, $0B, $05
 	db $65, $00, $1E, $1B, $9F, $0D, $3F, $00
-	
+
 	db $00, $00, $7D, $57, $DB, $3A, $11, $2E
 	db $8D, $21, $08, $15, $C6, $0C, $84, $08
 	db $43, $04, $3A, $42, $94, $2D, $CE, $14
@@ -691,8 +691,8 @@ slime_climb_level_palette:
 	incbin "data/levels/palettes/slime_climb_level_palette.bin"
 
 ;$FD314E
-k_rool_duel_level_palette:
-	incbin "data/levels/palettes/k_rool_duel_level_palette.bin"
+krool_duel_level_palette:
+	incbin "data/levels/palettes/krool_duel_level_palette.bin"
 
 ;$FD324E
 rattle_battle_level_palette:
@@ -1221,7 +1221,7 @@ secret_ending_isle_sprite_palette:
 ;$FD420E
 secret_ending_screen_palette:
 	incbin "data/screens/palettes/secret_ending_screen_palette.bin"
-	
+
 ;$FD430E
 klobber_karnage_level_palette:
 	incbin "data/levels/palettes/klobber_karnage_level_palette.bin"
@@ -1385,7 +1385,7 @@ castle_chain_link_chamber_tileset_config:
 	dw CODE_BBACE2
 	dw spawn_kongs_in_level
 	db !castle_generic_ppu_config_id
-	db !castle_generic_vram_payload_id	
+	db !castle_generic_vram_payload_id
 	dw !tileset_NMI_0015
 	dw !tileset_logic_0014
 	db !castle_1_layout_id
@@ -1433,15 +1433,15 @@ castle_crush_tileset_config:
 	db !castle_2_layout_id			;Note: this id is the same as castle 1, they both point to the same data
 	%bit_flags_word(!climbable_ropes_2_effect, !door_occlusion_effect)
 
-k_rool_duel_tileset_config:
+krool_duel_tileset_config:
 	dw !tileset_init_0011
 	dw !tileset_HDMA_init_0000
 	dw !music_forest
 	dw !null_pointer
 	dw CODE_BBACE2
 	dw CODE_BBAD19
-	db !k_rool_duel_ppu_config_id
-	db !k_rool_duel_vram_payload_id
+	db !krool_duel_ppu_config_id
+	db !krool_duel_vram_payload_id
 	dw !tileset_NMI_0019
 	dw !tileset_logic_0017
 	db !krool_duel_layout_id
@@ -1668,7 +1668,7 @@ lava_fiery_furnace_tileset_config:
 	db !lava_generic_vram_payload_id
 	dw !tileset_NMI_0007
 	dw !tileset_logic_0007
-	db !lava_layout_id	
+	db !lava_layout_id
 	%bit_flags_word(!offscreen_water_splash_effect)
 
 lava_red_hot_ride_tileset_config:
@@ -1682,7 +1682,7 @@ lava_red_hot_ride_tileset_config:
 	db !lava_geysers_vram_payload_id
 	dw !tileset_NMI_0013
 	dw !tileset_logic_0012
-	db !lava_layout_id	
+	db !lava_layout_id
 	%bit_flags_word(!platform_sprite_edge_guard_effect)
 
 ship_mast_slime_climb_tileset_config:
@@ -1836,7 +1836,7 @@ mine_windy_well_tileset_config:
 	db !mine_windy_vram_payload_id
 	dw !tileset_NMI_0020
 	dw !tileset_logic_001E
-	db !mine_layout_id	
+	db !mine_layout_id
 	%bit_flags_word(!wind_sound_effect)
 
 mine_kannons_klaim_tileset_config:
@@ -1850,7 +1850,7 @@ mine_kannons_klaim_tileset_config:
 	db !mine_generic_vram_payload_id
 	dw !tileset_NMI_000C
 	dw !tileset_logic_000C
-	db !mine_layout_id	
+	db !mine_layout_id
 	%bit_flags_word()
 
 mine_squawks_shaft_tileset_config:
@@ -2088,7 +2088,7 @@ pirate_panic_level_config:
 	db $00 : dw $1C30, $01D0
 	db $FF
 	dw !level_mainbrace_mayhem
-	dw !level_pirate_panic_k_rools_cabin
+	dw !level_pirate_panic_krools_cabin
 	dw !level_pirate_panic_bonus_1
 	dw !level_pirate_panic_bonus_2
 	dw !level_pirate_panic_warp_room
@@ -2325,12 +2325,12 @@ mainbrace_mayhem_level_config:
 	dw !level_return_to_krem_quay, !level_monkey_museum_krem_quay_lost_world
 	dw !level_return_to_krazy_kremland, !level_monkey_museum_krazy_kremland_lost_world
 	dw !level_return_to_gloomy_gulch, !level_monkey_museum_gloomy_gulch_lost_world
-	dw !level_return_to_k_rools_keep, !level_monkey_museum_k_rools_keep_lost_world
+	dw !level_return_to_krools_keep, !level_monkey_museum_krools_keep_lost_world
 	dw !level_return_to_crocodile_cauldron, !level_jungle_jinx
 	dw !level_return_to_krem_quay, !level_black_ice_battle
 	dw !level_return_to_krazy_kremland, !level_klobber_karnage
 	dw !level_return_to_gloomy_gulch, !level_fiery_furnace
-	dw !level_return_to_k_rools_keep, !level_animal_antics_rambi_area
+	dw !level_return_to_krools_keep, !level_animal_antics_rambi_area
 	dw $FFFF
 
 ;$FD4EF7
@@ -2350,7 +2350,7 @@ kreepy_krow_level_config:
 	db $FF
 	dw !level_mainbrace_mayhem
 	dw $FFFF, $0000
-	dw !level_gloomy_gulch, !level_k_rools_keep
+	dw !level_gloomy_gulch, !level_krools_keep
 	dw $FFFF
 
 ;$FD4F1E
@@ -2662,7 +2662,7 @@ topsail_trouble_warp_room_level_config:
 	dw $FFFF
 
 ;$FD51B5
-pirate_panic_k_rools_cabin_level_config:
+pirate_panic_krools_cabin_level_config:
 	dw !bonus_level_type
 	db !no_bonus_type
 	dw ship_cabin_tileset_config
@@ -2827,11 +2827,11 @@ windy_well_level_config:
 	db $00 : dw $0130, $01B1
 	db $00 : dw $0210, $01B1
 	db $FF
-	dw !level_kong_kollege_k_rools_keep
+	dw !level_kong_kollege_krools_keep
 	dw !level_windy_well_bonus_1
 	dw !level_windy_well_bonus_2
 	dw $FFFF, $0000
-	dw !level_kong_kollege_k_rools_keep, !level_castle_crush
+	dw !level_kong_kollege_krools_keep, !level_castle_crush
 	dw $FFFF
 
 ;$FD52DB
@@ -3089,7 +3089,7 @@ screechs_sprint_level_config:
 	db $40 : dw $0AE0, $0784
 	db $00 : dw $0C90, $01E9
 	db $FF
-	dw !level_k_rool_duel
+	dw !level_krool_duel
 	dw !level_screechs_sprint_bonus_1
 	dw $FFFF, $0000
 	dw !level_screechs_sprint, !level_kong_kollege_the_flying_krock
@@ -3117,7 +3117,7 @@ gloomy_gulch_level_config:
 	dw !map_level_type
 
 ;$FD54EF
-k_rools_keep_level_config:
+krools_keep_level_config:
 	dw !map_level_type
 
 ;$FD54F1
@@ -3149,7 +3149,7 @@ monkey_museum_gloomy_gulch_level_config:
 	dw !npc_level_type
 
 ;$FD54FF
-monkey_museum_k_rools_keep_level_config:
+monkey_museum_krools_keep_level_config:
 	dw !npc_level_type
 
 ;$FD5501
@@ -3181,7 +3181,7 @@ swankys_bonus_bonanza_gloomy_gulch_level_config:
 	dw !npc_level_type
 
 ;$FD550F
-kong_kollege_k_rools_keep_level_config:
+kong_kollege_krools_keep_level_config:
 	dw !npc_level_type
 
 ;$FD5511
@@ -3213,7 +3213,7 @@ kong_kollege_gloomy_gulch_level_config:
 	dw !npc_level_type
 
 ;$FD551F
-swankys_bonus_bonanza_k_rools_keep_level_config:
+swankys_bonus_bonanza_krools_keep_level_config:
 	dw !npc_level_type
 
 ;$FD5521
@@ -3245,7 +3245,7 @@ funkys_flights_gloomy_gulch_level_config:
 	dw !npc_level_type
 
 ;$FD552F
-funkys_flights_k_rools_keep_level_config:
+funkys_flights_krools_keep_level_config:
 	dw !npc_level_type
 
 ;$FD5531
@@ -3277,7 +3277,7 @@ klubbas_kiosk_gloomy_gulch_level_config:
 	dw !npc_level_type
 
 ;$FD553F
-klubbas_kiosk_k_rools_keep_level_config:
+klubbas_kiosk_krools_keep_level_config:
 	dw !npc_level_type
 
 ;$FD5541
@@ -3307,9 +3307,9 @@ king_zing_sting_level_config:
 	dw $FFFF
 
 ;$FD5562
-k_rool_duel_level_config:
+krool_duel_level_config:
 	dw !boss_level_type
-	dw k_rool_duel_tileset_config
+	dw krool_duel_tileset_config
 	db !level_layout_00
 	db $00
 	db $00
@@ -3473,8 +3473,8 @@ arctic_abyss_level_config:
 	dw !level_arctic_abyss_bonus_1
 	dw !level_arctic_abyss_bonus_2
 	dw $FFFF, $0000
-	dw !level_arctic_abyss, !level_klubbas_kiosk_k_rools_keep
-	dw !level_arctic_abyss, !level_monkey_museum_k_rools_keep
+	dw !level_arctic_abyss, !level_klubbas_kiosk_krools_keep
+	dw !level_arctic_abyss, !level_monkey_museum_krools_keep
 	dw $FFFF
 
 ;$FD5675
@@ -3494,12 +3494,12 @@ chain_link_chamber_level_config:
 	db $00 : dw $0274, $0AB5
 	db $00 : dw $0200, $0215
 	db $FF
-	dw !level_swankys_bonus_bonanza_k_rools_keep
+	dw !level_swankys_bonus_bonanza_krools_keep
 	dw !level_chain_link_chamber_bonus_1
 	dw !level_chain_link_chamber_bonus_2
 	dw $FFFF, $0000
-	dw !level_chain_link_chamber, !level_funkys_flights_k_rools_keep
-	dw !level_swankys_bonus_bonanza_k_rools_keep, !level_toxic_tower
+	dw !level_chain_link_chamber, !level_funkys_flights_krools_keep
+	dw !level_swankys_bonus_bonanza_krools_keep, !level_toxic_tower
 	dw $FFFF
 
 ;$FD56AE
@@ -4369,7 +4369,7 @@ animal_antics_rattly_area_level_config:
 	db $00 : dw $0520, $00E8
 	db $00 : dw $0C30, $01E1
 	db $FF
-	dw !level_return_to_k_rools_keep
+	dw !level_return_to_krools_keep
 	dw $FFFF, $0000
 	dw $FFFF
 
@@ -4891,7 +4891,7 @@ stronghold_showdown_level_config:
 	db $FF
 	dw !level_mainbrace_mayhem
 	dw $FFFF, $0000
-	dw !level_k_rools_keep, !level_the_flying_krock
+	dw !level_krools_keep, !level_the_flying_krock
 	dw $FFFF
 
 ;$FD5ECC
@@ -5092,7 +5092,7 @@ return_to_gloomy_gulch_level_config:
 	dw !map_level_type
 
 ;$FD5FE2
-return_to_k_rools_keep_level_config:
+return_to_krools_keep_level_config:
 	dw !map_level_type
 
 ;$FD5FE4
@@ -5112,7 +5112,7 @@ monkey_museum_gloomy_gulch_lost_world_level_config:
 	dw !map_level_type
 
 ;$FD5FEC
-monkey_museum_k_rools_keep_lost_world_level_config:
+monkey_museum_krools_keep_lost_world_level_config:
 	dw !map_level_type
 
 ;$FD5FEE
@@ -5164,7 +5164,7 @@ sprite_palette_table:
 kleever_hand_sprite_pal_ptr:
 	dw kleever_hand_sprite_palette			;002B
 
-	dw k_rool_letter_sprite_palette			;002C
+	dw krool_letter_sprite_palette			;002C
 	dw roller_coaster_gate_sprite_palette		;002D
 	dw ghost_rope_sprite_palette			;002E
 	dw kaboing_grey_sprite_palette			;002F
@@ -5225,17 +5225,17 @@ kleever_hand_sprite_pal_ptr:
 	dw klobber_black_sprite_palette			;0066
 	dw DATA_FD6FA6					;0067 krem coin?
 	dw DATA_FD6FC4					;0068 dk coin?
-	dw k_rool_sprite_palette			;0069
-	dw k_rool_gun_sprite_palette			;006A
-	dw k_rool_burnt_sprite_palette			;006B
+	dw krool_sprite_palette			;0069
+	dw krool_gun_sprite_palette			;006A
+	dw krool_burnt_sprite_palette			;006B
 	dw guitar_sprite_palette			;006C
 	dw klank_blue_sprite_palette			;006D
 	dw rain_cloud_palette				;006E
 	dw clapper_sprite_palette			;006F
-	dw k_rool_vacuum_sprite_palette			;0070
-	dw k_rool_blue_gas_sprite_palette		;0071
-	dw k_rool_red_gas_sprite_palette		;0072
-	dw k_rool_purple_gas_sprite_palette		;0073
+	dw krool_vacuum_sprite_palette			;0070
+	dw krool_blue_gas_sprite_palette		;0071
+	dw krool_red_gas_sprite_palette		;0072
+	dw krool_purple_gas_sprite_palette		;0073
 	dw DATA_FD7274					;0074
 	dw yoshi_sprite_palette				;0075
 	dw mario_sprite_palette				;0076
@@ -5264,12 +5264,12 @@ kleever_hand_sprite_pal_ptr:
 	dw !null_pointer				;008D
 	dw !null_pointer				;008E
 	dw !null_pointer				;008F
-	dw k_rool_fade_1_sprite_palette			;0090
-	dw k_rool_fade_2_sprite_palette			;0091
-	dw k_rool_fade_3_sprite_palette			;0092
-	dw k_rool_gun_fade_1_sprite_palette		;0093
-	dw k_rool_gun_fade_2_sprite_palette		;0094
-	dw k_rool_gun_fade_3_sprite_palette		;0095
+	dw krool_fade_1_sprite_palette			;0090
+	dw krool_fade_2_sprite_palette			;0091
+	dw krool_fade_3_sprite_palette			;0092
+	dw krool_gun_fade_1_sprite_palette		;0093
+	dw krool_gun_fade_2_sprite_palette		;0094
+	dw krool_gun_fade_3_sprite_palette		;0095
 	dw kudgel_sprite_palette			;0096
 	dw kudgel_club_sprite_palette			;0097
 	dw king_zing_stinger_1_sprite_palette		;0098
@@ -5313,11 +5313,11 @@ kleever_hand_sprite_pal_ptr:
 	dw !null_pointer				;00BE
 	dw !null_pointer				;00BF
 
-map_k_rool_sprite_pal_ptr:
-	dw map_k_rool_sprite_palette			;00C0
+map_krool_sprite_pal_ptr:
+	dw map_krool_sprite_palette			;00C0
 
-map_k_rool_splash_sprite_pal_ptr:	
-	dw map_k_rool_splash_sprite_palette		;00C1
+map_krool_splash_sprite_pal_ptr:
+	dw map_krool_splash_sprite_palette		;00C1
 	dw !null_pointer				;00C2
 	dw !null_pointer				;00C3
 	dw !null_pointer				;00C4
@@ -5368,17 +5368,17 @@ fireworks_palette:
 	db $00, $28, $00, $34, $00, $40, $10, $62
 	db $FF, $7F, $05, $00, $49, $08, $8D, $10
 	db $D1, $18, $16, $21, $9B, $52, $FF, $7F
-	
+
 	db $00, $00, $00, $0C, $00, $14, $00, $20
 	db $00, $28, $00, $34, $00, $40, $10, $62
 	db $FF, $7F, $A0, $00, $22, $09, $A4, $11
 	db $26, $1A, $C8, $22, $74, $53, $FF, $7F
-	
+
 	db $00, $00, $00, $0C, $00, $14, $00, $20
 	db $00, $28, $00, $34, $00, $40, $10, $62
 	db $FF, $7F, $00, $14, $42, $24, $84, $34
 	db $C6, $44, $08, $59, $94, $6E, $FF, $7F
-	
+
 	db $00, $00, $00, $0C, $00, $14, $00, $20
 	db $00, $28, $00, $34, $00, $40, $10, $62
 	db $FF, $7F, $A0, $00, $22, $09, $A4, $11
@@ -5389,12 +5389,12 @@ rain_cloud_palette:
 	db $6B, $2D, $AD, $35, $EF, $3D, $31, $46
 	db $73, $4E, $B5, $56, $F7, $5E, $39, $67
 	db $7B, $6F, $BD, $77, $FF, $7F
-	
+
 	db $00, $00, $C8, $00, $2E, $01, $B5, $1D
 	db $7B, $02, $F8, $63, $18, $63, $73, $4E
 	db $AD, $35, $08, $21, $09, $00, $0C, $00
 	db $30, $04, $34, $04, $5F, $08, $BF, $05
-	
+
 	db $00, $00, $C8, $00, $2E, $01, $B5, $1D
 	db $7B, $02, $7F, $07, $FF, $7F, $5A, $6B
 	db $94, $52, $EF, $39, $09, $00, $0C, $00
@@ -5510,37 +5510,37 @@ diddy_active_sprite_palette:
 	db $56, $11, $52, $1D, $D9, $2D, $7F, $3A
 	db $DF, $46, $5F, $4F, $55, $04, $7A, $08
 	db $DF, $10, $EF, $3D, $FF, $7F
-	
+
 	db $65, $08, $87, $08, $89, $0C, $CC, $0C
 	db $EF, $10, $EC, $14, $50, $21, $B5, $29
 	db $F5, $2D, $35, $36, $4E, $08, $71, $08
 	db $95, $0C, $4A, $29, $5A, $6B
-	
+
 	db $66, $04, $8A, $08, $CD, $0C, $12, $0D
 	db $56, $11, $52, $1D, $D9, $2D, $7F, $3A
 	db $DF, $46, $5F, $4F, $06, $7C, $C9, $7C
 	db $6F, $7D, $EF, $3D, $FF, $7F
-	
+
 	db $65, $08, $87, $08, $89, $0C, $CC, $0C
 	db $EF, $10, $EC, $14, $50, $21, $B5, $29
 	db $F5, $2D, $35, $36, $24, $54, $A7, $54
 	db $0A, $55, $4A, $29, $B5, $56
-	
+
 	db $23, $59, $C7, $65, $6C, $76, $AD, $7A
 	db $EF, $7E, $51, $7F, $73, $7F, $96, $7F
 	db $B8, $7F, $DB, $7F, $0D, $7F, $2F, $7F
 	db $71, $7F, $8B, $7E, $FF, $7F
-	
+
 	db $23, $00, $0A, $00, $11, $00, $18, $00
 	db $1F, $00, $BF, $00, $1F, $01, $7F, $01
 	db $DF, $01, $3F, $02, $55, $04, $7A, $08
 	db $DF, $10, $1F, $01, $FF, $7F
-	
+
 	db $01, $0C, $04, $28, $28, $40, $2C, $5C
 	db $51, $78, $6C, $60, $B1, $68, $16, $71
 	db $5B, $79, $BF, $7D, $0B, $5C, $91, $68
 	db $37, $75, $B1, $68, $FF, $7F
-	
+
 	db $30, $19, $97, $1D, $FE, $25, $7F, $2A
 	db $FF, $32, $FF, $4A, $FF, $67, $FF, $7F
 	db $FF, $7F, $FF, $7F, $1F, $19, $5F, $1D
@@ -5552,37 +5552,37 @@ dixie_active_sprite_palette:
 	db $1B, $2E, $FF, $46, $BF, $5B, $AF, $0D
 	db $98, $16, $FF, $2B, $B2, $24, $F9, $30
 	db $7F, $49, $00, $02, $FF, $7F
-	
+
 	db $44, $04, $87, $04, $AB, $08, $F1, $08
 	db $72, $21, $F5, $31, $75, $3A, $2A, $0D
 	db $D0, $11, $B5, $1E, $8C, $18, $B1, $24
 	db $15, $31, $61, $05, $5A, $6B
-	
+
 	db $24, $04, $8A, $04, $F1, $04, $5A, $09
 	db $1B, $2E, $FF, $46, $BF, $5B, $6F, $0C
 	db $B8, $14, $5F, $29, $09, $38, $CF, $50
 	db $95, $69, $40, $02, $FF, $7F
-	
+
 	db $44, $04, $87, $04, $AB, $08, $F1, $08
 	db $72, $21, $F5, $31, $75, $3A, $6A, $0C
 	db $90, $10, $F5, $1C, $27, $28, $8A, $34
 	db $2E, $45, $81, $05, $5A, $6B
-	
+
 	db $23, $59, $E8, $6D, $CE, $7E, $11, $7F
 	db $54, $7F, $97, $7F, $DB, $7F, $69, $7E
 	db $ED, $7E, $71, $7F, $06, $7E, $AB, $7E
 	db $71, $7F, $8B, $7E, $FF, $7F
-	
+
 	db $24, $04, $2D, $00, $16, $00, $1E, $00
 	db $7F, $00, $3F, $01, $BF, $01, $16, $00
 	db $3C, $01, $BF, $01, $FB, $00, $5D, $01
 	db $BF, $01, $5D, $01, $FF, $7F
-	
+
 	db $03, $10, $08, $34, $0D, $58, $13, $7C
 	db $B6, $7C, $59, $7D, $FC, $7D, $0D, $58
 	db $35, $6D, $FC, $7D, $0D, $58, $B3, $6C
 	db $59, $7D, $B3, $6C, $FF, $7F
-	
+
 	db $CC, $14, $98, $15, $3F, $1A, $FF, $22
 	db $FF, $6B, $FF, $7F, $FF, $7F, $BF, $2B
 	db $FF, $3B, $FF, $63, $DF, $55, $5F, $72
@@ -6076,19 +6076,19 @@ DATA_FD6FC4:
 	db $F7, $19, $5A, $22, $BC, $2A, $FE, $32
 	db $3F, $43, $7F, $53, $DF, $63
 
-k_rool_sprite_palette:
+krool_sprite_palette:
 	db $20, $00, $07, $00, $2A, $00, $8E, $00
 	db $A4, $04, $05, $09, $88, $11, $2B, $12
 	db $CD, $16, $4F, $11, $97, $22, $DF, $33
 	db $31, $46, $18, $63, $FF, $7F
 
-k_rool_gun_sprite_palette:
+krool_gun_sprite_palette:
 	db $00, $00, $A4, $18, $E6, $20, $28, $2D
 	db $8A, $39, $0E, $52, $D3, $6E, $BB, $7F
 	db $B1, $2D, $1A, $5B, $65, $08, $67, $08
 	db $8A, $0C, $CD, $10, $71, $25
 
-k_rool_burnt_sprite_palette:
+krool_burnt_sprite_palette:
 	db $20, $00, $00, $00, $00, $00, $00, $00
 	db $00, $00, $00, $00, $00, $00, $00, $00
 	db $00, $00, $00, $00, $00, $00, $00, $00
@@ -6118,17 +6118,17 @@ clapper_sprite_palette:
 	db $D4, $20, $44, $08, $32, $1D, $B9, $29
 	db $5F, $3A, $7F, $53, $FF, $7F
 
-k_rool_vacuum_sprite_palette:
+krool_vacuum_sprite_palette:
 	db $B3, $4D, $F4, $51, $15, $56, $56, $5A
 	db $77, $5E, $98, $62, $D9, $66, $FA, $6A
 	db $3B, $6F, $5C, $73, $7D, $77, $BE, $7B
 	db $DF, $7F, $FF, $7F, $42, $04
-	
+
 	db $42, $08, $63, $08, $63, $0C, $84, $0C
 	db $A5, $10, $A5, $10, $C6, $14, $E7, $14
 	db $E7, $18, $08, $1D, $6B, $29, $CE, $35
 	db $11, $42, $75, $4E
-	
+
 screech_sprite_palette:
 	db $00, $00, $04, $00, $07, $00, $0B, $00
 	db $14, $00, $3C, $00, $BF, $01, $EF, $00
@@ -6175,35 +6175,35 @@ traffic_light_sprite_palette:
 	db $AD, $35, $94, $52, $08, $21, $8C, $31
 	db $73, $4E, $08, $21, $8C, $31, $73, $4E
 	db $08, $21, $8C, $31, $73, $4E
-	
+
 	db $42, $08, $A5, $14, $C6, $18, $E7, $1C
 	db $AD, $35, $94, $52, $16, $00, $1F, $00
 	db $BF, $35, $08, $21, $8C, $31, $73, $4E
 	db $08, $21, $8C, $31, $73, $4E
-	
+
 	db $42, $08, $A5, $14, $C6, $18, $E7, $1C
 	db $AD, $35, $94, $52, $16, $00, $1F, $00
 	db $BF, $35, $16, $00, $1F, $00, $BF, $35
 	db $08, $21, $8C, $31, $73, $4E
-	
+
 	db $42, $08, $A5, $14, $C6, $18, $E7, $1C
 	db $AD, $35, $94, $52, $16, $00, $1F, $00
 	db $BF, $35, $16, $00, $1F, $00, $BF, $35
 	db $41, $06, $E0, $03, $EC, $33
 
-k_rool_blue_gas_sprite_palette:
+krool_blue_gas_sprite_palette:
 	db $00, $10, $20, $1C, $60, $28, $80, $34
 	db $A0, $40, $C0, $4C, $01, $59, $64, $61
 	db $C7, $65, $2A, $6E, $AE, $72, $11, $7B
 	db $75, $7F, $BA, $7F, $FF, $7F
 
-k_rool_red_gas_sprite_palette:
+krool_red_gas_sprite_palette:
 	db $05, $00, $06, $00, $08, $00, $0A, $00
 	db $0C, $00, $0E, $00, $10, $00, $12, $00
 	db $19, $00, $1F, $00, $DF, $18, $BF, $35
 	db $7F, $4E, $3F, $67, $FF, $7F
 
-k_rool_purple_gas_sprite_palette:
+krool_purple_gas_sprite_palette:
 	db $01, $0C, $22, $18, $24, $24, $24, $28
 	db $46, $34, $48, $3C, $6A, $48, $8B, $54
 	db $AD, $60, $30, $65, $D3, $6D, $56, $72
@@ -6233,37 +6233,37 @@ mario_sprite_palette:
 	db $01, $1C, $10, $00, $9F, $10, $10, $21
 	db $95, $31, $FF, $3D, $9F, $52
 
-k_rool_fade_1_sprite_palette:
+krool_fade_1_sprite_palette:
 	db $00, $00, $05, $00, $08, $00, $6B, $00
 	db $83, $04, $C4, $04, $26, $0D, $A8, $0D
 	db $2A, $0E, $EB, $0C, $F1, $19, $F8, $26
 	db $8C, $31, $52, $4A, $18, $63
 
-k_rool_fade_2_sprite_palette:
+krool_fade_2_sprite_palette:
 	db $00, $00, $03, $00, $05, $00, $47, $00
 	db $62, $04, $83, $04, $C4, $08, $25, $09
 	db $67, $09, $A7, $08, $4C, $11, $F0, $19
 	db $08, $21, $8C, $31, $10, $42
 
-k_rool_fade_3_sprite_palette:
+krool_fade_3_sprite_palette:
 	db $00, $00, $02, $00, $03, $00, $24, $00
 	db $21, $00, $41, $00, $62, $04, $83, $04
 	db $C3, $04, $44, $04, $A6, $08, $08, $0D
 	db $84, $10, $C6, $18, $08, $21
 
-k_rool_gun_fade_1_sprite_palette:
+krool_gun_fade_1_sprite_palette:
 	db $00, $00, $83, $10, $A5, $18, $E6, $20
 	db $28, $29, $8B, $3D, $2E, $52, $D4, $62
 	db $2C, $21, $54, $46, $43, $08, $45, $08
 	db $67, $08, $AA, $0C, $0D, $1D
 
-k_rool_gun_fade_2_sprite_palette:
+krool_gun_fade_2_sprite_palette:
 	db $00, $00, $62, $0C, $83, $10, $A4, $14
 	db $C5, $1C, $07, $29, $6A, $39, $EE, $41
 	db $C8, $14, $8D, $2D, $22, $04, $44, $04
 	db $45, $04, $67, $08, $C9, $14
 
-k_rool_gun_fade_3_sprite_palette:
+krool_gun_fade_3_sprite_palette:
 	db $00, $00, $21, $04, $42, $08, $42, $0C
 	db $63, $0C, $84, $14, $C5, $1C, $E7, $20
 	db $64, $0C, $C7, $18, $21, $04, $22, $04
@@ -6359,7 +6359,7 @@ DATA_FD7546:
 	db $9C, $01, $7F, $05, $10, $42, $B6, $15
 	db $5A, $0B, $92, $05, $60, $01
 
-k_rool_letter_sprite_palette:
+krool_letter_sprite_palette:
 	db $82, $11, $0C, $00, $D1, $10, $21, $04
 	db $63, $04, $85, $08, $C8, $0C, $0A, $11
 	db $4D, $15, $8F, $19, $B0, $1D, $F5, $19
@@ -6376,12 +6376,12 @@ wrinkly_kong_book_sprite_palette:
 	db $6F, $0E, $13, $13, $B7, $17, $CB, $00
 	db $71, $01, $37, $02, $1C, $03, $08, $21
 	db $10, $42, $18, $63, $FF, $7F
-	
+
 	db $95, $00, $96, $00, $98, $00, $9A, $00
 	db $BC, $00, $BE, $00, $DF, $00, $1F, $01
 	db $7F, $01, $BF, $01, $1F, $02, $7F, $02
 	db $BF, $02, $1F, $03, $7F, $03
-	
+
 	db $67, $00, $C8, $04, $E7, $08, $07, $09
 	db $26, $09, $45, $0D, $64, $0D, $83, $0D
 	db $6B, $11, $C2, $11, $2A, $15, $E1, $15
@@ -6495,13 +6495,13 @@ map_p2_kong_and_text_sprite_palette:
 	db $CF, $50, $95, $69, $CC, $04, $1F, $7C
 	db $06, $7C, $C9, $7C, $EF, $3D, $1F, $63
 
-map_k_rool_sprite_palette:
+map_krool_sprite_palette:
 	db $20, $00, $08, $00, $8E, $00, $E6, $0C
 	db $CA, $15, $CD, $16, $A4, $18, $28, $2D
 	db $0E, $52, $31, $46, $4F, $11, $97, $22
 	db $DF, $33, $71, $25, $FF, $7F
 
-map_k_rool_splash_sprite_palette:
+map_krool_splash_sprite_palette:
 	db $22, $37, $25, $3F, $49, $47, $6C, $4F
 	db $6F, $57, $92, $5F, $B6, $67, $B9, $6F
 	db $DC, $7B, $FF, $7F, $FF, $7F, $FF, $7F
@@ -6632,7 +6632,7 @@ ppu_config_table:
 	dw castle_generic_ppu_config-ppu_config_table				;2B castle_generic
 	dw haunted_generic_ppu_config-ppu_config_table				;2C haunted_generic
 	dw ship_mast_flooded_ppu_config-ppu_config_table			;2D ship_mast_flooded
-	dw k_rool_duel_ppu_config-ppu_config_table				;2E k_rool_duel
+	dw krool_duel_ppu_config-ppu_config_table				;2E krool_duel
 	dw ice_flooded_ppu_config-ppu_config_table				;2F ice_flooded
 	dw jungle_generic_ppu_config-ppu_config_table				;30 jungle_generic
 	dw ice_translucent_ppu_config-ppu_config_table				;31 ice_translucent
@@ -7173,7 +7173,7 @@ ship_mast_flooded_ppu_config:
 	dw $0000
 
 ;$FD7FAC
-k_rool_duel_ppu_config:
+krool_duel_ppu_config:
 	dw PPU.layer_mode : db $09
 	dw PPU.layer_1_2_tilemap_base|$8000, $6979
 	dw PPU.layer_3_tilemap_base : db $74
@@ -7390,7 +7390,7 @@ vram_payload_table:
 	dw krem_quay_vram_payload-vram_payload_table			;0F krem_quay_vram_payload
 	dw krazy_kremland_lower_vram_payload-vram_payload_table		;10 krazy_kremland_lower_vram_payload
 	dw gloomy_gulch_vram_payload-vram_payload_table			;11 gloomy_gulch_vram_payload
-	dw k_rools_keep_vram_payload-vram_payload_table			;12 k_rools_keep_vram_payload
+	dw krools_keep_vram_payload-vram_payload_table			;12 krools_keep_vram_payload
 	dw lost_world_vram_payload-vram_payload_table			;13 lost_world_vram_payload
 	dw the_flying_krock_vram_payload-vram_payload_table		;14 the_flying_krock_vram_payload
 	dw krazy_kremland_upper_vram_payload-vram_payload_table		;15 krazy_kremland_upper_vram_payload
@@ -7418,7 +7418,7 @@ vram_payload_table:
 	dw castle_generic_vram_payload-vram_payload_table		;2B castle_generic_vram_payload
 	dw haunted_generic_vram_payload-vram_payload_table		;2C haunted_generic_vram_payload
 	dw ship_mast_flooded_vram_payload-vram_payload_table		;2D ship_mast_flooded_vram_payload
-	dw k_rool_duel_vram_payload-vram_payload_table			;2E k_rool_duel_vram_payload
+	dw krool_duel_vram_payload-vram_payload_table			;2E krool_duel_vram_payload
 	dw ice_generic_vram_payload-vram_payload_table			;2F ice_generic_vram_payload
 	dw jungle_generic_vram_payload-vram_payload_table		;30 jungle_generic_vram_payload
 	dw castle_flooded_vram_payload-vram_payload_table		;31 castle_flooded_vram_payload
@@ -7571,9 +7571,9 @@ gloomy_gulch_vram_payload:
 	db $00
 
 ;$FD83E1
-k_rools_keep_vram_payload:
-	%vram_payload(k_rools_keep_tiledata, $2000, $7FC0, 1)
-	%vram_payload(k_rools_keep_8x8_tilemap, $7000, $0E00, 1)
+krools_keep_vram_payload:
+	%vram_payload(krools_keep_tiledata, $2000, $7FC0, 1)
+	%vram_payload(krools_keep_8x8_tilemap, $7000, $0E00, 1)
 	db $00
 
 ;$FD83F0
@@ -7756,8 +7756,8 @@ ship_mast_flooded_vram_payload:
 	db $00
 
 ;$FD86A5
-k_rool_duel_vram_payload:
-	%vram_payload(k_rool_duel_level_tiledata, $2000, $8000, 1)
+krool_duel_vram_payload:
+	%vram_payload(krool_duel_level_tiledata, $2000, $8000, 1)
 	%vram_payload(brambles_sky_bg_layer_3_tiledata, $6888, $0EF0, 1)
 	%vram_payload(brambles_sky_bg_layer_3_8x8_tilemap, $7400, $0800, 1)
 	db $00
@@ -8116,7 +8116,7 @@ DATA_FD934D:
 	dw DATA_FDAC49-DATA_FD934D
 	dw DATA_FDAC49-DATA_FD934D
 	dw DATA_FDAC49-DATA_FD934D
-	
+
 DATA_FD94ED:
 	incsrc "data/levels/cameras/glimmers_galleon_cameras.asm"
 
@@ -8196,7 +8196,7 @@ DATA_FD9F1A:
 	incsrc "data/levels/cameras/topsail_trouble_warp_room_cameras.asm"
 
 DATA_FD9F1F:
-	incsrc "data/levels/cameras/pirate_panic_k_rools_cabin_cameras.asm"
+	incsrc "data/levels/cameras/pirate_panic_krools_cabin_cameras.asm"
 
 DATA_FD9F24:
 	incsrc "data/levels/cameras/hot_head_hop_bonus_2_cameras.asm"
@@ -8262,7 +8262,7 @@ DATA_FDA3DE:
 	incsrc "data/levels/cameras/king_zing_sting_cameras.asm"
 
 DATA_FDA3E8:
-	incsrc "data/levels/cameras/k_rool_duel_cameras.asm"
+	incsrc "data/levels/cameras/krool_duel_cameras.asm"
 
 DATA_FDA3ED:
 	incsrc "data/levels/cameras/castle_crush_cameras.asm"
@@ -9710,7 +9710,7 @@ banana_pattern_6B:
 	db $00, $00, $00, $00, $00, $00, $00, $00
 	db $21, $84, $00, $00, $00, $00, $00, $00
 	db $00, $00, $21, $84
-	
+
 ;$FDCF65
 banana_pattern_6C:
 	db $00, $00, $00, $00, $00, $00, $00, $00
@@ -9952,7 +9952,7 @@ DATA_FDD4E4:
 
 ;klank trigger data
 ;X position of trigger, action klank is performing, initial target X speed to apply, unused?
-;possible actions: 
+;possible actions:
 		;0040: moving straight ahead
 		;0100: looking behind
 		;0400: small jump
@@ -10209,7 +10209,7 @@ endif
 DATA_FDD99A:
 	dw $3370, $0040, $0500, $0004
 	dw $33B0, $0040, $05C0, $0050
-	dw $3430, $0100	
+	dw $3430, $0100
 if !version == 1
 	dw $35D0, $0040, $0540, $0004
 	dw $3620, $0040, $04C0, $0064

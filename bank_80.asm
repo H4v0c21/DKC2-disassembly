@@ -1405,7 +1405,7 @@ setup_npc_screen_kongs:
 	JSL spawn_special_sprite_address	;$808DAC   |/ Spawn dixie
 	LDX alternate_sprite			;$808DB0   |
 	STX current_sprite			;$808DB2   |
-	LDA #$0004				;$808DB4   |\ Set kong running animation
+	LDA #!diddy_run_anim_id			;$808DB4   |\ Set kong running animation
 	JSL set_anim_handle_dixie		;$808DB7   |/
 	LDA.l dixie_kong_constants		;$808DBB   |\
 	STA dixie_control_variables+$8		;$808DBF   |/ Set dixie's gravity
@@ -6098,10 +6098,10 @@ CODE_80B8CF:
 	LSR A					;$80B8D1   |
 CODE_80B8D2:					;	   |
 	SEC					;$80B8D2   |
-	SBC $0D4E				;$80B8D3   |
+	SBC water_y_position			;$80B8D3   |
 	AND #$000F				;$80B8D6   |
 	CLC					;$80B8D9   |
-	ADC $0D4E				;$80B8DA   |
+	ADC water_y_position			;$80B8DA   |
 	SEC					;$80B8DD   |
 	SBC screen_scroll_y_position		;$80B8DE   |
 	BPL CODE_80B8E6				;$80B8E1   |
@@ -6132,10 +6132,10 @@ CODE_80B914:
 	LDA active_frame_counter		;$80B914  \
 CODE_80B916:					;	   |
 	SEC					;$80B916   |
-	SBC $0D4E				;$80B917   |
+	SBC water_y_position			;$80B917   |
 	AND #$001F				;$80B91A   |
 	CLC					;$80B91D   |
-	ADC $0D4E				;$80B91E   |
+	ADC water_y_position			;$80B91E   |
 	SEC					;$80B921   |
 	SBC screen_scroll_y_position		;$80B922   |
 	BPL CODE_80B92A				;$80B925   |
@@ -9144,7 +9144,7 @@ ship_hold_tileset_logic:
 handle_kong_water_splash:
 	LDX active_kong_sprite			;$80D4B7  \
 	LDA $0A,x				;$80D4BA   |
-	CMP $0D4E				;$80D4BC   |
+	CMP water_y_position			;$80D4BC   |
 	BMI .CODE_80D4DE			;$80D4BF   |
 	LDA #$0004				;$80D4C1   |
 	TSB game_state_flags			;$80D4C4   |
@@ -9199,13 +9199,13 @@ handle_water_velocities:
 	REP #$20				;$80D537   |
 	LDA $0D52				;$80D539   |
 	SEC					;$80D53C   |
-	SBC $0D4E				;$80D53D   |
+	SBC water_y_position			;$80D53D   |
 	BEQ .CODE_80D547			;$80D540   |
 	EOR water_current_y_velocity		;$80D542   |
 	BPL .return				;$80D545   |
 .CODE_80D547:					;	   |
 	LDA $0D52				;$80D547   |
-	STA $0D4E				;$80D54A   |
+	STA water_y_position			;$80D54A   |
 	STZ water_target_y_velocity		;$80D54D   |
 	STZ water_current_y_velocity		;$80D550   |
 	STZ $0D4C				;$80D553   |
@@ -10889,12 +10889,12 @@ handle_fireworks:
 	JSR CODE_808E53				;$80E4FC   | Get RNG
 	LSR A					;$80E4FF   |
 	BCS .CODE_80E50A			;$80E500   |
-	LDA #$01BD				;$80E502   |
+	LDA #!firework_1_anim_id		;$80E502   |
 	JSL set_alt_sprite_animation		;$80E505   |
 	RTS					;$80E509  /
 
 .CODE_80E50A:
-	LDA #$01BE				;$80E50A  \
+	LDA #!firework_2_anim_id		;$80E50A  \
 	JSL set_alt_sprite_animation		;$80E50D   |
 	RTS					;$80E511  /
 
@@ -11918,7 +11918,7 @@ CODE_80ECE1:					;	   |
 	RTS					;$80ECE4  /
 
 handle_water_scroll:
-	LDA $0D4E				;$80ECE5  \
+	LDA water_y_position			;$80ECE5  \
 	SEC					;$80ECE8   |
 	SBC screen_scroll_y_position		;$80ECE9   |
 	CLC					;$80ECEC   |
@@ -13338,20 +13338,20 @@ update_ending_parade_text:
 
 credits_dummy_sprite_code:
 	LDX current_sprite			;$80FA11  \ Get sprite index
-	LDA $06,x				;$80FA13   |
+	LDA sprite.x_position,x			;$80FA13   |
 	INC A					;$80FA15   | Move sprite to the right 1 pixel
-	STA $06,x				;$80FA16   |
+	STA sprite.x_position,x			;$80FA16   |
 	LDA sprite.current_graphic,x		;$80FA18   | Get graphic ID
 	CMP #!cart_slope_frame10		;$80FA1A   | Check if its the the skull cart
 	BEQ .check_despawn			;$80FA1D   | If yes, we're done
 	JSL process_sprite_animation		;$80FA1F   | Else process animation
 	LDA active_frame_counter		;$80FA23   | Dead instruction
-	LDA $36,x				;$80FA25   | Get animation ID
-	CMP #$0196				;$80FA27   | Check if its zinger_idle
+	LDA sprite.animation_id,x		;$80FA25   | Get animation ID
+	CMP #!zinger_horizontal_anim_id		;$80FA27   |
 	BEQ .play_looping_sound			;$80FA2A   |
-	CMP #$0230				;$80FA2C   | Check if its flitter_idle
+	CMP #!king_zing_idle_anim_id		;$80FA2C   |
 	BEQ .play_looping_sound			;$80FA2F   |
-	CMP #$019A				;$80FA31   | Check if its king_zing_idle
+	CMP #!flitter_horizontal_anim_id	;$80FA31   |
 	BNE .check_despawn			;$80FA34   | If none of the above, skip playing looping sound
 .play_looping_sound:				;	   |
 	INC zinger_loop_sound_enabler		;$80FA36   | Play looping sound
@@ -13364,9 +13364,9 @@ credits_npc_kong_sprite_code:
 	PHK					;$80FA41   | Preserve DB
 	PLB					;$80FA42   |
 	LDX current_sprite			;$80FA43   |
-	LDA $06,x				;$80FA45   |
+	LDA sprite.x_position,x			;$80FA45   |
 	INC A					;$80FA47   | Move sprite right by 1 pixel
-	STA $06,x				;$80FA48   |
+	STA sprite.x_position,x			;$80FA48   |
 	LDA $42,x				;$80FA4A   |
 	BNE .done				;$80FA4C   |
 	INC $42,x				;$80FA4E   |

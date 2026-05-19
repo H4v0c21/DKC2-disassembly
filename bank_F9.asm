@@ -598,44 +598,44 @@ endif
 	dw donkey_free,					$0000	;0249	$F979A9	donkey_free
 	dw donkey_punch,				$0000	;024A	$F979BA	donkey_punch
 	dw krool_melee_donkey,				$0000	;024B	$F97725	krool_melee_donkey
-	dw krool_blunderbuss_melee_donkey,		$0000	;024C	$F97748	krool_blunderbuss_melee_donkey
+	dw krool_gun_melee_donkey,			$0000	;024C	$F97748	krool_gun_melee_donkey
 	dw krool_melee_donkey_heavy,			$0000	;024D	$F97768	krool_melee_donkey_heavy
-	dw krool_blunderbuss_melee_donkey_heavy,	$0000	;024E	$F9778B	krool_blunderbuss_melee_donkey_heavy
+	dw krool_gun_melee_donkey_heavy,		$0000	;024E	$F9778B	krool_gun_melee_donkey_heavy
 	dw donkey_rope_upper,				$0000	;024F	$F97A22	donkey_rope_upper
 	dw krool_shoot_donkey,				$0000	;0250	$F979FC	krool_shoot_donkey
-	dw krool_blunderbuss_shoot_donkey,		$0000	;0251	$F97A0F	krool_blunderbuss_shoot_donkey
+	dw krool_gun_shoot_donkey,			$0000	;0251	$F97A0F	krool_gun_shoot_donkey
 	dw donkey_shot_by_krool,			$0000	;0252	$F976EA	donkey_shot_by_krool
 	dw donkey_rope_shot_by_krool,			$0000	;0253	$F97709	donkey_rope_shot_by_krool
 	dw krool_donkey_punched,			$0000	;0254	$F979EC	krool_donkey_punched
-	dw krool_blunderbuss_donkey_punched,		$0000	;0255	$F979F4	krool_blunderbuss_donkey_punched
+	dw krool_gun_donkey_punched,			$0000	;0255	$F979F4	krool_gun_donkey_punched
 	dw lost_world_rock_step,			$0000	;0256	$F98FAB	lost_world_rock_step
 	dw krool_lost_soaked,				$0000	;0257	$F97627	krool_lost_soaked
-	dw krool_lost_blunderbuss_soaked,		$0000	;0258	$F9767A	krool_lost_blunderbuss_soaked
+	dw krool_lost_gun_soaked,		$0000	;0258	$F9767A	krool_lost_gun_soaked
 	dw krool_fish,					$0000	;0259	$F976BE	krool_fish
 	dw krool_lost_final_hit,			$0000	;025A	$F97550	krool_lost_final_hit
-	dw krool_lost_blunderbuss_final_hit,		$0000	;025B	$F97597	krool_lost_blunderbuss_final_hit
+	dw krool_lost_gun_final_hit,		$0000	;025B	$F97597	krool_lost_gun_final_hit
 	dw krool_map_fall,				$0000	;025C	$F975CC	krool_map_fall
 	dw krow_head_yell,				$0000	;025D	$F986A1	krow_head_yell
 	dw krool_idle,					$0000	;025E	$F97A2A	krool_idle
-	dw krool_blunderbuss_idle,			$0000	;025F	$F97A38	krool_blunderbuss_idle
+	dw krool_gun_idle,				$0000	;025F	$F97A38	krool_gun_idle
 	dw krool_dash,					$0000	;0260	$F97A5A	krool_dash
-	dw krool_blunderbuss_dash,			$0000	;0261	$F97A7A	krool_blunderbuss_dash
+	dw krool_gun_dash,				$0000	;0261	$F97A7A	krool_gun_dash
 	dw krool_dash_end,				$0000	;0262	$F97A91	krool_dash_end
-	dw krool_blunderbuss_dash_end,			$0000	;0263	$F97AB0	krool_blunderbuss_dash_end
+	dw krool_gun_dash_end,				$0000	;0263	$F97AB0	krool_gun_dash_end
 	dw krool_shoot,					$0000	;0264	$F97AD2	krool_shoot
-	dw krool_blunderbuss_shoot,			$0000	;0265	$F97AE5	krool_blunderbuss_shoot
+	dw krool_gun_shoot,				$0000	;0265	$F97AE5	krool_gun_shoot
 	dw krool_shoot_fish,				$0000	;0266	$F97AF8	krool_shoot_fish
-	dw krool_blunderbuss_shoot_fish,		$0000	;0267	$F97B11	krool_blunderbuss_shoot_fish
+	dw krool_gun_shoot_fish,			$0000	;0267	$F97B11	krool_gun_shoot_fish
 	dw krool_cannon_ball_spikes_expanded,		$0000	;0268	$F97B2A	krool_cannon_ball_spikes_expanded
 	dw krool_dash_fire,				$0000	;0269	$F97B7A	krool_dash_fire
 	dw krool_vacuum,				$0000	;026A	$F97B94	krool_vacuum
-	dw krool_blunderbuss_vacuum,			$0000	;026B	$F97B9C	krool_blunderbuss_vacuum
+	dw krool_gun_vacuum,				$0000	;026B	$F97B9C	krool_gun_vacuum
 	dw krool_vacuum_particles,			$0000	;026C	$F97BA4	krool_vacuum_particles
 	dw krool_melee,					$0000	;026D	$F97BBE	krool_melee
-	dw krool_blunderbuss_melee,			$0000	;026E	$F97BF0	krool_blunderbuss_melee
+	dw krool_gun_melee,				$0000	;026E	$F97BF0	krool_gun_melee
 	dw smoke_cloud_4,				$0000	;026F	$F97C16	smoke_cloud_4
 	dw krool_backfire,				$0000	;0270	$F97C42	krool_backfire
-	dw krool_blunderbuss_backfire,			$0000	;0271	$F97C83	krool_blunderbuss_backfire
+	dw krool_gun_backfire,				$0000	;0271	$F97C83	krool_gun_backfire
 	dw krool_fireball,				$0000	;0272	$F97D34	krool_fireball
 	dw krool_soot_eyes_blink,			$0000	;0273	$F97D66	krool_soot_eyes_blink
 	dw krool_soot_eyes_angry,			$0000	;0274	$F97DA7	krool_soot_eyes_angry
@@ -643,10 +643,10 @@ endif
 	dw krool_backfire_sparks,			$0000	;0276	$F97DE7	krool_backfire_sparks
 	dw krool_cannon_ball_spikes_removed,		$0000	;0277	$F97B5A	krool_cannon_ball_spikes_removed
 	dw krool_stun,					$0000	;0278	$F97E19	krool_stun
-	dw krool_blunderbuss_stun,			$0000	;0279	$F97E48	krool_blunderbuss_stun
+	dw krool_gun_stun,				$0000	;0279	$F97E48	krool_gun_stun
 	dw krool_stun_recover,				$0000	;027A	$F97E6B	krool_stun_recover
-	dw krool_blunderbuss_stun_recover,		$0000	;027B	$F97E91	krool_blunderbuss_stun_recover
-	dw krool_blunderbuss_recovered_wait,		$0000	;027C	$F97A46	krool_blunderbuss_recovered_wait
+	dw krool_gun_stun_recover,			$0000	;027B	$F97E91	krool_gun_stun_recover
+	dw krool_gun_recovered_wait,			$0000	;027C	$F97A46	krool_gun_recovered_wait
 	dw DATA_F98069,					$0000	;027D	$F98069	DATA_F98069 (reversed barrel spin)
 	dw krool_gas_cloud,				$0000	;027E	$F9809D	krool_gas_cloud
 	dw smoke_cloud_5,				$0000	;027F	$F98285	smoke_cloud_5
@@ -654,14 +654,14 @@ endif
 	dw krool_barrel,				$0000	;0281	$F98083	krool_barrel
 	dw krool_cannon_ball_spiked,			$0000	;0282	$F97B49	krool_cannon_ball_spiked
 	dw krool_backfire_final,			$0000	;0283	$F97CA6	krool_backfire_final
-	dw krool_blunderbuss_backfire_final,		$0000	;0284	$F97CFC	krool_blunderbuss_backfire_final
+	dw krool_gun_backfire_final,			$0000	;0284	$F97CFC	krool_gun_backfire_final
 	dw krool_stun_2,				$0000	;0285	$F97EAE	krool_stun_2
-	dw krool_blunderbuss_stun_2,			$0000	;0286	$F97EE3	krool_blunderbuss_stun_2
+	dw krool_gun_stun_2,				$0000	;0286	$F97EE3	krool_gun_stun_2
 	dw krool_stun_3,				$0000	;0287	$F97F64	krool_stun_3
-	dw krool_blunderbuss_stun_3,			$0000	;0288	$F97FE4	krool_blunderbuss_stun_3
+	dw krool_gun_stun_3,				$0000	;0288	$F97FE4	krool_gun_stun_3
 	dw krool_cannon_ball_spikes_retracted,		$0000	;0289	$F97B41	krool_cannon_ball_spikes_retracted
 	dw krool_stun_recover_2,			$0000	;028A	$F97F0C	krool_stun_recover_2
-	dw krool_blunderbuss_stun_recover_2,		$0000	;028B	$F97F3E	krool_blunderbuss_stun_recover_2
+	dw krool_gun_stun_recover_2,			$0000	;028B	$F97F3E	krool_gun_stun_recover_2
 	dw kudgel_idle,					$0000	;028C	$F972BD	kudgel_idle
 	dw kudgel_club_idle,				$0000	;028D	$F972CE	kudgel_club_idle
 	dw kudgel_fall,					$0000	;028E	$F9734E	kudgel_fall
@@ -717,7 +717,7 @@ endif
 	dw life_balloon_idle,				$0000	;02C0	$F95D1E	life_balloon_idle
 	dw level_target_pole,				$0000	;02C1	$F96D9D	level_target_pole
 	dw level_target_barrel,				$0000	;02C2	$F96DA2	level_target_barrel
-	dw k_rool_letter_idle,				$0000	;02C3	$F96D98	k_rool_letter_idle
+	dw krool_letter_idle,				$0000	;02C3	$F96D98	krool_letter_idle
 	dw bullrush_idle,				$0000	;02C4	$F96CBB	bullrush_idle
 	dw bullrush_still,				$0000	;02C5	$F96CE1	bullrush_still
 	dw krockhead_barrel_label_idle,			$0000	;02C6	$F96300	krockhead_barrel_label_idle
@@ -8875,7 +8875,7 @@ chest_idle:
 	db !animation_command_80, $00
 
 ;$F96D98
-k_rool_letter_idle:
+krool_letter_idle:
 	db $28 : dw !cabin_letter_graphic
 	db !animation_command_80, $00
 
@@ -9176,8 +9176,8 @@ unused_dixie_tears:
 
 ;$F97076
 DATA_F97076:
-	db $1C : dw !k_rool_shoot_frame1
-	db $0A : dw !k_rool_shoot_frame2
+	db $1C : dw !krool_shoot_frame1
+	db $0A : dw !krool_shoot_frame2
 	db !animation_command_80, $00
 
 ;$F9707E
@@ -9716,59 +9716,59 @@ kudgel_dust:
 krool_lost_final_hit:
 	db !animation_command_8E : dw sound(5, !sound_cannon_load)
 	db !animation_command_81 : dw CODE_B9EF5A
-	db $08 : dw !k_rool_shoot_frame1
-	db $04 : dw !k_rool_shoot_frame2
-	db $0D : dw !k_rool_shoot_frame3
-	db $04 : dw !k_rool_shoot_frame2
-	db $11 : dw !k_rool_shoot_frame1
-	db $37 : dw !k_rool_concerned_graphic
-	db $14 : dw !k_rool_shoot_frame1
-	db $0F : dw !k_rool_concerned_graphic
-	db $0F : dw !k_rool_shoot_frame1
-	db $0A : dw !k_rool_concerned_graphic
-	db $0A : dw !k_rool_shoot_frame1
-	db $05 : dw !k_rool_concerned_graphic
-	db $05 : dw !k_rool_shoot_frame1
+	db $08 : dw !krool_shoot_frame1
+	db $04 : dw !krool_shoot_frame2
+	db $0D : dw !krool_shoot_frame3
+	db $04 : dw !krool_shoot_frame2
+	db $11 : dw !krool_shoot_frame1
+	db $37 : dw !krool_concerned_graphic
+	db $14 : dw !krool_shoot_frame1
+	db $0F : dw !krool_concerned_graphic
+	db $0F : dw !krool_shoot_frame1
+	db $0A : dw !krool_concerned_graphic
+	db $0A : dw !krool_shoot_frame1
+	db $05 : dw !krool_concerned_graphic
+	db $05 : dw !krool_shoot_frame1
 	db !animation_command_81 : dw CODE_B9EFBB
-	db $0D : dw !k_rool_shoot_frame1
+	db $0D : dw !krool_shoot_frame1
 	db !animation_command_81 : dw CODE_B9EFBB
-	db $1A : dw !k_rool_shoot_frame1
+	db $1A : dw !krool_shoot_frame1
 	db !animation_command_8E : dw sound(5, !sound_explosion)
 	db !animation_command_81 : dw CODE_B9EF3C
-	db $07 : dw !k_rool_hurt_frame2
+	db $07 : dw !krool_hurt_frame2
 	db !animation_command_83 : dw CODE_B9D12B
 	db !animation_command_80, $00
 
 ;$F97597
-krool_lost_blunderbuss_final_hit:
-	db $08 : dw !k_rool_blunderbuss_shoot_frame1
-	db $04 : dw !k_rool_blunderbuss_shoot_frame2
-	db $0D : dw !k_rool_blunderbuss_shoot_frame3
-	db $04 : dw !k_rool_blunderbuss_shoot_frame2
-	db $11 : dw !k_rool_blunderbuss_shoot_frame1
-	db $37 : dw !k_rool_blunderbuss_concerned_graphic
-	db $14 : dw !k_rool_blunderbuss_shoot_frame1
-	db $0F : dw !k_rool_blunderbuss_concerned_graphic
-	db $0F : dw !k_rool_blunderbuss_shoot_frame1
-	db $0A : dw !k_rool_blunderbuss_concerned_graphic
-	db $0A : dw !k_rool_blunderbuss_shoot_frame1
-	db $05 : dw !k_rool_blunderbuss_concerned_graphic
-	db $05 : dw !k_rool_blunderbuss_shoot_frame1
-	db $0D : dw !k_rool_blunderbuss_shoot_frame1
-	db $1F : dw !k_rool_blunderbuss_shoot_frame1
-	db $17 : dw !k_rool_blunderbuss_concerned_graphic
+krool_lost_gun_final_hit:
+	db $08 : dw !krool_gun_shoot_frame1
+	db $04 : dw !krool_gun_shoot_frame2
+	db $0D : dw !krool_gun_shoot_frame3
+	db $04 : dw !krool_gun_shoot_frame2
+	db $11 : dw !krool_gun_shoot_frame1
+	db $37 : dw !krool_gun_concerned_graphic
+	db $14 : dw !krool_gun_shoot_frame1
+	db $0F : dw !krool_gun_concerned_graphic
+	db $0F : dw !krool_gun_shoot_frame1
+	db $0A : dw !krool_gun_concerned_graphic
+	db $0A : dw !krool_gun_shoot_frame1
+	db $05 : dw !krool_gun_concerned_graphic
+	db $05 : dw !krool_gun_shoot_frame1
+	db $0D : dw !krool_gun_shoot_frame1
+	db $1F : dw !krool_gun_shoot_frame1
+	db $17 : dw !krool_gun_concerned_graphic
 	db !animation_command_83 : dw CODE_B9D12B
 	db !animation_command_80, $00
 
 ;$F975CC
 krool_map_fall:
-	db $05 : dw !k_rool_fall_into_kore_frame1
-	db $05 : dw !k_rool_fall_into_kore_frame2
+	db $05 : dw !krool_fall_into_kore_frame1
+	db $05 : dw !krool_fall_into_kore_frame2
 	db !animation_command_80, $00
 
 ;$F975D4
 krool_soaked_puddle:
-	db $09 : dw !k_rool_puddle_graphic
+	db $09 : dw !krool_puddle_graphic
 	db !animation_command_83 : dw CODE_B9D12B
 	db !animation_command_80, $00
 
@@ -9813,77 +9813,77 @@ krool_water_drop_5:
 
 ;$F97627
 krool_lost_soaked:
-	db $0C : dw !k_rool_soaked_frame1
-	db $0C : dw !k_rool_soaked_frame2
-	db $0C : dw !k_rool_soaked_frame3
-	db $0C : dw !k_rool_soaked_frame2
-	db $0C : dw !k_rool_soaked_frame1
-	db $0C : dw !k_rool_soaked_frame2
-	db $0C : dw !k_rool_soaked_frame3
-	db $0C : dw !k_rool_soaked_frame2
-	db $0C : dw !k_rool_soaked_frame1
-	db $0C : dw !k_rool_soaked_frame2
-	db $0C : dw !k_rool_soaked_frame3
-	db $0C : dw !k_rool_soaked_frame2
-	db $0C : dw !k_rool_soaked_frame1
-	db $0C : dw !k_rool_soaked_frame2
-	db $0C : dw !k_rool_soaked_frame3
-	db $0C : dw !k_rool_soaked_frame2
-	db $0C : dw !k_rool_soaked_frame1
-	db $0C : dw !k_rool_soaked_frame2
-	db $0C : dw !k_rool_soaked_frame3
-	db $0B : dw !k_rool_soaked_frame2
+	db $0C : dw !krool_soaked_frame1
+	db $0C : dw !krool_soaked_frame2
+	db $0C : dw !krool_soaked_frame3
+	db $0C : dw !krool_soaked_frame2
+	db $0C : dw !krool_soaked_frame1
+	db $0C : dw !krool_soaked_frame2
+	db $0C : dw !krool_soaked_frame3
+	db $0C : dw !krool_soaked_frame2
+	db $0C : dw !krool_soaked_frame1
+	db $0C : dw !krool_soaked_frame2
+	db $0C : dw !krool_soaked_frame3
+	db $0C : dw !krool_soaked_frame2
+	db $0C : dw !krool_soaked_frame1
+	db $0C : dw !krool_soaked_frame2
+	db $0C : dw !krool_soaked_frame3
+	db $0C : dw !krool_soaked_frame2
+	db $0C : dw !krool_soaked_frame1
+	db $0C : dw !krool_soaked_frame2
+	db $0C : dw !krool_soaked_frame3
+	db $0B : dw !krool_soaked_frame2
 	db !animation_command_81 : dw CODE_B9EF44
-	db $01 : dw !k_rool_soaked_frame2
+	db $01 : dw !krool_soaked_frame2
 	db !animation_command_8E : dw sound(7, !sound_krool_gun_exhaust)
 	db !animation_command_81 : dw CODE_B9EFD9
-	db $1A : dw !k_rool_soaked_frame1
+	db $1A : dw !krool_soaked_frame1
 	db !animation_command_81 : dw CODE_B9EF50
 	db !animation_command_83 : dw CODE_B9D12B
 	db !animation_command_80, $00
 
 ;$F9767A
-krool_lost_blunderbuss_soaked:
-	db $0C : dw !k_rool_blunderbuss_soaked_frame1
-	db $0C : dw !k_rool_blunderbuss_soaked_frame2
-	db $0C : dw !k_rool_blunderbuss_soaked_frame3
-	db $0C : dw !k_rool_blunderbuss_soaked_frame2
-	db $0C : dw !k_rool_blunderbuss_soaked_frame1
-	db $0C : dw !k_rool_blunderbuss_soaked_frame2
-	db $0C : dw !k_rool_blunderbuss_soaked_frame3
-	db $0C : dw !k_rool_blunderbuss_soaked_frame2
-	db $0C : dw !k_rool_blunderbuss_soaked_frame1
-	db $0C : dw !k_rool_blunderbuss_soaked_frame2
-	db $0C : dw !k_rool_blunderbuss_soaked_frame3
-	db $0C : dw !k_rool_blunderbuss_soaked_frame2
-	db $0C : dw !k_rool_blunderbuss_soaked_frame1
-	db $0C : dw !k_rool_blunderbuss_soaked_frame2
-	db $0C : dw !k_rool_blunderbuss_soaked_frame3
-	db $0C : dw !k_rool_blunderbuss_soaked_frame2
-	db $0C : dw !k_rool_blunderbuss_soaked_frame1
-	db $0C : dw !k_rool_blunderbuss_soaked_frame2
-	db $0C : dw !k_rool_blunderbuss_soaked_frame3
-	db $0C : dw !k_rool_blunderbuss_soaked_frame2
-	db $1A : dw !k_rool_blunderbuss_soaked_frame1
+krool_lost_gun_soaked:
+	db $0C : dw !krool_gun_soaked_frame1
+	db $0C : dw !krool_gun_soaked_frame2
+	db $0C : dw !krool_gun_soaked_frame3
+	db $0C : dw !krool_gun_soaked_frame2
+	db $0C : dw !krool_gun_soaked_frame1
+	db $0C : dw !krool_gun_soaked_frame2
+	db $0C : dw !krool_gun_soaked_frame3
+	db $0C : dw !krool_gun_soaked_frame2
+	db $0C : dw !krool_gun_soaked_frame1
+	db $0C : dw !krool_gun_soaked_frame2
+	db $0C : dw !krool_gun_soaked_frame3
+	db $0C : dw !krool_gun_soaked_frame2
+	db $0C : dw !krool_gun_soaked_frame1
+	db $0C : dw !krool_gun_soaked_frame2
+	db $0C : dw !krool_gun_soaked_frame3
+	db $0C : dw !krool_gun_soaked_frame2
+	db $0C : dw !krool_gun_soaked_frame1
+	db $0C : dw !krool_gun_soaked_frame2
+	db $0C : dw !krool_gun_soaked_frame3
+	db $0C : dw !krool_gun_soaked_frame2
+	db $1A : dw !krool_gun_soaked_frame1
 	db !animation_command_83 : dw CODE_B9D12B
 	db !animation_command_80, $00
 
 ;$F976BE
 krool_fish:
-	db $02 : dw !k_rool_fish_frame1
-	db $02 : dw !k_rool_fish_frame2
-	db $02 : dw !k_rool_fish_frame3
-	db $02 : dw !k_rool_fish_frame4
-	db $02 : dw !k_rool_fish_frame5
-	db $02 : dw !k_rool_fish_frame6
-	db $02 : dw !k_rool_fish_frame7
-	db $02 : dw !k_rool_fish_frame8
-	db $02 : dw !k_rool_fish_frame7
-	db $02 : dw !k_rool_fish_frame6
-	db $02 : dw !k_rool_fish_frame5
-	db $02 : dw !k_rool_fish_frame4
-	db $02 : dw !k_rool_fish_frame3
-	db $02 : dw !k_rool_fish_frame2
+	db $02 : dw !krool_fish_frame1
+	db $02 : dw !krool_fish_frame2
+	db $02 : dw !krool_fish_frame3
+	db $02 : dw !krool_fish_frame4
+	db $02 : dw !krool_fish_frame5
+	db $02 : dw !krool_fish_frame6
+	db $02 : dw !krool_fish_frame7
+	db $02 : dw !krool_fish_frame8
+	db $02 : dw !krool_fish_frame7
+	db $02 : dw !krool_fish_frame6
+	db $02 : dw !krool_fish_frame5
+	db $02 : dw !krool_fish_frame4
+	db $02 : dw !krool_fish_frame3
+	db $02 : dw !krool_fish_frame2
 	db !animation_command_80, $00
 
 ;$F976EA
@@ -9913,59 +9913,59 @@ donkey_rope_shot_by_krool:
 
 ;$F97725
 krool_melee_donkey:
-	db $14 : dw !k_rool_melee_frame5
-	db $02 : dw !k_rool_melee_frame1
-	db $02 : dw !k_rool_melee_frame2
-	db $02 : dw !k_rool_melee_frame3
-	db $02 : dw !k_rool_melee_frame4
+	db $14 : dw !krool_melee_frame5
+	db $02 : dw !krool_melee_frame1
+	db $02 : dw !krool_melee_frame2
+	db $02 : dw !krool_melee_frame3
+	db $02 : dw !krool_melee_frame4
 	db !animation_command_81 : dw CODE_B9EF55
-	db $08 : dw !k_rool_melee_frame4
-	db $03 : dw !k_rool_melee_frame3
-	db $04 : dw !k_rool_melee_frame2
-	db $05 : dw !k_rool_melee_frame1
+	db $08 : dw !krool_melee_frame4
+	db $03 : dw !krool_melee_frame3
+	db $04 : dw !krool_melee_frame2
+	db $05 : dw !krool_melee_frame1
 	db !animation_command_83 : dw CODE_B9D12B
 	db !animation_command_80, $00
 
 ;$F97748
-krool_blunderbuss_melee_donkey:
-	db $14 : dw !k_rool_blunderbuss_melee_frame5
-	db $02 : dw !k_rool_blunderbuss_melee_frame1
-	db $02 : dw !k_rool_blunderbuss_melee_frame2
-	db $02 : dw !k_rool_blunderbuss_melee_frame3
-	db $02 : dw !k_rool_blunderbuss_melee_frame4
-	db $08 : dw !k_rool_blunderbuss_melee_frame4
-	db $03 : dw !k_rool_blunderbuss_melee_frame3
-	db $04 : dw !k_rool_blunderbuss_melee_frame2
-	db $05 : dw !k_rool_blunderbuss_melee_frame1
+krool_gun_melee_donkey:
+	db $14 : dw !krool_gun_melee_frame5
+	db $02 : dw !krool_gun_melee_frame1
+	db $02 : dw !krool_gun_melee_frame2
+	db $02 : dw !krool_gun_melee_frame3
+	db $02 : dw !krool_gun_melee_frame4
+	db $08 : dw !krool_gun_melee_frame4
+	db $03 : dw !krool_gun_melee_frame3
+	db $04 : dw !krool_gun_melee_frame2
+	db $05 : dw !krool_gun_melee_frame1
 	db !animation_command_83 : dw CODE_B9D12B
 	db !animation_command_80, $00
 
 ;$F97768
 krool_melee_donkey_heavy:
-	db $32 : dw !k_rool_melee_frame5
-	db $02 : dw !k_rool_melee_frame1
-	db $02 : dw !k_rool_melee_frame2
-	db $02 : dw !k_rool_melee_frame3
-	db $02 : dw !k_rool_melee_frame4
+	db $32 : dw !krool_melee_frame5
+	db $02 : dw !krool_melee_frame1
+	db $02 : dw !krool_melee_frame2
+	db $02 : dw !krool_melee_frame3
+	db $02 : dw !krool_melee_frame4
 	db !animation_command_81 : dw CODE_B9EF55
-	db $08 : dw !k_rool_melee_frame4
-	db $03 : dw !k_rool_melee_frame3
-	db $04 : dw !k_rool_melee_frame2
-	db $05 : dw !k_rool_melee_frame1
+	db $08 : dw !krool_melee_frame4
+	db $03 : dw !krool_melee_frame3
+	db $04 : dw !krool_melee_frame2
+	db $05 : dw !krool_melee_frame1
 	db !animation_command_83 : dw CODE_B9D12B
 	db !animation_command_80, $00
 
 ;$F9778B
-krool_blunderbuss_melee_donkey_heavy:
-	db $32 : dw !k_rool_blunderbuss_melee_frame5
-	db $02 : dw !k_rool_blunderbuss_melee_frame1
-	db $02 : dw !k_rool_blunderbuss_melee_frame2
-	db $02 : dw !k_rool_blunderbuss_melee_frame3
-	db $02 : dw !k_rool_blunderbuss_melee_frame4
-	db $08 : dw !k_rool_blunderbuss_melee_frame4
-	db $03 : dw !k_rool_blunderbuss_melee_frame3
-	db $04 : dw !k_rool_blunderbuss_melee_frame2
-	db $05 : dw !k_rool_blunderbuss_melee_frame1
+krool_gun_melee_donkey_heavy:
+	db $32 : dw !krool_gun_melee_frame5
+	db $02 : dw !krool_gun_melee_frame1
+	db $02 : dw !krool_gun_melee_frame2
+	db $02 : dw !krool_gun_melee_frame3
+	db $02 : dw !krool_gun_melee_frame4
+	db $08 : dw !krool_gun_melee_frame4
+	db $03 : dw !krool_gun_melee_frame3
+	db $04 : dw !krool_gun_melee_frame2
+	db $05 : dw !krool_gun_melee_frame1
 	db !animation_command_83 : dw CODE_B9D12B
 	db !animation_command_80, $00
 
@@ -10192,31 +10192,31 @@ donkey_punch:
 
 ;$F979EC
 krool_donkey_punched:
-	db $01 : dw !k_rool_hurt_frame3
+	db $01 : dw !krool_hurt_frame3
 	db !animation_command_83 : dw CODE_B9D12B
 	db !animation_command_80, $00
 
 ;$F979F4
-krool_blunderbuss_donkey_punched:
-	db $01 : dw !k_rool_blunderbuss_hurt_frame3
+krool_gun_donkey_punched:
+	db $01 : dw !krool_gun_hurt_frame3
 	db !animation_command_83 : dw CODE_B9D12B
 	db !animation_command_80, $00
 
 ;$F979FC
 krool_shoot_donkey:
-	db $0A : dw !k_rool_shoot_frame1
-	db $05 : dw !k_rool_shoot_frame2
-	db $14 : dw !k_rool_shoot_frame3
-	db $08 : dw !k_rool_shoot_frame2
+	db $0A : dw !krool_shoot_frame1
+	db $05 : dw !krool_shoot_frame2
+	db $14 : dw !krool_shoot_frame3
+	db $08 : dw !krool_shoot_frame2
 	db !animation_command_90 : dw CODE_B9E575, $025E
 	db !animation_command_80, $00
 
 ;$F97A0F
-krool_blunderbuss_shoot_donkey:
-	db $0A : dw !k_rool_blunderbuss_shoot_frame1
-	db $05 : dw !k_rool_blunderbuss_shoot_frame2
-	db $14 : dw !k_rool_blunderbuss_shoot_frame3
-	db $08 : dw !k_rool_blunderbuss_shoot_frame2
+krool_gun_shoot_donkey:
+	db $0A : dw !krool_gun_shoot_frame1
+	db $05 : dw !krool_gun_shoot_frame2
+	db $14 : dw !krool_gun_shoot_frame3
+	db $08 : dw !krool_gun_shoot_frame2
 	db !animation_command_90 : dw CODE_B9E575, $025F
 	db !animation_command_80, $00
 
@@ -10228,121 +10228,121 @@ donkey_rope_upper:
 
 ;$F97A2A
 krool_idle:
-	db $0C : dw !k_rool_shoot_frame1
-	db $0C : dw !k_rool_idle_frame1
-	db $0C : dw !k_rool_idle_frame2
-	db $0C : dw !k_rool_idle_frame1
+	db $0C : dw !krool_shoot_frame1
+	db $0C : dw !krool_idle_frame1
+	db $0C : dw !krool_idle_frame2
+	db $0C : dw !krool_idle_frame1
 	db !animation_command_80, $00
 
 ;$F97A38
-krool_blunderbuss_idle:
-	db $0C : dw !k_rool_blunderbuss_shoot_frame1
-	db $0C : dw !k_rool_blunderbuss_idle_frame1
-	db $0C : dw !k_rool_blunderbuss_idle_frame2
-	db $0C : dw !k_rool_blunderbuss_idle_frame1
+krool_gun_idle:
+	db $0C : dw !krool_gun_shoot_frame1
+	db $0C : dw !krool_gun_idle_frame1
+	db $0C : dw !krool_gun_idle_frame2
+	db $0C : dw !krool_gun_idle_frame1
 	db !animation_command_80, $00
 
 ;$F97A46
-krool_blunderbuss_recovered_wait:
-	db $01 : dw !k_rool_blunderbuss_shoot_frame1
+krool_gun_recovered_wait:
+	db $01 : dw !krool_gun_shoot_frame1
 
 DATA_F97A49:
-	db $0C : dw !k_rool_blunderbuss_shoot_frame1
-	db $0C : dw !k_rool_blunderbuss_idle_frame1
-	db $0C : dw !k_rool_blunderbuss_idle_frame2
-	db $0C : dw !k_rool_blunderbuss_idle_frame1
+	db $0C : dw !krool_gun_shoot_frame1
+	db $0C : dw !krool_gun_idle_frame1
+	db $0C : dw !krool_gun_idle_frame2
+	db $0C : dw !krool_gun_idle_frame1
 	db !animation_command_82 : dw DATA_F97A49
 	db !animation_command_80, $00
 
 ;$F97A5A
 krool_dash:
-	db $04 : dw !k_rool_move_frame1
-	db $04 : dw !k_rool_move_frame2
-	db $04 : dw !k_rool_move_frame3
+	db $04 : dw !krool_move_frame1
+	db $04 : dw !krool_move_frame2
+	db $04 : dw !krool_move_frame3
 	db !animation_command_81 : dw CODE_B9EFC5
-	db $1E : dw !k_rool_move_frame4
+	db $1E : dw !krool_move_frame4
 	db !animation_command_81 : dw CODE_B9EFCA
-	db $2D : dw !k_rool_move_frame5
+	db $2D : dw !krool_move_frame5
 	db !animation_command_81 : dw CODE_B9EFC5
-	db $1E : dw !k_rool_move_frame4
+	db $1E : dw !krool_move_frame4
 	db !animation_command_83 : dw CODE_B9D12B
 	db !animation_command_80, $00
 
 ;$F97A7A
-krool_blunderbuss_dash:
-	db $04 : dw !k_rool_blunderbuss_move_frame1
-	db $04 : dw !k_rool_blunderbuss_move_frame2
-	db $04 : dw !k_rool_blunderbuss_move_frame3
-	db $1E : dw !k_rool_blunderbuss_move_frame4
-	db $1E : dw !k_rool_blunderbuss_move_frame5
-	db $1E : dw !k_rool_blunderbuss_move_frame4
+krool_gun_dash:
+	db $04 : dw !krool_gun_move_frame1
+	db $04 : dw !krool_gun_move_frame2
+	db $04 : dw !krool_gun_move_frame3
+	db $1E : dw !krool_gun_move_frame4
+	db $1E : dw !krool_gun_move_frame5
+	db $1E : dw !krool_gun_move_frame4
 	db !animation_command_83 : dw CODE_B9D12B
 	db !animation_command_80, $00
 
 ;$F97A91
 krool_dash_end:
-	db $05 : dw !k_rool_turn_frame1
-	db $05 : dw !k_rool_turn_frame2
+	db $05 : dw !krool_turn_frame1
+	db $05 : dw !krool_turn_frame2
 	db !animation_command_81 : dw CODE_B9EFED
-	db $04 : dw !k_rool_turn_frame1
-	db $05 : dw !k_rool_move_frame4
-	db $04 : dw !k_rool_move_frame3
-	db $05 : dw !k_rool_move_frame2
-	db $04 : dw !k_rool_move_frame1
+	db $04 : dw !krool_turn_frame1
+	db $05 : dw !krool_move_frame4
+	db $04 : dw !krool_move_frame3
+	db $05 : dw !krool_move_frame2
+	db $04 : dw !krool_move_frame1
 	db !animation_command_90 : dw CODE_B9E575, $025E
 	db !animation_command_80, $00
 
 ;$F97AB0
-krool_blunderbuss_dash_end:
-	db $05 : dw !k_rool_blunderbuss_turn_graphic
+krool_gun_dash_end:
+	db $05 : dw !krool_gun_turn_graphic
 	db !animation_command_81 : dw CODE_B9EFB1
-	db $05 : dw !k_rool_blunderbuss_turn_graphic
+	db $05 : dw !krool_gun_turn_graphic
 	db !animation_command_81 : dw CODE_B9EFB6
-	db $04 : dw !k_rool_blunderbuss_turn_graphic
-	db $05 : dw !k_rool_blunderbuss_move_frame4
-	db $04 : dw !k_rool_blunderbuss_move_frame3
-	db $05 : dw !k_rool_blunderbuss_move_frame2
-	db $04 : dw !k_rool_blunderbuss_move_frame1
+	db $04 : dw !krool_gun_turn_graphic
+	db $05 : dw !krool_gun_move_frame4
+	db $04 : dw !krool_gun_move_frame3
+	db $05 : dw !krool_gun_move_frame2
+	db $04 : dw !krool_gun_move_frame1
 	db !animation_command_90 : dw CODE_B9E575, $025F
 	db !animation_command_80, $00
 
 ;$F97AD2
 krool_shoot:
-	db $0A : dw !k_rool_shoot_frame1
-	db $05 : dw !k_rool_shoot_frame2
-	db $14 : dw !k_rool_shoot_frame3
-	db $08 : dw !k_rool_shoot_frame2
+	db $0A : dw !krool_shoot_frame1
+	db $05 : dw !krool_shoot_frame2
+	db $14 : dw !krool_shoot_frame3
+	db $08 : dw !krool_shoot_frame2
 	db !animation_command_90 : dw CODE_B9E575, $025E
 	db !animation_command_80, $00
 
 ;$F97AE5
-krool_blunderbuss_shoot:
-	db $0A : dw !k_rool_blunderbuss_shoot_frame1
-	db $05 : dw !k_rool_blunderbuss_shoot_frame2
-	db $14 : dw !k_rool_blunderbuss_shoot_frame3
-	db $08 : dw !k_rool_blunderbuss_shoot_frame2
+krool_gun_shoot:
+	db $0A : dw !krool_gun_shoot_frame1
+	db $05 : dw !krool_gun_shoot_frame2
+	db $14 : dw !krool_gun_shoot_frame3
+	db $08 : dw !krool_gun_shoot_frame2
 	db !animation_command_90 : dw CODE_B9E575, $025F
 	db !animation_command_80, $00
 
 ;$F97AF8
 krool_shoot_fish:
-	db $0A : dw !k_rool_shoot_frame1
-	db $05 : dw !k_rool_shoot_frame2
-	db $14 : dw !k_rool_shoot_frame3
-	db $08 : dw !k_rool_shoot_frame2
-	db $14 : dw !k_rool_shoot_frame1
-	db $3C : dw !k_rool_concerned_graphic
+	db $0A : dw !krool_shoot_frame1
+	db $05 : dw !krool_shoot_frame2
+	db $14 : dw !krool_shoot_frame3
+	db $08 : dw !krool_shoot_frame2
+	db $14 : dw !krool_shoot_frame1
+	db $3C : dw !krool_concerned_graphic
 	db !animation_command_90 : dw CODE_B9E575, $025E
 	db !animation_command_80, $00
 
 ;$F97B11
-krool_blunderbuss_shoot_fish:
-	db $0A : dw !k_rool_blunderbuss_shoot_frame1
-	db $05 : dw !k_rool_blunderbuss_shoot_frame2
-	db $14 : dw !k_rool_blunderbuss_shoot_frame3
-	db $08 : dw !k_rool_blunderbuss_shoot_frame2
-	db $14 : dw !k_rool_blunderbuss_shoot_frame1
-	db $3C : dw !k_rool_blunderbuss_concerned_graphic
+krool_gun_shoot_fish:
+	db $0A : dw !krool_gun_shoot_frame1
+	db $05 : dw !krool_gun_shoot_frame2
+	db $14 : dw !krool_gun_shoot_frame3
+	db $08 : dw !krool_gun_shoot_frame2
+	db $14 : dw !krool_gun_shoot_frame1
+	db $3C : dw !krool_gun_concerned_graphic
 	db !animation_command_90 : dw CODE_B9E575, $025F
 	db !animation_command_80, $00
 
@@ -10388,73 +10388,73 @@ krool_cannon_ball_spikes_removed:
 
 ;$F97B7A
 krool_dash_fire:
-	db $03 : dw !k_rool_blunderbuss_fire_frame1
-	db $03 : dw !k_rool_blunderbuss_fire_frame2
-	db $03 : dw !k_rool_blunderbuss_fire_frame3
-	db $03 : dw !k_rool_blunderbuss_fire_frame4
-	db $03 : dw !k_rool_blunderbuss_fire_frame5
-	db $03 : dw !k_rool_blunderbuss_fire_frame6
-	db $03 : dw !k_rool_blunderbuss_fire_frame7
-	db $03 : dw !k_rool_blunderbuss_fire_frame8
+	db $03 : dw !krool_gun_fire_frame1
+	db $03 : dw !krool_gun_fire_frame2
+	db $03 : dw !krool_gun_fire_frame3
+	db $03 : dw !krool_gun_fire_frame4
+	db $03 : dw !krool_gun_fire_frame5
+	db $03 : dw !krool_gun_fire_frame6
+	db $03 : dw !krool_gun_fire_frame7
+	db $03 : dw !krool_gun_fire_frame8
 	db !animation_command_80, $00
 
 ;$F97B94
 krool_vacuum:
-	db $04 : dw !k_rool_vacuum_frame1
-	db $04 : dw !k_rool_vacuum_frame2
+	db $04 : dw !krool_vacuum_frame1
+	db $04 : dw !krool_vacuum_frame2
 	db !animation_command_80, $00
 
 ;$F97B9C
-krool_blunderbuss_vacuum:
-	db $04 : dw !k_rool_blunderbuss_vacuum_frame1
-	db $04 : dw !k_rool_blunderbuss_vacuum_frame2
+krool_gun_vacuum:
+	db $04 : dw !krool_gun_vacuum_frame1
+	db $04 : dw !krool_gun_vacuum_frame2
 	db !animation_command_80, $00
 
 ;$F97BA4
 krool_vacuum_particles:
-	db $04 : dw !k_rool_vacuum_particles_frame8
-	db $04 : dw !k_rool_vacuum_particles_frame7
-	db $04 : dw !k_rool_vacuum_particles_frame6
-	db $04 : dw !k_rool_vacuum_particles_frame5
-	db $04 : dw !k_rool_vacuum_particles_frame4
-	db $04 : dw !k_rool_vacuum_particles_frame3
-	db $04 : dw !k_rool_vacuum_particles_frame2
-	db $04 : dw !k_rool_vacuum_particles_frame1
+	db $04 : dw !krool_vacuum_particles_frame8
+	db $04 : dw !krool_vacuum_particles_frame7
+	db $04 : dw !krool_vacuum_particles_frame6
+	db $04 : dw !krool_vacuum_particles_frame5
+	db $04 : dw !krool_vacuum_particles_frame4
+	db $04 : dw !krool_vacuum_particles_frame3
+	db $04 : dw !krool_vacuum_particles_frame2
+	db $04 : dw !krool_vacuum_particles_frame1
 	db !animation_command_80, $00
 
 ;$F97BBE
 krool_melee:
-	db $39 : dw !k_rool_melee_frame5
+	db $39 : dw !krool_melee_frame5
 	db !animation_command_81 : dw CODE_B9EFCF
-	db $02 : dw !k_rool_melee_frame1
-	db $02 : dw !k_rool_melee_frame2
-	db $02 : dw !k_rool_melee_frame3
-	db $02 : dw !k_rool_melee_frame4
+	db $02 : dw !krool_melee_frame1
+	db $02 : dw !krool_melee_frame2
+	db $02 : dw !krool_melee_frame3
+	db $02 : dw !krool_melee_frame4
 	db !animation_command_81 : dw CODE_B9EFD4
-	db $12 : dw !k_rool_melee_frame4
-	db $05 : dw !k_rool_melee_frame3
-	db $06 : dw !k_rool_melee_frame2
-	db $07 : dw !k_rool_melee_frame1
-	db $06 : dw !k_rool_vacuum_frame2
-	db $06 : dw !k_rool_vacuum_frame1
-	db $07 : dw !k_rool_shoot_frame1
+	db $12 : dw !krool_melee_frame4
+	db $05 : dw !krool_melee_frame3
+	db $06 : dw !krool_melee_frame2
+	db $07 : dw !krool_melee_frame1
+	db $06 : dw !krool_vacuum_frame2
+	db $06 : dw !krool_vacuum_frame1
+	db $07 : dw !krool_shoot_frame1
 	db !animation_command_81 : dw CODE_B9EFC0
 	db !animation_command_83 : dw CODE_B9D12B
 	db !animation_command_80, $00
 
 ;$F97BF0
-krool_blunderbuss_melee:
-	db $39 : dw !k_rool_blunderbuss_melee_frame5
-	db $02 : dw !k_rool_blunderbuss_melee_frame1
-	db $02 : dw !k_rool_blunderbuss_melee_frame2
-	db $02 : dw !k_rool_blunderbuss_melee_frame3
-	db $14 : dw !k_rool_blunderbuss_melee_frame4
-	db $05 : dw !k_rool_blunderbuss_melee_frame3
-	db $06 : dw !k_rool_blunderbuss_melee_frame2
-	db $07 : dw !k_rool_blunderbuss_melee_frame1
-	db $06 : dw !k_rool_blunderbuss_vacuum_frame2
-	db $06 : dw !k_rool_blunderbuss_vacuum_frame1
-	db $07 : dw !k_rool_blunderbuss_shoot_frame1
+krool_gun_melee:
+	db $39 : dw !krool_gun_melee_frame5
+	db $02 : dw !krool_gun_melee_frame1
+	db $02 : dw !krool_gun_melee_frame2
+	db $02 : dw !krool_gun_melee_frame3
+	db $14 : dw !krool_gun_melee_frame4
+	db $05 : dw !krool_gun_melee_frame3
+	db $06 : dw !krool_gun_melee_frame2
+	db $07 : dw !krool_gun_melee_frame1
+	db $06 : dw !krool_gun_vacuum_frame2
+	db $06 : dw !krool_gun_vacuum_frame1
+	db $07 : dw !krool_gun_shoot_frame1
 	db !animation_command_83 : dw CODE_B9D12B
 	db !animation_command_80, $00
 
@@ -10479,39 +10479,39 @@ smoke_cloud_4:
 ;$F97C42
 krool_backfire:
 	db !animation_command_8E : dw sound(5, !sound_cannon_load)
-	db $08 : dw !k_rool_shoot_frame1
-	db $04 : dw !k_rool_shoot_frame2
-	db $0D : dw !k_rool_shoot_frame3
-	db $04 : dw !k_rool_shoot_frame2
-	db $14 : dw !k_rool_shoot_frame1
-	db $1E : dw !k_rool_concerned_graphic
+	db $08 : dw !krool_shoot_frame1
+	db $04 : dw !krool_shoot_frame2
+	db $0D : dw !krool_shoot_frame3
+	db $04 : dw !krool_shoot_frame2
+	db $14 : dw !krool_shoot_frame1
+	db $1E : dw !krool_concerned_graphic
 	db !animation_command_81 : dw CODE_B9EFBB
-	db $18 : dw !k_rool_shoot_frame1
+	db $18 : dw !krool_shoot_frame1
 	db !animation_command_81 : dw CODE_B9EFBB
-	db $23 : dw !k_rool_concerned_graphic
+	db $23 : dw !krool_concerned_graphic
 	db !animation_command_8E : dw sound(5, !sound_explosion)
 	db !animation_command_81 : dw CODE_B9EFA7
-	db $17 : dw !k_rool_concerned_graphic
+	db $17 : dw !krool_concerned_graphic
 	db !animation_command_81 : dw CODE_B9EFDE
-	db $78 : dw !k_rool_soot_graphic
+	db $78 : dw !krool_soot_graphic
 	db !animation_command_8E : dw sound(7, !sound_krool_gun_exhaust)
 	db !animation_command_81 : dw CODE_B9EFD9
-	db $1A : dw !k_rool_soot_graphic
+	db $1A : dw !krool_soot_graphic
 	db !animation_command_81 : dw CODE_B9EFAC
 	db !animation_command_83 : dw CODE_B9D12B
 	db !animation_command_80, $00
 
 ;$F97C83
-krool_blunderbuss_backfire:
-	db $08 : dw !k_rool_blunderbuss_shoot_frame1
-	db $04 : dw !k_rool_blunderbuss_shoot_frame2
-	db $0D : dw !k_rool_blunderbuss_shoot_frame3
-	db $04 : dw !k_rool_blunderbuss_shoot_frame2
-	db $14 : dw !k_rool_blunderbuss_shoot_frame1
-	db $1E : dw !k_rool_blunderbuss_concerned_graphic
-	db $18 : dw !k_rool_blunderbuss_shoot_frame1
-	db $23 : dw !k_rool_blunderbuss_concerned_graphic
-	db $17 : dw !k_rool_blunderbuss_concerned_graphic
+krool_gun_backfire:
+	db $08 : dw !krool_gun_shoot_frame1
+	db $04 : dw !krool_gun_shoot_frame2
+	db $0D : dw !krool_gun_shoot_frame3
+	db $04 : dw !krool_gun_shoot_frame2
+	db $14 : dw !krool_gun_shoot_frame1
+	db $1E : dw !krool_gun_concerned_graphic
+	db $18 : dw !krool_gun_shoot_frame1
+	db $23 : dw !krool_gun_concerned_graphic
+	db $17 : dw !krool_gun_concerned_graphic
 	db !animation_command_81 : dw CODE_B9EFB1
 	db !animation_command_83 : dw CODE_B9D12B
 	db !animation_command_80, $00
@@ -10519,53 +10519,53 @@ krool_blunderbuss_backfire:
 ;$F97CA6
 krool_backfire_final:
 	db !animation_command_8E : dw sound(5, !sound_cannon_load)
-	db $08 : dw !k_rool_shoot_frame1
-	db $04 : dw !k_rool_shoot_frame2
-	db $0D : dw !k_rool_shoot_frame3
-	db $04 : dw !k_rool_shoot_frame2
-	db $11 : dw !k_rool_shoot_frame1
-	db $37 : dw !k_rool_concerned_graphic
-	db $14 : dw !k_rool_shoot_frame1
-	db $0F : dw !k_rool_concerned_graphic
-	db $0F : dw !k_rool_shoot_frame1
-	db $0A : dw !k_rool_concerned_graphic
-	db $0A : dw !k_rool_shoot_frame1
-	db $05 : dw !k_rool_concerned_graphic
-	db $05 : dw !k_rool_shoot_frame1
+	db $08 : dw !krool_shoot_frame1
+	db $04 : dw !krool_shoot_frame2
+	db $0D : dw !krool_shoot_frame3
+	db $04 : dw !krool_shoot_frame2
+	db $11 : dw !krool_shoot_frame1
+	db $37 : dw !krool_concerned_graphic
+	db $14 : dw !krool_shoot_frame1
+	db $0F : dw !krool_concerned_graphic
+	db $0F : dw !krool_shoot_frame1
+	db $0A : dw !krool_concerned_graphic
+	db $0A : dw !krool_shoot_frame1
+	db $05 : dw !krool_concerned_graphic
+	db $05 : dw !krool_shoot_frame1
 	db !animation_command_81 : dw CODE_B9EFBB
-	db $0D : dw !k_rool_shoot_frame1
+	db $0D : dw !krool_shoot_frame1
 	db !animation_command_81 : dw CODE_B9EFBB
-	db $1A : dw !k_rool_shoot_frame1
+	db $1A : dw !krool_shoot_frame1
 	db !animation_command_8E : dw sound(5, !sound_explosion)
 	db !animation_command_81 : dw CODE_B9EFA7
-	db $17 : dw !k_rool_concerned_graphic
+	db $17 : dw !krool_concerned_graphic
 	db !animation_command_81 : dw CODE_B9EFDE
-	db $78 : dw !k_rool_soot_graphic
+	db $78 : dw !krool_soot_graphic
 	db !animation_command_8E : dw sound(7, !sound_krool_gun_exhaust)
 	db !animation_command_81 : dw CODE_B9EFD9
-	db $1A : dw !k_rool_soot_graphic
+	db $1A : dw !krool_soot_graphic
 	db !animation_command_81 : dw CODE_B9EFAC
 	db !animation_command_83 : dw CODE_B9D12B
 	db !animation_command_80, $00
 
 ;$F97CFC
-krool_blunderbuss_backfire_final:
-	db $08 : dw !k_rool_blunderbuss_shoot_frame1
-	db $04 : dw !k_rool_blunderbuss_shoot_frame2
-	db $0D : dw !k_rool_blunderbuss_shoot_frame3
-	db $04 : dw !k_rool_blunderbuss_shoot_frame2
-	db $11 : dw !k_rool_blunderbuss_shoot_frame1
-	db $37 : dw !k_rool_blunderbuss_concerned_graphic
-	db $14 : dw !k_rool_blunderbuss_shoot_frame1
-	db $0F : dw !k_rool_blunderbuss_concerned_graphic
-	db $0F : dw !k_rool_blunderbuss_shoot_frame1
-	db $0A : dw !k_rool_blunderbuss_concerned_graphic
-	db $0A : dw !k_rool_blunderbuss_shoot_frame1
-	db $05 : dw !k_rool_blunderbuss_concerned_graphic
-	db $05 : dw !k_rool_blunderbuss_shoot_frame1
-	db $0D : dw !k_rool_blunderbuss_shoot_frame1
-	db $1F : dw !k_rool_blunderbuss_shoot_frame1
-	db $17 : dw !k_rool_blunderbuss_concerned_graphic
+krool_gun_backfire_final:
+	db $08 : dw !krool_gun_shoot_frame1
+	db $04 : dw !krool_gun_shoot_frame2
+	db $0D : dw !krool_gun_shoot_frame3
+	db $04 : dw !krool_gun_shoot_frame2
+	db $11 : dw !krool_gun_shoot_frame1
+	db $37 : dw !krool_gun_concerned_graphic
+	db $14 : dw !krool_gun_shoot_frame1
+	db $0F : dw !krool_gun_concerned_graphic
+	db $0F : dw !krool_gun_shoot_frame1
+	db $0A : dw !krool_gun_concerned_graphic
+	db $0A : dw !krool_gun_shoot_frame1
+	db $05 : dw !krool_gun_concerned_graphic
+	db $05 : dw !krool_gun_shoot_frame1
+	db $0D : dw !krool_gun_shoot_frame1
+	db $1F : dw !krool_gun_shoot_frame1
+	db $17 : dw !krool_gun_concerned_graphic
 	db !animation_command_81 : dw CODE_B9EFB1
 	db !animation_command_83 : dw CODE_B9D12B
 	db !animation_command_80, $00
@@ -10592,33 +10592,33 @@ krool_fireball:
 
 ;$F97D66
 krool_soot_eyes_blink:
-	db $46 : dw !k_rool_soot_eyes_frame1
+	db $46 : dw !krool_soot_eyes_frame1
 	db !animation_command_8E : dw sound(6, !sound_krool_blink)
-	db $03 : dw !k_rool_soot_eyes_frame2
+	db $03 : dw !krool_soot_eyes_frame2
 	db !animation_command_81 : dw CODE_B9EFB1
-	db $03 : dw !k_rool_soot_eyes_frame2
+	db $03 : dw !krool_soot_eyes_frame2
 	db !animation_command_81 : dw CODE_B9EFB6
-	db $03 : dw !k_rool_soot_eyes_frame2
-	db $0E : dw !k_rool_soot_eyes_frame1
+	db $03 : dw !krool_soot_eyes_frame2
+	db $0E : dw !krool_soot_eyes_frame1
 	db !animation_command_8E : dw sound(6, !sound_krool_blink)
-	db $03 : dw !k_rool_soot_eyes_frame2
+	db $03 : dw !krool_soot_eyes_frame2
 	db !animation_command_81 : dw CODE_B9EFB1
-	db $03 : dw !k_rool_soot_eyes_frame2
+	db $03 : dw !krool_soot_eyes_frame2
 	db !animation_command_81 : dw CODE_B9EFB6
-	db $03 : dw !k_rool_soot_eyes_frame2
-	db $0E : dw !k_rool_soot_eyes_frame1
+	db $03 : dw !krool_soot_eyes_frame2
+	db $0E : dw !krool_soot_eyes_frame1
 	db !animation_command_8E : dw sound(6, !sound_krool_blink)
-	db $03 : dw !k_rool_soot_eyes_frame2
+	db $03 : dw !krool_soot_eyes_frame2
 	db !animation_command_81 : dw CODE_B9EFB1
-	db $03 : dw !k_rool_soot_eyes_frame2
+	db $03 : dw !krool_soot_eyes_frame2
 	db !animation_command_81 : dw CODE_B9EFB6
-	db $03 : dw !k_rool_soot_eyes_frame2
+	db $03 : dw !krool_soot_eyes_frame2
 	db !animation_command_80, $00
 
 ;$F97DA7
 krool_soot_eyes_angry:
 	db !animation_command_81 : dw CODE_B9EFB6
-	db $32 : dw !k_rool_soot_eyes_frame2
+	db $32 : dw !krool_soot_eyes_frame2
 	db !animation_command_83 : dw CODE_B9D12B
 	db !animation_command_80, $00
 
@@ -10645,55 +10645,55 @@ fireball_explosion_2:
 
 ;$F97DE7
 krool_backfire_sparks:
-	db $02 : dw !k_rool_backfire_sparks_frame1
-	db $02 : dw !k_rool_backfire_sparks_frame2
-	db $02 : dw !k_rool_backfire_sparks_frame3
-	db $02 : dw !k_rool_backfire_sparks_frame4
-	db $02 : dw !k_rool_backfire_sparks_frame5
-	db $02 : dw !k_rool_backfire_sparks_frame6
-	db $02 : dw !k_rool_backfire_sparks_frame7
-	db $02 : dw !k_rool_backfire_sparks_frame8
-	db $02 : dw !k_rool_backfire_sparks_frame9
-	db $02 : dw !k_rool_backfire_sparks_frame10
-	db $02 : dw !k_rool_backfire_sparks_frame11
-	db $02 : dw !k_rool_backfire_sparks_frame12
-	db $02 : dw !k_rool_backfire_sparks_frame13
-	db $02 : dw !k_rool_backfire_sparks_frame14
-	db $02 : dw !k_rool_backfire_sparks_frame15
+	db $02 : dw !krool_backfire_sparks_frame1
+	db $02 : dw !krool_backfire_sparks_frame2
+	db $02 : dw !krool_backfire_sparks_frame3
+	db $02 : dw !krool_backfire_sparks_frame4
+	db $02 : dw !krool_backfire_sparks_frame5
+	db $02 : dw !krool_backfire_sparks_frame6
+	db $02 : dw !krool_backfire_sparks_frame7
+	db $02 : dw !krool_backfire_sparks_frame8
+	db $02 : dw !krool_backfire_sparks_frame9
+	db $02 : dw !krool_backfire_sparks_frame10
+	db $02 : dw !krool_backfire_sparks_frame11
+	db $02 : dw !krool_backfire_sparks_frame12
+	db $02 : dw !krool_backfire_sparks_frame13
+	db $02 : dw !krool_backfire_sparks_frame14
+	db $02 : dw !krool_backfire_sparks_frame15
 	db !animation_command_81 : dw anim_delete_sprite
 	db !animation_command_80, $00
 
 ;$F97E19
 krool_stun:
 	db !animation_command_8E : dw sound(5, !sound_krool_down)
-	db $0C : dw !k_rool_shoot_frame1
-	db $07 : dw !k_rool_hurt_frame1
-	db $07 : dw !k_rool_hurt_frame2
-	db $07 : dw !k_rool_hurt_frame3
-	db $07 : dw !k_rool_hurt_frame4
-	db $07 : dw !k_rool_hurt_frame5
-	db $07 : dw !k_rool_hurt_frame6
-	db $07 : dw !k_rool_hurt_frame7
-	db $07 : dw !k_rool_hurt_frame8
-	db $14 : dw !k_rool_hurt_frame9
+	db $0C : dw !krool_shoot_frame1
+	db $07 : dw !krool_hurt_frame1
+	db $07 : dw !krool_hurt_frame2
+	db $07 : dw !krool_hurt_frame3
+	db $07 : dw !krool_hurt_frame4
+	db $07 : dw !krool_hurt_frame5
+	db $07 : dw !krool_hurt_frame6
+	db $07 : dw !krool_hurt_frame7
+	db $07 : dw !krool_hurt_frame8
+	db $14 : dw !krool_hurt_frame9
 	db !animation_command_81 : dw CODE_B9EF7C
-	db $50 : dw !k_rool_hurt_frame9
+	db $50 : dw !krool_hurt_frame9
 	db !animation_command_81 : dw CODE_B9EFE3
 	db !animation_command_83 : dw CODE_B9D12B
 	db !animation_command_80, $00
 
 ;$F97E48
-krool_blunderbuss_stun:
-	db $0C : dw !k_rool_blunderbuss_shoot_frame1
-	db $07 : dw !k_rool_blunderbuss_hurt_frame1
-	db $07 : dw !k_rool_blunderbuss_hurt_frame2
-	db $07 : dw !k_rool_blunderbuss_hurt_frame3
-	db $07 : dw !k_rool_blunderbuss_hurt_frame4
-	db $07 : dw !k_rool_blunderbuss_hurt_frame5
-	db $07 : dw !k_rool_blunderbuss_hurt_frame6
-	db $07 : dw !k_rool_blunderbuss_hurt_frame7
-	db $07 : dw !k_rool_blunderbuss_hurt_frame8
-	db $07 : dw !k_rool_blunderbuss_hurt_frame9
+krool_gun_stun:
+	db $0C : dw !krool_gun_shoot_frame1
+	db $07 : dw !krool_gun_hurt_frame1
+	db $07 : dw !krool_gun_hurt_frame2
+	db $07 : dw !krool_gun_hurt_frame3
+	db $07 : dw !krool_gun_hurt_frame4
+	db $07 : dw !krool_gun_hurt_frame5
+	db $07 : dw !krool_gun_hurt_frame6
+	db $07 : dw !krool_gun_hurt_frame7
+	db $07 : dw !krool_gun_hurt_frame8
+	db $07 : dw !krool_gun_hurt_frame9
 	db !animation_command_83 : dw CODE_B9D12B
 	db !animation_command_80, $00
 
@@ -10701,66 +10701,66 @@ krool_blunderbuss_stun:
 krool_stun_recover:
 	db !animation_command_8E : dw sound(5, !sound_krool_blink)
 	db !animation_command_81 : dw CODE_B9EF77
-	db $05 : dw !k_rool_hurt_frame8
-	db $05 : dw !k_rool_hurt_frame7
-	db $05 : dw !k_rool_hurt_frame6
-	db $05 : dw !k_rool_hurt_frame5
-	db $05 : dw !k_rool_hurt_frame4
-	db $05 : dw !k_rool_hurt_frame3
-	db $05 : dw !k_rool_hurt_frame2
-	db $05 : dw !k_rool_hurt_frame1
+	db $05 : dw !krool_hurt_frame8
+	db $05 : dw !krool_hurt_frame7
+	db $05 : dw !krool_hurt_frame6
+	db $05 : dw !krool_hurt_frame5
+	db $05 : dw !krool_hurt_frame4
+	db $05 : dw !krool_hurt_frame3
+	db $05 : dw !krool_hurt_frame2
+	db $05 : dw !krool_hurt_frame1
 	db !animation_command_81 : dw CODE_B9EF9D
 	db !animation_command_83 : dw CODE_B9D12B
 	db !animation_command_80, $00
 
 ;$F97E91
-krool_blunderbuss_stun_recover:
-	db $05 : dw !k_rool_blunderbuss_hurt_frame8
-	db $05 : dw !k_rool_blunderbuss_hurt_frame7
-	db $05 : dw !k_rool_blunderbuss_hurt_frame6
-	db $05 : dw !k_rool_blunderbuss_hurt_frame5
-	db $05 : dw !k_rool_blunderbuss_hurt_frame4
-	db $05 : dw !k_rool_blunderbuss_hurt_frame3
-	db $05 : dw !k_rool_blunderbuss_hurt_frame2
-	db $05 : dw !k_rool_blunderbuss_hurt_frame1
+krool_gun_stun_recover:
+	db $05 : dw !krool_gun_hurt_frame8
+	db $05 : dw !krool_gun_hurt_frame7
+	db $05 : dw !krool_gun_hurt_frame6
+	db $05 : dw !krool_gun_hurt_frame5
+	db $05 : dw !krool_gun_hurt_frame4
+	db $05 : dw !krool_gun_hurt_frame3
+	db $05 : dw !krool_gun_hurt_frame2
+	db $05 : dw !krool_gun_hurt_frame1
 	db !animation_command_83 : dw CODE_B9D12B
 	db !animation_command_80, $00
 
 ;$F97EAE
 krool_stun_2:
 	db !animation_command_8E : dw sound(5, !sound_krool_down)
-	db $0C : dw !k_rool_shoot_frame1
-	db $07 : dw !k_rool_hurt_frame1
-	db $07 : dw !k_rool_hurt_frame2
-	db $07 : dw !k_rool_hurt_frame3
-	db $07 : dw !k_rool_hurt_frame4
-	db $07 : dw !k_rool_hurt_frame5
-	db $07 : dw !k_rool_hurt_frame6
-	db $07 : dw !k_rool_hurt_frame7
-	db $07 : dw !k_rool_hurt_frame8
-	db $07 : dw !k_rool_hurt_frame7
-	db $04 : dw !k_rool_hurt_frame8
-	db $14 : dw !k_rool_hurt_frame9
+	db $0C : dw !krool_shoot_frame1
+	db $07 : dw !krool_hurt_frame1
+	db $07 : dw !krool_hurt_frame2
+	db $07 : dw !krool_hurt_frame3
+	db $07 : dw !krool_hurt_frame4
+	db $07 : dw !krool_hurt_frame5
+	db $07 : dw !krool_hurt_frame6
+	db $07 : dw !krool_hurt_frame7
+	db $07 : dw !krool_hurt_frame8
+	db $07 : dw !krool_hurt_frame7
+	db $04 : dw !krool_hurt_frame8
+	db $14 : dw !krool_hurt_frame9
 	db !animation_command_81 : dw CODE_B9EF7C
-	db $50 : dw !k_rool_hurt_frame9
+	db $50 : dw !krool_hurt_frame9
 	db !animation_command_81 : dw CODE_B9EFE3
 	db !animation_command_83 : dw CODE_B9D12B
 	db !animation_command_80, $00
 
 ;$F97EE3
-krool_blunderbuss_stun_2:
-	db $0C : dw !k_rool_blunderbuss_shoot_frame1
-	db $07 : dw !k_rool_blunderbuss_hurt_frame1
-	db $07 : dw !k_rool_blunderbuss_hurt_frame2
-	db $07 : dw !k_rool_blunderbuss_hurt_frame3
-	db $07 : dw !k_rool_blunderbuss_hurt_frame4
-	db $07 : dw !k_rool_blunderbuss_hurt_frame5
-	db $07 : dw !k_rool_blunderbuss_hurt_frame6
-	db $07 : dw !k_rool_blunderbuss_hurt_frame7
-	db $07 : dw !k_rool_blunderbuss_hurt_frame8
-	db $07 : dw !k_rool_blunderbuss_hurt_frame7
-	db $04 : dw !k_rool_blunderbuss_hurt_frame8
-	db $64 : dw !k_rool_blunderbuss_hurt_frame9
+krool_gun_stun_2:
+	db $0C : dw !krool_gun_shoot_frame1
+	db $07 : dw !krool_gun_hurt_frame1
+	db $07 : dw !krool_gun_hurt_frame2
+	db $07 : dw !krool_gun_hurt_frame3
+	db $07 : dw !krool_gun_hurt_frame4
+	db $07 : dw !krool_gun_hurt_frame5
+	db $07 : dw !krool_gun_hurt_frame6
+	db $07 : dw !krool_gun_hurt_frame7
+	db $07 : dw !krool_gun_hurt_frame8
+	db $07 : dw !krool_gun_hurt_frame7
+	db $04 : dw !krool_gun_hurt_frame8
+	db $64 : dw !krool_gun_hurt_frame9
 	db !animation_command_83 : dw CODE_B9D12B
 	db !animation_command_80, $00
 
@@ -10768,35 +10768,35 @@ krool_blunderbuss_stun_2:
 krool_stun_recover_2:
 	db !animation_command_8E : dw sound(5, !sound_krool_blink)
 	db !animation_command_81 : dw CODE_B9EF77
-	db $0A : dw !k_rool_hurt_frame8
-	db $05 : dw !k_rool_hurt_frame9
-	db $0A : dw !k_rool_hurt_frame8
-	db $05 : dw !k_rool_hurt_frame9
-	db $05 : dw !k_rool_hurt_frame7
-	db $05 : dw !k_rool_hurt_frame6
-	db $05 : dw !k_rool_hurt_frame5
-	db $05 : dw !k_rool_hurt_frame4
-	db $05 : dw !k_rool_hurt_frame3
-	db $05 : dw !k_rool_hurt_frame2
-	db $05 : dw !k_rool_hurt_frame1
+	db $0A : dw !krool_hurt_frame8
+	db $05 : dw !krool_hurt_frame9
+	db $0A : dw !krool_hurt_frame8
+	db $05 : dw !krool_hurt_frame9
+	db $05 : dw !krool_hurt_frame7
+	db $05 : dw !krool_hurt_frame6
+	db $05 : dw !krool_hurt_frame5
+	db $05 : dw !krool_hurt_frame4
+	db $05 : dw !krool_hurt_frame3
+	db $05 : dw !krool_hurt_frame2
+	db $05 : dw !krool_hurt_frame1
 	db !animation_command_81 : dw CODE_B9EF81
 	db !animation_command_81 : dw CODE_B9EF9D
 	db !animation_command_83 : dw CODE_B9D12B
 	db !animation_command_80, $00
 
 ;$F97F3E
-krool_blunderbuss_stun_recover_2:
-	db $0A : dw !k_rool_blunderbuss_hurt_frame8
-	db $05 : dw !k_rool_blunderbuss_hurt_frame9
-	db $0A : dw !k_rool_blunderbuss_hurt_frame8
-	db $05 : dw !k_rool_blunderbuss_hurt_frame9
-	db $05 : dw !k_rool_blunderbuss_hurt_frame7
-	db $05 : dw !k_rool_blunderbuss_hurt_frame6
-	db $05 : dw !k_rool_blunderbuss_hurt_frame5
-	db $05 : dw !k_rool_blunderbuss_hurt_frame4
-	db $05 : dw !k_rool_blunderbuss_hurt_frame3
-	db $05 : dw !k_rool_blunderbuss_hurt_frame2
-	db $05 : dw !k_rool_blunderbuss_hurt_frame1
+krool_gun_stun_recover_2:
+	db $0A : dw !krool_gun_hurt_frame8
+	db $05 : dw !krool_gun_hurt_frame9
+	db $0A : dw !krool_gun_hurt_frame8
+	db $05 : dw !krool_gun_hurt_frame9
+	db $05 : dw !krool_gun_hurt_frame7
+	db $05 : dw !krool_gun_hurt_frame6
+	db $05 : dw !krool_gun_hurt_frame5
+	db $05 : dw !krool_gun_hurt_frame4
+	db $05 : dw !krool_gun_hurt_frame3
+	db $05 : dw !krool_gun_hurt_frame2
+	db $05 : dw !krool_gun_hurt_frame1
 	db !animation_command_83 : dw CODE_B9D12B
 	db !animation_command_80, $00
 
@@ -10804,88 +10804,88 @@ krool_blunderbuss_stun_recover_2:
 krool_stun_3:
 	db !animation_command_8E : dw sound(5, !sound_krool_down)
 	db !animation_command_81 : dw CODE_B9EF5A
-	db $0C : dw !k_rool_shoot_frame1
-	db $07 : dw !k_rool_hurt_frame1
-	db $07 : dw !k_rool_hurt_frame2
-	db $07 : dw !k_rool_hurt_frame3
-	db $07 : dw !k_rool_hurt_frame4
-	db $07 : dw !k_rool_hurt_frame5
-	db $07 : dw !k_rool_hurt_frame6
-	db $07 : dw !k_rool_hurt_frame7
-	db $07 : dw !k_rool_hurt_frame8
-	db $07 : dw !k_rool_hurt_frame9
-	db $0A : dw !k_rool_hurt_frame8
+	db $0C : dw !krool_shoot_frame1
+	db $07 : dw !krool_hurt_frame1
+	db $07 : dw !krool_hurt_frame2
+	db $07 : dw !krool_hurt_frame3
+	db $07 : dw !krool_hurt_frame4
+	db $07 : dw !krool_hurt_frame5
+	db $07 : dw !krool_hurt_frame6
+	db $07 : dw !krool_hurt_frame7
+	db $07 : dw !krool_hurt_frame8
+	db $07 : dw !krool_hurt_frame9
+	db $0A : dw !krool_hurt_frame8
 	db !animation_command_81 : dw CODE_B9EF86
-	db $5A : dw !k_rool_hurt_frame9
-	db $06 : dw !k_rool_hurt_frame8
-	db $14 : dw !k_rool_hurt_frame9
-	db $06 : dw !k_rool_hurt_frame8
-	db $0F : dw !k_rool_hurt_frame9
-	db $06 : dw !k_rool_hurt_frame8
-	db $06 : dw !k_rool_hurt_frame9
-	db $06 : dw !k_rool_hurt_frame8
-	db $06 : dw !k_rool_hurt_frame9
-	db $06 : dw !k_rool_hurt_frame8
-	db $06 : dw !k_rool_hurt_frame7
-	db $06 : dw !k_rool_hurt_frame6
-	db $06 : dw !k_rool_hurt_frame5
-	db $06 : dw !k_rool_hurt_frame4
-	db $06 : dw !k_rool_hurt_frame3
-	db $06 : dw !k_rool_hurt_frame2
-	db $06 : dw !k_rool_hurt_frame1
-	db $2D : dw !k_rool_shoot_frame1
-	db $14 : dw !k_rool_concerned_graphic
-	db $0A : dw !k_rool_shoot_frame1
-	db $08 : dw !k_rool_concerned_graphic
-	db $08 : dw !k_rool_shoot_frame1
-	db $06 : dw !k_rool_concerned_graphic
-	db $06 : dw !k_rool_shoot_frame1
-	db $04 : dw !k_rool_concerned_graphic
-	db $04 : dw !k_rool_shoot_frame1
-	db $04 : dw !k_rool_concerned_graphic
+	db $5A : dw !krool_hurt_frame9
+	db $06 : dw !krool_hurt_frame8
+	db $14 : dw !krool_hurt_frame9
+	db $06 : dw !krool_hurt_frame8
+	db $0F : dw !krool_hurt_frame9
+	db $06 : dw !krool_hurt_frame8
+	db $06 : dw !krool_hurt_frame9
+	db $06 : dw !krool_hurt_frame8
+	db $06 : dw !krool_hurt_frame9
+	db $06 : dw !krool_hurt_frame8
+	db $06 : dw !krool_hurt_frame7
+	db $06 : dw !krool_hurt_frame6
+	db $06 : dw !krool_hurt_frame5
+	db $06 : dw !krool_hurt_frame4
+	db $06 : dw !krool_hurt_frame3
+	db $06 : dw !krool_hurt_frame2
+	db $06 : dw !krool_hurt_frame1
+	db $2D : dw !krool_shoot_frame1
+	db $14 : dw !krool_concerned_graphic
+	db $0A : dw !krool_shoot_frame1
+	db $08 : dw !krool_concerned_graphic
+	db $08 : dw !krool_shoot_frame1
+	db $06 : dw !krool_concerned_graphic
+	db $06 : dw !krool_shoot_frame1
+	db $04 : dw !krool_concerned_graphic
+	db $04 : dw !krool_shoot_frame1
+	db $04 : dw !krool_concerned_graphic
 	db !animation_command_83 : dw CODE_B9D12B
 	db !animation_command_80, $00
 
 ;$F97FE4
-krool_blunderbuss_stun_3:
-	db $0C : dw !k_rool_blunderbuss_shoot_frame1
-	db $07 : dw !k_rool_blunderbuss_hurt_frame1
-	db $07 : dw !k_rool_blunderbuss_hurt_frame2
-	db $07 : dw !k_rool_blunderbuss_hurt_frame3
-	db $07 : dw !k_rool_blunderbuss_hurt_frame4
-	db $07 : dw !k_rool_blunderbuss_hurt_frame5
-	db $07 : dw !k_rool_blunderbuss_hurt_frame6
-	db $07 : dw !k_rool_blunderbuss_hurt_frame7
-	db $07 : dw !k_rool_blunderbuss_hurt_frame8
-	db $07 : dw !k_rool_blunderbuss_hurt_frame9
-	db $0A : dw !k_rool_blunderbuss_hurt_frame8
-	db $5A : dw !k_rool_blunderbuss_hurt_frame9
-	db $06 : dw !k_rool_blunderbuss_hurt_frame8
-	db $14 : dw !k_rool_blunderbuss_hurt_frame9
-	db $06 : dw !k_rool_blunderbuss_hurt_frame8
-	db $0F : dw !k_rool_blunderbuss_hurt_frame9
-	db $06 : dw !k_rool_blunderbuss_hurt_frame8
-	db $06 : dw !k_rool_blunderbuss_hurt_frame9
-	db $06 : dw !k_rool_blunderbuss_hurt_frame8
-	db $06 : dw !k_rool_blunderbuss_hurt_frame9
-	db $06 : dw !k_rool_blunderbuss_hurt_frame8
-	db $06 : dw !k_rool_blunderbuss_hurt_frame7
-	db $06 : dw !k_rool_blunderbuss_hurt_frame6
-	db $06 : dw !k_rool_blunderbuss_hurt_frame5
-	db $06 : dw !k_rool_blunderbuss_hurt_frame4
-	db $06 : dw !k_rool_blunderbuss_hurt_frame3
-	db $06 : dw !k_rool_blunderbuss_hurt_frame2
-	db $06 : dw !k_rool_blunderbuss_hurt_frame1
-	db $2D : dw !k_rool_blunderbuss_shoot_frame1
-	db $14 : dw !k_rool_blunderbuss_concerned_graphic
-	db $0A : dw !k_rool_blunderbuss_shoot_frame1
-	db $08 : dw !k_rool_blunderbuss_concerned_graphic
-	db $08 : dw !k_rool_blunderbuss_shoot_frame1
-	db $06 : dw !k_rool_blunderbuss_concerned_graphic
-	db $06 : dw !k_rool_blunderbuss_shoot_frame1
-	db $04 : dw !k_rool_blunderbuss_concerned_graphic
-	db $04 : dw !k_rool_blunderbuss_shoot_frame1
-	db $04 : dw !k_rool_blunderbuss_concerned_graphic
+krool_gun_stun_3:
+	db $0C : dw !krool_gun_shoot_frame1
+	db $07 : dw !krool_gun_hurt_frame1
+	db $07 : dw !krool_gun_hurt_frame2
+	db $07 : dw !krool_gun_hurt_frame3
+	db $07 : dw !krool_gun_hurt_frame4
+	db $07 : dw !krool_gun_hurt_frame5
+	db $07 : dw !krool_gun_hurt_frame6
+	db $07 : dw !krool_gun_hurt_frame7
+	db $07 : dw !krool_gun_hurt_frame8
+	db $07 : dw !krool_gun_hurt_frame9
+	db $0A : dw !krool_gun_hurt_frame8
+	db $5A : dw !krool_gun_hurt_frame9
+	db $06 : dw !krool_gun_hurt_frame8
+	db $14 : dw !krool_gun_hurt_frame9
+	db $06 : dw !krool_gun_hurt_frame8
+	db $0F : dw !krool_gun_hurt_frame9
+	db $06 : dw !krool_gun_hurt_frame8
+	db $06 : dw !krool_gun_hurt_frame9
+	db $06 : dw !krool_gun_hurt_frame8
+	db $06 : dw !krool_gun_hurt_frame9
+	db $06 : dw !krool_gun_hurt_frame8
+	db $06 : dw !krool_gun_hurt_frame7
+	db $06 : dw !krool_gun_hurt_frame6
+	db $06 : dw !krool_gun_hurt_frame5
+	db $06 : dw !krool_gun_hurt_frame4
+	db $06 : dw !krool_gun_hurt_frame3
+	db $06 : dw !krool_gun_hurt_frame2
+	db $06 : dw !krool_gun_hurt_frame1
+	db $2D : dw !krool_gun_shoot_frame1
+	db $14 : dw !krool_gun_concerned_graphic
+	db $0A : dw !krool_gun_shoot_frame1
+	db $08 : dw !krool_gun_concerned_graphic
+	db $08 : dw !krool_gun_shoot_frame1
+	db $06 : dw !krool_gun_concerned_graphic
+	db $06 : dw !krool_gun_shoot_frame1
+	db $04 : dw !krool_gun_concerned_graphic
+	db $04 : dw !krool_gun_shoot_frame1
+	db $04 : dw !krool_gun_concerned_graphic
 	db !animation_command_83 : dw CODE_B9D12B
 	db !animation_command_80, $00
 
@@ -10923,14 +10923,14 @@ krool_barrel:
 
 ;$F9809D
 krool_gas_cloud:
-	db $04 : dw !k_rool_gas_cloud_frame1
-	db $04 : dw !k_rool_gas_cloud_frame2
-	db $04 : dw !k_rool_gas_cloud_frame3
-	db $04 : dw !k_rool_gas_cloud_frame4
-	db $04 : dw !k_rool_gas_cloud_frame5
-	db $04 : dw !k_rool_gas_cloud_frame6
-	db $04 : dw !k_rool_gas_cloud_frame7
-	db $04 : dw !k_rool_gas_cloud_frame8
+	db $04 : dw !krool_gas_cloud_frame1
+	db $04 : dw !krool_gas_cloud_frame2
+	db $04 : dw !krool_gas_cloud_frame3
+	db $04 : dw !krool_gas_cloud_frame4
+	db $04 : dw !krool_gas_cloud_frame5
+	db $04 : dw !krool_gas_cloud_frame6
+	db $04 : dw !krool_gas_cloud_frame7
+	db $04 : dw !krool_gas_cloud_frame8
 	db !animation_command_80, $00
 
 ;$F980B7

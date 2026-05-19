@@ -9389,156 +9389,156 @@ king_zing_stinger_hurt_frame4:
 	incbin "data/gfx/sprite/dynamic_entity_graphics/king_zing_stinger_hurt_frame4.bin"
 
 ;$D63B99 (sprite graphic)
-k_rool_shoot_frame1:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/k_rool_shoot_frame1.bin"
+krool_shoot_frame1:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/krool_shoot_frame1.bin"
 
 ;$D641ED (sprite graphic)
-k_rool_shoot_frame2:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/k_rool_shoot_frame2.bin"
+krool_shoot_frame2:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/krool_shoot_frame2.bin"
 
 ;$D647FD (sprite graphic)
-k_rool_shoot_frame3:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/k_rool_shoot_frame3.bin"
+krool_shoot_frame3:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/krool_shoot_frame3.bin"
 
 ;$D64D69 (sprite graphic)
-k_rool_blunderbuss_shoot_frame1:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/k_rool_blunderbuss_shoot_frame1.bin"
+krool_gun_shoot_frame1:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/krool_gun_shoot_frame1.bin"
 
 ;$D64FE5 (sprite graphic)
-k_rool_blunderbuss_shoot_frame2:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/k_rool_blunderbuss_shoot_frame2.bin"
+krool_gun_shoot_frame2:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/krool_gun_shoot_frame2.bin"
 
 ;$D65283 (sprite graphic)
-k_rool_blunderbuss_shoot_frame3:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/k_rool_blunderbuss_shoot_frame3.bin"
+krool_gun_shoot_frame3:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/krool_gun_shoot_frame3.bin"
 
 ;$D654F9 (sprite graphic)
-k_rool_melee_frame1:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/k_rool_melee_frame1.bin"
+krool_melee_frame1:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/krool_melee_frame1.bin"
 
 ;$D65B8B (sprite graphic)
-k_rool_melee_frame2:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/k_rool_melee_frame2.bin"
+krool_melee_frame2:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/krool_melee_frame2.bin"
 
 ;$D66207 (sprite graphic)
-k_rool_melee_frame3:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/k_rool_melee_frame3.bin"
+krool_melee_frame3:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/krool_melee_frame3.bin"
 
 ;$D668C1 (sprite graphic)
-k_rool_melee_frame4:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/k_rool_melee_frame4.bin"
+krool_melee_frame4:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/krool_melee_frame4.bin"
 
 ;$D66F53 (sprite graphic)
-k_rool_melee_frame5:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/k_rool_melee_frame5.bin"
+krool_melee_frame5:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/krool_melee_frame5.bin"
 
 ;$D67503 (sprite graphic)
-k_rool_blunderbuss_melee_frame1:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/k_rool_blunderbuss_melee_frame1.bin"
+krool_gun_melee_frame1:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/krool_gun_melee_frame1.bin"
 
 ;$D6773B (sprite graphic)
-k_rool_blunderbuss_melee_frame2:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/k_rool_blunderbuss_melee_frame2.bin"
+krool_gun_melee_frame2:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/krool_gun_melee_frame2.bin"
 
 ;$D67995 (sprite graphic)
-k_rool_blunderbuss_melee_frame3:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/k_rool_blunderbuss_melee_frame3.bin"
+krool_gun_melee_frame3:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/krool_gun_melee_frame3.bin"
 
 ;$D67C39 (sprite graphic)
-k_rool_blunderbuss_melee_frame4:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/k_rool_blunderbuss_melee_frame4.bin"
+krool_gun_melee_frame4:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/krool_gun_melee_frame4.bin"
 
 ;$D67F1B (sprite graphic)
-k_rool_blunderbuss_melee_frame5:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/k_rool_blunderbuss_melee_frame5.bin"
+krool_gun_melee_frame5:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/krool_gun_melee_frame5.bin"
 
 ;$D68131 (sprite graphic)
-k_rool_soot_graphic:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/k_rool_soot_graphic.bin"
+krool_soot_graphic:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/krool_soot_graphic.bin"
 
 ;$D688B1 (sprite graphic)
-k_rool_soot_eyes_frame1:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/k_rool_soot_eyes_frame1.bin"
+krool_soot_eyes_frame1:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/krool_soot_eyes_frame1.bin"
 
 ;$D688FD (sprite graphic)
-k_rool_soot_eyes_frame2:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/k_rool_soot_eyes_frame2.bin"
+krool_soot_eyes_frame2:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/krool_soot_eyes_frame2.bin"
 
 ;$D68949 (sprite graphic)
-k_rool_move_frame1:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/k_rool_move_frame1.bin"
+krool_move_frame1:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/krool_move_frame1.bin"
 
 ;$D68F43 (sprite graphic)
-k_rool_move_frame2:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/k_rool_move_frame2.bin"
+krool_move_frame2:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/krool_move_frame2.bin"
 
 ;$D69537 (sprite graphic)
-k_rool_move_frame3:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/k_rool_move_frame3.bin"
+krool_move_frame3:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/krool_move_frame3.bin"
 
 ;$D69C57 (sprite graphic)
-k_rool_move_frame4:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/k_rool_move_frame4.bin"
+krool_move_frame4:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/krool_move_frame4.bin"
 
 ;$D6A327 (sprite graphic)
-k_rool_move_frame5:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/k_rool_move_frame5.bin"
+krool_move_frame5:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/krool_move_frame5.bin"
 
 ;$D6A9FD (sprite graphic)
-k_rool_blunderbuss_move_frame1:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/k_rool_blunderbuss_move_frame1.bin"
+krool_gun_move_frame1:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/krool_gun_move_frame1.bin"
 
 ;$D6AC79 (sprite graphic)
-k_rool_blunderbuss_move_frame2:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/k_rool_blunderbuss_move_frame2.bin"
+krool_gun_move_frame2:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/krool_gun_move_frame2.bin"
 
 ;$D6AE89 (sprite graphic)
-k_rool_blunderbuss_move_frame3:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/k_rool_blunderbuss_move_frame3.bin"
+krool_gun_move_frame3:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/krool_gun_move_frame3.bin"
 
 ;$D6B05B (sprite graphic)
-k_rool_blunderbuss_move_frame4:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/k_rool_blunderbuss_move_frame4.bin"
+krool_gun_move_frame4:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/krool_gun_move_frame4.bin"
 
 ;$D6B1B1 (sprite graphic)
-k_rool_blunderbuss_move_frame5:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/k_rool_blunderbuss_move_frame5.bin"
+krool_gun_move_frame5:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/krool_gun_move_frame5.bin"
 
 ;$D6B329 (sprite graphic)
-k_rool_blunderbuss_hurt_frame1:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/k_rool_blunderbuss_hurt_frame1.bin"
+krool_gun_hurt_frame1:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/krool_gun_hurt_frame1.bin"
 
 ;$D6B5A5 (sprite graphic)
-k_rool_blunderbuss_hurt_frame2:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/k_rool_blunderbuss_hurt_frame2.bin"
+krool_gun_hurt_frame2:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/krool_gun_hurt_frame2.bin"
 
 ;$D6B881 (sprite graphic)
-k_rool_blunderbuss_hurt_frame3:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/k_rool_blunderbuss_hurt_frame3.bin"
+krool_gun_hurt_frame3:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/krool_gun_hurt_frame3.bin"
 
 ;$D6BB57 (sprite graphic)
-k_rool_blunderbuss_hurt_frame4:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/k_rool_blunderbuss_hurt_frame4.bin"
+krool_gun_hurt_frame4:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/krool_gun_hurt_frame4.bin"
 
 ;$D6BE71 (sprite graphic)
-k_rool_blunderbuss_hurt_frame5:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/k_rool_blunderbuss_hurt_frame5.bin"
+krool_gun_hurt_frame5:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/krool_gun_hurt_frame5.bin"
 
 ;$D6C0ED (sprite graphic)
-k_rool_blunderbuss_hurt_frame6:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/k_rool_blunderbuss_hurt_frame6.bin"
+krool_gun_hurt_frame6:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/krool_gun_hurt_frame6.bin"
 
 ;$D6C385 (sprite graphic)
-k_rool_blunderbuss_hurt_frame7:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/k_rool_blunderbuss_hurt_frame7.bin"
+krool_gun_hurt_frame7:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/krool_gun_hurt_frame7.bin"
 
 ;$D6C61D (sprite graphic)
-k_rool_blunderbuss_hurt_frame8:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/k_rool_blunderbuss_hurt_frame8.bin"
+krool_gun_hurt_frame8:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/krool_gun_hurt_frame8.bin"
 
 ;$D6C877 (sprite graphic)
-k_rool_blunderbuss_hurt_frame9:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/k_rool_blunderbuss_hurt_frame9.bin"
+krool_gun_hurt_frame9:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/krool_gun_hurt_frame9.bin"
 
 ;$D6CA71 (sprite graphic)
 krockhead_barrel_icon_frame1:
@@ -9557,28 +9557,28 @@ krockhead_barrel_icon_frame4:
 	incbin "data/gfx/sprite/dynamic_entity_graphics/krockhead_barrel_icon_frame4.bin"
 
 ;$D6CE31 (sprite graphic)
-k_rool_hurt_frame1:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/k_rool_hurt_frame1.bin"
+krool_hurt_frame1:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/krool_hurt_frame1.bin"
 
 ;$D6D3E1 (sprite graphic)
-k_rool_hurt_frame2:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/k_rool_hurt_frame2.bin"
+krool_hurt_frame2:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/krool_hurt_frame2.bin"
 
 ;$D6DA35 (sprite graphic)
-k_rool_hurt_frame3:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/k_rool_hurt_frame3.bin"
+krool_hurt_frame3:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/krool_hurt_frame3.bin"
 
 ;$D6E171 (sprite graphic)
-k_rool_hurt_frame4:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/k_rool_hurt_frame4.bin"
+krool_hurt_frame4:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/krool_hurt_frame4.bin"
 
 ;$D6E8A7 (sprite graphic)
-k_rool_hurt_frame5:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/k_rool_hurt_frame5.bin"
+krool_hurt_frame5:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/krool_hurt_frame5.bin"
 
 ;$D6F02D (sprite graphic)
-k_rool_hurt_frame6:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/k_rool_hurt_frame6.bin"
+krool_hurt_frame6:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/krool_hurt_frame6.bin"
 
 check bankcross off
 ;$D6F791
@@ -9587,16 +9587,16 @@ wasp_hive_bg_layer_3_tiledata:
 check bankcross full
 
 ;$D70633 (sprite graphic)
-k_rool_hurt_frame7:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/k_rool_hurt_frame7.bin"
+krool_hurt_frame7:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/krool_hurt_frame7.bin"
 
 ;$D70E3B (sprite graphic)
-k_rool_hurt_frame8:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/k_rool_hurt_frame8.bin"
+krool_hurt_frame8:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/krool_hurt_frame8.bin"
 
 ;$D715D7 (sprite graphic)
-k_rool_hurt_frame9:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/k_rool_hurt_frame9.bin"
+krool_hurt_frame9:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/krool_hurt_frame9.bin"
 
 ;$D71D95 (sprite graphic)
 dixie_celebrate_frame1:
@@ -10095,16 +10095,16 @@ diddy_boombox_celebrate_frame13:
 	incbin "data/gfx/sprite/dynamic_entity_graphics/diddy_boombox_celebrate_frame13.bin"
 
 ;$D7E509 (sprite graphic)
-k_rool_turn_frame1:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/k_rool_turn_frame1.bin"
+krool_turn_frame1:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/krool_turn_frame1.bin"
 
 ;$D7EB1F (sprite graphic)
-k_rool_turn_frame2:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/k_rool_turn_frame2.bin"
+krool_turn_frame2:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/krool_turn_frame2.bin"
 
 ;$D7F0AD (sprite graphic)
-k_rool_blunderbuss_turn_graphic:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/k_rool_blunderbuss_turn_graphic.bin"
+krool_gun_turn_graphic:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/krool_gun_turn_graphic.bin"
 
 ;$D7F19D (sprite graphic)
 diddy_mourn_frame1:
@@ -10573,76 +10573,76 @@ clapper_idle_frame9:
 	incbin "data/gfx/sprite/dynamic_entity_graphics/clapper_idle_frame9.bin"
 
 ;$D8C3CD (sprite graphic)
-k_rool_vacuum_frame1:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/k_rool_vacuum_frame1.bin"
+krool_vacuum_frame1:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/krool_vacuum_frame1.bin"
 
 ;$D8C9BB (sprite graphic)
-k_rool_vacuum_frame2:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/k_rool_vacuum_frame2.bin"
+krool_vacuum_frame2:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/krool_vacuum_frame2.bin"
 
 ;$D8CF87 (sprite graphic)
-k_rool_blunderbuss_vacuum_frame1:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/k_rool_blunderbuss_vacuum_frame1.bin"
+krool_gun_vacuum_frame1:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/krool_gun_vacuum_frame1.bin"
 
 ;$D8D1A3 (sprite graphic)
-k_rool_blunderbuss_vacuum_frame2:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/k_rool_blunderbuss_vacuum_frame2.bin"
+krool_gun_vacuum_frame2:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/krool_gun_vacuum_frame2.bin"
 
 ;$D8D3BF (sprite graphic)
-k_rool_blunderbuss_fire_frame1:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/k_rool_blunderbuss_fire_frame1.bin"
+krool_gun_fire_frame1:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/krool_gun_fire_frame1.bin"
 
 ;$D8D50F (sprite graphic)
-k_rool_blunderbuss_fire_frame2:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/k_rool_blunderbuss_fire_frame2.bin"
+krool_gun_fire_frame2:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/krool_gun_fire_frame2.bin"
 
 ;$D8D65F (sprite graphic)
-k_rool_blunderbuss_fire_frame3:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/k_rool_blunderbuss_fire_frame3.bin"
+krool_gun_fire_frame3:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/krool_gun_fire_frame3.bin"
 
 ;$D8D7AF (sprite graphic)
-k_rool_blunderbuss_fire_frame4:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/k_rool_blunderbuss_fire_frame4.bin"
+krool_gun_fire_frame4:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/krool_gun_fire_frame4.bin"
 
 ;$D8D8FF (sprite graphic)
-k_rool_blunderbuss_fire_frame5:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/k_rool_blunderbuss_fire_frame5.bin"
+krool_gun_fire_frame5:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/krool_gun_fire_frame5.bin"
 
 ;$D8DA4F (sprite graphic)
-k_rool_blunderbuss_fire_frame6:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/k_rool_blunderbuss_fire_frame6.bin"
+krool_gun_fire_frame6:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/krool_gun_fire_frame6.bin"
 
 ;$D8DB9F (sprite graphic)
-k_rool_blunderbuss_fire_frame7:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/k_rool_blunderbuss_fire_frame7.bin"
+krool_gun_fire_frame7:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/krool_gun_fire_frame7.bin"
 
 ;$D8DCEF (sprite graphic)
-k_rool_blunderbuss_fire_frame8:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/k_rool_blunderbuss_fire_frame8.bin"
+krool_gun_fire_frame8:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/krool_gun_fire_frame8.bin"
 
 ;$D8DE3F (sprite graphic)
-k_rool_idle_frame1:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/k_rool_idle_frame1.bin"
+krool_idle_frame1:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/krool_idle_frame1.bin"
 
 ;$D8E4D7 (sprite graphic)
-k_rool_idle_frame2:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/k_rool_idle_frame2.bin"
+krool_idle_frame2:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/krool_idle_frame2.bin"
 
 ;$D8EB6F (sprite graphic)
-k_rool_concerned_graphic:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/k_rool_concerned_graphic.bin"
+krool_concerned_graphic:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/krool_concerned_graphic.bin"
 
 ;$D8F1E5 (sprite graphic)
-k_rool_blunderbuss_idle_frame1:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/k_rool_blunderbuss_idle_frame1.bin"
+krool_gun_idle_frame1:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/krool_gun_idle_frame1.bin"
 
 ;$D8F461 (sprite graphic)
-k_rool_blunderbuss_idle_frame2:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/k_rool_blunderbuss_idle_frame2.bin"
+krool_gun_idle_frame2:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/krool_gun_idle_frame2.bin"
 
 ;$D8F6DD (sprite graphic)
-k_rool_blunderbuss_concerned_graphic:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/k_rool_blunderbuss_concerned_graphic.bin"
+krool_gun_concerned_graphic:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/krool_gun_concerned_graphic.bin"
 
 ;$D8F959 (sprite graphic)
 clapper_activate_frame1:
@@ -10731,36 +10731,36 @@ snapjaw_bite_frame5:
 	incbin "data/gfx/sprite/dynamic_entity_graphics/snapjaw_bite_frame5.bin"
 
 ;$D930DF (sprite graphic)
-k_rool_vacuum_particles_frame1:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/k_rool_vacuum_particles_frame1.bin"
+krool_vacuum_particles_frame1:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/krool_vacuum_particles_frame1.bin"
 
 ;$D9318B (sprite graphic)
-k_rool_vacuum_particles_frame2:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/k_rool_vacuum_particles_frame2.bin"
+krool_vacuum_particles_frame2:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/krool_vacuum_particles_frame2.bin"
 
 ;$D932C5 (sprite graphic)
-k_rool_vacuum_particles_frame3:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/k_rool_vacuum_particles_frame3.bin"
+krool_vacuum_particles_frame3:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/krool_vacuum_particles_frame3.bin"
 
 ;$D933FF (sprite graphic)
-k_rool_vacuum_particles_frame4:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/k_rool_vacuum_particles_frame4.bin"
+krool_vacuum_particles_frame4:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/krool_vacuum_particles_frame4.bin"
 
 ;$D935BB (sprite graphic)
-k_rool_vacuum_particles_frame5:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/k_rool_vacuum_particles_frame5.bin"
+krool_vacuum_particles_frame5:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/krool_vacuum_particles_frame5.bin"
 
 ;$D937C1 (sprite graphic)
-k_rool_vacuum_particles_frame6:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/k_rool_vacuum_particles_frame6.bin"
+krool_vacuum_particles_frame6:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/krool_vacuum_particles_frame6.bin"
 
 ;$D939A5 (sprite graphic)
-k_rool_vacuum_particles_frame7:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/k_rool_vacuum_particles_frame7.bin"
+krool_vacuum_particles_frame7:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/krool_vacuum_particles_frame7.bin"
 
 ;$D93A9B (sprite graphic)
-k_rool_vacuum_particles_frame8:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/k_rool_vacuum_particles_frame8.bin"
+krool_vacuum_particles_frame8:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/krool_vacuum_particles_frame8.bin"
 
 ;$D93B09 (sprite graphic)
 giant_tire_roll_frame1:
@@ -10951,96 +10951,96 @@ timer_9_graphic:
 	incbin "data/gfx/sprite/dynamic_entity_graphics/timer_9_graphic.bin"
 
 ;$D9A7A9 (sprite graphic)
-k_rool_backfire_sparks_frame1:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/k_rool_backfire_sparks_frame1.bin"
+krool_backfire_sparks_frame1:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/krool_backfire_sparks_frame1.bin"
 
 ;$D9A817 (sprite graphic)
-k_rool_backfire_sparks_frame2:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/k_rool_backfire_sparks_frame2.bin"
+krool_backfire_sparks_frame2:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/krool_backfire_sparks_frame2.bin"
 
 ;$D9A8C3 (sprite graphic)
-k_rool_backfire_sparks_frame3:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/k_rool_backfire_sparks_frame3.bin"
+krool_backfire_sparks_frame3:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/krool_backfire_sparks_frame3.bin"
 
 ;$D9A9B3 (sprite graphic)
-k_rool_backfire_sparks_frame4:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/k_rool_backfire_sparks_frame4.bin"
+krool_backfire_sparks_frame4:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/krool_backfire_sparks_frame4.bin"
 
 ;$D9AB03 (sprite graphic)
-k_rool_backfire_sparks_frame5:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/k_rool_backfire_sparks_frame5.bin"
+krool_backfire_sparks_frame5:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/krool_backfire_sparks_frame5.bin"
 
 ;$D9AC97 (sprite graphic)
-k_rool_backfire_sparks_frame6:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/k_rool_backfire_sparks_frame6.bin"
+krool_backfire_sparks_frame6:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/krool_backfire_sparks_frame6.bin"
 
 ;$D9AE4D (sprite graphic)
-k_rool_backfire_sparks_frame7:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/k_rool_backfire_sparks_frame7.bin"
+krool_backfire_sparks_frame7:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/krool_backfire_sparks_frame7.bin"
 
 ;$D9B003 (sprite graphic)
-k_rool_backfire_sparks_frame8:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/k_rool_backfire_sparks_frame8.bin"
+krool_backfire_sparks_frame8:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/krool_backfire_sparks_frame8.bin"
 
 ;$D9B1FD (sprite graphic)
-k_rool_backfire_sparks_frame9:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/k_rool_backfire_sparks_frame9.bin"
+krool_backfire_sparks_frame9:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/krool_backfire_sparks_frame9.bin"
 
 ;$D9B3D5 (sprite graphic)
-k_rool_backfire_sparks_frame10:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/k_rool_backfire_sparks_frame10.bin"
+krool_backfire_sparks_frame10:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/krool_backfire_sparks_frame10.bin"
 
 ;$D9B5F1 (sprite graphic)
-k_rool_backfire_sparks_frame11:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/k_rool_backfire_sparks_frame11.bin"
+krool_backfire_sparks_frame11:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/krool_backfire_sparks_frame11.bin"
 
 ;$D9B813 (sprite graphic)
-k_rool_backfire_sparks_frame12:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/k_rool_backfire_sparks_frame12.bin"
+krool_backfire_sparks_frame12:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/krool_backfire_sparks_frame12.bin"
 
 ;$D9BA13 (sprite graphic)
-k_rool_backfire_sparks_frame13:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/k_rool_backfire_sparks_frame13.bin"
+krool_backfire_sparks_frame13:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/krool_backfire_sparks_frame13.bin"
 
 ;$D9BC13 (sprite graphic)
-k_rool_backfire_sparks_frame14:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/k_rool_backfire_sparks_frame14.bin"
+krool_backfire_sparks_frame14:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/krool_backfire_sparks_frame14.bin"
 
 ;$D9BDF1 (sprite graphic)
-k_rool_backfire_sparks_frame15:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/k_rool_backfire_sparks_frame15.bin"
+krool_backfire_sparks_frame15:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/krool_backfire_sparks_frame15.bin"
 
 ;$D9BF4D (sprite graphic)
-k_rool_gas_cloud_frame1:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/k_rool_gas_cloud_frame1.bin"
+krool_gas_cloud_frame1:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/krool_gas_cloud_frame1.bin"
 
 ;$D9C11F (sprite graphic)
-k_rool_gas_cloud_frame2:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/k_rool_gas_cloud_frame2.bin"
+krool_gas_cloud_frame2:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/krool_gas_cloud_frame2.bin"
 
 ;$D9C2D5 (sprite graphic)
-k_rool_gas_cloud_frame3:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/k_rool_gas_cloud_frame3.bin"
+krool_gas_cloud_frame3:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/krool_gas_cloud_frame3.bin"
 
 ;$D9C4A7 (sprite graphic)
-k_rool_gas_cloud_frame4:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/k_rool_gas_cloud_frame4.bin"
+krool_gas_cloud_frame4:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/krool_gas_cloud_frame4.bin"
 
 ;$D9C63B (sprite graphic)
-k_rool_gas_cloud_frame5:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/k_rool_gas_cloud_frame5.bin"
+krool_gas_cloud_frame5:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/krool_gas_cloud_frame5.bin"
 
 ;$D9C7F1 (sprite graphic)
-k_rool_gas_cloud_frame6:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/k_rool_gas_cloud_frame6.bin"
+krool_gas_cloud_frame6:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/krool_gas_cloud_frame6.bin"
 
 ;$D9C9C9 (sprite graphic)
-k_rool_gas_cloud_frame7:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/k_rool_gas_cloud_frame7.bin"
+krool_gas_cloud_frame7:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/krool_gas_cloud_frame7.bin"
 
 ;$D9CB7F (sprite graphic)
-k_rool_gas_cloud_frame8:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/k_rool_gas_cloud_frame8.bin"
+krool_gas_cloud_frame8:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/krool_gas_cloud_frame8.bin"
 
 ;$D9CD9B (sprite graphic)
 yoshi_frame1:
@@ -11969,40 +11969,40 @@ isle_airship_ladder_frame6:
 	incbin "data/gfx/sprite/dynamic_entity_graphics/isle_airship_ladder_frame6.bin"
 
 ;$DC586A (sprite graphic)
-isle_k_rool_fall_frame1:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/isle_k_rool_fall_frame1.bin"
+isle_krool_fall_frame1:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/isle_krool_fall_frame1.bin"
 
 ;$DC5976 (sprite graphic)
-isle_k_rool_fall_frame2:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/isle_k_rool_fall_frame2.bin"
+isle_krool_fall_frame2:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/isle_krool_fall_frame2.bin"
 
 ;$DC5AAA (sprite graphic)
-isle_k_rool_fall_frame3:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/isle_k_rool_fall_frame3.bin"
+isle_krool_fall_frame3:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/isle_krool_fall_frame3.bin"
 
 ;$DC5BBC (sprite graphic)
-isle_k_rool_fall_frame4:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/isle_k_rool_fall_frame4.bin"
+isle_krool_fall_frame4:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/isle_krool_fall_frame4.bin"
 
 ;$DC5CAC (sprite graphic)
-isle_k_rool_climb_frame1:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/isle_k_rool_climb_frame1.bin"
+isle_krool_climb_frame1:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/isle_krool_climb_frame1.bin"
 
 ;$DC5D9C (sprite graphic)
-isle_k_rool_climb_frame2:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/isle_k_rool_climb_frame2.bin"
+isle_krool_climb_frame2:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/isle_krool_climb_frame2.bin"
 
 ;$DC5E6A (sprite graphic)
-isle_k_rool_climb_frame3:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/isle_k_rool_climb_frame3.bin"
+isle_krool_climb_frame3:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/isle_krool_climb_frame3.bin"
 
 ;$DC5F38 (sprite graphic)
-isle_k_rool_climb_frame4:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/isle_k_rool_climb_frame4.bin"
+isle_krool_climb_frame4:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/isle_krool_climb_frame4.bin"
 
 ;$DC5FE4 (sprite graphic)
-isle_k_rool_climb_frame5:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/isle_k_rool_climb_frame5.bin"
+isle_krool_climb_frame5:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/isle_krool_climb_frame5.bin"
 
 ;$DC60D4 (sprite graphic)
 barrel_cannon_direction_icon_graphic:
@@ -12789,120 +12789,120 @@ brambles_sky_bg_layer_3_8x8_tilemap:
 check bankcross full
 
 ;$DE0356 (sprite graphic)
-k_rool_soaked_frame1:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/k_rool_soaked_frame1.bin"
+krool_soaked_frame1:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/krool_soaked_frame1.bin"
 
 ;$DE0B9C (sprite graphic)
-k_rool_soaked_frame2:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/k_rool_soaked_frame2.bin"
+krool_soaked_frame2:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/krool_soaked_frame2.bin"
 
 ;$DE13E2 (sprite graphic)
-k_rool_soaked_frame3:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/k_rool_soaked_frame3.bin"
+krool_soaked_frame3:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/krool_soaked_frame3.bin"
 
 ;$DE1C28 (sprite graphic)
-k_rool_blunderbuss_soaked_frame1:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/k_rool_blunderbuss_soaked_frame1.bin"
+krool_gun_soaked_frame1:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/krool_gun_soaked_frame1.bin"
 
 ;$DE1E66 (sprite graphic)
-k_rool_blunderbuss_soaked_frame2:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/k_rool_blunderbuss_soaked_frame2.bin"
+krool_gun_soaked_frame2:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/krool_gun_soaked_frame2.bin"
 
 ;$DE20A4 (sprite graphic)
-k_rool_blunderbuss_soaked_frame3:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/k_rool_blunderbuss_soaked_frame3.bin"
+krool_gun_soaked_frame3:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/krool_gun_soaked_frame3.bin"
 
 ;$DE22E2 (sprite graphic)
-k_rool_fish_frame1:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/k_rool_fish_frame1.bin"
+krool_fish_frame1:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/krool_fish_frame1.bin"
 
 ;$DE2372 (sprite graphic)
-k_rool_fish_frame2:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/k_rool_fish_frame2.bin"
+krool_fish_frame2:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/krool_fish_frame2.bin"
 
 ;$DE2402 (sprite graphic)
-k_rool_fish_frame3:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/k_rool_fish_frame3.bin"
+krool_fish_frame3:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/krool_fish_frame3.bin"
 
 ;$DE2492 (sprite graphic)
-k_rool_fish_frame4:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/k_rool_fish_frame4.bin"
+krool_fish_frame4:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/krool_fish_frame4.bin"
 
 ;$DE2522 (sprite graphic)
-k_rool_fish_frame5:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/k_rool_fish_frame5.bin"
+krool_fish_frame5:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/krool_fish_frame5.bin"
 
 ;$DE25B2 (sprite graphic)
-k_rool_fish_frame6:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/k_rool_fish_frame6.bin"
+krool_fish_frame6:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/krool_fish_frame6.bin"
 
 ;$DE265E (sprite graphic)
-k_rool_fish_frame7:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/k_rool_fish_frame7.bin"
+krool_fish_frame7:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/krool_fish_frame7.bin"
 
 ;$DE26CC (sprite graphic)
-k_rool_fish_frame8:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/k_rool_fish_frame8.bin"
+krool_fish_frame8:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/krool_fish_frame8.bin"
 
 ;$DE273A (sprite graphic)
-k_rool_puddle_graphic:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/k_rool_puddle_graphic.bin"
+krool_puddle_graphic:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/krool_puddle_graphic.bin"
 
 ;$DE28F0 (sprite graphic)
-k_rool_fall_into_kore_frame1:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/k_rool_fall_into_kore_frame1.bin"
+krool_fall_into_kore_frame1:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/krool_fall_into_kore_frame1.bin"
 
 ;$DE2C32 (sprite graphic)
-k_rool_fall_into_kore_frame2:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/k_rool_fall_into_kore_frame2.bin"
+krool_fall_into_kore_frame2:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/krool_fall_into_kore_frame2.bin"
 
 ;$DE2F4C (sprite graphic)
-isle_k_rool_splash_frame1:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/isle_k_rool_splash_frame1.bin"
+isle_krool_splash_frame1:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/isle_krool_splash_frame1.bin"
 
 ;$DE2F76 (sprite graphic)
-isle_k_rool_splash_frame2:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/isle_k_rool_splash_frame2.bin"
+isle_krool_splash_frame2:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/isle_krool_splash_frame2.bin"
 
 ;$DE2FE4 (sprite graphic)
-isle_k_rool_splash_frame3:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/isle_k_rool_splash_frame3.bin"
+isle_krool_splash_frame3:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/isle_krool_splash_frame3.bin"
 
 ;$DE30D4 (sprite graphic)
-isle_k_rool_splash_frame4:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/isle_k_rool_splash_frame4.bin"
+isle_krool_splash_frame4:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/isle_krool_splash_frame4.bin"
 
 ;$DE3180 (sprite graphic)
-isle_k_rool_splash_frame5:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/isle_k_rool_splash_frame5.bin"
+isle_krool_splash_frame5:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/isle_krool_splash_frame5.bin"
 
 ;$DE322C (sprite graphic)
-isle_k_rool_splash_frame6:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/isle_k_rool_splash_frame6.bin"
+isle_krool_splash_frame6:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/isle_krool_splash_frame6.bin"
 
 ;$DE32FA (sprite graphic)
-isle_k_rool_splash_frame7:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/isle_k_rool_splash_frame7.bin"
+isle_krool_splash_frame7:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/isle_krool_splash_frame7.bin"
 
 ;$DE33C8 (sprite graphic)
-isle_k_rool_splash_frame8:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/isle_k_rool_splash_frame8.bin"
+isle_krool_splash_frame8:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/isle_krool_splash_frame8.bin"
 
 ;$DE3458 (sprite graphic)
-isle_k_rool_swim_frame1:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/isle_k_rool_swim_frame1.bin"
+isle_krool_swim_frame1:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/isle_krool_swim_frame1.bin"
 
 ;$DE3504 (sprite graphic)
-isle_k_rool_swim_frame2:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/isle_k_rool_swim_frame2.bin"
+isle_krool_swim_frame2:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/isle_krool_swim_frame2.bin"
 
 ;$DE35B0 (sprite graphic)
-isle_k_rool_swim_frame3:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/isle_k_rool_swim_frame3.bin"
+isle_krool_swim_frame3:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/isle_krool_swim_frame3.bin"
 
 ;$DE365C (sprite graphic)
-isle_k_rool_swim_frame4:
-	incbin "data/gfx/sprite/dynamic_entity_graphics/isle_k_rool_swim_frame4.bin"
+isle_krool_swim_frame4:
+	incbin "data/gfx/sprite/dynamic_entity_graphics/isle_krool_swim_frame4.bin"
 
 ;$DE3708 (sprite graphic)
 link_frame1:
@@ -13161,8 +13161,8 @@ krocodile_kore_level_tiledata:
 check bankcross full
 
 ;$E23790
-k_rool_duel_level_tiledata:
-	incbin "data/levels/graphics/k_rool_duel_level_tiledata.bin"
+krool_duel_level_tiledata:
+	incbin "data/levels/graphics/krool_duel_level_tiledata.bin"
 
 ;$E29E5F
 ice_level_tiledata:
@@ -13235,12 +13235,12 @@ castle_32x32_tilemap:
 check bankcross full
 
 ;$E5264B
-k_rool_2_32x32_tilemap:
-	incbin "data/levels/32x32_tilemaps/k_rool_2_32x32_tilemap.bin"
+krool_2_32x32_tilemap:
+	incbin "data/levels/32x32_tilemaps/krool_2_32x32_tilemap.bin"
 
 ;$E52732
-k_rool_32x32_tilemap:
-	incbin "data/levels/32x32_tilemaps/k_rool_32x32_tilemap.bin"
+krool_32x32_tilemap:
+	incbin "data/levels/32x32_tilemaps/krool_32x32_tilemap.bin"
 
 ;$E52832
 ice_32x32_tilemap:
@@ -13301,12 +13301,12 @@ castle_8x8_tilemap:
 	incbin "data/levels/8x8_tilemaps/castle_8x8_tilemap.bin"
 
 ;$E694EC
-k_rool_2_8x8_tilemap:
-	incbin "data/levels/8x8_tilemaps/k_rool_2_8x8_tilemap.bin"
+krool_2_8x8_tilemap:
+	incbin "data/levels/8x8_tilemaps/krool_2_8x8_tilemap.bin"
 
 ;$E69CE2
-k_rool_8x8_tilemap:
-	incbin "data/levels/8x8_tilemaps/k_rool_8x8_tilemap.bin"
+krool_8x8_tilemap:
+	incbin "data/levels/8x8_tilemaps/krool_8x8_tilemap.bin"
 
 ;$E6A896
 ice_8x8_tilemap:
@@ -13349,8 +13349,8 @@ gloomy_gulch_tiledata:
 	incbin "data/world_maps/graphics/gloomy_gulch_tiledata.bin"
 
 ;$E8A6D7
-k_rools_keep_8x8_tilemap:
-	incbin "data/world_maps/8x8_tilemaps/k_rools_keep_8x8_tilemap.bin"
+krools_keep_8x8_tilemap:
+	incbin "data/world_maps/8x8_tilemaps/krools_keep_8x8_tilemap.bin"
 
 ;$E8B224
 the_flying_krock_8x8_tilemap:

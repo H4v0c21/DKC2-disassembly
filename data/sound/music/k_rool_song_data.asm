@@ -1,6 +1,6 @@
 ;1F Crocodile Cacophony
 ;$F2D64B
-k_rool_song_data:
+krool_song_data:
 namespace APU
 
 %sequence_data_header(song_data, .start, .end)
@@ -15,10 +15,10 @@ arch spc700
 	db $C8, $FF	;music tempo, sound effect tempo
 
 ;sub-track pointers
-	dw .chn_ptrs_1300	;00: 
-	dw .chn_ptrs_131A	;01: 
-	dw .chn_ptrs_132C	;02: 
-	dw .chn_ptrs_133E	;03: 
+	dw .chn_ptrs_1300	;00:
+	dw .chn_ptrs_131A	;01:
+	dw .chn_ptrs_132C	;02:
+	dw .chn_ptrs_133E	;03:
 
 ;sub-track 01 channel pointers
 .chn_ptrs_131A:

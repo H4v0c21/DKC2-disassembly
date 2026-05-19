@@ -313,6 +313,7 @@ dummy_level_sprite_table		= $0D26	;Not actually a sprite but used as base to run
 RAM_0D38				= $0D38
 
 water_current_y_velocity		= $0D4A
+water_y_position			= $0D4E
 water_target_y_velocity			= $0D50
 
 ridden_skull_cart_sprite		= $0D5E
@@ -342,7 +343,7 @@ screen_scroll_x_screen			= $17BB
 layer_screen_scroll_x_position		= $17BC
 
 screen_scroll_y_position		= $17C0
-		
+
 level_row_left_DMA_buffer		= $17DA
 level_row_right_DMA_buffer		= $181A
 level_column_DMA_buffer			= $185A

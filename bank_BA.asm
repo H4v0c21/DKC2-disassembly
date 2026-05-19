@@ -111,7 +111,7 @@ CODE_BA90D9:					;	   |
 	DEC $0765				;$BA90E4   |
 	BRL CODE_BA911F				;$BA90E7  /
 
-;Dead code
+;Dead code, would apply knockback to kong
 	JSL get_current_sprite_clipping		;$BA90EA  \
 	LDA #$0C7B				;$BA90EE   |
 	JSL check_complex_player_collision_B6	;$BA90F1   |
@@ -189,7 +189,7 @@ CODE_BA9192:					;	   |
 	LDA.l $000654				;$BA91A7   |
 	STA current_sprite			;$BA91AB   |
 	STZ $0656				;$BA91AD   |
-	LDA #$0240				;$BA91B0   | king_zing_small_idle
+	LDA #!king_zing_small_idle_anim_id	;$BA91B0   |
 	JSL set_sprite_animation		;$BA91B3   |
 	LDX current_sprite			;$BA91B7   |
 	LDA $0A,x				;$BA91B9   |
@@ -530,13 +530,13 @@ CODE_BA9450:
 	BRA CODE_BA9468				;$BA9463  /
 
 CODE_BA9465:
-	LDA #$0230				;$BA9465  \ king_zing_idle
+	LDA #!king_zing_idle_anim_id		;$BA9465  \
 CODE_BA9468:					;	   |
 	JSL set_sprite_animation		;$BA9468   |
 	LDX $0656				;$BA946C   |
 	BEQ CODE_BA947F				;$BA946F   |
 	STX current_sprite			;$BA9471   |
-	LDA #$0232				;$BA9473   | king_zing_stinger_idle
+	LDA #!king_zing_stinger_idle_anim_id	;$BA9473   |
 	JSL set_sprite_animation		;$BA9476   |
 	LDX $0654				;$BA947A   |
 	STX current_sprite			;$BA947D   |
@@ -564,18 +564,18 @@ CODE_BA9484:
 	LDA.l $000652				;$BA94A5   |
 	CMP #$0004				;$BA94A9   |
 	BCS CODE_BA94B3				;$BA94AC   |
-	LDA #$0241				;$BA94AE   | king_zing_small_turn
+	LDA #!king_zing_small_turn_anim_id	;$BA94AE   |
 	BRA CODE_BA94B6				;$BA94B1  /
 
 CODE_BA94B3:
-	LDA #$0231				;$BA94B3  \ king_zing_turn
+	LDA #!king_zing_turn_anim_id		;$BA94B3  \
 CODE_BA94B6:					;	   |
 	JSL set_sprite_animation		;$BA94B6   |
 	LDA.l $000656				;$BA94BA   |
 	BEQ CODE_BA94CD				;$BA94BE   |
 	PHX					;$BA94C0   |
 	STA current_sprite			;$BA94C1   |
-	LDA #$0233				;$BA94C3   | king_zing_stinger_turn
+	LDA #!king_zing_stinger_turn_anim_id	;$BA94C3   |
 	JSL set_sprite_animation		;$BA94C6   |
 	PLX					;$BA94CA   |
 	STX current_sprite			;$BA94CB   |
@@ -642,7 +642,7 @@ CODE_BA9540:
 	JSR CODE_BA9769				;$BA9555   |
 	LDX alternate_sprite			;$BA9558   |
 	STX $0658				;$BA955A   |
-	LDA #$023F				;$BA955D   | king_zing_smoke_large
+	LDA #!king_zing_smoke_large_anim_id	;$BA955D   |
 	JSL set_alt_sprite_animation		;$BA9560   |
 	LDA #!global_sprite_palette		;$BA9564   |
 	JSL request_sprite_palette_global	;$BA9567   |
@@ -665,7 +665,7 @@ CODE_BA9540:
 	JSR CODE_BA9769				;$BA9593   |
 	LDX alternate_sprite			;$BA9596   |
 	STX $0658				;$BA9598   |
-	LDA #$023E				;$BA959B   | king_zing_smoke_medium
+	LDA #!king_zing_smoke_medium_anim_id	;$BA959B   |
 	JSL set_alt_sprite_animation		;$BA959E   |
 	LDA #!coins_sprite_palette		;$BA95A2   |
 	JSL request_sprite_palette_global	;$BA95A5   |
@@ -682,12 +682,12 @@ CODE_BA9540:
 	JSR CODE_BA9736				;$BA95C0   |
 CODE_BA95C3:					;	   |
 	DEC $070B				;$BA95C3   |
-	LDA #$0234				;$BA95C6   | king_zing_hurt
+	LDA #!king_zing_hurt_anim_id		;$BA95C6   |
 	JSL set_sprite_animation		;$BA95C9   |
 	LDX $0656				;$BA95CD   |
 	STX current_sprite			;$BA95D0   |
 	STZ $1E,x				;$BA95D2   |
-	LDA #$0235				;$BA95D4   | king_zing_stinger_hurt
+	LDA #!king_zing_stinger_hurt_anim_id	;$BA95D4   |
 	JSL set_sprite_animation		;$BA95D7   |
 	LDX $0654				;$BA95DB   |
 	STX current_sprite			;$BA95DE   |
@@ -743,7 +743,7 @@ CODE_BA960F:
 	STA $000757				;$BA964F   |
 	LDA.l $000654				;$BA9653   |
 	STA alternate_sprite			;$BA9657   |
-	LDA #$02A1				;$BA9659   | king_zing_death
+	LDA #!king_zing_death_anim_id		;$BA9659   |
 	JSL set_alt_sprite_animation		;$BA965C   |
 	%lda_sound(4, king_zing_defeated)	;$BA9660   |
 	JSL queue_sound_effect			;$BA9663   |
@@ -943,7 +943,7 @@ king_zing_ring_zinger_sprite_code:
 	JSR .CODE_BA9884			;$BA980C   |
 	LDY.w #DATA_FF16BA			;$BA980F   | smoke puff
 	JSL spawn_special_sprite_address	;$BA9812   |
-	LDA #$0242				;$BA9816   | smoke_cloud_3
+	LDA #!smoke_cloud_3_anim_id		;$BA9816   |
 	JSL set_alt_sprite_animation		;$BA9819   |
 	LDX alternate_sprite			;$BA981D   |
 	INC $02,x				;$BA981F   |
@@ -1027,7 +1027,7 @@ king_zing_ring_zinger_sprite_code:
 	BNE ..return				;$BA98D0   |
 	STZ $2E,x				;$BA98D2   |
 	INC $1E,x				;$BA98D4   |
-	LDA #$0240				;$BA98D6   | king_zing_small_idle
+	LDA #!king_zing_small_idle_anim_id	;$BA98D6   |
 	JSL set_sprite_animation		;$BA98D9   |
 ..return:					;	   |
 	JML [sprite_return_address]		;$BA98DD  /
@@ -1447,10 +1447,10 @@ CODE_BA9C64:
 	DEC $0652				;$BA9C77   |
 	BNE CODE_BA9CA4				;$BA9C7A   |
 	STZ $2E,x				;$BA9C7C   |
-	LDA #$0201				;$BA9C7E   | krow_body_fly
+	LDA #!krow_body_fly_anim_id		;$BA9C7E   |
 	JSL set_sprite_animation		;$BA9C81   |
 	LDY $0656				;$BA9C85   |
-	LDA #$01FC				;$BA9C88   | kreepy_krow_head_final_hit
+	LDA #!kreepy_krow_head_last_hit_anim_id	;$BA9C88   |
 	STY alternate_sprite			;$BA9C8B   |
 	JSL set_alt_sprite_animation		;$BA9C8D   |
 	LDA #kreepy_krow_death_palette_table	;$BA9C91   |
@@ -1472,12 +1472,12 @@ CODE_BA9CB2:
 CODE_BA9CB5:					;	   |
 	STA $46,x				;$BA9CB5   |
 	STZ $1E,x				;$BA9CB7   |
-	LDA #$0207				;$BA9CB9   | krow_body_hurt
+	LDA #!krow_body_hurt_anim_id		;$BA9CB9   |
 	JSL set_sprite_animation		;$BA9CBC   |
 	LDX $0656				;$BA9CC0   |
 	STX current_sprite			;$BA9CC3   |
 	STZ $1E,x				;$BA9CC5   |
-	LDA #$0208				;$BA9CC7   | krow_head_hurt
+	LDA #!krow_head_hurt_anim_id		;$BA9CC7   |
 	JSL set_sprite_animation		;$BA9CCA   |
 	LDX $0654				;$BA9CCE   |
 	STX current_sprite			;$BA9CD1   |
@@ -2112,8 +2112,7 @@ kreepy_krows_head_sprite_code:
 	JML [sprite_return_address]		;$BAA21F  /
 
 
-;amount of kleever fragments to spawn
-DATA_BAA222:
+kleever_fragment_spawn_count:
 	dw $0012
 
 ;kleever fragment spawning data
@@ -2262,8 +2261,7 @@ DATA_BAA39A:
 	dw $0221
 
 
-;amount of k.rool duel roof pieces to spawn
-DATA_BAA3B0:
+krool_roof_piece_spawn_count:
 	dw $0010
 
 
@@ -2462,9 +2460,9 @@ DATA_BAA5EF:
 
 
 kleever_y_bob_offset_table:
-	db $01, $00, $01, $01, $01, $00, $01, $00
-	db $00, $00, $FF, $00, $FF, $FF, $FF, $00
-	db $FF, $00, $00, $00
+	dw $0001, $0101, $0001, $0001
+	dw $0000, $00FF, $FFFF, $00FF
+	dw $00FF, $0000
 
 ;unclear, seems related to kleever swings in both phases
 DATA_BAA6D0:
@@ -2555,10 +2553,7 @@ DATA_BAA7DA:
 	dw $FFCD, $FFF2, $0047, $0019
 
 
-;k rool projectiles
-
-;straight spike balls
-k_rool_straight_spike_balls_shots:
+krool_straight_spike_balls_shots:
 	dw $0200, $0000, $0200, $0000, $0000, $0000, $0078, $0000
 	dw $0280, $0000, $0280, $0000, $0000, $0000, $0032, $0010
 	dw $0280, $0000, $0280, $0000, $0000, $0000, $003C, $FFF0
@@ -2570,8 +2565,7 @@ k_rool_straight_spike_balls_shots:
 	dw $0380, $0000, $0380, $0000, $0000, $0000, $0032, $FFF0
 	dw $0280, $0000, $0280, $0000, $0000, $0000, $003C, $0000
 
-;bouncing spike balls
-k_rool_bouncing_spike_balls_shots:
+krool_bouncing_spike_balls_shots:
 	dw $0200, $0000, $0200, $0400, $0000, $0005, $FC00, $0400, $0078
 	dw $0200, $0000, $0200, $0400, $0000, $0004, $F880, $0780, $003C
 	dw $0200, $0000, $0200, $0400, $0000, $0005, $FC00, $0400, $003C
@@ -2583,8 +2577,7 @@ k_rool_bouncing_spike_balls_shots:
 	dw $0200, $0000, $0200, $0400, $0000, $0003, $F500, $0A00, $004B
 	dw $0200, $0000, $0200, $0400, $0000, $0004, $F880, $0780, $003C
 
-;orbiting spike balls
-k_rool_swirling_spike_balls_shots:
+krool_swirling_spike_balls_shots:
 	dw $0100, $0000, $0100, $0000, $0909, $FC00, $1500, $00B4, $FFF6
 	dw $0100, $0000, $0100, $0000, $0909, $FCC0, $2250, $00B4, $FFE8
 	dw $0100, $0000, $0100, $0000, $0909, $FD80, $3000, $00B4, $FFDA
@@ -2596,26 +2589,22 @@ k_rool_swirling_spike_balls_shots:
 	dw $0100, $0000, $0100, $0000, $0909, $FD80, $3000, $00F0, $FFDA
 	dw $0100, $0000, $0100, $0000, $0909, $FC00, $1500, $00B4, $FFF6
 
-;straight blue gas
-k_rool_straight_gas_clouds_shots:
+krool_straight_gas_clouds_shots:
 	dw $0200, $0000, $0200, $0000, $0000, $0000, $0020, $0000
 	dw $0200, $0000, $0200, $0000, $0000, $0000, $0020, $0000
 	dw $0200, $0000, $0200, $0000, $0000, $0000, $0020, $0000
 
-;bouncing red gas
-k_rool_bouncing_gas_clouds_shots:
+krool_bouncing_gas_clouds_shots:
 	dw $0280, $0000, $0280, $0900, $0000, $0006, $FA00, $0800, $001C
 	dw $0280, $0000, $0280, $0900, $0000, $0006, $FA00, $0800, $001C
 	dw $0280, $0000, $0280, $0900, $0000, $0006, $FA00, $0800, $001C
 
-;slow spike balls
-k_rool_slow_spike_balls_shots:
+krool_slow_spike_balls_shots:
 	dw $0200, $0000, $0200, $0000, $0000, $0000, $0039, $0000, $0014
 	dw $0200, $0000, $0200, $0000, $0000, $0000, $0039, $0000, $0014
 	dw $0200, $0000, $0200, $0000, $0000, $0000, $0039, $0000, $0014
 
-;orbiting purple gas
-k_rool_swirling_gas_clouds_shots:
+krool_swirling_gas_clouds_shots:
 	dw $0100, $0000, $0100, $0000, $0909, $FC80, $1500, $004B, $FFF6
 	dw $0100, $0000, $0100, $0000, $0909, $FC80, $1500, $004B, $FFF6
 	dw $0100, $0000, $0100, $0000, $0909, $FC80, $1500, $004B, $FFF6
@@ -2687,7 +2676,6 @@ DATA_BAAB44:
 	dw $FFFA, $FFD2
 	dw $FFF6, $FFD1
 
-;king zing attack pattern pointers
 king_zing_pattern_table:
 	dw DATA_BAABBC
 	dw DATA_BAABC8
@@ -2704,7 +2692,7 @@ if !version == 1
 endif
 	dw DATA_BAAC28
 if !version == 0
-	dw DATA_BAAC34_v0
+	dw king_zing_projectile_speeds_1_v0
 	dw DATA_BAAC40
 endif
 
@@ -2728,12 +2716,12 @@ DATA_BAABF8:
 if !version == 0
 	dw $0064, $0001, $0000, $0000, $0000, !null_pointer
 else
-	dw $0064, $0001, $00C0, $012C, $005A, DATA_BAACA4
+	dw $0064, $0001, $00C0, $012C, $005A, king_zing_projectile_speeds_2
 endif
 
 DATA_BAAC04:
 if !version == 0
-	dw $0064, $0001, $00C0, $012C, $005A, DATA_BAACA4
+	dw $0064, $0001, $00C0, $012C, $005A, king_zing_projectile_speeds_2
 else
 	dw $0064, $0001, $0000, $0000, $0000, !null_pointer
 endif
@@ -2742,7 +2730,7 @@ DATA_BAAC10:
 if !version == 0
 	dw $0064, $0001, $0000, $0000, $0000, !null_pointer
 else
-	dw $0064, $0001, $0080, $0186, $0078, DATA_BAAC34
+	dw $0064, $0001, $0080, $0186, $0078, king_zing_projectile_speeds_1
 endif
 
 DATA_BAAC1C:
@@ -2750,13 +2738,13 @@ DATA_BAAC1C:
 
 DATA_BAAC28:
 if !version == 0
-	dw $0064, $0001, $0080, $0186, $0078, DATA_BAAC34
+	dw $0064, $0001, $0080, $0186, $0078, king_zing_projectile_speeds_1
 else
 	dw $0064, $0001, $0000, $0000, $0000, !null_pointer
 endif
 
 if !version == 0
-DATA_BAAC34_v0:
+king_zing_projectile_speeds_1_v0:
 	dw $0064, $0001, $0000, $0000, $0000, !null_pointer
 
 DATA_BAAC40:
@@ -2766,8 +2754,7 @@ DATA_BAAC4C:
 	dw $0064, $0001, $0000, $0000, $0000, !null_pointer
 endif
 
-;king zing spike attack 1 projectile speeds
-DATA_BAAC34:
+king_zing_projectile_speeds_1:
 	dw $0000, $FD80, $0000, $FD80
 	dw $0000, $0001, $0236, $01B0
 	dw $FE50, $01B0, $FE50, $0001
@@ -2783,8 +2770,7 @@ DATA_BAAC34:
 	dw $023C, $FE50, $FE50, $FE50
 	dw $FE50, $0001, $0001, $023D
 
-;king zing spike attack 2 projectile speeds
-DATA_BAACA4:
+king_zing_projectile_speeds_2:
 	dw $0000, $FD00, $0000, $FD00
 	dw $0000, $0001, $0236, $0200
 	dw $FE00, $0200, $FE00, $0001
@@ -2800,8 +2786,7 @@ DATA_BAACA4:
 	dw $023C, $FE00, $FE00, $FE00
 	dw $FE00, $0001, $0001, $023D
 
-;k rool number of projectiles for each attack phase
-k_rool_shot_count_table:
+krool_shot_count_table:
 	db $00
 	db $03
 	db $03
@@ -2813,20 +2798,20 @@ k_rool_shot_count_table:
 	db $01
 	db $01
 
-;k rool projectile set pointers
-k_rool_shot_table:
+krool_shot_table:
 	dw !null_pointer
-	dw k_rool_swirling_gas_clouds_shots
-	dw k_rool_slow_spike_balls_shots
-	dw k_rool_straight_gas_clouds_shots
-	dw k_rool_swirling_spike_balls_shots
-	dw k_rool_bouncing_spike_balls_shots
-	dw k_rool_straight_spike_balls_shots
+	dw krool_swirling_gas_clouds_shots
+	dw krool_slow_spike_balls_shots
+	dw krool_straight_gas_clouds_shots
+	dw krool_swirling_spike_balls_shots
+	dw krool_bouncing_spike_balls_shots
+	dw krool_straight_spike_balls_shots
 	dw !null_pointer
 
 DATA_BAAD2E:
 	dw $0018
 
+;Used by Krow 1 when spawning eggs from the mast in phase 2
 DATA_BAAD30:
 	dw DATA_BAAD60
 	dw DATA_BAAD70
@@ -2949,72 +2934,76 @@ DATA_BAAED0:
 	db $A0, $01, $00, $00, $05, $00, $03, $00
 	db $01, $00, $C8, $00, $05, $00, $FA, $FF
 
+;Not in above table but referenced directly by boss command
 DATA_BAAEE0:
 	db $02, $00, $00, $00, $04, $00, $00, $00
 	db $04, $00, $02, $00, $04, $00, $04, $00
 
+;Unreferenced
 DATA_BAAEF0:
 	db $02, $00, $02, $00, $00, $00, $00, $00
 	db $00, $00, $02, $00, $00, $00, $04, $00
 
+;Unreferenced
 DATA_BAAF00:
 	db $02, $00, $04, $00, $04, $00, $04, $00
 	db $02, $00, $02, $00, $00, $00, $00, $00
 
 
-DATA_BAAF10:
-	dw DATA_BAAF1C
-	dw DATA_BAAF5A
-	dw DATA_BAAF98
-	dw DATA_BAAFD6
-	dw DATA_BAB02C
-	dw DATA_BAB052
+;Spawn count, spawn script, x pos offset, y pos offset, max x speed, x speed, y speed
+krow_egg_piece_data:
+	dw .DATA_BAAF1C
+	dw .DATA_BAAF5A
+	dw .DATA_BAAF98
+	dw .DATA_BAAFD6
+	dw .DATA_BAB02C
+	dw .DATA_BAB052
 
-DATA_BAAF1C:
+.DATA_BAAF1C:
 	dw $0005
-	dw DATA_FF1BCE : db $F6, $FF, $F6, $FF, $00, $00, $00, $00, $80, $F9
-	dw DATA_FF1BA0 : db $00, $00, $F6, $FF, $00, $01, $00, $01, $B0, $FA
-	dw DATA_FF1BCE : db $0A, $00, $00, $00, $00, $FE, $80, $FF, $80, $FA
-	dw DATA_FF1BCE : db $F1, $FF, $0A, $00, $00, $FE, $00, $FF, $B0, $FB
-	dw DATA_FF1BA0 : db $00, $00, $0A, $00, $20, $01, $50, $00, $C0, $FB
+	dw DATA_FF1BCE : dw $FFF6, $FFF6, $0000, $0000, $F980
+	dw DATA_FF1BA0 : dw $0000, $FFF6, $0100, $0100, $FAB0
+	dw DATA_FF1BCE : dw $000A, $0000, $FE00, $FF80, $FA80
+	dw DATA_FF1BCE : dw $FFF1, $000A, $FE00, $FF00, $FBB0
+	dw DATA_FF1BA0 : dw $0000, $000A, $0120, $0050, $FBC0
 
-DATA_BAAF5A:
+.DATA_BAAF5A:
 	dw $0005
-	dw DATA_FF1BA0 : db $F6, $FF, $F6, $FF, $80, $FF, $90, $FF, $40, $FB
-	dw DATA_FF1BA0 : db $00, $00, $F6, $FF, $00, $01, $30, $01, $60, $FA
-	dw DATA_FF1BCE : db $0A, $00, $00, $00, $80, $02, $C0, $02, $70, $FB
-	dw DATA_FF1BCE : db $F1, $FF, $0A, $00, $90, $02, $00, $03, $40, $FC
-	dw DATA_FF1BA0 : db $00, $00, $0A, $00, $90, $03, $50, $04, $00, $FD
+	dw DATA_FF1BA0 : dw $FFF6, $FFF6, $FF80, $FF90, $FB40
+	dw DATA_FF1BA0 : dw $0000, $FFF6, $0100, $0130, $FA60
+	dw DATA_FF1BCE : dw $000A, $0000, $0280, $02C0, $FB70
+	dw DATA_FF1BCE : dw $FFF1, $000A, $0290, $0300, $FC40
+	dw DATA_FF1BA0 : dw $0000, $000A, $0390, $0450, $FD00
 
-DATA_BAAF98:
+.DATA_BAAF98:
 	dw $0005
-	dw DATA_FF1B72 : db $F6, $FF, $F6, $FF, $80, $00, $40, $00, $B0, $FA
-	dw DATA_FF1BA0 : db $00, $00, $EC, $FF, $90, $00, $B0, $01, $80, $FB
-	dw DATA_FF1B72 : db $0A, $00, $F6, $FF, $00, $02, $00, $03, $00, $FC
-	dw DATA_FF1B72 : db $F1, $FF, $00, $00, $45, $00, $90, $00, $00, $FE
-	dw DATA_FF1BA0 : db $00, $00, $00, $00, $C0, $02, $00, $03, $00, $FD
+	dw DATA_FF1B72 : dw $FFF6, $FFF6, $0080, $0040, $FAB0
+	dw DATA_FF1BA0 : dw $0000, $FFEC, $0090, $01B0, $FB80
+	dw DATA_FF1B72 : dw $000A, $FFF6, $0200, $0300, $FC00
+	dw DATA_FF1B72 : dw $FFF1, $0000, $0045, $0090, $FE00
+	dw DATA_FF1BA0 : dw $0000, $0000, $02C0, $0300, $FD00
 
-DATA_BAAFD6:
+.DATA_BAAFD6:
 	dw $0007
-	dw DATA_FF1B72 : db $00, $00, $0A, $00, $00, $00, $00, $00, $00, $FA
-	dw DATA_FF1BCE : db $EC, $FF, $F6, $FF, $50, $FD, $70, $FF, $80, $FB
-	dw DATA_FF1BCE : db $DD, $FF, $0A, $00, $00, $FE, $80, $FF, $00, $FC
-	dw DATA_FF1B72 : db $F6, $FF, $00, $00, $50, $FD, $70, $FE, $00, $FE
-	dw DATA_FF1BCE : db $0A, $00, $F6, $FF, $B0, $02, $90, $00, $80, $FB
-	dw DATA_FF1B72 : db $00, $00, $0A, $00, $00, $02, $80, $00, $00, $FC
-	dw DATA_FF1B72 : db $14, $00, $00, $00, $B0, $02, $90, $01, $00, $FE
+	dw DATA_FF1B72 : dw $0000, $000A, $0000, $0000, $FA00
+	dw DATA_FF1BCE : dw $FFEC, $FFF6, $FD50, $FF70, $FB80
+	dw DATA_FF1BCE : dw $FFDD, $000A, $FE00, $FF80, $FC00
+	dw DATA_FF1B72 : dw $FFF6, $0000, $FD50, $FE70, $FE00
+	dw DATA_FF1BCE : dw $000A, $FFF6, $02B0, $0090, $FB80
+	dw DATA_FF1B72 : dw $0000, $000A, $0200, $0080, $FC00
+	dw DATA_FF1B72 : dw $0014, $0000, $02B0, $0190, $FE00
 
-DATA_BAB02C:
+.DATA_BAB02C:
 	dw $0003
-	dw DATA_FF1B72 : db $F6, $FF, $F6, $FF, $00, $00, $00, $00, $80, $F9
-	dw DATA_FF1BA0 : db $00, $00, $F6, $FF, $00, $01, $00, $01, $B0, $FA
-	dw DATA_FF1BA0 : db $0A, $00, $00, $00, $00, $FE, $80, $FF, $80, $FA
+	dw DATA_FF1B72 : dw $FFF6, $FFF6, $0000, $0000, $F980
+	dw DATA_FF1BA0 : dw $0000, $FFF6, $0100, $0100, $FAB0
+	dw DATA_FF1BA0 : dw $000A, $0000, $FE00, $FF80, $FA80
 
-DATA_BAB052:
+.DATA_BAB052:
 	dw $0003
-	dw DATA_FF1B72 : db $F6, $FF, $F6, $FF, $80, $FF, $90, $FF, $40, $FB
-	dw DATA_FF1BA0 : db $00, $00, $F6, $FF, $00, $01, $30, $01, $60, $FA
-	dw DATA_FF1BA0 : db $0A, $00, $00, $00, $80, $02, $C0, $02, $70, $FB
+	dw DATA_FF1B72 : dw $FFF6, $FFF6, $FF80, $FF90, $FB40
+	dw DATA_FF1BA0 : dw $0000, $FFF6, $0100, $0130, $FA60
+	dw DATA_FF1BA0 : dw $000A, $0000, $0280, $02C0, $FB70
 
 bank_BA_sprite_main_handler_2:
 	TAX					;$BAB078  \
@@ -3120,7 +3109,7 @@ kore_sparkle_sprite_code:
 sparkle_spawner_sprite_code:
 	LDX current_sprite			;$BAB13B  \
 	DEC $42,x				;$BAB13D   |
-	BNE CODE_BAB18A				;$BAB13F   |
+	BNE .return				;$BAB13F   |
 	LDA #$0008				;$BAB141   |
 	STA $42,x				;$BAB144   |
 	LDY #!special_sprite_spawn_id_0190	;$BAB146   |
@@ -3148,7 +3137,7 @@ sparkle_spawner_sprite_code:
 	SEC					;$BAB183   |
 	SBC CPU.multiply_result			;$BAB184   |
 	STA $000A,y				;$BAB187   |
-CODE_BAB18A:					;	   |
+.return:					;	   |
 	JML [sprite_return_address]		;$BAB18A  /
 
 sparkle_sprite_code:
@@ -4270,102 +4259,102 @@ CODE_BAC256:
 
 ;cranky animation sequence (animation ids that play in sequence once the previous one finishes playing)
 DATA_BAC259:
-	dw $01C7
-	dw $01C7
-	dw $01C7
-	dw $01C7
-	dw $01C9
-	dw $01C7
-	dw $01C7
-	dw $01C7
-	dw $01C8
+	dw !cranky_idle_anim_id
+	dw !cranky_idle_anim_id
+	dw !cranky_idle_anim_id
+	dw !cranky_idle_anim_id
+	dw !cranky_lean_anim_id
+	dw !cranky_idle_anim_id
+	dw !cranky_idle_anim_id
+	dw !cranky_idle_anim_id
+	dw !cranky_shake_cane_anim_id
 	dw $0063, DATA_BAC259
 
 ;funky animation sequence (animation ids that play in sequence once the previous one finishes playing)
 DATA_BAC26F:
-	dw $01CC
-	dw $01CC
-	dw $01CC
-	dw $01CC
-	dw $01CC
-	dw $01CD
-	dw $01CA
-	dw $01CA
-	dw $01CA
-	dw $01CA
-	dw $01CA
-	dw $01CA
-	dw $01CE
+	dw !funky_idle_anim_id
+	dw !funky_idle_anim_id
+	dw !funky_idle_anim_id
+	dw !funky_idle_anim_id
+	dw !funky_idle_anim_id
+	dw !funky_idle_to_surf_anim_id
+	dw !funky_surf_anim_id
+	dw !funky_surf_anim_id
+	dw !funky_surf_anim_id
+	dw !funky_surf_anim_id
+	dw !funky_surf_anim_id
+	dw !funky_surf_anim_id
+	dw !funky_surf_to_idle_anim_id
 	dw $0063, DATA_BAC26F
 
 ;funky board animation sequence (animation ids that play in sequence once the previous one finishes playing)
 DATA_BAC28D:
-	dw $01CF
-	dw $01CF
-	dw $01CF
-	dw $01CF
-	dw $01CF
-	dw $01D0
-	dw $01CB
-	dw $01CB
-	dw $01CB
-	dw $01CB
-	dw $01CB
-	dw $01CB
-	dw $01D1
+	dw !funky_board_idle_anim_id
+	dw !funky_board_idle_anim_id
+	dw !funky_board_idle_anim_id
+	dw !funky_board_idle_anim_id
+	dw !funky_board_idle_anim_id
+	dw !funky_board_idle_to_surf_anim_id
+	dw !funky_board_surf_anim_id
+	dw !funky_board_surf_anim_id
+	dw !funky_board_surf_anim_id
+	dw !funky_board_surf_anim_id
+	dw !funky_board_surf_anim_id
+	dw !funky_board_surf_anim_id
+	dw !funky_board_surf_to_idle_anim_id
 	dw $0063, DATA_BAC28D
 
 ;swanky animation sequence (animation ids that play in sequence once the previous one finishes playing)
 DATA_BAC2AB:
-	dw $01D6
+	dw !swanky_idle_2_anim_id
 DATA_BAC2AD:
-	dw $01D3
-	dw $01D2
-	dw $01D4
-	dw $01D4
-	dw $01D4
-	dw $01D5
+	dw !swanky_idle_anim_id
+	dw !swanky_point_anim_id
+	dw !swanky_touch_hair_anim_id
+	dw !swanky_touch_hair_anim_id
+	dw !swanky_touch_hair_anim_id
+	dw !swanky_touch_hair_to_idle_anim_id
 	dw $0063, DATA_BAC2AD
 
 DATA_BAC2BD:
-	dw $01D7
+	dw !swanky_idle_3_anim_id
 	dw $0063, DATA_BAC2BD
 
 ;wrinkly animation sequence (animation ids that play in sequence once the previous one finishes playing)
 DATA_BAC2C3:
-	dw $01D9
+	dw !wrinkly_open_book_anim_id
 DATA_BAC2C5:
-	dw $01DA
-	dw $01DA
-	dw $01DA
-	dw $01DA
-	dw $01DB
-	dw $01DC
-	dw $01DA
-	dw $01DA
-	dw $01DA
-	dw $01DB
-	dw $01DD
-	dw $01DF
-	dw $01DF
+	dw !wrinkly_read_anim_id
+	dw !wrinkly_read_anim_id
+	dw !wrinkly_read_anim_id
+	dw !wrinkly_read_anim_id
+	dw !wrinkly_turn_page_forward_anim_id
+	dw !wrinkly_read_2_anim_id
+	dw !wrinkly_read_anim_id
+	dw !wrinkly_read_anim_id
+	dw !wrinkly_read_anim_id
+	dw !wrinkly_turn_page_forward_anim_id
+	dw !wrinkly_turn_page_back_anim_id
+	dw !wrinkly_turn_page_fast_anim_id
+	dw !wrinkly_turn_page_fast_anim_id
 	dw $0063, DATA_BAC2C5
 
 DATA_BAC2E3:
-	dw $01E0
+	dw !wrinkly_shirt_open_book_anim_id
 DATA_BAC2E5:
-	dw $01E1
-	dw $01E1
-	dw $01E1
-	dw $01E1
-	dw $01E2
-	dw $01E3
-	dw $01E1
-	dw $01E1
-	dw $01E1
-	dw $01E2
-	dw $01E4
-	dw $01E6
-	dw $01E6
+	dw !wrinkly_shirt_read_anim_id
+	dw !wrinkly_shirt_read_anim_id
+	dw !wrinkly_shirt_read_anim_id
+	dw !wrinkly_shirt_read_anim_id
+	dw !wrinkly_shirt_turn_page_forward_anim_id
+	dw !wrinkly_shirt_read_2_anim_id
+	dw !wrinkly_shirt_read_anim_id
+	dw !wrinkly_shirt_read_anim_id
+	dw !wrinkly_shirt_read_anim_id
+	dw !wrinkly_shirt_turn_page_forward_anim_id
+	dw !wrinkly_shirt_turn_page_back_anim_id
+	dw !wrinkly_shirt_turn_page_fast_anim_id
+	dw !wrinkly_shirt_turn_page_fast_anim_id
 	dw $0063, DATA_BAC2E5
 
 
@@ -4398,7 +4387,7 @@ scroll_and_float_barrel_sprite_code:
 	JSL apply_position_from_velocity_global	;$BAC334   |
 	JSL process_sprite_animation		;$BAC338   | Process animation
 	LDA level_number			;$BAC33C   |
-	CMP #!level_pirate_panic_k_rools_cabin	;$BAC33E   | Check if we're in k.rool's cabin
+	CMP #!level_pirate_panic_krools_cabin	;$BAC33E   | Check if we're in k.rool's cabin
 	BEQ .handle_state			;$BAC341   | If yes handle states
 	JML [sprite_return_address]		;$BAC343  / Else done processing sprite
 
@@ -4578,19 +4567,15 @@ CODE_BAC7FD:					;	   |
 	BNE CODE_BAC7FD				;$BAC866   |
 	RTS					;$BAC868  /
 
-;used by boss_command_code_49 (shoot fish)
-DATA_BAC869:
-	db $04, $00
+krool_fish_spawn_count:
+	dw $0004
 
-DATA_BAC86B:
-	db $00, $FD, $00, $00, $05, $00, $00, $00
-	db $00, $05, $02, $00, $20, $01, $00, $00
-	db $00, $FE, $00, $00, $05, $00, $00, $FE
-	db $00, $05, $03, $00, $80, $01, $00, $00
-	db $80, $FD, $00, $00, $05, $00, $00, $FD
-	db $00, $05, $03, $00, $00, $02, $00, $40
-	db $80, $FE, $00, $00, $05, $00, $00, $FB
-	db $00, $06, $03, $00, $00, $02, $00, $40
+;x speed, max x speed, bounce count, y speed, max y speed, y acceleration index, animation speed, flipping
+krool_fish_spawn_data:
+	dw $FD00, $0000, $0005, $0000, $0500, $0002, $0120, $0000
+	dw $FE00, $0000, $0005, $FE00, $0500, $0003, $0180, $0000
+	dw $FD80, $0000, $0005, $FD00, $0500, $0003, $0200, $4000
+	dw $FE80, $0000, $0005, $FB00, $0600, $0003, $0200, $4000
 
 
 ;kreepy krow sparkle speeds

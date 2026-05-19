@@ -363,7 +363,7 @@ calculate_completion_percentage:
 	LDA #!level_kudgels_kontest		;$BB821A   |
 	LDY #$0001				;$BB821D   |
 	JSR apply_percentage_if_boss_cleared	;$BB8220   |
-	LDA #!level_k_rool_duel			;$BB8223   |
+	LDA #!level_krool_duel			;$BB8223   |
 	LDY #$0004				;$BB8226   |
 	JSR apply_percentage_if_boss_cleared	;$BB8229   |
 	LDA #!level_krocodile_kore		;$BB822C   |
@@ -528,8 +528,8 @@ allocate_sprite_vram_slot:
 	BEQ .free_slot_found			;$BB831E   | If yes, allocate it
 	DEY					;$BB8320   |
 	DEY					;$BB8321   | Else move to next slot
-	BPL .scan_for_free_slot			;$BB8322   | 
-	LDA #$0006				;$BB8324   | 
+	BPL .scan_for_free_slot			;$BB8322   |
+	LDA #$0006				;$BB8324   |
 	JSL throw_exception			;$BB8327   | If no free slots available, throw exception...
 	SEC					;$BB832B   | And tell caller we can't spawn the sprite
 	RTS					;$BB832C  / Return
@@ -2847,7 +2847,7 @@ endif						;	   |
 	STA $2F					;$BB922F   |
 	JSR CODE_BB938B				;$BB9231   |
 	LDA #$8000				;$BB9234   |
-	STA $0D4E				;$BB9237   |
+	STA water_y_position			;$BB9237   |
 	STA $0D54				;$BB923A   |
 	LDA #$0078				;$BB923D   |
 	STA life_display_timer			;$BB9240   |
@@ -3100,7 +3100,7 @@ CODE_BB944F:
 
 CODE_BB9457:
 	LDA level_number			;$BB9457  \
-	CMP #!level_k_rool_duel			;$BB9459   |
+	CMP #!level_krool_duel			;$BB9459   |
 	BEQ CODE_BB946B				;$BB945C   |
 	CMP #!level_krocodile_kore		;$BB945E   |
 	BEQ CODE_BB946B				;$BB9461   |
@@ -3109,7 +3109,7 @@ CODE_BB9457:
 	RTS					;$BB946A  /
 
 CODE_BB946B:
-	LDA #!music_k_rool			;$BB946B  \
+	LDA #!music_krool			;$BB946B  \
 	JSL play_song_with_transition		;$BB946E   |
 	RTS					;$BB9472  /
 
@@ -3709,7 +3709,7 @@ CODE_BB98B4:
 	LDX #$0004				;$BB98C3   |
 	JSL DMA_palette				;$BB98C6   |
 	LDA #$2700				;$BB98CA   |
-	STA $0D4E				;$BB98CD   |
+	STA water_y_position			;$BB98CD   |
 	JSR CODE_BBABE2				;$BB98D0   |
 	LDA #CODE_BB98E2			;$BB98D3   |
 	STA $0000DD				;$BB98D6   |
@@ -4799,7 +4799,7 @@ CODE_BBA4E0:					;	   |
 	STZ HDMA[7].indirect_source_bank	;$BBA58D   |
 	REP #$20				;$BBA590   |
 	LDA #$1680				;$BBA592   |
-	STA $0D4E				;$BBA595   |
+	STA water_y_position			;$BBA595   |
 	JSR CODE_BBABE2				;$BBA598   |
 	LDY #DATA_FF0FD2			;$BBA59B   | Water bubbles
 	JSL spawn_no_gfx_special_sprite_address	;$BBA59E   |
@@ -5118,7 +5118,7 @@ CODE_BBA8F3:
 	JSR CODE_BBA8DD				;$BBA8F3  \
 	JSR CODE_BBA9F7				;$BBA8F6   |
 	LDA #$7FFF				;$BBA8F9   |
-	STA $0D4E				;$BBA8FC   |
+	STA water_y_position			;$BBA8FC   |
 	LDA #$7E01				;$BBA8FF   |
 	STA pending_dma_hdma_channels		;$BBA902   |
 	LDA #$007C				;$BBA905   |
@@ -5365,7 +5365,7 @@ CODE_BBABE2:
 	LDA screen_scroll_y_position		;$BBABE2  \
 	CLC					;$BBABE5   |
 	ADC #$0020				;$BBABE6   |
-	STA $0D4E				;$BBABE9   |
+	STA water_y_position			;$BBABE9   |
 	LDX #$FFFE				;$BBABEC   |
 	SEP #$20				;$BBABEF   |
 	LDA level_number			;$BBABF1   |
@@ -5412,48 +5412,89 @@ CODE_BBAC40:
 	RTS					;$BBAC49  /
 
 
-;Leve id's?
+;Table denoting which level ID's have water in them (or moving floor in case of castle crush)
+;Level ID, Index into DATA_BBAC76 (Water/moving floor Y position values)
 DATA_BBAC4A:
 	%offset(DATA_BBAC4B, 1)
-	db $01, $00
-	db $0A, $05
-	db $14, $0A
-	db $15, $0E
-	db $62, $13
-	db $68, $1A
-	db $69, $1B
-	db $6C, $1C
-	db $6E, $21
-	db $7A, $25
-	db $7E, $26
-	db $7F, $27
-	db $81, $28
-	db $82, $29
-	db $83, $2A
-	db $84, $2B
-	db $8F, $2C
-	db $90, $31
-	db $92, $32
-	db $93, $33
-	db $B7, $34
-	db $B8, $35
+	db !level_glimmers_galleon, $00
+	db !level_slime_climb, $05
+	db !level_lava_lagoon, $0A
+	db !level_lockjaws_locker, $0E
+	db !level_castle_crush, $13
+	db !level_lockjaws_locker_warp_room, $1A
+	db !level_lava_lagoon_warp_room, $1B
+	db !level_arctic_abyss, $1C
+	db !level_toxic_tower, $21
+	db !level_slime_climb_bonus_1, $25
+	db !level_slime_climb_bonus_2, $26
+	db !level_rattle_battle_bonus_2, $27
+	db !level_lockjaws_locker_bonus_1, $28
+	db !level_glimmers_galleon_bonus_2, $29
+	db !level_lava_lagoon_bonus_1, $2A
+	db !level_glimmers_galleon_bonus_1, $2B
+	db !level_clappers_cavern, $2C
+	db !level_animal_antics_enguarde_area, $31
+	db !level_clappers_cavern_bonus_2, $32
+	db !level_arctic_abyss_bonus_1, $33
+	db !level_castle_crush_bonus_1, $34
+	db !level_castle_crush_bonus_2, $35
 
-;Water related?
 DATA_BBAC76:
-	db $00, $01, $00, $01, $00, $01, $00, $01
-	db $00, $01, $00, $17, $E0, $0E, $E0, $0E
-	db $80, $02, $80, $02, $B8, $07, $50, $05
-	db $30, $02, $F8, $01, $10, $07, $70, $04
-	db $60, $05, $10, $03, $10, $03, $0B, $D0
-	db $AB, $E5, $C0, $DF, $80, $EC, $20, $F1
-	db $30, $F7, $D5, $FE, $58, $02, $F0, $02
-	db $B0, $05, $B0, $02, $30, $06, $70, $03
-	db $48, $04, $B0, $27, $F0, $14, $68, $02
-	db $68, $02, $00, $10, $00, $10, $00, $10
-	db $00, $01, $00, $01, $00, $01, $00, $01
-	db $80, $08, $70, $03, $50, $08, $80, $03
-	db $D0, $01, $D0, $03, $30, $02, $60, $01
-	db $00, $FD, $B0, $F4
+	dw $0100
+	dw $0100
+	dw $0100
+	dw $0100
+	dw $0100
+	dw $1700
+	dw $0EE0
+	dw $0EE0
+	dw $0280
+	dw $0280
+	dw $07B8
+	dw $0550
+	dw $0230
+	dw $01F8
+	dw $0710
+	dw $0470
+	dw $0560
+	dw $0310
+	dw $0310
+	dw $D00B
+	dw $E5AB
+	dw $DFC0
+	dw $EC80
+	dw $F120
+	dw $F730
+	dw $FED5
+	dw $0258
+	dw $02F0
+	dw $05B0
+	dw $02B0
+	dw $0630
+	dw $0370
+	dw $0448
+	dw $27B0
+	dw $14F0
+	dw $0268
+	dw $0268
+	dw $1000
+	dw $1000
+	dw $1000
+	dw $0100
+	dw $0100
+	dw $0100
+	dw $0100
+	dw $0880
+	dw $0370
+	dw $0850
+	dw $0380
+	dw $01D0
+	dw $03D0
+	dw $0230
+	dw $0160
+	dw $FD00
+	dw $F4B0
+
 
 ;slope threshould presets?
 CODE_BBACE2:
@@ -5547,7 +5588,7 @@ spawn_kongs_in_level:
 	CMP #!level_kudgels_kontest		;$BBADA9   |
 	BEQ ..kudgel_cutscene			;$BBADAC   |
 	CMP #!level_krocodile_kore		;$BBADAE   |
-	BEQ ..k_rool_2_cutscene			;$BBADB1   |
+	BEQ ..krool_2_cutscene			;$BBADB1   |
 	RTS					;$BBADB3  /
 
 ..krow_cutscene
@@ -5570,7 +5611,7 @@ spawn_kongs_in_level:
 	JSL kong_cutscene_handler		;$BBADCF   |
 	RTS					;$BBADD3  /
 
-..k_rool_2_cutscene
+..krool_2_cutscene
 	LDA #$000A				;$BBADD4  \
 	JSL kong_cutscene_handler		;$BBADD7   |
 	RTS					;$BBADDB  /
@@ -7360,7 +7401,7 @@ CODE_BBBA92:
 	JMP check_placement_spawning_radius	;$BBBA9F  /
 
 default_deactivation_radius_check:
-	TYX					;$BBBAA2  \ 
+	TYX					;$BBBAA2  \
 	LDA sprite.x_position,x			;$BBBAA3   |\ Get sprite placement x position
 	STA $72					;$BBBAA5   | | Store it
 	LDA sprite.y_position,x			;$BBBAA7   | | Get sprite placement y position
@@ -8713,7 +8754,7 @@ CODE_BBC174:					;	   |
 
 .CODE_BBC4E2
 	LDA level_number			;$BBC4E2  \
-	CMP #!level_k_rool_duel			;$BBC4E4   |
+	CMP #!level_krool_duel			;$BBC4E4   |
 	BNE .CODE_BBC4FC			;$BBC4E7   |
 	LDY $0654				;$BBC4E9   |
 	LDA.w sprite.x_position,y		;$BBC4EC   |

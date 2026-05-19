@@ -32,7 +32,7 @@ diddy_kong_constants:
 	dw $005A			;04 jump gravity force
 	dw $0800			;06 max fall y velocity holding down?
 	dw $F7C8			;08 jump y velocity
-	dw $0120			;0A 
+	dw $0120			;0A
 	dw $0240			;0C walk x velocity
 	dw $0360			;0E run x velocity
 	dw $000B			;10 jump x acceleration
@@ -41,7 +41,7 @@ diddy_kong_constants:
 	dw $0002			;16 ice walk x acceleration
 	dw $0005			;18 ice run x acceleration
 	dw $0002			;1A ice idle x acceleration (used for idle on frozen water)
-	dw $0002			;1C 
+	dw $0002			;1C
 	dw $0120			;1E idle roll x velocity
 	dw $0360			;20 walk roll x velocity
 	dw $0480			;22 run roll x velocity
@@ -73,8 +73,8 @@ diddy_kong_constants:
 	dw $02C0			;56 down single rope climb y velocity
 	dw $02C0			;58 up single rope climb y velocity (holding y)
 	dw $03C0			;5A down single rope climb y velocity (holding y)
-	dw $01C0			;5C up double rope climb 
-	dw $02C0			;5E down double rope climb 
+	dw $01C0			;5C up double rope climb
+	dw $02C0			;5E down double rope climb
 	dw $02C0			;60 up double rope climb (holding y)
 	dw $03C0			;62 down double rope climb (holding y)
 	dw $0240			;64 horizontal rope climb x velocity
@@ -118,32 +118,32 @@ diddy_kong_constants:
 	dw $0036			;B0 rattly jump gravity force
 	dw $0028			;B2 squawks gravity force (holding down)
 	dw $0048			;B4 rambi gravity jump force
-	dw $0048			;B6 
-	dw $0800			;B8 
-	dw $0800			;BA 
+	dw $0048			;B6
+	dw $0800			;B8
+	dw $0800			;BA
 	dw $0380			;BC squawks max fall y velocity (holding down)
-	dw $0800			;BE 
-	dw $0800			;C0 
+	dw $0800			;BE
+	dw $0800			;C0
 	dw $F870			;C2 squitter jump y velocity
 	dw $F870			;C4 rattly jump y velocity
 	dw $FE80			;C6 squawks flap y velocity (riding/castle crush)
 	dw $F900			;C8 rambi jump y velocity
-	dw $F900			;CA 
+	dw $F900			;CA
 	dw $0220			;CC squitter walk x velocity
 	dw $0200			;CE rattly walk x velocity
 	dw $0300			;D0 squawks walk x velocity
 	dw $0200			;D2 rambi walk x velocity
-	dw $0200			;D4 
+	dw $0200			;D4
 	dw $0340			;D6 squitter run x velocity
 	dw $0300			;D8 rattly run x velocity
 	dw $0480			;DA squawks run x velocity
 	dw $0300			;DC rambi run x velocity
-	dw $0300			;DE 
+	dw $0300			;DE
 	dw $0009			;E0 squitter x acceleration
 	dw $000A			;E2 rattly x acceleration
 	dw $0002			;E4 squawks x acceleration (riding)
 	dw $0007			;E6 rambi x acceleration
-	dw $0007			;E8 
+	dw $0007			;E8
 
 dixie_kong_constants:
 	%offset(DATA_FF012C, 2)
@@ -152,7 +152,7 @@ dixie_kong_constants:
 	dw $0048			;04 jump gravity force
 	dw $0800			;06 max fall y velocity holding down?
 	dw $F8C8			;08 jump y velocity
-	dw $0100			;0A 
+	dw $0100			;0A
 	dw $0200			;0C walk x velocity
 	dw $0300			;0E run x velocity
 	dw $000B			;10 jump x acceleration
@@ -161,7 +161,7 @@ dixie_kong_constants:
 	dw $0002			;16 ice walk x acceleration
 	dw $0005			;18 ice run x acceleration
 	dw $0002			;1A ice idle x acceleration (used for idle on frozen water)
-	dw $0002			;1C 
+	dw $0002			;1C
 	dw $0120			;1E idle roll x velocity
 	dw $0360			;20 walk roll x velocity
 	dw $0480			;22 run roll x velocity
@@ -193,8 +193,8 @@ dixie_kong_constants:
 	dw $0240			;56 down single rope climb y velocity
 	dw $0240			;58 up single rope climb y velocity (holding y)
 	dw $0340			;5A down single rope climb y velocity (holding y)
-	dw $0140			;5C up double rope climb 
-	dw $0240			;5E down double rope climb 
+	dw $0140			;5C up double rope climb
+	dw $0240			;5E down double rope climb
 	dw $0240			;60 up double rope climb (holding y)
 	dw $0340			;62 down double rope climb (holding y)
 	dw $0200			;64 horizontal rope climb x velocity
@@ -238,32 +238,32 @@ dixie_kong_constants:
 	dw $0036			;B0 rattly jump gravity force
 	dw $0028			;B2 squawks gravity force (holding down)
 	dw $0048			;B4 rambi gravity jump force
-	dw $0048			;B6 
-	dw $0800			;B8 
-	dw $0800			;BA 
+	dw $0048			;B6
+	dw $0800			;B8
+	dw $0800			;BA
 	dw $0380			;BC squawks max fall y velocity (holding down)
-	dw $0800			;BE 
-	dw $0800			;C0 
+	dw $0800			;BE
+	dw $0800			;C0
 	dw $F880			;C2 squitter jump y velocity
 	dw $F870			;C4 rattly jump y velocity
 	dw $FE80			;C6 squawks flap y velocity (riding/castle crush)
 	dw $F900			;C8 rambi jump y velocity
-	dw $F900			;CA 
+	dw $F900			;CA
 	dw $0220			;CC squitter walk x velocity
 	dw $0200			;CE rattly walk x velocity
 	dw $0300			;D0 squawks walk x velocity
 	dw $0200			;D2 rambi walk x velocity
-	dw $0200			;D4 
+	dw $0200			;D4
 	dw $0340			;D6 squitter run x velocity
 	dw $0300			;D8 rattly run x velocity
 	dw $0480			;DA squawks run x velocity
 	dw $0300			;DC rambi run x velocity
-	dw $0300			;DE 
+	dw $0300			;DE
 	dw $0009			;E0 squitter x acceleration
 	dw $000A			;E2 rattly x acceleration
 	dw $0002			;E4 squawks x acceleration (riding)
 	dw $0007			;E6 rambi x acceleration
-	dw $0007			;E8 
+	dw $0007			;E8
 
 ;used for barrels and maybe other thrown objects
 DATA_FF0214:
@@ -306,7 +306,7 @@ DATA_FF023C:
 	dw $0008	;acceleration index
 	dw $0040
 
-;squawks egg constants 
+;squawks egg constants
 DATA_FF0244:
 	dw $0040	;gravity
 	dw $0800	;terminal velocity
@@ -361,7 +361,7 @@ DATA_FF027E:
 	dw $0070	;gravity
 	dw $0800	;terminal velocity
 	dw $0008	;acceleration index
-	dw $0040	
+	dw $0040
 	dw $5528	;collision flags
 	dw $0171	;defeated animation
 	dw $0201	;defeated state
@@ -375,7 +375,7 @@ DATA_FF0294:
 	dw $0070	;gravity
 	dw $0800	;terminal velocity
 	dw $0008	;acceleration index
-	dw $0040	
+	dw $0040
 	dw $5528	;collision flags
 	dw $0162	;defeated animation
 	dw $0101	;defeated state
@@ -389,7 +389,7 @@ DATA_FF02AA:
 	dw $0070	;gravity
 	dw $0800	;terminal velocity
 	dw $0008	;acceleration index
-	dw $0040	
+	dw $0040
 	dw $5408	;collision flags
 	dw $01A1	;defeated animation
 	dw $0101	;defeated state
@@ -403,7 +403,7 @@ DATA_FF02C0:
 	dw $0070	;gravity
 	dw $0800	;terminal velocity
 	dw $0008	;acceleration index
-	dw $0040	
+	dw $0040
 	dw $5480	;collision flags
 	dw $01A5	;defeated animation
 	dw $0101	;defeated state
@@ -417,7 +417,7 @@ DATA_FF02D6:
 	dw $0070	;gravity
 	dw $0800	;terminal velocity
 	dw $0008	;acceleration index
-	dw $0040	
+	dw $0040
 	dw $5428	;collision flags
 	dw $01A7	;defeated animation
 	dw $0101	;defeated state
@@ -431,7 +431,7 @@ DATA_FF02EC:
 	dw $0070	;gravity
 	dw $0800	;terminal velocity
 	dw $000F	;acceleration index
-	dw $0040	
+	dw $0040
 	dw $5000	;collision flags
 	dw $0199	;defeated animation
 	dw $0101	;defeated state
@@ -445,7 +445,7 @@ DATA_FF0302:
 	dw $0070	;gravity
 	dw $0800	;terminal velocity
 	dw $000F	;acceleration index
-	dw $0040	
+	dw $0040
 	dw $6000	;collision flags
 	dw $0000	;defeated animation
 	dw $0101	;defeated state
@@ -459,7 +459,7 @@ DATA_FF0318:
 	dw $0070	;gravity
 	dw $0800	;terminal velocity
 	dw $000F	;acceleration index
-	dw $0040	
+	dw $0040
 	dw $5428	;collision flags
 	dw $019D	;defeated animation
 	dw $0101	;defeated state
@@ -4055,7 +4055,7 @@ DATA_FF2A38:
 	dw sprite.render_order, $00D4
 	dw sprite.interaction_flags, $0020
 	dw sprite.state, $0000
-	dw sprite.general_purpose_46, k_rool_dk_intro_phase
+	dw sprite.general_purpose_46, krool_dk_intro_phase
 	dw sprite.general_purpose_42, $0000
 	dw !initcommand_set_oam, $6000
 	dw !initcommand_set_alt_palette, !krool_sprite_palette
@@ -8473,7 +8473,7 @@ DATA_FF6C04:
 	dw DATA_FF1766 : db $06, $69
 	dw $0000
 
-;unused	
+;unused
 	dw DATA_FF1766 : db $05, $5A
 	dw $0000
 
@@ -15978,7 +15978,7 @@ DATA_FFB91B:
 	db $4A : dw $0102
 	db $2A : dw $0008
 	db $F9
-	
+
 	db $52 : dw $0008
 	db $26 : dw $0020
 	db $4A : dw $0102
