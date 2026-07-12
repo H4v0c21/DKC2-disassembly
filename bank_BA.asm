@@ -31,7 +31,7 @@ check_sprite_collision_BA:
 	CLC					;$BA9036   |
 	ADC current_sprite			;$BA9037   |
 	SEC					;$BA9039   |
-	SBC #aux_sprite_table			;$BA903A   |
+	SBC #sprite_table.slot_0		;$BA903A   |
 	STA $0034,y				;$BA903D   |
 	SEC					;$BA9040   |
 .return:					;	   |
@@ -2934,20 +2934,20 @@ DATA_BAAED0:
 	db $A0, $01, $00, $00, $05, $00, $03, $00
 	db $01, $00, $C8, $00, $05, $00, $FA, $FF
 
-;Not in above table but referenced directly by boss command
+;Krow egg rain shake offsets
 DATA_BAAEE0:
-	db $02, $00, $00, $00, $04, $00, $00, $00
-	db $04, $00, $02, $00, $04, $00, $04, $00
-
-;Unreferenced
-DATA_BAAEF0:
-	db $02, $00, $02, $00, $00, $00, $00, $00
-	db $00, $00, $02, $00, $00, $00, $04, $00
-
-;Unreferenced
-DATA_BAAF00:
-	db $02, $00, $04, $00, $04, $00, $04, $00
-	db $02, $00, $02, $00, $00, $00, $00, $00
+	dw $0002, $0000
+	dw $0004, $0000
+	dw $0004, $0002
+	dw $0004, $0004
+	dw $0002, $0002
+	dw $0000, $0000
+	dw $0000, $0002
+	dw $0000, $0004
+	dw $0002, $0004
+	dw $0004, $0004
+	dw $0002, $0002
+	dw $0000, $0000
 
 
 ;Spawn count, spawn script, x pos offset, y pos offset, max x speed, x speed, y speed

@@ -96,6 +96,11 @@ UNUSED_ED				= $ED
 UNUSED_EE				= $EE
 previous_palette_buffer_slot		= $EF	;word
 current_palette_buffer_slot		= $F1	;word
+RAM_F3					= $F3
+RAM_F5					= $F5
+RAM_F7					= $F7
+RAM_F9					= $F9
+RAM_FB					= $FB
 ;;;
 ;;; End Direct Page WRAM ($00-$FF)
 ;;;
@@ -306,6 +311,8 @@ sprite_palette_dma_buffer		= $0B24
 active_sprite_palettes_table		= $0B64
 sprite_palette_reference_count		= $0B74
 
+RAM_0B88				= $0B88
+
 held_rope_sprite			= $0BA0
 held_rope_sprite_temp			= $0BA2
 RAM_0BA4				= $0BA4
@@ -324,12 +331,36 @@ current_held_sprite			= $0D7A
 held_sprite_x_offset			= $0D7C
 held_sprite_y_offset			= $0D7E
 
-aux_sprite_table			= $0D84
-;Sprite Structure (24 Instances)	= $0DE2-$16B1
-sprite_slots				= $0DE2
-diddy_sprite_slot			= $0DE2
-dixie_sprite_slot			= $0E40
-non_kong_sprite_slots			= $0E9E
+struct sprite_table $0D84
+	.slot_0:			skip $5E	;sizeof(sprite)	;$0D84 (aux)
+	.slot_1:			skip $5E	;sizeof(sprite)	;$0DE2 (diddy)
+	.slot_2:			skip $5E	;sizeof(sprite)	;$0E40 (dixie)
+	.slot_3:			skip $5E	;sizeof(sprite)	;$0E9E
+	.slot_4:			skip $5E	;sizeof(sprite)	;$0EFC
+	.slot_5:			skip $5E	;sizeof(sprite)	;$0F5A
+	.slot_6:			skip $5E	;sizeof(sprite)	;$0FB8
+	.slot_7:			skip $5E	;sizeof(sprite)	;$1016
+	.slot_8:			skip $5E	;sizeof(sprite)	;$1074
+	.slot_9:			skip $5E	;sizeof(sprite)	;$10D2
+	.slot_10:			skip $5E	;sizeof(sprite)	;$1130
+	.slot_11:			skip $5E	;sizeof(sprite)	;$118E
+	.slot_12:			skip $5E	;sizeof(sprite)	;$11EC
+	.slot_13:			skip $5E	;sizeof(sprite)	;$124A
+	.slot_14:			skip $5E	;sizeof(sprite)	;$12A8
+	.slot_15:			skip $5E	;sizeof(sprite)	;$1306
+	.slot_16:			skip $5E	;sizeof(sprite)	;$1364
+	.slot_17:			skip $5E	;sizeof(sprite)	;$13C2
+	.slot_18:			skip $5E	;sizeof(sprite)	;$1420
+	.slot_19:			skip $5E	;sizeof(sprite)	;$147E
+	.slot_20:			skip $5E	;sizeof(sprite)	;$14DC
+	.slot_21:			skip $5E	;sizeof(sprite)	;$153A
+	.slot_22:			skip $5E	;sizeof(sprite)	;$1598
+	.slot_23:			skip $5E	;sizeof(sprite)	;$15F6
+	.slot_24:			skip $5E	;sizeof(sprite)	;$1654
+	.end:
+endstruct
+
+
 diddy_control_variables			= $16B2
 dixie_control_variables			= $16D8
 sprite_render_table			= $16FE	;Word Array[25]

@@ -2524,19 +2524,19 @@ sprite_graphic_table:
 	dl krool_shoot_frame1 : db $00				;2760
 	dl krool_shoot_frame2 : db $00				;2764
 	dl krool_shoot_frame3 : db $00				;2768
-	dl krool_gun_shoot_frame1 : db $00		;276C
-	dl krool_gun_shoot_frame2 : db $00		;2770
-	dl krool_gun_shoot_frame3 : db $00		;2774
+	dl krool_gun_shoot_frame1 : db $00			;276C
+	dl krool_gun_shoot_frame2 : db $00			;2770
+	dl krool_gun_shoot_frame3 : db $00			;2774
 	dl krool_melee_frame1 : db $00				;2778
 	dl krool_melee_frame2 : db $00				;277C
 	dl krool_melee_frame3 : db $00				;2780
 	dl krool_melee_frame4 : db $00				;2784
 	dl krool_melee_frame5 : db $00				;2788
-	dl krool_gun_melee_frame1 : db $00		;278C
-	dl krool_gun_melee_frame2 : db $00		;2790
-	dl krool_gun_melee_frame3 : db $00		;2794
-	dl krool_gun_melee_frame4 : db $00		;2798
-	dl krool_gun_melee_frame5 : db $00		;279C
+	dl krool_gun_melee_frame1 : db $00			;278C
+	dl krool_gun_melee_frame2 : db $00			;2790
+	dl krool_gun_melee_frame3 : db $00			;2794
+	dl krool_gun_melee_frame4 : db $00			;2798
+	dl krool_gun_melee_frame5 : db $00			;279C
 	dl krool_soot_graphic : db $00				;27A0
 	dl krool_soot_eyes_frame1 : db $00			;27A4
 	dl krool_soot_eyes_frame2 : db $00			;27A8
@@ -2545,20 +2545,20 @@ sprite_graphic_table:
 	dl krool_move_frame3 : db $00				;27B4
 	dl krool_move_frame4 : db $00				;27B8
 	dl krool_move_frame5 : db $00				;27BC
-	dl krool_gun_move_frame1 : db $00		;27C0
-	dl krool_gun_move_frame2 : db $00		;27C4
-	dl krool_gun_move_frame3 : db $00		;27C8
-	dl krool_gun_move_frame4 : db $00		;27CC
-	dl krool_gun_move_frame5 : db $00		;27D0
-	dl krool_gun_hurt_frame1 : db $00		;27D4
-	dl krool_gun_hurt_frame2 : db $00		;27D8
-	dl krool_gun_hurt_frame3 : db $00		;27DC
-	dl krool_gun_hurt_frame4 : db $00		;27E0
-	dl krool_gun_hurt_frame5 : db $00		;27E4
-	dl krool_gun_hurt_frame6 : db $00		;27E8
-	dl krool_gun_hurt_frame7 : db $00		;27EC
-	dl krool_gun_hurt_frame8 : db $00		;27F0
-	dl krool_gun_hurt_frame9 : db $00		;27F4
+	dl krool_gun_move_frame1 : db $00			;27C0
+	dl krool_gun_move_frame2 : db $00			;27C4
+	dl krool_gun_move_frame3 : db $00			;27C8
+	dl krool_gun_move_frame4 : db $00			;27CC
+	dl krool_gun_move_frame5 : db $00			;27D0
+	dl krool_gun_hurt_frame1 : db $00			;27D4
+	dl krool_gun_hurt_frame2 : db $00			;27D8
+	dl krool_gun_hurt_frame3 : db $00			;27DC
+	dl krool_gun_hurt_frame4 : db $00			;27E0
+	dl krool_gun_hurt_frame5 : db $00			;27E4
+	dl krool_gun_hurt_frame6 : db $00			;27E8
+	dl krool_gun_hurt_frame7 : db $00			;27EC
+	dl krool_gun_hurt_frame8 : db $00			;27F0
+	dl krool_gun_hurt_frame9 : db $00			;27F4
 	dl krockhead_barrel_icon_frame1 : db $00		;27F8
 	dl krockhead_barrel_icon_frame2 : db $00		;27FC
 	dl krockhead_barrel_icon_frame3 : db $00		;2800
@@ -2698,7 +2698,7 @@ sprite_graphic_table:
 	dl diddy_boombox_celebrate_frame13 : db $00		;2A18
 	dl krool_turn_frame1 : db $00				;2A1C
 	dl krool_turn_frame2 : db $00				;2A20
-	dl krool_gun_turn_graphic : db $00		;2A24
+	dl krool_gun_turn_graphic : db $00			;2A24
 	dl diddy_mourn_frame1 : db $00				;2A28
 	dl diddy_mourn_frame2 : db $00				;2A2C
 	dl diddy_mourn_frame3 : db $00				;2A30
@@ -2814,24 +2814,24 @@ sprite_graphic_table:
 	dl clapper_idle_frame7 : db $00				;2BE8
 	dl clapper_idle_frame8 : db $00				;2BEC
 	dl clapper_idle_frame9 : db $00				;2BF0
-	dl krool_vacuum_frame1 : db $00			;2BF4
-	dl krool_vacuum_frame2 : db $00			;2BF8
-	dl krool_gun_vacuum_frame1 : db $00		;2BFC
-	dl krool_gun_vacuum_frame2 : db $00		;2C00
-	dl krool_gun_fire_frame1 : db $00		;2C04
-	dl krool_gun_fire_frame2 : db $00		;2C08
-	dl krool_gun_fire_frame3 : db $00		;2C0C
-	dl krool_gun_fire_frame4 : db $00		;2C10
-	dl krool_gun_fire_frame5 : db $00		;2C14
-	dl krool_gun_fire_frame6 : db $00		;2C18
-	dl krool_gun_fire_frame7 : db $00		;2C1C
-	dl krool_gun_fire_frame8 : db $00		;2C20
+	dl krool_vacuum_frame1 : db $00				;2BF4
+	dl krool_vacuum_frame2 : db $00				;2BF8
+	dl krool_gun_vacuum_frame1 : db $00			;2BFC
+	dl krool_gun_vacuum_frame2 : db $00			;2C00
+	dl krool_gun_fire_frame1 : db $00			;2C04
+	dl krool_gun_fire_frame2 : db $00			;2C08
+	dl krool_gun_fire_frame3 : db $00			;2C0C
+	dl krool_gun_fire_frame4 : db $00			;2C10
+	dl krool_gun_fire_frame5 : db $00			;2C14
+	dl krool_gun_fire_frame6 : db $00			;2C18
+	dl krool_gun_fire_frame7 : db $00			;2C1C
+	dl krool_gun_fire_frame8 : db $00			;2C20
 	dl krool_idle_frame1 : db $00				;2C24
 	dl krool_idle_frame2 : db $00				;2C28
 	dl krool_concerned_graphic : db $00			;2C2C
-	dl krool_gun_idle_frame1 : db $00		;2C30
-	dl krool_gun_idle_frame2 : db $00		;2C34
-	dl krool_gun_concerned_graphic : db $00	;2C38
+	dl krool_gun_idle_frame1 : db $00			;2C30
+	dl krool_gun_idle_frame2 : db $00			;2C34
+	dl krool_gun_concerned_graphic : db $00			;2C38
 	dl clapper_activate_frame1 : db $00			;2C3C
 	dl clapper_activate_frame2 : db $00			;2C40
 	dl clapper_activate_frame3 : db $00			;2C44
@@ -3355,12 +3355,12 @@ sprite_graphic_table:
 	dl donkey_punch_frame7 : db $00				;345C
 	dl donkey_punch_frame8 : db $00				;3460
 	dl donkey_punch_frame9 : db $00				;3464
-	dl krool_soaked_frame1 : db $00			;3468
-	dl krool_soaked_frame2 : db $00			;346C
-	dl krool_soaked_frame3 : db $00			;3470
-	dl krool_gun_soaked_frame1 : db $00		;3474
-	dl krool_gun_soaked_frame2 : db $00		;3478
-	dl krool_gun_soaked_frame3 : db $00		;347C
+	dl krool_soaked_frame1 : db $00				;3468
+	dl krool_soaked_frame2 : db $00				;346C
+	dl krool_soaked_frame3 : db $00				;3470
+	dl krool_gun_soaked_frame1 : db $00			;3474
+	dl krool_gun_soaked_frame2 : db $00			;3478
+	dl krool_gun_soaked_frame3 : db $00			;347C
 	dl krool_fish_frame1 : db $00				;3480
 	dl krool_fish_frame2 : db $00				;3484
 	dl krool_fish_frame3 : db $00				;3488
@@ -3370,8 +3370,8 @@ sprite_graphic_table:
 	dl krool_fish_frame7 : db $00				;3498
 	dl krool_fish_frame8 : db $00				;349C
 	dl krool_puddle_graphic : db $00			;34A0
-	dl krool_fall_into_kore_frame1 : db $00		;34A4
-	dl krool_fall_into_kore_frame2 : db $00		;34A8
+	dl krool_fall_into_kore_frame1 : db $00			;34A4
+	dl krool_fall_into_kore_frame2 : db $00			;34A8
 	dl isle_krool_splash_frame1 : db $00			;34AC
 	dl isle_krool_splash_frame2 : db $00			;34B0
 	dl isle_krool_splash_frame3 : db $00			;34B4
@@ -9307,7 +9307,7 @@ no_collision_detected:
 ;...And colliding_sprite will contain the sprite itself that collided
 check_for_sprite_collisions:
 	STA collision_mask_result		;$BCFE0A  \> Set collision mask
-	LDA #main_sprite_table_end		;$BCFE0C   |\ Start at the end of the sprite table
+	LDA #sprite_table.end			;$BCFE0C   |\ Start at the end of the sprite table
 	STA colliding_sprite			;$BCFE0F   |/
 	LDA sprite_clipping[8].left		;$BCFE11   |\
 	STA temp_sprite_clipping[0].left	;$BCFE14   |/ Copy clipping left
@@ -9325,7 +9325,7 @@ check_for_sprite_collisions:
 	SEC					;$BCFE2A   |\
 	SBC.w #sizeof(sprite)			;$BCFE2B   | | Move to previous slot
 	STA colliding_sprite			;$BCFE2E   |/
-	CMP #dixie_sprite_slot			;$BCFE30   |\
+	CMP #sprite_table.slot_2		;$BCFE30   |\
 	BEQ no_collision_detected		;$BCFE33   |/ If sprite slot is dixie then all sprites were checked, no collision was found
 	CMP current_sprite			;$BCFE35   |\ If colliding sprite is the caller
 	BEQ .next_sprite			;$BCFE37   |/ Prevent self collisions and continue to next sprite
@@ -9479,7 +9479,7 @@ check_for_sprite_collisions:
 ;check_for_point_collisions also doesnt take a collision mask argument
 check_for_sprite_point_collisions:
 	STA collision_mask_result		;$BCFF1D  \> Set collision mask
-	LDA #main_sprite_table_end		;$BCFF1F   |\ Start at the end of the sprite table
+	LDA #sprite_table.end			;$BCFF1F   |\ Start at the end of the sprite table
 	STA colliding_sprite			;$BCFF22   |/
 	LDA sprite_clipping[8].left		;$BCFF24   |\
 	STA temp_sprite_clipping[0].left	;$BCFF27   |/ Copy clipping left
@@ -9495,7 +9495,7 @@ check_for_point_collisions:			;	   |
 	PLB					;$BCFF3A   |/ Use current program bank
 .next_sprite:					;	   |
 	LDA colliding_sprite			;$BCFF3B   |
-	CMP #aux_sprite_table+1			;$BCFF3D   |\
+	CMP #sprite_table.slot_0+1		;$BCFF3D   |\
 	BCC .no_collisions_found		;$BCFF40   |/ Likely a bug, it will continue to process aux as if it can have collision
 	SBC.w #sizeof(sprite)			;$BCFF42   |
 	STA colliding_sprite			;$BCFF45   |\

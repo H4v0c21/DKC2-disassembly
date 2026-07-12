@@ -4939,7 +4939,7 @@ CODE_B5B9F1:
 	STA screen_scroll_y_position		;$B5BA1B   |
 	DEC A					;$B5BA1E   |
 	STA $17C2				;$B5BA1F   |
-	LDA main_level.effects			;$B5BA22   |
+	LDA level[0].effects			;$B5BA22   |
 	AND #!no_tilemap_effect			;$B5BA25   |
 	BNE CODE_B5BA83				;$B5BA28   |
 	LDA $0ADF				;$B5BA2A   |
@@ -4988,7 +4988,7 @@ CODE_B5BA83:					;	   |
 	RTS					;$B5BA98  /
 
 CODE_B5BA99:
-	LDA main_level.effects			;$B5BA99  \
+	LDA level[0].effects			;$B5BA99  \
 	AND #!unknown_camera_effect		;$B5BA9C   |
 	BEQ CODE_B5BAA9				;$B5BA9F   |
 	JSL CODE_80E522				;$B5BAA1   |
@@ -5026,7 +5026,7 @@ CODE_B5BAD9:
 	RTS					;$B5BADD  /
 
 CODE_B5BADE:
-	LDA main_level.effects			;$B5BADE  \
+	LDA level[0].effects			;$B5BADE  \
 	AND #!unknown_camera_effect		;$B5BAE1   |
 	BEQ CODE_B5BAEA				;$B5BAE4   |
 	JSL dma_ship_deck_rigging_columns	;$B5BAE6   |
@@ -7574,7 +7574,7 @@ CODE_B5CF99:					;	   |
 	LDA.l $0006A3				;$B5CFB5   |
 	AND #$FF9F				;$B5CFB9   |
 	STA $0006A3				;$B5CFBC   |
-	LDX #run_crocodile_isle		;$B5CFC0   |
+	LDX #run_crocodile_isle			;$B5CFC0   |
 	LDA.l $0006A3				;$B5CFC3   |
 	BIT #$8000				;$B5CFC7   |
 	BEQ CODE_B5CFCF				;$B5CFCA   |
@@ -8142,8 +8142,8 @@ CODE_B5D57D:
 
 CODE_B5D580:
 	LDA #$0004				;$B5D580  \
-	STA aux_sprite_table			;$B5D583   |
-	STA main_sprite_table			;$B5D586   |
+	STA sprite_table.slot_0			;$B5D583   |
+	STA sprite_table.slot_1			;$B5D586   |
 	LDA #$002C				;$B5D589   |
 	STA $0D8A				;$B5D58C   |
 	STA $0DE8				;$B5D58F   |
@@ -8197,7 +8197,7 @@ CODE_B5D580:
 	LDX #$01D6				;$B5D61F   |
 CODE_B5D622:					;	   |
 	LDA #$0004				;$B5D622   |
-	STA aux_sprite_table,x			;$B5D625   |
+	STA sprite_table.slot_0,x		;$B5D625   |
 	LDA #$00C0				;$B5D628   |
 	STA $0D8A,x				;$B5D62B   |
 	LDA #$0180				;$B5D62E   |
@@ -9758,7 +9758,7 @@ CODE_B5E354:					;	   |
 	STZ $0AE8				;$B5E35D   |
 	STZ $0AEE				;$B5E360   |
 	STZ $0AF2				;$B5E363   |
-	LDA main_level.unknown_38		;$B5E366   |
+	LDA level[0].unknown_38			;$B5E366   |
 	STA $0AB6				;$B5E369   |
 	LDA $0AFC				;$B5E36C   |
 	SEC					;$B5E36F   |
@@ -9915,7 +9915,7 @@ CODE_B5E44B:					;	   |
 CODE_B5E4AA:
 	LDX active_kong_sprite			;$B5E4AA  \
 	LDY #$0000				;$B5E4AD   |
-	LDA main_level.entrance_direction	;$B5E4B0   |
+	LDA level[0].entrance_direction		;$B5E4B0   |
 	BIT #$0030				;$B5E4B3   |
 	BEQ CODE_B5E4C3				;$B5E4B6   |
 	LDY #$0080				;$B5E4B8   |
@@ -9930,7 +9930,7 @@ CODE_B5E4C3:					;	   |
 	ADC $06,x				;$B5E4CB   |
 	STA $0D8A				;$B5E4CD   |
 	LDY #$0000				;$B5E4D0   |
-	LDA main_level.entrance_direction	;$B5E4D3   |
+	LDA level[0].entrance_direction		;$B5E4D3   |
 	BIT #$00C0				;$B5E4D6   |
 	BEQ CODE_B5E4E6				;$B5E4D9   |
 	LDY #$0080				;$B5E4DB   |
@@ -9944,7 +9944,7 @@ CODE_B5E4E6:					;	   |
 	CLC					;$B5E4ED   |
 	ADC $0A,x				;$B5E4EE   |
 	STA $0D8E				;$B5E4F0   |
-	LDY #aux_sprite_table			;$B5E4F3   |
+	LDY #sprite_table.slot_0		;$B5E4F3   |
 	JSR CODE_B5E560				;$B5E4F6   |
 	PHD					;$B5E4F9   |
 	LDA #$0A00				;$B5E4FA   |
@@ -10001,12 +10001,12 @@ endif						;	   |
 	%pea_shift_dbr($7E8D28)			;$B5E53C   |
 	PLB					;$B5E53F   |
 	PLB					;$B5E540   |
-	LDA main_level.camera_control		;$B5E541   |
+	LDA level[0].camera_control		;$B5E541   |
 	AND #$000F				;$B5E544   |
 	ASL A					;$B5E547   |
 	TAX					;$B5E548   |
 	JSR (DATA_B5E5AE,x)			;$B5E549   |
-	LDA main_level.camera_control		;$B5E54C   |
+	LDA level[0].camera_control		;$B5E54C   |
 	AND #$000F				;$B5E54F   |
 	ASL A					;$B5E552   |
 	TAX					;$B5E553   |

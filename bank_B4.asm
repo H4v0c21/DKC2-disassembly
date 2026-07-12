@@ -1153,7 +1153,7 @@ CODE_B4896A:					;	   |
 	BEQ CODE_B48989				;$B48970   |
 	LDA screen_brightness			;$B48972   |
 	BNE CODE_B48985				;$B48975   |
-	LDA #run_808D02			;$B48977   |
+	LDA #run_808D02				;$B48977   |
 	STA nmi_pointer				;$B4897A   |
 	LDA $06A3				;$B4897C   |
 	AND #$FFFD				;$B4897F   |
@@ -2338,7 +2338,7 @@ CODE_B49425:					;	   |
 	LDA screen_brightness			;$B4942D   |
 	CMP #$000F				;$B49430   |
 	BNE CODE_B49441				;$B49433   |
-	LDA #run_npc_exit				;$B49435   |
+	LDA #run_npc_exit			;$B49435   |
 	STA nmi_pointer				;$B49438   |
 	LDA #$810F				;$B4943A   |
 	JSL set_fade_global			;$B4943D   |
@@ -3801,7 +3801,7 @@ CODE_B4A051:
 	LDA screen_brightness			;$B4A059   |
 	CMP #$000F				;$B4A05C   |
 	BNE CODE_B4A06D				;$B4A05F   |
-	LDA #run_npc_exit				;$B4A061   |
+	LDA #run_npc_exit			;$B4A061   |
 	STA nmi_pointer				;$B4A064   |
 	LDA #$810F				;$B4A066   |
 	JSL set_fade_global			;$B4A069   |
@@ -3831,7 +3831,7 @@ CODE_B4A088:
 	BNE CODE_B4A0A7				;$B4A099   |
 	LDA #$810F				;$B4A09B   |
 	JSL set_fade_global			;$B4A09E   |
-	LDA #run_npc_exit				;$B4A0A2   |
+	LDA #run_npc_exit			;$B4A0A2   |
 	STA nmi_pointer				;$B4A0A5   |
 CODE_B4A0A7:					;	   |
 	RTS					;$B4A0A7  /
@@ -4175,7 +4175,7 @@ CODE_B4A371:
 	BNE CODE_B4A390				;$B4A382   |
 	LDA #$810F				;$B4A384   |
 	JSL set_fade_global			;$B4A387   |
-	LDA #run_npc_exit				;$B4A38B   |
+	LDA #run_npc_exit			;$B4A38B   |
 	STA nmi_pointer				;$B4A38E   |
 CODE_B4A390:					;	   |
 	RTS					;$B4A390  /
@@ -4455,27 +4455,27 @@ CODE_B4A5E7:
 	AND #$00FF				;$B4A613   |
 	DEC A					;$B4A616   |
 	BNE CODE_B4A62C				;$B4A617   |
-	LDX #$0112				;$B4A619   |
+	LDX #DATA_F70112			;$B4A619   |
 	LDA language_select			;$B4A61C   |
 	BEQ CODE_B4A624				;$B4A61F   |
-	LDX #$FD2C				;$B4A621   |
+	LDX #DATA_F7FD2C			;$B4A621   |
 CODE_B4A624:					;	   |
 	LDA $06A3				;$B4A624   |
 	ORA #$0800				;$B4A627   |
 	BRA CODE_B4A651				;$B4A62A  /
 
 CODE_B4A62C:
-	LDX #$0124				;$B4A62C  \
+	LDX #DATA_F70124			;$B4A62C  \
 	LDA language_select			;$B4A62F   |
 	BEQ CODE_B4A637				;$B4A632   |
-	LDX #$FD38				;$B4A634   |
+	LDX #DATA_F7FD38			;$B4A634   |
 CODE_B4A637:					;	   |
 	BRA CODE_B4A624				;$B4A637  /
 
 CODE_B4A639:
 	%lda_sound(6, wrong_answer)		;$B4A639  \
 	JSL queue_sound_effect			;$B4A63C   |
-	LDX #$0100				;$B4A640   |
+	LDX #DATA_F70100			;$B4A640   |
 	LDA language_select			;$B4A643   |
 	BEQ CODE_B4A64B				;$B4A646   |
 	LDX #DATA_F7FD20			;$B4A648   |
@@ -4739,7 +4739,7 @@ CODE_B4A87F:
 	LDX inactive_kong_sprite		;$B4A87F  \
 	LDA $42,x				;$B4A882   |
 	BNE CODE_B4A89B				;$B4A884   |
-	LDA #run_npc_exit				;$B4A886   |
+	LDA #run_npc_exit			;$B4A886   |
 	STA nmi_pointer				;$B4A889   |
 	LDA screen_brightness			;$B4A88B   |
 	CMP #$000F				;$B4A88E   |
@@ -4785,9 +4785,9 @@ CODE_B4A8D6:
 	AND #$FDFF				;$B4A8E7   |
 	STA $06A1				;$B4A8EA   |
 	LDA nmi_pointer				;$B4A8ED   |
-	CMP #run_npc_exit				;$B4A8EF   |
+	CMP #run_npc_exit			;$B4A8EF   |
 	BEQ CODE_B4A908				;$B4A8F2   |
-	LDA #run_npc_exit				;$B4A8F4   |
+	LDA #run_npc_exit			;$B4A8F4   |
 	STA nmi_pointer				;$B4A8F7   |
 	LDA screen_brightness			;$B4A8F9   |
 	CMP #$000F				;$B4A8FC   |
@@ -4837,7 +4837,7 @@ CODE_B4A959:					;	   |
 	BNE CODE_B4A97B				;$B4A967   |
 	LDA #$0001				;$B4A969   |
 	STA $064E				;$B4A96C   |
-	LDA #run_npc_exit				;$B4A96F   |
+	LDA #run_npc_exit			;$B4A96F   |
 	STA nmi_pointer				;$B4A972   |
 	LDA #$810F				;$B4A974   |
 	JSL set_fade_global			;$B4A977   |
@@ -4962,7 +4962,7 @@ CODE_B4AA79:
 	LDX inactive_kong_sprite		;$B4AA79  \
 	LDA $42,x				;$B4AA7C   |
 	BNE CODE_B4AA95				;$B4AA7E   |
-	LDA #run_npc_exit				;$B4AA80   |
+	LDA #run_npc_exit			;$B4AA80   |
 	STA nmi_pointer				;$B4AA83   |
 	LDA screen_brightness			;$B4AA85   |
 	CMP #$000F				;$B4AA88   |
@@ -5008,9 +5008,9 @@ CODE_B4AAD0:
 	AND #$FDFF				;$B4AAE1   |
 	STA $06A1				;$B4AAE4   |
 	LDA nmi_pointer				;$B4AAE7   |
-	CMP #run_npc_exit				;$B4AAE9   |
+	CMP #run_npc_exit			;$B4AAE9   |
 	BEQ CODE_B4AAFA				;$B4AAEC   |
-	LDA #run_npc_exit				;$B4AAEE   |
+	LDA #run_npc_exit			;$B4AAEE   |
 	STA nmi_pointer				;$B4AAF1   |
 	LDA #$810F				;$B4AAF3   |
 	JSL set_fade_global			;$B4AAF6   |
@@ -5057,7 +5057,7 @@ CODE_B4AB4B:					;	   |
 	BNE CODE_B4AB6D				;$B4AB59   |
 	LDA #$0001				;$B4AB5B   |
 	STA $064E				;$B4AB5E   |
-	LDA #run_npc_exit				;$B4AB61   |
+	LDA #run_npc_exit			;$B4AB61   |
 	STA nmi_pointer				;$B4AB64   |
 	LDA #$810F				;$B4AB66   |
 	JSL set_fade_global			;$B4AB69   |
@@ -7853,7 +7853,7 @@ DATA_B4C18B:
 	db !null_pointer				;5E
 	db !null_pointer				;5F
 	db !map_node_king_zing_sting			;60
-	db !map_node_krool_duel			;61
+	db !map_node_krool_duel				;61
 	db !map_node_castle_crush			;62
 	db !map_node_kudgels_kontest			;63
 	db !map_node_w4_lower_to_upper_left		;64
@@ -8397,16 +8397,25 @@ DATA_B4C533:
 	db $0F, $7A
 
 DATA_B4C53D:
-	db $00, $00, $36, $01, $CE, $00, $6C, $01
-	db $9E, $01
+	dw DATA_F70000
+	dw DATA_F70136
+	dw DATA_F700CE
+	dw DATA_F7016C
+	dw DATA_F7019E
 
 DATA_B4C547:
-	db $72, $00, $48, $01, $E0, $00, $7E, $01
-	db $B0, $01
+	dw DATA_F70072
+	dw DATA_F70148
+	dw DATA_F700E0
+	dw DATA_F7017E
+	dw DATA_F701B0
 
 DATA_B4C551:
-	db $8E, $00, $56, $01, $EE, $00, $8C, $01
-	db $C2, $01
+	dw DATA_F7008E
+	dw DATA_F70156
+	dw DATA_F700EE
+	dw DATA_F7018C
+	dw DATA_F701C2
 
 DATA_B4C55B:
 	dw DATA_B4C56D
@@ -9248,6 +9257,7 @@ swanky_prices_table:
 	dw $0002
 	dw $0003
 	dw $0000
+
 
 wrinkly_prices_table:
 	dw .gangplank_galleon

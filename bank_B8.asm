@@ -324,7 +324,7 @@ if !version == 1				;	  \
 endif						;	   |
 	JSR set_kongs_visible_if_not_in_barrel	;$B8826F   |
 	JSL drop_sprite_or_follower_kong	;$B88272   |
-	LDA main_level.type			;$B88276   |
+	LDA level[0].type			;$B88276   |
 	CMP #!boss_level_type			;$B88279   |
 	BEQ CODE_B882D6				;$B8827C   |
 	JSR work_on_active_kong			;$B8827E   |
@@ -1054,7 +1054,7 @@ player_interaction_2A:
 	JSR drop_sprite_if_holding		;$B8886D   |
 	JSL CODE_B3E287				;$B88870   |
 	JSL set_current_level_as_cleared	;$B88874   |
-	LDA main_level.song			;$B88878   |
+	LDA level[0].song			;$B88878   |
 	CMP #!music_krool			;$B8887B   |
 	BEQ CODE_B8889A				;$B8887E   |
 	LDA RAM_0B02				;$B88880   |
@@ -1533,7 +1533,7 @@ get_kong_state_flag_0100:
 
 find_and_delete_animal_icon:
 if !version == 1
-	LDX #main_sprite_table			;$B88C65  \
+	LDX #sprite_table.slot_1		;$B88C65  \
 .check_type:					;	   |
 	LDA sprite.type,x			;$B88C68   |
 	CMP #!sprite_animal_icon		;$B88C6A   |
@@ -1551,7 +1551,7 @@ if !version == 1
 	CLC					;$B88C7E   |
 	ADC.w #sizeof(sprite)			;$B88C7F   |
 	TAX					;$B88C82   |
-	CPX #main_sprite_table_end		;$B88C83   |
+	CPX #sprite_table.end			;$B88C83   |
 	BNE .check_type				;$B88C86   |
 .return:					;	   |
 	RTS					;$B88C88  /
@@ -1595,7 +1595,7 @@ endif						;	   |
 	ADC #$00C0				;$B88CC6   |
 	STA $0A,x				;$B88CC9   |
 CODE_B88CCB:					;	   |
-	LDA main_level.type			;$B88CCB   |
+	LDA level[0].type			;$B88CCB   |
 	CMP #!bonus_level_type			;$B88CCE   |
 	BEQ CODE_B88C89				;$B88CD1   |
 	STZ $0AEE				;$B88CD3   |
@@ -1640,7 +1640,7 @@ CODE_B88D1E:					;	   |
 	AND #$4000				;$B88D2D   |
 	EOR $12,x				;$B88D30   |
 	STA $12,x				;$B88D32   |
-	LDA main_level.type			;$B88D34   |
+	LDA level[0].type			;$B88D34   |
 	CMP #!bonus_level_type			;$B88D37   |
 	LDA game_state_flags			;$B88D3A   |
 	AND #$4000				;$B88D3D   |
@@ -2281,13 +2281,13 @@ player_interaction_02:
 
 CODE_B89229:
 	LDX active_kong_sprite			;$B89229  \
-	LDA $06,x				;$B8922C   |
+	LDA sprite.x_position,x			;$B8922C   |
 	STA $72					;$B8922E   |
-	LDA $0A,x				;$B89230   |
+	LDA sprite.y_position,x			;$B89230   |
 	STA $74					;$B89232   |
 	LDY inactive_kong_sprite		;$B89234   |
-	LDA $0006,y				;$B89237   |
-	CMP $06,x				;$B8923A   |
+	LDA.w sprite.x_position,y		;$B89237   |
+	CMP sprite.x_position,x			;$B8923A   |
 	BPL CODE_B89243				;$B8923C   |
 	LDA #$FFE4				;$B8923E   |
 	BRA CODE_B89246				;$B89241  /
@@ -2303,7 +2303,7 @@ CODE_B8924D:					;	   |
 
 CODE_B8924E:
 	LDX active_kong_sprite			;$B8924E  \
-	LDA $0A,x				;$B89251   |
+	LDA sprite.y_position,x			;$B89251   |
 	SEC					;$B89253   |
 	SBC $74					;$B89254   |
 	BPL CODE_B8925C				;$B89256   |
@@ -2324,14 +2324,14 @@ if !version == 1				;	   |
 endif						;	   |
 	LDA $72					;$B89270   |
 	STA $0D68				;$B89272   |
-	STA $06,x				;$B89275   |
+	STA sprite.x_position,x			;$B89275   |
 	LDA $74					;$B89277   |
 	STA $0D6C				;$B89279   |
-	STA $0A,x				;$B8927C   |
+	STA sprite.y_position,x			;$B8927C   |
 	JSR work_on_active_kong			;$B8927E   |
-	LDA $06,x				;$B89281   |
+	LDA sprite.x_position,x			;$B89281   |
 	STA $0D66				;$B89283   |
-	LDA $0A,x				;$B89286   |
+	LDA sprite.y_position,x			;$B89286   |
 	STA $0D6A				;$B89288   |
 	LDA.w kong_control.invincible_timer,y	;$B8928B   |
 	PHA					;$B8928E   |
@@ -2341,18 +2341,18 @@ endif						;	   |
 	STA.w kong_control.invincible_timer,y	;$B89297   |
 	LDX active_kong_sprite			;$B8929A   |
 	LDY inactive_kong_sprite		;$B8929D   |
-	LDA $0006,y				;$B892A0   |
+	LDA.w sprite.x_position,y		;$B892A0   |
 	SEC					;$B892A3   |
-	SBC $06,x				;$B892A4   |
+	SBC sprite.x_position,x			;$B892A4   |
 	LSR A					;$B892A6   |
-	EOR $12,x				;$B892A7   |
+	EOR sprite.oam_property,x		;$B892A7   |
 	AND #$4000				;$B892A9   |
-	EOR $12,x				;$B892AC   |
-	STA $12,x				;$B892AE   |
+	EOR sprite.oam_property,x		;$B892AC   |
+	STA sprite.oam_property,x		;$B892AE   |
 	LDA $0D66				;$B892B0   |
 	SEC					;$B892B3   |
 	SBC $0D68				;$B892B4   |
-	BIT $12,x				;$B892B7   |
+	BIT sprite.oam_property,x		;$B892B7   |
 	BVC CODE_B892BF				;$B892B9   |
 	EOR #$FFFF				;$B892BB   |
 	INC A					;$B892BE   |
@@ -2370,9 +2370,9 @@ CODE_B892BF:					;	   |
 	LDA #!kong_state_4A			;$B892DB   |
 	STA sprite.state,x			;$B892DE   |
 if !version == 1				;	   |
-	STZ $20,x				;$B892E0   |
-	STZ $26,x				;$B892E2   |
-	STZ $24,x				;$B892E4   |
+	STZ sprite.x_speed,x			;$B892E0   |
+	STZ sprite.max_x_speed,x		;$B892E2   |
+	STZ sprite.y_speed,x			;$B892E4   |
 endif						;	   |
 	LDA #$0001				;$B892E6   |
 	JSL set_anim_handle_dixie		;$B892E9   |
@@ -2380,9 +2380,9 @@ endif						;	   |
 	LDA #!kong_state_49			;$B892F0   |
 	STA sprite.state,x			;$B892F3   |
 if !version == 1				;	   |
-	STZ $20,x				;$B892F5   |
-	STZ $26,x				;$B892F7   |
-	STZ $24,x				;$B892F9   |
+	STZ sprite.x_speed,x			;$B892F5   |
+	STZ sprite.max_x_speed,x		;$B892F7   |
+	STZ sprite.y_speed,x			;$B892F9   |
 endif						;	   |
 	LDA #$0049				;$B892FB   |
 	JSL set_anim_handle_dixie		;$B892FE   |
@@ -2404,18 +2404,18 @@ player_interaction_13:
 	JSR work_on_active_kong			;$B8931C   |
 	LDA #!kong_state_48			;$B8931F   |
 	STA sprite.state,x			;$B89322   |
-	LDA $30,x				;$B89324   |
+	LDA sprite.interaction_flags,x		;$B89324   |
 	ORA #$0080				;$B89326   |
-	STA $30,x				;$B89329   |
+	STA sprite.interaction_flags,x		;$B89329   |
 	LDA game_state_flags			;$B8932B   |
 	AND #$4000				;$B8932E   |
 	BEQ .single_kong			;$B89331   |
 	JSR work_on_inactive_kong		;$B89333   |
 	LDA #!kong_state_2F			;$B89336   |
 	STA sprite.state,x			;$B89339   |
-	LDA $30,x				;$B8933B   |
+	LDA sprite.interaction_flags,x		;$B8933B   |
 	ORA #$0080				;$B8933D   |
-	STA $30,x				;$B89340   |
+	STA sprite.interaction_flags,x		;$B89340   |
 .single_kong:					;	   |
 	LDA #$0047				;$B89342   |
 	JSL set_anim_handle_dixie		;$B89345   |
@@ -3111,7 +3111,7 @@ CODE_B8997E:
 get_x_acceleration:
 	LDA animal_type				;$B89987  \ \ check if player has animal
 	BNE .has_animal				;$B89989   |/
-	LDA main_level.effects			;$B8998B   |\ check if level is slippery
+	LDA level[0].effects			;$B8998B   |\ check if level is slippery
 	AND #$3000				;$B8998E   |/
 	BNE .slippery_level			;$B89991   |
 .jumped_from_ground				;	   |
@@ -3122,7 +3122,7 @@ get_x_acceleration:
 	CMP #!sprite_squawks			;$B89997  \
 	BEQ .squawks				;$B8999A   |
 	TAY					;$B8999C   |
-	LDA main_level.effects			;$B8999D   |
+	LDA level[0].effects			;$B8999D   |
 	AND #$3000				;$B899A0   |
 	BNE .slippery_level			;$B899A3   |
 	TYA					;$B899A5   |
@@ -3641,7 +3641,7 @@ kong_state_11:
 
 kong_state_12:
 if !version == 1				;	  \
-	LDX #main_sprite_table			;$B89D69   |
+	LDX #sprite_table.slot_1		;$B89D69   |
 	LDA sprite.constants_address,x		;$B89D6C   |
 	STA current_sprite_constants		;$B89D6E   |
 endif						;	   |
@@ -6750,7 +6750,7 @@ CODE_B8B586:
 	LSR A					;$B8B594   |
 	BCS CODE_B8B5A6				;$B8B595   |
 CODE_B8B597:					;	   |
-	LDA main_level.type			;$B8B597   |
+	LDA level[0].type			;$B8B597   |
 	CMP #!bonus_level_type			;$B8B59A   |
 	BEQ CODE_B8B5A7				;$B8B59D   |
 	LDA #!player_interaction_29		;$B8B59F   |
@@ -6777,7 +6777,7 @@ CODE_B8B5B7:
 CODE_B8B5C3:
 	JSR CODE_B8B644				;$B8B5C3  \
 	BCS CODE_B8B5E3				;$B8B5C6   |
-	LDA main_level.effects			;$B8B5C8   |\
+	LDA level[0].effects			;$B8B5C8   |\
 	AND #!sticky_honey_effect		;$B8B5CB   | | check if sticky honey is enabled
 	BEQ CODE_B8B5DA				;$B8B5CE   |/
 	JSR CODE_B8B671				;$B8B5D0   |
@@ -6820,7 +6820,7 @@ CODE_B8B60F:
 	JMP set_player_interaction		;$B8B612  /
 
 CODE_B8B615:
-	LDA main_level.effects			;$B8B615  \
+	LDA level[0].effects			;$B8B615  \
 	AND #!hazardous_water_effect		;$B8B618   |
 	BEQ CODE_B8B62B				;$B8B61B   |
 	LDX current_sprite			;$B8B61D   |
@@ -6977,7 +6977,7 @@ set_swimming_state:
 	RTS					;$B8B713  /
 
 CODE_B8B714:
-	LDA main_level.effects			;$B8B714  \
+	LDA level[0].effects			;$B8B714  \
 	AND #$00C0				;$B8B717   |
 	BEQ CODE_B8B729				;$B8B71A   |
 	JSR check_if_animal_or_holding_sprite	;$B8B71C   |
@@ -9697,7 +9697,7 @@ shoot_web_platform:
 ;$36	oldest platform sprite
 
 scan_for_web_platforms:
-	LDX #main_sprite_table			;$B8C99A  \
+	LDX #sprite_table.slot_1		;$B8C99A  \
 	STZ $32					;$B8C99D   |\
 	STZ $34					;$B8C99F   | | clear part of scratch we're going to use
 	STZ $36					;$B8C9A1   |/
@@ -9718,7 +9718,7 @@ scan_for_web_platforms:
 	CLC					;$B8C9BB   | | move to next sprite slot
 	ADC.w #sizeof(sprite)			;$B8C9BC   |/
 	TAX					;$B8C9BF   |\
-	CPX #main_sprite_table_end		;$B8C9C0   | | check if we reached the end of the sprite table
+	CPX #sprite_table.end			;$B8C9C0   | | check if we reached the end of the sprite table
 	BNE .scan_for_platform			;$B8C9C3   |/
 	LDA $32					;$B8C9C5   |\ if we reached the end of the sprite table
 	RTS					;$B8C9C7  / / return the number of web platforms found
@@ -11163,7 +11163,7 @@ CODE_B8D246:
 	RTL					;$B8D249  /
 
 handle_slope_sliding_velocity:
-	LDA main_level.effects			;$B8D24A  \
+	LDA level[0].effects			;$B8D24A  \
 	AND #$3000				;$B8D24D   |
 	CMP #$3000				;$B8D250   |
 	BNE CODE_B8D25A				;$B8D253   |
@@ -12029,7 +12029,7 @@ CODE_B8D830:
 	CPX active_kong_sprite			;$B8D885   |
 	BNE CODE_B8D8B9				;$B8D888   |
 CODE_B8D88A:					;	   |
-	LDA main_level.effects			;$B8D88A   |
+	LDA level[0].effects			;$B8D88A   |
 	AND #!platform_sprite_edge_guard_effect	;$B8D88D   |
 	BEQ CODE_B8D8B9				;$B8D890   |
 	LDA platform_sprite_right_edge_position	;$B8D892   |

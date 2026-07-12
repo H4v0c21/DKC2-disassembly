@@ -658,9 +658,9 @@ CODE_8087E1:
 	JSR set_fade				;$8087F0   |
 	JSR prepare_oam_dma_channel		;$8087F3   |
 	SEP #$20				;$8087F6   |
-	LDA main_level.logic_number		;$8087F8   |
+	LDA level[0].game_sub_mode		;$8087F8   |
 	STA game_sub_mode			;$8087FB   |
-	LDA main_level.NMI_number		;$8087FD   |
+	LDA level[0].nmi_sub_mode		;$8087FD   |
 	STA nmi_sub_mode			;$808800   |
 	REP #$20				;$808802   |
 	LDA #CODE_808819			;$808804   |
@@ -699,7 +699,7 @@ set_active_kong_global:
 
 set_active_kong:
 	BNE .set_dixie				;$80883B  \
-	LDA #diddy_sprite_slot			;$80883D   |
+	LDA #sprite_table.slot_1		;$80883D   |
 	STA active_kong_sprite			;$808840   |
 	LDA #diddy_control_variables		;$808843   |
 	STA active_kong_control_variables	;$808846   |
@@ -707,7 +707,7 @@ set_active_kong:
 	LDA active_kong_number			;$80884C   |
 	INC A					;$80884F   |
 	STA active_controller_number		;$808850   |
-	LDA #dixie_sprite_slot			;$808853   |
+	LDA #sprite_table.slot_2		;$808853   |
 	STA inactive_kong_sprite		;$808856   |
 	LDA #dixie_control_variables		;$808859   |
 	STA inactive_kong_control_variables	;$80885C   |
@@ -715,7 +715,7 @@ set_active_kong:
 	RTS					;$808862  /
 
 .set_dixie:
-	LDA #dixie_sprite_slot			;$808863  \
+	LDA #sprite_table.slot_2		;$808863  \
 	STA active_kong_sprite			;$808866   |
 	LDA #dixie_control_variables		;$808869   |
 	STA active_kong_control_variables	;$80886C   |
@@ -723,7 +723,7 @@ set_active_kong:
 	STA active_kong_number			;$808872   |
 	INC A					;$808875   |
 	STA active_controller_number		;$808876   |
-	LDA #main_sprite_table			;$808879   |
+	LDA #sprite_table.slot_1		;$808879   |
 	STA inactive_kong_sprite		;$80887C   |
 	LDA #diddy_control_variables		;$80887F   |
 	STA inactive_kong_control_variables	;$808882   |
@@ -812,7 +812,7 @@ clear_wram_tables:
 	RTL					;$8088F0  /
 
 .wram_tables
-	dw aux_sprite_table, sizeof(sprite)*25
+	dw sprite_table, sizeof(sprite_table)
 	dw diddy_control_variables, sizeof(kong_control)
 	dw dixie_control_variables, sizeof(kong_control)
 	dw current_held_sprite, $0002
@@ -831,7 +831,7 @@ clear_wram_tables:
 	dw $092B, $0002
 	dw $092D, $0002
 	dw $0923, $0002
-	dw main_level, sizeof(main_level)
+	dw level, sizeof(level)
 	dw $095B, $0008
 	dw $0963, $0008
 	dw water_current_y_velocity, $0002
@@ -3535,7 +3535,7 @@ CODE_80A0E9:					;	   |
 	LDA #$0000				;$80A1CF   |
 	STA $0D9E				;$80A1D2   |
 	LDA #$0004				;$80A1D5   |
-	STA aux_sprite_table			;$80A1D8   |
+	STA sprite_table.slot_0			;$80A1D8   |
 	LDA #$0036				;$80A1DB   |
 	STA $0D8A				;$80A1DE   |
 	LDA #$0100				;$80A1E1   |
@@ -3547,7 +3547,7 @@ CODE_80A0E9:					;	   |
 	LDA #$351C				;$80A1F3   |
 	STA $0DFC				;$80A1F6   |
 	LDA #$0004				;$80A1F9   |
-	STA main_sprite_table			;$80A1FC   |
+	STA sprite_table.slot_1			;$80A1FC   |
 	LDA #$0038				;$80A1FF   |
 	STA $0DE8				;$80A202   |
 	LDA #$0101				;$80A205   |
@@ -3656,7 +3656,7 @@ run_secret_ending:
 	LDA $1000				;$80A322   |\ Bug: loads an address instead of a constant value
 	STA active_frame_counter		;$80A325   |/ Zeros frame counter causing camera shake/sfx to play again
 CODE_80A327:					;	   |
-	LDX #aux_sprite_table			;$80A327   |
+	LDX #sprite_table.slot_0		;$80A327   |
 	JSR CODE_80A545				;$80A32A   |
 	LDX #$0E9E				;$80A32D   |
 	JSR CODE_80A518				;$80A330   |
@@ -3767,7 +3767,7 @@ CODE_80A41F:					;	   |
 	LDA active_frame_counter		;$80A41F   |
 	BIT #$0003				;$80A421   |
 	BNE CODE_80A44D				;$80A424   |
-	LDX #aux_sprite_table			;$80A426   |
+	LDX #sprite_table.slot_0		;$80A426   |
 CODE_80A429:					;	   |
 	LDA sprite.type,x			;$80A429   |
 	CMP #$0001				;$80A42B   |
@@ -3786,7 +3786,7 @@ CODE_80A442:					;	   |
 	CLC					;$80A443   |
 	ADC.w #sizeof(sprite)			;$80A444   |
 	TAX					;$80A447   |
-	CPX #main_sprite_table_end		;$80A448   |
+	CPX #sprite_table.end			;$80A448   |
 	BNE CODE_80A429				;$80A44B   |
 CODE_80A44D:					;	   |
 	JSL sort_sprite_render_orders		;$80A44D   |
@@ -3821,7 +3821,7 @@ CODE_80A44D:					;	   |
 	BRA -					;$80A49F  / Branch back sanity check
 
 CODE_80A4A1:
-	LDX #aux_sprite_table			;$80A4A1  \
+	LDX #sprite_table.slot_0		;$80A4A1  \
 .next_slot:					;	   |
 	LDA sprite.type,x			;$80A4A4   |
 	BEQ .return				;$80A4A6   |
@@ -3829,7 +3829,7 @@ CODE_80A4A1:
 	CLC					;$80A4A9   |
 	ADC.w #sizeof(sprite)			;$80A4AA   |
 	TAX					;$80A4AD   |
-	CPX #aux_sprite_table			;$80A4AE   |
+	CPX #sprite_table.slot_0		;$80A4AE   |
 	BNE .next_slot				;$80A4B1   |
 	LDA #$0001				;$80A4B3   |
 .return:					;	   |
@@ -3868,10 +3868,10 @@ CODE_80A4E5:					;	   |
 	CMP #$0048				;$80A4EF   |
 	BCC CODE_80A505				;$80A4F2   |
 	LDA #$0000				;$80A4F4   |
-	STA aux_sprite_table+(sizeof(sprite)*0)	;$80A4F7   |
-	STA aux_sprite_table+(sizeof(sprite)*1)	;$80A4FA   |
-	STA aux_sprite_table+(sizeof(sprite)*2)	;$80A4FD   |
-	STA aux_sprite_table+(sizeof(sprite)*4)	;$80A500   |
+	STA sprite_table.slot_0			;$80A4F7   |
+	STA sprite_table.slot_1			;$80A4FA   |
+	STA sprite_table.slot_2			;$80A4FD   |
+	STA sprite_table.slot_4			;$80A500   |
 	BRA CODE_80A50C				;$80A503  /
 
 CODE_80A505:
@@ -3922,7 +3922,7 @@ CODE_80A545:
 	BCC CODE_80A5C2				;$80A54E   |
 	BNE CODE_80A55A				;$80A550   |
 	LDA #$0000				;$80A552   |
-	STA dixie_sprite_slot			;$80A555   |
+	STA sprite_table.slot_2			;$80A555   |
 	LDA active_frame_counter		;$80A558   |
 CODE_80A55A:					;	   |
 	BIT #$0003				;$80A55A   |
@@ -5567,7 +5567,7 @@ init_title_screen:
 	STA rng_result				;$80B401   | |
 	LDA #$FF00				;$80B403   | |
 	STA rng_seed_2				;$80B406   |/
-	LDX #main_sprite_table			;$80B408   | Load the sprite base pointer
+	LDX #sprite_table.slot_1		;$80B408   | Load the sprite base pointer
 	LDY #$0000				;$80B40B   | Load the initial sparkle frame index
 .next_sprite_slot				;	   |
 	LDA #$0001				;$80B40E   |\ Mark the sprite slot used by a sparkle
@@ -5623,7 +5623,7 @@ run_title_screen:				;	  \
 	LDA active_frame_counter		;$80B47C   | | by four update the animations, otherwise skip the update
 	AND #$0003				;$80B47E   | |
 	BNE .skip_sprite_update			;$80B481   |/
-	LDX #main_sprite_table			;$80B483   |
+	LDX #sprite_table.slot_1		;$80B483   |
 .next_sprite_slot				;	   |
 	LDA sprite.current_graphic,x		;$80B486   |\ Increment the active sparkle frame to the next frame
 	CLC					;$80B488   | |
@@ -5656,7 +5656,7 @@ run_title_screen:				;	  \
 	CLC					;$80B4BC   | |
 	ADC.w #sizeof(sprite)			;$80B4BD   | |
 	TAX					;$80B4C0   | |
-	CMP #main_sprite_table_end		;$80B4C1   | |
+	CMP #sprite_table.end			;$80B4C1   | |
 	BNE .next_sprite_slot			;$80B4C4   |/
 .skip_sprite_update				;	   |
 	JSL sort_sprite_render_orders		;$80B4C6   |
@@ -6087,7 +6087,7 @@ CODE_80B8B1:
 	LDX #$8822				;$80B8B7   |
 	STX HDMA[6].source			;$80B8BA   |
 CODE_80B8BD:					;	   |
-	LDA main_level.tileset_type		;$80B8BD   |
+	LDA level[0].tileset_type		;$80B8BD   |
 	CMP #!ice_1_layout_id			;$80B8C0   |
 	BNE CODE_80B8CF				;$80B8C3   |
 	LDA $0915				;$80B8C5   |
@@ -6122,7 +6122,7 @@ CODE_80B8F4:					;	   |
 	ADC #$00				;$80B8FA   |
 	STA $7E886F				;$80B8FC   |
 	REP #$20				;$80B900   |
-	LDA main_level.tileset_type		;$80B902   |
+	LDA level[0].tileset_type		;$80B902   |
 	CMP #!ice_1_layout_id			;$80B905   |
 	BNE CODE_80B914				;$80B908   |
 	LDA $0915				;$80B90A   |
@@ -8772,7 +8772,7 @@ update_rigging_graphics:
 	BEQ .rigging_flag_update_done		;$80CF5D   |
 	JSR update_ship_mast_flag_graphics	;$80CF5F   |
 .rigging_flag_update_done			;	   |
-	LDA main_level.effects			;$80CF62   |
+	LDA level[0].effects			;$80CF62   |
 	AND #$1000				;$80CF65   |
 	BNE CODE_80CF9F				;$80CF68   |
 	LDA active_frame_counter		;$80CF6A   |
@@ -8798,7 +8798,7 @@ update_rigging_graphics:
 	RTS					;$80CF9E  /
 
 CODE_80CF9F:
-	LDA main_level.type			;$80CF9F  \
+	LDA level[0].type			;$80CF9F  \
 	CMP #!boss_level_type			;$80CFA2   |
 	BEQ CODE_80CFDB				;$80CFA5   |
 	LDA active_frame_counter		;$80CFA7   |
@@ -12350,7 +12350,7 @@ CODE_80EF8C:					;	   |
 	STA $885E				;$80F090   |
 	LDA #$0000				;$80F093   |
 	STA $8860				;$80F096   |
-	LDA main_level.tileset_type		;$80F099   |
+	LDA level[0].tileset_type		;$80F099   |
 	CMP #!ice_1_layout_id			;$80F09C   |
 	BNE CODE_80F0AB				;$80F09F   |
 	LDA $0915				;$80F0A1   |
@@ -12407,7 +12407,7 @@ CODE_80F0D4:					;	   |
 	SBC #$0010				;$80F100   |
 	TAX					;$80F103   |
 	BPL CODE_80F0D4				;$80F104   |
-	LDA main_level.tileset_type		;$80F106   |
+	LDA level[0].tileset_type		;$80F106   |
 	CMP #!ice_1_layout_id			;$80F109   |
 	BNE CODE_80F113				;$80F10C   |
 	LDA $0915				;$80F10E   |

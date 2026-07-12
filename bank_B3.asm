@@ -25,7 +25,7 @@ sprite_handler:
 	BNE .time_stop_sprite_handler		;$B3803D   |/
 	LDA #.sprite_return			;$B3803F   |\ Set sprite return pointer
 	STA sprite_return_address		;$B38042   |/
-	LDX #main_sprite_table			;$B38045   | Load sprite base pointer
+	LDX #sprite_table.slot_1		;$B38045   | Load sprite base pointer
 .next_slot					;	   |
 	LDA sprite.type,x			;$B38048   |\ If the sprite doesn't exist
 	BEQ .get_next_slot			;$B3804A   |/ Get the next sprite
@@ -40,7 +40,7 @@ sprite_handler:
 	CLC					;$B38055   | |
 	ADC.w #sizeof(sprite)			;$B38056   | |
 	TAX					;$B38059   |/
-	CPX #main_sprite_table_end		;$B3805A   |\ If not at the last sprite
+	CPX #sprite_table.end			;$B3805A   |\ If not at the last sprite
 	BNE .next_slot				;$B3805D   |/ Then test if the sprite exists
 	JSL process_interactions_with_player	;$B3805F   |
 	JSR process_platform_sprites		;$B38063   |
@@ -69,7 +69,7 @@ sprite_handler:
 .time_stop_sprite_handler:
 	LDA #..sprite_return			;$B38087  \ \
 	STA sprite_return_address		;$B3808A   |/ Write sprite return address for time stop sprite handler
-	LDX #main_sprite_table			;$B3808D   |> Load sprite base pointer
+	LDX #sprite_table.slot_1		;$B3808D   |> Load sprite base pointer
 ..next_slot:					;	   |
 	LDA sprite.type,x			;$B38090   |\ If the sprite doesn't exist
 	BEQ ..get_next_slot			;$B38092   |/ Get the next sprite
@@ -82,7 +82,7 @@ sprite_handler:
 
 ..time_stop_is_active:
 	LDA current_sprite			;$B380A1  \ \ Get current sprite
-	CMP #non_kong_sprite_slots		;$B380A3   | |
+	CMP #sprite_table.slot_3		;$B380A3   | |
 	BPL ..sprite_is_not_kong		;$B380A6   |/ If sprite slot isnt a kong slot, handle non kong sprites
 	CMP inactive_kong_sprite		;$B380A8   |\
 	BEQ ..sprite_is_inactive_kong		;$B380AB   |/ If inactive kong, determine whether it processes or not
@@ -114,7 +114,7 @@ sprite_handler:
 	CLC					;$B380D8   |
 	ADC.w #sizeof(sprite)			;$B380D9   |
 	TAX					;$B380DC   |
-	CPX #main_sprite_table_end		;$B380DD   |
+	CPX #sprite_table.end			;$B380DD   |
 	BNE ..next_slot				;$B380E0   |
 	JSL process_interactions_with_player	;$B380E2   |
 	JSR handle_kong_follow			;$B380E6   |
@@ -145,7 +145,7 @@ process_looping_sounds:
 	LDA.w #sound(4,!sound_barrel_roll)	;$B38120   | | Get the sound effect and channel for this loop sound
 	JSR .try_to_queue_looping_sound		;$B38123   | | Try to queue it
 	BCS .play_looping_sound			;$B38126   |/ If sound queued, play it and skip other loop sounds
-	LDA main_level.effects			;$B38128   |\
+	LDA level[0].effects			;$B38128   |\
 	AND #!wind_sound_effect			;$B3812B   | |
 	BEQ .flotsam_level			;$B3812E   |/ If level has water then use flotsam instead of wind loop
 	LDA wind_loop_sound_enabler-1		;$B38130   |\ Get wind loop enable flag
@@ -262,7 +262,7 @@ CODE_B381CE:
 	STA sprite.display_mode,x		;$B381E8   |
 	RTS					;$B381EA  /
 
-burst_effect_main:
+contact_flash_main:
 map_player_main:
 	JSL process_sprite_animation		;$B381EB  \
 	JML [sprite_return_address]		;$B381EF  /
@@ -456,7 +456,7 @@ sprite_main_table:
 	dw krool_water_drips_main,$0000		;0054
 	dw puftup_spikes_main,$0000		;0058
 	dw lilypad_main,$0000			;005C
-	dw barrel_pieces_main,$0000		;0060
+	dw barrel_piece_main,$0000		;0060
 	dw unknown_sprite_0064_main,$0000	;0064
 	dw king_zing_spikes_main,$0000		;0068
 	dw kannon_main,$0000			;006C
@@ -503,7 +503,7 @@ sprite_main_table:
 	dw rain_cloud_main,$0000		;0110
 	dw unknown_sprite_0114_main,$0000	;0114 Would follow the kong, Animates
 	dw web_platform_main,$0000		;0118
-	dw dkbarrel_letters_main,$0000		;011C
+	dw dk_barrel_letters_main,$0000		;011C
 	dw barrel_icons_main,$0000		;0120
 	dw breakable_wall_main,$0000		;0124
 	dw rideable_balloon_main,$0000		;0128
@@ -514,7 +514,7 @@ sprite_main_table:
 	dw cannon_main,$0000			;013C
 	dw barrel_cannon_main,$0000		;0140
 	dw kleever_canball_main,$0000		;0144
-	dw animal_box_main,$0000		;0148
+	dw animal_crate_main,$0000		;0148
 	dw hook_main,$0000			;014C
 	dw invincibility_barrel_main,$0000	;0150
 	dw checkpoint_barrel_main,$0000		;0154
@@ -526,7 +526,7 @@ sprite_main_table:
 	dw level_goal_prize_main,$0001		;016C
 	dw bananas_main,$0000			;0170
 	dw kong_letter_main,$0000		;0174
-	dw extra_life_balloon_main,$0001	;0178
+	dw life_balloon_main,$0001		;0178
 	dw kleever_falling_canball_main,$0000	;017C
 	dw krochead_switch_barrel_main,$0000	;0180
 	dw scroll_and_float_barrel_main,$0000	;0184
@@ -538,11 +538,11 @@ sprite_main_table:
 	dw rambi_main,$0001			;019C
 	dw enguarde_main,$0000			;01A0
 	dw barrel_main,$0000			;01A4
-	dw dkbarrel_main,$0000			;01A8
+	dw dk_barrel_main,$0000			;01A8
 	dw klobber_main,$0000			;01AC
 	dw canball_main,$0000			;01B0
 	dw krows_egg_main,$0000			;01B4
-	dw tntbarrel_main,$0000			;01B8
+	dw tnt_barrel_main,$0000		;01B8
 	dw wooden_box_main,$0000		;01BC
 	dw chest_main,$0000			;01C0
 	dw kreepy_krows_eggs_main,$0000		;01C4
@@ -574,7 +574,7 @@ sprite_main_table:
 	dw kreepy_krows_body_main,$0000		;022C
 	dw kreepy_krows_head_main,$0000		;0230
 	dw shuri_main,$0000			;0234
-	dw burst_effect_main,$0001		;0238
+	dw contact_flash_main,$0001		;0238
 	dw unknown_sprite_023C_main,$0000	;023C Explosion cloud/smoke
 	dw unknown_sprite_0240_main,$0000	;0240 Barrel pieces
 	dw unknown_sprite_0244_main,$0001	;0244 Barrel pieces but processes in timestop
@@ -582,7 +582,7 @@ sprite_main_table:
 	dw explosion_cloud_main,$0000		;024C
 	dw fireworks_main,$0000			;0250
 	dw ghost_rope_main,$0000		;0254
-	dw no_animal_buddy_sign_main,$0000	;0258
+	dw no_animal_sign_main,$0000		;0258
 	dw krook_main,$0000			;025C
 	dw krooks_hook_main,$0000		;0260
 	dw krool_main,$0001			;0264
@@ -1294,7 +1294,7 @@ squitter_main:
 	BRL .sprite_done			;$B38AEB  /
 
 ;Dead code
-	LDA main_level.type			;$B38AEE  \ \ Get level type
+	LDA level[0].type			;$B38AEE  \ \ Get level type
 	CMP #!bonus_level_type			;$B38AF1   | |
 	BEQ .in_bonus_level			;$B38AF4   |/ If level is bonus, ensure the kong only has one animal
 .no_animal:					;	   |
@@ -1393,7 +1393,7 @@ rattly_main:
 	BRA .sprite_done			;$B38B99  /
 
 .bonus_handler_state:
-	LDA main_level.type			;$B38B9B  \ \ Get level type
+	LDA level[0].type			;$B38B9B  \ \ Get level type
 	CMP #!bonus_level_type			;$B38B9E   | |
 	BEQ .in_bonus_level			;$B38BA1   |/ If bonus then ensure the kong only has one animal
 .no_animal:					;	   |
@@ -1534,7 +1534,7 @@ squawks_main:
 	BRA .sprite_done			;$B38C90  /
 
 .bonus_handler_state:
-	LDA main_level.type			;$B38C92  \ \ Get level type
+	LDA level[0].type			;$B38C92  \ \ Get level type
 	CMP #!bonus_level_type			;$B38C95   | |
 	BEQ .in_bonus_level			;$B38C98   |/ If level is bonus, ensure the kong only has one animal
 .no_animal:					;	   |
@@ -1799,7 +1799,7 @@ else						;	   |
 endif						;	  /
 
 .bonus_handler_state:
-	LDA main_level.type			;$B38E64  \ \ Get level type
+	LDA level[0].type			;$B38E64  \ \ Get level type
 	CMP #!bonus_level_type			;$B38E67   | |
 	BEQ .in_bonus_level			;$B38E6A   |/ If level is bonus, ensure the kong only has one animal
 .no_animal:					;	   |
@@ -2548,7 +2548,7 @@ honey_splash_main:
 	JSL process_sprite_animation		;$B3936F  \ Process animation
 	JML [sprite_return_address]		;$B39373  / Done processing sprite
 
-dkbarrel_main:
+dk_barrel_main:
 	LDX current_sprite			;$B39376  \
 	LDA sprite.constants_address,x		;$B39378   |
 	STA current_sprite_constants		;$B3937A   |
@@ -2686,12 +2686,12 @@ CODE_B3948B:
 	JSL delete_sprite_if_offscreen		;$B39499   |
 	JML [sprite_return_address]		;$B3949D  /
 
-dkbarrel_letters_main:
+dk_barrel_letters_main:
 	LDX current_sprite			;$B394A0  \ Get letters sprite
 	LDA $42,x				;$B394A2   | Get index sprite that spawned it
 	TAY					;$B394A4   | Transfer to Y
 	LDA.w sprite.type,y			;$B394A5   | Get sprite ID
-	CMP #!sprite_dkbarrel			;$B394A8   | Check if it was a DK barrel
+	CMP #!sprite_dk_barrel			;$B394A8   | Check if it was a DK barrel
 	BNE .parent_mismatch			;$B394AB   | If not, a mismatch happened, delete sprite
 	LDA $0048,y				;$B394AD   | Else get index of letter sprite in DK barrel
 	BMI .parent_mismatch			;$B394B0   | If negative (mistake?), delete letter sprite
@@ -2706,7 +2706,7 @@ dkbarrel_letters_main:
 	JSL delete_sprite_handle_deallocation	;$B394C3  \ Delete letters sprite
 	JML [sprite_return_address]		;$B394C7  / Done processing sprite
 
-tntbarrel_main:
+tnt_barrel_main:
 	LDX current_sprite			;$B394CA  \
 	LDA sprite.constants_address,x		;$B394CC   |
 	STA current_sprite_constants		;$B394CE   |
@@ -3032,7 +3032,7 @@ CODE_B396CE:
 ;Dead code
 	RTS					;$B39738  /
 
-barrel_pieces_main:
+barrel_piece_main:
 unknown_sprite_0064_main:
 unknown_sprite_0240_main:
 unknown_sprite_0244_main:
@@ -3074,7 +3074,7 @@ CODE_B39779:					;	   |
 	JSL spawn_no_gfx_special_sprite_index	;$B39783   |
 	RTS					;$B39787  /
 
-animal_box_main:
+animal_crate_main:
 	LDX current_sprite			;$B39788  \ Get animal box sprite
 	LDA sprite.state,x			;$B3978A   | Get current state
 	ASL A					;$B3978C   | *2
@@ -3752,7 +3752,7 @@ CODE_B39CB2:					;	   |
 CODE_B39CD0:					;	   |
 	JMP sprite_return_handle_despawn	;$B39CD0  /
 
-	LDA main_level.type			;$B39CD3   |
+	LDA level[0].type			;$B39CD3   |
 	CMP #!bonus_level_type			;$B39CD6   |
 	BNE CODE_B39CE7				;$B39CD9   |
 	LDX current_sprite			;$B39CDB   |
@@ -4127,7 +4127,7 @@ CODE_B39F88:
 
 CODE_B39F8F:
 	LDA sprite.type,x			;$B39F8F  \
-	CMP #!sprite_dkbarrel			;$B39F91   |
+	CMP #!sprite_dk_barrel			;$B39F91   |
 	BNE CODE_B39FD4				;$B39F94   |
 	PHX					;$B39F96   |
 	JSR get_state_death_and_mounting_flags	;$B39F97   |
@@ -4221,12 +4221,12 @@ animal_despawn_smoke_main:
 	JSL process_sprite_animation		;$B3A037  \ Process animations
 	JML [sprite_return_address]		;$B3A03B  / Done processing sprite
 
-no_animal_buddy_sign_main:
+no_animal_sign_main:
 	LDA parent_level_number			;$B3A03E  \ Get parent level number
 	CMP #!level_toxic_tower			;$B3A041   |
 	BNE .dont_set_flag			;$B3A044   | If not toxic tower, skip setting flag
 	LDA #!climbable_ropes_effect		;$B3A046   |
-	TSB main_level.effects			;$B3A049   | Else enable grabbing ropes
+	TSB level[0].effects			;$B3A049   | Else enable grabbing ropes
 .dont_set_flag:					;	   |
 if !version == 1				;	   |
 	JSR .CODE_B3A0C7			;$B3A04C   | Dead code
@@ -4234,7 +4234,7 @@ endif						;	   |
 	LDX active_kong_sprite			;$B3A04F   | Get kong sprite
 	LDA animal_type				;$B3A052   | Get current animal ID
 	BNE .sprite_found			;$B3A054   | If it exists, player is riding or is transformed
-	LDX #non_kong_sprite_slots		;$B3A056   | Else scan sprite table for standalone animal
+	LDX #sprite_table.slot_3		;$B3A056   | Else scan sprite table for standalone animal
 .continue_scanning:				;	   |
 	LDA sprite.type,x			;$B3A059   |
 	BNE .sprite_found			;$B3A05B   |
@@ -4243,7 +4243,7 @@ endif						;	   |
 	CLC					;$B3A05E   |
 	ADC.w #sizeof(sprite)			;$B3A05F   |
 	TAX					;$B3A062   |
-	CPX #main_sprite_table_end		;$B3A063   |
+	CPX #sprite_table.end			;$B3A063   |
 	BNE .continue_scanning			;$B3A066   | If not at the end of sprite table continue scanning
 	JML sprite_return_handle_despawn	;$B3A068  / Else done processing sprite
 
@@ -5134,7 +5134,7 @@ defeat_sprite_using_animation:
 	STZ sprite.placement_number,x		;$B3A634   |> Clear sprites number in level
 	LDA #$000F				;$B3A636   |\ Set spawn parameter 0F (dead)
 	STA sprite.placement_parameter,x	;$B3A639   |/
-	LDA main_level.effects			;$B3A63B   |\
+	LDA level[0].effects			;$B3A63B   |\
 	AND #!defeated_sprite_priority_effect	;$B3A63E   | |
 	BNE .no_priority			;$B3A641   |/
 	LDA sprite.oam_property,x		;$B3A643   |\
@@ -5152,7 +5152,7 @@ make_sprite_fall_off_screen:
 	STA sprite.constants_address,x		;$B3A657   |/ Use generic constants
 	JSL check_if_sprite_offscreen_global	;$B3A659   |\
 	BCC .done_processing			;$B3A65D   |/ If sprite is on screen then skip splashing
-	LDA main_level.effects			;$B3A65F   |\
+	LDA level[0].effects			;$B3A65F   |\
 	AND #!offscreen_water_splash_effect	;$B3A662   | |
 	BNE .handle_splashing			;$B3A665   |/ If sprite splash level effect is enabled, handle splashing
 	JSL delete_sprite_handle_deallocation	;$B3A667   |> Else despawn sprite
@@ -5228,7 +5228,7 @@ CODE_B3A6DC:
 	CPY #!music_swamp			;$B3A6F4   |
 	BEQ CODE_B3A734				;$B3A6F7   |
 	LDY #$004C				;$B3A6F9   |
-	LDA main_level.tileset_type		;$B3A6FC   |
+	LDA level[0].tileset_type		;$B3A6FC   |
 	CMP #!ship_deck_layout_id		;$B3A6FF   |
 	BEQ CODE_B3A707				;$B3A702   |
 	LDY #!special_sprite_spawn_id_000C	;$B3A704   | lava/water splash
@@ -5817,7 +5817,7 @@ CODE_B3ABA9:
 	JML barrel_main				;$B3ABAE  /
 
 CODE_B3ABB2:
-	JML tntbarrel_main			;$B3ABB2  /
+	JML tnt_barrel_main			;$B3ABB2  /
 
 CODE_B3ABB6:
 	LDA #$8000				;$B3ABB6  \
@@ -5830,9 +5830,9 @@ CODE_B3ABB6:
 	JML barrel_main				;$B3ABCA  /
 
 CODE_B3ABCE:
-	LDA #!sprite_tntbarrel			;$B3ABCE  \
+	LDA #!sprite_tnt_barrel			;$B3ABCE  \
 	STA.w sprite.type,y			;$B3ABD1   |
-	JML tntbarrel_main			;$B3ABD4  /
+	JML tnt_barrel_main			;$B3ABD4  /
 
 CODE_B3ABD8:
 	LDX current_sprite			;$B3ABD8  \
@@ -9212,7 +9212,7 @@ CODE_B3C3FC:
 	JSL delete_sprite_handle_deallocation	;$B3C3FC  \
 	JML [sprite_return_address]		;$B3C400  /
 
-extra_life_balloon_main:
+life_balloon_main:
 	JSR sprite_state_handler_B3		;$B3C403  /
 
 .state_table:
@@ -12975,7 +12975,7 @@ CODE_B3DF88:					;	   |
 	JMP CODE_B3D916				;$B3DF8A  /
 
 CODE_B3DF8D:
-	LDA main_level.type			;$B3DF8D  \
+	LDA level[0].type			;$B3DF8D  \
 	CMP #!small_level_type			;$B3DF90   |
 	BNE CODE_B3DF99				;$B3DF93   |
 	LDA animal_type				;$B3DF95   |
@@ -13395,7 +13395,7 @@ CODE_B3E287:
 	RTL					;$B3E28A  /
 
 CODE_B3E28B:
-	LDA main_level.effects			;$B3E28B  \
+	LDA level[0].effects			;$B3E28B  \
 	AND #!door_occlusion_effect		;$B3E28E   |
 	BEQ CODE_B3E2A6				;$B3E291   |
 	LDX active_kong_sprite			;$B3E293   |
@@ -14428,9 +14428,9 @@ barrel_cannon_code:
 if !version == 1				;	   |
 	PHX					;$B3EA0D   |
 	LDX active_kong_sprite			;$B3EA0E   |
-	LDA animal_buddy_palette_numbers,y	;$B3EA11   |
+	LDA animal_palette_numbers,y		;$B3EA11   |
 else						;	   |
-	LDA animal_buddy_palette_numbers,y	;$B3EA0D   |
+	LDA animal_palette_numbers,y		;$B3EA0D   |
 	PHX					;$B3EA0E   |
 	LDX active_kong_sprite			;$B3EA11   |
 endif						;	   |
@@ -14882,7 +14882,7 @@ CODE_B3ED4E:
 	SEC					;$B3ED50   |
 	RTS					;$B3ED51  /
 
-animal_buddy_palette_numbers:
+animal_palette_numbers:
 	dw !squitter_sprite_palette
 	dw !rattly_sprite_palette
 	dw !squawks_sprite_palette

@@ -193,7 +193,7 @@ kudgel_sprite_code:
 	LDY $074F				;$B68186  \
 	BEQ ..return				;$B68189   |
 	LDA.w sprite.type,y			;$B6818B   |
-	CMP #!sprite_tntbarrel			;$B6818E   |
+	CMP #!sprite_tnt_barrel			;$B6818E   |
 	BEQ ..return				;$B68191   |
 	CMP #!sprite_kleever_falling_canball	;$B68193   |
 	BEQ ..return				;$B68196   |
@@ -281,7 +281,7 @@ kudgel_sprite_code:
 	BCC .return				;$B68232   |
 	LDY colliding_sprite			;$B68234   | Get sprite we collided with
 	LDA.w sprite.type,y			;$B68236   |
-	CMP #!sprite_tntbarrel			;$B68239   |
+	CMP #!sprite_tnt_barrel			;$B68239   |
 	BNE .return				;$B6823C   | If not a TNT barrel, return
 	LDA.w sprite.x_speed,y			;$B6823E   | Else get sprite`s current X speed
 	BNE .set_attack_animation		;$B68241   | If it has any X velocity, skip held sprite check
@@ -310,7 +310,7 @@ kudgel_sprite_code:
 	BCC .return				;$B68272   |
 	LDY colliding_sprite			;$B68274   |
 	LDA.w sprite.type,y			;$B68276   |
-	CMP #!sprite_tntbarrel			;$B68279   |
+	CMP #!sprite_tnt_barrel			;$B68279   |
 	BNE .return				;$B6827C   |
 	LDA.w sprite.x_speed,y			;$B6827E   |
 	BNE .return				;$B68281   |
@@ -1475,7 +1475,7 @@ CODE_B68FD8:
 	LDY $073B				;$B68FD8  \
 	BEQ CODE_B68FE8				;$B68FDB   |
 	LDA $0000,y				;$B68FDD   |
-	CMP #!sprite_dkbarrel			;$B68FE0   |
+	CMP #!sprite_dk_barrel			;$B68FE0   |
 	BEQ CODE_B68FE8				;$B68FE3   |
 	STZ $073B				;$B68FE5   |
 CODE_B68FE8:					;	   |
@@ -6268,7 +6268,7 @@ CODE_B6BD32:					;	   |
 	BCC CODE_B6BD6F				;$B6BD40   |
 	LDY colliding_sprite			;$B6BD42   |
 	LDA.w sprite.type,y			;$B6BD44   |
-	CMP #!sprite_tntbarrel			;$B6BD47   |
+	CMP #!sprite_tnt_barrel			;$B6BD47   |
 	BNE CODE_B6BD6F				;$B6BD4A   |
 	LDA $0020,y				;$B6BD4C   |
 	BNE CODE_B6BD6F				;$B6BD4F   |
@@ -7881,11 +7881,11 @@ boss_command_code_01:
 	LDA $2E,x				;$B6C9A5   |
 	ORA #$0002				;$B6C9A7   |
 	STA $2E,x				;$B6C9AA   |
-	LDA #$0203				;$B6C9AC   |
+	LDA #!krow_body_turn_anim_id		;$B6C9AC   |
 	STA $1E,x				;$B6C9AF   |
 	STZ $44,x				;$B6C9B1   |
 	LDY $42,x				;$B6C9B3   |
-	LDA #$0206				;$B6C9B5   |
+	LDA #!krow_head_turn_anim_id		;$B6C9B5   |
 	STA $001E,y				;$B6C9B8   |
 	STZ $44,x				;$B6C9BB   |
 	PLA					;$B6C9BD   |
@@ -11255,6 +11255,7 @@ DATA_B6E3AA:
 	dw $FFFE, $0000
 	dw $FFFE, $0000
 	dw $FFFE, $0000
+DATA_B6E3AA_end:
 
 ;kleever shake offsets (used to make kleever shake slightly when hit)
 ;second 2 phases (in air)
@@ -11266,6 +11267,7 @@ DATA_B6E3C2:
 	dw $FFFE, $FFFF
 	dw $FFFE, $FFFF
 	dw $FFFE, $FFFF
+DATA_B6E3C2_end:
 
 ;kleever shake offsets (used to make kleever shake slightly when defeated)
 ;when defeated before exploding
@@ -11275,7 +11277,7 @@ DATA_B6E3DA:
 	dw $0005, $0000
 	dw $0005, $0000
 	dw $FFFB, $0000
-DATA_B6E3EA:
+DATA_B6E3DA_end:
 
 CODE_B6E3EA:
 	LDX current_sprite			;$B6E3EA  \
@@ -12299,7 +12301,7 @@ kleever_attack_pattern_table:
 	dw $0000				;flying chase speed
 	dw $0000				;delay before next fireball sequence
 	dw $0000				;delay between each fireball shot
-	dw DATA_B6E3DA, DATA_B6E3EA		;stun shake offset sequence to use (start/end)
+	dw DATA_B6E3DA, DATA_B6E3DA_end		;stun shake offset sequence to use (start/end)
 	dw $0000
 	dw $0000
 
@@ -12310,7 +12312,7 @@ kleever_attack_pattern_table:
 	dw $0160				;flying chase speed
 	dw $0000				;delay before next fireball sequence
 	dw $0000				;delay between each fireball shot
-	dw DATA_B6E3C2, DATA_B6E3DA		;stun shake offset sequence to use (start/end)
+	dw DATA_B6E3C2, DATA_B6E3C2_end		;stun shake offset sequence to use (start/end)
 	dw $0000
 	dw $0000
 
@@ -12321,7 +12323,7 @@ kleever_attack_pattern_table:
 	dw $0148				;flying chase speed
 	dw $0000				;delay before next fireball sequence
 	dw $0000				;delay between each fireball shot
-	dw DATA_B6E3C2, DATA_B6E3DA		;stun shake offset sequence to use (start/end)
+	dw DATA_B6E3C2, DATA_B6E3C2_end		;stun shake offset sequence to use (start/end)
 	dw $0000
 	dw $0000
 
@@ -12332,7 +12334,7 @@ kleever_attack_pattern_table:
 	dw $0130				;flying chase speed
 	dw $0000				;delay before next fireball sequence
 	dw $0000				;delay between each fireball shot
-	dw DATA_B6E3AA, DATA_B6E3C2		;stun shake offset sequence to use (start/end)
+	dw DATA_B6E3AA, DATA_B6E3AA_end		;stun shake offset sequence to use (start/end)
 	dw $0000
 	dw $0000
 
@@ -12343,7 +12345,7 @@ kleever_attack_pattern_table:
 	dw $01A0				;flying chase speed
 	dw $00B4				;delay before next fireball sequence
 	dw $0041				;delay between each fireball shot
-	dw DATA_B6E3AA, DATA_B6E3C2		;stun shake offset sequence to use (start/end)
+	dw DATA_B6E3AA, DATA_B6E3AA_end		;stun shake offset sequence to use (start/end)
 	dw $0003
 	dw $0005
 
@@ -12354,7 +12356,7 @@ kleever_attack_pattern_table:
 	dw $01A0				;flying chase speed
 	dw $00C8				;delay before next fireball sequence
 	dw $0055				;delay between each fireball shot
-	dw DATA_B6E3AA, DATA_B6E3C2		;stun shake offset sequence to use (start/end)
+	dw DATA_B6E3AA, DATA_B6E3AA_end		;stun shake offset sequence to use (start/end)
 	dw $0003
 	dw $0006
 
@@ -13167,7 +13169,7 @@ CODE_B6F2CE:
 	LDX $0654				;$B6F2D3   |
 	STX current_sprite			;$B6F2D6   |
 	JSR CODE_B6F8F3				;$B6F2D8   |
-	LDA #$0205				;$B6F2DB   |
+	LDA #!krow_head_swoop_attack_anim_id	;$B6F2DB   |
 	STA $00065E				;$B6F2DE   |
 	LDA $2E,x				;$B6F2E2   |
 	BIT #$0020				;$B6F2E4   |

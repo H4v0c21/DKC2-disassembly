@@ -215,7 +215,7 @@ coins_sprite_code:
 
 .spawn_in_bonus:
 if !version == 1				;	  \
-	LDA main_level.bonus_type		;$BEB992   |
+	LDA level[0].bonus_type			;$BEB992   |
 	AND #$00FF				;$BEB995   |
 	CMP #!find_the_token_bonus_type		;$BEB998   |
 	BNE .no_sound_effect			;$BEB99B   |
@@ -795,7 +795,7 @@ CODE_BEBD92:
 	CLC					;$BEBDB5   |
 	ADC current_sprite			;$BEBDB6   |
 	SEC					;$BEBDB8   |
-	SBC #aux_sprite_table			;$BEBDB9   |
+	SBC #sprite_table.slot_0		;$BEBDB9   |
 	STA $0034,y				;$BEBDBC   |
 	SEC					;$BEBDBF   |
 CODE_BEBDC0:					;	   |
@@ -855,7 +855,7 @@ check_throwable_collision:
 	LDA $34,x				;$BEBE24   |
 	AND #$3FFF				;$BEBE26   |
 	CLC					;$BEBE29   |
-	ADC #aux_sprite_table			;$BEBE2A   |
+	ADC #sprite_table.slot_0		;$BEBE2A   |
 	STA colliding_sprite			;$BEBE2D   |
 	LDA $5E					;$BEBE2F   |
 	BIT $60					;$BEBE31   |
@@ -1776,7 +1776,7 @@ CODE_BEC48C:					;	   |
 	CLC					;$BEC49F   |
 	ADC current_sprite			;$BEC4A0   |
 	SEC					;$BEC4A2   |
-	SBC #aux_sprite_table			;$BEC4A3   |
+	SBC #sprite_table.slot_0		;$BEC4A3   |
 	STA $0034,y				;$BEC4A6   |
 	LDA $0030,y				;$BEC4A9   |
 	AND #$FFFD				;$BEC4AC   |
@@ -1789,7 +1789,7 @@ CODE_BEC4B7:
 	BRL CODE_BEBEA3				;$BEC4B7  /
 
 CODE_BEC4BA:
-	LDA main_level.type			;$BEC4BA  \
+	LDA level[0].type			;$BEC4BA  \
 	CMP #!bonus_level_type			;$BEC4BD   |
 	BEQ .fail_bonus				;$BEC4C0   |
 	TYA					;$BEC4C2   |
@@ -2236,7 +2236,7 @@ CODE_BEC7FB:
 	STA $0D9E				;$BEC80A   |
 	STZ $0DA0				;$BEC80D   |
 	TYA					;$BEC810   |
-	LDY #aux_sprite_table			;$BEC811   |
+	LDY #sprite_table.slot_0		;$BEC811   |
 	JSL CODE_B59CAE				;$BEC814   |
 	LDA $0D9C				;$BEC818   |
 	STA life_display_graphic_copy		;$BEC81B   |
@@ -2472,7 +2472,7 @@ DATA_BEC9B0:
 CODE_BEC9C0:
 	LDA $0915				;$BEC9C0  \
 	BEQ CODE_BEC9CD				;$BEC9C3   |
-	LDA main_level.logic_number		;$BEC9C5   |
+	LDA level[0].game_sub_mode		;$BEC9C5   |
 	CMP #$0019				;$BEC9C8   |
 	BEQ CODE_BEC9D0				;$BEC9CB   |
 CODE_BEC9CD:					;	   |

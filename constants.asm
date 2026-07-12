@@ -4083,7 +4083,7 @@
 !kleever_idle_anim_id					= $0210
 !kleever_arm_idle_anim_id				= $0211
 !kleever_shoot_fire_anim_id				= $0212
-!kleever_arm_shoot_fire_anim_id			= $0213
+!kleever_arm_shoot_fire_anim_id				= $0213
 !kleever_fireball_anim_id				= $0214
 !kleever_turn_anim_id					= $0215
 !kleever_arm_turn_anim_id				= $0216
@@ -4141,7 +4141,7 @@
 !donkey_punch_anim_id					= $024A
 !krool_melee_donkey_anim_id				= $024B
 !krool_gun_melee_donkey_anim_id				= $024C
-!krool_melee_donkey_2_anim_id			= $024D
+!krool_melee_donkey_2_anim_id				= $024D
 !krool_gun_melee_donkey_2_anim_id			= $024E
 !donkey_rope_upper_anim_id				= $024F
 !krool_shoot_donkey_anim_id				= $0250
@@ -4369,7 +4369,7 @@
 !boss_command_1E			= $1E
 !boss_command_1F			= $1F
 !boss_command_20			= $20
-!boss_command_21			= $21
+!boss_command_21			= $21	;Set y position to trigger next kreepy krow phase
 !boss_command_22			= $22
 !boss_command_23			= $23
 !boss_command_24			= $24
@@ -5104,7 +5104,7 @@
 !level_kroc_kore_krem_quay_lost_world			= $00CF
 !level_kroc_kore_krazy_kremland_lost_world		= $00D0
 !level_kroc_kore_gloomy_gulch_lost_world		= $00D1
-!level_kroc_kore_krools_keep_lost_world		= $00D2
+!level_kroc_kore_krools_keep_lost_world			= $00D2
 
 !ret_from_k_kore_lvl_range_start			= $00C4
 !ret_from_k_kore_lvl_range_end				= $00C9
@@ -5445,7 +5445,7 @@
 !sprite_krool_water_drips		= $0054
 !sprite_puftup_spikes			= $0058
 !sprite_lilypad				= $005C
-!sprite_barrel_pieces			= $0060
+!sprite_barrel_piece			= $0060
 !sprite_unknown_0064			= $0064
 !sprite_king_zing_spikes		= $0068
 !sprite_kannon				= $006C
@@ -5492,7 +5492,7 @@
 !sprite_rain_cloud			= $0110
 !sprite_unknown_0114			= $0114
 !sprite_web_platform			= $0118
-!sprite_dkbarrel_letters		= $011C
+!sprite_dk_barrel_letters		= $011C
 !sprite_barrel_icons			= $0120
 !sprite_breakable_wall			= $0124
 !sprite_rideable_balloon		= $0128
@@ -5503,7 +5503,7 @@
 !sprite_cannon				= $013C
 !sprite_barrel_cannon			= $0140
 !sprite_kleever_canball			= $0144
-!sprite_animal_box			= $0148
+!sprite_animal_crate			= $0148
 !sprite_hook				= $014C
 !sprite_invincibility_barrel		= $0150
 !sprite_checkpoint_barrel		= $0154
@@ -5515,7 +5515,7 @@
 !sprite_level_goal_prize		= $016C
 !sprite_bananas				= $0170
 !sprite_kong_letter			= $0174
-!sprite_extra_life_balloon		= $0178
+!sprite_life_balloon			= $0178
 !sprite_kleever_falling_canball		= $017C
 !sprite_krochead_switch_barrel		= $0180
 !sprite_scroll_and_float_barrel		= $0184
@@ -5527,11 +5527,11 @@
 !sprite_rambi				= $019C
 !sprite_enguarde			= $01A0
 !sprite_barrel				= $01A4
-!sprite_dkbarrel			= $01A8
+!sprite_dk_barrel			= $01A8
 !sprite_klobber				= $01AC
 !sprite_canball				= $01B0
 !sprite_krows_egg			= $01B4
-!sprite_tntbarrel			= $01B8
+!sprite_tnt_barrel			= $01B8
 !sprite_wooden_box			= $01BC
 !sprite_chest				= $01C0
 !sprite_kreepy_krows_eggs		= $01C4
@@ -5563,7 +5563,7 @@
 !sprite_kreepy_krows_body		= $022C
 !sprite_kreepy_krows_head		= $0230
 !sprite_shuri				= $0234
-!sprite_burst_effect			= $0238
+!sprite_contact_flash			= $0238
 !sprite_unknown_023C			= $023C
 !sprite_unknown_0240			= $0240
 !sprite_unknown_0244			= $0244
@@ -5571,7 +5571,7 @@
 !sprite_explosion_cloud			= $024C
 !sprite_fireworks			= $0250
 !sprite_ghost_rope			= $0254
-!sprite_no_animal_buddy_sign		= $0258
+!sprite_no_animal_sign			= $0258
 !sprite_krook				= $025C
 !sprite_krooks_hook			= $0260
 !sprite_krool				= $0264
@@ -5926,7 +5926,7 @@
 !life_balloon_red_sprite_palette		= $0018
 !life_balloon_green_sprite_palette		= $0019
 !life_balloon_blue_sprite_palette		= $001A
-!no_animal_buddy_sign_sprite_palette		= $001B
+!no_animal_sign_sprite_palette			= $001B
 !neek_sprite_palette				= $001C
 !cat_09_tails_sprite_palette			= $001D
 !mini_necky_sprite_palette			= $001E
