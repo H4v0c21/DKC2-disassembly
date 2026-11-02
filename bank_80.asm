@@ -827,17 +827,17 @@ clear_wram_tables:
 	dw active_sprite_palettes_table, $0010
 	dw sprite_palette_reference_count, $0010
 	dw spawn_group_manager_table, $0040
-	dw $0929, $0002
-	dw $092B, $0002
-	dw $092D, $0002
-	dw $0923, $0002
+	dw firework_cgram_palette_address, $0002
+	dw next_free_firework_slot, $0002
+	dw firework_sprite_limit, $0002
+	dw conditional_sprite_spawning_flag, $0002
 	dw level, sizeof(level)
-	dw $095B, $0008
-	dw $0963, $0008
-	dw water_current_y_velocity, $0002
+	dw RAM_095B, $0008
+	dw RAM_0963, $0008
+	dw water_current_y_speed, $0002
 	dw glimmer_sprite, $0002
-	dw $091B, $0002
-	dw $0919, $0002
+	dw kong_palette_effects, $0002
+	dw krool_gas_effects_1, $0002
 	dw RAM_0B02, $0002
 	dw $FFFF
 
@@ -882,12 +882,12 @@ input_and_pause_handler_global:
 	LDA RAM_0B02				;$80899A   |\
 	AND #$0020				;$80899D   | |
 	BEQ .update_player_inputs		;$8089A0   |/ If the player isnt slowed then update inputs normally
-	LDA $0927				;$8089A2   |\
+	LDA slow_gas_input_physics_tick_timer	;$8089A2   |\
 	BPL .update_slow_timer_and_inputs	;$8089A5   |/ If positive then process inputs this frame
 	LDA #$0100				;$8089A7   |\
 	CLC					;$8089AA   | |
-	ADC $0927				;$8089AB   | |
-	STA $0927				;$8089AE   |/
+	ADC slow_gas_input_physics_tick_timer	;$8089AB   | |
+	STA slow_gas_input_physics_tick_timer	;$8089AE   |/
 	LDA #$0002				;$8089B1   |\
 	TSB RAM_0B02				;$8089B4   |/
 	LDA player_active_pressed		;$8089B7   |\
@@ -897,8 +897,8 @@ input_and_pause_handler_global:
 
 .update_slow_timer_and_inputs:
 	SEC					;$8089C2  \
-	SBC $0925				;$8089C3   |
-	STA $0927				;$8089C6   |
+	SBC slow_gas_input_physics_tick_rate	;$8089C3   |
+	STA slow_gas_input_physics_tick_timer	;$8089C6   |
 .update_player_inputs:				;	   |
 	LDA CPU.port_0_data_1			;$8089C9   |
 	TAX					;$8089CC   |
@@ -1412,7 +1412,7 @@ init_npc_screen_kongs:
 	LDA.l dixie_kong_constants		;$808DBB   |\
 	STA dixie_control_variables+$8		;$808DBF   |/ Set dixie's gravity
 	LDA.l DATA_FF012C			;$808DC2   |\
-	STA dixie_control_variables+$A		;$808DC6   |/ Set dixie's terminal velocity
+	STA dixie_control_variables+$A		;$808DC6   |/ Set dixie's max fall speed
 	LDX active_kong_sprite			;$808DC9   |> Work on active kong
 	LDA #$001D				;$808DCC   |\
 	STA sprite.state,x			;$808DCF   |/ Set active kong to npc screen state
@@ -1438,14 +1438,14 @@ init_npc_screen_kongs:
 CODE_808DFB:
 	RTS					;$808DFB  /
 
-	LDA #$0101				;$808DFC   |
+	LDA #$0101				;$808DFC  \
 	STA sprite.terrain_interaction,x	;$808DFF   |
 	STZ sprite.ground_distance,x		;$808E01   |
 	LDA sprite.y_position,x			;$808E03   |
 	STA sprite.ground_y_position,x		;$808E05   |
 	RTS					;$808E07  /
 
-	LDA #$8000				;$808E08   |
+	LDA #$8000				;$808E08  \
 	ORA game_state_flags			;$808E0B   |
 	STA game_state_flags			;$808E0E   |
 	LDA #$0000				;$808E11   |
@@ -6090,7 +6090,7 @@ CODE_80B8BD:					;	   |
 	LDA level[0].tileset_type		;$80B8BD   |
 	CMP #!ice_1_layout_id			;$80B8C0   |
 	BNE CODE_80B8CF				;$80B8C3   |
-	LDA $0915				;$80B8C5   |
+	LDA water_safe_timer			;$80B8C5   |
 	BEQ CODE_80B8CF				;$80B8C8   |
 	LDA #$0000				;$80B8CA   |
 	BRA CODE_80B8D2				;$80B8CD  /
@@ -6125,7 +6125,7 @@ CODE_80B8F4:					;	   |
 	LDA level[0].tileset_type		;$80B902   |
 	CMP #!ice_1_layout_id			;$80B905   |
 	BNE CODE_80B914				;$80B908   |
-	LDA $0915				;$80B90A   |
+	LDA water_safe_timer			;$80B90A   |
 	BEQ CODE_80B914				;$80B90D   |
 	LDA #$0000				;$80B90F   |
 	BRA CODE_80B916				;$80B912  /
@@ -6453,7 +6453,7 @@ ship_mast_rain_nmi_sub_mode:
 
 roller_coaster_nmi_sub_mode:
 	JSR dma_level_and_sprite_graphics	;$80BBD5  \
-	LDA $0929				;$80BBD8   |
+	LDA firework_cgram_palette_address	;$80BBD8   |
 	BEQ CODE_80BBF7				;$80BBDB   |
 	TAY					;$80BBDD   |
 	LDA active_frame_counter		;$80BBDE   |
@@ -6796,9 +6796,9 @@ CODE_80BF1A:					;	   |
 	STA $7E8013				;$80BF1A   |
 	LDA screen_scroll_y_position		;$80BF1E   |
 	CLC					;$80BF21   |
-	ADC.w #sizeof(sprite)			;$80BF22   |
+	ADC #$005E				;$80BF22   |
 	SEC					;$80BF25   |
-	SBC $0AFE				;$80BF26   |
+	SBC camera_0AFE				;$80BF26   |
 	BPL CODE_80BF2E				;$80BF29   |
 	LDA #$0000				;$80BF2B   |
 CODE_80BF2E:					;	   |
@@ -7052,7 +7052,7 @@ CODE_80C134:					;	   |
 	BRA CODE_80C146				;$80C13F  /
 
 CODE_80C141:
-	LDA $0B00				;$80C141  \
+	LDA sprite_dma_buffer_limit_temp	;$80C141  \
 	STA sprite_dma_buffer_limit		;$80C144   |
 CODE_80C146:					;	   |
 	LDA screen_scroll_x_position		;$80C146   |
@@ -7110,13 +7110,13 @@ CODE_80C1B2:
 	LDA active_frame_counter		;$80C1B2  \
 	BIT #$0003				;$80C1B4   |
 	BNE CODE_80C1E5				;$80C1B7   |
-	LDA $091D				;$80C1B9   |
+	LDA castle_torch_swanky_lights_index	;$80C1B9   |
 	INC A					;$80C1BC   |
 	CMP #$0006				;$80C1BD   |
 	BCC CODE_80C1C5				;$80C1C0   |
 	LDA #$0000				;$80C1C2   |
 CODE_80C1C5:					;	   |
-	STA $091D				;$80C1C5   |
+	STA castle_torch_swanky_lights_index	;$80C1C5   |
 	LDX #$2010				;$80C1C8   |
 	STX PPU.vram_address			;$80C1CB   |
 	ASL A					;$80C1CE   |
@@ -7125,7 +7125,7 @@ CODE_80C1C5:					;	   |
 	LDY #$0380				;$80C1D4   |
 	LDX.w #castle_torch_tiledata_frame1>>16	;$80C1D7   |
 	JSL dma_to_vram_global			;$80C1DA   |
-	LDA $0B00				;$80C1DE   |
+	LDA sprite_dma_buffer_limit_temp	;$80C1DE   |
 	STA sprite_dma_buffer_limit		;$80C1E1   |
 	BRA CODE_80C1F0				;$80C1E3  /
 
@@ -7209,7 +7209,7 @@ haunted_nmi_sub_mode:
 	JSR dma_level_and_sprite_graphics	;$80C26B  \
 	JSR update_kackle_graphics		;$80C26E   |
 	LDA #$0100				;$80C271   |
-	LDX $0D5A				;$80C274   |
+	LDX kackle_sprite			;$80C274   |
 	BEQ CODE_80C288				;$80C277   |
 	LDY $12,x				;$80C279   |
 	STY PPU.screens				;$80C27B   |
@@ -7490,16 +7490,16 @@ ship_hold_hot_nmi_sub_mode:
 	LDA game_state_flags			;$80C4BD   |
 	BIT #$0140				;$80C4C0   |
 	BNE CODE_80C4F8				;$80C4C3   |
-	LDA $0915				;$80C4C5   |
+	LDA water_safe_timer			;$80C4C5   |
 	BEQ CODE_80C4CD				;$80C4C8   |
-	DEC $0915				;$80C4CA   |
+	DEC water_safe_timer			;$80C4CA   |
 CODE_80C4CD:					;	   |
-	LDA $0915				;$80C4CD   |
+	LDA water_safe_timer			;$80C4CD   |
 	SEC					;$80C4D0   |
-	SBC $0917				;$80C4D1   |
+	SBC water_safe_visual_timer		;$80C4D1   |
 	BEQ CODE_80C4F8				;$80C4D4   |
 	BCS CODE_80C4DD				;$80C4D6   |
-	DEC $0917				;$80C4D8   |
+	DEC water_safe_visual_timer		;$80C4D8   |
 	BRA CODE_80C4F8				;$80C4DB  /
 
 CODE_80C4DD:
@@ -7510,14 +7510,14 @@ CODE_80C4DD:
 CODE_80C4E8:					;	   |
 	TXA					;$80C4E8   |
 	CLC					;$80C4E9   |
-	ADC $0917				;$80C4EA   |
+	ADC water_safe_visual_timer		;$80C4EA   |
 	CMP #$0040				;$80C4ED   |
 	BNE CODE_80C4F5				;$80C4F0   |
 	LDA #$00B4				;$80C4F2   |
 CODE_80C4F5:					;	   |
-	STA $0917				;$80C4F5   |
+	STA water_safe_visual_timer		;$80C4F5   |
 CODE_80C4F8:					;	   |
-	LDA $0917				;$80C4F8   |
+	LDA water_safe_visual_timer		;$80C4F8   |
 	CMP #$003F				;$80C4FB   |
 	BCC CODE_80C50B				;$80C4FE   |
 	SEC					;$80C500   |
@@ -7698,16 +7698,16 @@ ice_water_nmi_sub_mode:
 	LDA game_state_flags			;$80C68F   |
 	BIT #$0140				;$80C692   |
 	BNE CODE_80C6CA				;$80C695   |
-	LDA $0915				;$80C697   |
+	LDA water_safe_timer			;$80C697   |
 	BEQ CODE_80C69F				;$80C69A   |
-	DEC $0915				;$80C69C   |
+	DEC water_safe_timer			;$80C69C   |
 CODE_80C69F:					;	   |
-	LDA $0915				;$80C69F   |
+	LDA water_safe_timer			;$80C69F   |
 	SEC					;$80C6A2   |
-	SBC $0917				;$80C6A3   |
+	SBC water_safe_visual_timer		;$80C6A3   |
 	BEQ CODE_80C6CA				;$80C6A6   |
 	BCS CODE_80C6AF				;$80C6A8   |
-	DEC $0917				;$80C6AA   |
+	DEC water_safe_visual_timer		;$80C6AA   |
 	BRA CODE_80C6CA				;$80C6AD  /
 
 CODE_80C6AF:
@@ -7718,14 +7718,14 @@ CODE_80C6AF:
 CODE_80C6BA:					;	   |
 	TXA					;$80C6BA   |
 	CLC					;$80C6BB   |
-	ADC $0917				;$80C6BC   |
+	ADC water_safe_visual_timer		;$80C6BC   |
 	CMP #$0040				;$80C6BF   |
 	BNE CODE_80C6C7				;$80C6C2   |
 	LDA #$00B4				;$80C6C4   |
 CODE_80C6C7:					;	   |
-	STA $0917				;$80C6C7   |
+	STA water_safe_visual_timer		;$80C6C7   |
 CODE_80C6CA:					;	   |
-	LDA $0917				;$80C6CA   |
+	LDA water_safe_visual_timer		;$80C6CA   |
 	CMP #$003F				;$80C6CD   |
 	BCC CODE_80C6DD				;$80C6D0   |
 	SEC					;$80C6D2   |
@@ -8102,7 +8102,7 @@ CODE_80C9B3:					;	   |
 	RTS					;$80CA1A  /
 
 CODE_80CA1B:
-	LDA $0D54				;$80CA1B  \
+	LDA crush_floor_y_position		;$80CA1B  \
 	SEC					;$80CA1E   |
 	SBC screen_scroll_y_position		;$80CA1F   |
 	CMP #$0038				;$80CA22   |
@@ -8276,14 +8276,14 @@ CODE_80CB13:					;	   |
 	REP #$20				;$80CB84   |
 	LDX #$0000				;$80CB86   |
 CODE_80CB89:					;	   |
-	LDA $095B,x				;$80CB89   |
+	LDA RAM_095B,x				;$80CB89   |
 	BEQ CODE_80CBA0				;$80CB8C   |
 	BIT #$4000				;$80CB8E   |
 	BNE CODE_80CB9D				;$80CB91   |
 	LDA active_frame_counter		;$80CB93   |
 	AND #$0003				;$80CB95   |
 	BNE CODE_80CBA0				;$80CB98   |
-	LDA $095B,x				;$80CB9A   |
+	LDA RAM_095B,x				;$80CB9A   |
 CODE_80CB9D:					;	   |
 	JSR CODE_80CBB1				;$80CB9D   |
 CODE_80CBA0:					;	   |
@@ -8558,14 +8558,14 @@ update_lava_bubble_graphics:
 	LDA active_frame_counter		;$80CDAE  \
 	AND #$0003				;$80CDB0   |
 	BNE CODE_80CDC7				;$80CDB3   |
-	LDA $0957				;$80CDB5   |
+	LDA lava_bubble_gfx_index		;$80CDB5   |
 	CLC					;$80CDB8   |
 	ADC #$0002				;$80CDB9   |
 	CMP #$001E				;$80CDBC   |
 	BNE CODE_80CDC4				;$80CDBF   |
 	LDA #$0000				;$80CDC1   |
 CODE_80CDC4:					;	   |
-	STA $0957				;$80CDC4   |
+	STA lava_bubble_gfx_index		;$80CDC4   |
 CODE_80CDC7:					;	   |
 	LDA active_frame_counter		;$80CDC7   |
 	AND #$0003				;$80CDC9   |
@@ -8579,7 +8579,7 @@ CODE_80CDC7:					;	   |
 CODE_80CDDB:
 	LDA #$2010				;$80CDDB  \
 	STA PPU.vram_address			;$80CDDE   |
-	LDA $0957				;$80CDE1   |
+	LDA lava_bubble_gfx_index		;$80CDE1   |
 	TAX					;$80CDE4   |
 	LDA DATA_80CED3,x			;$80CDE5   |
 	STA DMA[0].source			;$80CDE8   |
@@ -8599,7 +8599,7 @@ CODE_80CDDB:
 CODE_80CE09:
 	LDA #$2270				;$80CE09  \
 	STA PPU.vram_address			;$80CE0C   |
-	LDA $0957				;$80CE0F   |
+	LDA lava_bubble_gfx_index		;$80CE0F   |
 	TAX					;$80CE12   |
 	LDA DATA_80CE97,x			;$80CE13   |
 	STA DMA[0].source			;$80CE16   |
@@ -8619,7 +8619,7 @@ CODE_80CE09:
 CODE_80CE37:
 	LDA #$20D0				;$80CE37  \
 	STA PPU.vram_address			;$80CE3A   |
-	LDA $0957				;$80CE3D   |
+	LDA lava_bubble_gfx_index		;$80CE3D   |
 	TAX					;$80CE40   |
 	LDA DATA_80CEB5,x			;$80CE41   |
 	STA DMA[0].source			;$80CE44   |
@@ -8639,7 +8639,7 @@ CODE_80CE37:
 CODE_80CE65:
 	LDA #$21A0				;$80CE65  \
 	STA PPU.vram_address			;$80CE68   |
-	LDA $0957				;$80CE6B   |
+	LDA lava_bubble_gfx_index		;$80CE6B   |
 	TAX					;$80CE6E   |
 	LDA DATA_80CEB5,x			;$80CE6F   |
 	CLC					;$80CE72   |
@@ -9176,18 +9176,18 @@ handle_water_velocities:
 	LDA game_state_flags			;$80D4FA  \
 	AND #$0140				;$80D4FD   |
 	BNE .return				;$80D500   |
-	LDA water_target_y_velocity		;$80D502   |
-	ORA water_current_y_velocity		;$80D505   |
+	LDA water_target_y_speed		;$80D502   |
+	ORA water_current_y_speed		;$80D505   |
 	BEQ .return				;$80D508   |
-	LDA water_current_y_velocity		;$80D50A   |
+	LDA water_current_y_speed		;$80D50A   |
 	CMP #$8000				;$80D50D   |
 	BEQ .CODE_80D547			;$80D510   |
 	LDA #dummy_level_sprite_table		;$80D512   |
 	STA current_sprite			;$80D515   |
 	LDA #$0007				;$80D517   |
-	JSL interpolate_y_velocity_global	;$80D51A   |
+	JSL interpolate_y_speed_global		;$80D51A   |
 	LDX #$0000				;$80D51E   |
-	LDA water_current_y_velocity		;$80D521   |
+	LDA water_current_y_speed		;$80D521   |
 	BPL .CODE_80D527			;$80D524   |
 	DEX					;$80D526   |
 .CODE_80D527:					;	   |
@@ -9199,17 +9199,17 @@ handle_water_velocities:
 	ADC $0D4F				;$80D531   |
 	STA $0D4F				;$80D534   |
 	REP #$20				;$80D537   |
-	LDA $0D52				;$80D539   |
+	LDA water_target_y_position		;$80D539   |
 	SEC					;$80D53C   |
 	SBC water_y_position			;$80D53D   |
 	BEQ .CODE_80D547			;$80D540   |
-	EOR water_current_y_velocity		;$80D542   |
+	EOR water_current_y_speed		;$80D542   |
 	BPL .return				;$80D545   |
 .CODE_80D547:					;	   |
-	LDA $0D52				;$80D547   |
+	LDA water_target_y_position		;$80D547   |
 	STA water_y_position			;$80D54A   |
-	STZ water_target_y_velocity		;$80D54D   |
-	STZ water_current_y_velocity		;$80D550   |
+	STZ water_target_y_speed		;$80D54D   |
+	STZ water_current_y_speed		;$80D550   |
 	STZ $0D4C				;$80D553   |
 .return:					;	   |
 	RTS					;$80D556  /
@@ -9220,7 +9220,7 @@ wasp_hive_game_sub_mode:
 	JSL sprite_loader			;$80D55C   |
 	JSL sprite_handler			;$80D560   |
 	JSL camera_handler			;$80D564   |
-	LDA $0AB4				;$80D568   |
+	LDA camera_0AB4				;$80D568   |
 	AND #$000F				;$80D56B   |
 	CMP #$0005				;$80D56E   |
 	BEQ .CODE_80D579			;$80D571   |
@@ -9592,7 +9592,7 @@ brambles_game_sub_mode:
 	JSL sprite_loader			;$80D859   |
 	JSL sprite_handler			;$80D85D   |
 	JSL camera_handler			;$80D861   |
-	LDA $0AB4				;$80D865   |
+	LDA camera_0AB4				;$80D865   |
 	CMP #$0006				;$80D868   |
 	BNE .CODE_80D873			;$80D86B   |
 	JSL CODE_B5B77D				;$80D86D   | Another type of square level handler?
@@ -9670,7 +9670,7 @@ castle_crush_game_sub_mode:
 	BIT game_state_flags			;$80D919   |
 	BVC .CODE_80D92E			;$80D91C   |
 	LDX inactive_kong_sprite		;$80D91E   |
-	LDA $0D54				;$80D921   |
+	LDA crush_floor_y_position		;$80D921   |
 	CLC					;$80D924   |
 	ADC #$00C0				;$80D925   |
 	CMP $0A,x				;$80D928   |
@@ -9691,7 +9691,7 @@ handle_castle_crush_floor_movement:
 	BIT #$0082				;$80D944   |
 	BNE .return				;$80D947   |
 	LDY active_kong_sprite			;$80D949   |
-	LDA $002E,y				;$80D94C   |
+	LDA.w sprite.state,y			;$80D94C   |
 	ASL A					;$80D94F   |
 	ASL A					;$80D950   |
 	TAX					;$80D951   |
@@ -9699,7 +9699,7 @@ handle_castle_crush_floor_movement:
 	BIT #$0040				;$80D956   |
 	BNE .CODE_80D9B3			;$80D959   |
 	LDA #$0001				;$80D95B   |
-	TRB $0D56				;$80D95E   |
+	TRB crush_floor_stop_reverse_flags	;$80D95E   |
 	BNE .CODE_80D9C7			;$80D961   |
 	LDA game_state_flags			;$80D963   |
 	BIT #$2000				;$80D966   |
@@ -9707,19 +9707,19 @@ handle_castle_crush_floor_movement:
 	AND #$4000				;$80D96B   |
 	BNE .CODE_80D97D			;$80D96E   |
 	LDA #$4000				;$80D970   |
-	BIT $0D56				;$80D973   |
+	BIT crush_floor_stop_reverse_flags	;$80D973   |
 	BEQ .CODE_80D980			;$80D976   |
-	TRB $0D56				;$80D978   |
+	TRB crush_floor_stop_reverse_flags	;$80D978   |
 	BRA .CODE_80D9B8			;$80D97B  /
 
 ;Unhinged routine that marks $0D26 as a sprite and uses it for handling castle crush floor
 .CODE_80D97D:
-	TSB $0D56				;$80D97D  \
+	TSB crush_floor_stop_reverse_flags	;$80D97D  \
 .CODE_80D980:					;	   |
-	LDA water_target_y_velocity		;$80D980   |
-	ORA water_current_y_velocity		;$80D983   |
+	LDA water_target_y_speed		;$80D980   |
+	ORA water_current_y_speed		;$80D983   |
 	BEQ .return				;$80D986   |
-	LDA water_current_y_velocity		;$80D988   |
+	LDA water_current_y_speed		;$80D988   |
 	BPL .CODE_80D992			;$80D98B   |
 	CMP #$9000				;$80D98D   |
 	BCC .CODE_80D9D4			;$80D990   |
@@ -9727,14 +9727,14 @@ handle_castle_crush_floor_movement:
 	LDA #dummy_level_sprite_table		;$80D992   |
 	STA current_sprite			;$80D995   |
 	LDA #$0007				;$80D997   |
-	JSL interpolate_y_velocity_global	;$80D99A   |
-	LDA water_current_y_velocity		;$80D99E   |
+	JSL interpolate_y_speed_global		;$80D99A   |
+	LDA water_current_y_speed		;$80D99E   |
 	JSR .CODE_80D9FB			;$80D9A1   |
-	LDA $0D52				;$80D9A4   |
+	LDA water_target_y_position		;$80D9A4   |
 	SEC					;$80D9A7   |
-	SBC $0D54				;$80D9A8   |
+	SBC crush_floor_y_position		;$80D9A8   |
 	BEQ .CODE_80D9E8			;$80D9AB   |
-	EOR water_current_y_velocity		;$80D9AD   |
+	EOR water_current_y_speed		;$80D9AD   |
 	BMI .CODE_80D9E8			;$80D9B0   |
 .return:					;	   |
 	RTS					;$80D9B2  /
@@ -9744,7 +9744,7 @@ handle_castle_crush_floor_movement:
 	BRA .CODE_80D9FB			;$80D9B6  /
 
 .CODE_80D9B8:
-	LDA water_current_y_velocity		;$80D9B8  \
+	LDA water_current_y_speed		;$80D9B8  \
 	BPL .CODE_80D9C2			;$80D9BB   |
 	CMP #$9000				;$80D9BD   |
 	BCC .CODE_80D9D4			;$80D9C0   |
@@ -9753,7 +9753,7 @@ handle_castle_crush_floor_movement:
 	BRA .CODE_80D9D4			;$80D9C5  /
 
 .CODE_80D9C7:
-	LDA water_current_y_velocity		;$80D9C7  \
+	LDA water_current_y_speed		;$80D9C7  \
 	BPL .CODE_80D9D1			;$80D9CA   |
 	CMP #$9000				;$80D9CC   |
 	BCC .CODE_80D9D4			;$80D9CF   |
@@ -9762,22 +9762,22 @@ handle_castle_crush_floor_movement:
 .CODE_80D9D4:					;	   |
 	DEC A					;$80D9D4   |
 	BPL .CODE_80D9E4			;$80D9D5   |
-	STA water_current_y_velocity		;$80D9D7   |
+	STA water_current_y_speed		;$80D9D7   |
 	CMP #$8078				;$80D9DA   |
 	BCC .return				;$80D9DD   |
 	LDA #$0100				;$80D9DF   |
 	BRA .CODE_80D9FB			;$80D9E2  /
 
 .CODE_80D9E4:
-	STZ water_current_y_velocity		;$80D9E4  \
+	STZ water_current_y_speed		;$80D9E4  \
 	RTS					;$80D9E7  /
 
 .CODE_80D9E8:
-	LDA $0D52				;$80D9E8  \
-	STA $0D54				;$80D9EB   |
-	STA $0AFE				;$80D9EE   |
-	STZ water_target_y_velocity		;$80D9F1   |
-	STZ water_current_y_velocity		;$80D9F4   |
+	LDA water_target_y_position		;$80D9E8  \
+	STA crush_floor_y_position		;$80D9EB   |
+	STA camera_0AFE				;$80D9EE   |
+	STZ water_target_y_speed		;$80D9F1   |
+	STZ water_current_y_speed		;$80D9F4   |
 	STZ $0D4C				;$80D9F7   |
 	RTS					;$80D9FA  /
 
@@ -9791,14 +9791,14 @@ handle_castle_crush_floor_movement:
 	BPL .CODE_80DA0B			;$80DA08   |
 	DEX					;$80DA0A   |
 .CODE_80DA0B:					;	   |
-	ADC $0D54				;$80DA0B   |
-	STA $0D54				;$80DA0E   |
+	ADC crush_floor_y_position		;$80DA0B   |
+	STA crush_floor_y_position		;$80DA0E   |
 	TXA					;$80DA11   |
-	ADC $0D55				;$80DA12   |
-	STA $0D55				;$80DA15   |
+	ADC crush_floor_y_position+1		;$80DA12   |
+	STA crush_floor_y_position+1		;$80DA15   |
 	REP #$20				;$80DA18   |
-	LDA $0D54				;$80DA1A   |
-	STA $0AFE				;$80DA1D   |
+	LDA crush_floor_y_position		;$80DA1A   |
+	STA camera_0AFE				;$80DA1D   |
 	RTS					;$80DA20  /
 
 haunted_game_sub_mode:
@@ -9877,7 +9877,7 @@ ice_water_game_sub_mode:
 	JSL sprite_loader			;$80DAD6   |
 	JSL sprite_handler			;$80DADA   |
 	JSL camera_handler			;$80DADE   |
-	LDA $0AB4				;$80DAE2   |
+	LDA camera_0AB4				;$80DAE2   |
 	AND #$000F				;$80DAE5   |
 	CMP #$0005				;$80DAE8   |
 	BEQ .CODE_80DAF3			;$80DAEB   |
@@ -9890,7 +9890,7 @@ ice_water_game_sub_mode:
 	JSR render_sprites			;$80DAF7   |
 	JSL CODE_BEC9C0				;$80DAFA   |
 	JSR set_unused_oam_offscreen		;$80DAFE   |
-	LDA $0915				;$80DB01   |
+	LDA water_safe_timer			;$80DB01   |
 	BNE .CODE_80DB09			;$80DB04   |
 	JSR handle_kong_water_splash		;$80DB06   |
 .CODE_80DB09:					;	   |
@@ -9920,7 +9920,7 @@ ice_transparent_game_sub_mode:
 	JSL sprite_loader			;$80DB3B   |
 	JSL sprite_handler			;$80DB3F   |
 	JSL camera_handler			;$80DB43   |
-	LDA $0AB4				;$80DB47   |
+	LDA camera_0AB4				;$80DB47   |
 	AND #$000F				;$80DB4A   |
 	CMP #$0005				;$80DB4D   |
 	BEQ .CODE_80DB58			;$80DB50   |
@@ -9962,7 +9962,7 @@ brambles_windy_game_sub_mode:
 	JSR wind_force_handler			;$80DBA2   |
 	JSL sprite_handler			;$80DBA5   |
 	JSL camera_handler			;$80DBA9   |
-	LDA $0AB4				;$80DBAD   |
+	LDA camera_0AB4				;$80DBAD   |
 	CMP #$0006				;$80DBB0   |
 	BNE .CODE_80DBBB			;$80DBB3   |
 	JSL CODE_B5B77D				;$80DBB5   |
@@ -10277,18 +10277,18 @@ handle_ship_deck_sunset:
 handle_lava_geyser_positioning:
 	LDX #$0006				;$80DE01  \
 .CODE_80DE04:					;	   |
-	LDA $095B,x				;$80DE04   |
+	LDA RAM_095B,x				;$80DE04   |
 	BIT #$4000				;$80DE07   |
 	BEQ .CODE_80DE12			;$80DE0A   |
-	STZ $095B,x				;$80DE0C   |
-	STZ $0963,x				;$80DE0F   |
+	STZ RAM_095B,x				;$80DE0C   |
+	STZ RAM_0963,x				;$80DE0F   |
 .CODE_80DE12:					;	   |
 	DEX					;$80DE12   |
 	DEX					;$80DE13   |
 	BPL .CODE_80DE04			;$80DE14   |
 	LDY #$0006				;$80DE16   |
 .CODE_80DE19:					;	   |
-	LDA $0963,y				;$80DE19   |
+	LDA RAM_0963,y				;$80DE19   |
 	BEQ .CODE_80DE39			;$80DE1C   |
 	TAX					;$80DE1E   |
 	LDA.l DATA_B3D691,x			;$80DE1F   |
@@ -10299,8 +10299,8 @@ handle_lava_geyser_positioning:
 	CMP #$0118				;$80DE2B   |
 	BCC .CODE_80DE39			;$80DE2E   |
 	LDA #$4000				;$80DE30   |
-	ORA $095B,y				;$80DE33   |
-	STA $095B,y				;$80DE36   |
+	ORA RAM_095B,y				;$80DE33   |
+	STA RAM_095B,y				;$80DE36   |
 .CODE_80DE39:					;	   |
 	DEY					;$80DE39   |
 	DEY					;$80DE3A   |
@@ -10309,7 +10309,7 @@ handle_lava_geyser_positioning:
 	SEC					;$80DE40   |
 	SBC #$000A				;$80DE41   |
 	STA $32					;$80DE44   |
-	LDX $0959				;$80DE46   |
+	LDX geyser_position_data_starting_index	;$80DE46   |
 .CODE_80DE49:					;	   |
 	LDA.l DATA_B3D691,x			;$80DE49   |
 	BMI .CODE_80DE9F			;$80DE4D   |
@@ -10329,21 +10329,21 @@ handle_lava_geyser_positioning:
 	LDY #$0006				;$80DE62   |
 	TXA					;$80DE65   |
 .CODE_80DE66:					;	   |
-	CMP $0963,y				;$80DE66   |
+	CMP RAM_0963,y				;$80DE66   |
 	BEQ .CODE_80DE56			;$80DE69   |
 	DEY					;$80DE6B   |
 	DEY					;$80DE6C   |
 	BPL .CODE_80DE66			;$80DE6D   |
 	LDY #$0006				;$80DE6F   |
 .CODE_80DE72:					;	   |
-	LDA $0963,y				;$80DE72   |
+	LDA RAM_0963,y				;$80DE72   |
 	BEQ .CODE_80DE7B			;$80DE75   |
 	DEY					;$80DE77   |
 	DEY					;$80DE78   |
 	BPL .CODE_80DE72			;$80DE79   |
 .CODE_80DE7B:					;	   |
 	TXA					;$80DE7B   |
-	STA $0963,y				;$80DE7C   |
+	STA RAM_0963,y				;$80DE7C   |
 	LDA.l DATA_B3D691,x			;$80DE7F   |
 	BIT #$0001				;$80DE83   |
 	PHP					;$80DE86   |
@@ -10360,11 +10360,11 @@ handle_lava_geyser_positioning:
 	CLC					;$80DE98   |
 	ADC #$7F00				;$80DE99   |
 .CODE_80DE9C:					;	   |
-	STA $095B,y				;$80DE9C   |
+	STA RAM_095B,y				;$80DE9C   |
 .CODE_80DE9F:					;	   |
 	LDY #$0006				;$80DE9F   |
 .CODE_80DEA2:					;	   |
-	LDA $095B,y				;$80DEA2   |
+	LDA RAM_095B,y				;$80DEA2   |
 	BIT #$4000				;$80DEA5   |
 	BEQ .CODE_80DEC8			;$80DEA8   |
 	EOR #$4000				;$80DEAA   |
@@ -10373,11 +10373,11 @@ handle_lava_geyser_positioning:
 .CODE_80DEB2:					;	   |
 	CPX $32					;$80DEB2   |
 	BEQ .CODE_80DEC4			;$80DEB4   |
-	CMP $095B,x				;$80DEB6   |
+	CMP RAM_095B,x				;$80DEB6   |
 	BNE .CODE_80DEC4			;$80DEB9   |
 	LDA #$0000				;$80DEBB   |
-	STA $095B,y				;$80DEBE   |
-	STA $0963,y				;$80DEC1   |
+	STA RAM_095B,y				;$80DEBE   |
+	STA RAM_0963,y				;$80DEC1   |
 .CODE_80DEC4:					;	   |
 	DEX					;$80DEC4   |
 	DEX					;$80DEC5   |
@@ -10390,7 +10390,7 @@ handle_lava_geyser_positioning:
 	STA $84					;$80DECF   |
 	LDY #$0006				;$80DED1   |
 .CODE_80DED4:					;	   |
-	LDA $0963,y				;$80DED4   |
+	LDA RAM_0963,y				;$80DED4   |
 	BEQ .CODE_80DF2F			;$80DED7   |
 	TAX					;$80DED9   |
 	LDA.l DATA_B3D691,x			;$80DEDA   |
@@ -10830,14 +10830,14 @@ handle_fireworks:
 	RTS					;$80E47A  / Return
 
 .spawn_fireworks:
-	BIT $0923				;$80E47B  \
+	BIT conditional_sprite_spawning_flag	;$80E47B  \
 	BMI .return				;$80E47E   |
 	LDA active_frame_counter		;$80E480   |
 	AND #$000F				;$80E482   |
 	BNE .return				;$80E485   |
 	SEP #$20				;$80E487   |
-	LDA $092E				;$80E489   | Get number of onscreen fireworks
-	CMP $092D				;$80E48C   | Check if it exceeds the maximum amount
+	LDA firework_sprite_count		;$80E489   | Get number of onscreen fireworks
+	CMP firework_sprite_limit		;$80E48C   | Check if it exceeds the maximum amount
 	REP #$20				;$80E48F   |
 	BCS .return				;$80E491   | If yes, return.
 	DEC $19C0				;$80E493   | Else
@@ -10856,16 +10856,16 @@ handle_fireworks:
 	LDY #!special_sprite_spawn_id_005E	;$80E4B0   |
 	JSL spawn_special_sprite_index		;$80E4B3   | Spawn fireworks sprite
 	BCS .return				;$80E4B7   | If sprite failed to spawn, return
-	INC $092E				;$80E4B9   | Increase number of onscreen fireworks
+	INC firework_sprite_count		;$80E4B9   | Increase number of onscreen fireworks
 	PHK					;$80E4BC   |
 	PLB					;$80E4BD   | Set DB to bank 80
 	LDX alternate_sprite			;$80E4BE   | Get fireworks sprite
-	LDA $092B				;$80E4C0   |
+	LDA next_free_firework_slot		;$80E4C0   |
 	STA $42,x				;$80E4C3   |
 	TAY					;$80E4C5   |
 	INC A					;$80E4C6   |
 	AND #$000F				;$80E4C7   |
-	STA $092B				;$80E4CA   |
+	STA next_free_firework_slot		;$80E4CA   |
 	LDA fireworks_spawn_x_positions,y	;$80E4CD   |
 	AND #$00FF				;$80E4D0   |
 	STA $06,x				;$80E4D3   |
@@ -10887,7 +10887,7 @@ handle_fireworks:
 	ASL A					;$80E4F4   |
 	CLC					;$80E4F5   |
 	ADC #$0080				;$80E4F6   |
-	STA $0929				;$80E4F9   |
+	STA firework_cgram_palette_address	;$80E4F9   |
 	JSR get_random_number_2			;$80E4FC   | Get RNG
 	LSR A					;$80E4FF   |
 	BCS .CODE_80E50A			;$80E500   |
@@ -12353,7 +12353,7 @@ CODE_80EF8C:					;	   |
 	LDA level[0].tileset_type		;$80F099   |
 	CMP #!ice_1_layout_id			;$80F09C   |
 	BNE CODE_80F0AB				;$80F09F   |
-	LDA $0915				;$80F0A1   |
+	LDA water_safe_timer			;$80F0A1   |
 	BEQ CODE_80F0AB				;$80F0A4   |
 	LDA #$0000				;$80F0A6   |
 	BRA CODE_80F0AD				;$80F0A9  /
@@ -12410,7 +12410,7 @@ CODE_80F0D4:					;	   |
 	LDA level[0].tileset_type		;$80F106   |
 	CMP #!ice_1_layout_id			;$80F109   |
 	BNE CODE_80F113				;$80F10C   |
-	LDA $0915				;$80F10E   |
+	LDA water_safe_timer			;$80F10E   |
 	BNE CODE_80F156				;$80F111   |
 CODE_80F113:					;	   |
 	LDA active_frame_counter		;$80F113   |

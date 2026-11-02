@@ -56,7 +56,7 @@ king_zing_sprite_code:
 	STZ $06A1				;$BA905A   |
 	STZ $06A3				;$BA905D   |
 	STZ $06A5				;$BA9060   |
-	LDA #king_zing_boss_commands_table	;$BA9063   |
+	LDA #king_zing_boss_script		;$BA9063   |
 	STA $00065A				;$BA9066   |
 	LDA #$0009				;$BA906A   |
 	STA $000652				;$BA906D   |
@@ -388,7 +388,7 @@ CODE_BA9334:
 	STZ $070D				;$BA934C   |
 	LDX current_sprite			;$BA934F   |
 	STZ $44,x				;$BA9351   |
-	LDA #king_zing_boss_commands_table	;$BA9353   |
+	LDA #king_zing_boss_script		;$BA9353   |
 	STA $46,x				;$BA9356   |
 	JSR parse_boss_command_BA		;$BA9358   |
 	BRL CODE_BA9439				;$BA935B  /
@@ -494,11 +494,11 @@ CODE_BA9400:					;	   |
 	ADC $0006E7				;$BA9410   |
 	STA $2A,x				;$BA9414   |
 	LDA $22,x				;$BA9416   |
-	JSL interpolate_x_velocity_global	;$BA9418   |
+	JSL interpolate_x_speed_global		;$BA9418   |
 	LDX current_sprite			;$BA941C   |
 	LDA $22,x				;$BA941E   |
-	JSL interpolate_y_velocity_global	;$BA9420   |
-	JSL apply_position_from_velocity_global	;$BA9424   |
+	JSL interpolate_y_speed_global		;$BA9420   |
+	JSL apply_position_from_speed_global	;$BA9424   |
 	LDX current_sprite			;$BA9428   |
 	LDY $0656				;$BA942A   |
 	BEQ CODE_BA9439				;$BA942D   |
@@ -585,10 +585,10 @@ CODE_BA94CD:					;	   |
 
 CODE_BA94CF:
 	LDA #$000F				;$BA94CF  \
-	JSL interpolate_x_velocity_global	;$BA94D2   |
+	JSL interpolate_x_speed_global		;$BA94D2   |
 	LDA #$0001				;$BA94D6   |
-	JSL interpolate_y_velocity_global	;$BA94D9   |
-	JSL apply_position_from_velocity_global	;$BA94DD   |
+	JSL interpolate_y_speed_global		;$BA94D9   |
+	JSL apply_position_from_speed_global	;$BA94DD   |
 	LDX current_sprite			;$BA94E1   |
 	LDA $26,x				;$BA94E3   |
 	CMP $20,x				;$BA94E5   |
@@ -1084,11 +1084,11 @@ king_zing_smoke_effect_sprite_code:
 	STA $0A,x				;$BA9977   |
 .CODE_BA9979:					;	   |
 	LDA $44,x				;$BA9979   |
-	JSL interpolate_x_velocity_global	;$BA997B   |
+	JSL interpolate_x_speed_global		;$BA997B   |
 	LDX current_sprite			;$BA997F   |
 	LDA $46,x				;$BA9981   |
-	JSL interpolate_y_velocity_global	;$BA9983   |
-	JSL apply_position_from_velocity_global	;$BA9987   |
+	JSL interpolate_y_speed_global		;$BA9983   |
+	JSL apply_position_from_speed_global	;$BA9987   |
 	LDX current_sprite			;$BA998B   |
 	LDY $48,x				;$BA998D   |
 	BEQ .return				;$BA998F   |
@@ -1148,16 +1148,16 @@ king_zing_stinger_sprite_code:
 	LDA #$0001				;$BA9A08   |
 	STA $2E,x				;$BA9A0B   | Set its state to 1
 	LDA #$FC00				;$BA9A0D   |
-	STA $24,x				;$BA9A10   | Set current Y velocity
+	STA $24,x				;$BA9A10   | Set current Y speed
 	LDA $DB					;$BA9A12   |
 	CMP $E3					;$BA9A14   |
 	BMI CODE_BA9A20				;$BA9A16   |
-	LDA $20,x				;$BA9A18   | Get current X velocity
+	LDA $20,x				;$BA9A18   | Get current X speed
 	EOR #$FFFF				;$BA9A1A   |
 	INC A					;$BA9A1D   | Invert and update it
 	STA $20,x				;$BA9A1E   |
 CODE_BA9A20:					;	   |
-	STZ $26,x				;$BA9A20   | Clear target X velocity
+	STZ $26,x				;$BA9A20   | Clear target X speed
 CODE_BA9A22:					;	   |
 	BRA CODE_BA9A55				;$BA9A22  /
 
@@ -1216,11 +1216,11 @@ CODE_BA9A96:					;	   |
 
 king_zing_spikes_sprite_code:
 	LDX current_sprite			;$BA9A9E  \ Get spike sprite
-	LDA $42,x				;$BA9AA0   | Get X velocity interpolation preset
-	JSL interpolate_x_velocity_global	;$BA9AA2   |
+	LDA $42,x				;$BA9AA0   | Get X speed interpolation preset
+	JSL interpolate_x_speed_global		;$BA9AA2   |
 	LDX current_sprite			;$BA9AA6   | Get spike sprite
-	LDA $44,x				;$BA9AA8   | Get Y velocity interpolation preset
-	JSL interpolate_y_velocity_global	;$BA9AAA   |
+	LDA $44,x				;$BA9AA8   | Get Y speed interpolation preset
+	JSL interpolate_y_speed_global		;$BA9AAA   |
 	LDX $0654				;$BA9AAE   | Get King Zing sprite
 	LDA $2E,x				;$BA9AB1   |
 	BIT #$2000				;$BA9AB3   |
@@ -1228,7 +1228,7 @@ king_zing_spikes_sprite_code:
 	JSL get_current_sprite_clipping		;$BA9AB8   | Populate sprite clipping
 	LDA #$0000				;$BA9ABC   | Get collision flags
 	JSL check_complex_player_collision_B6	;$BA9ABF   | Check collision with player
-	JSL apply_position_from_velocity_global	;$BA9AC3   |
+	JSL apply_position_from_speed_global	;$BA9AC3   |
 	BRA .CODE_BA9ACD			;$BA9AC7  /
 
 .CODE_BA9AC9:
@@ -1424,11 +1424,11 @@ kreepy_krows_eggs_sprite_code:
 
 .CODE_BA9C47:
 	LDA $42,x				;$BA9C47  \
-	JSL interpolate_x_velocity_global	;$BA9C49   |
+	JSL interpolate_x_speed_global		;$BA9C49   |
 	LDX current_sprite			;$BA9C4D   |
 	LDA $44,x				;$BA9C4F   |
-	JSL interpolate_y_velocity_global	;$BA9C51   |
-	JSL apply_position_from_velocity_global	;$BA9C55   |
+	JSL interpolate_y_speed_global		;$BA9C51   |
+	JSL apply_position_from_speed_global	;$BA9C55   |
 	JSL delete_sprite_if_offscreen		;$BA9C59   |
 	JSL process_sprite_animation		;$BA9C5D   |
 .return:					;	   |
@@ -3101,7 +3101,7 @@ CODE_BAB129:					;	   |
 	JML [sprite_return_address]		;$BAB129  /
 
 kore_sparkle_sprite_code:
-	JSL apply_position_from_velocity_global	;$BAB12C  \
+	JSL apply_position_from_speed_global	;$BAB12C  \
 	JSL process_sprite_animation		;$BAB130   |
 	JSL delete_sprite_if_offscreen		;$BAB134   |
 	JML [sprite_return_address]		;$BAB138  / Sprite return
@@ -3243,7 +3243,7 @@ init_bonus_screen:
 	STA DMA[0].destination			;$BAB282   |
 	LDX #text_vram_buffer			;$BAB285   |
 	STX DMA[0].source			;$BAB288   |
-	LDA #$7E				;$BAB28B   |
+	LDA #<:text_vram_buffer			;$BAB28B   |
 	STA DMA[0].source_bank			;$BAB28D   |
 	STZ DMA[0].unused_1			;$BAB290   |
 	LDA #$01				;$BAB293   |
@@ -3251,7 +3251,7 @@ init_bonus_screen:
 	STZ $065A				;$BAB298   |
 	REP #$20				;$BAB29B   |
 	LDY #$0200				;$BAB29D   |
-	LDX #$3A00				;$BAB2A0   |
+	LDX #RAM_7E3A00				;$BAB2A0   |
 	LDA.l $00065B				;$BAB2A3   |
 	AND #$00FF				;$BAB2A7   |
 	ASL A					;$BAB2AA   |
@@ -3470,11 +3470,11 @@ CODE_BAB4AE:					;	   |
 	INX					;$BAB4D6   |
 	INX					;$BAB4D7   |
 	STX $CB					;$BAB4D8   |
-	LDA #$3A00				;$BAB4DA   |
+	LDA #RAM_7E3A00				;$BAB4DA   |
 	STA $CE					;$BAB4DD   |
 	LDY #text_vram_buffer			;$BAB4DF   |
 	SEP #$20				;$BAB4E2   |
-	LDA #$7E				;$BAB4E4   |
+	LDA #<:RAM_7E3A00			;$BAB4E4   |
 	STA $D0					;$BAB4E6   |
 	REP #$20				;$BAB4E8   |
 CODE_BAB4EA:					;	   |
@@ -4102,7 +4102,7 @@ krool_water_drips_sprite_code:
 	CLC					;$BAC117   |
 	ADC #$0020				;$BAC118   |
 	STA $24,x				;$BAC11B   |
-	JSL apply_position_from_velocity_global	;$BAC11D   |
+	JSL apply_position_from_speed_global	;$BAC11D   |
 	LDX current_sprite			;$BAC121   |
 	LDA $0A,x				;$BAC123   |
 	CMP #$01C0				;$BAC125   |
@@ -4137,9 +4137,9 @@ krool_fish_sprite_code:
 	BNE .continue_bounce_state		;$BAC153   | if timer hasn't finished yet, don't transition state
 	INC $2E,x				;$BAC155   | else set fall state
 	LDA #$FB00				;$BAC157   |
-	STA $24,x				;$BAC15A   | set current Y velocity
+	STA $24,x				;$BAC15A   | set current Y speed
 	LDA #$0700				;$BAC15C   |
-	STA $2A,x				;$BAC15F   | set target Y velocity
+	STA $2A,x				;$BAC15F   | set target Y speed
 	LDA #$0003				;$BAC161   |
 	STA $44,x				;$BAC164   | set preset to use for Y interpolation
 	%lda_sound(5, krool_splash_1)		;$BAC166   |
@@ -4154,11 +4154,11 @@ krool_fish_sprite_code:
 	JSL divide_a_by_y			;$BAC17E   |
 	LDA CPU.multiply_result			;$BAC182   |
 	STA $000650				;$BAC185   | store result
-	LDA #$FE80				;$BAC189   | load base Y velocity
+	LDA #$FE80				;$BAC189   | load base Y speed
 	SEC					;$BAC18C   |
-	SBC $000650				;$BAC18D   | subtract it by division result to get new Y velocity
+	SBC $000650				;$BAC18D   | subtract it by division result to get new Y speed
 	LDX current_sprite			;$BAC191   | get fish sprite
-	STA $24,x				;$BAC193   | set current Y velocity
+	STA $24,x				;$BAC193   | set current Y speed
 	%lda_sound(5, krool_splash_1)		;$BAC195   |
 	JSL queue_sound_effect			;$BAC198   | play krool water splash 1 sound
 	%lda_sound(6, krool_splash_2)		;$BAC19C   |
@@ -4182,11 +4182,11 @@ krool_fish_sprite_code:
 .interpolate_fish_speeds:
 	LDX current_sprite			;$BAC1C2  \ get fish sprite
 	LDA $42,x				;$BAC1C4   | get bounce count
-	JSL interpolate_x_velocity_global	;$BAC1C6   | and use it as X interpolation preset
+	JSL interpolate_x_speed_global		;$BAC1C6   | and use it as X interpolation preset
 	LDX current_sprite			;$BAC1CA   |
 	LDA $44,x				;$BAC1CC   | get Y interpolation preset
-	JSL interpolate_y_velocity_global	;$BAC1CE   |
-	JSL apply_position_from_velocity_global	;$BAC1D2   |
+	JSL interpolate_y_speed_global		;$BAC1CE   |
+	JSL apply_position_from_speed_global	;$BAC1D2   |
 	LDX current_sprite			;$BAC1D6   |
 	RTS					;$BAC1D8  /
 
@@ -4379,12 +4379,12 @@ scroll_and_float_barrel_sprite_code:
 	INC A					;$BAC325   |
 	STA $2A,x				;$BAC326   |
 .CODE_BAC328:					;	   |
-	LDA $44,x				;$BAC328   | Get velocity interpolation preset
+	LDA $44,x				;$BAC328   | Get speed interpolation preset
 	PHA					;$BAC32A   |
-	JSL interpolate_x_velocity_global	;$BAC32B   |
+	JSL interpolate_x_speed_global		;$BAC32B   |
 	PLA					;$BAC32F   |
-	JSL interpolate_y_velocity_global	;$BAC330   |
-	JSL apply_position_from_velocity_global	;$BAC334   |
+	JSL interpolate_y_speed_global		;$BAC330   |
+	JSL apply_position_from_speed_global	;$BAC334   |
 	JSL process_sprite_animation		;$BAC338   | Process animation
 	LDA level_number			;$BAC33C   |
 	CMP #!level_pirate_panic_krools_cabin	;$BAC33E   | Check if we're in k.rool's cabin

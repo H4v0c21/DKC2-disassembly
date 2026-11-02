@@ -524,12 +524,12 @@ animation_command_86:
 	BNE .done				;$B9D2D8   |/ If this sprite isnt active kong, dont apply second graphic
 	LDA $0006,y				;$B9D2DA   |\ Get x draw offset from animation
 	CLC					;$B9D2DD   | |
-	ADC $000D72				;$B9D2DE   | | Add to kong x offset on animal
-	STA $000D76				;$B9D2E2   |/ Apply new true x offset of kong on animal
+	ADC.l animal_ride_x_offset_base		;$B9D2DE   | | Add to kong x offset on animal
+	STA.l animal_ride_x_offset_final	;$B9D2E2   |/ Apply new true x offset of kong on animal
 	LDA $0008,y				;$B9D2E6   |\ Get y draw offset from animation
 	CLC					;$B9D2E9   | |
-	ADC $000D74				;$B9D2EA   | | Add to kong y offset on animal
-	STA $000D78				;$B9D2EE   |/ Apply new true y offset of kong on animal
+	ADC.l animal_ride_y_offset_base		;$B9D2EA   | | Add to kong y offset on animal
+	STA.l animal_ride_y_offset_final	;$B9D2EE   |/ Apply new true y offset of kong on animal
 	LDA $0004,y				;$B9D2F2   |\
 	STA sprite.current_graphic,x		;$B9D2F5   |/ Apply second graphic to animal
 	STZ sprite.animation_speed,x		;$B9D2F7   |> Prevent draw updates on animal
@@ -579,12 +579,12 @@ animation_command_87:
 	BNE .done				;$B9D330   |/ If this sprite isnt active kong, dont apply draw offset
 	LDA $0004,y				;$B9D332   |\ Get x draw offset from animation
 	CLC					;$B9D335   | |
-	ADC $000D72				;$B9D336   | | Add to kong x offset on animal
-	STA $000D76				;$B9D33A   |/ Apply new true x offset of kong on animal
+	ADC.l animal_ride_x_offset_base		;$B9D336   | | Add to kong x offset on animal
+	STA.l animal_ride_x_offset_final	;$B9D33A   |/ Apply new true x offset of kong on animal
 	LDA $0006,y				;$B9D33E   |\ Get y draw offset from animation
 	CLC					;$B9D341   | |
-	ADC $000D74				;$B9D342   | | Add to kong y offset on animal
-	STA $000D78				;$B9D346   |/ Apply new true y offset of kong on animal
+	ADC.l animal_ride_y_offset_base		;$B9D342   | | Add to kong y offset on animal
+	STA.l animal_ride_y_offset_final	;$B9D346   |/ Apply new true y offset of kong on animal
 .done						;	   |
 	LDX current_sprite			;$B9D34A   |> Get current sprite
 	TYA					;$B9D34C   |\
@@ -609,12 +609,12 @@ animation_command_88:
 	BNE .done				;$B9D362   |/ If this sprite isnt active kong, dont apply draw offset
 	LDA $0001,y				;$B9D364   |\ Get x draw offset from animation
 	CLC					;$B9D367   | |
-	ADC $000D72				;$B9D368   | | Add to kong x offset on animal
-	STA $000D76				;$B9D36C   |/ Apply new true x offset of kong on animal
+	ADC.l animal_ride_x_offset_base		;$B9D368   | | Add to kong x offset on animal
+	STA.l animal_ride_x_offset_final	;$B9D36C   |/ Apply new true x offset of kong on animal
 	LDA $0003,y				;$B9D370   |\ Get y draw offset from animation
 	CLC					;$B9D373   | |
-	ADC $000D74				;$B9D374   | | Add to kong y offset on animal
-	STA $000D78				;$B9D378   |/ Apply new true y offset of kong on animal
+	ADC.l animal_ride_y_offset_base		;$B9D374   | | Add to kong y offset on animal
+	STA.l animal_ride_y_offset_final	;$B9D378   |/ Apply new true y offset of kong on animal
 .done						;	   |
 	LDX current_sprite			;$B9D37C   |> Get current sprite
 	TYA					;$B9D37E   |\
@@ -1080,7 +1080,7 @@ check_if_active_kong_has_no_max_x_speed:
 	CLC					;$B9D644  \
 	RTS					;$B9D645  /
 
-;unused
+;Unused
 .check_if_away_from_ground:
 	LDA sprite.ground_y_position,x		;$B9D646  \
 	BMI .away_from_ground			;$B9D648   |
@@ -1141,7 +1141,7 @@ check_for_vertical_wind_stop:
 	SEC					;$B9D68A  \
 	RTS					;$B9D68B  /
 
-;unused
+;Unused
 CODE_B9D68C:
 	LDA sprite.terrain_interaction,x	;$B9D68C  \
 	AND #$1000				;$B9D68E   |
@@ -2141,12 +2141,12 @@ CODE_B9DCE8:
 
 CODE_B9DCF0:
 	LDA #$0001				;$B9DCF0  \
-	STA $0D80				;$B9DCF3   |
+	STA held_sprite_render_order_modifier	;$B9DCF3   |
 	RTS					;$B9DCF6  /
 
 CODE_B9DCF7:
 	LDA #$FFFF				;$B9DCF7  \
-	STA $0D80				;$B9DCFA   |
+	STA held_sprite_render_order_modifier	;$B9DCFA   |
 	RTS					;$B9DCFD  /
 
 CODE_B9DCFE:
@@ -2171,7 +2171,7 @@ CODE_B9DD19:
 
 CODE_B9DD1A:
 	LDA #$0001				;$B9DD1A  \
-	STA $0D80				;$B9DD1D   |
+	STA held_sprite_render_order_modifier	;$B9DD1D   |
 	RTS					;$B9DD20  /
 
 CODE_B9DD21:
@@ -2201,7 +2201,7 @@ CODE_B9DD3A:
 CODE_B9DD4C:
 	LDA #$0001				;$B9DD4C  \
 	STA sprite.state,x			;$B9DD4F   |
-	JSL set_player_terminal_velocity_global	;$B9DD51   |
+	JSL set_player_max_fall_speed_global	;$B9DD51   |
 	LDA #$0007				;$B9DD55   |
 	JSL set_anim_handle_dixie		;$B9DD58   |
 	RTS					;$B9DD5C  /
@@ -2535,7 +2535,7 @@ CODE_B9DF7A:
 	LDA active_kong_number			;$B9DF7F   |
 	BEQ CODE_B9DF8A				;$B9DF82   |
 	LDA #$0001				;$B9DF84   |
-	STA $0D80				;$B9DF87   |
+	STA held_sprite_render_order_modifier	;$B9DF87   |
 CODE_B9DF8A:					;	   |
 	LDY #$0008				;$B9DF8A   |
 	LDA [current_sprite_constants],y	;$B9DF8D   |
@@ -2591,7 +2591,7 @@ CODE_B9DFD3:
 	RTS					;$B9DFE0  /
 
 CODE_B9DFE1:
-	JSL set_player_terminal_velocity_global	;$B9DFE1  \
+	JSL set_player_max_fall_speed_global	;$B9DFE1  \
 CODE_B9DFE5:					;	   |
 	LDX current_sprite			;$B9DFE5   |
 	CPX inactive_kong_sprite		;$B9DFE7   |
@@ -2884,12 +2884,12 @@ CODE_B9E189:					;	   |
 	RTS					;$B9E197  /
 
 CODE_B9E198:
-	LDA $0D66				;$B9E198  \
+	LDA kong_swap_position_temp_1		;$B9E198  \
 	SEC					;$B9E19B   |
 	SBC sprite.x_position,x			;$B9E19C   |
 	JSR CODE_B9E1B4				;$B9E19E   |
 	STA sprite.x_speed,x			;$B9E1A1   |
-	LDA $0D6A				;$B9E1A3   |
+	LDA kong_swap_position_temp_3		;$B9E1A3   |
 	SEC					;$B9E1A6   |
 	SBC sprite.y_position,x			;$B9E1A7   |
 	JSR CODE_B9E1B4				;$B9E1A9   |
@@ -3638,7 +3638,7 @@ CODE_B9E667:					;	   |
 	JSL queue_sound_effect			;$B9E674   |
 	RTS					;$B9E678  /
 
-;This will effectively ASL/LSR his current X velocity twice, depending if moving left/right respectively.
+;This will effectively ASL/LSR his current X speed twice, depending if moving left/right respectively.
 delay_klomp_walk:
 	LDA sprite.x_speed,x			;$B9E679  \
 	CMP #$8000				;$B9E67B   |
@@ -4408,7 +4408,7 @@ namespace off
 	RTS					;$B9EB07  /
 
 CODE_B9EB08:
-	CPX $0D58				;$B9EB08  \
+	CPX krockhead_barrel_sprite		;$B9EB08  \
 	BEQ CODE_B9EB23				;$B9EB0B   |
 	CLC					;$B9EB0D   |
 	RTS					;$B9EB0E  /
@@ -4853,11 +4853,11 @@ CODE_B9EDD4:
 	RTS					;$B9EDDA  /
 
 CODE_B9EDDB:
-	DEC $092E				;$B9EDDB  \
-	LDA $092E				;$B9EDDE   |
+	DEC firework_sprite_count		;$B9EDDB  \
+	LDA firework_sprite_count		;$B9EDDE   |
 	AND #$00FF				;$B9EDE1   |
 	BNE CODE_B9EDE9				;$B9EDE4   |
-	STA $0929				;$B9EDE6   |
+	STA firework_cgram_palette_address	;$B9EDE6   |
 CODE_B9EDE9:					;	   |
 	JMP anim_delete_sprite			;$B9EDE9  /
 
@@ -5040,10 +5040,10 @@ set_rattly_idle_no_player_animation:
 set_clapper_water_timer:
 	LDA sprite.general_purpose_44,x		;$B9EF00  \
 if !version == 1				;	   |
-	CMP $0915				;$B9EF02   |
+	CMP water_safe_timer			;$B9EF02   |
 	BCC .play_clapper_breath_sound		;$B9EF05   |
 endif						;	   |
-	STA $0915				;$B9EF07   |
+	STA water_safe_timer			;$B9EF07   |
 .play_clapper_breath_sound:			;	   |
 	%lda_sound(6, clapper_spit)		;$B9EF0A   |
 	JSL queue_sound_effect			;$B9EF0D   |

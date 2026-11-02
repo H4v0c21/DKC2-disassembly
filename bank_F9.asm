@@ -1097,7 +1097,7 @@ diddy_wind_float:
 	db !animation_command_81 : dw CODE_B9D853
 	db !animation_command_80
 
-;unused
+;Unused
 	db !animation_command_80, $00
 
 ;$F90FEF
@@ -3054,7 +3054,7 @@ squawks_mount:
 	db !animation_command_81 : dw CODE_B9DBF4
 	db !animation_command_80, $00
 
-;unused
+;Unused
 	db !animation_command_87, $10 : dw !squawks_mount_graphic, $0000, $0005
 	db !animation_command_80, $00
 
@@ -3533,7 +3533,7 @@ DATA_F93385:
 	db !animation_command_81 : dw CODE_B9D853
 	db !animation_command_80
 
-;unused
+;Unused
 	db !animation_command_80, $00
 
 ;$F933DA

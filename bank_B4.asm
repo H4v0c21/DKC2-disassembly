@@ -26,14 +26,14 @@ CODE_B48000:
 	REP #$20				;$B4803D   |
 	STZ $067F				;$B4803F   |
 	STZ RAM_07B0				;$B48042   |
-	LDA #$0027				;$B48045   | Number of bytes to clear
-	LDX #$0000				;$B48048   |
-	SEP #$20				;$B4804B   |
+	LDA #$0027				;$B48045   |\ Set number of bytes to clear
+	LDX #$0000				;$B48048   | |
+	SEP #$20				;$B4804B   |/ 8 bit A to clear bytes
 .next_byte:					;	   |
-	STZ completed_npc_dialogue,x		;$B4804D   |
-	INX					;$B48050   |
-	DEC A					;$B48051   |
-	BNE .next_byte				;$B48052   |
+	STZ completed_npc_dialogue,x		;$B4804D   |\ Clear dialogue byte
+	INX					;$B48050   | |
+	DEC A					;$B48051   | |
+	BNE .next_byte				;$B48052   |/ Loop until all bytes are cleared
 	REP #$20				;$B48054   |
 	STZ $0683				;$B48056   |
 	STZ $069D				;$B48059   |
@@ -748,8 +748,8 @@ CODE_B48620:					;	   |
 	STY $065A				;$B48652   |
 	ADC #$0006				;$B48655   |
 	STA $CB					;$B48658   |
-	LDY #$2A00				;$B4865A   |
-	%pea_mask_dbr($7E2A00)			;$B4865D   |
+	LDY #RAM_7E2A00				;$B4865A   |
+	%pea_mask_dbr(RAM_7E2A00)		;$B4865D   |
 	PLB					;$B48660   |
 	PLB					;$B48661   |
 	LDA $C8					;$B48662   |
@@ -772,12 +772,12 @@ CODE_B48684:					;	   |
 	ASL A					;$B48686   |
 	ASL A					;$B48687   |
 	TAY					;$B48688   |
-	LDA $3200,y				;$B48689   |
+	LDA.w RAM_7E3200,y			;$B48689   |
 	AND #$00FF				;$B4868C   |
 	BEQ CODE_B4869D				;$B4868F   |
-	LDA $3201,y				;$B48691   |
+	LDA.w RAM_7E3200+1,y			;$B48691   |
 	AND #$00FF				;$B48694   |
-	LDX $3202,y				;$B48697   |
+	LDX.w RAM_7E3200+2,y			;$B48697   |
 	JSR CODE_B4B64F				;$B4869A   |
 CODE_B4869D:					;	   |
 	INY					;$B4869D   |
@@ -801,10 +801,10 @@ CODE_B4869D:					;	   |
 	ASL A					;$B486C4   |
 	ASL A					;$B486C5   |
 	TAY					;$B486C6   |
-	LDA $3200,y				;$B486C7   |
+	LDA.w RAM_7E3200,y			;$B486C7   |
 	AND #$00FF				;$B486CA   |
 	BEQ CODE_B486D5				;$B486CD   |
-	LDX $3202,y				;$B486CF   |
+	LDX.w RAM_7E3200+2,y			;$B486CF   |
 	JSR CODE_B4B6F9				;$B486D2   |
 CODE_B486D5:					;	   |
 	LDX active_kong_sprite			;$B486D5   |
@@ -941,7 +941,7 @@ CODE_B487C2:
 	ASL A					;$B487C5   |
 	ASL A					;$B487C6   |
 	TAY					;$B487C7   |
-	LDX $3202,y				;$B487C8   |
+	LDX.w RAM_7E3200+2,y			;$B487C8   |
 	PHK					;$B487CB   |
 	PLB					;$B487CC   |
 	LDA #$0004				;$B487CD   |
@@ -989,9 +989,9 @@ CODE_B48815:					;	   |
 	LDA $000D,x				;$B48818   |
 	ASL A					;$B4881B   |
 	ASL A					;$B4881C   |
-	ADC #$2A00				;$B4881D   |
+	ADC #RAM_7E2A00				;$B4881D   |
 	TAY					;$B48820   |
-	%pea_mask_dbr($7E2A00)			;$B48821   |
+	%pea_mask_dbr(RAM_7E2A00)		;$B48821   |
 	PLB					;$B48824   |
 	PLB					;$B48825   |
 	LDA $0000,y				;$B48826   |
@@ -1138,14 +1138,14 @@ endif
 	BIT #$2000				;$B48951   |
 	BNE CODE_B4896A				;$B48954   |
 	LDY #$0200				;$B48956   |
-	LDX #$3A00				;$B48959   |
+	LDX #RAM_7E3A00				;$B48959   |
 	LDA $0682				;$B4895C   |
 	AND #$00FF				;$B4895F   |
 	ASL A					;$B48962   |
 	ASL A					;$B48963   |
 	DEC A					;$B48964   |
 	PHB					;$B48965   |
-	MVN $00, $7E				;$B48966   |
+	MVN $00, <:RAM_7E3A00			;$B48966   |
 	PLB					;$B48969   |
 CODE_B4896A:					;	   |
 	LDA $06A3				;$B4896A   |
@@ -1305,14 +1305,14 @@ CODE_B48A9F:					;	   |
 	BRL CODE_B48927				;$B48AB8  /
 
 CODE_B48ABB:
-	%pea_mask_dbr($7E3201)			;$B48ABB  \
+	%pea_mask_dbr(RAM_7E3200+1)		;$B48ABB  \
 	PLB					;$B48ABE   |
 	PLB					;$B48ABF   |
 	LDA map_node_number			;$B48AC0   |
 	ASL A					;$B48AC3   |
 	ASL A					;$B48AC4   |
 	TAX					;$B48AC5   |
-	LDA $3201,x				;$B48AC6   |
+	LDA.w RAM_7E3200+1,x			;$B48AC6   |
 	AND #$00FF				;$B48AC9   |
 	SEC					;$B48ACC   |
 	SBC #$0004				;$B48ACD   |
@@ -1349,7 +1349,7 @@ CODE_B48AEF:
 
 CODE_B48B15:
 	LDA #text_vram_buffer			;$B48B15  \
-	STA $0D2C				;$B48B18   |
+	STA banana_oam_property			;$B48B18   |
 	SEP #$20				;$B48B1B   |
 	STZ CPU.enable_interrupts		;$B48B1D   |
 	REP #$20				;$B48B20   |
@@ -3261,14 +3261,14 @@ CODE_B49C11:					;	   |
 
 CODE_B49C2A:
 	PHB					;$B49C2A  \
-	%pea_mask_dbr($7E3202)			;$B49C2B   |
+	%pea_mask_dbr(RAM_7E3200+2)		;$B49C2B   |
 	PLB					;$B49C2E   |
 	PLB					;$B49C2F   |
 	LDA map_node_number			;$B49C30   |
 	ASL A					;$B49C33   |
 	ASL A					;$B49C34   |
 	TAX					;$B49C35   |
-	LDY $3202,x				;$B49C36   |
+	LDY.w RAM_7E3200+2,x			;$B49C36   |
 	LDA #$B400				;$B49C39   |> Bank
 	PHA					;$B49C3C   |
 	PLB					;$B49C3D   |
@@ -3814,9 +3814,9 @@ make_kong_jump_on_golden_barrel:
 	LDA #$00C8				;$B4A073   | Set how far forward to jump
 	STA $44,x				;$B4A076   |
 	LDA #$0180				;$B4A078   |
-	STA $46,x				;$B4A07B   | Set jump max X velocity
+	STA $46,x				;$B4A07B   | Set jump max X speed
 	LDA #$F600				;$B4A07D   |
-	STA $48,x				;$B4A080   | Set jump max Y velocity
+	STA $48,x				;$B4A080   | Set jump max Y speed
 	LDA #$0058				;$B4A082   |
 	STA $4A,x				;$B4A085   | Y position to trigger barrel entrance?
 	RTS					;$B4A087  /
@@ -4650,7 +4650,7 @@ spawn_swanky_prize:
 	LDA #$0003				;$B4A7B9   |
 	STA $002E,y				;$B4A7BC   | Set state
 	LDA #$F900				;$B4A7BF   |
-	STA $0024,y				;$B4A7C2   | Set Y velocity
+	STA $0024,y				;$B4A7C2   | Set Y speed
 	LDA #$002A				;$B4A7C5   |
 	STA $0048,y				;$B4A7C8   |
 	LDA #$0050				;$B4A7CB   |
@@ -5624,7 +5624,7 @@ CODE_B4B0CE:					;	   |
 CODE_B4B0CF:
 	PHB					;$B4B0CF  \
 	PHP					;$B4B0D0   |
-	%pea_mask_dbr($7E2A00)			;$B4B0D1   |
+	%pea_mask_dbr(RAM_7E2A00)		;$B4B0D1   |
 	PLB					;$B4B0D4   |
 	PLB					;$B4B0D5   |
 	STZ $0652				;$B4B0D6   |
@@ -5632,7 +5632,7 @@ CODE_B4B0CF:
 	STA $0656				;$B4B0DC   |
 	LDA #$0010				;$B4B0DF   |
 	STA $0650				;$B4B0E2   |
-	LDX #$2A00				;$B4B0E5   |
+	LDX #RAM_7E2A00				;$B4B0E5   |
 	SEP #$20				;$B4B0E8   |
 	LDA.b #<:map_path_unlocks_buffer	;$B4B0EA   |
 	STA $D0					;$B4B0EC   |
@@ -5682,7 +5682,7 @@ CODE_B4B131:					;	   |
 	STA $CE					;$B4B149   |
 	LDY #$0000				;$B4B14B   |
 CODE_B4B14E:					;	   |
-	LDA $3200,x				;$B4B14E   |
+	LDA.w RAM_7E3200,x			;$B4B14E   |
 	ROR A					;$B4B151   |
 	ROR $0652				;$B4B152   |
 	ROR A					;$B4B155   |
@@ -5740,7 +5740,7 @@ CODE_B4B18F:
 	LDA #$B4				;$B4B1B8   |
 	REP #$20				;$B4B1BA   |
 	STA $0658				;$B4B1BC   |
-	LDX #$2A00				;$B4B1BF   |
+	LDX #RAM_7E2A00				;$B4B1BF   |
 	BRA CODE_B4B1E1				;$B4B1C2  /
 
 CODE_B4B1C4:
@@ -5806,7 +5806,7 @@ CODE_B4B229:
 	ASL A					;$B4B22C   |
 	ASL A					;$B4B22D   |
 	CLC					;$B4B22E   |
-	ADC #$3200				;$B4B22F   |
+	ADC #RAM_7E3200				;$B4B22F   |
 	STA $C8					;$B4B232   |
 	LDA #$0E01				;$B4B234   |
 	CMP [$C8]				;$B4B237   |
@@ -5836,7 +5836,7 @@ CODE_B4B262:					;	   |
 	ASL A					;$B4B269   |
 	ASL A					;$B4B26A   |
 	CLC					;$B4B26B   |
-	ADC #$3200				;$B4B26C   |
+	ADC #RAM_7E3200				;$B4B26C   |
 	STA $C8					;$B4B26F   |
 	LDA #$1001				;$B4B271   |
 	CMP [$C8]				;$B4B274   |
@@ -5873,7 +5873,7 @@ CODE_B4B2A9:					;	   |
 	ASL A					;$B4B2B4   |
 	ASL A					;$B4B2B5   |
 	CLC					;$B4B2B6   |
-	ADC #$3200				;$B4B2B7   |
+	ADC #RAM_7E3200				;$B4B2B7   |
 	STA $C8					;$B4B2BA   |
 	LDA $0000,x				;$B4B2BC   |
 	SEP #$20				;$B4B2BF   |
@@ -5949,7 +5949,7 @@ CODE_B4B33C:					;	   |
 	ASL A					;$B4B348   |
 	ASL A					;$B4B349   |
 	CLC					;$B4B34A   |
-	ADC #$2A00				;$B4B34B   |
+	ADC #RAM_7E2A00				;$B4B34B   |
 	STA $C8					;$B4B34E   |
 	LDA #$0001				;$B4B350   |
 	STA [$C8]				;$B4B353   |
@@ -6007,7 +6007,7 @@ CODE_B4B3B8:
 	ASL A					;$B4B3B8  \
 	ASL A					;$B4B3B9   | * 4
 	CLC					;$B4B3BA   |
-	ADC #$3200				;$B4B3BB   | Add base address of node icon table in RAM
+	ADC #RAM_7E3200				;$B4B3BB   | Add base address of node icon table in RAM
 	STA $C8					;$B4B3BE   | Set node address
 	SEP #$20				;$B4B3C0   |
 	LDA [$C8]				;$B4B3C2   |
@@ -6148,8 +6148,8 @@ CODE_B4B4D3:
 	STY $064E				;$B4B4EF   |
 	LDY #DATA_B4CF4B			;$B4B4F2   |
 	SEP #$20				;$B4B4F5   |
-	LDX #$3200				;$B4B4F7   |
-	LDA.b #<:wram_base			;$B4B4FA   |
+	LDX #RAM_7E3200				;$B4B4F7   |
+	LDA.b #<:RAM_7E3200			;$B4B4FA   |
 	PHA					;$B4B4FC   |
 	PLB					;$B4B4FD   |
 	XBA					;$B4B4FE   |
@@ -6498,10 +6498,10 @@ CODE_B4B76E:
 	ASL A					;$B4B771   |
 	ASL A					;$B4B772   |
 	TAY					;$B4B773   |
-	%pea_mask_dbr($7E2A00)			;$B4B774   |
+	%pea_mask_dbr(RAM_7E2A00)		;$B4B774   |
 	PLB					;$B4B777   |
 	PLB					;$B4B778   |
-	LDA $2A00,y				;$B4B779   |
+	LDA.w RAM_7E2A00,y			;$B4B779   |
 	BEQ CODE_B4B76A				;$B4B77C   |
 	LDA $0652				;$B4B77E   |
 	DEC A					;$B4B781   |
@@ -6545,13 +6545,13 @@ update_swanky_lights:
 	LDA active_frame_counter		;$B4B7CA  \ Get frame counter value
 	BIT #$0007				;$B4B7CC   | Check if we're on a frame divisible by 8
 	BNE .return				;$B4B7CF   | If not, return
-	LDA $091D				;$B4B7D1   | Else get index into color value table
+	LDA castle_torch_swanky_lights_index	;$B4B7D1   | Else get index into color value table
 	INC A					;$B4B7D4   | +1
 	CMP #$0003				;$B4B7D5   |
 	BCC .continue_updating			;$B4B7D8   | If less than 3, continue updating
 	LDA #$0000				;$B4B7DA   | Else reset index to 0
 .continue_updating:				;	   |
-	STA $091D				;$B4B7DD   | Update index
+	STA castle_torch_swanky_lights_index	;$B4B7DD   | Update index
 	ASL A					;$B4B7E0   | *2
 	TAX					;$B4B7E1   |
 	SEP #$20				;$B4B7E2   | 8-Bit A
@@ -6565,7 +6565,7 @@ update_swanky_lights:
 	DEY					;$B4B7F4   | Decrease iteraction counter
 	BNE .write_reflection_colors		;$B4B7F5   |
 	REP #$20				;$B4B7F7   | Else back to 16-Bit A
-	LDA $091D				;$B4B7F9   | Get our table index
+	LDA castle_torch_swanky_lights_index	;$B4B7F9   | Get our table index
 	ASL A					;$B4B7FC   | *2
 	TAX					;$B4B7FD   |
 	SEP #$20				;$B4B7FE   | 8-Bit A
@@ -6643,8 +6643,8 @@ CODE_B4B85F:					;	   |
 	STA $0A,x				;$B4B877   |
 CODE_B4B879:					;	   |
 	LDA #$0004				;$B4B879   |
-	JSL interpolate_y_velocity_global	;$B4B87C   |
-	JSL apply_position_from_velocity_global	;$B4B880   |
+	JSL interpolate_y_speed_global		;$B4B87C   |
+	JSL apply_position_from_speed_global	;$B4B880   |
 	LDX $0798				;$B4B884   |
 	LDY inactive_kong_sprite		;$B4B887   |
 	PLA					;$B4B88A   |
@@ -6678,14 +6678,14 @@ CODE_B4B879:					;	   |
 	RTS					;$B4B8C5  /
 
 CODE_B4B8C6:
-	%pea_mask_dbr($7E3202)			;$B4B8C6  \
+	%pea_mask_dbr(RAM_7E3200+2)		;$B4B8C6  \
 	PLB					;$B4B8C9   |
 	PLB					;$B4B8CA   |
 	LDA map_node_number			;$B4B8CB   |
 	ASL A					;$B4B8CE   |
 	ASL A					;$B4B8CF   |
 	TAX					;$B4B8D0   |
-	LDY $3202,x				;$B4B8D1   |
+	LDY.w RAM_7E3200+2,x			;$B4B8D1   |
 	PHK					;$B4B8D4   |
 	PLB					;$B4B8D5   |
 	LDX $0007,y				;$B4B8D6   |
@@ -6811,7 +6811,7 @@ CODE_B4B9B6:					;	   |
 	INX					;$B4B9D4   |
 	INX					;$B4B9D5   |
 	STX $CB					;$B4B9D6   |
-	LDA #$3A00				;$B4B9D8   |
+	LDA #RAM_7E3A00				;$B4B9D8   |
 	STA $CE					;$B4B9DB   |
 	LDY #text_vram_buffer			;$B4B9DD   |
 CODE_B4B9E0:					;	   |
@@ -6829,7 +6829,7 @@ CODE_B4B9F6:
 CODE_B4B9F9:					;	   |
 	STA $0656				;$B4B9F9   |
 	SEP #$20				;$B4B9FC   |
-	LDA.b #<:wram_base			;$B4B9FE   |
+	LDA.b #<:RAM_7E3A00			;$B4B9FE   |
 	STA $D0					;$B4BA00   |
 	REP #$20				;$B4BA02   |
 CODE_B4BA04:					;	   |
@@ -7464,16 +7464,27 @@ CODE_B4BEB4:
 
 ;video game hero screen kong position related
 DATA_B4BED1:
-	db $84, $00, $81, $00, $BE, $00
+	dw $0084
+	dw $0081
+	dw $00BE
 
 DATA_B4BED7:
-	db $27, $00, $46, $00, $8A, $00, $96, $00
+	dw $0027
+	dw $0046
+	dw $008A
+	dw $0096
 
 DATA_B4BEDF:
-	db $1D, $00, $BB, $00, $8E, $00, $6E, $00
+	dw $001D
+	dw $00BB
+	dw $008E
+	dw $006E
 
 DATA_B4BEE7:
-	db $13, $00, $5A, $00, $C3, $00, $46, $00
+	dw $0013
+	dw $005A
+	dw $00C3
+	dw $0046
 
 
 ;video game hero screen init
@@ -9540,7 +9551,7 @@ npc_screen_init_data:
 	dw $7BA0, $7AA0					;Intro and options text VRAM address, response text VRAM address
 	dw DATA_B4CDF1					;NPC spawn data (handles big sprite spawning and other stuff)
 	dw $0060, $0040					;Main kong and inactive kong X position walk limit
-	dw $0100					;Kongs walk X velocity
+	dw $0100					;Kongs walk X speed
 
 .funkys_flights_init:
 	db !funkys_flights_vram_payload_id		;VRAM payload index
@@ -9553,7 +9564,7 @@ npc_screen_init_data:
 	dw $4BA0, $4AA0					;Intro and options text VRAM address, response text VRAM address
 	dw DATA_B4CDF6					;NPC spawn data (handles big sprite spawning and other stuff)
 	dw $00A0, $00C0					;Main kong and inactive kong X position walk limit
-	dw $0100					;Kongs walk X velocity
+	dw $0100					;Kongs walk X speed
 
 .swankys_bonus_bonanza_init:
 	db !swankys_bonus_bonanza_vram_payload_id	;VRAM payload index
@@ -9566,7 +9577,7 @@ npc_screen_init_data:
 	dw $7BA0, $7AA0					;Intro and options text VRAM address, response text VRAM address
 	dw DATA_B4CE07					;NPC spawn data (handles big sprite spawning and other stuff)
 	dw $00A8, $00C8					;Main kong and inactive kong X position walk limit
-	dw $0100					;Kongs walk X velocity
+	dw $0100					;Kongs walk X speed
 
 .kong_kollege_init:
 	db !kong_kollege_vram_payload_id		;VRAM payload index
@@ -9579,7 +9590,7 @@ npc_screen_init_data:
 	dw $7BA0, $7AA0					;Intro and options text VRAM address, response text VRAM address
 	dw DATA_B4CE0F					;NPC spawn data (handles big sprite spawning and other stuff)
 	dw $00A0, $00C0					;Main kong and inactive kong X position walk limit
-	dw $0100					;Kongs walk X velocity
+	dw $0100					;Kongs walk X speed
 
 .klubbas_kiosk_init:
 	db !klubbas_kiosk_vram_payload_id		;VRAM payload index
@@ -9592,7 +9603,7 @@ npc_screen_init_data:
 	dw $7BA0, $7AA0					;Intro and options text VRAM address, response text VRAM address
 	dw DATA_B4CE17					;NPC spawn data (handles big sprite spawning and other stuff)
 	dw $0050, $0030					;Main kong and inactive kong X position walk limit
-	dw $0100					;Kongs walk X velocity
+	dw $0100					;Kongs walk X speed
 
 ;Monkey Museum spawn script indexes
 DATA_B4CDF1:
@@ -9729,14 +9740,31 @@ DATA_B4CE60:
 
 DATA_B4CF21:
 	dw DATA_B4CF37 : db $00, $00
-	dw CODE_B4B43D : db $00, $02, $00, $00
-	dw CODE_B4B48D : db $00, $01, $00, $01
-	db $00, $08, $00, $04, $00, $00
+
+;Unused: World map cheat sequence that would have unlocked all map nodes, however it has no references
+	dw CODE_B4B43D
+	dw !input_left
+	dw $0000
+	
+;Unused: World map cheat sequence that would have given 50 lives and 99 banana coins, however it has no references
+	dw CODE_B4B48D
+	dw !input_right
+	dw !input_right
+	dw !input_up
+	dw !input_down
+	dw $0000
 
 DATA_B4CF37:
-	dw CODE_B4B4B3 : db $00, $01, $00, $02, $00, $08
-	db $00, $04, $00, $01, $00, $02, $00, $08
-	db $00, $04, $00, $00
+	dw CODE_B4B4B3
+	dw !input_right
+	dw !input_left
+	dw !input_up
+	dw !input_down
+	dw !input_right
+	dw !input_left
+	dw !input_up
+	dw !input_down
+	dw $0000
 
 DATA_B4CF4B:
 	db $0E : dw DATA_B4D0B3				; 00 gangplank_galleon

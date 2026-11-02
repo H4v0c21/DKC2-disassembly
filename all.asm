@@ -21,11 +21,12 @@ org $008000			;dummy org so functions work
 	incsrc "ram.asm"
 	incsrc "sram.asm"
 	incsrc "vram.asm"
-	incsrc "aram.asm"
 	incsrc "structs.asm"
 	incsrc "mmio.asm"
-	incsrc "apuio.asm"
-	incsrc "audio_constants.asm"
+	incsrc "audio/apuio.asm"
+	incsrc "audio/aram.asm"
+	incsrc "audio/audio_constants.asm"
+
 
 org $C00000
 	check bankcross half

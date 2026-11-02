@@ -8810,7 +8810,7 @@ init_special_player_clipping:
 	LDY #check_inactive_kong_collision	;$BCFAAB   | | Use a different collision detection routine
 	STY sprite_collision_routine_address	;$BCFAAE   |/
 	LDY #$0002				;$BCFAB1   |\
-	STY RAM_0D38				;$BCFAB4   |/
+	STY sprite_banana_clipping_slot_index	;$BCFAB4   |/
 	LDY #sprite_clipping[4]			;$BCFAB7   |> Use slot 1 of inactive kong clipping (slot 4)
 .setup_special_hitbox:				;	   |
 	JSR get_special_hitbox_clipping		;$BCFABA   |
@@ -8818,7 +8818,7 @@ init_special_player_clipping:
 	PLD					;$BCFAC0   |> Retrieve direct page
 	RTL					;$BCFAC1  /> Return
 
-;Unused code, identical to init_special_player_clipping except it uses slot 0 as a base instead of slot 1
+;Unused: This code is identical to init_special_player_clipping except it uses slot 0 as a base instead of slot 1
 init_special_player_clipping_slot_0:
 	PHD					;$BCFAC2  \> Preserve direct page
 	LDY #sprite_clipping[0]			;$BCFAC3   |> Use slot 0 clipping base
@@ -8830,7 +8830,7 @@ init_special_player_clipping_slot_0:
 	LDY #check_inactive_kong_collision	;$BCFAD3   | | Use a different collision detection routine
 	STY sprite_collision_routine_address	;$BCFAD6   |/
 	LDY #$0002				;$BCFAD9   |\
-	STY RAM_0D38				;$BCFADC   |/
+	STY sprite_banana_clipping_slot_index	;$BCFADC   |/
 	LDY #sprite_clipping[3]			;$BCFADF   |> Use slot 0 of inactive kong clipping (slot 3)
 .setup_special_hitbox:				;	   |
 	JSR get_special_hitbox_clipping		;$BCFAE2   |
@@ -8881,7 +8881,7 @@ CODE_BCFB2C:
 	LDA sprite_clipping[3].right		;$BCFB33   |
 	BEQ CODE_BCFB41				;$BCFB36   |
 	LDY #$0002				;$BCFB38   |
-	STY RAM_0D38				;$BCFB3B   |
+	STY sprite_banana_clipping_slot_index	;$BCFB3B   |
 	LDY #sprite_clipping[4]			;$BCFB3E   |
 CODE_BCFB41:					;	   |
 	JSR get_sprite_clipping			;$BCFB41   |

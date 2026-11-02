@@ -1,703 +1,6 @@
-upload_spc_engine:
-	JMP .upload_spc_engine_wrapper		;$B58000   |
-
-#queue_sound_effect:
-	JMP .queue_sound_effect			;$B58003   |
-
-#queue_song:
-	JMP .queue_song				;$B58006   |
-
-#play_queued_song:
-	JMP .play_queued_song			;$B58009   |
-
-#play_song:
-	JMP .play_song				;$B5800C   |
-
-#play_song_with_transition:
-	JMP .play_song_with_transition		;$B5800F   |
-
-#CODE_B58012:
-	JMP .CODE_B581CE			;$B58012   |
-
-#null_spc_command:
-	JMP .null_spc_command			;$B58015   |
-
-#transition_song:
-	JMP .transition_song			;$B58018   |
-
-#CODE_B5801B:
-	JMP .CODE_B581C2			;$B5801B   |
-
-#play_queued_sound_effect:
-	JMP .play_queued_sound_effect		;$B5801E   |
-
-#play_high_priority_sound:
-	JMP .play_high_priority_sound		;$B58021   |
-
-.unused_play_sound_effect
-	PHB					;$B58024  \
-	PHK					;$B58025   |\ Use current databank
-	PLB					;$B58026   |/
-	ORA #$0500				;$B58027   |\ Play sound effect on channel 5
-	TAX					;$B5802A   | |
-	JSR .write_spc_command			;$B5802B   |/
-	PLB					;$B5802E   |
-	RTL					;$B5802F  /
-
-.queue_sound_effect
-	PHB					;$B58030  \
-	PHY					;$B58031   | Preserve Y (routine will only clobber A/X)
-	PHK					;$B58032   |\ Use current databank
-	PLB					;$B58033   |/
-	LDX next_sound_effect_slot		;$B58034   |\ If the current slot already has same the sound effect
-	CMP spc_command_buffer,x		;$B58037   | |
-	BEQ ..return				;$B5803A   |/ skip adding it to the queue
-	TAY					;$B5803C   | Preserve the sound effect
-	INX					;$B5803D   |\ Increment write ring index the next buffer slot
-	INX					;$B5803E   | |
-	TXA					;$B5803F   | |
-	AND #$000E				;$B58040   | |
-	TAX					;$B58043   |/
-	LDA spc_command_buffer,x		;$B58044   |\ If the slot is not empty, return -- buffer is full
-	BNE ..return				;$B58047   |/
-	TYA					;$B58049   | Restore the sound effect
-	STA spc_command_buffer,x		;$B5804A   | Write sound effect to the buffer
-	STX next_sound_effect_slot		;$B5804D   | Write new ring buffer index
-..return					;	   |
-	PLY					;$B58050   |\ Restore Y and databank
-	PLB					;$B58051   |/
-	RTL					;$B58052  /
-
-.play_queued_sound_effect
-	PHB					;$B58053  \
-	PHK					;$B58054   |\ Use current databank
-	PLB					;$B58055   |/
-	LDA active_frame_counter		;$B58056   |\ If a sound effect was already uploaded this frame
-	CMP last_spc_command_transfer_time	;$B58058   | |
-	BEQ ..return				;$B5805B   |/ return -- one effect per frame
-	LDX current_sound_effect_slot		;$B5805D   |\ If the sound effect slot is empty
-	LDA spc_command_buffer,x		;$B58060   | |
-	BEQ ..return				;$B58063   |/ return -- nothing to do
-	STZ spc_command_buffer,x		;$B58065   | Clear slot after it is loaded
-	BMI ..upgrade_sound_priority		;$B58068   | If MSB is set, the sound effect is high priority
-	JSR .play_low_priority_sound		;$B5806A   | If MSB is clear, handle the sound effect as low priority
-	BRA ..increment_queue			;$B5806D  / increment the sound effect read ring buffer index
-
-..upgrade_sound_priority
-	AND #$7FFF				;$B5806F  \ Mask off MSB to get the true sound effect value
-	JSL .play_high_priority_sound		;$B58072   | Play the sound effect
-..increment_queue				;	   |
-	LDA current_sound_effect_slot		;$B58076   |\ Increment the read ring buffer index
-	INC A					;$B58079   | |
-	INC A					;$B5807A   | |
-	AND #$000E				;$B5807B   | |
-	STA current_sound_effect_slot		;$B5807E   |/
-	LDA active_frame_counter		;$B58081   |\ Write the frame of the last sound effect upload
-	STA last_spc_command_transfer_time	;$B58083   |/
-..return					;	   |
-	PLB					;$B58086   | restore data bank
-	RTL					;$B58087  /
-
-.play_low_priority_sound
-	SEP #$30				;$B58088  \ Enter 8 bit mode (to split sound effect and channel)
-	XBA					;$B5808A   |\ Check if the target channel is already being used
-	TAX					;$B5808B   | |
-	LDA used_sound_effect_channels		;$B5808C   | |
-	BIT .index_to_bit,x			;$B5808F   | |
-	BNE .test_sound_backup_channel		;$B58092   |/ If so, check if the backup channel is free
-.write_low_priority_sound			;	   |
-	TXA					;$B58094   |\ Since the channel is free
-	XBA					;$B58095   | |
-	STA sound_effect_buffer,x		;$B58096   |/ write effect id to channel buffer
-	REP #$30				;$B58099   |\ Return to 16 bit mode
-	TAX					;$B5809B   |/
-	JMP .write_spc_command			;$B5809C  / Transfer the sound effect to the SPC700
-
-.test_sound_backup_channel			;	  \
-	LDX #$04				;$B5809F   |\ If the original channel was full, try channel 4 instead
-	BIT .index_to_bit,x			;$B580A1   | |
-	BEQ .write_low_priority_sound		;$B580A4   |/
-	REP #$30				;$B580A6   | Otherwise restore 16  bit mode and return -- no slots left
-	RTS					;$B580A8  /
-
-.play_high_priority_sound
-	SEP #$30				;$B580A9  \ Enter 8 bit mode (to split sound effect and channel)
-	XBA					;$B580AB   |\ Get the sound effect channel
-	AND #$0F				;$B580AC   | |
-	TAX					;$B580AE   |/
-	XBA					;$B580AF   |\ Write the sound effect id to the channel buffer
-	STA sound_effect_buffer,x		;$B580B0   |/
-	BEQ .reset_channel			;$B580B3   | Branch if the slot was empty
-	LDA .index_to_bit,x			;$B580B5   |\ Mark the channel as used
-	TSB used_sound_effect_channels		;$B580B8   |/
-	BRA .write_sound			;$B580BB  / skip marking the slot empty
-
-.reset_channel					;	  \
-	LDA .index_to_bit,x			;$B580BD   |\ Since the slot was empty mark the channel as empty
-	TRB used_sound_effect_channels		;$B580C0   |/
-.write_sound					;	   |
-	LDA sound_effect_buffer,x		;$B580C3   |\ Write the sound effect to the SPC700
-	REP #$30				;$B580C6   | |
-	TAX					;$B580C8   | |
-	JSR .write_spc_command			;$B580C9   |/
-	RTL					;$B580CC  /
-
-.index_to_bit
-	db $01, $02, $04, $08, $10, $20, $40, $80
-
-.queue_song
-	PHB					;$B580D5  \
-	PHK					;$B580D6   |\ Use current databank
-	PLB					;$B580D7   |/
-	STA current_song			;$B580D8   | Set the active song
-	LDX #$00FF				;$B580DA   |\ Place SPC engine into upload mode
-	JSR .write_spc_command			;$B580DD   |/
-	JSR .upload_song_sample_set		;$B580E0   |\ Upload song data, sound effects, and samples
-	JSR .upload_song_data			;$B580E3   | |
-	JSR .upload_song_sound_effects		;$B580E6   |/
-	JSR .execute_spc_sound_engine		;$B580E9   | Resume the SPC engine main loop
-	PLB					;$B580EC   |
-	RTL					;$B580ED  /
-
-.play_queued_song				;	  \
-	PHB					;$B580EE   |\ Change to current databank
-	PHK					;$B580EF   | |
-	PLB					;$B580F0   |/
-	JSR .clear_sound_buffers		;$B580F1   |
-	LDX #$00FE				;$B580F4   |\ Tell the SPC engine to start playing music
-	JSR .write_spc_command			;$B580F7   |/
-	LDA stereo_select			;$B580FA   |\ Write mono or stereo setting to SPC engine
-	XBA					;$B580FC   | |
-	ORA #$00FA				;$B580FD   | |
-	TAX					;$B58100   | |
-	JSR .write_spc_command			;$B58101   |/
-	PLB					;$B58104   | Restore databank
-	RTL					;$B58105  /
-
-.play_song
-	PHB					;$B58106  \
-	PHK					;$B58107   |\ Use current databank
-	PLB					;$B58108   |/
-	STA current_song			;$B58109   | Set the active song
-	LDX #$00FF				;$B5810B   |\ Place SPC engine into upload mode
-	JSR .write_spc_command			;$B5810E   |/
-	JSR .upload_song_sample_set		;$B58111   |\ Upload song data, sound effects, and samples
-	JSR .upload_song_data			;$B58114   | |
-	JSR .upload_song_sound_effects		;$B58117   |/
-	JSR .clear_sound_buffers		;$B5811A   | Clear the sound effect ring buffers
-	JSR .execute_spc_sound_engine		;$B5811D   | Resume the SPC main loop
-	LDX #$00FE				;$B58120   |\ Tell the SPC engine to start playing music
-	JSR .write_spc_command			;$B58123   |/
-	LDA stereo_select			;$B58126   |\ Write mono or stereo setting to SPC engine
-	XBA					;$B58128   | |
-	ORA #$00FA				;$B58129   | |
-	TAX					;$B5812C   | |
-	JSR .write_spc_command			;$B5812D   |/
-	PLB					;$B58130   | Restore databank
-	RTL					;$B58131  /
-
-.play_song_with_transition
-	PHB					;$B58132  \
-	PHK					;$B58133   |\ Use current databank
-	PLB					;$B58134   |/
-	PHA					;$B58135   | Preserve input (used to extract transition state later)
-	AND #$00FF				;$B58136   |\ Set the active song (mask off transition state)
-	STA current_song			;$B58139   |/
-	LDX #$00FF				;$B5813B   |\ Place SPC engine into upload mode
-	JSR .write_spc_command			;$B5813E   |/
-	JSR .upload_song_sample_set		;$B58141   |\ Upload song data, sound effects, and samples
-	JSR .upload_song_data			;$B58144   | |
-	JSR .upload_song_sound_effects		;$B58147   |/
-	JSR .clear_sound_buffers		;$B5814A   | Clear the sound effect ring buffers
-	JSR .execute_spc_sound_engine		;$B5814D   | Resume the SPC main loop
-	PLA					;$B58150   |\ Set initial transition state (from preserved input)
-	AND #$FF00				;$B58151   | |
-	ORA #$00FB				;$B58154   | |
-	TAX					;$B58157   | |
-	JSR .write_spc_command			;$B58158   |/
-	LDX #$00FE				;$B5815B   |\ Tell the SPC engine to start playing music
-	JSR .write_spc_command			;$B5815E   |/
-	LDA stereo_select			;$B58161   |\ Write mono or stereo setting to SPC engine
-	XBA					;$B58163   | |
-	ORA #$00FA				;$B58164   | |
-	TAX					;$B58167   | |
-	JSR .write_spc_command			;$B58168   |/
-	PLB					;$B5816B   | Restore databank
-	RTL					;$B5816C  /
-
-.clear_sound_buffers
-	LDX #$0007				;$B5816D  \ Load number of slots to clear
-.clear_buffer_entry				;	   |\ Iterate and clear sound betters
-if !version == 0				;	   | |
-	STZ spc_command_buffer,x		;$B58170   | |\ Clear main ring buffer
-	STZ spc_command_buffer+8,x		;$B58173   | | |
-else						;	   | | |
-	STZ spc_command_buffer-1,x		;$B58170   | | |
-	STZ spc_command_buffer+7,x		;$B58173   | | |
-endif						;	   | |/
-	STZ sound_effect_buffer,x		;$B58176   | | Clear the high priority buffer
-	DEX					;$B58179   | |
-	DEX					;$B5817A   | |
-	BPL .clear_buffer_entry			;$B5817B   |/
-	STZ next_sound_effect_slot		;$B5817D   | Clear next buffer position
-	STZ last_spc_command_transfer_time	;$B58180   | Clear last upload frame
-	LDA #$0002				;$B58183   |\ Reset next read position
-	STA current_sound_effect_slot		;$B58186   |/
-	STZ $19B0				;$B58189   |
-	RTS					;$B5818C  /
-
-.upload_spc_engine_wrapper
-	JSR .upload_spc_engine			;$B5818D  \ Wrapper around SPC engine upload routine
-	RTL					;$B58190  /
-
-.upload_spc_engine
-	JSR .upload_spc_base_engine		;$B58191  \ Upload the core of the SPC engine
-	JSR .upload_spc_sound_engine		;$B58194   | Upload the sound processor of the SPC engine
-	JSR .upload_global_samples		;$B58197   |
-	LDA #global_sfx_data			;$B5819A   |\ Load pointer to sound effect data
-	STA $32					;$B5819D   | |
-	LDA.w #global_sfx_data>>16		;$B5819F   | |
-	STA $34					;$B581A2   |/
-	JSR .upload_inline_spc_block		;$B581A4   | Upload the sound effect data
-	JSR .execute_spc_sound_engine		;$B581A7   | Jump to the sound engine entry
-	RTS					;$B581AA  /
-
-.dead_code
-	RTS					;$B581AB  > Dead code
-
-.execute_spc_sound_engine			;	  \
-namespace APU
-	LDA #CODE_0672				;$B581AC   |\ Load the sound engine entry point
-namespace off
-	STA $35					;$B581AF   |/
-	STZ $37					;$B581B1   | Zero size transfer means execute jump
-	JSR .upload_spc_block			;$B581B3   | Call the upload routine
-	RTS					;$B581B6  /
-
-.unused_spc_execute
-	LDA #$06E3				;$B581B7  \ Dead code, would crash SPC engine.
-	STA $35					;$B581BA   |
-	STZ $37					;$B581BC   |
-	JSR .upload_spc_block			;$B581BE   |
-	RTS					;$B581C1  /
-
-.CODE_B581C2
-	AND #$00FF				;$B581C2  \
-	XBA					;$B581C5   |
-	ORA #$00FC				;$B581C6   |
-	TAX					;$B581C9   |
-	JSR .write_spc_command			;$B581CA   |
-	RTL					;$B581CD  /
-
-.CODE_B581CE
-	AND #$00FF				;$B581CE  \
-	XBA					;$B581D1   |
-	ORA #$00FD				;$B581D2   |
-	TAX					;$B581D5   |
-	JSR .write_spc_command			;$B581D6   |
-	RTL					;$B581D9  /
-
-.null_spc_command
-	RTL					;$B581DA  > Unused SPC command that does nothing
-
-.transition_song
-	PHB					;$B581DB  \
-	PHK					;$B581DC   |\ Use current databank
-	PLB					;$B581DD   |/
-	AND #$00FF				;$B581DE   |\ Select transition
-	XBA					;$B581E1   | |
-	ORA #$00FB				;$B581E2   | |
-	TAX					;$B581E5   | |
-	JSR .write_spc_command			;$B581E6   |/
-	LDX #$00FE				;$B581E9   |\ Tell the SPC engine to start playing music
-	JSR .write_spc_command			;$B581EC   |/
-	LDA stereo_select			;$B581EF   |\ Write mono or stereo setting to SPC engine
-	XBA					;$B581F1   | |
-	ORA #$00FA				;$B581F2   | |
-	TAX					;$B581F5   | |
-	JSR .write_spc_command			;$B581F6   |/
-	PLB					;$B581F9   | Restore databank
-	RTL					;$B581FA  /
-
-.write_spc_command
-	TXA					;$B581FB  \ Move the command into A
-	REP #$20				;$B581FC   |\ Use index as 8 bit, with 16 bit accumulator
-	SEP #$10				;$B581FE   |/
-	LDX spc_transaction			;$B58200   | Load the previous SPC transaction id
--						;	   |
-	CPX APU.IO1				;$B58202   |\ Wait for SPC engine to echo the previous transaction id
-	BNE -					;$B58205   |/
-	STA APU.IO2				;$B58207   | Write the command to the SPC engine
-	INX					;$B5820A   |\ Increment and send the SPC transaction id
-	STX APU.IO1				;$B5820B   |/
-	STX spc_transaction			;$B5820E   | Store the SPC transaction id
-	REP #$30				;$B58210   |
-	RTS					;$B58212  / Command upload finished
-
-.upload_spc_base_engine				;	  \
-	REP #$20				;$B58213   |\ Use index as 8 bit, with 16 bit accumulator
-	SEP #$10				;$B58215   |/
-	LDA #$BBAA				;$B58217   | The IPL uses BBAA to indicate ready state
--						;	   |\ Wait for the SPC 700 to be ready
-	CMP APU.IO1				;$B5821A   | |
-	BNE -					;$B5821D   |/
-namespace APU
-	LDA #APU_reset				;$B5821F   |\ Set ARAM address for data transfer
-namespace off
-	STA APU.IO3				;$B58222   |/
-	LDA #$01CC				;$B58225   |\ Acknowledge the SPC-700 IPL and initiate a data transfer
-	STA APU.IO1				;$B58228   |/
-	TAX					;$B5822B   | SPC echo is only a single byte, so use index registers
--						;	   |\ Wait for the SPC-700 to acknowledge the SNES CPU
-	CPX APU.IO1				;$B5822C   | |
-	BNE -					;$B5822F   |/
-	LDX #$00				;$B58231   | Initialize the transfer counter
-..next_byte					;	   |\
-	LDA.l spc_base_engine,x			;$B58233   | |\ Load and store the current engine byte
-	TAY					;$B58237   | | |
-	STY APU.IO2				;$B58238   | |/
-	STX APU.IO1				;$B5823B   | | Store the transaction counter
--						;	   | |\ Wait for the SPC to echo the counter
-	CPX APU.IO1				;$B5823E   | | |
-	BNE -					;$B58241   | |/
-	INX					;$B58243   | | Increment the counter
-	CPX.b #!spc_base_engine_size		;$B58244   | | Compare against the engine size
-	BNE ..next_byte				;$B58246   |/ If we haven't hit the engine size, load the next byte
-	INX					;$B58248   |\ Increment counter by two to end transfer
-	TXA					;$B58249   | | Use A to write the counter for 16 bit (high byte = 00)
-	STA APU.IO1				;$B5824A   |/ Since 00 is written, the uploaded code will be executed
--						;	   |\ Wait for the SPC echo
-	CPX APU.IO1				;$B5824D   | |
-	BNE -					;$B58250   |/
-	STZ spc_transaction			;$B58252   | Reset the SPC transaction id
-	LDA #$0001				;$B58254   |\ Default to mono audio
-	STA stereo_select			;$B58257   |/
-	REP #$30				;$B58259   |
-	RTS					;$B5825B  / All done, new SPC base engine set up.
-
-.upload_song_data
-	LDA current_song			;$B5825C  \ Load currently set song
-	CLC					;$B5825E   |\ Multiply song number by 6 to get an offset to song data
-	ROL A					;$B5825F   | | Effectively (X << 1) + (X << 2)
-	STA $32					;$B58260   | |
-	ROL A					;$B58262   | |
-	CLC					;$B58263   | |
-	ADC $32					;$B58264   |/
-	TAX					;$B58266   | Move offset to an index register
-	LDA.l song_data,x			;$B58267   |\ Load pointer to song data
-	STA $32					;$B5826B   | |
-	LDA.l song_data+2,x			;$B5826D   | |
-	STA $34					;$B58271   |/
-	JSR .upload_inline_spc_block		;$B58273   | Upload song data
-	RTS					;$B58276  /
-
-.upload_song_sound_effects			;	  \
-	LDA current_song			;$B58277   |\ Triple song id
-	CLC					;$B58279   | |
-	ADC current_song			;$B5827A   | |
-	ADC current_song			;$B5827C   |/
-	TAX					;$B5827E   | Move offset to an index register
-	LDA.l DATA_EE117B,x			;$B5827F   |\ Load pointer to song specific sound effects
-	STA $32					;$B58283   | |
-	LDA.l DATA_EE117D,x			;$B58285   | |
-	STA $34					;$B58289   |/
-	JSR .upload_inline_spc_block		;$B5828B   | Upload sound effect data
-	RTS					;$B5828E  /
-
-.upload_spc_sound_engine
-	REP #$30				;$B5828F  \
-	LDA #spc_sound_engine			;$B58291   |\ Load a pointer to SPC sound engine
-	STA $32					;$B58294   | |
-	LDA.w #spc_sound_engine>>16		;$B58296   | |
-	STA $34					;$B58299   |/
-namespace APU
-	LDA #DATA_0560				;$B5829B   |\ Set the ARAM destination
-namespace off
-	STA $35					;$B5829E   |/
-	LDA.w #!spc_sound_engine_size/2		;$B582A0   |\ Set the number of words to transfer
-	STA $37					;$B582A3   |/
-	JSR .upload_spc_block			;$B582A5   | Upload SPC block
-	RTS					;$B582A8  /
-
-.upload_global_samples				;	  \
-	LDA #global_sample_map			;$B582A9   |\ Load the pointer to the global sample map
-	STA $0E					;$B582AC   | |
-	LDA.w #global_sample_map>>16		;$B582AE   | |
-	STA $10					;$B582B1   |/
-namespace APU
-	LDA #sample_table			;$B582B3   |\ Source directory ARAM destination
-namespace off
-	STA $02					;$B582B6   |/
-	STZ $0A					;$B582B8   |
-namespace APU
-	LDA #sample_data			;$B582BA   |\ Sample data ARAM destination
-namespace off
-	STA $06					;$B582BD   |/
-	STZ $0A					;$B582BF   | Reset the sample counter
-	JSR .sample_uploader			;$B582C1   |
-	LDA $02					;$B582C4   |\ Set next pending source directory ARAM destination
-	STA $04					;$B582C6   |/
-	LDA $06					;$B582C8   |\ Set next pending sample data ARAM destination
-	STA $08					;$B582CA   |/
-	LDA $0A					;$B582CC   |\ Set next pending sample number
-	STA $0C					;$B582CE   |/
-	RTS					;$B582D0  /
-
-.sample_uploader
-	STZ $0A					;$B582D1  \ Reset the sample counter
-	LDX #$0000				;$B582D3   |
-	LDA $0A					;$B582D6   |\ Copy sample number (always zero in this case)
-	STA $3A					;$B582D8   |/
-	LDA $0E					;$B582DA   |\ Copy sample map pointer
-	STA $3E					;$B582DC   | |
-	LDA $10					;$B582DE   | |
-	STA $40					;$B582E0   |/
-	LDA $02					;$B582E2   |\ Copy source directory ARAM destination
-	STA $42					;$B582E4   |/
-	LDA $06					;$B582E6   |\ Copy sample data ARAM destination
-	STA $44					;$B582E8   |/
-.parse_next_sample				;	   |
-	LDA [$3E]				;$B582EA   | Load sample number
-	INC $3E					;$B582EC   |\  Increment the sample map pointer
-	INC $3E					;$B582EE   |/
-	CMP #$FFFF				;$B582F0   |\ Sample number FFFF implies end of table, branch and upload
-	BEQ .upload_sample_directory		;$B582F3   |/
-	STA $3C					;$B582F5   |\ Triple sample number to index sample pointer table
-	CLC					;$B582F7   | |
-	ADC $3C					;$B582F8   | |
-	ADC $3C					;$B582FA   |/
-	TXY					;$B582FC   | Preserve ARAM buffer index
-	TAX					;$B582FD   |\ Load pointer to the current sample
-	LDA.l sample_table,x			;$B582FE   | |
-	STA $32					;$B58302   | |
-	LDA.l sample_table+2,x			;$B58304   | |
-	STA $34					;$B58308   |/
-	TYX					;$B5830A   | Restore ARAM buffer index
-	LDA $06					;$B5830B   |\ Store sample data ARAM destination
-	STA $7E2200,x				;$B5830D   |/
-	INX					;$B58311   |\ Increment ARAM buffer index
-	INX					;$B58312   |/
-	LDA [$32]				;$B58313   |\ Load size of unlooped sample data
-	CLC					;$B58315   | |
-	ADC $06					;$B58316   | | Add unlooped sample data and ARAM destination
-	STA $7E2200,x				;$B58318   |/ Store destination of sample loop entry
-	INX					;$B5831C   |\ Increment ARAM buffer index
-	INX					;$B5831D   |/
-	INC $02					;$B5831E   |\ Increase source directory ARAM destination by 4 bytes
-	INC $02					;$B58320   | |
-	INC $02					;$B58322   | |
-	INC $02					;$B58324   |/
-	INC $32					;$B58326   |\ Increment pointer to current sample data
-	INC $32					;$B58328   |/
-	LDA [$32]				;$B5832A   |\ Load size of looped sample data
-	CLC					;$B5832C   | |
-	ADC $06					;$B5832D   | | Add looped sample data and ARAM destination
-	STA $06					;$B5832F   |/ Store next potential ARAM sample destination
-	BRA .parse_next_sample			;$B58331  / Parse the next sample
-
-.upload_sample_directory			;	  \
-	LDA #$2200				;$B58333   |\ Set upload source to $7E2200
-	STA $32					;$B58336   | |
-	LDA #$007E				;$B58338   | |
-	STA $34					;$B5833B   |/
-	LDA $42					;$B5833D   |\ Set ARAM destination
-	STA $35					;$B5833F   |/
-namespace APU
-	LDA #sample_data			;$B58341   |\ Calculate and set upload size
-namespace off
-	SEC					;$B58344   | |
-	SBC $42					;$B58345   | | word count = ($3400 - ARAM dest + 1) / 2
-	CLC					;$B58347   | |
-	INC A					;$B58348   | |
-	LSR A					;$B58349   | |
-	STA $37					;$B5834A   |/
-	JSR .upload_spc_block			;$B5834C   | Upload sample directory
-	LDA #global_sample_map			;$B5834F   |\ Load global sample map pointer
-	STA $3E					;$B58352   | |
-	LDA.w #global_sample_map>>16		;$B58354   | |
-	STA $40					;$B58357   |/
-	LDA $0E					;$B58359   |\ If the sample map pointer is not the global samples
-	CMP $3E					;$B5835B   | |
-	BNE  .map_global_sample			;$B5835D   |/ Branch and include global samples in the mapping
-	LDA $10					;$B5835F   |\ If the pointer does match the global samples
-	CMP $40					;$B58361   | |
-	BEQ .upload_samples			;$B58363   |/ Branch ahead and don't double map global samples
- .map_global_sample				;	   |
-	LDA [$3E]				;$B58365   | Load the sample number
-	CMP #$FFFF				;$B58367   |\ Sample number FFFF implies end of table, in that case
-	BEQ .map_set_specific_samples		;$B5836A   |/ Branch and map set specific samples
-	INC $3E					;$B5836C   |\ Increment sample map pointer
-	INC $3E					;$B5836E   |/
-	TAX					;$B58370   | Use sample number as an index
-	LDA $0A					;$B58371   |\ Store the sample id at the sample number index
-	SEP #$20				;$B58373   | |
-	STA $7E2200,x				;$B58375   | |
-	REP #$20				;$B58379   |/
-	INC $0A					;$B5837B   | Increment the sample number count
-	BRA .map_global_sample			;$B5837D  / Parse next sample map entry
-
-.map_set_specific_samples			;	  \
-	LDA $0E					;$B5837F   |\ Load target sample map pointer
-	STA $3E					;$B58381   | |
-	LDA $10					;$B58383   | |
-	STA $40					;$B58385   |/
-.map_sample					;	   |
-	LDA [$3E]				;$B58387   | Load the sample number
-	CMP #$FFFF				;$B58389   |\ Sample number FFFF implies end of table, branch and upload
-	BEQ .upload_source_number_map		;$B5838C   |/
-	INC $3E					;$B5838E   |\ Increment sample map pointer
-	INC $3E					;$B58390   |/
-	TAX					;$B58392   | Use sample number as an index
-	LDA $0A					;$B58393   |\ Store the sample id at the sample number index
-	SEP #$20				;$B58395   | |
-	STA $7E2200,x				;$B58397   | |
-	REP #$20				;$B5839B   |/
-	INC $0A					;$B5839D   | Increment the sample number count
-	BRA .map_sample				;$B5839F  / Parse next sample map entry
-
-.upload_source_number_map			;	  \
-	LDA #$2200				;$B583A1   |\ Set upload source to $7E2200
-	STA $32					;$B583A4   | |
-	LDA #$007E				;$B583A6   | |
-	STA $34					;$B583A9   |/
-namespace APU
-	LDA #DATA_0560				;$B583AB   |\ Set ARAM Destination to $0560
-namespace off
-	STA $35					;$B583AE   |/
-	LDA #$0080				;$B583B0   |\ Set transfer size to 128 words
-	STA $37					;$B583B3   |/
-	JSR .upload_spc_block			;$B583B5   | Upload the source number table
-.upload_samples					;	   |
-	LDA $44					;$B583B8   |\ Load and copy the sample destination pointer
-	STA $06					;$B583BA   |/
-.upload_next_sample				;	   |
-	LDA [$0E]				;$B583BC   | Load the sample number
-	CMP #$FFFF				;$B583BE   |\ Sample number FFFF implies end of table, branch and return
-	BEQ ..return				;$B583C1   |/
-	INC $0E					;$B583C3   |\ Increment sample map pointer
-	INC $0E					;$B583C5   |/
-	STA $3C					;$B583C7   |\ Triple sample number to index sample data pointer table
-	CLC					;$B583C9   | |
-	ADC $3C					;$B583CA   | |
-	ADC $3C					;$B583CC   | |
-	TAX					;$B583CE   |/
-	LDA.l sample_table,x			;$B583CF   |\ Load a the pointer to the sample.
-	STA $32					;$B583D3   | |
-	LDA.l sample_table+2,x			;$B583D5   | |
-	STA $34					;$B583D9   |/
-	INC $32					;$B583DB   |\ Skip unlooped intro size
-	INC $32					;$B583DD   |/
-	LDA $06					;$B583DF   |\ Load and copy the ARAM destination
-	STA $35					;$B583E1   |/
-	LDA [$32]				;$B583E3   |\ Load and copy the size of the sample to upload
-	STA $37					;$B583E5   |/
-	CLC					;$B583E7   |\ Add the ARAM destination and sample size
-	ADC $35					;$B583E8   | |
-	STA $06					;$B583EA   |/ Store this as the next ARAM destination
-	CLC					;$B583EC   |\ Convert bytes to upload to words to upload
-	INC $37					;$B583ED   | |
-	LSR $37					;$B583EF   |/
-	INC $32					;$B583F1   |\ Increment pointer so sample data start is the next byte
-	INC $32					;$B583F3   |/
-	JSR .upload_spc_block			;$B583F5   | Upload the sample data
-	BRA .upload_next_sample			;$B583F8  / Continue uploading samples
-
-..return
-	RTS					;$B583FA  > All done, no more samples.
-
-.upload_inline_spc_block			;	  \
-	LDA [$32]				;$B583FB   |\ Load the destination ARAM address from the block
-	STA $35					;$B583FD   |/
-	INC $32					;$B583FF   |\ Increment the pointer
-	INC $32					;$B58401   |/
-	LDA [$32]				;$B58403   |\ Load the transfer length from the block
-	STA $37					;$B58405   |/
-	INC $32					;$B58407   |\ Increment the pointer
-	INC $32					;$B58409   |/
-	BRA .upload_spc_block			;$B5840B  / Continue to the normal SPC block upload
-
-.upload_spc_block
-	SEP #$10				;$B5840D  \ 16 bit A, with 8 bit index
-	LDX spc_transaction			;$B5840F   | Load the last SPC transaction id
--						;	   |\ Wait for the previous transaction id to be echoed
-	CPX APU.IO1				;$B58411   | | Which will signify the SPC engine is ready.
-	BNE -					;$B58414   |/
-	LDA $35					;$B58416   |\ Write the ARAM target address
-	STA APU.IO2				;$B58418   |/
-	INX					;$B5841B   |\ Increment and set the transaction id
-	STX APU.IO1				;$B5841C   |/
-	LDA $37					;$B5841F   |\ Copy the byte count
-	STA $39					;$B58421   |/
--						;	   |\ Wait for the transaction id to echo for completion
-	CPX APU.IO1				;$B58423   | |
-	BNE -					;$B58426   |/
-	STA APU.IO2				;$B58428   | Write the length of the transfer
-	INX					;$B5842B   |\ Increment and set the transaction id
-	STX APU.IO1				;$B5842C   |/
-	LDA $37					;$B5842F   |\ If there are no bytes to transfer simply exit
-	BEQ .return				;$B58431   |/ This means we were only executing a jump
-	LDY #$00				;$B58433   |
-.next_byte					;	   |
-	LDA [$32],y				;$B58435   | Load next byte
-	INY					;$B58437   |\ Advance the data index
-	INY					;$B58438   |/
-	BEQ .advance_pointer			;$B58439   | If the index has wrapped, advance the pointer
-.wait_for_echo					;	   |\ Wait for the transaction id to echo for completion
-	CPX APU.IO1				;$B5843B   | |
-	BNE .wait_for_echo			;$B5843E   |/
-	INX					;$B58440   | Increment the transaction id
-	STA APU.IO2				;$B58441   | Write the data (two bytes)
-	STX APU.IO1				;$B58444   | Write the transaction id
-	DEC $37					;$B58447   |\ Continue if there are more bytes to upload
-	BNE .next_byte				;$B58449   |/
-.return						;	   |
-	STX spc_transaction			;$B5844B   | Store the final SPC transaction id
-	REP #$30				;$B5844D   | Return to full 16 bit
-	LDA $39					;$B5844F   |\ Store double the transfer count in A
-	ASL A					;$B58451   |/
-	RTS					;$B58452  / Finished with SPC block upload
-
-.advance_pointer				;	  \
-	LDY $33					;$B58453   |\ Increment the pointer high byte
-	INY					;$B58455   |/
-	BNE .skip_pointer_bank_cross		;$B58456   | If it doesn't roll over, skip incrementing the bank
-	STY $33					;$B58458   | Set the new pointer mid byte
-	LDY $34					;$B5845A   |\ Increment the pointer bank
-	INY					;$B5845C   | |
-	STY $34					;$B5845D   |/
-	LDY #$00				;$B5845F   | Reset the data index
-	BRA .wait_for_echo			;$B58461  /
-
-.skip_pointer_bank_cross
-	STY $33					;$B58463  \ Store the new pointer offset
-	LDY #$00				;$B58465   | Reset the data index
-	BRA .wait_for_echo			;$B58467  /
-
-.upload_song_sample_set
-	LDA current_song			;$B58469  \ Load currently set song
-	CLC					;$B5846B   |\ Multiply song number by 6 to song sample map offset
-	ROL A					;$B5846C   | | Effectively (X << 1) + (X << 2)
-	STA $32					;$B5846D   | |
-	ROL A					;$B5846F   | |
-	CLC					;$B58470   | |
-	ADC $32					;$B58471   |/
-	TAX					;$B58473   | Move offset to an index register
-	LDA.l song_sample_maps,x		;$B58474   |\ Load pointer to song sample map
-	STA $0E					;$B58478   | |
-	LDA.l song_sample_maps+2,x		;$B5847A   | |
-	STA $10					;$B5847E   |/
-	LDA $04					;$B58480   |\ Set next pending source directory ARAM destination
-	STA $02					;$B58482   |/
-	LDA $08					;$B58484   |\ Set next pending sample data ARAM destination
-	STA $06					;$B58486   |/
-	LDA $0C					;$B58488   |\ Set next pending sample number
-	STA $0A					;$B5848A   |/
-	JSR .sample_uploader			;$B5848C   | Upload the samples
-	RTS					;$B5848F  /
-
+	incsrc "audio/audio_driver.asm"
 
 assert pc() <= $B59C00 : padbyte $00 : pad $B59C00
-
 
 ;$32	(byte)	OAM render properties
 ;$34	(word)	unused?
@@ -4927,29 +4230,29 @@ CODE_B5B9F1:
 	STA $10					;$B5B9F8   |
 	STA $12					;$B5B9FA   |
 	JSL camera_handler			;$B5B9FC   |
-	LDA $0AE2				;$B5BA00   |
-	STA $0ADA				;$B5BA03   |
-	LDA $0AE4				;$B5BA06   |
-	STA $0ADC				;$B5BA09   |
-	LDA $0ADE				;$B5BA0C   |
-	STA $0AD6				;$B5BA0F   |
-	LDA $0AE0				;$B5BA12   |
-	STA $0AD8				;$B5BA15   |
-	LDA $0AE3				;$B5BA18   |
+	LDA camera_0AE2				;$B5BA00   |
+	STA camera_0ADA				;$B5BA03   |
+	LDA camera_0AE4				;$B5BA06   |
+	STA camera_0ADC				;$B5BA09   |
+	LDA camera_0ADE				;$B5BA0C   |
+	STA camera_0AD6				;$B5BA0F   |
+	LDA camera_0AE0				;$B5BA12   |
+	STA camera_0AD8				;$B5BA15   |
+	LDA camera_0AE3				;$B5BA18   |
 	STA screen_scroll_y_position		;$B5BA1B   |
 	DEC A					;$B5BA1E   |
 	STA $17C2				;$B5BA1F   |
 	LDA level[0].effects			;$B5BA22   |
 	AND #!no_tilemap_effect			;$B5BA25   |
 	BNE CODE_B5BA83				;$B5BA28   |
-	LDA $0ADF				;$B5BA2A   |
+	LDA camera_0ADF				;$B5BA2A   |
 	SEC					;$B5BA2D   |
 	SBC #$0100				;$B5BA2E   |
 	STA screen_scroll_x_position		;$B5BA31   |
-	STZ $0ACE				;$B5BA34   |
-	STZ $0AD0				;$B5BA37   |
-	STZ $0AD2				;$B5BA3A   |
-	STZ $0AD4				;$B5BA3D   |
+	STZ camera_0ACE				;$B5BA34   |
+	STZ camera_0AD0				;$B5BA37   |
+	STZ camera_0AD2				;$B5BA3A   |
+	STZ camera_0AD4				;$B5BA3D   |
 	LDA screen_scroll_y_position		;$B5BA40   |
 	AND #$00F8				;$B5BA43   |
 	STA $17CE				;$B5BA46   |
@@ -4981,10 +4284,10 @@ CODE_B5BA83:					;	   |
 	LDA screen_scroll_y_position		;$B5BA83   |
 	AND #$00F8				;$B5BA86   |
 	STA $17CE				;$B5BA89   |
-	STZ $0ACE				;$B5BA8C   |
-	STZ $0AD0				;$B5BA8F   |
-	STZ $0AD2				;$B5BA92   |
-	STZ $0AD4				;$B5BA95   |
+	STZ camera_0ACE				;$B5BA8C   |
+	STZ camera_0AD0				;$B5BA8F   |
+	STZ camera_0AD2				;$B5BA92   |
+	STZ camera_0AD4				;$B5BA95   |
 	RTS					;$B5BA98  /
 
 CODE_B5BA99:
@@ -4994,7 +4297,7 @@ CODE_B5BA99:
 	JSL CODE_80E522				;$B5BAA1   |
 	JSL CODE_B5A950				;$B5BAA5   |
 CODE_B5BAA9:					;	   |
-	LDA $0AB4				;$B5BAA9   |
+	LDA camera_0AB4				;$B5BAA9   |
 	AND #$000F				;$B5BAAC   |
 	BNE CODE_B5BAB6				;$B5BAAF   |
 CODE_B5BAB1:					;	   |
@@ -5286,9 +4589,9 @@ CODE_B5BCA8:
 	STA level_palette_address		;$B5BCF4   |/
 .alternate_palette:				;	   |
 	LDA level_dimensions_table,y		;$B5BCF7   |
-	STA $0B84				;$B5BCFA   |
+	STA level_dimensions_address		;$B5BCFA   |
 	LDA DATA_B5BC54,y			;$B5BCFD   | Get tilemap compression flags
-	STA $0B86				;$B5BD00   |
+	STA level_compression_settings		;$B5BD00   |
 	PLB					;$B5BD03   |
 	RTL					;$B5BD04  /
 
@@ -5528,13 +4831,13 @@ DATA_B5C28F:
 CODE_B5C2DB:
 	LDA #$6240				;$B5C2DB  \
 	SEC					;$B5C2DE   |
-	SBC $0D54				;$B5C2DF   |
+	SBC crush_floor_y_position		;$B5C2DF   |
 	STA $3A					;$B5C2E2   |
 	LDA #$6300				;$B5C2E4   |
 	SEC					;$B5C2E7   |
 	SBC $34					;$B5C2E8   |
 	STA $3C					;$B5C2EA   |
-	LDA water_current_y_velocity		;$B5C2EC   |
+	LDA water_current_y_speed		;$B5C2EC   |
 	BMI CODE_B5C30B				;$B5C2EF   |
 	BEQ CODE_B5C30B				;$B5C2F1   |
 	LDX current_sprite			;$B5C2F3   |
@@ -5639,7 +4942,7 @@ CODE_B5C397:
 	RTL					;$B5C39E  /
 
 CODE_B5C39F:
-	LDA $0915				;$B5C39F  \
+	LDA water_safe_timer			;$B5C39F  \
 	BEQ CODE_B5C3C2				;$B5C3A2   |
 	LDA water_y_position			;$B5C3A4   |
 	CMP $34					;$B5C3A7   |
@@ -5690,7 +4993,7 @@ get_sprite_terrain_info_y_origin_0:
 	PHK					;$B5C3ED   |
 	PLB					;$B5C3EE   |
 	STX $62					;$B5C3EF   |
-	JMP ($17B2)				;$B5C3F1  /
+	JMP (RAM_17B2)				;$B5C3F1  /
 
 ;Disable terrain collision for 2nd floor of kreepy krow if fight hasn't reached that stage yet
 CODE_B5C3F4:
@@ -7765,14 +7068,14 @@ CODE_B5D23C:					;	   |
 	BRA CODE_B5D23C				;$B5D23D  /
 
 CODE_B5D23F:
-	%pea_mask_dbr($7E3202)			;$B5D23F  \
+	%pea_mask_dbr(RAM_7E3200+2)		;$B5D23F  \
 	PLB					;$B5D242   |
 	PLB					;$B5D243   |
 	LDA.l map_node_number			;$B5D244   |
 	ASL A					;$B5D248   |
 	ASL A					;$B5D249   |
 	TAY					;$B5D24A   |
-	LDX $3202,y				;$B5D24B   |
+	LDX.w RAM_7E3200+2,y			;$B5D24B   |
 	LDA #$B400				;$B5D24E   | Bank
 	PHA					;$B5D251   |
 	PLB					;$B5D252   |
@@ -7787,9 +7090,9 @@ CODE_B5D25F:
 CODE_B5D263:					;	   |
 	ASL A					;$B5D263   |
 	ASL A					;$B5D264   |
-	ADC #$2A00				;$B5D265   |
+	ADC #RAM_7E2A00				;$B5D265   |
 	TAY					;$B5D268   |
-	%pea_mask_dbr($7E2A00)			;$B5D269   |
+	%pea_mask_dbr(RAM_7E2A00)		;$B5D269   |
 	PLB					;$B5D26C   |
 	PLB					;$B5D26D   |
 	LDA $0002,y				;$B5D26E   |
@@ -9042,13 +8345,13 @@ CODE_B5DD99:					;	   |
 	BNE CODE_B5DD59				;$B5DDA0   |
 	LDX #$147E				;$B5DDA2   |
 	STX current_sprite			;$B5DDA5   |
-	JSL apply_position_from_velocity_global	;$B5DDA7   |
+	JSL apply_position_from_speed_global	;$B5DDA7   |
 	LDX #$14DC				;$B5DDAB   |
 	STX current_sprite			;$B5DDAE   |
-	JSL apply_position_from_velocity_global	;$B5DDB0   |
+	JSL apply_position_from_speed_global	;$B5DDB0   |
 	LDX #$153A				;$B5DDB4   |
 	STX current_sprite			;$B5DDB7   |
-	JSL apply_position_from_velocity_global	;$B5DDB9   |
+	JSL apply_position_from_speed_global	;$B5DDB9   |
 	LDX #$13C2				;$B5DDBD   |
 	LDA $44,x				;$B5DDC0   |
 	BNE CODE_B5DDC7				;$B5DDC2   |
@@ -9157,7 +8460,7 @@ CODE_B5DE8D:					;	   |
 	LDA $24,x				;$B5DE92   |
 	ADC #$001C				;$B5DE94   |
 	STA $24,x				;$B5DE97   |
-	JSL apply_position_from_velocity_global	;$B5DE99   |
+	JSL apply_position_from_speed_global	;$B5DE99   |
 CODE_B5DE9D:					;	   |
 	LDX #$13C2				;$B5DE9D   |
 	LDA $44,x				;$B5DEA0   |
@@ -9472,10 +8775,10 @@ CODE_B5E0E2:
 	STA DMA[0].source_bank			;$B5E0EC   |
 	LDA #$0800				;$B5E0EF   |
 	STA DMA[0].size				;$B5E0F2   |
-	LDA #$8D28				;$B5E0F5   |
+	LDA #RAM_7E8D28				;$B5E0F5   |
 	STA WRAM.address			;$B5E0F8   |
 	SEP #$20				;$B5E0FB   |
-	LDA #$7E				;$B5E0FD   |
+	LDA #<:RAM_7E8D28			;$B5E0FD   |
 	STA WRAM.bank				;$B5E0FF   |
 	LDA #$80				;$B5E102   |
 	STA DMA[0].destination			;$B5E104   |
@@ -9484,8 +8787,8 @@ CODE_B5E0E2:
 	LDA #$01				;$B5E10C   |
 	STA CPU.enable_dma			;$B5E10E   |
 	REP #$20				;$B5E111   |
-	STZ $0AFC				;$B5E113   |
-	STZ $0AFE				;$B5E116   |
+	STZ camera_0AFC				;$B5E113   |
+	STZ camera_0AFE				;$B5E116   |
 	JSL get_level_number			;$B5E119   |
 	ASL A					;$B5E11D   |
 	TAX					;$B5E11E   |
@@ -9493,7 +8796,7 @@ CODE_B5E0E2:
 	STA $36					;$B5E123   |
 	LDA.l DATA_FD934D,x			;$B5E125   |
 	TAX					;$B5E129   |
-	LDA $0AB4				;$B5E12A   |
+	LDA camera_0AB4				;$B5E12A   |
 	AND #$000F				;$B5E12D   |
 	ASL A					;$B5E130   |
 	ASL A					;$B5E131   |
@@ -9502,12 +8805,12 @@ CODE_B5E0E2:
 	PHK					;$B5E134   |
 	PLB					;$B5E135   |
 	LDA DATA_B5E389,y			;$B5E136   |
-	STA $7E8E28				;$B5E139   |
+	STA RAM_7E8E28				;$B5E139   |
 	LDA DATA_B5E38B,y			;$B5E13D   |
-	STA $7E9028				;$B5E140   |
+	STA RAM_7E9028				;$B5E140   |
 	LDA #$0100				;$B5E144   |
-	STA $7E8D28				;$B5E147   |
-	STA $7E8F28				;$B5E14B   |
+	STA RAM_7E8D28				;$B5E147   |
+	STA RAM_7E8F28				;$B5E14B   |
 	LDA DATA_B5E38D,y			;$B5E14F   |
 	STA $32					;$B5E152   |
 	LDA DATA_B5E38F,y			;$B5E154   |
@@ -9519,9 +8822,9 @@ CODE_B5E0E2:
 	LDX #$0000				;$B5E15F   |
 	CMP $36					;$B5E162   |
 	BCC CODE_B5E179				;$B5E164   |
-	LDA.l $7E8E28				;$B5E166   |
+	LDA.l RAM_7E8E28			;$B5E166   |
 	STA $000AFC				;$B5E16A   |
-	LDA.l $7E9028				;$B5E16E   |
+	LDA.l RAM_7E9028			;$B5E16E   |
 	STA $000AFE				;$B5E172   |
 	BRL CODE_B5E2E9				;$B5E176  /
 
@@ -9542,26 +8845,26 @@ CODE_B5E184:					;	   |
 	EOR.w DATA_FD934F,y			;$B5E18D   |
 	AND #$FF3F				;$B5E190   |
 	EOR.w DATA_FD934F,y			;$B5E193   |
-	STA $7E9128,x				;$B5E196   |
+	STA RAM_7E9128,x			;$B5E196   |
 	LDA.w DATA_FD934D,y			;$B5E19A   |
 	AND #$1FF0				;$B5E19D   |
 	LSR A					;$B5E1A0   |
 	ADC #$0100				;$B5E1A1   |
-	STA $7E8D28,x				;$B5E1A4   |
+	STA RAM_7E8D28,x			;$B5E1A4   |
 	LDA.w DATA_FD934E,y			;$B5E1A8   |
 	LSR A					;$B5E1AB   |
 	AND #$1FF0				;$B5E1AC   |
 	LSR A					;$B5E1AF   |
 	ADC #$0100				;$B5E1B0   |
-	STA $7E8F28,x				;$B5E1B3   |
+	STA RAM_7E8F28,x			;$B5E1B3   |
 	LDA.w DATA_FD9350,y			;$B5E1B7   |
 	AND #$00FF				;$B5E1BA   |
 	ASL A					;$B5E1BD   |
 	ADC #$0020				;$B5E1BE   |
 	ASL A					;$B5E1C1   |
 	ASL A					;$B5E1C2   |
-	ADC $7E8D28,x				;$B5E1C3   |
-	STA $7E8E28,x				;$B5E1C7   |
+	ADC RAM_7E8D28,x			;$B5E1C3   |
+	STA RAM_7E8E28,x			;$B5E1C7   |
 	CMP $000AFC				;$B5E1CB   |
 	BCC CODE_B5E1D5				;$B5E1CF   |
 	STA $000AFC				;$B5E1D1   |
@@ -9572,8 +8875,8 @@ CODE_B5E1D5:					;	   |
 	ADC #$001C				;$B5E1DC   |
 	ASL A					;$B5E1DF   |
 	ASL A					;$B5E1E0   |
-	ADC $7E8F28,x				;$B5E1E1   |
-	STA $7E9028,x				;$B5E1E5   |
+	ADC RAM_7E8F28,x			;$B5E1E1   |
+	STA RAM_7E9028,x			;$B5E1E5   |
 	CMP $000AFE				;$B5E1E9   |
 	BCC CODE_B5E1F3				;$B5E1ED   |
 	STA $000AFE				;$B5E1EF   |
@@ -9594,27 +8897,27 @@ CODE_B5E1FF:
 	EOR.w DATA_FD934F,y			;$B5E208   |
 	AND #$FF3F				;$B5E20B   |
 	EOR.w DATA_FD934F,y			;$B5E20E   |
-	STA $7E9128,x				;$B5E211   |
+	STA RAM_7E9128,x			;$B5E211   |
 	LDA.w DATA_FD934D,y			;$B5E215   |
 	AND #$FFF0				;$B5E218   |
 	LSR A					;$B5E21B   |
 	ADC #$0100				;$B5E21C   |
-	STA $7E8D28,x				;$B5E21F   |
+	STA RAM_7E8D28,x			;$B5E21F   |
 	LDA.w DATA_FD934F,y			;$B5E223   |
 	AND #$003F				;$B5E226   |
 	ASL A					;$B5E229   |
 	ASL A					;$B5E22A   |
 	ASL A					;$B5E22B   |
 	ADC #$0100				;$B5E22C   |
-	STA $7E8F28,x				;$B5E22F   |
+	STA RAM_7E8F28,x			;$B5E22F   |
 	LDA.w DATA_FD9350,y			;$B5E233   |
 	AND #$03FF				;$B5E236   |
 	ASL A					;$B5E239   |
 	ADC #$0020				;$B5E23A   |
 	ASL A					;$B5E23D   |
 	ASL A					;$B5E23E   |
-	ADC $7E8D28,x				;$B5E23F   |
-	STA $7E8E28,x				;$B5E243   |
+	ADC RAM_7E8D28,x			;$B5E23F   |
+	STA RAM_7E8E28,x			;$B5E243   |
 	CMP $000AFC				;$B5E247   |
 	BCC CODE_B5E251				;$B5E24B   |
 	STA $000AFC				;$B5E24D   |
@@ -9623,7 +8926,7 @@ CODE_B5E251:					;	   |
 	AND #$00FC				;$B5E254   |
 	ASL A					;$B5E257   |
 	ADC #$0108				;$B5E258   |
-	STA $7E9028,x				;$B5E25B   |
+	STA RAM_7E9028,x			;$B5E25B   |
 	CMP $000AFE				;$B5E25F   |
 	BCC CODE_B5E269				;$B5E263   |
 	STA $000AFE				;$B5E265   |
@@ -9644,18 +8947,18 @@ CODE_B5E274:
 	EOR.w DATA_FD9351,y			;$B5E27D   |
 	AND #$FF3F				;$B5E280   |
 	EOR.w DATA_FD9351,y			;$B5E283   |
-	STA $7E9128,x				;$B5E286   |
+	STA RAM_7E9128,x			;$B5E286   |
 	LDA.w DATA_FD934D,y			;$B5E28A   |
 	AND $32					;$B5E28D   |
 	LSR A					;$B5E28F   |
 	ADC #$0100				;$B5E290   |
-	STA $7E8D28,x				;$B5E293   |
+	STA RAM_7E8D28,x			;$B5E293   |
 	LDA.w DATA_FD934F,y			;$B5E297   |
 	LSR A					;$B5E29A   |
 	AND $32					;$B5E29B   |
 	LSR A					;$B5E29D   |
 	ADC #$0108				;$B5E29E   |
-	STA $7E8E28,x				;$B5E2A1   |
+	STA RAM_7E8E28,x			;$B5E2A1   |
 	CMP $000AFC				;$B5E2A5   |
 	BCC CODE_B5E2AF				;$B5E2A9   |
 	STA $000AFC				;$B5E2AB   |
@@ -9667,7 +8970,7 @@ CODE_B5E2AF:					;	   |
 
 CODE_B5E2BB:
 	ADC #$0100				;$B5E2BB  \
-	STA $7E8F28,x				;$B5E2BE   |
+	STA RAM_7E8F28,x			;$B5E2BE   |
 	LDA.w DATA_FD9350,y			;$B5E2C2   |
 	LSR A					;$B5E2C5   |
 	AND #$1FFC				;$B5E2C6   |
@@ -9676,7 +8979,7 @@ CODE_B5E2BB:
 
 CODE_B5E2CF:
 	ADC #$0108				;$B5E2CF  \
-	STA $7E9028,x				;$B5E2D2   |
+	STA RAM_7E9028,x			;$B5E2D2   |
 	CMP $000AFE				;$B5E2D6   |
 	BCC CODE_B5E2E0				;$B5E2DA   |
 	STA $000AFE				;$B5E2DC   |
@@ -9687,19 +8990,19 @@ CODE_B5E2E0:					;	   |
 	CMP $36					;$B5E2E5   |
 	BCC CODE_B5E274				;$B5E2E7   |
 CODE_B5E2E9:					;	   |
-	%pea_shift_dbr($7E8D28)			;$B5E2E9   |
+	%pea_shift_dbr(RAM_7E8D28)		;$B5E2E9   |
 	PLB					;$B5E2EC   |
 	PLB					;$B5E2ED   |
-	STX $0ABA				;$B5E2EE   |
+	STX camera_0ABA				;$B5E2EE   |
 	LDX #$0000				;$B5E2F1   |
 CODE_B5E2F4:					;	   |
-	CPX $0ABA				;$B5E2F4   |
+	CPX camera_0ABA				;$B5E2F4   |
 	BCS CODE_B5E354				;$B5E2F7   |
 	INX					;$B5E2F9   |
 	INX					;$B5E2FA   |
 CODE_B5E2FB:					;	   |
 	TXY					;$B5E2FB   |
-	LDA $9128,x				;$B5E2FC   |
+	LDA.w RAM_7E9128,x			;$B5E2FC   |
 	AND #$000F				;$B5E2FF   |
 	BEQ CODE_B5E2F4				;$B5E302   |
 	AND #$000C				;$B5E304   |
@@ -9726,17 +9029,17 @@ CODE_B5E327:
 	BRA CODE_B5E339				;$B5E32A  /
 
 CODE_B5E32C:
-	LDA $8E28,x				;$B5E32C  \
+	LDA.w RAM_7E8E28,x			;$B5E32C  \
 	DEC A					;$B5E32F   |
 CODE_B5E330:					;	   |
 	INY					;$B5E330   |
 	INY					;$B5E331   |
-	CMP $8D28,y				;$B5E332   |
+	CMP.w RAM_7E8D28,y			;$B5E332   |
 	BCS CODE_B5E330				;$B5E335   |
 	BRA CODE_B5E339				;$B5E337  /
 
 CODE_B5E339:
-	LDA $9128,x				;$B5E339  \
+	LDA.w RAM_7E9128,x			;$B5E339  \
 	AND #$0003				;$B5E33C   |
 	BEQ CODE_B5E34A				;$B5E33F   |
 	DEC A					;$B5E341   |
@@ -9748,26 +9051,26 @@ CODE_B5E34A:					;	   |
 	INX					;$B5E34A   |
 	INX					;$B5E34B   |
 	TXY					;$B5E34C   |
-	CPX $0ABA				;$B5E34D   |
+	CPX camera_0ABA				;$B5E34D   |
 	BCC CODE_B5E2FB				;$B5E350   |
 	BEQ CODE_B5E339				;$B5E352   |
 CODE_B5E354:					;	   |
-	STZ $0A90				;$B5E354   |
-	STZ $0AB2				;$B5E357   |
-	STZ $0ABC				;$B5E35A   |
-	STZ $0AE8				;$B5E35D   |
-	STZ $0AEE				;$B5E360   |
-	STZ $0AF2				;$B5E363   |
+	STZ camera_0A90				;$B5E354   |
+	STZ camera_0AB2				;$B5E357   |
+	STZ camera_0ABC				;$B5E35A   |
+	STZ camera_0AE8				;$B5E35D   |
+	STZ camera_0AEE				;$B5E360   |
+	STZ camera_0AF2				;$B5E363   |
 	LDA level[0].unknown_38			;$B5E366   |
-	STA $0AB6				;$B5E369   |
-	LDA $0AFC				;$B5E36C   |
+	STA camera_0AB6				;$B5E369   |
+	LDA camera_0AFC				;$B5E36C   |
 	SEC					;$B5E36F   |
 	SBC #$0100				;$B5E370   |
-	STA $0AFC				;$B5E373   |
-	LDA $0AFE				;$B5E376   |
+	STA camera_0AFC				;$B5E373   |
+	LDA camera_0AFE				;$B5E376   |
 	SEC					;$B5E379   |
 	SBC #$00E0				;$B5E37A   |
-	STA $0AFE				;$B5E37D   |
+	STA camera_0AFE				;$B5E37D   |
 	JSL CODE_B5E43E				;$B5E380   |
 	JSR CODE_B5E4AA				;$B5E384   |
 	PLB					;$B5E387   |
@@ -9805,61 +9108,61 @@ CODE_B5E3D6:					;	   |
 	RTS					;$B5E3DA  /
 
 CODE_B5E3DB:
-	LDA $8E28,x				;$B5E3DB  \
+	LDA.w RAM_7E8E28,x			;$B5E3DB  \
 CODE_B5E3DE:					;	   |
 	INY					;$B5E3DE   |
 	INY					;$B5E3DF   |
-	CMP $8D28,y				;$B5E3E0   |
+	CMP.w RAM_7E8D28,y			;$B5E3E0   |
 	BNE CODE_B5E3DE				;$B5E3E3   |
-	LDA $8F28,x				;$B5E3E5   |
-	CMP $9028,y				;$B5E3E8   |
+	LDA.w RAM_7E8F28,x			;$B5E3E5   |
+	CMP.w RAM_7E9028,y			;$B5E3E8   |
 	BCS CODE_B5E3DB				;$B5E3EB   |
-	LDA $8F28,y				;$B5E3ED   |
-	CMP $9028,x				;$B5E3F0   |
+	LDA.w RAM_7E8F28,y			;$B5E3ED   |
+	CMP.w RAM_7E9028,x			;$B5E3F0   |
 	BCS CODE_B5E3DB				;$B5E3F3   |
 	TYA					;$B5E3F5   |
 	LSR A					;$B5E3F6   |
-	ORA $9129,x				;$B5E3F7   |
-	STA $9129,x				;$B5E3FA   |
-	LDA $9228,y				;$B5E3FD   |
+	ORA.w RAM_7E9128+1,x			;$B5E3F7   |
+	STA.w RAM_7E9128+1,x			;$B5E3FA   |
+	LDA.w RAM_7E9228,y			;$B5E3FD   |
 	BNE CODE_B5E408				;$B5E400   |
 	TXA					;$B5E402   |
 	LSR A					;$B5E403   |
-	STA $9228,y				;$B5E404   |
+	STA.w RAM_7E9228,y			;$B5E404   |
 	RTS					;$B5E407  /
 
 CODE_B5E408:
 	TXA					;$B5E408  \
 	LSR A					;$B5E409   |
-	ORA $9229,y				;$B5E40A   |
-	STA $9229,y				;$B5E40D   |
+	ORA.w RAM_7E9228+1,y			;$B5E40A   |
+	STA.w RAM_7E9228+1,y			;$B5E40D   |
 	RTS					;$B5E410  /
 
 CODE_B5E411:
-	LDA $9028,x				;$B5E411  \
+	LDA.w RAM_7E9028,x			;$B5E411  \
 CODE_B5E414:					;	   |
 	DEY					;$B5E414   |
 	DEY					;$B5E415   |
-	CMP $8F28,y				;$B5E416   |
+	CMP.w RAM_7E8F28,y			;$B5E416   |
 	BNE CODE_B5E414				;$B5E419   |
-	LDA $9428,x				;$B5E41B   |
+	LDA.w RAM_7E9428,x			;$B5E41B   |
 	BEQ CODE_B5E424				;$B5E41E   |
 	XBA					;$B5E420   |
-	STA $9428,x				;$B5E421   |
+	STA.w RAM_7E9428,x			;$B5E421   |
 CODE_B5E424:					;	   |
 	TYA					;$B5E424   |
 	LSR A					;$B5E425   |
-	ORA $9428,x				;$B5E426   |
-	STA $9428,x				;$B5E429   |
-	LDA $9328,y				;$B5E42C   |
+	ORA.w RAM_7E9428,x			;$B5E426   |
+	STA.w RAM_7E9428,x			;$B5E429   |
+	LDA.w RAM_7E9328,y			;$B5E42C   |
 	BEQ CODE_B5E435				;$B5E42F   |
 	XBA					;$B5E431   |
-	STA $9328,y				;$B5E432   |
+	STA.w RAM_7E9328,y			;$B5E432   |
 CODE_B5E435:					;	   |
 	TXA					;$B5E435   |
 	LSR A					;$B5E436   |
-	ORA $9328,y				;$B5E437   |
-	STA $9328,y				;$B5E43A   |
+	ORA.w RAM_7E9328,y			;$B5E437   |
+	STA.w RAM_7E9328,y			;$B5E43A   |
 	RTS					;$B5E43D  /
 
 
@@ -9868,7 +9171,7 @@ CODE_B5E43E:
 	LDA current_player_mount		;$B5E43E  \
 	ORA animal_type				;$B5E440   |
 	CMP #$0001				;$B5E442   |
-	LDA $0AB6				;$B5E445   |
+	LDA camera_0AB6				;$B5E445   |
 	BCC CODE_B5E44B				;$B5E448   |
 	XBA					;$B5E44A   |
 CODE_B5E44B:					;	   |
@@ -9879,37 +9182,37 @@ CODE_B5E44B:					;	   |
 	TAX					;$B5E451   |
 	LDA.l DATA_FD470D,x			;$B5E452   |
 	AND #$FF00				;$B5E456   |
-	STA $0AEA				;$B5E459   |
+	STA camera_0AEA				;$B5E459   |
 	LDA.l DATA_FD470E,x			;$B5E45C   |
 	AND #$FF00				;$B5E460   |
-	STA $0AEC				;$B5E463   |
+	STA camera_0AEC				;$B5E463   |
 	LDA.l DATA_FD470F,x			;$B5E466   |
 	AND #$FF00				;$B5E46A   |
-	STA $0AF0				;$B5E46D   |
+	STA camera_0AF0				;$B5E46D   |
 	LDA.l DATA_FD4710,x			;$B5E470   |
 	AND #$FF00				;$B5E474   |
-	STA $0AF4				;$B5E477   |
+	STA camera_0AF4				;$B5E477   |
 	LDA.l DATA_FD4712,x			;$B5E47A   |
 	AND #$0F0F				;$B5E47E   |
-	STA $0AC8				;$B5E481   |
+	STA camera_0AC8				;$B5E481   |
 	EOR.l DATA_FD4712,x			;$B5E484   |
 	LSR A					;$B5E488   |
 	LSR A					;$B5E489   |
 	LSR A					;$B5E48A   |
 	LSR A					;$B5E48B   |
-	STA $0ACC				;$B5E48C   |
+	STA camera_0ACC				;$B5E48C   |
 	LDA.l DATA_FD4714,x			;$B5E48F   |
 	AND #$00FF				;$B5E493   |
 	ASL A					;$B5E496   |
 	ASL A					;$B5E497   |
 	ASL A					;$B5E498   |
-	STA $0AC6				;$B5E499   |
+	STA camera_0AC6				;$B5E499   |
 	LDA.l DATA_FD4715,x			;$B5E49C   |
 	AND #$00FF				;$B5E4A0   |
 	ASL A					;$B5E4A3   |
 	ASL A					;$B5E4A4   |
 	ASL A					;$B5E4A5   |
-	STA $0ACA				;$B5E4A6   |
+	STA camera_0ACA				;$B5E4A6   |
 	RTL					;$B5E4A9  /
 
 CODE_B5E4AA:
@@ -9927,7 +9230,7 @@ CODE_B5E4C3:					;	   |
 	STA $0D88				;$B5E4C6   |
 	TYA					;$B5E4C9   |
 	CLC					;$B5E4CA   |
-	ADC $06,x				;$B5E4CB   |
+	ADC sprite.x_position,x			;$B5E4CB   |
 	STA $0D8A				;$B5E4CD   |
 	LDY #$0000				;$B5E4D0   |
 	LDA level[0].entrance_direction		;$B5E4D3   |
@@ -9942,63 +9245,64 @@ CODE_B5E4E6:					;	   |
 	STA $0D8C				;$B5E4E9   |
 	TYA					;$B5E4EC   |
 	CLC					;$B5E4ED   |
-	ADC $0A,x				;$B5E4EE   |
+	ADC sprite.y_position,x			;$B5E4EE   |
 	STA $0D8E				;$B5E4F0   |
 	LDY #sprite_table.slot_0		;$B5E4F3   |
 	JSR CODE_B5E560				;$B5E4F6   |
 	PHD					;$B5E4F9   |
-	LDA #$0A00				;$B5E4FA   |
+	LDA #!camera_dp_base			;$B5E4FA   |
 	TCD					;$B5E4FD   |
 	PHB					;$B5E4FE   |
-	%pea_shift_dbr($7E8D28)			;$B5E4FF   |
+	%pea_shift_dbr(RAM_7E8D28)		;$B5E4FF   |
 	PLB					;$B5E502   |
 	PLB					;$B5E503   |
 	JSR CODE_B5ED3A				;$B5E504   |
 	PLB					;$B5E507   |
 	PLD					;$B5E508   |
-	STX $0ABC				;$B5E509   |
+	STX camera_0ABC				;$B5E509   |
 	RTS					;$B5E50C  /
 
 camera_handler:					;	  \
 if !version == 0				;	   |
-	LDA $0ABE				;$B5E50D   |
-	STA $0A9A				;$B5E510   |
-	LDA $0AC0				;$B5E513   |
-	STA $0A9C				;$B5E516   |
-	LDA $0AC2				;$B5E519   |
-	STA $0AC2				;$B5E51C   |
-	LDA $0AC4				;$B5E51F   |
-	STA $0AC4				;$B5E522   |
-	LDA $0ADE				;$B5E525   |
-	STA $0AA2				;$B5E528   |
-	LDA $0AE0				;$B5E52B   |
-	STA $0AA4				;$B5E52E   |
-	LDA $0AE2				;$B5E531   |
-	STA $0AA6				;$B5E534   |
-	LDA $0AE4				;$B5E537   |
-	STA $0AA8				;$B5E53A   |
+	LDA camera_0ABE				;$B5E50D   |
+	STA camera_0A9A				;$B5E510   |
+	LDA camera_0AC0				;$B5E513   |
+	STA camera_0A9C				;$B5E516   |
+	LDA camera_0AC2				;$B5E519   |
+	STA camera_0AC2				;$B5E51C   |
+	LDA camera_0AC4				;$B5E51F   |
+	STA camera_0AC4				;$B5E522   |
+	LDA camera_0ADE				;$B5E525   |
+	STA camera_0AA2				;$B5E528   |
+	LDA camera_0AE0				;$B5E52B   |
+	STA camera_0AA4				;$B5E52E   |
+	LDA camera_0AE2				;$B5E531   |
+	STA camera_0AA6				;$B5E534   |
+	LDA camera_0AE4				;$B5E537   |
+	STA camera_0AA8				;$B5E53A   |
 else						;	   |
-	LDA $0AC3				;$B5E50D   |
-	STA $0A9E				;$B5E510   |
-	LDA $0ADE				;$B5E513   |
-	STA $0AA0				;$B5E516   |
-	LDA $0AE0				;$B5E519   |
-	STA $0AA2				;$B5E51C   |
-	LDA $0AE2				;$B5E51F   |
-	STA $0AA4				;$B5E522   |
-	LDA $0AE4				;$B5E525   |
-	STA $0AA6				;$B5E528   |
+	LDA camera_0AC3				;$B5E50D   |
+	STA camera_0A9E				;$B5E510   |
+	LDA camera_0ADE				;$B5E513   |
+	STA camera_0AA0				;$B5E516   |
+	LDA camera_0AE0				;$B5E519   |
+	STA camera_0AA2				;$B5E51C   |
+	LDA camera_0AE2				;$B5E51F   |
+	STA camera_0AA4				;$B5E522   |
+	LDA camera_0AE4				;$B5E525   |
+	STA camera_0AA6				;$B5E528   |
 endif						;	   |
-	LDY $0AE8				;$B5E52B   |\
+	LDY camera_0AE8				;$B5E52B   |\
 	BNE .follow_sprite			;$B5E52E   | | If the camera isnt following a sprite
 	LDY active_kong_sprite			;$B5E530   |/ Then follow the active kong
 .follow_sprite					;	   |
 	JSR CODE_B5E560				;$B5E533   |
 	PHD					;$B5E536   |
-	LDA #$0A00				;$B5E537   |
+	LDA #!camera_dp_base			;$B5E537   |
 	TCD					;$B5E53A   |
+dpbase !camera_dp_base				;	   |
 	PHB					;$B5E53B   |
-	%pea_shift_dbr($7E8D28)			;$B5E53C   |
+	%pea_shift_dbr(RAM_7E8D28)		;$B5E53C   |
 	PLB					;$B5E53F   |
 	PLB					;$B5E540   |
 	LDA level[0].camera_control		;$B5E541   |
@@ -10017,38 +9321,41 @@ endif						;	   |
 	PLD					;$B5E55E   |
 	RTL					;$B5E55F  /
 
+
+dpbase $0000
 CODE_B5E560:
-	STY $0A98				;$B5E560  \
-	STZ $0ABE				;$B5E563   |
-	STZ $0AC0				;$B5E566   |
-	LDA.l $7E8D28				;$B5E569   |
+	STY camera_0A98				;$B5E560  \
+	STZ camera_0ABE				;$B5E563   |
+	STZ camera_0AC0				;$B5E566   |
+	LDA.l RAM_7E8D28			;$B5E569   |
 	CMP $0006,y				;$B5E56D   |
 	BCS CODE_B5E585				;$B5E570   |
-	LDA.l $7E8E28				;$B5E572   |
+	LDA.l RAM_7E8E28			;$B5E572   |
 	DEC A					;$B5E576   |
 	CMP $0006,y				;$B5E577   |
 	BCC CODE_B5E585				;$B5E57A   |
 	LDA $0005,y				;$B5E57C   |
-	STA $0ABE				;$B5E57F   |
+	STA camera_0ABE				;$B5E57F   |
 	LDA $0006,y				;$B5E582   |
 CODE_B5E585:					;	   |
-	STA $0ABF				;$B5E585   |
-	STZ $0AC2				;$B5E588   |
-	STZ $0AC4				;$B5E58B   |
-	LDA.l $7E8F28				;$B5E58E   |
+	STA camera_0ABF				;$B5E585   |
+	STZ camera_0AC2				;$B5E588   |
+	STZ camera_0AC4				;$B5E58B   |
+	LDA.l RAM_7E8F28			;$B5E58E   |
 	CMP $000A,y				;$B5E592   |
 	BCS CODE_B5E5AA				;$B5E595   |
-	LDA.l $7E9028				;$B5E597   |
+	LDA.l RAM_7E9028			;$B5E597   |
 	DEC A					;$B5E59B   |
 	CMP $000A,y				;$B5E59C   |
 	BCC CODE_B5E5AA				;$B5E59F   |
 	LDA $0009,y				;$B5E5A1   |
-	STA $0AC2				;$B5E5A4   |
+	STA camera_0AC2				;$B5E5A4   |
 	LDA $000A,y				;$B5E5A7   |
 CODE_B5E5AA:					;	   |
-	STA $0AC3				;$B5E5AA   |
+	STA camera_0AC3				;$B5E5AA   |
 	RTS					;$B5E5AD  /
 
+dpbase !camera_dp_base
 DATA_B5E5AE:
 	dw CODE_B5E5BA				;00
 	dw CODE_B5E5FA				;01
@@ -10061,44 +9368,44 @@ DATA_B5E5B4:
 
 
 CODE_B5E5BA:
-	LDA $B8					;$B5E5BA  \
+	LDA camera_0AB8				;$B5E5BA  \
 	BMI CODE_B5E5C1				;$B5E5BC   |
 	LDA $0012,y				;$B5E5BE   |
 CODE_B5E5C1:					;	   |
 	ASL A					;$B5E5C1   |
 	ASL A					;$B5E5C2   |
 	LDA #$8000				;$B5E5C3   |
-	TRB $B8					;$B5E5C6   |
-	LDA $EC					;$B5E5C8   |
+	TRB camera_0AB8				;$B5E5C6   |
+	LDA camera_0AEC				;$B5E5C8   |
 	BCC CODE_B5E5CE				;$B5E5CA   |
-	LDA $EA					;$B5E5CC   |
+	LDA camera_0AEA				;$B5E5CC   |
 CODE_B5E5CE:					;	   |
-	STA $92					;$B5E5CE   |
-	STZ $94					;$B5E5D0   |
-	LDA $EE					;$B5E5D2   |
+	STA camera_0A92				;$B5E5CE   |
+	STZ camera_0A94				;$B5E5D0   |
+	LDA camera_0AEE				;$B5E5D2   |
 	ASL A					;$B5E5D4   |
 	BCC CODE_B5E5DA				;$B5E5D5   |
-	DEC $94					;$B5E5D7   |
+	DEC camera_0A94				;$B5E5D7   |
 	CLC					;$B5E5D9   |
 CODE_B5E5DA:					;	   |
-	ADC $92					;$B5E5DA   |
-	STA $92					;$B5E5DC   |
+	ADC camera_0A92				;$B5E5DA   |
+	STA camera_0A92				;$B5E5DC   |
 	LDA #$0000				;$B5E5DE   |
-	ADC $94					;$B5E5E1   |
-	STA $94					;$B5E5E3   |
-	LDA $BE					;$B5E5E5   |
+	ADC camera_0A94				;$B5E5E1   |
+	STA camera_0A94				;$B5E5E3   |
+	LDA camera_0ABE				;$B5E5E5   |
 	SEC					;$B5E5E7   |
-	SBC $92					;$B5E5E8   |
-	STA $DE					;$B5E5EA   |
-	LDA $C0					;$B5E5EC   |
-	SBC $94					;$B5E5EE   |
+	SBC camera_0A92				;$B5E5E8   |
+	STA camera_0ADE				;$B5E5EA   |
+	LDA camera_0AC0				;$B5E5EC   |
+	SBC camera_0A94				;$B5E5EE   |
 	BMI CODE_B5E5F5				;$B5E5F0   |
-	STA $E0					;$B5E5F2   |
+	STA camera_0AE0				;$B5E5F2   |
 	RTS					;$B5E5F4  /
 
 CODE_B5E5F5:
-	STZ $DE					;$B5E5F5  \
-	STZ $E0					;$B5E5F7   |
+	STZ camera_0ADE				;$B5E5F5  \
+	STZ camera_0AE0				;$B5E5F7   |
 	RTS					;$B5E5F9  /
 
 CODE_B5E5FA:
@@ -10107,20 +9414,20 @@ CODE_B5E5FA:
 	LSR A					;$B5E5FF   |
 	AND #$003E				;$B5E600   |
 	TAX					;$B5E603   |
-	LDA $BE					;$B5E604   |
+	LDA camera_0ABE				;$B5E604   |
 	PHA					;$B5E606   |
 	SEC					;$B5E607   |
 	SBC.l DATA_B5E620,x			;$B5E608   |
-	STA $BE					;$B5E60C   |
-	LDA $C0					;$B5E60E   |
+	STA camera_0ABE				;$B5E60C   |
+	LDA camera_0AC0				;$B5E60E   |
 	PHA					;$B5E610   |
 	SBC #$0000				;$B5E611   |
-	STA $C0					;$B5E614   |
+	STA camera_0AC0				;$B5E614   |
 	JSR CODE_B5E5BA				;$B5E616   |
 	PLA					;$B5E619   |
-	STA $C0					;$B5E61A   |
+	STA camera_0AC0				;$B5E61A   |
 	PLA					;$B5E61C   |
-	STA $BE					;$B5E61D   |
+	STA camera_0ABE				;$B5E61D   |
 	RTS					;$B5E61F  /
 
 DATA_B5E620:
@@ -10163,134 +9470,134 @@ CODE_B5E660:
 	LDA water_y_position			;$B5E660  \ \
 	BMI .no_water				;$B5E663   |/ If the level has no water
 	ADC #$0010				;$B5E665   |\
-	CMP $000A,y				;$B5E668   | |
+	CMP sprite.y_position,y			;$B5E668   | |
 	BCC CODE_B5E689				;$B5E66B   |/
 .no_water					;	   |
 	LDA.l animal_type			;$B5E66D   |\
 	CMP #!sprite_squawks			;$B5E671   | |
 	BEQ CODE_B5E689				;$B5E674   |/ If player has squawks
-	LDA $000E,y				;$B5E676   |\
+	LDA sprite.ground_distance,y		;$B5E676   |\
 	BNE CODE_B5E682				;$B5E679   |/ If not on ground
 	LDA #$2000				;$B5E67B   |
-	TRB $B8					;$B5E67E   |
+	TRB camera_0AB8				;$B5E67E   |
 	BRA CODE_B5E68C				;$B5E680  /
 
 CODE_B5E682:
-	LDA $B8					;$B5E682  \
+	LDA camera_0AB8				;$B5E682  \
 	BIT #$2000				;$B5E684   |
 	BEQ CODE_B5E68C				;$B5E687   |
 CODE_B5E689:					;	   |
 	JMP CODE_B5E7B9				;$B5E689  /
 
 CODE_B5E68C:
-	STZ $92					;$B5E68C  \
-	STZ $94					;$B5E68E   |
-	LDA $000E,y				;$B5E690   |
+	STZ camera_0A92				;$B5E68C  \
+	STZ camera_0A94				;$B5E68E   |
+	LDA sprite.ground_distance,y		;$B5E690   |
 	BMI CODE_B5E69C				;$B5E693   |
-	STA $93					;$B5E695   |
+	STA camera_0A93				;$B5E695   |
 	JSR CODE_B5E72F				;$B5E697   |
 	BRA CODE_B5E6F0				;$B5E69A  /
 
 CODE_B5E69C:
 	LDA #$0050				;$B5E69C  \
-	STA $93					;$B5E69F   |
+	STA camera_0A93				;$B5E69F   |
 	JSR CODE_B5E72F				;$B5E6A1   |
-	LDA $C2					;$B5E6A4   |
+	LDA camera_0AC2				;$B5E6A4   |
 	SEC					;$B5E6A6   |
 	SBC #$3800				;$B5E6A7   |
-	STA $92					;$B5E6AA   |
-	LDA $C4					;$B5E6AC   |
+	STA camera_0A92				;$B5E6AA   |
+	LDA camera_0AC4				;$B5E6AC   |
 	SBC #$0000				;$B5E6AE   |
 	BCC CODE_B5E6EB				;$B5E6B1   |
-	STA $94					;$B5E6B3   |
-	LDA $92					;$B5E6B5   |
+	STA camera_0A94				;$B5E6B3   |
+	LDA camera_0A92				;$B5E6B5   |
 	SEC					;$B5E6B7   |
-	SBC $F4					;$B5E6B8   |
-	STA $92					;$B5E6BA   |
-	LDA $94					;$B5E6BC   |
+	SBC camera_0AF4				;$B5E6B8   |
+	STA camera_0A92				;$B5E6BA   |
+	LDA camera_0A94				;$B5E6BC   |
 	SBC #$0000				;$B5E6BE   |
 	BCC CODE_B5E6EB				;$B5E6C1   |
-	STA $94					;$B5E6C3   |
-	LDA $93					;$B5E6C5   |
-	CMP $E6					;$B5E6C7   |
+	STA camera_0A94				;$B5E6C3   |
+	LDA camera_0A93				;$B5E6C5   |
+	CMP camera_0AE6				;$B5E6C7   |
 	BCC CODE_B5E6E2				;$B5E6C9   |
-	LDA $C2					;$B5E6CB   |
+	LDA camera_0AC2				;$B5E6CB   |
 	SEC					;$B5E6CD   |
 	SBC #$C800				;$B5E6CE   |
-	STA $92					;$B5E6D1   |
-	LDA $C4					;$B5E6D3   |
+	STA camera_0A92				;$B5E6D1   |
+	LDA camera_0AC4				;$B5E6D3   |
 	SBC #$0000				;$B5E6D5   |
 	BCC CODE_B5E6EB				;$B5E6D8   |
-	STA $94					;$B5E6DA   |
-	LDA $93					;$B5E6DC   |
-	CMP $E6					;$B5E6DE   |
+	STA camera_0A94				;$B5E6DA   |
+	LDA camera_0A93				;$B5E6DC   |
+	CMP camera_0AE6				;$B5E6DE   |
 	BCC CODE_B5E6EF				;$B5E6E0   |
 CODE_B5E6E2:					;	   |
-	LDA $92					;$B5E6E2   |
-	STA $E2					;$B5E6E4   |
-	LDA $94					;$B5E6E6   |
-	STA $E4					;$B5E6E8   |
+	LDA camera_0A92				;$B5E6E2   |
+	STA camera_0AE2				;$B5E6E4   |
+	LDA camera_0A94				;$B5E6E6   |
+	STA camera_0AE4				;$B5E6E8   |
 	RTS					;$B5E6EA  /
 
 CODE_B5E6EB:
-	STZ $E2					;$B5E6EB  \
-	STZ $E4					;$B5E6ED   |
+	STZ camera_0AE2				;$B5E6EB  \
+	STZ camera_0AE4				;$B5E6ED   |
 CODE_B5E6EF:					;	   |
 	RTS					;$B5E6EF  /
 
 CODE_B5E6F0:
-	LDA $C2					;$B5E6F0  \
+	LDA camera_0AC2				;$B5E6F0  \
 	SEC					;$B5E6F2   |
-	SBC $92					;$B5E6F3   |
-	STA $E2					;$B5E6F5   |
-	LDA $C4					;$B5E6F7   |
-	SBC $94					;$B5E6F9   |
-	STA $E4					;$B5E6FB   |
+	SBC camera_0A92				;$B5E6F3   |
+	STA camera_0AE2				;$B5E6F5   |
+	LDA camera_0AC4				;$B5E6F7   |
+	SBC camera_0A94				;$B5E6F9   |
+	STA camera_0AE4				;$B5E6FB   |
 	JSR CODE_B5E705				;$B5E6FD   |
-	LDA $E3					;$B5E700   |
-	STA $E6					;$B5E702   |
+	LDA camera_0AE3				;$B5E700   |
+	STA camera_0AE6				;$B5E702   |
 	RTS					;$B5E704  /
 
 CODE_B5E705:
-	STZ $94					;$B5E705  \
-	LDA $F2					;$B5E707   |
+	STZ camera_0A94				;$B5E705  \
+	LDA camera_0AF2				;$B5E707   |
 	ASL A					;$B5E709   |
 	BCC CODE_B5E70F				;$B5E70A   |
-	DEC $94					;$B5E70C   |
+	DEC camera_0A94				;$B5E70C   |
 	CLC					;$B5E70E   |
 CODE_B5E70F:					;	   |
-	ADC $F0					;$B5E70F   |
-	STA $92					;$B5E711   |
+	ADC camera_0AF0				;$B5E70F   |
+	STA camera_0A92				;$B5E711   |
 	LDA #$0000				;$B5E713   |
-	ADC $94					;$B5E716   |
-	STA $94					;$B5E718   |
-	LDA $E2					;$B5E71A   |
+	ADC camera_0A94				;$B5E716   |
+	STA camera_0A94				;$B5E718   |
+	LDA camera_0AE2				;$B5E71A   |
 	SEC					;$B5E71C   |
-	SBC $92					;$B5E71D   |
-	STA $E2					;$B5E71F   |
-	LDA $E4					;$B5E721   |
-	SBC $94					;$B5E723   |
+	SBC camera_0A92				;$B5E71D   |
+	STA camera_0AE2				;$B5E71F   |
+	LDA camera_0AE4				;$B5E721   |
+	SBC camera_0A94				;$B5E723   |
 	BMI CODE_B5E72A				;$B5E725   |
-	STA $E4					;$B5E727   |
+	STA camera_0AE4				;$B5E727   |
 	RTS					;$B5E729  /
 
 CODE_B5E72A:
-	STZ $E2					;$B5E72A  \
-	STZ $E4					;$B5E72C   |
+	STZ camera_0AE2				;$B5E72A  \
+	STZ camera_0AE4				;$B5E72C   |
 	RTS					;$B5E72E  /
 
 CODE_B5E72F:
-	LDA $94					;$B5E72F  \
+	LDA camera_0A94				;$B5E72F  \
 	EOR #$FFFF				;$B5E731   |
-	STA $94					;$B5E734   |
-	LDA $92					;$B5E736   |
+	STA camera_0A94				;$B5E734   |
+	LDA camera_0A92				;$B5E736   |
 	EOR #$FFFF				;$B5E738   |
 	CLC					;$B5E73B   |
 	ADC #$0001				;$B5E73C   |
-	STA $92					;$B5E73F   |
+	STA camera_0A92				;$B5E73F   |
 	LDA #$0000				;$B5E741   |
-	ADC $94					;$B5E744   |
-	STA $94					;$B5E746   |
+	ADC camera_0A94				;$B5E744   |
+	STA camera_0A94				;$B5E746   |
 	RTS					;$B5E748  /
 
 CODE_B5E749:
@@ -10304,20 +9611,20 @@ CODE_B5E749:
 	LSR A					;$B5E758   |
 	AND #$003E				;$B5E759   |
 	TAX					;$B5E75C   |
-	LDA $C2					;$B5E75D   |
+	LDA camera_0AC2				;$B5E75D   |
 	PHA					;$B5E75F   |
 	SEC					;$B5E760   |
 	SBC.l DATA_B5E779,x			;$B5E761   |
-	STA $C2					;$B5E765   |
-	LDA $C4					;$B5E767   |
+	STA camera_0AC2				;$B5E765   |
+	LDA camera_0AC4				;$B5E767   |
 	PHA					;$B5E769   |
 	SBC #$0000				;$B5E76A   |
-	STA $C4					;$B5E76D   |
+	STA camera_0AC4				;$B5E76D   |
 	JSR CODE_B5E660				;$B5E76F   |
 	PLA					;$B5E772   |
-	STA $C4					;$B5E773   |
+	STA camera_0AC4				;$B5E773   |
 	PLA					;$B5E775   |
-	STA $C2					;$B5E776   |
+	STA camera_0AC2				;$B5E776   |
 	RTS					;$B5E778  /
 
 DATA_B5E779:
@@ -10355,96 +9662,96 @@ DATA_B5E779:
 	dw $0000
 
 CODE_B5E7B9:
-	LDA $C2					;$B5E7B9  \
-	STA $E2					;$B5E7BB   |
-	LDA $C4					;$B5E7BD   |
-	STA $E4					;$B5E7BF   |
+	LDA camera_0AC2				;$B5E7B9  \
+	STA camera_0AE2				;$B5E7BB   |
+	LDA camera_0AC4				;$B5E7BD   |
+	STA camera_0AE4				;$B5E7BF   |
 	JSR CODE_B5E705				;$B5E7C1   |
 	RTS					;$B5E7C4  /
 
 CODE_B5E7C5:
-	LDA.l $7E8D28				;$B5E7C5  \
-	CMP $DF					;$B5E7C9   |
+	LDA.l RAM_7E8D28			;$B5E7C5  \
+	CMP camera_0ADF				;$B5E7C9   |
 	BCS CODE_B5E7D3				;$B5E7CB   |
-	LDA $FC					;$B5E7CD   |
-	CMP $DF					;$B5E7CF   |
+	LDA camera_0AFC				;$B5E7CD   |
+	CMP camera_0ADF				;$B5E7CF   |
 	BCS CODE_B5E7D7				;$B5E7D1   |
 CODE_B5E7D3:					;	   |
-	STZ $DE					;$B5E7D3   |
-	STA $DF					;$B5E7D5   |
+	STZ camera_0ADE				;$B5E7D3   |
+	STA camera_0ADF				;$B5E7D5   |
 CODE_B5E7D7:					;	   |
-	LDA.l $7E8F28				;$B5E7D7   |
-	CMP $E3					;$B5E7DB   |
+	LDA.l RAM_7E8F28			;$B5E7D7   |
+	CMP camera_0AE3				;$B5E7DB   |
 	BCS CODE_B5E7E5				;$B5E7DD   |
-	LDA $FE					;$B5E7DF   |
-	CMP $E3					;$B5E7E1   |
+	LDA camera_0AFE				;$B5E7DF   |
+	CMP camera_0AE3				;$B5E7E1   |
 	BCS CODE_B5E7E9				;$B5E7E3   |
 CODE_B5E7E5:					;	   |
-	STZ $E2					;$B5E7E5   |
-	STA $E3					;$B5E7E7   |
+	STZ camera_0AE2				;$B5E7E5   |
+	STA camera_0AE3				;$B5E7E7   |
 CODE_B5E7E9:					;	   |
-	LDX $BC					;$B5E7E9   |
+	LDX camera_0ABC				;$B5E7E9   |
 	BEQ CODE_B5E817				;$B5E7EB   |
-	STZ $92					;$B5E7ED   |
-	LDA $BF					;$B5E7EF   |
-	CMP $8D28,x				;$B5E7F1   |
-	ROL $92					;$B5E7F4   |
-	CMP $8E28,x				;$B5E7F6   |
-	ROL $92					;$B5E7F9   |
-	LDA $C3					;$B5E7FB   |
-	CMP $8F28,x				;$B5E7FD   |
-	ROL $92					;$B5E800   |
-	CMP $9028,x				;$B5E802   |
-	ROL $92					;$B5E805   |
-	LDA $92					;$B5E807   |
+	STZ camera_0A92				;$B5E7ED   |
+	LDA camera_0ABF				;$B5E7EF   |
+	CMP.w RAM_7E8D28,x			;$B5E7F1   |
+	ROL camera_0A92				;$B5E7F4   |
+	CMP.w RAM_7E8E28,x			;$B5E7F6   |
+	ROL camera_0A92				;$B5E7F9   |
+	LDA camera_0AC3				;$B5E7FB   |
+	CMP.w RAM_7E8F28,x			;$B5E7FD   |
+	ROL camera_0A92				;$B5E800   |
+	CMP.w RAM_7E9028,x			;$B5E802   |
+	ROL camera_0A92				;$B5E805   |
+	LDA camera_0A92				;$B5E807   |
 	CMP #$000A				;$B5E809   |
 	BEQ CODE_B5E81E				;$B5E80C   |
 	JSR CODE_B5EC63				;$B5E80E   |
 	BCS CODE_B5E81E				;$B5E811   |
-	LDX $BC					;$B5E813   |
+	LDX camera_0ABC				;$B5E813   |
 	BRA CODE_B5E81E				;$B5E815  /
 
 CODE_B5E817:
-	LDA $BA					;$B5E817  \
+	LDA camera_0ABA				;$B5E817  \
 	BEQ CODE_B5E81E				;$B5E819   |
 	JSR CODE_B5ED3A				;$B5E81B   |
 CODE_B5E81E:					;	   |
-	STX $BC					;$B5E81E   |
-	STX $92					;$B5E820   |
+	STX camera_0ABC				;$B5E81E   |
+	STX camera_0A92				;$B5E820   |
 	TXY					;$B5E822   |
 	BEQ CODE_B5E851				;$B5E823   |
-	LDA $9228,x				;$B5E825   |
+	LDA.w RAM_7E9228,x			;$B5E825   |
 	JSR CODE_B5E922				;$B5E828   |
 	BCS CODE_B5E835				;$B5E82B   |
-	LDA $9229,x				;$B5E82D   |
+	LDA.w RAM_7E9228+1,x			;$B5E82D   |
 	JSR CODE_B5E922				;$B5E830   |
 	BCC CODE_B5E84F				;$B5E833   |
 CODE_B5E835:					;	   |
-	LDA $DF					;$B5E835   |
-	CMP $8D28,y				;$B5E837   |
+	LDA camera_0ADF				;$B5E835   |
+	CMP.w RAM_7E8D28,y			;$B5E837   |
 	BCS CODE_B5E851				;$B5E83A   |
 	TYX					;$B5E83C   |
-	STX $92					;$B5E83D   |
-	LDA $9228,x				;$B5E83F   |
+	STX camera_0A92				;$B5E83D   |
+	LDA.w RAM_7E9228,x			;$B5E83F   |
 	JSR CODE_B5E922				;$B5E842   |
 	BCS CODE_B5E851				;$B5E845   |
-	LDA $9229,x				;$B5E847   |
+	LDA.w RAM_7E9228+1,x			;$B5E847   |
 	JSR CODE_B5E922				;$B5E84A   |
 	BCS CODE_B5E851				;$B5E84D   |
 CODE_B5E84F:					;	   |
-	LDY $92					;$B5E84F   |
+	LDY camera_0A92				;$B5E84F   |
 CODE_B5E851:					;	   |
-	LDA $8D28,y				;$B5E851   |
+	LDA.w RAM_7E8D28,y			;$B5E851   |
 if !version == 0				;	   |
-	STA $AA					;$B5E854   |
+	STA camera_0AAA				;$B5E854   |
 else						;	   |
-	STA $A8					;$B5E854   |
-endif
-	LDX $BC					;$B5E856   |
-	STX $92					;$B5E858   |
+	STA camera_0AA8				;$B5E854   |
+endif						;	   |
+	LDX camera_0ABC				;$B5E856   |
+	STX camera_0A92				;$B5E858   |
 	TXY					;$B5E85A   |
 	BEQ CODE_B5E890				;$B5E85B   |
-	LDA $9129,x				;$B5E85D   |
+	LDA.w RAM_7E9128+1,x			;$B5E85D   |
 	JSR CODE_B5E954				;$B5E860   |
 	BCS CODE_B5E86F				;$B5E863   |
 	JSR CODE_B5ED1E				;$B5E865   |
@@ -10452,13 +9759,13 @@ endif
 	JSR CODE_B5E95B				;$B5E86A   |
 	BCC CODE_B5E88E				;$B5E86D   |
 CODE_B5E86F:					;	   |
-	LDA $8E28,y				;$B5E86F   |
+	LDA.w RAM_7E8E28,y			;$B5E86F   |
 	SBC #$0100				;$B5E872   |
-	CMP $DF					;$B5E875   |
+	CMP camera_0ADF				;$B5E875   |
 	BCS CODE_B5E890				;$B5E877   |
 	TYX					;$B5E879   |
-	STX $92					;$B5E87A   |
-	LDA $9129,x				;$B5E87C   |
+	STX camera_0A92				;$B5E87A   |
+	LDA.w RAM_7E9128+1,x			;$B5E87C   |
 	JSR CODE_B5E954				;$B5E87F   |
 	BCS CODE_B5E890				;$B5E882   |
 	JSR CODE_B5ED1E				;$B5E884   |
@@ -10466,83 +9773,83 @@ CODE_B5E86F:					;	   |
 	JSR CODE_B5E95B				;$B5E889   |
 	BCS CODE_B5E890				;$B5E88C   |
 CODE_B5E88E:					;	   |
-	LDY $92					;$B5E88E   |
+	LDY camera_0A92				;$B5E88E   |
 CODE_B5E890:					;	   |
-	LDA $8E28,y				;$B5E890   |
+	LDA.w RAM_7E8E28,y			;$B5E890   |
 if !version == 0				;	   |
-	STA $AC					;$B5E893   |
+	STA camera_0AAC				;$B5E893   |
 else						;	   |
-	STA $AA					;$B5E893   |
+	STA camera_0AAA				;$B5E893   |
 endif						;	   |
-	LDX $BC					;$B5E895   |
-	STX $92					;$B5E897   |
+	LDX camera_0ABC				;$B5E895   |
+	STX camera_0A92				;$B5E897   |
 	TXY					;$B5E899   |
 	BEQ CODE_B5E8C8				;$B5E89A   |
-	LDA $9328,x				;$B5E89C   |
+	LDA.w RAM_7E9328,x			;$B5E89C   |
 	JSR CODE_B5E98C				;$B5E89F   |
 	BCS CODE_B5E8AC				;$B5E8A2   |
-	LDA $9329,x				;$B5E8A4   |
+	LDA.w RAM_7E9328+1,x			;$B5E8A4   |
 	JSR CODE_B5E98C				;$B5E8A7   |
 	BCC CODE_B5E8C6				;$B5E8AA   |
 CODE_B5E8AC:					;	   |
-	LDA $E3					;$B5E8AC   |
-	CMP $8F28,y				;$B5E8AE   |
+	LDA camera_0AE3				;$B5E8AC   |
+	CMP.w RAM_7E8F28,y			;$B5E8AE   |
 	BCS CODE_B5E8C8				;$B5E8B1   |
 	TYX					;$B5E8B3   |
-	STX $92					;$B5E8B4   |
-	LDA $9328,x				;$B5E8B6   |
+	STX camera_0A92				;$B5E8B4   |
+	LDA.w RAM_7E9328,x			;$B5E8B6   |
 	JSR CODE_B5E98C				;$B5E8B9   |
 	BCS CODE_B5E8C8				;$B5E8BC   |
-	LDA $9329,x				;$B5E8BE   |
+	LDA.w RAM_7E9328+1,x			;$B5E8BE   |
 	JSR CODE_B5E98C				;$B5E8C1   |
 	BCS CODE_B5E8C8				;$B5E8C4   |
 CODE_B5E8C6:					;	   |
-	LDY $92					;$B5E8C6   |
+	LDY camera_0A92				;$B5E8C6   |
 CODE_B5E8C8:					;	   |
-	LDA $8F28,y				;$B5E8C8   |
+	LDA.w RAM_7E8F28,y			;$B5E8C8   |
 if !version == 0				;	   |
-	STA $AE					;$B5E8CB   |
+	STA camera_0AAE				;$B5E8CB   |
 else						;	   |
-	STA $AC					;$B5E8CB   |
+	STA camera_0AAC				;$B5E8CB   |
 endif						;	   |
-	LDX $BC					;$B5E8CD   |
-	STX $92					;$B5E8CF   |
+	LDX camera_0ABC				;$B5E8CD   |
+	STX camera_0A92				;$B5E8CF   |
 	TXY					;$B5E8D1   |
 	BEQ CODE_B5E903				;$B5E8D2   |
-	LDA $9428,x				;$B5E8D4   |
+	LDA.w RAM_7E9428,x			;$B5E8D4   |
 	JSR CODE_B5E9BE				;$B5E8D7   |
 	BCS CODE_B5E8E4				;$B5E8DA   |
-	LDA $9429,x				;$B5E8DC   |
+	LDA.w RAM_7E9428+1,x			;$B5E8DC   |
 	JSR CODE_B5E9BE				;$B5E8DF   |
 	BCC CODE_B5E901				;$B5E8E2   |
 CODE_B5E8E4:					;	   |
-	LDA $9028,y				;$B5E8E4   |
+	LDA.w RAM_7E9028,y			;$B5E8E4   |
 	SBC #$00E0				;$B5E8E7   |
-	CMP $E3					;$B5E8EA   |
+	CMP camera_0AE3				;$B5E8EA   |
 	BCS CODE_B5E903				;$B5E8EC   |
 	TYX					;$B5E8EE   |
-	STX $92					;$B5E8EF   |
-	LDA $9428,x				;$B5E8F1   |
+	STX camera_0A92				;$B5E8EF   |
+	LDA.w RAM_7E9428,x			;$B5E8F1   |
 	JSR CODE_B5E9BE				;$B5E8F4   |
 	BCS CODE_B5E903				;$B5E8F7   |
-	LDA $9429,x				;$B5E8F9   |
+	LDA.w RAM_7E9428+1,x			;$B5E8F9   |
 	JSR CODE_B5E9BE				;$B5E8FC   |
 	BCS CODE_B5E903				;$B5E8FF   |
 CODE_B5E901:					;	   |
-	LDY $92					;$B5E901   |
+	LDY camera_0A92				;$B5E901   |
 CODE_B5E903:					;	   |
-	LDA $9028,y				;$B5E903   |
+	LDA.w RAM_7E9028,y			;$B5E903   |
 if !version == 0				;	   |
-	STA $B0					;$B5E906   |
+	STA camera_0AB0				;$B5E906   |
 else						;	   |
-	STA $AE					;$B5E906   |
+	STA camera_0AAE				;$B5E906   |
 endif						;	   |
-	INC $90					;$B5E908   |
+	INC camera_0A90				;$B5E908   |
 	BPL CODE_B5E90E				;$B5E90A   |
-	DEC $90					;$B5E90C   |
+	DEC camera_0A90				;$B5E90C   |
 CODE_B5E90E:					;	   |
-	LDX $BC					;$B5E90E   |
-	LDA $9128,x				;$B5E910   |
+	LDX camera_0ABC				;$B5E90E   |
+	LDA.w RAM_7E9128,x			;$B5E910   |
 	LDX #$0000				;$B5E913   |
 	AND #$0040				;$B5E916   |
 	BEQ CODE_B5E91E				;$B5E919   |
@@ -10556,24 +9863,24 @@ CODE_B5E922:
 	BEQ CODE_B5E98A				;$B5E925   |
 	ASL A					;$B5E927   |
 	TAY					;$B5E928   |
-	LDA $9128,y				;$B5E929   |
+	LDA.w RAM_7E9128,y			;$B5E929   |
 	AND #$00A0				;$B5E92C   |
 	BNE CODE_B5E98A				;$B5E92F   |
-	LDA $8E28,y				;$B5E931   |
-	CMP $DF					;$B5E934   |
+	LDA.w RAM_7E8E28,y			;$B5E931   |
+	CMP camera_0ADF				;$B5E934   |
 	BCC CODE_B5E953				;$B5E936   |
-	LDA $E3					;$B5E938   |
+	LDA camera_0AE3				;$B5E938   |
 	CLC					;$B5E93A   |
 	ADC #$00E0				;$B5E93B   |
-	CMP $9028,y				;$B5E93E   |
+	CMP.w RAM_7E9028,y			;$B5E93E   |
 	BCS CODE_B5E949				;$B5E941   |
 	SEC					;$B5E943   |
-	SBC $8F28,y				;$B5E944   |
+	SBC.w RAM_7E8F28,y			;$B5E944   |
 	BRA CODE_B5E94E				;$B5E947  /
 
 CODE_B5E949:
-	LDA $9028,y				;$B5E949  \
-	SBC $E3					;$B5E94C   |
+	LDA.w RAM_7E9028,y			;$B5E949  \
+	SBC camera_0AE3				;$B5E94C   |
 CODE_B5E94E:					;	   |
 	BCC CODE_B5E953				;$B5E94E   |
 	CMP #$0038				;$B5E950   |
@@ -10586,26 +9893,26 @@ CODE_B5E954:
 	ASL A					;$B5E959   |
 	TAY					;$B5E95A   |
 CODE_B5E95B:					;	   |
-	LDA $9128,y				;$B5E95B   |
+	LDA.w RAM_7E9128,y			;$B5E95B   |
 	AND #$00A0				;$B5E95E   |
 	BNE CODE_B5E98A				;$B5E961   |
-	LDA $DF					;$B5E963   |
+	LDA camera_0ADF				;$B5E963   |
 	CLC					;$B5E965   |
 	ADC #$0100				;$B5E966   |
-	CMP $8D28,y				;$B5E969   |
+	CMP.w RAM_7E8D28,y			;$B5E969   |
 	BCC CODE_B5E989				;$B5E96C   |
-	LDA $E3					;$B5E96E   |
+	LDA camera_0AE3				;$B5E96E   |
 	CLC					;$B5E970   |
 	ADC #$00E0				;$B5E971   |
-	CMP $9028,y				;$B5E974   |
+	CMP.w RAM_7E9028,y			;$B5E974   |
 	BCS CODE_B5E97F				;$B5E977   |
 	SEC					;$B5E979   |
-	SBC $8F28,y				;$B5E97A   |
+	SBC.w RAM_7E8F28,y			;$B5E97A   |
 	BRA CODE_B5E984				;$B5E97D  /
 
 CODE_B5E97F:
-	LDA $9028,y				;$B5E97F  \
-	SBC $E3					;$B5E982   |
+	LDA.w RAM_7E9028,y			;$B5E97F  \
+	SBC camera_0AE3				;$B5E982   |
 CODE_B5E984:					;	   |
 	BCC CODE_B5E989				;$B5E984   |
 	CMP #$0038				;$B5E986   |
@@ -10621,24 +9928,24 @@ CODE_B5E98C:
 	BEQ CODE_B5E98A				;$B5E98F   |
 	ASL A					;$B5E991   |
 	TAY					;$B5E992   |
-	LDA $9128,y				;$B5E993   |
+	LDA.w RAM_7E9128,y			;$B5E993   |
 	AND #$00A0				;$B5E996   |
 	BNE CODE_B5E9BD				;$B5E999   |
-	LDA $9028,y				;$B5E99B   |
-	CMP $E3					;$B5E99E   |
+	LDA.w RAM_7E9028,y			;$B5E99B   |
+	CMP camera_0AE3				;$B5E99E   |
 	BCC CODE_B5E9BD				;$B5E9A0   |
-	LDA $DF					;$B5E9A2   |
+	LDA camera_0ADF				;$B5E9A2   |
 	CLC					;$B5E9A4   |
 	ADC #$0100				;$B5E9A5   |
-	CMP $8E28,y				;$B5E9A8   |
+	CMP.w RAM_7E8E28,y			;$B5E9A8   |
 	BCS CODE_B5E9B3				;$B5E9AB   |
 	SEC					;$B5E9AD   |
-	SBC $8D28,y				;$B5E9AE   |
+	SBC.w RAM_7E8D28,y			;$B5E9AE   |
 	BRA CODE_B5E9B8				;$B5E9B1  /
 
 CODE_B5E9B3:
-	LDA $8E28,y				;$B5E9B3  \
-	SBC $DF					;$B5E9B6   |
+	LDA.w RAM_7E8E28,y			;$B5E9B3  \
+	SBC camera_0ADF				;$B5E9B6   |
 CODE_B5E9B8:					;	   |
 	BCC CODE_B5E9BD				;$B5E9B8   |
 	CMP #$0040				;$B5E9BA   |
@@ -10650,26 +9957,26 @@ CODE_B5E9BE:
 	BEQ CODE_B5E98A				;$B5E9C1   |
 	ASL A					;$B5E9C3   |
 	TAY					;$B5E9C4   |
-	LDA $9128,y				;$B5E9C5   |
+	LDA.w RAM_7E9128,y			;$B5E9C5   |
 	AND #$00A0				;$B5E9C8   |
 	BNE CODE_B5E9F3				;$B5E9CB   |
-	LDA $E3					;$B5E9CD   |
+	LDA camera_0AE3				;$B5E9CD   |
 	CLC					;$B5E9CF   |
 	ADC #$00E0				;$B5E9D0   |
-	CMP $8F28,y				;$B5E9D3   |
+	CMP.w RAM_7E8F28,y			;$B5E9D3   |
 	BCC CODE_B5E9F3				;$B5E9D6   |
-	LDA $DF					;$B5E9D8   |
+	LDA camera_0ADF				;$B5E9D8   |
 	CLC					;$B5E9DA   |
 	ADC #$0100				;$B5E9DB   |
-	CMP $8E28,y				;$B5E9DE   |
+	CMP.w RAM_7E8E28,y			;$B5E9DE   |
 	BCS CODE_B5E9E9				;$B5E9E1   |
 	SEC					;$B5E9E3   |
-	SBC $8D28,y				;$B5E9E4   |
+	SBC.w RAM_7E8D28,y			;$B5E9E4   |
 	BRA CODE_B5E9EE				;$B5E9E7  /
 
 CODE_B5E9E9:
-	LDA $8E28,y				;$B5E9E9  \
-	SBC $DF					;$B5E9EC   |
+	LDA.w RAM_7E8E28,y			;$B5E9E9  \
+	SBC camera_0ADF				;$B5E9EC   |
 CODE_B5E9EE:					;	   |
 	BCC CODE_B5E9F3				;$B5E9EE   |
 	CMP #$0040				;$B5E9F0   |
@@ -10682,361 +9989,368 @@ DATA_B5E9F4:
 
 CODE_B5E9F8:
 if !version == 0				;	  \
-	LDA $AC					;$B5E9F8   |
+	LDA camera_0AAC				;$B5E9F8   |
 else						;	   |
-	LDA $AA					;$B5E9F8   |
+	LDA camera_0AAA				;$B5E9F8   |
 endif						;	   |
 	SEC					;$B5E9FA   |
 	SBC #$0100				;$B5E9FB   |
 	BCC CODE_B5EA15				;$B5E9FE   |
 if !version == 0				;	   |
-	CMP $AA					;$B5EA00   |
+	CMP camera_0AAA				;$B5EA00   |
 else						;	   |
-	CMP $A8					;$B5EA00   |
+	CMP camera_0AA8				;$B5EA00   |
 endif						;	   |
 	BCS CODE_B5EA09				;$B5EA02   |
 if !version == 0				;	   |
-	ADC $AA					;$B5EA04   |
+	ADC camera_0AAA				;$B5EA04   |
 else						;	   |
-	ADC $A8					;$B5EA04   |
+	ADC camera_0AA8				;$B5EA04   |
 endif						;	   |
 	LSR A					;$B5EA06   |
 	BRA CODE_B5EA18				;$B5EA07  /
 
 CODE_B5EA09:
-	CMP $DF					;$B5EA09  \
+	CMP camera_0ADF				;$B5EA09  \
 	BCC CODE_B5EA18				;$B5EA0B   |
 if !version == 0				;	   |
-	LDA $AA					;$B5EA0D   |
+	LDA camera_0AAA				;$B5EA0D   |
 else						;	   |
-	LDA $A8					;$B5EA0D   |
+	LDA camera_0AA8				;$B5EA0D   |
 endif						;	   |
-	CMP $DF					;$B5EA0F   |
+	CMP camera_0ADF				;$B5EA0F   |
 	BCS CODE_B5EA18				;$B5EA11   |
 	BCC CODE_B5EA1A				;$B5EA13   |
 CODE_B5EA15:					;	   |
 	LDA #$0000				;$B5EA15   |
 CODE_B5EA18:					;	   |
-	STA $DF					;$B5EA18   |
+	STA camera_0ADF				;$B5EA18   |
 CODE_B5EA1A:					;	   |
 if !version == 0				;	   |
-	LDA $B0					;$B5EA1A   |
+	LDA camera_0AB0				;$B5EA1A   |
 else						;	   |
-	LDA $AE					;$B5EA1A   |
+	LDA camera_0AAE				;$B5EA1A   |
 endif						;	   |
 	SEC					;$B5EA1C   |
 	SBC #$00E0				;$B5EA1D   |
 	BCC CODE_B5EA36				;$B5EA20   |
 if !version == 0				;	   |
-	CMP $AE					;$B5EA22   |
+	CMP camera_0AAE				;$B5EA22   |
 else						;	   |
-	CMP $AC					;$B5EA22   |
+	CMP camera_0AAC				;$B5EA22   |
 endif						;	   |
 	BCS CODE_B5EA2B				;$B5EA24   |
 if !version == 0				;	   |
-	ADC $AE					;$B5EA26   |
+	ADC camera_0AAE				;$B5EA26   |
 else						;	   |
-	ADC $AC					;$B5EA26   |
+	ADC camera_0AAC				;$B5EA26   |
 endif						;	   |
 	LSR A					;$B5EA28   |
 	BRA CODE_B5EA39				;$B5EA29  /
 
 CODE_B5EA2B:
-	CMP $E3					;$B5EA2B  \
+	CMP camera_0AE3				;$B5EA2B  \
 	BCC CODE_B5EA39				;$B5EA2D   |
 if !version == 0				;	   |
-	LDA $AE					;$B5EA2F   |
+	LDA camera_0AAE				;$B5EA2F   |
 else						;	   |
-	LDA $AC					;$B5EA2F   |
+	LDA camera_0AAC				;$B5EA2F   |
 endif						;	   |
-	CMP $E3					;$B5EA31   |
+	CMP camera_0AE3				;$B5EA31   |
 	BCS CODE_B5EA39				;$B5EA33   |
 	RTS					;$B5EA35  /
 
 CODE_B5EA36:
 	LDA #$0000				;$B5EA36  \
 CODE_B5EA39:					;	   |
-	STA $E3					;$B5EA39   |
+	STA camera_0AE3				;$B5EA39   |
 	RTS					;$B5EA3B  /
 
+
+
+dpbase $0000
+
+
+
 CODE_B5EA3C:
-	LDY $0ABC				;$B5EA3C  \
-	LDA $9228,y				;$B5EA3F   |
+	LDY camera_0ABC				;$B5EA3C  \
+	LDA.w RAM_7E9228,y			;$B5EA3F   |
 	BEQ CODE_B5EA53				;$B5EA42   |
 	AND #$00FF				;$B5EA44   |
 	ASL A					;$B5EA47   |
 	TAX					;$B5EA48   |
-	LDA $9028,x				;$B5EA49   |
-	CMP $9028,y				;$B5EA4C   |
+	LDA.w RAM_7E9028,x			;$B5EA49   |
+	CMP.w RAM_7E9028,y			;$B5EA4C   |
 	BEQ CODE_B5EA66				;$B5EA4F   |
 	BRA CODE_B5EAA5				;$B5EA51  /
 
 CODE_B5EA53:
-	LDA $9328,y				;$B5EA53  \
+	LDA.w RAM_7E9328,y			;$B5EA53  \
 	AND #$00FF				;$B5EA56   |
 	ASL A					;$B5EA59   |
 	TAX					;$B5EA5A   |
-	LDA $8E28,x				;$B5EA5B   |
-	CMP $8E28,y				;$B5EA5E   |
+	LDA.w RAM_7E8E28,x			;$B5EA5B   |
+	CMP.w RAM_7E8E28,y			;$B5EA5E   |
 	BEQ CODE_B5EADE				;$B5EA61   |
 	BRL CODE_B5EB1D				;$B5EA63  /
 
 CODE_B5EA66:
-	LDA $9228,y				;$B5EA66  \
+	LDA.w RAM_7E9228,y			;$B5EA66  \
 	AND #$00FF				;$B5EA69   |
 	ASL A					;$B5EA6C   |
 	TAX					;$B5EA6D   |
-	LDA $9129,y				;$B5EA6E   |
+	LDA.w RAM_7E9128+1,y			;$B5EA6E   |
 	AND #$00FF				;$B5EA71   |
 	ASL A					;$B5EA74   |
 	TAY					;$B5EA75   |
-	LDA $8F28,x				;$B5EA76   |
+	LDA.w RAM_7E8F28,x			;$B5EA76   |
 	SEC					;$B5EA79   |
-	SBC $8F28,y				;$B5EA7A   |
-	STA $0D26				;$B5EA7D   |
+	SBC.w RAM_7E8F28,y			;$B5EA7A   |
+	STA RAM_0D26				;$B5EA7D   |
+dpbase !camera_dp_base				;	   |
 	JSR CODE_B5EBBB				;$B5EA80   |
 	EOR #$FFFF				;$B5EA83   |
 	SEC					;$B5EA86   |
-	ADC $8F28,x				;$B5EA87   |
+	ADC.w RAM_7E8F28,x			;$B5EA87   |
 if !version == 0				;	   |
-	STA $AE					;$B5EA8A   |
+	STA camera_0AAE				;$B5EA8A   |
 else						;	   |
-	STA $AC					;$B5EA8A   |
+	STA camera_0AAC				;$B5EA8A   |
 endif						;	   |
-	LDA $9028,x				;$B5EA8C   |
+	LDA.w RAM_7E9028,x			;$B5EA8C   |
 	SEC					;$B5EA8F   |
-	SBC $9028,y				;$B5EA90   |
-	STA $0D26				;$B5EA93   |
+	SBC.w RAM_7E9028,y			;$B5EA90   |
+	STA RAM_0D26				;$B5EA93   |
 	JSR CODE_B5EBBB				;$B5EA96   |
 	EOR #$FFFF				;$B5EA99   |
 	SEC					;$B5EA9C   |
-	ADC $9028,x				;$B5EA9D   |
+	ADC.w RAM_7E9028,x			;$B5EA9D   |
 if !version == 0				;	   |
-	STA $B0					;$B5EAA0   |
+	STA camera_0AB0				;$B5EAA0   |
 else						;	   |
-	STA $AE					;$B5EAA0   |
+	STA camera_0AAE				;$B5EAA0   |
 endif						;	   |
 	JMP CODE_B5EB78				;$B5EAA2  /
 
 CODE_B5EAA5:
-	LDA $9228,y				;$B5EAA5  \
+	LDA.w RAM_7E9228,y			;$B5EAA5  \
 	AND #$00FF				;$B5EAA8   |
 	ASL A					;$B5EAAB   |
 	TAX					;$B5EAAC   |
-	LDA $9129,y				;$B5EAAD   |
+	LDA.w RAM_7E9128+1,y			;$B5EAAD   |
 	AND #$00FF				;$B5EAB0   |
 	ASL A					;$B5EAB3   |
 	TAY					;$B5EAB4   |
-	LDA $8F28,y				;$B5EAB5   |
+	LDA.w RAM_7E8F28,y			;$B5EAB5   |
 	SEC					;$B5EAB8   |
-	SBC $8F28,x				;$B5EAB9   |
-	STA $0D26				;$B5EABC   |
+	SBC.w RAM_7E8F28,x			;$B5EAB9   |
+	STA RAM_0D26				;$B5EABC   |
 	JSR CODE_B5EBBB				;$B5EABF   |
 	CLC					;$B5EAC2   |
-	ADC $8F28,x				;$B5EAC3   |
+	ADC.w RAM_7E8F28,x			;$B5EAC3   |
 if !version == 0				;	   |
-	STA $AE					;$B5EAC6   |
+	STA camera_0AAE				;$B5EAC6   |
 else						;	   |
-	STA $AC					;$B5EAC6   |
+	STA camera_0AAC				;$B5EAC6   |
 endif						;	   |
-	LDA $9028,y				;$B5EAC8   |
+	LDA.w RAM_7E9028,y			;$B5EAC8   |
 	SEC					;$B5EACB   |
-	SBC $9028,x				;$B5EACC   |
-	STA $0D26				;$B5EACF   |
+	SBC.w RAM_7E9028,x			;$B5EACC   |
+	STA RAM_0D26				;$B5EACF   |
 	JSR CODE_B5EBBB				;$B5EAD2   |
 	CLC					;$B5EAD5   |
-	ADC $9028,x				;$B5EAD6   |
+	ADC.w RAM_7E9028,x			;$B5EAD6   |
 if !version == 0				;	   |
-	STA $B0					;$B5EAD9   |
+	STA camera_0AB0				;$B5EAD9   |
 else						;	   |
-	STA $AE					;$B5EAD9   |
+	STA camera_0AAE				;$B5EAD9   |
 endif						;	   |
 	JMP CODE_B5EB78				;$B5EADB  /
 
 CODE_B5EADE:
-	LDA $9328,y				;$B5EADE  \
+	LDA.w RAM_7E9328,y			;$B5EADE  \
 	AND #$00FF				;$B5EAE1   |
 	ASL A					;$B5EAE4   |
 	TAX					;$B5EAE5   |
-	LDA $9428,y				;$B5EAE6   |
+	LDA.w RAM_7E9428,y			;$B5EAE6   |
 	AND #$00FF				;$B5EAE9   |
 	ASL A					;$B5EAEC   |
 	TAY					;$B5EAED   |
-	LDA $8D28,x				;$B5EAEE   |
+	LDA.w RAM_7E8D28,x			;$B5EAEE   |
 	SEC					;$B5EAF1   |
-	SBC $8D28,y				;$B5EAF2   |
-	STA $0D26				;$B5EAF5   |
+	SBC.w RAM_7E8D28,y			;$B5EAF2   |
+	STA RAM_0D26				;$B5EAF5   |
 	JSR CODE_B5EB9A				;$B5EAF8   |
 	EOR #$FFFF				;$B5EAFB   |
 	SEC					;$B5EAFE   |
-	ADC $8D28,x				;$B5EAFF   |
+	ADC.w RAM_7E8D28,x			;$B5EAFF   |
 if !version == 0				;	   |
-	STA $AA					;$B5EB02   |
+	STA camera_0AAA				;$B5EB02   |
 else						;	   |
-	STA $A8					;$B5EB02   |
+	STA camera_0AA8				;$B5EB02   |
 endif						;	   |
-	LDA $8E28,x				;$B5EB04   |
+	LDA.w RAM_7E8E28,x			;$B5EB04   |
 	SEC					;$B5EB07   |
-	SBC $8E28,y				;$B5EB08   |
-	STA $0D26				;$B5EB0B   |
+	SBC.w RAM_7E8E28,y			;$B5EB08   |
+	STA RAM_0D26				;$B5EB0B   |
 	JSR CODE_B5EB9A				;$B5EB0E   |
 	EOR #$FFFF				;$B5EB11   |
 	SEC					;$B5EB14   |
-	ADC $8E28,x				;$B5EB15   |
+	ADC.w RAM_7E8E28,x			;$B5EB15   |
 if !version == 0				;	   |
-	STA $AC					;$B5EB18   |
+	STA camera_0AAC				;$B5EB18   |
 else						;	   |
-	STA $AA					;$B5EB18   |
+	STA camera_0AAA				;$B5EB18   |
 endif						;	   |
 	JMP CODE_B5EB56				;$B5EB1A  /
 
 CODE_B5EB1D:
-	LDA $9328,y				;$B5EB1D  \
+	LDA.w RAM_7E9328,y			;$B5EB1D  \
 	AND #$00FF				;$B5EB20   |
 	ASL A					;$B5EB23   |
 	TAX					;$B5EB24   |
-	LDA $9428,y				;$B5EB25   |
+	LDA.w RAM_7E9428,y			;$B5EB25   |
 	AND #$00FF				;$B5EB28   |
 	ASL A					;$B5EB2B   |
 	TAY					;$B5EB2C   |
-	LDA $8D28,y				;$B5EB2D   |
+	LDA.w RAM_7E8D28,y			;$B5EB2D   |
 	SEC					;$B5EB30   |
-	SBC $8D28,x				;$B5EB31   |
-	STA $0D26				;$B5EB34   |
+	SBC.w RAM_7E8D28,x			;$B5EB31   |
+	STA RAM_0D26				;$B5EB34   |
 	JSR CODE_B5EB9A				;$B5EB37   |
 	CLC					;$B5EB3A   |
-	ADC $8D28,x				;$B5EB3B   |
+	ADC.w RAM_7E8D28,x			;$B5EB3B   |
 if !version == 0				;	   |
-	STA $AA					;$B5EB3E   |
+	STA camera_0AAA				;$B5EB3E   |
 else						;	   |
-	STA $A8					;$B5EB3E   |
+	STA camera_0AA8				;$B5EB3E   |
 endif						;	   |
-	LDA $8E28,y				;$B5EB40   |
+	LDA.w RAM_7E8E28,y			;$B5EB40   |
 	SEC					;$B5EB43   |
-	SBC $8E28,x				;$B5EB44   |
-	STA $0D26				;$B5EB47   |
+	SBC.w RAM_7E8E28,x			;$B5EB44   |
+	STA RAM_0D26				;$B5EB47   |
 	JSR CODE_B5EB9A				;$B5EB4A   |
 	CLC					;$B5EB4D   |
-	ADC $8E28,x				;$B5EB4E   |
+	ADC.w RAM_7E8E28,x			;$B5EB4E   |
 if !version == 0				;	   |
-	STA $AC					;$B5EB51   |
+	STA camera_0AAC				;$B5EB51   |
 else						;	   |
-	STA $AA					;$B5EB51   |
+	STA camera_0AAA				;$B5EB51   |
 endif						;	   |
 	JMP CODE_B5EB56				;$B5EB53  /
 
 CODE_B5EB56:
 if !version == 0				;	  \
-	LDA $AC					;$B5EB56   |
+	LDA camera_0AAC				;$B5EB56   |
 else						;	   |
-	LDA $AA					;$B5EB56   |
+	LDA camera_0AAA				;$B5EB56   |
 endif						;	   |
 	SEC					;$B5EB58   |
 	SBC #$0100				;$B5EB59   |
 	BCC CODE_B5EB72				;$B5EB5C   |
 if !version == 0				;	   |
-	CMP $AA					;$B5EB5E   |
+	CMP camera_0AAA				;$B5EB5E   |
 else						;	   |
-	CMP $A8					;$B5EB5E   |
+	CMP camera_0AA8				;$B5EB5E   |
 endif						;	   |
 	BCS CODE_B5EB67				;$B5EB60   |
 if !version == 0				;	   |
-	ADC $AA					;$B5EB62   |
+	ADC camera_0AAA				;$B5EB62   |
 else						;	   |
-	ADC $A8					;$B5EB62   |
+	ADC camera_0AA8				;$B5EB62   |
 endif						;	   |
 	LSR A					;$B5EB64   |
 	BRA CODE_B5EB75				;$B5EB65  /
 
 CODE_B5EB67:
-	CMP $DF					;$B5EB67  \
+	CMP camera_0ADF				;$B5EB67  \
 	BCC CODE_B5EB75				;$B5EB69   |
 if !version == 0				;	   |
-	LDA $AA					;$B5EB6B   |
+	LDA camera_0AAA				;$B5EB6B   |
 else						;	   |
-	LDA $A8					;$B5EB6B   |
+	LDA camera_0AA8				;$B5EB6B   |
 endif						;	   |
-	CMP $DF					;$B5EB6D   |
+	CMP camera_0ADF				;$B5EB6D   |
 	BCS CODE_B5EB75				;$B5EB6F   |
 	RTS					;$B5EB71  /
 
 CODE_B5EB72:
 	LDA #$0000				;$B5EB72  \
 CODE_B5EB75:					;	   |
-	STA $DF					;$B5EB75   |
+	STA camera_0ADF				;$B5EB75   |
 	RTS					;$B5EB77  /
 
 CODE_B5EB78:
 if !version == 0				;	  \
-	LDA $B0					;$B5EB78   |
+	LDA camera_0AB0				;$B5EB78   |
 else						;	   |
-	LDA $AE					;$B5EB78   |
+	LDA camera_0AAE				;$B5EB78   |
 endif						;	   |
 	SEC					;$B5EB7A   |
 	SBC #$00E0				;$B5EB7B   |
 	BCC CODE_B5EB94				;$B5EB7E   |
 if !version == 0				;	   |
-	CMP $AE					;$B5EB80   |
+	CMP camera_0AAE				;$B5EB80   |
 else						;	   |
-	CMP $AC					;$B5EB80   |
+	CMP camera_0AAC				;$B5EB80   |
 endif						;	   |
 	BCS CODE_B5EB89				;$B5EB82   |
 if !version == 0				;	   |
-	ADC $AE					;$B5EB84   |
+	ADC camera_0AAE				;$B5EB84   |
 else						;	   |
-	ADC $AC					;$B5EB84   |
+	ADC camera_0AAC				;$B5EB84   |
 endif						;	   |
 	LSR A					;$B5EB86   |
 	BRA CODE_B5EB97				;$B5EB87  /
 
 CODE_B5EB89:
-	CMP $E3					;$B5EB89  \
+	CMP camera_0AE3				;$B5EB89  \
 	BCC CODE_B5EB97				;$B5EB8B   |
 if !version == 0				;	   |
-	LDA $AE					;$B5EB8D   |
+	LDA camera_0AAE				;$B5EB8D   |
 else						;	   |
-	LDA $AC					;$B5EB8D   |
+	LDA camera_0AAC				;$B5EB8D   |
 endif						;	   |
-	CMP $E3					;$B5EB8F   |
+	CMP camera_0AE3				;$B5EB8F   |
 	BCS CODE_B5EB97				;$B5EB91   |
 	RTS					;$B5EB93  /
 
 CODE_B5EB94:
 	LDA #$0000				;$B5EB94  \
 CODE_B5EB97:					;	   |
-	STA $E3					;$B5EB97   |
+	STA camera_0AE3				;$B5EB97   |
 	RTS					;$B5EB99  /
 
 CODE_B5EB9A:
-	LDA $8F28,y				;$B5EB9A  \
+	LDA.w RAM_7E8F28,y			;$B5EB9A  \
 	SEC					;$B5EB9D   |
-	SBC $9028,x				;$B5EB9E   |
+	SBC.w RAM_7E9028,x			;$B5EB9E   |
 	SEC					;$B5EBA1   |
 	SBC #$00E0				;$B5EBA2   |
-	STA $0D2A				;$B5EBA5   |
-	LDA $E3					;$B5EBA8   |
+	STA RAM_0D2A				;$B5EBA5   |
+	LDA camera_0AE3				;$B5EBA8   |
 	SEC					;$B5EBAA   |
-	SBC $9028,x				;$B5EBAB   |
+	SBC.w RAM_7E9028,x			;$B5EBAB   |
 	BCC CODE_B5EBDC				;$B5EBAE   |
-	CMP $0D2A				;$B5EBB0   |
+	CMP RAM_0D2A				;$B5EBB0   |
 	BCS CODE_B5EBE0				;$B5EBB3   |
-	STA $0D28				;$B5EBB5   |
+	STA RAM_0D28				;$B5EBB5   |
 	JMP CODE_B5EBE4				;$B5EBB8  /
 
 CODE_B5EBBB:
-	LDA $8D28,y				;$B5EBBB  \
+	LDA.w RAM_7E8D28,y			;$B5EBBB  \
 	SEC					;$B5EBBE   |
-	SBC $8E28,x				;$B5EBBF   |
+	SBC.w RAM_7E8E28,x			;$B5EBBF   |
 	SEC					;$B5EBC2   |
 	SBC #$0100				;$B5EBC3   |
-	STA $0D2A				;$B5EBC6   |
-	LDA $DF					;$B5EBC9   |
+	STA RAM_0D2A				;$B5EBC6   |
+	LDA camera_0ADF				;$B5EBC9   |
 	SEC					;$B5EBCB   |
-	SBC $8E28,x				;$B5EBCC   |
+	SBC.w RAM_7E8E28,x			;$B5EBCC   |
 	BCC CODE_B5EBDC				;$B5EBCF   |
-	CMP $0D2A				;$B5EBD1   |
+	CMP RAM_0D2A				;$B5EBD1   |
 	BCS CODE_B5EBE0				;$B5EBD4   |
-	STA $0D28				;$B5EBD6   |
+	STA RAM_0D28				;$B5EBD6   |
 	JMP CODE_B5EBE4				;$B5EBD9  /
 
 CODE_B5EBDC:
@@ -11044,13 +10358,13 @@ CODE_B5EBDC:
 	RTS					;$B5EBDF  /
 
 CODE_B5EBE0:
-	LDA $0D26				;$B5EBE0  \
+	LDA RAM_0D26				;$B5EBE0  \
 	RTS					;$B5EBE3  /
 
 CODE_B5EBE4:
 	PHY					;$B5EBE4  \
 	LDY #$0000				;$B5EBE5   |
-	LDA $0D26				;$B5EBE8   |
+	LDA RAM_0D26				;$B5EBE8   |
 	BEQ CODE_B5EC61				;$B5EBEB   |
 CODE_B5EBED:					;	   |
 	CMP #$0100				;$B5EBED   |
@@ -11063,7 +10377,7 @@ CODE_B5EBF6:
 	SEP #$20				;$B5EBF6  \
 	STA.l CPU.multiply_A			;$B5EBF8   |
 	REP #$20				;$B5EBFC   |
-	LDA $0D28				;$B5EBFE   |
+	LDA RAM_0D28				;$B5EBFE   |
 	BEQ CODE_B5EC61				;$B5EC01   |
 CODE_B5EC03:					;	   |
 	CMP #$0100				;$B5EC03   |
@@ -11092,7 +10406,7 @@ CODE_B5EC25:
 	INY					;$B5EC25  \
 CODE_B5EC26:					;	   |
 	STA.l CPU.dividen			;$B5EC26   |
-	LDA $0D2A				;$B5EC2A   |
+	LDA RAM_0D2A				;$B5EC2A   |
 	BEQ CODE_B5EC61				;$B5EC2D   |
 CODE_B5EC2F:					;	   |
 	CMP #$0100				;$B5EC2F   |
@@ -11140,14 +10454,14 @@ CODE_B5EC63:
 	BEQ CODE_B5EC88				;$B5EC66   |
 	CMP #$0003				;$B5EC68   |
 	BNE CODE_B5ECA3				;$B5EC6B   |
-	LDA $9428,x				;$B5EC6D   |
+	LDA.w RAM_7E9428,x			;$B5EC6D   |
 	JSR CODE_B5ECDE				;$B5EC70   |
 	BCS CODE_B5EC84				;$B5EC73   |
-	LDA $9429,x				;$B5EC75   |
+	LDA.w RAM_7E9428+1,x			;$B5EC75   |
 	JSR CODE_B5ECDE				;$B5EC78   |
 	BCS CODE_B5EC84				;$B5EC7B   |
-	LDA $9028,x				;$B5EC7D   |
-	STA $C3					;$B5EC80   |
+	LDA.w RAM_7E9028,x			;$B5EC7D   |
+	STA camera_0AC3				;$B5EC80   |
 	BRA CODE_B5ECA3				;$B5EC82  /
 
 CODE_B5EC84:
@@ -11155,14 +10469,14 @@ CODE_B5EC84:
 	RTS					;$B5EC87  /
 
 CODE_B5EC88:
-	LDA $9328,x				;$B5EC88  \
+	LDA.w RAM_7E9328,x			;$B5EC88  \
 	JSR CODE_B5ECDE				;$B5EC8B   |
 	BCS CODE_B5EC9F				;$B5EC8E   |
-	LDA $9329,x				;$B5EC90   |
+	LDA.w RAM_7E9328+1,x			;$B5EC90   |
 	JSR CODE_B5ECDE				;$B5EC93   |
 	BCS CODE_B5EC9F				;$B5EC96   |
-	LDA $8F28,x				;$B5EC98   |
-	STA $C3					;$B5EC9B   |
+	LDA.w RAM_7E8F28,x			;$B5EC98   |
+	STA camera_0AC3				;$B5EC9B   |
 	BRA CODE_B5ECA3				;$B5EC9D  /
 
 CODE_B5EC9F:
@@ -11170,7 +10484,7 @@ CODE_B5EC9F:
 	RTS					;$B5ECA2  /
 
 CODE_B5ECA3:
-	LDA $92					;$B5ECA3  \
+	LDA camera_0A92				;$B5ECA3  \
 	AND #$000C				;$B5ECA5   |
 	BEQ CODE_B5ECB3				;$B5ECA8   |
 	CMP #$000C				;$B5ECAA   |
@@ -11180,10 +10494,10 @@ CODE_B5ECAF:					;	   |
 	RTS					;$B5ECB2  /
 
 CODE_B5ECB3:
-	LDA $9228,x				;$B5ECB3  \
+	LDA.w RAM_7E9228,x			;$B5ECB3  \
 	JSR CODE_B5ECFD				;$B5ECB6   |
 	BCS CODE_B5ECC3				;$B5ECB9   |
-	LDA $9229,x				;$B5ECBB   |
+	LDA.w RAM_7E9228+1,x			;$B5ECBB   |
 	JSR CODE_B5ECFD				;$B5ECBE   |
 	BCC CODE_B5ECAF				;$B5ECC1   |
 CODE_B5ECC3:					;	   |
@@ -11191,7 +10505,7 @@ CODE_B5ECC3:					;	   |
 	RTS					;$B5ECC6  /
 
 CODE_B5ECC7:
-	LDA $9129,x				;$B5ECC7  \
+	LDA.w RAM_7E9128+1,x			;$B5ECC7  \
 	JSR CODE_B5ECFD				;$B5ECCA   |
 	BCS CODE_B5ECDA				;$B5ECCD   |
 	JSR CODE_B5ED1E				;$B5ECCF   |
@@ -11208,14 +10522,14 @@ CODE_B5ECDE:
 	BEQ CODE_B5ED1C				;$B5ECE1   |
 	ASL A					;$B5ECE3   |
 	TAY					;$B5ECE4   |
-	LDA $9128,y				;$B5ECE5   |
+	LDA.w RAM_7E9128,y			;$B5ECE5   |
 	AND #$0020				;$B5ECE8   |
 	BNE CODE_B5ECFC				;$B5ECEB   |
-	LDA $BF					;$B5ECED   |
-	CMP $8D28,y				;$B5ECEF   |
+	LDA camera_0ABF				;$B5ECED   |
+	CMP.w RAM_7E8D28,y			;$B5ECEF   |
 	BCC CODE_B5ECFC				;$B5ECF2   |
-	LDA $8E28,y				;$B5ECF4   |
-	CMP $BF					;$B5ECF7   |
+	LDA.w RAM_7E8E28,y			;$B5ECF4   |
+	CMP camera_0ABF				;$B5ECF7   |
 	BCC CODE_B5ECFC				;$B5ECF9   |
 	TYX					;$B5ECFB   |
 CODE_B5ECFC:					;	   |
@@ -11227,14 +10541,14 @@ CODE_B5ECFD:
 	ASL A					;$B5ED02   |
 	TAY					;$B5ED03   |
 CODE_B5ED04:					;	   |
-	LDA $9128,y				;$B5ED04   |
+	LDA.w RAM_7E9128,y			;$B5ED04   |
 	AND #$0020				;$B5ED07   |
 	BNE CODE_B5ED1C				;$B5ED0A   |
-	LDA $C3					;$B5ED0C   |
-	CMP $8F28,y				;$B5ED0E   |
+	LDA camera_0AC3				;$B5ED0C   |
+	CMP.w RAM_7E8F28,y			;$B5ED0E   |
 	BCC CODE_B5ED1B				;$B5ED11   |
-	LDA $9028,y				;$B5ED13   |
-	CMP $C3					;$B5ED16   |
+	LDA.w RAM_7E9028,y			;$B5ED13   |
+	CMP camera_0AC3				;$B5ED16   |
 	BCC CODE_B5ED1B				;$B5ED18   |
 	TYX					;$B5ED1A   |
 CODE_B5ED1B:					;	   |
@@ -11245,7 +10559,7 @@ CODE_B5ED1C:
 	RTS					;$B5ED1D  /
 
 CODE_B5ED1E:
-	LDA $9129,x				;$B5ED1E  \
+	LDA.w RAM_7E9128+1,x			;$B5ED1E  \
 	AND #$00FF				;$B5ED21   |
 	BEQ CODE_B5ED38				;$B5ED24   |
 	INC A					;$B5ED26   |
@@ -11254,9 +10568,9 @@ CODE_B5ED1E:
 	SEP #$20				;$B5ED29   |
 	TXA					;$B5ED2B   |
 	LSR A					;$B5ED2C   |
-	CMP $9228,y				;$B5ED2D   |
+	CMP.w RAM_7E9228,y			;$B5ED2D   |
 	BEQ CODE_B5ED35				;$B5ED30   |
-	CMP $9229,y				;$B5ED32   |
+	CMP.w RAM_7E9228+1,y			;$B5ED32   |
 CODE_B5ED35:					;	   |
 	REP #$20				;$B5ED35   |
 	RTS					;$B5ED37  /
@@ -11266,89 +10580,89 @@ CODE_B5ED38:
 	RTS					;$B5ED39  /
 
 CODE_B5ED3A:
-	LDX $BA					;$B5ED3A  \
-	LDA $BF					;$B5ED3C   |
+	LDX camera_0ABA				;$B5ED3A  \
+	LDA camera_0ABF				;$B5ED3C   |
 	INX					;$B5ED3E   |
 	INX					;$B5ED3F   |
 CODE_B5ED40:					;	   |
 	DEX					;$B5ED40   |
 	DEX					;$B5ED41   |
-	CMP $8D28,x				;$B5ED42   |
+	CMP.w RAM_7E8D28,x			;$B5ED42   |
 	BCC CODE_B5ED40				;$B5ED45   |
-	CMP $8E28,x				;$B5ED47   |
+	CMP.w RAM_7E8E28,x			;$B5ED47   |
 	BCC CODE_B5ED53				;$B5ED4A   |
 CODE_B5ED4C:					;	   |
 	DEX					;$B5ED4C   |
 	DEX					;$B5ED4D   |
-	CMP $8E28,x				;$B5ED4E   |
+	CMP.w RAM_7E8E28,x			;$B5ED4E   |
 	BCS CODE_B5ED4C				;$B5ED51   |
 CODE_B5ED53:					;	   |
-	LDA $C3					;$B5ED53   |
-	CMP $8F28,x				;$B5ED55   |
+	LDA camera_0AC3				;$B5ED53   |
+	CMP.w RAM_7E8F28,x			;$B5ED55   |
 	BCS CODE_B5ED61				;$B5ED58   |
 CODE_B5ED5A:					;	   |
 	DEX					;$B5ED5A   |
 	DEX					;$B5ED5B   |
-	CMP $8F28,x				;$B5ED5C   |
+	CMP.w RAM_7E8F28,x			;$B5ED5C   |
 	BCC CODE_B5ED5A				;$B5ED5F   |
 CODE_B5ED61:					;	   |
-	CMP $9028,x				;$B5ED61   |
+	CMP.w RAM_7E9028,x			;$B5ED61   |
 	BCS CODE_B5ED5A				;$B5ED64   |
-	LDA $BF					;$B5ED66   |
-	CMP $8E28,x				;$B5ED68   |
-	LDA $C3					;$B5ED6B   |
+	LDA camera_0ABF				;$B5ED66   |
+	CMP.w RAM_7E8E28,x			;$B5ED68   |
+	LDA camera_0AC3				;$B5ED6B   |
 	BCS CODE_B5ED5A				;$B5ED6D   |
 	RTS					;$B5ED6F  /
 
 CODE_B5ED70:
-	LDX $90					;$B5ED70  \> Piracy check. Load anti piracy checksum ($A00 + $90 = $A90)
+	LDX camera_0A90				;$B5ED70  \> Piracy check. Load anti piracy checksum ($A00 + $90 = $A90)
 	BMI .continue				;$B5ED72   |> If address negative, checksum done (1 byte per frame)
 	LDA.w #<:rare_string			;$B5ED74   |\
-	STA $92					;$B5ED77   | | Store address of anti piracy routine at $A90
+	STA camera_0A92				;$B5ED77   | | Store address of anti piracy routine at $A90
 	LDY #rare_string			;$B5ED79   | |
-	LDA [$90],y				;$B5ED7C   |/
+	LDA [camera_0A90],y			;$B5ED7C   |/
 	CLC					;$B5ED7E   |\
-	ADC $B2					;$B5ED7F   | | Add next byte to checksum
-	STA $B2					;$B5ED81   |/ Checksum is stored at $AB2
+	ADC camera_0AB2				;$B5ED7F   | | Add next byte to checksum
+	STA camera_0AB2				;$B5ED81   |/ Checksum is stored at $AB2
 	CPX #$021F				;$B5ED83   |\
 	BCC .continue				;$B5ED86   |/ If the checksum isn't done yet continue until next frame
-	ROR $90					;$B5ED88   |> Make address negative to flag checksum as finished
+	ROR camera_0A90				;$B5ED88   |> Make address negative to flag checksum as finished
 	CLC					;$B5ED8A   |\
 	ADC #$2315				;$B5ED8B   |/ Add to checksum for true checksum. (Hide actual checksum)
 	CMP #$9BEA				;$B5ED8E   |\
 	BEQ .continue				;$B5ED91   |/ If our checksum matches continue normally
-	DEC $FD					;$B5ED93   | Else anti piracy tampered, decrease level camera count by 1
+	DEC camera_0AFD				;$B5ED93   | Else anti piracy tampered, decrease level camera count by 1
 .continue					;	   |
-	STZ $92					;$B5ED95   |
-	LDA time_stop_flags			;$B5ED97   |
+	STZ camera_0A92				;$B5ED95   |
+	LDA.w time_stop_flags			;$B5ED97   |
 	BIT #$0080				;$B5ED9A   |
 	BEQ CODE_B5EDA0				;$B5ED9D   |
 	RTS					;$B5ED9F  /
 
 CODE_B5EDA0:
 	JSR CODE_B5EE79				;$B5EDA0  \
-	LDA time_stop_flags			;$B5EDA3   |
+	LDA.w time_stop_flags			;$B5EDA3   |
 	BIT #$0002				;$B5EDA6   |
 	BNE CODE_B5EE0A				;$B5EDA9   |
 	JSR CODE_B5EF97				;$B5EDAB   |
 if !version == 0				;	   |
-	LDA $9E					;$B5EDAE   |
+	LDA camera_0A9E				;$B5EDAE   |
 else						;	   |
-	LDA $9C					;$B5EDAE   |
+	LDA camera_0A9C				;$B5EDAE   |
 endif						;	   |
 	CLC					;$B5EDB0   |
-	ADC $D2					;$B5EDB1   |
+	ADC camera_0AD2				;$B5EDB1   |
 	TAY					;$B5EDB3   |
 	LDA #$0000				;$B5EDB4   |
 if !version == 0				;	   |
-	BIT $9E					;$B5EDB7   |
+	BIT camera_0A9E				;$B5EDB7   |
 else						;	   |
-	BIT $9C					;$B5EDB7   |
+	BIT camera_0A9C				;$B5EDB7   |
 endif						;	   |
 	BPL CODE_B5EDBC				;$B5EDB9   |
 	DEC A					;$B5EDBB   |
 CODE_B5EDBC:					;	   |
-	ADC $D4					;$B5EDBC   |
+	ADC camera_0AD4				;$B5EDBC   |
 	TAX					;$B5EDBE   |
 	BMI CODE_B5EDD0				;$B5EDBF   |
 	BNE CODE_B5EDC8				;$B5EDC1   |
@@ -11370,43 +10684,43 @@ CODE_B5EDD8:					;	   |
 CODE_B5EDDE:					;	   |
 	TYA					;$B5EDDE   |
 	CLC					;$B5EDDF   |
-	ADC $DA					;$B5EDE0   |
-	STA $DA					;$B5EDE2   |
+	ADC camera_0ADA				;$B5EDE0   |
+	STA camera_0ADA				;$B5EDE2   |
 	TXA					;$B5EDE4   |
-	ADC $DC					;$B5EDE5   |
-	STA $DC					;$B5EDE7   |
+	ADC camera_0ADC				;$B5EDE5   |
+	STA camera_0ADC				;$B5EDE7   |
 	LDA #$0100				;$B5EDE9   |
-	CMP $DB					;$B5EDEC   |
+	CMP camera_0ADB				;$B5EDEC   |
 	BCS CODE_B5EDF6				;$B5EDEE   |
-	LDA $FE					;$B5EDF0   |
-	CMP $DB					;$B5EDF2   |
+	LDA camera_0AFE				;$B5EDF0   |
+	CMP camera_0ADB				;$B5EDF2   |
 	BCS CODE_B5EDF8				;$B5EDF4   |
 CODE_B5EDF6:					;	   |
-	STA $DB					;$B5EDF6   |
+	STA camera_0ADB				;$B5EDF6   |
 CODE_B5EDF8:					;	   |
-	LDA $DB					;$B5EDF8   |
+	LDA camera_0ADB				;$B5EDF8   |
 	SEC					;$B5EDFA   |
 	SBC screen_scroll_y_position		;$B5EDFB   |
 	STA $17D2				;$B5EDFE   |
-	LDA $DB					;$B5EE01   |
+	LDA camera_0ADB				;$B5EE01   |
 	STA screen_scroll_y_position		;$B5EE03   |
 	DEC A					;$B5EE06   |
 	STA $17C2				;$B5EE07   |
 CODE_B5EE0A:					;	   |
-	LDA time_stop_flags			;$B5EE0A   |
+	LDA.w time_stop_flags			;$B5EE0A   |
 	BIT #$0001				;$B5EE0D   |
 	BNE CODE_B5EE78				;$B5EE10   |
 	JSR CODE_B5EEBF				;$B5EE12   |
-	LDA $9A					;$B5EE15   |
+	LDA camera_0A9A				;$B5EE15   |
 	CLC					;$B5EE17   |
-	ADC $CE					;$B5EE18   |
+	ADC camera_0ACE				;$B5EE18   |
 	TAY					;$B5EE1A   |
 	LDA #$0000				;$B5EE1B   |
-	BIT $9A					;$B5EE1E   |
+	BIT camera_0A9A				;$B5EE1E   |
 	BPL CODE_B5EE23				;$B5EE20   |
 	DEC A					;$B5EE22   |
 CODE_B5EE23:					;	   |
-	ADC $D0					;$B5EE23   |
+	ADC camera_0AD0				;$B5EE23   |
 	TAX					;$B5EE25   |
 	BMI CODE_B5EE37				;$B5EE26   |
 	BNE CODE_B5EE2F				;$B5EE28   |
@@ -11428,31 +10742,31 @@ CODE_B5EE3F:					;	   |
 CODE_B5EE45:					;	   |
 	TYA					;$B5EE45   |
 	CLC					;$B5EE46   |
-	ADC $D6					;$B5EE47   |
-	STA $D6					;$B5EE49   |
+	ADC camera_0AD6				;$B5EE47   |
+	STA camera_0AD6				;$B5EE49   |
 	TXA					;$B5EE4B   |
-	ADC $D8					;$B5EE4C   |
-	STA $D8					;$B5EE4E   |
+	ADC camera_0AD8				;$B5EE4C   |
+	STA camera_0AD8				;$B5EE4E   |
 	BPL CODE_B5EE56				;$B5EE50   |
-	STZ $D6					;$B5EE52   |
-	STZ $D8					;$B5EE54   |
+	STZ camera_0AD6				;$B5EE52   |
+	STZ camera_0AD8				;$B5EE54   |
 CODE_B5EE56:					;	   |
 	LDA #$0100				;$B5EE56   |
-	CMP $D7					;$B5EE59   |
+	CMP camera_0AD7				;$B5EE59   |
 	BCS CODE_B5EE63				;$B5EE5B   |
-	LDA $FC					;$B5EE5D   |
-	CMP $D7					;$B5EE5F   |
+	LDA camera_0AFC				;$B5EE5D   |
+	CMP camera_0AD7				;$B5EE5F   |
 	BCS CODE_B5EE65				;$B5EE61   |
 CODE_B5EE63:					;	   |
-	STA $D7					;$B5EE63   |
+	STA camera_0AD7				;$B5EE63   |
 CODE_B5EE65:					;	   |
-	LDA $D7					;$B5EE65   |
+	LDA camera_0AD7				;$B5EE65   |
 	SEC					;$B5EE67   |
 	SBC screen_scroll_x_position		;$B5EE68   |
 	STA $17D6				;$B5EE6B   |
-	LDA $D7					;$B5EE6E   |
+	LDA camera_0AD7				;$B5EE6E   |
 	STA screen_scroll_x_position		;$B5EE70   |
-	LDA $D6					;$B5EE73   |
+	LDA camera_0AD6				;$B5EE73   |
 	STA screen_scroll_x_sub_position	;$B5EE75   |
 CODE_B5EE78:					;	   |
 	RTS					;$B5EE78  /
@@ -11461,11 +10775,11 @@ CODE_B5EE79:
 	LDA.l active_frame_counter		;$B5EE79  \
 	AND #$0003				;$B5EE7D   |
 	BNE CODE_B5EEBA				;$B5EE80   |
-	LDA $F6					;$B5EE82   |
-	LSR $F6					;$B5EE84   |
+	LDA camera_0AF6				;$B5EE82   |
+	LSR camera_0AF6				;$B5EE84   |
 	CMP #$0040				;$B5EE86   |
 	BCC CODE_B5EE95				;$B5EE89   |
-	BIT $FA					;$B5EE8B   |
+	BIT camera_0AFA				;$B5EE8B   |
 	BVC CODE_B5EE98				;$B5EE8D   |
 	EOR #$FFFF				;$B5EE8F   |
 	INC A					;$B5EE92   |
@@ -11474,12 +10788,12 @@ CODE_B5EE79:
 CODE_B5EE95:
 	LDA #$0000				;$B5EE95  \
 CODE_B5EE98:					;	   |
-	STA $9A					;$B5EE98   |
-	LDA $F8					;$B5EE9A   |
-	LSR $F8					;$B5EE9C   |
+	STA camera_0A9A				;$B5EE98   |
+	LDA camera_0AF8				;$B5EE9A   |
+	LSR camera_0AF8				;$B5EE9C   |
 	CMP #$0040				;$B5EE9E   |
 	BCC CODE_B5EEAD				;$B5EEA1   |
-	BIT $FA					;$B5EEA3   |
+	BIT camera_0AFA				;$B5EEA3   |
 	BPL CODE_B5EEB0				;$B5EEA5   |
 	EOR #$FFFF				;$B5EEA7   |
 	INC A					;$B5EEAA   |
@@ -11489,107 +10803,107 @@ CODE_B5EEAD:
 	LDA #$0000				;$B5EEAD  \
 CODE_B5EEB0:					;	   |
 if !version == 0				;	   |
-	STA $9E					;$B5EEB0   |
+	STA camera_0A9E				;$B5EEB0   |
 else						;	   |
-	STA $9C					;$B5EEB0   |
+	STA camera_0A9C				;$B5EEB0   |
 endif						;	   |
-	LDA $FA					;$B5EEB2   |
+	LDA camera_0AFA				;$B5EEB2   |
 	EOR #$C000				;$B5EEB4   |
-	STA $FA					;$B5EEB7   |
+	STA camera_0AFA				;$B5EEB7   |
 	RTS					;$B5EEB9  /
 
 CODE_B5EEBA:					;	  \
-	STZ $9A					;$B5EEBA   |
+	STZ camera_0A9A				;$B5EEBA   |
 if !version == 0				;	   |
-	STZ $9E					;$B5EEBC   |
+	STZ camera_0A9E				;$B5EEBC   |
 else						;	   |
-	STZ $9C					;$B5EEBC   |
+	STZ camera_0A9C				;$B5EEBC   |
 endif						;	   |
 	RTS					;$B5EEBE  /
 
 CODE_B5EEBF:
 	SEP #$10				;$B5EEBF  \
-	LDX $C8					;$B5EEC1   |
-	LDY $C9					;$B5EEC3   |
+	LDX camera_0AC8				;$B5EEC1   |
+	LDY camera_0AC9				;$B5EEC3   |
 if !version == 0				;	   |
-	LDA $A2					;$B5EEC5   |
+	LDA camera_0AA2				;$B5EEC5   |
 else						;	   |
-	LDA $A0					;$B5EEC5   |
+	LDA camera_0AA0				;$B5EEC5   |
 endif						;	   |
 	SEC					;$B5EEC7   |
-	SBC $D6					;$B5EEC8   |
+	SBC camera_0AD6				;$B5EEC8   |
 if !version == 0				;	   |
-	STA $AE					;$B5EECA   |
-	LDA $A4					;$B5EECC   |
-	SBC $D8					;$B5EECE   |
-	STA $B0					;$B5EED0   |
-	LDA $DE					;$B5EED2   |
+	STA camera_0AAE				;$B5EECA   |
+	LDA camera_0AA4				;$B5EECC   |
+	SBC camera_0AD8				;$B5EECE   |
+	STA camera_0AB0				;$B5EED0   |
+	LDA camera_0ADE				;$B5EED2   |
 	SEC					;$B5EED4   |
-	SBC $A2					;$B5EED5   |
-	STA $AA					;$B5EED7   |
-	LDA $E0					;$B5EED9   |
-	SBC $A4					;$B5EEDB   |
-	STA $AC					;$B5EEDD   |
-	LDA $AA					;$B5EEDF   |
+	SBC camera_0AA2				;$B5EED5   |
+	STA camera_0AAA				;$B5EED7   |
+	LDA camera_0AE0				;$B5EED9   |
+	SBC camera_0AA4				;$B5EEDB   |
+	STA camera_0AAC				;$B5EEDD   |
+	LDA camera_0AAA				;$B5EEDF   |
 	CLC					;$B5EEE1   |
-	ADC $AE					;$B5EEE2   |
-	STA $92					;$B5EEE4   |
-	LDA $AC					;$B5EEE6   |
-	ADC $B0					;$B5EEE8   |
+	ADC camera_0AAE				;$B5EEE2   |
+	STA camera_0A92				;$B5EEE4   |
+	LDA camera_0AAC				;$B5EEE6   |
+	ADC camera_0AB0				;$B5EEE8   |
 else						;	   |
-	STA $AC					;$B5EECA   |
-	LDA $A2					;$B5EECC   |
-	SBC $D8					;$B5EECE   |
-	STA $AE					;$B5EED0   |
-	LDA $DE					;$B5EED2   |
+	STA camera_0AAC				;$B5EECA   |
+	LDA camera_0AA2				;$B5EECC   |
+	SBC camera_0AD8				;$B5EECE   |
+	STA camera_0AAE				;$B5EED0   |
+	LDA camera_0ADE				;$B5EED2   |
 	SEC					;$B5EED4   |
-	SBC $A0					;$B5EED5   |
-	STA $A8					;$B5EED7   |
-	LDA $E0					;$B5EED9   |
-	SBC $A2					;$B5EEDB   |
-	STA $AA					;$B5EEDD   |
-	LDA $A8					;$B5EEDF   |
+	SBC camera_0AA0				;$B5EED5   |
+	STA camera_0AA8				;$B5EED7   |
+	LDA camera_0AE0				;$B5EED9   |
+	SBC camera_0AA2				;$B5EEDB   |
+	STA camera_0AAA				;$B5EEDD   |
+	LDA camera_0AA8				;$B5EEDF   |
 	CLC					;$B5EEE1   |
-	ADC $AC					;$B5EEE2   |
-	STA $92					;$B5EEE4   |
-	LDA $AA					;$B5EEE6   |
-	ADC $AE					;$B5EEE8   |
+	ADC camera_0AAC				;$B5EEE2   |
+	STA camera_0A92				;$B5EEE4   |
+	LDA camera_0AAA				;$B5EEE6   |
+	ADC camera_0AAE				;$B5EEE8   |
 endif						;	   |
 	DEX					;$B5EEEA   |
 	BMI CODE_B5EEF6				;$B5EEEB   |
 CODE_B5EEED:					;	   |
 	CMP #$8000				;$B5EEED   |
 	ROR A					;$B5EEF0   |
-	ROR $92					;$B5EEF1   |
+	ROR camera_0A92				;$B5EEF1   |
 	DEX					;$B5EEF3   |
 	BPL CODE_B5EEED				;$B5EEF4   |
 CODE_B5EEF6:					;	   |
-	STA $94					;$B5EEF6   |
+	STA camera_0A94				;$B5EEF6   |
 	TAX					;$B5EEF8   |
 	BPL CODE_B5EF09				;$B5EEF9   |
 	LDA #$FFFF				;$B5EEFB   |
-	STA $94					;$B5EEFE   |
-	EOR $C6					;$B5EF00   |
+	STA camera_0A94				;$B5EEFE   |
+	EOR camera_0AC6				;$B5EF00   |
 	INC A					;$B5EF02   |
-	CMP $92					;$B5EF03   |
+	CMP camera_0A92				;$B5EF03   |
 	BCC CODE_B5EF13				;$B5EF05   |
 	BCS CODE_B5EF11				;$B5EF07   |
 CODE_B5EF09:					;	   |
-	STZ $94					;$B5EF09   |
-	LDA $C6					;$B5EF0B   |
-	CMP $92					;$B5EF0D   |
+	STZ camera_0A94				;$B5EF09   |
+	LDA camera_0AC6				;$B5EF0B   |
+	CMP camera_0A92				;$B5EF0D   |
 	BCS CODE_B5EF13				;$B5EF0F   |
 CODE_B5EF11:					;	   |
-	STA $92					;$B5EF11   |
+	STA camera_0A92				;$B5EF11   |
 CODE_B5EF13:					;	   |
 	DEY					;$B5EF13   |
 	BMI CODE_B5EF47				;$B5EF14   |
 if !version == 0				;	   |
-	LDA $AE					;$B5EF16   |
-	BIT $B0					;$B5EF18   |
+	LDA camera_0AAE				;$B5EF16   |
+	BIT camera_0AB0				;$B5EF18   |
 else						;	   |
-	LDA $AC					;$B5EF16   |
-	BIT $AE					;$B5EF18   |
+	LDA camera_0AAC				;$B5EF16   |
+	BIT camera_0AAE				;$B5EF18   |
 endif						;	   |
 	BPL CODE_B5EF32				;$B5EF1A   |
 	CMP #$FFE0				;$B5EF1C   |
@@ -11597,9 +10911,9 @@ endif						;	   |
 CODE_B5EF21:					;	   |
 	SEC					;$B5EF21   |
 if !version == 0				;	   |
-	ROR $B0					;$B5EF22   |
+	ROR camera_0AB0				;$B5EF22   |
 else						;	   |
-	ROR $AE					;$B5EF22   |
+	ROR camera_0AAE				;$B5EF22   |
 endif						;	   |
 	ROR A					;$B5EF24   |
 	DEY					;$B5EF25   |
@@ -11614,9 +10928,9 @@ CODE_B5EF32:
 	BCC CODE_B5EF45				;$B5EF35   |
 CODE_B5EF37:					;	   |
 if !version == 0				;	   |
-	LSR $B0					;$B5EF37   |
+	LSR camera_0AB0				;$B5EF37   |
 else						;	   |
-	LSR $AE					;$B5EF37   |
+	LSR camera_0AAE				;$B5EF37   |
 endif						;	   |
 	ROR A					;$B5EF39   |
 	DEY					;$B5EF3A   |
@@ -11626,115 +10940,115 @@ endif						;	   |
 	LDA #$0008				;$B5EF42   |
 CODE_B5EF45:					;	   |
 if !version == 0				;	   |
-	STA $AE					;$B5EF45   |
+	STA camera_0AAE				;$B5EF45   |
 CODE_B5EF47:					;	   |
-	LDA $AA					;$B5EF47   |
+	LDA camera_0AAA				;$B5EF47   |
 	CLC					;$B5EF49   |
-	ADC $AE					;$B5EF4A   |
-	STA $AE					;$B5EF4C   |
-	LDA $AC					;$B5EF4E   |
-	ADC $B0					;$B5EF50   |
-	STA $B0					;$B5EF52   |
-	ORA $AE					;$B5EF54   |
+	ADC camera_0AAE				;$B5EF4A   |
+	STA camera_0AAE				;$B5EF4C   |
+	LDA camera_0AAC				;$B5EF4E   |
+	ADC camera_0AB0				;$B5EF50   |
+	STA camera_0AB0				;$B5EF52   |
+	ORA camera_0AAE				;$B5EF54   |
 else						;	   |
-	STA $AC					;$B5EF45   |
+	STA camera_0AAC				;$B5EF45   |
 CODE_B5EF47:					;	   |
-	LDA $A8					;$B5EF47   |
+	LDA camera_0AA8				;$B5EF47   |
 	CLC					;$B5EF49   |
-	ADC $AC					;$B5EF4A   |
-	STA $AC					;$B5EF4C   |
-	LDA $AA					;$B5EF4E   |
-	ADC $AE					;$B5EF50   |
-	STA $AE					;$B5EF52   |
-	ORA $AC					;$B5EF54   |
+	ADC camera_0AAC				;$B5EF4A   |
+	STA camera_0AAC				;$B5EF4C   |
+	LDA camera_0AAA				;$B5EF4E   |
+	ADC camera_0AAE				;$B5EF50   |
+	STA camera_0AAE				;$B5EF52   |
+	ORA camera_0AAC				;$B5EF54   |
 endif						;	   |
 	BEQ CODE_B5EF83				;$B5EF56   |
-	LDA $CE					;$B5EF58   |
+	LDA camera_0ACE				;$B5EF58   |
 	CLC					;$B5EF5A   |
-	ADC $92					;$B5EF5B   |
-	STA $CE					;$B5EF5D   |
-	LDA $D0					;$B5EF5F   |
-	ADC $94					;$B5EF61   |
-	STA $D0					;$B5EF63   |
+	ADC camera_0A92				;$B5EF5B   |
+	STA camera_0ACE				;$B5EF5D   |
+	LDA camera_0AD0				;$B5EF5F   |
+	ADC camera_0A94				;$B5EF61   |
+	STA camera_0AD0				;$B5EF63   |
 if !version == 0				;	   |
-	EOR $B0					;$B5EF65   |
+	EOR camera_0AB0				;$B5EF65   |
 	BMI CODE_B5EF8E				;$B5EF67   |
-	LDA $B0					;$B5EF69   |
+	LDA camera_0AB0				;$B5EF69   |
 	BPL CODE_B5EF79				;$B5EF6B   |
-	CMP $D0					;$B5EF6D   |
+	CMP camera_0AD0				;$B5EF6D   |
 	BNE CODE_B5EF75				;$B5EF6F   |
-	LDA $AE					;$B5EF71   |
+	LDA camera_0AAE				;$B5EF71   |
 else						;	   |
-	EOR $AE					;$B5EF65   |
+	EOR camera_0AAE				;$B5EF65   |
 	BMI CODE_B5EF8E				;$B5EF67   |
-	LDA $AE					;$B5EF69   |
+	LDA camera_0AAE				;$B5EF69   |
 	BPL CODE_B5EF79				;$B5EF6B   |
-	CMP $D0					;$B5EF6D   |
+	CMP camera_0AD0				;$B5EF6D   |
 	BNE CODE_B5EF75				;$B5EF6F   |
-	LDA $AC					;$B5EF71   |
+	LDA camera_0AAC				;$B5EF71   |
 endif						;	   |
-	CMP $CE					;$B5EF73   |
+	CMP camera_0ACE				;$B5EF73   |
 CODE_B5EF75:					;	   |
 	BCS CODE_B5EF83				;$B5EF75   |
 	BCC CODE_B5EF8B				;$B5EF77   |
 CODE_B5EF79:					;	   |
-	CMP $D0					;$B5EF79   |
+	CMP camera_0AD0				;$B5EF79   |
 	BNE CODE_B5EF81				;$B5EF7B   |
 if !version == 0				;	   |
-	LDA $AE					;$B5EF7D   |
+	LDA camera_0AAE				;$B5EF7D   |
 else						;	   |
-	LDA $AC					;$B5EF7D   |
+	LDA camera_0AAC				;$B5EF7D   |
 endif						;	   |
-	CMP $CE					;$B5EF7F   |
+	CMP camera_0ACE				;$B5EF7F   |
 CODE_B5EF81:					;	   |
 	BCS CODE_B5EF8B				;$B5EF81   |
 CODE_B5EF83:					;	   |
 if !version == 0				;	   |
-	LDA $AE					;$B5EF83   |
-	STA $CE					;$B5EF85   |
-	LDA $B0					;$B5EF87   |
+	LDA camera_0AAE				;$B5EF83   |
+	STA camera_0ACE				;$B5EF85   |
+	LDA camera_0AB0				;$B5EF87   |
 else						;	   |
-	LDA $AC					;$B5EF83   |
-	STA $CE					;$B5EF85   |
-	LDA $AE					;$B5EF87   |
+	LDA camera_0AAC				;$B5EF83   |
+	STA camera_0ACE				;$B5EF85   |
+	LDA camera_0AAE				;$B5EF87   |
 endif						;	   |
-	STA $D0					;$B5EF89   |
+	STA camera_0AD0				;$B5EF89   |
 CODE_B5EF8B:					;	   |
 	REP #$10				;$B5EF8B   |
 	RTS					;$B5EF8D  /
 
 CODE_B5EF8E:
-	LDA $D0					;$B5EF8E  \
+	LDA camera_0AD0				;$B5EF8E  \
 	ASL A					;$B5EF90   |
-	ROR $D0					;$B5EF91   |
-	ROR $CE					;$B5EF93   |
+	ROR camera_0AD0				;$B5EF91   |
+	ROR camera_0ACE				;$B5EF93   |
 	BRA CODE_B5EF8B				;$B5EF95  /
 
 CODE_B5EF97:
 	SEP #$10				;$B5EF97  \
-	LDA $C3					;$B5EF99   |
+	LDA camera_0AC3				;$B5EF99   |
 	SEC					;$B5EF9B   |
 if !version == 0				;	   |
-	SBC $9F					;$B5EF9C   |
+	SBC camera_0A9F				;$B5EF9C   |
 	XBA					;$B5EF9E   |
-	LDA $E3					;$B5EF9F   |
-	CMP $A7					;$B5EFA1   |
+	LDA camera_0AE3				;$B5EF9F   |
+	CMP camera_0AA7				;$B5EFA1   |
 else						;	   |
-	SBC $9E					;$B5EF9C   |
+	SBC camera_0A9E				;$B5EF9C   |
 	TAX					;$B5EF9E   |
-	LDA $E3					;$B5EF9F   |
-	CMP $A5					;$B5EFA1   |
+	LDA camera_0AE3				;$B5EF9F   |
+	CMP camera_0AA5				;$B5EFA1   |
 	BCS CODE_B5EFC9				;$B5EFA3   |
-	CMP $DB					;$B5EFA5   |
+	CMP camera_0ADB				;$B5EFA5   |
 endif						;	   |
 	BCS CODE_B5EFC9				;$B5EFA7   |
-	LDA $C3					;$B5EFA9   |
+	LDA camera_0AC3				;$B5EFA9   |
 	SEC					;$B5EFAB   |
 	SBC #$0020				;$B5EFAC   |
 	BPL CODE_B5EFB4				;$B5EFAF   |
 	LDA #$0000				;$B5EFB1   |
 CODE_B5EFB4:					;	   |
-	CMP $DB					;$B5EFB4   |
+	CMP camera_0ADB				;$B5EFB4   |
 	BCS CODE_B5EFF3				;$B5EFB6   |
 if !version == 1
 	CPX #$FD				;$B5EFB8   |
@@ -11749,14 +11063,14 @@ CODE_B5EFC0:					;	   |
 	BRA CODE_B5EFF9				;$B5EFC7  /
 
 CODE_B5EFC9:
-	LDA $C3					;$B5EFC9  \
+	LDA camera_0AC3				;$B5EFC9  \
 	SEC					;$B5EFCB   |
 	SBC #$00C0				;$B5EFCC   |
 	BPL CODE_B5EFD4				;$B5EFCF   |
 	LDA #$0000				;$B5EFD1   |
 CODE_B5EFD4:					;	   |
 if !version == 0				;	   |
-	CMP $DB					;$B5EFD4   |
+	CMP camera_0ADB				;$B5EFD4   |
 	BCC CODE_B5EFF3				;$B5EFD6   |
 	CPX #$06				;$B5EFD8   |
 	BCS $E4					;$B5EFDA   |
@@ -11766,7 +11080,7 @@ CODE_B5EFEA:					;	   |
 	LDA #$0100				;$B5EFE0   |
 else						;	   |
 	SEC					;$B5EFD4   |
-	SBC $DB					;$B5EFD5   |
+	SBC camera_0ADB				;$B5EFD5   |
 	BCC CODE_B5EFF3				;$B5EFD7   |
 	CMP #$0018				;$B5EFD9   |
 	BCS CODE_B5EFEA				;$B5EFDC   |
@@ -11784,89 +11098,89 @@ endif						;	   |
 	BRA CODE_B5EFF9				;$B5EFF1  /
 
 CODE_B5EFF3:
-	LDX $CC					;$B5EFF3  \
-	LDY $CD					;$B5EFF5   |
-	LDA $CA					;$B5EFF7   |
+	LDX camera_0ACC				;$B5EFF3  \
+	LDY camera_0ACD				;$B5EFF5   |
+	LDA camera_0ACA				;$B5EFF7   |
 CODE_B5EFF9:					;	   |
-	STA $96					;$B5EFF9   |
+	STA camera_0A96				;$B5EFF9   |
 if !version == 0				;	   |
-	LDA $A6					;$B5EFFB   |
+	LDA camera_0AA6				;$B5EFFB   |
 	SEC					;$B5EFFD   |
-	SBC $DA					;$B5EFFE   |
-	STA $AE					;$B5F000   |
-	LDA $A8					;$B5F002   |
-	SBC $DC					;$B5F004   |
-	STA $B0					;$B5F006   |
-	LDA $E2					;$B5F008   |
+	SBC camera_0ADA				;$B5EFFE   |
+	STA camera_0AAE				;$B5F000   |
+	LDA camera_0AA8				;$B5F002   |
+	SBC camera_0ADC				;$B5F004   |
+	STA camera_0AB0				;$B5F006   |
+	LDA camera_0AE2				;$B5F008   |
 	SEC					;$B5F00A   |
-	SBC $A6					;$B5F00B   |
-	STA $AA					;$B5F00D   |
-	LDA $E4					;$B5F00F   |
-	SBC $A8					;$B5F011   |
-	STA $AC					;$B5F013   |
-	LDA $AA					;$B5F015   |
+	SBC camera_0AA6				;$B5F00B   |
+	STA camera_0AAA				;$B5F00D   |
+	LDA camera_0AE4				;$B5F00F   |
+	SBC camera_0AA8				;$B5F011   |
+	STA camera_0AAC				;$B5F013   |
+	LDA camera_0AAA				;$B5F015   |
 	CLC					;$B5F017   |
-	ADC $AE					;$B5F018   |
-	STA $92					;$B5F01A   |
-	LDA $AC					;$B5F01C   |
-	ADC $B0					;$B5F01E   |
+	ADC camera_0AAE				;$B5F018   |
+	STA camera_0A92				;$B5F01A   |
+	LDA camera_0AAC				;$B5F01C   |
+	ADC camera_0AB0				;$B5F01E   |
 else						;	   |
-	LDA $A4					;$B5EFFB   |
+	LDA camera_0AA4				;$B5EFFB   |
 	SEC					;$B5EFFD   |
-	SBC $DA					;$B5EFFE   |
-	STA $AC					;$B5F000   |
-	LDA $A6					;$B5F002   |
-	SBC $DC					;$B5F004   |
-	STA $AE					;$B5F006   |
-	LDA $E2					;$B5F008   |
+	SBC camera_0ADA				;$B5EFFE   |
+	STA camera_0AAC				;$B5F000   |
+	LDA camera_0AA6				;$B5F002   |
+	SBC camera_0ADC				;$B5F004   |
+	STA camera_0AAE				;$B5F006   |
+	LDA camera_0AE2				;$B5F008   |
 	SEC					;$B5F00A   |
-	SBC $A4					;$B5F00B   |
-	STA $A8					;$B5F00D   |
-	LDA $E4					;$B5F00F   |
-	SBC $A6					;$B5F011   |
-	STA $AA					;$B5F013   |
-	LDA $A8					;$B5F015   |
+	SBC camera_0AA4				;$B5F00B   |
+	STA camera_0AA8				;$B5F00D   |
+	LDA camera_0AE4				;$B5F00F   |
+	SBC camera_0AA6				;$B5F011   |
+	STA camera_0AAA				;$B5F013   |
+	LDA camera_0AA8				;$B5F015   |
 	CLC					;$B5F017   |
-	ADC $AC					;$B5F018   |
-	STA $92					;$B5F01A   |
-	LDA $AA					;$B5F01C   |
-	ADC $AE					;$B5F01E   |
+	ADC camera_0AAC				;$B5F018   |
+	STA camera_0A92				;$B5F01A   |
+	LDA camera_0AAA				;$B5F01C   |
+	ADC camera_0AAE				;$B5F01E   |
 endif						;	   |
 	DEX					;$B5F020   |
 	BMI CODE_B5F02C				;$B5F021   |
 CODE_B5F023:					;	   |
 	CMP #$8000				;$B5F023   |
 	ROR A					;$B5F026   |
-	ROR $92					;$B5F027   |
+	ROR camera_0A92				;$B5F027   |
 	DEX					;$B5F029   |
 	BPL CODE_B5F023				;$B5F02A   |
 CODE_B5F02C:					;	   |
-	STA $94					;$B5F02C   |
+	STA camera_0A94				;$B5F02C   |
 	TAX					;$B5F02E   |
 	BPL CODE_B5F03F				;$B5F02F   |
 	LDA #$FFFF				;$B5F031   |
-	STA $94					;$B5F034   |
-	EOR $96					;$B5F036   |
+	STA camera_0A94				;$B5F034   |
+	EOR camera_0A96				;$B5F036   |
 	INC A					;$B5F038   |
-	CMP $92					;$B5F039   |
+	CMP camera_0A92				;$B5F039   |
 	BCC CODE_B5F049				;$B5F03B   |
 	BCS CODE_B5F047				;$B5F03D   |
 CODE_B5F03F:					;	   |
-	STZ $94					;$B5F03F   |
-	LDA $96					;$B5F041   |
-	CMP $92					;$B5F043   |
+	STZ camera_0A94				;$B5F03F   |
+	LDA camera_0A96				;$B5F041   |
+	CMP camera_0A92				;$B5F043   |
 	BCS CODE_B5F049				;$B5F045   |
 CODE_B5F047:					;	   |
-	STA $92					;$B5F047   |
+	STA camera_0A92				;$B5F047   |
 CODE_B5F049:					;	   |
 	DEY					;$B5F049   |
 	BMI CODE_B5F07D				;$B5F04A   |
 if !version == 0				;	   |
-	LDA $AE					;$B5F04C   |
-	BIT $B0					;$B5F04E   |
+	LDA camera_0AAE				;$B5F04C   |
+	BIT camera_0AB0				;$B5F04E   |
 else						;	   |
-	LDA $AC					;$B5F04C   |
-	BIT $AE					;$B5F04E   |
+	LDA camera_0AAC				;$B5F04C   |
+	BIT camera_0AAE				;$B5F04E   |
 endif						;	   |
 	BPL CODE_B5F068				;$B5F050   |
 	CMP #$FFE0				;$B5F052   |
@@ -11874,9 +11188,9 @@ endif						;	   |
 CODE_B5F057:					;	   |
 	SEC					;$B5F057   |
 if !version == 0				;	   |
-	ROR $B0					;$B5F058   |
+	ROR camera_0AB0				;$B5F058   |
 else						;	   |
-	ROR $AE					;$B5F058   |
+	ROR camera_0AAE				;$B5F058   |
 endif						;	   |
 	ROR A					;$B5F05A   |
 	DEY					;$B5F05B   |
@@ -11891,9 +11205,9 @@ CODE_B5F068:
 	BCC CODE_B5F07B				;$B5F06B   |
 CODE_B5F06D:					;	   |
 if !version == 0				;	   |
-	LSR $B0					;$B5F06D   |
+	LSR camera_0AB0				;$B5F06D   |
 else						;	   |
-	LSR $AE					;$B5F06D   |
+	LSR camera_0AAE				;$B5F06D   |
 endif						;	   |
 	ROR A					;$B5F06F   |
 	DEY					;$B5F070   |
@@ -11903,90 +11217,92 @@ endif						;	   |
 	LDA #$0008				;$B5F078   |
 if !version == 0				;	   |
 CODE_B5F07B:					;	   |
-	STA $AE					;$B5F07B   |
+	STA camera_0AAE				;$B5F07B   |
 CODE_B5F07D:					;	   |
-	LDA $AA					;$B5F07D   |
+	LDA camera_0AAA				;$B5F07D   |
 	CLC					;$B5F07F   |
-	ADC $AE					;$B5F080   |
-	STA $AE					;$B5F082   |
-	LDA $AC					;$B5F084   |
-	ADC $B0					;$B5F086   |
-	STA $B0					;$B5F088   |
-	ORA $AE					;$B5F08A   |
+	ADC camera_0AAE				;$B5F080   |
+	STA camera_0AAE				;$B5F082   |
+	LDA camera_0AAC				;$B5F084   |
+	ADC camera_0AB0				;$B5F086   |
+	STA camera_0AB0				;$B5F088   |
+	ORA camera_0AAE				;$B5F08A   |
 else						;	   |
 CODE_B5F07B:					;	   |
-	STA $AC					;$B5F07B   |
+	STA camera_0AAC				;$B5F07B   |
 CODE_B5F07D:					;	   |
-	LDA $A8					;$B5F07D   |
+	LDA camera_0AA8				;$B5F07D   |
 	CLC					;$B5F07F   |
-	ADC $AC					;$B5F080   |
-	STA $AC					;$B5F082   |
-	LDA $AA					;$B5F084   |
-	ADC $AE					;$B5F086   |
-	STA $AE					;$B5F088   |
-	ORA $AC					;$B5F08A   |
+	ADC camera_0AAC				;$B5F080   |
+	STA camera_0AAC				;$B5F082   |
+	LDA camera_0AAA				;$B5F084   |
+	ADC camera_0AAE				;$B5F086   |
+	STA camera_0AAE				;$B5F088   |
+	ORA camera_0AAC				;$B5F08A   |
 endif						;	   |
 	BEQ CODE_B5F0B9				;$B5F08C   |
-	LDA $D2					;$B5F08E   |
+	LDA camera_0AD2				;$B5F08E   |
 	CLC					;$B5F090   |
-	ADC $92					;$B5F091   |
-	STA $D2					;$B5F093   |
-	LDA $D4					;$B5F095   |
-	ADC $94					;$B5F097   |
-	STA $D4					;$B5F099   |
+	ADC camera_0A92				;$B5F091   |
+	STA camera_0AD2				;$B5F093   |
+	LDA camera_0AD4				;$B5F095   |
+	ADC camera_0A94				;$B5F097   |
+	STA camera_0AD4				;$B5F099   |
 if !version == 0				;	   |
-	EOR $B0					;$B5F09B   |
+	EOR camera_0AB0				;$B5F09B   |
 	BMI CODE_B5F0C4				;$B5F09D   |
-	LDA $B0					;$B5F09F   |
+	LDA camera_0AB0				;$B5F09F   |
 else						;	   |
-	EOR $AE					;$B5F09B   |
+	EOR camera_0AAE				;$B5F09B   |
 	BMI CODE_B5F0C4				;$B5F09D   |
-	LDA $AE					;$B5F09F   |
+	LDA camera_0AAE				;$B5F09F   |
 endif						;	   |
 	BPL CODE_B5F0AF				;$B5F0A1   |
-	CMP $D4					;$B5F0A3   |
+	CMP camera_0AD4				;$B5F0A3   |
 	BNE CODE_B5F0AB				;$B5F0A5   |
 if !version == 0				;	   |
-	LDA $AE					;$B5F0A7   |
+	LDA camera_0AAE				;$B5F0A7   |
 else						;	   |
-	LDA $AC					;$B5F0A7   |
+	LDA camera_0AAC				;$B5F0A7   |
 endif						;	   |
-	CMP $D2					;$B5F0A9   |
+	CMP camera_0AD2				;$B5F0A9   |
 CODE_B5F0AB:					;	   |
 	BCS CODE_B5F0B9				;$B5F0AB   |
 	BCC CODE_B5F0C1				;$B5F0AD   |
 CODE_B5F0AF:					;	   |
-	CMP $D4					;$B5F0AF   |
+	CMP camera_0AD4				;$B5F0AF   |
 	BNE CODE_B5F0B7				;$B5F0B1   |
 if !version == 0				;	   |
-	LDA $AE					;$B5F0B3   |
+	LDA camera_0AAE				;$B5F0B3   |
 else						;	   |
-	LDA $AC					;$B5F0B3   |
+	LDA camera_0AAC				;$B5F0B3   |
 endif						;	   |
-	CMP $D2					;$B5F0B5   |
+	CMP camera_0AD2				;$B5F0B5   |
 CODE_B5F0B7:					;	   |
 	BCS CODE_B5F0C1				;$B5F0B7   |
 CODE_B5F0B9:					;	   |
 if !version == 0				;	   |
-	LDA $AE					;$B5F0B9   |
-	STA $D2					;$B5F0BB   |
-	LDA $B0					;$B5F0BD   |
+	LDA camera_0AAE				;$B5F0B9   |
+	STA camera_0AD2				;$B5F0BB   |
+	LDA camera_0AB0				;$B5F0BD   |
 else						;	   |
-	LDA $AC					;$B5F0B9   |
-	STA $D2					;$B5F0BB   |
-	LDA $AE					;$B5F0BD   |
+	LDA camera_0AAC				;$B5F0B9   |
+	STA camera_0AD2				;$B5F0BB   |
+	LDA camera_0AAE				;$B5F0BD   |
 endif						;	   |
-	STA $D4					;$B5F0BF   |
+	STA camera_0AD4				;$B5F0BF   |
 CODE_B5F0C1:					;	   |
 	REP #$10				;$B5F0C1   |
 	RTS					;$B5F0C3  /
 
 CODE_B5F0C4:
-	LDA $D4					;$B5F0C4  \
+	LDA camera_0AD4				;$B5F0C4  \
 	ASL A					;$B5F0C6   |
-	ROR $D4					;$B5F0C7   |
-	ROR $D2					;$B5F0C9   |
+	ROR camera_0AD4				;$B5F0C7   |
+	ROR camera_0AD2				;$B5F0C9   |
 	BRA CODE_B5F0C1				;$B5F0CB  /
+
+dpbase $0000
 
 ;x screen shake
 CODE_B5F0CD:
@@ -11994,9 +11310,9 @@ CODE_B5F0CD:
 	EOR #$FFFF				;$B5F0CF   |
 	INC A					;$B5F0D2   |
 CODE_B5F0D3:					;	   |
-	STA $0AF6				;$B5F0D3   |
+	STA camera_0AF6				;$B5F0D3   |
 	LDA #$4000				;$B5F0D6   |
-	TRB $0AFA				;$B5F0D9   |
+	TRB camera_0AFA				;$B5F0D9   |
 	RTL					;$B5F0DC  /
 
 ;Dead code
@@ -12004,9 +11320,9 @@ CODE_B5F0D3:					;	   |
 	EOR #$FFFF				;$B5F0DF   |
 	INC A					;$B5F0E2   |
 CODE_B5F0E3:					;	   |
-	STA $0AF6				;$B5F0E3   |
+	STA camera_0AF6				;$B5F0E3   |
 	LDA #$4000				;$B5F0E6   |
-	TSB $0AFA				;$B5F0E9   |
+	TSB camera_0AFA				;$B5F0E9   |
 	RTL					;$B5F0EC  /
 
 ;y screen shake
@@ -12015,9 +11331,9 @@ CODE_B5F0ED:
 	EOR #$FFFF				;$B5F0EF   |
 	INC A					;$B5F0F2   |
 CODE_B5F0F3:					;	   |
-	STA $0AF8				;$B5F0F3   |
+	STA camera_0AF8				;$B5F0F3   |
 	LDA #$8000				;$B5F0F6   |
-	TSB $0AFA				;$B5F0F9   |
+	TSB camera_0AFA				;$B5F0F9   |
 	RTL					;$B5F0FC  /
 
 CODE_B5F0FD:
@@ -12035,7 +11351,7 @@ CODE_B5F109:
 	CLC					;$B5F113   |
 	ADC #$01E0				;$B5F114   |
 	ORA #$2000				;$B5F117   |
-	STA $0D2C				;$B5F11A   |
+	STA banana_oam_property			;$B5F11A   |
 	LDA #$0000				;$B5F11D   |
 	STA $7FD734				;$B5F120   |
 	LDA banana_count			;$B5F124   |
@@ -12050,15 +11366,15 @@ CODE_B5F12F:					;	   |
 CODE_B5F13A:					;	   |
 	STA banana_counter_current		;$B5F13A   |
 	LDA #$0001				;$B5F13D   |
-	STA $0D30				;$B5F140   |
-	STZ $0D2E				;$B5F143   |
+	STA banana_enable_flag			;$B5F140   |
+	STZ RAM_0D2E				;$B5F143   |
 	STZ $4E					;$B5F146   |
 	STZ $50					;$B5F148   |
 	LDA #$00FD				;$B5F14A   |
 	STA $44					;$B5F14D   |
-	LDA $0AB4				;$B5F14F   |
+	LDA camera_0AB4				;$B5F14F   |
 	ASL A					;$B5F152   |
-	ADC $0AB4				;$B5F153   |
+	ADC camera_0AB4				;$B5F153   |
 	ASL A					;$B5F156   |
 	TAX					;$B5F157   |
 	LDA DATA_B5F3AD,x			;$B5F158   |
@@ -12339,11 +11655,11 @@ CODE_B5F36F:
 	LDA #$FFFE				;$B5F36F  \
 	STA $7FD632				;$B5F372   |
 	LDA #$0001				;$B5F376   |
-	STA $000D36				;$B5F379   |
+	STA.l banana_unused_0D36		;$B5F379   |
 	LDA active_kong_sprite			;$B5F37D   |
-	STA $000D32				;$B5F380   |
+	STA.l banana_clipping_sprite_unused	;$B5F380   |
 	LDA #$0000				;$B5F384   |
-	STA $000D38				;$B5F387   |
+	STA.l sprite_banana_clipping_slot_index	;$B5F387   |
 	PLB					;$B5F38B   |
 	RTL					;$B5F38C  /
 
@@ -12398,7 +11714,7 @@ CODE_B5F3F5:					;	   |
 	LDA #$0000				;$B5F400   |
 CODE_B5F403:					;	   |
 	STA $46					;$B5F403   |
-	LDX $0D2E				;$B5F405   |
+	LDX RAM_0D2E				;$B5F405   |
 	LDA.l $7FA632,x				;$B5F408   |
 	CMP $44					;$B5F40C   |
 	BCS CODE_B5F463				;$B5F40E   |
@@ -12410,7 +11726,7 @@ CODE_B5F403:					;	   |
 	LDA.l $7FA632,x				;$B5F41D   |
 	CMP $44					;$B5F421   |
 	BCC CODE_B5F45F				;$B5F423   |
-	LDA $0D2E				;$B5F425   |
+	LDA RAM_0D2E				;$B5F425   |
 	ADC #$000F				;$B5F428   |
 	TAX					;$B5F42B   |
 	LDA.l $7FA634,x				;$B5F42C   |
@@ -12426,7 +11742,7 @@ CODE_B5F43B:
 	LDA.l $7FA632,x				;$B5F440   |
 	CMP $44					;$B5F444   |
 	BCC CODE_B5F45F				;$B5F446   |
-	LDA $0D2E				;$B5F448   |
+	LDA RAM_0D2E				;$B5F448   |
 	SBC #$0010				;$B5F44B   |
 	BMI CODE_B5F462				;$B5F44E   |
 	TAX					;$B5F450   |
@@ -12436,7 +11752,7 @@ CODE_B5F43B:
 	CMP $46					;$B5F45B   |
 	BCC CODE_B5F462				;$B5F45D   |
 CODE_B5F45F:					;	   |
-	STX $0D2E				;$B5F45F   |
+	STX RAM_0D2E				;$B5F45F   |
 CODE_B5F462:					;	   |
 	RTL					;$B5F462  /
 
@@ -12452,9 +11768,9 @@ CODE_B5F463:
 	LDA.l $7FA632,x				;$B5F475   |
 	CMP $44					;$B5F479   |
 	BCS CODE_B5F4C0				;$B5F47B   |
-	STX $0D2E				;$B5F47D   |
+	STX RAM_0D2E				;$B5F47D   |
 CODE_B5F480:					;	   |
-	LDA $0D2E				;$B5F480   |
+	LDA RAM_0D2E				;$B5F480   |
 	ADC #$0010				;$B5F483   |
 	TAX					;$B5F486   |
 	LDA.l $7FA634,x				;$B5F487   |
@@ -12471,10 +11787,10 @@ CODE_B5F496:
 	LDA.l $7FA632,x				;$B5F49D   |
 	CMP $44					;$B5F4A1   |
 	BCS CODE_B5F4C0				;$B5F4A3   |
-	STX $0D2E				;$B5F4A5   |
+	STX RAM_0D2E				;$B5F4A5   |
 	SEC					;$B5F4A8   |
 CODE_B5F4A9:					;	   |
-	LDA $0D2E				;$B5F4A9   |
+	LDA RAM_0D2E				;$B5F4A9   |
 	SBC #$0010				;$B5F4AC   |
 	BMI CODE_B5F4C3				;$B5F4AF   |
 	TAX					;$B5F4B1   |
@@ -12484,7 +11800,7 @@ CODE_B5F4A9:					;	   |
 	CMP $46					;$B5F4BC   |
 	BCC CODE_B5F4C3				;$B5F4BE   |
 CODE_B5F4C0:					;	   |
-	STX $0D2E				;$B5F4C0   |
+	STX RAM_0D2E				;$B5F4C0   |
 CODE_B5F4C3:					;	   |
 	RTL					;$B5F4C3  /
 
@@ -12578,7 +11894,7 @@ CODE_B5F540:
 	LDA #$0000				;$B5F558   |
 CODE_B5F55B:					;	   |
 	STA $48					;$B5F55B   |
-	LDX $0D2E				;$B5F55D   |
+	LDX RAM_0D2E				;$B5F55D   |
 CODE_B5F560:					;	   |
 	SEC					;$B5F560   |
 CODE_B5F561:					;	   |
@@ -12626,7 +11942,7 @@ CODE_B5F5AF:
 CODE_B5F5B6:					;	   |
 	PHX					;$B5F5B6   |
 	LDA.l $7FA63A,x				;$B5F5B7   |
-	AND $0D30				;$B5F5BB   |
+	AND banana_enable_flag			;$B5F5BB   |
 	BEQ CODE_B5F5C8				;$B5F5BE   |
 	JSR CODE_B5F5E1				;$B5F5C0   |
 	PLX					;$B5F5C3   |
@@ -12732,7 +12048,7 @@ CODE_B5F65B:					;	   |
 	SEC					;$B5F66E   |
 	SBC.l $7FA63C,x				;$B5F66F   |
 	AND #$000E				;$B5F673   |
-	ORA $0D2C				;$B5F676   |
+	ORA banana_oam_property			;$B5F676   |
 	STA $42					;$B5F679   |
 	BRA CODE_B5F681				;$B5F67B  /
 
@@ -12868,7 +12184,7 @@ CODE_B5F742:
 	BRL CODE_B5F687				;$B5F75A  /
 
 CODE_B5F75D:
-	STZ $0D42				;$B5F75D  \
+	STZ sprite_banana_clipping_box_width	;$B5F75D  \
 	STZ $0D44				;$B5F760   |
 	LDY #$0000				;$B5F763   |
 	LDX #sprite_clipping[2]			;$B5F766   |
@@ -12883,15 +12199,15 @@ CODE_B5F77A:					;	   |
 	BEQ CODE_B5F799				;$B5F77C   |
 	SEC					;$B5F77E   |
 	SBC $00,x				;$B5F77F   |
-	STA $0D42,y				;$B5F781   |
+	STA sprite_banana_clipping_box_width,y	;$B5F781   |
 	LDA $00,x				;$B5F784   |
-	STA $0D3A,y				;$B5F786   |
+	STA sprite_banana_clipping_x_position,y	;$B5F786   |
 	LDA $02,x				;$B5F789   |
-	STA $0D3E,y				;$B5F78B   |
+	STA sprite_banana_clipping_y_position,y	;$B5F78B   |
 	EOR #$FFFF				;$B5F78E   |
 	SEC					;$B5F791   |
 	ADC $06,x				;$B5F792   |
-	STA $0D46,y				;$B5F794   |
+	STA sprite_banana_clipping_box_height,y	;$B5F794   |
 	INY					;$B5F797   |
 	INY					;$B5F798   |
 CODE_B5F799:					;	   |
@@ -12912,14 +12228,14 @@ CODE_B5F79A:
 	PLX					;$B5F7B4   |
 	LDY #$0000				;$B5F7B5   |
 CODE_B5F7B8:					;	   |
-	LDA $0D42				;$B5F7B8   |
+	LDA sprite_banana_clipping_box_width	;$B5F7B8   |
 	BNE CODE_B5F7BE				;$B5F7BB   |
 	RTS					;$B5F7BD  /
 
 CODE_B5F7BE:
 	LDA.l $7FA632,x				;$B5F7BE  \
 	STA $3C					;$B5F7C2   |
-	LDA $0D3A,y				;$B5F7C4   |
+	LDA sprite_banana_clipping_x_position,y	;$B5F7C4   |
 	SEC					;$B5F7C7   |
 	SBC $3C					;$B5F7C8   |
 	STA $34					;$B5F7CA   |
@@ -12929,7 +12245,7 @@ CODE_B5F7BE:
 	LDA $34					;$B5F7D3   |
 CODE_B5F7D5:					;	   |
 	DEC A					;$B5F7D5   |
-	ADC $0D42,y				;$B5F7D6   |
+	ADC sprite_banana_clipping_box_width,y	;$B5F7D6   |
 	BMI CODE_B5F7F0				;$B5F7D9   |
 	LSR A					;$B5F7DB   |
 	LSR A					;$B5F7DC   |
@@ -12965,7 +12281,7 @@ CODE_B5F7FB:					;	   |
 	DEC $34					;$B5F803   |
 	LDA $34					;$B5F805   |
 	CLC					;$B5F807   |
-	ADC $0D42,y				;$B5F808   |
+	ADC sprite_banana_clipping_box_width,y	;$B5F808   |
 	LSR A					;$B5F80B   |
 	LSR A					;$B5F80C   |
 	LSR A					;$B5F80D   |
@@ -12983,7 +12299,7 @@ CODE_B5F817:					;	   |
 	ADC $7FA63C,x				;$B5F81E   |
 	STA $39					;$B5F822   |
 CODE_B5F824:					;	   |
-	LDA $0D3E,y				;$B5F824   |
+	LDA sprite_banana_clipping_y_position,y	;$B5F824   |
 	SEC					;$B5F827   |
 	SBC $3E					;$B5F828   |
 	STA $36					;$B5F82A   |
@@ -12995,7 +12311,7 @@ CODE_B5F824:					;	   |
 CODE_B5F836:					;	   |
 	DEC A					;$B5F836   |
 	CLC					;$B5F837   |
-	ADC $0D46,y				;$B5F838   |
+	ADC sprite_banana_clipping_box_height,y	;$B5F838   |
 	BMI CODE_B5F849				;$B5F83B   |
 	LSR A					;$B5F83D   |
 	LSR A					;$B5F83E   |
@@ -13022,7 +12338,7 @@ CODE_B5F84B:
 	STA $40					;$B5F858   |
 	LDA $36					;$B5F85A   |
 	DEC A					;$B5F85C   |
-	ADC $0D46,y				;$B5F85D   |
+	ADC sprite_banana_clipping_box_height,y	;$B5F85D   |
 	LSR A					;$B5F860   |
 	LSR A					;$B5F861   |
 	LSR A					;$B5F862   |
@@ -13283,7 +12599,7 @@ CODE_B5FA00:					;	   |
 	LDA active_frame_counter		;$B5FA2D   |
 	AND #$0E				;$B5FA2F   |
 	CLC					;$B5FA31   |
-	ADC $000D2C				;$B5FA32   |
+	ADC.l banana_oam_property		;$B5FA32   |
 	STA.l WRAM.data				;$B5FA36   |
 	LDA.l $000D2D				;$B5FA3A   |
 	ORA #$30				;$B5FA3E   |

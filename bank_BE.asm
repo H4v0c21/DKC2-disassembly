@@ -1343,7 +1343,7 @@ CODE_BEC169:
 	BPL .attacked_from_below		;$BEC174   |/ If the colliding sprite is below then sprite is attacking from below
 	LDA sprite.y_speed,x			;$BEC176   |\ Get colliding sprite y speed
 	CLC					;$BEC178   | |
-	ADC #$0140				;$BEC179   | | Add some y velocity and ensure the sprite is moving down
+	ADC #$0140				;$BEC179   | | Add some y speed and ensure the sprite is moving down
 	BPL .attacked_from_above		;$BEC17C   |/ If sprite is moving down then it is definitely attacking from above
 .attacked_from_below:				;	   |
 	BRL CODE_BEC02A				;$BEC17E  /
@@ -1929,11 +1929,11 @@ CODE_BEC5B9:					;	   |
 
 set_sprite_target_hud_position:
 	LDX current_sprite			;$BEC5BC  \ Get sprite
-	STA $24,x				;$BEC5BE   | Store target Y position to high byte of Y velocity
+	STA $24,x				;$BEC5BE   | Store target Y position to high byte of Y speed
 	SEP #$20				;$BEC5C0   | 8-Bit A
-	STZ $24,x				;$BEC5C2   | Clear low byte of Y velocity
-	STZ $20,x				;$BEC5C4   | Clear low byte of X velocity
-	STA $21,x				;$BEC5C6   | Store target X position to high byte of X velocity
+	STZ $24,x				;$BEC5C2   | Clear low byte of Y speed
+	STZ $20,x				;$BEC5C4   | Clear low byte of X speed
+	STA $21,x				;$BEC5C6   | Store target X position to high byte of X speed
 	REP #$20				;$BEC5C8   | 16-Bit A
 	LDA #$8000				;$BEC5CA   |
 	STA $1C,x				;$BEC5CD   | Make sprite visible
@@ -2066,7 +2066,7 @@ CODE_BEC695:
 	AND #$0E00				;$BEC69F   |
 	ORA #$3000				;$BEC6A2   |
 	STA $60					;$BEC6A5   |
-	LDA $0D2C				;$BEC6A7   |
+	LDA banana_oam_property			;$BEC6A7   |
 	AND #$0E00				;$BEC6AA   |
 	ORA #$3000				;$BEC6AD   |
 	STA $5E					;$BEC6B0   |
@@ -2088,7 +2088,7 @@ CODE_BEC6CC:
 	RTL					;$BEC6D5  /
 
 CODE_BEC6D6:
-	LDA $0D5C				;$BEC6D6  \
+	LDA rickety_race_placement_in_race	;$BEC6D6  \
 	BEQ CODE_BEC718				;$BEC6D9   |
 	BMI CODE_BEC718				;$BEC6DB   |
 	AND #$FF00				;$BEC6DD   |
@@ -2323,7 +2323,7 @@ CODE_BEC8A7:					;	   |
 	LDA active_frame_counter		;$BEC8B2   |
 	AND #$001C				;$BEC8B4   |
 	LSR A					;$BEC8B7   |
-	ADC $0D2C				;$BEC8B8   |
+	ADC banana_oam_property			;$BEC8B8   |
 	ORA #$3000				;$BEC8BB   |
 	STA $0002,y				;$BEC8BE   |
 	JSR CODE_BEC96A				;$BEC8C1   |
@@ -2470,7 +2470,7 @@ DATA_BEC9B0:
 	db $10, $00, $00, $00, $40, $00, $00, $00
 
 CODE_BEC9C0:
-	LDA $0915				;$BEC9C0  \
+	LDA water_safe_timer			;$BEC9C0  \
 	BEQ CODE_BEC9CD				;$BEC9C3   |
 	LDA level[0].game_sub_mode		;$BEC9C5   |
 	CMP #$0019				;$BEC9C8   |
@@ -2670,7 +2670,7 @@ CODE_BECB1E:					;	   |
 CODE_BECB1F:
 	PHA					;$BECB1F  \
 	CLC					;$BECB20   |
-	ADC $0921				;$BECB21   |
+	ADC air_bubble_oam_property		;$BECB21   |
 	ORA #$3000				;$BECB24   |
 	STA $7F9600,x				;$BECB27   |
 	PLA					;$BECB2B   |
@@ -2800,7 +2800,7 @@ CODE_BECBE2:					;	   |
 	INC $46,x				;$BECBFC   |
 	%lda_sound(7, coaster_gate_open)	;$BECBFE   |
 	JSL queue_sound_effect			;$BECC01   |
-	LDY $0D5A				;$BECC05   |
+	LDY kackle_sprite			;$BECC05   |
 	BEQ CODE_BECC1C				;$BECC08   |
 	LDX current_sprite			;$BECC0A   |
 	LDA $06,x				;$BECC0C   |
@@ -2943,7 +2943,7 @@ DATA_BECCFD:
 
 CODE_BECD09:
 	LDA $0042,y				;$BECD09  \
-	CMP $0D58				;$BECD0C   |
+	CMP krockhead_barrel_sprite		;$BECD0C   |
 	BNE CODE_BECD58				;$BECD0F   |
 	TYX					;$BECD11   |
 	INC $2F,x				;$BECD12   |
@@ -2981,7 +2981,7 @@ CODE_BECD39:
 CODE_BECD50:					;	   |
 	INC $2F,x				;$BECD50   |
 	LDA #$8000				;$BECD52   |
-	TSB $0D58				;$BECD55   |
+	TSB krockhead_barrel_sprite		;$BECD55   |
 CODE_BECD58:					;	   |
 	JSL get_current_sprite_clipping		;$BECD58   |
 	LDA #$1000				;$BECD5C   |
@@ -3062,7 +3062,7 @@ gate_barrel_sprite_code:
 .state_0:
 	LDA $004E,y				;$BECDEB  \
 	EOR #$8001				;$BECDEE   |
-	STA $0D58				;$BECDF1   |
+	STA krockhead_barrel_sprite		;$BECDF1   |
 	TYX					;$BECDF4   |
 	INC $2E,x				;$BECDF5   |
 	LDX $42,y				;$BECDF7   |
@@ -3084,7 +3084,7 @@ gate_barrel_sprite_code:
 	LDA #$0001				;$BECE1D   |
 	STA $42,x				;$BECE20   |
 	LDA $4E,x				;$BECE22   |
-	STA $0D58				;$BECE24   |
+	STA krockhead_barrel_sprite		;$BECE24   |
 	LDA $00,x				;$BECE27   |
 	PHA					;$BECE29   |
 	JSL delete_sprite_handle_deallocation	;$BECE2A   |
@@ -3109,7 +3109,7 @@ gate_barrel_sprite_code:
 	BIT #$0003				;$BECE52   |
 	BNE ..return				;$BECE55   |
 	TXY					;$BECE57   |
-	BIT $0D58				;$BECE58   |
+	BIT krockhead_barrel_sprite		;$BECE58   |
 	BPL ..CODE_BECE61			;$BECE5B   |
 	STZ $00,x				;$BECE5D   |
 	BRA ..CODE_BECE72			;$BECE5F  /
@@ -3295,7 +3295,7 @@ CODE_BECFC6:
 
 CODE_BECFCD:
 	LDA #$0000				;$BECFCD  \
-	STA $0D5C				;$BECFD0   |
+	STA rickety_race_placement_in_race	;$BECFD0   |
 	JSR CODE_BECFFD				;$BECFD3   |
 	BCS CODE_BECFFA				;$BECFD6   |
 	INC $19BA				;$BECFD8   |
@@ -3303,13 +3303,13 @@ CODE_BECFCD:
 	JML [sprite_return_address]		;$BECFDF  /
 
 CODE_BECFE2:
-	LDA $0D5C				;$BECFE2  \
+	LDA rickety_race_placement_in_race	;$BECFE2  \
 	AND #$007F				;$BECFE5   |
 	DEC A					;$BECFE8   |
 	JSR CODE_BECFFD				;$BECFE9   |
 	BCS CODE_BECFFA				;$BECFEC   |
 	LDY alternate_sprite			;$BECFEE   |
-	LDA $0D5C				;$BECFF0   |
+	LDA rickety_race_placement_in_race	;$BECFF0   |
 	AND #$007F				;$BECFF3   |
 	DEC A					;$BECFF6   |
 	STA $004E,y				;$BECFF7   |
@@ -3482,7 +3482,7 @@ CODE_BED123:					;	   |
 	JMP CODE_BED794				;$BED126  /
 
 CODE_BED129:
-	BIT $0923				;$BED129  \
+	BIT conditional_sprite_spawning_flag	;$BED129  \
 	BCS CODE_BED136				;$BED12C   |
 	LDA $0006,y				;$BED12E   |
 	CMP #$03F0				;$BED131   |
@@ -3684,7 +3684,7 @@ CODE_BED2C2:					;	   |
 	BRA CODE_BED256				;$BED2C8  /
 
 CODE_BED2CA:
-	BIT $0D5B				;$BED2CA  \
+	BIT kackle_sprite_high			;$BED2CA  \> Appears to check for kackle and check for a klank race
 	BMI CODE_BED34C				;$BED2CD   |
 	LDX current_sprite			;$BED2CF   |
 	LDA $0E,x				;$BED2D1   |
@@ -3826,7 +3826,7 @@ CODE_BED3CB:
 	LDY $42,x				;$BED3D7   |
 	LDA $004E,y				;$BED3D9   |
 	BEQ CODE_BED424				;$BED3DC   |
-	LDA $0D5C				;$BED3DE   |
+	LDA rickety_race_placement_in_race	;$BED3DE   |
 	AND #$007F				;$BED3E1   |
 	CMP $004E,y				;$BED3E4   |
 	BCC CODE_BED40F				;$BED3E7   |
@@ -3864,19 +3864,19 @@ CODE_BED424:					;	   |
 CODE_BED425:
 	PHX					;$BED425  \
 	PHY					;$BED426   |
-	BIT $0923				;$BED427   |
+	BIT conditional_sprite_spawning_flag	;$BED427   |
 	BVS CODE_BED449				;$BED42A   |
 	LDX current_sprite			;$BED42C   |
 	LDY $42,x				;$BED42E   |
-	LDA $0D5C				;$BED430   |
+	LDA rickety_race_placement_in_race	;$BED430   |
 	AND #$007F				;$BED433   |
 	CMP $004E,y				;$BED436   |
 	BCC CODE_BED449				;$BED439   |
 	BEQ CODE_BED449				;$BED43B   |
 	STA $004E,y				;$BED43D   |
-	DEC $0D5C				;$BED440   |
+	DEC rickety_race_placement_in_race	;$BED440   |
 	LDA #$8003				;$BED443   |
-	TSB $0923				;$BED446   |
+	TSB conditional_sprite_spawning_flag	;$BED446   |
 CODE_BED449:					;	   |
 	PLY					;$BED449   |
 	PLX					;$BED44A   |
@@ -3921,7 +3921,7 @@ CODE_BED48D:
 	RTS					;$BED48E  /
 
 CODE_BED48F:
-	BIT $0923				;$BED48F  \
+	BIT conditional_sprite_spawning_flag	;$BED48F  \
 	BVS CODE_BED4CB				;$BED492   |
 	LDA $06,x				;$BED494   |
 	CMP $0006,y				;$BED496   |
@@ -4017,7 +4017,7 @@ CODE_BED53A:					;	   |
 	LDA #$FB00				;$BED54B   |
 CODE_BED54E:					;	   |
 	STA $24,x				;$BED54E   |
-	LDA $0D5C				;$BED550   |
+	LDA rickety_race_placement_in_race	;$BED550   |
 	AND #$007F				;$BED553   |
 	BEQ CODE_BED563				;$BED556   |
 	TAX					;$BED558   |
@@ -4108,7 +4108,7 @@ CODE_BED604:
 	LDA $3E,x				;$BED606   |
 	BIT #$1000				;$BED608   |
 	BNE CODE_BED61C				;$BED60B   |
-	LDA $0D5C				;$BED60D   |
+	LDA rickety_race_placement_in_race	;$BED60D   |
 	BEQ CODE_BED636				;$BED610   |
 	AND #$007F				;$BED612   |
 	LDY $42,x				;$BED615   |
@@ -4123,7 +4123,7 @@ CODE_BED61C:					;	   |
 	STA $0042,y				;$BED629   |
 	JSL CODE_BBBB44				;$BED62C   |
 	LDA #$0002				;$BED630   |
-	TRB $0923				;$BED633   |
+	TRB conditional_sprite_spawning_flag	;$BED633   |
 CODE_BED636:					;	   |
 	JML [sprite_return_address]		;$BED636  /
 
@@ -4191,7 +4191,7 @@ CODE_BED6A6:
 
 CODE_BED6A9:
 	LDX current_sprite			;$BED6A9  \
-	LDA $0D5B				;$BED6AB   |
+	LDA kackle_sprite_high			;$BED6AB   |> Appears to check for kackle and check for a klank race
 	BPL CODE_BED6BE				;$BED6AE   |
 	LDA active_frame_counter		;$BED6B0   |
 	AND #$007F				;$BED6B2   |
@@ -4290,7 +4290,7 @@ CODE_BED747:
 	STA $5C,x				;$BED74B   |
 	RTS					;$BED74D  /
 
-set_klank_race_kart_velocity:
+set_klank_race_kart_speed:
 	LDA $5C,x				;$BED74E  \  get base address of klank's race kart trigger data (kart sprite is in X)
 	STA $32					;$BED750   |
 	LDA.w #<:klank_race_data_bank		;$BED752   | get bank of data
@@ -4762,7 +4762,7 @@ CODE_BEDA90:
 CODE_BEDAB1:
 	LDA #$0000				;$BEDAB1  \
 CODE_BEDAB4:					;	   |
-	STA $0AF2				;$BEDAB4   |
+	STA camera_0AF2				;$BEDAB4   |
 CODE_BEDAB7:					;	   |
 	RTS					;$BEDAB7  /
 
@@ -4791,7 +4791,7 @@ DATA_BEDADE:
 	db $0A, $00
 
 CODE_BEDB50:
-	LDA $0D5B				;$BEDB50  \
+	LDA kackle_sprite_high			;$BEDB50  \> Appears to check for kackle and check for a klank race
 	BMI CODE_BEDB90				;$BEDB53   |
 	LDX current_sprite			;$BEDB55   |
 	LDA $0A,x				;$BEDB57   |
@@ -4899,7 +4899,7 @@ CODE_BEDC2A:					;	   |
 	RTS					;$BEDC2A  /
 
 CODE_BEDC2B:
-	LDA $0D5B				;$BEDC2B  \
+	LDA kackle_sprite_high			;$BEDC2B  \> Appears to check for kackle and check for a klank race
 	BPL CODE_BEDC31				;$BEDC2E   |
 	RTS					;$BEDC30  /
 
@@ -4964,7 +4964,7 @@ CODE_BEDC9C:
 	BRA CODE_BEDCC0				;$BEDCA3  /
 
 CODE_BEDCA5:
-	LDA $0D5B				;$BEDCA5  \
+	LDA kackle_sprite_high			;$BEDCA5  \> Appears to check for kackle and check for a klank race
 	BPL CODE_BEDCB0				;$BEDCA8   |
 	LDX current_sprite			;$BEDCAA   |
 	STZ $20,x				;$BEDCAC   |
@@ -5332,7 +5332,7 @@ CODE_BEDEFC:					;	   |
 	LDA #$0100				;$BEDF0A   |
 	CMP $06,x				;$BEDF0D   |
 	BCS CODE_BEDF1B				;$BEDF0F   |
-	LDA $0AFC				;$BEDF11   |
+	LDA camera_0AFC				;$BEDF11   |
 	ADC #$00FF				;$BEDF14   |
 	CMP $06,x				;$BEDF17   |
 	BCS CODE_BEDF1F				;$BEDF19   |
@@ -5562,7 +5562,7 @@ kackle_sprite_code:
 
 
 CODE_BEE0A9:
-	STY $0D5A				;$BEE0A9  \
+	STY kackle_sprite			;$BEE0A9  \
 	TYX					;$BEE0AC   |
 	INC $2E,x				;$BEE0AD   |
 	STZ $1C,x				;$BEE0AF   |
@@ -5761,7 +5761,7 @@ CODE_BEE231:
 	JSL process_current_movement		;$BEE23E   |
 	JSL CODE_BBBB99				;$BEE242   |
 	BCC CODE_BEE24B				;$BEE246   |
-	STZ $0D5A				;$BEE248   |
+	STZ kackle_sprite			;$BEE248   |
 CODE_BEE24B:					;	   |
 	JML [sprite_return_address]		;$BEE24B  /
 
@@ -5856,7 +5856,7 @@ CODE_BEE2D8:
 if !version == 0				;	  \
 CODE_BEE2DA:					;	   |
 	LDA #$8000				;$BEE2D9   |
-	TSB $0AB8				;$BEE2DC   |
+	TSB camera_0AB8				;$BEE2DC   |
 	LDX current_sprite			;$BEE2DF   |
 	LDY active_kong_sprite			;$BEE2E1   |
 	LDA $0006,Y				;$BEE2E4   |
@@ -5880,7 +5880,7 @@ CODE_BEE2EF:					;	   |
 	AND #$00FF				;$BEE2FF   |
 	XBA					;$BEE302   |
 	LSR A					;$BEE303   |
-	STA $0AEE				;$BEE304   |
+	STA camera_0AEE				;$BEE304   |
 	RTS					;$BEE307   |
 endif						;	  /
 
@@ -5897,7 +5897,7 @@ haunted_hall_timer_handler_code:		;	  \
 
 .handle_state:
 	LDY current_sprite			;$BEE2F1  \ Get handler sprite
-	LDX $0D5A				;$BEE2F3   | Get index of kackle sprite
+	LDX kackle_sprite			;$BEE2F3   | Get index of kackle sprite
 	BEQ .delete_handler_sprite		;$BEE2F6   | If it doesn't exist, delete handler and timer sprite
 	LDA $1C,x				;$BEE2F8   |
 	BEQ .delete_handler_sprite		;$BEE2FA   | If it doesn't exist, delete handler and timer sprite
@@ -6031,7 +6031,7 @@ haunted_hall_timer_handler_code:		;	  \
 	LDX current_sprite			;$BEE3CA  \ Get handler sprite
 	LDA #$0001				;$BEE3CC   |
 	JSR CODE_BEE41D				;$BEE3CF   |
-	LDY $0D5A				;$BEE3D2   | Get index of kackle sprite
+	LDY kackle_sprite			;$BEE3D2   | Get index of kackle sprite
 	LDA $002E,y				;$BEE3D5   |
 	AND #$00FF				;$BEE3D8   | Get low byte of kackle state
 	CMP #$0006				;$BEE3DB   |
@@ -6294,7 +6294,7 @@ CODE_BEE5A1:
 	JSL delete_sprite_if_offscreen		;$BEE5A9   |
 	BCC CODE_BEE5B5				;$BEE5AD   |
 	LDA #$0002				;$BEE5AF   |
-	TRB $0923				;$BEE5B2   |
+	TRB conditional_sprite_spawning_flag	;$BEE5B2   |
 CODE_BEE5B5:					;	   |
 	JML [sprite_return_address]		;$BEE5B5  /
 
@@ -6465,7 +6465,7 @@ race_handler_sprite_code:
 .init_state
 	LDA $0044,y				;$BEE6FF  \
 	ORA #$0080				;$BEE702   |
-	STA $0D5C				;$BEE705   | initialize player's race placement
+	STA rickety_race_placement_in_race	;$BEE705   | initialize player's race placement
 	JSR spawn_and_setup_klank_kart		;$BEE708   | spawn the first klank's kart, setup speed and trigger data
 	BCS ..return				;$BEE70B   | if kart is not able to spawn yet, return
 	LDX current_sprite			;$BEE70D   | else get handler sprite
@@ -6485,7 +6485,7 @@ race_handler_sprite_code:
 	STY $4E,x				;$BEE728   | store index to traffic light in the handler
 	INC $2E,x				;$BEE72A   | go to state 2 to wait for green light
 	LDA #$8000				;$BEE72C   |
-	TSB $0923				;$BEE72F   |
+	TSB conditional_sprite_spawning_flag	;$BEE72F   |
 ..return					;	   |
 	JML [sprite_return_address]		;$BEE732  /  Done processing sprite
 
@@ -6495,7 +6495,7 @@ race_handler_sprite_code:
 	TYX					;$BEE73A   | else put handler sprite in X
 	INC $2E,x				;$BEE73B   | go to state 3 to start the race
 	LDA #$0080				;$BEE73D   |
-	TRB $0D5C				;$BEE740   | clear bit 7 to allow the player and klanks to move
+	TRB rickety_race_placement_in_race	;$BEE740   | clear bit 7 to allow the player and klanks to move
 	JSR update_race_flag			;$BEE743   |
 ..return					;	   |
 	JML [sprite_return_address]		;$BEE746  /  Done processing sprite
@@ -6506,20 +6506,20 @@ race_handler_sprite_code:
 	CMP #$5C80				;$BEE74D   | check if we're at or passed the spot the race should end
 	BCC ..continue_handling_race		;$BEE750   | if not, continue handling it
 	LDA #$8000				;$BEE752   |
-	TSB $0923				;$BEE755   |
+	TSB conditional_sprite_spawning_flag	;$BEE755   |
 	JSR update_race_flag			;$BEE758   | update the flag
 	LDX current_sprite			;$BEE75B   | get handler sprite
 	BCS ..continue_handling_race		;$BEE75D   | if flag hasn't spawned yet, continue handling race
 	INC $2E,x				;$BEE75F   | else go to state 4, the race has finished
 	LDA #$4000				;$BEE761   |
-	TSB $0923				;$BEE764   |
+	TSB conditional_sprite_spawning_flag	;$BEE764   |
 	JML [sprite_return_address]		;$BEE767  /  Done processing sprite
 
 ..continue_handling_race
 	INC $42,x				;$BEE76A  \  increase race timer
 	JSR .update_player_kart_min_max_speed	;$BEE76C   |
 	LDX current_sprite			;$BEE76F   | get handler sprite
-	LDA $0D5C				;$BEE771   | get player's race placement
+	LDA rickety_race_placement_in_race	;$BEE771   | get player's race placement
 	AND #$007F				;$BEE774   |
 	CMP $4C,x				;$BEE777   | compare with the mirror that's in the sprite
 	BEQ ..skip_flag_update			;$BEE779   | if its the same, player placement hasn't changed yet, don't update flag
@@ -6528,14 +6528,14 @@ race_handler_sprite_code:
 	%lda_sound(7, coaster_race_rank_up)	;$BEE780   | else play it
 	JSL queue_sound_effect			;$BEE783   |
 ..skip_flag_update				;	   |
-	LDA $0923				;$BEE787   |
+	LDA conditional_sprite_spawning_flag	;$BEE787   |
 	AND #$0003				;$BEE78A   |
 	CMP #$0001				;$BEE78D   |
 	BNE ..return				;$BEE790   |
 	JSR spawn_and_setup_klank_kart		;$BEE792   | spawn next klank kart and update speed and trigger data
 	BCS ..return				;$BEE795   | if kart is not able to spawn yet, return
 	LDA #$0001				;$BEE797   |
-	TRB $0923				;$BEE79A   | else clear bit 0
+	TRB conditional_sprite_spawning_flag	;$BEE79A   | else clear bit 0
 ..return					;	   |
 	JML [sprite_return_address]		;$BEE79D  /  Done processing sprite
 
@@ -6580,7 +6580,7 @@ race_handler_sprite_code:
 
 update_race_flag:
 	SEC					;$BEE7ED  \
-	LDA $092E				;$BEE7EE   | get number off firework sprites onscreen
+	LDA firework_sprite_count		;$BEE7EE   | get number off firework sprites onscreen
 	AND #$00FF				;$BEE7F1   |
 	BNE .return				;$BEE7F4   | if there are any, don't update flag and return
 	LDY current_sprite			;$BEE7F6   | get race handler sprite
@@ -6589,7 +6589,7 @@ update_race_flag:
 	SEP #$20				;$BEE7FC   | 8-bit A
 	STZ $2F,x				;$BEE7FE   | else clear the flag's sub state
 	REP #$20				;$BEE800   | 16-bit A
-	LDA $0D5C				;$BEE802   | get player's race placement
+	LDA rickety_race_placement_in_race	;$BEE802   | get player's race placement
 	AND #$007F				;$BEE805   |
 	STA $004C,y				;$BEE808   | store a mirror of it
 	CLC					;$BEE80B   | tell caller we're done updating the flag
@@ -6603,7 +6603,7 @@ update_race_flag:
 	LDX current_sprite			;$BEE818   | get race handler sprite
 	STX $4E,y				;$BEE81A   | store index to the handler in the flag
 	STY $4E,x				;$BEE81C   | store index to the flag in the handler
-	LDA $0D5C				;$BEE81E   |
+	LDA rickety_race_placement_in_race	;$BEE81E   |
 	AND #$007F				;$BEE821   |
 	STA $4C,x				;$BEE824   | update mirror of player's race placement
 .return						;	   |
@@ -6611,7 +6611,7 @@ update_race_flag:
 
 spawn_and_setup_klank_kart:
 	LDX current_sprite			;$BEE827  \  get race handler sprite
-	LDA $0D5C				;$BEE829   | get player's race placement, used as index for next kart data
+	LDA rickety_race_placement_in_race	;$BEE829   | get player's race placement, used as index for next kart data
 	AND #$007F				;$BEE82C   |
 	DEC A					;$BEE82F   | decrease by 2
 	DEC A					;$BEE830   |
@@ -6699,7 +6699,7 @@ spawn_and_setup_klank_kart:
 	DEY					;$BEE8B3   | decrease counter to read trigger data
 	LDA [$32],y				;$BEE8B4   |
 	STA $5C,x				;$BEE8B6   | store trigger data address
-	JSR set_klank_race_kart_velocity 	;$BEE8B8   | set initial kart velocities if needed
+	JSR set_klank_race_kart_speed 		;$BEE8B8   | set initial kart velocities if needed
 	CLC					;$BEE8BB   | tell caller we succeeded in spawning the kart
 	RTS					;$BEE8BC  /  return
 
@@ -6863,7 +6863,7 @@ racing_flag_sprite_code:
 	LDA #$C000				;$BEE9BE   |
 	STA $001C,y				;$BEE9C1   | make flag invisible
 	SEP #$20				;$BEE9C4   | 8-bit A
-	STZ $0D5D				;$BEE9C6   | clear high byte of player's race placement
+	STZ rickety_race_placement_in_race_flag	;$BEE9C6   | clear high byte of player's race placement
 	REP #$20				;$BEE9C9   | 16-bit A
 	DEC $42,x				;$BEE9CB   | decrease despawn timer
 	BMI ..despawn_flag			;$BEE9CD   | if negative, despawn the flag
@@ -6876,7 +6876,7 @@ racing_flag_sprite_code:
 ..despawn_flag
 	JSL delete_sprite_handle_deallocation	;$BEE9DC  \  kill flag sprite
 	LDA #$8000				;$BEE9E0   |
-	TRB $0923				;$BEE9E3   | clear bit 7
+	TRB conditional_sprite_spawning_flag	;$BEE9E3   | clear bit 7
 	LDY current_sprite			;$BEE9E6   | get flag sprite we just killed
 	LDX $4E,y				;$BEE9E8   |
 	STZ $4E,x				;$BEE9EA   |
@@ -6887,8 +6887,8 @@ racing_flag_sprite_code:
 	LDA #$8000				;$BEE9F1   |
 	STA $1C,x				;$BEE9F4   | make it visible
 	SEP #$20				;$BEE9F6   | 8-bit A
-	LDA $0D5C				;$BEE9F8   | get low byte player's race placement
-	STA $0D5D				;$BEE9FB   | store it in high byte
+	LDA rickety_race_placement_in_race	;$BEE9F8   | get low byte player's race placement
+	STA rickety_race_placement_in_race_flag	;$BEE9FB   | store it in high byte
 	REP #$20				;$BEE9FE   | 16-bit A
 	JML [sprite_return_address]		;$BEEA00  /  Done processing sprite
 
@@ -6920,7 +6920,7 @@ racing_flag_sprite_code:
 	LDA #$C000				;$BEEA37   |
 	STA $001C,y				;$BEEA3A   | make it invisible
 	SEP #$20				;$BEEA3D   | 8-bit A
-	STZ $0D5D				;$BEEA3F   | clear high byte of player's race placement
+	STZ rickety_race_placement_in_race_flag	;$BEEA3F   | clear high byte of player's race placement
 	REP #$20				;$BEEA42   | 16-bit A
 	LDY active_kong_sprite			;$BEEA44   | get active kong sprite
 	LDA $0A,x				;$BEEA47   | get flag Y position
@@ -7151,7 +7151,7 @@ CODE_BEEBE7:
 	LDX current_sprite			;$BEEBF0   |
 	INC $2E,x				;$BEEBF2   |
 	LDA #$0101				;$BEEBF4   |
-	STA $0D5C				;$BEEBF7   |
+	STA rickety_race_placement_in_race	;$BEEBF7   |
 CODE_BEEBFA:					;	   |
 	JSL process_sprite_animation		;$BEEBFA   |
 	JSL process_current_movement		;$BEEBFE   |
@@ -7169,7 +7169,7 @@ CODE_BEEC10:
 	LDX current_sprite			;$BEEC19   |
 	INC $2E,x				;$BEEC1B   |
 	LDA #$0202				;$BEEC1D   |
-	STA $0D5C				;$BEEC20   |
+	STA rickety_race_placement_in_race	;$BEEC20   |
 CODE_BEEC23:					;	   |
 	JSL process_sprite_animation		;$BEEC23   |
 	JSL process_current_movement		;$BEEC27   |
@@ -7255,7 +7255,7 @@ CODE_BEEC9B:
 CODE_BEECA7:					;	   |
 	LDA #$0002				;$BEECA7   |
 	PHY					;$BEECAA   |
-	JSL allocate_sprite_vram_multi_slot_global				;$BEECAB   |
+	JSL allocate_sprite_vram_multi_global	;$BEECAB   |
 	PLY					;$BEECAF   |
 	BCS CODE_BEECCA				;$BEECB0   |
 	LDA $12,x				;$BEECB2   |
@@ -7495,18 +7495,18 @@ camera_unlock_trigger_sprite_code:
 	LDA $42,x				;$BEEE79   |
 	ASL A					;$BEEE7B   |
 	TAX					;$BEEE7C   |
-	LDA.l $7E9128,x				;$BEEE7D   |
+	LDA.l RAM_7E9128,x			;$BEEE7D   |
 	AND #$FF7F				;$BEEE81   |
-	STA $7E9128,x				;$BEEE84   |
+	STA RAM_7E9128,x			;$BEEE84   |
 	JML [sprite_return_address]		;$BEEE88  /
 
 .lock_camera:
 	LDA $42,x				;$BEEE8B  \
 	ASL A					;$BEEE8D   |
 	TAX					;$BEEE8E   |
-	LDA.l $7E9128,x				;$BEEE8F   |
+	LDA.l RAM_7E9128,x			;$BEEE8F   |
 	ORA #$0080				;$BEEE93   |
-	STA $7E9128,x				;$BEEE96   |
+	STA.l RAM_7E9128,x			;$BEEE96   |
 	JMP sprite_return_handle_despawn_BE	;$BEEE9A  /
 
 .CODE_BEEE9D:
@@ -7524,32 +7524,32 @@ camera_unlock_trigger_sprite_code:
 	JSR .CODE_BEEF00			;$BEEEB7   |
 	BNE .CODE_BEEEC9			;$BEEEBA   |
 	LDX $32					;$BEEEBC   |
-	LDA.l $7E9128,x				;$BEEEBE   |
+	LDA.l RAM_7E9128,x			;$BEEEBE   |
 	DEC A					;$BEEEC2   |
-	STA $7E9128,x				;$BEEEC3   |
+	STA.l RAM_7E9128,x			;$BEEEC3   |
 	BRA .delete_camera_unlock_sprite	;$BEEEC7  /
 
 .CODE_BEEEC9:
 	LDX $32					;$BEEEC9  \
 	SEP #$20				;$BEEECB   |
-	LDA.l $7E9128,x				;$BEEECD   |
+	LDA.l RAM_7E9128,x			;$BEEECD   |
 	SEC					;$BEEED1   |
 	SBC #$04				;$BEEED2   |
-	STA $7E9128,x				;$BEEED4   |
+	STA.l RAM_7E9128,x			;$BEEED4   |
 	AND #$0C				;$BEEED8   |
 	BNE .CODE_BEEEE4			;$BEEEDA   |
 	LDA #$00				;$BEEEDC   |
-	STA $7E9129,x				;$BEEEDE   |
+	STA.l RAM_7E9128+1,x			;$BEEEDE   |
 	BRA .delete_camera_unlock_sprite_2	;$BEEEE2  /
 
 .CODE_BEEEE4:
 	LDA $0044,y				;$BEEEE4  \
 	SEC					;$BEEEE7   |
-	SBC $7E9129,x				;$BEEEE8   |
+	SBC.l RAM_7E9128+1,x			;$BEEEE8   |
 	BNE .delete_camera_unlock_sprite_2	;$BEEEEC   |
-	LDA.l $7E9128,x				;$BEEEEE   |
+	LDA.l RAM_7E9128,x			;$BEEEEE   |
 	INC A					;$BEEEF2   |
-	STA $7E9128,x				;$BEEEF3   |
+	STA.l RAM_7E9128,x			;$BEEEF3   |
 .delete_camera_unlock_sprite_2:			;	   |
 	REP #$20				;$BEEEF7   |
 .delete_camera_unlock_sprite:			;	   |
@@ -7563,14 +7563,14 @@ camera_unlock_trigger_sprite_code:
 	TAX					;$BEEF03   |
 	SEP #$20				;$BEEF04   |
 	LDA $0044,y				;$BEEF06   |
-	CMP $7E8D28,x				;$BEEF09   |
+	CMP.l RAM_7E8D28,x			;$BEEF09   |
 	BEQ ..CODE_BEEF16			;$BEEF0D   |
 	INX					;$BEEF0F   |
-	CMP $7E8D28,x				;$BEEF10   |
+	CMP.l RAM_7E8D28,x			;$BEEF10   |
 	BNE ..return				;$BEEF14   |
 ..CODE_BEEF16:					;	   |
 	LDA #$00				;$BEEF16   |
-	STA $7E8D28,x				;$BEEF18   |
+	STA.l RAM_7E8D28,x			;$BEEF18   |
 ..return:					;	   |
 	REP #$20				;$BEEF1C   |
 	RTS					;$BEEF1E  /
@@ -7720,7 +7720,7 @@ kremcoin_cheat_handler_sprite_code:
 	CMP banana_count			;$BEF018   | |
 	BNE .delete_cheat_handler_sprite	;$BEF01B   |/ If the banana count is NOT the same as before the cheat, cheat failed
 	LDA #$0001				;$BEF01D   |\ Else enable the cheat!
-	TSB $0923				;$BEF020   |/
+	TSB conditional_sprite_spawning_flag	;$BEF020   |/
 	BRA .delete_cheat_handler_sprite	;$BEF023  / Then delete the cheat sprite
 
 .cheat_step_passed
@@ -7753,9 +7753,9 @@ process_alternate_movement:			;	   |
 
 sprite_movement_routines:
 	dw movement_return_state		;00
-	dw apply_x_y_position_from_velocity	;01
-	dw apply_x_position_from_velocity	;02
-	dw apply_y_position_from_velocity	;03
+	dw apply_x_y_position_from_speed	;01
+	dw apply_x_position_from_speed		;02
+	dw apply_y_position_from_speed		;03
 	dw handle_x_y_gravity_interpolate_x	;04
 	dw pace_left_and_right			;05
 	dw pace_up_and_down			;06
@@ -7800,14 +7800,14 @@ sprite_movement_routines:
 movement_return_state:
 	RTS					;$BEF0A7  \
 
-apply_x_y_position_from_velocity:		;	  \
-	JSR apply_y_position_from_velocity	;$BEF0A8   |
-apply_x_position_from_velocity:			;	   |
+apply_x_y_position_from_speed:			;	  \
+	JSR apply_y_position_from_speed		;$BEF0A8   |
+apply_x_position_from_speed:			;	   |
 	LDX #$0000				;$BEF0AB   |
 	LDA $0020,y				;$BEF0AE   |
-	BPL .positive_x_velocity		;$BEF0B1   |
+	BPL .positive_x_speed			;$BEF0B1   |
 	DEX					;$BEF0B3   |
-.positive_x_velocity:				;	   |
+.positive_x_speed:				;	   |
 	CLC					;$BEF0B4   |
 	ADC $0005,y				;$BEF0B5   |
 	STA $0005,y				;$BEF0B8   |
@@ -7818,12 +7818,12 @@ apply_x_position_from_velocity:			;	   |
 	REP #$20				;$BEF0C4   |
 	RTS					;$BEF0C6  /
 
-apply_y_position_from_velocity:
+apply_y_position_from_speed:
 	LDX #$0000				;$BEF0C7  \
 	LDA $0024,y				;$BEF0CA   |
-	BPL .positive_y_velocity		;$BEF0CD   |
+	BPL .positive_y_speed			;$BEF0CD   |
 	DEX					;$BEF0CF   |
-.positive_y_velocity:				;	   |
+.positive_y_speed:				;	   |
 	CLC					;$BEF0D0   |
 	ADC $0009,y				;$BEF0D1   |
 	STA $0009,y				;$BEF0D4   |
@@ -7835,7 +7835,7 @@ apply_y_position_from_velocity:
 	RTS					;$BEF0E2  /
 
 handle_x_y_gravity_interpolate_x:
-	JSR apply_x_y_position_from_velocity	;$BEF0E3  \
+	JSR apply_x_y_position_from_speed	;$BEF0E3  \
 	JSR handle_sprite_left_right		;$BEF0E6   |
 	JMP handle_sprite_gravity		;$BEF0E9  /
 
@@ -7845,7 +7845,7 @@ pace_left_and_right:
 	ASL A					;$BEF0F2   |
 	TAX					;$BEF0F3   |
 	JSR (DATA_BEF0FD,x)			;$BEF0F4   |
-	JSR apply_x_y_position_from_velocity	;$BEF0F7   |
+	JSR apply_x_y_position_from_speed	;$BEF0F7   |
 	JMP handle_sprite_left_right		;$BEF0FA  /
 
 DATA_BEF0FD:
@@ -7897,7 +7897,7 @@ pace_up_and_down:
 	ASL A					;$BEF149   |
 	TAX					;$BEF14A   |
 	JSR (DATA_BEF154,x)			;$BEF14B   |
-	JSR apply_x_y_position_from_velocity	;$BEF14E   |
+	JSR apply_x_y_position_from_speed	;$BEF14E   |
 	JMP handle_sprite_up_down		;$BEF151  /
 
 DATA_BEF154:
@@ -7949,7 +7949,7 @@ patrol_x_y_around_home:
 	ASL A					;$BEF1A0   |
 	TAX					;$BEF1A1   |
 	JSR (.movement_state_table,x)		;$BEF1A2   |
-	JSR apply_x_y_position_from_velocity	;$BEF1A5   |
+	JSR apply_x_y_position_from_speed	;$BEF1A5   |
 	JSR handle_sprite_left_right		;$BEF1A8   |
 	JMP handle_sprite_up_down		;$BEF1AB  /
 
@@ -7964,10 +7964,10 @@ patrol_x_y_around_home:
 	STA $42,x				;$BEF1B5   |/ Set x home position
 	LDA $0A,x				;$BEF1B7   |\ Get y position
 	STA $44,x				;$BEF1B9   |/ Set y home position
-	LDA $26,x				;$BEF1BB   |\ Get target x velocity
-	STA $48,x				;$BEF1BD   |/ Set patrol x velocity
-	LDA $2A,x				;$BEF1BF   |\ Get target y velocity
-	STA $4C,x				;$BEF1C1   |/ Set patrol y velocity
+	LDA $26,x				;$BEF1BB   |\ Get target x speed
+	STA $48,x				;$BEF1BD   |/ Set patrol x speed
+	LDA $2A,x				;$BEF1BF   |\ Get target y speed
+	STA $4C,x				;$BEF1C1   |/ Set patrol y speed
 	INC $53,x				;$BEF1C3   |\ Set to actual movement state (setup for movement is done)
 	RTS					;$BEF1C5  / / Return
 
@@ -7977,13 +7977,13 @@ patrol_x_y_around_home:
 
 pace_up_down_handle_x:
 	JSR handle_sprite_left_right		;$BEF1CC  \
-	JSR apply_x_position_from_velocity	;$BEF1CF   |
+	JSR apply_x_position_from_speed		;$BEF1CF   |
 	JMP pace_up_and_down			;$BEF1D2  /
 
 CODE_BEF1D5:
 	TAX					;$BEF1D5  \
 	JSR (DATA_BEF1DC,x)			;$BEF1D6   |
-	JMP apply_x_y_position_from_velocity	;$BEF1D9  /
+	JMP apply_x_y_position_from_speed	;$BEF1D9  /
 
 DATA_BEF1DC:
 	dw CODE_BEF1E0
@@ -8029,11 +8029,11 @@ CODE_BEF20F:					;	   |
 CODE_BEF218:					;	   |
 	PHA					;$BEF218   |
 	AND #$00FF				;$BEF219   |
-	JSL interpolate_x_velocity_global	;$BEF21C   |
+	JSL interpolate_x_speed_global		;$BEF21C   |
 	PLA					;$BEF220   |
 	XBA					;$BEF221   |
 	AND #$00FF				;$BEF222   |
-	JSL interpolate_y_velocity_global	;$BEF225   |
+	JSL interpolate_y_speed_global		;$BEF225   |
 	LDX current_sprite			;$BEF229   |
 	LDA $4C,x				;$BEF22B   |
 	BEQ CODE_BEF258				;$BEF22D   |
@@ -8393,7 +8393,7 @@ CODE_BEF434:					;	   |
 	STA $26,x				;$BEF43A   |
 CODE_BEF43C:					;	   |
 	LDA #$000A				;$BEF43C   |
-	JSL interpolate_x_velocity_global	;$BEF43F   |
+	JSL interpolate_x_speed_global		;$BEF43F   |
 	LDX current_sprite			;$BEF443   |
 	JSR CODE_BEF449				;$BEF445   |
 	RTS					;$BEF448  /
@@ -8536,7 +8536,7 @@ CODE_BEF52C:					;	   |
 handle_x_y_movement:
 	JSR handle_sprite_left_right		;$BEF52D  \
 	JSR handle_sprite_up_down		;$BEF530   |
-	JMP apply_x_y_position_from_velocity	;$BEF533  /
+	JMP apply_x_y_position_from_speed	;$BEF533  /
 
 CODE_BEF536:
 	TAX					;$BEF536  \
@@ -8554,11 +8554,11 @@ CODE_BEF540:
 	LDA $0A,x				;$BEF543   |
 	STA $0C,x				;$BEF545   |
 	STZ $08,x				;$BEF547   |
-	JSR apply_y_position_from_velocity	;$BEF549   |
+	JSR apply_y_position_from_speed		;$BEF549   |
 	JMP handle_sprite_gravity		;$BEF54C  /
 
 CODE_BEF54F:
-	JSR apply_y_position_from_velocity	;$BEF54F  \
+	JSR apply_y_position_from_speed		;$BEF54F  \
 	JSR handle_sprite_gravity		;$BEF552   |
 	LDX current_sprite			;$BEF555   |
 	LDA $0C,x				;$BEF557   |
@@ -8586,12 +8586,12 @@ CODE_BEF571:
 	LDA $06,x				;$BEF574   |\ Get current x position
 	STA $0C,x				;$BEF576   |/ Save it so it can be restored later
 	STZ $04,x				;$BEF578   |> Clear sub pixel
-	JSR handle_sprite_left_right		;$BEF57A   |> Handle interpolating X velocity from constants
-	JMP apply_x_position_from_velocity	;$BEF57D  /
+	JSR handle_sprite_left_right		;$BEF57A   |> Handle interpolating X speed from constants
+	JMP apply_x_position_from_speed		;$BEF57D  /
 
 CODE_BEF580:
 	JSR handle_sprite_left_right		;$BEF580  \
-	JSR apply_x_position_from_velocity	;$BEF583   |
+	JSR apply_x_position_from_speed		;$BEF583   |
 	TYX					;$BEF586   |
 	LDA $0C,x				;$BEF587   |
 	CMP $06,x				;$BEF589   |
@@ -8609,19 +8609,19 @@ CODE_BEF580:
 	STA $06,x				;$BEF59A  \> Update x position
 	LDA #$0011				;$BEF59C   |\ Restore movement state to 11 with sub state 0
 	STA $52,x				;$BEF59F   |/
-	STZ $20,x				;$BEF5A1   |> Clear current x velocity
+	STZ $20,x				;$BEF5A1   |> Clear current x speed
 	RTS					;$BEF5A3  /
 
 pace_left_right_handle_y:
 	JSR handle_sprite_up_down		;$BEF5A4  \
-	JSR apply_y_position_from_velocity	;$BEF5A7   |
+	JSR apply_y_position_from_speed		;$BEF5A7   |
 	JMP pace_left_and_right			;$BEF5AA  /
 
 CODE_BEF5AD:
 	JSR handle_sprite_gravity		;$BEF5AD  \
 	TXY					;$BEF5B0   |
 CODE_BEF5B1:					;	   |
-	JSR apply_x_y_position_from_velocity	;$BEF5B1   |
+	JSR apply_x_y_position_from_speed	;$BEF5B1   |
 	TYX					;$BEF5B4   |
 	DEC $1E,x				;$BEF5B5   |
 	BPL CODE_BEF5C2				;$BEF5B7   |
@@ -8638,7 +8638,7 @@ CODE_BEF5C3:
 	BMI CODE_BEF5CF				;$BEF5C6   |
 	JSR handle_sprite_gravity		;$BEF5C8   |
 	TXY					;$BEF5CB   |
-	JMP apply_x_y_position_from_velocity	;$BEF5CC  /
+	JMP apply_x_y_position_from_speed	;$BEF5CC  /
 
 CODE_BEF5CF:
 	LDA $0A,x				;$BEF5CF  \
@@ -8657,7 +8657,7 @@ CODE_BEF5CF:
 CODE_BEF5E7:
 	JSR handle_sprite_gravity		;$BEF5E7  \
 	TXY					;$BEF5EA   |
-	JSR apply_x_y_position_from_velocity	;$BEF5EB   |
+	JSR apply_x_y_position_from_speed	;$BEF5EB   |
 	TYX					;$BEF5EE   |
 	LDA $1E,x				;$BEF5EF   |
 	CMP $0A,x				;$BEF5F1   |
@@ -8674,7 +8674,7 @@ CODE_BEF602:					;	   |
 pace_left_right_handle_y_and_gravity:
 	JSR handle_sprite_gravity		;$BEF603  \
 	TXY					;$BEF606   |
-	JSR apply_y_position_from_velocity	;$BEF607   |
+	JSR apply_y_position_from_speed		;$BEF607   |
 	JMP pace_left_and_right			;$BEF60A  /
 
 CODE_BEF60D:
@@ -8736,7 +8736,7 @@ CODE_BEF65B:
 	ASL A					;$BEF661   |
 	TAX					;$BEF662   |
 	JSR (DATA_BEF66F,x)			;$BEF663   |
-	JSR apply_x_y_position_from_velocity	;$BEF666   |
+	JSR apply_x_y_position_from_speed	;$BEF666   |
 	JSR handle_sprite_left_right		;$BEF669   |
 	JMP handle_sprite_up_down		;$BEF66C  /
 
@@ -8868,7 +8868,7 @@ CODE_BEF734:
 	LDA $0A,x				;$BEF756   |
 	STA $004A,y				;$BEF758   |
 CODE_BEF75B:					;	   |
-	JSR apply_x_y_position_from_velocity	;$BEF75B   |
+	JSR apply_x_y_position_from_speed	;$BEF75B   |
 	LDX current_sprite			;$BEF75E   |
 	LDA $4C,x				;$BEF760   |
 	CLC					;$BEF762   |
@@ -8894,7 +8894,7 @@ handle_sprite_on_level_x_boundary:
 	LDA #$0108				;$BEF782   |\ Get hardcoded left level boundary
 	CMP $06,x				;$BEF785   | | See if sprite walked off the left of the level
 	BCS .on_edge_of_level_bounds		;$BEF787   |/ If so then prepare to stop and turn it around
-	LDA $0AFC				;$BEF789   |\ Get right level boundary
+	LDA camera_0AFC				;$BEF789   |\ Get right level boundary
 	ADC #$00F8				;$BEF78C   | | Add a hardcoded x offset
 	CMP $06,x				;$BEF78F   | | See if the sprite walked off the right of the level
 	BCC .on_edge_of_level_bounds		;$BEF791   |/ If so then prepare to stop and turn it around
@@ -8906,9 +8906,9 @@ handle_sprite_on_level_x_boundary:
 	LDA $26,x				;$BEF798   |\ Determine whether sprite is heading in or out of bounds
 	EOR $20,x				;$BEF79A   | |
 	ASL A					;$BEF79C   |/
-	STZ $20,x				;$BEF79D   |> Zero sprites current x velocity
+	STZ $20,x				;$BEF79D   |> Zero sprites current x speed
 	BCS .return				;$BEF79F   |> Sprite is heading back in bounds so leave it alone
-	STZ $26,x				;$BEF7A1   |> Else its leaving the level bounds, zero target x velocity
+	STZ $26,x				;$BEF7A1   |> Else its leaving the level bounds, zero target x speed
 	LDA #$0002				;$BEF7A3   |\
 	ORA $1E,x				;$BEF7A6   | | Tell the sprite that it hit a wall so it turns around
 	STA $1E,x				;$BEF7A8   |/
@@ -8936,12 +8936,12 @@ process_terrain_handle_submerged:
 	ADC #$0010				;$BEF7C9   | | Add an offset to the water position
 	CMP $0A,x				;$BEF7CC   | | Check if the current sprite is submerged in the water
 	BCS .not_submerged			;$BEF7CE   |/
-	LDA $20,x				;$BEF7D0   |\ Weird code to slow down current x velocity
+	LDA $20,x				;$BEF7D0   |\ Weird code to slow down current x speed
 	ASL A					;$BEF7D2   | |
 	ROR $20,x				;$BEF7D3   | |
 	ASL A					;$BEF7D5   | |
 	ROR $20,x				;$BEF7D6   |/
-	LDA $24,x				;$BEF7D8   |\ Same for y velocity
+	LDA $24,x				;$BEF7D8   |\ Same for y speed
 	ASL A					;$BEF7DA   | |
 	ROR $24,x				;$BEF7DB   | |
 	ASL A					;$BEF7DD   | |
@@ -8987,8 +8987,8 @@ patrol_x_around_home:
 	STA $42,x				;$BEF818   |/ Set as home position
 	LDA $0A,x				;$BEF81A   |\ Get y position
 	STA $44,x				;$BEF81C   |/ Set as home position
-	LDA $26,x				;$BEF81E   |\ Get target x velocity
-	STA $48,x				;$BEF820   |/ Set as patrol velocity
+	LDA $26,x				;$BEF81E   |\ Get target x speed
+	STA $48,x				;$BEF820   |/ Set as patrol speed
 	INC $53,x				;$BEF822   |\ Set to actual movement state (setup for movement is done)
 	RTS					;$BEF824  / / Return
 
@@ -9102,7 +9102,7 @@ CODE_BEF8EE:
 	TAX					;$BEF8F5   |
 	JSR (DATA_BEF907,x)			;$BEF8F6   |
 	LDY current_sprite			;$BEF8F9   |
-	JSR apply_x_y_position_from_velocity	;$BEF8FB   |
+	JSR apply_x_y_position_from_speed	;$BEF8FB   |
 	LDA $0006,y				;$BEF8FE   |
 	STA $0042,y				;$BEF901   |
 	JMP handle_sprite_up_down		;$BEF904  /
@@ -9137,7 +9137,7 @@ CODE_BEF92F:					;	   |
 	RTS					;$BEF936  /
 
 CODE_BEF937:
-	STZ $0A92				;$BEF937  \
+	STZ camera_0A92				;$BEF937  \
 	LDA #$0000				;$BEF93A   |
 	LDX #$0000				;$BEF93D   |
 	JSR CODE_BEF9F2				;$BEF940   |
@@ -9150,10 +9150,10 @@ CODE_BEF937:
 	LDX #$0000				;$BEF953   |
 	JSR CODE_BEF9F2				;$BEF956   |
 CODE_BEF959:					;	   |
-	STA $0A92				;$BEF959   |
+	STA camera_0A92				;$BEF959   |
 	LDA $AC					;$BEF95C   |
-	STA $0A94				;$BEF95E   |
-	STZ $0A96				;$BEF961   |
+	STA camera_0A94				;$BEF95E   |
+	STZ camera_0A96				;$BEF961   |
 	LDA #$0000				;$BEF964   |
 	LDX #$0040				;$BEF967   |
 	JSR CODE_BEF9F2				;$BEF96A   |
@@ -9166,11 +9166,11 @@ CODE_BEF959:					;	   |
 	LDX #$0040				;$BEF97D   |
 	JSR CODE_BEF9F2				;$BEF980   |
 CODE_BEF983:					;	   |
-	STA $0A96				;$BEF983   |
+	STA camera_0A96				;$BEF983   |
 	LDY current_sprite			;$BEF986   |
-	LDA $0A92				;$BEF988   |
+	LDA camera_0A92				;$BEF988   |
 	BNE CODE_BEF995				;$BEF98B   |
-	LDA $0A96				;$BEF98D   |
+	LDA camera_0A96				;$BEF98D   |
 	BNE CODE_BEF995				;$BEF990   |
 	LDA $000C,y				;$BEF992   |
 CODE_BEF995:					;	   |
@@ -9409,26 +9409,26 @@ CODE_BEFB22:
 handle_sprite_up_down:
 	LDY #$0004				;$BEFB3B  \ \ Prepare to load acceleration constant
 	LDA [current_sprite_constants],y	;$BEFB3E   | | Get sprite acceleration
-	JSL interpolate_y_velocity_global	;$BEFB40   | | Interpolate Y velocity using acceleration constant
+	JSL interpolate_y_speed_global		;$BEFB40   | | Interpolate Y speed using acceleration constant
 	RTS					;$BEFB44  / / Return
 
 handle_sprite_left_right:
 	LDY #$0004				;$BEFB45  \ \ Prepare to load acceleration constant
 	LDA [current_sprite_constants],y	;$BEFB48   | | Get sprite acceleration
-	JSL interpolate_x_velocity_global	;$BEFB4A   | | Interpolate x velocity using acceleration constant
+	JSL interpolate_x_speed_global		;$BEFB4A   | | Interpolate x speed using acceleration constant
 	RTS					;$BEFB4E  / / Return
 
 handle_sprite_gravity:
 	LDX current_sprite			;$BEFB4F  \> Get current sprite
 	LDY #$0000				;$BEFB51   |\ Prepare to load gravity force constant
 	LDA [current_sprite_constants],y	;$BEFB54   |/ Get sprite gravity force
-	LDY #$0002				;$BEFB56   |> Prepare to load max fall velocity constant
+	LDY #$0002				;$BEFB56   |> Prepare to load max fall speed constant
 	CLC					;$BEFB59   |\
-	ADC $24,x				;$BEFB5A   |/ Add gravity force to current y velocity
-	BMI .apply_y_velocity			;$BEFB5C   |> If moving upward then dont bother capping fall speed
+	ADC $24,x				;$BEFB5A   |/ Add gravity force to current y speed
+	BMI .apply_y_speed			;$BEFB5C   |> If moving upward then dont bother capping fall speed
 	CMP [current_sprite_constants],y	;$BEFB5E   |\ Else check if sprite is falling too fast
-	BCC .apply_y_velocity			;$BEFB60   |/ If not then apply the new y velocity
+	BCC .apply_y_speed			;$BEFB60   |/ If not then apply the new y speed
 	LDA [current_sprite_constants],y	;$BEFB62   |> Else cap it then apply it
-.apply_y_velocity				;	   |
-	STA $24,x				;$BEFB64   |\ Apply new y velocity
+.apply_y_speed					;	   |
+	STA $24,x				;$BEFB64   |\ Apply new y speed
 	RTS					;$BEFB66  / / Return

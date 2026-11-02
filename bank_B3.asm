@@ -301,23 +301,23 @@ invincibility_controller_main:
 	LDA active_frame_counter		;$B3822C  \
 	AND #$0002				;$B3822E   |
 	BEQ .CODE_B38242			;$B38231   |
-	LDA $091B				;$B38233   |
+	LDA kong_palette_effects		;$B38233   |
 	ORA #$0080				;$B38236   |
-	STA $091B				;$B38239   |
+	STA kong_palette_effects		;$B38239   |
 	JSL CODE_BB8C2C				;$B3823C   |
 	BRA .CODE_B38229			;$B38240  /
 
 .CODE_B38242:
-	LDA $091B				;$B38242  \
+	LDA kong_palette_effects		;$B38242  \
 	AND #$FF7F				;$B38245   |
-	STA $091B				;$B38248   |
+	STA kong_palette_effects		;$B38248   |
 	JSL CODE_BB8C2C				;$B3824B   |
 	BRA .CODE_B38229			;$B3824F  /
 
 .CODE_B38251:
-	LDA $091B				;$B38251  \
+	LDA kong_palette_effects		;$B38251  \
 	AND #$FF7F				;$B38254   |
-	STA $091B				;$B38257   |
+	STA kong_palette_effects		;$B38257   |
 	JSL CODE_BB8C2C				;$B3825A   |
 	JSL delete_sprite_no_deallocation	;$B3825E   |
 	STZ invincibility_sprite		;$B38262   |
@@ -349,9 +349,9 @@ handle_kong_follow:
 	LDX active_kong_sprite			;$B38293   |\ Set current sprite to active kong
 	STX current_sprite			;$B38296   |/
 	LDA sprite.animation_id,x		;$B38298   |> Useless code to get kong animation id, A doesn't get used
-	LDA sprite.x_speed,x			;$B3829A   |\ Get kong current x velocity
+	LDA sprite.x_speed,x			;$B3829A   |\ Get kong current x speed
 	STA kong_follow_last_rec_x_speed	;$B3829C   |/
-	LDA sprite.max_x_speed,x		;$B3829F   |\ Get kong target x velocity
+	LDA sprite.max_x_speed,x		;$B3829F   |\ Get kong target x speed
 	STA kong_follow_last_rec_max_x_speed	;$B382A1   |/
 	LDA sprite.ground_distance,x		;$B382A4   |\ Get kong distance from ground
 	STA kong_follow_last_rec_ground_dist	;$B382A6   |/
@@ -460,7 +460,7 @@ sprite_main_table:
 	dw unknown_sprite_0064_main,$0000	;0064
 	dw king_zing_spikes_main,$0000		;0068
 	dw kannon_main,$0000			;006C
-	dw unknown_sprite_0070_main,$0000	;0070 Something to do with kong slip velocity
+	dw unknown_sprite_0070_main,$0000	;0070 Something to do with kong slip speed
 	dw klubba_main,$0000			;0074
 	dw kudgel_main,$0001			;0078
 	dw chasing_king_zing_main,$0000		;007C
@@ -1027,10 +1027,10 @@ credits_npc_kong_main:
 rain_cloud_main:
 	LDY active_kong_sprite			;$B3890E  \ Get kong sprite
 	LDX current_sprite			;$B38911   | Get rain cloud sprite
-	LDA.w sprite.x_speed,y			;$B38913   | Get kong X velocity
+	LDA.w sprite.x_speed,y			;$B38913   | Get kong X speed
 	STA sprite.x_speed,x			;$B38916   | Copy to the cloud's
-	STZ sprite.y_speed,x			;$B38918   | Clear cloud's Y velocity
-	JSL apply_position_from_velocity_global	;$B3891A   |
+	STZ sprite.y_speed,x			;$B38918   | Clear cloud's Y speed
+	JSL apply_position_from_speed_global	;$B3891A   |
 	JSL process_sprite_animation		;$B3891E   | Process animation
 	JML [sprite_return_address]		;$B38922  / Done processing sprite
 
@@ -1040,8 +1040,8 @@ web_shot_main:
 	LDY #$0008				;$B3892C   |
 	JSL CODE_BEBD8E				;$B3892F   | Check if collided with enemy
 	BCS .collision_happened			;$B38933   |
-	JSR update_web_velocity			;$B38935   |
-	JSL apply_position_from_velocity_global	;$B38938   |
+	JSR update_web_speed			;$B38935   |
+	JSL apply_position_from_speed_global	;$B38938   |
 	JSL process_sprite_animation		;$B3893C   | Process animation
 	JSL delete_sprite_if_offscreen		;$B38940   | Despawn sprite if offscreen
 	BCS .web_shot_despawned			;$B38944   | If despawned, decrease number of onscreen shots
@@ -1082,8 +1082,8 @@ web_platform_main:
 	dw .platform_despawn_state		;03
 
 .projectile_state
-	JSR update_web_velocity			;$B3896A  \ Determine Y trajectory (also used by the normal shot)
-	JSL apply_position_from_velocity_global	;$B3896D   | Update position from velocity
+	JSR update_web_speed			;$B3896A  \ Determine Y trajectory (also used by the normal shot)
+	JSL apply_position_from_speed_global	;$B3896D   | Update position from speed
 	JSL delete_sprite_if_offscreen		;$B38971   |\ Despawn if offscreen
 	BCS .despawn				;$B38975   |/ If the web despawned then clear web attributes in RAM
 	JSL process_sprite_animation		;$B38977   | Process animation
@@ -1168,27 +1168,27 @@ web_platform_main:
 	JSL process_sprite_animation		;$B38A03   | Process animation
 	BRL .done_processing			;$B38A07  / Done processing sprite
 
-update_web_velocity:
+update_web_speed:
 	LDX current_sprite			;$B38A0A  \> Get web platform sprite
 	LDA $48,x				;$B38A0C   |\ Get web Y trajectory
 	BPL .downward_trajectory		;$B38A0E   |/ If web is aimed downward
 	CLC					;$B38A10   |\
-	ADC sprite.y_speed,x			;$B38A11   |/ Add Y velocity to Y trajectory
+	ADC sprite.y_speed,x			;$B38A11   |/ Add Y speed to Y trajectory
 	CMP #$FA00				;$B38A13   |\
-	BPL .apply_velocity			;$B38A16   |/ Make sure velocity doesnt overflow
-	LDA #$FA00				;$B38A18   |> Velocity overflowed, cap it
-.apply_velocity					;	   |
-	STA sprite.y_speed,x			;$B38A1B   |> Update current Y velocity
+	BPL .apply_speed			;$B38A16   |/ Make sure speed doesnt overflow
+	LDA #$FA00				;$B38A18   |> Speed overflowed, cap it
+.apply_speed					;	   |
+	STA sprite.y_speed,x			;$B38A1B   |> Update current Y speed
 	RTS					;$B38A1D  /
 
 .downward_trajectory
 	CLC					;$B38A1E  \ \
-	ADC sprite.y_speed,x			;$B38A1F   |/ Add Y velocity to Y trajectory
+	ADC sprite.y_speed,x			;$B38A1F   |/ Add Y speed to Y trajectory
 	CMP #$0600				;$B38A21   |\
-	BMI ..apply_velocity			;$B38A24   |/ Make sure velocity doesnt overflow
-	LDA #$0600				;$B38A26   |> Velocity overflowed, cap it
-..apply_velocity				;	   |
-	STA sprite.y_speed,x			;$B38A29   |> Update current Y velocity
+	BMI ..apply_speed			;$B38A24   |/ Make sure speed doesnt overflow
+	LDA #$0600				;$B38A26   |> Speed overflowed, cap it
+..apply_speed					;	   |
+	STA sprite.y_speed,x			;$B38A29   |> Update current Y speed
 	RTS					;$B38A2B  /
 
 kong_celebrate_prop_main:
@@ -1223,9 +1223,9 @@ squitter_main:
 	INC $5A8A				;$B38A57  \
 	TXA					;$B38A59   |
 	JSR apply_animal_gravity		;$B38A5A   |
-	JSL apply_position_from_velocity_global	;$B38A5D   |
+	JSL apply_position_from_speed_global	;$B38A5D   |
 	LDA #$0007				;$B38A61   |
-	JSL interpolate_x_velocity_global	;$B38A64   |
+	JSL interpolate_x_speed_global		;$B38A64   |
 	JML sprite_return_handle_despawn	;$B38A68  /
 
 .sprite_done:
@@ -1257,7 +1257,7 @@ squitter_main:
 	BCS .sprite_done			;$B38AA4   |
 	JSR apply_animal_gravity		;$B38AA6   |
 	LDA #$0007				;$B38AA9   |
-	JSL interpolate_x_velocity_global	;$B38AAC   |
+	JSL interpolate_x_speed_global		;$B38AAC   |
 	JSL process_terrain_interaction_global	;$B38AB0   |
 	JSR .turn_if_touching_wall		;$B38AB4   |
 	JSL process_sprite_animation		;$B38AB7   |
@@ -1354,7 +1354,7 @@ rattly_main:
 	BCS .sprite_done			;$B38B54   |
 	JSR apply_animal_gravity		;$B38B56   |
 	LDA #$0007				;$B38B59   |
-	JSL interpolate_x_velocity_global	;$B38B5C   |
+	JSL interpolate_x_speed_global		;$B38B5C   |
 	JSL process_terrain_interaction_global	;$B38B60   |
 	JSR .turn_if_touching_wall		;$B38B64   |
 	JSL process_sprite_animation		;$B38B67   |
@@ -1486,15 +1486,15 @@ squawks_main:
 	LDA #$FE70				;$B38C2C   |\
 	STA sprite.y_speed,x			;$B38C2F   | | Make purple squawks fly upwards and away
 	STZ sprite.x_speed,x			;$B38C31   |/
-	JSL apply_position_from_velocity_global	;$B38C33   |
+	JSL apply_position_from_speed_global	;$B38C33   |
 	JSL process_sprite_animation		;$B38C37   |
 	JML sprite_return_handle_despawn	;$B38C3B  /
 
 .state_09:
 	JSR apply_animal_gravity		;$B38C3F  \
-	JSL apply_position_from_velocity_global	;$B38C42   |
+	JSL apply_position_from_speed_global	;$B38C42   |
 	LDA #$0007				;$B38C46   |
-	JSL interpolate_x_velocity_global	;$B38C49   |
+	JSL interpolate_x_speed_global		;$B38C49   |
 	JML sprite_return_handle_despawn	;$B38C4D  /
 
 .sprite_done:
@@ -1569,19 +1569,19 @@ snap_riding_kong_to_animal:
 	BVS .facing_left			;$B38CCC   |/ If the animal is facing left, subtract the x riding offset
 	LDA.w sprite.x_position,y		;$B38CCE   |\ Else, the animal is facing right, get kong x position
 	CLC					;$B38CD1   | |
-	ADC $0D76				;$B38CD2   | | Add x riding offset
+	ADC animal_ride_x_offset_final		;$B38CD2   | | Add x riding offset
 	STA sprite.x_position,x			;$B38CD5   |/ Update animal position
 	BRA .snap_to_y_position			;$B38CD7  /> Snap the y position of animal to kong
 
 .facing_left:
 	LDA.w sprite.x_position,y		;$B38CD9  \ \ Get kong x position
 	SEC					;$B38CDC   | |
-	SBC $0D76				;$B38CDD   | | Subtract x riding offset
+	SBC animal_ride_x_offset_final		;$B38CDD   | | Subtract x riding offset
 	STA sprite.x_position,x			;$B38CE0   |/ Update animal position
 .snap_to_y_position:				;	   |
 	LDA.w sprite.y_position,y		;$B38CE2   |\ Get kong y position
 	CLC					;$B38CE5   | |
-	ADC $0D78				;$B38CE6   | | Add y riding offset
+	ADC animal_ride_y_offset_final		;$B38CE6   | | Add y riding offset
 	STA sprite.y_position,x			;$B38CE9   |/ Update animal position
 	LDA.w sprite.oam_property,y		;$B38CEB   |\
 	EOR sprite.oam_property,x		;$B38CEE   | |
@@ -1659,7 +1659,7 @@ handle_animal_mounting:
 	CMP #!sprite_squawks			;$B38D6D   |\
 	BEQ .handle_squawks_mounting		;$B38D70   |/ If the animal is squawks then handle mounting squawks
 	CMP #!sprite_enguarde			;$B38D72   |\
-	BEQ .upward_speed_check_done		;$B38D75   |/ If the animal is enguarde then skip upward velocity check
+	BEQ .upward_speed_check_done		;$B38D75   |/ If the animal is enguarde then skip upward speed check
 	LDA.w sprite.y_speed,y			;$B38D77   |\ Else get kongs upward speed
 	BMI .return				;$B38D7A   |/ If the kong is moving upward then dont mount
 .upward_speed_check_done:			;	   |
@@ -1740,7 +1740,7 @@ else						;	   |
 	LDA level_number			;$B38DFF   |\
 	CMP #!level_clappers_cavern		;$B38E01   | |
 	BNE .sprite_done_handle_offscreen	;$B38E04   |/ If level isnt clappers cavern, dont check for frozen water
-	LDA $0915				;$B38E06   |\
+	LDA water_safe_timer			;$B38E06   |\
 	BEQ .sprite_done_handle_offscreen	;$B38E09   |/ If the water is thawed then dont delete enguarde
 	JSL delete_sprite_handle_deallocation	;$B38E0B   |\ Enguarde somehow survived with frozen water, delete him
 	JML [sprite_return_address]		;$B38E0F  /_/ Sprite done
@@ -1867,10 +1867,10 @@ glimmer_main:
 	STA glimmer_sprite			;$B38EC0   | Store index to it
 	JSR .update_movement			;$B38EC3   |
 	LDA #$0007				;$B38EC6   |
-	JSL interpolate_x_velocity_global	;$B38EC9   |
+	JSL interpolate_x_speed_global		;$B38EC9   |
 	LDA #$0007				;$B38ECD   |
-	JSL interpolate_y_velocity_global	;$B38ED0   |
-	JSL apply_position_from_velocity_global	;$B38ED4   |
+	JSL interpolate_y_speed_global		;$B38ED0   |
+	JSL apply_position_from_speed_global	;$B38ED4   |
 	LDX current_sprite			;$B38ED8   | Get Glimmer sprite
 	LDA screen_scroll_x_position		;$B38EDA   | Get camera X position
 	CLC					;$B38EDD   |
@@ -1907,16 +1907,16 @@ glimmer_main:
 	JML [sprite_return_address]		;$B38F13  / Done processing sprite
 
 .update_animation_speed:
-	LDA sprite.x_speed,x			;$B38F16  \ Get current X velocity
+	LDA sprite.x_speed,x			;$B38F16  \ Get current X speed
 	BPL ..skip_x_invert			;$B38F18   | If positive, don't invert
 	EOR #$FFFF				;$B38F1A   |
-	INC A					;$B38F1D   | Else invert X velocity
+	INC A					;$B38F1D   | Else invert X speed
 ..skip_x_invert:				;	   |
 	STA temp_32				;$B38F1E   | Store it to scratch RAM
-	LDA sprite.y_speed,x			;$B38F20   | Get current Y velocity
+	LDA sprite.y_speed,x			;$B38F20   | Get current Y speed
 	BPL ..skip_y_invert			;$B38F22   | If positive, don't invert
 	EOR #$FFFF				;$B38F24   |
-	INC A					;$B38F27   | Else invert Y velocity
+	INC A					;$B38F27   | Else invert Y speed
 ..skip_y_invert:				;	   |
 	CMP temp_32				;$B38F28   |
 	BPL ..CODE_B38F2E			;$B38F2A   |
@@ -1949,11 +1949,11 @@ glimmer_main:
 	CLC					;$B38F55   |
 	ADC #$FFF0				;$B38F56   |
 	STA $60					;$B38F59   |
-	JSR .update_target_x_velocity		;$B38F5B   |
-	JSR .update_target_y_velocity		;$B38F5E   |
+	JSR .update_target_x_speed		;$B38F5B   |
+	JSR .update_target_y_speed		;$B38F5E   |
 	RTS					;$B38F61  /
 
-.update_target_x_velocity:
+.update_target_x_speed:
 	LDX current_sprite			;$B38F62  \
 	LDA $5E					;$B38F64   |
 	SEC					;$B38F66   |
@@ -1986,7 +1986,7 @@ glimmer_main:
 	STA sprite.max_x_speed,x		;$B38F8E   |
 	RTS					;$B38F90  /
 
-.update_target_y_velocity:
+.update_target_y_speed:
 	LDX current_sprite			;$B38F91  \ Get glimmer sprite
 	LDA $60					;$B38F93   |
 	SEC					;$B38F95   |
@@ -2293,7 +2293,7 @@ egg_shell_pieces_main:
 	STA current_sprite_constants		;$B391A1   |
 	JSR apply_x_acceleration		;$B391A3   |
 	JSR apply_sprite_gravity_2		;$B391A6   |
-	JSL apply_position_from_velocity_global	;$B391A9   |
+	JSL apply_position_from_speed_global	;$B391A9   |
 	JSL process_sprite_animation		;$B391AD   |
 	LDX current_sprite			;$B391B1   |
 	LDA sprite.y_speed,x			;$B391B3   |
@@ -2330,20 +2330,20 @@ fireworks_main:
 	SBC #$000C				;$B391E5   |
 .update_y_speed:				;	   |
 	STA sprite.y_speed,x			;$B391E8   |
-	JSL apply_position_from_velocity_global	;$B391EA   |
+	JSL apply_position_from_speed_global	;$B391EA   |
 	JSL process_sprite_animation		;$B391EE   |
 	JML [sprite_return_address]		;$B391F2  /
 
 explosion_cloud_main:
 unknown_sprite_023C_main:
 unknown_sprite_0248_main:
-	JSL apply_position_from_velocity_global	;$B391F5  \
+	JSL apply_position_from_speed_global	;$B391F5  \
 	JSL process_sprite_animation		;$B391F9   |
 	JML [sprite_return_address]		;$B391FD  /
 
 explosion_main:
 unknown_sprite_00B8_main:
-	JSL apply_position_from_velocity_global	;$B39200  \
+	JSL apply_position_from_speed_global	;$B39200  \
 	PHK					;$B39204   |
 	PLB					;$B39205   |
 	LDX current_sprite			;$B39206   |
@@ -2493,7 +2493,7 @@ squawks_egg_main:
 	JSR apply_x_acceleration		;$B39302  \
 .move_and_animate_no_acceleration:		;	   |
 	JSR apply_sprite_gravity_2		;$B39305   |
-	JSL apply_position_from_velocity_global	;$B39308   |
+	JSL apply_position_from_speed_global	;$B39308   |
 	JSL process_sprite_animation		;$B3930C   | Process animation
 	JML sprite_return_handle_despawn	;$B39310  / Done processing sprite
 
@@ -2523,21 +2523,21 @@ squawks_egg_main:
 	LDX current_sprite			;$B39344   | Get egg sprite
 	INC sprite.state,x			;$B39346   | Set state 01
 	LDA #$FC00				;$B39348   |
-	STA sprite.y_speed,x			;$B3934B   | Set current Y velocity
+	STA sprite.y_speed,x			;$B3934B   | Set current Y speed
 	LDA $DB					;$B3934D   |
 	CMP $E3					;$B3934F   | Check which direction collision occured
 	BMI .no_flip				;$B39351   | If collided with top of sprite, don't flip
 	LDA sprite.x_speed,x			;$B39353   |
-	EOR #$FFFF				;$B39355   | Else flip X velocity
+	EOR #$FFFF				;$B39355   | Else flip X speed
 	INC A					;$B39358   |
-	STA sprite.x_speed,x			;$B39359   | Update current X velocity
+	STA sprite.x_speed,x			;$B39359   | Update current X speed
 .no_flip:					;	   |
-	STZ sprite.max_x_speed,x		;$B3935B   | Clear target X velocity
+	STZ sprite.max_x_speed,x		;$B3935B   | Clear target X speed
 	BRA .move_and_animate			;$B3935D  /
 
 .defeated:
 	LDA #$0005				;$B3935F  \
-	JSL interpolate_x_velocity_global	;$B39362   |
+	JSL interpolate_x_speed_global		;$B39362   |
 	BRA .move_and_animate_no_acceleration	;$B39366  /
 
 npc_hud_coin_main:
@@ -2681,7 +2681,7 @@ dk_barrel_main:
 CODE_B3948B:
 	JSR apply_sprite_gravity		;$B3948B  \
 	JSR CODE_B39EBE				;$B3948E   |
-	JSL apply_position_from_velocity_global	;$B39491   |
+	JSL apply_position_from_speed_global	;$B39491   |
 	JSL process_sprite_animation		;$B39495   |
 	JSL delete_sprite_if_offscreen		;$B39499   |
 	JML [sprite_return_address]		;$B3949D  /
@@ -3046,7 +3046,7 @@ unknown_sprite_0244_main:
 	LDA #$0800				;$B39748   | Cap Y speed
 .CODE_B3974B:					;	   |
 	STA sprite.y_speed,x			;$B3974B   |
-	JSL apply_position_from_velocity_global	;$B3974D   |
+	JSL apply_position_from_speed_global	;$B3974D   |
 	JSL process_sprite_animation		;$B39751   |
 	JSL delete_sprite_if_offscreen		;$B39755   |
 	JML [sprite_return_address]		;$B39759  /
@@ -3174,9 +3174,9 @@ animal_crate_main:
 	BEQ ..return				;$B39845  \ If camera number doesn't exist, return
 	ASL A					;$B39847   |
 	TAX					;$B39848   |
-	LDA.l $7E9128,x				;$B39849   |
+	LDA.l RAM_7E9128,x			;$B39849   |
 	ORA #$0080				;$B3984D   | Else lock the camera
-	STA $7E9128,x				;$B39850   |
+	STA RAM_7E9128,x			;$B39850   |
 ..return:					;	   |
 	LDX current_sprite			;$B39854   | Get animal box sprite
 	RTS					;$B39856  / Return
@@ -3201,22 +3201,22 @@ hook_main:
 	JMP sprite_return_handle_despawn	;$B39869  /
 
 .state_01:
-	LDA $0D82				;$B3986C  \
+	LDA hook_sprite				;$B3986C  \
 	CMP current_sprite			;$B3986F   |
 	BNE ..CODE_B39888			;$B39871   |
 	LDX current_sprite			;$B39873   |
 	LDA $4E,x				;$B39875   |
 	BEQ ..return				;$B39877   |
 	LDA #$C000				;$B39879   |
-	ORA $0AB8				;$B3987C   |
-	STA $0AB8				;$B3987F   |
+	ORA camera_0AB8				;$B3987C   |
+	STA camera_0AB8				;$B3987F   |
 	JSR CODE_B398AB				;$B39882   | Does camera BS
 ..return:					;	   |
 	JML [sprite_return_address]		;$B39885  /
 
 ..CODE_B39888:
-	STZ $0AEE				;$B39888  \
-	STZ $0AF2				;$B3988B   |
+	STZ camera_0AEE				;$B39888  \
+	STZ camera_0AF2				;$B3988B   |
 	LDX current_sprite			;$B3988E   |
 	LDA #$001E				;$B39890   |
 	STA $42,x				;$B39893   |
@@ -3239,7 +3239,7 @@ CODE_B398A7:
 	RTL					;$B398AA  /
 
 CODE_B398AB:
-	LDA $0AF0				;$B398AB  \
+	LDA camera_0AF0				;$B398AB  \
 	LSR A					;$B398AE   |
 	STA temp_32				;$B398AF   |
 	LDA $4E,x				;$B398B1   |
@@ -3248,8 +3248,8 @@ CODE_B398AB:
 	ADC #$3C00				;$B398B7   |
 	SEC					;$B398BA   |
 	SBC temp_32				;$B398BB   |
-	STA $0AF2				;$B398BD   |
-	LDA $0AEA				;$B398C0   |
+	STA camera_0AF2				;$B398BD   |
+	LDA camera_0AEA				;$B398C0   |
 	LSR A					;$B398C3   |
 	STA temp_32				;$B398C4   |
 	LDA $4E,x				;$B398C6   |
@@ -3259,7 +3259,7 @@ CODE_B398AB:
 	ADC #$4000				;$B398CD   |
 	SEC					;$B398D0   |
 	SBC temp_32				;$B398D1   |
-	STA $0AEE				;$B398D3   |
+	STA camera_0AEE				;$B398D3   |
 	RTS					;$B398D6  /
 
 CODE_B398D7:
@@ -3270,7 +3270,7 @@ CODE_B398D7:
 	LDY #!special_sprite_spawn_id_0034	;$B398E3   |> Contact flash sprite
 	JSL spawn_special_sprite_index		;$B398E6   |
 	LDX current_sprite			;$B398EA   |
-	STX $0D82				;$B398EC   |
+	STX hook_sprite				;$B398EC   |
 	LDA sprite.oam_property,x		;$B398EF   |
 	AND #$BFFF				;$B398F1   |
 	STA sprite.oam_property,x		;$B398F4   |
@@ -3282,7 +3282,7 @@ CODE_B398D7:
 	STA sprite.render_order,x		;$B39906   |
 	LDA current_interacting_sprite		;$B39908   |
 	STA $42,x				;$B3990B   |
-	LDY $0D82				;$B3990D   |
+	LDY hook_sprite				;$B3990D   |
 	LDA.w sprite.x_position,y		;$B39910   |
 	STA sprite.x_position,x			;$B39913   |
 	LDA.w sprite.y_position,y		;$B39915   |
@@ -3297,7 +3297,7 @@ CODE_B398D7:
 
 CODE_B3992E:
 	LDX current_sprite			;$B3992E  \
-	STX $0D82				;$B39930   |
+	STX hook_sprite				;$B39930   |
 	LDA #$0001				;$B39933   |
 	STA sprite.state,x			;$B39936   |
 	JSL CODE_B3DF3C				;$B39938   |
@@ -3307,7 +3307,7 @@ CODE_B3992E:
 	JSL work_on_active_kong_global		;$B39943   |
 	LDA #!kong_state_3C			;$B39947   |
 	STA sprite.state,x			;$B3994A   |
-	LDY $0D82				;$B3994C   |
+	LDY hook_sprite				;$B3994C   |
 	LDA.w sprite.x_position,y		;$B3994F   |
 	STA sprite.x_position,x			;$B39952   |
 	LDA.w sprite.y_position,y		;$B39954   |
@@ -3631,7 +3631,7 @@ CODE_B39BEB:					;	   |
 	RTS					;$B39BEF  /
 
 CODE_B39BF0:
-	JSL apply_position_from_velocity_global	;$B39BF0  \
+	JSL apply_position_from_speed_global	;$B39BF0  \
 	LDX current_sprite			;$B39BF4   |
 	LDY active_kong_sprite			;$B39BF6   |
 	LDA sprite.y_position,x			;$B39BF9   |
@@ -4002,7 +4002,7 @@ CODE_B39EBA:
 CODE_B39EBE:
 	LDY #$0004				;$B39EBE  \
 	LDA [current_sprite_constants],y	;$B39EC1   |
-	JSL interpolate_x_velocity_global	;$B39EC3   |
+	JSL interpolate_x_speed_global		;$B39EC3   |
 	RTS					;$B39EC7  /
 
 apply_sprite_gravity_global:
@@ -4013,27 +4013,27 @@ apply_sprite_gravity:
 	LDX current_sprite			;$B39ECC  \ Get current sprite
 	LDY #$0000				;$B39ECE   | Get gravity from constants
 	LDA [current_sprite_constants],y	;$B39ED1   |
-	LDY #$0002				;$B39ED3   | Prepare to get terminal velocity
+	LDY #$0002				;$B39ED3   | Prepare to get max fall speed
 	CLC					;$B39ED6   |
-	ADC sprite.y_speed,x			;$B39ED7   | Add gravity to current Y velocity
-	BMI .apply_y_velocity			;$B39ED9   | If moving up, skip terminal velocity check
-	CMP [current_sprite_constants],y	;$B39EDB   | Else compare to terminal velocity
-	BCC .apply_y_velocity			;$B39EDD   | If less than terminal velocity, apply it
-	LDA [current_sprite_constants],y	;$B39EDF   | Else get terminal velocity and cap velocity to it
-.apply_y_velocity:				;	   |
-	STA sprite.y_speed,x			;$B39EE1   | Apply current Y velocity
+	ADC sprite.y_speed,x			;$B39ED7   | Add gravity to current Y speed
+	BMI .apply_y_speed			;$B39ED9   | If moving up, skip max fall speed check
+	CMP [current_sprite_constants],y	;$B39EDB   | Else compare to max fall speed
+	BCC .apply_y_speed			;$B39EDD   | If less than max fall speed, apply it
+	LDA [current_sprite_constants],y	;$B39EDF   | Else get max fall speed and cap speed to it
+.apply_y_speed:					;	   |
+	STA sprite.y_speed,x			;$B39EE1   | Apply current Y speed
 	RTS					;$B39EE3  / Return
 
 ;dead code
 	LDY #$0004				;$B39EE4   |
 	LDA [current_sprite_constants],y	;$B39EE7   |
-	JSL interpolate_y_velocity_global	;$B39EE9   |
+	JSL interpolate_y_speed_global		;$B39EE9   |
 	RTS					;$B39EED  /
 
 apply_x_acceleration:
 	LDY #$0004				;$B39EEE  \
 	LDA [current_sprite_constants],y	;$B39EF1   |
-	JSL interpolate_x_velocity_global	;$B39EF3   |
+	JSL interpolate_x_speed_global		;$B39EF3   |
 	RTS					;$B39EF7  /
 
 apply_sprite_gravity_2:
@@ -4043,11 +4043,11 @@ apply_sprite_gravity_2:
 	LDY #$0002				;$B39EFF   |
 	CLC					;$B39F02   |
 	ADC sprite.y_speed,x			;$B39F03   |
-	BMI .apply_y_velocity			;$B39F05   |
+	BMI .apply_y_speed			;$B39F05   |
 	CMP [current_sprite_constants],y	;$B39F07   |
-	BCC .apply_y_velocity			;$B39F09   |
+	BCC .apply_y_speed			;$B39F09   |
 	LDA [current_sprite_constants],y	;$B39F0B   |
-.apply_y_velocity:				;	   |
+.apply_y_speed:					;	   |
 	STA sprite.y_speed,x			;$B39F0D   |
 	RTS					;$B39F0F  /
 
@@ -4213,7 +4213,7 @@ update_held_sprite_position:
 	STA.w sprite.y_position,y		;$B3A02A   |/ Apply Y position to held sprite
 	LDA sprite.render_order,x		;$B3A02D   |\ Get kong render priority
 	CLC					;$B3A02F   | |
-	ADC $0D80				;$B3A030   | | Add priority to held sprite over kong
+	ADC held_sprite_render_order_modifier	;$B3A030   | | Add priority to held sprite over kong
 	STA.w sprite.render_order,y		;$B3A033   |/ Update render priority of held sprite
 	RTS					;$B3A036  /> Return
 
@@ -4375,7 +4375,7 @@ level_goal_prize_main:
 ..wait_done:
 	LDX current_sprite			;$B3A137  \ Get prize sprite
 	INC sprite.state,x			;$B3A139   | Set state 4 (drop)
-	STZ sprite.x_speed,x			;$B3A13B   | Clear X velocity
+	STZ sprite.x_speed,x			;$B3A13B   | Clear x speed
 	LDA #DATA_FF0214			;$B3A13D   |
 	STA sprite.constants_address,x		;$B3A140   | Set new constants address
 	BRA .return				;$B3A142  / Done processing sprite
@@ -4494,14 +4494,14 @@ level_goal_barrel_main:
 	LDX current_sprite			;$B3A1F1  \ Get barrel sprite
 	LDA #$0050				;$B3A1F3   | Load gravity to apply
 	CLC					;$B3A1F6   |
-	ADC sprite.y_speed,x			;$B3A1F7   | Add barrel Y velocity
-	BMI ..update_Y_velocity			;$B3A1F9   | If negative, continue updating Y velocity
-	CMP #$0800				;$B3A1FB   | Else check if barrel reached terminal velocity
-	BCC ..update_Y_velocity			;$B3A1FE   |
-	LDA #$0800				;$B3A200   | Else cap current velocity to terminal velocity
-..update_Y_velocity:				;	   |
-	STA sprite.y_speed,x			;$B3A203   | Update barrel Y velocity
-	JSL apply_position_from_velocity_global	;$B3A205   |
+	ADC sprite.y_speed,x			;$B3A1F7   | Add barrel Y speed
+	BMI ..update_Y_speed			;$B3A1F9   | If negative, continue updating Y speed
+	CMP #$0800				;$B3A1FB   | Else check if barrel reached max fall speed
+	BCC ..update_Y_speed			;$B3A1FE   |
+	LDA #$0800				;$B3A200   | Else cap current speed to max fall speed
+..update_Y_speed:				;	   |
+	STA sprite.y_speed,x			;$B3A203   | Update barrel Y speed
+	JSL apply_position_from_speed_global	;$B3A205   |
 	LDA $44,x				;$B3A209   | Get its initial Y position
 	CMP sprite.y_position,x			;$B3A20B   | Check if current Y position is greater than it
 	BPL ..check_if_max_height		;$B3A20D   | If not, resume checking for max height
@@ -4598,8 +4598,8 @@ level_goal_main:
 	LDA sprite.terrain_interaction,x	;$B3A29C   |
 	AND #$0101				;$B3A29E   | Check if kong is grounded
 	BNE ..return				;$B3A2A1   | If yes, return
-	LDA sprite.y_speed,x			;$B3A2A3   | Else get their Y velocity
-	BMI ..return				;$B3A2A5   | If upwards velocity, return
+	LDA sprite.y_speed,x			;$B3A2A3   | Else get their Y speed
+	BMI ..return				;$B3A2A5   | If upwards speed, return
 	LDA current_player_mount		;$B3A2A7   | Else get index of animal that kong is riding
 	BNE ..handle_collision			;$B3A2A9   | If it exists, handle collision (bug? should be BEQ)
 	LDA animal_type				;$B3A2AB   | Else get index of current transformed animal
@@ -4625,7 +4625,7 @@ level_goal_main:
 	JSR .check_if_should_drop_prize		;$B3A2D3   | Check if we should drop the prize
 	PLY					;$B3A2D6   |
 	PLX					;$B3A2D7   |
-	STA.w sprite.y_speed,y			;$B3A2D8   | Set barrel Y velocity gotten from routine above
+	STA.w sprite.y_speed,y			;$B3A2D8   | Set barrel Y speed gotten from routine above
 	BCS ..dont_drop_prize			;$B3A2DB   | If the routine gave us a no, skip dropping the prize
 	LDA #$0004				;$B3A2DD   |
 	TSB RAM_0B02				;$B3A2E0   |
@@ -4658,14 +4658,14 @@ level_goal_main:
 	LDX current_sprite			;$B3A31A  \ Get goal sprite
 	LDA sprite.y_position,x			;$B3A31C   | Get Y position
 	SEC					;$B3A31E   |
-	SBC $0935				;$B3A31F   | Subtract from kong's last jump height peak
+	SBC kongs_highest_y_position		;$B3A31F   | Subtract from kong's last jump height peak
 	CMP #$0068				;$B3A322   |
-	BMI ..slow_barrel_Y_velocity		;$B3A325   | If result lower than 68, load slow barrel Y velocity
-	LDA #$F700				;$B3A327   | Else load fast barrel Y velocity
+	BMI ..slow_barrel_y_speed		;$B3A325   | If result lower than 68, load slow barrel Y speed
+	LDA #$F700				;$B3A327   | Else load fast barrel Y speed
 	CLC					;$B3A32A   | Tell caller we should drop the prize
 	RTS					;$B3A32B  /
 
-..slow_barrel_Y_velocity:
+..slow_barrel_y_speed:
 	LDA #$F900				;$B3A32C  \
 	SEC					;$B3A32F   | Tell caller to skip dropping the prize
 	RTS					;$B3A330  /
@@ -4748,7 +4748,7 @@ CODE_B3A38B:
 
 check_for_sprite_crush:
 	SEC					;$B3A3A3  \ \
-	LDA $0D54				;$B3A3A4   | |
+	LDA crush_floor_y_position		;$B3A3A4   | |
 	BMI .return				;$B3A3A7   |/ If there is no castle crush floor then return carry set
 	LDX current_sprite			;$B3A3A9   |\ Else get current sprite
 	LDA sprite.terrain_attributes,x		;$B3A3AB   | | Get sprite terrain tile attributes
@@ -4847,7 +4847,7 @@ zinger_main:
 	BEQ .castle_crush_floor_check		;$B3A43D   |/ If defeated then dont start a looping flitter sound
 	INC flitter_loop_sound_enabler		;$B3A43F   |> Else play looping flitter sound
 .castle_crush_floor_check			;	   |
-	LDA $0D54				;$B3A442   |\ Get castle crush floor position
+	LDA crush_floor_y_position		;$B3A442   |\ Get castle crush floor position
 	BMI generic_sprite_main			;$B3A445   |/ If no castle crush floor resume normal enemy logic
 	CLC					;$B3A447   |\
 	ADC #$00C0				;$B3A448   |/ Offset floor position by +192
@@ -4980,16 +4980,16 @@ zinger_main:
 
 .fall_offscreen_alive_state
 	LDX colliding_sprite			;$B3A539  \> Get sprite that is killing our sprite
-	LDA #$0100				;$B3A53B   |> Prepare a X velocity to apply to our sprite
+	LDA #$0100				;$B3A53B   |> Prepare a X speed to apply to our sprite
 	BIT sprite.oam_property,x		;$B3A53E   |\
-	BVC ..no_flip				;$B3A540   |/ If sprite isnt flipped apply the X velocity
-	LDA #$FF00				;$B3A542   |> Else invert X velocity then apply it
+	BVC ..no_flip				;$B3A540   |/ If sprite isnt flipped apply the X speed
+	LDA #$FF00				;$B3A542   |> Else invert X speed then apply it
 ..no_flip					;	   |
 	LDX current_sprite			;$B3A545   |> Get current sprite
-	STA sprite.max_x_speed,x		;$B3A547   |\ Apply target X velocity
-	STA sprite.x_speed,x			;$B3A549   |/ Apply current X velocity
-	LDA #$F800				;$B3A54B   |\ Prepare a Y velocity to apply to our sprite
-	STA sprite.y_speed,x			;$B3A54E   |/ Apply current Y velocity
+	STA sprite.max_x_speed,x		;$B3A547   |\ Apply target X speed
+	STA sprite.x_speed,x			;$B3A549   |/ Apply current X speed
+	LDA #$F800				;$B3A54B   |\ Prepare a Y speed to apply to our sprite
+	STA sprite.y_speed,x			;$B3A54E   |/ Apply current Y speed
 	LDA #$0004				;$B3A550   |\ Use movement type 4
 	STA sprite.movement_state,x		;$B3A553   |/
 	LDA #$0001				;$B3A555   |\ Use defeated state
@@ -5006,24 +5006,24 @@ zinger_main:
 	EOR sprite.oam_property,x		;$B3A56B   | |
 	EOR #$4000				;$B3A56D   | |
 	STA sprite.oam_property,x		;$B3A570   |/ Face killed sprite opposite of killing sprite
-	LDA #$0100				;$B3A572   |\ X velocity
-	LDY #$F800				;$B3A575   |/ Y velocity
-	BRA .apply_dead_sprite_velocity		;$B3A578  /> Apply velocities to killed sprite
+	LDA #$0100				;$B3A572   |\ X speed
+	LDY #$F800				;$B3A575   |/ Y speed
+	BRA .apply_dead_sprite_speed		;$B3A578  /> Apply velocities to killed sprite
 
 .crush_flying_sprite
 	LDX colliding_sprite			;$B3A57A  \> Get sprite that is killing our sprite
-	LDA #$0080				;$B3A57C   |\ X velocity
-	LDY #$FC00				;$B3A57F   |/ Y velocity
-.apply_dead_sprite_velocity			;	   |
+	LDA #$0080				;$B3A57C   |\ X speed
+	LDY #$FC00				;$B3A57F   |/ Y speed
+.apply_dead_sprite_speed			;	   |
 	BIT sprite.oam_property,x		;$B3A582   |\ Get if sprite is flipped
 	BVC ..no_flip				;$B3A584   |/ If sprite isnt flipped apply normal velocities
-	EOR #$FFFF				;$B3A586   |\ Else invert X velocity
+	EOR #$FFFF				;$B3A586   |\ Else invert X speed
 	INC A					;$B3A589   |/
 ..no_flip					;	   |
 	LDX current_sprite			;$B3A58A   |> Get current sprite
-	STA sprite.max_x_speed,x		;$B3A58C   |\ Apply target X velocity
-	STA sprite.x_speed,x			;$B3A58E   | | Apply current X velocity
-	STY sprite.y_speed,x			;$B3A590   |/ Apply current Y velocity
+	STA sprite.max_x_speed,x		;$B3A58C   |\ Apply target X speed
+	STA sprite.x_speed,x			;$B3A58E   | | Apply current X speed
+	STY sprite.y_speed,x			;$B3A590   |/ Apply current Y speed
 	LDA #$0004				;$B3A592   |\ Apply movement behavior 4
 	STA sprite.movement_state,x		;$B3A595   |/
 	LDA #$0001				;$B3A597   |\ Set state to defeated
@@ -5078,7 +5078,7 @@ update_held_position_no_return:
 	JSR .update_held_position_if_held	;$B3A5E4   |
 	RTS					;$B3A5E7  /
 
-#apply_thrown_x_velocity:
+#apply_thrown_x_speed:
 	LDX current_sprite			;$B3A5E8  \
 	BIT sprite.max_x_speed,x		;$B3A5EA   |
 	BPL .no_flip				;$B3A5EC   |
@@ -5113,11 +5113,11 @@ CODE_B3A604:
 	LDX colliding_sprite			;$B3A613   |> Get sprite we collided with
 	BIT sprite.oam_property,x		;$B3A615   |
 	PLX					;$B3A617   |> Recover sprite that triggered knockback
-	BVC .no_flip				;$B3A618   |> If collided sprite facing right, dont invert the velocity
-	EOR #$FFFF				;$B3A61A   |\ Invert X velocity
+	BVC .no_flip				;$B3A618   |> If collided sprite facing right, dont invert the speed
+	EOR #$FFFF				;$B3A61A   |\ Invert X speed
 	INC A					;$B3A61D   |/
 .no_flip					;	   |
-	STA interaction_RAM_0A86		;$B3A61E   |> Pass X velocity to interaction variable
+	STA interaction_RAM_0A86		;$B3A61E   |> Pass X speed to interaction variable
 	CLC					;$B3A621   |> Clear carry to indicate success
 .return						;	   |
 	RTS					;$B3A622  /> Return
@@ -5190,7 +5190,7 @@ ship_water_splash_main:
 	JML [sprite_return_address]		;$B3A6AA  /
 
 CODE_B3A6AD:
-	LDA $0ADB				;$B3A6AD  \
+	LDA camera_0ADB				;$B3A6AD  \
 	CLC					;$B3A6B0   |
 	ADC $44,x				;$B3A6B1   |
 	CMP #$0300				;$B3A6B3   |
@@ -5307,21 +5307,21 @@ click_clack_main:
 	%lda_sound(5, click_clack_hit)		;$B3A77D   |\ Else stun click-clack
 	JSL queue_sound_effect			;$B3A780   |/ Play squish sound
 	LDX colliding_sprite			;$B3A784   |> Get attacking sprite
-	LDA #$0100				;$B3A786   |> Prepare a X velocity to apply to click-clack
+	LDA #$0100				;$B3A786   |> Prepare a X speed to apply to click-clack
 	BIT sprite.oam_property,x		;$B3A789   |\
 	BVC ..no_flip				;$B3A78B   |/ If attacking sprite is facing right, dont invert x speed
-	LDA #$FF00				;$B3A78D   |> Else invert X velocity
+	LDA #$FF00				;$B3A78D   |> Else invert X speed
 ..no_flip					;	   |
 	LDX current_sprite			;$B3A790   |> Get click-clack sprite
-	STZ sprite.max_x_speed,x		;$B3A792   |> Clear target X velocity
-	STA sprite.x_speed,x			;$B3A794   |> Apply current X velocity
-	LDA #$FA00				;$B3A796   |\ Prepare a Y velocity to apply to click-clack
-	STA sprite.y_speed,x			;$B3A799   |/ Apply current Y velocity
+	STZ sprite.max_x_speed,x		;$B3A792   |> Clear target X speed
+	STA sprite.x_speed,x			;$B3A794   |> Apply current X speed
+	LDA #$FA00				;$B3A796   |\ Prepare a Y speed to apply to click-clack
+	STA sprite.y_speed,x			;$B3A799   |/ Apply current Y speed
 	LDA #$001E				;$B3A79B   |> Knockback interaction (Bug: fails to actually apply)
 if !version == 1				;	   |
-	LDA #$FF00				;$B3A79E   |> Was probably intended to be a knockback velocity
+	LDA #$FF00				;$B3A79E   |> Was probably intended to be a knockback speed
 else						;	   |
-	LDY #$FF00				;$B3A79E   |> Was probably intended to be a knockback velocity
+	LDY #$FF00				;$B3A79E   |> Was probably intended to be a knockback speed
 endif						;	   |
 	JSR CODE_B3A604				;$B3A7A1   |> Apply knockback to attacker (already done in collision)
 	LDY #$0164				;$B3A7A4   |> Click-clack hurt animation
@@ -5329,9 +5329,9 @@ endif						;	   |
 	JMP set_state_and_animation		;$B3A7AA  /> Apply state and animation to click-clack
 
 ..defeat_click_clack
-	LDA #$0100				;$B3A7AD  \ \ Prepare a X velocity to apply to click-clack
-	LDY #$F800				;$B3A7B0   | | Prepare a Y velocity to apply to click-clack
-	JMP defeat_click_clack_with_velocity	;$B3A7B3  /_/ Apply defeated velocity
+	LDA #$0100				;$B3A7AD  \ \ Prepare a X speed to apply to click-clack
+	LDY #$F800				;$B3A7B0   | | Prepare a Y speed to apply to click-clack
+	JMP defeat_click_clack_with_speed	;$B3A7B3  /_/ Apply defeated speed
 
 .stunned_airborne_state
 	LDA #$0022				;$B3A7B6  \ \
@@ -5395,9 +5395,9 @@ endif						;	   |
 	JMP set_state_and_animation		;$B3A83E  /> Apply state and animation to click-clack
 
 ..defeat_click_clack
-	LDA #$0100				;$B3A841  \ \ Prepare a X velocity to apply to click-clack
-	LDY #$F800				;$B3A844   | | Prepare a Y velocity to apply to click-clack
-	JMP defeat_click_clack_with_velocity	;$B3A847  /_/ Apply defeated velocity
+	LDA #$0100				;$B3A841  \ \ Prepare a X speed to apply to click-clack
+	LDY #$F800				;$B3A844   | | Prepare a Y speed to apply to click-clack
+	JMP defeat_click_clack_with_speed	;$B3A847  /_/ Apply defeated speed
 
 .carried_state
 	TYX					;$B3A84A  \
@@ -5412,7 +5412,7 @@ endif						;	   |
 	CMP sprite.animation_id,x		;$B3A85B   | |
 	BNE ..not_stunned			;$B3A85D   |/ If stun recover anim isnt playing, continue normal logic
 	LDA sprite.y_speed,x			;$B3A85F   |\
-	BPL ..not_stunned			;$B3A861   |/ If Y velocity is downward continue normal logic
+	BPL ..not_stunned			;$B3A861   |/ If Y speed is downward continue normal logic
 	CMP #$FC00				;$B3A863   |\
 	BCS ..not_stunned			;$B3A866   |/ If click-clack isnt moving up fast enough, do normal logic
 	STZ current_held_sprite			;$B3A868   |> Else free click-clack, clear held sprite
@@ -5422,9 +5422,9 @@ endif						;	   |
 	STA sprite.state,x			;$B3A873   |/ Set stun recover state
 	LDA #$001E				;$B3A875   |> Knockback interaction (Bug: fails to actually apply)
 if !version == 1				;	   |
-	LDA #$FE80				;$B3A878   |> Was probably intended to be a knockback velocity
+	LDA #$FE80				;$B3A878   |> Was probably intended to be a knockback speed
 else						;	   |
-	LDY #$FE80				;$B3A878   |> Was probably intended to be a knockback velocity
+	LDY #$FE80				;$B3A878   |> Was probably intended to be a knockback speed
 endif						;	   |
 	JSR CODE_B3A604				;$B3A87B   |> Apply knockback to attacker (already done in collision)
 	JMP sprite_return_handle_despawn	;$B3A87E  /> Done processing sprite
@@ -5444,7 +5444,7 @@ endif						;	   |
 	LDA #$000F				;$B3A899   |\
 	STA $4E,x				;$B3A89C   |/ Apply a small delay
 	STZ sprite.x_speed,x			;$B3A89E   |\
-	STZ sprite.max_x_speed,x		;$B3A8A0   |/ Clear X velocity
+	STZ sprite.max_x_speed,x		;$B3A8A0   |/ Clear X speed
 	JSR update_held_position_return_1	;$B3A8A2   |> Update click-clack held position and return here
 	LDA #$0003				;$B3A8A5   |\ Stunned on ground state
 	LDY #!click_clack_stunned_anim_id	;$B3A8A8   | | Stunned animation
@@ -5474,13 +5474,13 @@ endif						;	   |
 	JSL CODE_BEBD8E				;$B3A8DF   |/ Check if held click-clack collided with an enemy
 	BCC ..no_collision			;$B3A8E3   |> If not then update animation and return
 	STZ current_held_sprite			;$B3A8E5   |> Clear held sprite
-	LDA #$0000				;$B3A8E8   |\ Prepare a X velocity to apply to click-clack
+	LDA #$0000				;$B3A8E8   |\ Prepare a X speed to apply to click-clack
 if !version == 1				;	   | |
-	LDA #$FB00				;$B3A8EB   | | Prepare a X velocity to apply to click-clack
+	LDA #$FB00				;$B3A8EB   | | Prepare a X speed to apply to click-clack
 else						;	   | |
-	LDY #$FB00				;$B3A8EB   | | Prepare a Y velocity to apply to click-clack
+	LDY #$FB00				;$B3A8EB   | | Prepare a Y speed to apply to click-clack
 endif						;	   | |
-	JMP defeat_click_clack_with_velocity	;$B3A8EE  /_/ Apply defeated velocity
+	JMP defeat_click_clack_with_speed	;$B3A8EE  /_/ Apply defeated speed
 
 ..no_collision
 	JSL process_sprite_animation		;$B3A8F1  \ \ Process animation
@@ -5498,15 +5498,15 @@ endif						;	   | |
 	LDA #$0006				;$B3A90C   |\ Else click-clack was thrown forward
 	STA sprite.state,x			;$B3A90F   |/ Apply thrown airborne state
 	JSR update_held_position_return_2	;$B3A911   |> Update held click-clack position and return
-	LDA #$0200				;$B3A914   |\ Apply target X velocity to thrown click-clack
-	JSR apply_thrown_x_velocity		;$B3A917   |/
+	LDA #$0200				;$B3A914   |\ Apply target X speed to thrown click-clack
+	JSR apply_thrown_x_speed		;$B3A917   |/
 	JMP sprite_return_handle_despawn	;$B3A91A  /> Done processing sprite
 
 ..dropped
 	STZ current_held_sprite			;$B3A91D  \> Clear carried sprite
 	LDA #$000F				;$B3A920   |\
 	STA $4E,x				;$B3A923   |/ Set a small delay
-	STZ sprite.x_speed,x			;$B3A925   |\ Clear X velocity
+	STZ sprite.x_speed,x			;$B3A925   |\ Clear X speed
 	STZ sprite.max_x_speed,x		;$B3A927   |/
 	LDA #$0003				;$B3A929   |\ Set stunned on ground state
 	STA sprite.state,x			;$B3A92C   |/
@@ -5526,9 +5526,9 @@ endif						;	   | |
 	JMP sprite_return_handle_despawn	;$B3A950  /> Done processing sprite
 
 ..collided
-	LDA #$0040				;$B3A953  \ \ Prepare a X velocity to apply to click-clack
-	LDY #$FB00				;$B3A956   | | Prepare a Y velocity to apply to click-clack
-	JMP defeat_click_clack_with_velocity	;$B3A959  /_/ Apply defeated velocity
+	LDA #$0040				;$B3A953  \ \ Prepare a X speed to apply to click-clack
+	LDY #$FB00				;$B3A956   | | Prepare a Y speed to apply to click-clack
+	JMP defeat_click_clack_with_speed	;$B3A959  /_/ Apply defeated speed
 
 .thrown_airborne_state
 	LDA #$0118				;$B3A95C  \ \
@@ -5550,13 +5550,13 @@ endif						;	   | |
 
 ..collided
 	LDX current_sprite			;$B3A98D  \ \ Get click-clack sprite
-	LDA sprite.x_speed,x			;$B3A98F   | | Get current X velocity
-	CMP #$8000				;$B3A991   | | Prepare a X velocity to apply to click-clack
-	ROR A					;$B3A994   | | Slow down X velocity
+	LDA sprite.x_speed,x			;$B3A98F   | | Get current X speed
+	CMP #$8000				;$B3A991   | | Prepare a X speed to apply to click-clack
+	ROR A					;$B3A994   | | Slow down X speed
 	CMP #$8000				;$B3A995   | |
 	ROR A					;$B3A998   |/
-	LDY #$FB00				;$B3A999   |> Prepare a Y velocity to apply to click-clack
-	JMP defeat_click_clack_no_flip_velocity	;$B3A99C  /> Defeat click-clack with velocity
+	LDY #$FB00				;$B3A999   |> Prepare a Y speed to apply to click-clack
+	JMP defeat_click_clack_no_flip_speed	;$B3A99C  /> Defeat click-clack with speed
 
 ..hit_ground
 	LDA sprite.x_position,x			;$B3A99F  \ \ Get X position of click-clack
@@ -5567,7 +5567,7 @@ endif						;	   | |
 	LDY #!special_sprite_spawn_id_0034	;$B3A9AC   |\
 	JSL spawn_special_sprite_index		;$B3A9AF   |/ Spawn hit star
 	LDX current_sprite			;$B3A9B3   |> Get click-clack sprite
-	STZ sprite.x_speed,x			;$B3A9B5   |\ Clear X velocity
+	STZ sprite.x_speed,x			;$B3A9B5   |\ Clear X speed
 	STZ sprite.max_x_speed,x		;$B3A9B7   |/
 	STZ $4E,x				;$B3A9B9   |> Clear stun timer
 	JSR .increase_walk_speed		;$B3A9BB   |> Increase walk speed of click-clack
@@ -5600,17 +5600,17 @@ endif						;	   | |
 	STA $4E,x				;$B3A9F5   |/ Set stun timer
 	LDA #$001E				;$B3A9F7   |> Knockback interaction (Bug: fails to actually apply)
 if !version == 1				;	   |
-	LDA #$FF00				;$B3A9FA   |> Was probably intended to be a knockback velocity
+	LDA #$FF00				;$B3A9FA   |> Was probably intended to be a knockback speed
 else						;	   |
-	LDY #$FF00				;$B3A9FA   |> Was probably intended to be a knockback velocity
+	LDY #$FF00				;$B3A9FA   |> Was probably intended to be a knockback speed
 endif						;	   |
 	JSR CODE_B3A604				;$B3A9FD   |> Apply knockback to attacker (already done in collision)
 	BRA ..recover				;$B3AA00  /
 
 ..defeated
-	LDA #$0040				;$B3AA02  \ \ Prepare a X velocity to apply to click-clack
-	LDY #$FB00				;$B3AA05   | | Prepare a Y velocity to apply to click-clack
-	JMP defeat_click_clack_with_velocity	;$B3AA08  /_/ Apply defeated velocity
+	LDA #$0040				;$B3AA02  \ \ Prepare a X speed to apply to click-clack
+	LDY #$FB00				;$B3AA05   | | Prepare a Y speed to apply to click-clack
+	JMP defeat_click_clack_with_speed	;$B3AA08  /_/ Apply defeated speed
 
 ..recover
 	LDA #$0022				;$B3AA0B  \ \
@@ -5626,7 +5626,7 @@ endif						;	   |
 	EOR #$FFFF				;$B3AA25   |\ Else invert walking speed
 	INC A					;$B3AA28   |/
 ..no_flip					;	   |
-	STA sprite.max_x_speed,x		;$B3AA29   |> Apply walking speed to target X velocity
+	STA sprite.max_x_speed,x		;$B3AA29   |> Apply walking speed to target X speed
 	LDA #$0001				;$B3AA2B   |\
 	STA sprite.state,x			;$B3AA2E   |/ Set click-clack state to idle
 ..done_processing				;	   |
@@ -5661,17 +5661,17 @@ set_state_and_animation:
 	JSL set_sprite_animation		;$B3AA5D   |
 	JMP sprite_return_handle_despawn	;$B3AA61  /
 
-defeat_click_clack_with_velocity:
+defeat_click_clack_with_speed:
 	LDX colliding_sprite			;$B3AA64  \ \ Get attacking sprite
 	BIT sprite.oam_property,x		;$B3AA66   | |
-	BVC defeat_click_clack_no_flip_velocity	;$B3AA68   |/ If attacker is facing right, dont invert X velocity
-	EOR #$FFFF				;$B3AA6A   |\ Else invert X velocity
+	BVC defeat_click_clack_no_flip_speed	;$B3AA68   |/ If attacker is facing right, dont invert X speed
+	EOR #$FFFF				;$B3AA6A   |\ Else invert X speed
 	INC A					;$B3AA6D   |/
-defeat_click_clack_no_flip_velocity:		;	   |
+defeat_click_clack_no_flip_speed:		;	   |
 	LDX current_sprite			;$B3AA6E   |> Get click-clack
-	STA sprite.max_x_speed,x		;$B3AA70   |\ Apply target X velocity
-	STZ sprite.x_speed,x			;$B3AA72   | | Clear current X velocity
-	STY sprite.y_speed,x			;$B3AA74   |/ Apply current Y velocity
+	STA sprite.max_x_speed,x		;$B3AA70   |\ Apply target X speed
+	STZ sprite.x_speed,x			;$B3AA72   | | Clear current X speed
+	STY sprite.y_speed,x			;$B3AA74   |/ Apply current Y speed
 	LDA #$0004				;$B3AA76   |\ Apply movement behavior 4
 	STA sprite.movement_state,x		;$B3AA79   |/
 	STZ sprite.interaction_flags,x		;$B3AA7B   |> Clear interaction flags
@@ -5986,7 +5986,7 @@ CODE_B3ACDA:					;	   |
 	XBA					;$B3ACE6   |
 CODE_B3ACE7:					;	   |
 	AND #$00FF				;$B3ACE7   |
-	JSL interpolate_x_velocity_global	;$B3ACEA   |
+	JSL interpolate_x_speed_global		;$B3ACEA   |
 	BRL CODE_B3AD71				;$B3ACEE  /
 
 CODE_B3ACF1:
@@ -6014,7 +6014,7 @@ CODE_B3AD0E:
 	BEQ CODE_B3AD22				;$B3AD16   |
 CODE_B3AD18:					;	   |
 	LDA #$0008				;$B3AD18   |
-	JSL interpolate_x_velocity_global	;$B3AD1B   |
+	JSL interpolate_x_speed_global		;$B3AD1B   |
 	BRL CODE_B3AD71				;$B3AD1F  /
 
 CODE_B3AD22:
@@ -6946,7 +6946,7 @@ CODE_B3B39E:					;	   |
 	STA sprite.max_x_speed,x		;$B3B39E   |
 	LDA.w sprite.x_position,y		;$B3B3A0   |
 	STA $42,x				;$B3B3A3   |
-	LDA $0915				;$B3B3A5   |
+	LDA water_safe_timer			;$B3B3A5   |
 	BEQ CODE_B3B3AD				;$B3B3A8   |
 	LDA #$0010				;$B3B3AA   |
 CODE_B3B3AD:					;	   |
@@ -7032,7 +7032,7 @@ CODE_B3B41D:
 	JSR force_sprite_submerged		;$B3B435   |
 	PLA					;$B3B438   |
 	STA water_y_position			;$B3B439   |
-	LDA $0915				;$B3B43C   |
+	LDA water_safe_timer			;$B3B43C   |
 	BNE CODE_B3B452				;$B3B43F   |
 	JSL get_current_sprite_clipping		;$B3B441   |
 	LDA #$0000				;$B3B445   |
@@ -7178,7 +7178,7 @@ CODE_B3B551:
 	JMP sprite_return_handle_despawn	;$B3B554  /
 
 CODE_B3B557:
-	LDA $0915				;$B3B557  \
+	LDA water_safe_timer			;$B3B557  \
 	BNE CODE_B3B5A8				;$B3B55A   |
 	LDY active_kong_sprite			;$B3B55C   |
 	LDA $0030,y				;$B3B55F   |
@@ -8179,7 +8179,7 @@ endif						;
 .sub_state_03:					;	   |
 	LDX current_sprite			;$B3BC4B   |
 	STZ sprite.y_position,x			;$B3BC4D   |
-	STX $0AE8				;$B3BC4F   |
+	STX camera_0AE8				;$B3BC4F   |
 	JSL process_current_movement		;$B3BC52   |
 .CODE_B3BC56:					;	   |
 	LDX current_sprite			;$B3BC56   |
@@ -8521,15 +8521,15 @@ kannon_main:
 	EOR sprite.oam_property,x		;$B3BEBA   | |
 	EOR #$4000				;$B3BEBC   | | Make kannon face towards attacker
 	STA sprite.oam_property,x		;$B3BEBF   |/
-	LDA #$0100				;$B3BEC1   | Load an X velocity
+	LDA #$0100				;$B3BEC1   | Load an X speed
 	BIT sprite.oam_property,x		;$B3BEC4   |
-	BVS ..set_velocities			;$B3BEC6   | If kannon is now facing left, store velocity
-	LDA #$FF00				;$B3BEC8   | Else load negative X velocity
+	BVS ..set_velocities			;$B3BEC6   | If kannon is now facing left, store speed
+	LDA #$FF00				;$B3BEC8   | Else load negative X speed
 ..set_velocities:				;	   |
 	STA sprite.max_x_speed,x		;$B3BECB   |
 	STA sprite.x_speed,x			;$B3BECD   | Set current and target X velocities
 	LDA #$FA00				;$B3BECF   |
-	STA sprite.y_speed,x			;$B3BED2   | Set current Y velocity
+	STA sprite.y_speed,x			;$B3BED2   | Set current Y speed
 	LDA #$0004				;$B3BED4   |
 	STA sprite.movement_state,x		;$B3BED7   | Set "defeated" movement routine
 	LDA #!kannon_death_anim_id		;$B3BED9   | Load kannon death animation
@@ -8873,7 +8873,7 @@ CODE_B3C151:
 CODE_B3C16C:
 	LDX current_sprite			;$B3C16C  \
 	LDA $42,x				;$B3C16E   |
-	JSL interpolate_x_velocity_global	;$B3C170   |
+	JSL interpolate_x_speed_global		;$B3C170   |
 	TYX					;$B3C174   |
 	LDA $44,x				;$B3C175   |
 	BEQ CODE_B3C17D				;$B3C177   |
@@ -9081,7 +9081,7 @@ water_level_changer_main:
 	BCS .CODE_B3C2B2			;$B3C2F6   |
 	LDA $4C,x				;$B3C2F8   |
 	BEQ .CODE_B3C301			;$B3C2FA   |
-	CMP $0D52				;$B3C2FC   |
+	CMP water_target_y_position		;$B3C2FC   |
 	BNE .delete_water_level_changer_sprite	;$B3C2FF   |
 .CODE_B3C301:					;	   | Piracy check
 	LDY #$8080				;$B3C301   |\ Y = address to checksum (address so far: $??8080)
@@ -9100,18 +9100,18 @@ water_level_changer_main:
 	BNE .delete_water_level_changer_sprite	;$B3C316   |/ Delete water trigger sprite
 	LDX current_sprite			;$B3C318   |
 	LDA $4E,x				;$B3C31A   |
-	STA $0D52				;$B3C31C   |
+	STA water_target_y_position		;$B3C31C   |
 	LDA sprite.y_speed,x			;$B3C31F   |
-	STA water_target_y_velocity		;$B3C321   |
+	STA water_target_y_speed		;$B3C321   |
 	LDA sprite.movement_state,x		;$B3C324   |
 	BNE .delete_water_level_changer_sprite	;$B3C326   |
-	LDA $0915				;$B3C328   |
+	LDA water_safe_timer			;$B3C328   |
 	BEQ .delete_water_level_changer_sprite	;$B3C32B   |
 	CMP #$001E				;$B3C32D   |
 	BCC .delete_water_level_changer_sprite	;$B3C330   |
 	LDA #$003C				;$B3C332   |
-	STZ $0915				;$B3C335   |
-	STA $0917				;$B3C338   |
+	STZ water_safe_timer			;$B3C335   |
+	STA water_safe_visual_timer		;$B3C338   |
 .delete_water_level_changer_sprite:		;	   |
 	JSL delete_sprite_no_deallocation	;$B3C33B   |
 	JML [sprite_return_address]		;$B3C33F  /
@@ -9290,7 +9290,7 @@ life_balloon_main:
 
 .spawned_by_klobber_state:
 	JSL process_current_movement		;$B3C4A4  \
-	LDA sprite.y_speed,x			;$B3C4A8   | Get balloon Y velocity
+	LDA sprite.y_speed,x			;$B3C4A8   | Get balloon Y speed
 	BMI ..return				;$B3C4AA   | If moving up, return
 	LDA #$0F0C				;$B3C4AC   |
 	STA sprite.movement_state,x		;$B3C4AF   | Else set movement behavior
@@ -9304,7 +9304,7 @@ air_bubble_generator_main:
 	LDA sprite.oam_property,x		;$B3C4BC   |
 	AND #$CFFF				;$B3C4BE   |
 	ORA #$1000				;$B3C4C1   |
-	STA $0921				;$B3C4C4   |
+	STA air_bubble_oam_property		;$B3C4C4   |
 	JSL delete_sprite_no_deallocation	;$B3C4C7   |
 	JML [sprite_return_address]		;$B3C4CB  /
 
@@ -9668,7 +9668,7 @@ CODE_B3C75E:					;	   |
 	JMP sprite_return_handle_despawn	;$B3C766  /
 
 CODE_B3C769:
-	LDA $0D54				;$B3C769  \
+	LDA crush_floor_y_position		;$B3C769  \
 	BMI CODE_B3C772				;$B3C76C   |
 	JSL process_current_movement		;$B3C76E   |
 CODE_B3C772:					;	   |
@@ -9771,7 +9771,7 @@ CODE_B3C81F:
 
 CODE_B3C82D:
 	LDY current_sprite			;$B3C82D  \
-	LDA $0D54				;$B3C82F   |
+	LDA crush_floor_y_position		;$B3C82F   |
 	CLC					;$B3C832   |
 	ADC #$00C0				;$B3C833   |
 	SEC					;$B3C836   |
@@ -10087,9 +10087,9 @@ CODE_B3CA85:
 	PHK					;$B3CA85  \
 	PLB					;$B3CA86   |
 	LDA.w sprite.ground_y_position,y	;$B3CA87   |
-	STA $0A92				;$B3CA8A   |
+	STA camera_0A92				;$B3CA8A   |
 	LDA.w sprite.ground_distance,y		;$B3CA8D   |
-	STA $0A94				;$B3CA90   |
+	STA camera_0A94				;$B3CA90   |
 	BNE CODE_B3CA9A				;$B3CA93   |
 	LDX #$0000				;$B3CA95   |
 	BRA CODE_B3CA9D				;$B3CA98  /
@@ -10097,20 +10097,20 @@ CODE_B3CA85:
 CODE_B3CA9A:
 	LDX #$0018				;$B3CA9A  \
 CODE_B3CA9D:					;	   |
-	STX $0A96				;$B3CA9D   |
+	STX camera_0A96				;$B3CA9D   |
 	LDA #$0004				;$B3CAA0   |
-	STA $0A9A				;$B3CAA3   |
+	STA camera_0A9A				;$B3CAA3   |
 CODE_B3CAA6:					;	   |
 	LDY #!special_sprite_spawn_id_0086	;$B3CAA6   | puftup spike
 	JSL spawn_no_gfx_special_sprite_index	;$B3CAA9   |
 	LDA #!puftup_spike_anim_id		;$B3CAAD   | puftup_spike
 	JSL set_alt_sprite_animation		;$B3CAB0   |
 	LDX alternate_sprite			;$B3CAB4   |
-	LDA $0A96				;$B3CAB6   |
+	LDA camera_0A96				;$B3CAB6   |
 	TAY					;$B3CAB9   |
 	CLC					;$B3CABA   |
 	ADC #$0006				;$B3CABB   |
-	STA $0A96				;$B3CABE   |
+	STA camera_0A96				;$B3CABE   |
 	LDA DATA_B3CB08,y			;$B3CAC1   |
 	CLC					;$B3CAC4   |
 	ADC sprite.x_position,x			;$B3CAC5   |
@@ -10120,13 +10120,13 @@ CODE_B3CAA6:					;	   |
 	ADC sprite.y_position,x			;$B3CACD   |
 	STA sprite.y_position,x			;$B3CACF   |
 	LDA DATA_B3CB0C,y			;$B3CAD1   |
-	STA $0A9C				;$B3CAD4   |
+	STA camera_0A9C				;$B3CAD4   |
 	AND #$C000				;$B3CAD7   |
 	EOR sprite.oam_property,x		;$B3CADA   |
 	STA sprite.oam_property,x		;$B3CADC   |
-	LSR $0A9C				;$B3CADE   |
+	LSR camera_0A9C				;$B3CADE   |
 	BCC CODE_B3CAF0				;$B3CAE1   |
-	LDA $0A92				;$B3CAE3   |
+	LDA camera_0A92				;$B3CAE3   |
 	BIT sprite.oam_property,x		;$B3CAE6   |
 	BVC CODE_B3CAEE				;$B3CAE8   |
 	EOR #$FFFF				;$B3CAEA   |
@@ -10134,9 +10134,9 @@ CODE_B3CAA6:					;	   |
 CODE_B3CAEE:					;	   |
 	STA sprite.x_speed,x			;$B3CAEE   |
 CODE_B3CAF0:					;	   |
-	LSR $0A9C				;$B3CAF0   |
+	LSR camera_0A9C				;$B3CAF0   |
 	BCC CODE_B3CB02				;$B3CAF3   |
-	LDA $0A92				;$B3CAF5   |
+	LDA camera_0A92				;$B3CAF5   |
 	BIT sprite.oam_property,x		;$B3CAF8   |
 	BMI CODE_B3CB00				;$B3CAFA   |
 	EOR #$FFFF				;$B3CAFC   |
@@ -10144,7 +10144,7 @@ CODE_B3CAF0:					;	   |
 CODE_B3CB00:					;	   |
 	STA sprite.y_speed,x			;$B3CB00   |
 CODE_B3CB02:					;	   |
-	DEC $0A9A				;$B3CB02   |
+	DEC camera_0A9A				;$B3CB02   |
 	BNE CODE_B3CAA6				;$B3CB05   |
 	RTS					;$B3CB07  /
 
@@ -10580,7 +10580,7 @@ cat_o9tails_main:
 
 ..CODE_B3CDDF:
 	JSR CODE_B3CF7F				;$B3CDDF  \
-	STZ $0AE8				;$B3CDE2   |
+	STZ camera_0AE8				;$B3CDE2   |
 	LDA #!player_interaction_1B		;$B3CDE5   |
 	JSL set_player_interaction_global	;$B3CDE8   |
 	JML [sprite_return_address]		;$B3CDEC  /
@@ -10623,7 +10623,7 @@ cat_o9tails_main:
 	LDA [current_sprite_constants],y	;$B3CE3E   |
 	STA interaction_RAM_0A8C		;$B3CE40   |
 	INC sprite.state,x			;$B3CE43   |
-	STZ $0AE8				;$B3CE45   |
+	STZ camera_0AE8				;$B3CE45   |
 ..CODE_B3CE48:					;	   |
 	JSL process_sprite_animation		;$B3CE48   |
 	LDA sprite.constants_address,x		;$B3CE4C   |
@@ -10809,7 +10809,7 @@ CODE_B3CF94:
 	JSL set_sprite_animation		;$B3CF9E   |
 	LDA #$0055				;$B3CFA2   |
 	STA sprite.animation_speed,x		;$B3CFA5   |
-	STX $0AE8				;$B3CFA7   |
+	STX camera_0AE8				;$B3CFA7   |
 	SEC					;$B3CFAA   |
 	RTS					;$B3CFAB  /
 
@@ -11607,7 +11607,7 @@ rideable_balloon_main:
 	LDA sprite.y_position,x			;$B3D587   |
 	STA sprite.unknown_28,x			;$B3D589   |
 	STZ sprite.interaction_flags,x		;$B3D58B   | Clear interaction flags
-	LDA $0959				;$B3D58D   |
+	LDA geyser_position_data_starting_index	;$B3D58D   |
 	DEC A					;$B3D590   |
 	DEC A					;$B3D591   |
 	STA sprite.ground_y_position,x		;$B3D592   |
@@ -11737,7 +11737,7 @@ rideable_balloon_main:
 ..return:					;	   |
 	RTS					;$B3D690  /
 
-;X positions for red-hot-ride steam?
+;X positions for red-hot-ride steam
 DATA_B3D691:
 	%offset(DATA_B3D693, 2)
 	dw $0000
@@ -11841,7 +11841,7 @@ krockhead_main:
 	RTL					;$B3D740  /
 
 .CODE_B3D741:
-	LDX $0D58				;$B3D741  \
+	LDX krockhead_barrel_sprite		;$B3D741  \
 	BEQ ..CODE_B3D75B			;$B3D744   |
 	LDA sprite.type,x			;$B3D746   |
 	CMP #!sprite_krochead_switch_barrel	;$B3D748   |
@@ -11891,7 +11891,7 @@ krochead_switch_barrel_main:
 	STA $44,x				;$B3D793   |
 	LDA #$001E				;$B3D795   |
 	STA $46,x				;$B3D798   |
-	STX $0D58				;$B3D79A   |
+	STX krockhead_barrel_sprite		;$B3D79A   |
 	DEC sprite.state,x			;$B3D79D   |
 	%lda_sound(6, klampon_lockjaw_bite)	;$B3D79F   |
 	JSL queue_sound_effect			;$B3D7A2   |
@@ -11901,7 +11901,7 @@ krochead_switch_barrel_main:
 	BEQ ..CODE_B3D7B3			;$B3D7AA   |
 	DEC $44,x				;$B3D7AC   |
 	BNE ..CODE_B3D7B3			;$B3D7AE   |
-	STZ $0D58				;$B3D7B0   |
+	STZ krockhead_barrel_sprite		;$B3D7B0   |
 ..CODE_B3D7B3:					;	   |
 	JSL check_if_sprite_offscreen_global	;$B3D7B3   |
 	LDX current_sprite			;$B3D7B7   |
@@ -11922,7 +11922,7 @@ krochead_switch_barrel_main:
 	LDA #$0004				;$B3D7D7   |
 	STA.w sprite.state,y			;$B3D7DA   |
 ..CODE_B3D7DD:					;	   |
-	CPX $0D58				;$B3D7DD   |
+	CPX krockhead_barrel_sprite		;$B3D7DD   |
 	BNE ..CODE_B3D7EE			;$B3D7E0   |
 	LDA #$0002				;$B3D7E2   |
 	CMP sprite.state,x			;$B3D7E5   |
@@ -11957,7 +11957,7 @@ plus_and_minus_barrel_main:
 	LDA $42,x				;$B3D813   |
 	ORA sprite.state,x			;$B3D815   |
 	BMI ..return				;$B3D817   |
-	LDY $0D5A				;$B3D819   | Get Kackle sprite
+	LDY kackle_sprite			;$B3D819   | Get Kackle sprite
 	LDA $0002,y				;$B3D81C   |
 	TAY					;$B3D81F   |
 	LDA.w sprite.x_position,y		;$B3D820   |
@@ -11968,7 +11968,7 @@ plus_and_minus_barrel_main:
 	LDA sprite.state,x			;$B3D82B   |
 	ORA #$8000				;$B3D82D   |
 	STA sprite.state,x			;$B3D830   |
-	LDY $0D5A				;$B3D832   | Get Kackle sprite
+	LDY kackle_sprite			;$B3D832   | Get Kackle sprite
 	LDA $42,x				;$B3D835   |
 	CLC					;$B3D837   |
 	ADC $0036,y				;$B3D838   |
@@ -11979,7 +11979,7 @@ plus_and_minus_barrel_main:
 
 ..collision_happened:
 	LDX current_sprite			;$B3D845  \
-	LDY $0D5A				;$B3D847   | Get Kackle sprite
+	LDY kackle_sprite			;$B3D847   | Get Kackle sprite
 	LDA $001C,y				;$B3D84A   |
 	BEQ ..CODE_B3D862			;$B3D84D   |
 	TAY					;$B3D84F   |
@@ -11996,7 +11996,7 @@ plus_and_minus_barrel_main:
 ..CODE_B3D865:
 	ADC $0044,y				;$B3D865  \
 	STA $0044,y				;$B3D868   |
-	LDY $0D5A				;$B3D86B   | Get Kackle sprite
+	LDY kackle_sprite			;$B3D86B   | Get Kackle sprite
 	LDA $0036,y				;$B3D86E   |
 	SEC					;$B3D871   |
 	SBC $42,x				;$B3D872   |
@@ -12041,8 +12041,8 @@ plus_and_minus_barrel_main:
 	BEQ ..CODE_B3D8D7			;$B3D8CB   |
 	LDA #$0000				;$B3D8CD   |
 	SEC					;$B3D8D0   |
-	SBC $0AEC				;$B3D8D1   |
-	STA $0AEC				;$B3D8D4   |
+	SBC camera_0AEC				;$B3D8D1   |
+	STA camera_0AEC				;$B3D8D4   |
 ..CODE_B3D8D7:					;	   |
 	LDA $42,x				;$B3D8D7   |
 	STA.w sprite.unknown_22,y		;$B3D8D9   |
@@ -12124,7 +12124,7 @@ clapper_sprite_code:
 	JSL get_current_sprite_clipping		;$B3D961   |\ Prepare hitbox for collision...
 	JSL CODE_BEBE6D				;$B3D965   |/ and check collision with player
 	BCC .return				;$B3D969   |> If no collision happened then return
-	LDA #$FE00				;$B3D96B   |\ Else apply a Y velocity to kong
+	LDA #$FE00				;$B3D96B   |\ Else apply a Y speed to kong
 	STA.w sprite.y_speed,y			;$B3D96E   |/
 	BRA .set_clapping_animation		;$B3D971  /> Set clapping animation and return
 
@@ -12159,13 +12159,13 @@ clapper_sprite_code:
 	BCS .set_clapping_animation		;$B3D9B1   |/ Dead code?
 .kong_knocked_back				;	   |
 	LDX current_sprite			;$B3D9B3   |> Get clapper sprite
-	LDA #$0300				;$B3D9B5   |> Knockback X velocity
+	LDA #$0300				;$B3D9B5   |> Knockback X speed
 	BIT $42,x				;$B3D9B8   |\ Get facing direction of clapper
 	BVC .no_invert				;$B3D9BA   |/ If bit 6 is set then knock right
-	EOR #$FFFF				;$B3D9BC   |\ Else invert X velocity
+	EOR #$FFFF				;$B3D9BC   |\ Else invert X speed
 	INC A					;$B3D9BF   |/
 .no_invert					;	   |
-	STA interaction_RAM_0A86		;$B3D9C0   |> Set knockback X velocity
+	STA interaction_RAM_0A86		;$B3D9C0   |> Set knockback X speed
 .set_clapping_animation				;	   |
 	LDA #!clapper_interact_anim_id		;$B3D9C3   |\
 	JSL set_sprite_animation		;$B3D9C6   | | Play clapping animation
@@ -12239,7 +12239,7 @@ CODE_B3DA25:					;	   |
 
 CODE_B3DA46:
 	LDA #$1000				;$B3DA46  \
-	STA $0AF2				;$B3DA49   |
+	STA camera_0AF2				;$B3DA49   |
 CODE_B3DA4C:					;	   |
 	BRA CODE_B3DA66				;$B3DA4C  /
 
@@ -12250,7 +12250,7 @@ CODE_B3DA50:					;	   |
 	LDA.w sprite.terrain_interaction,y	;$B3DA53   |
 	AND #$1001				;$B3DA56   |
 	BEQ CODE_B3DA5E				;$B3DA59   |
-	STZ $0AF2				;$B3DA5B   |
+	STZ camera_0AF2				;$B3DA5B   |
 CODE_B3DA5E:					;	   |
 	DEC $48,x				;$B3DA5E   |
 	BPL CODE_B3DA25				;$B3DA60   |
@@ -12872,7 +12872,7 @@ CODE_B3DEFE:
 	RTS					;$B3DEFF  /
 
 CODE_B3DF00:
-	LDA $0923				;$B3DF00  \
+	LDA conditional_sprite_spawning_flag	;$B3DF00  \
 	AND #$0001				;$B3DF03   |
 if !version == 0				;	   |
 	BNE CODE_B3DF24				;$B3DF06   |
@@ -12906,7 +12906,7 @@ endif						;	  /
 
 CODE_B3DF1E:
 	LDA #$0001				;$B3DF1E  \
-	TSB $0923				;$B3DF21   |
+	TSB conditional_sprite_spawning_flag	;$B3DF21   |
 CODE_B3DF24:					;	   |
 	RTS					;$B3DF24  /
 
@@ -13564,7 +13564,7 @@ CODE_B3E3CD:					;	   |
 	STA temp_32				;$B3E3DC   |
 CODE_B3E3DE:					;	   |
 	LDA temp_32				;$B3E3DE   |
-	STA sprite.unknown_2C,x			;$B3E3E0   | Store slip velocity on kong
+	STA sprite.unknown_2C,x			;$B3E3E0   | Store slip speed on kong
 CODE_B3E3E2:					;	   |
 	RTS					;$B3E3E2  /
 
@@ -13574,8 +13574,8 @@ CODE_B3E3E3:
 
 CODE_B3E3E7:
 	JSR CODE_B3E489				;$B3E3E7  \
-	LDA $0919				;$B3E3EA   |
-	EOR $091B				;$B3E3ED   |
+	LDA krool_gas_effects_1			;$B3E3EA   |
+	EOR kong_palette_effects		;$B3E3ED   |
 	LSR A					;$B3E3F0   |
 	BCS CODE_B3E3F7				;$B3E3F1   |
 	LSR A					;$B3E3F3   |
@@ -13583,11 +13583,11 @@ CODE_B3E3E7:
 	RTS					;$B3E3F6  /
 
 CODE_B3E3F7:
-	LDA $0919				;$B3E3F7  \
-	EOR $091B				;$B3E3FA   |
+	LDA krool_gas_effects_1			;$B3E3F7  \
+	EOR kong_palette_effects		;$B3E3FA   |
 	AND #$0001				;$B3E3FD   |
-	EOR $091B				;$B3E400   |
-	STA $091B				;$B3E403   |
+	EOR kong_palette_effects		;$B3E400   |
+	STA kong_palette_effects		;$B3E403   |
 	LSR A					;$B3E406   |
 	BCS CODE_B3E413				;$B3E407   |
 	LDA #$0010				;$B3E409   |
@@ -13598,10 +13598,10 @@ CODE_B3E3F7:
 CODE_B3E413:
 	LDA #$0010				;$B3E413  \
 	TSB RAM_0B02				;$B3E416   |
-	LDA $091B				;$B3E419   |
+	LDA kong_palette_effects		;$B3E419   |
 	AND #$FCFF				;$B3E41C   |
 	ORA #$0300				;$B3E41F   |
-	STA $091B				;$B3E422   |
+	STA kong_palette_effects		;$B3E422   |
 	JSL CODE_BB8C19				;$B3E425   |
 	LDA #!player_interaction_25		;$B3E429   |
 	JSL set_player_interaction_global	;$B3E42C   |
@@ -13614,11 +13614,11 @@ CODE_B3E43D:					;	   |
 	RTS					;$B3E43D  /
 
 CODE_B3E43E:
-	LDA $0919				;$B3E43E  \
-	EOR $091B				;$B3E441   |
+	LDA krool_gas_effects_1			;$B3E43E  \
+	EOR kong_palette_effects		;$B3E441   |
 	AND #$0002				;$B3E444   |
-	EOR $091B				;$B3E447   |
-	STA $091B				;$B3E44A   |
+	EOR kong_palette_effects		;$B3E447   |
+	STA kong_palette_effects		;$B3E44A   |
 	LSR A					;$B3E44D   |
 	LSR A					;$B3E44E   |
 	BCS CODE_B3E45B				;$B3E44F   |
@@ -13630,11 +13630,11 @@ CODE_B3E43E:
 CODE_B3E45B:
 	LDA #$0020				;$B3E45B  \
 	TSB RAM_0B02				;$B3E45E   |
-	STZ $0927				;$B3E461   |
-	LDA $091B				;$B3E464   |
+	STZ slow_gas_input_physics_tick_timer	;$B3E461   |
+	LDA kong_palette_effects		;$B3E464   |
 	AND #$FCFF				;$B3E467   |
 	ORA #$0200				;$B3E46A   |
-	STA $091B				;$B3E46D   |
+	STA kong_palette_effects		;$B3E46D   |
 	JSL CODE_BB8C19				;$B3E470   |
 	LDA #!player_interaction_25		;$B3E474   |
 	JSL set_player_interaction_global	;$B3E477   |
@@ -13647,7 +13647,7 @@ CODE_B3E488:					;	   |
 	RTS					;$B3E488  /
 
 CODE_B3E489:
-	LDA $091B				;$B3E489  \
+	LDA kong_palette_effects		;$B3E489  \
 	AND #$F000				;$B3E48C   |
 	BNE CODE_B3E492				;$B3E48F   |
 	RTS					;$B3E491  /
@@ -13659,35 +13659,35 @@ CODE_B3E492:
 	RTS					;$B3E499  /
 
 CODE_B3E49A:
-	LDA $091B				;$B3E49A  \
+	LDA kong_palette_effects		;$B3E49A  \
 	SEC					;$B3E49D   |
 	SBC #$1000				;$B3E49E   |
-	STA $091B				;$B3E4A1   |
+	STA kong_palette_effects		;$B3E4A1   |
 	BCC CODE_B3E4B9				;$B3E4A4   |
-	LDA $091B				;$B3E4A6   |
+	LDA kong_palette_effects		;$B3E4A6   |
 	LSR A					;$B3E4A9   |
 	LSR A					;$B3E4AA   |
 	AND #$0300				;$B3E4AB   |
-	EOR $091B				;$B3E4AE   |
-	STA $091B				;$B3E4B1   |
+	EOR kong_palette_effects		;$B3E4AE   |
+	STA kong_palette_effects		;$B3E4B1   |
 	JSL CODE_BB8C19				;$B3E4B4   |
 	RTS					;$B3E4B8  /
 
 CODE_B3E4B9:
-	STZ $091B				;$B3E4B9  \
+	STZ kong_palette_effects		;$B3E4B9  \
 	JSL CODE_BB8C19				;$B3E4BC   |
 	RTS					;$B3E4C0  /
 
 CODE_B3E4C1:
-	LDA $091B				;$B3E4C1  \
+	LDA kong_palette_effects		;$B3E4C1  \
 	ASL A					;$B3E4C4   |
 	ASL A					;$B3E4C5   |
-	EOR $091B				;$B3E4C6   |
+	EOR kong_palette_effects		;$B3E4C6   |
 	AND #$0C00				;$B3E4C9   |
-	EOR $091B				;$B3E4CC   |
+	EOR kong_palette_effects		;$B3E4CC   |
 	AND #$0FFF				;$B3E4CF   |
 	ORA #$F000				;$B3E4D2   |
-	STA $091B				;$B3E4D5   |
+	STA kong_palette_effects		;$B3E4D5   |
 	RTS					;$B3E4D8  /
 
 checkpoint_barrel_sprite_code:
@@ -13814,8 +13814,8 @@ checkpoint_barrel_sprite_code:
 	ADC #$0008				;$B3E5C9   | Offset it by 8 pixels
 	STA.w sprite.y_position,y		;$B3E5CC   | Copy to kong's
 	LDA #$0000				;$B3E5CF   |
-	STA.w sprite.x_speed,y			;$B3E5D2   | Clear kong's current X velocity
-	STA.w sprite.y_speed,y			;$B3E5D5   | Clear current Y velocity
+	STA.w sprite.x_speed,y			;$B3E5D2   | Clear kong's current X speed
+	STA.w sprite.y_speed,y			;$B3E5D5   | Clear current Y speed
 	STA.w sprite.current_graphic,y		;$B3E5D8   | Clear graphic ID
 	STA.w sprite.last_rendered_graphic,y	;$B3E5DB   | Clear last rendered graphic ID
 	STA.w sprite.animation_timer,y		;$B3E5DE   | Clear frame draw time
@@ -14893,9 +14893,9 @@ CODE_B3ED5C:
 	BEQ .return				;$B3ED5C  \
 	ASL					;$B3ED5E   |
 	TAX					;$B3ED5F   |
-	LDA.l $7E9128,x				;$B3ED60   |
+	LDA.l RAM_7E9128,x			;$B3ED60   |
 	ORA #$0080				;$B3ED64   |
-	STA $7E9128,x				;$B3ED67   |
+	STA RAM_7E9128,x			;$B3ED67   |
 .return:					;	   |
 	LDX current_sprite			;$B3ED6B   |
 	RTS					;$B3ED6D  /
@@ -14932,7 +14932,7 @@ CODE_B3ED94:
 	ADC.w sprite.unknown_28,y		;$B3EDA5   |
 	STA temp_32				;$B3EDA8   |
 	EOR $48,x				;$B3EDAA   |
-	AND $2000				;$B3EDAC   |  Open bus read
+	AND $2000				;$B3EDAC   | Open bus read
 	BEQ CODE_B3EDC3				;$B3EDAF   |
 	LDA #$0000				;$B3EDB1   |
 	STA.w sprite.unknown_28,y		;$B3EDB4   |
@@ -15281,7 +15281,7 @@ CODE_B3F032:					;	   |
 	RTS					;$B3F032  /
 
 CODE_B3F033:
-	LDA $0AF0				;$B3F033  \
+	LDA camera_0AF0				;$B3F033  \
 	LSR A					;$B3F036   |
 	STA temp_32				;$B3F037   |
 	LDA $36,x				;$B3F039   |
@@ -15290,8 +15290,8 @@ CODE_B3F033:
 	ADC #$3C00				;$B3F03F   |
 	SEC					;$B3F042   |
 	SBC temp_32				;$B3F043   |
-	STA $0AF2				;$B3F045   |
-	LDA $0AEA				;$B3F048   |
+	STA camera_0AF2				;$B3F045   |
+	LDA camera_0AEA				;$B3F048   |
 	LSR A					;$B3F04B   |
 	STA temp_32				;$B3F04C   |
 	LDA $36,x				;$B3F04E   |
@@ -15301,13 +15301,13 @@ CODE_B3F033:
 	ADC #$4000				;$B3F055   |
 	SEC					;$B3F058   |
 	SBC temp_32				;$B3F059   |
-	STA $0AEE				;$B3F05B   |
+	STA camera_0AEE				;$B3F05B   |
 	RTS					;$B3F05E  /
 
 CODE_B3F05F:
 	LDA #$C000				;$B3F05F  \
-	ORA $0AB8				;$B3F062   |
-	STA $0AB8				;$B3F065   |
+	ORA camera_0AB8				;$B3F062   |
+	STA camera_0AB8				;$B3F065   |
 	RTS					;$B3F068  /
 
 CODE_B3F069:
@@ -15374,16 +15374,16 @@ CODE_B3F0F3:					;	   |
 CODE_B3F0F4:
 	LDA #$8000				;$B3F0F4  \
 	SEC					;$B3F0F7   |
-	SBC $0AEA				;$B3F0F8   |
+	SBC camera_0AEA				;$B3F0F8   |
 	CMP #$8000				;$B3F0FB   |
 	ROR A					;$B3F0FE   |
-	STA $0AEE				;$B3F0FF   |
+	STA camera_0AEE				;$B3F0FF   |
 	LDA #$7800				;$B3F102   |
 	SEC					;$B3F105   |
-	SBC $0AF0				;$B3F106   |
+	SBC camera_0AF0				;$B3F106   |
 	CMP #$8000				;$B3F109   |
 	ROR A					;$B3F10C   |
-	STA $0AF2				;$B3F10D   |
+	STA camera_0AF2				;$B3F10D   |
 	RTS					;$B3F110  /
 
 CODE_B3F111:
@@ -15402,10 +15402,10 @@ CODE_B3F111:
 	CLC					;$B3F123   |
 	ADC #$8000				;$B3F124   |
 	SEC					;$B3F127   |
-	SBC $0AEA				;$B3F128   |
+	SBC camera_0AEA				;$B3F128   |
 	CMP #$8000				;$B3F12B   |
 	ROR A					;$B3F12E   |
-	STA $0AEE				;$B3F12F   |
+	STA camera_0AEE				;$B3F12F   |
 	PLA					;$B3F132   |
 	JSR CODE_B3F4CA				;$B3F133   |
 	ASL A					;$B3F136   |
@@ -15417,10 +15417,10 @@ CODE_B3F111:
 	CLC					;$B3F13C   |
 	ADC #$7800				;$B3F13D   |
 	SEC					;$B3F140   |
-	SBC $0AF0				;$B3F141   |
+	SBC camera_0AF0				;$B3F141   |
 	CMP #$8000				;$B3F144   |
 	ROR A					;$B3F147   |
-	STA $0AF2				;$B3F148   |
+	STA camera_0AF2				;$B3F148   |
 	RTS					;$B3F14B  /
 
 move_kong_to_sprite_position:
@@ -15536,7 +15536,7 @@ CODE_B3F207:
 	STA $46,x				;$B3F215   |
 	LDA sprite.constants_address,x		;$B3F217   |
 	STA current_sprite_constants		;$B3F219   |
-	JSL set_player_terminal_velocity_global	;$B3F21B   |
+	JSL set_player_max_fall_speed_global	;$B3F21B   |
 	JSL set_player_normal_gravity_global	;$B3F21F   |
 	LDA #!kong_state_12			;$B3F223   |
 	STA sprite.state,x			;$B3F226   |
