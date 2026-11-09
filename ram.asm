@@ -1,10 +1,10 @@
 ;as a convention, any unused address will be named UNUSED_<address> and treated as a single byte
 ;Most addresses shall be assumed 2 bytes unless otherwise noted.  Single byte addresses won't be specifically
 ;noted as their addresses will carry that point.
-;Duplicate addresses imply an address withg multiple contexts.
+;Duplicate addresses imply an address with multiple contexts.
 ;Temporaries are named after the address they point to rather than a sequence.
 ;Temporaries used for any significant context should have local reassignment
-;Temporaries are generally any addres used in multi contexts.
+;Temporaries are generally any address used in multi contexts.
 
 wram_base = $7E0000
 wram_base_high = $7F0000
@@ -85,30 +85,41 @@ current_sprite_constants_bank		= $90		;/
 current_player_action			= $92		;word	index
 nmi_sub_mode				= $94		;word	index
 game_sub_mode				= $96		;word	index
-level_tilemap				= $98		;long	pointer
-level_collision_tilemap			= $9C		;long	pointer
-
+level_tilemap				= $98		;dword	pointer
+level_tilemap_bank			= $9A
+level_collision_tilemap			= $9C		;dword	pointer
+level_collision_tilemap_bank		= $9E
+terrain_collision_tile_count		= $A0
+level_tile_local_x_offset		= $A2
+RAM_A4					= $A4
+level_tile_global_x_offset		= $A6
+level_tile				= $A8
+collision_tile_ground_routine		= $AA
+collision_tile				= $AC
 RAM_AE					= $AE
+RAM_B0					= $B0
+RAM_B2					= $B2
 
 level_number				= $D3		;word	index
-gameplay_frame_counter			= $D5		;\ double	counter
+gameplay_frame_counter			= $D5		;\ dword	counter
 gameplay_frame_counter_high		= $D7		;/
 ;;;
 ;;; Start Non-critical Direct Page WRAM ($D9-$FD)
 ;;;
 UNKNOWN_D9				= $D9		;temp clipping left/SRAM copy address/other uses
 
+current_held_sprite_temp		= $E9
 collision_mask_result			= $EB		;word
 UNUSED_ED				= $ED
 UNUSED_EE				= $EE
 previous_palette_buffer_slot		= $EF		;word
 current_palette_buffer_slot		= $F1		;word
-RAM_F3					= $F3
-RAM_F5					= $F5
-RAM_F7					= $F7
-RAM_F9					= $F9
-RAM_FB					= $FB
-RAM_FD					= $FD
+spawned_sprite_parameter		= $F3
+spawned_sprite_x_position		= $F5
+spawned_sprite_y_position		= $F7
+spawned_sprite_script_base_addr		= $F9
+spawned_sprite_placement_number		= $FB
+platform_sprite_y_position_temp		= $FD
 UNUSED_FF				= $FF
 ;;;
 ;;; End Direct Page WRAM ($00-$FF)
@@ -253,6 +264,8 @@ enable_intro_bypass			= $090F
 ;;;
 ;;; Start Noncritical WRAM ($0911-$19D9)
 ;;;
+sunset_x_position			= $0911
+sunset_and_water_color			= $0913
 water_safe_timer			= $0915
 water_safe_visual_timer			= $0917
 krool_gas_effects_1			= $0919
@@ -337,7 +350,7 @@ interaction_RAM_0A88			= $0A88
 interaction_RAM_0A8A			= $0A8A
 interaction_RAM_0A8C			= $0A8C
 level_palette_address			= $0A8E
-camera_0A90				= $0A90
+camera_anti_piracy_counter		= $0A90
 camera_0A92				= $0A92
 camera_0A93				= $0A93
 camera_0A94				= $0A94
@@ -454,7 +467,7 @@ crush_floor_y_position			= $0D54
 crush_floor_stop_reverse_flags		= $0D56
 krockhead_barrel_sprite			= $0D58
 kackle_sprite				= $0D5A
-kackle_sprite_high			= $0D5B		;Used in a strange way to check for a race and kackle at the same time
+kackle_sprite_high			= $0D5B		;Used in a strange way to check for race/kackle at the same time
 rickety_race_placement_in_race		= $0D5C
 rickety_race_placement_in_race_flag	= $0D5D
 ridden_skull_cart_sprite		= $0D5E
@@ -476,7 +489,6 @@ held_sprite_x_offset			= $0D7C
 held_sprite_y_offset			= $0D7E
 held_sprite_render_order_modifier	= $0D80
 hook_sprite				= $0D82
-
 
 ;TODO: make this use sizeof(sprite) instead of hardcoded $5E
 struct sprite_table $0D84
@@ -508,23 +520,40 @@ struct sprite_table $0D84
 	.end:
 endstruct
 
-
 diddy_control_variables			= $16B2
 dixie_control_variables			= $16D8
 sprite_render_table			= $16FE		;Word Array[25]
 next_sprite_dma_buffer_slot		= $1730		;Word
 sprite_dma_buffer			= $1732		;(Word,Word,Double) Array[6]
-RAM_17B2				= $17B2		;Pointer to code to run for terrain collision
-unknown_17B4				= $17B4
+terrain_collision_routine_address	= $17B2		;Pointer to code to run for terrain collision
+level_8x8_tilemap_address		= $17B4
 level_tilemap_vram_address		= $17B6
 screen_scroll_x_sub_position_low	= $17B8
 screen_scroll_x_sub_position		= $17B9
 screen_scroll_x_position		= $17BA
 screen_scroll_x_screen			= $17BB
 layer_screen_scroll_x_position		= $17BC
-
+UNUSED_17BE				= $17BE		;Was probably meant to be layer_screen_scroll_x_final
+UNUSED_17BF				= $17BF		;Was probably meant to be layer_screen_scroll_x_final_high
 screen_scroll_y_position		= $17C0
-
+screen_scroll_y_position_final		= $17C2		;Same as screen_scroll_y_position -1 (for scroll register)
+screen_scroll_y_position_final_high	= $17C3
+layer_screen_scroll_y_position		= $17C4
+layer_screen_scroll_y_final		= $17C6
+layer_screen_scroll_y_final_high	= $17C7
+RAM_17C8				= $17C8
+screen_scroll_tile_x_position		= $17CA		;Screen scroll position rounded to nearest 8x8 tile
+UNUSED_17CC				= $17CC
+UNUSED_17CD				= $17CD
+screen_scroll_tile_y_position		= $17CE		;Screen scroll position rounded to nearest 8x8 tile
+UNUSED_17D0				= $17D0
+UNUSED_17D1				= $17D1
+tilemap_y_stream_flag			= $17D2
+UNUSED_17D4				= $17D4
+UNUSED_17D5				= $17D5
+tilemap_x_stream_flag			= $17D6
+UNUSED_17D8				= $17D8
+UNUSED_17D9				= $17D9
 level_row_left_dma_buffer		= $17DA
 level_row_right_dma_buffer		= $181A
 level_column_dma_buffer			= $185A
@@ -532,7 +561,6 @@ layer_column_dma_buffer			= $189A		;Used by ship deck rigging
 layer_row_left_dma_buffer		= $18DA		;Used by ship deck rigging
 layer_row_right_dma_buffer		= $191A		;Used by ship deck rigging
 column_row_temp_buffer			= $195A
-
 last_squitter_web_shot_time		= $19A2
 last_squitter_platform_shot_time	= $19A4
 squitter_web_shot_count			= $19A6
@@ -544,12 +572,28 @@ flotsam_loop_sound_enabler		= $19AC
 RAM_19AD				= $19AD
 invincible_loop_sound_enabler		= $19AE
 barrel_roll_loop_sound_enabler		= $19AF
-RAM_19B0				= $19B0
-
+skull_cart_loop_sound_flags		= $19B0
+giant_tire_loop_sound_flags		= $19B2
+giant_tire_loop_sound_flags_high	= $19B3
+giant_tire_vram_addresses		= $19B4
+defeated_enemy_counter			= $19BA
+lives_taken_by_klobber			= $19BC
+wind_scroll_speed_firework_timer	= $19BE
+wind_direction_firework_counter		= $19C0
+RAM_19C2				= $19C2		;Set to 0 in Gusty Glade graphics init but not used
+vertical_wind_changer_sprite		= $19C4
+dropped_sprite_x_position		= $19C6
+dropped_sprite_y_position		= $19C8
+RAM_19CA				= $19CA
+UNUSED_19CC				= $19CC
+UNUSED_19CD				= $19CD
 invincibility_sprite			= $19CE
 kong_cutscene_number			= $19D0
 kong_cutscene_script_index		= $19D2
 kong_cutscene_command_timer		= $19D4
+level_exit_cheat_input_index		= $19D6
+banana_count_before_star_bonus		= $19D8
+
 ;;;
 ;;; End Noncritical WRAM ($0911-$19D9)
 ;;;

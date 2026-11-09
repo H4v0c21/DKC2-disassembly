@@ -4134,7 +4134,7 @@ CODE_B9E96B:
 	BRL CODE_B9D12B				;$B9E96B  /
 
 CODE_B9E96E:
-	INC $19BC				;$B9E96E  \
+	INC lives_taken_by_klobber		;$B9E96E  \
 	RTS					;$B9E971  /
 
 turn_kutlass_if_needed:

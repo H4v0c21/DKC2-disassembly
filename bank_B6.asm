@@ -12219,7 +12219,7 @@ kleever_and_roof_pieces_sprite_code:
 	BMI .return				;$B6EB99   |
 	LDA $0A,x				;$B6EB9B   |
 	SEC					;$B6EB9D   |
-	SBC $17C2				;$B6EB9E   |
+	SBC screen_scroll_y_position_final	;$B6EB9E   |
 	BMI .return				;$B6EBA1   |
 	CMP #$00E0				;$B6EBA3   |
 	BMI .return				;$B6EBA6   |

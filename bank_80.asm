@@ -1039,13 +1039,13 @@ endif						;	   |
 	JSL play_high_priority_sound		;$808B05   |
 	LDA #$00FF				;$808B09   |
 	TRB used_sound_effect_channels		;$808B0C   |
-	STZ $19B0				;$808B0F   |
+	STZ skull_cart_loop_sound_flags		;$808B0F   |
 	LDA #$0040				;$808B12   |
 	TRB game_state_flags			;$808B15   |
 	RTS					;$808B18  /
 
 .check_for_debug_cheat
-	LDX $19D6				;$808B19  \> Get how far into the cheat we are
+	LDX level_exit_cheat_input_index	;$808B19  \> Get how far into the cheat we are
 	LDA player_active_held			;$808B1C   |\ Get the players current buttons
 	BEQ .return				;$808B1F   |/ If no buttons are pressed return
 	CMP.l .cheat_buttons,x			;$808B21   |
@@ -1057,7 +1057,7 @@ endif						;	   |
 	EOR #$FFFF				;$808B35   |
 	AND player_active_held			;$808B38   |
 	BEQ .return				;$808B3B   |
-	STZ $19D6				;$808B3D   |
+	STZ level_exit_cheat_input_index	;$808B3D   |
 .return						;	   |
 	RTS					;$808B40  /
 
@@ -1066,7 +1066,7 @@ endif						;	   |
 	INX					;$808B42   |
 	INX					;$808B43   |
 	INX					;$808B44   |
-	STX $19D6				;$808B45   |
+	STX level_exit_cheat_input_index	;$808B45   |
 	LDA.l .cheat_buttons_next,x		;$808B48   |
 	CMP #$1000				;$808B4C   |
 	BNE .return				;$808B4F   |
@@ -1502,8 +1502,8 @@ clear_noncritical_wram:				;	  \
 	TXY					;$808E75   | |
 	INY					;$808E76   | |
 	MVN $80, $80				;$808E77   |/
-	STZ $0911				;$808E7A   |\ Clear $0911-$19DA
-	LDX #$0911				;$808E7D   | |
+	STZ sunset_x_position			;$808E7A   |\ Clear $0911-$19DA
+	LDX #sunset_x_position			;$808E7D   | |
 	LDA #$10C7				;$808E80   | |
 	TXY					;$808E83   | |
 	INY					;$808E84   | |
@@ -1539,7 +1539,7 @@ clear_full_wram:
 	MVN $7F, $7F				;$808EC1   |/
 	LDA #$0000				;$808EC4   |\ Clear bank 7E above $0911 using an MVN copy
 	STA $000911				;$808EC7   | |
-	LDX #$0911				;$808ECB   | |
+	LDX #sunset_x_position			;$808ECB   | |
 	LDA #$F6ED				;$808ECE   | |
 	TXY					;$808ED1   | |
 	INY					;$808ED2   | |
@@ -2880,8 +2880,8 @@ CODE_809AF1:					;	   |
 	STA $34					;$809B0A   |
 	LDA $32					;$809B0C   |
 	CLC					;$809B0E   |
-	ADC $17C2				;$809B0F   |
-	STA $17C2				;$809B12   |
+	ADC screen_scroll_y_position_final	;$809B0F   |
+	STA screen_scroll_y_position_final	;$809B12   |
 	LDA screen_scroll_y_position		;$809B15   |
 	ADC $34					;$809B18   |
 	STA screen_scroll_y_position		;$809B1A   |
@@ -5931,7 +5931,7 @@ forest_unused_nmi_sub_mode:
 	STA PPU.layer_2_scroll_x		;$80B758   |
 	LDA screen_scroll_x_screen		;$80B75B   |
 	STA PPU.layer_2_scroll_x		;$80B75E   |
-	LDA $17C2				;$80B761   |
+	LDA screen_scroll_y_position_final	;$80B761   |
 	STA PPU.layer_2_scroll_y		;$80B764   |
 	STZ PPU.layer_2_scroll_y		;$80B767   |
 	STZ PPU.layer_3_scroll_y		;$80B76A   |
@@ -6025,7 +6025,7 @@ CODE_80B7E6:					;	   |
 	SEP #$20				;$80B823   |
 	STA PPU.layer_3_scroll_x		;$80B825   |
 	STZ PPU.layer_3_scroll_x		;$80B828   |
-	LDA $17C2				;$80B82B   |
+	LDA screen_scroll_y_position_final	;$80B82B   |
 	STA PPU.layer_2_scroll_y		;$80B82E   |
 	STZ PPU.layer_2_scroll_y		;$80B831   |
 	LDA screen_brightness			;$80B834   |
@@ -6200,7 +6200,7 @@ ship_deck_nmi_sub_mode:
 	LDA $B9					;$80B9A5   |
 	STA PPU.layer_3_scroll_x		;$80B9A7   |
 	REP #$20				;$80B9AA   |
-	LDA $17C2				;$80B9AC   |
+	LDA screen_scroll_y_position_final	;$80B9AC   |
 	SEP #$20				;$80B9AF   |
 	STA PPU.layer_1_scroll_y		;$80B9B1   |
 	STZ PPU.layer_1_scroll_y		;$80B9B4   |
@@ -6224,7 +6224,7 @@ lava_nmi_sub_mode:
 	STA PPU.layer_3_scroll_x		;$80B9DC   |
 	STZ PPU.layer_3_scroll_x		;$80B9DF   |
 	REP #$20				;$80B9E2   |
-	LDA $17C2				;$80B9E4   |
+	LDA screen_scroll_y_position_final	;$80B9E4   |
 	LDY level_number			;$80B9E7   |
 	CPY #!level_kleevers_kiln		;$80B9E9   |
 	BNE CODE_80B9F2				;$80B9EC   |
@@ -6330,7 +6330,7 @@ CODE_80BAB1:
 	STA $7E8013				;$80BAB4   |
 	STA $7E8018				;$80BAB8   |
 	STA $7E802D				;$80BABC   |
-	LDA $17C2				;$80BAC0   |
+	LDA screen_scroll_y_position_final	;$80BAC0   |
 	STA $7E8015				;$80BAC3   |
 	STA $7E801A				;$80BAC7   |
 	STA $7E802F				;$80BACB   |
@@ -6343,7 +6343,7 @@ CODE_80BAB1:
 	LSR A					;$80BADC   |
 	STA $7E8023				;$80BADD   |
 	STA $7E8028				;$80BAE1   |
-	LDA $17C2				;$80BAE5   |
+	LDA screen_scroll_y_position_final	;$80BAE5   |
 	LSR A					;$80BAE8   |
 	SEC					;$80BAE9   |
 	SBC #$0198				;$80BAEA   |
@@ -6358,30 +6358,30 @@ CODE_80BAB1:
 	BEQ CODE_80BB14				;$80BB04   |
 	CMP #!level_hot_head_hop		;$80BB06   |
 	BNE CODE_80BB26				;$80BB09   |
-	LDA $17C2				;$80BB0B   |
+	LDA screen_scroll_y_position_final	;$80BB0B   |
 	SEC					;$80BB0E   |
 	SBC #$0100				;$80BB0F   |
 	BRA CODE_80BB29				;$80BB12  /
 
 CODE_80BB14:
-	LDA $17C2				;$80BB14  \
+	LDA screen_scroll_y_position_final	;$80BB14  \
 	SEC					;$80BB17   |
 	SBC #$0080				;$80BB18   |
 	BRA CODE_80BB29				;$80BB1B  /
 
 CODE_80BB1D:
-	LDA $17C2				;$80BB1D  \
+	LDA screen_scroll_y_position_final	;$80BB1D  \
 	SEC					;$80BB20   |
 	SBC #$00C0				;$80BB21   |
 	BRA CODE_80BB29				;$80BB24  /
 
 CODE_80BB26:
-	LDA $17C2				;$80BB26  \
+	LDA screen_scroll_y_position_final	;$80BB26  \
 CODE_80BB29:					;	   |
 	LSR A					;$80BB29   |
 	LSR A					;$80BB2A   |
 	CLC					;$80BB2B   |
-	ADC $17C2				;$80BB2C   |
+	ADC screen_scroll_y_position_final	;$80BB2C   |
 	SEC					;$80BB2F   |
 	SBC #$0060				;$80BB30   |
 	STA $7E801F				;$80BB33   |
@@ -6421,7 +6421,7 @@ ship_mast_rain_nmi_sub_mode:
 	STA PPU.layer_2_scroll_x		;$80BB87   |
 	STZ PPU.layer_2_scroll_x		;$80BB8A   |
 	REP #$20				;$80BB8D   |
-	LDA $17C2				;$80BB8F   |
+	LDA screen_scroll_y_position_final	;$80BB8F   |
 	LSR A					;$80BB92   |
 	SEP #$20				;$80BB93   |
 	STA PPU.layer_2_scroll_y		;$80BB95   |
@@ -6441,7 +6441,7 @@ ship_mast_rain_nmi_sub_mode:
 	STA PPU.layer_1_scroll_x		;$80BBB4   |
 	LDA screen_scroll_x_screen		;$80BBB7   |
 	STA PPU.layer_1_scroll_x		;$80BBBA   |
-	LDA $17C2				;$80BBBD   |
+	LDA screen_scroll_y_position_final	;$80BBBD   |
 	STA PPU.layer_1_scroll_y		;$80BBC0   |
 	STZ PPU.layer_1_scroll_y		;$80BBC3   |
 	STA PPU.layer_3_scroll_y		;$80BBC6   |
@@ -6490,7 +6490,7 @@ CODE_80BC0A:					;	   |
 	LDA screen_scroll_x_screen		;$80BC20   |
 	STA PPU.layer_1_scroll_x		;$80BC23   |
 	REP #$20				;$80BC26   |
-	LDA $17C2				;$80BC28   |
+	LDA screen_scroll_y_position_final	;$80BC28   |
 	SEP #$20				;$80BC2B   |
 	STA PPU.layer_1_scroll_y		;$80BC2D   |
 	XBA					;$80BC30   |
@@ -6511,7 +6511,7 @@ ship_deck_cabin_nmi_sub_mode:
 	XBA					;$80BC52   |
 	STA PPU.layer_1_scroll_x		;$80BC53   |
 	REP #$20				;$80BC56   |
-	LDA $17C2				;$80BC58   |
+	LDA screen_scroll_y_position_final	;$80BC58   |
 	SEP #$20				;$80BC5B   |
 	STA PPU.layer_1_scroll_y		;$80BC5D   |
 	XBA					;$80BC60   |
@@ -6544,13 +6544,13 @@ mine_nmi_sub_mode:
 	STA PPU.layer_1_scroll_x		;$80BC98   |
 	LDA screen_scroll_x_screen		;$80BC9B   |
 	STA PPU.layer_1_scroll_x		;$80BC9E   |
-	LDA $17C2				;$80BCA1   |
+	LDA screen_scroll_y_position_final	;$80BCA1   |
 	STA PPU.layer_1_scroll_y		;$80BCA4   |
-	LDA $17C3				;$80BCA7   |
+	LDA screen_scroll_y_position_final_high	;$80BCA7   |
 	STA PPU.layer_1_scroll_y		;$80BCAA   |
 	REP #$20				;$80BCAD   |
 	JSR update_mine_sparkle_effect		;$80BCAF   |
-	LDA $17C2				;$80BCB2   |
+	LDA screen_scroll_y_position_final	;$80BCB2   |
 	LSR A					;$80BCB5   |
 	LSR A					;$80BCB6   |
 	SEP #$20				;$80BCB7   |
@@ -6588,7 +6588,7 @@ update_mine_sparkle_effect:
 	STA layer_screen_scroll_x_position	;$80BD22   |
 	LDA #$00F0				;$80BD25   |
 	SBC.l DATA_80BCC9,x			;$80BD28   |
-	STA $17C4				;$80BD2C   |
+	STA layer_screen_scroll_y_position	;$80BD2C   |
 CODE_80BD2F:					;	   |
 	LDA screen_scroll_x_position		;$80BD2F   |
 	LSR A					;$80BD32   |
@@ -6599,11 +6599,11 @@ CODE_80BD2F:					;	   |
 	STA PPU.layer_3_scroll_x		;$80BD3A   |
 	STZ PPU.layer_3_scroll_x		;$80BD3D   |
 	REP #$20				;$80BD40   |
-	LDA $17C2				;$80BD42   |
+	LDA screen_scroll_y_position_final	;$80BD42   |
 	LSR A					;$80BD45   |
 	LSR A					;$80BD46   |
 	CLC					;$80BD47   |
-	ADC $17C4				;$80BD48   |
+	ADC layer_screen_scroll_y_position	;$80BD48   |
 	SEP #$20				;$80BD4B   |
 	STA PPU.layer_3_scroll_y		;$80BD4D   |
 	STZ PPU.layer_3_scroll_y		;$80BD50   |
@@ -6731,7 +6731,7 @@ CODE_80BE56:					;	   |
 	STA PPU.layer_1_scroll_x		;$80BE81   |
 	LDA screen_scroll_x_screen		;$80BE84   |
 	STA PPU.layer_1_scroll_x		;$80BE87   |
-	LDA $17C2				;$80BE8A   |
+	LDA screen_scroll_y_position_final	;$80BE8A   |
 	STA PPU.layer_1_scroll_y		;$80BE8D   |
 	STZ PPU.layer_1_scroll_y		;$80BE90   |
 CODE_80BE93:					;	   |
@@ -6752,7 +6752,7 @@ forest_lights_nmi_sub_mode:
 	STA PPU.layer_2_scroll_x		;$80BEB1   |
 	LDA screen_scroll_x_screen		;$80BEB4   |
 	STA PPU.layer_2_scroll_x		;$80BEB7   |
-	LDA $17C2				;$80BEBA   |
+	LDA screen_scroll_y_position_final	;$80BEBA   |
 	STA PPU.layer_2_scroll_y		;$80BEBD   |
 	STZ PPU.layer_2_scroll_y		;$80BEC0   |
 	STZ PPU.layer_3_scroll_y		;$80BEC3   |
@@ -6774,7 +6774,7 @@ forest_windy_nmi_sub_mode:
 	STA PPU.layer_2_scroll_x		;$80BEE7   |
 	LDA screen_scroll_x_screen		;$80BEEA   |
 	STA PPU.layer_2_scroll_x		;$80BEED   |
-	LDA $17C2				;$80BEF0   |
+	LDA screen_scroll_y_position_final	;$80BEF0   |
 	STA PPU.layer_2_scroll_y		;$80BEF3   |
 	STZ PPU.layer_2_scroll_y		;$80BEF6   |
 	STZ PPU.layer_3_scroll_y		;$80BEF9   |
@@ -6788,7 +6788,7 @@ swamp_nmi_sub_mode:
 	JSR dma_level_and_sprite_graphics	;$80BF08  \
 	LDA screen_scroll_y_position		;$80BF0B   |
 	CLC					;$80BF0E   |
-	ADC $19CA				;$80BF0F   |
+	ADC RAM_19CA				;$80BF0F   |
 	CMP #$0080				;$80BF12   |
 	BCC CODE_80BF1A				;$80BF15   |
 	LDA #$0080				;$80BF17   |
@@ -6821,11 +6821,11 @@ CODE_80BF2E:					;	   |
 	STA PPU.layer_2_scroll_x		;$80BF54   |
 	LDA screen_scroll_x_screen		;$80BF57   |
 	STA PPU.layer_2_scroll_x		;$80BF5A   |
-	LDA $17C2				;$80BF5D   |
+	LDA screen_scroll_y_position_final	;$80BF5D   |
 	STA PPU.layer_2_scroll_y		;$80BF60   |
 	STZ PPU.layer_2_scroll_y		;$80BF63   |
 	REP #$20				;$80BF66   |
-	LDA $17C2				;$80BF68   |
+	LDA screen_scroll_y_position_final	;$80BF68   |
 	SEC					;$80BF6B   |
 	SBC #$0120				;$80BF6C   |
 	LSR A					;$80BF6F   |
@@ -6859,17 +6859,17 @@ brambles_nmi_sub_mode:
 	STA PPU.layer_2_scroll_x		;$80BFA9   |
 	STZ PPU.layer_2_scroll_x		;$80BFAC   |
 	REP #$20				;$80BFAF   |
-	LDA $17C2				;$80BFB1   |
+	LDA screen_scroll_y_position_final	;$80BFB1   |
 	LSR A					;$80BFB4   |
 	LSR A					;$80BFB5   |
 	SEP #$20				;$80BFB6   |
 	STA PPU.layer_3_scroll_y		;$80BFB8   |
 	STZ PPU.layer_3_scroll_y		;$80BFBB   |
-	LDA $17C2				;$80BFBE   |
+	LDA screen_scroll_y_position_final	;$80BFBE   |
 	STA PPU.layer_1_scroll_y		;$80BFC1   |
 	STZ PPU.layer_1_scroll_y		;$80BFC4   |
 	REP #$20				;$80BFC7   |
-	LDA $17C2				;$80BFC9   |
+	LDA screen_scroll_y_position_final	;$80BFC9   |
 	LSR A					;$80BFCC   |
 	SEP #$20				;$80BFCD   |
 	STA PPU.layer_2_scroll_y		;$80BFCF   |
@@ -6943,7 +6943,7 @@ lava_geyser_nmi_sub_mode:
 	JSR dma_level_and_sprite_graphics	;$80C05A  \
 	JSR update_lava_bubble_graphics		;$80C05D   |
 	SEP #$20				;$80C060   |
-	LDA $17C2				;$80C062   |
+	LDA screen_scroll_y_position_final	;$80C062   |
 	STA PPU.layer_3_scroll_y		;$80C065   |
 	STZ PPU.layer_3_scroll_y		;$80C068   |
 	REP #$20				;$80C06B   |
@@ -7068,7 +7068,7 @@ CODE_80C146:					;	   |
 	STA PPU.layer_2_scroll_x		;$80C15B   |
 	XBA					;$80C15E   |
 	STA PPU.layer_2_scroll_x		;$80C15F   |
-	LDA $17C2				;$80C162   |
+	LDA screen_scroll_y_position_final	;$80C162   |
 	STA PPU.layer_1_scroll_y		;$80C165   |
 	STZ PPU.layer_1_scroll_y		;$80C168   |
 	STA PPU.layer_2_scroll_y		;$80C16B   |
@@ -7225,7 +7225,7 @@ CODE_80C288:					;	   |
 	STA PPU.layer_2_scroll_x		;$80C28E   |
 	REP #$20				;$80C291   |
 	SEC					;$80C293   |
-	LDA $17C2				;$80C294   |
+	LDA screen_scroll_y_position_final	;$80C294   |
 	SBC $0A,x				;$80C297   |
 	CLC					;$80C299   |
 	ADC #$0040				;$80C29A   |
@@ -7272,7 +7272,7 @@ CODE_80C2D4:					;	   |
 	LDA screen_scroll_x_screen		;$80C2F1   |
 	STA PPU.layer_1_scroll_x		;$80C2F4   |
 	REP #$20				;$80C2F7   |
-	LDA $17C2				;$80C2F9   |
+	LDA screen_scroll_y_position_final	;$80C2F9   |
 	SEC					;$80C2FC   |
 	SBC #$0100				;$80C2FD   |
 	LSR A					;$80C300   |
@@ -7281,7 +7281,7 @@ CODE_80C2D4:					;	   |
 	SEP #$20				;$80C303   |
 	STA PPU.layer_3_scroll_y		;$80C305   |
 	STZ PPU.layer_3_scroll_y		;$80C308   |
-	LDA $17C2				;$80C30B   |
+	LDA screen_scroll_y_position_final	;$80C30B   |
 	STA PPU.layer_1_scroll_y		;$80C30E   |
 	STZ PPU.layer_1_scroll_y		;$80C311   |
 	LDA screen_brightness			;$80C314   |
@@ -7464,14 +7464,14 @@ ship_mast_water_nmi_sub_mode:
 	JSL dma_level_rows			;$80C477   |
 	JSR dma_queued_sprite_palette		;$80C47B   |
 	JSR update_ship_mast_flag_graphics	;$80C47E   |
-	LDA $17C2				;$80C481   |
+	LDA screen_scroll_y_position_final	;$80C481   |
 	LSR A					;$80C484   |
 	SEP #$20				;$80C485   |
 	STA PPU.layer_2_scroll_y		;$80C487   |
 	STZ PPU.layer_2_scroll_y		;$80C48A   |
 	LDA screen_scroll_x_position		;$80C48D   |
 	LDA screen_scroll_x_screen		;$80C490   |
-	LDA $17C2				;$80C493   |
+	LDA screen_scroll_y_position_final	;$80C493   |
 	STA PPU.layer_1_scroll_y		;$80C496   |
 	STZ PPU.layer_1_scroll_y		;$80C499   |
 	LDA screen_brightness			;$80C49C   |
@@ -7556,7 +7556,7 @@ CODE_80C515:					;	   |
 	ASL A					;$80C53B   |
 	ASL A					;$80C53C   |
 	ORA $36					;$80C53D   |
-	STA $0913				;$80C53F   |
+	STA sunset_and_water_color		;$80C53F   |
 	LDY #$0000				;$80C542   |
 	LDX #lockjaws_locker_level_palette	;$80C545   |
 	LDA $32					;$80C548   |
@@ -7574,9 +7574,9 @@ CODE_80C55C:
 	JSL dma_palette				;$80C560   |
 	SEP #$20				;$80C564   |
 	STZ PPU.cgram_address			;$80C566   |
-	LDA $0913				;$80C569   |
+	LDA sunset_and_water_color		;$80C569   |
 	STA PPU.cgram_write			;$80C56C   |
-	LDA $0914				;$80C56F   |
+	LDA sunset_and_water_color+1		;$80C56F   |
 	STA PPU.cgram_write			;$80C572   |
 	LDA screen_brightness			;$80C575   |
 	STA PPU.screen				;$80C578   |
@@ -7609,7 +7609,7 @@ krool_duel_nmi_sub_mode:
 	STA PPU.layer_2_scroll_x		;$80C5AE   |
 	XBA					;$80C5B1   |
 	STA PPU.layer_2_scroll_x		;$80C5B2   |
-	LDA $17C2				;$80C5B5   |
+	LDA screen_scroll_y_position_final	;$80C5B5   |
 	STA PPU.layer_1_scroll_y		;$80C5B8   |
 	STZ PPU.layer_1_scroll_y		;$80C5BB   |
 	STA PPU.layer_2_scroll_y		;$80C5BE   |
@@ -7636,7 +7636,7 @@ ship_deck_sunset_nmi_sub_mode:
 	JSL dma_level_columns			;$80C5F0   |
 	JSL dma_level_rows			;$80C5F4   |
 	JSR dma_queued_sprite_palette		;$80C5F8   |
-	LDA $0913				;$80C5FB   |
+	LDA sunset_and_water_color		;$80C5FB   |
 	BEQ CODE_80C629				;$80C5FE   |
 	LDA #primary_palette			;$80C600   |
 	STA DMA[0].source			;$80C603   |
@@ -7652,7 +7652,7 @@ ship_deck_sunset_nmi_sub_mode:
 	LDA #$01				;$80C61F   |
 	STA CPU.enable_dma			;$80C621   |
 	REP #$20				;$80C624   |
-	STZ $0913				;$80C626   |
+	STZ sunset_and_water_color		;$80C626   |
 CODE_80C629:					;	   |
 	LDA screen_scroll_x_position		;$80C629   |
 	SEP #$20				;$80C62C   |
@@ -7664,7 +7664,7 @@ CODE_80C629:					;	   |
 	LDA $B9					;$80C63A   |
 	STA PPU.layer_3_scroll_x		;$80C63C   |
 	REP #$20				;$80C63F   |
-	LDA $17C2				;$80C641   |
+	LDA screen_scroll_y_position_final	;$80C641   |
 	SEP #$20				;$80C644   |
 	STA PPU.layer_1_scroll_y		;$80C646   |
 	STZ PPU.layer_1_scroll_y		;$80C649   |
@@ -7689,7 +7689,7 @@ ice_water_nmi_sub_mode:
 	STA PPU.layer_2_scroll_x		;$80C679   |
 	STZ PPU.layer_2_scroll_x		;$80C67C   |
 	REP #$20				;$80C67F   |
-	LDA $17C2				;$80C681   |
+	LDA screen_scroll_y_position_final	;$80C681   |
 	LSR A					;$80C684   |
 	SEP #$20				;$80C685   |
 	STA PPU.layer_2_scroll_y		;$80C687   |
@@ -7764,7 +7764,7 @@ CODE_80C6E7:					;	   |
 	ASL A					;$80C70D   |
 	ASL A					;$80C70E   |
 	ORA $36					;$80C70F   |
-	STA $0913				;$80C711   |
+	STA sunset_and_water_color		;$80C711   |
 	LDY #$0000				;$80C714   |
 	LDX #water_frozen_layer_3_palette	;$80C717   |
 	LDA $32					;$80C71A   |
@@ -7782,9 +7782,9 @@ CODE_80C72E:
 	JSL dma_palette				;$80C732   |
 	SEP #$20				;$80C736   |
 	STZ PPU.cgram_address			;$80C738   |
-	LDA $0913				;$80C73B   |
+	LDA sunset_and_water_color		;$80C73B   |
 	STA PPU.cgram_write			;$80C73E   |
-	LDA $0914				;$80C741   |
+	LDA sunset_and_water_color+1		;$80C741   |
 	STA PPU.cgram_write			;$80C744   |
 	LDA screen_brightness			;$80C747   |
 	STA PPU.screen				;$80C74A   |
@@ -7803,7 +7803,7 @@ jungle_nmi_sub_mode:
 	STA PPU.layer_1_scroll_x		;$80C76A   |
 	XBA					;$80C76D   |
 	STA PPU.layer_1_scroll_x		;$80C76E   |
-	LDA $17C2				;$80C771   |
+	LDA screen_scroll_y_position_final	;$80C771   |
 	STA PPU.layer_1_scroll_y		;$80C774   |
 	STZ PPU.layer_1_scroll_y		;$80C777   |
 	REP #$20				;$80C77A   |
@@ -7855,7 +7855,7 @@ ice_transparent_nmi_sub_mode:
 	STA PPU.layer_1_scroll_x		;$80C7E3   |
 	XBA					;$80C7E6   |
 	STA PPU.layer_1_scroll_x		;$80C7E7   |
-	LDA $17C2				;$80C7EA   |
+	LDA screen_scroll_y_position_final	;$80C7EA   |
 	STA PPU.layer_1_scroll_y		;$80C7ED   |
 	STZ PPU.layer_1_scroll_y		;$80C7F0   |
 	REP #$20				;$80C7F3   |
@@ -7865,7 +7865,7 @@ ice_transparent_nmi_sub_mode:
 	STA PPU.layer_2_scroll_x		;$80C7FB   |
 	STZ PPU.layer_2_scroll_x		;$80C7FE   |
 	REP #$20				;$80C801   |
-	LDA $17C2				;$80C803   |
+	LDA screen_scroll_y_position_final	;$80C803   |
 	LSR A					;$80C806   |
 	SEP #$20				;$80C807   |
 	STA PPU.layer_2_scroll_y		;$80C809   |
@@ -7921,13 +7921,13 @@ brambles_windy_nmi_sub_mode:
 	STA PPU.layer_2_scroll_x		;$80C883   |
 	STZ PPU.layer_2_scroll_x		;$80C886   |
 	REP #$20				;$80C889   |
-	LDA $17C2				;$80C88B   |
+	LDA screen_scroll_y_position_final	;$80C88B   |
 	LSR A					;$80C88E   |
 	LSR A					;$80C88F   |
 	SEP #$20				;$80C890   |
 	STA PPU.layer_3_scroll_y		;$80C892   |
 	STZ PPU.layer_3_scroll_y		;$80C895   |
-	LDA $17C2				;$80C898   |
+	LDA screen_scroll_y_position_final	;$80C898   |
 	STA PPU.layer_1_scroll_y		;$80C89B   |
 	STZ PPU.layer_1_scroll_y		;$80C89E   |
 	LDA screen_brightness			;$80C8A1   |
@@ -7953,12 +7953,12 @@ mine_windy_nmi_sub_mode:
 	STA PPU.layer_1_scroll_x		;$80C8D2   |
 	LDA screen_scroll_x_screen		;$80C8D5   |
 	STA PPU.layer_1_scroll_x		;$80C8D8   |
-	LDA $17C2				;$80C8DB   |
+	LDA screen_scroll_y_position_final	;$80C8DB   |
 	STA PPU.layer_1_scroll_y		;$80C8DE   |
-	LDA $17C3				;$80C8E1   |
+	LDA screen_scroll_y_position_final_high	;$80C8E1   |
 	STA PPU.layer_1_scroll_y		;$80C8E4   |
 	REP #$20				;$80C8E7   |
-	LDA $17C2				;$80C8E9   |
+	LDA screen_scroll_y_position_final	;$80C8E9   |
 	LSR A					;$80C8EC   |
 	LSR A					;$80C8ED   |
 	SEP #$20				;$80C8EE   |
@@ -7997,7 +7997,7 @@ CODE_80C933:					;	   |
 	STA PPU.layer_2_scroll_x		;$80C942   |
 	LDA screen_scroll_x_screen		;$80C945   |
 	STA PPU.layer_2_scroll_x		;$80C948   |
-	LDA $17C2				;$80C94B   |
+	LDA screen_scroll_y_position_final	;$80C94B   |
 	STA PPU.layer_2_scroll_y		;$80C94E   |
 	STZ PPU.layer_2_scroll_y		;$80C951   |
 	STZ PPU.layer_3_scroll_y		;$80C954   |
@@ -8024,10 +8024,10 @@ update_mine_debris_effect:
 	RTS					;$80C97B  /
 
 CODE_80C97C:
-	LDA $17C6				;$80C97C  \
+	LDA layer_screen_scroll_y_final		;$80C97C  \
 	CLC					;$80C97F   |
-	ADC $19BE				;$80C980   |
-	STA $17C6				;$80C983   |
+	ADC wind_scroll_speed_firework_timer	;$80C980   |
+	STA layer_screen_scroll_y_final		;$80C983   |
 	LDA active_frame_counter		;$80C986   |
 	ASL A					;$80C988   |
 	ASL A					;$80C989   |
@@ -8039,14 +8039,14 @@ CODE_80C97C:
 	LSR A					;$80C994   |
 	LSR A					;$80C995   |
 	CLC					;$80C996   |
-	ADC $17C7				;$80C997   |
+	ADC layer_screen_scroll_y_final_high	;$80C997   |
 	CLC					;$80C99A   |
 	ADC screen_scroll_y_position		;$80C99B   |
-	STA $17C4				;$80C99E   |
+	STA layer_screen_scroll_y_position	;$80C99E   |
 	%pea_use_dbr($7E8013)			;$80C9A1   |
 	PLB					;$80C9A4   |
 	LDY #$0000				;$80C9A5   |
-	LDA $17C4				;$80C9A8   |
+	LDA layer_screen_scroll_y_position	;$80C9A8   |
 	AND #$FFF0				;$80C9AB   |
 	ASL A					;$80C9AE   |
 	CLC					;$80C9AF   |
@@ -8071,7 +8071,7 @@ CODE_80C9B3:					;	   |
 	BNE CODE_80C9B3				;$80C9CF   |
 	PLB					;$80C9D1   |
 	SEP #$20				;$80C9D2   |
-	LDA $17C4				;$80C9D4   |
+	LDA layer_screen_scroll_y_position	;$80C9D4   |
 	STA PPU.layer_3_scroll_y		;$80C9D7   |
 	STZ PPU.layer_3_scroll_y		;$80C9DA   |
 	EOR #$0F				;$80C9DD   |
@@ -8386,10 +8386,10 @@ CODE_80CC3F:
 	STA CPU.enable_dma			;$80CC6D   |
 	REP #$30				;$80CC70   |
 CODE_80CC72:					;	   |
-	LDA $17C6				;$80CC72   |
+	LDA layer_screen_scroll_y_final		;$80CC72   |
 	CLC					;$80CC75   |
-	ADC $19BE				;$80CC76   |
-	STA $17C6				;$80CC79   |
+	ADC wind_scroll_speed_firework_timer	;$80CC76   |
+	STA layer_screen_scroll_y_final		;$80CC79   |
 	LDA active_frame_counter		;$80CC7C   |
 	ASL A					;$80CC7E   |
 	ASL A					;$80CC7F   |
@@ -8404,11 +8404,11 @@ CODE_80CC72:					;	   |
 	LSR A					;$80CC8E   |
 	CLC					;$80CC8F   |
 	ADC screen_scroll_y_position		;$80CC90   |
-	STA $17C4				;$80CC93   |
+	STA layer_screen_scroll_y_position	;$80CC93   |
 	%pea_use_dbr($7E8013)			;$80CC96   |
 	PLB					;$80CC99   |
 	LDY #$0000				;$80CC9A   |
-	LDA $17C4				;$80CC9D   |
+	LDA layer_screen_scroll_y_position	;$80CC9D   |
 	AND #$FFF0				;$80CCA0   |
 	ASL A					;$80CCA3   |
 	CLC					;$80CCA4   |
@@ -8421,7 +8421,7 @@ CODE_80CCA8:					;	   |
 	LSR A					;$80CCB0   |
 	LSR A					;$80CCB1   |
 	CLC					;$80CCB2   |
-	ADC $17C7				;$80CCB3   |
+	ADC layer_screen_scroll_y_final_high	;$80CCB3   |
 	CLC					;$80CCB6   |
 	ADC screen_scroll_x_position		;$80CCB7   |
 	STA $8013,y				;$80CCBA   |
@@ -8435,7 +8435,7 @@ CODE_80CCA8:					;	   |
 	BNE CODE_80CCA8				;$80CCC8   |
 	PLB					;$80CCCA   |
 	SEP #$20				;$80CCCB   |
-	LDA $17C4				;$80CCCD   |
+	LDA layer_screen_scroll_y_position	;$80CCCD   |
 	STA PPU.layer_1_scroll_y		;$80CCD0   |
 	STZ PPU.layer_1_scroll_y		;$80CCD3   |
 	STA PPU.layer_2_scroll_y		;$80CCD6   |
@@ -8847,12 +8847,12 @@ update_forest_light_shaft_effect:
 	EOR #$FFFF				;$80D003   |
 	SEC					;$80D006   |
 	ADC screen_scroll_y_position		;$80D007   |
-	STA $17C4				;$80D00A   |
+	STA layer_screen_scroll_y_position	;$80D00A   |
 	DEC A					;$80D00D   |
-	STA $17C6				;$80D00E   |
+	STA layer_screen_scroll_y_final		;$80D00E   |
 	LDA #$01C8				;$80D011   |
 	SEC					;$80D014   |
-	SBC $17C4				;$80D015   |
+	SBC layer_screen_scroll_y_position	;$80D015   |
 	BPL CODE_80D01D				;$80D018   |
 	LDA #$0000				;$80D01A   |
 CODE_80D01D:					;	   |
@@ -9526,7 +9526,7 @@ wind_force_handler:
 	PHK					;$80D7E6  \
 	PLB					;$80D7E7   |
 	LDY #wind_speeds_right			;$80D7E8   |
-	LDA $19C0				;$80D7EB   |
+	LDA wind_direction_firework_counter	;$80D7EB   |
 	BNE .CODE_80D7F1			;$80D7EE   |
 	RTS					;$80D7F0  /
 
@@ -9540,7 +9540,7 @@ wind_force_handler:
 	BCS .CODE_80D813			;$80D7FC   |
 	LDA $26,x				;$80D7FE   |
 	BEQ .CODE_80D80D			;$80D800   |
-	EOR $19C0				;$80D802   |
+	EOR wind_direction_firework_counter	;$80D802   |
 	BMI .CODE_80D80D			;$80D805   |
 	LDA $0002,y				;$80D807   |
 	STA $2C,x				;$80D80A   |
@@ -9559,7 +9559,7 @@ wind_force_handler:
 	RTS					;$80D81C  /
 
 .CODE_80D81D:
-	LDA $19C0				;$80D81D  \
+	LDA wind_direction_firework_counter	;$80D81D  \
 	EOR $26,x				;$80D820   |
 	BMI .CODE_80D82A			;$80D822   |
 	LDA $0006,y				;$80D824   |
@@ -10202,7 +10202,7 @@ handle_ship_deck_sunset:
 	LDA screen_scroll_x_position		;$80DD67  \
 	AND #$FFFE				;$80DD6A   |
 	SEC					;$80DD6D   |
-	SBC $0911				;$80DD6E   |
+	SBC sunset_x_position			;$80DD6E   |
 	BMI .return				;$80DD71   |
 	BNE .CODE_80DD76			;$80DD73   |
 .return:					;	   |
@@ -10210,11 +10210,11 @@ handle_ship_deck_sunset:
 
 .CODE_80DD76:
 	LDA screen_scroll_x_position		;$80DD76  \
-	EOR $0911				;$80DD79   |
+	EOR sunset_x_position			;$80DD79   |
 	BIT #$FF00				;$80DD7C   |
 	BEQ .CODE_80DD90			;$80DD7F   |
-	INC $0913				;$80DD81   |
-	LDA $0911				;$80DD84   |
+	INC sunset_and_water_color		;$80DD81   |
+	LDA sunset_x_position			;$80DD84   |
 	AND #$FF00				;$80DD87   |
 	CLC					;$80DD8A   |
 	ADC #$0100				;$80DD8B   |
@@ -10230,7 +10230,7 @@ handle_ship_deck_sunset:
 	LDA #$0100				;$80DD9D   |
 .CODE_80DDA0:					;	   |
 	STA $36					;$80DDA0   |
-	LDA $0911				;$80DDA2   |
+	LDA sunset_x_position			;$80DDA2   |
 	AND #$00FE				;$80DDA5   |
 	STA $38					;$80DDA8   |
 	TAY					;$80DDAA   |
@@ -10271,7 +10271,7 @@ handle_ship_deck_sunset:
 	BNE .CODE_80DDB4			;$80DDF8   |
 	PLB					;$80DDFA   |
 	LDA $32					;$80DDFB   |
-	STA $0911				;$80DDFD   |
+	STA sunset_x_position			;$80DDFD   |
 	RTS					;$80DE00  /
 
 handle_lava_geyser_positioning:
@@ -10823,9 +10823,9 @@ DATA_80E372:
 	db $F8, $F9, $FA, $FB, $FC, $FD, $FE, $FF
 
 handle_fireworks:
-	LDA $19BE				;$80E472  \ Get fireworks spawn timer
+	LDA wind_scroll_speed_firework_timer	;$80E472  \ Get fireworks spawn timer
 	BEQ .spawn_fireworks			;$80E475   | If timer is done, spawn fireworks
-	DEC $19BE				;$80E477   | Else decrease it
+	DEC wind_scroll_speed_firework_timer	;$80E477   | Else decrease it
 .return:					;	   |
 	RTS					;$80E47A  / Return
 
@@ -10840,18 +10840,18 @@ handle_fireworks:
 	CMP firework_sprite_limit		;$80E48C   | Check if it exceeds the maximum amount
 	REP #$20				;$80E48F   |
 	BCS .return				;$80E491   | If yes, return.
-	DEC $19C0				;$80E493   | Else
+	DEC wind_direction_firework_counter	;$80E493   | Else
 	BPL .CODE_80E4B0			;$80E496   |
 	JSR get_random_number_2			;$80E498   | Get RNG
 	AND #$007F				;$80E49B   |
 	CLC					;$80E49E   |
 	ADC #$00B4				;$80E49F   |
-	STA $19BE				;$80E4A2   | Set timer until next fireworks can spawn
+	STA wind_scroll_speed_firework_timer	;$80E4A2   | Set timer until next fireworks can spawn
 	JSR get_random_number_2			;$80E4A5   | Get RNG
 	AND #$0003				;$80E4A8   |
 	INC A					;$80E4AB   |
 	INC A					;$80E4AC   |
-	STA $19C0				;$80E4AD   |
+	STA wind_direction_firework_counter	;$80E4AD   |
 .CODE_80E4B0:					;	   |
 	LDY #!special_sprite_spawn_id_005E	;$80E4B0   |
 	JSL spawn_special_sprite_index		;$80E4B3   | Spawn fireworks sprite

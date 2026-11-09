@@ -3298,7 +3298,7 @@ CODE_BECFCD:
 	STA rickety_race_placement_in_race	;$BECFD0   |
 	JSR CODE_BECFFD				;$BECFD3   |
 	BCS CODE_BECFFA				;$BECFD6   |
-	INC $19BA				;$BECFD8   |
+	INC defeated_enemy_counter		;$BECFD8   |
 	JSL CODE_BBBD6B				;$BECFDB   |
 	JML [sprite_return_address]		;$BECFDF  /
 
@@ -3687,29 +3687,29 @@ CODE_BED2CA:
 	BIT kackle_sprite_high			;$BED2CA  \> Appears to check for kackle and check for a klank race
 	BMI CODE_BED34C				;$BED2CD   |
 	LDX current_sprite			;$BED2CF   |
-	LDA $0E,x				;$BED2D1   |
+	LDA sprite.ground_distance,x		;$BED2D1   |
 	BEQ CODE_BED2D8				;$BED2D3   |
 	LDA #$0001				;$BED2D5   |
 CODE_BED2D8:					;	   |
 	ORA #$8000				;$BED2D8   |
 	TAY					;$BED2DB   |
-	LDA $19B0				;$BED2DC   |
+	LDA skull_cart_loop_sound_flags		;$BED2DC   |
 	BEQ CODE_BED307				;$BED2DF   |
-	CPY $19B0				;$BED2E1   |
-	STY $19B0				;$BED2E4   |
+	CPY skull_cart_loop_sound_flags		;$BED2E1   |
+	STY skull_cart_loop_sound_flags		;$BED2E4   |
 	BEQ CODE_BED31C				;$BED2E7   |
 	TYA					;$BED2E9   |
 	LSR A					;$BED2EA   |
 	BCC CODE_BED2FA				;$BED2EB   |
 	LDA #$0032				;$BED2ED   |
-	JSL CODE_B58012				;$BED2F0   |
+	JSL stop_variable_pitch_sound_effect	;$BED2F0   |
 	LDA active_frame_counter		;$BED2F4   |
 	STA last_spc_command_transfer_time	;$BED2F6   |
 	RTS					;$BED2F9  /
 
 CODE_BED2FA:
 	LDA #$00C8				;$BED2FA  \
-	JSL CODE_B58012				;$BED2FD   |
+	JSL stop_variable_pitch_sound_effect	;$BED2FD   |
 	LDA active_frame_counter		;$BED301   |
 	STA last_spc_command_transfer_time	;$BED303   |
 	RTS					;$BED306  /
@@ -3720,7 +3720,7 @@ CODE_BED307:
 	JSL queue_or_reset_looping_sound_effect	;$BED30B   |
 	BCC CODE_BED34C				;$BED30F   |
 	BNE CODE_BED34C				;$BED311   |
-	STY $19B0				;$BED313   |
+	STY skull_cart_loop_sound_flags		;$BED313   |
 	LDA active_frame_counter		;$BED316   |
 	STA last_spc_command_transfer_time	;$BED318   |
 	RTS					;$BED31B  /
@@ -3747,7 +3747,7 @@ CODE_BED33D:					;	   |
 	LSR A					;$BED33E   |
 	LSR A					;$BED33F   |
 	SBC #$0080				;$BED340   |
-	JSL CODE_B5801B				;$BED343   |
+	JSL play_variable_pitch_sound_effect	;$BED343   |
 	LDA active_frame_counter		;$BED347   |
 	STA last_spc_command_transfer_time	;$BED349   |
 CODE_BED34C:					;	   |
@@ -5225,7 +5225,7 @@ CODE_BEDE4E:					;	   |
 	EOR #$FFFF				;$BEDE4E   |
 	INC A					;$BEDE51   |
 	STA $0E,x				;$BEDE52   |
-	LDA $AC					;$BEDE54   |
+	LDA collision_tile			;$BEDE54   |
 	STA $10,x				;$BEDE56   |
 	STZ $52,x				;$BEDE58   |
 	CLC					;$BEDE5A   |
@@ -5249,7 +5249,7 @@ CODE_BEDE6B:
 	STA $1E,x				;$BEDE76   |
 	LDA #$0100				;$BEDE78   |
 	STA $24,x				;$BEDE7B   |
-	LDA $AC					;$BEDE7D   |
+	LDA collision_tile			;$BEDE7D   |
 	STA $10,x				;$BEDE7F   |
 	LDA #$0010				;$BEDE81   |
 	BIT $2C,x				;$BEDE84   |
@@ -5259,7 +5259,7 @@ CODE_BEDE8B:					;	   |
 	CLC					;$BEDE8B   |
 	ADC $06,x				;$BEDE8C   |
 	JSL get_sprite_terrain_info_y_origin_0	;$BEDE8E   |
-	LDA $AC					;$BEDE92   |
+	LDA collision_tile			;$BEDE92   |
 	STA $52,x				;$BEDE94   |
 	SEC					;$BEDE96   |
 CODE_BEDE97:					;	   |
@@ -7247,8 +7247,8 @@ DATA_BEEC95:
 	dw CODE_BEED3A
 
 CODE_BEEC9B:
-	LDA $19B4				;$BEEC9B  \
-	ORA $19B6				;$BEEC9E   |
+	LDA giant_tire_vram_addresses		;$BEEC9B  \
+	ORA giant_tire_vram_addresses+2		;$BEEC9E   |
 	BNE CODE_BEECBE				;$BEECA1   |
 	TYX					;$BEECA3   |
 	LDY #$0006				;$BEECA4   |
@@ -7260,7 +7260,7 @@ CODE_BEECA7:					;	   |
 	BCS CODE_BEECCA				;$BEECB0   |
 	LDA $12,x				;$BEECB2   |
 	AND #$01E0				;$BEECB4   |
-	STA $19B2,y				;$BEECB7   |
+	STA giant_tire_vram_addresses-2,y	;$BEECB7   |
 	DEY					;$BEECBA   |
 	DEY					;$BEECBB   |
 	BNE CODE_BEECA7				;$BEECBC   |
@@ -7272,9 +7272,9 @@ CODE_BEECBE:					;	   |
 	JML [sprite_return_address]		;$BEECC7  /
 
 CODE_BEECCA:
-	STZ $19B8				;$BEECCA  \
-	STZ $19B6				;$BEECCD   |
-	STZ $19B4				;$BEECD0   |
+	STZ giant_tire_vram_addresses+4		;$BEECCA  \
+	STZ giant_tire_vram_addresses+2		;$BEECCD   |
+	STZ giant_tire_vram_addresses		;$BEECD0   |
 	JML [sprite_return_address]		;$BEECD3  /
 
 CODE_BEECD6:
@@ -7334,7 +7334,7 @@ CODE_BEED37:					;	   |
 CODE_BEED3A:
 	LDA $0054,y				;$BEED3A  \
 	STA current_sprite_constants		;$BEED3D   |
-	JSR CODE_BEEDEE				;$BEED3F   |
+	JSR process_tire_sounds			;$BEED3F   |
 	JSL process_current_movement		;$BEED42   |
 	JSL get_current_sprite_clipping		;$BEED46   |
 	LDY #$0030				;$BEED4A   |
@@ -7354,7 +7354,7 @@ CODE_BEED5A:
 	SBC #!giant_tire_roll_frame1		;$BEED69   |
 	LSR A					;$BEED6C   |
 	TAY					;$BEED6D   |
-	LDA $19B4,y				;$BEED6E   |
+	LDA giant_tire_vram_addresses,y		;$BEED6E   |
 	CMP #$8000				;$BEED71   |
 	EOR $12,x				;$BEED74   |
 	AND #$01E0				;$BEED76   |
@@ -7371,9 +7371,9 @@ CODE_BEED86:
 	JSL CODE_B59C00				;$BEED87   |
 	PLY					;$BEED8B   |
 	BCS CODE_BEED97				;$BEED8C   |
-	LDA $19B4,y				;$BEED8E   |
+	LDA giant_tire_vram_addresses,y		;$BEED8E   |
 	ORA #$8000				;$BEED91   |
-	STA $19B4,y				;$BEED94   |
+	STA giant_tire_vram_addresses,y		;$BEED94   |
 CODE_BEED97:					;	   |
 	RTS					;$BEED97  /
 
@@ -7415,8 +7415,8 @@ CODE_BEEDD3:					;	   |
 	LDX current_sprite			;$BEEDD3   |
 	LDA $12,x				;$BEEDD5   |
 	JSL dereference_sprite_palette_global	;$BEEDD7   |
-	DEC $19B2				;$BEEDDB   |
-	LDA $19B2				;$BEEDDE   |
+	DEC giant_tire_loop_sound_flags		;$BEEDDB   |
+	LDA giant_tire_loop_sound_flags		;$BEEDDE   |
 	AND #$00FF				;$BEEDE1   |
 	BNE CODE_BEEDED				;$BEEDE4   |
 	LDA #CODE_BEEE09			;$BEEDE6   |
@@ -7424,21 +7424,21 @@ CODE_BEEDD3:					;	   |
 CODE_BEEDED:					;	   |
 	RTS					;$BEEDED  /
 
-CODE_BEEDEE:
-	INC $19B2				;$BEEDEE  \
-	LDA $19B2				;$BEEDF1   |
-	BMI CODE_BEEE08				;$BEEDF4   |
+process_tire_sounds:
+	INC giant_tire_loop_sound_flags		;$BEEDEE  \
+	LDA giant_tire_loop_sound_flags		;$BEEDF1   |
+	BMI .return				;$BEEDF4   |
 	CMP #$0100				;$BEEDF6   |
-	BCC CODE_BEEE08				;$BEEDF9   |
+	BCC .return				;$BEEDF9   |
 	ORA #$8000				;$BEEDFB   |
-	STA $19B2				;$BEEDFE   |
+	STA giant_tire_loop_sound_flags		;$BEEDFE   |
 	LDA.w #sound(4,!sound_tire_roll)	;$BEEE01   |
 	JSL queue_or_reset_looping_sound_effect	;$BEEE04   |
-CODE_BEEE08:					;	   |
+.return:					;	   |
 	RTS					;$BEEE08  /
 
 CODE_BEEE09:
-	LDA $19B2				;$BEEE09  \
+	LDA giant_tire_loop_sound_flags		;$BEEE09  \
 	AND #$00FF				;$BEEE0C   |
 	BNE CODE_BEEE37				;$BEEE0F   |
 	LDY #$0006				;$BEEE11   |
@@ -9151,7 +9151,7 @@ CODE_BEF937:
 	JSR CODE_BEF9F2				;$BEF956   |
 CODE_BEF959:					;	   |
 	STA camera_0A92				;$BEF959   |
-	LDA $AC					;$BEF95C   |
+	LDA collision_tile			;$BEF95C   |
 	STA camera_0A94				;$BEF95E   |
 	STZ camera_0A96				;$BEF961   |
 	LDA #$0000				;$BEF964   |

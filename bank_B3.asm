@@ -4,9 +4,9 @@ sprite_return_handle_despawn:
 
 sprite_handler:
 	SEP #$20				;$B38007  \
-	LDA $19B2				;$B38009   |
-	STA $19B3				;$B3800C   |
-	STZ $19B2				;$B3800F   |
+	LDA giant_tire_loop_sound_flags		;$B38009   |
+	STA giant_tire_loop_sound_flags_high	;$B3800C   |
+	STZ giant_tire_loop_sound_flags		;$B3800F   |
 	STZ zinger_loop_sound_enabler		;$B38012   |
 	STZ flitter_loop_sound_enabler		;$B38015   |
 	STZ invincible_loop_sound_enabler	;$B38018   |
@@ -2304,7 +2304,7 @@ egg_shell_pieces_main:
 .CODE_B391BA:
 	LDA sprite.y_position,x			;$B391BA  \
 	SEC					;$B391BC   |
-	SBC $17C2				;$B391BD   |
+	SBC screen_scroll_y_position_final	;$B391BD   |
 	BMI .return				;$B391C0   |
 	CMP #$00E0				;$B391C2   | Check if offscreen (Y axis)
 	BMI .return				;$B391C5   |
@@ -2432,7 +2432,7 @@ CODE_B392A9:
 
 sun_main:
 	LDX current_sprite			;$B392AA  \
-	LDA $0911				;$B392AC   |
+	LDA sunset_x_position			;$B392AC   |
 	LSR A					;$B392AF   |
 	LSR A					;$B392B0   |
 	LSR A					;$B392B1   |
@@ -2451,7 +2451,7 @@ sun_main:
 	LDA active_frame_counter		;$B392C3   |
 	AND #$0001				;$B392C5   |
 	STA temp_32				;$B392C8   |
-	LDA $0911				;$B392CA   |
+	LDA sunset_x_position			;$B392CA   |
 	XBA					;$B392CD   |
 	AND #$00FF				;$B392CE   |
 	LSR A					;$B392D1   |
@@ -5128,7 +5128,7 @@ defeat_sprite_using_anim_global:
 
 defeat_sprite_using_animation:
 	JSL set_sprite_animation		;$B3A627  \
-	INC $19BA				;$B3A62B   |
+	INC defeated_enemy_counter		;$B3A62B   |
 	JSL CODE_BBBD6B				;$B3A62E   |> Set sprite as defeated
 	LDX current_sprite			;$B3A632   |> Get current sprite
 	STZ sprite.placement_number,x		;$B3A634   |> Clear sprites number in level
@@ -6223,7 +6223,7 @@ CODE_B3AE8F:
 	BEQ CODE_B3AEF7				;$B3AEA3   |
 	CMP life_count_display			;$B3AEA5   |
 	BNE CODE_B3AF28				;$B3AEA8   |
-	LDA $19BC				;$B3AEAA   |
+	LDA lives_taken_by_klobber		;$B3AEAA   |
 	CMP #$0003				;$B3AEAD   |
 	BCS CODE_B3AEF7				;$B3AEB0   |
 	LDY #!special_sprite_spawn_id_0040	;$B3AEB2   | life balloon
@@ -9094,7 +9094,7 @@ water_level_changer_main:
 	ADC $040B,y				;$B3C30B   | | $808080 + $040B = $80848B (Actual address to checksum)
 	INY					;$B3C30E   | |
 	DEX					;$B3C30F   | |
-	BPL .next_byte				;$B3C310   |/ Moveto next byte if we haven't reached end of the data
+	BPL .next_byte				;$B3C310   |/ Move to next byte if we haven't reached end of the data
 	PLB					;$B3C312   |
 	CMP #$20CB				;$B3C313   |\ If checksum doesnt match, anti-piracy routine was tampered
 	BNE .delete_water_level_changer_sprite	;$B3C316   |/ Delete water trigger sprite
@@ -9285,7 +9285,7 @@ life_balloon_main:
 	JSL CODE_BEC63E				;$B3C496   | Call 2nd "give lives" routine
 	JSL delete_sprite_handle_deallocation	;$B3C49A   | Delete balloon sprite
 .CODE_B3C49E:					;	   |
-	DEC $19BC				;$B3C49E   | Decrease existing balloon count
+	DEC lives_taken_by_klobber		;$B3C49E   | Decrease existing balloon count
 	JML [sprite_return_address]		;$B3C4A1  / Done processing sprite
 
 .spawned_by_klobber_state:
@@ -12185,7 +12185,7 @@ DATA_B3D9D6:
 
 CODE_B3D9DA:
 	LDX current_sprite			;$B3D9DA  \
-	STX $19C4				;$B3D9DC   |
+	STX vertical_wind_changer_sprite	;$B3D9DC   |
 	STZ $42,x				;$B3D9DF   |
 	INC sprite.state,x			;$B3D9E1   |
 	STZ $20,x				;$B3D9E3   |
@@ -12272,7 +12272,7 @@ CODE_B3DA78:					;	   |
 	JSR CODE_B3DBFA				;$B3DA7D   |
 	LDX current_sprite			;$B3DA80   |
 	LDA sprite.x_speed,x			;$B3DA82   |
-	STA $19BE				;$B3DA84   |
+	STA wind_scroll_speed_firework_timer	;$B3DA84   |
 	RTS					;$B3DA87  /
 
 CODE_B3DA88:
@@ -12369,7 +12369,7 @@ CODE_B3DAFF:					;	   |
 	JSR CODE_B3DBFA				;$B3DB08   |
 	LDX current_sprite			;$B3DB0B   |
 	LDA sprite.x_speed,x			;$B3DB0D   |
-	STA $19BE				;$B3DB0F   |
+	STA wind_scroll_speed_firework_timer	;$B3DB0F   |
 	JML [sprite_return_address]		;$B3DB12  /
 
 CODE_B3DB15:
@@ -12496,7 +12496,7 @@ CODE_B3DBA9:
 	LDA #$0900				;$B3DBB5   |
 	STA sprite.max_x_speed,x		;$B3DBB8   |
 	LDA #$FFFF				;$B3DBBA   |
-	STA $19C0				;$B3DBBD   |
+	STA wind_direction_firework_counter	;$B3DBBD   |
 	SEP #$20				;$B3DBC0   |
 	INC wind_loop_sound_enabler		;$B3DBC2   |
 	REP #$20				;$B3DBC5   |
@@ -12506,7 +12506,7 @@ CODE_B3DBC8:
 	LDA #$F700				;$B3DBC8  \
 	STA sprite.max_x_speed,x		;$B3DBCB   |
 	LDA #$0001				;$B3DBCD   |
-	STA $19C0				;$B3DBD0   |
+	STA wind_direction_firework_counter	;$B3DBD0   |
 	SEP #$20				;$B3DBD3   |
 	INC wind_loop_sound_enabler		;$B3DBD5   |
 	REP #$20				;$B3DBD8   |
@@ -12519,7 +12519,7 @@ CODE_B3DBDB:
 	STA sprite.max_x_speed,x		;$B3DBE3   |
 	CMP sprite.x_speed,x			;$B3DBE5   |
 	BNE CODE_B3DBEC				;$B3DBE7   |
-	STZ $19C0				;$B3DBE9   |
+	STZ wind_direction_firework_counter	;$B3DBE9   |
 CODE_B3DBEC:					;	   |
 	RTS					;$B3DBEC  /
 
@@ -12528,7 +12528,7 @@ CODE_B3DBED:
 	STA sprite.max_x_speed,x		;$B3DBF0   |
 	CMP sprite.x_speed,x			;$B3DBF2   |
 	BNE CODE_B3DBEC				;$B3DBF4   |
-	STZ $19C0				;$B3DBF6   |
+	STZ wind_direction_firework_counter	;$B3DBF6   |
 	RTS					;$B3DBF9  /
 
 CODE_B3DBFA:
@@ -12656,7 +12656,7 @@ CODE_B3DCC0:
 	BNE CODE_B3DCFD				;$B3DCD7   |
 	LDA banana_count			;$B3DCD9   |
 	ORA #$8000				;$B3DCDC   |
-	STA $19D8				;$B3DCDF   |
+	STA banana_count_before_star_bonus	;$B3DCDF   |
 	LDA $44,x				;$B3DCE2   |
 	STA banana_count			;$B3DCE4   |
 	STA banana_counter_current		;$B3DCE7   |
@@ -12668,7 +12668,7 @@ CODE_B3DCF0:
 	DEC $4C,x				;$B3DCF2   |
 	BPL CODE_B3DCFD				;$B3DCF4   |
 	LDA $44,x				;$B3DCF6   |
-	STA $19BA				;$B3DCF8   |
+	STA defeated_enemy_counter		;$B3DCF8   |
 	STZ sprite.state,x			;$B3DCFB   |
 CODE_B3DCFD:					;	   |
 	JML [sprite_return_address]		;$B3DCFD  /
@@ -12895,7 +12895,7 @@ CODE_B3DF17:					;	   |
 endif
 
 CODE_B3DF18:					;	  \
-	LDA $19BA				;$B3DF18   |
+	LDA defeated_enemy_counter		;$B3DF18   |
 if !version == 0				;	   |
 	BEQ CODE_B3DF1E				;$B3DF1B   |
 	BRA CODE_B3DF24 			;$B3DF1D   |
@@ -13222,7 +13222,7 @@ CODE_B3E15A:
 	LDX current_sprite			;$B3E15A  \
 	LDA sprite.y_position,x			;$B3E15C   |
 	SEC					;$B3E15E   |
-	SBC $17C2				;$B3E15F   |
+	SBC screen_scroll_y_position_final	;$B3E15F   |
 	BMI CODE_B3E16B				;$B3E162   |
 	CMP #$00E0				;$B3E164   |
 	BPL CODE_B3E16B				;$B3E167   |

@@ -2189,7 +2189,7 @@ CODE_B5AAB5:					;	   |
 CODE_B5AAE6:
 	LDA screen_scroll_y_position		;$B5AAE6  \
 	AND #$00F8				;$B5AAE9   |
-	CMP $17CE				;$B5AAEC   |
+	CMP screen_scroll_tile_y_position	;$B5AAEC   |
 	BNE CODE_B5AAF2				;$B5AAEF   |
 	RTL					;$B5AAF1  /
 
@@ -2199,7 +2199,7 @@ CODE_B5AAF2:
 	CLC					;$B5AAF7   |
 	ADC #$26A7				;$B5AAF8   |
 	STA $32					;$B5AAFB   |
-	LDA $17D2				;$B5AAFD   |
+	LDA tilemap_y_stream_flag		;$B5AAFD   |
 	BPL CODE_B5AB0B				;$B5AB00   |
 	LDA screen_scroll_y_position		;$B5AB02   |
 	SEC					;$B5AB05   |
@@ -2363,12 +2363,12 @@ CODE_B5AC0F:					;	   |
 dma_ship_deck_rigging_rows:
 	LDA screen_scroll_y_position		;$B5AC25  \
 	AND #$00F8				;$B5AC28   |
-	CMP $17CE				;$B5AC2B   |
+	CMP screen_scroll_tile_y_position	;$B5AC2B   |
 	BNE CODE_B5AC31				;$B5AC2E   |
 	RTL					;$B5AC30  /
 
 CODE_B5AC31:
-	LDA $17D2				;$B5AC31  \
+	LDA tilemap_y_stream_flag		;$B5AC31  \
 	BPL CODE_B5AC3B				;$B5AC34   |
 	LDA screen_scroll_y_position		;$B5AC36   |
 	BRA CODE_B5AC42				;$B5AC39  /
@@ -2418,13 +2418,13 @@ CODE_B5AC42:					;	   |
 CODE_B5AC9C:
 	LDA screen_scroll_x_position		;$B5AC9C  \
 	AND #$FFF8				;$B5AC9F   |
-	CMP $17CA				;$B5ACA2   |
+	CMP screen_scroll_tile_x_position	;$B5ACA2   |
 	BNE CODE_B5ACA8				;$B5ACA5   |
 	RTL					;$B5ACA7  /
 
 CODE_B5ACA8:
 	LDA screen_scroll_x_position		;$B5ACA8  \
-	LDX $17D6				;$B5ACAB   |
+	LDX tilemap_x_stream_flag		;$B5ACAB   |
 	BPL CODE_B5ACB7				;$B5ACAE   |
 	LDA screen_scroll_x_position		;$B5ACB0   |
 	SEC					;$B5ACB3   |
@@ -2433,7 +2433,7 @@ CODE_B5ACB7:					;	   |
 	TAY					;$B5ACB7   |
 	AND #$FFE0				;$B5ACB8   |
 	CLC					;$B5ACBB   |
-	ADC $98					;$B5ACBC   |
+	ADC level_tilemap			;$B5ACBC   |
 	STA $32					;$B5ACBE   |
 	LDA screen_scroll_y_position		;$B5ACC0   |
 	SEC					;$B5ACC3   |
@@ -2450,16 +2450,16 @@ CODE_B5ACB7:					;	   |
 	AND #$0018				;$B5ACD4   |
 	LSR A					;$B5ACD7   |
 	LSR A					;$B5ACD8   |
-	ADC unknown_17B4			;$B5ACD9   |
+	ADC level_8x8_tilemap_address		;$B5ACD9   |
 	STA $34					;$B5ACDC   |
 	TYA					;$B5ACDE   |
 	AND #$0018				;$B5ACDF   |
 	EOR #$0018				;$B5ACE2   |
 	LSR A					;$B5ACE5   |
 	LSR A					;$B5ACE6   |
-	ADC unknown_17B4			;$B5ACE7   |
+	ADC level_8x8_tilemap_address		;$B5ACE7   |
 	STA $36					;$B5ACEA   |
-	LDA $9A					;$B5ACEC   |
+	LDA level_tilemap_bank			;$B5ACEC   |
 	PHA					;$B5ACEE   |
 	PLB					;$B5ACEF   |
 	LDX #column_row_temp_buffer		;$B5ACF0   |> Load 8x8 column buffer index into x
@@ -2566,7 +2566,7 @@ CODE_B5ADA9:
 	AND #$00F8				;$B5ADAC   |
 	LSR A					;$B5ADAF   |
 	LSR A					;$B5ADB0   |
-	ORA $17C8				;$B5ADB1   |
+	ORA RAM_17C8				;$B5ADB1   |
 	TAY					;$B5ADB4   |
 	AND #$0006				;$B5ADB5   |
 	TAX					;$B5ADB8   |
@@ -2580,7 +2580,7 @@ CODE_B5ADBF:					;	   |
 	CLC					;$B5ADC6   |
 	ADC #$0002				;$B5ADC7   |
 	AND #$003E				;$B5ADCA   |
-	ORA $17C8				;$B5ADCD   |
+	ORA RAM_17C8				;$B5ADCD   |
 	TAY					;$B5ADD0   |
 	INX					;$B5ADD1   |
 	INX					;$B5ADD2   |
@@ -2591,17 +2591,17 @@ CODE_B5ADBF:					;	   |
 dma_level_columns:
 	LDA screen_scroll_x_position		;$B5ADD8  \ \ Get current level x scroll
 	AND #$FFF8				;$B5ADDB   |/ Round to nearest 8x8 tile position
-	CMP $17CA				;$B5ADDE   |\ If the level x scrolled more than 8 pixels
+	CMP screen_scroll_tile_x_position	;$B5ADDE   |\ If the level x scrolled more than 8 pixels
 	BNE .update_x_scroll			;$B5ADE1   | | Then we need send new level tilemap columns to VRAM
 	RTL					;$B5ADE3  /_/ Else no level tilemap columns need to be uploaded
 
 .update_x_scroll
-	STA $17CA				;$B5ADE4  \
+	STA screen_scroll_tile_x_position	;$B5ADE4  \
 	SEP #$20				;$B5ADE7   |
 	LDA #$81				;$B5ADE9   |
 	STA PPU.vram_control			;$B5ADEB   |
 	REP #$20				;$B5ADEE   |
-	LDA $17D6				;$B5ADF0   |
+	LDA tilemap_x_stream_flag		;$B5ADF0   |
 	BPL CODE_B5ADFA				;$B5ADF3   |
 	LDA screen_scroll_x_position		;$B5ADF5   |
 	BRA CODE_B5AE01				;$B5ADF8  /
@@ -2643,7 +2643,7 @@ CODE_B5AE10:					;	   |
 ;Dead code
 	LDA screen_scroll_x_position		;$B5AE41   |
 	AND #$FFF8				;$B5AE44   |
-	CMP $17CA				;$B5AE47   |
+	CMP screen_scroll_tile_x_position	;$B5AE47   |
 	BNE CODE_B5AE4D				;$B5AE4A   |
 	RTL					;$B5AE4C  /
 
@@ -2652,7 +2652,7 @@ CODE_B5AE4D:
 	LDA #$81				;$B5AE4F   |
 	STA PPU.vram_control			;$B5AE51   |
 	REP #$20				;$B5AE54   |
-	LDA $17D6				;$B5AE56   |
+	LDA tilemap_x_stream_flag		;$B5AE56   |
 	BPL CODE_B5AE60				;$B5AE59   |
 	LDA screen_scroll_x_position		;$B5AE5B   |
 	BRA CODE_B5AE67				;$B5AE5E  /
@@ -2694,7 +2694,7 @@ CODE_B5AE76:					;	   |
 CODE_B5AEA7:
 	LDA screen_scroll_y_position		;$B5AEA7  \
 	AND #$00F8				;$B5AEAA   |
-	CMP $17CE				;$B5AEAD   |
+	CMP screen_scroll_tile_y_position	;$B5AEAD   |
 	BNE CODE_B5AEB3				;$B5AEB0   |
 	RTL					;$B5AEB2  /
 
@@ -2704,12 +2704,12 @@ CODE_B5AEB3:
 	SBC #$0100				;$B5AEB7   |
 	AND #$FFE0				;$B5AEBA   |
 	CLC					;$B5AEBD   |
-	ADC $98					;$B5AEBE   |
+	ADC level_tilemap			;$B5AEBE   |
 	STA $32					;$B5AEC0   |
 	LDA screen_scroll_y_position		;$B5AEC2   |
 	SEC					;$B5AEC5   |
 	SBC #$0020				;$B5AEC6   |
-	LDX $17D2				;$B5AEC9   |
+	LDX tilemap_y_stream_flag		;$B5AEC9   |
 	BPL CODE_B5AED2				;$B5AECC   |
 	SEC					;$B5AECE   |
 	SBC #$00E0				;$B5AECF   |
@@ -2724,14 +2724,14 @@ CODE_B5AED2:					;	   |
 	STA $32					;$B5AEDC   |
 	TYA					;$B5AEDE   |
 	AND #$0018				;$B5AEDF   |
-	ADC unknown_17B4			;$B5AEE2   |
+	ADC level_8x8_tilemap_address		;$B5AEE2   |
 	STA $34					;$B5AEE5   |
 	TYA					;$B5AEE7   |
 	AND #$0018				;$B5AEE8   |
 	EOR #$0018				;$B5AEEB   |
-	ADC unknown_17B4			;$B5AEEE   |
+	ADC level_8x8_tilemap_address		;$B5AEEE   |
 	STA $36					;$B5AEF1   |
-	LDA $9A					;$B5AEF3   |
+	LDA level_tilemap_bank			;$B5AEF3   |
 	PHA					;$B5AEF5   |
 	PLB					;$B5AEF6   |
 	LDX #column_row_temp_buffer		;$B5AEF7   |
@@ -2835,7 +2835,7 @@ CODE_B5AF8B:
 	JMP CODE_B5AF1D				;$B5AFB1  /
 
 CODE_B5AFB4:
-	LDA $17C8				;$B5AFB4  \
+	LDA RAM_17C8				;$B5AFB4  \
 	BNE CODE_B5AFE2				;$B5AFB7   |
 	LDA screen_scroll_x_position		;$B5AFB9   |
 	AND #$01F8				;$B5AFBC   |
@@ -2889,13 +2889,13 @@ CODE_B5AFF5:					;	   |
 dma_level_rows:
 	LDA screen_scroll_y_position		;$B5B00B  \
 	AND #$00F8				;$B5B00E   |
-	CMP $17CE				;$B5B011   |
+	CMP screen_scroll_tile_y_position	;$B5B011   |
 	BNE CODE_B5B017				;$B5B014   |
 	RTL					;$B5B016  /
 
 CODE_B5B017:
-	STA $17CE				;$B5B017  \
-	LDA $17D2				;$B5B01A   |
+	STA screen_scroll_tile_y_position	;$B5B017  \
+	LDA tilemap_y_stream_flag		;$B5B01A   |
 	BPL CODE_B5B024				;$B5B01D   |
 	LDA screen_scroll_y_position		;$B5B01F   |
 	BRA CODE_B5B02B				;$B5B022  /
@@ -2945,12 +2945,12 @@ CODE_B5B02B:					;	   |
 ;Dead code
 	LDA screen_scroll_y_position		;$B5B085   |
 	AND #$FFF8				;$B5B088   |
-	CMP $17CE				;$B5B08B   |
+	CMP screen_scroll_tile_y_position	;$B5B08B   |
 	BNE CODE_B5B091				;$B5B08E   |
 	RTL					;$B5B090  /
 
 CODE_B5B091:
-	LDA $17D2				;$B5B091  \
+	LDA tilemap_y_stream_flag		;$B5B091  \
 	BPL CODE_B5B09B				;$B5B094   |
 	LDA screen_scroll_y_position		;$B5B096   |
 	BRA CODE_B5B0A2				;$B5B099  /
@@ -3000,13 +3000,13 @@ CODE_B5B0A2:					;	   |
 CODE_B5B0FC:
 	LDA screen_scroll_x_position		;$B5B0FC  \
 	AND #$FFF8				;$B5B0FF   |
-	CMP $17CA				;$B5B102   |
+	CMP screen_scroll_tile_x_position	;$B5B102   |
 	BNE CODE_B5B108				;$B5B105   |
 	RTL					;$B5B107  /
 
 CODE_B5B108:
 	LDA screen_scroll_x_position		;$B5B108  \
-	LDX $17D6				;$B5B10B   |
+	LDX tilemap_x_stream_flag		;$B5B10B   |
 	BPL CODE_B5B117				;$B5B10E   |
 	LDA screen_scroll_x_position		;$B5B110   |
 	SEC					;$B5B113   |
@@ -3019,7 +3019,7 @@ CODE_B5B117:					;	   |
 	LSR A					;$B5B11D   |
 	LSR A					;$B5B11E   |
 	CLC					;$B5B11F   |
-	ADC $98					;$B5B120   |
+	ADC level_tilemap			;$B5B120   |
 	STA $32					;$B5B122   |
 	LDA screen_scroll_y_position		;$B5B124   |
 	SEC					;$B5B127   |
@@ -3032,16 +3032,16 @@ CODE_B5B117:					;	   |
 	AND #$0018				;$B5B134   |
 	LSR A					;$B5B137   |
 	LSR A					;$B5B138   |
-	ADC unknown_17B4			;$B5B139   |
+	ADC level_8x8_tilemap_address		;$B5B139   |
 	STA $34					;$B5B13C   |
 	TYA					;$B5B13E   |
 	AND #$0018				;$B5B13F   |
 	EOR #$0018				;$B5B142   |
 	LSR A					;$B5B145   |
 	LSR A					;$B5B146   |
-	ADC unknown_17B4			;$B5B147   |
+	ADC level_8x8_tilemap_address		;$B5B147   |
 	STA $36					;$B5B14A   |
-	LDA $9A					;$B5B14C   |
+	LDA level_tilemap_bank			;$B5B14C   |
 	PHA					;$B5B14E   |
 	PLB					;$B5B14F   |
 	LDX #column_row_temp_buffer		;$B5B150   |
@@ -3147,7 +3147,7 @@ CODE_B5B1E4:
 CODE_B5B20D:
 	LDA screen_scroll_y_position		;$B5B20D  \
 	AND #$00F8				;$B5B210   |
-	CMP $17CE				;$B5B213   |
+	CMP screen_scroll_tile_y_position	;$B5B213   |
 	BNE CODE_B5B219				;$B5B216   |
 	RTL					;$B5B218  /
 
@@ -3161,12 +3161,12 @@ CODE_B5B219:
 	LSR A					;$B5B225   |
 	LSR A					;$B5B226   |
 	CLC					;$B5B227   |
-	ADC $98					;$B5B228   |
+	ADC level_tilemap			;$B5B228   |
 	STA $32					;$B5B22A   |
 	LDA screen_scroll_y_position		;$B5B22C   |
 	SEC					;$B5B22F   |
 	SBC #$0020				;$B5B230   |
-	LDX $17D2				;$B5B233   |
+	LDX tilemap_y_stream_flag		;$B5B233   |
 	BPL CODE_B5B23C				;$B5B236   |
 	SEC					;$B5B238   |
 	SBC #$00E0				;$B5B239   |
@@ -3178,14 +3178,14 @@ CODE_B5B23C:					;	   |
 	STA $32					;$B5B243   |
 	TYA					;$B5B245   |
 	AND #$0018				;$B5B246   |
-	ADC unknown_17B4			;$B5B249   |
+	ADC level_8x8_tilemap_address		;$B5B249   |
 	STA $34					;$B5B24C   |
 	TYA					;$B5B24E   |
 	AND #$0018				;$B5B24F   |
 	EOR #$0018				;$B5B252   |
-	ADC unknown_17B4			;$B5B255   |
+	ADC level_8x8_tilemap_address		;$B5B255   |
 	STA $36					;$B5B258   |
-	LDA $9A					;$B5B25A   |
+	LDA level_tilemap_bank			;$B5B25A   |
 	PHA					;$B5B25C   |
 	PLB					;$B5B25D   |
 	LDX #column_row_temp_buffer		;$B5B25E   |
@@ -3287,20 +3287,20 @@ CODE_B5B2EE:
 	JMP CODE_B5B284				;$B5B314  /
 
 CODE_B5B317:
-	STZ $17C8				;$B5B317  \
+	STZ RAM_17C8				;$B5B317  \
 	JSL CODE_B5B0FC				;$B5B31A   |
 	JML CODE_B5B20D				;$B5B31E  /
 
 CODE_B5B322:
 	LDA screen_scroll_x_position		;$B5B322  \
 	AND #$FFF8				;$B5B325   |
-	CMP $17CA				;$B5B328   |
+	CMP screen_scroll_tile_x_position	;$B5B328   |
 	BNE CODE_B5B32E				;$B5B32B   |
 	RTL					;$B5B32D  /
 
 CODE_B5B32E:
 	LDA screen_scroll_x_position		;$B5B32E  \
-	LDX $17D6				;$B5B331   |
+	LDX tilemap_x_stream_flag		;$B5B331   |
 	BPL CODE_B5B33D				;$B5B334   |
 	LDA screen_scroll_x_position		;$B5B336   |
 	SEC					;$B5B339   |
@@ -3313,7 +3313,7 @@ CODE_B5B33D:					;	   |
 	LSR A					;$B5B343   |
 	LSR A					;$B5B344   |
 	CLC					;$B5B345   |
-	ADC $98					;$B5B346   |
+	ADC level_tilemap			;$B5B346   |
 	STA $32					;$B5B348   |
 	LDA screen_scroll_y_position		;$B5B34A   |
 	SEC					;$B5B34D   |
@@ -3331,16 +3331,16 @@ CODE_B5B33D:					;	   |
 	AND #$0018				;$B5B361   |
 	LSR A					;$B5B364   |
 	LSR A					;$B5B365   |
-	ADC unknown_17B4			;$B5B366   |
+	ADC level_8x8_tilemap_address		;$B5B366   |
 	STA $34					;$B5B369   |
 	TYA					;$B5B36B   |
 	AND #$0018				;$B5B36C   |
 	EOR #$0018				;$B5B36F   |
 	LSR A					;$B5B372   |
 	LSR A					;$B5B373   |
-	ADC unknown_17B4			;$B5B374   |
+	ADC level_8x8_tilemap_address		;$B5B374   |
 	STA $36					;$B5B377   |
-	LDA $9A					;$B5B379   |
+	LDA level_tilemap_bank			;$B5B379   |
 	PHA					;$B5B37B   |
 	PLB					;$B5B37C   |
 	LDX #column_row_temp_buffer		;$B5B37D   |
@@ -3446,7 +3446,7 @@ CODE_B5B411:
 CODE_B5B43A:
 	LDA screen_scroll_y_position		;$B5B43A  \
 	AND #$00F8				;$B5B43D   |
-	CMP $17CE				;$B5B440   |
+	CMP screen_scroll_tile_y_position	;$B5B440   |
 	BNE CODE_B5B446				;$B5B443   |
 	RTL					;$B5B445  /
 
@@ -3460,12 +3460,12 @@ CODE_B5B446:
 	LSR A					;$B5B452   |
 	LSR A					;$B5B453   |
 	CLC					;$B5B454   |
-	ADC $98					;$B5B455   |
+	ADC level_tilemap			;$B5B455   |
 	STA $32					;$B5B457   |
 	LDA screen_scroll_y_position		;$B5B459   |
 	SEC					;$B5B45C   |
 	SBC #$0020				;$B5B45D   |
-	LDX $17D2				;$B5B460   |
+	LDX tilemap_y_stream_flag		;$B5B460   |
 	BPL CODE_B5B469				;$B5B463   |
 	SEC					;$B5B465   |
 	SBC #$00E0				;$B5B466   |
@@ -3481,14 +3481,14 @@ CODE_B5B469:					;	   |
 	STA $32					;$B5B476   |
 	TYA					;$B5B478   |
 	AND #$0018				;$B5B479   |
-	ADC unknown_17B4			;$B5B47C   |
+	ADC level_8x8_tilemap_address		;$B5B47C   |
 	STA $34					;$B5B47F   |
 	TYA					;$B5B481   |
 	AND #$0018				;$B5B482   |
 	EOR #$0018				;$B5B485   |
-	ADC unknown_17B4			;$B5B488   |
+	ADC level_8x8_tilemap_address		;$B5B488   |
 	STA $36					;$B5B48B   |
-	LDA $9A					;$B5B48D   |
+	LDA level_tilemap_bank			;$B5B48D   |
 	PHA					;$B5B48F   |
 	PLB					;$B5B490   |
 	LDX #column_row_temp_buffer		;$B5B491   |
@@ -3590,20 +3590,20 @@ CODE_B5B521:
 	JMP CODE_B5B4B7				;$B5B547  /
 
 square_level_scroll_handler:
-	STZ $17C8				;$B5B54A  \
+	STZ RAM_17C8				;$B5B54A  \
 	JSL CODE_B5B322				;$B5B54D   |
 	JML CODE_B5B43A				;$B5B551  /
 
 CODE_B5B555:
 	LDA screen_scroll_x_position		;$B5B555  \
 	AND #$FFF8				;$B5B558   |
-	CMP $17CA				;$B5B55B   |
+	CMP screen_scroll_tile_x_position	;$B5B55B   |
 	BNE CODE_B5B561				;$B5B55E   |
 	RTL					;$B5B560  /
 
 CODE_B5B561:
 	LDA screen_scroll_x_position		;$B5B561  \
-	LDX $17D6				;$B5B564   |
+	LDX tilemap_x_stream_flag		;$B5B564   |
 	BPL CODE_B5B570				;$B5B567   |
 	LDA screen_scroll_x_position		;$B5B569   |
 	SEC					;$B5B56C   |
@@ -3616,7 +3616,7 @@ CODE_B5B570:					;	   |
 	LSR A					;$B5B576   |
 	LSR A					;$B5B577   |
 	CLC					;$B5B578   |
-	ADC $98					;$B5B579   |
+	ADC level_tilemap			;$B5B579   |
 	STA $32					;$B5B57B   |
 	LDA screen_scroll_y_position		;$B5B57D   |
 	SEC					;$B5B580   |
@@ -3634,16 +3634,16 @@ CODE_B5B570:					;	   |
 	AND #$0018				;$B5B594   |
 	LSR A					;$B5B597   |
 	LSR A					;$B5B598   |
-	ADC unknown_17B4			;$B5B599   |
+	ADC level_8x8_tilemap_address		;$B5B599   |
 	STA $34					;$B5B59C   |
 	TYA					;$B5B59E   |
 	AND #$0018				;$B5B59F   |
 	EOR #$0018				;$B5B5A2   |
 	LSR A					;$B5B5A5   |
 	LSR A					;$B5B5A6   |
-	ADC unknown_17B4			;$B5B5A7   |
+	ADC level_8x8_tilemap_address		;$B5B5A7   |
 	STA $36					;$B5B5AA   |
-	LDA $9A					;$B5B5AC   |
+	LDA level_tilemap_bank			;$B5B5AC   |
 	PHA					;$B5B5AE   |
 	PLB					;$B5B5AF   |
 	LDX #column_row_temp_buffer		;$B5B5B0   |
@@ -3749,7 +3749,7 @@ CODE_B5B644:
 CODE_B5B66D:
 	LDA screen_scroll_y_position		;$B5B66D  \
 	AND #$00F8				;$B5B670   |
-	CMP $17CE				;$B5B673   |
+	CMP screen_scroll_tile_y_position	;$B5B673   |
 	BNE CODE_B5B679				;$B5B676   |
 	RTL					;$B5B678  /
 
@@ -3763,12 +3763,12 @@ CODE_B5B679:
 	LSR A					;$B5B685   |
 	LSR A					;$B5B686   |
 	CLC					;$B5B687   |
-	ADC $98					;$B5B688   |
+	ADC level_tilemap			;$B5B688   |
 	STA $32					;$B5B68A   |
 	LDA screen_scroll_y_position		;$B5B68C   |
 	SEC					;$B5B68F   |
 	SBC #$0020				;$B5B690   |
-	LDX $17D2				;$B5B693   |
+	LDX tilemap_y_stream_flag		;$B5B693   |
 	BPL CODE_B5B69C				;$B5B696   |
 	SEC					;$B5B698   |
 	SBC #$00E0				;$B5B699   |
@@ -3784,14 +3784,14 @@ CODE_B5B69C:					;	   |
 	STA $32					;$B5B6A9   |
 	TYA					;$B5B6AB   |
 	AND #$0018				;$B5B6AC   |
-	ADC unknown_17B4			;$B5B6AF   |
+	ADC level_8x8_tilemap_address		;$B5B6AF   |
 	STA $34					;$B5B6B2   |
 	TYA					;$B5B6B4   |
 	AND #$0018				;$B5B6B5   |
 	EOR #$0018				;$B5B6B8   |
-	ADC unknown_17B4			;$B5B6BB   |
+	ADC level_8x8_tilemap_address		;$B5B6BB   |
 	STA $36					;$B5B6BE   |
-	LDA $9A					;$B5B6C0   |
+	LDA level_tilemap_bank			;$B5B6C0   |
 	PHA					;$B5B6C2   |
 	PLB					;$B5B6C3   |
 	LDX #column_row_temp_buffer		;$B5B6C4   |
@@ -3893,20 +3893,20 @@ CODE_B5B754:
 	JMP CODE_B5B6EA				;$B5B77A  /
 
 CODE_B5B77D:
-	STZ $17C8				;$B5B77D  \
+	STZ RAM_17C8				;$B5B77D  \
 	JSL CODE_B5B555				;$B5B780   |
 	JML CODE_B5B66D				;$B5B784  /
 
 CODE_B5B788:
 	LDA screen_scroll_x_position		;$B5B788  \
 	AND #$FFF8				;$B5B78B   |
-	CMP $17CA				;$B5B78E   |
+	CMP screen_scroll_tile_x_position	;$B5B78E   |
 	BNE CODE_B5B794				;$B5B791   |
 	RTL					;$B5B793  /
 
 CODE_B5B794:
 	LDA screen_scroll_x_position		;$B5B794  \
-	LDX $17D6				;$B5B797   |
+	LDX tilemap_x_stream_flag		;$B5B797   |
 	BPL CODE_B5B7A3				;$B5B79A   |
 	LDA screen_scroll_x_position		;$B5B79C   |
 	SEC					;$B5B79F   |
@@ -3919,7 +3919,7 @@ CODE_B5B7A3:					;	   |
 	LSR A					;$B5B7A9   |
 	LSR A					;$B5B7AA   |
 	CLC					;$B5B7AB   |
-	ADC $98					;$B5B7AC   |
+	ADC level_tilemap			;$B5B7AC   |
 	STA $32					;$B5B7AE   |
 	LDA screen_scroll_y_position		;$B5B7B0   |
 	SEC					;$B5B7B3   |
@@ -3933,16 +3933,16 @@ CODE_B5B7A3:					;	   |
 	AND #$0018				;$B5B7C1   |
 	LSR A					;$B5B7C4   |
 	LSR A					;$B5B7C5   |
-	ADC unknown_17B4			;$B5B7C6   |
+	ADC level_8x8_tilemap_address		;$B5B7C6   |
 	STA $34					;$B5B7C9   |
 	TYA					;$B5B7CB   |
 	AND #$0018				;$B5B7CC   |
 	EOR #$0018				;$B5B7CF   |
 	LSR A					;$B5B7D2   |
 	LSR A					;$B5B7D3   |
-	ADC unknown_17B4			;$B5B7D4   |
+	ADC level_8x8_tilemap_address		;$B5B7D4   |
 	STA $36					;$B5B7D7   |
-	LDA $9A					;$B5B7D9   |
+	LDA level_tilemap_bank			;$B5B7D9   |
 	PHA					;$B5B7DB   |
 	PLB					;$B5B7DC   |
 	LDX #column_row_temp_buffer		;$B5B7DD   |
@@ -4048,7 +4048,7 @@ CODE_B5B871:
 CODE_B5B89A:
 	LDA screen_scroll_y_position		;$B5B89A  \
 	AND #$00F8				;$B5B89D   |
-	CMP $17CE				;$B5B8A0   |
+	CMP screen_scroll_tile_y_position	;$B5B8A0   |
 	BNE CODE_B5B8A6				;$B5B8A3   |
 	RTL					;$B5B8A5  /
 
@@ -4062,12 +4062,12 @@ CODE_B5B8A6:
 	LSR A					;$B5B8B2   |
 	LSR A					;$B5B8B3   |
 	CLC					;$B5B8B4   |
-	ADC $98					;$B5B8B5   |
+	ADC level_tilemap			;$B5B8B5   |
 	STA $32					;$B5B8B7   |
 	LDA screen_scroll_y_position		;$B5B8B9   |
 	SEC					;$B5B8BC   |
 	SBC #$0020				;$B5B8BD   |
-	LDX $17D2				;$B5B8C0   |
+	LDX tilemap_y_stream_flag		;$B5B8C0   |
 	BPL CODE_B5B8C9				;$B5B8C3   |
 	SEC					;$B5B8C5   |
 	SBC #$00E0				;$B5B8C6   |
@@ -4080,14 +4080,14 @@ CODE_B5B8C9:					;	   |
 	STA $32					;$B5B8D1   |
 	TYA					;$B5B8D3   |
 	AND #$0018				;$B5B8D4   |
-	ADC unknown_17B4			;$B5B8D7   |
+	ADC level_8x8_tilemap_address		;$B5B8D7   |
 	STA $34					;$B5B8DA   |
 	TYA					;$B5B8DC   |
 	AND #$0018				;$B5B8DD   |
 	EOR #$0018				;$B5B8E0   |
-	ADC unknown_17B4			;$B5B8E3   |
+	ADC level_8x8_tilemap_address		;$B5B8E3   |
 	STA $36					;$B5B8E6   |
-	LDA $9A					;$B5B8E8   |
+	LDA level_tilemap_bank			;$B5B8E8   |
 	PHA					;$B5B8EA   |
 	PLB					;$B5B8EB   |
 	LDX #column_row_temp_buffer		;$B5B8EC   |
@@ -4189,12 +4189,12 @@ CODE_B5B97C:
 	JMP CODE_B5B912				;$B5B9A2  /
 
 vertical_level_scroll_handler:
-	STZ $17C8				;$B5B9A5  \
+	STZ RAM_17C8				;$B5B9A5  \
 	JSL CODE_B5B788				;$B5B9A8   |
 	JML CODE_B5B89A				;$B5B9AC  /
 
 horizontal_level_scroll_handler:
-	STZ $17C8				;$B5B9B0  \
+	STZ RAM_17C8				;$B5B9B0  \
 	JSL CODE_B5AC9C				;$B5B9B3   |
 	JML CODE_B5AEA7				;$B5B9B7  /
 
@@ -4205,18 +4205,18 @@ ship_deck_rigging_scroll_handler:
 
 ;Dead code
 	LDA #$00C0				;$B5B9C4   |
-	STA $17C8				;$B5B9C7   |
-	LDA $98					;$B5B9CA   |
+	STA RAM_17C8				;$B5B9C7   |
+	LDA level_tilemap			;$B5B9CA   |
 	CLC					;$B5B9CC   |
 	ADC #$4B00				;$B5B9CD   |
-	STA $98					;$B5B9D0   |
+	STA level_tilemap			;$B5B9D0   |
 	JSL CODE_B5AC9C				;$B5B9D2   |
 	JSL CODE_B5AEA7				;$B5B9D6   |
-	LDA $98					;$B5B9DA   |
+	LDA level_tilemap			;$B5B9DA   |
 	SEC					;$B5B9DC   |
 	SBC #$4B00				;$B5B9DD   |
-	STA $98					;$B5B9E0   |
-	STZ $17C8				;$B5B9E2   |
+	STA level_tilemap			;$B5B9E0   |
+	STZ RAM_17C8				;$B5B9E2   |
 	JSL CODE_B5AC9C				;$B5B9E5   |
 	JML CODE_B5AEA7				;$B5B9E9  /
 
@@ -4241,7 +4241,7 @@ CODE_B5B9F1:
 	LDA camera_0AE3				;$B5BA18   |
 	STA screen_scroll_y_position		;$B5BA1B   |
 	DEC A					;$B5BA1E   |
-	STA $17C2				;$B5BA1F   |
+	STA screen_scroll_y_position_final	;$B5BA1F   |
 	LDA level[0].effects			;$B5BA22   |
 	AND #!no_tilemap_effect			;$B5BA25   |
 	BNE CODE_B5BA83				;$B5BA28   |
@@ -4255,35 +4255,35 @@ CODE_B5B9F1:
 	STZ camera_0AD4				;$B5BA3D   |
 	LDA screen_scroll_y_position		;$B5BA40   |
 	AND #$00F8				;$B5BA43   |
-	STA $17CE				;$B5BA46   |
+	STA screen_scroll_tile_y_position	;$B5BA46   |
 	LDA screen_scroll_x_position		;$B5BA49   |
 	CLC					;$B5BA4C   |
 	ADC #$0008				;$B5BA4D   |
 	AND #$00F8				;$B5BA50   |
-	STA $17CA				;$B5BA53   |
-	STZ $17D2				;$B5BA56   |
+	STA screen_scroll_tile_x_position	;$B5BA53   |
+	STZ tilemap_y_stream_flag		;$B5BA56   |
 	LDA #$0004				;$B5BA59   |
-	STA $17D6				;$B5BA5C   |
+	STA tilemap_x_stream_flag		;$B5BA5C   |
 	LDA #$0040				;$B5BA5F   |
 CODE_B5BA62:					;	   |
 	PHA					;$B5BA62   |
 	JSR CODE_B5BA99				;$B5BA63   |
 	JSR CODE_B5BADE				;$B5BA66   |
 	LDA #$0004				;$B5BA69   |
-	STA $17D6				;$B5BA6C   |
+	STA tilemap_x_stream_flag		;$B5BA6C   |
 	CLC					;$B5BA6F   |
 	ADC screen_scroll_x_position		;$B5BA70   |
 	STA screen_scroll_x_position		;$B5BA73   |
 	PLA					;$B5BA76   |
 	DEC A					;$B5BA77   |
 	BNE CODE_B5BA62				;$B5BA78   |
-	STZ $17D2				;$B5BA7A   |
-	STZ $17D6				;$B5BA7D   |
+	STZ tilemap_y_stream_flag		;$B5BA7A   |
+	STZ tilemap_x_stream_flag		;$B5BA7D   |
 	JSR CODE_B5BA99				;$B5BA80   |
 CODE_B5BA83:					;	   |
 	LDA screen_scroll_y_position		;$B5BA83   |
 	AND #$00F8				;$B5BA86   |
-	STA $17CE				;$B5BA89   |
+	STA screen_scroll_tile_y_position	;$B5BA89   |
 	STZ camera_0ACE				;$B5BA8C   |
 	STZ camera_0AD0				;$B5BA8F   |
 	STZ camera_0AD2				;$B5BA92   |
@@ -4337,8 +4337,8 @@ CODE_B5BAEA:					;	   |
 	JSL dma_level_columns			;$B5BAEA   |
 	RTS					;$B5BAEE  /
 
-DATA_B5BAEF:
-	%offset(DATA_B5BAF1, 2)
+level_tilemap_address_table:
+	%offset(level_tilemap_bank_table, 2)
 	dl forest_32x32_tilemap			;00
 	dl ship_hold_32x32_tilemap		;01
 	dl wasp_hive_32x32_tilemap		;02
@@ -4361,8 +4361,8 @@ DATA_B5BAEF:
 	dl carnival_2_32x32_tilemap		;13
 	dl castle_32x32_tilemap			;14
 
-DATA_B5BB2E:
-	%offset(DATA_B5BB30, 2)
+level_8x8_tilemap_address_table:
+	%offset(level_8x8_tilemap_bank_table, 2)
 	dl forest_8x8_tilemap			;00
 	dl ship_hold_8x8_tilemap		;01
 	dl wasp_hive_8x8_tilemap		;02
@@ -4385,8 +4385,7 @@ DATA_B5BB2E:
 	dl carnival_8x8_tilemap			;13
 	dl castle_8x8_tilemap			;14
 
-;level tilemap vram addresses
-DATA_B5BB6D:
+level_tilemap_vram_address_table:
 	dw $6800				;00
 	dw $3800				;01
 	dw $7800				;02
@@ -4409,8 +4408,8 @@ DATA_B5BB6D:
 	dw $7800				;13
 	dw $6800				;14
 
-DATA_B5BB97:
-	%offset(DATA_B5BB99, 2)
+level_collision_tilemap_table:
+	%offset(level_collision_bank_table, 2)
 	dl forest_collision			;00
 	dl ship_hold_collision			;01
 	dl wasp_hive_collision			;02
@@ -4433,8 +4432,7 @@ DATA_B5BB97:
 	dl carnival_collision			;13
 	dl castle_collision			;14
 
-;collision map related
-DATA_B5BBD6:
+level_collision_tile_count_table:
 	dw $00A3				;00
 	dw $0082				;01
 	dw $00F0				;02
@@ -4457,31 +4455,30 @@ DATA_B5BBD6:
 	dw $0090				;13
 	dw $00E4				;14
 
-;level collision routines
-DATA_B5BC00:
-	dw CODE_B5C82C				;00
-	dw CODE_B5C60B				;01
-	dw CODE_B5C60B				;02
-	dw CODE_B5C82C				;03
-	dw CODE_B5C414				;04
-	dw CODE_B5C80D				;05
-	dw CODE_B5C82C				;06
-	dw CODE_B5C510				;07
-	dw CODE_B5C414				;08
-	dw CODE_B5C82C				;09
-	dw CODE_B5C70C				;0A
-	dw CODE_B5C510				;0B
-	dw CODE_B5C510				;0C
-	dw CODE_B5C384				;0D
-	dw CODE_B5C39F				;0E
-	dw CODE_B5C82C				;0F
-	dw CODE_B5C397				;10
-	dw CODE_B5C510				;11
-	dw CODE_B5C70C				;12
-	dw CODE_B5C80D				;13
-	dw CODE_B5C2DB				;14
+level_collision_routine_table:
+	dw level_collision_B5C82C		;00
+	dw level_collision_B5C60B		;01
+	dw level_collision_B5C60B		;02
+	dw level_collision_B5C82C		;03
+	dw level_collision_B5C414		;04
+	dw level_collision_B5C80D		;05
+	dw level_collision_B5C82C		;06
+	dw level_collision_B5C510		;07
+	dw level_collision_B5C414		;08
+	dw level_collision_B5C82C		;09
+	dw level_collision_B5C70C		;0A
+	dw level_collision_B5C510		;0B
+	dw level_collision_B5C510		;0C
+	dw level_collision_B5C384		;0D
+	dw level_collision_B5C39F		;0E
+	dw level_collision_B5C82C		;0F
+	dw level_collision_B5C397		;10
+	dw level_collision_B5C510		;11
+	dw level_collision_B5C70C		;12
+	dw level_collision_B5C80D		;13
+	dw level_collision_B5C2DB		;14
 
-DATA_B5BC2A:
+level_palette_table:
 	dw ghostly_grove_level_palette		;00
 	dw lockjaws_locker_level_palette	;01
 	dw wasp_hive_level_palette		;02
@@ -4505,7 +4502,7 @@ DATA_B5BC2A:
 	dw castle_level_palette			;14
 
 ;32x32 tilemap compression flag
-DATA_B5BC54:
+level_compression_flag_table:
 	dw $0420				;00 forest
 	dw $0420				;01 ship_hold
 	dw $0420				;02 wasp_hive
@@ -4561,36 +4558,36 @@ CODE_B5BCA8:
 	CLC					;$B5BCAF   |
 	ADC $32					;$B5BCB0   |
 	TAX					;$B5BCB2   |
-	LDA DATA_B5BAEF,x			;$B5BCB3   | Get 32x32 tilemap address
-	STA $98					;$B5BCB6   |
+	LDA level_tilemap_address_table,x	;$B5BCB3   | Get 32x32 tilemap address
+	STA level_tilemap			;$B5BCB6   |
 	SEP #$20				;$B5BCB8   |
-	LDA DATA_B5BB30,x			;$B5BCBA   |
+	LDA level_8x8_tilemap_bank_table,x	;$B5BCBA   |
 	XBA					;$B5BCBD   |
-	LDA DATA_B5BAF1,x			;$B5BCBE   | Get 32x32 tilemap bank
+	LDA level_tilemap_bank_table,x		;$B5BCBE   | Get 32x32 tilemap bank
 	REP #$20				;$B5BCC1   |
-	STA $9A					;$B5BCC3   |
-	LDA DATA_B5BB97,x			;$B5BCC5   | Get collision map address
-	STA $9C					;$B5BCC8   |
-	LDA DATA_B5BB99,x			;$B5BCCA   | Get collision map bank
+	STA level_tilemap_bank			;$B5BCC3   |
+	LDA level_collision_tilemap_table,x	;$B5BCC5   | Get collision map address
+	STA level_collision_tilemap		;$B5BCC8   |
+	LDA level_collision_bank_table,x	;$B5BCCA   | Get collision map bank
 	AND #$00FF				;$B5BCCD   |
 	ORA #$8000				;$B5BCD0   |
-	STA $9E					;$B5BCD3   |
-	LDA DATA_B5BB2E,x			;$B5BCD5   | Get 8x8 tilemap address
-	STA unknown_17B4			;$B5BCD8   |
-	LDA DATA_B5BB6D,y			;$B5BCDB   | Get tilemap VRAM address
+	STA level_collision_tilemap_bank	;$B5BCD3   |
+	LDA level_8x8_tilemap_address_table,x	;$B5BCD5   | Get 8x8 tilemap address
+	STA level_8x8_tilemap_address		;$B5BCD8   |
+	LDA level_tilemap_vram_address_table,y	;$B5BCDB   | Get tilemap VRAM address
 	STA level_tilemap_vram_address		;$B5BCDE   |
-	LDA DATA_B5BBD6,y			;$B5BCE1   | Get number of collision tiles
-	STA $A0					;$B5BCE4   |
-	LDA DATA_B5BC00,y			;$B5BCE6   | Get collision routine address
-	STA $17B2				;$B5BCE9   |
+	LDA level_collision_tile_count_table,y	;$B5BCE1   | Get number of collision tiles
+	STA terrain_collision_tile_count	;$B5BCE4   |
+	LDA level_collision_routine_table,y	;$B5BCE6   | Get collision routine address
+	STA terrain_collision_routine_address	;$B5BCE9   |
 	LDA level_palette_address		;$B5BCEC   |\ get level palette address
 	BNE .alternate_palette			;$B5BCEF   |/ if there's no palette address
-	LDA DATA_B5BC2A,y			;$B5BCF1   |\ use the default tilemap palette
+	LDA level_palette_table,y		;$B5BCF1   |\ use the default tilemap palette
 	STA level_palette_address		;$B5BCF4   |/
 .alternate_palette:				;	   |
 	LDA level_dimensions_table,y		;$B5BCF7   |
 	STA level_dimensions_address		;$B5BCFA   |
-	LDA DATA_B5BC54,y			;$B5BCFD   | Get tilemap compression flags
+	LDA level_compression_flag_table,y	;$B5BCFD   | Get tilemap compression flags
 	STA level_compression_settings		;$B5BD00   |
 	PLB					;$B5BD03   |
 	RTL					;$B5BD04  /
@@ -4828,7 +4825,7 @@ DATA_B5C28F:
 	dw $8AE0, $9380, $0000, $0200, $0008	; 06 Rickety Race Bonus 1
 	dw $FFFF
 
-CODE_B5C2DB:
+level_collision_B5C2DB:
 	LDA #$6240				;$B5C2DB  \
 	SEC					;$B5C2DE   |
 	SBC crush_floor_y_position		;$B5C2DF   |
@@ -4853,14 +4850,14 @@ CODE_B5C2DB:
 	BRA CODE_B5C366				;$B5C309  /
 
 CODE_B5C30B:
-	JSL CODE_B5C510				;$B5C30B  \
-	STA $A2					;$B5C30F   |
+	JSL level_collision_B5C510		;$B5C30B  \
+	STA level_tile_local_x_offset		;$B5C30F   |
 	EOR #$FFFF				;$B5C311   |
 	BPL CODE_B5C36A				;$B5C314   |
 	SEC					;$B5C316   |
 	ADC $3C					;$B5C317   |
 	BCS CODE_B5C341				;$B5C319   |
-	LDA $AE					;$B5C31B   |
+	LDA RAM_AE				;$B5C31B   |
 	CMP #$0001				;$B5C31D   |
 	BNE CODE_B5C341				;$B5C320   |
 	LDA $E5					;$B5C322   |
@@ -4874,8 +4871,8 @@ CODE_B5C30B:
 	BCS CODE_B5C341				;$B5C333   |
 CODE_B5C335:					;	   |
 	LDA #$0100				;$B5C335   |
-	TSB $AC					;$B5C338   |
-	TSB $AE					;$B5C33A   |
+	TSB collision_tile			;$B5C338   |
+	TSB RAM_AE				;$B5C33A   |
 	TSB $E5					;$B5C33C   |
 	LDA $3A					;$B5C33E   |
 	RTL					;$B5C340  /
@@ -4883,9 +4880,9 @@ CODE_B5C335:					;	   |
 CODE_B5C341:
 	LDA $E5					;$B5C341  \
 	AND #$0100				;$B5C343   |
-	TSB $AC					;$B5C346   |
-	TSB $AE					;$B5C348   |
-	LDA $A2					;$B5C34A   |
+	TSB collision_tile			;$B5C346   |
+	TSB RAM_AE				;$B5C348   |
+	LDA level_tile_local_x_offset		;$B5C34A   |
 	CMP #$8000				;$B5C34C   |
 	BCS CODE_B5C36A				;$B5C34F   |
 	CMP $3A					;$B5C351   |
@@ -4898,17 +4895,17 @@ CODE_B5C341:
 	CMP #$0050				;$B5C35E   |
 	BMI CODE_B5C381				;$B5C361   |
 CODE_B5C363:					;	   |
-	LDA $A2					;$B5C363   |
+	LDA level_tile_local_x_offset		;$B5C363   |
 	RTL					;$B5C365  /
 
 CODE_B5C366:
-	STZ $AC					;$B5C366  \
-	STZ $AE					;$B5C368   |
+	STZ collision_tile			;$B5C366  \
+	STZ RAM_AE				;$B5C368   |
 CODE_B5C36A:					;	   |
 	LDA $E5					;$B5C36A   |
 	AND #$0100				;$B5C36C   |
-	TSB $AC					;$B5C36F   |
-	TSB $AE					;$B5C371   |
+	TSB collision_tile			;$B5C36F   |
+	TSB RAM_AE				;$B5C371   |
 	LDA $3C					;$B5C373   |
 	SEC					;$B5C375   |
 	SBC $3A					;$B5C376   |
@@ -4922,9 +4919,9 @@ CODE_B5C381:
 CODE_B5C383:					;	   |
 	RTL					;$B5C383  /
 
-CODE_B5C384:
-	STZ $AC					;$B5C384  \
-	STZ $AE					;$B5C386   |
+level_collision_B5C384:
+	STZ collision_tile			;$B5C384  \
+	STZ RAM_AE				;$B5C386   |
 	LDA $06,x				;$B5C388   |
 	CMP #$02A0				;$B5C38A   |
 	BPL CODE_B5C393				;$B5C38D   |
@@ -4935,13 +4932,13 @@ CODE_B5C393:
 	LDA #$6300				;$B5C393  \
 	RTL					;$B5C396  /
 
-CODE_B5C397:
-	STZ $AC					;$B5C397  \
-	STZ $AE					;$B5C399   |
+level_collision_B5C397:
+	STZ collision_tile			;$B5C397  \
+	STZ RAM_AE				;$B5C399   |
 	LDA #$6140				;$B5C39B   |
 	RTL					;$B5C39E  /
 
-CODE_B5C39F:
+level_collision_B5C39F:
 	LDA water_safe_timer			;$B5C39F  \
 	BEQ CODE_B5C3C2				;$B5C3A2   |
 	LDA water_y_position			;$B5C3A4   |
@@ -4951,7 +4948,7 @@ CODE_B5C39F:
 	CLC					;$B5C3AE   |
 	ADC #$6301				;$B5C3AF   |
 	STA $3A					;$B5C3B2   |
-	JSL CODE_B5C60B				;$B5C3B4   |
+	JSL level_collision_B5C60B		;$B5C3B4   |
 	CMP #$0000				;$B5C3B8   |
 	BMI CODE_B5C3C5				;$B5C3BB   |
 	CMP $3A					;$B5C3BD   |
@@ -4959,7 +4956,7 @@ CODE_B5C39F:
 	RTL					;$B5C3C1  /
 
 CODE_B5C3C2:
-	JMP CODE_B5C60B				;$B5C3C2  /
+	JMP level_collision_B5C60B		;$B5C3C2  /
 
 CODE_B5C3C5:
 	LDA water_y_position			;$B5C3C5  \
@@ -4967,8 +4964,8 @@ CODE_B5C3C8:					;	   |
 	EOR #$FFFF				;$B5C3C8   |
 	CLC					;$B5C3CB   |
 	ADC #$6301				;$B5C3CC   |
-	STZ $AC					;$B5C3CF   |
-	STZ $AE					;$B5C3D1   |
+	STZ collision_tile			;$B5C3CF   |
+	STZ RAM_AE				;$B5C3D1   |
 	CLC					;$B5C3D3   |
 	RTL					;$B5C3D4  /
 
@@ -4993,14 +4990,14 @@ get_sprite_terrain_info_y_origin_0:
 	PHK					;$B5C3ED   |
 	PLB					;$B5C3EE   |
 	STX $62					;$B5C3EF   |
-	JMP (RAM_17B2)				;$B5C3F1  /
+	JMP (terrain_collision_routine_address)	;$B5C3F1  /
 
 ;Disable terrain collision for 2nd floor of kreepy krow if fight hasn't reached that stage yet
 CODE_B5C3F4:
 if !version == 1				;	  \
 	LDA $0A,x				;$B5C3F4   |
 	CMP #$0B50				;$B5C3F6   |
-	BPL CODE_B5C414				;$B5C3F9   |
+	BPL level_collision_B5C414		;$B5C3F9   |
 	PHX					;$B5C3FB   |
 	LDA.l $000654				;$B5C3FC   |
 	BEQ CODE_B5C40A				;$B5C400   |
@@ -5010,26 +5007,26 @@ if !version == 1				;	  \
 	BMI CODE_B5C413				;$B5C408   |
 CODE_B5C40A:					;	   |
 	PLX					;$B5C40A   |
-	STZ $AC					;$B5C40B   |
-	STZ $AE					;$B5C40D   |
+	STZ collision_tile			;$B5C40B   |
+	STZ RAM_AE				;$B5C40D   |
 	LDA #$FFC0				;$B5C40F   |
 	RTL					;$B5C412  /
 
 CODE_B5C413:
 	PLX					;$B5C413  \
 endif						;	   |
-CODE_B5C414:					;	   |
+level_collision_B5C414:				;	   |
 	LDA $32					;$B5C414   |
 	AND #$001F				;$B5C416   |
-	STA $A6					;$B5C419   |
-	STZ $AC					;$B5C41B   |
+	STA level_tile_global_x_offset		;$B5C419   |
+	STZ collision_tile			;$B5C41B   |
 	LDA $34					;$B5C41D   |
 	SEC					;$B5C41F   |
 	SBC #$0100				;$B5C420   |
 	EOR #$FFFF				;$B5C423   |
 	INC A					;$B5C426   |
 	AND #$FFE0				;$B5C427   |
-	STA $A4					;$B5C42A   |
+	STA RAM_A4				;$B5C42A   |
 	LDA $32					;$B5C42C   |
 	AND #$FFE0				;$B5C42E   |
 	LSR A					;$B5C431   |
@@ -5037,16 +5034,16 @@ CODE_B5C414:					;	   |
 	LSR A					;$B5C433   |
 	LSR A					;$B5C434   |
 	STA $32					;$B5C435   |
-	LDA $A4					;$B5C437   |
+	LDA RAM_A4				;$B5C437   |
 	EOR #$FFE0				;$B5C439   |
 	ASL A					;$B5C43C   |
 	CLC					;$B5C43D   |
 	ADC $32					;$B5C43E   |
 	TAY					;$B5C440   |
-	JSR CODE_B5C94D				;$B5C441   |
+	JSR get_collision_tile_and_ground	;$B5C441   |
 	PHA					;$B5C444   |
-	LDA $AC					;$B5C445   |
-	STA $AE					;$B5C447   |
+	LDA collision_tile			;$B5C445   |
+	STA RAM_AE				;$B5C447   |
 	PLA					;$B5C449   |
 	BMI CODE_B5C459				;$B5C44A   |
 	CMP #$001F				;$B5C44C   |
@@ -5055,7 +5052,7 @@ CODE_B5C414:					;	   |
 
 CODE_B5C454:
 	TAY					;$B5C454  \
-	ORA $A4					;$B5C455   |
+	ORA RAM_A4				;$B5C455   |
 	BRA CODE_B5C488				;$B5C457  /
 
 CODE_B5C459:
@@ -5063,30 +5060,30 @@ CODE_B5C459:
 	CLC					;$B5C45A   |
 	ADC #$0040				;$B5C45B   |
 	TAY					;$B5C45E   |
-	LDA $A4					;$B5C45F   |
+	LDA RAM_A4				;$B5C45F   |
 	SEC					;$B5C461   |
 	SBC #$0020				;$B5C462   |
-	STA $A4					;$B5C465   |
-	JSR CODE_B5C94D				;$B5C467   |
+	STA RAM_A4				;$B5C465   |
+	JSR get_collision_tile_and_ground	;$B5C467   |
 	CMP #$0000				;$B5C46A   |
 	BPL CODE_B5C485				;$B5C46D   |
 	TYA					;$B5C46F   |
 	CLC					;$B5C470   |
 	ADC #$0040				;$B5C471   |
 	TAY					;$B5C474   |
-	LDA $A4					;$B5C475   |
+	LDA RAM_A4				;$B5C475   |
 	SEC					;$B5C477   |
 	SBC #$0020				;$B5C478   |
-	STA $A4					;$B5C47B   |
-	JSR CODE_B5C94D				;$B5C47D   |
+	STA RAM_A4				;$B5C47B   |
+	JSR get_collision_tile_and_ground	;$B5C47D   |
 	CMP #$0000				;$B5C480   |
 	BMI CODE_B5C4E0				;$B5C483   |
 CODE_B5C485:					;	   |
 	TAY					;$B5C485   |
-	ORA $A4					;$B5C486   |
+	ORA RAM_A4				;$B5C486   |
 CODE_B5C488:					;	   |
 	PHA					;$B5C488   |
-	LDA $AC					;$B5C489   |
+	LDA collision_tile			;$B5C489   |
 	AND #$7FFF				;$B5C48B   |
 	CMP #$4004				;$B5C48E   |
 	BEQ CODE_B5C49D				;$B5C491   |
@@ -5096,12 +5093,12 @@ CODE_B5C488:					;	   |
 	BNE CODE_B5C4A2				;$B5C49B   |
 CODE_B5C49D:					;	   |
 	LDA #$2000				;$B5C49D   |
-	TSB $AC					;$B5C4A0   |
+	TSB collision_tile			;$B5C4A0   |
 CODE_B5C4A2:					;	   |
-	LDA $AC					;$B5C4A2   |
+	LDA collision_tile			;$B5C4A2   |
 	STA $32					;$B5C4A4   |
 	AND #$003F				;$B5C4A6   |
-	TRB $AC					;$B5C4A9   |
+	TRB collision_tile			;$B5C4A9   |
 	ASL A					;$B5C4AB   |
 	TAX					;$B5C4AC   |
 	LDA DATA_B5C9B5,x			;$B5C4AD   |
@@ -5111,9 +5108,9 @@ CODE_B5C4A2:					;	   |
 	BEQ CODE_B5C4BF				;$B5C4B8   |
 	AND #$001F				;$B5C4BA   |
 CODE_B5C4BD:					;	   |
-	TSB $AC					;$B5C4BD   |
+	TSB collision_tile			;$B5C4BD   |
 CODE_B5C4BF:					;	   |
-	LDA $AE					;$B5C4BF   |
+	LDA RAM_AE				;$B5C4BF   |
 	AND #$7FFF				;$B5C4C1   |
 	CMP #$4004				;$B5C4C4   |
 	BEQ CODE_B5C4D3				;$B5C4C7   |
@@ -5123,7 +5120,7 @@ CODE_B5C4BF:					;	   |
 	BNE CODE_B5C4D8				;$B5C4D1   |
 CODE_B5C4D3:					;	   |
 	LDA #$2000				;$B5C4D3   |
-	TSB $AE					;$B5C4D6   |
+	TSB RAM_AE				;$B5C4D6   |
 CODE_B5C4D8:					;	   |
 	PLA					;$B5C4D8   |
 	LDX $62					;$B5C4D9   |
@@ -5133,7 +5130,7 @@ CODE_B5C4D8:					;	   |
 
 CODE_B5C4E0:
 	LDA #$FFC0				;$B5C4E0  \
-	STZ $AC					;$B5C4E3   |
+	STZ collision_tile			;$B5C4E3   |
 	LDX $62					;$B5C4E5   |
 	RTL					;$B5C4E7  /
 
@@ -5142,37 +5139,37 @@ CODE_B5C4E8:
 	SEC					;$B5C4E9   |
 	SBC #$0040				;$B5C4EA   |
 	TAY					;$B5C4ED   |
-	LDA $AC					;$B5C4EE   |
+	LDA collision_tile			;$B5C4EE   |
 	STA $32					;$B5C4F0   |
-	JSR CODE_B5C94D				;$B5C4F2   |
+	JSR get_collision_tile_and_ground	;$B5C4F2   |
 	CMP #$0000				;$B5C4F5   |
 	BMI CODE_B5C503				;$B5C4F8   |
 	TAY					;$B5C4FA   |
 	ORA #$0020				;$B5C4FB   |
 	CLC					;$B5C4FE   |
-	ADC $A4					;$B5C4FF   |
+	ADC RAM_A4				;$B5C4FF   |
 	BRA CODE_B5C488				;$B5C501  /
 
 CODE_B5C503:
 	LDA $32					;$B5C503  \
-	STA $AC					;$B5C505   |
+	STA collision_tile			;$B5C505   |
 	LDA #$001F				;$B5C507   |
 	TAY					;$B5C50A   |
-	ORA $A4					;$B5C50B   |
+	ORA RAM_A4				;$B5C50B   |
 	JMP CODE_B5C488				;$B5C50D  /
 
-CODE_B5C510:
+level_collision_B5C510:
 	LDA $32					;$B5C510  \
 	AND #$001F				;$B5C512   |
-	STA $A6					;$B5C515   |
-	STZ $AC					;$B5C517   |
+	STA level_tile_global_x_offset		;$B5C515   |
+	STZ collision_tile			;$B5C517   |
 	LDA $34					;$B5C519   |
 	SEC					;$B5C51B   |
 	SBC #$0100				;$B5C51C   |
 	EOR #$FFFF				;$B5C51F   |
 	INC A					;$B5C522   |
 	AND #$FFE0				;$B5C523   |
-	STA $A4					;$B5C526   |
+	STA RAM_A4				;$B5C526   |
 	LDA $32					;$B5C528   |
 	AND #$FFE0				;$B5C52A   |
 	LSR A					;$B5C52D   |
@@ -5180,15 +5177,15 @@ CODE_B5C510:
 	LSR A					;$B5C52F   |
 	LSR A					;$B5C530   |
 	STA $32					;$B5C531   |
-	LDA $A4					;$B5C533   |
+	LDA RAM_A4				;$B5C533   |
 	EOR #$FFE0				;$B5C535   |
 	CLC					;$B5C538   |
 	ADC $32					;$B5C539   |
 	TAY					;$B5C53B   |
-	JSR CODE_B5C94D				;$B5C53C   |
+	JSR get_collision_tile_and_ground	;$B5C53C   |
 	PHA					;$B5C53F   |
-	LDA $AC					;$B5C540   |
-	STA $AE					;$B5C542   |
+	LDA collision_tile			;$B5C540   |
+	STA RAM_AE				;$B5C542   |
 	PLA					;$B5C544   |
 	BMI CODE_B5C554				;$B5C545   |
 	CMP #$001F				;$B5C547   |
@@ -5197,7 +5194,7 @@ CODE_B5C510:
 
 CODE_B5C54F:
 	TAY					;$B5C54F  \
-	ORA $A4					;$B5C550   |
+	ORA RAM_A4				;$B5C550   |
 	BRA CODE_B5C583				;$B5C552  /
 
 CODE_B5C554:
@@ -5205,30 +5202,30 @@ CODE_B5C554:
 	CLC					;$B5C555   |
 	ADC #$0020				;$B5C556   |
 	TAY					;$B5C559   |
-	LDA $A4					;$B5C55A   |
+	LDA RAM_A4				;$B5C55A   |
 	SEC					;$B5C55C   |
 	SBC #$0020				;$B5C55D   |
-	STA $A4					;$B5C560   |
-	JSR CODE_B5C94D				;$B5C562   |
+	STA RAM_A4				;$B5C560   |
+	JSR get_collision_tile_and_ground	;$B5C562   |
 	CMP #$0000				;$B5C565   |
 	BPL CODE_B5C580				;$B5C568   |
 	TYA					;$B5C56A   |
 	CLC					;$B5C56B   |
 	ADC #$0020				;$B5C56C   |
 	TAY					;$B5C56F   |
-	LDA $A4					;$B5C570   |
+	LDA RAM_A4				;$B5C570   |
 	SEC					;$B5C572   |
 	SBC #$0020				;$B5C573   |
-	STA $A4					;$B5C576   |
-	JSR CODE_B5C94D				;$B5C578   |
+	STA RAM_A4				;$B5C576   |
+	JSR get_collision_tile_and_ground	;$B5C578   |
 	CMP #$0000				;$B5C57B   |
 	BMI CODE_B5C5DB				;$B5C57E   |
 CODE_B5C580:					;	   |
 	TAY					;$B5C580   |
-	ORA $A4					;$B5C581   |
+	ORA RAM_A4				;$B5C581   |
 CODE_B5C583:					;	   |
 	PHA					;$B5C583   |
-	LDA $AC					;$B5C584   |
+	LDA collision_tile			;$B5C584   |
 	AND #$7FFF				;$B5C586   |
 	CMP #$4004				;$B5C589   |
 	BEQ CODE_B5C598				;$B5C58C   |
@@ -5238,12 +5235,12 @@ CODE_B5C583:					;	   |
 	BNE CODE_B5C59D				;$B5C596   |
 CODE_B5C598:					;	   |
 	LDA #$2000				;$B5C598   |
-	TSB $AC					;$B5C59B   |
+	TSB collision_tile			;$B5C59B   |
 CODE_B5C59D:					;	   |
-	LDA $AC					;$B5C59D   |
+	LDA collision_tile			;$B5C59D   |
 	STA $32					;$B5C59F   |
 	AND #$003F				;$B5C5A1   |
-	TRB $AC					;$B5C5A4   |
+	TRB collision_tile			;$B5C5A4   |
 	ASL A					;$B5C5A6   |
 	TAX					;$B5C5A7   |
 	LDA DATA_B5C9B5,x			;$B5C5A8   |
@@ -5253,9 +5250,9 @@ CODE_B5C59D:					;	   |
 	BEQ CODE_B5C5BA				;$B5C5B3   |
 	AND #$001F				;$B5C5B5   |
 CODE_B5C5B8:					;	   |
-	TSB $AC					;$B5C5B8   |
+	TSB collision_tile			;$B5C5B8   |
 CODE_B5C5BA:					;	   |
-	LDA $AE					;$B5C5BA   |
+	LDA RAM_AE				;$B5C5BA   |
 	AND #$7FFF				;$B5C5BC   |
 	CMP #$4004				;$B5C5BF   |
 	BEQ CODE_B5C5CE				;$B5C5C2   |
@@ -5265,7 +5262,7 @@ CODE_B5C5BA:					;	   |
 	BNE CODE_B5C5D3				;$B5C5CC   |
 CODE_B5C5CE:					;	   |
 	LDA #$2000				;$B5C5CE   |
-	TSB $AE					;$B5C5D1   |
+	TSB RAM_AE				;$B5C5D1   |
 CODE_B5C5D3:					;	   |
 	PLA					;$B5C5D3   |
 	LDX $62					;$B5C5D4   |
@@ -5275,7 +5272,7 @@ CODE_B5C5D3:					;	   |
 
 CODE_B5C5DB:
 	LDA #$FFC0				;$B5C5DB  \
-	STZ $AC					;$B5C5DE   |
+	STZ collision_tile			;$B5C5DE   |
 	LDX $62					;$B5C5E0   |
 	RTL					;$B5C5E2  /
 
@@ -5284,37 +5281,37 @@ CODE_B5C5E3:
 	SEC					;$B5C5E4   |
 	SBC #$0020				;$B5C5E5   |
 	TAY					;$B5C5E8   |
-	LDA $AC					;$B5C5E9   |
+	LDA collision_tile			;$B5C5E9   |
 	STA $32					;$B5C5EB   |
-	JSR CODE_B5C94D				;$B5C5ED   |
+	JSR get_collision_tile_and_ground	;$B5C5ED   |
 	CMP #$0000				;$B5C5F0   |
 	BMI CODE_B5C5FE				;$B5C5F3   |
 	TAY					;$B5C5F5   |
 	ORA #$0020				;$B5C5F6   |
 	CLC					;$B5C5F9   |
-	ADC $A4					;$B5C5FA   |
+	ADC RAM_A4				;$B5C5FA   |
 	BRA CODE_B5C583				;$B5C5FC  /
 
 CODE_B5C5FE:
 	LDA $32					;$B5C5FE  \
-	STA $AC					;$B5C600   |
+	STA collision_tile			;$B5C600   |
 	LDA #$001F				;$B5C602   |
 	TAY					;$B5C605   |
-	ORA $A4					;$B5C606   |
+	ORA RAM_A4				;$B5C606   |
 	JMP CODE_B5C583				;$B5C608  /
 
-CODE_B5C60B:
+level_collision_B5C60B:
 	LDA $32					;$B5C60B  \
 	AND #$001F				;$B5C60D   |
-	STA $A6					;$B5C610   |
-	STZ $AC					;$B5C612   |
+	STA level_tile_global_x_offset		;$B5C610   |
+	STZ collision_tile			;$B5C612   |
 	LDA $34					;$B5C614   |
 	SEC					;$B5C616   |
 	SBC #$0100				;$B5C617   |
 	EOR #$FFFF				;$B5C61A   |
 	INC A					;$B5C61D   |
 	AND #$FFE0				;$B5C61E   |
-	STA $A4					;$B5C621   |
+	STA RAM_A4				;$B5C621   |
 	LDA $32					;$B5C623   |
 	AND #$FFE0				;$B5C625   |
 	LSR A					;$B5C628   |
@@ -5322,7 +5319,7 @@ CODE_B5C60B:
 	LSR A					;$B5C62A   |
 	LSR A					;$B5C62B   |
 	STA $32					;$B5C62C   |
-	LDA $A4					;$B5C62E   |
+	LDA RAM_A4				;$B5C62E   |
 	EOR #$FFE0				;$B5C630   |
 	STA $36					;$B5C633   |
 	ASL A					;$B5C635   |
@@ -5331,10 +5328,10 @@ CODE_B5C60B:
 	ADC $36					;$B5C638   |
 	ADC $32					;$B5C63A   |
 	TAY					;$B5C63C   |
-	JSR CODE_B5C94D				;$B5C63D   |
+	JSR get_collision_tile_and_ground	;$B5C63D   |
 	PHA					;$B5C640   |
-	LDA $AC					;$B5C641   |
-	STA $AE					;$B5C643   |
+	LDA collision_tile			;$B5C641   |
+	STA RAM_AE				;$B5C643   |
 	PLA					;$B5C645   |
 	BMI CODE_B5C655				;$B5C646   |
 	CMP #$001F				;$B5C648   |
@@ -5343,7 +5340,7 @@ CODE_B5C60B:
 
 CODE_B5C650:
 	TAY					;$B5C650  \
-	ORA $A4					;$B5C651   |
+	ORA RAM_A4				;$B5C651   |
 	BRA CODE_B5C684				;$B5C653  /
 
 CODE_B5C655:
@@ -5351,30 +5348,30 @@ CODE_B5C655:
 	CLC					;$B5C656   |
 	ADC #$00A0				;$B5C657   |
 	TAY					;$B5C65A   |
-	LDA $A4					;$B5C65B   |
+	LDA RAM_A4				;$B5C65B   |
 	SEC					;$B5C65D   |
 	SBC #$0020				;$B5C65E   |
-	STA $A4					;$B5C661   |
-	JSR CODE_B5C94D				;$B5C663   |
+	STA RAM_A4				;$B5C661   |
+	JSR get_collision_tile_and_ground	;$B5C663   |
 	CMP #$0000				;$B5C666   |
 	BPL CODE_B5C681				;$B5C669   |
 	TYA					;$B5C66B   |
 	CLC					;$B5C66C   |
 	ADC #$00A0				;$B5C66D   |
 	TAY					;$B5C670   |
-	LDA $A4					;$B5C671   |
+	LDA RAM_A4				;$B5C671   |
 	SEC					;$B5C673   |
 	SBC #$0020				;$B5C674   |
-	STA $A4					;$B5C677   |
-	JSR CODE_B5C94D				;$B5C679   |
+	STA RAM_A4				;$B5C677   |
+	JSR get_collision_tile_and_ground	;$B5C679   |
 	CMP #$0000				;$B5C67C   |
 	BMI CODE_B5C6DC				;$B5C67F   |
 CODE_B5C681:					;	   |
 	TAY					;$B5C681   |
-	ORA $A4					;$B5C682   |
+	ORA RAM_A4				;$B5C682   |
 CODE_B5C684:					;	   |
 	PHA					;$B5C684   |
-	LDA $AC					;$B5C685   |
+	LDA collision_tile			;$B5C685   |
 	AND #$7FFF				;$B5C687   |
 	CMP #$4004				;$B5C68A   |
 	BEQ CODE_B5C699				;$B5C68D   |
@@ -5384,12 +5381,12 @@ CODE_B5C684:					;	   |
 	BNE CODE_B5C69E				;$B5C697   |
 CODE_B5C699:					;	   |
 	LDA #$2000				;$B5C699   |
-	TSB $AC					;$B5C69C   |
+	TSB collision_tile			;$B5C69C   |
 CODE_B5C69E:					;	   |
-	LDA $AC					;$B5C69E   |
+	LDA collision_tile			;$B5C69E   |
 	STA $32					;$B5C6A0   |
 	AND #$003F				;$B5C6A2   |
-	TRB $AC					;$B5C6A5   |
+	TRB collision_tile			;$B5C6A5   |
 	ASL A					;$B5C6A7   |
 	TAX					;$B5C6A8   |
 	LDA DATA_B5C9B5,x			;$B5C6A9   |
@@ -5399,9 +5396,9 @@ CODE_B5C69E:					;	   |
 	BEQ CODE_B5C6BB				;$B5C6B4   |
 	AND #$001F				;$B5C6B6   |
 CODE_B5C6B9:					;	   |
-	TSB $AC					;$B5C6B9   |
+	TSB collision_tile			;$B5C6B9   |
 CODE_B5C6BB:					;	   |
-	LDA $AE					;$B5C6BB   |
+	LDA RAM_AE				;$B5C6BB   |
 	AND #$7FFF				;$B5C6BD   |
 	CMP #$4004				;$B5C6C0   |
 	BEQ CODE_B5C6CF				;$B5C6C3   |
@@ -5411,7 +5408,7 @@ CODE_B5C6BB:					;	   |
 	BNE CODE_B5C6D4				;$B5C6CD   |
 CODE_B5C6CF:					;	   |
 	LDA #$2000				;$B5C6CF   |
-	TSB $AE					;$B5C6D2   |
+	TSB RAM_AE				;$B5C6D2   |
 CODE_B5C6D4:					;	   |
 	PLA					;$B5C6D4   |
 	LDX $62					;$B5C6D5   |
@@ -5421,7 +5418,7 @@ CODE_B5C6D4:					;	   |
 
 CODE_B5C6DC:
 	LDA #$FFC0				;$B5C6DC  \
-	STZ $AC					;$B5C6DF   |
+	STZ collision_tile			;$B5C6DF   |
 	LDX $62					;$B5C6E1   |
 	RTL					;$B5C6E3  /
 
@@ -5430,37 +5427,37 @@ CODE_B5C6E4:
 	SEC					;$B5C6E5   |
 	SBC #$00A0				;$B5C6E6   |
 	TAY					;$B5C6E9   |
-	LDA $AC					;$B5C6EA   |
+	LDA collision_tile			;$B5C6EA   |
 	STA $32					;$B5C6EC   |
-	JSR CODE_B5C94D				;$B5C6EE   |
+	JSR get_collision_tile_and_ground	;$B5C6EE   |
 	CMP #$0000				;$B5C6F1   |
 	BMI CODE_B5C6FF				;$B5C6F4   |
 	TAY					;$B5C6F6   |
 	ORA #$0020				;$B5C6F7   |
 	CLC					;$B5C6FA   |
-	ADC $A4					;$B5C6FB   |
+	ADC RAM_A4				;$B5C6FB   |
 	BRA CODE_B5C684				;$B5C6FD  /
 
 CODE_B5C6FF:
 	LDA $32					;$B5C6FF  \
-	STA $AC					;$B5C701   |
+	STA collision_tile			;$B5C701   |
 	LDA #$001F				;$B5C703   |
 	TAY					;$B5C706   |
-	ORA $A4					;$B5C707   |
+	ORA RAM_A4				;$B5C707   |
 	JMP CODE_B5C684				;$B5C709  /
 
-CODE_B5C70C:
+level_collision_B5C70C:
 	LDA $32					;$B5C70C  \ \ Get sprite x position
 	AND #$001F				;$B5C70E   | | Get x offset the sprite on current level tile
-	STA $A6					;$B5C711   |/
-	STZ $AC					;$B5C713   |
+	STA level_tile_global_x_offset		;$B5C711   |/
+	STZ collision_tile			;$B5C713   |
 	LDA $34					;$B5C715   |
 	SEC					;$B5C717   |
 	SBC #$0100				;$B5C718   |
 	EOR #$FFFF				;$B5C71B   |
 	INC A					;$B5C71E   |
 	AND #$FFE0				;$B5C71F   |
-	STA $A4					;$B5C722   |
+	STA RAM_A4				;$B5C722   |
 	LDA $32					;$B5C724   |
 	AND #$FFE0				;$B5C726   |
 	LSR A					;$B5C729   |
@@ -5468,7 +5465,7 @@ CODE_B5C70C:
 	LSR A					;$B5C72B   |
 	LSR A					;$B5C72C   |
 	STA $32					;$B5C72D   |
-	LDA $A4					;$B5C72F   |
+	LDA RAM_A4				;$B5C72F   |
 	EOR #$FFE0				;$B5C731   |
 	ASL A					;$B5C734   |
 	STA $36					;$B5C735   |
@@ -5477,10 +5474,10 @@ CODE_B5C70C:
 	ADC $36					;$B5C739   |
 	ADC $32					;$B5C73B   |
 	TAY					;$B5C73D   |
-	JSR CODE_B5C94D				;$B5C73E   |
+	JSR get_collision_tile_and_ground	;$B5C73E   |
 	PHA					;$B5C741   |
-	LDA $AC					;$B5C742   |
-	STA $AE					;$B5C744   |
+	LDA collision_tile			;$B5C742   |
+	STA RAM_AE				;$B5C744   |
 	PLA					;$B5C746   |
 	BMI CODE_B5C756				;$B5C747   |
 	CMP #$001F				;$B5C749   |
@@ -5489,7 +5486,7 @@ CODE_B5C70C:
 
 CODE_B5C751:
 	TAY					;$B5C751  \
-	ORA $A4					;$B5C752   |
+	ORA RAM_A4				;$B5C752   |
 	BRA CODE_B5C785				;$B5C754  /
 
 CODE_B5C756:
@@ -5497,30 +5494,30 @@ CODE_B5C756:
 	CLC					;$B5C757   |
 	ADC #$00C0				;$B5C758   |
 	TAY					;$B5C75B   |
-	LDA $A4					;$B5C75C   |
+	LDA RAM_A4				;$B5C75C   |
 	SEC					;$B5C75E   |
 	SBC #$0020				;$B5C75F   |
-	STA $A4					;$B5C762   |
-	JSR CODE_B5C94D				;$B5C764   |
+	STA RAM_A4				;$B5C762   |
+	JSR get_collision_tile_and_ground	;$B5C764   |
 	CMP #$0000				;$B5C767   |
 	BPL CODE_B5C782				;$B5C76A   |
 	TYA					;$B5C76C   |
 	CLC					;$B5C76D   |
 	ADC #$00C0				;$B5C76E   |
 	TAY					;$B5C771   |
-	LDA $A4					;$B5C772   |
+	LDA RAM_A4				;$B5C772   |
 	SEC					;$B5C774   |
 	SBC #$0020				;$B5C775   |
-	STA $A4					;$B5C778   |
-	JSR CODE_B5C94D				;$B5C77A   |
+	STA RAM_A4				;$B5C778   |
+	JSR get_collision_tile_and_ground	;$B5C77A   |
 	CMP #$0000				;$B5C77D   |
 	BMI CODE_B5C7DD				;$B5C780   |
 CODE_B5C782:					;	   |
 	TAY					;$B5C782   |
-	ORA $A4					;$B5C783   |
+	ORA RAM_A4				;$B5C783   |
 CODE_B5C785:					;	   |
 	PHA					;$B5C785   |
-	LDA $AC					;$B5C786   |
+	LDA collision_tile			;$B5C786   |
 	AND #$7FFF				;$B5C788   |
 	CMP #$4004				;$B5C78B   |
 	BEQ CODE_B5C79A				;$B5C78E   |
@@ -5530,12 +5527,12 @@ CODE_B5C785:					;	   |
 	BNE CODE_B5C79F				;$B5C798   |
 CODE_B5C79A:					;	   |
 	LDA #$2000				;$B5C79A   |
-	TSB $AC					;$B5C79D   |
+	TSB collision_tile			;$B5C79D   |
 CODE_B5C79F:					;	   |
-	LDA $AC					;$B5C79F   |
+	LDA collision_tile			;$B5C79F   |
 	STA $32					;$B5C7A1   |
 	AND #$003F				;$B5C7A3   |
-	TRB $AC					;$B5C7A6   |
+	TRB collision_tile			;$B5C7A6   |
 	ASL A					;$B5C7A8   |
 	TAX					;$B5C7A9   |
 	LDA DATA_B5C9B5,x			;$B5C7AA   |
@@ -5545,9 +5542,9 @@ CODE_B5C79F:					;	   |
 	BEQ CODE_B5C7BC				;$B5C7B5   |
 	AND #$001F				;$B5C7B7   |
 CODE_B5C7BA:					;	   |
-	TSB $AC					;$B5C7BA   |
+	TSB collision_tile			;$B5C7BA   |
 CODE_B5C7BC:					;	   |
-	LDA $AE					;$B5C7BC   |
+	LDA RAM_AE				;$B5C7BC   |
 	AND #$7FFF				;$B5C7BE   |
 	CMP #$4004				;$B5C7C1   |
 	BEQ CODE_B5C7D0				;$B5C7C4   |
@@ -5557,7 +5554,7 @@ CODE_B5C7BC:					;	   |
 	BNE CODE_B5C7D5				;$B5C7CE   |
 CODE_B5C7D0:					;	   |
 	LDA #$2000				;$B5C7D0   |
-	TSB $AE					;$B5C7D3   |
+	TSB RAM_AE				;$B5C7D3   |
 CODE_B5C7D5:					;	   |
 	PLA					;$B5C7D5   |
 	LDX $62					;$B5C7D6   |
@@ -5567,7 +5564,7 @@ CODE_B5C7D5:					;	   |
 
 CODE_B5C7DD:
 	LDA #$FFC0				;$B5C7DD  \
-	STZ $AC					;$B5C7E0   |
+	STZ collision_tile			;$B5C7E0   |
 	LDX $62					;$B5C7E2   |
 	RTL					;$B5C7E4  /
 
@@ -5576,36 +5573,36 @@ CODE_B5C7E5:
 	SEC					;$B5C7E6   |
 	SBC #$00C0				;$B5C7E7   |
 	TAY					;$B5C7EA   |
-	LDA $AC					;$B5C7EB   |
+	LDA collision_tile			;$B5C7EB   |
 	STA $32					;$B5C7ED   |
-	JSR CODE_B5C94D				;$B5C7EF   |
+	JSR get_collision_tile_and_ground	;$B5C7EF   |
 	CMP #$0000				;$B5C7F2   |
 	BMI CODE_B5C800				;$B5C7F5   |
 	TAY					;$B5C7F7   |
 	ORA #$0020				;$B5C7F8   |
 	CLC					;$B5C7FB   |
-	ADC $A4					;$B5C7FC   |
+	ADC RAM_A4				;$B5C7FC   |
 	BRA CODE_B5C785				;$B5C7FE  /
 
 CODE_B5C800:
 	LDA $32					;$B5C800  \
-	STA $AC					;$B5C802   |
+	STA collision_tile			;$B5C802   |
 	LDA #$001F				;$B5C804   |
 	TAY					;$B5C807   |
-	ORA $A4					;$B5C808   |
+	ORA RAM_A4				;$B5C808   |
 	JMP CODE_B5C785				;$B5C80A  /
 
-CODE_B5C80D:
+level_collision_B5C80D:
 	LDA current_sprite			;$B5C80D  \
-	LDA #$0E40				;$B5C80F   |
+	LDA #sprite_table.slot_2		;$B5C80F   |
 	CMP current_sprite			;$B5C812   |
-	BCC CODE_B5C82C				;$B5C814   |
-	JSL CODE_B5C82C				;$B5C816   |
+	BCC level_collision_B5C82C		;$B5C814   |
+	JSL level_collision_B5C82C		;$B5C816   |
 	STA $32					;$B5C81A   |
 	LDA #$0100				;$B5C81C   |
-	TRB $AC					;$B5C81F   |
+	TRB collision_tile			;$B5C81F   |
 	BEQ CODE_B5C829				;$B5C821   |
-	STZ $AC					;$B5C823   |
+	STZ collision_tile			;$B5C823   |
 	LDA #$FFC0				;$B5C825   |
 	RTL					;$B5C828  /
 
@@ -5613,11 +5610,11 @@ CODE_B5C829:
 	LDA $32					;$B5C829  \
 	RTL					;$B5C82B  /
 
-CODE_B5C82C:
+level_collision_B5C82C:
 	LDA $32					;$B5C82C  \
 	AND #$001F				;$B5C82E   |
-	STA $A6					;$B5C831   |
-	STZ $AC					;$B5C833   |
+	STA level_tile_global_x_offset		;$B5C831   |
+	STZ collision_tile			;$B5C833   |
 	LDA $34					;$B5C835   |
 	SEC					;$B5C837   |
 	SBC #$0100				;$B5C838   |
@@ -5631,11 +5628,11 @@ CODE_B5C848:					;	   |
 	EOR #$FFFF				;$B5C848   |
 	INC A					;$B5C84B   |
 	AND #$01E0				;$B5C84C   |
-	STA $A4					;$B5C84F   |
+	STA RAM_A4				;$B5C84F   |
 	LDA $32					;$B5C851   |
 	AND #$FFE0				;$B5C853   |
 	STA $32					;$B5C856   |
-	LDA $A4					;$B5C858   |
+	LDA RAM_A4				;$B5C858   |
 	EOR #$01E0				;$B5C85A   |
 	LSR A					;$B5C85D   |
 	LSR A					;$B5C85E   |
@@ -5644,10 +5641,10 @@ CODE_B5C848:					;	   |
 	CLC					;$B5C861   |
 	ADC $32					;$B5C862   |
 	TAY					;$B5C864   |
-	JSR CODE_B5C94D				;$B5C865   |
+	JSR get_collision_tile_and_ground	;$B5C865   |
 	PHA					;$B5C868   |
-	LDA $AC					;$B5C869   |
-	STA $AE					;$B5C86B   |
+	LDA collision_tile			;$B5C869   |
+	STA RAM_AE				;$B5C86B   |
 	PLA					;$B5C86D   |
 	BMI CODE_B5C87D				;$B5C86E   |
 	CMP #$001F				;$B5C870   |
@@ -5656,7 +5653,7 @@ CODE_B5C848:					;	   |
 
 CODE_B5C878:
 	TAY					;$B5C878  \
-	ORA $A4					;$B5C879   |
+	ORA RAM_A4				;$B5C879   |
 	BRA CODE_B5C8B3				;$B5C87B  /
 
 CODE_B5C87D:
@@ -5668,11 +5665,11 @@ CODE_B5C87D:
 	JMP CODE_B5C913				;$B5C885  /
 
 CODE_B5C888:
-	LDA $A4					;$B5C888  \
+	LDA RAM_A4				;$B5C888  \
 	SEC					;$B5C88A   |
 	SBC #$0020				;$B5C88B   |
-	STA $A4					;$B5C88E   |
-	JSR CODE_B5C94D				;$B5C890   |
+	STA RAM_A4				;$B5C88E   |
+	JSR get_collision_tile_and_ground	;$B5C890   |
 	CMP #$0000				;$B5C893   |
 	BPL CODE_B5C8B0				;$B5C896   |
 	INY					;$B5C898   |
@@ -5680,19 +5677,19 @@ CODE_B5C888:
 	TYA					;$B5C89A   |
 	BIT #$001E				;$B5C89B   |
 	BEQ CODE_B5C913				;$B5C89E   |
-	LDA $A4					;$B5C8A0   |
+	LDA RAM_A4				;$B5C8A0   |
 	SEC					;$B5C8A2   |
 	SBC #$0020				;$B5C8A3   |
-	STA $A4					;$B5C8A6   |
-	JSR CODE_B5C94D				;$B5C8A8   |
+	STA RAM_A4				;$B5C8A6   |
+	JSR get_collision_tile_and_ground	;$B5C8A8   |
 	CMP #$0000				;$B5C8AB   |
 	BMI CODE_B5C913				;$B5C8AE   |
 CODE_B5C8B0:					;	   |
 	TAY					;$B5C8B0   |
-	ORA $A4					;$B5C8B1   |
+	ORA RAM_A4				;$B5C8B1   |
 CODE_B5C8B3:					;	   |
 	PHA					;$B5C8B3   |
-	LDA $AC					;$B5C8B4   |
+	LDA collision_tile			;$B5C8B4   |
 	AND #$7FFF				;$B5C8B6   |
 	CMP #$4004				;$B5C8B9   |
 	BEQ CODE_B5C8C8				;$B5C8BC   |
@@ -5702,12 +5699,12 @@ CODE_B5C8B3:					;	   |
 	BNE CODE_B5C8CD				;$B5C8C6   |
 CODE_B5C8C8:					;	   |
 	LDA #$2000				;$B5C8C8   |
-	TSB $AC					;$B5C8CB   |
+	TSB collision_tile			;$B5C8CB   |
 CODE_B5C8CD:					;	   |
-	LDA $AC					;$B5C8CD   |
+	LDA collision_tile			;$B5C8CD   |
 	STA $32					;$B5C8CF   |
 	AND #$003F				;$B5C8D1   |
-	TRB $AC					;$B5C8D4   |
+	TRB collision_tile			;$B5C8D4   |
 	ASL A					;$B5C8D6   |
 	TAX					;$B5C8D7   |
 	LDA DATA_B5C9B5,x			;$B5C8D8   |
@@ -5717,9 +5714,9 @@ CODE_B5C8CD:					;	   |
 	BEQ CODE_B5C8EA				;$B5C8E3   |
 	AND #$001F				;$B5C8E5   |
 CODE_B5C8E8:					;	   |
-	TSB $AC					;$B5C8E8   |
+	TSB collision_tile			;$B5C8E8   |
 CODE_B5C8EA:					;	   |
-	LDA $AE					;$B5C8EA   |
+	LDA RAM_AE				;$B5C8EA   |
 	AND #$7FFF				;$B5C8EC   |
 	CMP #$4004				;$B5C8EF   |
 	BEQ CODE_B5C8FE				;$B5C8F2   |
@@ -5729,7 +5726,7 @@ CODE_B5C8EA:					;	   |
 	BNE CODE_B5C903				;$B5C8FC   |
 CODE_B5C8FE:					;	   |
 	LDA #$2000				;$B5C8FE   |
-	TSB $AE					;$B5C901   |
+	TSB RAM_AE				;$B5C901   |
 CODE_B5C903:					;	   |
 	PLA					;$B5C903   |
 	LDX $62					;$B5C904   |
@@ -5743,7 +5740,7 @@ CODE_B5C90E:					;	   |
 
 CODE_B5C913:
 	LDA #$FFC0				;$B5C913  \
-	STZ $AC					;$B5C916   |
+	STZ collision_tile			;$B5C916   |
 	LDX $62					;$B5C918   |
 	RTL					;$B5C91A  /
 
@@ -5753,15 +5750,15 @@ CODE_B5C91B:
 	BEQ CODE_B5C939				;$B5C91F   |
 	DEY					;$B5C921   |
 	DEY					;$B5C922   |
-	LDA $AC					;$B5C923   |
+	LDA collision_tile			;$B5C923   |
 	STA $32					;$B5C925   |
-	JSR CODE_B5C94D				;$B5C927   |
+	JSR get_collision_tile_and_ground	;$B5C927   |
 	CMP #$0000				;$B5C92A   |
 	BMI CODE_B5C941				;$B5C92D   |
 	TAY					;$B5C92F   |
 	ORA #$0020				;$B5C930   |
 	CLC					;$B5C933   |
-	ADC $A4					;$B5C934   |
+	ADC RAM_A4				;$B5C934   |
 CODE_B5C936:					;	   |
 	JMP CODE_B5C8B3				;$B5C936  /
 
@@ -5772,68 +5769,68 @@ CODE_B5C939:
 
 CODE_B5C941:
 	LDA $32					;$B5C941  \
-	STA $AC					;$B5C943   |
+	STA collision_tile			;$B5C943   |
 	LDA #$001F				;$B5C945   |
 	TAY					;$B5C948   |
-	ORA $A4					;$B5C949   |
+	ORA RAM_A4				;$B5C949   |
 	BRA CODE_B5C936				;$B5C94B  /
 
-CODE_B5C94D:
-	LDA $A6					;$B5C94D  \ \
-	STA $A2					;$B5C94F   |/
-	LDA [$98],y				;$B5C951   |\
-	TYX					;$B5C953   | | look up and save what 32x32 tile sprite is currently on
-	STA $A8					;$B5C954   |/
-	BEQ CODE_B5C9B1				;$B5C956   |
+get_collision_tile_and_ground:
+	LDA level_tile_global_x_offset		;$B5C94D  \ \
+	STA level_tile_local_x_offset		;$B5C94F   |/
+	LDA [level_tilemap],y			;$B5C951   |\
+	TYX					;$B5C953   | | Look up and save what 32x32 tile sprite is currently on
+	STA level_tile				;$B5C954   |/
+	BEQ .no_collision_return		;$B5C956   |> If level tile is blank then return with no collision
 	BIT #$4000				;$B5C958   |\ Check if level tile is flipped
-	BEQ CODE_B5C966				;$B5C95B   |/
-	LDA $A6					;$B5C95D   |\
+	BEQ .handed_flipping			;$B5C95B   |/
+	LDA level_tile_global_x_offset		;$B5C95D   |\
 	EOR #$001F				;$B5C95F   | |
-	STA $A2					;$B5C962   |/
-	LDA $A8					;$B5C964   |
-CODE_B5C966:					;	   |
+	STA level_tile_local_x_offset		;$B5C962   |/
+	LDA level_tile				;$B5C964   |
+.handed_flipping:				;	   |
 	AND #$3FFF				;$B5C966   |\
-	CMP $A0					;$B5C969   | |
-	BCS CODE_B5C9B1				;$B5C96B   |/ If 32x32 tile outside range of collision map, no collision
+	CMP terrain_collision_tile_count	;$B5C969   | |
+	BCS .no_collision_return		;$B5C96B   |/ If 32x32 tile outside range of collision map, no collision
 	ASL A					;$B5C96D   |
 	ASL A					;$B5C96E   |
 	TAY					;$B5C96F   |
-	LDA $A2					;$B5C970   |\
+	LDA level_tile_local_x_offset		;$B5C970   |\
 	AND #$0010				;$B5C972   | | If sprite on left half of tile, get left collision tile
-	BEQ CODE_B5C979				;$B5C975   |/
+	BEQ .half_handled			;$B5C975   |/
 	INY					;$B5C977   |\ Else sprite on right half of tile, get left collision tile
 	INY					;$B5C978   |/
-CODE_B5C979:					;	   |
-	LDA [$9C],y				;$B5C979   |\
+.half_handled:					;	   |
+	LDA [level_collision_tilemap],y		;$B5C979   |\
 	BIT #$8000				;$B5C97B   | | If the collision tile isnt flipped skip flipping
-	BEQ .no_collision_tile_flip		;$B5C97E   |/
-	LDA $A2					;$B5C980   |\
+	BEQ .collision_tile_flip_handled	;$B5C97E   |/
+	LDA level_tile_local_x_offset		;$B5C980   |\
 	EOR #$000F				;$B5C982   | | Else flip x offset of sprite on tile
-	STA $A2					;$B5C985   | |
-	LDA [$9C],y				;$B5C987   |/
-.no_collision_tile_flip				;	   |
+	STA level_tile_local_x_offset		;$B5C985   | |
+	LDA [level_collision_tilemap],y		;$B5C987   |/
+.collision_tile_flip_handled:			;	   |
 	TXY					;$B5C989   |
-	BIT $A8					;$B5C98A   |
-	BVC CODE_B5C991				;$B5C98C   |
+	BIT level_tile				;$B5C98A   |\
+	BVC .CODE_B5C991			;$B5C98C   |/
 	EOR #$8000				;$B5C98E   |
-CODE_B5C991:					;	   |
-	STA $AC					;$B5C991   |
+.CODE_B5C991:					;	   |
+	STA collision_tile			;$B5C991   |
 	AND #$00FF				;$B5C993   |\
-	BEQ CODE_B5C9B1				;$B5C996   |/ If collision tile is 0, no collision
-	ASL A					;$B5C998   |
-	TAX					;$B5C999   |
-	LDA.l DATA_B5CA58,x			;$B5C99A   |
-	STA $AA					;$B5C99E   |
-	LDA $A2					;$B5C9A0   |
-	AND #$000F				;$B5C9A2   |
-	JSR CODE_B5CA55				;$B5C9A5   |
-	CMP #$001F				;$B5C9A8   |
-	BMI CODE_B5C9B0				;$B5C9AB   |
-	LDA #$001F				;$B5C9AD   |
-CODE_B5C9B0:					;	   |
+	BEQ .no_collision_return		;$B5C996   |/ If collision tile is 0, no collision
+	ASL A					;$B5C998   |\
+	TAX					;$B5C999   | |
+	LDA.l collision_ground_routine_table,x	;$B5C99A   | | Lookup the ground height calculation routine for the tile
+	STA collision_tile_ground_routine	;$B5C99E   |/ Save collision ground routine pointer
+	LDA level_tile_local_x_offset		;$B5C9A0   |\
+	AND #$000F				;$B5C9A2   |/ Get the sprite x position on the 16x32 collision tile
+	JSR calculate_collision_ground		;$B5C9A5   |
+	CMP #$001F				;$B5C9A8   |\
+	BMI .return				;$B5C9AB   |/ If ground height is within tile height range then return it
+	LDA #$001F				;$B5C9AD   |> Else cap it to the tile height and return
+.return:					;	   |
 	RTS					;$B5C9B0  /
 
-CODE_B5C9B1:
+.no_collision_return:
 	LDA #$FFFF				;$B5C9B1  \
 	RTS					;$B5C9B4  /
 
@@ -5920,10 +5917,10 @@ DATA_B5C9B5:
 	dw $0000				;9C
 	dw $0000				;9E
 
-CODE_B5CA55:
-	JMP ($00AA)				;$B5CA55  /
+calculate_collision_ground:
+	JMP.w (collision_tile_ground_routine)	;$B5CA55  /
 
-DATA_B5CA58:
+collision_ground_routine_table:
 	dw CODE_B5CC0C				;00
 	dw CODE_B5CC10				;01
 	dw CODE_B5CC14				;02
@@ -6080,13 +6077,13 @@ CODE_B5CB5F:
 
 CODE_B5CB63:
 	LDA #$0200				;$B5CB63  \
-	TSB $AC					;$B5CB66   |
+	TSB collision_tile			;$B5CB66   |
 	LDA #$001F				;$B5CB68   |
 	RTS					;$B5CB6B  /
 
 CODE_B5CB6C:
 	LDA #$0200				;$B5CB6C  \
-	TSB $AC					;$B5CB6F   |
+	TSB collision_tile			;$B5CB6F   |
 	LDA #$000F				;$B5CB71   |
 	RTS					;$B5CB74  /
 
@@ -6128,7 +6125,7 @@ CODE_B5CBAD:					;	   |
 
 CODE_B5CBB1:
 	LDA #$1000				;$B5CBB1  \
-	TSB $AC					;$B5CBB4   |
+	TSB collision_tile			;$B5CBB4   |
 	LDA #$001F				;$B5CBB6   |
 	RTS					;$B5CBB9  /
 
@@ -6136,7 +6133,7 @@ CODE_B5CBBA:
 	CMP #$0004				;$B5CBBA  \
 	BCS CODE_B5CBC8				;$B5CBBD   |
 	LDA #$1000				;$B5CBBF   |
-	TSB $AC					;$B5CBC2   |
+	TSB collision_tile			;$B5CBC2   |
 	LDA #$001F				;$B5CBC4   |
 	RTS					;$B5CBC7  /
 
@@ -6148,14 +6145,14 @@ CODE_B5CBCC:
 	CMP #$0004				;$B5CBCC  \
 	BCS CODE_B5CBD6				;$B5CBCF   |
 	LDA #$1400				;$B5CBD1   |
-	TSB $AC					;$B5CBD4   |
+	TSB collision_tile			;$B5CBD4   |
 CODE_B5CBD6:					;	   |
 	LDA #$0013				;$B5CBD6   |
 	RTS					;$B5CBD9  /
 
 CODE_B5CBDA:
 	LDA #$0800				;$B5CBDA  \
-	TSB $AC					;$B5CBDD   |
+	TSB collision_tile			;$B5CBDD   |
 	LDA #$000F				;$B5CBDF   |
 	RTS					;$B5CBE2  /
 
@@ -6163,7 +6160,7 @@ CODE_B5CBE3:
 	CMP #$0004				;$B5CBE3  \
 	BCS CODE_B5CBF1				;$B5CBE6   |
 	LDA #$1000				;$B5CBE8   |
-	TSB $AC					;$B5CBEB   |
+	TSB collision_tile			;$B5CBEB   |
 	LDA #$001F				;$B5CBED   |
 	RTS					;$B5CBF0  /
 
@@ -6175,13 +6172,13 @@ CODE_B5CBF5:
 	CMP #$0004				;$B5CBF5  \
 	BCS CODE_B5CC03				;$B5CBF8   |
 	LDA #$1000				;$B5CBFA   |
-	TSB $AC					;$B5CBFD   |
+	TSB collision_tile			;$B5CBFD   |
 	LDA #$001F				;$B5CBFF   |
 	RTS					;$B5CC02  /
 
 CODE_B5CC03:
 	LDA #$0800				;$B5CC03  \
-	TSB $AC					;$B5CC06   |
+	TSB collision_tile			;$B5CC06   |
 	LDA #$000F				;$B5CC08   |
 	RTS					;$B5CC0B  /
 
@@ -6570,10 +6567,38 @@ CODE_B5CDB8:
 	RTS					;$B5CDBD  /
 
 DATA_B5CDBE:
-	db $01, $02, $02, $03, $04, $04, $05, $06
-	db $06, $07, $08, $08, $09, $0A, $0A, $0B
-	db $0C, $0C, $0D, $0E, $0E, $0F, $10, $10
-	db $11, $12, $12, $13, $14, $14, $15, $16
+	db $01
+	db $02
+	db $02
+	db $03
+	db $04
+	db $04
+	db $05
+	db $06
+	db $06
+	db $07
+	db $08
+	db $08
+	db $09
+	db $0A
+	db $0A
+	db $0B
+	db $0C
+	db $0C
+	db $0D
+	db $0E
+	db $0E
+	db $0F
+	db $10
+	db $10
+	db $11
+	db $12
+	db $12
+	db $13
+	db $14
+	db $14
+	db $15
+	db $16
 
 CODE_B5CDDE:
 	LDX active_kong_sprite			;$B5CDDE  \
@@ -7466,8 +7491,8 @@ CODE_B5D580:
 	LDA #$02A0				;$B5D5B9   |
 	STA $0DF4				;$B5D5BC   |
 	LDA #$0004				;$B5D5BF   |
-	STA $0E40				;$B5D5C2   |
-	STA $0E9E				;$B5D5C5   |
+	STA sprite_table.slot_2			;$B5D5C2   |
+	STA sprite_table.slot_3			;$B5D5C5   |
 	LDA #$000C				;$B5D5C8   |
 	STA $0E46				;$B5D5CB   |
 	STA $0EA4				;$B5D5CE   |
@@ -7487,7 +7512,7 @@ CODE_B5D580:
 	LDA #$C2A0				;$B5D5F8   |
 	STA $0EB0				;$B5D5FB   |
 	LDA #$0004				;$B5D5FE   |
-	STA $0EFC				;$B5D601   |
+	STA sprite_table.slot_4			;$B5D601   |
 	LDA #$00D0				;$B5D604   |
 	STA $0F02				;$B5D607   |
 	LDA #$01C8				;$B5D60A   |
@@ -7544,7 +7569,7 @@ CODE_B5D644:					;	   |
 	EOR #$4000				;$B5D685   |
 	STA $0FCA				;$B5D688   |
 	LDA #$0004				;$B5D68B   |
-	STA $118E				;$B5D68E   |
+	STA sprite_table.slot_11		;$B5D68E   |
 	LDA #$0089				;$B5D691   |
 	STA $1194				;$B5D694   |
 	LDA #$0100				;$B5D697   |
@@ -7556,7 +7581,7 @@ CODE_B5D644:					;	   |
 	LDA #$0C38				;$B5D6A9   |
 	STA $11A8				;$B5D6AC   |
 	LDA #$0004				;$B5D6AF   |
-	STA $11EC				;$B5D6B2   |
+	STA sprite_table.slot_12		;$B5D6B2   |
 	LDA #$0095				;$B5D6B5   |
 	STA $11F2				;$B5D6B8   |
 	LDA #$0101				;$B5D6BB   |
@@ -7568,7 +7593,7 @@ CODE_B5D644:					;	   |
 	LDA #$0B98				;$B5D6CD   |
 	STA $1206				;$B5D6D0   |
 	LDA #$0004				;$B5D6D3   |
-	STA $124A				;$B5D6D6   |
+	STA sprite_table.slot_13		;$B5D6D6   |
 	LDA #$007C				;$B5D6D9   |
 	STA $1250				;$B5D6DC   |
 	LDA #$0101				;$B5D6DF   |
@@ -7580,7 +7605,7 @@ CODE_B5D644:					;	   |
 	LDA #$0B98				;$B5D6F1   |
 	STA $1264				;$B5D6F4   |
 	LDA #$0004				;$B5D6F7   |
-	STA $12A8				;$B5D6FA   |
+	STA sprite_table.slot_14		;$B5D6FA   |
 	LDA #$00C8				;$B5D6FD   |
 	STA $12AE				;$B5D700   |
 	LDA #$0101				;$B5D703   |
@@ -7592,7 +7617,7 @@ CODE_B5D644:					;	   |
 	LDA #$0B98				;$B5D715   |
 	STA $12C2				;$B5D718   |
 	LDA #$0004				;$B5D71B   |
-	STA $1306				;$B5D71E   |
+	STA sprite_table.slot_15		;$B5D71E   |
 	LDA #$00A8				;$B5D721   |
 	STA $130C				;$B5D724   |
 	LDA #$0101				;$B5D727   |
@@ -7604,7 +7629,7 @@ CODE_B5D644:					;	   |
 	LDA #$0B98				;$B5D739   |
 	STA $1320				;$B5D73C   |
 	LDA #$0004				;$B5D73F   |
-	STA $1364				;$B5D742   |
+	STA sprite_table.slot_16		;$B5D742   |
 	LDA #$0010				;$B5D745   |
 	STA $136A				;$B5D748   |
 	LDA #$0110				;$B5D74B   |
@@ -7622,7 +7647,7 @@ CODE_B5D644:					;	   |
 
 CODE_B5D76E:
 	LDA #$0004				;$B5D76E  \
-	STA $13C2				;$B5D771   |
+	STA sprite_table.slot_17		;$B5D771   |
 	LDA #$0160				;$B5D774   |
 	STA $13C8				;$B5D777   |
 	LDA #$0110				;$B5D77A   |
@@ -7635,7 +7660,7 @@ CODE_B5D76E:
 	STA $13DC				;$B5D78F   |
 	STZ $1406				;$B5D792   |
 	LDA #$0004				;$B5D795   |
-	STA $1420				;$B5D798   |
+	STA sprite_table.slot_18		;$B5D798   |
 	LDA #$009A				;$B5D79B   |
 	STA $1426				;$B5D79E   |
 	LDA #$010E				;$B5D7A1   |
@@ -7653,11 +7678,11 @@ CODE_B5D76E:
 
 CODE_B5D7C4:
 	LDA #$0004				;$B5D7C4  \
-	STA $147E				;$B5D7C7   |
-	STA $14DC				;$B5D7CA   |
-	STA $153A				;$B5D7CD   |
-	STA $1598				;$B5D7D0   |
-	STA $1364				;$B5D7D3   |
+	STA sprite_table.slot_19		;$B5D7C7   |
+	STA sprite_table.slot_20		;$B5D7CA   |
+	STA sprite_table.slot_21		;$B5D7CD   |
+	STA sprite_table.slot_22		;$B5D7D0   |
+	STA sprite_table.slot_16		;$B5D7D3   |
 	LDA #$0240				;$B5D7D6   |
 	STA $1484				;$B5D7D9   |
 	LDA #$01CC				;$B5D7DC   |
@@ -9055,7 +9080,7 @@ CODE_B5E34A:					;	   |
 	BCC CODE_B5E2FB				;$B5E350   |
 	BEQ CODE_B5E339				;$B5E352   |
 CODE_B5E354:					;	   |
-	STZ camera_0A90				;$B5E354   |
+	STZ camera_anti_piracy_counter		;$B5E354   |
 	STZ camera_0AB2				;$B5E357   |
 	STZ camera_0ABC				;$B5E35A   |
 	STZ camera_0AE8				;$B5E35D   |
@@ -9844,9 +9869,9 @@ if !version == 0				;	   |
 else						;	   |
 	STA camera_0AAE				;$B5E906   |
 endif						;	   |
-	INC camera_0A90				;$B5E908   |
+	INC camera_anti_piracy_counter		;$B5E908   |
 	BPL CODE_B5E90E				;$B5E90A   |
-	DEC camera_0A90				;$B5E90C   |
+	DEC camera_anti_piracy_counter		;$B5E90C   |
 CODE_B5E90E:					;	   |
 	LDX camera_0ABC				;$B5E90E   |
 	LDA.w RAM_7E9128,x			;$B5E910   |
@@ -10615,18 +10640,18 @@ CODE_B5ED61:					;	   |
 	RTS					;$B5ED6F  /
 
 CODE_B5ED70:
-	LDX camera_0A90				;$B5ED70  \> Piracy check. Load anti piracy checksum ($A00 + $90 = $A90)
+	LDX camera_anti_piracy_counter		;$B5ED70  \> Piracy check. Load anti piracy checksum ($A00 + $90 = $A90)
 	BMI .continue				;$B5ED72   |> If address negative, checksum done (1 byte per frame)
 	LDA.w #<:rare_string			;$B5ED74   |\
 	STA camera_0A92				;$B5ED77   | | Store address of anti piracy routine at $A90
 	LDY #rare_string			;$B5ED79   | |
-	LDA [camera_0A90],y			;$B5ED7C   |/
+	LDA.b [camera_anti_piracy_counter],y	;$B5ED7C   |/
 	CLC					;$B5ED7E   |\
 	ADC camera_0AB2				;$B5ED7F   | | Add next byte to checksum
 	STA camera_0AB2				;$B5ED81   |/ Checksum is stored at $AB2
 	CPX #$021F				;$B5ED83   |\
 	BCC .continue				;$B5ED86   |/ If the checksum isn't done yet continue until next frame
-	ROR camera_0A90				;$B5ED88   |> Make address negative to flag checksum as finished
+	ROR camera_anti_piracy_counter		;$B5ED88   |> Make address negative to flag checksum as finished
 	CLC					;$B5ED8A   |\
 	ADC #$2315				;$B5ED8B   |/ Add to checksum for true checksum. (Hide actual checksum)
 	CMP #$9BEA				;$B5ED8E   |\
@@ -10701,11 +10726,11 @@ CODE_B5EDF8:					;	   |
 	LDA camera_0ADB				;$B5EDF8   |
 	SEC					;$B5EDFA   |
 	SBC screen_scroll_y_position		;$B5EDFB   |
-	STA $17D2				;$B5EDFE   |
+	STA tilemap_y_stream_flag		;$B5EDFE   |
 	LDA camera_0ADB				;$B5EE01   |
 	STA screen_scroll_y_position		;$B5EE03   |
 	DEC A					;$B5EE06   |
-	STA $17C2				;$B5EE07   |
+	STA screen_scroll_y_position_final	;$B5EE07   |
 CODE_B5EE0A:					;	   |
 	LDA.w time_stop_flags			;$B5EE0A   |
 	BIT #$0001				;$B5EE0D   |
@@ -10763,7 +10788,7 @@ CODE_B5EE65:					;	   |
 	LDA camera_0AD7				;$B5EE65   |
 	SEC					;$B5EE67   |
 	SBC screen_scroll_x_position		;$B5EE68   |
-	STA $17D6				;$B5EE6B   |
+	STA tilemap_x_stream_flag		;$B5EE6B   |
 	LDA camera_0AD7				;$B5EE6E   |
 	STA screen_scroll_x_position		;$B5EE70   |
 	LDA camera_0AD6				;$B5EE73   |
@@ -11707,7 +11732,7 @@ CODE_B5F3E9:
 	LDA #$0000				;$B5F3F2   |
 CODE_B5F3F5:					;	   |
 	STA $44					;$B5F3F5   |
-	LDA $17C2				;$B5F3F7   |
+	LDA screen_scroll_y_position_final	;$B5F3F7   |
 	SEC					;$B5F3FA   |
 	SBC #$008F				;$B5F3FB   |
 	BPL CODE_B5F403				;$B5F3FE   |

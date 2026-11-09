@@ -16,8 +16,8 @@ upload_spc_engine:
 #play_song_with_transition:
 	JMP .play_song_with_transition		;$B5800F   |
 
-#CODE_B58012:
-	JMP .CODE_B581CE			;$B58012   |
+#stop_variable_pitch_sound_effect:
+	JMP .stop_variable_pitch_sound_effect	;$B58012   |
 
 #null_spc_command:
 	JMP .null_spc_command			;$B58015   |
@@ -25,8 +25,8 @@ upload_spc_engine:
 #transition_song:
 	JMP .transition_song			;$B58018   |
 
-#CODE_B5801B:
-	JMP .CODE_B581C2			;$B5801B   |
+#play_variable_pitch_sound_effect:
+	JMP .play_variable_pitch_sound_effect	;$B5801B   |
 
 #play_queued_sound_effect:
 	JMP .play_queued_sound_effect		;$B5801E   |
@@ -243,7 +243,7 @@ endif						;	   | |/
 	STZ last_spc_command_transfer_time	;$B58180   | Clear last upload frame
 	LDA #$0002				;$B58183   |\ Reset next read position
 	STA current_sound_effect_slot		;$B58186   |/
-	STZ RAM_19B0				;$B58189   |
+	STZ skull_cart_loop_sound_flags		;$B58189   |
 	RTS					;$B5818C  /
 
 .upload_spc_engine_wrapper
@@ -281,7 +281,7 @@ namespace off					;	   |
 	JSR .upload_spc_block			;$B581BE   |
 	RTS					;$B581C1  /
 
-.CODE_B581C2
+.play_variable_pitch_sound_effect
 	AND #$00FF				;$B581C2  \
 	XBA					;$B581C5   |
 	ORA #$00FC				;$B581C6   |
@@ -289,7 +289,7 @@ namespace off					;	   |
 	JSR .write_spc_command			;$B581CA   |
 	RTL					;$B581CD  /
 
-.CODE_B581CE
+.stop_variable_pitch_sound_effect
 	AND #$00FF				;$B581CE  \
 	XBA					;$B581D1   |
 	ORA #$00FD				;$B581D2   |

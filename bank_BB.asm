@@ -165,8 +165,8 @@ CODE_BB80B4:
 	BNE CODE_BB80BA				;$BB80B7   |
 	INC A					;$BB80B9   |
 CODE_BB80BA:					;	   |
-	STZ $B0					;$BB80BA   |
-	STZ $B2					;$BB80BC   |
+	STZ RAM_B0				;$BB80BA   |
+	STZ RAM_B2				;$BB80BC   |
 	LDX #level[0]				;$BB80BE   |
 	JSL CODE_BBAF0F				;$BB80C1   |
 	LDA level[0].type			;$BB80C5   |
@@ -190,22 +190,22 @@ CODE_BB80D7:					;	   |
 	LDA level[1].bonus_type			;$BB80EC   |
 	AND #$00FF				;$BB80EF   |
 	BEQ CODE_BB8103				;$BB80F2   |
-	INC $B2					;$BB80F4   |
+	INC RAM_B2				;$BB80F4   |
 	PLX					;$BB80F6   |
 	LDA level[0].destinations,x		;$BB80F7   |
 	PHX					;$BB80FA   |
 	JSL is_krem_coin_collected		;$BB80FB   |
 	BCS CODE_BB8103				;$BB80FF   |
-	INC $B0					;$BB8101   |
+	INC RAM_B0				;$BB8101   |
 CODE_BB8103:					;	   |
 	PLX					;$BB8103   |
 	DEX					;$BB8104   |
 	DEX					;$BB8105   |
 	BPL CODE_BB80D7				;$BB8106   |
-	LDA $B2					;$BB8108   |
+	LDA RAM_B2				;$BB8108   |
 	XBA					;$BB810A   |
-	ORA $B0					;$BB810B   |
-	STA $B0					;$BB810D   |
+	ORA RAM_B0				;$BB810B   |
+	STA RAM_B0				;$BB810D   |
 	RTL					;$BB810F  /
 
 CODE_BB8110:
@@ -1861,9 +1861,9 @@ get_sprite_position_in_level_data:
 	%pea_shift_dbr(DATA_FE0000)		;$BB8BF3   | Use sprite placement data bank
 	PLB					;$BB8BF6   |
 	PLB					;$BB8BF7   |
-	LDA ($F5),y				;$BB8BF8   | Get sprite's spawn X position
+	LDA (spawned_sprite_x_position),y	;$BB8BF8   | Get sprite's spawn x position
 	STA $72					;$BB8BFA   | Save it
-	LDA ($F7),y				;$BB8BFC   | Get sprite's spawn Y position
+	LDA (spawned_sprite_y_position),y	;$BB8BFC   | Get sprite's spawn y position
 	STA $74					;$BB8BFE   | Save it
 	PLB					;$BB8C00   | Restore data bank
 	RTL					;$BB8C01  / Return
@@ -2870,7 +2870,7 @@ CODE_BB9252:					;	   |
 CODE_BB9265:					;	   |
 	LDA #$A002				;$BB9265   |
 	TRB game_state_flags			;$BB9268   |
-	STZ $17C8				;$BB926B   |
+	STZ RAM_17C8				;$BB926B   |
 	JSL init_registers_global		;$BB926E   |
 	JSL clear_wram_tables			;$BB9272   |
 	JSR init_sprite_render_order		;$BB9276   |
@@ -2914,18 +2914,18 @@ CODE_BB929D:					;	   |
 	LDA level_compression_settings		;$BB92DA   | Get 32x32 tilemap compression flag
 	AND #$0400				;$BB92DD   |
 	BEQ .uncompressed_tilemap		;$BB92E0   | Skip decompression if flag not set
-	LDA $98					;$BB92E2   |\ Else load address of 32x32 tilemap
+	LDA level_tilemap			;$BB92E2   |\ Else load address of 32x32 tilemap
 	TAX					;$BB92E4   | |
-	LDA $9A					;$BB92E5   | | load bank of 32x32 tilemap
+	LDA level_tilemap_bank			;$BB92E5   | | load bank of 32x32 tilemap
 	AND #$00FF				;$BB92E7   | |
 	TAY					;$BB92EA   |/ save tilemap location for decompression
 	LDA #$1000				;$BB92EB   |> set decompressed data location to $7F1000
 	JSL decompress_data			;$BB92EE   |> decompress 32x32 tilemap
 	LDA #$1000				;$BB92F2   |\ set 32x32 tilemap pointer to decompressed tilemap in work ram
-	STA $98					;$BB92F5   | |
+	STA level_tilemap			;$BB92F5   | |
 	SEP #$20				;$BB92F7   | |
 	LDA #$7F				;$BB92F9   | |
-	STA $9A					;$BB92FB   | |
+	STA level_tilemap_bank			;$BB92FB   | |
 	REP #$20				;$BB92FD   |/
 .uncompressed_tilemap:				;	   |
 	JSR CODE_BB9493				;$BB92FF   |
@@ -2956,15 +2956,15 @@ CODE_BB9313:					;	   |
 	LDA level_number			;$BB933E   |
 	CMP #!level_bramble_blast		;$BB9340   |
 	BNE CODE_BB934B				;$BB9343   |
-	LDA #CODE_B5C60B			;$BB9345   |
-	STA $17B2				;$BB9348   |
+	LDA #level_collision_B5C60B		;$BB9345   |
+	STA terrain_collision_routine_address	;$BB9348   |
 CODE_BB934B:					;	   |
 if !version == 1				;	   |
 	LDA level_number			;$BB934B   |
 	CMP #!level_kreepy_krow			;$BB934D   |
 	BNE CODE_BB9358				;$BB9350   |
 	LDA #CODE_B5C3F4			;$BB9352   |
-	STA $17B2				;$BB9355   |
+	STA terrain_collision_routine_address	;$BB9355   |
 CODE_BB9358:					;	   |
 endif						;	   |
 	LDA level[0].dma_init_number		;$BB9358   |\
@@ -3022,22 +3022,22 @@ CODE_BB93A2:					;	   |
 
 CODE_BB93C0:
 	LDA #$0200				;$BB93C0  \
-	STA $19CA				;$BB93C3   |
+	STA RAM_19CA				;$BB93C3   |
 	LDX camera_0ABA				;$BB93C6   |
 CODE_BB93C9:					;	   |
 	LDA.l RAM_7E8F28,x			;$BB93C9   |
-	CMP $19CA				;$BB93CD   |
+	CMP RAM_19CA				;$BB93CD   |
 	BCS CODE_BB93D5				;$BB93D0   |
-	STA $19CA				;$BB93D2   |
+	STA RAM_19CA				;$BB93D2   |
 CODE_BB93D5:					;	   |
 	DEX					;$BB93D5   |
 	DEX					;$BB93D6   |
 	BNE CODE_BB93C9				;$BB93D7   |
-	LDA $19CA				;$BB93D9   |
+	LDA RAM_19CA				;$BB93D9   |
 	EOR #$FFFF				;$BB93DC   |
 	SEC					;$BB93DF   |
 	ADC #$003F				;$BB93E0   |
-	STA $19CA				;$BB93E3   |
+	STA RAM_19CA				;$BB93E3   |
 	RTS					;$BB93E6  /
 
 CODE_BB93E7:
@@ -3061,7 +3061,7 @@ CODE_BB93FE:
 
 CODE_BB940C:
 	LDX level_number			;$BB940C  \
-	LDA.l DATA_BB94C4,x			;$BB940E   |
+	LDA.l level_bonus_song_override_table,x	;$BB940E   |
 	AND #$00FF				;$BB9412   |
 	BEQ CODE_BB9424				;$BB9415   |
 	LDX level[0].type			;$BB9417   |
@@ -3147,12 +3147,12 @@ CODE_BB94A3:					;	   |
 
 CODE_BB94A4:
 	LDA #$0000				;$BB94A4  \
-	STA $98					;$BB94A7   |
+	STA level_tilemap			;$BB94A7   |
 	LDA #$007F				;$BB94A9   |
-	EOR $9A					;$BB94AC   |
+	EOR level_tilemap_bank			;$BB94AC   |
 	AND #$00FF				;$BB94AE   |
-	EOR $9A					;$BB94B1   |
-	STA $9A					;$BB94B3   |
+	EOR level_tilemap_bank			;$BB94B1   |
+	STA level_tilemap_bank			;$BB94B3   |
 	RTS					;$BB94B5  /
 
 CODE_BB94B6:
@@ -3162,7 +3162,7 @@ CODE_BB94B6:
 	JSL dma_palette				;$BB94BF   |
 	RTS					;$BB94C3  /
 
-DATA_BB94C4:
+level_bonus_song_override_table:
 	db !music_null				;00
 	db !music_null				;01
 	db !music_null				;02
@@ -3636,8 +3636,8 @@ graphics_init_0E:
 	LDA level[0].ppu_config_number		;$BB9817   |
 	JSL set_ppu_registers_global		;$BB981A   |
 	LDA #$0300				;$BB981E   |
-	STA $19BE				;$BB9821   |
-	STZ $19C2				;$BB9824   |
+	STA wind_scroll_speed_firework_timer	;$BB9821   |
+	STZ RAM_19C2				;$BB9824   |
 	RTS					;$BB9827  /
 
 graphics_init_0A:
@@ -3724,9 +3724,9 @@ CODE_BB98E2:
 	JMP CODE_BB9A88				;$BB98E5  /
 
 CODE_BB98E8:
-	LDA $98					;$BB98E8  \
+	LDA level_tilemap			;$BB98E8  \
 	PHA					;$BB98EA   |
-	LDA $9A					;$BB98EB   |
+	LDA level_tilemap_bank			;$BB98EB   |
 	PHA					;$BB98ED   |
 	LDA level_tilemap_vram_address		;$BB98EE   |
 	PHA					;$BB98F1   |
@@ -3789,9 +3789,9 @@ CODE_BB9962:					;	   |
 	PLA					;$BB9988   |
 	STA level_tilemap_vram_address		;$BB9989   |
 	PLA					;$BB998C   |
-	STA $9A					;$BB998D   |
+	STA level_tilemap_bank			;$BB998D   |
 	PLA					;$BB998F   |
-	STA $98					;$BB9990   |
+	STA level_tilemap			;$BB9990   |
 	RTS					;$BB9992  /
 
 graphics_init_0B:
@@ -3807,9 +3807,9 @@ CODE_BB99A5:
 	JMP CODE_BB9A88				;$BB99A8  /
 
 CODE_BB99AB:
-	LDA $98					;$BB99AB  \
+	LDA level_tilemap			;$BB99AB  \
 	PHA					;$BB99AD   |
-	LDA $9A					;$BB99AE   |
+	LDA level_tilemap_bank			;$BB99AE   |
 	PHA					;$BB99B0   |
 	LDA level_tilemap_vram_address		;$BB99B1   |
 	PHA					;$BB99B4   |
@@ -3825,9 +3825,9 @@ CODE_BB99AB:
 	PLA					;$BB99D0   |
 	STA level_tilemap_vram_address		;$BB99D1   |
 	PLA					;$BB99D4   |
-	STA $9A					;$BB99D5   |
+	STA level_tilemap_bank			;$BB99D5   |
 	PLA					;$BB99D7   |
-	STA $98					;$BB99D8   |
+	STA level_tilemap			;$BB99D8   |
 	RTS					;$BB99DA  /
 
 graphics_init_09:
@@ -3843,9 +3843,9 @@ CODE_BB99ED:
 	JMP CODE_BB9A88				;$BB99F0  /
 
 CODE_BB99F3:
-	LDA $98					;$BB99F3  \
+	LDA level_tilemap			;$BB99F3  \
 	PHA					;$BB99F5   |
-	LDA $9A					;$BB99F6   |
+	LDA level_tilemap_bank			;$BB99F6   |
 	PHA					;$BB99F8   |
 	LDA level_tilemap_vram_address		;$BB99F9   |
 	PHA					;$BB99FC   |
@@ -3861,38 +3861,38 @@ CODE_BB99F3:
 	PLA					;$BB9A18   |
 	STA level_tilemap_vram_address		;$BB9A19   |
 	PLA					;$BB9A1C   |
-	STA $9A					;$BB9A1D   |
+	STA level_tilemap_bank			;$BB9A1D   |
 	PLA					;$BB9A1F   |
-	STA $98					;$BB9A20   |
+	STA level_tilemap			;$BB9A20   |
 	RTS					;$BB9A22  /
 
 CODE_BB9A23:
 	LDA #$F800				;$BB9A23  \
-	STA $98					;$BB9A26   |
+	STA level_tilemap			;$BB9A26   |
 	LDA #$007F				;$BB9A28   |
-	STA $9A					;$BB9A2B   |
-	STZ $17C8				;$BB9A2D   |
+	STA level_tilemap_bank			;$BB9A2B   |
+	STZ RAM_17C8				;$BB9A2D   |
 	SEP #$20				;$BB9A30   |
 	LDA #$80				;$BB9A32   |
 	STA $9B					;$BB9A34   |
 	REP #$20				;$BB9A36   |
-	STZ $17D2				;$BB9A38   |
-	STZ $17D6				;$BB9A3B   |
+	STZ tilemap_y_stream_flag		;$BB9A38   |
+	STZ tilemap_x_stream_flag		;$BB9A3B   |
 	STZ screen_scroll_x_sub_position_low	;$BB9A3E   |
 	STZ screen_scroll_x_position		;$BB9A41   |
 	LDA #$00F8				;$BB9A44   |
-	STA $17CA				;$BB9A47   |
-	STZ $17C2				;$BB9A4A   |
-	STZ $17CE				;$BB9A4D   |
+	STA screen_scroll_tile_x_position	;$BB9A47   |
+	STZ screen_scroll_y_position_final	;$BB9A4A   |
+	STZ screen_scroll_tile_y_position	;$BB9A4D   |
 	LDA #$0008				;$BB9A50   |
-	STA $17D6				;$BB9A53   |
+	STA tilemap_x_stream_flag		;$BB9A53   |
 	LDA #$0040				;$BB9A56   |
 CODE_BB9A59:					;	   |
 	PHA					;$BB9A59   |
 	JSR CODE_BB9A73				;$BB9A5A   |
 	JSL dma_level_columns			;$BB9A5D   |
 	LDA #$0008				;$BB9A61   |
-	STA $17D6				;$BB9A64   |
+	STA tilemap_x_stream_flag		;$BB9A64   |
 	CLC					;$BB9A67   |
 	ADC screen_scroll_x_position		;$BB9A68   |
 	STA screen_scroll_x_position		;$BB9A6B   |
@@ -4881,21 +4881,21 @@ CODE_BBA5E1:
 	BNE CODE_BBA605				;$BBA5E6   |
 	LDA screen_scroll_x_position		;$BBA5E8   |
 	PHA					;$BBA5EB   |
-	LDA $0911				;$BBA5EC   |
+	LDA sunset_x_position			;$BBA5EC   |
 	PHA					;$BBA5EF   |
-	STZ $0911				;$BBA5F0   |
+	STZ sunset_x_position			;$BBA5F0   |
 	LDA #$1C31				;$BBA5F3   |
 	STA screen_scroll_x_position		;$BBA5F6   |
 	JSR CODE_BBA605				;$BBA5F9   |
 	PLA					;$BBA5FC   |
-	STA $0911				;$BBA5FD   |
+	STA sunset_x_position			;$BBA5FD   |
 	PLA					;$BBA600   |
 	STA screen_scroll_x_position		;$BBA601   |
 	RTS					;$BBA604  /
 
 CODE_BBA605:
 	LDA #$0100				;$BBA605  \
-	STA $0911				;$BBA608   |
+	STA sunset_x_position			;$BBA608   |
 	LDX #$02FE				;$BBA60B   |
 CODE_BBA60E:					;	   |
 	LDA.l DATA_FD334E,x			;$BBA60E   | gangplank galley base palette rgb table
@@ -4929,12 +4929,12 @@ CODE_BBA622:					;	   |
 	BNE CODE_BBA622				;$BBA64C   |
 	PLB					;$BBA64E   |
 CODE_BBA64F:					;	   |
-	STZ $0913				;$BBA64F   |
+	STZ sunset_and_water_color		;$BBA64F   |
 	JSL handle_ship_deck_sunset_global	;$BBA652   |
-	LDA $0913				;$BBA656   |
+	LDA sunset_and_water_color		;$BBA656   |
 	BNE CODE_BBA64F				;$BBA659   |
 	LDA #$0001				;$BBA65B   |
-	STA $0913				;$BBA65E   |
+	STA sunset_and_water_color		;$BBA65E   |
 	RTS					;$BBA661  /
 
 CODE_BBA662:
@@ -5177,9 +5177,9 @@ set_default_sprite_dma_buffer_size:
 dma_init_19:
 	JSR dma_init_13				;$BBA8E3  \
 	LDA #$0000				;$BBA8E6   |
-	STA $0911				;$BBA8E9   |
+	STA sunset_x_position			;$BBA8E9   |
 	LDA #$03E0				;$BBA8EC   |
-	STA $0913				;$BBA8EF   |
+	STA sunset_and_water_color		;$BBA8EF   |
 	RTS					;$BBA8F2  /
 
 dma_init_20:
@@ -5333,14 +5333,14 @@ CODE_BBA9F7:
 	STA $7E8865				;$BBAAC1   |
 	LDA #$0001				;$BBAAC5   |
 	STA $7E8867				;$BBAAC8   |
-	LDA #$0911				;$BBAACC   |
+	LDA #sunset_x_position			;$BBAACC   |
 	STA $7E8868				;$BBAACF   |
 	LDA #$0000				;$BBAAD3   |
 	STA $7E886A				;$BBAAD6   |
 	LDA #$0000				;$BBAADA   |
-	STA $0911				;$BBAADD   |
+	STA sunset_x_position			;$BBAADD   |
 	LDA #$1440				;$BBAAE0   |
-	STA $0913				;$BBAAE3   |
+	STA sunset_and_water_color		;$BBAAE3   |
 	LDA #$0040				;$BBAAE6   |
 	STA $7E886C				;$BBAAE9   |
 	LDA #$00B6				;$BBAAED   |
@@ -6127,9 +6127,9 @@ CODE_BBB0AE:					;	   |
 
 	REP #$20				;$BBB0B7  \ Dead code
 CODE_BBB0B9:					;	   |
-	LDA $98					;$BBB0B9   |
+	LDA level_tilemap			;$BBB0B9   |
 	STA $38					;$BBB0BB   |
-	LDA $9A					;$BBB0BD   |
+	LDA level_tilemap_bank			;$BBB0BD   |
 	AND #$00FF				;$BBB0BF   |
 	STA $3A					;$BBB0C2   |
 	LDA level_dimensions_address		;$BBB0C4   |
@@ -6176,9 +6176,9 @@ CODE_BBB104:					;	   |
 	TYA					;$BBB108   |
 	XBA					;$BBB109   |
 	STA $DB					;$BBB10A   |
-	LDA $98					;$BBB10C   |
+	LDA level_tilemap			;$BBB10C   |
 	STA $38					;$BBB10E   |
-	LDA $9A					;$BBB110   |
+	LDA level_tilemap_bank			;$BBB110   |
 	AND #$00FF				;$BBB112   |
 	STA $3A					;$BBB115   |
 	LDA level_dimensions_address		;$BBB117   |
@@ -6818,16 +6818,16 @@ sprite_loader:
 	TAX					;$BBB5C8   | |
 	LDA.l DATA_FE0000,x			;$BBB5C9   | | Get sprite placement data address from table
 	BEQ .return				;$BBB5CD   |/ If placement data is null then return
-	STA.l RAM_F3				;$BBB5CF   |> Store spawn parameter base address
+	STA.l spawned_sprite_parameter		;$BBB5CF   |> Store spawn parameter base address
 	INC A					;$BBB5D3   |\
 	INC A					;$BBB5D4   | |
-	STA.l RAM_F5				;$BBB5D5   |/ Store spawn x position base address
+	STA.l spawned_sprite_x_position		;$BBB5D5   |/ Store spawn x position base address
 	INC A					;$BBB5D9   |\
 	INC A					;$BBB5DA   | |
-	STA.l RAM_F7				;$BBB5DB   |/ Store spawn y position base address
+	STA.l spawned_sprite_y_position		;$BBB5DB   |/ Store spawn y position base address
 	INC A					;$BBB5DF   |\
 	INC A					;$BBB5E0   | |
-	STA.l RAM_F9				;$BBB5E1   |/ Store spawn id base address
+	STA.l spawned_sprite_script_base_addr	;$BBB5E1   |/ Store spawn script base address
 	LDA screen_scroll_x_position		;$BBB5E5   |> Get camera x position
 	XBA					;$BBB5E8   |\ Get only x screen number in A
 	AND #$00FF				;$BBB5E9   | |
@@ -6874,14 +6874,14 @@ sprite_loader:
 	BRA .return				;$BBB62D  /> Else no more sprites in the region to spawn, return
 
 CODE_BBB62F:
-	STA.l RAM_FB				;$BBB62F  \> Save placement number of sprite
+	STA.l spawned_sprite_placement_number	;$BBB62F  \> Save placement number of sprite
 	DEC A					;$BBB633   |\ -1 because placement number of 0 = not spawned by level
 	ASL A					;$BBB634   | | * 2
 	TAX					;$BBB635   | |
 	ASL A					;$BBB636   | |
 	ASL A					;$BBB637   | |
 	TAY					;$BBB638   |/
-	LDA (RAM_F3),y				;$BBB639   |\ Get sprite spawn parameter from ROM
+	LDA (spawned_sprite_parameter),y	;$BBB639   |\ Get sprite spawn parameter from ROM
 	AND #$1F00				;$BBB63B   | | Get group id
 	BEQ .done_handling_group		;$BBB63E   |/ If the sprite is in a spawning group then
 	STA $32					;$BBB640   |> Store group id in scratch
@@ -6895,7 +6895,7 @@ CODE_BBB62F:
 	RTS					;$BBB655  /
 
 .sprite_not_spawned_yet:
-	LDA (RAM_F3),y				;$BBB656  \ \ Get sprite spawn parameters
+	LDA (spawned_sprite_parameter),y	;$BBB656  \ \ Get sprite spawn parameters
 	AND #$000F				;$BBB658   |/
 	ASL A					;$BBB65B   |\
 	TAX					;$BBB65C   | |
@@ -6921,7 +6921,7 @@ CODE_BBB668:
 	RTS					;$BBB67C  /
 
 CODE_BBB67D:
-	LDA (RAM_F3),y				;$BBB67D  \
+	LDA (spawned_sprite_parameter),y	;$BBB67D  \
 	AND #$000F				;$BBB67F   |
 	ASL A					;$BBB682   |
 	TAX					;$BBB683   |
@@ -6950,7 +6950,7 @@ CODE_BBB6AC:					;	   |
 	LDX alternate_sprite			;$BBB6AC   |
 	LDA.l RAM_0B9E				;$BBB6AE   |
 	TAY					;$BBB6B2   |
-	LDA ($F3),y				;$BBB6B3   |
+	LDA (spawned_sprite_parameter),y	;$BBB6B3   |
 	STA $58,x				;$BBB6B5   |
 	AND #$1F00				;$BBB6B7   |
 	XBA					;$BBB6BA   |
@@ -6971,7 +6971,7 @@ CODE_BBB6AC:					;	   |
 CODE_BBB6D4:
 	PHX					;$BBB6D4  \
 	PHB					;$BBB6D5   |
-	STA $0000FB				;$BBB6D6   |
+	STA.l spawned_sprite_placement_number	;$BBB6D6   |
 	DEC A					;$BBB6DA   |
 	ASL A					;$BBB6DB   |
 	TAX					;$BBB6DC   |
@@ -6982,7 +6982,7 @@ CODE_BBB6D4:
 	STA.l RAM_0B9C				;$BBB6E4   |
 	AND #$3FFF				;$BBB6E8   |
 	BNE CODE_BBB6F7				;$BBB6EB   |
-	LDA ($F3),y				;$BBB6ED   |
+	LDA (spawned_sprite_parameter),y	;$BBB6ED   |
 	AND #$000F				;$BBB6EF   |
 	ASL A					;$BBB6F2   |
 	TAX					;$BBB6F3   |
@@ -7020,7 +7020,7 @@ kleever_hook_sprite_spawn:
 	PHB					;$BBB71B   |
 	PLA					;$BBB71C   |
 	STA $3A					;$BBB71D   |
-	LDA ($F9),y				;$BBB71F   |
+	LDA (spawned_sprite_script_base_addr),y	;$BBB71F   |
 	TAX					;$BBB721   |
 	LDA.l DATA_FBE800,x			;$BBB722   |
 	TAX					;$BBB726   |
@@ -7129,9 +7129,9 @@ CODE_BBB7DD:					;	   |
 	LDX alternate_sprite			;$BBB7E2   |
 	LDA $32					;$BBB7E4   |
 	STA sprite.type,x			;$BBB7E6   |
-	LDA ($F5),y				;$BBB7E8   |
+	LDA (spawned_sprite_x_position),y	;$BBB7E8   |
 	STA sprite.x_position,x			;$BBB7EA   |
-	LDA ($F7),y				;$BBB7EC   |
+	LDA (spawned_sprite_y_position),y	;$BBB7EC   |
 	STA sprite.y_position,x			;$BBB7EE   |
 	LDA #$00EC				;$BBB7F0   |
 	STA sprite.render_order,x		;$BBB7F3   |
@@ -7143,12 +7143,12 @@ CODE_BBB7DD:					;	   |
 	STZ sprite.interaction_flags,x		;$BBB800   |
 	STZ sprite.terrain_interaction,x	;$BBB802   |
 	STZ sprite.despawn_time,x		;$BBB804   |
-	LDA ($F3),y				;$BBB806   |
+	LDA (spawned_sprite_parameter),y	;$BBB806   |
 	STA sprite.placement_parameter,x	;$BBB808   |
 	STZ sprite.last_rendered_graphic,x	;$BBB80A   |
 	STZ sprite.display_mode,x		;$BBB80C   |
 	STZ sprite.terrain_attributes,x		;$BBB80E   |
-	LDA ($F9),y				;$BBB810   |
+	LDA (spawned_sprite_script_base_addr),y	;$BBB810   |
 	TAX					;$BBB812   |
 	LDA.l DATA_FBE800,x			;$BBB813   |
 	CLC					;$BBB817   |
@@ -7157,7 +7157,7 @@ CODE_BBB7DD:					;	   |
 	LDX alternate_sprite			;$BBB81C   |
 	JSL apply_spawn_script_to_slot		;$BBB81E   |
 	LDX alternate_sprite			;$BBB822   |
-	LDA.l $0000FB				;$BBB824   |
+	LDA.l spawned_sprite_placement_number	;$BBB824   |
 	STA sprite.placement_number,x		;$BBB828   |
 	DEC A					;$BBB82A   |
 	ASL A					;$BBB82B   |
@@ -7185,9 +7185,9 @@ hidden_sprite_spawn:
 	PLB					;$BBB851   |
 	PLY					;$BBB852   |
 	BCS .sprite_spawn_failed		;$BBB853   |
-	LDA ($F5),y				;$BBB855   |
+	LDA (spawned_sprite_x_position),y	;$BBB855   |
 	STA sprite.x_position,x			;$BBB857   |
-	LDA ($F7),y				;$BBB859   |
+	LDA (spawned_sprite_y_position),y	;$BBB859   |
 	STA sprite.y_position,x			;$BBB85B   |
 	LDA #$00EC				;$BBB85D   |
 	STA sprite.render_order,x		;$BBB860   |
@@ -7202,16 +7202,16 @@ hidden_sprite_spawn:
 	STZ sprite.terrain_interaction,x	;$BBB873   |
 	STZ sprite.despawn_time,x		;$BBB875   |
 	STZ sprite.display_mode,x		;$BBB877   |
-	LDA ($F3),y				;$BBB879   |
+	LDA (spawned_sprite_parameter),y	;$BBB879   |
 	STA sprite.placement_parameter,x	;$BBB87B   |
-	LDA ($F9),y				;$BBB87D   |
+	LDA (spawned_sprite_script_base_addr),y	;$BBB87D   |
 	TAX					;$BBB87F   |
 	LDA.l DATA_FBE800,x			;$BBB880   |
 	TAY					;$BBB884   |
 	LDX alternate_sprite			;$BBB885   |
 	JSL apply_spawn_script_to_slot		;$BBB887   |
 	LDX alternate_sprite			;$BBB88B   |
-	LDA.l $0000FB				;$BBB88D   |
+	LDA.l spawned_sprite_placement_number	;$BBB88D   |
 	STA sprite.placement_number,x		;$BBB891   |
 	DEC A					;$BBB893   |
 	ASL A					;$BBB894   |
@@ -7257,9 +7257,9 @@ big_sprite_spawn:
 	PLB					;$BBB8D6   |
 	PLY					;$BBB8D7   |
 	BCS .sprite_spawn_failed		;$BBB8D8   |
-	LDA ($F5),y				;$BBB8DA   |\ Setup sprites x and y position
+	LDA (spawned_sprite_x_position),y	;$BBB8DA   |\ Setup sprites x and y position
 	STA sprite.x_position,x			;$BBB8DC   | |
-	LDA ($F7),y				;$BBB8DE   | |
+	LDA (spawned_sprite_y_position),y	;$BBB8DE   | |
 	STA sprite.y_position,x			;$BBB8E0   |/
 	LDA #$00EC				;$BBB8E2   |\ Setup sprites render order
 	STA sprite.render_order,x		;$BBB8E5   |/
@@ -7271,16 +7271,16 @@ big_sprite_spawn:
 	STZ sprite.interaction_flags,x		;$BBB8F2   | |
 	STZ sprite.terrain_interaction,x	;$BBB8F4   | |
 	STZ sprite.despawn_time,x		;$BBB8F6   |/
-	LDA ($F3),y				;$BBB8F8   |\ Store placement parameter into sprite
+	LDA (spawned_sprite_parameter),y	;$BBB8F8   |\ Store placement parameter into sprite
 	STA sprite.placement_parameter,x	;$BBB8FA   |/
-	LDA ($F9),y				;$BBB8FC   |\
+	LDA (spawned_sprite_script_base_addr),y	;$BBB8FC   |\
 	TAX					;$BBB8FE   | |
 	LDA.l DATA_FBE800,x			;$BBB8FF   | | Get spawn script address from sprite spawn table
 	TAY					;$BBB903   |/
 	LDX alternate_sprite			;$BBB904   |
 	JSL apply_spawn_script_to_slot		;$BBB906   |
 	LDX alternate_sprite			;$BBB90A   |
-	LDA.l $0000FB				;$BBB90C   |
+	LDA.l spawned_sprite_placement_number	;$BBB90C   |
 	STA sprite.placement_number,x		;$BBB910   |
 	DEC A					;$BBB912   |
 	ASL A					;$BBB913   |
@@ -7447,11 +7447,11 @@ conditional_spawn_3_radius_check:
 	BRA return_sprite_loader_false_2	;$BBBA7D  /
 
 default_activation_radius_check:
-	LDA (RAM_F5),y				;$BBBA7F  \ \ Get sprite placement x position
+	LDA (spawned_sprite_x_position),y	;$BBBA7F  \ \ Get sprite placement x position
 	STA $72					;$BBBA81   | | Store it
-	LDA (RAM_F7),y				;$BBBA83   | | Get sprite placement y position
+	LDA (spawned_sprite_y_position),y	;$BBBA83   | | Get sprite placement y position
 	STA $74					;$BBBA85   |/ Store it
-	LDA (RAM_F3),y				;$BBBA87   |\
+	LDA (spawned_sprite_parameter),y	;$BBBA87   |\
 	AND #$00F0				;$BBBA89   | | Get spawning radius from spawn parameters
 	TAX					;$BBBA8C   |/
 	JMP check_placement_spawning_radius	;$BBBA8D  /
@@ -7510,9 +7510,9 @@ CODE_BBBAD1:
 	%pea_shift_dbr(DATA_FE0000)		;$BBBADA   |
 	PLB					;$BBBADD   |
 	PLB					;$BBBADE   |
-	LDA (RAM_F5),y				;$BBBADF   |
+	LDA (spawned_sprite_x_position),y	;$BBBADF   |
 	STA $72					;$BBBAE1   |
-	LDA (RAM_F7),y				;$BBBAE3   |
+	LDA (spawned_sprite_y_position),y	;$BBBAE3   |
 	STA $74					;$BBBAE5   |
 	PLB					;$BBBAE7   |
 	TXY					;$BBBAE8   |
@@ -7536,9 +7536,9 @@ CODE_BBBAF3:
 	%pea_shift_dbr(DATA_FE0000)		;$BBBAFC   |
 	PLB					;$BBBAFF   |
 	PLB					;$BBBB00   |
-	LDA (RAM_F5),y				;$BBBB01   |
+	LDA (spawned_sprite_x_position),y	;$BBBB01   |
 	STA $72					;$BBBB03   |
-	LDA (RAM_F7),y				;$BBBB05   |
+	LDA (spawned_sprite_y_position),y	;$BBBB05   |
 	STA $74					;$BBBB07   |
 	PLB					;$BBBB09   |
 	TXY					;$BBBB0A   |
@@ -7932,7 +7932,7 @@ CODE_BBBD69:
 	RTL					;$BBBD6A  /
 
 CODE_BBBD6B:
-	DEC $19BA				;$BBBD6B  \
+	DEC defeated_enemy_counter		;$BBBD6B  \
 	LDX current_sprite			;$BBBD6E   |> Get current sprite
 	LDA sprite.placement_parameter,x	;$BBBD70   |\
 	AND #$1F00				;$BBBD72   | | Get sprite group id
@@ -8247,9 +8247,9 @@ endif						;	  /
 
 CODE_BBC007:
 	LDA #$8000				;$BBC007  \
-	TRB $19D8				;$BBC00A   |
+	TRB banana_count_before_star_bonus	;$BBC00A   |
 	BEQ CODE_BBC018				;$BBC00D   |
-	LDA $19D8				;$BBC00F   |
+	LDA banana_count_before_star_bonus	;$BBC00F   |
 	STA banana_count			;$BBC012   |
 	STA banana_counter_current		;$BBC015   |
 CODE_BBC018:					;	   |

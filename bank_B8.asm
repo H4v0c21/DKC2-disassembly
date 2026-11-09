@@ -3513,7 +3513,7 @@ CODE_B89C70:
 .CODE_B89C7E:					;	   |
 	LDA $24,x				;$B89C7E   |
 	BMI .CODE_B89CA8			;$B89C80   |
-	LDA $AC					;$B89C82   |
+	LDA collision_tile			;$B89C82   |
 	AND #$1800				;$B89C84   |
 	BNE .CODE_B89CA7			;$B89C87   |
 	LDA #$0028				;$B89C89   |
@@ -3538,7 +3538,7 @@ CODE_B89C70:
 	BPL .CODE_B89CA7			;$B89CAA   |
 	JSR CODE_B89CCD				;$B89CAC   |
 	BCS .CODE_B89CA7			;$B89CAF   |
-	LDA $AC					;$B89CB1   |
+	LDA collision_tile			;$B89CB1   |
 	AND #$4000				;$B89CB3   |
 	BEQ .CODE_B89CA7			;$B89CB6   |
 	LDA $24,x				;$B89CB8   |
@@ -3554,7 +3554,7 @@ CODE_B89C70:
 	RTS					;$B89CCC  /
 
 CODE_B89CCD:
-	LDA $AE					;$B89CCD  \
+	LDA RAM_AE				;$B89CCD  \
 	AND #$0100				;$B89CCF   |
 	BEQ .CODE_B89CEB			;$B89CD2   |
 	LDA $30,x				;$B89CD4   |
@@ -3627,7 +3627,7 @@ kong_state_11:
 	LDX current_sprite			;$B89D54  \
 	LDA $0A,x				;$B89D56   |
 	SEC					;$B89D58   |
-	SBC $17C2				;$B89D59   |
+	SBC screen_scroll_y_position_final	;$B89D59   |
 	CMP #$0010				;$B89D5C   |
 	BMI .CODE_B89D62			;$B89D5F   |
 .CODE_B89D61					;	   |
@@ -5069,7 +5069,7 @@ CODE_B8A837:					;	   |
 	JMP kong_state_return			;$B8A837  /
 
 CODE_B8A83A:
-	LDA $AE					;$B8A83A  \
+	LDA RAM_AE				;$B8A83A  \
 	AND #$6000				;$B8A83C   |
 	BNE CODE_B8A84F				;$B8A83F   |
 	LDX current_sprite			;$B8A841   |
@@ -5416,7 +5416,7 @@ CODE_B8AAF4:					;	   |
 	JSR process_player_action		;$B8AAF7   |
 	JSR CODE_B89D07				;$B8AAFA   |
 	JSR handle_player_physics		;$B8AAFD   |
-	STZ $AC					;$B8AB00   |
+	STZ collision_tile			;$B8AB00   |
 	JSR CODE_B89C70				;$B8AB02   |
 	JMP kong_state_return			;$B8AB05  /
 
@@ -6214,7 +6214,7 @@ kong_state_69:
 	LDA [current_sprite_constants],y	;$B8B156   |
 	JSR interpolate_x_speed			;$B8B158   |
 	JSR handle_player_physics_skip_speed	;$B8B15B   |
-	LDY $19C4				;$B8B15E   |
+	LDY vertical_wind_changer_sprite	;$B8B15E   |
 	LDA $004A,y				;$B8B161   |
 	CLC					;$B8B164   |
 	ADC $2A,x				;$B8B165   |
@@ -6899,7 +6899,7 @@ CODE_B8B689:					;	   |
 	SEC					;$B8B693   |
 	SBC $0A,x				;$B8B694   |
 	BPL CODE_B8B6A1				;$B8B696   |
-	LDA $AC					;$B8B698   |
+	LDA collision_tile			;$B8B698   |
 	AND #$0200				;$B8B69A   |
 	BEQ CODE_B8B6A1				;$B8B69D   |
 	SEC					;$B8B69F   |
@@ -6999,7 +6999,7 @@ CODE_B8B72A:
 	JSL set_player_interaction_global	;$B8B73A   |
 	BCS CODE_B8B729				;$B8B73E   |
 	STZ interaction_RAM_0A86		;$B8B740   |
-	LDA $AE					;$B8B743   |
+	LDA RAM_AE				;$B8B743   |
 	STA interaction_RAM_0A88		;$B8B745   |
 	RTS					;$B8B748  /
 
@@ -7068,10 +7068,10 @@ CODE_B8B7B1:					;	   |
 	INC $5E					;$B8B7B1   |
 	LDA $5E					;$B8B7B3   |
 	JSL get_sprite_terrain_info_define_y	;$B8B7B5   |
-	LDA $AE					;$B8B7B9   |
+	LDA RAM_AE				;$B8B7B9   |
 	AND #$1000				;$B8B7BB   |
 	BEQ CODE_B8B7C8				;$B8B7BE   |
-	LDA $AE					;$B8B7C0   |
+	LDA RAM_AE				;$B8B7C0   |
 	STA $52					;$B8B7C2   |
 	DEC $60					;$B8B7C4   |
 	BNE CODE_B8B7B1				;$B8B7C6   |
@@ -8936,7 +8936,7 @@ single_rope_climb_right_action:
 	JSL get_sprite_terrain_info_define_x	;$B8C429   |
 	JSR CODE_B8D484				;$B8C42D   |
 	STA $5E					;$B8C430   |
-	LDA $AE					;$B8C432   |
+	LDA RAM_AE				;$B8C432   |
 	AND #$1000				;$B8C434   |
 	BEQ CODE_B8C443				;$B8C437   |
 	LDA $5E					;$B8C439   |
@@ -8954,7 +8954,7 @@ CODE_B8C443:					;	   |
 	JSL get_sprite_terrain_info_define_x	;$B8C44E   |
 	JSR CODE_B8D484				;$B8C452   |
 	STA $5E					;$B8C455   |
-	LDA $AE					;$B8C457   |
+	LDA RAM_AE				;$B8C457   |
 	AND #$0800				;$B8C459   |
 	BNE CODE_B8C47D				;$B8C45C   |
 CODE_B8C45E:					;	   |
@@ -11310,7 +11310,7 @@ CODE_B8D378:
 	ADC #$0027				;$B8D38A   |
 	CMP $0A,x				;$B8D38D   |
 	BPL CODE_B8D39F				;$B8D38F   |
-	LDA $AE					;$B8D391   |
+	LDA RAM_AE				;$B8D391   |
 	AND #$1000				;$B8D393   |
 	BEQ CODE_B8D39F				;$B8D396   |
 	LDA $60					;$B8D398   |
@@ -11338,17 +11338,17 @@ CODE_B8D3B7:					;	   |
 	ADC #$0027				;$B8D3BF   |
 	CMP $0A,x				;$B8D3C2   |
 	BPL CODE_B8D3D4				;$B8D3C4   |
-	LDA $AE					;$B8D3C6   |
+	LDA RAM_AE				;$B8D3C6   |
 	AND #$1000				;$B8D3C8   |
 	BEQ CODE_B8D3D4				;$B8D3CB   |
 	LDA $60					;$B8D3CD   |
 	ORA #$0002				;$B8D3CF   |
 	STA $60					;$B8D3D2   |
 CODE_B8D3D4:					;	   |
-	LDA $AE					;$B8D3D4   |
-	EOR $AC					;$B8D3D6   |
+	LDA RAM_AE				;$B8D3D4   |
+	EOR collision_tile			;$B8D3D6   |
 	AND #$1E00				;$B8D3D8   |
-	EOR $AC					;$B8D3DB   |
+	EOR collision_tile			;$B8D3DB   |
 	STA $10,x				;$B8D3DD   |
 	LDA $60					;$B8D3DF   |
 	RTS					;$B8D3E1  /
@@ -11361,7 +11361,7 @@ CODE_B8D3E2:
 	JSL get_sprite_terrain_info_define_y	;$B8D3EA   |
 	JSR CODE_B8D484				;$B8D3EE   |
 	STA $5E					;$B8D3F1   |
-	LDA $AE					;$B8D3F3   |
+	LDA RAM_AE				;$B8D3F3   |
 	STA $10,x				;$B8D3F5   |
 	AND #$1800				;$B8D3F7   |
 	BEQ CODE_B8D455				;$B8D3FA   |
@@ -11379,7 +11379,7 @@ CODE_B8D3E2:
 	JSL get_sprite_terrain_info_define_y	;$B8D413   |
 	JSR CODE_B8D484				;$B8D417   |
 	STA $5E					;$B8D41A   |
-	LDA $AE					;$B8D41C   |
+	LDA RAM_AE				;$B8D41C   |
 	AND #$1000				;$B8D41E   |
 	BEQ CODE_B8D44B				;$B8D421   |
 	LDA $5E					;$B8D423   |
@@ -11425,7 +11425,7 @@ CODE_B8D455:
 	JSL get_sprite_terrain_info_define_y	;$B8D45D   |
 	JSR CODE_B8D484				;$B8D461   |
 	STA $5E					;$B8D464   |
-	LDA $AE					;$B8D466   |
+	LDA RAM_AE				;$B8D466   |
 	AND #$1000				;$B8D468   |
 	BEQ CODE_B8D450				;$B8D46B   |
 	LDA $5E					;$B8D46D   |
@@ -11473,7 +11473,7 @@ CODE_B8D4A9:
 	RTS					;$B8D4AD  /
 
 CODE_B8D4AE:
-	STX $E9					;$B8D4AE  \
+	STX current_held_sprite_temp		;$B8D4AE  \
 	LDY active_kong_sprite			;$B8D4B0   |
 	LDA #$0100				;$B8D4B3   |
 	CMP $06,x				;$B8D4B6   |
@@ -11483,7 +11483,7 @@ CODE_B8D4AE:
 	BCC CODE_B8D4C3				;$B8D4BF   |
 	LDA $06,x				;$B8D4C1   |
 CODE_B8D4C3:					;	   |
-	STA $19C6				;$B8D4C3   |
+	STA dropped_sprite_x_position		;$B8D4C3   |
 	LDA crush_floor_y_position		;$B8D4C6   |
 	BMI CODE_B8D4D3				;$B8D4C9   |
 	CLC					;$B8D4CB   |
@@ -11497,9 +11497,9 @@ CODE_B8D4D5:					;	   |
 	BCC CODE_B8D4DD				;$B8D4D8   |
 	LDA $000A,y				;$B8D4DA   |
 CODE_B8D4DD:					;	   |
-	STA $19C8				;$B8D4DD   |
-	LDA $19C6				;$B8D4E0   |
-	LDY $19C8				;$B8D4E3   |
+	STA dropped_sprite_y_position		;$B8D4DD   |
+	LDA dropped_sprite_x_position		;$B8D4E0   |
+	LDY dropped_sprite_y_position		;$B8D4E3   |
 	JSR CODE_B8D5AF				;$B8D4E6   |
 	BCC CODE_B8D508				;$B8D4E9   |
 	LDY active_kong_sprite			;$B8D4EB   |
@@ -11508,7 +11508,7 @@ CODE_B8D4DD:					;	   |
 	CMP #$FFE8				;$B8D4F3   |
 	BCS CODE_B8D508				;$B8D4F6   |
 	LDY active_kong_sprite			;$B8D4F8   |
-	LDX $E9					;$B8D4FB   |
+	LDX current_held_sprite_temp		;$B8D4FB   |
 	LDA $000A,y				;$B8D4FD   |
 	STA $0A,x				;$B8D500   |
 	LDA $0006,y				;$B8D502   |
@@ -11519,7 +11519,7 @@ CODE_B8D508:
 	LDY active_kong_sprite			;$B8D508  \
 	LDA $0006,y				;$B8D50B   |
 	STA $D9					;$B8D50E   |
-	CMP $19C6				;$B8D510   |
+	CMP dropped_sprite_x_position		;$B8D510   |
 	LDA #$FFF8				;$B8D513   |
 	BCS CODE_B8D51B				;$B8D516   |
 	LDA #$0008				;$B8D518   |
@@ -11532,19 +11532,19 @@ CODE_B8D51F:					;	   |
 	CLC					;$B8D523   |
 	ADC $D9					;$B8D524   |
 	STA $D9					;$B8D526   |
-	CMP $19C6				;$B8D528   |
+	CMP dropped_sprite_x_position		;$B8D528   |
 	ROR A					;$B8D52B   |
 	EOR $DD					;$B8D52C   |
 	BPL CODE_B8D537				;$B8D52E   |
-	LDA $19C6				;$B8D530   |
+	LDA dropped_sprite_x_position		;$B8D530   |
 	STA $D9					;$B8D533   |
 	STZ $DD					;$B8D535   |
 CODE_B8D537:					;	   |
 	LDA $D9					;$B8D537   |
-	LDY $19C8				;$B8D539   |
+	LDY dropped_sprite_y_position		;$B8D539   |
 	JSR CODE_B8D5AF				;$B8D53C   |
 	BCC CODE_B8D51F				;$B8D53F   |
-	SBC $19C8				;$B8D541   |
+	SBC dropped_sprite_y_position		;$B8D541   |
 	TAY					;$B8D544   |
 	BPL CODE_B8D51F				;$B8D545   |
 	INC $DB					;$B8D547   |
@@ -11560,7 +11560,7 @@ CODE_B8D550:
 CODE_B8D555:
 	LDY active_kong_sprite			;$B8D555  \
 	LDA $0006,y				;$B8D558   |
-	STA $19C6				;$B8D55B   |
+	STA dropped_sprite_x_position		;$B8D55B   |
 	CMP $D9					;$B8D55E   |
 	LDA #$0002				;$B8D560   |
 	BCS CODE_B8D568				;$B8D563   |
@@ -11573,23 +11573,23 @@ CODE_B8D56A:					;	   |
 	CLC					;$B8D56E   |
 	ADC $D9					;$B8D56F   |
 	STA $D9					;$B8D571   |
-	CMP $19C6				;$B8D573   |
+	CMP dropped_sprite_x_position		;$B8D573   |
 	ROR A					;$B8D576   |
 	EOR $DD					;$B8D577   |
 	BPL CODE_B8D582				;$B8D579   |
-	LDA $19C6				;$B8D57B   |
+	LDA dropped_sprite_x_position		;$B8D57B   |
 	STA $D9					;$B8D57E   |
 	STZ $DD					;$B8D580   |
 CODE_B8D582:					;	   |
 	LDA $D9					;$B8D582   |
-	LDY $19C8				;$B8D584   |
+	LDY dropped_sprite_y_position		;$B8D584   |
 	JSR CODE_B8D5AF				;$B8D587   |
 	BCC CODE_B8D5A5				;$B8D58A   |
-	SBC $19C8				;$B8D58C   |
+	SBC dropped_sprite_y_position		;$B8D58C   |
 	TAY					;$B8D58F   |
 	CPY #$FFF8				;$B8D590   |
 	BCC CODE_B8D56A				;$B8D593   |
-	LDX $E9					;$B8D595   |
+	LDX current_held_sprite_temp		;$B8D595   |
 	TYA					;$B8D597   |
 	CMP #$0008				;$B8D598   |
 	BCC CODE_B8D5A5				;$B8D59B   |
@@ -11597,7 +11597,7 @@ CODE_B8D582:					;	   |
 	BCS CODE_B8D5A5				;$B8D5A0   |
 	LDA #$0000				;$B8D5A2   |
 CODE_B8D5A5:					;	   |
-	ADC $19C8				;$B8D5A5   |
+	ADC dropped_sprite_y_position		;$B8D5A5   |
 	STA $0A,x				;$B8D5A8   |
 	LDA $D9					;$B8D5AA   |
 	STA $06,x				;$B8D5AC   |
@@ -11618,9 +11618,9 @@ CODE_B8D5C0:
 	RTS					;$B8D5C1  /
 
 CODE_B8D5C2:
-	LDA $B0					;$B8D5C2  \
+	LDA RAM_B0				;$B8D5C2  \
 	STA sprite.x_position,x			;$B8D5C4   |
-	LDA $B2					;$B8D5C6   |
+	LDA RAM_B2				;$B8D5C6   |
 	STZ sprite.x_sub_position,x		;$B8D5C8   |
 	LDA sprite.terrain_interaction,x	;$B8D5CA   |\
 	AND #$1000				;$B8D5CC   | |
@@ -11630,7 +11630,7 @@ CODE_B8D5C2:
 	SEC					;$B8D5D6   |
 	SBC sprite.y_position,x			;$B8D5D7   |
 	BPL .return				;$B8D5D9   |
-	LDA RAM_FD				;$B8D5DB   |
+	LDA platform_sprite_y_position_temp	;$B8D5DB   |
 	STA sprite.y_position,x			;$B8D5DD   |
 .return:					;	   |
 	RTS					;$B8D5DF  /
@@ -11658,9 +11658,9 @@ process_terrain_interaction:
 	STA sprite.terrain_interaction,x	;$B8D5FB   |
 	LDX current_sprite			;$B8D5FD   |> Get current sprite
 	LDA sprite.x_position,x			;$B8D5FF   |\
-	STA $B0					;$B8D601   | | Record sprite x position
+	STA RAM_B0				;$B8D601   | | Record sprite x position
 	LDA sprite.x_sub_position,x		;$B8D603   | |
-	STA $B2					;$B8D605   |/
+	STA RAM_B2				;$B8D605   |/
 	STZ $E5					;$B8D607   |
 	LDA sprite.terrain_interaction,x	;$B8D609   |
 	AND #$0400				;$B8D60B   |
@@ -11673,16 +11673,16 @@ process_terrain_interaction:
 	BPL CODE_B8D673				;$B8D61B   |
 	CMP RAM_0BA4				;$B8D61D   |
 	BPL CODE_B8D691				;$B8D620   |
-	LDA $AE					;$B8D622   |
+	LDA RAM_AE				;$B8D622   |
 	AND #$0400				;$B8D624   |
 	BNE CODE_B8D630				;$B8D627   |
-	LDA $AC					;$B8D629   |
+	LDA collision_tile			;$B8D629   |
 	AND #$3800				;$B8D62B   |
 	BNE CODE_B8D68E				;$B8D62E   |
 CODE_B8D630:					;	   |
 	LDA sprite.x_speed,x			;$B8D630   |
 	AND #$8000				;$B8D632   |
-	EOR $AE					;$B8D635   |
+	EOR RAM_AE				;$B8D635   |
 	BMI CODE_B8D642				;$B8D637   |
 	DEC A					;$B8D639   |
 	AND #$80FE				;$B8D63A   |
@@ -11694,7 +11694,7 @@ CODE_B8D642:					;	   |
 	JSL get_sprite_terrain_info_define_y	;$B8D645   |
 	LDA sprite.x_speed,x			;$B8D649   |
 	AND #$8000				;$B8D64B   |
-	EOR $AE					;$B8D64E   |
+	EOR RAM_AE				;$B8D64E   |
 	BMI CODE_B8D65B				;$B8D650   |
 	DEC A					;$B8D652   |
 	AND #$00FE				;$B8D653   |
@@ -11704,9 +11704,9 @@ CODE_B8D65B:					;	   |
 	STZ sprite.max_x_speed,x		;$B8D65B   |
 	STZ sprite.x_speed,x			;$B8D65D   |
 	JSR CODE_B8D5C2				;$B8D65F   |
-	BIT $AE					;$B8D662   |
+	BIT RAM_AE				;$B8D662   |
 	BVS CODE_B8D66C				;$B8D664   |
-	LDA $AE					;$B8D666   |
+	LDA RAM_AE				;$B8D666   |
 	XBA					;$B8D668   |
 	LSR A					;$B8D669   |
 	BCS CODE_B8D6A7				;$B8D66A   |
@@ -11726,18 +11726,18 @@ CODE_B8D675:
 	BPL CODE_B8D6C4				;$B8D680   |
 	CMP #$FFFD				;$B8D682   |
 	BPL CODE_B8D6C0				;$B8D685   |
-	LDA $AE					;$B8D687   |
+	LDA RAM_AE				;$B8D687   |
 	AND #$4000				;$B8D689   |
 	BEQ CODE_B8D6B0				;$B8D68C   |
 CODE_B8D68E:					;	   |
 	BRL CODE_B8D73C				;$B8D68E  /
 
 CODE_B8D691:
-	LDA $AC					;$B8D691  \
+	LDA collision_tile			;$B8D691  \
 	AND #$0007				;$B8D693   |
 	CMP slope_slide_threshold		;$B8D696   |
 	BPL CODE_B8D630				;$B8D698   |
-	LDA $AE					;$B8D69A   |
+	LDA RAM_AE				;$B8D69A   |
 	AND #$1800				;$B8D69C   |
 	BNE CODE_B8D6C4				;$B8D69F   |
 	LDA $74					;$B8D6A1   |
@@ -11777,17 +11777,17 @@ CODE_B8D6CD:
 	SBC $0A,x				;$B8D6D7   |
 	BPL CODE_B8D712				;$B8D6D9   |
 CODE_B8D6DB:					;	   |
-	LDA $AE					;$B8D6DB   |
+	LDA RAM_AE				;$B8D6DB   |
 	AND #$0400				;$B8D6DD   |
 	BNE CODE_B8D6E9				;$B8D6E0   |
-	LDA $AE					;$B8D6E2   |
+	LDA RAM_AE				;$B8D6E2   |
 	AND #$1800				;$B8D6E4   |
 	BNE CODE_B8D70B				;$B8D6E7   |
 CODE_B8D6E9:					;	   |
 	TYA					;$B8D6E9   |
 	STA $0A,x				;$B8D6EA   |
 	STA $0C,x				;$B8D6EC   |
-	LDA $AC					;$B8D6EE   |
+	LDA collision_tile			;$B8D6EE   |
 	TXY					;$B8D6F0   |
 	AND #$0007				;$B8D6F1   |
 	ASL A					;$B8D6F4   |
@@ -11809,7 +11809,7 @@ CODE_B8D70B:
 
 CODE_B8D712:
 	STA $5E					;$B8D712  \
-	LDA $AC					;$B8D714   |
+	LDA collision_tile			;$B8D714   |
 	AND #$0007				;$B8D716   |
 	BEQ CODE_B8D71E				;$B8D719   |
 	LDA #$0003				;$B8D71B   |
@@ -11834,7 +11834,7 @@ CODE_B8D73A:					;	   |
 
 CODE_B8D73C:
 	LDA $0A,x				;$B8D73C  \
-	STA $B0					;$B8D73E   |
+	STA RAM_B0				;$B8D73E   |
 	INC $E5					;$B8D740   |
 	JSR CODE_B8D817				;$B8D742   |
 	JSR CODE_B8D480				;$B8D745   |
@@ -11843,7 +11843,7 @@ CODE_B8D73C:
 	SBC $0A,x				;$B8D74B   |
 	STA $0E,x				;$B8D74D   |
 	BPL CODE_B8D795				;$B8D74F   |
-	LDA $AE					;$B8D751   |
+	LDA RAM_AE				;$B8D751   |
 	AND #$4000				;$B8D753   |
 	BNE CODE_B8D78E				;$B8D756   |
 	LDA $24,x				;$B8D758   |
@@ -11869,7 +11869,7 @@ CODE_B8D777:
 	STA $0A,x				;$B8D780   |
 	STA $0C,x				;$B8D782   |
 	STZ $0E,x				;$B8D784   |
-	LDA $B0					;$B8D786   |
+	LDA RAM_B0				;$B8D786   |
 	STA $0A,x				;$B8D788   |
 	STZ $24,x				;$B8D78A   |
 	STZ $2A,x				;$B8D78C   |
@@ -11878,16 +11878,16 @@ CODE_B8D78E:					;	   |
 	ORA $1E,x				;$B8D791   |
 	STA $1E,x				;$B8D793   |
 CODE_B8D795:					;	   |
-	LDA $AE					;$B8D795   |
-	EOR $AC					;$B8D797   |
+	LDA RAM_AE				;$B8D795   |
+	EOR collision_tile			;$B8D797   |
 	AND #$1E00				;$B8D799   |
-	EOR $AC					;$B8D79C   |
+	EOR collision_tile			;$B8D79C   |
 	STA $10,x				;$B8D79E   |
 	RTS					;$B8D7A0  /
 
 CODE_B8D7A1:
 	LDA $0A,x				;$B8D7A1  \
-	STA $B0					;$B8D7A3   |
+	STA RAM_B0				;$B8D7A3   |
 	INC $E5					;$B8D7A5   |
 	JSR CODE_B8D817				;$B8D7A7   |
 	JSR CODE_B8D480				;$B8D7AA   |
@@ -11896,9 +11896,9 @@ CODE_B8D7A1:
 	SEC					;$B8D7B0   |
 	SBC $0A,x				;$B8D7B1   |
 	BPL CODE_B8D7E7				;$B8D7B3   |
-	BIT $AC					;$B8D7B5   |
+	BIT collision_tile			;$B8D7B5   |
 	BVS CODE_B8D7D6				;$B8D7B7   |
-	LDA $B0					;$B8D7B9   |
+	LDA RAM_B0				;$B8D7B9   |
 	STA $0A,x				;$B8D7BB   |
 	STZ $24,x				;$B8D7BD   |
 	STZ $2A,x				;$B8D7BF   |
@@ -12001,7 +12001,7 @@ CODE_B8D830:
 	LDA sprite.y_speed,x			;$B8D850  \
 	BMI .get_sprite_moving_direction	;$B8D852   |
 	LDA sprite.y_position,x			;$B8D854   |
-	STA RAM_FD				;$B8D856   |
+	STA platform_sprite_y_position_temp	;$B8D856   |
 	LDA sprite.ground_y_position,x		;$B8D858   |
 	STA sprite.y_position,x			;$B8D85A   |
 	LDA #$FFFF				;$B8D85C   |
@@ -12237,7 +12237,7 @@ CODE_B8D9DD:					;	   |
 	SBC $0A,x				;$B8D9EF   |
 	STA $0E,x				;$B8D9F1   |
 	BNE CODE_B8DA54				;$B8D9F3   |
-	LDA $AC					;$B8D9F5   |
+	LDA collision_tile			;$B8D9F5   |
 	AND #$0007				;$B8D9F7   |
 	CMP #$0006				;$B8D9FA   |
 	BEQ CODE_B8DA54				;$B8D9FD   |
